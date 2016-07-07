@@ -52,7 +52,7 @@ export default class GeometryElements extends GeometryLeaf {
     private count: number;
 
     /**
-     * Hard-code to zero right now.
+     * Hard-coded to zero right now.
      * This suggests that the index buffer could be used for several gl.drawElements(...)
      *
      * @property offset

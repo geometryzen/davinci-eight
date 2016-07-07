@@ -4,7 +4,10 @@ import computeStride from './computeStride'
 import Primitive from './Primitive'
 import VertexArrays from './VertexArrays'
 
-export default function(primitive: Primitive, order?: string[]): VertexArrays {
+/**
+ * Converts the Primitive to the interleaved VertexArrays format.
+ */
+export default function vertexArraysFromPrimitive(primitive: Primitive, order?: string[]): VertexArrays {
 
     const keys = order ? order : Object.keys(primitive.attributes)
 

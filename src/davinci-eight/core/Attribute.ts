@@ -16,7 +16,7 @@ interface Attribute {
     size: number;
 
     /**
-     * The type of the attribute. This must be converted to the WebGL native type.
+     * The type of the attribute.
      */
     type: DataType;
 }

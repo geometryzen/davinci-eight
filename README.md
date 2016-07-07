@@ -11,9 +11,11 @@ EIGHT is designed and developed according to the following principles:
 5. Assist with GLSL boilerplate.
 6. Assist with long running interactions, resource sharing and context management.
 7. Provide reusable geometry abstractions on top of the core for productivity.
-8. Provide smart shader program builders for productivity.
-9. Facilitate use for research programming, education and demonstration.
-10. Explicit is better than implicit.
+8. Enable low-level WebGL code to coexist with high-level abstractions.
+9. Provide smart shader program builders for productivity.
+10. Facilitate use for research programming, education and demonstration.
+11. Explicit is better than implicit.
+12. Organize WebGL API using Object Orientation.
 
 Used here: [__https://www.stemcstudio.com__](https://stemcstudio.com)
 
@@ -39,9 +41,7 @@ The HTML documentation is best experienced with the following settings:
 
 The documentation is evolving rapidly due to transitioning to a new system of TypeScript documentation generation.
 In particular, you may see the word `default` frequently. This is because the EIGHT code uses default exports.
-In many cases we have reluctantly replaced default exports with named exports to improve the documentation.
 Just click through the `default` links to get past them.
-Please bear with us! It will be worth it!
 
 ## License
 Copyright (c) 2014-2016 David Holmes

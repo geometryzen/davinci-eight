@@ -86,10 +86,8 @@ function compute(
  * The <code>G3</code> class supports units of measures.
  * </p>
  * <p>
- * The immutable nature of the <p>G3</p> makes it less suitable for high performance graphics applications.
+ * The immutable nature of the <code>G3</code> makes it less suitable for high performance graphics applications.
  * </p>
- *
- * @class G3
  */
 export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3, G3, SpinorE3, VectorE3, G3, number, Unit>, GeometricOperators<G3, Unit>, TrigMethods<G3> {
     static get BASIS_LABELS_GEOMETRIC(): string[][] { return BASIS_LABELS_G3_GEOMETRIC };
@@ -98,131 +96,45 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
     static get BASIS_LABELS_STANDARD_HTML(): string[][] { return BASIS_LABELS_G3_STANDARD_HTML };
 
     /**
-     * @property BASIS_LABELS
-     * @type {string[][]}
+     * The current basis labels.
      */
     static BASIS_LABELS: string[][] = BASIS_LABELS_G3_STANDARD
 
-    /**
-     * @property zero
-     * @type {G3}
-     * @static
-     */
     public static zero = new G3(0, 0, 0, 0, 0, 0, 0, 0);
-
-    /**
-     * @property one
-     * @type {G3}
-     * @static
-     */
     public static one = new G3(1, 0, 0, 0, 0, 0, 0, 0);
-
-    /**
-     * @property e1
-     * @type {G3}
-     * @static
-     */
     public static e1 = new G3(0, 1, 0, 0, 0, 0, 0, 0);
-
-    /**
-     * @property e2
-     * @type {G3}
-     * @static
-     */
     public static e2 = new G3(0, 0, 1, 0, 0, 0, 0, 0);
-
-    /**
-     * @property e3
-     * @type {G3}
-     * @static
-     */
     public static e3 = new G3(0, 0, 0, 1, 0, 0, 0, 0);
-
-    /**
-     * @property kilogram
-     * @type {G3}
-     * @static
-     */
     public static kilogram = new G3(1, 0, 0, 0, 0, 0, 0, 0, Unit.KILOGRAM);
-
-    /**
-     * @property meter
-     * @type {G3}
-     * @static
-     */
     public static meter = new G3(1, 0, 0, 0, 0, 0, 0, 0, Unit.METER);
-
-    /**
-     * @property second
-     * @type {G3}
-     * @static
-     */
     public static second = new G3(1, 0, 0, 0, 0, 0, 0, 0, Unit.SECOND);
-
-    /**
-     * @property coulomb
-     * @type {G3}
-     * @static
-     */
     public static coulomb = new G3(1, 0, 0, 0, 0, 0, 0, 0, Unit.COULOMB);
-
-    /**
-     * @property ampere
-     * @type {G3}
-     * @static
-     */
     public static ampere = new G3(1, 0, 0, 0, 0, 0, 0, 0, Unit.AMPERE);
-
-    /**
-     * @property kelvin
-     * @type {G3}
-     * @static
-     */
     public static kelvin = new G3(1, 0, 0, 0, 0, 0, 0, 0, Unit.KELVIN);
-
-    /**
-     * @property mole
-     * @type {G3}
-     * @static
-     */
     public static mole = new G3(1, 0, 0, 0, 0, 0, 0, 0, Unit.MOLE);
-
-    /**
-     * @property candela
-     * @type {G3}
-     * @static
-     */
     public static candela = new G3(1, 0, 0, 0, 0, 0, 0, 0, Unit.CANDELA);
 
     /**
      * The coordinate values are stored in a number array.
      * This should be convenient and efficient for tensor calculations.
-     *
-     * @property _coords
-     * @type number[]
-     * @private
      */
     private _coords: number[] = [0, 0, 0, 0, 0, 0, 0, 0]
 
     /**
      * The optional unit of measure.
-     * @property uom
-     * @type Unit
      */
-    // FIXME: This needs to be private and readOnly
     public uom: Unit;
+
     /**
-     * @class G3
-     * @constructor
-     * @param {number} α The scalar part of the multivector.
-     * @param {number} x The vector component of the multivector in the x-direction.
-     * @param {number} y The vector component of the multivector in the y-direction.
-     * @param {number} z The vector component of the multivector in the z-direction.
-     * @param {number} xy The bivector component of the multivector in the xy-plane.
-     * @param {number} yz The bivector component of the multivector in the yz-plane.
-     * @param {number} zx The bivector component of the multivector in the zx-plane.
-     * @param {number} β The pseudoscalar part of the multivector.
-     * @param [uom] The optional unit of measure.
+     * @param α The scalar part of the multivector.
+     * @param x The vector component of the multivector in the x-direction.
+     * @param y The vector component of the multivector in the y-direction.
+     * @param z The vector component of the multivector in the z-direction.
+     * @param xy The bivector component of the multivector in the xy-plane.
+     * @param yz The bivector component of the multivector in the yz-plane.
+     * @param zx The bivector component of the multivector in the zx-plane.
+     * @param β The pseudoscalar part of the multivector.
+     * @param uom The optional unit of measure.
      */
     constructor(α: number, x: number, y: number, z: number, xy: number, yz: number, zx: number, β: number, uom?: Unit) {
         this._coords[COORD_SCALAR] = α
@@ -250,8 +162,6 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
 
     /**
      * The scalar part of this multivector.
-     * @property alpha
-     * @return {number}
      */
     get a(): number {
         return this._coords[COORD_SCALAR]
@@ -262,9 +172,6 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
 
     /**
      * The Cartesian coordinate corresponding to the <b>e<sub>1</sub></b> basis vector.
-     *
-     * @property x
-     * @type number
      */
     get x(): number {
         return this._coords[COORD_X]
@@ -275,9 +182,6 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
 
     /**
      * The Cartesian coordinate corresponding to the <b>e<sub>2</sub></b> basis vector.
-     *
-     * @property y
-     * @type number
      */
     get y(): number {
         return this._coords[COORD_Y]
@@ -288,9 +192,6 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
 
     /**
      * The Cartesian coordinate corresponding to the <b>e<sub>3</sub></b> basis vector.
-     *
-     * @property z
-     * @type number
      */
     get z(): number {
         return this._coords[COORD_Z]
@@ -301,9 +202,6 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
 
     /**
      * The coordinate corresponding to the <b>e<sub>1</sub>e<sub>2</sub></b> basis bivector.
-     *
-     * @property xy
-     * @type number
      */
     get xy(): number {
         return this._coords[COORD_XY]
@@ -314,9 +212,6 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
 
     /**
      * The coordinate corresponding to the <b>e<sub>2</sub>e<sub>3</sub></b> basis bivector.
-     *
-     * @property yz
-     * @type number
      */
     get yz(): number {
         return this._coords[COORD_YZ]
@@ -327,9 +222,6 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
 
     /**
      * The coordinate corresponding to the <b>e<sub>3</sub>e<sub>1</sub></b> basis bivector.
-     *
-     * @property zx
-     * @type number
      */
     get zx(): number {
         return this._coords[COORD_ZX]
@@ -360,26 +252,20 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
      * @param zx {number}
      * @param β {number}
      * @param uom [Unit]
-     * @return {G3}
-     * @chainable
-     * @static
      */
     static fromCartesian(α: number, x: number, y: number, z: number, xy: number, yz: number, zx: number, β: number, uom: Unit): G3 {
         return new G3(α, x, y, z, xy, yz, zx, β, uom)
     }
 
     /**
-     * @property coords
-     * @type {number[]}
+     *
      */
     get coords(): number[] {
         return [this.a, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.b];
     }
 
     /**
-     * @method coordinate
-     * @param index {number}
-     * @return {number}
+     *
      */
     coordinate(index: number): number {
         switch (index) {
@@ -407,10 +293,6 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
     /**
      * Computes the sum of this G3 and another considered to be the rhs of the binary addition, `+`, operator.
      * This method does not change this G3.
-     * @method add
-     * @param rhs {G3}
-     * @return {G3} This G3 plus rhs.
-     * @chainable
      */
     add(rhs: G3): G3 {
         const coord = function(x: number[], n: number): number {
@@ -424,11 +306,6 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
 
     /**
      * Computes <code>this + Iβ</code>
-     *
-     * @method addPseudo
-     * @param β {Unit}
-     * @return {G3}
-     * @chainable
      */
     addPseudo(β: Unit): G3 {
         return new G3(this.a, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.b + β.multiplier, Unit.compatible(this.uom, β))
@@ -436,21 +313,11 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
 
     /**
      * Computes <code>this + α</code>
-     * @method addScalar
-     * @param α {Unit}
-     * @return {G3}
-     * @chainable
      */
     addScalar(α: Unit): G3 {
         return new G3(this.a + α.multiplier, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.b, Unit.compatible(this.uom, α))
     }
 
-    /**
-     * @method __add__
-     * @param rhs {Unit | G3}
-     * @return {G3}
-     * @private
-     */
     __add__(rhs: Unit | G3): G3 {
         if (rhs instanceof G3) {
             return this.add(rhs);
@@ -460,12 +327,6 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
         }
     }
 
-    /**
-     * @method __radd__
-     * @param lhs {Unit | G3}
-     * @return {G3}
-     * @private
-     */
     __radd__(lhs: Unit | G3): G3 {
         if (lhs instanceof G3) {
             return lhs.add(this)
@@ -475,20 +336,12 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
         }
     }
 
-    /**
-     * @method adj
-     * @return {G3}
-     * @chainable
-     * @beta
-     */
     adj(): G3 {
         throw new Error(notImplemented('adj').message)
     }
 
     /**
-     * @method angle
-     * @return {G3} grade(log(M), 2)
-     * @chainable
+     * @returns grade(log(this), 2)
      */
     angle(): G3 {
         return this.log().grade(2);
@@ -497,44 +350,34 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
     /**
      * Computes the <e>Clifford conjugate</em> of this multivector.
      * The grade multiplier is -1<sup>x(x+1)/2</sup>
-     * @method conj
-     * @return {G3}
-     * @chainable
      */
     conj(): G3 {
         return new G3(this.a, -this.x, -this.y, -this.z, -this.xy, -this.yz, -this.zx, +this.b, this.uom);
     }
 
     /**
-     * @method cubicBezier
      * @param t {number}
      * @param controlBegin {GeometricE3}
      * @param controlEnd {GeometricE3}
      * @param endPoint {GeometricE3}
-     * @return {G3}
-     * @chainable
      */
     cubicBezier(t: number, controlBegin: GeometricE3, controlEnd: GeometricE3, endPoint: GeometricE3) {
+        let a = b3(t, this.a, controlBegin.a, controlEnd.a, endPoint.a);
         let x = b3(t, this.x, controlBegin.x, controlEnd.x, endPoint.x);
         let y = b3(t, this.y, controlBegin.y, controlEnd.y, endPoint.y);
         let z = b3(t, this.z, controlBegin.z, controlEnd.z, endPoint.z);
-        return new G3(0, x, y, z, 0, 0, 0, 0, this.uom);
+        return new G3(a, x, y, z, 0, 0, 0, 0, this.uom);
     }
 
     /**
-     * @method direction
-     * @return {G3}
-     * @chainable
+     *
      */
     direction(): G3 {
         return this.div(this.norm());
     }
 
     /**
-     * @method sub
-     * @param rhs {G3}
-     * @return {G3}
-     * @chainable
+     *
      */
     sub(rhs: G3): G3 {
         var coord = function(x: number[], n: number): number {
@@ -546,12 +389,6 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
         return compute(subE3, this.coords, rhs.coords, coord, pack, Unit.compatible(this.uom, rhs.uom));
     }
 
-    /**
-     * @method __sub__
-     * @param rhs {Unit | G3}
-     * @return {G3}
-     * @private
-     */
     __sub__(rhs: Unit | G3): G3 {
         if (rhs instanceof G3) {
             return this.sub(rhs);
@@ -562,12 +399,6 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
     }
 
 
-    /**
-     * @method __rsub__
-     * @param lhs {Unit | G3}
-     * @return {G3}
-     * @private
-     */
     __rsub__(lhs: Unit | G3): G3 {
         if (lhs instanceof G3) {
             return lhs.sub(this)
@@ -577,24 +408,12 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
         }
     }
 
-    /**
-     * @method mul
-     * @param rhs {G3}
-     * @return {G3}
-     * @chainable
-     */
     mul(rhs: G3): G3 {
         const out = new G3(0, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
         mulG3(this, rhs, out._coords)
         return out
     }
 
-    /**
-     * @method __mul__
-     * @param rhs {any}
-     * @return {G3}
-     * @private
-     */
     __mul__(rhs: any): any {
         if (rhs instanceof G3) {
             return this.mul(rhs);
@@ -604,12 +423,6 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
         }
     }
 
-    /**
-     * @method __rmul__
-     * @param lhs {any}
-     * @return {G3}
-     * @private
-     */
     __rmul__(lhs: any): any {
         if (lhs instanceof G3) {
             return lhs.mul(this);
@@ -619,43 +432,18 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
         }
     }
 
-    /**
-     * @method scale
-     * @param α {number}
-     * @return {G3}
-     * @chainable
-     */
     scale(α: number): G3 {
         return new G3(this.a * α, this.x * α, this.y * α, this.z * α, this.xy * α, this.yz * α, this.zx * α, this.b * α, this.uom);
     }
 
-    /**
-     * @method div
-     * @param rhs {G3}
-     * @return {G3}
-     * @chainable
-     */
     div(rhs: G3): G3 {
         return this.mul(rhs.inv())
     }
 
-    /**
-     * @method divByScalar
-     * @param α {number}
-     * @return {G3}
-     * @chainable
-     */
     divByScalar(α: number): G3 {
         return new G3(this.a / α, this.x / α, this.y / α, this.z / α, this.xy / α, this.yz / α, this.zx / α, this.b / α, this.uom);
     }
 
-    /**
-     * @method __div__
-     * @param rhs {any}
-     * @return {G3}
-     * @chainable
-     * @private
-     */
     __div__(rhs: any): G3 {
         if (rhs instanceof G3) {
             return this.div(rhs);
@@ -665,12 +453,6 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
         }
     }
 
-    /**
-     * @method __rdiv__
-     * @param lhs {any}
-     * @return {G3}
-     * @private
-     */
     __rdiv__(lhs: any): G3 {
         if (lhs instanceof G3) {
             return lhs.div(this);
@@ -680,47 +462,22 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
         }
     }
 
-    /**
-     * @method dual
-     * @return {G3}
-     * @chainable
-     * @beta
-     */
     dual(): G3 {
         throw new Error(notImplemented('dual').message)
     }
 
-    /**
-     * @method scp
-     * @param rhs {G3}
-     * @return {G3}
-     * @chainable
-     */
     scp(rhs: G3): G3 {
         var out = new G3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
         scpG3(this, rhs, G3.mutator(out));
         return out;
     }
 
-    /**
-     * @method ext
-     * @param rhs {G3}
-     * @return {G3}
-     * @chainable
-     */
     ext(rhs: G3): G3 {
         const out = new G3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
         extG3(this, rhs, G3.mutator(out));
         return out;
     }
 
-    /**
-     * @method __vbar__
-     * @param rhs {any}
-     * @return {G3}
-     * @chainable
-     * @private
-     */
     __vbar__(rhs: any): G3 {
         if (rhs instanceof G3) {
             return this.scp(rhs);
@@ -730,13 +487,6 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
         }
     }
 
-    /**
-     * @method __rvbar__
-     * @param lhs {any}
-     * @return {G3}
-     * @chainable
-     * @private
-     */
     __rvbar__(lhs: any): G3 {
         if (lhs instanceof G3) {
             return lhs.scp(this)
@@ -746,13 +496,6 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
         }
     }
 
-    /**
-     * @method __wedge__
-     * @param rhs {any}
-     * @return {G3}
-     * @chainable
-     * @private
-     */
     __wedge__(rhs: any): G3 {
         if (rhs instanceof G3) {
             return this.ext(rhs);
@@ -762,13 +505,6 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
         }
     }
 
-    /**
-     * @method __rwedge__
-     * @param lhs {any}
-     * @return {G3}
-     * @chainable
-     * @private
-     */
     __rwedge__(lhs: any): G3 {
         if (lhs instanceof G3) {
             return lhs.ext(this)
@@ -778,25 +514,12 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
         }
     }
 
-    /**
-     * @method lco
-     * @param rhs {G3}
-     * @return {G3}
-     * @chainable
-     */
     lco(rhs: G3): G3 {
         const out = new G3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
         lcoG3(this, rhs, G3.mutator(out))
         return out
     }
 
-    /**
-     * @method __lshift__
-     * @param rhs {any}
-     * @return {G3}
-     * @chainable
-     * @private
-     */
     __lshift__(rhs: any): G3 {
         if (rhs instanceof G3) {
             return this.lco(rhs)
@@ -806,13 +529,6 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
         }
     }
 
-    /**
-     * @method __rlshift__
-     * @param lhs {any}
-     * @return {G3}
-     * @chainable
-     * @private
-     */
     __rlshift__(lhs: any): G3 {
         if (lhs instanceof G3) {
             return lhs.lco(this)
@@ -822,25 +538,12 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
         }
     }
 
-    /**
-     * @method rco
-     * @param rhs {G3}
-     * @return {G3}
-     * @chainable
-     */
     rco(rhs: G3): G3 {
         const out = new G3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
         rcoG3(this, rhs, G3.mutator(out))
         return out
     }
 
-    /**
-     * @method __rshift__
-     * @param rhs {any}
-     * @return {G3}
-     * @chainable
-     * @private
-     */
     __rshift__(rhs: any): G3 {
         if (rhs instanceof G3) {
             return this.rco(rhs)
@@ -850,13 +553,6 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
         }
     }
 
-    /**
-     * @method __rrshift__
-     * @param lhs {any}
-     * @return {G3}
-     * @chainable
-     * @private
-     */
     __rrshift__(lhs: any): G3 {
         if (lhs instanceof G3) {
             return lhs.rco(this)
@@ -866,42 +562,23 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
         }
     }
 
-    /**
-     * @method pow
-     * @param exponent {G3}
-     * @return {G3}
-     * @chainable
-     * @beta
-     */
     pow(exponent: G3): G3 {
         throw new Error('pow');
     }
 
-    /**
-     * @method __bang__
-     * @return {G3}
-     * @chainable
-     * @private
-     */
     __bang__(): G3 {
         return this.inv()
     }
 
     /**
      * Unary plus(+).
-     * @method __pos__
-     * @return {G3}
-     * @chainable
-     * @private
      */
     __pos__(): G3 {
         return this;
     }
 
     /**
-     * @method neg
-     * @return {G3} <code>-1 * this</code>
-     * @chainable
+     * @returns <code>-1 * this</code>
      */
     neg(): G3 {
         return new G3(-this.a, -this.x, -this.y, -this.z, -this.xy, -this.yz, -this.zx, -this.b, this.uom);
@@ -909,40 +586,24 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
 
     /**
      * Unary minus (-).
-     * @method __neg__
-     * @return {G3}
-     * @chainable
-     * @private
      */
     __neg__(): G3 {
         return this.neg()
     }
 
-    /**
-     * @method rev
-     * @return {G3}
-     * @chainable
-     */
     rev(): G3 {
         return new G3(this.a, this.x, this.y, this.z, -this.xy, -this.yz, -this.zx, -this.b, this.uom);
     }
 
     /**
      * ~ (tilde) produces reversion.
-     * @method __tilde__
-     * @return {G3}
-     * @chainable
-     * @private
      */
     __tilde__(): G3 {
         return this.rev();
     }
 
     /**
-     * @method grade
      * @param grade {number}
-     * @return {G3}
-     * @chainable
      */
     grade(grade: number): G3 {
         switch (grade) {
@@ -959,21 +620,6 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
         }
     }
 
-    /**
-     * Intentionally undocumented
-     */
-    /*
-    dot(vector: G3): number {
-      return this.x * vector.x + this.y * vector.y + this.z * vector.z;
-    }
-    */
-
-    /**
-     * @method cross
-     * @param vector {G3}
-     * @return {G3}
-     * @chainable
-     */
     cross(vector: G3): G3 {
         var x: number;
         var x1: number;
@@ -997,38 +643,18 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
         return new G3(0, x, y, z, 0, 0, 0, 0, Unit.mul(this.uom, vector.uom));
     }
 
-    /**
-     * @method isOne
-     * @return {boolean}
-     */
     isOne(): boolean {
         return (this.a === 1) && (this.x === 0) && (this.y === 0) && (this.z === 0) && (this.yz === 0) && (this.zx === 0) && (this.xy === 0) && (this.b === 0);
     }
 
-    /**
-     * @method isZero
-     * @return {boolean}
-     */
     isZero(): boolean {
         return (this.a === 0) && (this.x === 0) && (this.y === 0) && (this.z === 0) && (this.yz === 0) && (this.zx === 0) && (this.xy === 0) && (this.b === 0);
     }
 
-    /**
-     * @method lerp
-     * @param target {G3}
-     * @param α {number}
-     * @return {G3}
-     * @chainable
-     */
     lerp(target: G3, α: number): G3 {
         throw new Error(notImplemented('lerp').message)
     }
 
-    /**
-     * @method cos
-     * @return {G3}
-     * @chainable
-     */
     cos(): G3 {
         // TODO: Generalize to full multivector.
         Unit.assertDimensionless(this.uom)
@@ -1036,20 +662,10 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
         return new G3(cosW, 0, 0, 0, 0, 0, 0, 0)
     }
 
-    /**
-     * @method cosh
-     * @return {G3}
-     * @chainable
-     */
     cosh(): G3 {
         throw new Error(notImplemented('cosh').message)
     }
 
-    /**
-     * @method distanceTo
-     * @param point {G3}
-     * @return {number}
-     */
     distanceTo(point: G3): number {
         // TODO: Should this be generalized to all coordinates?
         const dx = this.x - point.x;
@@ -1058,11 +674,6 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
         return Math.sqrt(dx * dx + dy * dy + dz * dz);
     }
 
-    /**
-     * @method equals
-     * @param other {G3}
-     * @return {boolean}
-     */
     equals(other: G3): boolean {
         if (this.a === other.a && this.x === other.x && this.y === other.y && this.z === other.z && this.xy === other.xy && this.yz === other.yz && this.zx === other.zx && this.b === other.b) {
             if (this.uom) {
@@ -1088,11 +699,6 @@ export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3
         }
     }
 
-    /**
-     * @method exp
-     * @return {G3}
-     * @chainable
-     */
     exp(): G3 {
         Unit.assertDimensionless(this.uom);
         const bivector = this.grade(2);

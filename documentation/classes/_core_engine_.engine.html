@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Engine | EIGHT 2.258.0</title>
+	<title>Engine | EIGHT 2.259.0</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -23,7 +23,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">EIGHT 2.258.0</a>
+					<a href="../index.html" class="title">EIGHT 2.259.0</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -74,17 +74,17 @@
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
 						<pre><code>// <span class="hljs-type">Anytime</span> before calling the start <span class="hljs-keyword">method</span>...
-<span class="hljs-keyword">const</span> renderer = new <span class="hljs-type">EIGHT</span>.<span class="hljs-type">Engine</span>()
+<span class="hljs-keyword">const</span> engine = new <span class="hljs-type">EIGHT</span>.<span class="hljs-type">Engine</span>()
 </code></pre>
 					</div>
-					<pre><code><span class="hljs-comment">// When the canvas is available, usually in the window.onload function...</span>
-renderer.<span class="hljs-function"><span class="hljs-title">start</span><span class="hljs-params">(canvas)</span></span>
+					<pre><code><span class="hljs-comment">// When the DOM canvas element is available...</span>
+engine.<span class="hljs-function"><span class="hljs-title">start</span><span class="hljs-params">(canvas)</span></span>
 
 <span class="hljs-comment">// At the start of each animation frame, before drawing...</span>
-renderer.<span class="hljs-function"><span class="hljs-title">clear</span><span class="hljs-params">()</span></span>
+engine.<span class="hljs-function"><span class="hljs-title">clear</span><span class="hljs-params">()</span></span>
 
 <span class="hljs-comment">// When no longer needed, usually in the window.onunload function...</span>
-renderer.<span class="hljs-function"><span class="hljs-title">release</span><span class="hljs-params">()</span></span>
+engine.<span class="hljs-function"><span class="hljs-title">release</span><span class="hljs-params">()</span></span>
 </code></pre>
 				</div>
 			</section>
@@ -122,11 +122,9 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_core_engine_.engine.html#_attributes" class="tsd-kind-icon">_attributes</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_core_engine_.engine.html#_canvas" class="tsd-kind-icon">_canvas</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_core_engine_.engine.html#_commands" class="tsd-kind-icon">_commands</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_core_engine_.engine.html#_contextprovider" class="tsd-kind-icon">_context<wbr>Provider</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_core_engine_.engine.html#_gl" class="tsd-kind-icon">_gl</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_core_engine_.engine.html#_mayusecache" class="tsd-kind-icon">_may<wbr>Use<wbr>Cache</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_core_engine_.engine.html#_type" class="tsd-kind-icon">_type</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_core_engine_.engine.html#_users" class="tsd-kind-icon">_users</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_core_engine_.engine.html#_webglcontextlost" class="tsd-kind-icon">_webGLContext<wbr>Lost</a></li>
@@ -136,10 +134,8 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						<section class="tsd-index-section ">
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="_core_engine_.engine.html#canvas" class="tsd-kind-icon">canvas</a></li>
-								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="_core_engine_.engine.html#commands" class="tsd-kind-icon">commands</a></li>
-								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="_core_engine_.engine.html#gl" class="tsd-kind-icon">gl</a></li>
-								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="_core_engine_.engine.html#mayusecache" class="tsd-kind-icon">may<wbr>Use<wbr>Cache</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="_core_engine_.engine.html#canvas" class="tsd-kind-icon">canvas</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="_core_engine_.engine.html#gl" class="tsd-kind-icon">gl</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -171,12 +167,6 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_core_engine_.engine.html#viewport" class="tsd-kind-icon">viewport</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
-							<h3>Object literals</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-object-literal tsd-parent-kind-class tsd-is-private"><a href="_core_engine_.engine.html#_viewportargs" class="tsd-kind-icon">_viewport<wbr>Args</a></li>
-							</ul>
-						</section>
 					</div>
 				</section>
 			</section>
@@ -193,7 +183,7 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 							<aside class="tsd-sources">
 								<p>Overwrites <a href="_core_shareablebase_.shareablebase.html">ShareableBase</a>.<a href="_core_shareablebase_.shareablebase.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L77">core/Engine.ts:77</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L59">core/Engine.ts:59</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -222,24 +212,9 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 					<div class="tsd-signature tsd-kind-icon">_attributes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">WebGLContextAttributes</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L52">core/Engine.ts:52</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L44">core/Engine.ts:44</a></li>
 						</ul>
 					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="_canvas" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _canvas</h3>
-					<div class="tsd-signature tsd-kind-icon">_canvas<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLCanvasElement</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L50">core/Engine.ts:50</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>FIXME: The WebGLRenderingContext has a canvas property already.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="_commands" class="tsd-anchor"></a>
@@ -247,7 +222,7 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 					<div class="tsd-signature tsd-kind-icon">_commands<span class="tsd-signature-symbol">:</span> <a href="_collections_shareablearray_.default.html" class="tsd-signature-type">default</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_core_contextconsumer_.contextconsumer.html" class="tsd-signature-type">ContextConsumer</a><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L62">core/Engine.ts:62</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L54">core/Engine.ts:54</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -257,9 +232,14 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 					<div class="tsd-signature tsd-kind-icon">_context<wbr>Provider<span class="tsd-signature-symbol">:</span> <a href="_base_defaultcontextprovider_.default.html" class="tsd-signature-type">default</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L64">core/Engine.ts:64</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L59">core/Engine.ts:59</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The argument provided in contextGain events.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="_gl" class="tsd-anchor"></a>
@@ -267,17 +247,7 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 					<div class="tsd-signature tsd-kind-icon">_gl<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">WebGLRenderingContext</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L45">core/Engine.ts:45</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="_mayusecache" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _may<wbr>Use<wbr>Cache</h3>
-					<div class="tsd-signature tsd-kind-icon">_may<wbr>Use<wbr>Cache<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L66">core/Engine.ts:66</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L42">core/Engine.ts:42</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -298,7 +268,7 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 					<div class="tsd-signature tsd-kind-icon">_users<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_core_contextconsumer_.contextconsumer.html" class="tsd-signature-type">ContextConsumer</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L57">core/Engine.ts:57</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L49">core/Engine.ts:49</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -308,7 +278,7 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 					<div class="tsd-signature tsd-kind-icon">_webGLContext<wbr>Lost<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L59">core/Engine.ts:59</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L51">core/Engine.ts:51</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -339,7 +309,7 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 					<div class="tsd-signature tsd-kind-icon">_webGLContext<wbr>Restored<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L60">core/Engine.ts:60</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L52">core/Engine.ts:52</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -367,126 +337,33 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Accessors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
 					<a name="canvas" class="tsd-anchor"></a>
 					<h3>canvas</h3>
-					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> canvas<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLCanvasElement</span></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> canvas<span class="tsd-signature-symbol">(</span>canvas<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLCanvasElement</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L144">core/Engine.ts:144</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L126">core/Engine.ts:126</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>readonly</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>The canvas element associated with the WebGLRenderingContext.</p>
+								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">HTMLCanvasElement</span></h4>
 						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L151">core/Engine.ts:151</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>canvas: <span class="tsd-signature-type">HTMLCanvasElement</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
-					<a name="commands" class="tsd-anchor"></a>
-					<h3>commands</h3>
-					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> commands<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_collections_shareablearray_.default.html" class="tsd-signature-type">default</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_core_contextconsumer_.contextconsumer.html" class="tsd-signature-type">ContextConsumer</a><span class="tsd-signature-symbol">&gt;</span></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> commands<span class="tsd-signature-symbol">(</span>unused<span class="tsd-signature-symbol">: </span><a href="_collections_shareablearray_.default.html" class="tsd-signature-type">default</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_core_contextconsumer_.contextconsumer.html" class="tsd-signature-type">ContextConsumer</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L158">core/Engine.ts:158</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>readonly</dt>
-									<dd></dd>
-								</dl>
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="_collections_shareablearray_.default.html" class="tsd-signature-type">default</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_core_contextconsumer_.contextconsumer.html" class="tsd-signature-type">ContextConsumer</a><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L162">core/Engine.ts:162</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>unused: <a href="_collections_shareablearray_.default.html" class="tsd-signature-type">default</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_core_contextconsumer_.contextconsumer.html" class="tsd-signature-type">ContextConsumer</a><span class="tsd-signature-symbol">&gt;</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
 					<a name="gl" class="tsd-anchor"></a>
 					<h3>gl</h3>
-					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> gl<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">WebGLRenderingContext</span></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> gl<span class="tsd-signature-symbol">(</span>unused<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">WebGLRenderingContext</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L224">core/Engine.ts:224</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>readonly</dt>
-									<dd></dd>
-								</dl>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">WebGLRenderingContext</span></h4>
-						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L232">core/Engine.ts:232</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>unused: <span class="tsd-signature-type">WebGLRenderingContext</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
-					<a name="mayusecache" class="tsd-anchor"></a>
-					<h3>may<wbr>Use<wbr>Cache</h3>
-					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> mayUseCache<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> mayUseCache<span class="tsd-signature-symbol">(</span>mayUseCache<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -497,50 +374,10 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>
-										Determines whether this <code>Engine</code> may use a cache to optimize
-										<code>WebGLREnderingContext</code> calls.
-									</p>
-									<p>
-										The default value of this property is <code>true</code>.
-										Set this property to <code>false</code> if the WebGL API is being called
-										directly (not through <code>Engine</code>).
-									</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>default</dt>
-									<dd><p>true</p>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L182">core/Engine.ts:182</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>
-										Determines whether this <code>Engine</code> may use a cache to optimize
-										<code>WebGLREnderingContext</code> calls.
-									</p>
-									<p>
-										The default value of this property is <code>true</code>.
-										Set this property to <code>false</code> if the WebGL API is being called
-										directly (not through <code>Engine</code>).
-									</p>
+									<p>The underlying WebGL rendering context.</p>
 								</div>
 							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>mayUseCache: <span class="tsd-signature-type">boolean</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">WebGLRenderingContext</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -557,7 +394,7 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L130">core/Engine.ts:130</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L112">core/Engine.ts:112</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -607,7 +444,7 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L247">core/Engine.ts:247</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L199">core/Engine.ts:199</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -633,7 +470,7 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L259">core/Engine.ts:259</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L211">core/Engine.ts:211</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -663,7 +500,7 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L196">core/Engine.ts:196</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L145">core/Engine.ts:145</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -704,7 +541,7 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L266">core/Engine.ts:266</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L218">core/Engine.ts:218</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -728,7 +565,7 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 							<aside class="tsd-sources">
 								<p>Overwrites <a href="_core_shareablebase_.shareablebase.html">ShareableBase</a>.<a href="_core_shareablebase_.shareablebase.html#destructor">destructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L117">core/Engine.ts:117</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L99">core/Engine.ts:99</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -751,9 +588,14 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L205">core/Engine.ts:205</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L157">core/Engine.ts:157</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Disables the specified WebGL capability.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -774,7 +616,7 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L429">core/Engine.ts:429</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L361">core/Engine.ts:361</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -797,7 +639,7 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L411">core/Engine.ts:411</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L343">core/Engine.ts:343</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -820,7 +662,7 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L402">core/Engine.ts:402</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L334">core/Engine.ts:334</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -837,7 +679,7 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L420">core/Engine.ts:420</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L352">core/Engine.ts:352</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -854,9 +696,14 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L213">core/Engine.ts:213</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L168">core/Engine.ts:168</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Enables the specified WebGL capability.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -897,7 +744,7 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L281">core/Engine.ts:281</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L233">core/Engine.ts:233</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -923,7 +770,7 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L298">core/Engine.ts:298</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L250">core/Engine.ts:250</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -999,7 +846,7 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L239">core/Engine.ts:239</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L191">core/Engine.ts:191</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1071,7 +918,7 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L347">core/Engine.ts:347</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L287">core/Engine.ts:287</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1084,7 +931,7 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 								<li>
 									<h5>canvas: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">HTMLCanvasElement</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The HTML canvas element.</p>
+										<p>The HTML canvas element or canvas element identifier.</p>
 									</div>
 								</li>
 								<li>
@@ -1108,7 +955,7 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L389">core/Engine.ts:389</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L322">core/Engine.ts:322</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_core_engine_.engine.html" class="tsd-signature-type">Engine</a></h4>
@@ -1125,7 +972,7 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L441">core/Engine.ts:441</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L373">core/Engine.ts:373</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1152,7 +999,7 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L316">core/Engine.ts:316</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L268">core/Engine.ts:268</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1182,65 +1029,6 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 					</ul>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
-				<h2>Object literals</h2>
-				<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-class tsd-is-private">
-					<a name="_viewportargs" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _viewport<wbr>Args</h3>
-					<div class="tsd-signature tsd-kind-icon">_viewport<wbr>Args<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L72">core/Engine.ts:72</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>A cache of the parameters used in the last gl.viewport method call.
-							width and height must be positive so this cache is initially dirty.</p>
-						</div>
-					</div>
-					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
-						<a name="_viewportargs.height" class="tsd-anchor"></a>
-						<h3>height</h3>
-						<div class="tsd-signature tsd-kind-icon">height<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span></div>
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L76">core/Engine.ts:76</a></li>
-							</ul>
-						</aside>
-					</section>
-					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
-						<a name="_viewportargs.width" class="tsd-anchor"></a>
-						<h3>width</h3>
-						<div class="tsd-signature tsd-kind-icon">width<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span></div>
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L75">core/Engine.ts:75</a></li>
-							</ul>
-						</aside>
-					</section>
-					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
-						<a name="_viewportargs.x" class="tsd-anchor"></a>
-						<h3>x</h3>
-						<div class="tsd-signature tsd-kind-icon">x<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span></div>
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L73">core/Engine.ts:73</a></li>
-							</ul>
-						</aside>
-					</section>
-					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
-						<a name="_viewportargs.y" class="tsd-anchor"></a>
-						<h3>y</h3>
-						<div class="tsd-signature tsd-kind-icon">y<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span></div>
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Engine.ts#L74">core/Engine.ts:74</a></li>
-							</ul>
-						</aside>
-					</section>
-				</section>
-			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
@@ -1267,9 +1055,6 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 								<a href="_core_engine_.engine.html#_attributes" class="tsd-kind-icon">_attributes</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="_core_engine_.engine.html#_canvas" class="tsd-kind-icon">_canvas</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="_core_engine_.engine.html#_commands" class="tsd-kind-icon">_commands</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
@@ -1277,9 +1062,6 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="_core_engine_.engine.html#_gl" class="tsd-kind-icon">_gl</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="_core_engine_.engine.html#_mayusecache" class="tsd-kind-icon">_may<wbr>Use<wbr>Cache</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 								<a href="_core_engine_.engine.html#_type" class="tsd-kind-icon">_type</a>
@@ -1293,17 +1075,11 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="_core_engine_.engine.html#_webglcontextrestored" class="tsd-kind-icon">_webGLContext<wbr>Restored</a>
 							</li>
-							<li class=" tsd-kind-accessor tsd-parent-kind-class">
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
 								<a href="_core_engine_.engine.html#canvas" class="tsd-kind-icon">canvas</a>
 							</li>
-							<li class=" tsd-kind-accessor tsd-parent-kind-class">
-								<a href="_core_engine_.engine.html#commands" class="tsd-kind-icon">commands</a>
-							</li>
-							<li class=" tsd-kind-accessor tsd-parent-kind-class">
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
 								<a href="_core_engine_.engine.html#gl" class="tsd-kind-icon">gl</a>
-							</li>
-							<li class=" tsd-kind-accessor tsd-parent-kind-class">
-								<a href="_core_engine_.engine.html#mayusecache" class="tsd-kind-icon">may<wbr>Use<wbr>Cache</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_core_engine_.engine.html#addcontextlistener" class="tsd-kind-icon">add<wbr>Context<wbr>Listener</a>
@@ -1377,22 +1153,16 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_core_engine_.engine.html#viewport" class="tsd-kind-icon">viewport</a>
 							</li>
-							<li class=" tsd-kind-object-literal tsd-parent-kind-class tsd-is-private">
-								<a href="_core_engine_.engine.html#_viewportargs" class="tsd-kind-icon">_viewport<wbr>Args</a>
-							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_core_engine_.html#checkenums" class="tsd-kind-icon">check<wbr>Enums</a>
-					</li>
 				</ul>
 			</nav>
 		</div>
 	</div>
 </div>
-<footer class="with-border-bottom">
+<footer>
 	<div class="container">
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
@@ -1451,9 +1221,6 @@ renderer.<span class="hljs-function"><span class="hljs-title">release</span><spa
 		</div>
 	</div>
 </footer>
-<div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.io" target="_blank">TypeDoc</a></p>
-</div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>
 <script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>

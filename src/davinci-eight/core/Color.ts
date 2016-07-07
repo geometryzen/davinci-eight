@@ -14,11 +14,6 @@ import mustBeNumber from '../checks/mustBeNumber'
 import principalAngle from './principalAngle'
 import SpinorE3 from '../math/SpinorE3'
 
-/**
- * @module EIGHT
- * @submodule core
- */
-
 const COORD_R = 0
 const COORD_G = 1
 const COORD_B = 2

@@ -18,7 +18,7 @@ interface VertexArrays {
     indices: number[]
 
     /**
-     * @ttribute attributes
+     * @attribute attributes
      * @type number[]
      */
     attributes: number[]

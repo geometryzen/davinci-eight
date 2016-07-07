@@ -11519,23 +11519,6 @@ System.register("davinci-eight/core/Capability.js", [], function(exports_1, cont
   };
 });
 
-System.register("davinci-eight/core/ClearBufferMask.js", [], function(exports_1, context_1) {
-  "use strict";
-  var __moduleName = context_1 && context_1.id;
-  var ClearBufferMask;
-  return {
-    setters: [],
-    execute: function() {
-      (function(ClearBufferMask) {
-        ClearBufferMask[ClearBufferMask["DEPTH_BUFFER_BIT"] = 256] = "DEPTH_BUFFER_BIT";
-        ClearBufferMask[ClearBufferMask["STENCIL_BUFFER_BIT"] = 1024] = "STENCIL_BUFFER_BIT";
-        ClearBufferMask[ClearBufferMask["COLOR_BUFFER_BIT"] = 16384] = "COLOR_BUFFER_BIT";
-      })(ClearBufferMask || (ClearBufferMask = {}));
-      exports_1("default", ClearBufferMask);
-    }
-  };
-});
-
 System.register("davinci-eight/core/DepthFunction.js", [], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
@@ -11554,6 +11537,100 @@ System.register("davinci-eight/core/DepthFunction.js", [], function(exports_1, c
         DepthFunction[DepthFunction["ALWAYS"] = 519] = "ALWAYS";
       })(DepthFunction || (DepthFunction = {}));
       exports_1("default", DepthFunction);
+    }
+  };
+});
+
+System.register("davinci-eight/core/checkEnums.js", ["./BeginMode", "./BlendingFactorDest", "./BlendingFactorSrc", "./Capability", "./ClearBufferMask", "./DepthFunction", "../checks/mustBeEQ"], function(exports_1, context_1) {
+  "use strict";
+  var __moduleName = context_1 && context_1.id;
+  var BeginMode_1,
+      BlendingFactorDest_1,
+      BlendingFactorSrc_1,
+      Capability_1,
+      ClearBufferMask_1,
+      DepthFunction_1,
+      mustBeEQ_1;
+  function checkEnums(gl) {
+    mustBeEQ_1.default('LINE_LOOP', BeginMode_1.default.LINE_LOOP, gl.LINE_LOOP);
+    mustBeEQ_1.default('LINE_STRIP', BeginMode_1.default.LINE_STRIP, gl.LINE_STRIP);
+    mustBeEQ_1.default('LINES', BeginMode_1.default.LINES, gl.LINES);
+    mustBeEQ_1.default('POINTS', BeginMode_1.default.POINTS, gl.POINTS);
+    mustBeEQ_1.default('TRIANGLE_FAN', BeginMode_1.default.TRIANGLE_FAN, gl.TRIANGLE_FAN);
+    mustBeEQ_1.default('TRIANGLE_STRIP', BeginMode_1.default.TRIANGLE_STRIP, gl.TRIANGLE_STRIP);
+    mustBeEQ_1.default('TRIANGLES', BeginMode_1.default.TRIANGLES, gl.TRIANGLES);
+    mustBeEQ_1.default('ZERO', BlendingFactorDest_1.default.ZERO, gl.ZERO);
+    mustBeEQ_1.default('ONE', BlendingFactorDest_1.default.ONE, gl.ONE);
+    mustBeEQ_1.default('SRC_COLOR', BlendingFactorDest_1.default.SRC_COLOR, gl.SRC_COLOR);
+    mustBeEQ_1.default('ONE_MINUS_SRC_COLOR', BlendingFactorDest_1.default.ONE_MINUS_SRC_COLOR, gl.ONE_MINUS_SRC_COLOR);
+    mustBeEQ_1.default('SRC_ALPHA', BlendingFactorDest_1.default.SRC_ALPHA, gl.SRC_ALPHA);
+    mustBeEQ_1.default('ONE_MINUS_SRC_ALPHA', BlendingFactorDest_1.default.ONE_MINUS_SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    mustBeEQ_1.default('DST_ALPHA', BlendingFactorDest_1.default.DST_ALPHA, gl.DST_ALPHA);
+    mustBeEQ_1.default('ONE_MINUS_DST_ALPHA', BlendingFactorDest_1.default.ONE_MINUS_DST_ALPHA, gl.ONE_MINUS_DST_ALPHA);
+    mustBeEQ_1.default('ZERO', BlendingFactorSrc_1.default.ZERO, gl.ZERO);
+    mustBeEQ_1.default('ONE', BlendingFactorSrc_1.default.ONE, gl.ONE);
+    mustBeEQ_1.default('DST_COLOR', BlendingFactorSrc_1.default.DST_COLOR, gl.DST_COLOR);
+    mustBeEQ_1.default('ONE_MINUS_DST_COLOR', BlendingFactorSrc_1.default.ONE_MINUS_DST_COLOR, gl.ONE_MINUS_DST_COLOR);
+    mustBeEQ_1.default('SRC_ALPHA_SATURATE', BlendingFactorSrc_1.default.SRC_ALPHA_SATURATE, gl.SRC_ALPHA_SATURATE);
+    mustBeEQ_1.default('SRC_ALPHA', BlendingFactorSrc_1.default.SRC_ALPHA, gl.SRC_ALPHA);
+    mustBeEQ_1.default('ONE_MINUS_SRC_ALPHA', BlendingFactorSrc_1.default.ONE_MINUS_SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    mustBeEQ_1.default('DST_ALPHA', BlendingFactorSrc_1.default.DST_ALPHA, gl.DST_ALPHA);
+    mustBeEQ_1.default('ONE_MINUS_DST_ALPHA', BlendingFactorSrc_1.default.ONE_MINUS_DST_ALPHA, gl.ONE_MINUS_DST_ALPHA);
+    mustBeEQ_1.default('CULL_FACE', Capability_1.default.CULL_FACE, gl.CULL_FACE);
+    mustBeEQ_1.default('BLEND', Capability_1.default.BLEND, gl.BLEND);
+    mustBeEQ_1.default('DITHER', Capability_1.default.DITHER, gl.DITHER);
+    mustBeEQ_1.default('STENCIL_TEST', Capability_1.default.STENCIL_TEST, gl.STENCIL_TEST);
+    mustBeEQ_1.default('DEPTH_TEST', Capability_1.default.DEPTH_TEST, gl.DEPTH_TEST);
+    mustBeEQ_1.default('SCISSOR_TEST', Capability_1.default.SCISSOR_TEST, gl.SCISSOR_TEST);
+    mustBeEQ_1.default('POLYGON_OFFSET_FILL', Capability_1.default.POLYGON_OFFSET_FILL, gl.POLYGON_OFFSET_FILL);
+    mustBeEQ_1.default('SAMPLE_ALPHA_TO_COVERAGE', Capability_1.default.SAMPLE_ALPHA_TO_COVERAGE, gl.SAMPLE_ALPHA_TO_COVERAGE);
+    mustBeEQ_1.default('SAMPLE_COVERAGE', Capability_1.default.SAMPLE_COVERAGE, gl.SAMPLE_COVERAGE);
+    mustBeEQ_1.default('COLOR_BUFFER_BIT', ClearBufferMask_1.default.COLOR_BUFFER_BIT, gl.COLOR_BUFFER_BIT);
+    mustBeEQ_1.default('DEPTH_BUFFER_BIT', ClearBufferMask_1.default.DEPTH_BUFFER_BIT, gl.DEPTH_BUFFER_BIT);
+    mustBeEQ_1.default('STENCIL_BUFFER_BIT', ClearBufferMask_1.default.STENCIL_BUFFER_BIT, gl.STENCIL_BUFFER_BIT);
+    mustBeEQ_1.default('ALWAYS', DepthFunction_1.default.ALWAYS, gl.ALWAYS);
+    mustBeEQ_1.default('EQUAL', DepthFunction_1.default.EQUAL, gl.EQUAL);
+    mustBeEQ_1.default('GEQUAL', DepthFunction_1.default.GEQUAL, gl.GEQUAL);
+    mustBeEQ_1.default('GREATER', DepthFunction_1.default.GREATER, gl.GREATER);
+    mustBeEQ_1.default('LEQUAL', DepthFunction_1.default.LEQUAL, gl.LEQUAL);
+    mustBeEQ_1.default('LESS', DepthFunction_1.default.LESS, gl.LESS);
+    mustBeEQ_1.default('NEVER', DepthFunction_1.default.NEVER, gl.NEVER);
+    mustBeEQ_1.default('NOTEQUAL', DepthFunction_1.default.NOTEQUAL, gl.NOTEQUAL);
+  }
+  exports_1("default", checkEnums);
+  return {
+    setters: [function(BeginMode_1_1) {
+      BeginMode_1 = BeginMode_1_1;
+    }, function(BlendingFactorDest_1_1) {
+      BlendingFactorDest_1 = BlendingFactorDest_1_1;
+    }, function(BlendingFactorSrc_1_1) {
+      BlendingFactorSrc_1 = BlendingFactorSrc_1_1;
+    }, function(Capability_1_1) {
+      Capability_1 = Capability_1_1;
+    }, function(ClearBufferMask_1_1) {
+      ClearBufferMask_1 = ClearBufferMask_1_1;
+    }, function(DepthFunction_1_1) {
+      DepthFunction_1 = DepthFunction_1_1;
+    }, function(mustBeEQ_1_1) {
+      mustBeEQ_1 = mustBeEQ_1_1;
+    }],
+    execute: function() {}
+  };
+});
+
+System.register("davinci-eight/core/ClearBufferMask.js", [], function(exports_1, context_1) {
+  "use strict";
+  var __moduleName = context_1 && context_1.id;
+  var ClearBufferMask;
+  return {
+    setters: [],
+    execute: function() {
+      (function(ClearBufferMask) {
+        ClearBufferMask[ClearBufferMask["DEPTH_BUFFER_BIT"] = 256] = "DEPTH_BUFFER_BIT";
+        ClearBufferMask[ClearBufferMask["STENCIL_BUFFER_BIT"] = 1024] = "STENCIL_BUFFER_BIT";
+        ClearBufferMask[ClearBufferMask["COLOR_BUFFER_BIT"] = 16384] = "COLOR_BUFFER_BIT";
+      })(ClearBufferMask || (ClearBufferMask = {}));
+      exports_1("default", ClearBufferMask);
     }
   };
 });
@@ -11930,7 +12007,7 @@ System.register("davinci-eight/commands/WebGLDisable.js", ["../checks/mustBeNumb
   };
 });
 
-System.register("davinci-eight/core/Engine.js", ["./BeginMode", "./BlendingFactorDest", "./BlendingFactorSrc", "./Capability", "./ClearBufferMask", "./DepthFunction", "../config", "../commands/EIGHTLogger", "./ErrorMode", "../base/DefaultContextProvider", "./initWebGL", "../checks/isDefined", "../checks/mustBeBoolean", "../checks/mustBeEQ", "../checks/mustBeObject", "../i18n/readOnly", "../collections/ShareableArray", "./ShareableBase", "../commands/VersionLogger", "../commands/WebGLClearColor", "../commands/WebGLEnable", "../commands/WebGLDisable"], function(exports_1, context_1) {
+System.register("davinci-eight/core/Engine.js", ["./checkEnums", "./ClearBufferMask", "../config", "../commands/EIGHTLogger", "./ErrorMode", "../base/DefaultContextProvider", "./initWebGL", "../checks/isDefined", "../checks/mustBeObject", "../collections/ShareableArray", "./ShareableBase", "../commands/VersionLogger", "../commands/WebGLClearColor", "../commands/WebGLEnable", "../commands/WebGLDisable"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -11942,22 +12019,15 @@ System.register("davinci-eight/core/Engine.js", ["./BeginMode", "./BlendingFacto
     }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   };
-  var BeginMode_1,
-      BlendingFactorDest_1,
-      BlendingFactorSrc_1,
-      Capability_1,
+  var checkEnums_1,
       ClearBufferMask_1,
-      DepthFunction_1,
       config_1,
       EIGHTLogger_1,
       ErrorMode_1,
       DefaultContextProvider_1,
       initWebGL_1,
       isDefined_1,
-      mustBeBoolean_1,
-      mustBeEQ_1,
       mustBeObject_1,
-      readOnly_1,
       ShareableArray_1,
       ShareableBase_1,
       VersionLogger_1,
@@ -11965,65 +12035,11 @@ System.register("davinci-eight/core/Engine.js", ["./BeginMode", "./BlendingFacto
       WebGLEnable_1,
       WebGLDisable_1;
   var Engine;
-  function checkEnums(gl) {
-    mustBeEQ_1.default('LINE_LOOP', BeginMode_1.default.LINE_LOOP, gl.LINE_LOOP);
-    mustBeEQ_1.default('LINE_STRIP', BeginMode_1.default.LINE_STRIP, gl.LINE_STRIP);
-    mustBeEQ_1.default('LINES', BeginMode_1.default.LINES, gl.LINES);
-    mustBeEQ_1.default('POINTS', BeginMode_1.default.POINTS, gl.POINTS);
-    mustBeEQ_1.default('TRIANGLE_FAN', BeginMode_1.default.TRIANGLE_FAN, gl.TRIANGLE_FAN);
-    mustBeEQ_1.default('TRIANGLE_STRIP', BeginMode_1.default.TRIANGLE_STRIP, gl.TRIANGLE_STRIP);
-    mustBeEQ_1.default('TRIANGLES', BeginMode_1.default.TRIANGLES, gl.TRIANGLES);
-    mustBeEQ_1.default('ZERO', BlendingFactorDest_1.default.ZERO, gl.ZERO);
-    mustBeEQ_1.default('ONE', BlendingFactorDest_1.default.ONE, gl.ONE);
-    mustBeEQ_1.default('SRC_COLOR', BlendingFactorDest_1.default.SRC_COLOR, gl.SRC_COLOR);
-    mustBeEQ_1.default('ONE_MINUS_SRC_COLOR', BlendingFactorDest_1.default.ONE_MINUS_SRC_COLOR, gl.ONE_MINUS_SRC_COLOR);
-    mustBeEQ_1.default('SRC_ALPHA', BlendingFactorDest_1.default.SRC_ALPHA, gl.SRC_ALPHA);
-    mustBeEQ_1.default('ONE_MINUS_SRC_ALPHA', BlendingFactorDest_1.default.ONE_MINUS_SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-    mustBeEQ_1.default('DST_ALPHA', BlendingFactorDest_1.default.DST_ALPHA, gl.DST_ALPHA);
-    mustBeEQ_1.default('ONE_MINUS_DST_ALPHA', BlendingFactorDest_1.default.ONE_MINUS_DST_ALPHA, gl.ONE_MINUS_DST_ALPHA);
-    mustBeEQ_1.default('ZERO', BlendingFactorSrc_1.default.ZERO, gl.ZERO);
-    mustBeEQ_1.default('ONE', BlendingFactorSrc_1.default.ONE, gl.ONE);
-    mustBeEQ_1.default('DST_COLOR', BlendingFactorSrc_1.default.DST_COLOR, gl.DST_COLOR);
-    mustBeEQ_1.default('ONE_MINUS_DST_COLOR', BlendingFactorSrc_1.default.ONE_MINUS_DST_COLOR, gl.ONE_MINUS_DST_COLOR);
-    mustBeEQ_1.default('SRC_ALPHA_SATURATE', BlendingFactorSrc_1.default.SRC_ALPHA_SATURATE, gl.SRC_ALPHA_SATURATE);
-    mustBeEQ_1.default('SRC_ALPHA', BlendingFactorSrc_1.default.SRC_ALPHA, gl.SRC_ALPHA);
-    mustBeEQ_1.default('ONE_MINUS_SRC_ALPHA', BlendingFactorSrc_1.default.ONE_MINUS_SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-    mustBeEQ_1.default('DST_ALPHA', BlendingFactorSrc_1.default.DST_ALPHA, gl.DST_ALPHA);
-    mustBeEQ_1.default('ONE_MINUS_DST_ALPHA', BlendingFactorSrc_1.default.ONE_MINUS_DST_ALPHA, gl.ONE_MINUS_DST_ALPHA);
-    mustBeEQ_1.default('CULL_FACE', Capability_1.default.CULL_FACE, gl.CULL_FACE);
-    mustBeEQ_1.default('BLEND', Capability_1.default.BLEND, gl.BLEND);
-    mustBeEQ_1.default('DITHER', Capability_1.default.DITHER, gl.DITHER);
-    mustBeEQ_1.default('STENCIL_TEST', Capability_1.default.STENCIL_TEST, gl.STENCIL_TEST);
-    mustBeEQ_1.default('DEPTH_TEST', Capability_1.default.DEPTH_TEST, gl.DEPTH_TEST);
-    mustBeEQ_1.default('SCISSOR_TEST', Capability_1.default.SCISSOR_TEST, gl.SCISSOR_TEST);
-    mustBeEQ_1.default('POLYGON_OFFSET_FILL', Capability_1.default.POLYGON_OFFSET_FILL, gl.POLYGON_OFFSET_FILL);
-    mustBeEQ_1.default('SAMPLE_ALPHA_TO_COVERAGE', Capability_1.default.SAMPLE_ALPHA_TO_COVERAGE, gl.SAMPLE_ALPHA_TO_COVERAGE);
-    mustBeEQ_1.default('SAMPLE_COVERAGE', Capability_1.default.SAMPLE_COVERAGE, gl.SAMPLE_COVERAGE);
-    mustBeEQ_1.default('COLOR_BUFFER_BIT', ClearBufferMask_1.default.COLOR_BUFFER_BIT, gl.COLOR_BUFFER_BIT);
-    mustBeEQ_1.default('DEPTH_BUFFER_BIT', ClearBufferMask_1.default.DEPTH_BUFFER_BIT, gl.DEPTH_BUFFER_BIT);
-    mustBeEQ_1.default('STENCIL_BUFFER_BIT', ClearBufferMask_1.default.STENCIL_BUFFER_BIT, gl.STENCIL_BUFFER_BIT);
-    mustBeEQ_1.default('ALWAYS', DepthFunction_1.default.ALWAYS, gl.ALWAYS);
-    mustBeEQ_1.default('EQUAL', DepthFunction_1.default.EQUAL, gl.EQUAL);
-    mustBeEQ_1.default('GEQUAL', DepthFunction_1.default.GEQUAL, gl.GEQUAL);
-    mustBeEQ_1.default('GREATER', DepthFunction_1.default.GREATER, gl.GREATER);
-    mustBeEQ_1.default('LEQUAL', DepthFunction_1.default.LEQUAL, gl.LEQUAL);
-    mustBeEQ_1.default('LESS', DepthFunction_1.default.LESS, gl.LESS);
-    mustBeEQ_1.default('NEVER', DepthFunction_1.default.NEVER, gl.NEVER);
-    mustBeEQ_1.default('NOTEQUAL', DepthFunction_1.default.NOTEQUAL, gl.NOTEQUAL);
-  }
   return {
-    setters: [function(BeginMode_1_1) {
-      BeginMode_1 = BeginMode_1_1;
-    }, function(BlendingFactorDest_1_1) {
-      BlendingFactorDest_1 = BlendingFactorDest_1_1;
-    }, function(BlendingFactorSrc_1_1) {
-      BlendingFactorSrc_1 = BlendingFactorSrc_1_1;
-    }, function(Capability_1_1) {
-      Capability_1 = Capability_1_1;
+    setters: [function(checkEnums_1_1) {
+      checkEnums_1 = checkEnums_1_1;
     }, function(ClearBufferMask_1_1) {
       ClearBufferMask_1 = ClearBufferMask_1_1;
-    }, function(DepthFunction_1_1) {
-      DepthFunction_1 = DepthFunction_1_1;
     }, function(config_1_1) {
       config_1 = config_1_1;
     }, function(EIGHTLogger_1_1) {
@@ -12036,14 +12052,8 @@ System.register("davinci-eight/core/Engine.js", ["./BeginMode", "./BlendingFacto
       initWebGL_1 = initWebGL_1_1;
     }, function(isDefined_1_1) {
       isDefined_1 = isDefined_1_1;
-    }, function(mustBeBoolean_1_1) {
-      mustBeBoolean_1 = mustBeBoolean_1_1;
-    }, function(mustBeEQ_1_1) {
-      mustBeEQ_1 = mustBeEQ_1_1;
     }, function(mustBeObject_1_1) {
       mustBeObject_1 = mustBeObject_1_1;
-    }, function(readOnly_1_1) {
-      readOnly_1 = readOnly_1_1;
     }, function(ShareableArray_1_1) {
       ShareableArray_1 = ShareableArray_1_1;
     }, function(ShareableBase_1_1) {
@@ -12065,20 +12075,13 @@ System.register("davinci-eight/core/Engine.js", ["./BeginMode", "./BlendingFacto
           _super.call(this);
           this._users = [];
           this._commands = new ShareableArray_1.default([]);
-          this._mayUseCache = true;
-          this._viewportArgs = {
-            x: void 0,
-            y: void 0,
-            width: void 0,
-            height: void 0
-          };
           this.setLoggingName('Engine');
           this._attributes = attributes;
           this._commands.pushWeakRef(new EIGHTLogger_1.default());
           this._commands.pushWeakRef(new VersionLogger_1.default());
           this._contextProvider = new DefaultContextProvider_1.default(this);
           this._webGLContextLost = function(event) {
-            if (isDefined_1.default(_this._canvas)) {
+            if (isDefined_1.default(_this._gl)) {
               event.preventDefault();
               _this._gl = void 0;
               _this._users.forEach(function(user) {
@@ -12087,9 +12090,9 @@ System.register("davinci-eight/core/Engine.js", ["./BeginMode", "./BlendingFacto
             }
           };
           this._webGLContextRestored = function(event) {
-            if (isDefined_1.default(_this._canvas)) {
+            if (isDefined_1.default(_this._gl)) {
               event.preventDefault();
-              _this._gl = initWebGL_1.default(_this._canvas, attributes);
+              _this._gl = initWebGL_1.default(_this._gl.canvas, attributes);
               _this._users.forEach(function(user) {
                 user.contextGain(_this._contextProvider);
               });
@@ -12116,34 +12119,11 @@ System.register("davinci-eight/core/Engine.js", ["./BeginMode", "./BlendingFacto
         };
         Object.defineProperty(Engine.prototype, "canvas", {
           get: function() {
-            if (!this._canvas) {
-              this.start(document.createElement('canvas'));
+            if (this._gl) {
+              return this._gl.canvas;
+            } else {
+              return void 0;
             }
-            return this._canvas;
-          },
-          set: function(canvas) {
-            throw new Error(readOnly_1.default('canvas').message);
-          },
-          enumerable: true,
-          configurable: true
-        });
-        Object.defineProperty(Engine.prototype, "commands", {
-          get: function() {
-            this._commands.addRef();
-            return this._commands;
-          },
-          set: function(unused) {
-            throw new Error(readOnly_1.default('commands').message);
-          },
-          enumerable: true,
-          configurable: true
-        });
-        Object.defineProperty(Engine.prototype, "mayUseCache", {
-          get: function() {
-            return this._mayUseCache;
-          },
-          set: function(mayUseCache) {
-            this._mayUseCache = mustBeBoolean_1.default('mayUseCache', mayUseCache);
           },
           enumerable: true,
           configurable: true
@@ -12177,9 +12157,6 @@ System.register("davinci-eight/core/Engine.js", ["./BeginMode", "./BlendingFacto
             } else {
               return void 0;
             }
-          },
-          set: function(unused) {
-            throw new Error(readOnly_1.default('gl').message);
           },
           enumerable: true,
           configurable: true
@@ -12231,18 +12208,7 @@ System.register("davinci-eight/core/Engine.js", ["./BeginMode", "./BlendingFacto
         Engine.prototype.viewport = function(x, y, width, height) {
           var gl = this._gl;
           if (gl) {
-            if (this._mayUseCache) {
-              var args = this._viewportArgs;
-              if (x !== args.x || y !== args.y || width !== args.width || height !== args.height) {
-                gl.viewport(x, y, width, height);
-                args.x = x;
-                args.y = y;
-                args.width = width;
-                args.height = height;
-              }
-            } else {
-              gl.viewport(x, y, width, height);
-            }
+            gl.viewport(x, y, width, height);
           } else {
             if (config_1.default.errorMode === ErrorMode_1.default.WARNME) {
               console.warn(this._type + ".viewport(" + x + ", " + y + ", " + width + ", " + height + ") ignored because no context.");
@@ -12262,19 +12228,15 @@ System.register("davinci-eight/core/Engine.js", ["./BeginMode", "./BlendingFacto
               throw new Error("canvas argument must be a canvas element id or an HTMLCanvasElement.");
             }
           } else if (canvas instanceof HTMLCanvasElement) {
-            var alreadyStarted = isDefined_1.default(this._canvas);
-            if (!alreadyStarted) {
-              this._canvas = canvas;
-            } else {
+            if (isDefined_1.default(this._gl)) {
               console.warn(this._type + " Ignoring start() because already started.");
               return;
-            }
-            if (isDefined_1.default(this._canvas)) {
-              this._gl = initWebGL_1.default(this._canvas, this._attributes);
-              checkEnums(this._gl);
+            } else {
+              this._gl = initWebGL_1.default(canvas, this._attributes);
+              checkEnums_1.default(this._gl);
               this.emitStartEvent();
-              this._canvas.addEventListener('webglcontextlost', this._webGLContextLost, false);
-              this._canvas.addEventListener('webglcontextrestored', this._webGLContextRestored, false);
+              canvas.addEventListener('webglcontextlost', this._webGLContextLost, false);
+              canvas.addEventListener('webglcontextrestored', this._webGLContextRestored, false);
             }
             return this;
           } else {
@@ -12283,14 +12245,13 @@ System.register("davinci-eight/core/Engine.js", ["./BeginMode", "./BlendingFacto
           }
         };
         Engine.prototype.stop = function() {
-          if (isDefined_1.default(this._canvas)) {
-            this._canvas.removeEventListener('webglcontextrestored', this._webGLContextRestored, false);
-            this._canvas.removeEventListener('webglcontextlost', this._webGLContextLost, false);
+          if (isDefined_1.default(this._gl)) {
+            this._gl.canvas.removeEventListener('webglcontextrestored', this._webGLContextRestored, false);
+            this._gl.canvas.removeEventListener('webglcontextlost', this._webGLContextLost, false);
             if (this._gl) {
               this.emitStopEvent();
               this._gl = void 0;
             }
-            this._canvas = void 0;
           }
           return this;
         };
@@ -17850,10 +17811,11 @@ System.register("davinci-eight/math/G3.js", ["./addE3", "../geometries/b2", "../
           return new G3(this.a, -this.x, -this.y, -this.z, -this.xy, -this.yz, -this.zx, +this.b, this.uom);
         };
         G3.prototype.cubicBezier = function(t, controlBegin, controlEnd, endPoint) {
+          var a = b3_1.default(t, this.a, controlBegin.a, controlEnd.a, endPoint.a);
           var x = b3_1.default(t, this.x, controlBegin.x, controlEnd.x, endPoint.x);
           var y = b3_1.default(t, this.y, controlBegin.y, controlEnd.y, endPoint.y);
           var z = b3_1.default(t, this.z, controlBegin.z, controlEnd.z, endPoint.z);
-          return new G3(0, x, y, z, 0, 0, 0, 0, this.uom);
+          return new G3(a, x, y, z, 0, 0, 0, 0, this.uom);
         };
         G3.prototype.direction = function() {
           return this.div(this.norm());
@@ -21851,7 +21813,7 @@ System.register("davinci-eight/core/vertexArraysFromPrimitive.js", ["./computeAt
   var computeAttributes_1,
       computePointers_1,
       computeStride_1;
-  function default_1(primitive, order) {
+  function vertexArraysFromPrimitive(primitive, order) {
     var keys = order ? order : Object.keys(primitive.attributes);
     var that = {
       drawMode: primitive.mode,
@@ -21862,7 +21824,7 @@ System.register("davinci-eight/core/vertexArraysFromPrimitive.js", ["./computeAt
     };
     return that;
   }
-  exports_1("default", default_1);
+  exports_1("default", vertexArraysFromPrimitive);
   return {
     setters: [function(computeAttributes_1_1) {
       computeAttributes_1 = computeAttributes_1_1;
@@ -25050,7 +25012,7 @@ System.register("davinci-eight/config.js", ["./core/ErrorMode"], function(export
           this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
           this.LAST_MODIFIED = '2016-07-06';
           this.NAMESPACE = 'EIGHT';
-          this.VERSION = '2.258.0';
+          this.VERSION = '2.259.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
           get: function() {

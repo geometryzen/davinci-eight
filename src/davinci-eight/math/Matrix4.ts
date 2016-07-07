@@ -17,9 +17,6 @@ import VectorE4 from '../math/VectorE4';
  * <p>
  * An adapter for a <code>Float32Array</code>.
  * </p>
- *
- * @class Matrix4
- * @extends AbstractMatrix
  */
 export default class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4, VectorE4, VectorE3>, Ring<Matrix4> {
 
@@ -30,8 +27,7 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<M
     //  2  6 10 14
     //  3  7 11 15
     /**
-     * @class Matrix4
-     * @constructor
+     * 
      */
     constructor(elements: Float32Array) {
         super(elements, 4);
@@ -41,10 +37,6 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<M
      * <p>
      * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
      * </p>
-     * @method one
-     * @return {Matrix4}
-     * @chainable
-     * @static
      */
     public static one() {
         return new Matrix4(new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]));
@@ -54,10 +46,6 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<M
      * <p>
      * Creates a new matrix with all elements zero.
      * </p>
-     * @method zero
-     * @return {Matrix4}
-     * @chainable
-     * @static
      */
     public static zero() {
         return new Matrix4(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]));
@@ -97,10 +85,7 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<M
     }
 
     /**
-     * @method add
-     * @param rhs {Matrix4}
-     * @return {Matrix4}
-     * @chainable
+     * Sets this matrix to (this + rhs).
      */
     add(rhs: Matrix4): Matrix4 {
         return this.add2(this, rhs);
@@ -120,9 +105,6 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<M
 
     /**
      * Returns a copy of this Matrix4 instance.
-     * @method clone
-     * @return {Matrix4}
-     * @chainable
      */
     clone(): Matrix4 {
         return Matrix4.zero().copy(this);
