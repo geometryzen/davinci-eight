@@ -18,7 +18,7 @@ export default function initWebGL(canvas: HTMLCanvasElement, attributes?: WebGLC
             context = <WebGLRenderingContext>(canvas.getContext('webgl', attributes) || canvas.getContext('experimental-webgl', attributes));
         }
         catch (e) {
-          // Do nothing.
+            // Do nothing.
         }
 
         if (context) {
@@ -30,6 +30,6 @@ export default function initWebGL(canvas: HTMLCanvasElement, attributes?: WebGLC
     }
     else {
         // An undefined canvas results in an undefined context.
-        return void 0
+        return void 0;
     }
 }

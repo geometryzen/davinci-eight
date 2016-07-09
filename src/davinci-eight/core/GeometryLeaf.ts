@@ -5,9 +5,9 @@ import config from '../config'
 import {Engine} from './Engine'
 import ErrorMode from './ErrorMode'
 import {Geometry} from './Geometry'
-import incLevel from '../base/incLevel'
 import isNumber from '../checks/isNumber'
 import Matrix4 from '../math/Matrix4'
+import mustBeNumber from '../checks/mustBeNumber'
 import notImplemented from '../i18n/notImplemented'
 import notSupported from '../i18n/notSupported'
 import readOnly from '../i18n/readOnly'
@@ -33,38 +33,24 @@ export default class GeometryLeaf extends ShareableContextConsumer implements Ge
      * This is used in the vertexAttribPointer method.
      * Normally, we will use gl.FLOAT for each number which takes 4 bytes.
      * </p>
-     *
-     * @property _stride
-     * @type number
-     * @protected
      */
     protected _stride: number;
-
-    /**
-     * @property _pointers
-     * @type VertexAttribPointer[]
-     * @protected
-     */
     protected _pointers: VertexAttribPointer[];
 
-    /**
-     * @class GeometryLeaf
-     * @constructor
-     * @param engine {Engine}
-     */
-    constructor(engine: Engine) {
+    constructor(engine: Engine, levelUp: number) {
         super(engine)
+        mustBeNumber('levelUp', levelUp);
         this.setLoggingName('GeometryLeaf')
+        if (levelUp === 0) {
+            this.synchUp();
+        }
     }
 
-    /**
-     * @method destructor
-     * @param levelUp {number}
-     * @return {void}
-     * @protected
-     */
     protected destructor(levelUp: number): void {
-        super.destructor(incLevel(levelUp))
+        if (levelUp === 0) {
+            this.cleanUp();
+        }
+        super.destructor(levelUp + 1);
     }
 
     /**

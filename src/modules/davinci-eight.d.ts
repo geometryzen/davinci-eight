@@ -595,7 +595,7 @@ declare module EIGHT {
         /**
          *
          */
-        indices: number[];
+        indices?: number[];
 
         /**
          *
@@ -3238,7 +3238,7 @@ declare module EIGHT {
 
     interface VertexArrays {
         drawMode: BeginMode
-        indices: number[]
+        indices?: number[]
         attributes: number[]
         stride: number
         pointers: VertexAttribPointer[]
@@ -3289,7 +3289,7 @@ declare module EIGHT {
         /**
          *
          */
-        constructor(engine: Engine);
+        constructor(data: VertexArrays, engine: Engine, levelUp?: number);
         protected destructor(levelUp: number): void;
         addPart(geometry: Geometry): void;
         bind(material: Material): void;

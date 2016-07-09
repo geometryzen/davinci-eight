@@ -10,9 +10,9 @@ class Eight {
     constructor() {
         this._errorMode = ErrorMode.STRICT;
         this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-        this.LAST_MODIFIED = '2016-07-08';
+        this.LAST_MODIFIED = '2016-07-09';
         this.NAMESPACE = 'EIGHT';
-        this.VERSION = '2.260.0';
+        this.VERSION = '2.261.0';
     }
 
     get errorMode() {

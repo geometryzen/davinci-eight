@@ -583,118 +583,6 @@ System.register("davinci-eight/controls/TrackballControls.js", ["../math/Spinor3
   };
 });
 
-System.register("davinci-eight/core/GeometryArrays.js", ["./computeAttributes", "./computeCount", "./computePointers", "./computeStride", "../config", "./ErrorMode", "./GeometryLeaf", "./VertexBuffer"], function(exports_1, context_1) {
-  "use strict";
-  var __moduleName = context_1 && context_1.id;
-  var __extends = (this && this.__extends) || function(d, b) {
-    for (var p in b)
-      if (b.hasOwnProperty(p))
-        d[p] = b[p];
-    function __() {
-      this.constructor = d;
-    }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-  var computeAttributes_1,
-      computeCount_1,
-      computePointers_1,
-      computeStride_1,
-      config_1,
-      ErrorMode_1,
-      GeometryLeaf_1,
-      VertexBuffer_1;
-  var GeometryArrays;
-  return {
-    setters: [function(computeAttributes_1_1) {
-      computeAttributes_1 = computeAttributes_1_1;
-    }, function(computeCount_1_1) {
-      computeCount_1 = computeCount_1_1;
-    }, function(computePointers_1_1) {
-      computePointers_1 = computePointers_1_1;
-    }, function(computeStride_1_1) {
-      computeStride_1 = computeStride_1_1;
-    }, function(config_1_1) {
-      config_1 = config_1_1;
-    }, function(ErrorMode_1_1) {
-      ErrorMode_1 = ErrorMode_1_1;
-    }, function(GeometryLeaf_1_1) {
-      GeometryLeaf_1 = GeometryLeaf_1_1;
-    }, function(VertexBuffer_1_1) {
-      VertexBuffer_1 = VertexBuffer_1_1;
-    }],
-    execute: function() {
-      GeometryArrays = (function(_super) {
-        __extends(GeometryArrays, _super);
-        function GeometryArrays(engine) {
-          _super.call(this, engine);
-          this.first = 0;
-          this.setLoggingName('GeometryArrays');
-          this.attributes = {};
-          this.vbo = new VertexBuffer_1.default(engine);
-        }
-        GeometryArrays.prototype.destructor = function(levelUp) {
-          this.vbo.release();
-          this.vbo = void 0;
-          _super.prototype.destructor.call(this, levelUp + 1);
-        };
-        GeometryArrays.prototype.bind = function(material) {
-          var contextProvider = this.contextProvider;
-          if (contextProvider) {
-            this.vbo.bind();
-            var pointers = this._pointers;
-            if (pointers) {
-              var iLength = pointers.length;
-              for (var i = 0; i < iLength; i++) {
-                var pointer = pointers[i];
-                var attrib = material.getAttrib(pointer.name);
-                if (attrib) {
-                  attrib.config(pointer.size, pointer.type, pointer.normalized, this._stride, pointer.offset);
-                  attrib.enable();
-                }
-              }
-            } else {
-              switch (config_1.default.errorMode) {
-                case ErrorMode_1.default.WARNME:
-                  {
-                    console.warn(this._type + ".pointers must be an array.");
-                  }
-                default:
-                  {}
-              }
-            }
-          }
-        };
-        GeometryArrays.prototype.draw = function(material) {
-          var contextProvider = this.contextProvider;
-          if (contextProvider) {
-            this.contextProvider.drawArrays(this.drawMode, this.first, this.count);
-          }
-        };
-        GeometryArrays.prototype.unbind = function(material) {
-          var contextProvider = this.contextProvider;
-          if (contextProvider) {
-            this.vbo.unbind();
-          }
-        };
-        GeometryArrays.prototype.getAttribute = function(name) {
-          return this.attributes[name];
-        };
-        GeometryArrays.prototype.setAttribute = function(name, attribute) {
-          this.attributes[name] = attribute;
-          var aNames = Object.keys(this.attributes);
-          this.count = computeCount_1.default(this.attributes, aNames);
-          this._stride = computeStride_1.default(this.attributes, aNames);
-          this._pointers = computePointers_1.default(this.attributes, aNames);
-          var array = computeAttributes_1.default(this.attributes, aNames);
-          this.vbo.data = new Float32Array(array);
-        };
-        return GeometryArrays;
-      }(GeometryLeaf_1.default));
-      exports_1("default", GeometryArrays);
-    }
-  };
-});
-
 System.register("davinci-eight/core/Scene.js", ["../collections/ShareableArray", "../base/incLevel", "../checks/mustBeObject", "../core/ShareableBase", "../core/ShareableContextConsumer"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
@@ -946,19 +834,175 @@ System.register("davinci-eight/core/Shader.js", ["./makeWebGLShader", "../checks
   };
 });
 
-System.register("davinci-eight/core/geometryFromPrimitive.js", ["./vertexArraysFromPrimitive", "./GeometryElements"], function(exports_1, context_1) {
+System.register("davinci-eight/core/GeometryArrays.js", ["./computeAttributes", "./computeCount", "./computePointers", "./computeStride", "../config", "./ErrorMode", "./GeometryLeaf", "../checks/isNull", "../checks/isObject", "../checks/isUndefined", "./VertexBuffer"], function(exports_1, context_1) {
+  "use strict";
+  var __moduleName = context_1 && context_1.id;
+  var __extends = (this && this.__extends) || function(d, b) {
+    for (var p in b)
+      if (b.hasOwnProperty(p))
+        d[p] = b[p];
+    function __() {
+      this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+  var computeAttributes_1,
+      computeCount_1,
+      computePointers_1,
+      computeStride_1,
+      config_1,
+      ErrorMode_1,
+      GeometryLeaf_1,
+      isNull_1,
+      isObject_1,
+      isUndefined_1,
+      VertexBuffer_1;
+  var GeometryArrays;
+  return {
+    setters: [function(computeAttributes_1_1) {
+      computeAttributes_1 = computeAttributes_1_1;
+    }, function(computeCount_1_1) {
+      computeCount_1 = computeCount_1_1;
+    }, function(computePointers_1_1) {
+      computePointers_1 = computePointers_1_1;
+    }, function(computeStride_1_1) {
+      computeStride_1 = computeStride_1_1;
+    }, function(config_1_1) {
+      config_1 = config_1_1;
+    }, function(ErrorMode_1_1) {
+      ErrorMode_1 = ErrorMode_1_1;
+    }, function(GeometryLeaf_1_1) {
+      GeometryLeaf_1 = GeometryLeaf_1_1;
+    }, function(isNull_1_1) {
+      isNull_1 = isNull_1_1;
+    }, function(isObject_1_1) {
+      isObject_1 = isObject_1_1;
+    }, function(isUndefined_1_1) {
+      isUndefined_1 = isUndefined_1_1;
+    }, function(VertexBuffer_1_1) {
+      VertexBuffer_1 = VertexBuffer_1_1;
+    }],
+    execute: function() {
+      GeometryArrays = (function(_super) {
+        __extends(GeometryArrays, _super);
+        function GeometryArrays(data, engine, levelUp) {
+          if (levelUp === void 0) {
+            levelUp = 0;
+          }
+          _super.call(this, engine, levelUp + 1);
+          this.first = 0;
+          this.setLoggingName('GeometryArrays');
+          this.attributes = {};
+          this.vbo = new VertexBuffer_1.default(engine);
+          if (!isNull_1.default(data) && !isUndefined_1.default(data)) {
+            if (isObject_1.default(data)) {
+              this.drawMode = data.drawMode;
+              this.vbo.data = new Float32Array(data.attributes);
+              this.count = data.attributes.length / (data.stride / 4);
+              this._stride = data.stride;
+              this._pointers = data.pointers;
+            } else {
+              throw new TypeError("data must be an object");
+            }
+          }
+          if (levelUp === 0) {
+            this.synchUp();
+          }
+        }
+        GeometryArrays.prototype.destructor = function(levelUp) {
+          if (levelUp === 0) {
+            this.cleanUp();
+          }
+          this.vbo.release();
+          this.vbo = void 0;
+          _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        GeometryArrays.prototype.bind = function(material) {
+          var contextProvider = this.contextProvider;
+          if (contextProvider) {
+            this.vbo.bind();
+            var pointers = this._pointers;
+            if (pointers) {
+              var iLength = pointers.length;
+              for (var i = 0; i < iLength; i++) {
+                var pointer = pointers[i];
+                var attrib = material.getAttrib(pointer.name);
+                if (attrib) {
+                  attrib.config(pointer.size, pointer.type, pointer.normalized, this._stride, pointer.offset);
+                  attrib.enable();
+                }
+              }
+            } else {
+              switch (config_1.default.errorMode) {
+                case ErrorMode_1.default.WARNME:
+                  {
+                    console.warn(this._type + ".pointers must be an array.");
+                  }
+                default:
+                  {}
+              }
+            }
+          }
+        };
+        GeometryArrays.prototype.draw = function(material) {
+          var contextProvider = this.contextProvider;
+          if (contextProvider) {
+            this.contextProvider.drawArrays(this.drawMode, this.first, this.count);
+          }
+        };
+        GeometryArrays.prototype.unbind = function(material) {
+          var pointers = this._pointers;
+          if (pointers) {
+            var iLength = pointers.length;
+            for (var i = 0; i < iLength; i++) {
+              var pointer = pointers[i];
+              var attrib = material.getAttrib(pointer.name);
+              if (attrib) {
+                attrib.disable();
+              }
+            }
+          }
+          this.vbo.unbind();
+        };
+        GeometryArrays.prototype.getAttribute = function(name) {
+          return this.attributes[name];
+        };
+        GeometryArrays.prototype.setAttribute = function(name, attribute) {
+          this.attributes[name] = attribute;
+          var aNames = Object.keys(this.attributes);
+          this.count = computeCount_1.default(this.attributes, aNames);
+          this._stride = computeStride_1.default(this.attributes, aNames);
+          this._pointers = computePointers_1.default(this.attributes, aNames);
+          var array = computeAttributes_1.default(this.attributes, aNames);
+          this.vbo.data = new Float32Array(array);
+        };
+        return GeometryArrays;
+      }(GeometryLeaf_1.default));
+      exports_1("default", GeometryArrays);
+    }
+  };
+});
+
+System.register("davinci-eight/core/geometryFromPrimitive.js", ["./vertexArraysFromPrimitive", "./GeometryArrays", "./GeometryElements"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var vertexArraysFromPrimitive_1,
+      GeometryArrays_1,
       GeometryElements_1;
   function geometryFromPrimitive(primitive, engine, order) {
     var data = vertexArraysFromPrimitive_1.default(primitive, order);
-    return new GeometryElements_1.default(data, engine);
+    if (primitive.indices) {
+      return new GeometryElements_1.default(data, engine);
+    } else {
+      return new GeometryArrays_1.default(data, engine);
+    }
   }
   exports_1("default", geometryFromPrimitive);
   return {
     setters: [function(vertexArraysFromPrimitive_1_1) {
       vertexArraysFromPrimitive_1 = vertexArraysFromPrimitive_1_1;
+    }, function(GeometryArrays_1_1) {
+      GeometryArrays_1 = GeometryArrays_1_1;
     }, function(GeometryElements_1_1) {
       GeometryElements_1 = GeometryElements_1_1;
     }],
@@ -11203,7 +11247,7 @@ System.register("davinci-eight/materials/MeshMaterial.js", ["../materials/Graphi
   };
 });
 
-System.register("davinci-eight/core/GeometryLeaf.js", ["../config", "./ErrorMode", "../base/incLevel", "../checks/isNumber", "../i18n/notImplemented", "../i18n/notSupported", "../i18n/readOnly", "./ShareableContextConsumer"], function(exports_1, context_1) {
+System.register("davinci-eight/core/GeometryLeaf.js", ["../config", "./ErrorMode", "../checks/isNumber", "../checks/mustBeNumber", "../i18n/notImplemented", "../i18n/notSupported", "../i18n/readOnly", "./ShareableContextConsumer"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -11217,8 +11261,8 @@ System.register("davinci-eight/core/GeometryLeaf.js", ["../config", "./ErrorMode
   };
   var config_1,
       ErrorMode_1,
-      incLevel_1,
       isNumber_1,
+      mustBeNumber_1,
       notImplemented_1,
       notSupported_1,
       readOnly_1,
@@ -11229,10 +11273,10 @@ System.register("davinci-eight/core/GeometryLeaf.js", ["../config", "./ErrorMode
       config_1 = config_1_1;
     }, function(ErrorMode_1_1) {
       ErrorMode_1 = ErrorMode_1_1;
-    }, function(incLevel_1_1) {
-      incLevel_1 = incLevel_1_1;
     }, function(isNumber_1_1) {
       isNumber_1 = isNumber_1_1;
+    }, function(mustBeNumber_1_1) {
+      mustBeNumber_1 = mustBeNumber_1_1;
     }, function(notImplemented_1_1) {
       notImplemented_1 = notImplemented_1_1;
     }, function(notSupported_1_1) {
@@ -11245,12 +11289,19 @@ System.register("davinci-eight/core/GeometryLeaf.js", ["../config", "./ErrorMode
     execute: function() {
       GeometryLeaf = (function(_super) {
         __extends(GeometryLeaf, _super);
-        function GeometryLeaf(engine) {
+        function GeometryLeaf(engine, levelUp) {
           _super.call(this, engine);
+          mustBeNumber_1.default('levelUp', levelUp);
           this.setLoggingName('GeometryLeaf');
+          if (levelUp === 0) {
+            this.synchUp();
+          }
         }
         GeometryLeaf.prototype.destructor = function(levelUp) {
-          _super.prototype.destructor.call(this, incLevel_1.default(levelUp));
+          if (levelUp === 0) {
+            this.cleanUp();
+          }
+          _super.prototype.destructor.call(this, levelUp + 1);
         };
         GeometryLeaf.prototype.isLeaf = function() {
           return true;
@@ -12707,7 +12758,7 @@ System.register("davinci-eight/core/GeometryElements.js", ["../config", "./Error
           if (levelUp === void 0) {
             levelUp = 0;
           }
-          _super.call(this, engine);
+          _super.call(this, engine, levelUp + 1);
           this.offset = 0;
           this.setLoggingName('GeometryElements');
           this.ibo = new IndexBuffer_1.default(engine);
@@ -12865,6 +12916,17 @@ System.register("davinci-eight/core/GeometryElements.js", ["../config", "./Error
           var contextProvider = this.contextProvider;
           if (contextProvider) {
             this.ibo.unbind();
+            var pointers = this._pointers;
+            if (pointers) {
+              var iLength = pointers.length;
+              for (var i = 0; i < iLength; i++) {
+                var pointer = pointers[i];
+                var attrib = material.getAttrib(pointer.name);
+                if (attrib) {
+                  attrib.disable();
+                }
+              }
+            }
             this.vbo.unbind();
           }
         };
@@ -25080,9 +25142,9 @@ System.register("davinci-eight/config.js", ["./core/ErrorMode"], function(export
         function Eight() {
           this._errorMode = ErrorMode_1.default.STRICT;
           this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-          this.LAST_MODIFIED = '2016-07-08';
+          this.LAST_MODIFIED = '2016-07-09';
           this.NAMESPACE = 'EIGHT';
-          this.VERSION = '2.260.0';
+          this.VERSION = '2.261.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
           get: function() {

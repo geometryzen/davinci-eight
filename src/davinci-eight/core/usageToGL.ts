@@ -1,4 +1,4 @@
-import Usage from './Usage'
+import Usage from './Usage';
 
 export default function(usage: Usage, gl: WebGLRenderingContext): number {
     if (gl) {

@@ -556,9 +556,9 @@ define('davinci-eight/config',["require", "exports", './core/ErrorMode'], functi
         function Eight() {
             this._errorMode = ErrorMode_1.default.STRICT;
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-07-08';
+            this.LAST_MODIFIED = '2016-07-09';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.260.0';
+            this.VERSION = '2.261.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
             get: function () {
@@ -9231,16 +9231,23 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/GeometryLeaf',["require", "exports", '../config', './ErrorMode', '../base/incLevel', '../checks/isNumber', '../i18n/notImplemented', '../i18n/notSupported', '../i18n/readOnly', './ShareableContextConsumer'], function (require, exports, config_1, ErrorMode_1, incLevel_1, isNumber_1, notImplemented_1, notSupported_1, readOnly_1, ShareableContextConsumer_1) {
+define('davinci-eight/core/GeometryLeaf',["require", "exports", '../config', './ErrorMode', '../checks/isNumber', '../checks/mustBeNumber', '../i18n/notImplemented', '../i18n/notSupported', '../i18n/readOnly', './ShareableContextConsumer'], function (require, exports, config_1, ErrorMode_1, isNumber_1, mustBeNumber_1, notImplemented_1, notSupported_1, readOnly_1, ShareableContextConsumer_1) {
     "use strict";
     var GeometryLeaf = (function (_super) {
         __extends(GeometryLeaf, _super);
-        function GeometryLeaf(engine) {
+        function GeometryLeaf(engine, levelUp) {
             _super.call(this, engine);
+            mustBeNumber_1.default('levelUp', levelUp);
             this.setLoggingName('GeometryLeaf');
+            if (levelUp === 0) {
+                this.synchUp();
+            }
         }
         GeometryLeaf.prototype.destructor = function (levelUp) {
-            _super.prototype.destructor.call(this, incLevel_1.default(levelUp));
+            if (levelUp === 0) {
+                this.cleanUp();
+            }
+            _super.prototype.destructor.call(this, levelUp + 1);
         };
         GeometryLeaf.prototype.isLeaf = function () {
             return true;
@@ -9474,18 +9481,37 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/GeometryArrays',["require", "exports", './computeAttributes', './computeCount', './computePointers', './computeStride', '../config', './ErrorMode', './GeometryLeaf', './VertexBuffer'], function (require, exports, computeAttributes_1, computeCount_1, computePointers_1, computeStride_1, config_1, ErrorMode_1, GeometryLeaf_1, VertexBuffer_1) {
+define('davinci-eight/core/GeometryArrays',["require", "exports", './computeAttributes', './computeCount', './computePointers', './computeStride', '../config', './ErrorMode', './GeometryLeaf', '../checks/isNull', '../checks/isObject', '../checks/isUndefined', './VertexBuffer'], function (require, exports, computeAttributes_1, computeCount_1, computePointers_1, computeStride_1, config_1, ErrorMode_1, GeometryLeaf_1, isNull_1, isObject_1, isUndefined_1, VertexBuffer_1) {
     "use strict";
     var GeometryArrays = (function (_super) {
         __extends(GeometryArrays, _super);
-        function GeometryArrays(engine) {
-            _super.call(this, engine);
+        function GeometryArrays(data, engine, levelUp) {
+            if (levelUp === void 0) { levelUp = 0; }
+            _super.call(this, engine, levelUp + 1);
             this.first = 0;
             this.setLoggingName('GeometryArrays');
             this.attributes = {};
             this.vbo = new VertexBuffer_1.default(engine);
+            if (!isNull_1.default(data) && !isUndefined_1.default(data)) {
+                if (isObject_1.default(data)) {
+                    this.drawMode = data.drawMode;
+                    this.vbo.data = new Float32Array(data.attributes);
+                    this.count = data.attributes.length / (data.stride / 4);
+                    this._stride = data.stride;
+                    this._pointers = data.pointers;
+                }
+                else {
+                    throw new TypeError("data must be an object");
+                }
+            }
+            if (levelUp === 0) {
+                this.synchUp();
+            }
         }
         GeometryArrays.prototype.destructor = function (levelUp) {
+            if (levelUp === 0) {
+                this.cleanUp();
+            }
             this.vbo.release();
             this.vbo = void 0;
             _super.prototype.destructor.call(this, levelUp + 1);
@@ -9524,10 +9550,18 @@ define('davinci-eight/core/GeometryArrays',["require", "exports", './computeAttr
             }
         };
         GeometryArrays.prototype.unbind = function (material) {
-            var contextProvider = this.contextProvider;
-            if (contextProvider) {
-                this.vbo.unbind();
+            var pointers = this._pointers;
+            if (pointers) {
+                var iLength = pointers.length;
+                for (var i = 0; i < iLength; i++) {
+                    var pointer = pointers[i];
+                    var attrib = material.getAttrib(pointer.name);
+                    if (attrib) {
+                        attrib.disable();
+                    }
+                }
             }
+            this.vbo.unbind();
         };
         GeometryArrays.prototype.getAttribute = function (name) {
             return this.attributes[name];
@@ -10283,7 +10317,7 @@ define('davinci-eight/core/GeometryElements',["require", "exports", '../config',
         __extends(GeometryElements, _super);
         function GeometryElements(data, engine, levelUp) {
             if (levelUp === void 0) { levelUp = 0; }
-            _super.call(this, engine);
+            _super.call(this, engine, levelUp + 1);
             this.offset = 0;
             this.setLoggingName('GeometryElements');
             this.ibo = new IndexBuffer_1.default(engine);
@@ -10448,6 +10482,17 @@ define('davinci-eight/core/GeometryElements',["require", "exports", '../config',
             var contextProvider = this.contextProvider;
             if (contextProvider) {
                 this.ibo.unbind();
+                var pointers = this._pointers;
+                if (pointers) {
+                    var iLength = pointers.length;
+                    for (var i = 0; i < iLength; i++) {
+                        var pointer = pointers[i];
+                        var attrib = material.getAttrib(pointer.name);
+                        if (attrib) {
+                            attrib.disable();
+                        }
+                    }
+                }
                 this.vbo.unbind();
             }
         };
@@ -11368,11 +11413,16 @@ define('davinci-eight/core/vertexArraysFromPrimitive',["require", "exports", './
     exports.default = vertexArraysFromPrimitive;
 });
 
-define('davinci-eight/core/geometryFromPrimitive',["require", "exports", './vertexArraysFromPrimitive', './GeometryElements'], function (require, exports, vertexArraysFromPrimitive_1, GeometryElements_1) {
+define('davinci-eight/core/geometryFromPrimitive',["require", "exports", './vertexArraysFromPrimitive', './GeometryArrays', './GeometryElements'], function (require, exports, vertexArraysFromPrimitive_1, GeometryArrays_1, GeometryElements_1) {
     "use strict";
     function geometryFromPrimitive(primitive, engine, order) {
         var data = vertexArraysFromPrimitive_1.default(primitive, order);
-        return new GeometryElements_1.default(data, engine);
+        if (primitive.indices) {
+            return new GeometryElements_1.default(data, engine);
+        }
+        else {
+            return new GeometryArrays_1.default(data, engine);
+        }
     }
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = geometryFromPrimitive;

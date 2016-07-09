@@ -3,12 +3,12 @@
  */
 export default function principalAngle(angle: number): number {
     if (angle > 2 * Math.PI) {
-        return principalAngle(angle - 2 * Math.PI)
+        return principalAngle(angle - 2 * Math.PI);
     }
     else if (angle < 0) {
-        return principalAngle(angle + 2 * Math.PI)
+        return principalAngle(angle + 2 * Math.PI);
     }
     else {
-        return angle
+        return angle;
     }
 }

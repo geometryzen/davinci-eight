@@ -35,15 +35,15 @@ export default class GeometryElements extends GeometryLeaf {
     private vbo: VertexBuffer;
 
     constructor(data: VertexArrays, engine: Engine, levelUp = 0) {
-        super(engine)
-        this.setLoggingName('GeometryElements')
-        this.ibo = new IndexBuffer(engine)
-        this.vbo = new VertexBuffer(engine)
+        super(engine, levelUp + 1);
+        this.setLoggingName('GeometryElements');
+        this.ibo = new IndexBuffer(engine);
+        this.vbo = new VertexBuffer(engine);
 
         if (!isNull(data) && !isUndefined(data)) {
             if (isObject(data)) {
                 this.drawMode = data.drawMode;
-                this.setIndices(data.indices)
+                this.setIndices(data.indices);
 
                 this._attributes = data.attributes;
                 this._stride = data.stride
@@ -198,8 +198,19 @@ export default class GeometryElements extends GeometryLeaf {
     unbind(material: Material): void {
         const contextProvider = this.contextProvider
         if (contextProvider) {
-            this.ibo.unbind()
-            this.vbo.unbind()
+            this.ibo.unbind();
+            const pointers = this._pointers
+            if (pointers) {
+                const iLength = pointers.length
+                for (let i = 0; i < iLength; i++) {
+                    const pointer = pointers[i]
+                    const attrib = material.getAttrib(pointer.name)
+                    if (attrib) {
+                        attrib.disable();
+                    }
+                }
+            }
+            this.vbo.unbind();
         }
     }
 

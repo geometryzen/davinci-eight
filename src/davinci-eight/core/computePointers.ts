@@ -1,5 +1,5 @@
-import Attribute from './Attribute'
-import VertexAttribPointer from './VertexAttribPointer'
+import Attribute from './Attribute';
+import VertexAttribPointer from './VertexAttribPointer';
 
 /**
  * @deprecated
@@ -13,8 +13,8 @@ export default function computePointers(attributes: { [name: string]: Attribute 
         const aName = aNames[a];
         const attrib: Attribute = attributes[aName];
         // FIXME: It's a lot more complicated choosing these parameters than for the simple FLOAT case.
-        pointers.push({ name: aName, size: attrib.size, type: attrib.type, normalized: true, offset: offset })
-        offset += attrib.size * 4 // We're assuming that the data type is gl.FLOAT
+        pointers.push({ name: aName, size: attrib.size, type: attrib.type, normalized: true, offset: offset });
+        offset += attrib.size * 4; // We're assuming that the data type is gl.FLOAT
     }
-    return pointers
+    return pointers;
 }
