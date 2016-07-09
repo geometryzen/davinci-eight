@@ -82,12 +82,7 @@ export default class GeometryArrays extends GeometryLeaf {
         super.destructor(levelUp + 1)
     }
 
-    /**
-     * @method draw
-     * @param material {Material}
-     * @return {void}
-     */
-    draw(material: Material): void {
+    bind(material: Material): void {
         const contextProvider = this.contextProvider
         if (contextProvider) {
             this.vbo.bind()
@@ -113,7 +108,19 @@ export default class GeometryArrays extends GeometryLeaf {
                     }
                 }
             }
-            this.contextProvider.drawArrays(this.drawMode, this.first, this.count)
+        }
+    }
+
+    draw(material: Material): void {
+        const contextProvider = this.contextProvider
+        if (contextProvider) {
+            this.contextProvider.drawArrays(this.drawMode, this.first, this.count);
+        }
+    }
+
+    unbind(material: Material): void {
+        const contextProvider = this.contextProvider
+        if (contextProvider) {
             this.vbo.unbind()
         }
     }

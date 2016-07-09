@@ -1,87 +1,40 @@
-import {Material} from './Material'
-import ContextProvider from './ContextProvider'
-import config from '../config'
-import {Engine} from './Engine'
-import ErrorMode from './ErrorMode'
-import GeometryLeaf from './GeometryLeaf'
-import incLevel from '../base/incLevel'
-import IndexBuffer from './IndexBuffer'
-import isArray from '../checks/isArray'
-import isNull from '../checks/isNull'
-import isObject from '../checks/isObject'
-import isUndefined from '../checks/isUndefined'
-import mustBeArray from '../checks/mustBeArray'
-import mustBeObject from '../checks/mustBeObject'
-import readOnly from '../i18n/readOnly'
-import VertexArrays from './VertexArrays'
-import VertexAttribPointer from './VertexAttribPointer'
-import VertexBuffer from './VertexBuffer'
-
-/**
- * @module EIGHT
- * @submodule core
- */
+import {Material} from './Material';
+import ContextProvider from './ContextProvider';
+import config from '../config';
+import {Engine} from './Engine';
+import ErrorMode from './ErrorMode';
+import GeometryLeaf from './GeometryLeaf';
+import IndexBuffer from './IndexBuffer';
+import isArray from '../checks/isArray';
+import isNull from '../checks/isNull';
+import isObject from '../checks/isObject';
+import isUndefined from '../checks/isUndefined';
+import mustBeArray from '../checks/mustBeArray';
+import mustBeObject from '../checks/mustBeObject';
+import readOnly from '../i18n/readOnly';
+import VertexArrays from './VertexArrays';
+import VertexAttribPointer from './VertexAttribPointer';
+import VertexBuffer from './VertexBuffer';
 
 /**
  * A Geometry that supports interleaved vertex buffers.
- *
- * @class GeometryElements
- * @extends GeometryLeaf
  */
 export default class GeometryElements extends GeometryLeaf {
 
-    /**
-     * @property _indices
-     * @type number[]
-     * @private
-     */
     private _indices: number[];
-
-    /**
-     * @property _attributes
-     * @type number[]
-     * @private
-     */
     private _attributes: number[];
-
-    /**
-     * @property count
-     * @type number
-     * @private
-     */
     private count: number;
 
     /**
      * Hard-coded to zero right now.
      * This suggests that the index buffer could be used for several gl.drawElements(...)
-     *
-     * @property offset
-     * @type number
-     * @private
      */
     private offset = 0;
 
-    /**
-     * @property ibo
-     * @type IndexBuffer
-     * @private
-     */
     private ibo: IndexBuffer;
-
-    /**
-     * @property vbo
-     * @type VertexBuffer
-     * @private
-     */
     private vbo: VertexBuffer;
 
-    /**
-     * @class GeometryElements
-     * @constructor
-     * @param data {VertexArrays}
-     * @param engine {Engine} The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
-     */
-    constructor(data: VertexArrays, engine: Engine) {
+    constructor(data: VertexArrays, engine: Engine, levelUp = 0) {
         super(engine)
         this.setLoggingName('GeometryElements')
         this.ibo = new IndexBuffer(engine)
@@ -114,26 +67,22 @@ export default class GeometryElements extends GeometryLeaf {
         else {
             this._pointers = []
         }
+        if (levelUp === 0) {
+            this.synchUp();
+        }
     }
 
-    /**
-     * @method destructor
-     * @param level {number}
-     * @return {void}
-     * @protected
-     */
-    protected destructor(level: number): void {
-        this.ibo.release()
-        this.ibo = void 0
-        this.vbo.release()
-        this.vbo = void 0
-        super.destructor(incLevel(level))
+    protected destructor(levelUp: number): void {
+        if (levelUp === 0) {
+            this.cleanUp();
+        }
+        this.ibo.release();
+        this.ibo = void 0;
+        this.vbo.release();
+        this.vbo = void 0;
+        super.destructor(levelUp + 1);
     }
 
-    /**
-     * @property attributes
-     * @type number[]
-     */
     public get attributes(): number[] {
         return this._attributes
     }
@@ -144,12 +93,6 @@ export default class GeometryElements extends GeometryLeaf {
         }
     }
 
-    /**
-     * @property data
-     * @type VertexArrays
-     * @private
-     * @readOnly
-     */
     private get data(): VertexArrays {
         // FIXME: This should return a deep copy.
         return {
@@ -164,10 +107,6 @@ export default class GeometryElements extends GeometryLeaf {
         throw new Error(readOnly('data').message)
     }
 
-    /**
-     * @property indices
-     * @type number[]
-     */
     public get indices(): number[] {
         return this._indices
     }
@@ -175,12 +114,6 @@ export default class GeometryElements extends GeometryLeaf {
         this.setIndices(indices)
     }
 
-    /**
-     * @method setIndices
-     * @param indices {number[]}
-     * @return {void}
-     * @private
-     */
     private setIndices(indices: number[]): void {
         if (!isNull(indices) && !isUndefined(indices)) {
             if (isArray(indices)) {
@@ -197,10 +130,6 @@ export default class GeometryElements extends GeometryLeaf {
         }
     }
 
-    /**
-     * @property pointers
-     * @type VertexAttribPointer[]
-     */
     public get pointers(): VertexAttribPointer[] {
         return this._pointers
     }
@@ -210,9 +139,6 @@ export default class GeometryElements extends GeometryLeaf {
 
     /**
      * The total number of <em>bytes</em> for each element.
-     * 
-     * @property stride
-     * @type number
      */
     public get stride(): number {
         return this._stride
@@ -221,44 +147,25 @@ export default class GeometryElements extends GeometryLeaf {
         this._stride = stride
     }
 
-    /**
-     * @method contextFree
-     * @param contextProvider {ContextProvider}
-     * @return {void}
-     */
     public contextFree(contextProvider: ContextProvider): void {
         this.ibo.contextFree(contextProvider)
         this.vbo.contextFree(contextProvider)
         super.contextFree(contextProvider)
     }
 
-    /**
-     * @method contextGain
-     * @param contextProvider {ContextProvider}
-     * @return {void}
-     */
     public contextGain(contextProvider: ContextProvider): void {
         this.ibo.contextGain(contextProvider)
         this.vbo.contextGain(contextProvider)
         super.contextGain(contextProvider)
     }
 
-    /**
-     * @method contextLost
-     * @return {void}
-     */
     public contextLost(): void {
         this.ibo.contextLost()
         this.vbo.contextLost()
         super.contextLost()
     }
 
-    /**
-     * @method draw
-     * @param material {Material}
-     * @return {void}
-     */
-    draw(material: Material): void {
+    bind(material: Material): void {
         const contextProvider = this.contextProvider
         if (contextProvider) {
             this.vbo.bind()
@@ -267,10 +174,10 @@ export default class GeometryElements extends GeometryLeaf {
                 const iLength = pointers.length
                 for (let i = 0; i < iLength; i++) {
                     const pointer = pointers[i]
-                    const attribLoc = material.getAttribLocation(pointer.name)
-                    if (attribLoc >= 0) {
-                        contextProvider.vertexAttribPointer(attribLoc, pointer.size, pointer.type, pointer.normalized, this._stride, pointer.offset)
-                        contextProvider.enableVertexAttribArray(attribLoc)
+                    const attrib = material.getAttrib(pointer.name)
+                    if (attrib) {
+                        attrib.config(pointer.size, pointer.type, pointer.normalized, this._stride, pointer.offset);
+                        attrib.enable();
                     }
                 }
             }
@@ -285,6 +192,20 @@ export default class GeometryElements extends GeometryLeaf {
                 }
             }
             this.ibo.bind()
+        }
+    }
+
+    unbind(material: Material): void {
+        const contextProvider = this.contextProvider
+        if (contextProvider) {
+            this.ibo.unbind()
+            this.vbo.unbind()
+        }
+    }
+
+    draw(material: Material): void {
+        const contextProvider = this.contextProvider
+        if (contextProvider) {
             if (this.count) {
                 contextProvider.drawElements(this.drawMode, this.count, this.offset)
             }
@@ -298,8 +219,6 @@ export default class GeometryElements extends GeometryLeaf {
                     }
                 }
             }
-            this.ibo.unbind()
-            this.vbo.unbind()
         }
     }
 }

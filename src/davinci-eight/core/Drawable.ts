@@ -143,7 +143,9 @@ export class Drawable extends ShareableContextConsumer implements AbstractDrawab
 
             this.setUniforms();
 
-            this._geometry.draw(material)
+            this._geometry.bind(material);
+            this._geometry.draw(material);
+            this._geometry.unbind(material);
         }
     }
 

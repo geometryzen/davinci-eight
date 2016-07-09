@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>default | EIGHT 2.259.0</title>
+	<title>default | EIGHT 2.260.0</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -23,7 +23,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">EIGHT 2.259.0</a>
+					<a href="../index.html" class="title">EIGHT 2.260.0</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -75,14 +75,6 @@
 					<div class="lead">
 						<p>A Geometry that supports interleaved vertex buffers.</p>
 					</div>
-					<dl class="tsd-comment-tags">
-						<dt>class</dt>
-						<dd><p>GeometryElements</p>
-						</dd>
-						<dt>extends</dt>
-						<dd><p>GeometryLeaf</p>
-						</dd>
-					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -159,6 +151,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_core_geometryelements_.default.html#addpart" class="tsd-kind-icon">add<wbr>Part</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_core_geometryelements_.default.html#addref" class="tsd-kind-icon">add<wbr>Ref</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-external"><a href="_core_geometryelements_.default.html#bind" class="tsd-kind-icon">bind</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_core_geometryelements_.default.html#cleanup" class="tsd-kind-icon">clean<wbr>Up</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-external"><a href="_core_geometryelements_.default.html#contextfree" class="tsd-kind-icon">context<wbr>Free</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-external"><a href="_core_geometryelements_.default.html#contextgain" class="tsd-kind-icon">context<wbr>Gain</a></li>
@@ -178,6 +171,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_core_geometryelements_.default.html#setprincipalscale" class="tsd-kind-icon">set<wbr>Principal<wbr>Scale</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_core_geometryelements_.default.html#subscribe" class="tsd-kind-icon">subscribe</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_core_geometryelements_.default.html#synchup" class="tsd-kind-icon">synch<wbr>Up</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-external"><a href="_core_geometryelements_.default.html#unbind" class="tsd-kind-icon">unbind</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_core_geometryelements_.default.html#unsubscribe" class="tsd-kind-icon">unsubscribe</a></li>
 							</ul>
 						</section>
@@ -190,25 +184,16 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">new default<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><a href="../interfaces/_core_vertexarrays_.vertexarrays.html" class="tsd-signature-type">VertexArrays</a>, engine<span class="tsd-signature-symbol">: </span><a href="_core_engine_.engine.html" class="tsd-signature-type">Engine</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_core_geometryelements_.default.html" class="tsd-signature-type">default</a></li>
+						<li class="tsd-signature tsd-kind-icon">new default<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><a href="../interfaces/_core_vertexarrays_.vertexarrays.html" class="tsd-signature-type">VertexArrays</a>, engine<span class="tsd-signature-symbol">: </span><a href="_core_engine_.engine.html" class="tsd-signature-type">Engine</a>, levelUp<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_core_geometryelements_.default.html" class="tsd-signature-type">default</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overwrites <a href="_core_geometryleaf_.default.html">default</a>.<a href="_core_geometryleaf_.default.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L76">core/GeometryElements.ts:76</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L35">core/GeometryElements.ts:35</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>class</dt>
-									<dd><p>GeometryElements</p>
-									</dd>
-									<dt>constructor</dt>
-									<dd></dd>
-								</dl>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -216,11 +201,9 @@
 								</li>
 								<li>
 									<h5>engine: <a href="_core_engine_.engine.html" class="tsd-signature-type">Engine</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.</p>
-										</div>
-									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> levelUp: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_core_geometryelements_.default.html" class="tsd-signature-type">default</a></h4>
@@ -236,19 +219,9 @@
 					<div class="tsd-signature tsd-kind-icon">_attributes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L45">core/GeometryElements.ts:45</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L25">core/GeometryElements.ts:25</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<dl class="tsd-comment-tags">
-							<dt>property</dt>
-							<dd><p>_attributes</p>
-							</dd>
-							<dt>type</dt>
-							<dd><p>number[]</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
 					<a name="_indices" class="tsd-anchor"></a>
@@ -256,19 +229,9 @@
 					<div class="tsd-signature tsd-kind-icon">_indices<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L38">core/GeometryElements.ts:38</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L24">core/GeometryElements.ts:24</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<dl class="tsd-comment-tags">
-							<dt>property</dt>
-							<dd><p>_indices</p>
-							</dd>
-							<dt>type</dt>
-							<dd><p>number[]</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 					<a name="_pointers" class="tsd-anchor"></a>
@@ -358,19 +321,9 @@
 					<div class="tsd-signature tsd-kind-icon">count<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L52">core/GeometryElements.ts:52</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L26">core/GeometryElements.ts:26</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<dl class="tsd-comment-tags">
-							<dt>property</dt>
-							<dd><p>count</p>
-							</dd>
-							<dt>type</dt>
-							<dd><p>number</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="drawmode" class="tsd-anchor"></a>
@@ -389,19 +342,9 @@
 					<div class="tsd-signature tsd-kind-icon">ibo<span class="tsd-signature-symbol">:</span> <a href="_core_indexbuffer_.default.html" class="tsd-signature-type">default</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L69">core/GeometryElements.ts:69</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L34">core/GeometryElements.ts:34</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<dl class="tsd-comment-tags">
-							<dt>property</dt>
-							<dd><p>ibo</p>
-							</dd>
-							<dt>type</dt>
-							<dd><p>IndexBuffer</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
 					<a name="offset" class="tsd-anchor"></a>
@@ -409,7 +352,7 @@
 					<div class="tsd-signature tsd-kind-icon">offset<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L62">core/GeometryElements.ts:62</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L32">core/GeometryElements.ts:32</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -417,14 +360,6 @@
 							<p>Hard-coded to zero right now.
 							This suggests that the index buffer could be used for several gl.drawElements(...)</p>
 						</div>
-						<dl class="tsd-comment-tags">
-							<dt>property</dt>
-							<dd><p>offset</p>
-							</dd>
-							<dt>type</dt>
-							<dd><p>number</p>
-							</dd>
-						</dl>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
@@ -433,19 +368,9 @@
 					<div class="tsd-signature tsd-kind-icon">vbo<span class="tsd-signature-symbol">:</span> <a href="_core_vertexbuffer_.default.html" class="tsd-signature-type">default</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L76">core/GeometryElements.ts:76</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L35">core/GeometryElements.ts:35</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<dl class="tsd-comment-tags">
-							<dt>property</dt>
-							<dd><p>vbo</p>
-							</dd>
-							<dt>type</dt>
-							<dd><p>VertexBuffer</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
@@ -461,25 +386,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L137">core/GeometryElements.ts:137</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L86">core/GeometryElements.ts:86</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>property</dt>
-									<dd><p>attributes</p>
-									</dd>
-									<dt>type</dt>
-									<dd><p>number[]</p>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L140">core/GeometryElements.ts:140</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L89">core/GeometryElements.ts:89</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -503,27 +418,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L153">core/GeometryElements.ts:153</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L96">core/GeometryElements.ts:96</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>property</dt>
-									<dd><p>data</p>
-									</dd>
-									<dt>type</dt>
-									<dd><p>VertexArrays</p>
-									</dd>
-									<dt>readonly</dt>
-									<dd></dd>
-								</dl>
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_core_vertexarrays_.vertexarrays.html" class="tsd-signature-type">VertexArrays</a></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L163">core/GeometryElements.ts:163</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L106">core/GeometryElements.ts:106</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -591,25 +494,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L171">core/GeometryElements.ts:171</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L110">core/GeometryElements.ts:110</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>property</dt>
-									<dd><p>indices</p>
-									</dd>
-									<dt>type</dt>
-									<dd><p>number[]</p>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L174">core/GeometryElements.ts:174</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L113">core/GeometryElements.ts:113</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -679,25 +572,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L204">core/GeometryElements.ts:204</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L133">core/GeometryElements.ts:133</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>property</dt>
-									<dd><p>pointers</p>
-									</dd>
-									<dt>type</dt>
-									<dd><p>VertexAttribPointer[]</p>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_core_vertexattribpointer_.vertexattribpointer.html" class="tsd-signature-type">VertexAttribPointer</a><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L207">core/GeometryElements.ts:207</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L136">core/GeometryElements.ts:136</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -765,28 +648,20 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L217">core/GeometryElements.ts:217</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L143">core/GeometryElements.ts:143</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>The total number of <em>bytes</em> for each element.</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>property</dt>
-									<dd><p>stride</p>
-									</dd>
-									<dt>type</dt>
-									<dd><p>number</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L220">core/GeometryElements.ts:220</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L146">core/GeometryElements.ts:146</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -866,6 +741,31 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-external">
+					<a name="bind" class="tsd-anchor"></a>
+					<h3>bind</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">bind<span class="tsd-signature-symbol">(</span>material<span class="tsd-signature-symbol">: </span><a href="../interfaces/_core_material_.material.html" class="tsd-signature-type">Material</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/_core_geometry_.geometry.html">Geometry</a>.<a href="../interfaces/_core_geometry_.geometry.html#bind">bind</a></p>
+								<p>Overwrites <a href="_core_geometryleaf_.default.html">default</a>.<a href="_core_geometryleaf_.default.html#bind">bind</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L168">core/GeometryElements.ts:168</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>material: <a href="../interfaces/_core_material_.material.html" class="tsd-signature-type">Material</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="cleanup" class="tsd-anchor"></a>
 					<h3>clean<wbr>Up</h3>
@@ -896,16 +796,9 @@
 								<p>Implementation of <a href="../interfaces/_core_geometry_.geometry.html">Geometry</a>.<a href="../interfaces/_core_geometry_.geometry.html#contextfree">contextFree</a></p>
 								<p>Overwrites <a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html">ShareableContextConsumer</a>.<a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html#contextfree">contextFree</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L229">core/GeometryElements.ts:229</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L150">core/GeometryElements.ts:150</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>contextFree</p>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -928,16 +821,9 @@
 								<p>Implementation of <a href="../interfaces/_core_geometry_.geometry.html">Geometry</a>.<a href="../interfaces/_core_geometry_.geometry.html#contextgain">contextGain</a></p>
 								<p>Overwrites <a href="_core_geometryleaf_.default.html">default</a>.<a href="_core_geometryleaf_.default.html#contextgain">contextGain</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L240">core/GeometryElements.ts:240</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L156">core/GeometryElements.ts:156</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>contextGain</p>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -960,16 +846,9 @@
 								<p>Implementation of <a href="../interfaces/_core_geometry_.geometry.html">Geometry</a>.<a href="../interfaces/_core_geometry_.geometry.html#contextlost">contextLost</a></p>
 								<p>Overwrites <a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html">ShareableContextConsumer</a>.<a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html#contextlost">contextLost</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L250">core/GeometryElements.ts:250</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L162">core/GeometryElements.ts:162</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>contextLost</p>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -978,27 +857,20 @@
 					<a name="destructor" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> destructor</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">destructor<span class="tsd-signature-symbol">(</span>level<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">destructor<span class="tsd-signature-symbol">(</span>levelUp<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overwrites <a href="_core_geometryleaf_.default.html">default</a>.<a href="_core_geometryleaf_.default.html#destructor">destructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L125">core/GeometryElements.ts:125</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L75">core/GeometryElements.ts:75</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>destructor</p>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>level: <span class="tsd-signature-type">number</span></h5>
+									<h5>levelUp: <span class="tsd-signature-type">number</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1017,16 +889,9 @@
 								<p>Implementation of <a href="../interfaces/_core_geometry_.geometry.html">Geometry</a>.<a href="../interfaces/_core_geometry_.geometry.html#draw">draw</a></p>
 								<p>Overwrites <a href="_core_geometryleaf_.default.html">default</a>.<a href="_core_geometryleaf_.default.html#draw">draw</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L261">core/GeometryElements.ts:261</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L206">core/GeometryElements.ts:206</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>draw</p>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1101,7 +966,7 @@
 								<p>Implementation of <a href="../interfaces/_core_geometry_.geometry.html">Geometry</a>.<a href="../interfaces/_core_geometry_.geometry.html#getprincipalscale">getPrincipalScale</a></p>
 								<p>Inherited from <a href="_core_geometryleaf_.default.html">default</a>.<a href="_core_geometryleaf_.default.html#getprincipalscale">getPrincipalScale</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryLeaf.ts#L170">core/GeometryLeaf.ts:170</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryLeaf.ts#L173">core/GeometryLeaf.ts:173</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1133,7 +998,7 @@
 								<p>Implementation of <a href="../interfaces/_core_geometry_.geometry.html">Geometry</a>.<a href="../interfaces/_core_geometry_.geometry.html#hasprincipalscale">hasPrincipalScale</a></p>
 								<p>Inherited from <a href="_core_geometryleaf_.default.html">default</a>.<a href="_core_geometryleaf_.default.html#hasprincipalscale">hasPrincipalScale</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryLeaf.ts#L161">core/GeometryLeaf.ts:161</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryLeaf.ts#L164">core/GeometryLeaf.ts:164</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1273,16 +1138,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L184">core/GeometryElements.ts:184</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L117">core/GeometryElements.ts:117</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>setIndices</p>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1350,7 +1208,7 @@
 								<p>Implementation of <a href="../interfaces/_core_geometry_.geometry.html">Geometry</a>.<a href="../interfaces/_core_geometry_.geometry.html#setprincipalscale">setPrincipalScale</a></p>
 								<p>Inherited from <a href="_core_geometryleaf_.default.html">default</a>.<a href="_core_geometryleaf_.default.html#setprincipalscale">setPrincipalScale</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryLeaf.ts#L180">core/GeometryLeaf.ts:180</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryLeaf.ts#L183">core/GeometryLeaf.ts:183</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1424,6 +1282,31 @@
 									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableContextConsumer.ts#L119">core/ShareableContextConsumer.ts:119</a></li>
 								</ul>
 							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-external">
+					<a name="unbind" class="tsd-anchor"></a>
+					<h3>unbind</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">unbind<span class="tsd-signature-symbol">(</span>material<span class="tsd-signature-symbol">: </span><a href="../interfaces/_core_material_.material.html" class="tsd-signature-type">Material</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/_core_geometry_.geometry.html">Geometry</a>.<a href="../interfaces/_core_geometry_.geometry.html#unbind">unbind</a></p>
+								<p>Overwrites <a href="_core_geometryleaf_.default.html">default</a>.<a href="_core_geometryleaf_.default.html#unbind">unbind</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/GeometryElements.ts#L198">core/GeometryElements.ts:198</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>material: <a href="../interfaces/_core_material_.material.html" class="tsd-signature-type">Material</a></h5>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -1543,6 +1426,9 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="_core_geometryelements_.default.html#addref" class="tsd-kind-icon">add<wbr>Ref</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-external">
+								<a href="_core_geometryelements_.default.html#bind" class="tsd-kind-icon">bind</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="_core_geometryelements_.default.html#cleanup" class="tsd-kind-icon">clean<wbr>Up</a>
 							</li>
@@ -1599,6 +1485,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="_core_geometryelements_.default.html#synchup" class="tsd-kind-icon">synch<wbr>Up</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-external">
+								<a href="_core_geometryelements_.default.html#unbind" class="tsd-kind-icon">unbind</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="_core_geometryelements_.default.html#unsubscribe" class="tsd-kind-icon">unsubscribe</a>

@@ -144,11 +144,14 @@ export default class GeometryLeaf extends ShareableContextConsumer implements Ge
         throw new Error(notSupported('getPart').message)
     }
 
-    /**
-     * @method draw
-     * @param material {Material}
-     * @return {void}
-     */
+    bind(material: Material): void {
+        throw new Error(notSupported('bind').message)
+    }
+
+    unbind(material: Material): void {
+        throw new Error(notSupported('unbind').message)
+    }
+
     draw(material: Material): void {
         throw new Error(notSupported('draw').message)
     }

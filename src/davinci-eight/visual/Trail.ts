@@ -146,21 +146,50 @@ export class Trail extends ShareableBase {
             const R = mesh.R;
             savedX.copy(X);
             savedR.copy(R);
-            const Xs = this.Xs;
-            const Rs = this.Rs;
-            const iLength: number = this.modulo.size;
-            for (let i = 0; i < iLength; i++) {
-                if (Xs[i]) {
-                    X.copyVector(Xs[i]);
+            try {
+                // Work at the Geometry and Material level for efficiency.
+                const geometry = mesh.geometry;
+                const material = mesh.material;
+                try {
+                    material.use();
+
+                    const iL = ambients.length;
+                    for (let i = 0; i < iL; i++) {
+                        const facet = ambients[i]
+                        facet.setUniforms(material)
+                    }
+
+                    geometry.bind(material);
+                    try {
+                        const Xs = this.Xs;
+                        const Rs = this.Rs;
+                        const iLength: number = this.modulo.size;
+                        for (let i = 0; i < iLength; i++) {
+                            if (Xs[i]) {
+                                X.copyVector(Xs[i]);
+                            }
+                            if (Rs[i]) {
+                                R.copySpinor(Rs[i]);
+                            }
+                            mesh.setUniforms();
+                            geometry.draw(material);
+                        }
+                    }
+                    finally {
+                        geometry.unbind(material);
+                    }
+
                 }
-                if (Rs[i]) {
-                    R.copySpinor(Rs[i]);
+                finally {
+                    geometry.release();
+                    material.release();
                 }
-                mesh.draw(ambients);
             }
-            // Restore the mesh position and attitude.
-            X.copyVector(savedX);
-            R.copySpinor(savedR);
+            finally {
+                // Restore the mesh position and attitude.
+                X.copyVector(savedX);
+                R.copySpinor(savedR);
+            }
         }
     }
 }

@@ -603,6 +603,9 @@ declare module EIGHT {
         attributes: { [name: string]: Attribute };
     }
 
+    function vertexArraysFromPrimitive(primitive: Primitive, order?: string[]): VertexArrays;
+    function geometryFromPrimitive(primitive: Primitive, engine: Engine, order?: string[]): Geometry;
+
     /**
      *
      */
@@ -3245,6 +3248,8 @@ declare module EIGHT {
         partsLength: number;
         scaling: Matrix4;
         addPart(geometry: Geometry): void;
+        bind(material: Material): void;
+        unbind(material: Material): void;
         draw(material: Material): void;
         getPart(index: number): Geometry;
         getPrincipalScale(name: string): number;
@@ -3263,6 +3268,8 @@ declare module EIGHT {
         contextFree(context: ContextProvider): void;
         contextGain(context: ContextProvider): void;
         contextLost(): void;
+        bind(material: Material): void;
+        unbind(material: Material): void;
         draw(material: Material): void;
         getPart(index: number): Geometry;
         getPrincipalScale(name: string): number;
@@ -3285,6 +3292,8 @@ declare module EIGHT {
         constructor(engine: Engine);
         protected destructor(levelUp: number): void;
         addPart(geometry: Geometry): void;
+        bind(material: Material): void;
+        unbind(material: Material): void;
         draw(material: Material): void;
         getAttribute(name: string): Attribute;
         getPart(index: number): Geometry;
@@ -3307,9 +3316,11 @@ declare module EIGHT {
          * The total number of bytes for each element.
          */
         stride: number;
-        constructor(data: VertexArrays, engine: Engine);
+        constructor(data: VertexArrays, engine: Engine, levelUp?: number);
         protected destructor(levelUp: number): void;
         addPart(geometry: Geometry): void;
+        bind(material: Material): void;
+        unbind(material: Material): void;
         draw(material: Material): void;
         getPart(index: number): Geometry;
         getPrincipalScale(name: string): number;

@@ -67,7 +67,10 @@ class ScenePart extends ShareableBase {
 
             this._drawable.setUniforms();
 
-            this._geometry.draw(material)
+            this._geometry.bind(material);
+            this._geometry.draw(material);
+            this._geometry.unbind(material);
+
             material.release()
         }
     }
