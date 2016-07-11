@@ -1,26 +1,24 @@
-import expectArg from '../checks/expectArg';
+import mustBeNumber from '../checks/mustBeNumber';
 import isDefined from '../checks/isDefined';
 
 export default function frustumMatrix(left: number, right: number, bottom: number, top: number, near: number, far: number, matrix?: Float32Array): Float32Array {
 
-    expectArg('left', left).toBeNumber();
-    expectArg('right', right).toBeNumber();
-    expectArg('bottom', bottom).toBeNumber();
-    expectArg('top', top).toBeNumber();
-    expectArg('near', near).toBeNumber();
-    expectArg('far', far).toBeNumber();
+    mustBeNumber('left', left);
+    mustBeNumber('right', right);
+    mustBeNumber('bottom', bottom);
+    mustBeNumber('top', top);
+    mustBeNumber('near', near);
+    mustBeNumber('far', far);
 
-    let m = isDefined(matrix) ? matrix : new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    const m = isDefined(matrix) ? matrix : new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 
-    expectArg('m', m).toSatisfy(m.length === 16, 'elements must have length 16');
+    const x = 2 * near / (right - left);
+    const y = 2 * near / (top - bottom);
 
-    let x = 2 * near / (right - left);
-    let y = 2 * near / (top - bottom);
-
-    let a = (right + left) / (right - left);
-    let b = (top + bottom) / (top - bottom);
-    let c = - (far + near) / (far - near);
-    let d = - 2 * far * near / (far - near);
+    const a = (right + left) / (right - left);
+    const b = (top + bottom) / (top - bottom);
+    const c = - (far + near) / (far - near);
+    const d = - 2 * far * near / (far - near);
 
     m[0x0] = x; m[0x4] = 0; m[0x8] = a; m[0xC] = 0;
     m[0x1] = 0; m[0x5] = y; m[0x9] = b; m[0xD] = 0;

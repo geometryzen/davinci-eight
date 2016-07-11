@@ -1,72 +1,41 @@
 /**
- * @module EIGHT
- * @submodule core
- */
-
-/**
- * <p>
  * Canonical variable names, which also act as semantic identifiers for name overrides.
  * These names must be stable to avoid breaking custom vertex and fragment shaders.
- * </p>
- *
- * @class GraphicsProgramSymbols
  */
 export default class GraphicsProgramSymbols {
 
     /**
      * 'aColor'
-     * @property ATTRIBUTE_COLOR
-     * @type {string}
-     * @static
      */
     public static ATTRIBUTE_COLOR: string = 'aColor';
 
     /**
      * 'aGeometryIndex'
-     * @property ATTRIBUTE_GEOMETRY_INDEX
-     * @type {string}
-     * @static
      */
     public static ATTRIBUTE_GEOMETRY_INDEX: string = 'aGeometryIndex';
 
     /**
      * 'aNormal'
-     * @property ATTRIBUTE_NORMAL
-     * @type {string}
-     * @static
      */
     public static ATTRIBUTE_NORMAL: string = 'aNormal';
 
     /**
      * 'aOpacity'
-     * @property ATTRIBUTE_OPACITY
-     * @type {string}
-     * @static
      */
     public static ATTRIBUTE_OPACITY: string = 'aOpacity';
 
     /**
      * 'aPosition'
-     * @property ATTRIBUTE_POSITION
-     * @type {string}
-     * @static
      */
     public static ATTRIBUTE_POSITION: string = 'aPosition';
 
     /**
      * 'aTangent'
-     *
-     * @property ATTRIBUTE_TANGENT
-     * @type {string}
-     * @static
      */
     public static ATTRIBUTE_TANGENT: string = 'aTangent';
 
     /**
      * 'aCoords'
-     * @property ATTRIBUTE_COORDS
-     * @type {string}
-     * @static
      */
     public static ATTRIBUTE_COORDS: string = 'aCoords';
 

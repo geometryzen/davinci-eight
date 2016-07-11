@@ -33,6 +33,7 @@
         "src/davinci-eight/core/computeAttributes.spec.ts",
         "src/davinci-eight/facets/DirectionalLight.spec.ts",
         "src/davinci-eight/facets/PerspectiveCamera.spec.ts",
+        "src/davinci-eight/facets/createPerspective.spec.ts",
         "src/davinci-eight/facets/createView.spec.ts",
         "src/davinci-eight/facets/getViewAttitude.spec.ts",
         "src/davinci-eight/facets/setViewAttitude.spec.ts",

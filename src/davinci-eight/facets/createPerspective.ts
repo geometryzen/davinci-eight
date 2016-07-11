@@ -30,8 +30,8 @@ export default function createPerspective(options: { fov?: number; aspect?: numb
         get eye(): Geometric3 {
             return base.eye
         },
-        set eye(eye: Geometric3) {
-            base.eye = eye
+        set eye(value: Geometric3) {
+            base.eye = value;
         },
         setEye(eye: VectorE3) {
             base.setEye(eye)
@@ -119,10 +119,6 @@ export default function createPerspective(options: { fov?: number; aspect?: numb
             return projectionMatrix;
         },
 
-        set projectionMatrix(projectionMatrix) {
-            throw new Error("projectionMatrix property is readonly");
-        },
-
         updateProjectionMatrix(): void {
             if (matrixNeedsUpdate) {
                 computePerspectiveMatrix(fov.x, aspect.x, near.x, far.x, projectionMatrix)
@@ -138,9 +134,9 @@ export default function createPerspective(options: { fov?: number; aspect?: numb
             return base.viewMatrix;
         },
 
-        set viewMatrix(viewMatrix: Matrix4) {
-            base.viewMatrix = viewMatrix;
+        set viewMatrix(value: Matrix4) {
+            base.viewMatrix = value;
         }
-    }
+    };
     return self;
 }

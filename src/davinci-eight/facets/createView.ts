@@ -1,6 +1,5 @@
 import {FacetVisitor} from '../core/FacetVisitor';
 import {Geometric3} from '../math/Geometric3';
-import Vector3 from '../math/Vector3';
 import VectorE3 from '../math/VectorE3';
 import Matrix4 from '../math/Matrix4';
 import View from './View';
@@ -64,7 +63,7 @@ export default function createView(options: { viewMatrixName?: string } = {}): V
         set eye(newEye: Geometric3) {
             self.setEye(newEye)
         },
-        setEye(newEye: Vector3): View {
+        setEye(newEye: VectorE3): View {
             eye.copyVector(newEye)
             return self
         },
@@ -106,10 +105,6 @@ export default function createView(options: { viewMatrixName?: string } = {}): V
         get viewMatrix(): Matrix4 {
             self.updateViewMatrix();
             return viewMatrix;
-        },
-
-        set viewMatrix(viewMatrix: Matrix4) {
-            throw new Error("viewMatrix property is readonly");
         }
     }
     return self

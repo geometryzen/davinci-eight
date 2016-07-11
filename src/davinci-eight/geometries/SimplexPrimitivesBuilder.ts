@@ -1,4 +1,3 @@
-import G3 from '../math/G3';
 import GeometryMeta from '../geometries/GeometryMeta';
 import mustBeBoolean from '../checks/mustBeBoolean';
 import mustBeInteger from '../checks/mustBeInteger';
@@ -126,9 +125,9 @@ export default class SimplexPrimitivesBuilder extends PrimitivesBuilder {
         simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS] = uvs[1]
         simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS] = uvs[2]
         if (this.orientationColors) {
-            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = Vector3.copy(G3.e1)
-            simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = Vector3.copy(G3.e2)
-            simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = Vector3.copy(G3.e3)
+            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = Vector3.vector(1, 0, 0)
+            simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = Vector3.vector(0, 1, 0)
+            simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = Vector3.vector(0, 0, 1)
         }
         return this.data.push(simplex)
     }
@@ -143,8 +142,8 @@ export default class SimplexPrimitivesBuilder extends PrimitivesBuilder {
         simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS] = uvs[0]
         simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS] = uvs[1]
         if (this.orientationColors) {
-            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = Vector3.copy(G3.e1)
-            simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = Vector3.copy(G3.e2)
+            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = Vector3.vector(1, 0, 0)
+            simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = Vector3.vector(0, 1, 0)
         }
         return this.data.push(simplex)
     }
@@ -156,7 +155,7 @@ export default class SimplexPrimitivesBuilder extends PrimitivesBuilder {
 
         simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS] = uvs[0]
         if (this.orientationColors) {
-            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = Vector3.copy(G3.e1)
+            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = Vector3.vector(1, 0, 0)
         }
         return this.data.push(simplex)
     }

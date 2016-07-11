@@ -357,11 +357,7 @@ module.exports = function(grunt) {
             });
     });
 
-    grunt.registerTask('test', ['connect:test', 'jasmine']);
-
-    grunt.registerTask('testAll', ['exec:test', 'test']);
-
-    grunt.registerTask('testK', ['ts:test', 'watch', 'karma']);
+    grunt.registerTask('test', ['karma']);
 
     grunt.registerTask('docs', ['clean', 'copy', 'typedoc']);
 
@@ -379,6 +375,5 @@ module.exports = function(grunt) {
     //
     grunt.registerTask('amd', ['ts:amdES5', 'requirejs']);
 
-    // Temporarily disable testing while we move to Karma.
-    grunt.registerTask('default', ['clean',/* 'ts:testAMD',*/ 'amd',/* 'test',*/ 'system', 'tslint', 'uglify', 'copy', 'typedoc']);
+    grunt.registerTask('default', ['clean', 'amd', 'system', 'tslint', 'uglify', 'copy', 'typedoc']);
 };

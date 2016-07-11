@@ -155,7 +155,7 @@ describe("G2", function() {
             var a = new G2(Math.random(), Math.random(), Math.random(), Math.random());
             var b = '';
 
-            var c = a.__sub__(b);
+            var c = a.__sub__(<any>b);
 
             expect(typeof c).toBe('undefined');
         });
@@ -185,7 +185,7 @@ describe("G2", function() {
             var a = '';
             var b = new G2(Math.random(), Math.random(), Math.random(), Math.random());
 
-            var c = b.__rsub__(a);
+            var c = b.__rsub__(<any>a);
 
             expect(typeof c).toBe('undefined');
         });

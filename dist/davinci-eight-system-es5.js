@@ -1427,9 +1427,6 @@ System.register("davinci-eight/facets/createView.js", ["../math/Geometric3", "..
       get viewMatrix() {
         self.updateViewMatrix();
         return viewMatrix;
-      },
-      set viewMatrix(viewMatrix) {
-        throw new Error("viewMatrix property is readonly");
       }
     };
     return self;
@@ -1480,8 +1477,8 @@ System.register("davinci-eight/facets/createPerspective.js", ["./createView", ".
       get eye() {
         return base.eye;
       },
-      set eye(eye) {
-        base.eye = eye;
+      set eye(value) {
+        base.eye = value;
       },
       setEye: function(eye) {
         base.setEye(eye);
@@ -1566,9 +1563,6 @@ System.register("davinci-eight/facets/createPerspective.js", ["./createView", ".
         self.updateProjectionMatrix();
         return projectionMatrix;
       },
-      set projectionMatrix(projectionMatrix) {
-        throw new Error("projectionMatrix property is readonly");
-      },
       updateProjectionMatrix: function() {
         if (matrixNeedsUpdate) {
           perspectiveMatrix_1.default(fov.x, aspect.x, near.x, far.x, projectionMatrix);
@@ -1581,8 +1575,8 @@ System.register("davinci-eight/facets/createPerspective.js", ["./createView", ".
       get viewMatrix() {
         return base.viewMatrix;
       },
-      set viewMatrix(viewMatrix) {
-        base.viewMatrix = viewMatrix;
+      set viewMatrix(value) {
+        base.viewMatrix = value;
       }
     };
     return self;
@@ -11241,160 +11235,6 @@ System.register("davinci-eight/materials/MeshMaterial.js", ["../materials/Graphi
   };
 });
 
-System.register("davinci-eight/math/addE3.js", [], function(exports_1, context_1) {
-  "use strict";
-  var __moduleName = context_1 && context_1.id;
-  function addE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
-    a0 = +a0;
-    a1 = +a1;
-    a2 = +a2;
-    a3 = +a3;
-    a4 = +a4;
-    a5 = +a5;
-    a6 = +a6;
-    a7 = +a7;
-    b0 = +b0;
-    b1 = +b1;
-    b2 = +b2;
-    b3 = +b3;
-    b4 = +b4;
-    b5 = +b5;
-    b6 = +b6;
-    b7 = +b7;
-    index = index | 0;
-    var x = 0.0;
-    switch (~(~index)) {
-      case 0:
-        {
-          x = +(a0 + b0);
-        }
-        break;
-      case 1:
-        {
-          x = +(a1 + b1);
-        }
-        break;
-      case 2:
-        {
-          x = +(a2 + b2);
-        }
-        break;
-      case 3:
-        {
-          x = +(a3 + b3);
-        }
-        break;
-      case 4:
-        {
-          x = +(a4 + b4);
-        }
-        break;
-      case 5:
-        {
-          x = +(a5 + b5);
-        }
-        break;
-      case 6:
-        {
-          x = +(a6 + b6);
-        }
-        break;
-      case 7:
-        {
-          x = +(a7 + b7);
-        }
-        break;
-      default:
-        {
-          throw new Error("index must be in the range [0..7]");
-        }
-    }
-    return +x;
-  }
-  exports_1("default", addE3);
-  return {
-    setters: [],
-    execute: function() {}
-  };
-});
-
-System.register("davinci-eight/math/subE3.js", [], function(exports_1, context_1) {
-  "use strict";
-  var __moduleName = context_1 && context_1.id;
-  function subE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
-    a0 = +a0;
-    a1 = +a1;
-    a2 = +a2;
-    a3 = +a3;
-    a4 = +a4;
-    a5 = +a5;
-    a6 = +a6;
-    a7 = +a7;
-    b0 = +b0;
-    b1 = +b1;
-    b2 = +b2;
-    b3 = +b3;
-    b4 = +b4;
-    b5 = +b5;
-    b6 = +b6;
-    b7 = +b7;
-    index = index | 0;
-    var x = 0.0;
-    switch (~(~index)) {
-      case 0:
-        {
-          x = +(a0 - b0);
-        }
-        break;
-      case 1:
-        {
-          x = +(a1 - b1);
-        }
-        break;
-      case 2:
-        {
-          x = +(a2 - b2);
-        }
-        break;
-      case 3:
-        {
-          x = +(a3 - b3);
-        }
-        break;
-      case 4:
-        {
-          x = +(a4 - b4);
-        }
-        break;
-      case 5:
-        {
-          x = +(a5 - b5);
-        }
-        break;
-      case 6:
-        {
-          x = +(a6 - b6);
-        }
-        break;
-      case 7:
-        {
-          x = +(a7 - b7);
-        }
-        break;
-      default:
-        {
-          throw new Error("index must be in the range [0..7]");
-        }
-    }
-    return +x;
-  }
-  exports_1("default", subE3);
-  return {
-    setters: [],
-    execute: function() {}
-  };
-});
-
 System.register("davinci-eight/math/BASIS_LABELS_G3_GEOMETRIC.js", [], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
@@ -11525,11 +11365,10 @@ System.register("davinci-eight/math/BASIS_LABELS_G3_STANDARD_HTML.js", [], funct
   };
 });
 
-System.register("davinci-eight/math/G3.js", ["./addE3", "../geometries/b2", "../geometries/b3", "./extG3", "./gauss", "./lcoG3", "./mulG3", "../i18n/notImplemented", "../i18n/notSupported", "./quadSpinorE3", "../i18n/readOnly", "./rcoG3", "./scpG3", "./squaredNormG3", "./stringFromCoordinates", "./subE3", "./Unit", "./BASIS_LABELS_G3_GEOMETRIC", "./BASIS_LABELS_G3_HAMILTON", "./BASIS_LABELS_G3_STANDARD", "./BASIS_LABELS_G3_STANDARD_HTML"], function(exports_1, context_1) {
+System.register("davinci-eight/math/G3.js", ["../geometries/b2", "../geometries/b3", "./extG3", "./gauss", "./lcoG3", "./mulG3", "../i18n/notImplemented", "../i18n/notSupported", "./quadSpinorE3", "../i18n/readOnly", "./rcoG3", "./scpG3", "./squaredNormG3", "./stringFromCoordinates", "./Unit", "./BASIS_LABELS_G3_GEOMETRIC", "./BASIS_LABELS_G3_HAMILTON", "./BASIS_LABELS_G3_STANDARD", "./BASIS_LABELS_G3_STANDARD_HTML"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
-  var addE3_1,
-      b2_1,
+  var b2_1,
       b3_1,
       extG3_1,
       gauss_1,
@@ -11543,7 +11382,6 @@ System.register("davinci-eight/math/G3.js", ["./addE3", "../geometries/b2", "../
       scpG3_1,
       squaredNormG3_1,
       stringFromCoordinates_1,
-      subE3_1,
       Unit_1,
       BASIS_LABELS_G3_GEOMETRIC_1,
       BASIS_LABELS_G3_HAMILTON_1,
@@ -11558,37 +11396,8 @@ System.register("davinci-eight/math/G3.js", ["./addE3", "../geometries/b2", "../
       COORD_ZX,
       COORD_PSEUDO,
       G3;
-  function compute(f, a, b, coord, pack, uom) {
-    var a0 = coord(a, 0);
-    var a1 = coord(a, 1);
-    var a2 = coord(a, 2);
-    var a3 = coord(a, 3);
-    var a4 = coord(a, 4);
-    var a5 = coord(a, 5);
-    var a6 = coord(a, 6);
-    var a7 = coord(a, 7);
-    var b0 = coord(b, 0);
-    var b1 = coord(b, 1);
-    var b2 = coord(b, 2);
-    var b3 = coord(b, 3);
-    var b4 = coord(b, 4);
-    var b5 = coord(b, 5);
-    var b6 = coord(b, 6);
-    var b7 = coord(b, 7);
-    var x0 = f(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 0);
-    var x1 = f(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 1);
-    var x2 = f(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 2);
-    var x3 = f(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 3);
-    var x4 = f(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 4);
-    var x5 = f(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 5);
-    var x6 = f(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 6);
-    var x7 = f(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 7);
-    return pack(x0, x1, x2, x3, x4, x5, x6, x7, uom);
-  }
   return {
-    setters: [function(addE3_1_1) {
-      addE3_1 = addE3_1_1;
-    }, function(b2_1_1) {
+    setters: [function(b2_1_1) {
       b2_1 = b2_1_1;
     }, function(b3_1_1) {
       b3_1 = b3_1_1;
@@ -11616,8 +11425,6 @@ System.register("davinci-eight/math/G3.js", ["./addE3", "../geometries/b2", "../
       squaredNormG3_1 = squaredNormG3_1_1;
     }, function(stringFromCoordinates_1_1) {
       stringFromCoordinates_1 = stringFromCoordinates_1_1;
-    }, function(subE3_1_1) {
-      subE3_1 = subE3_1_1;
     }, function(Unit_1_1) {
       Unit_1 = Unit_1_1;
     }, function(BASIS_LABELS_G3_GEOMETRIC_1_1) {
@@ -11808,13 +11615,16 @@ System.register("davinci-eight/math/G3.js", ["./addE3", "../geometries/b2", "../
           }
         };
         G3.prototype.add = function(rhs) {
-          var coord = function(x, n) {
-            return x[n];
-          };
-          var pack = function(w, x, y, z, xy, yz, zx, xyz, uom) {
-            return G3.fromCartesian(w, x, y, z, xy, yz, zx, xyz, uom);
-          };
-          return compute(addE3_1.default, this.coords, rhs.coords, coord, pack, Unit_1.Unit.compatible(this.uom, rhs.uom));
+          var a = this.a + rhs.a;
+          var x = this.x + rhs.x;
+          var y = this.y + rhs.y;
+          var z = this.z + rhs.z;
+          var xy = this.xy + rhs.xy;
+          var yz = this.yz + rhs.yz;
+          var zx = this.zx + rhs.zx;
+          var b = this.b + rhs.b;
+          var uom = Unit_1.Unit.compatible(this.uom, rhs.uom);
+          return new G3(a, x, y, z, xy, yz, zx, b, uom);
         };
         G3.prototype.addPseudo = function(β) {
           return new G3(this.a, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.b + β.multiplier, Unit_1.Unit.compatible(this.uom, β));
@@ -11850,19 +11660,23 @@ System.register("davinci-eight/math/G3.js", ["./addE3", "../geometries/b2", "../
           var x = b3_1.default(t, this.x, controlBegin.x, controlEnd.x, endPoint.x);
           var y = b3_1.default(t, this.y, controlBegin.y, controlEnd.y, endPoint.y);
           var z = b3_1.default(t, this.z, controlBegin.z, controlEnd.z, endPoint.z);
-          return new G3(a, x, y, z, 0, 0, 0, 0, this.uom);
+          var b = b3_1.default(t, this.b, controlBegin.b, controlEnd.b, endPoint.b);
+          return new G3(a, x, y, z, 0, 0, 0, b, this.uom);
         };
         G3.prototype.direction = function() {
           return this.div(this.norm());
         };
         G3.prototype.sub = function(rhs) {
-          var coord = function(x, n) {
-            return x[n];
-          };
-          var pack = function(w, x, y, z, xy, yz, zx, xyz, uom) {
-            return G3.fromCartesian(w, x, y, z, xy, yz, zx, xyz, uom);
-          };
-          return compute(subE3_1.default, this.coords, rhs.coords, coord, pack, Unit_1.Unit.compatible(this.uom, rhs.uom));
+          var a = this.a - rhs.a;
+          var x = this.x - rhs.x;
+          var y = this.y - rhs.y;
+          var z = this.z - rhs.z;
+          var xy = this.xy - rhs.xy;
+          var yz = this.yz - rhs.yz;
+          var zx = this.zx - rhs.zx;
+          var b = this.b - rhs.b;
+          var uom = Unit_1.Unit.compatible(this.uom, rhs.uom);
+          return new G3(a, x, y, z, xy, yz, zx, b, uom);
         };
         G3.prototype.__sub__ = function(rhs) {
           if (rhs instanceof G3) {
@@ -12036,7 +11850,6 @@ System.register("davinci-eight/math/G3.js", ["./addE3", "../geometries/b2", "../
         };
         G3.prototype.cross = function(vector) {
           var x;
-          var x1;
           var x2;
           var y;
           var y1;
@@ -12044,7 +11857,7 @@ System.register("davinci-eight/math/G3.js", ["./addE3", "../geometries/b2", "../
           var z;
           var z1;
           var z2;
-          x1 = this.x;
+          var x1 = this.x;
           y1 = this.y;
           z1 = this.z;
           x2 = vector.x;
@@ -12235,29 +12048,29 @@ System.register("davinci-eight/math/G3.js", ["./addE3", "../geometries/b2", "../
         };
         G3.mutator = function(M) {
           var that = {
-            set a(a) {
-              M._coords[COORD_SCALAR] = a;
+            set a(value) {
+              M._coords[COORD_SCALAR] = value;
             },
-            set x(x) {
-              M._coords[COORD_X] = x;
+            set x(value) {
+              M._coords[COORD_X] = value;
             },
-            set y(y) {
-              M._coords[COORD_Y] = y;
+            set y(value) {
+              M._coords[COORD_Y] = value;
             },
-            set z(z) {
-              M._coords[COORD_Z] = z;
+            set z(value) {
+              M._coords[COORD_Z] = value;
             },
-            set yz(yz) {
-              M._coords[COORD_YZ] = yz;
+            set yz(value) {
+              M._coords[COORD_YZ] = value;
             },
-            set zx(zx) {
-              M._coords[COORD_ZX] = zx;
+            set zx(value) {
+              M._coords[COORD_ZX] = value;
             },
-            set xy(xy) {
-              M._coords[COORD_XY] = xy;
+            set xy(value) {
+              M._coords[COORD_XY] = value;
             },
-            set b(b) {
-              M._coords[COORD_PSEUDO] = b;
+            set b(value) {
+              M._coords[COORD_PSEUDO] = value;
             }
           };
           return that;
@@ -14413,20 +14226,19 @@ System.register("davinci-eight/math/mul4x4.js", [], function(exports_1, context_
   };
 });
 
-System.register("davinci-eight/facets/frustumMatrix.js", ["../checks/expectArg", "../checks/isDefined"], function(exports_1, context_1) {
+System.register("davinci-eight/facets/frustumMatrix.js", ["../checks/mustBeNumber", "../checks/isDefined"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
-  var expectArg_1,
+  var mustBeNumber_1,
       isDefined_1;
   function frustumMatrix(left, right, bottom, top, near, far, matrix) {
-    expectArg_1.default('left', left).toBeNumber();
-    expectArg_1.default('right', right).toBeNumber();
-    expectArg_1.default('bottom', bottom).toBeNumber();
-    expectArg_1.default('top', top).toBeNumber();
-    expectArg_1.default('near', near).toBeNumber();
-    expectArg_1.default('far', far).toBeNumber();
+    mustBeNumber_1.default('left', left);
+    mustBeNumber_1.default('right', right);
+    mustBeNumber_1.default('bottom', bottom);
+    mustBeNumber_1.default('top', top);
+    mustBeNumber_1.default('near', near);
+    mustBeNumber_1.default('far', far);
     var m = isDefined_1.default(matrix) ? matrix : new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-    expectArg_1.default('m', m).toSatisfy(m.length === 16, 'elements must have length 16');
     var x = 2 * near / (right - left);
     var y = 2 * near / (top - bottom);
     var a = (right + left) / (right - left);
@@ -14453,8 +14265,8 @@ System.register("davinci-eight/facets/frustumMatrix.js", ["../checks/expectArg",
   }
   exports_1("default", frustumMatrix);
   return {
-    setters: [function(expectArg_1_1) {
-      expectArg_1 = expectArg_1_1;
+    setters: [function(mustBeNumber_1_1) {
+      mustBeNumber_1 = mustBeNumber_1_1;
     }, function(isDefined_1_1) {
       isDefined_1 = isDefined_1_1;
     }],
@@ -14462,16 +14274,16 @@ System.register("davinci-eight/facets/frustumMatrix.js", ["../checks/expectArg",
   };
 });
 
-System.register("davinci-eight/facets/perspectiveArray.js", ["./frustumMatrix", "../checks/expectArg"], function(exports_1, context_1) {
+System.register("davinci-eight/facets/perspectiveArray.js", ["./frustumMatrix", "../checks/mustBeNumber"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var frustumMatrix_1,
-      expectArg_1;
+      mustBeNumber_1;
   function perspectiveArray(fov, aspect, near, far, matrix) {
-    expectArg_1.default('fov', fov).toBeNumber();
-    expectArg_1.default('aspect', aspect).toBeNumber();
-    expectArg_1.default('near', near).toBeNumber();
-    expectArg_1.default('far', far).toBeNumber();
+    mustBeNumber_1.default('fov', fov);
+    mustBeNumber_1.default('aspect', aspect);
+    mustBeNumber_1.default('near', near);
+    mustBeNumber_1.default('far', far);
     var ymax = near * Math.tan(fov * 0.5);
     var ymin = -ymax;
     var xmin = ymin * aspect;
@@ -14482,8 +14294,8 @@ System.register("davinci-eight/facets/perspectiveArray.js", ["./frustumMatrix", 
   return {
     setters: [function(frustumMatrix_1_1) {
       frustumMatrix_1 = frustumMatrix_1_1;
-    }, function(expectArg_1_1) {
-      expectArg_1 = expectArg_1_1;
+    }, function(mustBeNumber_1_1) {
+      mustBeNumber_1 = mustBeNumber_1_1;
     }],
     execute: function() {}
   };
@@ -16544,9 +16356,6 @@ System.register("davinci-eight/math/G2.js", ["../geometries/b2", "../geometries/
         G2.prototype.addScalar = function(α) {
           return new G2(this.a + α.multiplier, this.x, this.y, this.b, Unit_1.Unit.compatible(this.uom, α));
         };
-        G2.prototype.adj = function() {
-          throw new Error("TODO: adj");
-        };
         G2.prototype.__add__ = function(other) {
           if (other instanceof G2) {
             return this.add(other);
@@ -16560,6 +16369,9 @@ System.register("davinci-eight/math/G2.js", ["../geometries/b2", "../geometries/
           } else if (typeof other === 'number') {
             return new G2(other, 0, 0, 0, undefined).add(this);
           }
+        };
+        G2.prototype.adj = function() {
+          throw new Error(notImplemented_1.default('adj').message);
         };
         G2.prototype.angle = function() {
           return this.log().grade(2);
@@ -16587,7 +16399,7 @@ System.register("davinci-eight/math/G2.js", ["../geometries/b2", "../geometries/
           }
         };
         G2.prototype.distanceTo = function(point) {
-          throw new Error(notImplemented_1.default('diistanceTo').message);
+          throw new Error(notImplemented_1.default('distanceTo').message);
         };
         G2.prototype.equals = function(point) {
           throw new Error(notImplemented_1.default('equals').message);
@@ -16611,18 +16423,22 @@ System.register("davinci-eight/math/G2.js", ["../geometries/b2", "../geometries/
           var xs = G2.sub(this.coords, rhs.coords);
           return new G2(xs[0], xs[1], xs[2], xs[3], Unit_1.Unit.compatible(this.uom, rhs.uom));
         };
-        G2.prototype.__sub__ = function(other) {
-          if (other instanceof G2) {
-            return this.sub(other);
-          } else if (typeof other === 'number') {
-            return this.sub(new G2(other, 0, 0, 0, undefined));
+        G2.prototype.__sub__ = function(rhs) {
+          if (rhs instanceof G2) {
+            return this.sub(rhs);
+          } else if (rhs instanceof Unit_1.Unit) {
+            return this.addScalar(rhs.neg());
+          } else if (typeof rhs === 'number') {
+            return this.sub(new G2(rhs, 0, 0, 0, undefined));
           }
         };
-        G2.prototype.__rsub__ = function(other) {
-          if (other instanceof G2) {
-            return other.sub(this);
-          } else if (typeof other === 'number') {
-            return new G2(other, 0, 0, 0, undefined).sub(this);
+        G2.prototype.__rsub__ = function(lhs) {
+          if (lhs instanceof G2) {
+            return lhs.sub(this);
+          } else if (lhs instanceof Unit_1.Unit) {
+            return this.neg().addScalar(lhs);
+          } else if (typeof lhs === 'number') {
+            return new G2(lhs, 0, 0, 0, undefined).sub(this);
           }
         };
         G2.prototype.mul = function(rhs) {
@@ -19283,15 +19099,15 @@ System.register("davinci-eight/math/squaredNormG3.js", [], function(exports_1, c
   "use strict";
   var __moduleName = context_1 && context_1.id;
   function squaredNormG3(m) {
-    var w = m.a;
+    var a = m.a;
     var x = m.x;
     var y = m.y;
     var z = m.z;
     var yz = m.yz;
     var zx = m.zx;
     var xy = m.xy;
-    var v = m.b;
-    return w * w + x * x + y * y + z * z + yz * yz + zx * zx + xy * xy + v * v;
+    var b = m.b;
+    return a * a + x * x + y * y + z * z + yz * yz + zx * zx + xy * xy + b * b;
   }
   exports_1("default", squaredNormG3);
   return {
@@ -20838,7 +20654,7 @@ System.register("davinci-eight/math/Vector1.js", ["../math/Coords"], function(ex
   };
 });
 
-System.register("davinci-eight/geometries/SimplexPrimitivesBuilder.js", ["../math/G3", "../checks/mustBeBoolean", "../checks/mustBeInteger", "../geometries/PrimitivesBuilder", "../geometries/Simplex", "../core/GraphicsProgramSymbols", "../geometries/simplicesToPrimitive", "../geometries/simplicesToGeometryMeta", "../math/Vector1", "../math/Vector3"], function(exports_1, context_1) {
+System.register("davinci-eight/geometries/SimplexPrimitivesBuilder.js", ["../checks/mustBeBoolean", "../checks/mustBeInteger", "../geometries/PrimitivesBuilder", "../geometries/Simplex", "../core/GraphicsProgramSymbols", "../geometries/simplicesToPrimitive", "../geometries/simplicesToGeometryMeta", "../math/Vector1", "../math/Vector3"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -20850,8 +20666,7 @@ System.register("davinci-eight/geometries/SimplexPrimitivesBuilder.js", ["../mat
     }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   };
-  var G3_1,
-      mustBeBoolean_1,
+  var mustBeBoolean_1,
       mustBeInteger_1,
       PrimitivesBuilder_1,
       Simplex_1,
@@ -20862,9 +20677,7 @@ System.register("davinci-eight/geometries/SimplexPrimitivesBuilder.js", ["../mat
       Vector3_1;
   var SimplexPrimitivesBuilder;
   return {
-    setters: [function(G3_1_1) {
-      G3_1 = G3_1_1;
-    }, function(mustBeBoolean_1_1) {
+    setters: [function(mustBeBoolean_1_1) {
       mustBeBoolean_1 = mustBeBoolean_1_1;
     }, function(mustBeInteger_1_1) {
       mustBeInteger_1 = mustBeInteger_1_1;
@@ -20953,9 +20766,9 @@ System.register("davinci-eight/geometries/SimplexPrimitivesBuilder.js", ["../mat
           simplex.vertices[1].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_COORDS] = uvs[1];
           simplex.vertices[2].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_COORDS] = uvs[2];
           if (this.orientationColors) {
-            simplex.vertices[0].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_COLOR] = Vector3_1.default.copy(G3_1.default.e1);
-            simplex.vertices[1].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_COLOR] = Vector3_1.default.copy(G3_1.default.e2);
-            simplex.vertices[2].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_COLOR] = Vector3_1.default.copy(G3_1.default.e3);
+            simplex.vertices[0].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_COLOR] = Vector3_1.default.vector(1, 0, 0);
+            simplex.vertices[1].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_COLOR] = Vector3_1.default.vector(0, 1, 0);
+            simplex.vertices[2].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_COLOR] = Vector3_1.default.vector(0, 0, 1);
           }
           return this.data.push(simplex);
         };
@@ -20968,8 +20781,8 @@ System.register("davinci-eight/geometries/SimplexPrimitivesBuilder.js", ["../mat
           simplex.vertices[0].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_COORDS] = uvs[0];
           simplex.vertices[1].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_COORDS] = uvs[1];
           if (this.orientationColors) {
-            simplex.vertices[0].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_COLOR] = Vector3_1.default.copy(G3_1.default.e1);
-            simplex.vertices[1].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_COLOR] = Vector3_1.default.copy(G3_1.default.e2);
+            simplex.vertices[0].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_COLOR] = Vector3_1.default.vector(1, 0, 0);
+            simplex.vertices[1].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_COLOR] = Vector3_1.default.vector(0, 1, 0);
           }
           return this.data.push(simplex);
         };
@@ -20979,7 +20792,7 @@ System.register("davinci-eight/geometries/SimplexPrimitivesBuilder.js", ["../mat
           simplex.vertices[0].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL] = normals[0];
           simplex.vertices[0].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_COORDS] = uvs[0];
           if (this.orientationColors) {
-            simplex.vertices[0].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_COLOR] = Vector3_1.default.copy(G3_1.default.e1);
+            simplex.vertices[0].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_COLOR] = Vector3_1.default.vector(1, 0, 0);
           }
           return this.data.push(simplex);
         };
@@ -25136,9 +24949,9 @@ System.register("davinci-eight/config.js", ["./core/ErrorMode"], function(export
         function Eight() {
           this._errorMode = ErrorMode_1.default.STRICT;
           this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-          this.LAST_MODIFIED = '2016-07-09';
+          this.LAST_MODIFIED = '2016-07-11';
           this.NAMESPACE = 'EIGHT';
-          this.VERSION = '2.261.0';
+          this.VERSION = '2.262.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
           get: function() {

@@ -56,22 +56,31 @@ module.exports = function(config) {
             'src/davinci-eight/checks/*.spec.ts',
             'src/davinci-eight/collections/*.spec.ts',
             'src/davinci-eight/commands/*.spec.ts',
-            // 'src/davinci-eight/controls/*.spec.ts'
+            'src/davinci-eight/controls/OrbitControls.spec.ts',
+            'src/davinci-eight/controls/TrackballControls.spec.ts',
             'src/davinci-eight/core/*.spec.ts',
             // Nothing her yet: 'src/davinci-eight/devices/*.spec.ts',
-            // 'src/davinci-eight/facets/*.spec.ts'
-            // 'src/davinci-eight/geometries/*.spec.ts'
+            'src/davinci-eight/facets/createPerspective.spec.ts',
+            'src/davinci-eight/facets/createView.spec.ts',
+            'src/davinci-eight/facets/DirectionalLight.spec.ts',
+            'src/davinci-eight/facets/getViewAttitude.spec.ts',
+            'src/davinci-eight/facets/PerspectiveCamera.spec.ts',
+            'src/davinci-eight/facets/setViewAttitude.spec.ts',
+            'src/davinci-eight/geometries/*.spec.ts',
             // Nothing here yet: 'src/davinci-eight/i18n/*.spec.ts',
             'src/davinci-eight/materials/*.spec.ts',
+            'src/davinci-eight/math/arraysEQ.spec.ts',
             'src/davinci-eight/math/CC.spec.ts',
             'src/davinci-eight/math/Dimensions.spec.ts',
             'src/davinci-eight/math/G2.spec.ts',
+            // FIXME Error: (systemJS) Parse error
             'src/davinci-eight/math/G3.spec.ts',
             'src/davinci-eight/math/gauss.spec.ts',
             'src/davinci-eight/math/Geometric2.spec.ts',
             'src/davinci-eight/math/Geometric3.spec.ts',
             'src/davinci-eight/math/Matrix2.spec.ts',
             'src/davinci-eight/math/Matrix3.spec.ts',
+            'src/davinci-eight/math/Matrix4.spec.ts',
             'src/davinci-eight/math/QQ.spec.ts',
             'src/davinci-eight/math/R3.spec.ts',
             'src/davinci-eight/math/Spinor2.spec.ts',
@@ -85,9 +94,10 @@ module.exports = function(config) {
 
         // This allows us to avoid the Karma base virtual directory issue without dropping
         // the baseURL in the JSPM configuration.
-        //proxies: {
-        //    '/test/system': '/base/test/system'
-        //},
+        proxies: {
+            // '/base/jspm_packages/': '/jspm_packages/'
+            //    '/test/system': '/base/test/system'
+        },
 
 
         // list of files to exclude

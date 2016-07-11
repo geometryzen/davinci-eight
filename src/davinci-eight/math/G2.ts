@@ -1,4 +1,4 @@
-
+//
 import b2 from '../geometries/b2';
 import b3 from '../geometries/b3';
 import extE2 from './extE2';
@@ -11,21 +11,29 @@ import lcoE2 from './lcoE2';
 import mulE2 from './mulE2';
 import notImplemented from '../i18n/notImplemented';
 import notSupported from '../i18n/notSupported';
-
+//
 import readOnly from '../i18n/readOnly';
 import rcoE2 from './rcoE2';
 import scpE2 from './scpE2';
 import SpinorE2 from './SpinorE2';
-
+//
 import stringFromCoordinates from './stringFromCoordinates';
-
+//
 import TrigMethods from './TrigMethods';
 import {Unit} from './Unit';
 import VectorE2 from './VectorE2';
+//
+//
+//
+//
 
 const COORD_SCALAR = 0
 const COORD_X = 1
 const COORD_Y = 2
+//
+//
+//
+//
 const COORD_PSEUDO = 3
 
 function add00(a00: number, a01: number, a10: number, a11: number, b00: number, b01: number, b10: number, b11: number): number {
@@ -110,6 +118,7 @@ function subE2(a0: number, a1: number, a2: number, a3: number, b0: number, b1: n
     }
     return +x;
 }
+
 
 /**
  * <p>
@@ -334,25 +343,13 @@ export class G2 implements ImmutableMeasure<G2>, GeometricE2, GeometricNumber<G2
     }
 
     static fromCartesian(α: number, x: number, y: number, β: number, uom: Unit): G2 {
-      return new G2(α, x, y, β, uom)
+        return new G2(α, x, y, β, uom)
     }
 
-    /*
-    private fromPolar(α: number, r: number, θ: number, β: number, uom: Unit): G2 {
-      return new G2(α, r * Math.cos(θ), r * Math.sin(θ), β, uom)
-    }
-    */
-
-    /**
-     * @property coords
-     * @return {number[]}
-     * @readOnly
-     */
     get coords(): number[] {
         return [this.a, this.x, this.y, this.b];
     }
 
-    // FIXME
     coordinate(index: number): number {
         switch (index) {
             case 0:
@@ -397,32 +394,17 @@ export class G2 implements ImmutableMeasure<G2>, GeometricE2, GeometricNumber<G2
     }
 
     /**
-     * @method addPseudo
-     * @param β {Unit}
-     * @return {G2}
-     * @chainable
+     * Computes <code>this + Iβ</code>
      */
     addPseudo(β: Unit): G2 {
         return new G2(this.a, this.x, this.y, this.b + β.multiplier, Unit.compatible(this.uom, β))
     }
 
     /**
-     * @method addScalar
-     * @param α {Unit}
-     * @return {G2}
-     * @chainable
+     * Computes <code>this + α</code>
      */
     addScalar(α: Unit): G2 {
         return new G2(this.a + α.multiplier, this.x, this.y, this.b, Unit.compatible(this.uom, α))
-    }
-
-    /**
-     * @method adj
-     * @return {G2}
-     * @chainable
-     */
-    adj(): G2 {
-        throw new Error("TODO: adj")
     }
 
     __add__(other: any): G2 {
@@ -443,38 +425,32 @@ export class G2 implements ImmutableMeasure<G2>, GeometricE2, GeometricNumber<G2
         }
     }
 
+    adj(): G2 {
+        throw new Error(notImplemented('adj').message)
+    }
+
     /**
-     * @method angle
-     * @return {G2}
-     * @chainable
+     * @returns grade(log(this), 2)
      */
     angle(): G2 {
         return this.log().grade(2);
     }
 
-    //  clone(): G2 {
-    //    return this;
-    //  }
-
     /**
-     * @method conj
-     * @return {G2}
-     * @chainable
+     * Computes the <e>Clifford conjugate</em> of this multivector.
+     * The grade multiplier is -1<sup>x(x+1)/2</sup>
      */
     conj(): G2 {
         throw new Error(notImplemented('conj').message)
     }
 
     /**
-     * @method cubicBezier
-     * @param t {number}
-     * @param controlBegin {GeometricE2}
-     * @param controlEnd {GeometricE2}
-     * @param endPoint {GeometricE2}
-     * @return {G2}
-     * @chainable
+     * @param t
+     * @param controlBegin
+     * @param controlEnd
+     * @param endPoint
      */
-    cubicBezier(t: number, controlBegin: GeometricE2, controlEnd: GeometricE2, endPoint: GeometricE2): G2 {
+    cubicBezier(t: number, controlBegin: GeometricE2, controlEnd: GeometricE2, endPoint: GeometricE2) {
         const α = b3(t, this.a, controlBegin.a, controlEnd.a, endPoint.a)
         const x = b3(t, this.x, controlBegin.x, controlEnd.x, endPoint.x)
         const y = b3(t, this.y, controlBegin.y, controlEnd.y, endPoint.y)
@@ -503,12 +479,10 @@ export class G2 implements ImmutableMeasure<G2>, GeometricE2, GeometricNumber<G2
     }
 
     /**
-     * @method distanceTo
-     * @param point {GeometricE2}
-     * @return {number}
+     * @param point
      */
     distanceTo(point: GeometricE2): number {
-        throw new Error(notImplemented('diistanceTo').message)
+        throw new Error(notImplemented('distanceTo').message)
     }
 
     /**
@@ -537,40 +511,37 @@ export class G2 implements ImmutableMeasure<G2>, GeometricE2, GeometricNumber<G2
     }
 
     /**
-     * @method sub
-     * @param rhs {G2}
-     * @return {G2}
-     * @chainable
+     *
      */
     sub(rhs: G2): G2 {
         var xs = G2.sub(this.coords, rhs.coords);
         return new G2(xs[0], xs[1], xs[2], xs[3], Unit.compatible(this.uom, rhs.uom));
     }
 
-    __sub__(other: any): G2 {
-        if (other instanceof G2) {
-            return this.sub(other);
+    __sub__(rhs: Unit | G2 | number): G2 {
+        if (rhs instanceof G2) {
+            return this.sub(rhs);
         }
-        else if (typeof other === 'number') {
-            return this.sub(new G2(other, 0, 0, 0, undefined));
+        else if (rhs instanceof Unit) {
+            return this.addScalar(rhs.neg());
         }
-    }
-
-    __rsub__(other: any): G2 {
-        if (other instanceof G2) {
-            return (<G2>other).sub(this);
-        }
-        else if (typeof other === 'number') {
-            return new G2(other, 0, 0, 0, undefined).sub(this);
+        else if (typeof rhs === 'number') {
+            return this.sub(new G2(rhs, 0, 0, 0, undefined));
         }
     }
 
-    /**
-     * @method mul
-     * @param rhs {G2}
-     * @return {G2}
-     * @chainable
-     */
+    __rsub__(lhs: Unit | G2 | number): G2 {
+        if (lhs instanceof G2) {
+            return lhs.sub(this);
+        }
+        else if (lhs instanceof Unit) {
+            return this.neg().addScalar(lhs)
+        }
+        else if (typeof lhs === 'number') {
+            return new G2(lhs, 0, 0, 0, undefined).sub(this);
+        }
+    }
+
     mul(rhs: G2): G2 {
         const a0 = this.a
         const a1 = this.x
@@ -608,32 +579,14 @@ export class G2 implements ImmutableMeasure<G2>, GeometricE2, GeometricNumber<G2
         }
     }
 
-    /**
-     * @method scale
-     * @param α {number}
-     * @return {G2}
-     * @chainable
-     */
     scale(α: number): G2 {
         return new G2(this.a * α, this.x * α, this.y * α, this.b * α, this.uom);
     }
 
-    /**
-     * @method div
-     * @param rhs {G2}
-     * @return {G2}
-     * @chainable
-     */
     div(rhs: G2): G2 {
         return this.mul(rhs.inv())
     }
 
-    /**
-     * @method divByScalar
-     * @param α {number}
-     * @return {G2}
-     * @chainable
-     */
     divByScalar(α: number): G2 {
         return new G2(this.a / α, this.x / α, this.y / α, this.b / α, this.uom);
     }

@@ -1,12 +1,12 @@
 {
     "name": "davinci-eight",
-    "version": "2.261.0",
+    "version": "2.262.0",
     "description": "WebGL library for mathematical physics using Geometric Algebra",
     "author": {
         "name": "David Holmes",
         "email": "david.geo.holmes@gmail.com"
     },
-    "main": "./dist/davinci-eight.min.js",
+    "main": "./dist/davinci-eight.js",
     "repository": {
         "type": "git",
         "url": "git://github.com/geometryzen/davinci-eight.git"
@@ -43,5 +43,6 @@
         "grunt.js",
         "package.json",
         "tsd.json"
-    ]
+    ],
+    "analytics": false
 }

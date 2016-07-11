@@ -1,4 +1,3 @@
-import addE3 from './addE3';
 import b2 from '../geometries/b2';
 import b3 from '../geometries/b3';
 import extG3 from './extG3';
@@ -18,7 +17,6 @@ import scpG3 from './scpG3';
 import SpinorE3 from './SpinorE3';
 import squaredNormG3 from './squaredNormG3';
 import stringFromCoordinates from './stringFromCoordinates';
-import subE3 from './subE3';
 import TrigMethods from './TrigMethods';
 import {Unit} from './Unit';
 import VectorE3 from './VectorE3';
@@ -35,40 +33,6 @@ const COORD_XY = 4
 const COORD_YZ = 5
 const COORD_ZX = 6
 const COORD_PSEUDO = 7
-
-function compute(
-    f: (x0: number, x1: number, x2: number, x3: number, x4: number, x5: number, x6: number, x7: number, y0: number, y1: number, y2: number, y3: number, y4: number, y5: number, y6: number, y7: number, index: number) => number,
-    a: number[],
-    b: number[],
-    coord: (m: number[], index: number) => number,
-    pack: (x0: number, x1: number, x2: number, x3: number, x4: number, x5: number, x6: number, x7: number, uom: Unit) => G3,
-    uom: Unit): G3 {
-    var a0 = coord(a, 0);
-    var a1 = coord(a, 1);
-    var a2 = coord(a, 2);
-    var a3 = coord(a, 3);
-    var a4 = coord(a, 4);
-    var a5 = coord(a, 5);
-    var a6 = coord(a, 6);
-    var a7 = coord(a, 7);
-    var b0 = coord(b, 0);
-    var b1 = coord(b, 1);
-    var b2 = coord(b, 2);
-    var b3 = coord(b, 3);
-    var b4 = coord(b, 4);
-    var b5 = coord(b, 5);
-    var b6 = coord(b, 6);
-    var b7 = coord(b, 7);
-    var x0 = f(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 0);
-    var x1 = f(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 1);
-    var x2 = f(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 2);
-    var x3 = f(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 3);
-    var x4 = f(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 4);
-    var x5 = f(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 5);
-    var x6 = f(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 6);
-    var x7 = f(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 7);
-    return pack(x0, x1, x2, x3, x4, x5, x6, x7, uom);
-}
 
 /**
  * <p>
@@ -100,6 +64,7 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricN
     public static e1 = new G3(0, 1, 0, 0, 0, 0, 0, 0);
     public static e2 = new G3(0, 0, 1, 0, 0, 0, 0, 0);
     public static e3 = new G3(0, 0, 0, 1, 0, 0, 0, 0);
+
     public static kilogram = new G3(1, 0, 0, 0, 0, 0, 0, 0, Unit.KILOGRAM);
     public static meter = new G3(1, 0, 0, 0, 0, 0, 0, 0, Unit.METER);
     public static second = new G3(1, 0, 0, 0, 0, 0, 0, 0, Unit.SECOND);
@@ -236,32 +201,14 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricN
         throw new Error(readOnly('b').message)
     }
 
-    /**
-     * @method fromCartesian
-     * @param α {number}
-     * @param x {number}
-     * @param y {number}
-     * @param z {number}
-     * @param xy {number}
-     * @param yz {number}
-     * @param zx {number}
-     * @param β {number}
-     * @param uom [Unit]
-     */
     static fromCartesian(α: number, x: number, y: number, z: number, xy: number, yz: number, zx: number, β: number, uom: Unit): G3 {
         return new G3(α, x, y, z, xy, yz, zx, β, uom)
     }
 
-    /**
-     *
-     */
     get coords(): number[] {
         return [this.a, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.b];
     }
 
-    /**
-     *
-     */
     coordinate(index: number): number {
         switch (index) {
             case 0:
@@ -286,17 +233,20 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricN
     }
 
     /**
-     * Computes the sum of this G3 and another considered to be the rhs of the binary addition, `+`, operator.
-     * This method does not change this G3.
+     * Computes the sum of this multivector and another considered to be the rhs of the binary addition, `+`, operator.
+     * This method does not change this multivector.
      */
-    add(rhs: G3): G3 {
-        const coord = function(x: number[], n: number): number {
-            return x[n];
-        };
-        const pack = function(w: number, x: number, y: number, z: number, xy: number, yz: number, zx: number, xyz: number, uom: Unit): G3 {
-            return G3.fromCartesian(w, x, y, z, xy, yz, zx, xyz, uom);
-        };
-        return compute(addE3, this.coords, rhs.coords, coord, pack, Unit.compatible(this.uom, rhs.uom));
+    add(rhs: G3) {
+        const a = this.a + rhs.a;
+        const x = this.x + rhs.x;
+        const y = this.y + rhs.y;
+        const z = this.z + rhs.z;
+        const xy = this.xy + rhs.xy;
+        const yz = this.yz + rhs.yz;
+        const zx = this.zx + rhs.zx;
+        const b = this.b + rhs.b;
+        const uom = Unit.compatible(this.uom, rhs.uom);
+        return new G3(a, x, y, z, xy, yz, zx, b, uom);
     }
 
     /**
@@ -351,17 +301,18 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricN
     }
 
     /**
-     * @param t {number}
-     * @param controlBegin {GeometricE3}
-     * @param controlEnd {GeometricE3}
-     * @param endPoint {GeometricE3}
+     * @param t
+     * @param controlBegin
+     * @param controlEnd
+     * @param endPoint
      */
     cubicBezier(t: number, controlBegin: GeometricE3, controlEnd: GeometricE3, endPoint: GeometricE3) {
-        let a = b3(t, this.a, controlBegin.a, controlEnd.a, endPoint.a);
-        let x = b3(t, this.x, controlBegin.x, controlEnd.x, endPoint.x);
-        let y = b3(t, this.y, controlBegin.y, controlEnd.y, endPoint.y);
-        let z = b3(t, this.z, controlBegin.z, controlEnd.z, endPoint.z);
-        return new G3(a, x, y, z, 0, 0, 0, 0, this.uom);
+        const a = b3(t, this.a, controlBegin.a, controlEnd.a, endPoint.a);
+        const x = b3(t, this.x, controlBegin.x, controlEnd.x, endPoint.x);
+        const y = b3(t, this.y, controlBegin.y, controlEnd.y, endPoint.y);
+        const z = b3(t, this.z, controlBegin.z, controlEnd.z, endPoint.z);
+        const b = b3(t, this.b, controlBegin.b, controlEnd.b, endPoint.b);
+        return new G3(a, x, y, z, 0, 0, 0, b, this.uom);
     }
 
     /**
@@ -374,17 +325,20 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricN
     /**
      *
      */
-    sub(rhs: G3): G3 {
-        var coord = function(x: number[], n: number): number {
-            return x[n];
-        };
-        var pack = function(w: number, x: number, y: number, z: number, xy: number, yz: number, zx: number, xyz: number, uom: Unit): G3 {
-            return G3.fromCartesian(w, x, y, z, xy, yz, zx, xyz, uom);
-        };
-        return compute(subE3, this.coords, rhs.coords, coord, pack, Unit.compatible(this.uom, rhs.uom));
+    sub(rhs: G3) {
+        const a = this.a - rhs.a;
+        const x = this.x - rhs.x;
+        const y = this.y - rhs.y;
+        const z = this.z - rhs.z;
+        const xy = this.xy - rhs.xy;
+        const yz = this.yz - rhs.yz;
+        const zx = this.zx - rhs.zx;
+        const b = this.b - rhs.b;
+        const uom = Unit.compatible(this.uom, rhs.uom);
+        return new G3(a, x, y, z, xy, yz, zx, b, uom);
     }
 
-    __sub__(rhs: Unit | G3): G3 {
+    __sub__(rhs: Unit | G3) {
         if (rhs instanceof G3) {
             return this.sub(rhs);
         }
@@ -392,7 +346,6 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricN
             return this.addScalar(rhs.neg());
         }
     }
-
 
     __rsub__(lhs: Unit | G3): G3 {
         if (lhs instanceof G3) {
@@ -568,39 +521,39 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricN
     /**
      * Unary plus(+).
      */
-    __pos__(): G3 {
+    __pos__() {
         return this;
     }
 
     /**
      * @returns <code>-1 * this</code>
      */
-    neg(): G3 {
+    neg() {
         return new G3(-this.a, -this.x, -this.y, -this.z, -this.xy, -this.yz, -this.zx, -this.b, this.uom);
     }
 
     /**
      * Unary minus (-).
      */
-    __neg__(): G3 {
+    __neg__() {
         return this.neg()
     }
 
-    rev(): G3 {
+    rev() {
         return new G3(this.a, this.x, this.y, this.z, -this.xy, -this.yz, -this.zx, -this.b, this.uom);
     }
 
     /**
      * ~ (tilde) produces reversion.
      */
-    __tilde__(): G3 {
+    __tilde__() {
         return this.rev();
     }
 
     /**
-     * @param grade {number}
+     * @param grade
      */
-    grade(grade: number): G3 {
+    grade(grade: number) {
         switch (grade) {
             case 0:
                 return G3.fromCartesian(this.a, 0, 0, 0, 0, 0, 0, 0, this.uom);
@@ -615,9 +568,8 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricN
         }
     }
 
-    cross(vector: G3): G3 {
+    cross(vector: G3) {
         var x: number;
-        var x1: number;
         var x2: number;
         var y: number;
         var y1: number;
@@ -626,7 +578,7 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricN
         var z1: number;
         var z2: number;
 
-        x1 = this.x;
+        const x1 = this.x;
         y1 = this.y;
         z1 = this.z;
         x2 = vector.x;
@@ -650,7 +602,7 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricN
         throw new Error(notImplemented('lerp').message)
     }
 
-    cos(): G3 {
+    cos() {
         // TODO: Generalize to full multivector.
         Unit.assertDimensionless(this.uom)
         const cosW = Math.cos(this.a)
@@ -694,7 +646,7 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricN
         }
     }
 
-    exp(): G3 {
+    exp() {
         Unit.assertDimensionless(this.uom);
         const bivector = this.grade(2);
         const a = bivector.norm();
@@ -711,11 +663,8 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricN
 
     /**
      * Computes the <em>inverse</em> of this multivector, if it exists.
-     * @method inv
-     * @return {G3}
-     * @chainable
      */
-    inv(): G3 {
+    inv() {
 
         const α = this.a
         const x = this.x
@@ -746,9 +695,7 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricN
     }
 
     /**
-     * @method log
-     * @return {G3}
-     * @chainable
+     *
      */
     log(): G3 {
         throw new Error(notImplemented('log').message)
@@ -756,9 +703,6 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricN
 
     /**
      * Computes the <em>square root</em> of the <em>squared norm</em>.
-     * @method magnitude
-     * @return {G3}
-     * @chainable
      */
     magnitude(): G3 {
         return this.norm();
@@ -773,9 +717,6 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricN
 
     /**
      * Computes the magnitude of this G3. The magnitude is the square root of the quadrance.
-     * @method norm
-     * @return {G3}
-     * @chainable
      */
     norm(): G3 {
         return new G3(this.magnitudeSansUnits(), 0, 0, 0, 0, 0, 0, 0, this.uom)
@@ -783,35 +724,24 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricN
 
     /**
      * Computes the quadrance of this G3. The quadrance is the square of the magnitude.
-     * @method quad
-     * @return {G3}
-     * @chainable
      */
     quad(): G3 {
         return this.squaredNorm();
     }
 
     /**
-     * @method quadraticBezier
-     * @param t {number}
-     * @param controlPoint {GeometricE3}
-     * @param endPoint {GeometricE3}
-     * @return {G3}
-     * @chainable
+     * @param t
+     * @param controlPoint
+     * @param endPoint
      */
-    quadraticBezier(t: number, controlPoint: GeometricE3, endPoint: GeometricE3): G3 {
+    quadraticBezier(t: number, controlPoint: GeometricE3, endPoint: GeometricE3) {
         const x = b2(t, this.x, controlPoint.x, endPoint.x);
         const y = b2(t, this.y, controlPoint.y, endPoint.y);
         const z = b2(t, this.z, controlPoint.z, endPoint.z);
         return new G3(0, x, y, z, 0, 0, 0, 0, this.uom);
     }
 
-    /**
-     * @method squaredNorm
-     * @return {G3}
-     * @chainable
-     */
-    squaredNorm(): G3 {
+    squaredNorm() {
         return new G3(this.squaredNormSansUnits(), 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, this.uom));
     }
 
@@ -823,10 +753,7 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricN
     }
 
     /**
-     * @method stress
-     * @param σ {VectorE3}
-     * @return {G3}
-     * @chainable
+     * @param σ
      */
     stress(σ: VectorE3): G3 {
         throw new Error(notSupported('stress').message)
@@ -834,24 +761,15 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricN
 
     /**
      * Computes the <em>reflection</em> of this multivector in the plane with normal <code>n</code>.
-     * @method reflect
-     * @param n {VectorE3}
-     * @return {G3}
-     * @chainable
+     * @param n
      */
-    reflect(n: VectorE3): G3 {
+    reflect(n: VectorE3) {
         // TODO: Optimize to minimize object creation and increase performance.
         let m = G3.fromVector(n)
         return m.mul(this).mul(m).scale(-1)
     }
 
-    /**
-     * @method rotate
-     * @param R {SpinorE3}
-     * @return {G3}
-     * @chainable
-     */
-    rotate(R: SpinorE3): G3 {
+    rotate(R: SpinorE3) {
         // FIXME: This only rotates the vector components.
         // The units may be suspect to if rotate is not clearly defined.
         const x = this.x;
@@ -878,52 +796,25 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricN
         return G3.fromCartesian(αOut, xOut, yOut, zOut, 0, 0, 0, βOut, this.uom)
     }
 
-    /**
-     * @method sin
-     * @return {G3}
-     * @chainable
-     */
-    sin(): G3 {
+    sin() {
         // TODO: Generalize to full multivector.
         Unit.assertDimensionless(this.uom);
         const sinW = Math.sin(this.a);
         return new G3(sinW, 0, 0, 0, 0, 0, 0, 0, void 0);
     }
 
-    /**
-     * @method sinh
-     * @return {G3}
-     * @chainable
-     */
     sinh(): G3 {
         throw new Error(notImplemented('sinh').message)
     }
 
-    /**
-     * @method slerp
-     * @param target {G3}
-     * @param α {number}
-     * @return {G3}
-     * @chainable
-     */
     slerp(target: G3, α: number): G3 {
         throw new Error(notImplemented('slerp').message)
     }
 
-    /**
-     * @method sqrt
-     * @return {G3}
-     * @chainable
-     */
     sqrt() {
         return new G3(Math.sqrt(this.a), 0, 0, 0, 0, 0, 0, 0, Unit.sqrt(this.uom));
     }
 
-    /**
-     * @method tan
-     * @return {G3}
-     * @chainable
-     */
     tan(): G3 {
         return this.sin().div(this.cos())
     }
@@ -947,41 +838,21 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricN
         }
     }
 
-    /**
-     * @method toExponential
-     * @param [fractionDigits] {number}
-     * @return {string}
-     */
     toExponential(fractionDigits?: number): string {
         const coordToString = function(coord: number): string { return coord.toExponential(fractionDigits) };
         return this.toStringCustom(coordToString, G3.BASIS_LABELS);
     }
 
-    /**
-     * @method toFixed
-     * @param [fractionDigits] {number}
-     * @return {string}
-     */
     toFixed(fractionDigits?: number): string {
         const coordToString = function(coord: number): string { return coord.toFixed(fractionDigits) };
         return this.toStringCustom(coordToString, G3.BASIS_LABELS);
     }
 
-    /**
-     * @method toPrecision
-     * @param [precision] {number}
-     * @return {string}
-     */
     toPrecision(precision?: number): string {
         const coordToString = function(coord: number): string { return coord.toPrecision(precision) };
         return this.toStringCustom(coordToString, G3.BASIS_LABELS);
     }
 
-    /**
-     * @method toString
-     * @param [radix] {number}
-     * @return {string}
-     */
     toString(radix?: number): string {
         const coordToString = function(coord: number): string { return coord.toString(radix) };
         return this.toStringCustom(coordToString, G3.BASIS_LABELS);
@@ -990,55 +861,40 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricN
     /**
      * Provides access to the internals of G3 in order to use `product` functions.
      */
-    private static mutator(M: G3): GeometricE3 {
+    private static mutator(M: G3) {
         const that: GeometricE3 = {
-            set a(a: number) {
-                M._coords[COORD_SCALAR] = a
+            set a(value: number) {
+                M._coords[COORD_SCALAR] = value;
             },
-            set x(x: number) {
-                M._coords[COORD_X] = x
+            set x(value: number) {
+                M._coords[COORD_X] = value;
             },
-            set y(y: number) {
-                M._coords[COORD_Y] = y
+            set y(value: number) {
+                M._coords[COORD_Y] = value;
             },
-            set z(z: number) {
-                M._coords[COORD_Z] = z
+            set z(value: number) {
+                M._coords[COORD_Z] = value;
             },
-            set yz(yz: number) {
-                M._coords[COORD_YZ] = yz
+            set yz(value: number) {
+                M._coords[COORD_YZ] = value;
             },
-            set zx(zx: number) {
-                M._coords[COORD_ZX] = zx
+            set zx(value: number) {
+                M._coords[COORD_ZX] = value;
             },
-            set xy(xy: number) {
-                M._coords[COORD_XY] = xy
+            set xy(value: number) {
+                M._coords[COORD_XY] = value;
             },
-            set b(b: number) {
-                M._coords[COORD_PSEUDO] = b
+            set b(value: number) {
+                M._coords[COORD_PSEUDO] = value;
             }
         }
         return that
     }
 
-    /**
-     * @method copy
-     * @param m {GeometricE3}
-     * @param [uom] {Unit}
-     * @return {G3}
-     * @chainable
-     * @static
-     */
     static copy(m: GeometricE3, uom?: Unit): G3 {
         return new G3(m.a, m.x, m.y, m.z, m.xy, m.yz, m.zx, m.b, uom)
     }
 
-    /**
-     * @method direction
-     * @param vector {VectorE3}
-     * @return {G3}
-     * @chainable
-     * @static
-     */
     static direction(vector: VectorE3): G3 {
         if (vector) {
             return new G3(0, vector.x, vector.y, vector.z, 0, 0, 0, 0).direction()
@@ -1048,13 +904,6 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricN
         }
     }
 
-    /**
-     * @method fromSpinor
-     * @param spinor {SpinorE3}
-     * @return {G3}
-     * @chainable
-     * @static
-     */
     static fromSpinor(spinor: SpinorE3): G3 {
         if (spinor) {
             // FIXME: SpinorE3 should support uom, even though it might be 1
@@ -1065,14 +914,6 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricN
         }
     }
 
-    /**
-     * @method fromVector
-     * @param vector {VectorE3}
-     * @param [uom] {Unit}
-     * @return {G3}
-     * @chainable
-     * @static
-     */
     static fromVector(vector: VectorE3, uom?: Unit): G3 {
         if (vector) {
             return new G3(0, vector.x, vector.y, vector.z, 0, 0, 0, 0, uom)
@@ -1082,39 +923,14 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricN
         }
     }
 
-    /**
-     * @method random
-     * @param [uom] Unit
-     * @return {G3}
-     * @chainable
-     * @static
-     */
     static random(uom?: Unit): G3 {
         return new G3(Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), uom)
     }
 
-    /**
-     * @method scalar
-     * @param α {number}
-     * @param [uom] {Unit}
-     * @return {G3}
-     * @chainable
-     * @static
-     */
     static scalar(α: number, uom?: Unit): G3 {
         return new G3(α, 0, 0, 0, 0, 0, 0, 0, uom)
     }
 
-    /**
-     * @method vector
-     * @param x {number}
-     * @param y {number}
-     * @param z {number}
-     * @param [uom] {Unit}
-     * @return {G3}
-     * @chainable
-     * @static
-     */
     static vector(x: number, y: number, z: number, uom?: Unit): G3 {
         return new G3(0, x, y, z, 0, 0, 0, 0, uom)
     }

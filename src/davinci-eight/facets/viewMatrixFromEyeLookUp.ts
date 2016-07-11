@@ -4,7 +4,7 @@ import Matrix4 from '../math/Matrix4';
 import viewArrayFromEyeLookUp from './viewArrayFromEyeLookUp';
 
 export default function(eye: VectorE3, look: VectorE3, up: VectorE3, matrix?: Matrix4): Matrix4 {
-    const m: Matrix4 = isDefined(matrix) ? matrix : Matrix4.one()
-    viewArrayFromEyeLookUp(eye, look, up, m.elements)
-    return m
+    const m: Matrix4 = isDefined(matrix) ? matrix : Matrix4.one();
+    viewArrayFromEyeLookUp(eye, look, up, m.elements);
+    return m;
 }
