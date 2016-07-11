@@ -11,8 +11,6 @@ import Matrix4 from '../math/Matrix4';
  * <p>
  * The attitude may be undefined when the vector eye - look is parallel to the up vector.
  * </p>
- *
- * @class View
  */
 interface View extends Facet {
 

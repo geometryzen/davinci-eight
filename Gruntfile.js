@@ -138,6 +138,24 @@ module.exports = function(grunt) {
                     sourceMap: false,
                     verbose: false
                 }
+            },
+            test: {
+                tsconfig: {
+                    tsconfig: './tsconfig.json',
+                    ignoreFiles: true,
+                    ignoreSettings: true
+                },
+                options: {
+                    fast: 'never',
+                    module: 'system',
+                    target: 'ES5',
+                    moduleResolution: "classic",
+                    noImplicitAny: true,
+                    suppressImplicitAnyIndexErrors: true,
+                    outDir: 'test-karma',
+                    sourceMap: false,
+                    verbose: false
+                }
             }
         },
 
@@ -167,7 +185,7 @@ module.exports = function(grunt) {
         watch: {
             scripts: {
                 files: ['src/davinci-eight/**/*.ts'],
-                tasks: ['ts:testAMD', 'amd', 'jasmine', 'copy'],
+                tasks: ['ts:test'],
                 options: {
                     spawn: false
                 }
@@ -306,6 +324,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-tslint');
     grunt.loadNpmTasks('grunt-typedoc');
 
+    /**
+     * The function called by the task of the same name.
+     * It takes the contents of the 'system' folder and creates a bundle in the dist folder.
+     */
     function bundle() {
         // Set the baseURL and load the configuration file.
         var builder = new Builder('./system', './config.js');
@@ -320,6 +342,9 @@ module.exports = function(grunt) {
         return builder.bundle('davinci-eight.js', 'dist/davinci-eight-system-es5.js', options);
     }
 
+    //
+    // 'bundle' is called as a step in the 'system' task.
+    //
     grunt.registerTask('bundle', "Bundle into system modules", function() {
         var done = this.async();
         bundle()
@@ -332,68 +357,28 @@ module.exports = function(grunt) {
             });
     });
 
-    var compilerSources = [
-        "src/davinci-eight.ts"
-    ];
-
-    function ES5(xs) {
-        return ['--target ES5'].concat(xs);
-    }
-
-    function AMD(xs) {
-        return ['--module amd'].concat(xs);
-    }
-
-    function COMMONJS(xs) {
-        return ['--module commonjs'].concat(xs);
-    }
-
-    function noImplicitAny(xs) {
-        return ['--noImplicitAny'].concat(xs);
-    }
-
-    function removeComments(xs) {
-        return ['--removeComments'].concat(xs);
-    }
-
-    function outDir(where, xs) {
-        return ['--outDir', where].concat(xs);
-    }
-
-    var argsAMD = AMD(ES5(noImplicitAny(compilerSources)));
-    var argsCJS = COMMONJS(ES5(compilerSources));
-
-    grunt.registerTask('buildAMD', "Build", function() {
-        var done = this.async();
-        tsc(['--declaration'].concat(outDir('amd', argsAMD)).join(" ")).then(function() {
-            done(true);
-        }).catch(function() {
-            done(false);
-        });
-    });
-
-    grunt.registerTask('buildCJS', "Build", function() {
-        var done = this.async();
-        tsc(['--declaration'].concat(outDir('cjs', argsCJS)).join(" ")).then(function() {
-            done(true);
-        }).catch(function() {
-            done(false);
-        });
-    });
-
     grunt.registerTask('test', ['connect:test', 'jasmine']);
 
     grunt.registerTask('testAll', ['exec:test', 'test']);
 
+    grunt.registerTask('testK', ['ts:test', 'watch', 'karma']);
+
     grunt.registerTask('docs', ['clean', 'copy', 'typedoc']);
 
+    //
+    // Creates the bundle in the dist folder with the ES5 System.register(...) format.
+    // tsconfig.system.json specifies the root file from which all others are included.
+    // spec files are not included.
+    //
     grunt.registerTask('system', ['ts:systemES5', 'bundle']);
 
+    //
+    // Creates the bundle in the dist folder with the AMD/universal format.
+    // tsconfig.amd.json specifies the root file from which all others are included.
+    // spec files are not included.
+    //
     grunt.registerTask('amd', ['ts:amdES5', 'requirejs']);
 
-    grunt.registerTask('dev', ['clean', 'amd', 'copy']);
-
-    grunt.registerTask('tdd', ['clean', 'ts:testAMD', 'amd', 'connect:test', 'watch']);
-
-    grunt.registerTask('default', ['clean', 'ts:testAMD', 'amd', 'test', 'system', 'tslint', 'uglify', 'copy', 'typedoc']);
+    // Temporarily disable testing while we move to Karma.
+    grunt.registerTask('default', ['clean',/* 'ts:testAMD',*/ 'amd',/* 'test',*/ 'system', 'tslint', 'uglify', 'copy', 'typedoc']);
 };

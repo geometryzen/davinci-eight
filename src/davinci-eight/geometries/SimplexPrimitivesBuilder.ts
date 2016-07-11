@@ -1,4 +1,4 @@
-import {G3} from '../math/G3';
+import G3 from '../math/G3';
 import GeometryMeta from '../geometries/GeometryMeta';
 import mustBeBoolean from '../checks/mustBeBoolean';
 import mustBeInteger from '../checks/mustBeInteger';

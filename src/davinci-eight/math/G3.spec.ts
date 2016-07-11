@@ -1,4 +1,4 @@
-import {G3} from './G3';
+import G3 from './G3';
 
 describe("G3", function() {
 

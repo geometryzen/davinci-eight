@@ -77,18 +77,18 @@
 							Convenient base class for derived classes implementing <code>Shareable</code>.
 						</p>
 					</div>
-					<pre><code><span class="hljs-keyword">class</span> MyShareableClass extends ShareableBase {
-  <span class="hljs-constructor"><span class="hljs-keyword">constructor</span>() </span>{
+					<pre><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyShareableClass</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">ShareableBase</span> </span>{
+  constructor() {
     <span class="hljs-comment">// First thing you do is call super to invoke constructors up the chain.</span>
     <span class="hljs-keyword">super</span>()
     <span class="hljs-comment">// Setting the logging name is both a good practice and increments the tally</span>
     <span class="hljs-comment">// of constructors in the constructor chain. The runtime architecture will</span>
     <span class="hljs-comment">// verify that the number of destructor calls matches these logging name calls.</span>
-    <span class="hljs-keyword">this</span>.setLoggingName(<span class="hljs-string">'MyShareableClass'</span>)
+    <span class="hljs-keyword">this</span>.setLoggingName(<span class="hljs-symbol">'MyShareableClas</span>s')
     <span class="hljs-comment">// Finally, your initialization code here.</span>
     <span class="hljs-comment">// addRef and shared resources, maybe create owned resources.</span>
   }
-  <span class="hljs-keyword">protected</span> destructor(levelUp: <span class="hljs-built_in">number</span>): <span class="hljs-built_in">void</span> {
+  <span class="hljs-keyword">protected</span> destructor(levelUp: number): void {
     <span class="hljs-comment">// Firstly, your termination code here.</span>
     <span class="hljs-comment">// Release any shared resources and/or delete any owned resources.</span>
     <span class="hljs-comment">// Last thing you do is to call the super destructor, incrementing the level.</span>
@@ -107,16 +107,13 @@
 						<span class="target">ShareableBase</span>
 						<ul class="tsd-hierarchy">
 							<li>
-								<a href="_commands_eightlogger_.default.html" class="tsd-signature-type">default</a>
+								<a href="_commands_eightlogger_.eightlogger.html" class="tsd-signature-type">EIGHTLogger</a>
 							</li>
 							<li>
-								<a href="_base_defaultcontextprovider_.default.html" class="tsd-signature-type">default</a>
+								<a href="_collections_shareablearray_.shareablearray.html" class="tsd-signature-type">ShareableArray</a>
 							</li>
 							<li>
-								<a href="_collections_shareablearray_.default.html" class="tsd-signature-type">default</a>
-							</li>
-							<li>
-								<a href="_commands_versionlogger_.default.html" class="tsd-signature-type">default</a>
+								<a href="_commands_versionlogger_.versionlogger.html" class="tsd-signature-type">VersionLogger</a>
 							</li>
 							<li>
 								<a href="_commands_webglclearcolor_.webglclearcolor.html" class="tsd-signature-type">WebGLClearColor</a>
@@ -131,19 +128,40 @@
 								<a href="_core_engine_.engine.html" class="tsd-signature-type">Engine</a>
 							</li>
 							<li>
-								<a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html" class="tsd-signature-type">ShareableContextConsumer</a>
+								<a href="_base_defaultcontextprovider_.defaultcontextprovider.html" class="tsd-signature-type">DefaultContextProvider</a>
 							</li>
 							<li>
-								<a href="_core_scene_.scenepart.html" class="tsd-signature-type">ScenePart</a>
+								<a href="_base_exchange_spec_.foo.html" class="tsd-signature-type">Foo</a>
+							</li>
+							<li>
+								<a href="_collections_numbershareablemap_.numbershareablemap.html" class="tsd-signature-type">NumberShareableMap</a>
+							</li>
+							<li>
+								<a href="_collections_numbershareablemap_spec_.foo.html" class="tsd-signature-type">Foo</a>
+							</li>
+							<li>
+								<a href="_collections_shareablearray_spec_.foo.html" class="tsd-signature-type">Foo</a>
+							</li>
+							<li>
+								<a href="_collections_stringshareablemap_.stringshareablemap.html" class="tsd-signature-type">StringShareableMap</a>
+							</li>
+							<li>
+								<a href="_collections_stringshareablemap_spec_.foo.html" class="tsd-signature-type">Foo</a>
 							</li>
 							<li>
 								<a href="_controls_mousecontrols_.mousecontrols.html" class="tsd-signature-type">MouseControls</a>
 							</li>
 							<li>
-								<a href="_core_geometrycontainer_.default.html" class="tsd-signature-type">default</a>
+								<a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html" class="tsd-signature-type">ShareableContextConsumer</a>
 							</li>
 							<li>
-								<a href="_visual_trail_.trail.html" class="tsd-signature-type">Trail</a>
+								<a href="_core_geometrycontainer_.geometrycontainer.html" class="tsd-signature-type">GeometryContainer</a>
+							</li>
+							<li>
+								<a href="_core_shareablebase_spec_.foo.html" class="tsd-signature-type">Foo</a>
+							</li>
+							<li>
+								<a href="_visual_rigidbodywithunits_.rigidbodywithunits.html" class="tsd-signature-type">RigidBodyWithUnits</a>
 							</li>
 						</ul>
 					</li>
@@ -207,7 +225,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L60">core/ShareableBase.ts:60</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/core/ShareableBase.ts#L60">core/ShareableBase.ts:60</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_core_shareablebase_.shareablebase.html" class="tsd-signature-type">ShareableBase</a></h4>
@@ -220,10 +238,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
 					<a name="_levelup" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _level<wbr>Up</h3>
-					<div class="tsd-signature tsd-kind-icon">_level<wbr>Up<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<div class="tsd-signature tsd-kind-icon">_level<wbr>Up<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;-1</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L60">core/ShareableBase.ts:60</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/core/ShareableBase.ts#L60">core/ShareableBase.ts:60</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -237,10 +255,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
 					<a name="_refcount" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _ref<wbr>Count</h3>
-					<div class="tsd-signature tsd-kind-icon">_ref<wbr>Count<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<div class="tsd-signature tsd-kind-icon">_ref<wbr>Count<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;1</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L43">core/ShareableBase.ts:43</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/core/ShareableBase.ts#L43">core/ShareableBase.ts:43</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -250,17 +268,17 @@
 					<div class="tsd-signature tsd-kind-icon">_type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L48">core/ShareableBase.ts:48</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/core/ShareableBase.ts#L48">core/ShareableBase.ts:48</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
 					<a name="_uuid" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _uuid</h3>
-					<div class="tsd-signature tsd-kind-icon">_uuid<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<div class="tsd-signature tsd-kind-icon">_uuid<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;uuid4().generate()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L53">core/ShareableBase.ts:53</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/core/ShareableBase.ts#L53">core/ShareableBase.ts:53</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -283,7 +301,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L100">core/ShareableBase.ts:100</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/core/ShareableBase.ts#L100">core/ShareableBase.ts:100</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -298,7 +316,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L103">core/ShareableBase.ts:103</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/core/ShareableBase.ts#L103">core/ShareableBase.ts:103</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -328,7 +346,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L193">core/ShareableBase.ts:193</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/core/ShareableBase.ts#L193">core/ShareableBase.ts:193</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -349,7 +367,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_shareable_.shareable.html">Shareable</a>.<a href="../interfaces/_core_shareable_.shareable.html#addref">addRef</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L123">core/ShareableBase.ts:123</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/core/ShareableBase.ts#L123">core/ShareableBase.ts:123</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -374,7 +392,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L84">core/ShareableBase.ts:84</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/core/ShareableBase.ts#L84">core/ShareableBase.ts:84</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -416,7 +434,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L132">core/ShareableBase.ts:132</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/core/ShareableBase.ts#L132">core/ShareableBase.ts:132</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -435,7 +453,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L112">core/ShareableBase.ts:112</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/core/ShareableBase.ts#L112">core/ShareableBase.ts:112</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -459,7 +477,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_shareable_.shareable.html">Shareable</a>.<a href="../interfaces/_core_shareable_.shareable.html#release">release</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L170">core/ShareableBase.ts:170</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/core/ShareableBase.ts#L170">core/ShareableBase.ts:170</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -484,7 +502,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L155">core/ShareableBase.ts:155</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/core/ShareableBase.ts#L155">core/ShareableBase.ts:155</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">

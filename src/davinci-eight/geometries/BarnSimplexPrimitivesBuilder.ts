@@ -1,5 +1,5 @@
 import computeFaceNormals from '../geometries/computeFaceNormals';
-import {G3} from '../math/G3';
+import G3 from '../math/G3';
 import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import quad from '../geometries/quadrilateral';
 import Simplex from '../geometries/Simplex';
@@ -93,7 +93,7 @@ export default class BarnSimplexPrimitivesBuilder extends SimplexPrimitivesBuild
                 }
                 break
             default: {
-              // Do nothing.
+                // Do nothing.
             }
         }
         // Compute the meta data.

@@ -147,7 +147,7 @@ import {Dimensions} from './davinci-eight/math/Dimensions';
 import G1 from './davinci-eight/math/G1';
 import GeometricE1 from './davinci-eight/math/GeometricE1';
 import {G2} from './davinci-eight/math/G2';
-import {G3} from './davinci-eight/math/G3';
+import G3 from './davinci-eight/math/G3';
 import gauss from './davinci-eight/math/gauss';
 import GeometricNumber from './davinci-eight/math/GeometricNumber';
 import LinearNumber from './davinci-eight/math/LinearNumber';
@@ -294,6 +294,7 @@ const eight = {
     get ArrowGeometry() { return ArrowGeometry },
     get BoxGeometry() { return BoxGeometry },
     get ConicalShellBuilder() { return ConicalShellBuilder },
+    get CuboidPrimitivesBuilder() { return CuboidPrimitivesBuilder },
     get CylinderBuilder() { return CylinderBuilder },
     get CylinderGeometry() { return CylinderGeometry },
     get CylindricalShellBuilder() { return CylindricalShellBuilder },

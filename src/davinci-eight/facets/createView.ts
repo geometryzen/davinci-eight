@@ -1,6 +1,5 @@
 import {FacetVisitor} from '../core/FacetVisitor';
 import {Geometric3} from '../math/Geometric3';
-import {G3} from '../math/G3';
 import Vector3 from '../math/Vector3';
 import VectorE3 from '../math/VectorE3';
 import Matrix4 from '../math/Matrix4';
@@ -30,19 +29,19 @@ export default function createView(options: { viewMatrixName?: string } = {}): V
      * eye is the position vector of the viewing point.
      * Default is e3.
      */
-    const eye: Geometric3 = Geometric3.copy(G3.e3)
+    const eye: Geometric3 = Geometric3.vector(0, 0, 1);
 
     /**
      * look is the point that we are looking at.
      * Default is 0, the origin.
      */
-    const look: Geometric3 = Geometric3.copy(G3.zero)
+    const look: Geometric3 = Geometric3.vector(0, 0, 0);
 
     /**
      * up is the "guess" at where up should be.
      * Default is e2.
      */
-    const up: Geometric3 = Geometric3.copy(G3.e2)
+    const up: Geometric3 = Geometric3.vector(0, 1, 0);
 
     /**
      *

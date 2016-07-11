@@ -1,4 +1,3 @@
-import {G3} from '../math/G3'
 import GridTriangleStrip from './primitives/GridTriangleStrip'
 import PrimitivesBuilder from './PrimitivesBuilder'
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols'
@@ -113,9 +112,9 @@ export default class CuboidPrimitivesBuilder extends PrimitivesBuilder {
      */
     public openCap = false;
 
-    private _a: Vector3 = Vector3.copy(G3.e1);
-    private _b: Vector3 = Vector3.copy(G3.e2);
-    private _c: Vector3 = Vector3.copy(G3.e3);
+    private _a: Vector3 = Vector3.vector(1, 0, 0);
+    private _b: Vector3 = Vector3.vector(0, 1, 0);
+    private _c: Vector3 = Vector3.vector(0, 0, 1);
 
     private sides: GridTriangleStrip[];
 

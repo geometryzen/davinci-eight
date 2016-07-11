@@ -1,5 +1,4 @@
 import {Geometric3} from './Geometric3'
-import {G3} from './G3'
 import R3 from './R3'
 import {Unit} from './Unit'
 import Spinor3 from './Spinor3'
@@ -197,7 +196,7 @@ describe("Geometric3", function() {
             expect(Geometric3.wedge(e3, e1).maskG3).toBe(0x4)
         })
         it("rotorFromDirections(e1, e2) => 0x5", function() {
-            expect(Geometric3.rotorFromDirections(G3.e1, G3.e2).maskG3).toBe(0x5)
+            expect(Geometric3.rotorFromDirections(R3.e1, R3.e2).maskG3).toBe(0x5)
         })
         it("pseudoscalar => 0x8", function() {
             const I = new Geometric3().zero().addPseudo(1)

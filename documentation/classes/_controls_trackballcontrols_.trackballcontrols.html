@@ -78,22 +78,22 @@
 						</p>
 					</div>
 					<pre><code><span class="hljs-comment">// The trackball controls a View implementation such as a camera.</span>
-const camera = new EIGHT.<span class="hljs-function"><span class="hljs-title">PerspectiveCamera</span><span class="hljs-params">()</span></span>
+const camera = <span class="hljs-function"><span class="hljs-keyword">new</span> <span class="hljs-title">EIGHT</span>.<span class="hljs-title">PerspectiveCamera</span>()
 
 <span class="hljs-comment">// Create TrackballControls anytime.</span>
-const controls = new EIGHT.<span class="hljs-function"><span class="hljs-title">TrackballControls</span><span class="hljs-params">(camera)</span></span>
+<span class="hljs-title">const</span> <span class="hljs-title">controls</span> = <span class="hljs-title">new</span> <span class="hljs-title">EIGHT</span>.<span class="hljs-title">TrackballControls</span>(camera)
 
 <span class="hljs-comment">// Subscribe to mouse events, usually in the window.onload function.</span>
-controls.<span class="hljs-function"><span class="hljs-title">subscribe</span><span class="hljs-params">(canvas)</span></span>
+<span class="hljs-title">controls</span>.<span class="hljs-title">subscribe</span>(canvas)
 
 <span class="hljs-comment">// Update the camera position, usually in the animate function.</span>
-controls.<span class="hljs-function"><span class="hljs-title">update</span><span class="hljs-params">()</span></span>
+<span class="hljs-title">controls</span>.<span class="hljs-title">update</span>()
 
 <span class="hljs-comment">// Stop listening to mouse events.</span>
-controls.<span class="hljs-function"><span class="hljs-title">unsubscribe</span><span class="hljs-params">()</span></span>
+<span class="hljs-title">controls</span>.<span class="hljs-title">unsubscribe</span>()
 
 <span class="hljs-comment">// Inform the controls they are no longer needed, usually in the window.onunload function.</span>
-controls.<span class="hljs-function"><span class="hljs-title">release</span><span class="hljs-params">()</span></span>
+<span class="hljs-title">controls</span>.<span class="hljs-title">release</span>()</span>
 </code></pre><p>You may decide to update directional lighting to synchronize with the camera.</p>
 				</div>
 			</section>
@@ -121,77 +121,77 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
+						<section class="tsd-index-section tsd-is-external">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="_controls_trackballcontrols_.trackballcontrols.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section ">
+						<section class="tsd-index-section tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_controls_trackballcontrols_.trackballcontrols.html#b" class="tsd-kind-icon">B</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_controls_trackballcontrols_.trackballcontrols.html#_type" class="tsd-kind-icon">_type</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_controls_trackballcontrols_.trackballcontrols.html#enabled" class="tsd-kind-icon">enabled</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_controls_trackballcontrols_.trackballcontrols.html#eyeminuslook" class="tsd-kind-icon">eye<wbr>Minus<wbr>Look</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_controls_trackballcontrols_.trackballcontrols.html#eyeminuslookdirection" class="tsd-kind-icon">eye<wbr>Minus<wbr>Look<wbr>Direction</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_controls_trackballcontrols_.trackballcontrols.html#look" class="tsd-kind-icon">look</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_controls_trackballcontrols_.trackballcontrols.html#maxdistance" class="tsd-kind-icon">max<wbr>Distance</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_controls_trackballcontrols_.trackballcontrols.html#mindistance" class="tsd-kind-icon">min<wbr>Distance</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_controls_trackballcontrols_.trackballcontrols.html#mousechange" class="tsd-kind-icon">mouse<wbr>Change</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_controls_trackballcontrols_.trackballcontrols.html#movecurr" class="tsd-kind-icon">move<wbr>Curr</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_controls_trackballcontrols_.trackballcontrols.html#movedirection" class="tsd-kind-icon">move<wbr>Direction</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_controls_trackballcontrols_.trackballcontrols.html#moveprev" class="tsd-kind-icon">move<wbr>Prev</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_controls_trackballcontrols_.trackballcontrols.html#nopan" class="tsd-kind-icon">no<wbr>Pan</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_controls_trackballcontrols_.trackballcontrols.html#norotate" class="tsd-kind-icon">no<wbr>Rotate</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_controls_trackballcontrols_.trackballcontrols.html#nozoom" class="tsd-kind-icon">no<wbr>Zoom</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_controls_trackballcontrols_.trackballcontrols.html#objectsidewaysdirection" class="tsd-kind-icon">object<wbr>Sideways<wbr>Direction</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_controls_trackballcontrols_.trackballcontrols.html#objectup" class="tsd-kind-icon">object<wbr>Up</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_controls_trackballcontrols_.trackballcontrols.html#objectupdirection" class="tsd-kind-icon">object<wbr>UpDirection</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_controls_trackballcontrols_.trackballcontrols.html#pan" class="tsd-kind-icon">pan</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_controls_trackballcontrols_.trackballcontrols.html#panend" class="tsd-kind-icon">pan<wbr>End</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_controls_trackballcontrols_.trackballcontrols.html#panspeed" class="tsd-kind-icon">pan<wbr>Speed</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_controls_trackballcontrols_.trackballcontrols.html#panstart" class="tsd-kind-icon">pan<wbr>Start</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_controls_trackballcontrols_.trackballcontrols.html#rotatespeed" class="tsd-kind-icon">rotate<wbr>Speed</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_controls_trackballcontrols_.trackballcontrols.html#rotor" class="tsd-kind-icon">rotor</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_controls_trackballcontrols_.trackballcontrols.html#up" class="tsd-kind-icon">up</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_controls_trackballcontrols_.trackballcontrols.html#zoomend" class="tsd-kind-icon">zoom<wbr>End</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_controls_trackballcontrols_.trackballcontrols.html#zoomspeed" class="tsd-kind-icon">zoom<wbr>Speed</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_controls_trackballcontrols_.trackballcontrols.html#zoomstart" class="tsd-kind-icon">zoom<wbr>Start</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#b" class="tsd-kind-icon">B</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#_type" class="tsd-kind-icon">_type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#enabled" class="tsd-kind-icon">enabled</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#eyeminuslook" class="tsd-kind-icon">eye<wbr>Minus<wbr>Look</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#eyeminuslookdirection" class="tsd-kind-icon">eye<wbr>Minus<wbr>Look<wbr>Direction</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#look" class="tsd-kind-icon">look</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#maxdistance" class="tsd-kind-icon">max<wbr>Distance</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#mindistance" class="tsd-kind-icon">min<wbr>Distance</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#mousechange" class="tsd-kind-icon">mouse<wbr>Change</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#movecurr" class="tsd-kind-icon">move<wbr>Curr</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#movedirection" class="tsd-kind-icon">move<wbr>Direction</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#moveprev" class="tsd-kind-icon">move<wbr>Prev</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#nopan" class="tsd-kind-icon">no<wbr>Pan</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#norotate" class="tsd-kind-icon">no<wbr>Rotate</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#nozoom" class="tsd-kind-icon">no<wbr>Zoom</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#objectsidewaysdirection" class="tsd-kind-icon">object<wbr>Sideways<wbr>Direction</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#objectup" class="tsd-kind-icon">object<wbr>Up</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#objectupdirection" class="tsd-kind-icon">object<wbr>UpDirection</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#pan" class="tsd-kind-icon">pan</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#panend" class="tsd-kind-icon">pan<wbr>End</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#panspeed" class="tsd-kind-icon">pan<wbr>Speed</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#panstart" class="tsd-kind-icon">pan<wbr>Start</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#rotatespeed" class="tsd-kind-icon">rotate<wbr>Speed</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#rotor" class="tsd-kind-icon">rotor</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#up" class="tsd-kind-icon">up</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#zoomend" class="tsd-kind-icon">zoom<wbr>End</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#zoomspeed" class="tsd-kind-icon">zoom<wbr>Speed</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#zoomstart" class="tsd-kind-icon">zoom<wbr>Start</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section ">
+						<section class="tsd-index-section tsd-is-external">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_controls_trackballcontrols_.trackballcontrols.html#addref" class="tsd-kind-icon">add<wbr>Ref</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected"><a href="_controls_trackballcontrols_.trackballcontrols.html#destructor" class="tsd-kind-icon">destructor</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_controls_trackballcontrols_.trackballcontrols.html#getloggingname" class="tsd-kind-icon">get<wbr>Logging<wbr>Name</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_controls_trackballcontrols_.trackballcontrols.html#handleresize" class="tsd-kind-icon">handle<wbr>Resize</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_controls_trackballcontrols_.trackballcontrols.html#hasview" class="tsd-kind-icon">has<wbr>View</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_controls_trackballcontrols_.trackballcontrols.html#iszombie" class="tsd-kind-icon">is<wbr>Zombie</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_controls_trackballcontrols_.trackballcontrols.html#move" class="tsd-kind-icon">move</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected"><a href="_controls_trackballcontrols_.trackballcontrols.html#pancamera" class="tsd-kind-icon">pan<wbr>Camera</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_controls_trackballcontrols_.trackballcontrols.html#release" class="tsd-kind-icon">release</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_controls_trackballcontrols_.trackballcontrols.html#reset" class="tsd-kind-icon">reset</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected"><a href="_controls_trackballcontrols_.trackballcontrols.html#rotatecamera" class="tsd-kind-icon">rotate<wbr>Camera</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_controls_trackballcontrols_.trackballcontrols.html#setloggingname" class="tsd-kind-icon">set<wbr>Logging<wbr>Name</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_controls_trackballcontrols_.trackballcontrols.html#setview" class="tsd-kind-icon">set<wbr>View</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_controls_trackballcontrols_.trackballcontrols.html#subscribe" class="tsd-kind-icon">subscribe</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_controls_trackballcontrols_.trackballcontrols.html#synchronize" class="tsd-kind-icon">synchronize</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_controls_trackballcontrols_.trackballcontrols.html#unsubscribe" class="tsd-kind-icon">unsubscribe</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_controls_trackballcontrols_.trackballcontrols.html#update" class="tsd-kind-icon">update</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_controls_trackballcontrols_.trackballcontrols.html#zoomcamera" class="tsd-kind-icon">zoom<wbr>Camera</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#addref" class="tsd-kind-icon">add<wbr>Ref</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#destructor" class="tsd-kind-icon">destructor</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#getloggingname" class="tsd-kind-icon">get<wbr>Logging<wbr>Name</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#handleresize" class="tsd-kind-icon">handle<wbr>Resize</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#hasview" class="tsd-kind-icon">has<wbr>View</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#iszombie" class="tsd-kind-icon">is<wbr>Zombie</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#move" class="tsd-kind-icon">move</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#pancamera" class="tsd-kind-icon">pan<wbr>Camera</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#release" class="tsd-kind-icon">release</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#reset" class="tsd-kind-icon">reset</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#rotatecamera" class="tsd-kind-icon">rotate<wbr>Camera</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#setloggingname" class="tsd-kind-icon">set<wbr>Logging<wbr>Name</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#setview" class="tsd-kind-icon">set<wbr>View</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#subscribe" class="tsd-kind-icon">subscribe</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#synchronize" class="tsd-kind-icon">synchronize</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#unsubscribe" class="tsd-kind-icon">unsubscribe</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#update" class="tsd-kind-icon">update</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="_controls_trackballcontrols_.trackballcontrols.html#zoomcamera" class="tsd-kind-icon">zoom<wbr>Camera</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group ">
+			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite tsd-is-external">
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">new <wbr>Trackball<wbr>Controls<span class="tsd-signature-symbol">(</span>view<span class="tsd-signature-symbol">: </span><a href="../interfaces/_facets_view_.view.html" class="tsd-signature-type">View</a>, wnd<span class="tsd-signature-symbol">: </span><a href="../interfaces/_base_browserwindow_.browserwindow.html" class="tsd-signature-type">BrowserWindow</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_controls_trackballcontrols_.trackballcontrols.html" class="tsd-signature-type">TrackballControls</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -199,7 +199,7 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 							<aside class="tsd-sources">
 								<p>Overwrites <a href="_controls_viewcontrols_.viewcontrols.html">ViewControls</a>.<a href="_controls_viewcontrols_.viewcontrols.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/TrackballControls.ts#L47">controls/TrackballControls.ts:47</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/TrackballControls.ts#L47">controls/TrackballControls.ts:47</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -218,15 +218,15 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 					</ul>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group ">
+			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
 					<a name="b" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> B</h3>
-					<div class="tsd-signature tsd-kind-icon">B<span class="tsd-signature-symbol">:</span> <a href="_math_spinor3_.default.html" class="tsd-signature-type">default</a></div>
+					<div class="tsd-signature tsd-kind-icon">B<span class="tsd-signature-symbol">:</span> <a href="_math_spinor3_.spinor3.html" class="tsd-signature-type">Spinor3</a><span class="tsd-signature-symbol"> =&nbsp;Spinor3.zero()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/TrackballControls.ts#L43">controls/TrackballControls.ts:43</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/TrackballControls.ts#L43">controls/TrackballControls.ts:43</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -235,25 +235,25 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 					<a name="_type" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _type</h3>
 					<div class="tsd-signature tsd-kind-icon">_type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_core_shareablebase_.shareablebase.html">ShareableBase</a>.<a href="_core_shareablebase_.shareablebase.html#_type">_type</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L48">core/ShareableBase.ts:48</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/core/ShareableBase.ts#L48">core/ShareableBase.ts:48</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="enabled" class="tsd-anchor"></a>
 					<h3>enabled</h3>
-					<div class="tsd-signature tsd-kind-icon">enabled<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<div class="tsd-signature tsd-kind-icon">enabled<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_controls_mousecontrols_.mousecontrols.html">MouseControls</a>.<a href="_controls_mousecontrols_.mousecontrols.html#enabled">enabled</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/MouseControls.ts#L25">controls/MouseControls.ts:25</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/MouseControls.ts#L25">controls/MouseControls.ts:25</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -264,46 +264,46 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						</dl>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 					<a name="eyeminuslook" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> eye<wbr>Minus<wbr>Look</h3>
-					<div class="tsd-signature tsd-kind-icon">eye<wbr>Minus<wbr>Look<span class="tsd-signature-symbol">:</span> <a href="_math_vector3_.default.html" class="tsd-signature-type">default</a></div>
+					<div class="tsd-signature tsd-kind-icon">eye<wbr>Minus<wbr>Look<span class="tsd-signature-symbol">:</span> <a href="_math_vector3_.vector3.html" class="tsd-signature-type">Vector3</a><span class="tsd-signature-symbol"> =&nbsp;new Vector3()</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_controls_viewcontrols_.viewcontrols.html">ViewControls</a>.<a href="_controls_viewcontrols_.viewcontrols.html#eyeminuslook">eyeMinusLook</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/ViewControls.ts#L53">controls/ViewControls.ts:53</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/ViewControls.ts#L53">controls/ViewControls.ts:53</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
 					<a name="eyeminuslookdirection" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> eye<wbr>Minus<wbr>Look<wbr>Direction</h3>
-					<div class="tsd-signature tsd-kind-icon">eye<wbr>Minus<wbr>Look<wbr>Direction<span class="tsd-signature-symbol">:</span> <a href="_math_vector3_.default.html" class="tsd-signature-type">default</a></div>
+					<div class="tsd-signature tsd-kind-icon">eye<wbr>Minus<wbr>Look<wbr>Direction<span class="tsd-signature-symbol">:</span> <a href="_math_vector3_.vector3.html" class="tsd-signature-type">Vector3</a><span class="tsd-signature-symbol"> =&nbsp;new Vector3()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/TrackballControls.ts#L37">controls/TrackballControls.ts:37</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/TrackballControls.ts#L37">controls/TrackballControls.ts:37</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 					<a name="look" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> look</h3>
-					<div class="tsd-signature tsd-kind-icon">look<span class="tsd-signature-symbol">:</span> <a href="_math_vector3_.default.html" class="tsd-signature-type">default</a></div>
+					<div class="tsd-signature tsd-kind-icon">look<span class="tsd-signature-symbol">:</span> <a href="_math_vector3_.vector3.html" class="tsd-signature-type">Vector3</a><span class="tsd-signature-symbol"> =&nbsp;new Vector3()</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_controls_viewcontrols_.viewcontrols.html">ViewControls</a>.<a href="_controls_viewcontrols_.viewcontrols.html#look">look</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/ViewControls.ts#L58">controls/ViewControls.ts:58</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/ViewControls.ts#L58">controls/ViewControls.ts:58</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="maxdistance" class="tsd-anchor"></a>
 					<h3>max<wbr>Distance</h3>
-					<div class="tsd-signature tsd-kind-icon">max<wbr>Distance<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<div class="tsd-signature tsd-kind-icon">max<wbr>Distance<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;Infinity</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_controls_mousecontrols_.mousecontrols.html">MouseControls</a>.<a href="_controls_mousecontrols_.mousecontrols.html#maxdistance">maxDistance</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/MouseControls.ts#L55">controls/MouseControls.ts:55</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/MouseControls.ts#L55">controls/MouseControls.ts:55</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -314,14 +314,14 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						</dl>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="mindistance" class="tsd-anchor"></a>
 					<h3>min<wbr>Distance</h3>
-					<div class="tsd-signature tsd-kind-icon">min<wbr>Distance<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<div class="tsd-signature tsd-kind-icon">min<wbr>Distance<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_controls_mousecontrols_.mousecontrols.html">MouseControls</a>.<a href="_controls_mousecontrols_.mousecontrols.html#mindistance">minDistance</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/MouseControls.ts#L49">controls/MouseControls.ts:49</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/MouseControls.ts#L49">controls/MouseControls.ts:49</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -332,56 +332,56 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						</dl>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
 					<a name="mousechange" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> mouse<wbr>Change</h3>
-					<div class="tsd-signature tsd-kind-icon">mouse<wbr>Change<span class="tsd-signature-symbol">:</span> <a href="_math_vector2_.vector2.html" class="tsd-signature-type">Vector2</a></div>
+					<div class="tsd-signature tsd-kind-icon">mouse<wbr>Change<span class="tsd-signature-symbol">:</span> <a href="_math_vector2_.vector2.html" class="tsd-signature-type">Vector2</a><span class="tsd-signature-symbol"> =&nbsp;new Vector2()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/TrackballControls.ts#L45">controls/TrackballControls.ts:45</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/TrackballControls.ts#L45">controls/TrackballControls.ts:45</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 					<a name="movecurr" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> move<wbr>Curr</h3>
-					<div class="tsd-signature tsd-kind-icon">move<wbr>Curr<span class="tsd-signature-symbol">:</span> <a href="_math_vector2_.vector2.html" class="tsd-signature-type">Vector2</a></div>
+					<div class="tsd-signature tsd-kind-icon">move<wbr>Curr<span class="tsd-signature-symbol">:</span> <a href="_math_vector2_.vector2.html" class="tsd-signature-type">Vector2</a><span class="tsd-signature-symbol"> =&nbsp;new Vector2()</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_controls_mousecontrols_.mousecontrols.html">MouseControls</a>.<a href="_controls_mousecontrols_.mousecontrols.html#movecurr">moveCurr</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/MouseControls.ts#L75">controls/MouseControls.ts:75</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/MouseControls.ts#L75">controls/MouseControls.ts:75</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
 					<a name="movedirection" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> move<wbr>Direction</h3>
-					<div class="tsd-signature tsd-kind-icon">move<wbr>Direction<span class="tsd-signature-symbol">:</span> <a href="_math_vector3_.default.html" class="tsd-signature-type">default</a></div>
+					<div class="tsd-signature tsd-kind-icon">move<wbr>Direction<span class="tsd-signature-symbol">:</span> <a href="_math_vector3_.vector3.html" class="tsd-signature-type">Vector3</a><span class="tsd-signature-symbol"> =&nbsp;new Vector3()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/TrackballControls.ts#L36">controls/TrackballControls.ts:36</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/TrackballControls.ts#L36">controls/TrackballControls.ts:36</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 					<a name="moveprev" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> move<wbr>Prev</h3>
-					<div class="tsd-signature tsd-kind-icon">move<wbr>Prev<span class="tsd-signature-symbol">:</span> <a href="_math_vector2_.vector2.html" class="tsd-signature-type">Vector2</a></div>
+					<div class="tsd-signature tsd-kind-icon">move<wbr>Prev<span class="tsd-signature-symbol">:</span> <a href="_math_vector2_.vector2.html" class="tsd-signature-type">Vector2</a><span class="tsd-signature-symbol"> =&nbsp;new Vector2()</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_controls_mousecontrols_.mousecontrols.html">MouseControls</a>.<a href="_controls_mousecontrols_.mousecontrols.html#moveprev">movePrev</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/MouseControls.ts#L80">controls/MouseControls.ts:80</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/MouseControls.ts#L80">controls/MouseControls.ts:80</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="nopan" class="tsd-anchor"></a>
 					<h3>no<wbr>Pan</h3>
-					<div class="tsd-signature tsd-kind-icon">no<wbr>Pan<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<div class="tsd-signature tsd-kind-icon">no<wbr>Pan<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_controls_mousecontrols_.mousecontrols.html">MouseControls</a>.<a href="_controls_mousecontrols_.mousecontrols.html#nopan">noPan</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/MouseControls.ts#L43">controls/MouseControls.ts:43</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/MouseControls.ts#L43">controls/MouseControls.ts:43</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -392,14 +392,14 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						</dl>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="norotate" class="tsd-anchor"></a>
 					<h3>no<wbr>Rotate</h3>
-					<div class="tsd-signature tsd-kind-icon">no<wbr>Rotate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<div class="tsd-signature tsd-kind-icon">no<wbr>Rotate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_controls_mousecontrols_.mousecontrols.html">MouseControls</a>.<a href="_controls_mousecontrols_.mousecontrols.html#norotate">noRotate</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/MouseControls.ts#L31">controls/MouseControls.ts:31</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/MouseControls.ts#L31">controls/MouseControls.ts:31</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -410,14 +410,14 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						</dl>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="nozoom" class="tsd-anchor"></a>
 					<h3>no<wbr>Zoom</h3>
-					<div class="tsd-signature tsd-kind-icon">no<wbr>Zoom<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<div class="tsd-signature tsd-kind-icon">no<wbr>Zoom<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_controls_mousecontrols_.mousecontrols.html">MouseControls</a>.<a href="_controls_mousecontrols_.mousecontrols.html#nozoom">noZoom</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/MouseControls.ts#L37">controls/MouseControls.ts:37</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/MouseControls.ts#L37">controls/MouseControls.ts:37</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -428,65 +428,65 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						</dl>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
 					<a name="objectsidewaysdirection" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> object<wbr>Sideways<wbr>Direction</h3>
-					<div class="tsd-signature tsd-kind-icon">object<wbr>Sideways<wbr>Direction<span class="tsd-signature-symbol">:</span> <a href="_math_vector3_.default.html" class="tsd-signature-type">default</a></div>
+					<div class="tsd-signature tsd-kind-icon">object<wbr>Sideways<wbr>Direction<span class="tsd-signature-symbol">:</span> <a href="_math_vector3_.vector3.html" class="tsd-signature-type">Vector3</a><span class="tsd-signature-symbol"> =&nbsp;new Vector3()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/TrackballControls.ts#L39">controls/TrackballControls.ts:39</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/TrackballControls.ts#L39">controls/TrackballControls.ts:39</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
 					<a name="objectup" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> object<wbr>Up</h3>
-					<div class="tsd-signature tsd-kind-icon">object<wbr>Up<span class="tsd-signature-symbol">:</span> <a href="_math_vector3_.default.html" class="tsd-signature-type">default</a></div>
+					<div class="tsd-signature tsd-kind-icon">object<wbr>Up<span class="tsd-signature-symbol">:</span> <a href="_math_vector3_.vector3.html" class="tsd-signature-type">Vector3</a><span class="tsd-signature-symbol"> =&nbsp;new Vector3()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/TrackballControls.ts#L47">controls/TrackballControls.ts:47</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/TrackballControls.ts#L47">controls/TrackballControls.ts:47</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
 					<a name="objectupdirection" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> object<wbr>UpDirection</h3>
-					<div class="tsd-signature tsd-kind-icon">object<wbr>UpDirection<span class="tsd-signature-symbol">:</span> <a href="_math_vector3_.default.html" class="tsd-signature-type">default</a></div>
+					<div class="tsd-signature tsd-kind-icon">object<wbr>UpDirection<span class="tsd-signature-symbol">:</span> <a href="_math_vector3_.vector3.html" class="tsd-signature-type">Vector3</a><span class="tsd-signature-symbol"> =&nbsp;new Vector3()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/TrackballControls.ts#L38">controls/TrackballControls.ts:38</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/TrackballControls.ts#L38">controls/TrackballControls.ts:38</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
 					<a name="pan" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> pan</h3>
-					<div class="tsd-signature tsd-kind-icon">pan<span class="tsd-signature-symbol">:</span> <a href="_math_vector3_.default.html" class="tsd-signature-type">default</a></div>
+					<div class="tsd-signature tsd-kind-icon">pan<span class="tsd-signature-symbol">:</span> <a href="_math_vector3_.vector3.html" class="tsd-signature-type">Vector3</a><span class="tsd-signature-symbol"> =&nbsp;new Vector3()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/TrackballControls.ts#L46">controls/TrackballControls.ts:46</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/TrackballControls.ts#L46">controls/TrackballControls.ts:46</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 					<a name="panend" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> pan<wbr>End</h3>
-					<div class="tsd-signature tsd-kind-icon">pan<wbr>End<span class="tsd-signature-symbol">:</span> <a href="_math_vector2_.vector2.html" class="tsd-signature-type">Vector2</a></div>
+					<div class="tsd-signature tsd-kind-icon">pan<wbr>End<span class="tsd-signature-symbol">:</span> <a href="_math_vector2_.vector2.html" class="tsd-signature-type">Vector2</a><span class="tsd-signature-symbol"> =&nbsp;new Vector2()</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_controls_mousecontrols_.mousecontrols.html">MouseControls</a>.<a href="_controls_mousecontrols_.mousecontrols.html#panend">panEnd</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/MouseControls.ts#L100">controls/MouseControls.ts:100</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/MouseControls.ts#L100">controls/MouseControls.ts:100</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="panspeed" class="tsd-anchor"></a>
 					<h3>pan<wbr>Speed</h3>
-					<div class="tsd-signature tsd-kind-icon">pan<wbr>Speed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<div class="tsd-signature tsd-kind-icon">pan<wbr>Speed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;1</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_controls_viewcontrols_.viewcontrols.html">ViewControls</a>.<a href="_controls_viewcontrols_.viewcontrols.html#panspeed">panSpeed</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/ViewControls.ts#L28">controls/ViewControls.ts:28</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/ViewControls.ts#L28">controls/ViewControls.ts:28</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -497,25 +497,25 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						</dl>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 					<a name="panstart" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> pan<wbr>Start</h3>
-					<div class="tsd-signature tsd-kind-icon">pan<wbr>Start<span class="tsd-signature-symbol">:</span> <a href="_math_vector2_.vector2.html" class="tsd-signature-type">Vector2</a></div>
+					<div class="tsd-signature tsd-kind-icon">pan<wbr>Start<span class="tsd-signature-symbol">:</span> <a href="_math_vector2_.vector2.html" class="tsd-signature-type">Vector2</a><span class="tsd-signature-symbol"> =&nbsp;new Vector2()</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_controls_mousecontrols_.mousecontrols.html">MouseControls</a>.<a href="_controls_mousecontrols_.mousecontrols.html#panstart">panStart</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/MouseControls.ts#L95">controls/MouseControls.ts:95</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/MouseControls.ts#L95">controls/MouseControls.ts:95</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="rotatespeed" class="tsd-anchor"></a>
 					<h3>rotate<wbr>Speed</h3>
-					<div class="tsd-signature tsd-kind-icon">rotate<wbr>Speed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<div class="tsd-signature tsd-kind-icon">rotate<wbr>Speed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;1</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_controls_viewcontrols_.viewcontrols.html">ViewControls</a>.<a href="_controls_viewcontrols_.viewcontrols.html#rotatespeed">rotateSpeed</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/ViewControls.ts#L16">controls/ViewControls.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/ViewControls.ts#L16">controls/ViewControls.ts:16</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -526,46 +526,46 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						</dl>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
 					<a name="rotor" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> rotor</h3>
-					<div class="tsd-signature tsd-kind-icon">rotor<span class="tsd-signature-symbol">:</span> <a href="_math_spinor3_.default.html" class="tsd-signature-type">default</a></div>
+					<div class="tsd-signature tsd-kind-icon">rotor<span class="tsd-signature-symbol">:</span> <a href="_math_spinor3_.spinor3.html" class="tsd-signature-type">Spinor3</a><span class="tsd-signature-symbol"> =&nbsp;Spinor3.one()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/TrackballControls.ts#L44">controls/TrackballControls.ts:44</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/TrackballControls.ts#L44">controls/TrackballControls.ts:44</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 					<a name="up" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> up</h3>
-					<div class="tsd-signature tsd-kind-icon">up<span class="tsd-signature-symbol">:</span> <a href="_math_vector3_.default.html" class="tsd-signature-type">default</a></div>
+					<div class="tsd-signature tsd-kind-icon">up<span class="tsd-signature-symbol">:</span> <a href="_math_vector3_.vector3.html" class="tsd-signature-type">Vector3</a><span class="tsd-signature-symbol"> =&nbsp;new Vector3()</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_controls_viewcontrols_.viewcontrols.html">ViewControls</a>.<a href="_controls_viewcontrols_.viewcontrols.html#up">up</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/ViewControls.ts#L63">controls/ViewControls.ts:63</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/ViewControls.ts#L63">controls/ViewControls.ts:63</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 					<a name="zoomend" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> zoom<wbr>End</h3>
-					<div class="tsd-signature tsd-kind-icon">zoom<wbr>End<span class="tsd-signature-symbol">:</span> <a href="_math_vector2_.vector2.html" class="tsd-signature-type">Vector2</a></div>
+					<div class="tsd-signature tsd-kind-icon">zoom<wbr>End<span class="tsd-signature-symbol">:</span> <a href="_math_vector2_.vector2.html" class="tsd-signature-type">Vector2</a><span class="tsd-signature-symbol"> =&nbsp;new Vector2()</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_controls_mousecontrols_.mousecontrols.html">MouseControls</a>.<a href="_controls_mousecontrols_.mousecontrols.html#zoomend">zoomEnd</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/MouseControls.ts#L90">controls/MouseControls.ts:90</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/MouseControls.ts#L90">controls/MouseControls.ts:90</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="zoomspeed" class="tsd-anchor"></a>
 					<h3>zoom<wbr>Speed</h3>
-					<div class="tsd-signature tsd-kind-icon">zoom<wbr>Speed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<div class="tsd-signature tsd-kind-icon">zoom<wbr>Speed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;1</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_controls_viewcontrols_.viewcontrols.html">ViewControls</a>.<a href="_controls_viewcontrols_.viewcontrols.html#zoomspeed">zoomSpeed</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/ViewControls.ts#L22">controls/ViewControls.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/ViewControls.ts#L22">controls/ViewControls.ts:22</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -576,24 +576,24 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						</dl>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 					<a name="zoomstart" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> zoom<wbr>Start</h3>
-					<div class="tsd-signature tsd-kind-icon">zoom<wbr>Start<span class="tsd-signature-symbol">:</span> <a href="_math_vector2_.vector2.html" class="tsd-signature-type">Vector2</a></div>
+					<div class="tsd-signature tsd-kind-icon">zoom<wbr>Start<span class="tsd-signature-symbol">:</span> <a href="_math_vector2_.vector2.html" class="tsd-signature-type">Vector2</a><span class="tsd-signature-symbol"> =&nbsp;new Vector2()</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_controls_mousecontrols_.mousecontrols.html">MouseControls</a>.<a href="_controls_mousecontrols_.mousecontrols.html#zoomstart">zoomStart</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/MouseControls.ts#L85">controls/MouseControls.ts:85</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/MouseControls.ts#L85">controls/MouseControls.ts:85</a></li>
 						</ul>
 					</aside>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group ">
+			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="addref" class="tsd-anchor"></a>
 					<h3>add<wbr>Ref</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">add<wbr>Ref<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -602,7 +602,7 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 								<p>Implementation of <a href="../interfaces/_core_shareable_.shareable.html">Shareable</a>.<a href="../interfaces/_core_shareable_.shareable.html#addref">addRef</a></p>
 								<p>Inherited from <a href="_core_shareablebase_.shareablebase.html">ShareableBase</a>.<a href="_core_shareablebase_.shareablebase.html#addref">addRef</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L123">core/ShareableBase.ts:123</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/core/ShareableBase.ts#L123">core/ShareableBase.ts:123</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -617,10 +617,10 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
 					<a name="destructor" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> destructor</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">destructor<span class="tsd-signature-symbol">(</span>levelUp<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -628,7 +628,7 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 							<aside class="tsd-sources">
 								<p>Overwrites <a href="_controls_viewcontrols_.viewcontrols.html">ViewControls</a>.<a href="_controls_viewcontrols_.viewcontrols.html#destructor">destructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/TrackballControls.ts#L61">controls/TrackballControls.ts:61</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/TrackballControls.ts#L61">controls/TrackballControls.ts:61</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -645,10 +645,10 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="getloggingname" class="tsd-anchor"></a>
 					<h3>get<wbr>Logging<wbr>Name</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">get<wbr>Logging<wbr>Name<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -656,7 +656,7 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_core_shareablebase_.shareablebase.html">ShareableBase</a>.<a href="_core_shareablebase_.shareablebase.html#getloggingname">getLoggingName</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L132">core/ShareableBase.ts:132</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/core/ShareableBase.ts#L132">core/ShareableBase.ts:132</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -665,10 +665,10 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="handleresize" class="tsd-anchor"></a>
 					<h3>handle<wbr>Resize</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">handle<wbr>Resize<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -676,7 +676,7 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_controls_mousecontrols_.mousecontrols.html">MouseControls</a>.<a href="_controls_mousecontrols_.mousecontrols.html#handleresize">handleResize</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/MouseControls.ts#L370">controls/MouseControls.ts:370</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/MouseControls.ts#L370">controls/MouseControls.ts:370</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -688,10 +688,10 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 					<a name="hasview" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> has<wbr>View</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">has<wbr>View<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -699,7 +699,7 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_controls_viewcontrols_.viewcontrols.html">ViewControls</a>.<a href="_controls_viewcontrols_.viewcontrols.html#hasview">hasView</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/ViewControls.ts#L85">controls/ViewControls.ts:85</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/ViewControls.ts#L85">controls/ViewControls.ts:85</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -708,10 +708,10 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="iszombie" class="tsd-anchor"></a>
 					<h3>is<wbr>Zombie</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">is<wbr>Zombie<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -719,7 +719,7 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_core_shareablebase_.shareablebase.html">ShareableBase</a>.<a href="_core_shareablebase_.shareablebase.html#iszombie">isZombie</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L112">core/ShareableBase.ts:112</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/core/ShareableBase.ts#L112">core/ShareableBase.ts:112</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -732,10 +732,10 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="move" class="tsd-anchor"></a>
 					<h3>move</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">move<span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -743,7 +743,7 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_controls_mousecontrols_.mousecontrols.html">MouseControls</a>.<a href="_controls_mousecontrols_.mousecontrols.html#move">move</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/MouseControls.ts#L292">controls/MouseControls.ts:292</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/MouseControls.ts#L292">controls/MouseControls.ts:292</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -768,10 +768,10 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
 					<a name="pancamera" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> pan<wbr>Camera</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">pan<wbr>Camera<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -779,17 +779,17 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 							<aside class="tsd-sources">
 								<p>Overwrites <a href="_controls_viewcontrols_.viewcontrols.html">ViewControls</a>.<a href="_controls_viewcontrols_.viewcontrols.html#pancamera">panCamera</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/TrackballControls.ts#L104">controls/TrackballControls.ts:104</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/TrackballControls.ts#L104">controls/TrackballControls.ts:104</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="release" class="tsd-anchor"></a>
 					<h3>release</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">release<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -798,7 +798,7 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 								<p>Implementation of <a href="../interfaces/_core_shareable_.shareable.html">Shareable</a>.<a href="../interfaces/_core_shareable_.shareable.html#release">release</a></p>
 								<p>Inherited from <a href="_core_shareablebase_.shareablebase.html">ShareableBase</a>.<a href="_core_shareablebase_.shareablebase.html#release">release</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L170">core/ShareableBase.ts:170</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/core/ShareableBase.ts#L170">core/ShareableBase.ts:170</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -813,10 +813,10 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 					<a name="reset" class="tsd-anchor"></a>
 					<h3>reset</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">reset<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -826,17 +826,17 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 								<p>Inherited from <a href="_controls_viewcontrols_.viewcontrols.html">ViewControls</a>.<a href="_controls_viewcontrols_.viewcontrols.html#reset">reset</a></p>
 								<p>Overwrites <a href="_controls_mousecontrols_.mousecontrols.html">MouseControls</a>.<a href="_controls_mousecontrols_.mousecontrols.html#reset">reset</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/ViewControls.ts#L144">controls/ViewControls.ts:144</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/ViewControls.ts#L144">controls/ViewControls.ts:144</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
 					<a name="rotatecamera" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> rotate<wbr>Camera</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">rotate<wbr>Camera<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -844,17 +844,17 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 							<aside class="tsd-sources">
 								<p>Overwrites <a href="_controls_viewcontrols_.viewcontrols.html">ViewControls</a>.<a href="_controls_viewcontrols_.viewcontrols.html#rotatecamera">rotateCamera</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/TrackballControls.ts#L68">controls/TrackballControls.ts:68</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/TrackballControls.ts#L68">controls/TrackballControls.ts:68</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 					<a name="setloggingname" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> set<wbr>Logging<wbr>Name</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">set<wbr>Logging<wbr>Name<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -862,7 +862,7 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_core_shareablebase_.shareablebase.html">ShareableBase</a>.<a href="_core_shareablebase_.shareablebase.html#setloggingname">setLoggingName</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L155">core/ShareableBase.ts:155</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/core/ShareableBase.ts#L155">core/ShareableBase.ts:155</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -896,10 +896,10 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="setview" class="tsd-anchor"></a>
 					<h3>set<wbr>View</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">set<wbr>View<span class="tsd-signature-symbol">(</span>view<span class="tsd-signature-symbol">: </span><a href="../interfaces/_facets_view_.view.html" class="tsd-signature-type">View</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -908,7 +908,7 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 								<p>Implementation of <a href="../interfaces/_controls_viewcontroller_.viewcontroller.html">ViewController</a>.<a href="../interfaces/_controls_viewcontroller_.viewcontroller.html#setview">setView</a></p>
 								<p>Inherited from <a href="_controls_viewcontrols_.viewcontrols.html">ViewControls</a>.<a href="_controls_viewcontrols_.viewcontrols.html#setview">setView</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/ViewControls.ts#L156">controls/ViewControls.ts:156</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/ViewControls.ts#L156">controls/ViewControls.ts:156</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -925,10 +925,10 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="subscribe" class="tsd-anchor"></a>
 					<h3>subscribe</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">subscribe<span class="tsd-signature-symbol">(</span>domElement<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -936,7 +936,7 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_controls_mousecontrols_.mousecontrols.html">MouseControls</a>.<a href="_controls_mousecontrols_.mousecontrols.html#subscribe">subscribe</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/MouseControls.ts#L300">controls/MouseControls.ts:300</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/MouseControls.ts#L300">controls/MouseControls.ts:300</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -953,10 +953,10 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="synchronize" class="tsd-anchor"></a>
 					<h3>synchronize</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">synchronize<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -965,17 +965,17 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 								<p>Implementation of <a href="../interfaces/_controls_viewcontroller_.viewcontroller.html">ViewController</a>.<a href="../interfaces/_controls_viewcontroller_.viewcontroller.html#synchronize">synchronize</a></p>
 								<p>Inherited from <a href="_controls_viewcontrols_.viewcontrols.html">ViewControls</a>.<a href="_controls_viewcontrols_.viewcontrols.html#synchronize">synchronize</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/ViewControls.ts#L169">controls/ViewControls.ts:169</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/ViewControls.ts#L169">controls/ViewControls.ts:169</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="unsubscribe" class="tsd-anchor"></a>
 					<h3>unsubscribe</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">unsubscribe<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -983,17 +983,17 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_controls_mousecontrols_.mousecontrols.html">MouseControls</a>.<a href="_controls_mousecontrols_.mousecontrols.html#unsubscribe">unsubscribe</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/MouseControls.ts#L318">controls/MouseControls.ts:318</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/MouseControls.ts#L318">controls/MouseControls.ts:318</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="update" class="tsd-anchor"></a>
 					<h3>update</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">update<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -1002,7 +1002,7 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 								<p>Implementation of <a href="../interfaces/_controls_viewcontroller_.viewcontroller.html">ViewController</a>.<a href="../interfaces/_controls_viewcontroller_.viewcontroller.html#update">update</a></p>
 								<p>Inherited from <a href="_controls_viewcontrols_.viewcontrols.html">ViewControls</a>.<a href="_controls_viewcontrols_.viewcontrols.html#update">update</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/ViewControls.ts#L94">controls/ViewControls.ts:94</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/ViewControls.ts#L94">controls/ViewControls.ts:94</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1016,10 +1016,10 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 					<a name="zoomcamera" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> zoom<wbr>Camera</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">zoom<wbr>Camera<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -1027,7 +1027,7 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_controls_viewcontrols_.viewcontrols.html">ViewControls</a>.<a href="_controls_viewcontrols_.viewcontrols.html#zoomcamera">zoomCamera</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/controls/ViewControls.ts#L126">controls/ViewControls.ts:126</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b2040f5/src/davinci-eight/controls/ViewControls.ts#L126">controls/ViewControls.ts:126</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1042,7 +1042,7 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
-					<li class="current tsd-kind-external-module">
+					<li class="current tsd-kind-external-module tsd-is-external">
 						<a href="../modules/_controls_trackballcontrols_.html">"controls/<wbr>Trackball<wbr>Controls"</a>
 					</li>
 				</ul>
@@ -1051,148 +1051,148 @@ controls.<span class="hljs-function"><span class="hljs-title">release</span><spa
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class tsd-parent-kind-external-module">
+					<li class="current tsd-kind-class tsd-parent-kind-external-module tsd-is-external">
 						<a href="_controls_trackballcontrols_.trackballcontrols.html" class="tsd-kind-icon">Trackball<wbr>Controls</a>
 						<ul>
-							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#b" class="tsd-kind-icon">B</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#_type" class="tsd-kind-icon">_type</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#enabled" class="tsd-kind-icon">enabled</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#eyeminuslook" class="tsd-kind-icon">eye<wbr>Minus<wbr>Look</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#eyeminuslookdirection" class="tsd-kind-icon">eye<wbr>Minus<wbr>Look<wbr>Direction</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#look" class="tsd-kind-icon">look</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#maxdistance" class="tsd-kind-icon">max<wbr>Distance</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#mindistance" class="tsd-kind-icon">min<wbr>Distance</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#mousechange" class="tsd-kind-icon">mouse<wbr>Change</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#movecurr" class="tsd-kind-icon">move<wbr>Curr</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#movedirection" class="tsd-kind-icon">move<wbr>Direction</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#moveprev" class="tsd-kind-icon">move<wbr>Prev</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#nopan" class="tsd-kind-icon">no<wbr>Pan</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#norotate" class="tsd-kind-icon">no<wbr>Rotate</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#nozoom" class="tsd-kind-icon">no<wbr>Zoom</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#objectsidewaysdirection" class="tsd-kind-icon">object<wbr>Sideways<wbr>Direction</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#objectup" class="tsd-kind-icon">object<wbr>Up</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#objectupdirection" class="tsd-kind-icon">object<wbr>UpDirection</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#pan" class="tsd-kind-icon">pan</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#panend" class="tsd-kind-icon">pan<wbr>End</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#panspeed" class="tsd-kind-icon">pan<wbr>Speed</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#panstart" class="tsd-kind-icon">pan<wbr>Start</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#rotatespeed" class="tsd-kind-icon">rotate<wbr>Speed</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#rotor" class="tsd-kind-icon">rotor</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#up" class="tsd-kind-icon">up</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#zoomend" class="tsd-kind-icon">zoom<wbr>End</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#zoomspeed" class="tsd-kind-icon">zoom<wbr>Speed</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#zoomstart" class="tsd-kind-icon">zoom<wbr>Start</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#addref" class="tsd-kind-icon">add<wbr>Ref</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#destructor" class="tsd-kind-icon">destructor</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#getloggingname" class="tsd-kind-icon">get<wbr>Logging<wbr>Name</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#handleresize" class="tsd-kind-icon">handle<wbr>Resize</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#hasview" class="tsd-kind-icon">has<wbr>View</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#iszombie" class="tsd-kind-icon">is<wbr>Zombie</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#move" class="tsd-kind-icon">move</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#pancamera" class="tsd-kind-icon">pan<wbr>Camera</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#release" class="tsd-kind-icon">release</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#reset" class="tsd-kind-icon">reset</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#rotatecamera" class="tsd-kind-icon">rotate<wbr>Camera</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#setloggingname" class="tsd-kind-icon">set<wbr>Logging<wbr>Name</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#setview" class="tsd-kind-icon">set<wbr>View</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#subscribe" class="tsd-kind-icon">subscribe</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#synchronize" class="tsd-kind-icon">synchronize</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#unsubscribe" class="tsd-kind-icon">unsubscribe</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#update" class="tsd-kind-icon">update</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 								<a href="_controls_trackballcontrols_.trackballcontrols.html#zoomcamera" class="tsd-kind-icon">zoom<wbr>Camera</a>
 							</li>
 						</ul>

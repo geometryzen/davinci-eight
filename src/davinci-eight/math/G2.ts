@@ -1,28 +1,27 @@
+
 import b2 from '../geometries/b2';
 import b3 from '../geometries/b3';
 import extE2 from './extE2';
 import gauss from './gauss';
+import GeometricE2 from './GeometricE2';
 import GeometricNumber from './GeometricNumber';
 import GeometricOperators from './GeometricOperators';
-import GeometricE2 from './GeometricE2';
-import lcoE2 from './lcoE2';
-import rcoE2 from './rcoE2';
 import ImmutableMeasure from './ImmutableMeasure';
+import lcoE2 from './lcoE2';
 import mulE2 from './mulE2';
 import notImplemented from '../i18n/notImplemented';
 import notSupported from '../i18n/notSupported';
+
 import readOnly from '../i18n/readOnly';
+import rcoE2 from './rcoE2';
 import scpE2 from './scpE2';
 import SpinorE2 from './SpinorE2';
+
 import stringFromCoordinates from './stringFromCoordinates';
+
 import TrigMethods from './TrigMethods';
 import {Unit} from './Unit';
 import VectorE2 from './VectorE2';
-
-/**
- * @module EIGHT
- * @submodule math
- */
 
 const COORD_SCALAR = 0
 const COORD_X = 1
@@ -125,8 +124,6 @@ function subE2(a0: number, a1: number, a2: number, a3: number, b0: number, b1: n
  * <p>
  * The immutable nature of the <p>G2</p> makes it less suitable for high performance graphics applications.
  * </p>
- *
- * @class G2
  */
 export class G2 implements ImmutableMeasure<G2>, GeometricE2, GeometricNumber<G2, G2, SpinorE2, VectorE2, G2, number, Unit>, GeometricOperators<G2, Unit>, TrigMethods<G2> {
 
@@ -251,60 +248,13 @@ export class G2 implements ImmutableMeasure<G2>, GeometricE2, GeometricNumber<G2
         throw new Error(readOnly('I').message)
     }
 
-    /**
-     * @property kilogram
-     * @type G2
-     * @static
-     */
     public static kilogram = new G2(1, 0, 0, 0, Unit.KILOGRAM)
-
-    /**
-     * @property meter
-     * @type G2
-     * @static
-     */
     public static meter = new G2(1, 0, 0, 0, Unit.METER)
-
-    /**
-     * @property second
-     * @type G2
-     * @static
-     */
     public static second = new G2(1, 0, 0, 0, Unit.SECOND)
-
-    /**
-     * @property coulomb
-     * @type G2
-     * @static
-     */
     public static coulomb = new G2(1, 0, 0, 0, Unit.COULOMB)
-
-    /**
-     * @property ampere
-     * @type G2
-     * @static
-     */
     public static ampere = new G2(1, 0, 0, 0, Unit.AMPERE)
-
-    /**
-     * @property kelvin
-     * @type G2
-     * @static
-     */
     public static kelvin = new G2(1, 0, 0, 0, Unit.KELVIN)
-
-    /**
-     * @property mole
-     * @type G2
-     * @static
-     */
     public static mole = new G2(1, 0, 0, 0, Unit.MOLE)
-
-    /**
-     * @property candela
-     * @type G2
-     * @static
-     */
     public static candela = new G2(1, 0, 0, 0, Unit.CANDELA)
 
     /**
@@ -383,11 +333,9 @@ export class G2 implements ImmutableMeasure<G2>, GeometricE2, GeometricNumber<G2
         throw new Error(readOnly('b').message)
     }
 
-    /*
-    private fromCartesian(α: number, x: number, y: number, β: number, uom: Unit): G2 {
+    static fromCartesian(α: number, x: number, y: number, β: number, uom: Unit): G2 {
       return new G2(α, x, y, β, uom)
     }
-    */
 
     /*
     private fromPolar(α: number, r: number, θ: number, β: number, uom: Unit): G2 {

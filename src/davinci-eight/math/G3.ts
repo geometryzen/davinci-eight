@@ -2,18 +2,18 @@ import addE3 from './addE3';
 import b2 from '../geometries/b2';
 import b3 from '../geometries/b3';
 import extG3 from './extG3';
+import gauss from './gauss';
 import GeometricE3 from './GeometricE3';
-import lcoG3 from './lcoG3';
+import GeometricNumber from './GeometricNumber';
 import GeometricOperators from './GeometricOperators';
 import ImmutableMeasure from './ImmutableMeasure';
+import lcoG3 from './lcoG3';
 import mulG3 from './mulG3';
-import gauss from './gauss';
-import GeometricNumber from './GeometricNumber';
 import notImplemented from '../i18n/notImplemented';
 import notSupported from '../i18n/notSupported';
 import quadSpinorE3 from './quadSpinorE3'
-import rcoG3 from './rcoG3';
 import readOnly from '../i18n/readOnly';
+import rcoG3 from './rcoG3';
 import scpG3 from './scpG3';
 import SpinorE3 from './SpinorE3';
 import squaredNormG3 from './squaredNormG3';
@@ -26,11 +26,6 @@ import BASIS_LABELS_G3_GEOMETRIC from './BASIS_LABELS_G3_GEOMETRIC';
 import BASIS_LABELS_G3_HAMILTON from './BASIS_LABELS_G3_HAMILTON';
 import BASIS_LABELS_G3_STANDARD from './BASIS_LABELS_G3_STANDARD';
 import BASIS_LABELS_G3_STANDARD_HTML from './BASIS_LABELS_G3_STANDARD_HTML';
-
-/**
- * @module EIGHT
- * @submodule math
- */
 
 const COORD_SCALAR = 0
 const COORD_X = 1
@@ -89,7 +84,7 @@ function compute(
  * The immutable nature of the <code>G3</code> makes it less suitable for high performance graphics applications.
  * </p>
  */
-export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3, G3, SpinorE3, VectorE3, G3, number, Unit>, GeometricOperators<G3, Unit>, TrigMethods<G3> {
+export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3, G3, SpinorE3, VectorE3, G3, number, Unit>, GeometricOperators<G3, Unit>, TrigMethods<G3> {
     static get BASIS_LABELS_GEOMETRIC(): string[][] { return BASIS_LABELS_G3_GEOMETRIC };
     static get BASIS_LABELS_HAMILTON(): string[][] { return BASIS_LABELS_G3_HAMILTON };
     static get BASIS_LABELS_STANDARD(): string[][] { return BASIS_LABELS_G3_STANDARD };

@@ -1,4 +1,4 @@
-import {G3} from '../math/G3';
+import G3 from '../math/G3';
 import RevolutionSimplexPrimitivesBuilder from '../geometries/RevolutionSimplexPrimitivesBuilder';
 import Spinor3 from '../math/Spinor3';
 import Vector3 from '../math/Vector3';
