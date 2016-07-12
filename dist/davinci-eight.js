@@ -9164,24 +9164,16 @@ define('davinci-eight/core/GeometryContainer',["require", "exports", '../collect
             return this._parts.get(index);
         };
         GeometryContainer.prototype.bind = function (material) {
-            var iLen = this.partsLength;
-            for (var i = 0; i < iLen; i++) {
-                var part = this._parts.getWeakRef(i);
-                part.bind(material);
-            }
         };
         GeometryContainer.prototype.unbind = function (material) {
-            var iLen = this.partsLength;
-            for (var i = 0; i < iLen; i++) {
-                var part = this._parts.getWeakRef(i);
-                part.unbind(material);
-            }
         };
         GeometryContainer.prototype.draw = function (material) {
             var iLen = this.partsLength;
             for (var i = 0; i < iLen; i++) {
                 var part = this._parts.getWeakRef(i);
+                part.bind(material);
                 part.draw(material);
+                part.unbind(material);
             }
         };
         GeometryContainer.prototype.contextFree = function (contextProvider) {

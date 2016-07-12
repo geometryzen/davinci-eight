@@ -134,31 +134,26 @@ export default class GeometryContainer extends ShareableBase implements Geometry
      * 
      */
     bind(material: Material): void {
-        const iLen = this.partsLength;
-        for (let i = 0; i < iLen; i++) {
-            const part = this._parts.getWeakRef(i);
-            part.bind(material);
-        }
+        // This does not make sense, so we delegate to the draw method.
     }
 
     /**
      * 
      */
     unbind(material: Material): void {
-        const iLen = this.partsLength;
-        for (let i = 0; i < iLen; i++) {
-            const part = this._parts.getWeakRef(i);
-            part.unbind(material);
-        }
+        // This does not make sense, so we delegate to the draw method.
     }
 
     /**
+     * 
      */
     draw(material: Material): void {
         const iLen = this.partsLength;
         for (let i = 0; i < iLen; i++) {
             const part = this._parts.getWeakRef(i);
+            part.bind(material);
             part.draw(material);
+            part.unbind(material);
         }
     }
 

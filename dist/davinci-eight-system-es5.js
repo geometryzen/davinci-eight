@@ -14787,25 +14787,15 @@ System.register("davinci-eight/core/GeometryContainer.js", ["../collections/Shar
         GeometryContainer.prototype.getPart = function(index) {
           return this._parts.get(index);
         };
-        GeometryContainer.prototype.bind = function(material) {
-          var iLen = this.partsLength;
-          for (var i = 0; i < iLen; i++) {
-            var part = this._parts.getWeakRef(i);
-            part.bind(material);
-          }
-        };
-        GeometryContainer.prototype.unbind = function(material) {
-          var iLen = this.partsLength;
-          for (var i = 0; i < iLen; i++) {
-            var part = this._parts.getWeakRef(i);
-            part.unbind(material);
-          }
-        };
+        GeometryContainer.prototype.bind = function(material) {};
+        GeometryContainer.prototype.unbind = function(material) {};
         GeometryContainer.prototype.draw = function(material) {
           var iLen = this.partsLength;
           for (var i = 0; i < iLen; i++) {
             var part = this._parts.getWeakRef(i);
+            part.bind(material);
             part.draw(material);
+            part.unbind(material);
           }
         };
         GeometryContainer.prototype.contextFree = function(contextProvider) {
