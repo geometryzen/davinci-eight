@@ -229,6 +229,21 @@ describe("Geometric3", function() {
         })
     })
 
+    describe("reflect", function() {
+        const n = R3.vector(1, 0, 0, Unit.ONE)
+        const a = Geometric3.vector(2, 3, 0)
+        const chain = a.reflect(n)
+
+        it("should reflect (2,3)", function() {
+            expect(a.x).toBe(-2)
+            expect(a.y).toBe(+3)
+            expect(a.z).toBe(0)
+        })
+        it("should be chainable", function() {
+            expect(chain === a).toBe(true)
+        })
+    })
+
     describe("stress", function() {
         const stress = R3.vector(7, 11, 13, Unit.ONE)
         const position = Geometric3.vector(2, 3, 5)

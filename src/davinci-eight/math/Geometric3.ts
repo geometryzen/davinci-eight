@@ -4,7 +4,8 @@ import arraysEQ from './arraysEQ';
 import dotVector from './dotVectorE3';
 import EventEmitter from '../utils/EventEmitter';
 import extG3 from './extG3';
-import gauss from './gauss'
+import gauss from './gauss';
+import G3 from './G3';
 import GeometricE3 from './GeometricE3';
 import GeometricOperators from './GeometricOperators';
 import isDefined from '../checks/isDefined';
@@ -989,8 +990,8 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
      */
     reflect(n: VectorE3) {
         // TODO: Optimize.
-        let N = Geometric3.fromVector(n);
-        let M = Geometric3.copy(this);
+        let N = G3.fromVector(n);
+        let M = G3.copy(this);
         let R = N.mul(M).mul(N).scale(-1);
         this.copy(R);
         return this;
