@@ -27,14 +27,14 @@ export class Mesh extends Drawable implements AbstractMesh {
      * @param material
      * @param engine The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
      */
-    constructor(geometry: Geometry, material: Material, engine: Engine) {
-        super(geometry, material, engine)
-        this.setLoggingName('Mesh')
+    constructor(geometry: Geometry, material: Material, engine: Engine, levelUp = 0) {
+        super(geometry, material, engine, levelUp + 1);
+        this.setLoggingName('Mesh');
 
-        this.setFacet(MODEL_FACET_NAME, new ModelFacet())
-        this.setFacet(COLOR_FACET_NAME, new ColorFacet())
-        this.setFacet(OPACITY_FACET_NAME, new OpacityFacet())
-        this.setFacet(POINT_FACET_NAME, new PointSizeFacet())
+        this.setFacet(MODEL_FACET_NAME, new ModelFacet());
+        this.setFacet(COLOR_FACET_NAME, new ColorFacet());
+        this.setFacet(OPACITY_FACET_NAME, new OpacityFacet());
+        this.setFacet(POINT_FACET_NAME, new PointSizeFacet());
     }
 
     protected destructor(levelUp: number): void {

@@ -60,26 +60,26 @@ export class Arrow extends Mesh {
     /**
      * @param options
      */
-    constructor(options: ArrowOptions = {}) {
-        super(void 0, void 0, options.engine)
-        this.setLoggingName('Arrow')
+    constructor(options: ArrowOptions = {}, levelUp = 0) {
+        super(void 0, void 0, options.engine, levelUp + 1);
+        this.setLoggingName('Arrow');
 
         // TODO: This shold be going into the geometry options.
-        this.direction0 = direction(options, R3.e2)
-        this._vector = Geometric3.fromVector(this.direction0)
+        this.direction0 = direction(options, R3.e2);
+        this._vector = Geometric3.fromVector(this.direction0);
 
-        const geoOptions: ArrowGeometryOptions = {}
-        geoOptions.engine = options.engine
-        const geometry = new ArrowGeometry(geoOptions)
+        const geoOptions: ArrowGeometryOptions = {};
+        geoOptions.engine = options.engine;
+        const geometry = new ArrowGeometry(geoOptions);
 
-        const matOptions: MeshMaterialOptions = void 0
-        const material = new MeshMaterial(matOptions, options.engine)
+        const matOptions: MeshMaterialOptions = void 0;
+        const material = new MeshMaterial(matOptions, options.engine);
 
-        this.geometry = geometry
-        this.material = material
+        this.geometry = geometry;
+        this.material = material;
 
-        geometry.release()
-        material.release()
+        geometry.release();
+        material.release();
 
         if (options.color) {
             this.color.copy(options.color)
@@ -109,14 +109,21 @@ export class Arrow extends Mesh {
             }
         }
 
-        this._vector.on('change', this.vectorChangeHandler)
-        this.R.on('change', this.attitudeChangeHandler)
+        this._vector.on('change', this.vectorChangeHandler);
+        this.R.on('change', this.attitudeChangeHandler);
+
+        if (levelUp === 0) {
+            this.synchUp();
+        }
     }
 
     /**
      * @param levelUp
      */
     protected destructor(levelUp: number): void {
+        if (levelUp === 0) {
+            this.cleanUp();
+        }
         this._vector.off('change', this.vectorChangeHandler)
         this.R.off('change', this.attitudeChangeHandler)
         super.destructor(levelUp + 1)

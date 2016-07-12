@@ -44,7 +44,7 @@ export class Drawable extends ShareableContextConsumer implements AbstractDrawab
      * @param material
      * @param engine The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
      */
-    constructor(geometry: Geometry, material: Material, engine: Engine) {
+    constructor(geometry: Geometry, material: Material, engine: Engine, levelUp = 0) {
         super(engine)
         this.setLoggingName('Drawable')
         if (isObject(geometry)) {
@@ -55,13 +55,21 @@ export class Drawable extends ShareableContextConsumer implements AbstractDrawab
             // The assignment takes care of the addRef.
             this.material = material
         }
-        this._facets = {}
+        this._facets = {};
+
+        if (levelUp === 0) {
+            this.synchUp();
+        }
     }
 
     /**
      * @param levelUp
      */
     protected destructor(levelUp: number): void {
+        if (levelUp === 0) {
+            this.cleanUp();
+        }
+
         this._geometry = exchange(this._geometry, void 0)
         this._material = exchange(this._material, void 0)
         super.destructor(levelUp + 1)

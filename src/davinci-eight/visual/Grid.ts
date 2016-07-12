@@ -1,39 +1,38 @@
-import BeginMode from '../core/BeginMode'
-import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols'
-import GridGeometry from '../geometries/GridGeometry'
-import GridGeometryOptions from '../geometries/GridGeometryOptions'
-import GridOptions from './GridOptions'
-import incLevel from '../base/incLevel';
-import isDefined from '../checks/isDefined'
-import isFunction from '../checks/isFunction'
-import isNull from '../checks/isNull'
-import isUndefined from '../checks/isUndefined'
-import {LineMaterial} from '../materials/LineMaterial'
-import LineMaterialOptions from '../materials/LineMaterialOptions'
-import {Mesh} from '../core/Mesh'
-import {MeshMaterial} from '../materials/MeshMaterial'
-import MeshMaterialOptions from '../materials/MeshMaterialOptions'
-import mustBeGE from '../checks/mustBeGE'
-import mustBeNumber from '../checks/mustBeNumber'
-import {PointMaterial} from '../materials/PointMaterial'
-import PointMaterialOptions from '../materials/PointMaterialOptions'
-import R3 from '../math/R3'
-import {Unit} from '../math/Unit'
+import BeginMode from '../core/BeginMode';
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
+import GridGeometry from '../geometries/GridGeometry';
+import GridGeometryOptions from '../geometries/GridGeometryOptions';
+import GridOptions from './GridOptions';
+import isDefined from '../checks/isDefined';
+import isFunction from '../checks/isFunction';
+import isNull from '../checks/isNull';
+import isUndefined from '../checks/isUndefined';
+import {LineMaterial} from '../materials/LineMaterial';
+import LineMaterialOptions from '../materials/LineMaterialOptions';
+import {Mesh} from '../core/Mesh';
+import {MeshMaterial} from '../materials/MeshMaterial';
+import MeshMaterialOptions from '../materials/MeshMaterialOptions';
+import mustBeGE from '../checks/mustBeGE';
+import mustBeNumber from '../checks/mustBeNumber';
+import {PointMaterial} from '../materials/PointMaterial';
+import PointMaterialOptions from '../materials/PointMaterialOptions';
+import R3 from '../math/R3';
+import {Unit} from '../math/Unit';
 
 function aPositionDefault(u: number, v: number): R3 {
-    return R3.vector(u, v, 0, Unit.ONE)
+    return R3.vector(u, v, 0, Unit.ONE);
 }
 
 function aNormalDefault(u: number, v: number): R3 {
-    return R3.e3
+    return R3.e3;
 }
 
 function isFunctionOrNull(x: any): boolean {
-    return isFunction(x) || isNull(x)
+    return isFunction(x) || isNull(x);
 }
 
 function isFunctionOrUndefined(x: any): boolean {
-    return isFunction(x) || isUndefined(x)
+    return isFunction(x) || isUndefined(x);
 }
 
 function transferGeometryOptions(source: GridOptions, target: GridGeometryOptions): void {
@@ -254,36 +253,42 @@ export class Grid extends Mesh {
      *
      * @param options
      */
-    constructor(options: GridOptions = {}) {
-        super(void 0, void 0, null)
-        this.setLoggingName('Grid')
+    constructor(options: GridOptions = {}, levelUp = 0) {
+        super(void 0, void 0, null, levelUp + 1);
+        this.setLoggingName('Grid');
 
-        const drawMode: BeginMode = isDefined(options.drawMode) ? options.drawMode : BeginMode.LINES
+        const drawMode: BeginMode = isDefined(options.drawMode) ? options.drawMode : BeginMode.LINES;
         switch (drawMode) {
             case BeginMode.POINTS: {
-                configPoints(options, this)
+                configPoints(options, this);
             }
                 break
             case BeginMode.LINES:
             case BeginMode.LINE_STRIP: {
-                configLines(options, this)
+                configLines(options, this);
             }
                 break
             case BeginMode.TRIANGLE_STRIP:
             case BeginMode.TRIANGLES: {
-                configMesh(options, this)
+                configMesh(options, this);
             }
                 break
             default: {
-                throw new Error(`'${drawMode}' is not a valid option for drawMode.`)
+                throw new Error(`'${drawMode}' is not a valid option for drawMode.`);
             }
+        }
+        if (levelUp === 0) {
+            this.synchUp();
         }
     }
 
     /**
-     * @param levelUp
+     *
      */
     protected destructor(levelUp: number): void {
-        super.destructor(incLevel(levelUp))
+        if (levelUp === 0) {
+            this.cleanUp();
+        }
+        super.destructor(levelUp + 1);
     }
 }

@@ -3516,7 +3516,7 @@ declare module EIGHT {
         /**
          *
          */
-        constructor(geometry: Geometry, material: Material, engine: Engine);
+        constructor(geometry: Geometry, material: Material, engine: Engine, levelUp?: number);
 
         contextFree(manager: ContextProvider): void;
         contextGain(manager: ContextProvider): void;
@@ -3884,7 +3884,7 @@ declare module EIGHT {
         /**
          *
          */
-        constructor(geometry: Geometry, material: Material, engine: Engine);
+        constructor(geometry: Geometry, material: Material, engine: Engine, levelUp?: number);
         /**
          *
          */
@@ -3964,7 +3964,7 @@ declare module EIGHT {
         /**
          *
          */
-        constructor(geometry: Geometry, material: Material, engine: Engine, initialAxis: VectorE3);
+        constructor(geometry: Geometry, material: Material, engine: Engine, initialAxis: VectorE3, levelUp?: number);
         protected destructor(levelUp: number): void;
     }
 
@@ -3984,7 +3984,7 @@ declare module EIGHT {
                 position?: VectorE3;
                 tilt?: SpinorE3;
                 vector?: VectorE3;
-            });
+            }, levelUp?: number);
         protected destructor(levelUp: number): void;
     }
 
@@ -4009,7 +4009,8 @@ declare module EIGHT {
                 position?: VectorE3;
                 tilt?: SpinorE3;
                 width?: number;
-            })
+            }, levelUp?: number);
+        protected destructor(levelUp: number): void;
     }
 
     class Cylinder extends RigidBody {
@@ -4029,7 +4030,8 @@ declare module EIGHT {
                 position?: VectorE3;
                 radius?: number;
                 tilt?: SpinorE3;
-            })
+            }, levelUp?: number);
+        protected destructor(levelUp: number): void;
     }
 
     class Curve extends Mesh {
@@ -4047,7 +4049,8 @@ declare module EIGHT {
                 uMax?: number;
                 uMin?: number;
                 uSegments?: number;
-            })
+            }, levelUp?: number);
+        protected destructor(levelUp: number): void;
     }
 
     class Grid extends Mesh {
@@ -4069,7 +4072,8 @@ declare module EIGHT {
                 vMax?: number;
                 vMin?: number;
                 vSegments?: number;
-            })
+            }, levelUp?: number);
+        protected destructor(levelUp: number): void;
     }
 
     class Sphere extends RigidBody {
@@ -4083,7 +4087,8 @@ declare module EIGHT {
                 position?: VectorE3;
                 radius?: number;
                 tilt?: SpinorE3;
-            })
+            }, levelUp?: number);
+        protected destructor(levelUp: number): void;
     }
 
     class Tetrahedron extends Mesh {
@@ -4096,7 +4101,7 @@ declare module EIGHT {
                 offset?: VectorE3;
                 position?: VectorE3;
                 tilt?: SpinorE3;
-            })
+            }, levelUp?: number);
         protected destructor(levelUp: number): void;
     }
     ///////////////////////////////////////////////////////////////////////////////

@@ -558,7 +558,7 @@ define('davinci-eight/config',["require", "exports", './core/ErrorMode'], functi
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-07-11';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.262.0';
+            this.VERSION = '2.263.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
             get: function () {
@@ -8014,7 +8014,8 @@ define('davinci-eight/core/Drawable',["require", "exports", '../base/exchange', 
     "use strict";
     var Drawable = (function (_super) {
         __extends(Drawable, _super);
-        function Drawable(geometry, material, engine) {
+        function Drawable(geometry, material, engine, levelUp) {
+            if (levelUp === void 0) { levelUp = 0; }
             _super.call(this, engine);
             this._visible = true;
             this.setLoggingName('Drawable');
@@ -8025,8 +8026,14 @@ define('davinci-eight/core/Drawable',["require", "exports", '../base/exchange', 
                 this.material = material;
             }
             this._facets = {};
+            if (levelUp === 0) {
+                this.synchUp();
+            }
         }
         Drawable.prototype.destructor = function (levelUp) {
+            if (levelUp === 0) {
+                this.cleanUp();
+            }
             this._geometry = exchange_1.default(this._geometry, void 0);
             this._material = exchange_1.default(this._material, void 0);
             _super.prototype.destructor.call(this, levelUp + 1);
@@ -9917,8 +9924,9 @@ define('davinci-eight/core/Mesh',["require", "exports", '../facets/ColorFacet', 
     var POINT_FACET_NAME = 'point';
     var Mesh = (function (_super) {
         __extends(Mesh, _super);
-        function Mesh(geometry, material, engine) {
-            _super.call(this, geometry, material, engine);
+        function Mesh(geometry, material, engine, levelUp) {
+            if (levelUp === void 0) { levelUp = 0; }
+            _super.call(this, geometry, material, engine, levelUp + 1);
             this.setLoggingName('Mesh');
             this.setFacet(MODEL_FACET_NAME, new ModelFacet_1.ModelFacet());
             this.setFacet(COLOR_FACET_NAME, new ColorFacet_1.ColorFacet());
@@ -19515,10 +19523,11 @@ define('davinci-eight/visual/Arrow',["require", "exports", '../geometries/ArrowG
     }
     var Arrow = (function (_super) {
         __extends(Arrow, _super);
-        function Arrow(options) {
+        function Arrow(options, levelUp) {
             var _this = this;
             if (options === void 0) { options = {}; }
-            _super.call(this, void 0, void 0, options.engine);
+            if (levelUp === void 0) { levelUp = 0; }
+            _super.call(this, void 0, void 0, options.engine, levelUp + 1);
             this.setLoggingName('Arrow');
             this.direction0 = direction(options, R3_1.default.e2);
             this._vector = Geometric3_1.Geometric3.fromVector(this.direction0);
@@ -19555,8 +19564,14 @@ define('davinci-eight/visual/Arrow',["require", "exports", '../geometries/ArrowG
             };
             this._vector.on('change', this.vectorChangeHandler);
             this.R.on('change', this.attitudeChangeHandler);
+            if (levelUp === 0) {
+                this.synchUp();
+            }
         }
         Arrow.prototype.destructor = function (levelUp) {
+            if (levelUp === 0) {
+                this.cleanUp();
+            }
             this._vector.off('change', this.vectorChangeHandler);
             this.R.off('change', this.attitudeChangeHandler);
             _super.prototype.destructor.call(this, levelUp + 1);
@@ -19616,14 +19631,18 @@ define('davinci-eight/visual/RigidBody',["require", "exports", '../math/Geometri
     "use strict";
     var RigidBody = (function (_super) {
         __extends(RigidBody, _super);
-        function RigidBody(geometry, material, engine, initialAxis) {
-            _super.call(this, geometry, material, engine);
+        function RigidBody(geometry, material, engine, initialAxis, levelUp) {
+            if (levelUp === void 0) { levelUp = 0; }
+            _super.call(this, geometry, material, engine, levelUp + 1);
             this.L = Geometric3_1.Geometric3.zero();
             this.m = 1;
             this.P = Geometric3_1.Geometric3.zero();
             this.Q = Geometric3_1.Geometric3.zero();
             this.setLoggingName('RigidBody');
             this.initialAxis = R3_1.default.fromVector(initialAxis, Unit_1.Unit.ONE);
+            if (levelUp === 0) {
+                this.synchUp();
+            }
         }
         RigidBody.prototype.destructor = function (levelUp) {
             if (levelUp === 0) {
@@ -19656,9 +19675,10 @@ define('davinci-eight/visual/Sphere',["require", "exports", './direction', '../b
     "use strict";
     var Sphere = (function (_super) {
         __extends(Sphere, _super);
-        function Sphere(options) {
+        function Sphere(options, levelUp) {
             if (options === void 0) { options = {}; }
-            _super.call(this, void 0, void 0, options.engine, direction_1.default(options));
+            if (levelUp === void 0) { levelUp = 0; }
+            _super.call(this, void 0, void 0, options.engine, direction_1.default(options), levelUp + 1);
             this.setLoggingName('Sphere');
             var geoOptions = {};
             geoOptions.engine = options.engine;
@@ -19676,6 +19696,9 @@ define('davinci-eight/visual/Sphere',["require", "exports", './direction', '../b
                 this.X.copyVector(options.position);
             }
             this.radius = isDefined_1.default(options.radius) ? mustBeNumber_1.default('radius', options.radius) : 1.0;
+            if (levelUp === 0) {
+                this.synchUp();
+            }
         }
         Sphere.prototype.destructor = function (levelUp) {
             if (levelUp === 0) {
@@ -19703,13 +19726,14 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/visual/Box',["require", "exports", '../geometries/BoxGeometry', './direction', '../base/incLevel', '../checks/isDefined', '../materials/MeshMaterial', '../checks/mustBeNumber', './RigidBody'], function (require, exports, BoxGeometry_1, direction_1, incLevel_1, isDefined_1, MeshMaterial_1, mustBeNumber_1, RigidBody_1) {
+define('davinci-eight/visual/Box',["require", "exports", '../geometries/BoxGeometry', './direction', '../checks/isDefined', '../materials/MeshMaterial', '../checks/mustBeNumber', './RigidBody'], function (require, exports, BoxGeometry_1, direction_1, isDefined_1, MeshMaterial_1, mustBeNumber_1, RigidBody_1) {
     "use strict";
     var Box = (function (_super) {
         __extends(Box, _super);
-        function Box(options) {
+        function Box(options, levelUp) {
             if (options === void 0) { options = {}; }
-            _super.call(this, void 0, void 0, options.engine, direction_1.default(options));
+            if (levelUp === void 0) { levelUp = 0; }
+            _super.call(this, void 0, void 0, options.engine, direction_1.default(options), levelUp + 1);
             this.setLoggingName('Box');
             var geoOptions = {};
             geoOptions.engine = options.engine;
@@ -19740,12 +19764,15 @@ define('davinci-eight/visual/Box',["require", "exports", '../geometries/BoxGeome
             this.width = isDefined_1.default(options.width) ? mustBeNumber_1.default('width', options.width) : 1.0;
             this.height = isDefined_1.default(options.height) ? mustBeNumber_1.default('height', options.height) : 1.0;
             this.depth = isDefined_1.default(options.depth) ? mustBeNumber_1.default('depth', options.depth) : 1.0;
+            if (levelUp === 0) {
+                this.synchUp();
+            }
         }
-        Box.prototype.destructor = function (level) {
-            if (level === 0) {
+        Box.prototype.destructor = function (levelUp) {
+            if (levelUp === 0) {
                 this.cleanUp();
             }
-            _super.prototype.destructor.call(this, incLevel_1.default(level));
+            _super.prototype.destructor.call(this, levelUp + 1);
         };
         Object.defineProperty(Box.prototype, "width", {
             get: function () {
@@ -19909,13 +19936,14 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/visual/Cylinder',["require", "exports", './direction', '../geometries/CylinderGeometry', '../base/incLevel', '../checks/isDefined', '../materials/MeshMaterial', '../checks/mustBeNumber', './RigidBody'], function (require, exports, direction_1, CylinderGeometry_1, incLevel_1, isDefined_1, MeshMaterial_1, mustBeNumber_1, RigidBody_1) {
+define('davinci-eight/visual/Cylinder',["require", "exports", './direction', '../geometries/CylinderGeometry', '../checks/isDefined', '../materials/MeshMaterial', '../checks/mustBeNumber', './RigidBody'], function (require, exports, direction_1, CylinderGeometry_1, isDefined_1, MeshMaterial_1, mustBeNumber_1, RigidBody_1) {
     "use strict";
     var Cylinder = (function (_super) {
         __extends(Cylinder, _super);
-        function Cylinder(options) {
+        function Cylinder(options, levelUp) {
             if (options === void 0) { options = {}; }
-            _super.call(this, void 0, void 0, options.engine, direction_1.default(options));
+            if (levelUp === void 0) { levelUp = 0; }
+            _super.call(this, void 0, void 0, options.engine, direction_1.default(options), levelUp + 1);
             this.setLoggingName('Cylinder');
             var geoOptions = {};
             geoOptions.engine = options.engine;
@@ -19942,9 +19970,15 @@ define('davinci-eight/visual/Cylinder',["require", "exports", './direction', '..
             }
             this.radius = isDefined_1.default(options.radius) ? mustBeNumber_1.default('radius', options.radius) : 0.5;
             this.length = isDefined_1.default(options.length) ? mustBeNumber_1.default('length', options.length) : 1.0;
+            if (levelUp === 0) {
+                this.synchUp();
+            }
         }
-        Cylinder.prototype.destructor = function (level) {
-            _super.prototype.destructor.call(this, incLevel_1.default(level));
+        Cylinder.prototype.destructor = function (levelUp) {
+            if (levelUp === 0) {
+                this.cleanUp();
+            }
+            _super.prototype.destructor.call(this, levelUp + 1);
         };
         Object.defineProperty(Cylinder.prototype, "length", {
             get: function () {
@@ -20208,7 +20242,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/visual/Curve',["require", "exports", '../core/BeginMode', '../core/GraphicsProgramSymbols', '../geometries/CurveGeometry', '../base/incLevel', '../checks/isDefined', '../checks/isFunction', '../checks/isNull', '../checks/isUndefined', '../materials/LineMaterial', '../core/Mesh', '../checks/mustBeGE', '../checks/mustBeNumber', '../materials/PointMaterial', '../math/R3', '../math/Unit'], function (require, exports, BeginMode_1, GraphicsProgramSymbols_1, CurveGeometry_1, incLevel_1, isDefined_1, isFunction_1, isNull_1, isUndefined_1, LineMaterial_1, Mesh_1, mustBeGE_1, mustBeNumber_1, PointMaterial_1, R3_1, Unit_1) {
+define('davinci-eight/visual/Curve',["require", "exports", '../core/BeginMode', '../core/GraphicsProgramSymbols', '../geometries/CurveGeometry', '../checks/isDefined', '../checks/isFunction', '../checks/isNull', '../checks/isUndefined', '../materials/LineMaterial', '../core/Mesh', '../checks/mustBeGE', '../checks/mustBeNumber', '../materials/PointMaterial', '../math/R3', '../math/Unit'], function (require, exports, BeginMode_1, GraphicsProgramSymbols_1, CurveGeometry_1, isDefined_1, isFunction_1, isNull_1, isUndefined_1, LineMaterial_1, Mesh_1, mustBeGE_1, mustBeNumber_1, PointMaterial_1, R3_1, Unit_1) {
     "use strict";
     function aPositionDefault(u) {
         return R3_1.default.vector(u, 0, 0, Unit_1.Unit.ONE);
@@ -20323,9 +20357,10 @@ define('davinci-eight/visual/Curve',["require", "exports", '../core/BeginMode', 
     }
     var Curve = (function (_super) {
         __extends(Curve, _super);
-        function Curve(options) {
+        function Curve(options, levelUp) {
             if (options === void 0) { options = {}; }
-            _super.call(this, void 0, void 0, options.engine);
+            if (levelUp === void 0) { levelUp = 0; }
+            _super.call(this, void 0, void 0, options.engine, levelUp + 1);
             this.setLoggingName('Curve');
             var drawMode = isDefined_1.default(options.drawMode) ? options.drawMode : BeginMode_1.default.LINES;
             switch (drawMode) {
@@ -20344,9 +20379,15 @@ define('davinci-eight/visual/Curve',["require", "exports", '../core/BeginMode', 
                     throw new Error("'" + drawMode + "' is not a valid option for drawMode.");
                 }
             }
+            if (levelUp === 0) {
+                this.synchUp();
+            }
         }
         Curve.prototype.destructor = function (levelUp) {
-            _super.prototype.destructor.call(this, incLevel_1.default(levelUp));
+            if (levelUp === 0) {
+                this.cleanUp();
+            }
+            _super.prototype.destructor.call(this, levelUp + 1);
         };
         return Curve;
     }(Mesh_1.Mesh));
@@ -20358,7 +20399,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/visual/Grid',["require", "exports", '../core/BeginMode', '../core/GraphicsProgramSymbols', '../geometries/GridGeometry', '../base/incLevel', '../checks/isDefined', '../checks/isFunction', '../checks/isNull', '../checks/isUndefined', '../materials/LineMaterial', '../core/Mesh', '../materials/MeshMaterial', '../checks/mustBeGE', '../checks/mustBeNumber', '../materials/PointMaterial', '../math/R3', '../math/Unit'], function (require, exports, BeginMode_1, GraphicsProgramSymbols_1, GridGeometry_1, incLevel_1, isDefined_1, isFunction_1, isNull_1, isUndefined_1, LineMaterial_1, Mesh_1, MeshMaterial_1, mustBeGE_1, mustBeNumber_1, PointMaterial_1, R3_1, Unit_1) {
+define('davinci-eight/visual/Grid',["require", "exports", '../core/BeginMode', '../core/GraphicsProgramSymbols', '../geometries/GridGeometry', '../checks/isDefined', '../checks/isFunction', '../checks/isNull', '../checks/isUndefined', '../materials/LineMaterial', '../core/Mesh', '../materials/MeshMaterial', '../checks/mustBeGE', '../checks/mustBeNumber', '../materials/PointMaterial', '../math/R3', '../math/Unit'], function (require, exports, BeginMode_1, GraphicsProgramSymbols_1, GridGeometry_1, isDefined_1, isFunction_1, isNull_1, isUndefined_1, LineMaterial_1, Mesh_1, MeshMaterial_1, mustBeGE_1, mustBeNumber_1, PointMaterial_1, R3_1, Unit_1) {
     "use strict";
     function aPositionDefault(u, v) {
         return R3_1.default.vector(u, v, 0, Unit_1.Unit.ONE);
@@ -20547,9 +20588,10 @@ define('davinci-eight/visual/Grid',["require", "exports", '../core/BeginMode', '
     }
     var Grid = (function (_super) {
         __extends(Grid, _super);
-        function Grid(options) {
+        function Grid(options, levelUp) {
             if (options === void 0) { options = {}; }
-            _super.call(this, void 0, void 0, null);
+            if (levelUp === void 0) { levelUp = 0; }
+            _super.call(this, void 0, void 0, null, levelUp + 1);
             this.setLoggingName('Grid');
             var drawMode = isDefined_1.default(options.drawMode) ? options.drawMode : BeginMode_1.default.LINES;
             switch (drawMode) {
@@ -20574,9 +20616,15 @@ define('davinci-eight/visual/Grid',["require", "exports", '../core/BeginMode', '
                     throw new Error("'" + drawMode + "' is not a valid option for drawMode.");
                 }
             }
+            if (levelUp === 0) {
+                this.synchUp();
+            }
         }
         Grid.prototype.destructor = function (levelUp) {
-            _super.prototype.destructor.call(this, incLevel_1.default(levelUp));
+            if (levelUp === 0) {
+                this.cleanUp();
+            }
+            _super.prototype.destructor.call(this, levelUp + 1);
         };
         return Grid;
     }(Mesh_1.Mesh));
@@ -20592,9 +20640,10 @@ define('davinci-eight/visual/Tetrahedron',["require", "exports", '../core/Mesh',
     "use strict";
     var Tetrahedron = (function (_super) {
         __extends(Tetrahedron, _super);
-        function Tetrahedron(options) {
+        function Tetrahedron(options, levelUp) {
             if (options === void 0) { options = {}; }
-            _super.call(this, void 0, void 0, options.engine);
+            if (levelUp === void 0) { levelUp = 0; }
+            _super.call(this, void 0, void 0, options.engine, levelUp + 1);
             this.setLoggingName('Tetrahedron');
             var geoOptions = {};
             geoOptions.engine = options.engine;
@@ -20605,8 +20654,14 @@ define('davinci-eight/visual/Tetrahedron',["require", "exports", '../core/Mesh',
             this.material = material;
             geometry.release();
             material.release();
+            if (levelUp === 0) {
+                this.synchUp();
+            }
         }
         Tetrahedron.prototype.destructor = function (levelUp) {
+            if (levelUp === 0) {
+                this.cleanUp();
+            }
             _super.prototype.destructor.call(this, levelUp + 1);
         };
         Object.defineProperty(Tetrahedron.prototype, "radius", {
