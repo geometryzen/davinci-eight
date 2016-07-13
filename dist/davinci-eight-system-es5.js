@@ -6643,88 +6643,6 @@ System.register("davinci-eight/geometries/CylinderBuilder.js", ["../geometries/a
   };
 });
 
-System.register("davinci-eight/atoms/reduce.js", ["../core/BeginMode"], function(exports_1, context_1) {
-  "use strict";
-  var __moduleName = context_1 && context_1.id;
-  var BeginMode_1;
-  var INITIAL;
-  function copyIndices(src, dest, delta) {
-    if (src.indices) {
-      var iLen = src.indices.length;
-      for (var i = 0; i < iLen; i++) {
-        dest.push(src.indices[i] + delta);
-      }
-    }
-  }
-  function max(xs) {
-    return xs.reduce(function(a, b) {
-      return a > b ? a : b;
-    });
-  }
-  function joinIndices(previous, current, dest) {
-    if (previous.indices) {
-      var lastIndex = previous.indices[previous.indices.length - 1];
-      if (current.indices) {
-        var nextIndex = current.indices[0] + max(previous.indices) + 1;
-        dest.push(lastIndex);
-        dest.push(nextIndex);
-      }
-    }
-  }
-  function ensureAttribute(attributes, name, size, type) {
-    if (!attributes[name]) {
-      attributes[name] = {
-        values: [],
-        size: size,
-        type: type
-      };
-    }
-    return attributes[name];
-  }
-  function copyAttributes(primitive, attributes) {
-    var keys = Object.keys(primitive.attributes);
-    var kLen = keys.length;
-    for (var k = 0; k < kLen; k++) {
-      var key = keys[k];
-      var srcAttrib = primitive.attributes[key];
-      var dstAttrib = ensureAttribute(attributes, key, srcAttrib.size, srcAttrib.type);
-      var svalues = srcAttrib.values;
-      var vLen = svalues.length;
-      for (var v = 0; v < vLen; v++) {
-        dstAttrib.values.push(svalues[v]);
-      }
-    }
-  }
-  function reduce(primitives) {
-    return primitives.reduce(function(previous, current) {
-      var indices = [];
-      copyIndices(previous, indices, 0);
-      joinIndices(previous, current, indices);
-      copyIndices(current, indices, max(previous.indices) + 1);
-      var attributes = {};
-      copyAttributes(previous, attributes);
-      copyAttributes(current, attributes);
-      return {
-        mode: BeginMode_1.default.TRIANGLE_STRIP,
-        indices: indices,
-        attributes: attributes
-      };
-    });
-  }
-  exports_1("default", reduce);
-  return {
-    setters: [function(BeginMode_1_1) {
-      BeginMode_1 = BeginMode_1_1;
-    }],
-    execute: function() {
-      INITIAL = {
-        mode: void 0,
-        attributes: {}
-      };
-    }
-  };
-});
-
 System.register("davinci-eight/geometries/cylinderPrimitive.js", ["./CylinderBuilder", "../checks/isDefined", "../checks/mustBeBoolean", "../math/R3", "../atoms/reduce"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
@@ -14479,27 +14397,6 @@ System.register("davinci-eight/atoms/DrawAttribute.js", [], function(exports_1, 
   };
 });
 
-System.register("davinci-eight/core/BeginMode.js", [], function(exports_1, context_1) {
-  "use strict";
-  var __moduleName = context_1 && context_1.id;
-  var BeginMode;
-  return {
-    setters: [],
-    execute: function() {
-      (function(BeginMode) {
-        BeginMode[BeginMode["POINTS"] = 0] = "POINTS";
-        BeginMode[BeginMode["LINES"] = 1] = "LINES";
-        BeginMode[BeginMode["LINE_LOOP"] = 2] = "LINE_LOOP";
-        BeginMode[BeginMode["LINE_STRIP"] = 3] = "LINE_STRIP";
-        BeginMode[BeginMode["TRIANGLES"] = 4] = "TRIANGLES";
-        BeginMode[BeginMode["TRIANGLE_STRIP"] = 5] = "TRIANGLE_STRIP";
-        BeginMode[BeginMode["TRIANGLE_FAN"] = 6] = "TRIANGLE_FAN";
-      })(BeginMode || (BeginMode = {}));
-      exports_1("default", BeginMode);
-    }
-  };
-});
-
 System.register("davinci-eight/atoms/DrawPrimitive.js", ["../checks/mustBeArray", "../checks/mustBeInteger", "../checks/mustBeObject"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
@@ -22064,6 +21961,144 @@ System.register("davinci-eight/geometries/PolyhedronBuilder.js", ["../math/G3", 
   };
 });
 
+System.register("davinci-eight/core/BeginMode.js", [], function(exports_1, context_1) {
+  "use strict";
+  var __moduleName = context_1 && context_1.id;
+  var BeginMode;
+  return {
+    setters: [],
+    execute: function() {
+      (function(BeginMode) {
+        BeginMode[BeginMode["POINTS"] = 0] = "POINTS";
+        BeginMode[BeginMode["LINES"] = 1] = "LINES";
+        BeginMode[BeginMode["LINE_LOOP"] = 2] = "LINE_LOOP";
+        BeginMode[BeginMode["LINE_STRIP"] = 3] = "LINE_STRIP";
+        BeginMode[BeginMode["TRIANGLES"] = 4] = "TRIANGLES";
+        BeginMode[BeginMode["TRIANGLE_STRIP"] = 5] = "TRIANGLE_STRIP";
+        BeginMode[BeginMode["TRIANGLE_FAN"] = 6] = "TRIANGLE_FAN";
+      })(BeginMode || (BeginMode = {}));
+      exports_1("default", BeginMode);
+    }
+  };
+});
+
+System.register("davinci-eight/atoms/reduce.js", ["../core/BeginMode"], function(exports_1, context_1) {
+  "use strict";
+  var __moduleName = context_1 && context_1.id;
+  var BeginMode_1;
+  var INITIAL;
+  function copyIndices(src, dest, delta) {
+    if (src.indices) {
+      var iLen = src.indices.length;
+      for (var i = 0; i < iLen; i++) {
+        dest.push(src.indices[i] + delta);
+      }
+    }
+  }
+  function max(xs) {
+    return xs.reduce(function(a, b) {
+      return a > b ? a : b;
+    });
+  }
+  function joinIndices(previous, current, dest) {
+    if (previous.indices) {
+      var lastIndex = previous.indices[previous.indices.length - 1];
+      if (current.indices) {
+        var nextIndex = current.indices[0] + max(previous.indices) + 1;
+        dest.push(lastIndex);
+        dest.push(nextIndex);
+      }
+    }
+  }
+  function ensureAttribute(attributes, name, size, type) {
+    if (!attributes[name]) {
+      attributes[name] = {
+        values: [],
+        size: size,
+        type: type
+      };
+    }
+    return attributes[name];
+  }
+  function copyAttributes(primitive, attributes) {
+    var keys = Object.keys(primitive.attributes);
+    var kLen = keys.length;
+    for (var k = 0; k < kLen; k++) {
+      var key = keys[k];
+      var srcAttrib = primitive.attributes[key];
+      var dstAttrib = ensureAttribute(attributes, key, srcAttrib.size, srcAttrib.type);
+      var svalues = srcAttrib.values;
+      var vLen = svalues.length;
+      for (var v = 0; v < vLen; v++) {
+        dstAttrib.values.push(svalues[v]);
+      }
+    }
+  }
+  function reduce(primitives) {
+    return primitives.reduce(function(previous, current) {
+      var indices = [];
+      copyIndices(previous, indices, 0);
+      joinIndices(previous, current, indices);
+      copyIndices(current, indices, max(previous.indices) + 1);
+      var attributes = {};
+      copyAttributes(previous, attributes);
+      copyAttributes(current, attributes);
+      return {
+        mode: BeginMode_1.default.TRIANGLE_STRIP,
+        indices: indices,
+        attributes: attributes
+      };
+    });
+  }
+  exports_1("default", reduce);
+  return {
+    setters: [function(BeginMode_1_1) {
+      BeginMode_1 = BeginMode_1_1;
+    }],
+    execute: function() {
+      INITIAL = {
+        mode: void 0,
+        attributes: {}
+      };
+    }
+  };
+});
+
+System.register("davinci-eight/geometries/tetrahedronPrimitive.js", ["../checks/isDefined", "../checks/mustBeNumber", "../geometries/PolyhedronBuilder", "../atoms/reduce"], function(exports_1, context_1) {
+  "use strict";
+  var __moduleName = context_1 && context_1.id;
+  var isDefined_1,
+      mustBeNumber_1,
+      PolyhedronBuilder_1,
+      reduce_1;
+  var vertices,
+      indices;
+  function tetrahedronPrimitive(options) {
+    if (options === void 0) {
+      options = {};
+    }
+    var radius = isDefined_1.default(options.radius) ? mustBeNumber_1.default('radius', options.radius) : 1.0;
+    var builder = new PolyhedronBuilder_1.default(vertices, indices, radius);
+    return reduce_1.default(builder.toPrimitives());
+  }
+  exports_1("default", tetrahedronPrimitive);
+  return {
+    setters: [function(isDefined_1_1) {
+      isDefined_1 = isDefined_1_1;
+    }, function(mustBeNumber_1_1) {
+      mustBeNumber_1 = mustBeNumber_1_1;
+    }, function(PolyhedronBuilder_1_1) {
+      PolyhedronBuilder_1 = PolyhedronBuilder_1_1;
+    }, function(reduce_1_1) {
+      reduce_1 = reduce_1_1;
+    }],
+    execute: function() {
+      vertices = [+1, +1, +1, -1, -1, +1, -1, +1, -1, +1, -1, -1];
+      indices = [2, 1, 0, 0, 3, 2, 1, 3, 0, 2, 3, 1];
+    }
+  };
+});
+
 System.register("davinci-eight/core/computeCount.js", ["../checks/mustBeInteger"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
@@ -22195,7 +22230,30 @@ System.register("davinci-eight/core/vertexArraysFromPrimitive.js", ["./computeAt
   };
 });
 
-System.register("davinci-eight/geometries/TetrahedronGeometry.js", ["../core/GeometryContainer", "../core/GeometryElements", "../checks/isDefined", "../checks/mustBeNumber", "../geometries/PolyhedronBuilder", "../core/vertexArraysFromPrimitive"], function(exports_1, context_1) {
+System.register("davinci-eight/geometries/tetrahedronVertexArrays.js", ["./tetrahedronPrimitive", "../core/vertexArraysFromPrimitive"], function(exports_1, context_1) {
+  "use strict";
+  var __moduleName = context_1 && context_1.id;
+  var tetrahedronPrimitive_1,
+      vertexArraysFromPrimitive_1;
+  function sphereVertexArrays(options) {
+    if (options === void 0) {
+      options = {};
+    }
+    var primitive = tetrahedronPrimitive_1.default(options);
+    return vertexArraysFromPrimitive_1.default(primitive);
+  }
+  exports_1("default", sphereVertexArrays);
+  return {
+    setters: [function(tetrahedronPrimitive_1_1) {
+      tetrahedronPrimitive_1 = tetrahedronPrimitive_1_1;
+    }, function(vertexArraysFromPrimitive_1_1) {
+      vertexArraysFromPrimitive_1 = vertexArraysFromPrimitive_1_1;
+    }],
+    execute: function() {}
+  };
+});
+
+System.register("davinci-eight/geometries/TetrahedronGeometry.js", ["../core/GeometryElements", "./tetrahedronVertexArrays"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -22207,32 +22265,16 @@ System.register("davinci-eight/geometries/TetrahedronGeometry.js", ["../core/Geo
     }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   };
-  var GeometryContainer_1,
-      GeometryElements_1,
-      isDefined_1,
-      mustBeNumber_1,
-      PolyhedronBuilder_1,
-      vertexArraysFromPrimitive_1;
-  var vertices,
-      indices,
-      TetrahedronGeometry;
+  var GeometryElements_1,
+      tetrahedronVertexArrays_1;
+  var TetrahedronGeometry;
   return {
-    setters: [function(GeometryContainer_1_1) {
-      GeometryContainer_1 = GeometryContainer_1_1;
-    }, function(GeometryElements_1_1) {
+    setters: [function(GeometryElements_1_1) {
       GeometryElements_1 = GeometryElements_1_1;
-    }, function(isDefined_1_1) {
-      isDefined_1 = isDefined_1_1;
-    }, function(mustBeNumber_1_1) {
-      mustBeNumber_1 = mustBeNumber_1_1;
-    }, function(PolyhedronBuilder_1_1) {
-      PolyhedronBuilder_1 = PolyhedronBuilder_1_1;
-    }, function(vertexArraysFromPrimitive_1_1) {
-      vertexArraysFromPrimitive_1 = vertexArraysFromPrimitive_1_1;
+    }, function(tetrahedronVertexArrays_1_1) {
+      tetrahedronVertexArrays_1 = tetrahedronVertexArrays_1_1;
     }],
     execute: function() {
-      vertices = [+1, +1, +1, -1, -1, +1, -1, +1, -1, +1, -1, -1];
-      indices = [2, 1, 0, 0, 3, 2, 1, 3, 0, 2, 3, 1];
       TetrahedronGeometry = (function(_super) {
         __extends(TetrahedronGeometry, _super);
         function TetrahedronGeometry(options, levelUp) {
@@ -22242,18 +22284,8 @@ System.register("davinci-eight/geometries/TetrahedronGeometry.js", ["../core/Geo
           if (levelUp === void 0) {
             levelUp = 0;
           }
-          _super.call(this, options.tilt, options.engine, levelUp + 1);
+          _super.call(this, tetrahedronVertexArrays_1.default(options), options.tilt, options.engine, levelUp + 1);
           this.setLoggingName('TetrahedronGeometry');
-          var radius = isDefined_1.default(options.radius) ? mustBeNumber_1.default('radius', options.radius) : 1.0;
-          var builder = new PolyhedronBuilder_1.default(vertices, indices, radius);
-          var ps = builder.toPrimitives();
-          var iLen = ps.length;
-          for (var i = 0; i < iLen; i++) {
-            var p = ps[i];
-            var geometry = new GeometryElements_1.default(vertexArraysFromPrimitive_1.default(p), options.tilt, options.engine);
-            this.addPart(geometry);
-            geometry.release();
-          }
           if (levelUp === 0) {
             this.synchUp();
           }
@@ -22265,7 +22297,7 @@ System.register("davinci-eight/geometries/TetrahedronGeometry.js", ["../core/Geo
           _super.prototype.destructor.call(this, levelUp + 1);
         };
         return TetrahedronGeometry;
-      }(GeometryContainer_1.default));
+      }(GeometryElements_1.default));
       exports_1("default", TetrahedronGeometry);
     }
   };
@@ -22316,6 +22348,9 @@ System.register("davinci-eight/visual/Tetrahedron.js", ["../core/Mesh", "../mate
           this.material = material;
           geometry.release();
           material.release();
+          if (options.color) {
+            this.color.copy(options.color);
+          }
           if (levelUp === 0) {
             this.synchUp();
           }

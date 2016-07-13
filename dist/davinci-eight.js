@@ -17804,12 +17804,7 @@ define('davinci-eight/geometries/PolyhedronBuilder',["require", "exports", '../m
     exports.default = PolyhedronBuilder;
 });
 
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/geometries/TetrahedronGeometry',["require", "exports", '../core/GeometryContainer', '../core/GeometryElements', '../checks/isDefined', '../checks/mustBeNumber', '../geometries/PolyhedronBuilder', '../core/vertexArraysFromPrimitive'], function (require, exports, GeometryContainer_1, GeometryElements_1, isDefined_1, mustBeNumber_1, PolyhedronBuilder_1, vertexArraysFromPrimitive_1) {
+define('davinci-eight/geometries/tetrahedronPrimitive',["require", "exports", '../checks/isDefined', '../checks/mustBeNumber', '../geometries/PolyhedronBuilder', '../atoms/reduce'], function (require, exports, isDefined_1, mustBeNumber_1, PolyhedronBuilder_1, reduce_1) {
     "use strict";
     var vertices = [
         +1, +1, +1, -1, -1, +1, -1, +1, -1, +1, -1, -1
@@ -17817,23 +17812,41 @@ define('davinci-eight/geometries/TetrahedronGeometry',["require", "exports", '..
     var indices = [
         2, 1, 0, 0, 3, 2, 1, 3, 0, 2, 3, 1
     ];
+    function tetrahedronPrimitive(options) {
+        if (options === void 0) { options = {}; }
+        var radius = isDefined_1.default(options.radius) ? mustBeNumber_1.default('radius', options.radius) : 1.0;
+        var builder = new PolyhedronBuilder_1.default(vertices, indices, radius);
+        return reduce_1.default(builder.toPrimitives());
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = tetrahedronPrimitive;
+});
+
+define('davinci-eight/geometries/tetrahedronVertexArrays',["require", "exports", './tetrahedronPrimitive', '../core/vertexArraysFromPrimitive'], function (require, exports, tetrahedronPrimitive_1, vertexArraysFromPrimitive_1) {
+    "use strict";
+    function sphereVertexArrays(options) {
+        if (options === void 0) { options = {}; }
+        var primitive = tetrahedronPrimitive_1.default(options);
+        return vertexArraysFromPrimitive_1.default(primitive);
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = sphereVertexArrays;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/geometries/TetrahedronGeometry',["require", "exports", '../core/GeometryElements', './tetrahedronVertexArrays'], function (require, exports, GeometryElements_1, tetrahedronVertexArrays_1) {
+    "use strict";
     var TetrahedronGeometry = (function (_super) {
         __extends(TetrahedronGeometry, _super);
         function TetrahedronGeometry(options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
-            _super.call(this, options.tilt, options.engine, levelUp + 1);
+            _super.call(this, tetrahedronVertexArrays_1.default(options), options.tilt, options.engine, levelUp + 1);
             this.setLoggingName('TetrahedronGeometry');
-            var radius = isDefined_1.default(options.radius) ? mustBeNumber_1.default('radius', options.radius) : 1.0;
-            var builder = new PolyhedronBuilder_1.default(vertices, indices, radius);
-            var ps = builder.toPrimitives();
-            var iLen = ps.length;
-            for (var i = 0; i < iLen; i++) {
-                var p = ps[i];
-                var geometry = new GeometryElements_1.default(vertexArraysFromPrimitive_1.default(p), options.tilt, options.engine);
-                this.addPart(geometry);
-                geometry.release();
-            }
             if (levelUp === 0) {
                 this.synchUp();
             }
@@ -17845,7 +17858,7 @@ define('davinci-eight/geometries/TetrahedronGeometry',["require", "exports", '..
             _super.prototype.destructor.call(this, levelUp + 1);
         };
         return TetrahedronGeometry;
-    }(GeometryContainer_1.default));
+    }(GeometryElements_1.default));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = TetrahedronGeometry;
 });
@@ -20905,6 +20918,9 @@ define('davinci-eight/visual/Tetrahedron',["require", "exports", '../core/Mesh',
             this.material = material;
             geometry.release();
             material.release();
+            if (options.color) {
+                this.color.copy(options.color);
+            }
             if (levelUp === 0) {
                 this.synchUp();
             }

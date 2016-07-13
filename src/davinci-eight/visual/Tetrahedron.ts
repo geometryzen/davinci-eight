@@ -25,6 +25,11 @@ export default class Tetrahedron extends Mesh {
         this.material = material;
         geometry.release();
         material.release();
+
+        if (options.color) {
+            this.color.copy(options.color);
+        }
+
         if (levelUp === 0) {
             this.synchUp();
         }
