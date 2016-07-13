@@ -21818,7 +21818,9 @@ System.register("davinci-eight/geometries/PolyhedronBuilder.js", ["../math/G3", 
       GraphicsProgramSymbols_1,
       Vector2_1,
       Vector3_1;
-  var PolyhedronBuilder;
+  var a,
+      b,
+      PolyhedronBuilder;
   function azimuth(vector) {
     return Math.atan2(vector.z, -vector.x);
   }
@@ -21841,6 +21843,11 @@ System.register("davinci-eight/geometries/PolyhedronBuilder.js", ["../math/G3", 
       uv = new Vector2_1.Vector2([azimuth / 2 / Math.PI + 0.5, uv.y]);
     return uv.clone();
   }
+  function normal(v1, v2, v3) {
+    a.copy(v2).sub(v1);
+    b.copy(v3).sub(v2);
+    return Vector3_1.default.copy(a).cross(b).normalize();
+  }
   return {
     setters: [function(G3_1_1) {
       G3_1 = G3_1_1;
@@ -21856,6 +21863,8 @@ System.register("davinci-eight/geometries/PolyhedronBuilder.js", ["../math/G3", 
       Vector3_1 = Vector3_1_1;
     }],
     execute: function() {
+      a = Vector3_1.default.zero();
+      b = Vector3_1.default.zero();
       PolyhedronBuilder = (function(_super) {
         __extends(PolyhedronBuilder, _super);
         function PolyhedronBuilder(vertices, indices, radius, detail) {
@@ -21878,13 +21887,14 @@ System.register("davinci-eight/geometries/PolyhedronBuilder.js", ["../math/G3", 
             var v1 = points[indices[i]];
             var v2 = points[indices[i + 1]];
             var v3 = points[indices[i + 2]];
+            var n = normal(v1, v2, v3);
             var simplex = new Simplex_1.default(Simplex_1.default.TRIANGLE);
             simplex.vertices[0].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = v1;
-            simplex.vertices[0].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL] = Vector3_1.default.copy(v1);
+            simplex.vertices[0].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL] = Vector3_1.default.copy(n);
             simplex.vertices[1].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = v2;
-            simplex.vertices[1].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL] = Vector3_1.default.copy(v2);
+            simplex.vertices[1].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL] = Vector3_1.default.copy(n);
             simplex.vertices[2].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = v3;
-            simplex.vertices[2].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL] = Vector3_1.default.copy(v3);
+            simplex.vertices[2].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL] = Vector3_1.default.copy(n);
             faces[j] = simplex;
           }
           for (var i = 0,
@@ -21910,15 +21920,16 @@ System.register("davinci-eight/geometries/PolyhedronBuilder.js", ["../math/G3", 
             var uv1 = correctUV(something1['uv'], v1, azi);
             var uv2 = correctUV(something2['uv'], v2, azi);
             var uv3 = correctUV(something3['uv'], v3, azi);
+            var n = normal(v1, v2, v3);
             var simplex = new Simplex_1.default(Simplex_1.default.TRIANGLE);
             simplex.vertices[0].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = Vector3_1.default.copy(v1);
-            simplex.vertices[0].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL] = Vector3_1.default.copy(v1);
+            simplex.vertices[0].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL] = Vector3_1.default.copy(n);
             simplex.vertices[0].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_COORDS] = uv1;
             simplex.vertices[1].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = Vector3_1.default.copy(v2);
-            simplex.vertices[1].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL] = Vector3_1.default.copy(v2);
+            simplex.vertices[1].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL] = Vector3_1.default.copy(n);
             simplex.vertices[1].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_COORDS] = uv2;
             simplex.vertices[2].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = Vector3_1.default.copy(v3);
-            simplex.vertices[2].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL] = Vector3_1.default.copy(v3);
+            simplex.vertices[2].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL] = Vector3_1.default.copy(n);
             simplex.vertices[2].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_COORDS] = uv3;
             builder.data.push(simplex);
           }

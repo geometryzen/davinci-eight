@@ -12,6 +12,7 @@ export default class Tetrahedron extends Mesh {
 
     /**
      * @param options
+     * @param levelUp
      */
     constructor(options: TetrahedronOptions = {}, levelUp = 0) {
         super(void 0, void 0, options.engine, levelUp + 1);
@@ -39,14 +40,9 @@ export default class Tetrahedron extends Mesh {
         if (levelUp === 0) {
             this.cleanUp();
         }
-        super.destructor(levelUp + 1)
+        super.destructor(levelUp + 1);
     }
 
-    /**
-     * @property radius
-     * @type number
-     * @default 1
-     */
     get radius(): number {
         return this.getPrincipalScale('radius')
     }
