@@ -5,14 +5,9 @@ import Spinor3 from '../math/Spinor3'
 
 describe("CylinderGeometry", function() {
   describe("constructor", function() {
-    it("should create a container Geometry", function() {
+    it("should create a leaf Geometry", function() {
       const cylinder = new CylinderGeometry()
-      expect(cylinder.isLeaf()).toBe(false)
-      cylinder.release()
-    })
-    it("should create a container Geometry", function() {
-      const cylinder = new CylinderGeometry()
-      expect(cylinder.isLeaf()).toBe(false)
+      expect(cylinder.isLeaf()).toBe(true)
       cylinder.release()
     })
     describe("radius property", function() {

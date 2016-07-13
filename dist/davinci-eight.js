@@ -17055,46 +17055,59 @@ define('davinci-eight/geometries/CylinderBuilder',["require", "exports", '../geo
     exports.default = CylinderBuilder;
 });
 
+define('davinci-eight/geometries/cylinderPrimitive',["require", "exports", './CylinderBuilder', '../checks/isDefined', '../checks/mustBeBoolean', '../math/R3', '../atoms/reduce'], function (require, exports, CylinderBuilder_1, isDefined_1, mustBeBoolean_1, R3_1, reduce_1) {
+    "use strict";
+    function cylinderPrimitive(options) {
+        if (options === void 0) { options = {}; }
+        var builder = new CylinderBuilder_1.default(R3_1.default.e2, R3_1.default.e3, false);
+        if (isDefined_1.default(options.openBase)) {
+            builder.openBase = mustBeBoolean_1.default('openBase', options.openBase);
+        }
+        if (isDefined_1.default(options.openCap)) {
+            builder.openCap = mustBeBoolean_1.default('openCap', options.openCap);
+        }
+        if (isDefined_1.default(options.openWall)) {
+            builder.openWall = mustBeBoolean_1.default('openWall', options.openWall);
+        }
+        if (options.tilt) {
+            builder.tilt.copySpinor(options.tilt);
+        }
+        if (options.offset) {
+            builder.offset.copy(options.offset);
+        }
+        return reduce_1.default(builder.toPrimitives());
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = cylinderPrimitive;
+});
+
+define('davinci-eight/geometries/cylinderVertexArrays',["require", "exports", './cylinderPrimitive', '../core/vertexArraysFromPrimitive'], function (require, exports, cylinderPrimitive_1, vertexArraysFromPrimitive_1) {
+    "use strict";
+    function cylinderVertexArrays(options) {
+        if (options === void 0) { options = {}; }
+        var primitive = cylinderPrimitive_1.default(options);
+        return vertexArraysFromPrimitive_1.default(primitive);
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = cylinderVertexArrays;
+});
+
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/CylinderGeometry',["require", "exports", './CylinderBuilder', '../checks/isDefined', '../checks/mustBeBoolean', '../i18n/notSupported', '../core/GeometryContainer', '../core/GeometryElements', '../math/R3', '../core/vertexArraysFromPrimitive'], function (require, exports, CylinderBuilder_1, isDefined_1, mustBeBoolean_1, notSupported_1, GeometryContainer_1, GeometryElements_1, R3_1, vertexArraysFromPrimitive_1) {
+define('davinci-eight/geometries/CylinderGeometry',["require", "exports", './cylinderVertexArrays', '../i18n/notSupported', '../core/GeometryElements'], function (require, exports, cylinderVertexArrays_1, notSupported_1, GeometryElements_1) {
     "use strict";
     var CylinderGeometry = (function (_super) {
         __extends(CylinderGeometry, _super);
         function CylinderGeometry(options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
-            _super.call(this, options.tilt, options.engine, levelUp + 1);
+            _super.call(this, cylinderVertexArrays_1.default(options), options.tilt, options.engine, levelUp + 1);
             this._length = 1;
             this._radius = 1;
             this.setLoggingName('CylinderGeometry');
-            var builder = new CylinderBuilder_1.default(R3_1.default.e2, R3_1.default.e3, false);
-            if (isDefined_1.default(options.openBase)) {
-                builder.openBase = mustBeBoolean_1.default('openBase', options.openBase);
-            }
-            if (isDefined_1.default(options.openCap)) {
-                builder.openCap = mustBeBoolean_1.default('openCap', options.openCap);
-            }
-            if (isDefined_1.default(options.openWall)) {
-                builder.openWall = mustBeBoolean_1.default('openWall', options.openWall);
-            }
-            if (options.tilt) {
-                builder.tilt.copySpinor(options.tilt);
-            }
-            if (options.offset) {
-                builder.offset.copy(options.offset);
-            }
-            var ps = builder.toPrimitives();
-            var iLen = ps.length;
-            for (var i = 0; i < iLen; i++) {
-                var dataSource = ps[i];
-                var geometry = new GeometryElements_1.default(vertexArraysFromPrimitive_1.default(dataSource), options.tilt, options.engine);
-                this.addPart(geometry);
-                geometry.release();
-            }
             if (levelUp === 0) {
                 this.synchUp();
             }
@@ -17159,7 +17172,7 @@ define('davinci-eight/geometries/CylinderGeometry',["require", "exports", './Cyl
             this.setScale(this._radius, this._length, this._radius);
         };
         return CylinderGeometry;
-    }(GeometryContainer_1.default));
+    }(GeometryElements_1.default));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = CylinderGeometry;
 });
@@ -17577,30 +17590,43 @@ define('davinci-eight/geometries/SphereBuilder',["require", "exports", '../geome
     exports.default = SphereBuilder;
 });
 
+define('davinci-eight/geometries/spherePrimitive',["require", "exports", '../atoms/reduce', './SphereBuilder'], function (require, exports, reduce_1, SphereBuilder_1) {
+    "use strict";
+    function spherePrimitive(options) {
+        if (options === void 0) { options = {}; }
+        var builder = new SphereBuilder_1.default();
+        return reduce_1.default(builder.toPrimitives());
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = spherePrimitive;
+});
+
+define('davinci-eight/geometries/sphereVertexArrays',["require", "exports", './spherePrimitive', '../core/vertexArraysFromPrimitive'], function (require, exports, spherePrimitive_1, vertexArraysFromPrimitive_1) {
+    "use strict";
+    function sphereVertexArrays(options) {
+        if (options === void 0) { options = {}; }
+        var primitive = spherePrimitive_1.default(options);
+        return vertexArraysFromPrimitive_1.default(primitive);
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = sphereVertexArrays;
+});
+
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/SphereGeometry',["require", "exports", '../core/GeometryContainer', '../core/GeometryElements', '../i18n/notSupported', './SphereBuilder', '../core/vertexArraysFromPrimitive'], function (require, exports, GeometryContainer_1, GeometryElements_1, notSupported_1, SphereBuilder_1, vertexArraysFromPrimitive_1) {
+define('davinci-eight/geometries/SphereGeometry',["require", "exports", '../core/GeometryElements', '../i18n/notSupported', './sphereVertexArrays'], function (require, exports, GeometryElements_1, notSupported_1, sphereVertexArrays_1) {
     "use strict";
     var SphereGeometry = (function (_super) {
         __extends(SphereGeometry, _super);
         function SphereGeometry(options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
-            _super.call(this, options.tilt, options.engine, levelUp + 1);
+            _super.call(this, sphereVertexArrays_1.default(options), options.tilt, options.engine, levelUp + 1);
             this._radius = 1;
             this.setLoggingName('SphereGeometry');
-            var builder = new SphereBuilder_1.default();
-            var ps = builder.toPrimitives();
-            var iLen = ps.length;
-            for (var i = 0; i < iLen; i++) {
-                var p = ps[i];
-                var geometry = new GeometryElements_1.default(vertexArraysFromPrimitive_1.default(p), options.tilt, options.engine);
-                this.addPart(geometry);
-                geometry.release();
-            }
             if (levelUp === 0) {
                 this.synchUp();
             }
@@ -17646,7 +17672,7 @@ define('davinci-eight/geometries/SphereGeometry',["require", "exports", '../core
             this.setScale(this._radius, this._radius, this._radius);
         };
         return SphereGeometry;
-    }(GeometryContainer_1.default));
+    }(GeometryElements_1.default));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = SphereGeometry;
 });

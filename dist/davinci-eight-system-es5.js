@@ -5550,7 +5550,53 @@ System.register("davinci-eight/geometries/SphereBuilder.js", ["../geometries/arc
   };
 });
 
-System.register("davinci-eight/geometries/SphereGeometry.js", ["../core/GeometryContainer", "../core/GeometryElements", "../i18n/notSupported", "./SphereBuilder", "../core/vertexArraysFromPrimitive"], function(exports_1, context_1) {
+System.register("davinci-eight/geometries/spherePrimitive.js", ["../atoms/reduce", "./SphereBuilder"], function(exports_1, context_1) {
+  "use strict";
+  var __moduleName = context_1 && context_1.id;
+  var reduce_1,
+      SphereBuilder_1;
+  function spherePrimitive(options) {
+    if (options === void 0) {
+      options = {};
+    }
+    var builder = new SphereBuilder_1.default();
+    return reduce_1.default(builder.toPrimitives());
+  }
+  exports_1("default", spherePrimitive);
+  return {
+    setters: [function(reduce_1_1) {
+      reduce_1 = reduce_1_1;
+    }, function(SphereBuilder_1_1) {
+      SphereBuilder_1 = SphereBuilder_1_1;
+    }],
+    execute: function() {}
+  };
+});
+
+System.register("davinci-eight/geometries/sphereVertexArrays.js", ["./spherePrimitive", "../core/vertexArraysFromPrimitive"], function(exports_1, context_1) {
+  "use strict";
+  var __moduleName = context_1 && context_1.id;
+  var spherePrimitive_1,
+      vertexArraysFromPrimitive_1;
+  function sphereVertexArrays(options) {
+    if (options === void 0) {
+      options = {};
+    }
+    var primitive = spherePrimitive_1.default(options);
+    return vertexArraysFromPrimitive_1.default(primitive);
+  }
+  exports_1("default", sphereVertexArrays);
+  return {
+    setters: [function(spherePrimitive_1_1) {
+      spherePrimitive_1 = spherePrimitive_1_1;
+    }, function(vertexArraysFromPrimitive_1_1) {
+      vertexArraysFromPrimitive_1 = vertexArraysFromPrimitive_1_1;
+    }],
+    execute: function() {}
+  };
+});
+
+System.register("davinci-eight/geometries/SphereGeometry.js", ["../core/GeometryElements", "../i18n/notSupported", "./sphereVertexArrays"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -5562,23 +5608,17 @@ System.register("davinci-eight/geometries/SphereGeometry.js", ["../core/Geometry
     }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   };
-  var GeometryContainer_1,
-      GeometryElements_1,
+  var GeometryElements_1,
       notSupported_1,
-      SphereBuilder_1,
-      vertexArraysFromPrimitive_1;
+      sphereVertexArrays_1;
   var SphereGeometry;
   return {
-    setters: [function(GeometryContainer_1_1) {
-      GeometryContainer_1 = GeometryContainer_1_1;
-    }, function(GeometryElements_1_1) {
+    setters: [function(GeometryElements_1_1) {
       GeometryElements_1 = GeometryElements_1_1;
     }, function(notSupported_1_1) {
       notSupported_1 = notSupported_1_1;
-    }, function(SphereBuilder_1_1) {
-      SphereBuilder_1 = SphereBuilder_1_1;
-    }, function(vertexArraysFromPrimitive_1_1) {
-      vertexArraysFromPrimitive_1 = vertexArraysFromPrimitive_1_1;
+    }, function(sphereVertexArrays_1_1) {
+      sphereVertexArrays_1 = sphereVertexArrays_1_1;
     }],
     execute: function() {
       SphereGeometry = (function(_super) {
@@ -5590,18 +5630,9 @@ System.register("davinci-eight/geometries/SphereGeometry.js", ["../core/Geometry
           if (levelUp === void 0) {
             levelUp = 0;
           }
-          _super.call(this, options.tilt, options.engine, levelUp + 1);
+          _super.call(this, sphereVertexArrays_1.default(options), options.tilt, options.engine, levelUp + 1);
           this._radius = 1;
           this.setLoggingName('SphereGeometry');
-          var builder = new SphereBuilder_1.default();
-          var ps = builder.toPrimitives();
-          var iLen = ps.length;
-          for (var i = 0; i < iLen; i++) {
-            var p = ps[i];
-            var geometry = new GeometryElements_1.default(vertexArraysFromPrimitive_1.default(p), options.tilt, options.engine);
-            this.addPart(geometry);
-            geometry.release();
-          }
           if (levelUp === 0) {
             this.synchUp();
           }
@@ -5650,7 +5681,7 @@ System.register("davinci-eight/geometries/SphereGeometry.js", ["../core/Geometry
           this.setScale(this._radius, this._radius, this._radius);
         };
         return SphereGeometry;
-      }(GeometryContainer_1.default));
+      }(GeometryElements_1.default));
       exports_1("default", SphereGeometry);
     }
   };
@@ -5893,88 +5924,6 @@ System.register("davinci-eight/geometries/CuboidPrimitivesBuilder.js", ["../atom
         return CuboidPrimitivesBuilder;
       }(PrimitivesBuilder_1.default));
       exports_1("default", CuboidPrimitivesBuilder);
-    }
-  };
-});
-
-System.register("davinci-eight/atoms/reduce.js", ["../core/BeginMode"], function(exports_1, context_1) {
-  "use strict";
-  var __moduleName = context_1 && context_1.id;
-  var BeginMode_1;
-  var INITIAL;
-  function copyIndices(src, dest, delta) {
-    if (src.indices) {
-      var iLen = src.indices.length;
-      for (var i = 0; i < iLen; i++) {
-        dest.push(src.indices[i] + delta);
-      }
-    }
-  }
-  function max(xs) {
-    return xs.reduce(function(a, b) {
-      return a > b ? a : b;
-    });
-  }
-  function joinIndices(previous, current, dest) {
-    if (previous.indices) {
-      var lastIndex = previous.indices[previous.indices.length - 1];
-      if (current.indices) {
-        var nextIndex = current.indices[0] + max(previous.indices) + 1;
-        dest.push(lastIndex);
-        dest.push(nextIndex);
-      }
-    }
-  }
-  function ensureAttribute(attributes, name, size, type) {
-    if (!attributes[name]) {
-      attributes[name] = {
-        values: [],
-        size: size,
-        type: type
-      };
-    }
-    return attributes[name];
-  }
-  function copyAttributes(primitive, attributes) {
-    var keys = Object.keys(primitive.attributes);
-    var kLen = keys.length;
-    for (var k = 0; k < kLen; k++) {
-      var key = keys[k];
-      var srcAttrib = primitive.attributes[key];
-      var dstAttrib = ensureAttribute(attributes, key, srcAttrib.size, srcAttrib.type);
-      var svalues = srcAttrib.values;
-      var vLen = svalues.length;
-      for (var v = 0; v < vLen; v++) {
-        dstAttrib.values.push(svalues[v]);
-      }
-    }
-  }
-  function reduce(primitives) {
-    return primitives.reduce(function(previous, current) {
-      var indices = [];
-      copyIndices(previous, indices, 0);
-      joinIndices(previous, current, indices);
-      copyIndices(current, indices, max(previous.indices) + 1);
-      var attributes = {};
-      copyAttributes(previous, attributes);
-      copyAttributes(current, attributes);
-      return {
-        mode: BeginMode_1.default.TRIANGLE_STRIP,
-        indices: indices,
-        attributes: attributes
-      };
-    });
-  }
-  exports_1("default", reduce);
-  return {
-    setters: [function(BeginMode_1_1) {
-      BeginMode_1 = BeginMode_1_1;
-    }],
-    execute: function() {
-      INITIAL = {
-        mode: void 0,
-        attributes: {}
-      };
     }
   };
 });
@@ -6694,7 +6643,159 @@ System.register("davinci-eight/geometries/CylinderBuilder.js", ["../geometries/a
   };
 });
 
-System.register("davinci-eight/geometries/CylinderGeometry.js", ["./CylinderBuilder", "../checks/isDefined", "../checks/mustBeBoolean", "../i18n/notSupported", "../core/GeometryContainer", "../core/GeometryElements", "../math/R3", "../core/vertexArraysFromPrimitive"], function(exports_1, context_1) {
+System.register("davinci-eight/atoms/reduce.js", ["../core/BeginMode"], function(exports_1, context_1) {
+  "use strict";
+  var __moduleName = context_1 && context_1.id;
+  var BeginMode_1;
+  var INITIAL;
+  function copyIndices(src, dest, delta) {
+    if (src.indices) {
+      var iLen = src.indices.length;
+      for (var i = 0; i < iLen; i++) {
+        dest.push(src.indices[i] + delta);
+      }
+    }
+  }
+  function max(xs) {
+    return xs.reduce(function(a, b) {
+      return a > b ? a : b;
+    });
+  }
+  function joinIndices(previous, current, dest) {
+    if (previous.indices) {
+      var lastIndex = previous.indices[previous.indices.length - 1];
+      if (current.indices) {
+        var nextIndex = current.indices[0] + max(previous.indices) + 1;
+        dest.push(lastIndex);
+        dest.push(nextIndex);
+      }
+    }
+  }
+  function ensureAttribute(attributes, name, size, type) {
+    if (!attributes[name]) {
+      attributes[name] = {
+        values: [],
+        size: size,
+        type: type
+      };
+    }
+    return attributes[name];
+  }
+  function copyAttributes(primitive, attributes) {
+    var keys = Object.keys(primitive.attributes);
+    var kLen = keys.length;
+    for (var k = 0; k < kLen; k++) {
+      var key = keys[k];
+      var srcAttrib = primitive.attributes[key];
+      var dstAttrib = ensureAttribute(attributes, key, srcAttrib.size, srcAttrib.type);
+      var svalues = srcAttrib.values;
+      var vLen = svalues.length;
+      for (var v = 0; v < vLen; v++) {
+        dstAttrib.values.push(svalues[v]);
+      }
+    }
+  }
+  function reduce(primitives) {
+    return primitives.reduce(function(previous, current) {
+      var indices = [];
+      copyIndices(previous, indices, 0);
+      joinIndices(previous, current, indices);
+      copyIndices(current, indices, max(previous.indices) + 1);
+      var attributes = {};
+      copyAttributes(previous, attributes);
+      copyAttributes(current, attributes);
+      return {
+        mode: BeginMode_1.default.TRIANGLE_STRIP,
+        indices: indices,
+        attributes: attributes
+      };
+    });
+  }
+  exports_1("default", reduce);
+  return {
+    setters: [function(BeginMode_1_1) {
+      BeginMode_1 = BeginMode_1_1;
+    }],
+    execute: function() {
+      INITIAL = {
+        mode: void 0,
+        attributes: {}
+      };
+    }
+  };
+});
+
+System.register("davinci-eight/geometries/cylinderPrimitive.js", ["./CylinderBuilder", "../checks/isDefined", "../checks/mustBeBoolean", "../math/R3", "../atoms/reduce"], function(exports_1, context_1) {
+  "use strict";
+  var __moduleName = context_1 && context_1.id;
+  var CylinderBuilder_1,
+      isDefined_1,
+      mustBeBoolean_1,
+      R3_1,
+      reduce_1;
+  function cylinderPrimitive(options) {
+    if (options === void 0) {
+      options = {};
+    }
+    var builder = new CylinderBuilder_1.default(R3_1.default.e2, R3_1.default.e3, false);
+    if (isDefined_1.default(options.openBase)) {
+      builder.openBase = mustBeBoolean_1.default('openBase', options.openBase);
+    }
+    if (isDefined_1.default(options.openCap)) {
+      builder.openCap = mustBeBoolean_1.default('openCap', options.openCap);
+    }
+    if (isDefined_1.default(options.openWall)) {
+      builder.openWall = mustBeBoolean_1.default('openWall', options.openWall);
+    }
+    if (options.tilt) {
+      builder.tilt.copySpinor(options.tilt);
+    }
+    if (options.offset) {
+      builder.offset.copy(options.offset);
+    }
+    return reduce_1.default(builder.toPrimitives());
+  }
+  exports_1("default", cylinderPrimitive);
+  return {
+    setters: [function(CylinderBuilder_1_1) {
+      CylinderBuilder_1 = CylinderBuilder_1_1;
+    }, function(isDefined_1_1) {
+      isDefined_1 = isDefined_1_1;
+    }, function(mustBeBoolean_1_1) {
+      mustBeBoolean_1 = mustBeBoolean_1_1;
+    }, function(R3_1_1) {
+      R3_1 = R3_1_1;
+    }, function(reduce_1_1) {
+      reduce_1 = reduce_1_1;
+    }],
+    execute: function() {}
+  };
+});
+
+System.register("davinci-eight/geometries/cylinderVertexArrays.js", ["./cylinderPrimitive", "../core/vertexArraysFromPrimitive"], function(exports_1, context_1) {
+  "use strict";
+  var __moduleName = context_1 && context_1.id;
+  var cylinderPrimitive_1,
+      vertexArraysFromPrimitive_1;
+  function cylinderVertexArrays(options) {
+    if (options === void 0) {
+      options = {};
+    }
+    var primitive = cylinderPrimitive_1.default(options);
+    return vertexArraysFromPrimitive_1.default(primitive);
+  }
+  exports_1("default", cylinderVertexArrays);
+  return {
+    setters: [function(cylinderPrimitive_1_1) {
+      cylinderPrimitive_1 = cylinderPrimitive_1_1;
+    }, function(vertexArraysFromPrimitive_1_1) {
+      vertexArraysFromPrimitive_1 = vertexArraysFromPrimitive_1_1;
+    }],
+    execute: function() {}
+  };
+});
+
+System.register("davinci-eight/geometries/CylinderGeometry.js", ["./cylinderVertexArrays", "../i18n/notSupported", "../core/GeometryElements"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -6706,32 +6807,17 @@ System.register("davinci-eight/geometries/CylinderGeometry.js", ["./CylinderBuil
     }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   };
-  var CylinderBuilder_1,
-      isDefined_1,
-      mustBeBoolean_1,
+  var cylinderVertexArrays_1,
       notSupported_1,
-      GeometryContainer_1,
-      GeometryElements_1,
-      R3_1,
-      vertexArraysFromPrimitive_1;
+      GeometryElements_1;
   var CylinderGeometry;
   return {
-    setters: [function(CylinderBuilder_1_1) {
-      CylinderBuilder_1 = CylinderBuilder_1_1;
-    }, function(isDefined_1_1) {
-      isDefined_1 = isDefined_1_1;
-    }, function(mustBeBoolean_1_1) {
-      mustBeBoolean_1 = mustBeBoolean_1_1;
+    setters: [function(cylinderVertexArrays_1_1) {
+      cylinderVertexArrays_1 = cylinderVertexArrays_1_1;
     }, function(notSupported_1_1) {
       notSupported_1 = notSupported_1_1;
-    }, function(GeometryContainer_1_1) {
-      GeometryContainer_1 = GeometryContainer_1_1;
     }, function(GeometryElements_1_1) {
       GeometryElements_1 = GeometryElements_1_1;
-    }, function(R3_1_1) {
-      R3_1 = R3_1_1;
-    }, function(vertexArraysFromPrimitive_1_1) {
-      vertexArraysFromPrimitive_1 = vertexArraysFromPrimitive_1_1;
     }],
     execute: function() {
       CylinderGeometry = (function(_super) {
@@ -6743,34 +6829,10 @@ System.register("davinci-eight/geometries/CylinderGeometry.js", ["./CylinderBuil
           if (levelUp === void 0) {
             levelUp = 0;
           }
-          _super.call(this, options.tilt, options.engine, levelUp + 1);
+          _super.call(this, cylinderVertexArrays_1.default(options), options.tilt, options.engine, levelUp + 1);
           this._length = 1;
           this._radius = 1;
           this.setLoggingName('CylinderGeometry');
-          var builder = new CylinderBuilder_1.default(R3_1.default.e2, R3_1.default.e3, false);
-          if (isDefined_1.default(options.openBase)) {
-            builder.openBase = mustBeBoolean_1.default('openBase', options.openBase);
-          }
-          if (isDefined_1.default(options.openCap)) {
-            builder.openCap = mustBeBoolean_1.default('openCap', options.openCap);
-          }
-          if (isDefined_1.default(options.openWall)) {
-            builder.openWall = mustBeBoolean_1.default('openWall', options.openWall);
-          }
-          if (options.tilt) {
-            builder.tilt.copySpinor(options.tilt);
-          }
-          if (options.offset) {
-            builder.offset.copy(options.offset);
-          }
-          var ps = builder.toPrimitives();
-          var iLen = ps.length;
-          for (var i = 0; i < iLen; i++) {
-            var dataSource = ps[i];
-            var geometry = new GeometryElements_1.default(vertexArraysFromPrimitive_1.default(dataSource), options.tilt, options.engine);
-            this.addPart(geometry);
-            geometry.release();
-          }
           if (levelUp === 0) {
             this.synchUp();
           }
@@ -6839,7 +6901,7 @@ System.register("davinci-eight/geometries/CylinderGeometry.js", ["./CylinderBuil
           this.setScale(this._radius, this._length, this._radius);
         };
         return CylinderGeometry;
-      }(GeometryContainer_1.default));
+      }(GeometryElements_1.default));
       exports_1("default", CylinderGeometry);
     }
   };
