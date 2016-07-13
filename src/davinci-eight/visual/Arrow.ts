@@ -64,12 +64,15 @@ export class Arrow extends Mesh {
         super(void 0, void 0, options.engine, levelUp + 1);
         this.setLoggingName('Arrow');
 
-        // TODO: This shold be going into the geometry options.
+        // TODO: This should be going into the geometry options.
         this.direction0 = direction(options, R3.e2);
         this._vector = Geometric3.fromVector(this.direction0);
 
         const geoOptions: ArrowGeometryOptions = {};
         geoOptions.engine = options.engine;
+        geoOptions.offset = options.offset;
+        // geoOptions.stress; // Nothing correspondint to stress
+        geoOptions.tilt = options.tilt;
         const geometry = new ArrowGeometry(geoOptions);
 
         const matOptions: MeshMaterialOptions = void 0;

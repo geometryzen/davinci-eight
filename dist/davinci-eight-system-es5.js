@@ -983,13 +983,21 @@ System.register("davinci-eight/core/GeometryArrays.js", ["./computeAttributes", 
   };
 });
 
-System.register("davinci-eight/core/geometryFromPrimitive.js", ["./vertexArraysFromPrimitive", "./GeometryArrays", "./GeometryElements"], function(exports_1, context_1) {
+System.register("davinci-eight/core/geometryFromPrimitive.js", ["./Engine", "./GeometryArrays", "./GeometryElements", "../checks/mustBeArray", "./vertexArraysFromPrimitive"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
-  var vertexArraysFromPrimitive_1,
+  var Engine_1,
       GeometryArrays_1,
-      GeometryElements_1;
+      GeometryElements_1,
+      mustBeArray_1,
+      vertexArraysFromPrimitive_1;
   function geometryFromPrimitive(primitive, tilt, engine, order) {
+    if (!(engine instanceof Engine_1.Engine)) {
+      throw new TypeError("engine must be an Engine");
+    }
+    if (order) {
+      mustBeArray_1.default('order', order);
+    }
     var data = vertexArraysFromPrimitive_1.default(primitive, order);
     if (primitive.indices) {
       return new GeometryElements_1.default(data, tilt, engine);
@@ -999,12 +1007,16 @@ System.register("davinci-eight/core/geometryFromPrimitive.js", ["./vertexArraysF
   }
   exports_1("default", geometryFromPrimitive);
   return {
-    setters: [function(vertexArraysFromPrimitive_1_1) {
-      vertexArraysFromPrimitive_1 = vertexArraysFromPrimitive_1_1;
+    setters: [function(Engine_1_1) {
+      Engine_1 = Engine_1_1;
     }, function(GeometryArrays_1_1) {
       GeometryArrays_1 = GeometryArrays_1_1;
     }, function(GeometryElements_1_1) {
       GeometryElements_1 = GeometryElements_1_1;
+    }, function(mustBeArray_1_1) {
+      mustBeArray_1 = mustBeArray_1_1;
+    }, function(vertexArraysFromPrimitive_1_1) {
+      vertexArraysFromPrimitive_1 = vertexArraysFromPrimitive_1_1;
     }],
     execute: function() {}
   };
@@ -5036,12 +5048,13 @@ System.register("davinci-eight/shapes/ArrowBuilder.js", ["./AxialShapeBuilder", 
   };
 });
 
-System.register("davinci-eight/geometries/arrowVertexArrays.js", ["../shapes/ArrowBuilder", "../checks/isDefined", "../checks/mustBeObject", "../math/R3", "../math/Spinor3", "../math/Vector3", "../core/vertexArraysFromPrimitive"], function(exports_1, context_1) {
+System.register("davinci-eight/geometries/arrowVertexArrays.js", ["../shapes/ArrowBuilder", "../checks/isDefined", "../checks/mustBeObject", "../checks/mustBeNumber", "../math/R3", "../math/Spinor3", "../math/Vector3", "../core/vertexArraysFromPrimitive"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var ArrowBuilder_1,
       isDefined_1,
       mustBeObject_1,
+      mustBeNumber_1,
       R3_1,
       Spinor3_1,
       Vector3_1,
@@ -5052,6 +5065,11 @@ System.register("davinci-eight/geometries/arrowVertexArrays.js", ["../shapes/Arr
     }
     mustBeObject_1.default('options', options);
     var builder = new ArrowBuilder_1.default(R3_1.default.e2, R3_1.default.e3, false);
+    if (isDefined_1.default(options.radiusCone)) {
+      builder.radiusCone = mustBeNumber_1.default("options.radiusCone", options.radiusCone);
+    } else {
+      options.radiusCone = builder.radiusCone;
+    }
     builder.stress.copy(isDefined_1.default(options.stress) ? options.stress : Vector3_1.default.vector(1, 1, 1));
     builder.tilt.copySpinor(isDefined_1.default(options.tilt) ? options.tilt : Spinor3_1.default.one());
     builder.offset.copy(isDefined_1.default(options.offset) ? options.offset : Vector3_1.default.zero());
@@ -5066,6 +5084,8 @@ System.register("davinci-eight/geometries/arrowVertexArrays.js", ["../shapes/Arr
       isDefined_1 = isDefined_1_1;
     }, function(mustBeObject_1_1) {
       mustBeObject_1 = mustBeObject_1_1;
+    }, function(mustBeNumber_1_1) {
+      mustBeNumber_1 = mustBeNumber_1_1;
     }, function(R3_1_1) {
       R3_1 = R3_1_1;
     }, function(Spinor3_1_1) {
@@ -5079,7 +5099,7 @@ System.register("davinci-eight/geometries/arrowVertexArrays.js", ["../shapes/Arr
   };
 });
 
-System.register("davinci-eight/geometries/ArrowGeometry.js", ["./arrowVertexArrays", "../core/GeometryElements", "../i18n/notSupported"], function(exports_1, context_1) {
+System.register("davinci-eight/geometries/ArrowGeometry.js", ["./arrowVertexArrays", "../core/GeometryElements", "../checks/mustBeNumber", "../i18n/notSupported"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -5093,6 +5113,7 @@ System.register("davinci-eight/geometries/ArrowGeometry.js", ["./arrowVertexArra
   };
   var arrowVertexArrays_1,
       GeometryElements_1,
+      mustBeNumber_1,
       notSupported_1;
   var ArrowGeometry;
   return {
@@ -5100,6 +5121,8 @@ System.register("davinci-eight/geometries/ArrowGeometry.js", ["./arrowVertexArra
       arrowVertexArrays_1 = arrowVertexArrays_1_1;
     }, function(GeometryElements_1_1) {
       GeometryElements_1 = GeometryElements_1_1;
+    }, function(mustBeNumber_1_1) {
+      mustBeNumber_1 = mustBeNumber_1_1;
     }, function(notSupported_1_1) {
       notSupported_1 = notSupported_1_1;
     }],
@@ -5115,10 +5138,17 @@ System.register("davinci-eight/geometries/ArrowGeometry.js", ["./arrowVertexArra
           }
           _super.call(this, arrowVertexArrays_1.default(options), options.tilt, options.engine, levelUp + 1);
           this._length = 1.0;
-          this._radius = 0.08;
+          this._radiusCone = mustBeNumber_1.default("options.radiusCone", options.radiusCone);
+          this._radius = this._radiusCone;
           this.setLoggingName('ArrowGeometry');
+          if (levelUp === 0) {
+            this.synchUp();
+          }
         }
         ArrowGeometry.prototype.destructor = function(levelUp) {
+          if (levelUp === 0) {
+            this.cleanUp();
+          }
           _super.prototype.destructor.call(this, levelUp + 1);
         };
         Object.defineProperty(ArrowGeometry.prototype, "radius", {
@@ -5175,9 +5205,9 @@ System.register("davinci-eight/geometries/ArrowGeometry.js", ["./arrowVertexArra
                 throw new Error(notSupported_1.default("getPrincipalScale('" + name + "')").message);
               }
           }
-          this.scaling.setElement(0, 0, this._radius);
+          this.scaling.setElement(0, 0, this._length);
           this.scaling.setElement(1, 1, this._length);
-          this.scaling.setElement(2, 2, this._radius);
+          this.scaling.setElement(2, 2, this._length);
         };
         return ArrowGeometry;
       }(GeometryElements_1.default));
@@ -5249,6 +5279,8 @@ System.register("davinci-eight/visual/Arrow.js", ["../geometries/ArrowGeometry",
           this._vector = Geometric3_1.Geometric3.fromVector(this.direction0);
           var geoOptions = {};
           geoOptions.engine = options.engine;
+          geoOptions.offset = options.offset;
+          geoOptions.tilt = options.tilt;
           var geometry = new ArrowGeometry_1.default(geoOptions);
           var matOptions = void 0;
           var material = new MeshMaterial_1.MeshMaterial(matOptions, options.engine);
@@ -25432,9 +25464,9 @@ System.register("davinci-eight/config.js", ["./core/ErrorMode"], function(export
         function Eight() {
           this._errorMode = ErrorMode_1.default.STRICT;
           this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-          this.LAST_MODIFIED = '2016-07-11';
+          this.LAST_MODIFIED = '2016-07-13';
           this.NAMESPACE = 'EIGHT';
-          this.VERSION = '2.264.0';
+          this.VERSION = '2.265.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
           get: function() {

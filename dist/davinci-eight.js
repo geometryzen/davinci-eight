@@ -556,9 +556,9 @@ define('davinci-eight/config',["require", "exports", './core/ErrorMode'], functi
         function Eight() {
             this._errorMode = ErrorMode_1.default.STRICT;
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-07-11';
+            this.LAST_MODIFIED = '2016-07-13';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.264.0';
+            this.VERSION = '2.265.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
             get: function () {
@@ -11307,9 +11307,15 @@ define('davinci-eight/core/vertexArraysFromPrimitive',["require", "exports", './
     exports.default = vertexArraysFromPrimitive;
 });
 
-define('davinci-eight/core/geometryFromPrimitive',["require", "exports", './vertexArraysFromPrimitive', './GeometryArrays', './GeometryElements'], function (require, exports, vertexArraysFromPrimitive_1, GeometryArrays_1, GeometryElements_1) {
+define('davinci-eight/core/geometryFromPrimitive',["require", "exports", './Engine', './GeometryArrays', './GeometryElements', '../checks/mustBeArray', './vertexArraysFromPrimitive'], function (require, exports, Engine_1, GeometryArrays_1, GeometryElements_1, mustBeArray_1, vertexArraysFromPrimitive_1) {
     "use strict";
     function geometryFromPrimitive(primitive, tilt, engine, order) {
+        if (!(engine instanceof Engine_1.Engine)) {
+            throw new TypeError("engine must be an Engine");
+        }
+        if (order) {
+            mustBeArray_1.default('order', order);
+        }
         var data = vertexArraysFromPrimitive_1.default(primitive, order);
         if (primitive.indices) {
             return new GeometryElements_1.default(data, tilt, engine);
@@ -16157,12 +16163,18 @@ define('davinci-eight/geometries/Simplex',["require", "exports", '../checks/must
     exports.default = Simplex;
 });
 
-define('davinci-eight/geometries/arrowVertexArrays',["require", "exports", '../shapes/ArrowBuilder', '../checks/isDefined', '../checks/mustBeObject', '../math/R3', '../math/Spinor3', '../math/Vector3', '../core/vertexArraysFromPrimitive'], function (require, exports, ArrowBuilder_1, isDefined_1, mustBeObject_1, R3_1, Spinor3_1, Vector3_1, vertexArraysFromPrimitive_1) {
+define('davinci-eight/geometries/arrowVertexArrays',["require", "exports", '../shapes/ArrowBuilder', '../checks/isDefined', '../checks/mustBeObject', '../checks/mustBeNumber', '../math/R3', '../math/Spinor3', '../math/Vector3', '../core/vertexArraysFromPrimitive'], function (require, exports, ArrowBuilder_1, isDefined_1, mustBeObject_1, mustBeNumber_1, R3_1, Spinor3_1, Vector3_1, vertexArraysFromPrimitive_1) {
     "use strict";
     function arrowVertexArrays(options) {
         if (options === void 0) { options = {}; }
         mustBeObject_1.default('options', options);
         var builder = new ArrowBuilder_1.default(R3_1.default.e2, R3_1.default.e3, false);
+        if (isDefined_1.default(options.radiusCone)) {
+            builder.radiusCone = mustBeNumber_1.default("options.radiusCone", options.radiusCone);
+        }
+        else {
+            options.radiusCone = builder.radiusCone;
+        }
         builder.stress.copy(isDefined_1.default(options.stress) ? options.stress : Vector3_1.default.vector(1, 1, 1));
         builder.tilt.copySpinor(isDefined_1.default(options.tilt) ? options.tilt : Spinor3_1.default.one());
         builder.offset.copy(isDefined_1.default(options.offset) ? options.offset : Vector3_1.default.zero());
@@ -16178,7 +16190,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/ArrowGeometry',["require", "exports", './arrowVertexArrays', '../core/GeometryElements', '../i18n/notSupported'], function (require, exports, arrowVertexArrays_1, GeometryElements_1, notSupported_1) {
+define('davinci-eight/geometries/ArrowGeometry',["require", "exports", './arrowVertexArrays', '../core/GeometryElements', '../checks/mustBeNumber', '../i18n/notSupported'], function (require, exports, arrowVertexArrays_1, GeometryElements_1, mustBeNumber_1, notSupported_1) {
     "use strict";
     var ArrowGeometry = (function (_super) {
         __extends(ArrowGeometry, _super);
@@ -16187,10 +16199,17 @@ define('davinci-eight/geometries/ArrowGeometry',["require", "exports", './arrowV
             if (levelUp === void 0) { levelUp = 0; }
             _super.call(this, arrowVertexArrays_1.default(options), options.tilt, options.engine, levelUp + 1);
             this._length = 1.0;
-            this._radius = 0.08;
+            this._radiusCone = mustBeNumber_1.default("options.radiusCone", options.radiusCone);
+            this._radius = this._radiusCone;
             this.setLoggingName('ArrowGeometry');
+            if (levelUp === 0) {
+                this.synchUp();
+            }
         }
         ArrowGeometry.prototype.destructor = function (levelUp) {
+            if (levelUp === 0) {
+                this.cleanUp();
+            }
             _super.prototype.destructor.call(this, levelUp + 1);
         };
         Object.defineProperty(ArrowGeometry.prototype, "radius", {
@@ -16243,9 +16262,9 @@ define('davinci-eight/geometries/ArrowGeometry',["require", "exports", './arrowV
                     throw new Error(notSupported_1.default("getPrincipalScale('" + name + "')").message);
                 }
             }
-            this.scaling.setElement(0, 0, this._radius);
+            this.scaling.setElement(0, 0, this._length);
             this.scaling.setElement(1, 1, this._length);
-            this.scaling.setElement(2, 2, this._radius);
+            this.scaling.setElement(2, 2, this._length);
         };
         return ArrowGeometry;
     }(GeometryElements_1.default));
@@ -19805,6 +19824,8 @@ define('davinci-eight/visual/Arrow',["require", "exports", '../geometries/ArrowG
             this._vector = Geometric3_1.Geometric3.fromVector(this.direction0);
             var geoOptions = {};
             geoOptions.engine = options.engine;
+            geoOptions.offset = options.offset;
+            geoOptions.tilt = options.tilt;
             var geometry = new ArrowGeometry_1.default(geoOptions);
             var matOptions = void 0;
             var material = new MeshMaterial_1.MeshMaterial(matOptions, options.engine);
