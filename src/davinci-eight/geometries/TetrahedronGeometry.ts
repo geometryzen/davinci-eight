@@ -6,11 +6,6 @@ import PolyhedronBuilder from '../geometries/PolyhedronBuilder';
 import TetrahedronGeometryOptions from './TetrahedronGeometryOptions';
 import vertexArraysFromPrimitive from '../core/vertexArraysFromPrimitive';
 
-/**
- * @module EIGHT
- * @submodule geometries
- */
-
 //
 // Imagine 4 vertices sitting on some of the vertices of a cube of side-length 2.
 // The vertices are:
@@ -24,7 +19,7 @@ import vertexArraysFromPrimitive from '../core/vertexArraysFromPrimitive';
 // four equilateral triangles stiched together to form a tetrahedron.
 //
 const vertices: number[] = [
-  +1, +1, +1, -1, -1, +1, -1, +1, -1, +1, -1, -1
+    +1, +1, +1, -1, -1, +1, -1, +1, -1, +1, -1, -1
 ]
 
 //
@@ -32,44 +27,41 @@ const vertices: number[] = [
 // Each triangle is traversed counter-clockwise as seen from the outside. 
 //
 const indices: number[] = [
-  2, 1, 0, 0, 3, 2, 1, 3, 0, 2, 3, 1
+    2, 1, 0, 0, 3, 2, 1, 3, 0, 2, 3, 1
 ];
 
 /**
  * A convenience class for creating a tetrahedron geometry.
- *
- * @class TetrahedronGeometry
- * @extends Geometry
  */
 export default class TetrahedronGeometry extends GeometryContainer {
 
-  /**
-   * @class TetrahedronGeometry
-   * @constructor
-   * @param [options = {}] {TetrahedronGeometryOptions}
-   */
-  constructor(options: TetrahedronGeometryOptions = {}) {
-    super(options.tilt)
-    this.setLoggingName('TetrahedronGeometry')
-    const radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : 1.0
-    const builder = new PolyhedronBuilder(vertices, indices, radius)
-    const ps = builder.toPrimitives()
-    const iLen = ps.length
-    for (let i = 0; i < iLen; i++) {
-      const p = ps[i]
-      const geometry = new GeometryElements(vertexArraysFromPrimitive(p), options.engine)
-      this.addPart(geometry)
-      geometry.release()
+    /**
+     *
+     * @param options
+     * @param levelUp
+     */
+    constructor(options: TetrahedronGeometryOptions = {}, levelUp = 0) {
+        super(options.tilt, options.engine, levelUp + 1)
+        this.setLoggingName('TetrahedronGeometry')
+        const radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : 1.0
+        const builder = new PolyhedronBuilder(vertices, indices, radius)
+        const ps = builder.toPrimitives()
+        const iLen = ps.length
+        for (let i = 0; i < iLen; i++) {
+            const p = ps[i]
+            const geometry = new GeometryElements(vertexArraysFromPrimitive(p), options.tilt, options.engine)
+            this.addPart(geometry)
+            geometry.release()
+        }
+        if (levelUp === 0) {
+            this.synchUp();
+        }
     }
-  }
 
-  /**
-   * @method destructor
-   * @param levelUp {number}
-   * @return {void}
-   * @protected
-   */
-  protected destructor(levelUp: number): void {
-    super.destructor(levelUp + 1)
-  }
+    protected destructor(levelUp: number): void {
+        if (levelUp === 0) {
+            this.cleanUp();
+        }
+        super.destructor(levelUp + 1)
+    }
 }

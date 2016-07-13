@@ -3,28 +3,20 @@ import CurveGeometryOptions from './CurveGeometryOptions'
 import curveVertexArrays from './curveVertexArrays'
 
 /**
- * @class CurveGeometry
- * @extends GeometryElements
+ * 
  */
 export default class CurveGeometry extends GeometryElements {
 
-  /**
-   * @class CurveGeometry
-   * @constructor
-   * @param [options] {CurveGeometryOptions}
-   */
-  constructor(options: CurveGeometryOptions = {}) {
-    super(curveVertexArrays(options), options.engine)
-    this.setLoggingName('CurveGeometry')
-  }
+    /**
+     * @param options
+     * @param levelUp
+     */
+    constructor(options: CurveGeometryOptions = {}, levelUp = 0) {
+        super(curveVertexArrays(options), options.tilt, options.engine, levelUp + 1);
+        this.setLoggingName('CurveGeometry');
+    }
 
-  /**
-   * @method destructor
-   * @param levelUp {number}
-   * @return {void}
-   * @protected
-   */
-  protected destructor(levelUp: number): void {
-    super.destructor(levelUp + 1)
-  }
+    protected destructor(levelUp: number): void {
+        super.destructor(levelUp + 1);
+    }
 }

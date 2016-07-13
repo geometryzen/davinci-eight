@@ -75,14 +75,6 @@
 					<div class="lead">
 						<p>A convenience class for creating a tetrahedron geometry.</p>
 					</div>
-					<dl class="tsd-comment-tags">
-						<dt>class</dt>
-						<dd><p>TetrahedronGeometry</p>
-						</dd>
-						<dt>extends</dt>
-						<dd><p>Geometry</p>
-						</dd>
-					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -102,6 +94,8 @@
 				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
 					<li><a href="../interfaces/_core_shareable_.shareable.html" class="tsd-signature-type">Shareable</a></li>
+					<li><a href="../interfaces/_core_contextconsumer_.contextconsumer.html" class="tsd-signature-type">ContextConsumer</a></li>
+					<li><a href="../interfaces/_core_enginesubscriber_.enginesubscriber.html" class="tsd-signature-type">EngineSubscriber</a></li>
 					<li><a href="../interfaces/_core_geometry_.geometry.html" class="tsd-signature-type">Geometry</a></li>
 				</ul>
 			</section>
@@ -119,6 +113,7 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#_type" class="tsd-kind-icon">_type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#contextprovider" class="tsd-kind-icon">context<wbr>Provider</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#scaling" class="tsd-kind-icon">scaling</a></li>
 							</ul>
 						</section>
@@ -126,32 +121,37 @@
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#data" class="tsd-kind-icon">data</a></li>
-								<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#partslength" class="tsd-kind-icon">parts<wbr>Length</a></li>
+								<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#gl" class="tsd-kind-icon">gl</a></li>
+								<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#partslength" class="tsd-kind-icon">parts<wbr>Length</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#addpart" class="tsd-kind-icon">add<wbr>Part</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#addpart" class="tsd-kind-icon">add<wbr>Part</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#addref" class="tsd-kind-icon">add<wbr>Ref</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#bind" class="tsd-kind-icon">bind</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#contextfree" class="tsd-kind-icon">context<wbr>Free</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#contextgain" class="tsd-kind-icon">context<wbr>Gain</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#contextlost" class="tsd-kind-icon">context<wbr>Lost</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#bind" class="tsd-kind-icon">bind</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#cleanup" class="tsd-kind-icon">clean<wbr>Up</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#contextfree" class="tsd-kind-icon">context<wbr>Free</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#contextgain" class="tsd-kind-icon">context<wbr>Gain</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#contextlost" class="tsd-kind-icon">context<wbr>Lost</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#destructor" class="tsd-kind-icon">destructor</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#draw" class="tsd-kind-icon">draw</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#draw" class="tsd-kind-icon">draw</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#getloggingname" class="tsd-kind-icon">get<wbr>Logging<wbr>Name</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#getpart" class="tsd-kind-icon">get<wbr>Part</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#getprincipalscale" class="tsd-kind-icon">get<wbr>Principal<wbr>Scale</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#hasprincipalscale" class="tsd-kind-icon">has<wbr>Principal<wbr>Scale</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#isleaf" class="tsd-kind-icon">is<wbr>Leaf</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#getpart" class="tsd-kind-icon">get<wbr>Part</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#getprincipalscale" class="tsd-kind-icon">get<wbr>Principal<wbr>Scale</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#hasprincipalscale" class="tsd-kind-icon">has<wbr>Principal<wbr>Scale</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#isleaf" class="tsd-kind-icon">is<wbr>Leaf</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#iszombie" class="tsd-kind-icon">is<wbr>Zombie</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#release" class="tsd-kind-icon">release</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#removepart" class="tsd-kind-icon">remove<wbr>Part</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#removepart" class="tsd-kind-icon">remove<wbr>Part</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#setloggingname" class="tsd-kind-icon">set<wbr>Logging<wbr>Name</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#setprincipalscale" class="tsd-kind-icon">set<wbr>Principal<wbr>Scale</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#setprincipalscale" class="tsd-kind-icon">set<wbr>Principal<wbr>Scale</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#setscale" class="tsd-kind-icon">set<wbr>Scale</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#unbind" class="tsd-kind-icon">unbind</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#subscribe" class="tsd-kind-icon">subscribe</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#synchup" class="tsd-kind-icon">synch<wbr>Up</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#unbind" class="tsd-kind-icon">unbind</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#unsubscribe" class="tsd-kind-icon">unsubscribe</a></li>
 							</ul>
 						</section>
 					</div>
@@ -163,29 +163,29 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Tetrahedron<wbr>Geometry<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_geometries_tetrahedrongeometryoptions_.tetrahedrongeometryoptions.html" class="tsd-signature-type">TetrahedronGeometryOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html" class="tsd-signature-type">TetrahedronGeometry</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Tetrahedron<wbr>Geometry<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_geometries_tetrahedrongeometryoptions_.tetrahedrongeometryoptions.html" class="tsd-signature-type">TetrahedronGeometryOptions</a>, levelUp<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html" class="tsd-signature-type">TetrahedronGeometry</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overwrites <a href="_core_geometrycontainer_.geometrycontainer.html">GeometryContainer</a>.<a href="_core_geometrycontainer_.geometrycontainer.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a1169ea/src/davinci-eight/geometries/TetrahedronGeometry.ts#L44">geometries/TetrahedronGeometry.ts:44</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/ae26129/src/davinci-eight/geometries/TetrahedronGeometry.ts#L36">geometries/TetrahedronGeometry.ts:36</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>class</dt>
-									<dd><p>TetrahedronGeometry</p>
-									</dd>
-									<dt>constructor</dt>
-									<dd></dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/_geometries_tetrahedrongeometryoptions_.tetrahedrongeometryoptions.html" class="tsd-signature-type">TetrahedronGeometryOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> levelUp: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+										</div>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html" class="tsd-signature-type">TetrahedronGeometry</a></h4>
@@ -202,9 +202,29 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_core_shareablebase_.shareablebase.html">ShareableBase</a>.<a href="_core_shareablebase_.shareablebase.html#_type">_type</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a1169ea/src/davinci-eight/core/ShareableBase.ts#L48">core/ShareableBase.ts:48</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/ae26129/src/davinci-eight/core/ShareableBase.ts#L48">core/ShareableBase.ts:48</a></li>
 						</ul>
 					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
+					<a name="contextprovider" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> context<wbr>Provider</h3>
+					<div class="tsd-signature tsd-kind-icon">context<wbr>Provider<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_core_contextprovider_.contextprovider.html" class="tsd-signature-type">ContextProvider</a></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html">ShareableContextConsumer</a>.<a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html#contextprovider">contextProvider</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/ae26129/src/davinci-eight/core/ShareableContextConsumer.ts#L55">core/ShareableContextConsumer.ts:55</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>We hold onto the context provider after a contextGain event.
+								However, this is only a convenience for derived classes.
+								(Maybe we should not do this).
+								We only need to release this property in our destructor.
+							We must not try to trigger a contextFree as that would violate Implementation Hierarchy Principle.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="scaling" class="tsd-anchor"></a>
@@ -212,19 +232,13 @@
 					<div class="tsd-signature tsd-kind-icon">scaling<span class="tsd-signature-symbol">:</span> <a href="_math_matrix4_.matrix4.html" class="tsd-signature-type">Matrix4</a><span class="tsd-signature-symbol"> =&nbsp;Matrix4.one()</span></div>
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_core_geometry_.geometry.html">Geometry</a>.<a href="../interfaces/_core_geometry_.geometry.html#scaling">scaling</a></p>
-						<p>Inherited from <a href="_core_geometrycontainer_.geometrycontainer.html">GeometryContainer</a>.<a href="_core_geometrycontainer_.geometrycontainer.html#scaling">scaling</a></p>
+						<p>Inherited from <a href="_core_geometrybase_.geometrybase.html">GeometryBase</a>.<a href="_core_geometrybase_.geometrybase.html#scaling">scaling</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a1169ea/src/davinci-eight/core/GeometryContainer.ts#L41">core/GeometryContainer.ts:41</a></li>
+							<li>Defined in core/GeometryBase.ts:19</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<dl class="tsd-comment-tags">
-							<dt>property</dt>
-							<dd><p>scaling</p>
-							</dd>
-							<dt>type</dt>
-							<dd><p>Matrix4</p>
-							</dd>
 							<dt>default</dt>
 							<dd><p>diag(1, 1, 1, 1)</p>
 							</dd>
@@ -246,26 +260,16 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_core_geometrycontainer_.geometrycontainer.html">GeometryContainer</a>.<a href="_core_geometrycontainer_.geometrycontainer.html#data">data</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a1169ea/src/davinci-eight/core/GeometryContainer.ts#L80">core/GeometryContainer.ts:80</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/ae26129/src/davinci-eight/core/GeometryContainer.ts#L44">core/GeometryContainer.ts:44</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>property</dt>
-									<dd><p>data</p>
-									</dd>
-									<dt>type</dt>
-									<dd><p>VertexArrays</p>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_core_vertexarrays_.vertexarrays.html" class="tsd-signature-type">VertexArrays</a></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_core_geometrycontainer_.geometrycontainer.html">GeometryContainer</a>.<a href="_core_geometrycontainer_.geometrycontainer.html#data">data</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a1169ea/src/davinci-eight/core/GeometryContainer.ts#L83">core/GeometryContainer.ts:83</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/ae26129/src/davinci-eight/core/GeometryContainer.ts#L47">core/GeometryContainer.ts:47</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -279,9 +283,53 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<a name="gl" class="tsd-anchor"></a>
+					<h3>gl</h3>
+					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> gl<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">WebGLRenderingContext</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> gl<span class="tsd-signature-symbol">(</span>unused<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">WebGLRenderingContext</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html">ShareableContextConsumer</a>.<a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html#gl">gl</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/ae26129/src/davinci-eight/core/ShareableContextConsumer.ts#L177">core/ShareableContextConsumer.ts:177</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Provides access to the underlying WebGL context.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">WebGLRenderingContext</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html">ShareableContextConsumer</a>.<a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html#gl">gl</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/ae26129/src/davinci-eight/core/ShareableContextConsumer.ts#L185">core/ShareableContextConsumer.ts:185</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Provides access to the underlying WebGL context.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>unused: <span class="tsd-signature-type">WebGLRenderingContext</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 					<a name="partslength" class="tsd-anchor"></a>
 					<h3>parts<wbr>Length</h3>
-					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> partsLength<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> partsLength<span class="tsd-signature-symbol">(</span>unused<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
@@ -289,26 +337,19 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_core_geometrycontainer_.geometrycontainer.html">GeometryContainer</a>.<a href="_core_geometrycontainer_.geometrycontainer.html#partslength">partsLength</a></p>
+								<p>Overwrites <a href="_core_geometrybase_.geometrybase.html">GeometryBase</a>.<a href="_core_geometrybase_.geometrybase.html#partslength">partsLength</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a1169ea/src/davinci-eight/core/GeometryContainer.ts#L100">core/GeometryContainer.ts:100</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/ae26129/src/davinci-eight/core/GeometryContainer.ts#L55">core/GeometryContainer.ts:55</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>property</dt>
-									<dd><p>partsLength</p>
-									</dd>
-									<dt>readonly</dt>
-									<dd></dd>
-								</dl>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_core_geometrycontainer_.geometrycontainer.html">GeometryContainer</a>.<a href="_core_geometrycontainer_.geometrycontainer.html#partslength">partsLength</a></p>
+								<p>Overwrites <a href="_core_geometrybase_.geometrybase.html">GeometryBase</a>.<a href="_core_geometrybase_.geometrybase.html#partslength">partsLength</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a1169ea/src/davinci-eight/core/GeometryContainer.ts#L103">core/GeometryContainer.ts:103</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/ae26129/src/davinci-eight/core/GeometryContainer.ts#L58">core/GeometryContainer.ts:58</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -324,10 +365,10 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 					<a name="addpart" class="tsd-anchor"></a>
 					<h3>add<wbr>Part</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">add<wbr>Part<span class="tsd-signature-symbol">(</span>geometry<span class="tsd-signature-symbol">: </span><a href="../interfaces/_core_geometry_.geometry.html" class="tsd-signature-type">Geometry</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -335,16 +376,15 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_geometry_.geometry.html">Geometry</a>.<a href="../interfaces/_core_geometry_.geometry.html#addpart">addPart</a></p>
 								<p>Inherited from <a href="_core_geometrycontainer_.geometrycontainer.html">GeometryContainer</a>.<a href="_core_geometrycontainer_.geometrycontainer.html#addpart">addPart</a></p>
+								<p>Overwrites <a href="_core_geometrybase_.geometrybase.html">GeometryBase</a>.<a href="_core_geometrybase_.geometrybase.html#addpart">addPart</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a1169ea/src/davinci-eight/core/GeometryContainer.ts#L112">core/GeometryContainer.ts:112</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/ae26129/src/davinci-eight/core/GeometryContainer.ts#L65">core/GeometryContainer.ts:65</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>addPart</p>
-									</dd>
-								</dl>
+								<div class="lead">
+									<p>Adds a part to this geometry container.</p>
+								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -368,7 +408,7 @@
 								<p>Implementation of <a href="../interfaces/_core_geometry_.geometry.html">Geometry</a>.<a href="../interfaces/_core_geometry_.geometry.html#addref">addRef</a></p>
 								<p>Inherited from <a href="_core_shareablebase_.shareablebase.html">ShareableBase</a>.<a href="_core_shareablebase_.shareablebase.html#addref">addRef</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a1169ea/src/davinci-eight/core/ShareableBase.ts#L123">core/ShareableBase.ts:123</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/ae26129/src/davinci-eight/core/ShareableBase.ts#L123">core/ShareableBase.ts:123</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -383,10 +423,10 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 					<a name="bind" class="tsd-anchor"></a>
 					<h3>bind</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">bind<span class="tsd-signature-symbol">(</span>material<span class="tsd-signature-symbol">: </span><a href="../interfaces/_core_material_.material.html" class="tsd-signature-type">Material</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -394,8 +434,9 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_geometry_.geometry.html">Geometry</a>.<a href="../interfaces/_core_geometry_.geometry.html#bind">bind</a></p>
 								<p>Inherited from <a href="_core_geometrycontainer_.geometrycontainer.html">GeometryContainer</a>.<a href="_core_geometrycontainer_.geometrycontainer.html#bind">bind</a></p>
+								<p>Overwrites <a href="_core_geometrybase_.geometrybase.html">GeometryBase</a>.<a href="_core_geometrybase_.geometrybase.html#bind">bind</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a1169ea/src/davinci-eight/core/GeometryContainer.ts#L136">core/GeometryContainer.ts:136</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/ae26129/src/davinci-eight/core/GeometryContainer.ts#L87">core/GeometryContainer.ts:87</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -409,9 +450,27 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<a name="cleanup" class="tsd-anchor"></a>
+					<h3>clean<wbr>Up</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">clean<wbr>Up<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html">ShareableContextConsumer</a>.<a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html#cleanup">cleanUp</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/ae26129/src/davinci-eight/core/ShareableContextConsumer.ts#L129">core/ShareableContextConsumer.ts:129</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 					<a name="contextfree" class="tsd-anchor"></a>
 					<h3>context<wbr>Free</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">context<wbr>Free<span class="tsd-signature-symbol">(</span>contextProvider<span class="tsd-signature-symbol">: </span><a href="../interfaces/_core_contextprovider_.contextprovider.html" class="tsd-signature-type">ContextProvider</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -419,8 +478,9 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_geometry_.geometry.html">Geometry</a>.<a href="../interfaces/_core_geometry_.geometry.html#contextfree">contextFree</a></p>
 								<p>Inherited from <a href="_core_geometrycontainer_.geometrycontainer.html">GeometryContainer</a>.<a href="_core_geometrycontainer_.geometrycontainer.html#contextfree">contextFree</a></p>
+								<p>Overwrites <a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html">ShareableContextConsumer</a>.<a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html#contextfree">contextFree</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a1169ea/src/davinci-eight/core/GeometryContainer.ts#L165">core/GeometryContainer.ts:165</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/ae26129/src/davinci-eight/core/GeometryContainer.ts#L116">core/GeometryContainer.ts:116</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -440,10 +500,10 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 					<a name="contextgain" class="tsd-anchor"></a>
 					<h3>context<wbr>Gain</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">context<wbr>Gain<span class="tsd-signature-symbol">(</span>contextProvider<span class="tsd-signature-symbol">: </span><a href="../interfaces/_core_contextprovider_.contextprovider.html" class="tsd-signature-type">ContextProvider</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -451,8 +511,9 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_geometry_.geometry.html">Geometry</a>.<a href="../interfaces/_core_geometry_.geometry.html#contextgain">contextGain</a></p>
 								<p>Inherited from <a href="_core_geometrycontainer_.geometrycontainer.html">GeometryContainer</a>.<a href="_core_geometrycontainer_.geometrycontainer.html#contextgain">contextGain</a></p>
+								<p>Overwrites <a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html">ShareableContextConsumer</a>.<a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html#contextgain">contextGain</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a1169ea/src/davinci-eight/core/GeometryContainer.ts#L176">core/GeometryContainer.ts:176</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/ae26129/src/davinci-eight/core/GeometryContainer.ts#L127">core/GeometryContainer.ts:127</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -472,10 +533,10 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 					<a name="contextlost" class="tsd-anchor"></a>
 					<h3>context<wbr>Lost</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">context<wbr>Lost<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -483,8 +544,9 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_geometry_.geometry.html">Geometry</a>.<a href="../interfaces/_core_geometry_.geometry.html#contextlost">contextLost</a></p>
 								<p>Inherited from <a href="_core_geometrycontainer_.geometrycontainer.html">GeometryContainer</a>.<a href="_core_geometrycontainer_.geometrycontainer.html#contextlost">contextLost</a></p>
+								<p>Overwrites <a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html">ShareableContextConsumer</a>.<a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html#contextlost">contextLost</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a1169ea/src/davinci-eight/core/GeometryContainer.ts#L186">core/GeometryContainer.ts:186</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/ae26129/src/davinci-eight/core/GeometryContainer.ts#L137">core/GeometryContainer.ts:137</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -509,16 +571,9 @@
 							<aside class="tsd-sources">
 								<p>Overwrites <a href="_core_geometrycontainer_.geometrycontainer.html">GeometryContainer</a>.<a href="_core_geometrycontainer_.geometrycontainer.html#destructor">destructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a1169ea/src/davinci-eight/geometries/TetrahedronGeometry.ts#L72">geometries/TetrahedronGeometry.ts:72</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/ae26129/src/davinci-eight/geometries/TetrahedronGeometry.ts#L61">geometries/TetrahedronGeometry.ts:61</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>destructor</p>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -529,10 +584,10 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 					<a name="draw" class="tsd-anchor"></a>
 					<h3>draw</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">draw<span class="tsd-signature-symbol">(</span>material<span class="tsd-signature-symbol">: </span><a href="../interfaces/_core_material_.material.html" class="tsd-signature-type">Material</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -540,8 +595,9 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_geometry_.geometry.html">Geometry</a>.<a href="../interfaces/_core_geometry_.geometry.html#draw">draw</a></p>
 								<p>Inherited from <a href="_core_geometrycontainer_.geometrycontainer.html">GeometryContainer</a>.<a href="_core_geometrycontainer_.geometrycontainer.html#draw">draw</a></p>
+								<p>Overwrites <a href="_core_geometrybase_.geometrybase.html">GeometryBase</a>.<a href="_core_geometrybase_.geometrybase.html#draw">draw</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a1169ea/src/davinci-eight/core/GeometryContainer.ts#L150">core/GeometryContainer.ts:150</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/ae26129/src/davinci-eight/core/GeometryContainer.ts#L101">core/GeometryContainer.ts:101</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -565,7 +621,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_core_shareablebase_.shareablebase.html">ShareableBase</a>.<a href="_core_shareablebase_.shareablebase.html#getloggingname">getLoggingName</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a1169ea/src/davinci-eight/core/ShareableBase.ts#L132">core/ShareableBase.ts:132</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/ae26129/src/davinci-eight/core/ShareableBase.ts#L132">core/ShareableBase.ts:132</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -574,10 +630,10 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 					<a name="getpart" class="tsd-anchor"></a>
 					<h3>get<wbr>Part</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">get<wbr>Part<span class="tsd-signature-symbol">(</span>index<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_core_geometry_.geometry.html" class="tsd-signature-type">Geometry</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -585,8 +641,9 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_geometry_.geometry.html">Geometry</a>.<a href="../interfaces/_core_geometry_.geometry.html#getpart">getPart</a></p>
 								<p>Inherited from <a href="_core_geometrycontainer_.geometrycontainer.html">GeometryContainer</a>.<a href="_core_geometrycontainer_.geometrycontainer.html#getpart">getPart</a></p>
+								<p>Overwrites <a href="_core_geometrybase_.geometrybase.html">GeometryBase</a>.<a href="_core_geometrybase_.geometrybase.html#getpart">getPart</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a1169ea/src/davinci-eight/core/GeometryContainer.ts#L129">core/GeometryContainer.ts:129</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/ae26129/src/davinci-eight/core/GeometryContainer.ts#L80">core/GeometryContainer.ts:80</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -599,10 +656,10 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 					<a name="getprincipalscale" class="tsd-anchor"></a>
 					<h3>get<wbr>Principal<wbr>Scale</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">get<wbr>Principal<wbr>Scale<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -610,8 +667,9 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_geometry_.geometry.html">Geometry</a>.<a href="../interfaces/_core_geometry_.geometry.html#getprincipalscale">getPrincipalScale</a></p>
 								<p>Inherited from <a href="_core_geometrycontainer_.geometrycontainer.html">GeometryContainer</a>.<a href="_core_geometrycontainer_.geometrycontainer.html#getprincipalscale">getPrincipalScale</a></p>
+								<p>Overwrites <a href="_core_geometrybase_.geometrybase.html">GeometryBase</a>.<a href="_core_geometrybase_.geometrybase.html#getprincipalscale">getPrincipalScale</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a1169ea/src/davinci-eight/core/GeometryContainer.ts#L206">core/GeometryContainer.ts:206</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/ae26129/src/davinci-eight/core/GeometryContainer.ts#L157">core/GeometryContainer.ts:157</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -631,10 +689,10 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 					<a name="hasprincipalscale" class="tsd-anchor"></a>
 					<h3>has<wbr>Principal<wbr>Scale</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">has<wbr>Principal<wbr>Scale<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -642,8 +700,9 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_geometry_.geometry.html">Geometry</a>.<a href="../interfaces/_core_geometry_.geometry.html#hasprincipalscale">hasPrincipalScale</a></p>
 								<p>Inherited from <a href="_core_geometrycontainer_.geometrycontainer.html">GeometryContainer</a>.<a href="_core_geometrycontainer_.geometrycontainer.html#hasprincipalscale">hasPrincipalScale</a></p>
+								<p>Overwrites <a href="_core_geometrybase_.geometrybase.html">GeometryBase</a>.<a href="_core_geometrybase_.geometrybase.html#hasprincipalscale">hasPrincipalScale</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a1169ea/src/davinci-eight/core/GeometryContainer.ts#L197">core/GeometryContainer.ts:197</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/ae26129/src/davinci-eight/core/GeometryContainer.ts#L148">core/GeometryContainer.ts:148</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -663,10 +722,10 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 					<a name="isleaf" class="tsd-anchor"></a>
 					<h3>is<wbr>Leaf</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">is<wbr>Leaf<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -674,19 +733,12 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_geometry_.geometry.html">Geometry</a>.<a href="../interfaces/_core_geometry_.geometry.html#isleaf">isLeaf</a></p>
 								<p>Inherited from <a href="_core_geometrycontainer_.geometrycontainer.html">GeometryContainer</a>.<a href="_core_geometrycontainer_.geometrycontainer.html#isleaf">isLeaf</a></p>
+								<p>Overwrites <a href="_core_geometrybase_.geometrybase.html">GeometryBase</a>.<a href="_core_geometrybase_.geometrybase.html#isleaf">isLeaf</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a1169ea/src/davinci-eight/core/GeometryContainer.ts#L91">core/GeometryContainer.ts:91</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/ae26129/src/davinci-eight/core/GeometryContainer.ts#L51">core/GeometryContainer.ts:51</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>isLeaf</p>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>Returns <code>false</code>.</p>
 						</li>
 					</ul>
 				</section>
@@ -702,7 +754,7 @@
 								<p>Implementation of <a href="../interfaces/_core_geometry_.geometry.html">Geometry</a>.<a href="../interfaces/_core_geometry_.geometry.html#iszombie">isZombie</a></p>
 								<p>Inherited from <a href="_core_shareablebase_.shareablebase.html">ShareableBase</a>.<a href="_core_shareablebase_.shareablebase.html#iszombie">isZombie</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a1169ea/src/davinci-eight/core/ShareableBase.ts#L112">core/ShareableBase.ts:112</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/ae26129/src/davinci-eight/core/ShareableBase.ts#L112">core/ShareableBase.ts:112</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -727,7 +779,7 @@
 								<p>Implementation of <a href="../interfaces/_core_geometry_.geometry.html">Geometry</a>.<a href="../interfaces/_core_geometry_.geometry.html#release">release</a></p>
 								<p>Inherited from <a href="_core_shareablebase_.shareablebase.html">ShareableBase</a>.<a href="_core_shareablebase_.shareablebase.html#release">release</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a1169ea/src/davinci-eight/core/ShareableBase.ts#L170">core/ShareableBase.ts:170</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/ae26129/src/davinci-eight/core/ShareableBase.ts#L170">core/ShareableBase.ts:170</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -742,10 +794,10 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 					<a name="removepart" class="tsd-anchor"></a>
 					<h3>remove<wbr>Part</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">remove<wbr>Part<span class="tsd-signature-symbol">(</span>index<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -753,16 +805,15 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_geometry_.geometry.html">Geometry</a>.<a href="../interfaces/_core_geometry_.geometry.html#removepart">removePart</a></p>
 								<p>Inherited from <a href="_core_geometrycontainer_.geometrycontainer.html">GeometryContainer</a>.<a href="_core_geometrycontainer_.geometrycontainer.html#removepart">removePart</a></p>
+								<p>Overwrites <a href="_core_geometrybase_.geometrybase.html">GeometryBase</a>.<a href="_core_geometrybase_.geometrybase.html#removepart">removePart</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a1169ea/src/davinci-eight/core/GeometryContainer.ts#L121">core/GeometryContainer.ts:121</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/ae26129/src/davinci-eight/core/GeometryContainer.ts#L72">core/GeometryContainer.ts:72</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>removePart</p>
-									</dd>
-								</dl>
+								<div class="lead">
+									<p>Removes the part from this container.</p>
+								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -785,7 +836,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_core_shareablebase_.shareablebase.html">ShareableBase</a>.<a href="_core_shareablebase_.shareablebase.html#setloggingname">setLoggingName</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a1169ea/src/davinci-eight/core/ShareableBase.ts#L155">core/ShareableBase.ts:155</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/ae26129/src/davinci-eight/core/ShareableBase.ts#L155">core/ShareableBase.ts:155</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -819,10 +870,10 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 					<a name="setprincipalscale" class="tsd-anchor"></a>
 					<h3>set<wbr>Principal<wbr>Scale</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">set<wbr>Principal<wbr>Scale<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -830,8 +881,9 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_geometry_.geometry.html">Geometry</a>.<a href="../interfaces/_core_geometry_.geometry.html#setprincipalscale">setPrincipalScale</a></p>
 								<p>Inherited from <a href="_core_geometrycontainer_.geometrycontainer.html">GeometryContainer</a>.<a href="_core_geometrycontainer_.geometrycontainer.html#setprincipalscale">setPrincipalScale</a></p>
+								<p>Overwrites <a href="_core_geometrybase_.geometrybase.html">GeometryBase</a>.<a href="_core_geometrybase_.geometrybase.html#setprincipalscale">setPrincipalScale</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a1169ea/src/davinci-eight/core/GeometryContainer.ts#L216">core/GeometryContainer.ts:216</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/ae26129/src/davinci-eight/core/GeometryContainer.ts#L167">core/GeometryContainer.ts:167</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -863,18 +915,11 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_core_geometrycontainer_.geometrycontainer.html">GeometryContainer</a>.<a href="_core_geometrycontainer_.geometrycontainer.html#setscale">setScale</a></p>
+								<p>Inherited from <a href="_core_geometrybase_.geometrybase.html">GeometryBase</a>.<a href="_core_geometrybase_.geometrybase.html#setscale">setScale</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a1169ea/src/davinci-eight/core/GeometryContainer.ts#L228">core/GeometryContainer.ts:228</a></li>
+									<li>Defined in core/GeometryBase.ts:95</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>setScale</p>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -892,9 +937,64 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<a name="subscribe" class="tsd-anchor"></a>
+					<h3>subscribe</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">subscribe<span class="tsd-signature-symbol">(</span>engine<span class="tsd-signature-symbol">: </span><a href="_core_engine_.engine.html" class="tsd-signature-type">Engine</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/_core_enginesubscriber_.enginesubscriber.html">EngineSubscriber</a>.<a href="../interfaces/_core_enginesubscriber_.enginesubscriber.html#subscribe">subscribe</a></p>
+								<p>Inherited from <a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html">ShareableContextConsumer</a>.<a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html#subscribe">subscribe</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/ae26129/src/davinci-eight/core/ShareableContextConsumer.ts#L97">core/ShareableContextConsumer.ts:97</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>
+										Instructs the consumer to subscribe to context events.
+									</p>
+									<p>
+										This method is idempotent; calling it more than once with the same <code>Engine</code> does not change the state.
+									</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>engine: <a href="_core_engine_.engine.html" class="tsd-signature-type">Engine</a></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<a name="synchup" class="tsd-anchor"></a>
+					<h3>synch<wbr>Up</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">synch<wbr>Up<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html">ShareableContextConsumer</a>.<a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html#synchup">synchUp</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/ae26129/src/davinci-eight/core/ShareableContextConsumer.ts#L119">core/ShareableContextConsumer.ts:119</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 					<a name="unbind" class="tsd-anchor"></a>
 					<h3>unbind</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">unbind<span class="tsd-signature-symbol">(</span>material<span class="tsd-signature-symbol">: </span><a href="../interfaces/_core_material_.material.html" class="tsd-signature-type">Material</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -902,8 +1002,9 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_geometry_.geometry.html">Geometry</a>.<a href="../interfaces/_core_geometry_.geometry.html#unbind">unbind</a></p>
 								<p>Inherited from <a href="_core_geometrycontainer_.geometrycontainer.html">GeometryContainer</a>.<a href="_core_geometrycontainer_.geometrycontainer.html#unbind">unbind</a></p>
+								<p>Overwrites <a href="_core_geometrybase_.geometrybase.html">GeometryBase</a>.<a href="_core_geometrybase_.geometrybase.html#unbind">unbind</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a1169ea/src/davinci-eight/core/GeometryContainer.ts#L143">core/GeometryContainer.ts:143</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/ae26129/src/davinci-eight/core/GeometryContainer.ts#L94">core/GeometryContainer.ts:94</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -912,6 +1013,35 @@
 									<h5>material: <a href="../interfaces/_core_material_.material.html" class="tsd-signature-type">Material</a></h5>
 								</li>
 							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<a name="unsubscribe" class="tsd-anchor"></a>
+					<h3>unsubscribe</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">unsubscribe<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/_core_enginesubscriber_.enginesubscriber.html">EngineSubscriber</a>.<a href="../interfaces/_core_enginesubscriber_.enginesubscriber.html#unsubscribe">unsubscribe</a></p>
+								<p>Inherited from <a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html">ShareableContextConsumer</a>.<a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html#unsubscribe">unsubscribe</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/ae26129/src/davinci-eight/core/ShareableContextConsumer.ts#L141">core/ShareableContextConsumer.ts:141</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>
+										Instructs the consumer to unsubscribe from context events.
+									</p>
+									<p>
+										This method is idempotent; calling it more than once does not change the state.
+									</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -942,6 +1072,9 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 								<a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#_type" class="tsd-kind-icon">_type</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
+								<a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#contextprovider" class="tsd-kind-icon">context<wbr>Provider</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#scaling" class="tsd-kind-icon">scaling</a>
 							</li>
@@ -949,45 +1082,51 @@
 								<a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#data" class="tsd-kind-icon">data</a>
 							</li>
 							<li class=" tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+								<a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#gl" class="tsd-kind-icon">gl</a>
+							</li>
+							<li class=" tsd-kind-accessor tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 								<a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#partslength" class="tsd-kind-icon">parts<wbr>Length</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 								<a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#addpart" class="tsd-kind-icon">add<wbr>Part</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#addref" class="tsd-kind-icon">add<wbr>Ref</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 								<a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#bind" class="tsd-kind-icon">bind</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+								<a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#cleanup" class="tsd-kind-icon">clean<wbr>Up</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 								<a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#contextfree" class="tsd-kind-icon">context<wbr>Free</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 								<a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#contextgain" class="tsd-kind-icon">context<wbr>Gain</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 								<a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#contextlost" class="tsd-kind-icon">context<wbr>Lost</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
 								<a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#destructor" class="tsd-kind-icon">destructor</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 								<a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#draw" class="tsd-kind-icon">draw</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#getloggingname" class="tsd-kind-icon">get<wbr>Logging<wbr>Name</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 								<a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#getpart" class="tsd-kind-icon">get<wbr>Part</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 								<a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#getprincipalscale" class="tsd-kind-icon">get<wbr>Principal<wbr>Scale</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 								<a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#hasprincipalscale" class="tsd-kind-icon">has<wbr>Principal<wbr>Scale</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 								<a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#isleaf" class="tsd-kind-icon">is<wbr>Leaf</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
@@ -996,20 +1135,29 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#release" class="tsd-kind-icon">release</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 								<a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#removepart" class="tsd-kind-icon">remove<wbr>Part</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 								<a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#setloggingname" class="tsd-kind-icon">set<wbr>Logging<wbr>Name</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 								<a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#setprincipalscale" class="tsd-kind-icon">set<wbr>Principal<wbr>Scale</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 								<a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#setscale" class="tsd-kind-icon">set<wbr>Scale</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+								<a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#subscribe" class="tsd-kind-icon">subscribe</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+								<a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#synchup" class="tsd-kind-icon">synch<wbr>Up</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 								<a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#unbind" class="tsd-kind-icon">unbind</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+								<a href="_geometries_tetrahedrongeometry_.tetrahedrongeometry.html#unsubscribe" class="tsd-kind-icon">unsubscribe</a>
 							</li>
 						</ul>
 					</li>

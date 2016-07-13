@@ -2,9 +2,9 @@ import Attribute from '../core/Attribute';
 import copyToArray from '../collections/copyToArray';
 import dataFromVectorN from './dataFromVectorN';
 import DataType from '../core/DataType';
-import DrawAttribute from './primitives/DrawAttribute';
+import DrawAttribute from '../atoms/DrawAttribute';
 import BeginMode from '../core/BeginMode';
-import DrawPrimitive from './primitives/DrawPrimitive';
+import DrawPrimitive from '../atoms/DrawPrimitive';
 import simplicesToGeometryMeta from './simplicesToGeometryMeta';
 import computeUniqueVertices from './computeUniqueVertices';
 import expectArg from '../checks/expectArg';
@@ -12,7 +12,7 @@ import GeometryMeta from './GeometryMeta';
 import Primitive from '../core/Primitive';
 import Simplex from './Simplex';
 import {VectorN} from '../math/VectorN';
-import Vertex from './primitives/Vertex';
+import Vertex from '../atoms/Vertex';
 
 function numberList(size: number, value: number): number[] {
     const data: number[] = [];

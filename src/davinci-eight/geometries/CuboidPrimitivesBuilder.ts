@@ -1,4 +1,4 @@
-import GridTriangleStrip from './primitives/GridTriangleStrip'
+import GridTriangleStrip from '../atoms/GridTriangleStrip'
 import PrimitivesBuilder from './PrimitivesBuilder'
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols'
 import mustBeNumber from '../checks/mustBeNumber'
@@ -43,71 +43,49 @@ function side(tilt: SpinorE3, offset: Vector3, basis: Vector3[], uSegments: numb
     return side
 }
 
-/**
- * @class CuboidPrimitivesBuilder
- * @extends PrimitivesBuilder
- */
 export default class CuboidPrimitivesBuilder extends PrimitivesBuilder {
 
     /**
-     * @property iSegments
-     * @type number
      * @default 1
      */
     public iSegments: number = 1;
 
     /**
-     * @property jSegments
-     * @type number
      * @default 1
      */
     public jSegments: number = 1;
 
     /**
-     * @property kSegments
-     * @type number
      * @default 1
      */
     public kSegments: number = 1;
 
     /**
-     * @property openBack
-     * @type boolean
      * @default false
      */
     public openBack = false;
 
     /**
-     * @property openBase
-     * @type boolean
      * @default false
      */
     public openBase = false;
 
     /**
-     * @property openFront
-     * @type boolean
      * @default false
      */
     public openFront = false;
 
     /**
-     * @property openLeft
-     * @type boolean
      * @default false
      */
     public openLeft = false;
 
     /**
-     * @property openRight
-     * @type boolean
      * @default false
      */
     public openRight = false;
 
     /**
-     * @property openCap
-     * @type boolean
      * @default false
      */
     public openCap = false;
@@ -118,19 +96,11 @@ export default class CuboidPrimitivesBuilder extends PrimitivesBuilder {
 
     private sides: GridTriangleStrip[];
 
-    /**
-     * @class CuboidPrimitivesBuilder
-     * @constructor
-     */
     constructor() {
         super()
         this.sides = []
     }
 
-    /**
-     * @property width
-     * @type {number}
-     */
     get width() {
         return this._a.magnitude()
     }
@@ -139,10 +109,6 @@ export default class CuboidPrimitivesBuilder extends PrimitivesBuilder {
         this._a.normalize().scale(width)
     }
 
-    /**
-     * @property height
-     * @type {number}
-     */
     get height() {
         return this._b.magnitude()
     }
@@ -151,10 +117,6 @@ export default class CuboidPrimitivesBuilder extends PrimitivesBuilder {
         this._b.normalize().scale(height)
     }
 
-    /**
-     * @property depth
-     * @type {number}
-     */
     get depth() {
         return this._c.magnitude()
     }
@@ -165,10 +127,6 @@ export default class CuboidPrimitivesBuilder extends PrimitivesBuilder {
 
     /**
      * Creates six TRIANGLE_STRIP faces using the GridTriangleStrip helper.
-     *
-     * @method regenerate
-     * @return {void}
-     * @private
      */
     private regenerate(): void {
         this.sides = []
@@ -194,13 +152,8 @@ export default class CuboidPrimitivesBuilder extends PrimitivesBuilder {
         }
     }
 
-    /**
-     * @method toPrimitives
-     * @return {Primitive[]}
-     */
     public toPrimitives(): Primitive[] {
-        this.regenerate()
-        // TODO: Stitch the strips together into one TRIANGLE_STRIP.
-        return this.sides.map((side) => { return side.toPrimitive() })
+        this.regenerate();
+        return this.sides.map((side) => { return side.toPrimitive() });
     }
 }

@@ -80,13 +80,21 @@ import viewMatrix from './davinci-eight/facets/viewMatrixFromEyeLookUp';
 import ModelE2 from './davinci-eight/facets/ModelE2';
 import ModelE3 from './davinci-eight/facets/ModelE3';
 
+// atoms
+import DrawAttribute from './davinci-eight/atoms/DrawAttribute';
+import DrawPrimitive from './davinci-eight/atoms/DrawPrimitive';
+import Vertex from './davinci-eight/atoms/Vertex';
+
+// shapes
+import ArrowBuilder from './davinci-eight/shapes/ArrowBuilder';
+import ConicalShellBuilder from './davinci-eight/shapes/ConicalShellBuilder';
+import CylindricalShellBuilder from './davinci-eight/shapes/CylindricalShellBuilder';
+import RingBuilder from './davinci-eight/shapes/RingBuilder';
+
 // geometries
 import Attribute from '././davinci-eight/core/Attribute';
-import DrawAttribute from './davinci-eight/geometries/primitives/DrawAttribute';
 import Primitive from './davinci-eight/core/Primitive';
-import DrawPrimitive from './davinci-eight/geometries/primitives/DrawPrimitive';
 import Simplex from './davinci-eight/geometries/Simplex';
-import Vertex from './davinci-eight/geometries/primitives/Vertex';
 import simplicesToGeometryMeta from './davinci-eight/geometries/simplicesToGeometryMeta';
 import GeometryMeta from './davinci-eight/geometries/GeometryMeta';
 import computeFaceNormals from './davinci-eight/geometries/computeFaceNormals';
@@ -101,14 +109,11 @@ import GridGeometry from './davinci-eight/geometries/GridGeometry';
 import SphereGeometry from './davinci-eight/geometries/SphereGeometry';
 import TetrahedronGeometry from './davinci-eight/geometries/TetrahedronGeometry';
 
-import ArrowBuilder from './davinci-eight/geometries/ArrowBuilder';
 import ArrowSimplexPrimitivesBuilder from './davinci-eight/geometries/ArrowSimplexPrimitivesBuilder';
 import BarnSimplexPrimitivesBuilder from './davinci-eight/geometries/BarnSimplexPrimitivesBuilder';
-import ConicalShellBuilder from './davinci-eight/geometries/ConicalShellBuilder';
 import ConeSimplexGeometry from './davinci-eight/geometries/ConeSimplexGeometry';
 import CuboidPrimitivesBuilder from './davinci-eight/geometries/CuboidPrimitivesBuilder';
 import CuboidSimplexPrimitivesBuilder from './davinci-eight/geometries/CuboidSimplexPrimitivesBuilder';
-import CylindricalShellBuilder from './davinci-eight/geometries/CylindricalShellBuilder';
 import CylinderBuilder from './davinci-eight/geometries/CylinderBuilder';
 import DodecahedronSimplexGeometry from './davinci-eight/geometries/DodecahedronSimplexGeometry';
 import IcosahedronSimplexGeometry from './davinci-eight/geometries/IcosahedronSimplexGeometry';
@@ -121,7 +126,6 @@ import SliceSimplexPrimitivesBuilder from './davinci-eight/geometries/SliceSimpl
 import GridSimplexBuilder from './davinci-eight/geometries/GridSimplexBuilder';
 import PolyhedronBuilder from './davinci-eight/geometries/PolyhedronBuilder';
 import RevolutionSimplexPrimitivesBuilder from './davinci-eight/geometries/RevolutionSimplexPrimitivesBuilder';
-import RingBuilder from './davinci-eight/geometries/RingBuilder';
 import RingSimplexGeometry from './davinci-eight/geometries/RingSimplexGeometry';
 import TextSimplexGeometry from './davinci-eight/geometries/TextSimplexGeometry';
 //import TubeSimplexGeometry          from './davinci-eight/geometries/TubeSimplexGeometry';

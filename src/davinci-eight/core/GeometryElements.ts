@@ -12,6 +12,7 @@ import isUndefined from '../checks/isUndefined';
 import mustBeArray from '../checks/mustBeArray';
 import mustBeObject from '../checks/mustBeObject';
 import readOnly from '../i18n/readOnly';
+import SpinorE3 from '../math/SpinorE3'
 import VertexArrays from './VertexArrays';
 import VertexAttribPointer from './VertexAttribPointer';
 import VertexBuffer from './VertexBuffer';
@@ -34,8 +35,8 @@ export default class GeometryElements extends GeometryLeaf {
     private ibo: IndexBuffer;
     private vbo: VertexBuffer;
 
-    constructor(data: VertexArrays, engine: Engine, levelUp = 0) {
-        super(engine, levelUp + 1);
+    constructor(data: VertexArrays, tilt: SpinorE3, engine: Engine, levelUp = 0) {
+        super(tilt, engine, levelUp + 1);
         this.setLoggingName('GeometryElements');
         this.ibo = new IndexBuffer(engine);
         this.vbo = new VertexBuffer(engine);

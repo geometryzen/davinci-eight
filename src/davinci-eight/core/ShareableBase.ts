@@ -153,11 +153,11 @@ export class ShareableBase implements Shareable {
      * @param name
      */
     protected setLoggingName(name: string): void {
-        this._type = mustBeString('name', name)
-        this._levelUp += 1
+        this._type = mustBeString('name', name);
+        this._levelUp += 1;
         // Update the name used by the reference count tracking.
-        refChange(this._uuid, name, +1)
-        refChange(this._uuid, name, -1)
+        refChange(this._uuid, name, +1);
+        refChange(this._uuid, name, -1);
     }
 
     /**

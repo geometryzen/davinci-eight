@@ -11,6 +11,7 @@ import GeometryLeaf from './GeometryLeaf';
 import isNull from '../checks/isNull';
 import isObject from '../checks/isObject';
 import isUndefined from '../checks/isUndefined';
+import SpinorE3 from '../math/SpinorE3'
 import VertexArrays from './VertexArrays';
 import VertexBuffer from './VertexBuffer';
 
@@ -46,11 +47,12 @@ export default class GeometryArrays extends GeometryLeaf {
 
     /**
      * @param data
+     * @param tilt
      * @param engine
      * @param levelUp
      */
-    constructor(data: VertexArrays, engine: Engine, levelUp = 0) {
-        super(engine, levelUp + 1);
+    constructor(data: VertexArrays, tilt: SpinorE3, engine: Engine, levelUp = 0) {
+        super(tilt, engine, levelUp + 1);
         this.setLoggingName('GeometryArrays');
         this.attributes = {};
         this.vbo = new VertexBuffer(engine);

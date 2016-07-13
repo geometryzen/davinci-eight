@@ -5,9 +5,9 @@ import Spinor3 from '../math/Spinor3'
 
 describe("BoxGeometry", function() {
   describe("constructor", function() {
-    it("should create a container Geometry", function() {
+    it("should be a leaf Geometry", function() {
       const box = new BoxGeometry()
-      expect(box.isLeaf()).toBe(false)
+      expect(box.isLeaf()).toBe(true)
       box.release()
     })
   })

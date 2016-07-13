@@ -5,20 +5,20 @@ import config from '../config'
 import {Engine} from './Engine'
 import ErrorMode from './ErrorMode'
 import {Geometry} from './Geometry'
+import GeometryBase from './GeometryBase'
 import isNumber from '../checks/isNumber'
 import Matrix4 from '../math/Matrix4'
 import mustBeNumber from '../checks/mustBeNumber'
 import notImplemented from '../i18n/notImplemented'
 import notSupported from '../i18n/notSupported'
 import readOnly from '../i18n/readOnly'
-import {ShareableContextConsumer} from './ShareableContextConsumer'
+import SpinorE3 from '../math/SpinorE3'
 import VertexAttribPointer from './VertexAttribPointer'
 
 /**
- * @class GeometryLeaf
- * @extends ShareableContextConsumer
+ *
  */
-export default class GeometryLeaf extends ShareableContextConsumer implements Geometry {
+export default class GeometryLeaf extends GeometryBase {
 
     /**
      *
@@ -37,8 +37,10 @@ export default class GeometryLeaf extends ShareableContextConsumer implements Ge
     protected _stride: number;
     protected _pointers: VertexAttribPointer[];
 
-    constructor(engine: Engine, levelUp: number) {
-        super(engine)
+    public scaling = Matrix4.one();
+
+    constructor(tilt: SpinorE3, engine: Engine, levelUp: number) {
+        super(tilt, engine, levelUp + 1);
         mustBeNumber('levelUp', levelUp);
         this.setLoggingName('GeometryLeaf')
         if (levelUp === 0) {
@@ -71,17 +73,6 @@ export default class GeometryLeaf extends ShareableContextConsumer implements Ge
     }
     set partsLength(unused) {
         throw new Error(readOnly('partsLength').message)
-    }
-
-    /**
-     * @property scaling
-     * @type Matrix4
-     */
-    get scaling(): Matrix4 {
-        throw new Error(notImplemented('get scaling').message)
-    }
-    set scaling(scaling: Matrix4) {
-        throw new Error(notImplemented('set scaling').message)
     }
 
     /**

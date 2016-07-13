@@ -9069,361 +9069,6 @@ define('davinci-eight/core/computeStride',["require", "exports"], function (requ
     exports.default = default_1;
 });
 
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/core/GeometryLeaf',["require", "exports", '../config', './ErrorMode', '../checks/isNumber', '../checks/mustBeNumber', '../i18n/notImplemented', '../i18n/notSupported', '../i18n/readOnly', './ShareableContextConsumer'], function (require, exports, config_1, ErrorMode_1, isNumber_1, mustBeNumber_1, notImplemented_1, notSupported_1, readOnly_1, ShareableContextConsumer_1) {
-    "use strict";
-    var GeometryLeaf = (function (_super) {
-        __extends(GeometryLeaf, _super);
-        function GeometryLeaf(engine, levelUp) {
-            _super.call(this, engine);
-            mustBeNumber_1.default('levelUp', levelUp);
-            this.setLoggingName('GeometryLeaf');
-            if (levelUp === 0) {
-                this.synchUp();
-            }
-        }
-        GeometryLeaf.prototype.destructor = function (levelUp) {
-            if (levelUp === 0) {
-                this.cleanUp();
-            }
-            _super.prototype.destructor.call(this, levelUp + 1);
-        };
-        GeometryLeaf.prototype.isLeaf = function () {
-            return true;
-        };
-        Object.defineProperty(GeometryLeaf.prototype, "partsLength", {
-            get: function () {
-                return 0;
-            },
-            set: function (unused) {
-                throw new Error(readOnly_1.default('partsLength').message);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(GeometryLeaf.prototype, "scaling", {
-            get: function () {
-                throw new Error(notImplemented_1.default('get scaling').message);
-            },
-            set: function (scaling) {
-                throw new Error(notImplemented_1.default('set scaling').message);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        GeometryLeaf.prototype.addPart = function (geometry) {
-            throw new Error(notSupported_1.default('addPart').message);
-        };
-        GeometryLeaf.prototype.contextGain = function (contextProvider) {
-            _super.prototype.contextGain.call(this, contextProvider);
-            if (!isNumber_1.default(this._stride)) {
-                switch (config_1.default.errorMode) {
-                    case ErrorMode_1.default.WARNME: {
-                        console.warn(this._type + ".stride must be a number.");
-                    }
-                    default: {
-                    }
-                }
-            }
-        };
-        GeometryLeaf.prototype.removePart = function (index) {
-            throw new Error(notSupported_1.default('removePart').message);
-        };
-        GeometryLeaf.prototype.getPart = function (index) {
-            throw new Error(notSupported_1.default('getPart').message);
-        };
-        GeometryLeaf.prototype.bind = function (material) {
-            throw new Error(notSupported_1.default('bind').message);
-        };
-        GeometryLeaf.prototype.unbind = function (material) {
-            throw new Error(notSupported_1.default('unbind').message);
-        };
-        GeometryLeaf.prototype.draw = function (material) {
-            throw new Error(notSupported_1.default('draw').message);
-        };
-        GeometryLeaf.prototype.hasPrincipalScale = function (name) {
-            throw new Error(notImplemented_1.default("hasPrincipalScale(" + name + ")").message);
-        };
-        GeometryLeaf.prototype.getPrincipalScale = function (name) {
-            throw new Error(notImplemented_1.default('getPrincipalScale').message);
-        };
-        GeometryLeaf.prototype.setPrincipalScale = function (name, value) {
-            throw new Error(notImplemented_1.default('setPrincipalScale').message);
-        };
-        return GeometryLeaf;
-    }(ShareableContextConsumer_1.ShareableContextConsumer));
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = GeometryLeaf;
-});
-
-define('davinci-eight/checks/mustBeUndefined',["require", "exports", '../checks/mustSatisfy', '../checks/isUndefined'], function (require, exports, mustSatisfy_1, isUndefined_1) {
-    "use strict";
-    function beUndefined() {
-        return "be 'undefined'";
-    }
-    function default_1(name, value, contextBuilder) {
-        mustSatisfy_1.default(name, isUndefined_1.default(value), beUndefined, contextBuilder);
-        return value;
-    }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = default_1;
-});
-
-define('davinci-eight/core/Usage',["require", "exports"], function (require, exports) {
-    "use strict";
-    var Usage;
-    (function (Usage) {
-        Usage[Usage["STATIC_DRAW"] = 0] = "STATIC_DRAW";
-        Usage[Usage["DYNAMIC_DRAW"] = 1] = "DYNAMIC_DRAW";
-    })(Usage || (Usage = {}));
-    function checkUsage(name, usage) {
-        switch (usage) {
-            case Usage.STATIC_DRAW:
-            case Usage.DYNAMIC_DRAW: {
-                return;
-            }
-            default: {
-                throw new Error(name + ": Usage must be one of the enumerated values.");
-            }
-        }
-    }
-    exports.checkUsage = checkUsage;
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = Usage;
-});
-
-define('davinci-eight/core/usageToGL',["require", "exports", './Usage'], function (require, exports, Usage_1) {
-    "use strict";
-    function default_1(usage, gl) {
-        if (gl) {
-            switch (usage) {
-                case Usage_1.default.STATIC_DRAW:
-                    return gl.STATIC_DRAW;
-                case Usage_1.default.DYNAMIC_DRAW:
-                    return gl.DYNAMIC_DRAW;
-                default:
-                    throw new Error("Unexpected usage: " + usage);
-            }
-        }
-    }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = default_1;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/core/VertexBuffer',["require", "exports", '../checks/mustBeObject', '../checks/mustBeUndefined', './ShareableContextConsumer', './Usage', './Usage', './usageToGL'], function (require, exports, mustBeObject_1, mustBeUndefined_1, ShareableContextConsumer_1, Usage_1, Usage_2, usageToGL_1) {
-    "use strict";
-    var VertexBuffer = (function (_super) {
-        __extends(VertexBuffer, _super);
-        function VertexBuffer(engine) {
-            _super.call(this, engine);
-            this._usage = Usage_2.default.STATIC_DRAW;
-            this.setLoggingName('VertexBuffer');
-            this.synchUp();
-        }
-        VertexBuffer.prototype.destructor = function (levelUp) {
-            this.cleanUp();
-            mustBeUndefined_1.default(this._type, this.webGLBuffer);
-            _super.prototype.destructor.call(this, levelUp + 1);
-        };
-        Object.defineProperty(VertexBuffer.prototype, "data", {
-            get: function () {
-                return this._data;
-            },
-            set: function (data) {
-                this._data = data;
-                this.bufferData();
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(VertexBuffer.prototype, "usage", {
-            get: function () {
-                return this._usage;
-            },
-            set: function (usage) {
-                Usage_1.checkUsage('usage', usage);
-                this._usage = usage;
-                this.usageGL = usageToGL_1.default(this._usage, this.gl);
-                this.bufferData();
-            },
-            enumerable: true,
-            configurable: true
-        });
-        VertexBuffer.prototype.bufferData = function () {
-            var gl = this.gl;
-            if (gl) {
-                if (this.webGLBuffer) {
-                    gl.bindBuffer(gl.ARRAY_BUFFER, this.webGLBuffer);
-                    if (this._data) {
-                        gl.bufferData(gl.ARRAY_BUFFER, this._data, this.usageGL);
-                    }
-                    gl.bindBuffer(gl.ARRAY_BUFFER, null);
-                }
-            }
-        };
-        VertexBuffer.prototype.contextFree = function (contextProvider) {
-            mustBeObject_1.default('contextProvider', contextProvider);
-            if (this.webGLBuffer) {
-                var gl = this.gl;
-                if (gl) {
-                    gl.deleteBuffer(this.webGLBuffer);
-                }
-                else {
-                    console.error((this._type + " must leak WebGLBuffer because WebGLRenderingContext is ") + typeof gl);
-                }
-                this.webGLBuffer = void 0;
-            }
-            else {
-            }
-            _super.prototype.contextFree.call(this, contextProvider);
-        };
-        VertexBuffer.prototype.contextGain = function (contextProvider) {
-            _super.prototype.contextGain.call(this, contextProvider);
-            var gl = this.gl;
-            if (!this.webGLBuffer) {
-                this.webGLBuffer = gl.createBuffer();
-                this.usageGL = usageToGL_1.default(this._usage, gl);
-                this.bufferData();
-            }
-            else {
-            }
-        };
-        VertexBuffer.prototype.contextLost = function () {
-            this.webGLBuffer = void 0;
-            _super.prototype.contextLost.call(this);
-        };
-        VertexBuffer.prototype.bind = function () {
-            var gl = this.gl;
-            if (gl) {
-                gl.bindBuffer(gl.ARRAY_BUFFER, this.webGLBuffer);
-            }
-        };
-        VertexBuffer.prototype.unbind = function () {
-            var gl = this.gl;
-            if (gl) {
-                gl.bindBuffer(gl.ARRAY_BUFFER, null);
-            }
-        };
-        return VertexBuffer;
-    }(ShareableContextConsumer_1.ShareableContextConsumer));
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = VertexBuffer;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/core/GeometryArrays',["require", "exports", './computeAttributes', './computeCount', './computePointers', './computeStride', '../config', './ErrorMode', './GeometryLeaf', '../checks/isNull', '../checks/isObject', '../checks/isUndefined', './VertexBuffer'], function (require, exports, computeAttributes_1, computeCount_1, computePointers_1, computeStride_1, config_1, ErrorMode_1, GeometryLeaf_1, isNull_1, isObject_1, isUndefined_1, VertexBuffer_1) {
-    "use strict";
-    var GeometryArrays = (function (_super) {
-        __extends(GeometryArrays, _super);
-        function GeometryArrays(data, engine, levelUp) {
-            if (levelUp === void 0) { levelUp = 0; }
-            _super.call(this, engine, levelUp + 1);
-            this.first = 0;
-            this.setLoggingName('GeometryArrays');
-            this.attributes = {};
-            this.vbo = new VertexBuffer_1.default(engine);
-            if (!isNull_1.default(data) && !isUndefined_1.default(data)) {
-                if (isObject_1.default(data)) {
-                    this.drawMode = data.drawMode;
-                    this.vbo.data = new Float32Array(data.attributes);
-                    this.count = data.attributes.length / (data.stride / 4);
-                    this._stride = data.stride;
-                    this._pointers = data.pointers;
-                }
-                else {
-                    throw new TypeError("data must be an object");
-                }
-            }
-            if (levelUp === 0) {
-                this.synchUp();
-            }
-        }
-        GeometryArrays.prototype.destructor = function (levelUp) {
-            if (levelUp === 0) {
-                this.cleanUp();
-            }
-            this.vbo.release();
-            this.vbo = void 0;
-            _super.prototype.destructor.call(this, levelUp + 1);
-        };
-        GeometryArrays.prototype.bind = function (material) {
-            var contextProvider = this.contextProvider;
-            if (contextProvider) {
-                this.vbo.bind();
-                var pointers = this._pointers;
-                if (pointers) {
-                    var iLength = pointers.length;
-                    for (var i = 0; i < iLength; i++) {
-                        var pointer = pointers[i];
-                        var attrib = material.getAttrib(pointer.name);
-                        if (attrib) {
-                            attrib.config(pointer.size, pointer.type, pointer.normalized, this._stride, pointer.offset);
-                            attrib.enable();
-                        }
-                    }
-                }
-                else {
-                    switch (config_1.default.errorMode) {
-                        case ErrorMode_1.default.WARNME: {
-                            console.warn(this._type + ".pointers must be an array.");
-                        }
-                        default: {
-                        }
-                    }
-                }
-            }
-        };
-        GeometryArrays.prototype.draw = function (material) {
-            var contextProvider = this.contextProvider;
-            if (contextProvider) {
-                this.contextProvider.drawArrays(this.drawMode, this.first, this.count);
-            }
-        };
-        GeometryArrays.prototype.unbind = function (material) {
-            var pointers = this._pointers;
-            if (pointers) {
-                var iLength = pointers.length;
-                for (var i = 0; i < iLength; i++) {
-                    var pointer = pointers[i];
-                    var attrib = material.getAttrib(pointer.name);
-                    if (attrib) {
-                        attrib.disable();
-                    }
-                }
-            }
-            this.vbo.unbind();
-        };
-        GeometryArrays.prototype.getAttribute = function (name) {
-            return this.attributes[name];
-        };
-        GeometryArrays.prototype.setAttribute = function (name, attribute) {
-            this.attributes[name] = attribute;
-            var aNames = Object.keys(this.attributes);
-            this.count = computeCount_1.default(this.attributes, aNames);
-            this._stride = computeStride_1.default(this.attributes, aNames);
-            this._pointers = computePointers_1.default(this.attributes, aNames);
-            var array = computeAttributes_1.default(this.attributes, aNames);
-            this.vbo.data = new Float32Array(array);
-        };
-        return GeometryArrays;
-    }(GeometryLeaf_1.default));
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = GeometryArrays;
-});
-
 define('davinci-eight/math/add4x4',["require", "exports"], function (require, exports) {
     "use strict";
     function add4x4(a, b, c) {
@@ -9901,6 +9546,444 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
     exports.default = Matrix4;
 });
 
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/core/GeometryBase',["require", "exports", '../math/Matrix4', '../i18n/notImplemented', '../i18n/notSupported', '../i18n/readOnly', './ShareableContextConsumer', '../math/Spinor3'], function (require, exports, Matrix4_1, notImplemented_1, notSupported_1, readOnly_1, ShareableContextConsumer_1, Spinor3_1) {
+    "use strict";
+    var GeometryBase = (function (_super) {
+        __extends(GeometryBase, _super);
+        function GeometryBase(tilt, engine, levelUp) {
+            _super.call(this, engine);
+            this.scaling = Matrix4_1.default.one();
+            this.canonicalScale = Matrix4_1.default.one();
+            this.K = Matrix4_1.default.one();
+            this.Kinv = Matrix4_1.default.one();
+            this.Kidentity = true;
+            this.setLoggingName("GeometryBase");
+            if (tilt && !Spinor3_1.default.isOne(tilt)) {
+                this.Kidentity = false;
+                this.K.rotation(tilt);
+                this.Kinv.copy(this.K).inv();
+            }
+            if (levelUp === 0) {
+                this.synchUp();
+            }
+        }
+        GeometryBase.prototype.destructor = function (levelUp) {
+            if (levelUp === 0) {
+                this.cleanUp();
+            }
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        GeometryBase.prototype.isLeaf = function () {
+            throw new Error(notSupported_1.default('isLeaf').message);
+        };
+        Object.defineProperty(GeometryBase.prototype, "partsLength", {
+            get: function () {
+                throw new Error();
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('partsLength').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        GeometryBase.prototype.addPart = function (geometry) {
+            throw new Error(notSupported_1.default('addPart').message);
+        };
+        GeometryBase.prototype.removePart = function (index) {
+            throw new Error(notSupported_1.default('removePart').message);
+        };
+        GeometryBase.prototype.getPart = function (index) {
+            throw new Error(notSupported_1.default('getPart').message);
+        };
+        GeometryBase.prototype.bind = function (material) {
+            throw new Error(notSupported_1.default('bind').message);
+        };
+        GeometryBase.prototype.unbind = function (material) {
+            throw new Error(notSupported_1.default('unbind').message);
+        };
+        GeometryBase.prototype.draw = function (material) {
+            throw new Error(notSupported_1.default('draw').message);
+        };
+        GeometryBase.prototype.hasPrincipalScale = function (name) {
+            throw new Error(notImplemented_1.default("hasPrincipalScale(" + name + ")").message);
+        };
+        GeometryBase.prototype.getPrincipalScale = function (name) {
+            throw new Error(notImplemented_1.default('getPrincipalScale').message);
+        };
+        GeometryBase.prototype.setPrincipalScale = function (name, value) {
+            throw new Error(notImplemented_1.default('setPrincipalScale').message);
+        };
+        GeometryBase.prototype.setScale = function (x, y, z) {
+            if (this.Kidentity) {
+                this.scaling.setElement(0, 0, x);
+                this.scaling.setElement(1, 1, y);
+                this.scaling.setElement(2, 2, z);
+            }
+            else {
+                this.canonicalScale.copy(this.Kinv).mul(this.scaling).mul(this.K);
+                this.canonicalScale.setElement(0, 0, x);
+                this.canonicalScale.setElement(1, 1, y);
+                this.canonicalScale.setElement(2, 2, z);
+                this.scaling.copy(this.K).mul(this.canonicalScale).mul(this.Kinv);
+            }
+        };
+        return GeometryBase;
+    }(ShareableContextConsumer_1.ShareableContextConsumer));
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = GeometryBase;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/core/GeometryLeaf',["require", "exports", '../config', './ErrorMode', './GeometryBase', '../checks/isNumber', '../math/Matrix4', '../checks/mustBeNumber', '../i18n/notImplemented', '../i18n/notSupported', '../i18n/readOnly'], function (require, exports, config_1, ErrorMode_1, GeometryBase_1, isNumber_1, Matrix4_1, mustBeNumber_1, notImplemented_1, notSupported_1, readOnly_1) {
+    "use strict";
+    var GeometryLeaf = (function (_super) {
+        __extends(GeometryLeaf, _super);
+        function GeometryLeaf(tilt, engine, levelUp) {
+            _super.call(this, tilt, engine, levelUp + 1);
+            this.scaling = Matrix4_1.default.one();
+            mustBeNumber_1.default('levelUp', levelUp);
+            this.setLoggingName('GeometryLeaf');
+            if (levelUp === 0) {
+                this.synchUp();
+            }
+        }
+        GeometryLeaf.prototype.destructor = function (levelUp) {
+            if (levelUp === 0) {
+                this.cleanUp();
+            }
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        GeometryLeaf.prototype.isLeaf = function () {
+            return true;
+        };
+        Object.defineProperty(GeometryLeaf.prototype, "partsLength", {
+            get: function () {
+                return 0;
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('partsLength').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        GeometryLeaf.prototype.addPart = function (geometry) {
+            throw new Error(notSupported_1.default('addPart').message);
+        };
+        GeometryLeaf.prototype.contextGain = function (contextProvider) {
+            _super.prototype.contextGain.call(this, contextProvider);
+            if (!isNumber_1.default(this._stride)) {
+                switch (config_1.default.errorMode) {
+                    case ErrorMode_1.default.WARNME: {
+                        console.warn(this._type + ".stride must be a number.");
+                    }
+                    default: {
+                    }
+                }
+            }
+        };
+        GeometryLeaf.prototype.removePart = function (index) {
+            throw new Error(notSupported_1.default('removePart').message);
+        };
+        GeometryLeaf.prototype.getPart = function (index) {
+            throw new Error(notSupported_1.default('getPart').message);
+        };
+        GeometryLeaf.prototype.bind = function (material) {
+            throw new Error(notSupported_1.default('bind').message);
+        };
+        GeometryLeaf.prototype.unbind = function (material) {
+            throw new Error(notSupported_1.default('unbind').message);
+        };
+        GeometryLeaf.prototype.draw = function (material) {
+            throw new Error(notSupported_1.default('draw').message);
+        };
+        GeometryLeaf.prototype.hasPrincipalScale = function (name) {
+            throw new Error(notImplemented_1.default("hasPrincipalScale(" + name + ")").message);
+        };
+        GeometryLeaf.prototype.getPrincipalScale = function (name) {
+            throw new Error(notImplemented_1.default('getPrincipalScale').message);
+        };
+        GeometryLeaf.prototype.setPrincipalScale = function (name, value) {
+            throw new Error(notImplemented_1.default('setPrincipalScale').message);
+        };
+        return GeometryLeaf;
+    }(GeometryBase_1.default));
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = GeometryLeaf;
+});
+
+define('davinci-eight/checks/mustBeUndefined',["require", "exports", '../checks/mustSatisfy', '../checks/isUndefined'], function (require, exports, mustSatisfy_1, isUndefined_1) {
+    "use strict";
+    function beUndefined() {
+        return "be 'undefined'";
+    }
+    function default_1(name, value, contextBuilder) {
+        mustSatisfy_1.default(name, isUndefined_1.default(value), beUndefined, contextBuilder);
+        return value;
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = default_1;
+});
+
+define('davinci-eight/core/Usage',["require", "exports"], function (require, exports) {
+    "use strict";
+    var Usage;
+    (function (Usage) {
+        Usage[Usage["STATIC_DRAW"] = 0] = "STATIC_DRAW";
+        Usage[Usage["DYNAMIC_DRAW"] = 1] = "DYNAMIC_DRAW";
+    })(Usage || (Usage = {}));
+    function checkUsage(name, usage) {
+        switch (usage) {
+            case Usage.STATIC_DRAW:
+            case Usage.DYNAMIC_DRAW: {
+                return;
+            }
+            default: {
+                throw new Error(name + ": Usage must be one of the enumerated values.");
+            }
+        }
+    }
+    exports.checkUsage = checkUsage;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = Usage;
+});
+
+define('davinci-eight/core/usageToGL',["require", "exports", './Usage'], function (require, exports, Usage_1) {
+    "use strict";
+    function default_1(usage, gl) {
+        if (gl) {
+            switch (usage) {
+                case Usage_1.default.STATIC_DRAW:
+                    return gl.STATIC_DRAW;
+                case Usage_1.default.DYNAMIC_DRAW:
+                    return gl.DYNAMIC_DRAW;
+                default:
+                    throw new Error("Unexpected usage: " + usage);
+            }
+        }
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = default_1;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/core/VertexBuffer',["require", "exports", '../checks/mustBeObject', '../checks/mustBeUndefined', './ShareableContextConsumer', './Usage', './Usage', './usageToGL'], function (require, exports, mustBeObject_1, mustBeUndefined_1, ShareableContextConsumer_1, Usage_1, Usage_2, usageToGL_1) {
+    "use strict";
+    var VertexBuffer = (function (_super) {
+        __extends(VertexBuffer, _super);
+        function VertexBuffer(engine) {
+            _super.call(this, engine);
+            this._usage = Usage_2.default.STATIC_DRAW;
+            this.setLoggingName('VertexBuffer');
+            this.synchUp();
+        }
+        VertexBuffer.prototype.destructor = function (levelUp) {
+            this.cleanUp();
+            mustBeUndefined_1.default(this._type, this.webGLBuffer);
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        Object.defineProperty(VertexBuffer.prototype, "data", {
+            get: function () {
+                return this._data;
+            },
+            set: function (data) {
+                this._data = data;
+                this.bufferData();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(VertexBuffer.prototype, "usage", {
+            get: function () {
+                return this._usage;
+            },
+            set: function (usage) {
+                Usage_1.checkUsage('usage', usage);
+                this._usage = usage;
+                this.usageGL = usageToGL_1.default(this._usage, this.gl);
+                this.bufferData();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        VertexBuffer.prototype.bufferData = function () {
+            var gl = this.gl;
+            if (gl) {
+                if (this.webGLBuffer) {
+                    gl.bindBuffer(gl.ARRAY_BUFFER, this.webGLBuffer);
+                    if (this._data) {
+                        gl.bufferData(gl.ARRAY_BUFFER, this._data, this.usageGL);
+                    }
+                    gl.bindBuffer(gl.ARRAY_BUFFER, null);
+                }
+            }
+        };
+        VertexBuffer.prototype.contextFree = function (contextProvider) {
+            mustBeObject_1.default('contextProvider', contextProvider);
+            if (this.webGLBuffer) {
+                var gl = this.gl;
+                if (gl) {
+                    gl.deleteBuffer(this.webGLBuffer);
+                }
+                else {
+                    console.error((this._type + " must leak WebGLBuffer because WebGLRenderingContext is ") + typeof gl);
+                }
+                this.webGLBuffer = void 0;
+            }
+            else {
+            }
+            _super.prototype.contextFree.call(this, contextProvider);
+        };
+        VertexBuffer.prototype.contextGain = function (contextProvider) {
+            _super.prototype.contextGain.call(this, contextProvider);
+            var gl = this.gl;
+            if (!this.webGLBuffer) {
+                this.webGLBuffer = gl.createBuffer();
+                this.usageGL = usageToGL_1.default(this._usage, gl);
+                this.bufferData();
+            }
+            else {
+            }
+        };
+        VertexBuffer.prototype.contextLost = function () {
+            this.webGLBuffer = void 0;
+            _super.prototype.contextLost.call(this);
+        };
+        VertexBuffer.prototype.bind = function () {
+            var gl = this.gl;
+            if (gl) {
+                gl.bindBuffer(gl.ARRAY_BUFFER, this.webGLBuffer);
+            }
+        };
+        VertexBuffer.prototype.unbind = function () {
+            var gl = this.gl;
+            if (gl) {
+                gl.bindBuffer(gl.ARRAY_BUFFER, null);
+            }
+        };
+        return VertexBuffer;
+    }(ShareableContextConsumer_1.ShareableContextConsumer));
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = VertexBuffer;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/core/GeometryArrays',["require", "exports", './computeAttributes', './computeCount', './computePointers', './computeStride', '../config', './ErrorMode', './GeometryLeaf', '../checks/isNull', '../checks/isObject', '../checks/isUndefined', './VertexBuffer'], function (require, exports, computeAttributes_1, computeCount_1, computePointers_1, computeStride_1, config_1, ErrorMode_1, GeometryLeaf_1, isNull_1, isObject_1, isUndefined_1, VertexBuffer_1) {
+    "use strict";
+    var GeometryArrays = (function (_super) {
+        __extends(GeometryArrays, _super);
+        function GeometryArrays(data, tilt, engine, levelUp) {
+            if (levelUp === void 0) { levelUp = 0; }
+            _super.call(this, tilt, engine, levelUp + 1);
+            this.first = 0;
+            this.setLoggingName('GeometryArrays');
+            this.attributes = {};
+            this.vbo = new VertexBuffer_1.default(engine);
+            if (!isNull_1.default(data) && !isUndefined_1.default(data)) {
+                if (isObject_1.default(data)) {
+                    this.drawMode = data.drawMode;
+                    this.vbo.data = new Float32Array(data.attributes);
+                    this.count = data.attributes.length / (data.stride / 4);
+                    this._stride = data.stride;
+                    this._pointers = data.pointers;
+                }
+                else {
+                    throw new TypeError("data must be an object");
+                }
+            }
+            if (levelUp === 0) {
+                this.synchUp();
+            }
+        }
+        GeometryArrays.prototype.destructor = function (levelUp) {
+            if (levelUp === 0) {
+                this.cleanUp();
+            }
+            this.vbo.release();
+            this.vbo = void 0;
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        GeometryArrays.prototype.bind = function (material) {
+            var contextProvider = this.contextProvider;
+            if (contextProvider) {
+                this.vbo.bind();
+                var pointers = this._pointers;
+                if (pointers) {
+                    var iLength = pointers.length;
+                    for (var i = 0; i < iLength; i++) {
+                        var pointer = pointers[i];
+                        var attrib = material.getAttrib(pointer.name);
+                        if (attrib) {
+                            attrib.config(pointer.size, pointer.type, pointer.normalized, this._stride, pointer.offset);
+                            attrib.enable();
+                        }
+                    }
+                }
+                else {
+                    switch (config_1.default.errorMode) {
+                        case ErrorMode_1.default.WARNME: {
+                            console.warn(this._type + ".pointers must be an array.");
+                        }
+                        default: {
+                        }
+                    }
+                }
+            }
+        };
+        GeometryArrays.prototype.draw = function (material) {
+            var contextProvider = this.contextProvider;
+            if (contextProvider) {
+                this.contextProvider.drawArrays(this.drawMode, this.first, this.count);
+            }
+        };
+        GeometryArrays.prototype.unbind = function (material) {
+            var pointers = this._pointers;
+            if (pointers) {
+                var iLength = pointers.length;
+                for (var i = 0; i < iLength; i++) {
+                    var pointer = pointers[i];
+                    var attrib = material.getAttrib(pointer.name);
+                    if (attrib) {
+                        attrib.disable();
+                    }
+                }
+            }
+            this.vbo.unbind();
+        };
+        GeometryArrays.prototype.getAttribute = function (name) {
+            return this.attributes[name];
+        };
+        GeometryArrays.prototype.setAttribute = function (name, attribute) {
+            this.attributes[name] = attribute;
+            var aNames = Object.keys(this.attributes);
+            this.count = computeCount_1.default(this.attributes, aNames);
+            this._stride = computeStride_1.default(this.attributes, aNames);
+            this._pointers = computePointers_1.default(this.attributes, aNames);
+            var array = computeAttributes_1.default(this.attributes, aNames);
+            this.vbo.data = new Float32Array(array);
+        };
+        return GeometryArrays;
+    }(GeometryLeaf_1.default));
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = GeometryArrays;
+});
+
 define('davinci-eight/i18n/shouldBeImplementedBy',["require", "exports", '../checks/mustBeString'], function (require, exports, mustBeString_1) {
     "use strict";
     function default_1(name, type) {
@@ -9921,29 +10004,19 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/GeometryContainer',["require", "exports", '../collections/ShareableArray', '../base/incLevel', '../math/Matrix4', '../i18n/notSupported', '../i18n/readOnly', '../core/ShareableBase', '../i18n/shouldBeImplementedBy', '../math/Spinor3'], function (require, exports, ShareableArray_1, incLevel_1, Matrix4_1, notSupported_1, readOnly_1, ShareableBase_1, shouldBeImplementedBy_1, Spinor3_1) {
+define('davinci-eight/core/GeometryContainer',["require", "exports", '../collections/ShareableArray', '../i18n/notSupported', './GeometryBase', '../i18n/readOnly', '../i18n/shouldBeImplementedBy'], function (require, exports, ShareableArray_1, notSupported_1, GeometryBase_1, readOnly_1, shouldBeImplementedBy_1) {
     "use strict";
     var GeometryContainer = (function (_super) {
         __extends(GeometryContainer, _super);
-        function GeometryContainer(tilt) {
-            _super.call(this);
-            this.scaling = Matrix4_1.default.one();
-            this.canonicalScale = Matrix4_1.default.one();
-            this.K = Matrix4_1.default.one();
-            this.Kinv = Matrix4_1.default.one();
-            this.Kidentity = true;
+        function GeometryContainer(tilt, engine, levelUp) {
+            _super.call(this, tilt, engine, levelUp + 1);
             this.setLoggingName('GeometryContainer');
             this._parts = new ShareableArray_1.default([]);
-            if (tilt && !Spinor3_1.default.isOne(tilt)) {
-                this.Kidentity = false;
-                this.K.rotation(tilt);
-                this.Kinv.copy(this.K).inv();
-            }
         }
-        GeometryContainer.prototype.destructor = function (level) {
+        GeometryContainer.prototype.destructor = function (levelUp) {
             this._parts.release();
             this._parts = void 0;
-            _super.prototype.destructor.call(this, incLevel_1.default(level));
+            _super.prototype.destructor.call(this, levelUp + 1);
         };
         Object.defineProperty(GeometryContainer.prototype, "data", {
             get: function () {
@@ -10015,22 +10088,8 @@ define('davinci-eight/core/GeometryContainer',["require", "exports", '../collect
         GeometryContainer.prototype.setPrincipalScale = function (name, value) {
             throw new Error(shouldBeImplementedBy_1.default('setPrincipalScale', this._type).message);
         };
-        GeometryContainer.prototype.setScale = function (x, y, z) {
-            if (this.Kidentity) {
-                this.scaling.setElement(0, 0, x);
-                this.scaling.setElement(1, 1, y);
-                this.scaling.setElement(2, 2, z);
-            }
-            else {
-                this.canonicalScale.copy(this.Kinv).mul(this.scaling).mul(this.K);
-                this.canonicalScale.setElement(0, 0, x);
-                this.canonicalScale.setElement(1, 1, y);
-                this.canonicalScale.setElement(2, 2, z);
-                this.scaling.copy(this.K).mul(this.canonicalScale).mul(this.Kinv);
-            }
-        };
         return GeometryContainer;
-    }(ShareableBase_1.ShareableBase));
+    }(GeometryBase_1.default));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = GeometryContainer;
 });
@@ -10149,9 +10208,9 @@ define('davinci-eight/core/GeometryElements',["require", "exports", '../config',
     "use strict";
     var GeometryElements = (function (_super) {
         __extends(GeometryElements, _super);
-        function GeometryElements(data, engine, levelUp) {
+        function GeometryElements(data, tilt, engine, levelUp) {
             if (levelUp === void 0) { levelUp = 0; }
-            _super.call(this, engine, levelUp + 1);
+            _super.call(this, tilt, engine, levelUp + 1);
             this.offset = 0;
             this.setLoggingName('GeometryElements');
             this.ibo = new IndexBuffer_1.default(engine);
@@ -11250,13 +11309,13 @@ define('davinci-eight/core/vertexArraysFromPrimitive',["require", "exports", './
 
 define('davinci-eight/core/geometryFromPrimitive',["require", "exports", './vertexArraysFromPrimitive', './GeometryArrays', './GeometryElements'], function (require, exports, vertexArraysFromPrimitive_1, GeometryArrays_1, GeometryElements_1) {
     "use strict";
-    function geometryFromPrimitive(primitive, engine, order) {
+    function geometryFromPrimitive(primitive, tilt, engine, order) {
         var data = vertexArraysFromPrimitive_1.default(primitive, order);
         if (primitive.indices) {
-            return new GeometryElements_1.default(data, engine);
+            return new GeometryElements_1.default(data, tilt, engine);
         }
         else {
-            return new GeometryArrays_1.default(data, engine);
+            return new GeometryArrays_1.default(data, tilt, engine);
         }
     }
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -14891,7 +14950,7 @@ define('davinci-eight/facets/ModelE2',["require", "exports", '../math/Geometric2
     exports.default = ModelE2;
 });
 
-define('davinci-eight/geometries/primitives/DrawAttribute',["require", "exports"], function (require, exports) {
+define('davinci-eight/atoms/DrawAttribute',["require", "exports"], function (require, exports) {
     "use strict";
     function isVectorN(values) {
         return true;
@@ -14928,7 +14987,7 @@ define('davinci-eight/geometries/primitives/DrawAttribute',["require", "exports"
     exports.default = DrawAttribute;
 });
 
-define('davinci-eight/geometries/primitives/DrawPrimitive',["require", "exports", '../../checks/mustBeArray', '../../checks/mustBeInteger', '../../checks/mustBeObject'], function (require, exports, mustBeArray_1, mustBeInteger_1, mustBeObject_1) {
+define('davinci-eight/atoms/DrawPrimitive',["require", "exports", '../checks/mustBeArray', '../checks/mustBeInteger', '../checks/mustBeObject'], function (require, exports, mustBeArray_1, mustBeInteger_1, mustBeObject_1) {
     "use strict";
     var context = function () { return "DrawPrimitive constructor"; };
     var DrawPrimitive = (function () {
@@ -14944,7 +15003,7 @@ define('davinci-eight/geometries/primitives/DrawPrimitive',["require", "exports"
     exports.default = DrawPrimitive;
 });
 
-define('davinci-eight/geometries/primitives/Vertex',["require", "exports", '../../math/Coords', '../../checks/mustBeGE', '../../checks/mustBeInteger'], function (require, exports, Coords_1, mustBeGE_1, mustBeInteger_1) {
+define('davinci-eight/atoms/Vertex',["require", "exports", '../math/Coords', '../checks/mustBeGE', '../checks/mustBeInteger'], function (require, exports, Coords_1, mustBeGE_1, mustBeInteger_1) {
     "use strict";
     function stringVectorN(name, vector) {
         if (vector) {
@@ -14982,200 +15041,10 @@ define('davinci-eight/geometries/primitives/Vertex',["require", "exports", '../.
     exports.default = Vertex;
 });
 
-define('davinci-eight/geometries/Simplex',["require", "exports", '../checks/expectArg', '../checks/isInteger', './primitives/Vertex', '../math/VectorN'], function (require, exports, expectArg_1, isInteger_1, Vertex_1, VectorN_1) {
+define('davinci-eight/shapes/ShapeBuilder',["require", "exports", '../math/Geometric3', '../math/Vector3'], function (require, exports, Geometric3_1, Vector3_1) {
     "use strict";
-    function checkIntegerArg(name, n, min, max) {
-        if (isInteger_1.default(n) && n >= min && n <= max) {
-            return n;
-        }
-        expectArg_1.default(name, n).toSatisfy(false, name + " must be an integer in the range [" + min + "," + max + "]");
-    }
-    function checkCountArg(count) {
-        return checkIntegerArg('count', count, 0, 7);
-    }
-    function concatReduce(a, b) {
-        return a.concat(b);
-    }
-    function lerp(a, b, alpha, data) {
-        if (data === void 0) { data = []; }
-        expectArg_1.default('b', b).toSatisfy(a.length === b.length, "a must be the same length as b");
-        var dims = a.length;
-        var i;
-        var beta = 1 - alpha;
-        for (i = 0; i < dims; i++) {
-            data.push(beta * a[i] + alpha * b[i]);
-        }
-        return data;
-    }
-    function lerpVertexAttributeMap(a, b, alpha) {
-        var attribMap = {};
-        var keys = Object.keys(a);
-        var keysLength = keys.length;
-        for (var k = 0; k < keysLength; k++) {
-            var key = keys[k];
-            attribMap[key] = lerpVectorN(a[key], b[key], alpha);
-        }
-        return attribMap;
-    }
-    function lerpVectorN(a, b, alpha) {
-        return new VectorN_1.VectorN(lerp(a.coords, b.coords, alpha));
-    }
-    var Simplex = (function () {
-        function Simplex(k) {
-            this.vertices = [];
-            if (!isInteger_1.default(k)) {
-                expectArg_1.default('k', k).toBeNumber();
-            }
-            var numVertices = k + 1;
-            var numCoordinates = 0;
-            for (var i = 0; i < numVertices; i++) {
-                this.vertices.push(new Vertex_1.default(numCoordinates));
-            }
-        }
-        Object.defineProperty(Simplex.prototype, "k", {
-            get: function () {
-                return this.vertices.length - 1;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Simplex.indices = function (simplex) {
-            return simplex.vertices.map(function (vertex) { return vertex.index; });
-        };
-        Simplex.boundaryMap = function (simplex) {
-            var vertices = simplex.vertices;
-            var k = simplex.k;
-            if (k === Simplex.TRIANGLE) {
-                var line01 = new Simplex(k - 1);
-                line01.vertices[0].attributes = vertices[0].attributes;
-                line01.vertices[1].attributes = vertices[1].attributes;
-                var line12 = new Simplex(k - 1);
-                line12.vertices[0].attributes = vertices[1].attributes;
-                line12.vertices[1].attributes = vertices[2].attributes;
-                var line20 = new Simplex(k - 1);
-                line20.vertices[0].attributes = vertices[2].attributes;
-                line20.vertices[1].attributes = vertices[0].attributes;
-                return [line01, line12, line20];
-            }
-            else if (k === Simplex.LINE) {
-                var point0 = new Simplex(k - 1);
-                point0.vertices[0].attributes = simplex.vertices[0].attributes;
-                var point1 = new Simplex(k - 1);
-                point1.vertices[0].attributes = simplex.vertices[1].attributes;
-                return [point0, point1];
-            }
-            else if (k === Simplex.POINT) {
-                return [new Simplex(k - 1)];
-            }
-            else if (k === Simplex.EMPTY) {
-                return [];
-            }
-            else {
-                throw new Error("Unexpected k-simplex, k = " + simplex.k + " @ Simplex.boundaryMap()");
-            }
-        };
-        Simplex.subdivideMap = function (simplex) {
-            expectArg_1.default('simplex', simplex).toBeObject();
-            var divs = [];
-            var vertices = simplex.vertices;
-            var k = simplex.k;
-            if (k === Simplex.TRIANGLE) {
-                var a = vertices[0].attributes;
-                var b = vertices[1].attributes;
-                var c = vertices[2].attributes;
-                var m1 = lerpVertexAttributeMap(a, b, 0.5);
-                var m2 = lerpVertexAttributeMap(b, c, 0.5);
-                var m3 = lerpVertexAttributeMap(c, a, 0.5);
-                var face1 = new Simplex(k);
-                face1.vertices[0].attributes = c;
-                face1.vertices[1].attributes = m3;
-                face1.vertices[2].attributes = m2;
-                var face2 = new Simplex(k);
-                face2.vertices[0].attributes = a;
-                face2.vertices[1].attributes = m1;
-                face2.vertices[2].attributes = m3;
-                var face3 = new Simplex(k);
-                face3.vertices[0].attributes = b;
-                face3.vertices[1].attributes = m2;
-                face3.vertices[2].attributes = m1;
-                var face4 = new Simplex(k);
-                face4.vertices[0].attributes = m1;
-                face4.vertices[1].attributes = m2;
-                face4.vertices[2].attributes = m3;
-                divs.push(face1);
-                divs.push(face2);
-                divs.push(face3);
-                divs.push(face4);
-            }
-            else if (k === Simplex.LINE) {
-                var a = vertices[0].attributes;
-                var b = vertices[1].attributes;
-                var m = lerpVertexAttributeMap(a, b, 0.5);
-                var line1 = new Simplex(k);
-                line1.vertices[0].attributes = a;
-                line1.vertices[1].attributes = m;
-                var line2 = new Simplex(k);
-                line2.vertices[0].attributes = m;
-                line2.vertices[1].attributes = b;
-                divs.push(line1);
-                divs.push(line2);
-            }
-            else if (k === Simplex.POINT) {
-                divs.push(simplex);
-            }
-            else if (k === Simplex.EMPTY) {
-            }
-            else {
-                throw new Error(k + "-simplex is not supported");
-            }
-            return divs;
-        };
-        Simplex.boundary = function (simplices, count) {
-            if (count === void 0) { count = 1; }
-            checkCountArg(count);
-            for (var i = 0; i < count; i++) {
-                simplices = simplices.map(Simplex.boundaryMap).reduce(concatReduce, []);
-            }
-            return simplices;
-        };
-        Simplex.subdivide = function (simplices, count) {
-            if (count === void 0) { count = 1; }
-            checkCountArg(count);
-            for (var i = 0; i < count; i++) {
-                simplices = simplices.map(Simplex.subdivideMap).reduce(concatReduce, []);
-            }
-            return simplices;
-        };
-        Simplex.setAttributeValues = function (attributes, simplex) {
-            var names = Object.keys(attributes);
-            var attribsLength = names.length;
-            var attribIndex;
-            for (attribIndex = 0; attribIndex < attribsLength; attribIndex++) {
-                var name_1 = names[attribIndex];
-                var values = attributes[name_1];
-                var valuesLength = values.length;
-                var valueIndex = void 0;
-                for (valueIndex = 0; valueIndex < valuesLength; valueIndex++) {
-                    simplex.vertices[valueIndex].attributes[name_1] = values[valueIndex];
-                }
-            }
-        };
-        Simplex.EMPTY = -1;
-        Simplex.POINT = 0;
-        Simplex.LINE = 1;
-        Simplex.TRIANGLE = 2;
-        Simplex.TETRAHEDRON = 3;
-        Simplex.FIVE_CELL = 4;
-        return Simplex;
-    }());
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = Simplex;
-});
-
-define('davinci-eight/geometries/PrimitivesBuilder',["require", "exports", '../math/Geometric3', '../core/GeometryElements', '../core/GeometryContainer', '../math/Vector3', '../core/vertexArraysFromPrimitive'], function (require, exports, Geometric3_1, GeometryElements_1, GeometryContainer_1, Vector3_1, vertexArraysFromPrimitive_1) {
-    "use strict";
-    var PrimitivesBuilder = (function () {
-        function PrimitivesBuilder() {
+    var ShapeBuilder = (function () {
+        function ShapeBuilder() {
             this.stress = Vector3_1.default.vector(1, 1, 1);
             this.tilt = Geometric3_1.Geometric3.one();
             this.offset = Vector3_1.default.zero();
@@ -15184,41 +15053,16 @@ define('davinci-eight/geometries/PrimitivesBuilder',["require", "exports", '../m
             this.usePosition = true;
             this.useTextureCoord = false;
         }
-        PrimitivesBuilder.prototype.applyTransforms = function (vertex, i, j, iLength, jLength) {
+        ShapeBuilder.prototype.applyTransforms = function (vertex, i, j, iLength, jLength) {
             var tLen = this.transforms.length;
             for (var t = 0; t < tLen; t++) {
                 this.transforms[t].exec(vertex, i, j, iLength, jLength);
             }
         };
-        PrimitivesBuilder.prototype.toGeometry = function (engine) {
-            var container = new GeometryContainer_1.default(this.tilt);
-            var ps = this.toPrimitives();
-            var iLen = ps.length;
-            for (var i = 0; i < iLen; i++) {
-                var dataSource = ps[i];
-                var geometry = new GeometryElements_1.default(vertexArraysFromPrimitive_1.default(dataSource), engine);
-                container.addPart(geometry);
-                geometry.release();
-            }
-            return container;
-        };
-        PrimitivesBuilder.prototype.toVertexArrays = function () {
-            var arrays = [];
-            var ps = this.toPrimitives();
-            var iLen = ps.length;
-            for (var i = 0; i < iLen; i++) {
-                arrays.push(vertexArraysFromPrimitive_1.default(ps[i]));
-            }
-            return arrays;
-        };
-        PrimitivesBuilder.prototype.toPrimitives = function () {
-            console.warn("toPrimitives() must be implemented by derived classes.");
-            return [];
-        };
-        return PrimitivesBuilder;
+        return ShapeBuilder;
     }());
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = PrimitivesBuilder;
+    exports.default = ShapeBuilder;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -15226,21 +15070,21 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/AxialPrimitivesBuilder',["require", "exports", '../geometries/PrimitivesBuilder'], function (require, exports, PrimitivesBuilder_1) {
+define('davinci-eight/shapes/AxialShapeBuilder',["require", "exports", './ShapeBuilder'], function (require, exports, ShapeBuilder_1) {
     "use strict";
-    var AxialPrimitivesBuilder = (function (_super) {
-        __extends(AxialPrimitivesBuilder, _super);
-        function AxialPrimitivesBuilder() {
+    var AxialShapeBuilder = (function (_super) {
+        __extends(AxialShapeBuilder, _super);
+        function AxialShapeBuilder() {
             _super.call(this);
             this.sliceAngle = 2 * Math.PI;
         }
-        return AxialPrimitivesBuilder;
-    }(PrimitivesBuilder_1.default));
+        return AxialShapeBuilder;
+    }(ShapeBuilder_1.default));
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = AxialPrimitivesBuilder;
+    exports.default = AxialShapeBuilder;
 });
 
-define('davinci-eight/geometries/transforms/Approximation',["require", "exports", '../../checks/mustBeNumber', '../../math/Coords', '../../math/Geometric2', '../../math/Geometric3', '../../math/Spinor2', '../../math/Spinor3', '../../math/Vector2', '../../math/Vector3'], function (require, exports, mustBeNumber_1, Coords_1, Geometric2_1, Geometric3_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1) {
+define('davinci-eight/transforms/Approximation',["require", "exports", '../checks/mustBeNumber', '../math/Coords', '../math/Geometric2', '../math/Geometric3', '../math/Spinor2', '../math/Spinor3', '../math/Vector2', '../math/Vector3'], function (require, exports, mustBeNumber_1, Coords_1, Geometric2_1, Geometric3_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1) {
     "use strict";
     var Approximation = (function () {
         function Approximation(n, names) {
@@ -15284,7 +15128,7 @@ define('davinci-eight/geometries/transforms/Approximation',["require", "exports"
     exports.default = Approximation;
 });
 
-define('davinci-eight/geometries/transforms/Direction',["require", "exports", '../../checks/mustBeString', '../../math/Geometric2', '../../math/Geometric3', '../../math/Spinor2', '../../math/Spinor3', '../../math/Vector2', '../../math/Vector3'], function (require, exports, mustBeString_1, Geometric2_1, Geometric3_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1) {
+define('davinci-eight/transforms/Direction',["require", "exports", '../checks/mustBeString', '../math/Geometric2', '../math/Geometric3', '../math/Spinor2', '../math/Spinor3', '../math/Vector2', '../math/Vector3'], function (require, exports, mustBeString_1, Geometric2_1, Geometric3_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1) {
     "use strict";
     var Direction = (function () {
         function Direction(sourceName) {
@@ -15325,7 +15169,7 @@ define('davinci-eight/geometries/transforms/Direction',["require", "exports", '.
     exports.default = Direction;
 });
 
-define('davinci-eight/geometries/transforms/Duality',["require", "exports", '../../checks/mustBeBoolean', '../../checks/mustBeString', '../../i18n/notImplemented', '../../math/Spinor2', '../../math/Spinor3', '../../math/Vector2', '../../math/Vector3'], function (require, exports, mustBeBoolean_1, mustBeString_1, notImplemented_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1) {
+define('davinci-eight/transforms/Duality',["require", "exports", '../checks/mustBeBoolean', '../checks/mustBeString', '../i18n/notImplemented', '../math/Spinor2', '../math/Spinor3', '../math/Vector2', '../math/Vector3'], function (require, exports, mustBeBoolean_1, mustBeString_1, notImplemented_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1) {
     "use strict";
     var Duality = (function () {
         function Duality(sourceName, outputName, changeSign, removeSource) {
@@ -15395,7 +15239,7 @@ define('davinci-eight/geometries/dataFromVectorN',["require", "exports", '../mat
     exports.default = dataFromVectorN;
 });
 
-define('davinci-eight/geometries/primitives/GeometryPrimitive',["require", "exports", '../../core/DataType', './DrawAttribute', './DrawPrimitive', '../../checks/mustBeArray', '../../checks/mustBeGE', '../../checks/mustBeInteger', '../../i18n/notSupported', '../../core/vertexArraysFromPrimitive', './Vertex', '../dataFromVectorN'], function (require, exports, DataType_1, DrawAttribute_1, DrawPrimitive_1, mustBeArray_1, mustBeGE_1, mustBeInteger_1, notSupported_1, vertexArraysFromPrimitive_1, Vertex_1, dataFromVectorN_1) {
+define('davinci-eight/atoms/GeometryPrimitive',["require", "exports", '../core/DataType', './DrawAttribute', './DrawPrimitive', '../checks/mustBeArray', '../checks/mustBeGE', '../checks/mustBeInteger', '../i18n/notSupported', '../core/vertexArraysFromPrimitive', './Vertex', '../geometries/dataFromVectorN'], function (require, exports, DataType_1, DrawAttribute_1, DrawPrimitive_1, mustBeArray_1, mustBeGE_1, mustBeInteger_1, notSupported_1, vertexArraysFromPrimitive_1, Vertex_1, dataFromVectorN_1) {
     "use strict";
     function attributes(unused, vertices) {
         var attribs = {};
@@ -15448,7 +15292,7 @@ define('davinci-eight/geometries/primitives/GeometryPrimitive',["require", "expo
     exports.default = GeometryPrimitive;
 });
 
-define('davinci-eight/geometries/primitives/numPostsForFence',["require", "exports", '../../checks/mustBeBoolean', '../../checks/mustBeGE', '../../checks/mustBeInteger'], function (require, exports, mustBeBoolean_1, mustBeGE_1, mustBeInteger_1) {
+define('davinci-eight/atoms/numPostsForFence',["require", "exports", '../checks/mustBeBoolean', '../checks/mustBeGE', '../checks/mustBeInteger'], function (require, exports, mustBeBoolean_1, mustBeGE_1, mustBeInteger_1) {
     "use strict";
     function default_1(segmentCount, closed) {
         mustBeInteger_1.default('segmentCount', segmentCount);
@@ -15460,7 +15304,7 @@ define('davinci-eight/geometries/primitives/numPostsForFence',["require", "expor
     exports.default = default_1;
 });
 
-define('davinci-eight/geometries/primitives/numVerticesForGrid',["require", "exports", '../../checks/mustBeInteger'], function (require, exports, mustBeInteger_1) {
+define('davinci-eight/atoms/numVerticesForGrid',["require", "exports", '../checks/mustBeInteger'], function (require, exports, mustBeInteger_1) {
     "use strict";
     function default_1(uSegments, vSegments) {
         mustBeInteger_1.default('uSegments', uSegments);
@@ -15476,7 +15320,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/primitives/GridPrimitive',["require", "exports", './GeometryPrimitive', './numPostsForFence', './numVerticesForGrid', '../../i18n/notSupported', '../../i18n/readOnly'], function (require, exports, GeometryPrimitive_1, numPostsForFence_1, numVerticesForGrid_1, notSupported_1, readOnly_1) {
+define('davinci-eight/atoms/GridPrimitive',["require", "exports", './GeometryPrimitive', './numPostsForFence', './numVerticesForGrid', '../i18n/notSupported', '../i18n/readOnly'], function (require, exports, GeometryPrimitive_1, numPostsForFence_1, numVerticesForGrid_1, notSupported_1, readOnly_1) {
     "use strict";
     var GridPrimitive = (function (_super) {
         __extends(GridPrimitive, _super);
@@ -15550,7 +15394,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/primitives/GridTriangleStrip',["require", "exports", '../../core/BeginMode', '../../checks/isDefined', './GridPrimitive', '../../checks/mustBeArray', '../../checks/mustBeInteger', './numPostsForFence'], function (require, exports, BeginMode_1, isDefined_1, GridPrimitive_1, mustBeArray_1, mustBeInteger_1, numPostsForFence_1) {
+define('davinci-eight/atoms/GridTriangleStrip',["require", "exports", '../core/BeginMode', '../checks/isDefined', './GridPrimitive', '../checks/mustBeArray', '../checks/mustBeInteger', './numPostsForFence'], function (require, exports, BeginMode_1, isDefined_1, GridPrimitive_1, mustBeArray_1, mustBeInteger_1, numPostsForFence_1) {
     "use strict";
     function triangleStripForGrid(uSegments, vSegments, elements) {
         elements = isDefined_1.default(elements) ? mustBeArray_1.default('elements', elements) : [];
@@ -15589,7 +15433,7 @@ define('davinci-eight/geometries/primitives/GridTriangleStrip',["require", "expo
     exports.default = GridTriangleStrip;
 });
 
-define('davinci-eight/geometries/transforms/ConeTransform',["require", "exports", '../../checks/mustBeBoolean', '../../checks/mustBeNumber', '../../checks/mustBeString', '../../math/R3', '../../math/Spinor3', '../../math/Vector3'], function (require, exports, mustBeBoolean_1, mustBeNumber_1, mustBeString_1, R3_1, Spinor3_1, Vector3_1) {
+define('davinci-eight/transforms/ConeTransform',["require", "exports", '../checks/mustBeBoolean', '../checks/mustBeNumber', '../checks/mustBeString', '../math/R3', '../math/Spinor3', '../math/Vector3'], function (require, exports, mustBeBoolean_1, mustBeNumber_1, mustBeString_1, R3_1, Spinor3_1, Vector3_1) {
     "use strict";
     function coneNormal(ρ, h, out) {
         out.copy(ρ);
@@ -15628,7 +15472,7 @@ define('davinci-eight/geometries/transforms/ConeTransform',["require", "exports"
     exports.default = ConeTransform;
 });
 
-define('davinci-eight/geometries/transforms/Rotation',["require", "exports", '../../checks/mustBeObject', '../../math/Spinor3', '../../math/Vector3'], function (require, exports, mustBeObject_1, Spinor3_1, Vector3_1) {
+define('davinci-eight/transforms/Rotation',["require", "exports", '../checks/mustBeObject', '../math/Spinor3', '../math/Vector3'], function (require, exports, mustBeObject_1, Spinor3_1, Vector3_1) {
     "use strict";
     var Rotation = (function () {
         function Rotation(R, names) {
@@ -15661,7 +15505,7 @@ define('davinci-eight/geometries/transforms/Rotation',["require", "exports", '..
     exports.default = Rotation;
 });
 
-define('davinci-eight/geometries/transforms/Scaling',["require", "exports", '../../checks/mustBeObject', '../../math/Spinor3', '../../math/Vector3'], function (require, exports, mustBeObject_1, Spinor3_1, Vector3_1) {
+define('davinci-eight/transforms/Scaling',["require", "exports", '../checks/mustBeObject', '../math/Spinor3', '../math/Vector3'], function (require, exports, mustBeObject_1, Spinor3_1, Vector3_1) {
     "use strict";
     var Scaling = (function () {
         function Scaling(stress, names) {
@@ -15694,7 +15538,7 @@ define('davinci-eight/geometries/transforms/Scaling',["require", "exports", '../
     exports.default = Scaling;
 });
 
-define('davinci-eight/geometries/transforms/Translation',["require", "exports", '../../checks/mustBeObject', '../../math/Vector3'], function (require, exports, mustBeObject_1, Vector3_1) {
+define('davinci-eight/transforms/Translation',["require", "exports", '../checks/mustBeObject', '../math/Vector3'], function (require, exports, mustBeObject_1, Vector3_1) {
     "use strict";
     var Translation = (function () {
         function Translation(s, names) {
@@ -15722,7 +15566,7 @@ define('davinci-eight/geometries/transforms/Translation',["require", "exports", 
     exports.default = Translation;
 });
 
-define('davinci-eight/geometries/transforms/CoordsTransform2D',["require", "exports", '../../core/GraphicsProgramSymbols', '../../checks/mustBeBoolean', '../../math/Vector2'], function (require, exports, GraphicsProgramSymbols_1, mustBeBoolean_1, Vector2_1) {
+define('davinci-eight/transforms/CoordsTransform2D',["require", "exports", '../core/GraphicsProgramSymbols', '../checks/mustBeBoolean', '../math/Vector2'], function (require, exports, GraphicsProgramSymbols_1, mustBeBoolean_1, Vector2_1) {
     "use strict";
     var CoordsTransform2D = (function () {
         function CoordsTransform2D(flipU, flipV, exchangeUV) {
@@ -15746,7 +15590,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/ConicalShellBuilder',["require", "exports", './transforms/Approximation', './transforms/Direction', './transforms/Duality', '../core/GraphicsProgramSymbols', './primitives/GridTriangleStrip', './AxialPrimitivesBuilder', './transforms/ConeTransform', './transforms/Rotation', '../math/R3', './transforms/Scaling', './transforms/Translation', './transforms/CoordsTransform2D'], function (require, exports, Approximation_1, Direction_1, Duality_1, GraphicsProgramSymbols_1, GridTriangleStrip_1, AxialPrimitivesBuilder_1, ConeTransform_1, Rotation_1, R3_1, Scaling_1, Translation_1, CoordsTransform2D_1) {
+define('davinci-eight/shapes/ConicalShellBuilder',["require", "exports", '../transforms/Approximation', '../transforms/Direction', '../transforms/Duality', '../core/GraphicsProgramSymbols', '../atoms/GridTriangleStrip', './AxialShapeBuilder', '../transforms/ConeTransform', '../transforms/Rotation', '../math/R3', '../transforms/Scaling', '../transforms/Translation', '../transforms/CoordsTransform2D'], function (require, exports, Approximation_1, Direction_1, Duality_1, GraphicsProgramSymbols_1, GridTriangleStrip_1, AxialShapeBuilder_1, ConeTransform_1, Rotation_1, R3_1, Scaling_1, Translation_1, CoordsTransform2D_1) {
     "use strict";
     var aPosition = GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION;
     var aTangent = GraphicsProgramSymbols_1.default.ATTRIBUTE_TANGENT;
@@ -15782,7 +15626,7 @@ define('davinci-eight/geometries/ConicalShellBuilder',["require", "exports", './
             enumerable: true,
             configurable: true
         });
-        ConicalShellBuilder.prototype.toPrimitives = function () {
+        ConicalShellBuilder.prototype.toPrimitive = function () {
             this.transforms.push(new ConeTransform_1.default(this.e, this.cutLine, this.clockwise, this.sliceAngle, aPosition, aTangent));
             this.transforms.push(new Scaling_1.default(this.stress, [aPosition, aTangent]));
             this.transforms.push(new Rotation_1.default(this.tilt, [aPosition, aTangent]));
@@ -15801,15 +15645,15 @@ define('davinci-eight/geometries/ConicalShellBuilder',["require", "exports", './
                     this.applyTransforms(grid.vertex(i, j), i, j, iLength, jLength);
                 }
             }
-            return [grid.toPrimitive()];
+            return grid.toPrimitive();
         };
         return ConicalShellBuilder;
-    }(AxialPrimitivesBuilder_1.default));
+    }(AxialShapeBuilder_1.default));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = ConicalShellBuilder;
 });
 
-define('davinci-eight/geometries/transforms/CylinderTransform',["require", "exports", '../../checks/mustBeNumber', '../../checks/mustBeString', '../../math/Spinor3', '../../math/Vector3'], function (require, exports, mustBeNumber_1, mustBeString_1, Spinor3_1, Vector3_1) {
+define('davinci-eight/transforms/CylinderTransform',["require", "exports", '../checks/mustBeNumber', '../checks/mustBeString', '../math/Spinor3', '../math/Vector3'], function (require, exports, mustBeNumber_1, mustBeString_1, Spinor3_1, Vector3_1) {
     "use strict";
     var CylinderTransform = (function () {
         function CylinderTransform(e, cutLine, clockwise, sliceAngle, aPosition, aTangent) {
@@ -15841,7 +15685,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/CylindricalShellBuilder',["require", "exports", './transforms/Approximation', './transforms/Direction', './transforms/Duality', '../core/GraphicsProgramSymbols', './primitives/GridTriangleStrip', './AxialPrimitivesBuilder', './transforms/CylinderTransform', './transforms/Rotation', './transforms/Scaling', './transforms/Translation', './transforms/CoordsTransform2D', '../math/Vector3'], function (require, exports, Approximation_1, Direction_1, Duality_1, GraphicsProgramSymbols_1, GridTriangleStrip_1, AxialPrimitivesBuilder_1, CylinderTransform_1, Rotation_1, Scaling_1, Translation_1, CoordsTransform2D_1, Vector3_1) {
+define('davinci-eight/shapes/CylindricalShellBuilder',["require", "exports", '../transforms/Approximation', '../transforms/Direction', '../transforms/Duality', '../core/GraphicsProgramSymbols', '../atoms/GridTriangleStrip', './AxialShapeBuilder', '../transforms/CylinderTransform', '../transforms/Rotation', '../transforms/Scaling', '../transforms/Translation', '../transforms/CoordsTransform2D', '../math/Vector3'], function (require, exports, Approximation_1, Direction_1, Duality_1, GraphicsProgramSymbols_1, GridTriangleStrip_1, AxialShapeBuilder_1, CylinderTransform_1, Rotation_1, Scaling_1, Translation_1, CoordsTransform2D_1, Vector3_1) {
     "use strict";
     var aPosition = GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION;
     var aTangent = GraphicsProgramSymbols_1.default.ATTRIBUTE_TANGENT;
@@ -15877,7 +15721,7 @@ define('davinci-eight/geometries/CylindricalShellBuilder',["require", "exports",
             enumerable: true,
             configurable: true
         });
-        CylindricalShellBuilder.prototype.toPrimitives = function () {
+        CylindricalShellBuilder.prototype.toPrimitive = function () {
             this.transforms.push(new CylinderTransform_1.default(this.e, this.cutLine, this.clockwise, this.sliceAngle, aPosition, aTangent));
             this.transforms.push(new Scaling_1.default(this.stress, [aPosition, aTangent]));
             this.transforms.push(new Rotation_1.default(this.tilt, [aPosition, aTangent]));
@@ -15896,16 +15740,82 @@ define('davinci-eight/geometries/CylindricalShellBuilder',["require", "exports",
                     this.applyTransforms(grid.vertex(i, j), i, j, iLength, jLength);
                 }
             }
-            var primitive = grid.toPrimitive();
-            return [primitive];
+            return grid.toPrimitive();
         };
         return CylindricalShellBuilder;
-    }(AxialPrimitivesBuilder_1.default));
+    }(AxialShapeBuilder_1.default));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = CylindricalShellBuilder;
 });
 
-define('davinci-eight/geometries/transforms/RingTransform',["require", "exports", '../../checks/mustBeNumber', '../../checks/mustBeString', '../../math/Spinor3', '../../math/Vector3'], function (require, exports, mustBeNumber_1, mustBeString_1, Spinor3_1, Vector3_1) {
+define('davinci-eight/atoms/reduce',["require", "exports", '../core/BeginMode'], function (require, exports, BeginMode_1) {
+    "use strict";
+    var INITIAL = {
+        mode: void 0,
+        attributes: {}
+    };
+    function copyIndices(src, dest, delta) {
+        if (src.indices) {
+            var iLen = src.indices.length;
+            for (var i = 0; i < iLen; i++) {
+                dest.push(src.indices[i] + delta);
+            }
+        }
+    }
+    function max(xs) {
+        return xs.reduce(function (a, b) { return a > b ? a : b; });
+    }
+    function joinIndices(previous, current, dest) {
+        if (previous.indices) {
+            var lastIndex = previous.indices[previous.indices.length - 1];
+            if (current.indices) {
+                var nextIndex = current.indices[0] + max(previous.indices) + 1;
+                dest.push(lastIndex);
+                dest.push(nextIndex);
+            }
+        }
+    }
+    function ensureAttribute(attributes, name, size, type) {
+        if (!attributes[name]) {
+            attributes[name] = { values: [], size: size, type: type };
+        }
+        return attributes[name];
+    }
+    function copyAttributes(primitive, attributes) {
+        var keys = Object.keys(primitive.attributes);
+        var kLen = keys.length;
+        for (var k = 0; k < kLen; k++) {
+            var key = keys[k];
+            var srcAttrib = primitive.attributes[key];
+            var dstAttrib = ensureAttribute(attributes, key, srcAttrib.size, srcAttrib.type);
+            var svalues = srcAttrib.values;
+            var vLen = svalues.length;
+            for (var v = 0; v < vLen; v++) {
+                dstAttrib.values.push(svalues[v]);
+            }
+        }
+    }
+    function reduce(primitives) {
+        return primitives.reduce(function (previous, current) {
+            var indices = [];
+            copyIndices(previous, indices, 0);
+            joinIndices(previous, current, indices);
+            copyIndices(current, indices, max(previous.indices) + 1);
+            var attributes = {};
+            copyAttributes(previous, attributes);
+            copyAttributes(current, attributes);
+            return {
+                mode: BeginMode_1.default.TRIANGLE_STRIP,
+                indices: indices,
+                attributes: attributes
+            };
+        });
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = reduce;
+});
+
+define('davinci-eight/transforms/RingTransform',["require", "exports", '../checks/mustBeNumber', '../checks/mustBeString', '../math/Spinor3', '../math/Vector3'], function (require, exports, mustBeNumber_1, mustBeString_1, Spinor3_1, Vector3_1) {
     "use strict";
     var RingTransform = (function () {
         function RingTransform(e, cutLine, clockwise, a, b, sliceAngle, aPosition, aTangent) {
@@ -15942,7 +15852,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/RingBuilder',["require", "exports", './transforms/Approximation', './transforms/Direction', './transforms/Duality', '../core/GraphicsProgramSymbols', './primitives/GridTriangleStrip', './AxialPrimitivesBuilder', './transforms/RingTransform', './transforms/Rotation', './transforms/Scaling', './transforms/Translation', './transforms/CoordsTransform2D', '../math/Vector3'], function (require, exports, Approximation_1, Direction_1, Duality_1, GraphicsProgramSymbols_1, GridTriangleStrip_1, AxialPrimitivesBuilder_1, RingTransform_1, Rotation_1, Scaling_1, Translation_1, CoordsTransform2D_1, Vector3_1) {
+define('davinci-eight/shapes/RingBuilder',["require", "exports", '../transforms/Approximation', '../transforms/Direction', '../transforms/Duality', '../core/GraphicsProgramSymbols', '../atoms/GridTriangleStrip', './AxialShapeBuilder', '../transforms/RingTransform', '../transforms/Rotation', '../transforms/Scaling', '../transforms/Translation', '../transforms/CoordsTransform2D', '../math/Vector3'], function (require, exports, Approximation_1, Direction_1, Duality_1, GraphicsProgramSymbols_1, GridTriangleStrip_1, AxialShapeBuilder_1, RingTransform_1, Rotation_1, Scaling_1, Translation_1, CoordsTransform2D_1, Vector3_1) {
     "use strict";
     var aPosition = GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION;
     var aTangent = GraphicsProgramSymbols_1.default.ATTRIBUTE_TANGENT;
@@ -15959,7 +15869,7 @@ define('davinci-eight/geometries/RingBuilder',["require", "exports", './transfor
             this.cutLine = Vector3_1.default.copy(cutLine);
             this.clockwise = clockwise;
         }
-        RingBuilder.prototype.toPrimitives = function () {
+        RingBuilder.prototype.toPrimitive = function () {
             this.transforms.push(new RingTransform_1.default(this.e, this.cutLine, this.clockwise, this.outerRadius, this.innerRadius, this.sliceAngle, aPosition, aTangent));
             this.transforms.push(new Scaling_1.default(this.stress, [aPosition, aTangent]));
             this.transforms.push(new Rotation_1.default(this.tilt, [aPosition, aTangent]));
@@ -15978,10 +15888,10 @@ define('davinci-eight/geometries/RingBuilder',["require", "exports", './transfor
                     this.applyTransforms(grid.vertex(i, j), i, j, iLength, jLength);
                 }
             }
-            return [grid.toPrimitive()];
+            return grid.toPrimitive();
         };
         return RingBuilder;
-    }(AxialPrimitivesBuilder_1.default));
+    }(AxialShapeBuilder_1.default));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = RingBuilder;
 });
@@ -15991,7 +15901,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/ArrowBuilder',["require", "exports", './AxialPrimitivesBuilder', './ConicalShellBuilder', './CylindricalShellBuilder', '../checks/mustBeDefined', '../geometries/RingBuilder', '../math/R3', '../math/Vector3'], function (require, exports, AxialPrimitivesBuilder_1, ConicalShellBuilder_1, CylindricalShellBuilder_1, mustBeDefined_1, RingBuilder_1, R3_1, Vector3_1) {
+define('davinci-eight/shapes/ArrowBuilder',["require", "exports", './AxialShapeBuilder', '../shapes/ConicalShellBuilder', '../shapes/CylindricalShellBuilder', '../checks/mustBeDefined', '../atoms/reduce', '../shapes/RingBuilder', '../math/R3', '../math/Vector3'], function (require, exports, AxialShapeBuilder_1, ConicalShellBuilder_1, CylindricalShellBuilder_1, mustBeDefined_1, reduce_1, RingBuilder_1, R3_1, Vector3_1) {
     "use strict";
     var ArrowBuilder = (function (_super) {
         __extends(ArrowBuilder, _super);
@@ -16007,7 +15917,7 @@ define('davinci-eight/geometries/ArrowBuilder',["require", "exports", './AxialPr
             this.cutLine = R3_1.default.direction(cutLine);
             this.clockwise = clockwise;
         }
-        ArrowBuilder.prototype.toPrimitives = function () {
+        ArrowBuilder.prototype.toPrimitive = function () {
             var heightShaft = 1 - this.heightCone;
             var back = this.e.neg();
             var neck = Vector3_1.default.copy(this.e).scale(heightShaft).add(this.offset);
@@ -16054,56 +15964,213 @@ define('davinci-eight/geometries/ArrowBuilder',["require", "exports", './AxialPr
             plug.useNormal = this.useNormal;
             plug.usePosition = this.usePosition;
             plug.useTextureCoord = this.useTextureCoord;
-            return [cone.toPrimitives(), disc.toPrimitives(), shaft.toPrimitives(), plug.toPrimitives()].reduce(function (a, b) { return a.concat(b); }, []);
+            return reduce_1.default([cone.toPrimitive(), disc.toPrimitive(), shaft.toPrimitive(), plug.toPrimitive()]);
         };
         return ArrowBuilder;
-    }(AxialPrimitivesBuilder_1.default));
+    }(AxialShapeBuilder_1.default));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = ArrowBuilder;
 });
 
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/geometries/ArrowGeometry',["require", "exports", './ArrowBuilder', '../core/GeometryContainer', '../core/GeometryElements', '../base/incLevel', '../checks/isDefined', '../checks/mustBeObject', '../math/R3', '../math/Spinor3', '../math/Vector3', '../core/vertexArraysFromPrimitive'], function (require, exports, ArrowBuilder_1, GeometryContainer_1, GeometryElements_1, incLevel_1, isDefined_1, mustBeObject_1, R3_1, Spinor3_1, Vector3_1, vertexArraysFromPrimitive_1) {
+define('davinci-eight/geometries/Simplex',["require", "exports", '../checks/mustBeEQ', '../checks/mustBeGE', '../checks/mustBeLE', '../checks/mustBeInteger', '../atoms/Vertex', '../math/VectorN'], function (require, exports, mustBeEQ_1, mustBeGE_1, mustBeLE_1, mustBeInteger_1, Vertex_1, VectorN_1) {
     "use strict";
-    var ArrowGeometry = (function (_super) {
-        __extends(ArrowGeometry, _super);
-        function ArrowGeometry(options) {
-            if (options === void 0) { options = {}; }
-            _super.call(this, options.tilt);
-            this.setLoggingName('ArrowGeometry');
-            mustBeObject_1.default('options', options);
-            var builder = new ArrowBuilder_1.default(R3_1.default.e2, R3_1.default.e3, false);
-            builder.stress.copy(isDefined_1.default(options.stress) ? options.stress : Vector3_1.default.vector(1, 1, 1));
-            builder.tilt.copySpinor(isDefined_1.default(options.tilt) ? options.tilt : Spinor3_1.default.one());
-            builder.offset.copy(isDefined_1.default(options.offset) ? options.offset : Vector3_1.default.zero());
-            var ps = builder.toPrimitives();
-            var iLen = ps.length;
-            for (var i = 0; i < iLen; i++) {
-                var dataSource = ps[i];
-                var geometry = new GeometryElements_1.default(vertexArraysFromPrimitive_1.default(dataSource), options.engine);
-                this.addPart(geometry);
-                geometry.release();
+    function checkIntegerArg(name, n, min, max) {
+        mustBeInteger_1.default(name, n);
+        mustBeGE_1.default(name, n, min);
+        mustBeLE_1.default(name, n, max);
+        return n;
+    }
+    function checkCountArg(count) {
+        return checkIntegerArg('count', count, 0, 7);
+    }
+    function concatReduce(a, b) {
+        return a.concat(b);
+    }
+    function lerp(a, b, alpha, data) {
+        if (data === void 0) { data = []; }
+        mustBeEQ_1.default('a.length', a.length, b.length);
+        var dims = a.length;
+        var i;
+        var beta = 1 - alpha;
+        for (i = 0; i < dims; i++) {
+            data.push(beta * a[i] + alpha * b[i]);
+        }
+        return data;
+    }
+    function lerpVertexAttributeMap(a, b, alpha) {
+        var attribMap = {};
+        var keys = Object.keys(a);
+        var keysLength = keys.length;
+        for (var k = 0; k < keysLength; k++) {
+            var key = keys[k];
+            attribMap[key] = lerpVectorN(a[key], b[key], alpha);
+        }
+        return attribMap;
+    }
+    function lerpVectorN(a, b, alpha) {
+        return new VectorN_1.VectorN(lerp(a.coords, b.coords, alpha));
+    }
+    var Simplex = (function () {
+        function Simplex(k) {
+            this.vertices = [];
+            mustBeInteger_1.default('k', k);
+            var numVertices = k + 1;
+            var numCoordinates = 0;
+            for (var i = 0; i < numVertices; i++) {
+                this.vertices.push(new Vertex_1.default(numCoordinates));
             }
         }
-        ArrowGeometry.prototype.destructor = function (level) {
-            _super.prototype.destructor.call(this, incLevel_1.default(level));
+        Object.defineProperty(Simplex.prototype, "k", {
+            get: function () {
+                return this.vertices.length - 1;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Simplex.indices = function (simplex) {
+            return simplex.vertices.map(function (vertex) { return vertex.index; });
         };
-        ArrowGeometry.prototype.getPrincipalScale = function (name) {
-            return this.scaling.getElement(0, 0);
+        Simplex.boundaryMap = function (simplex) {
+            var vertices = simplex.vertices;
+            var k = simplex.k;
+            if (k === Simplex.TRIANGLE) {
+                var line01 = new Simplex(k - 1);
+                line01.vertices[0].attributes = vertices[0].attributes;
+                line01.vertices[1].attributes = vertices[1].attributes;
+                var line12 = new Simplex(k - 1);
+                line12.vertices[0].attributes = vertices[1].attributes;
+                line12.vertices[1].attributes = vertices[2].attributes;
+                var line20 = new Simplex(k - 1);
+                line20.vertices[0].attributes = vertices[2].attributes;
+                line20.vertices[1].attributes = vertices[0].attributes;
+                return [line01, line12, line20];
+            }
+            else if (k === Simplex.LINE) {
+                var point0 = new Simplex(k - 1);
+                point0.vertices[0].attributes = simplex.vertices[0].attributes;
+                var point1 = new Simplex(k - 1);
+                point1.vertices[0].attributes = simplex.vertices[1].attributes;
+                return [point0, point1];
+            }
+            else if (k === Simplex.POINT) {
+                return [new Simplex(k - 1)];
+            }
+            else if (k === Simplex.EMPTY) {
+                return [];
+            }
+            else {
+                throw new Error("Unexpected k-simplex, k = " + simplex.k + " @ Simplex.boundaryMap()");
+            }
         };
-        ArrowGeometry.prototype.setPrincipalScale = function (name, value) {
-            this.scaling.setElement(0, 0, value);
-            this.scaling.setElement(1, 1, value);
-            this.scaling.setElement(2, 2, value);
+        Simplex.subdivideMap = function (simplex) {
+            var divs = [];
+            var vertices = simplex.vertices;
+            var k = simplex.k;
+            if (k === Simplex.TRIANGLE) {
+                var a = vertices[0].attributes;
+                var b = vertices[1].attributes;
+                var c = vertices[2].attributes;
+                var m1 = lerpVertexAttributeMap(a, b, 0.5);
+                var m2 = lerpVertexAttributeMap(b, c, 0.5);
+                var m3 = lerpVertexAttributeMap(c, a, 0.5);
+                var face1 = new Simplex(k);
+                face1.vertices[0].attributes = c;
+                face1.vertices[1].attributes = m3;
+                face1.vertices[2].attributes = m2;
+                var face2 = new Simplex(k);
+                face2.vertices[0].attributes = a;
+                face2.vertices[1].attributes = m1;
+                face2.vertices[2].attributes = m3;
+                var face3 = new Simplex(k);
+                face3.vertices[0].attributes = b;
+                face3.vertices[1].attributes = m2;
+                face3.vertices[2].attributes = m1;
+                var face4 = new Simplex(k);
+                face4.vertices[0].attributes = m1;
+                face4.vertices[1].attributes = m2;
+                face4.vertices[2].attributes = m3;
+                divs.push(face1);
+                divs.push(face2);
+                divs.push(face3);
+                divs.push(face4);
+            }
+            else if (k === Simplex.LINE) {
+                var a = vertices[0].attributes;
+                var b = vertices[1].attributes;
+                var m = lerpVertexAttributeMap(a, b, 0.5);
+                var line1 = new Simplex(k);
+                line1.vertices[0].attributes = a;
+                line1.vertices[1].attributes = m;
+                var line2 = new Simplex(k);
+                line2.vertices[0].attributes = m;
+                line2.vertices[1].attributes = b;
+                divs.push(line1);
+                divs.push(line2);
+            }
+            else if (k === Simplex.POINT) {
+                divs.push(simplex);
+            }
+            else if (k === Simplex.EMPTY) {
+            }
+            else {
+                throw new Error(k + "-simplex is not supported");
+            }
+            return divs;
         };
-        return ArrowGeometry;
-    }(GeometryContainer_1.default));
+        Simplex.boundary = function (simplices, count) {
+            if (count === void 0) { count = 1; }
+            checkCountArg(count);
+            for (var i = 0; i < count; i++) {
+                simplices = simplices.map(Simplex.boundaryMap).reduce(concatReduce, []);
+            }
+            return simplices;
+        };
+        Simplex.subdivide = function (simplices, count) {
+            if (count === void 0) { count = 1; }
+            checkCountArg(count);
+            for (var i = 0; i < count; i++) {
+                simplices = simplices.map(Simplex.subdivideMap).reduce(concatReduce, []);
+            }
+            return simplices;
+        };
+        Simplex.setAttributeValues = function (attributes, simplex) {
+            var names = Object.keys(attributes);
+            var attribsLength = names.length;
+            for (var attribIndex = 0; attribIndex < attribsLength; attribIndex++) {
+                var name_1 = names[attribIndex];
+                var values = attributes[name_1];
+                var valuesLength = values.length;
+                for (var valueIndex = 0; valueIndex < valuesLength; valueIndex++) {
+                    simplex.vertices[valueIndex].attributes[name_1] = values[valueIndex];
+                }
+            }
+        };
+        Simplex.EMPTY = -1;
+        Simplex.POINT = 0;
+        Simplex.LINE = 1;
+        Simplex.TRIANGLE = 2;
+        Simplex.TETRAHEDRON = 3;
+        Simplex.FIVE_CELL = 4;
+        return Simplex;
+    }());
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = ArrowGeometry;
+    exports.default = Simplex;
+});
+
+define('davinci-eight/geometries/arrowVertexArrays',["require", "exports", '../shapes/ArrowBuilder', '../checks/isDefined', '../checks/mustBeObject', '../math/R3', '../math/Spinor3', '../math/Vector3', '../core/vertexArraysFromPrimitive'], function (require, exports, ArrowBuilder_1, isDefined_1, mustBeObject_1, R3_1, Spinor3_1, Vector3_1, vertexArraysFromPrimitive_1) {
+    "use strict";
+    function arrowVertexArrays(options) {
+        if (options === void 0) { options = {}; }
+        mustBeObject_1.default('options', options);
+        var builder = new ArrowBuilder_1.default(R3_1.default.e2, R3_1.default.e3, false);
+        builder.stress.copy(isDefined_1.default(options.stress) ? options.stress : Vector3_1.default.vector(1, 1, 1));
+        builder.tilt.copySpinor(isDefined_1.default(options.tilt) ? options.tilt : Spinor3_1.default.one());
+        builder.offset.copy(isDefined_1.default(options.offset) ? options.offset : Vector3_1.default.zero());
+        var primitive = builder.toPrimitive();
+        return vertexArraysFromPrimitive_1.default(primitive);
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = arrowVertexArrays;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -16111,7 +16178,136 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/CuboidPrimitivesBuilder',["require", "exports", './primitives/GridTriangleStrip', './PrimitivesBuilder', '../core/GraphicsProgramSymbols', '../checks/mustBeNumber', '../math/Spinor3', '../math/Vector3', '../math/Vector2'], function (require, exports, GridTriangleStrip_1, PrimitivesBuilder_1, GraphicsProgramSymbols_1, mustBeNumber_1, Spinor3_1, Vector3_1, Vector2_1) {
+define('davinci-eight/geometries/ArrowGeometry',["require", "exports", './arrowVertexArrays', '../core/GeometryElements', '../i18n/notSupported'], function (require, exports, arrowVertexArrays_1, GeometryElements_1, notSupported_1) {
+    "use strict";
+    var ArrowGeometry = (function (_super) {
+        __extends(ArrowGeometry, _super);
+        function ArrowGeometry(options, levelUp) {
+            if (options === void 0) { options = {}; }
+            if (levelUp === void 0) { levelUp = 0; }
+            _super.call(this, arrowVertexArrays_1.default(options), options.tilt, options.engine, levelUp + 1);
+            this._length = 1.0;
+            this._radius = 0.08;
+            this.setLoggingName('ArrowGeometry');
+        }
+        ArrowGeometry.prototype.destructor = function (levelUp) {
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        Object.defineProperty(ArrowGeometry.prototype, "radius", {
+            get: function () {
+                return this._radius;
+            },
+            set: function (radius) {
+                this.setPrincipalScale('radius', radius);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ArrowGeometry.prototype, "length", {
+            get: function () {
+                return this._length;
+            },
+            set: function (length) {
+                this._length = length;
+                this.setPrincipalScale('length', length);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        ArrowGeometry.prototype.getPrincipalScale = function (name) {
+            switch (name) {
+                case 'length': {
+                    return this._length;
+                }
+                case 'radius': {
+                    return this._radius;
+                }
+                default: {
+                    throw new Error(notSupported_1.default("getPrincipalScale('" + name + "')").message);
+                }
+            }
+        };
+        ArrowGeometry.prototype.setPrincipalScale = function (name, value) {
+            switch (name) {
+                case 'length':
+                    {
+                        this._length = value;
+                    }
+                    break;
+                case 'radius':
+                    {
+                        this._radius = value;
+                    }
+                    break;
+                default: {
+                    throw new Error(notSupported_1.default("getPrincipalScale('" + name + "')").message);
+                }
+            }
+            this.scaling.setElement(0, 0, this._radius);
+            this.scaling.setElement(1, 1, this._length);
+            this.scaling.setElement(2, 2, this._radius);
+        };
+        return ArrowGeometry;
+    }(GeometryElements_1.default));
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = ArrowGeometry;
+});
+
+define('davinci-eight/geometries/PrimitivesBuilder',["require", "exports", '../math/Geometric3', '../core/GeometryElements', '../core/GeometryContainer', '../math/Vector3', '../core/vertexArraysFromPrimitive'], function (require, exports, Geometric3_1, GeometryElements_1, GeometryContainer_1, Vector3_1, vertexArraysFromPrimitive_1) {
+    "use strict";
+    var PrimitivesBuilder = (function () {
+        function PrimitivesBuilder() {
+            this.stress = Vector3_1.default.vector(1, 1, 1);
+            this.tilt = Geometric3_1.Geometric3.one();
+            this.offset = Vector3_1.default.zero();
+            this.transforms = [];
+            this.useNormal = true;
+            this.usePosition = true;
+            this.useTextureCoord = false;
+        }
+        PrimitivesBuilder.prototype.applyTransforms = function (vertex, i, j, iLength, jLength) {
+            var tLen = this.transforms.length;
+            for (var t = 0; t < tLen; t++) {
+                this.transforms[t].exec(vertex, i, j, iLength, jLength);
+            }
+        };
+        PrimitivesBuilder.prototype.toGeometry = function (engine) {
+            var container = new GeometryContainer_1.default(this.tilt, engine, 0);
+            var ps = this.toPrimitives();
+            var iLen = ps.length;
+            for (var i = 0; i < iLen; i++) {
+                var dataSource = ps[i];
+                var geometry = new GeometryElements_1.default(vertexArraysFromPrimitive_1.default(dataSource), this.tilt, engine);
+                container.addPart(geometry);
+                geometry.release();
+            }
+            return container;
+        };
+        PrimitivesBuilder.prototype.toVertexArrays = function () {
+            var arrays = [];
+            var ps = this.toPrimitives();
+            var iLen = ps.length;
+            for (var i = 0; i < iLen; i++) {
+                arrays.push(vertexArraysFromPrimitive_1.default(ps[i]));
+            }
+            return arrays;
+        };
+        PrimitivesBuilder.prototype.toPrimitives = function () {
+            console.warn("toPrimitives() must be implemented by derived classes.");
+            return [];
+        };
+        return PrimitivesBuilder;
+    }());
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = PrimitivesBuilder;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/geometries/CuboidPrimitivesBuilder',["require", "exports", '../atoms/GridTriangleStrip', './PrimitivesBuilder', '../core/GraphicsProgramSymbols', '../checks/mustBeNumber', '../math/Spinor3', '../math/Vector3', '../math/Vector2'], function (require, exports, GridTriangleStrip_1, PrimitivesBuilder_1, GraphicsProgramSymbols_1, mustBeNumber_1, Spinor3_1, Vector3_1, Vector2_1) {
     "use strict";
     function side(tilt, offset, basis, uSegments, vSegments) {
         var tangent = Spinor3_1.default.wedge(basis[0], basis[1]).rotate(tilt);
@@ -16223,61 +16419,75 @@ define('davinci-eight/geometries/CuboidPrimitivesBuilder',["require", "exports",
     exports.default = CuboidPrimitivesBuilder;
 });
 
+define('davinci-eight/geometries/boxPrimitive',["require", "exports", './CuboidPrimitivesBuilder', '../checks/isDefined', '../checks/mustBeBoolean', '../checks/mustBeNumber', '../atoms/reduce'], function (require, exports, CuboidPrimitivesBuilder_1, isDefined_1, mustBeBoolean_1, mustBeNumber_1, reduce_1) {
+    "use strict";
+    function boxPrimitive(options) {
+        if (options === void 0) { options = {}; }
+        var builder = new CuboidPrimitivesBuilder_1.default();
+        builder.width = isDefined_1.default(options.width) ? mustBeNumber_1.default('width', options.width) : 1;
+        builder.height = isDefined_1.default(options.height) ? mustBeNumber_1.default('height', options.height) : 1;
+        builder.depth = isDefined_1.default(options.depth) ? mustBeNumber_1.default('depth', options.depth) : 1;
+        if (isDefined_1.default(options.openBack)) {
+            builder.openBack = mustBeBoolean_1.default('openBack', options.openBack);
+        }
+        if (isDefined_1.default(options.openBase)) {
+            builder.openBase = mustBeBoolean_1.default('openBase', options.openBase);
+        }
+        if (isDefined_1.default(options.openFront)) {
+            builder.openFront = mustBeBoolean_1.default('openFront', options.openFront);
+        }
+        if (isDefined_1.default(options.openLeft)) {
+            builder.openLeft = mustBeBoolean_1.default('openLeft', options.openLeft);
+        }
+        if (isDefined_1.default(options.openRight)) {
+            builder.openRight = mustBeBoolean_1.default('openRight', options.openRight);
+        }
+        if (isDefined_1.default(options.openCap)) {
+            builder.openCap = mustBeBoolean_1.default('openCap', options.openCap);
+        }
+        if (options.tilt) {
+            builder.tilt.copySpinor(options.tilt);
+        }
+        if (options.offset) {
+            builder.offset.copy(options.offset);
+        }
+        return reduce_1.default(builder.toPrimitives());
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = boxPrimitive;
+});
+
+define('davinci-eight/geometries/boxVertexArrays',["require", "exports", './boxPrimitive', '../core/vertexArraysFromPrimitive'], function (require, exports, boxPrimitive_1, vertexArraysFromPrimitive_1) {
+    "use strict";
+    function boxVertexArrays(options) {
+        if (options === void 0) { options = {}; }
+        var primitive = boxPrimitive_1.default(options);
+        return vertexArraysFromPrimitive_1.default(primitive);
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = boxVertexArrays;
+});
+
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/BoxGeometry',["require", "exports", '../core/GeometryContainer', '../core/GeometryElements', '../base/incLevel', '../checks/isDefined', '../checks/mustBeBoolean', '../checks/mustBeNumber', '../i18n/notSupported', './CuboidPrimitivesBuilder', '../core/vertexArraysFromPrimitive'], function (require, exports, GeometryContainer_1, GeometryElements_1, incLevel_1, isDefined_1, mustBeBoolean_1, mustBeNumber_1, notSupported_1, CuboidPrimitivesBuilder_1, vertexArraysFromPrimitive_1) {
+define('davinci-eight/geometries/BoxGeometry',["require", "exports", '../core/GeometryElements', '../i18n/notSupported', './boxVertexArrays'], function (require, exports, GeometryElements_1, notSupported_1, boxVertexArrays_1) {
     "use strict";
     var BoxGeometry = (function (_super) {
         __extends(BoxGeometry, _super);
-        function BoxGeometry(options) {
+        function BoxGeometry(options, levelUp) {
             if (options === void 0) { options = {}; }
-            _super.call(this, options.tilt);
+            if (levelUp === void 0) { levelUp = 0; }
+            _super.call(this, boxVertexArrays_1.default(options), options.tilt, options.engine, levelUp + 1);
             this.w = 1;
             this.h = 1;
             this.d = 1;
             this.setLoggingName('BoxGeometry');
-            var builder = new CuboidPrimitivesBuilder_1.default();
-            builder.width = isDefined_1.default(options.width) ? mustBeNumber_1.default('width', options.width) : 1;
-            builder.height = isDefined_1.default(options.height) ? mustBeNumber_1.default('height', options.height) : 1;
-            builder.depth = isDefined_1.default(options.depth) ? mustBeNumber_1.default('depth', options.depth) : 1;
-            if (isDefined_1.default(options.openBack)) {
-                builder.openBack = mustBeBoolean_1.default('openBack', options.openBack);
-            }
-            if (isDefined_1.default(options.openBase)) {
-                builder.openBase = mustBeBoolean_1.default('openBase', options.openBase);
-            }
-            if (isDefined_1.default(options.openFront)) {
-                builder.openFront = mustBeBoolean_1.default('openFront', options.openFront);
-            }
-            if (isDefined_1.default(options.openLeft)) {
-                builder.openLeft = mustBeBoolean_1.default('openLeft', options.openLeft);
-            }
-            if (isDefined_1.default(options.openRight)) {
-                builder.openRight = mustBeBoolean_1.default('openRight', options.openRight);
-            }
-            if (isDefined_1.default(options.openCap)) {
-                builder.openCap = mustBeBoolean_1.default('openCap', options.openCap);
-            }
-            if (options.tilt) {
-                builder.tilt.copySpinor(options.tilt);
-            }
-            if (options.offset) {
-                builder.offset.copy(options.offset);
-            }
-            var ps = builder.toPrimitives();
-            var iLen = ps.length;
-            for (var i = 0; i < iLen; i++) {
-                var dataSource = ps[i];
-                var geometry = new GeometryElements_1.default(vertexArraysFromPrimitive_1.default(dataSource), options.engine);
-                this.addPart(geometry);
-                geometry.release();
-            }
         }
-        BoxGeometry.prototype.destructor = function (level) {
-            _super.prototype.destructor.call(this, incLevel_1.default(level));
+        BoxGeometry.prototype.destructor = function (levelUp) {
+            _super.prototype.destructor.call(this, levelUp + 1);
         };
         BoxGeometry.prototype.getPrincipalScale = function (name) {
             switch (name) {
@@ -16319,7 +16529,7 @@ define('davinci-eight/geometries/BoxGeometry',["require", "exports", '../core/Ge
             this.setScale(this.w, this.h, this.d);
         };
         return BoxGeometry;
-    }(GeometryContainer_1.default));
+    }(GeometryElements_1.default));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = BoxGeometry;
 });
@@ -16488,7 +16698,7 @@ define('davinci-eight/geometries/computeUniqueVertices',["require", "exports"], 
     exports.default = computeUniqueVertices;
 });
 
-define('davinci-eight/geometries/simplicesToPrimitive',["require", "exports", '../collections/copyToArray', './dataFromVectorN', '../core/DataType', './primitives/DrawAttribute', '../core/BeginMode', './primitives/DrawPrimitive', './simplicesToGeometryMeta', './computeUniqueVertices', '../checks/expectArg', './Simplex', '../math/VectorN'], function (require, exports, copyToArray_1, dataFromVectorN_1, DataType_1, DrawAttribute_1, BeginMode_1, DrawPrimitive_1, simplicesToGeometryMeta_1, computeUniqueVertices_1, expectArg_1, Simplex_1, VectorN_1) {
+define('davinci-eight/geometries/simplicesToPrimitive',["require", "exports", '../collections/copyToArray', './dataFromVectorN', '../core/DataType', '../atoms/DrawAttribute', '../core/BeginMode', '../atoms/DrawPrimitive', './simplicesToGeometryMeta', './computeUniqueVertices', '../checks/expectArg', './Simplex', '../math/VectorN'], function (require, exports, copyToArray_1, dataFromVectorN_1, DataType_1, DrawAttribute_1, BeginMode_1, DrawPrimitive_1, simplicesToGeometryMeta_1, computeUniqueVertices_1, expectArg_1, Simplex_1, VectorN_1) {
     "use strict";
     function numberList(size, value) {
         var data = [];
@@ -16850,13 +17060,14 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/CylinderGeometry',["require", "exports", './CylinderBuilder', '../base/incLevel', '../checks/isDefined', '../checks/mustBeBoolean', '../i18n/notSupported', '../core/GeometryContainer', '../core/GeometryElements', '../math/R3', '../core/vertexArraysFromPrimitive'], function (require, exports, CylinderBuilder_1, incLevel_1, isDefined_1, mustBeBoolean_1, notSupported_1, GeometryContainer_1, GeometryElements_1, R3_1, vertexArraysFromPrimitive_1) {
+define('davinci-eight/geometries/CylinderGeometry',["require", "exports", './CylinderBuilder', '../checks/isDefined', '../checks/mustBeBoolean', '../i18n/notSupported', '../core/GeometryContainer', '../core/GeometryElements', '../math/R3', '../core/vertexArraysFromPrimitive'], function (require, exports, CylinderBuilder_1, isDefined_1, mustBeBoolean_1, notSupported_1, GeometryContainer_1, GeometryElements_1, R3_1, vertexArraysFromPrimitive_1) {
     "use strict";
     var CylinderGeometry = (function (_super) {
         __extends(CylinderGeometry, _super);
-        function CylinderGeometry(options) {
+        function CylinderGeometry(options, levelUp) {
             if (options === void 0) { options = {}; }
-            _super.call(this, options.tilt);
+            if (levelUp === void 0) { levelUp = 0; }
+            _super.call(this, options.tilt, options.engine, levelUp + 1);
             this._length = 1;
             this._radius = 1;
             this.setLoggingName('CylinderGeometry');
@@ -16880,13 +17091,19 @@ define('davinci-eight/geometries/CylinderGeometry',["require", "exports", './Cyl
             var iLen = ps.length;
             for (var i = 0; i < iLen; i++) {
                 var dataSource = ps[i];
-                var geometry = new GeometryElements_1.default(vertexArraysFromPrimitive_1.default(dataSource), options.engine);
+                var geometry = new GeometryElements_1.default(vertexArraysFromPrimitive_1.default(dataSource), options.tilt, options.engine);
                 this.addPart(geometry);
                 geometry.release();
             }
+            if (levelUp === 0) {
+                this.synchUp();
+            }
         }
-        CylinderGeometry.prototype.destructor = function (level) {
-            _super.prototype.destructor.call(this, incLevel_1.default(level));
+        CylinderGeometry.prototype.destructor = function (levelUp) {
+            if (levelUp === 0) {
+                this.cleanUp();
+            }
+            _super.prototype.destructor.call(this, levelUp + 1);
         };
         Object.defineProperty(CylinderGeometry.prototype, "radius", {
             get: function () {
@@ -16952,7 +17169,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/primitives/GridLines',["require", "exports", '../../core/BeginMode', './GridPrimitive', '../../checks/mustBeInteger', './numPostsForFence'], function (require, exports, BeginMode_1, GridPrimitive_1, mustBeInteger_1, numPostsForFence_1) {
+define('davinci-eight/atoms/GridLines',["require", "exports", '../core/BeginMode', './GridPrimitive', '../checks/mustBeInteger', './numPostsForFence'], function (require, exports, BeginMode_1, GridPrimitive_1, mustBeInteger_1, numPostsForFence_1) {
     "use strict";
     function vertexIndex(i, j, iLength, jLength) {
         return j * iLength + i;
@@ -17006,7 +17223,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/primitives/GridPoints',["require", "exports", '../../core/BeginMode', './GridPrimitive', '../../checks/mustBeInteger', './numPostsForFence'], function (require, exports, BeginMode_1, GridPrimitive_1, mustBeInteger_1, numPostsForFence_1) {
+define('davinci-eight/atoms/GridPoints',["require", "exports", '../core/BeginMode', './GridPrimitive', '../checks/mustBeInteger', './numPostsForFence'], function (require, exports, BeginMode_1, GridPrimitive_1, mustBeInteger_1, numPostsForFence_1) {
     "use strict";
     function vertexIndex(i, j, iLength, jLength) {
         return j * iLength + i;
@@ -17057,7 +17274,7 @@ define('davinci-eight/checks/isFunction',["require", "exports"], function (requi
     exports.default = isFunction;
 });
 
-define('davinci-eight/geometries/gridVertexArrays',["require", "exports", '../core/BeginMode', '../core/Color', '../core/GraphicsProgramSymbols', './primitives/GridLines', './primitives/GridPoints', './primitives/GridTriangleStrip', '../checks/isDefined', '../checks/isFunction', '../checks/mustBeNumber', '../math/R3', '../math/Unit', '../math/Vector3'], function (require, exports, BeginMode_1, Color_1, GraphicsProgramSymbols_1, GridLines_1, GridPoints_1, GridTriangleStrip_1, isDefined_1, isFunction_1, mustBeNumber_1, R3_1, Unit_1, Vector3_1) {
+define('davinci-eight/geometries/gridVertexArrays',["require", "exports", '../core/BeginMode', '../core/Color', '../core/GraphicsProgramSymbols', '../atoms/GridLines', '../atoms/GridPoints', '../atoms/GridTriangleStrip', '../checks/isDefined', '../checks/isFunction', '../checks/mustBeNumber', '../math/R3', '../math/Unit', '../math/Vector3'], function (require, exports, BeginMode_1, Color_1, GraphicsProgramSymbols_1, GridLines_1, GridPoints_1, GridTriangleStrip_1, isDefined_1, isFunction_1, mustBeNumber_1, R3_1, Unit_1, Vector3_1) {
     "use strict";
     function aPositionDefault(u, v) {
         return R3_1.default.vector(u, v, 0, Unit_1.Unit.ONE);
@@ -17154,17 +17371,18 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/GridGeometry',["require", "exports", '../core/GeometryElements', './gridVertexArrays', '../base/incLevel'], function (require, exports, GeometryElements_1, gridVertexArrays_1, incLevel_1) {
+define('davinci-eight/geometries/GridGeometry',["require", "exports", '../core/GeometryElements', './gridVertexArrays'], function (require, exports, GeometryElements_1, gridVertexArrays_1) {
     "use strict";
     var GridGeometry = (function (_super) {
         __extends(GridGeometry, _super);
-        function GridGeometry(options) {
+        function GridGeometry(options, levelUp) {
             if (options === void 0) { options = {}; }
-            _super.call(this, gridVertexArrays_1.default(options), options.engine);
+            if (levelUp === void 0) { levelUp = 0; }
+            _super.call(this, gridVertexArrays_1.default(options), options.tilt, options.engine, levelUp + 1);
             this.setLoggingName('GridGeometry');
         }
-        GridGeometry.prototype.destructor = function (level) {
-            _super.prototype.destructor.call(this, incLevel_1.default(level));
+        GridGeometry.prototype.destructor = function (levelUp) {
+            _super.prototype.destructor.call(this, levelUp + 1);
         };
         return GridGeometry;
     }(GeometryElements_1.default));
@@ -17364,13 +17582,14 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/SphereGeometry',["require", "exports", '../core/GeometryContainer', '../core/GeometryElements', '../base/incLevel', '../i18n/notSupported', './SphereBuilder', '../core/vertexArraysFromPrimitive'], function (require, exports, GeometryContainer_1, GeometryElements_1, incLevel_1, notSupported_1, SphereBuilder_1, vertexArraysFromPrimitive_1) {
+define('davinci-eight/geometries/SphereGeometry',["require", "exports", '../core/GeometryContainer', '../core/GeometryElements', '../i18n/notSupported', './SphereBuilder', '../core/vertexArraysFromPrimitive'], function (require, exports, GeometryContainer_1, GeometryElements_1, notSupported_1, SphereBuilder_1, vertexArraysFromPrimitive_1) {
     "use strict";
     var SphereGeometry = (function (_super) {
         __extends(SphereGeometry, _super);
-        function SphereGeometry(options) {
+        function SphereGeometry(options, levelUp) {
             if (options === void 0) { options = {}; }
-            _super.call(this, void 0);
+            if (levelUp === void 0) { levelUp = 0; }
+            _super.call(this, options.tilt, options.engine, levelUp + 1);
             this._radius = 1;
             this.setLoggingName('SphereGeometry');
             var builder = new SphereBuilder_1.default();
@@ -17378,13 +17597,19 @@ define('davinci-eight/geometries/SphereGeometry',["require", "exports", '../core
             var iLen = ps.length;
             for (var i = 0; i < iLen; i++) {
                 var p = ps[i];
-                var geometry = new GeometryElements_1.default(vertexArraysFromPrimitive_1.default(p), options.engine);
+                var geometry = new GeometryElements_1.default(vertexArraysFromPrimitive_1.default(p), options.tilt, options.engine);
                 this.addPart(geometry);
                 geometry.release();
             }
+            if (levelUp === 0) {
+                this.synchUp();
+            }
         }
-        SphereGeometry.prototype.destructor = function (level) {
-            _super.prototype.destructor.call(this, incLevel_1.default(level));
+        SphereGeometry.prototype.destructor = function (levelUp) {
+            if (levelUp === 0) {
+                this.cleanUp();
+            }
+            _super.prototype.destructor.call(this, levelUp + 1);
         };
         Object.defineProperty(SphereGeometry.prototype, "radius", {
             get: function () {
@@ -17568,9 +17793,10 @@ define('davinci-eight/geometries/TetrahedronGeometry',["require", "exports", '..
     ];
     var TetrahedronGeometry = (function (_super) {
         __extends(TetrahedronGeometry, _super);
-        function TetrahedronGeometry(options) {
+        function TetrahedronGeometry(options, levelUp) {
             if (options === void 0) { options = {}; }
-            _super.call(this, options.tilt);
+            if (levelUp === void 0) { levelUp = 0; }
+            _super.call(this, options.tilt, options.engine, levelUp + 1);
             this.setLoggingName('TetrahedronGeometry');
             var radius = isDefined_1.default(options.radius) ? mustBeNumber_1.default('radius', options.radius) : 1.0;
             var builder = new PolyhedronBuilder_1.default(vertices, indices, radius);
@@ -17578,12 +17804,18 @@ define('davinci-eight/geometries/TetrahedronGeometry',["require", "exports", '..
             var iLen = ps.length;
             for (var i = 0; i < iLen; i++) {
                 var p = ps[i];
-                var geometry = new GeometryElements_1.default(vertexArraysFromPrimitive_1.default(p), options.engine);
+                var geometry = new GeometryElements_1.default(vertexArraysFromPrimitive_1.default(p), options.tilt, options.engine);
                 this.addPart(geometry);
                 geometry.release();
             }
+            if (levelUp === 0) {
+                this.synchUp();
+            }
         }
         TetrahedronGeometry.prototype.destructor = function (levelUp) {
+            if (levelUp === 0) {
+                this.cleanUp();
+            }
             _super.prototype.destructor.call(this, levelUp + 1);
         };
         return TetrahedronGeometry;
@@ -20016,7 +20248,7 @@ define('davinci-eight/checks/mustBeLT',["require", "exports", '../checks/mustSat
     exports.default = default_1;
 });
 
-define('davinci-eight/geometries/primitives/numVerticesForCurve',["require", "exports", '../../checks/mustBeInteger'], function (require, exports, mustBeInteger_1) {
+define('davinci-eight/atoms/numVerticesForCurve',["require", "exports", '../checks/mustBeInteger'], function (require, exports, mustBeInteger_1) {
     "use strict";
     function default_1(uSegments) {
         mustBeInteger_1.default('uSegments', uSegments);
@@ -20031,7 +20263,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/primitives/CurvePrimitive',["require", "exports", './GeometryPrimitive', '../../checks/mustBeGE', '../../checks/mustBeLT', '../../checks/mustBeBoolean', '../../checks/mustBeInteger', './numPostsForFence', './numVerticesForCurve', '../../i18n/readOnly'], function (require, exports, GeometryPrimitive_1, mustBeGE_1, mustBeLT_1, mustBeBoolean_1, mustBeInteger_1, numPostsForFence_1, numVerticesForCurve_1, readOnly_1) {
+define('davinci-eight/atoms/CurvePrimitive',["require", "exports", './GeometryPrimitive', '../checks/mustBeGE', '../checks/mustBeLT', '../checks/mustBeBoolean', '../checks/mustBeInteger', './numPostsForFence', './numVerticesForCurve', '../i18n/readOnly'], function (require, exports, GeometryPrimitive_1, mustBeGE_1, mustBeLT_1, mustBeBoolean_1, mustBeInteger_1, numPostsForFence_1, numVerticesForCurve_1, readOnly_1) {
     "use strict";
     var CurvePrimitive = (function (_super) {
         __extends(CurvePrimitive, _super);
@@ -20088,7 +20320,7 @@ define('davinci-eight/geometries/primitives/CurvePrimitive',["require", "exports
     exports.default = CurvePrimitive;
 });
 
-define('davinci-eight/geometries/primitives/elementsForCurve',["require", "exports", '../../checks/isDefined', '../../checks/mustBeArray', './numPostsForFence'], function (require, exports, isDefined_1, mustBeArray_1, numPostsForFence_1) {
+define('davinci-eight/atoms/elementsForCurve',["require", "exports", '../checks/isDefined', '../checks/mustBeArray', './numPostsForFence'], function (require, exports, isDefined_1, mustBeArray_1, numPostsForFence_1) {
     "use strict";
     function default_1(uSegments, uClosed, elements) {
         elements = isDefined_1.default(elements) ? mustBeArray_1.default('elements', elements) : [];
@@ -20107,7 +20339,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/primitives/LineStrip',["require", "exports", './CurvePrimitive', '../../core/BeginMode', './elementsForCurve', '../../checks/mustBeGE', '../../checks/mustBeInteger', '../../checks/mustBeLT'], function (require, exports, CurvePrimitive_1, BeginMode_1, elementsForCurve_1, mustBeGE_1, mustBeInteger_1, mustBeLT_1) {
+define('davinci-eight/atoms/LineStrip',["require", "exports", './CurvePrimitive', '../core/BeginMode', './elementsForCurve', '../checks/mustBeGE', '../checks/mustBeInteger', '../checks/mustBeLT'], function (require, exports, CurvePrimitive_1, BeginMode_1, elementsForCurve_1, mustBeGE_1, mustBeInteger_1, mustBeLT_1) {
     "use strict";
     var LineStrip = (function (_super) {
         __extends(LineStrip, _super);
@@ -20132,7 +20364,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/primitives/LinePoints',["require", "exports", './CurvePrimitive', '../../core/BeginMode', './elementsForCurve', '../../checks/mustBeGE', '../../checks/mustBeInteger', '../../checks/mustBeLT'], function (require, exports, CurvePrimitive_1, BeginMode_1, elementsForCurve_1, mustBeGE_1, mustBeInteger_1, mustBeLT_1) {
+define('davinci-eight/atoms/LinePoints',["require", "exports", './CurvePrimitive', '../core/BeginMode', './elementsForCurve', '../checks/mustBeGE', '../checks/mustBeInteger', '../checks/mustBeLT'], function (require, exports, CurvePrimitive_1, BeginMode_1, elementsForCurve_1, mustBeGE_1, mustBeInteger_1, mustBeLT_1) {
     "use strict";
     var LinePoints = (function (_super) {
         __extends(LinePoints, _super);
@@ -20152,7 +20384,7 @@ define('davinci-eight/geometries/primitives/LinePoints',["require", "exports", '
     exports.default = LinePoints;
 });
 
-define('davinci-eight/geometries/curveVertexArrays',["require", "exports", '../core/Color', '../core/BeginMode', '../core/GraphicsProgramSymbols', './primitives/LineStrip', './primitives/LinePoints', '../checks/isDefined', '../checks/isFunction', '../checks/mustBeNumber', '../math/R3', '../math/Unit', '../math/Vector3'], function (require, exports, Color_1, BeginMode_1, GraphicsProgramSymbols_1, LineStrip_1, LinePoints_1, isDefined_1, isFunction_1, mustBeNumber_1, R3_1, Unit_1, Vector3_1) {
+define('davinci-eight/geometries/curveVertexArrays',["require", "exports", '../core/Color', '../core/BeginMode', '../core/GraphicsProgramSymbols', '../atoms/LineStrip', '../atoms/LinePoints', '../checks/isDefined', '../checks/isFunction', '../checks/mustBeNumber', '../math/R3', '../math/Unit', '../math/Vector3'], function (require, exports, Color_1, BeginMode_1, GraphicsProgramSymbols_1, LineStrip_1, LinePoints_1, isDefined_1, isFunction_1, mustBeNumber_1, R3_1, Unit_1, Vector3_1) {
     "use strict";
     function aPositionDefault(u) {
         return R3_1.default.vector(u, 0, 0, Unit_1.Unit.ONE);
@@ -20215,9 +20447,10 @@ define('davinci-eight/geometries/CurveGeometry',["require", "exports", '../core/
     "use strict";
     var CurveGeometry = (function (_super) {
         __extends(CurveGeometry, _super);
-        function CurveGeometry(options) {
+        function CurveGeometry(options, levelUp) {
             if (options === void 0) { options = {}; }
-            _super.call(this, curveVertexArrays_1.default(options), options.engine);
+            if (levelUp === void 0) { levelUp = 0; }
+            _super.call(this, curveVertexArrays_1.default(options), options.tilt, options.engine, levelUp + 1);
             this.setLoggingName('CurveGeometry');
         }
         CurveGeometry.prototype.destructor = function (levelUp) {
@@ -20860,7 +21093,7 @@ define('davinci-eight/visual/Trail',["require", "exports", '../math/Modulo', '..
     exports.Trail = Trail;
 });
 
-define('davinci-eight',["require", "exports", './davinci-eight/commands/WebGLBlendFunc', './davinci-eight/commands/WebGLClearColor', './davinci-eight/commands/WebGLDisable', './davinci-eight/commands/WebGLEnable', './davinci-eight/controls/OrbitControls', './davinci-eight/controls/TrackballControls', './davinci-eight/core/Attrib', './davinci-eight/core/BeginMode', './davinci-eight/core/BlendingFactorDest', './davinci-eight/core/BlendingFactorSrc', './davinci-eight/core/Capability', './davinci-eight/core/ClearBufferMask', './davinci-eight/core/Color', './davinci-eight/config', './davinci-eight/core/DataType', './davinci-eight/core/Drawable', './davinci-eight/core/DepthFunction', './davinci-eight/core/ErrorMode', './davinci-eight/core/GeometryArrays', './davinci-eight/core/GeometryContainer', './davinci-eight/core/GeometryElements', './davinci-eight/core/GraphicsProgramSymbols', './davinci-eight/core/Mesh', './davinci-eight/core/Scene', './davinci-eight/core/Shader', './davinci-eight/core/Uniform', './davinci-eight/core/Usage', './davinci-eight/core/Engine', './davinci-eight/core/VertexBuffer', './davinci-eight/core/IndexBuffer', './davinci-eight/core/vertexArraysFromPrimitive', './davinci-eight/core/geometryFromPrimitive', './davinci-eight/facets/AmbientLight', './davinci-eight/facets/ColorFacet', './davinci-eight/facets/DirectionalLight', './davinci-eight/facets/ModelFacet', './davinci-eight/facets/PointSizeFacet', './davinci-eight/facets/ReflectionFacetE2', './davinci-eight/facets/ReflectionFacetE3', './davinci-eight/facets/Vector3Facet', './davinci-eight/facets/frustumMatrix', './davinci-eight/facets/PerspectiveCamera', './davinci-eight/facets/perspectiveMatrix', './davinci-eight/facets/viewMatrixFromEyeLookUp', './davinci-eight/facets/ModelE2', './davinci-eight/facets/ModelE3', './davinci-eight/geometries/primitives/DrawAttribute', './davinci-eight/geometries/primitives/DrawPrimitive', './davinci-eight/geometries/Simplex', './davinci-eight/geometries/primitives/Vertex', './davinci-eight/geometries/ArrowGeometry', './davinci-eight/geometries/BoxGeometry', './davinci-eight/geometries/CylinderGeometry', './davinci-eight/geometries/GridGeometry', './davinci-eight/geometries/SphereGeometry', './davinci-eight/geometries/TetrahedronGeometry', './davinci-eight/geometries/ArrowBuilder', './davinci-eight/geometries/ConicalShellBuilder', './davinci-eight/geometries/CuboidPrimitivesBuilder', './davinci-eight/geometries/CylindricalShellBuilder', './davinci-eight/geometries/CylinderBuilder', './davinci-eight/geometries/RingBuilder', './davinci-eight/materials/HTMLScriptsMaterial', './davinci-eight/materials/LineMaterial', './davinci-eight/materials/ShaderMaterial', './davinci-eight/materials/MeshMaterial', './davinci-eight/materials/PointMaterial', './davinci-eight/materials/GraphicsProgramBuilder', './davinci-eight/math/Dimensions', './davinci-eight/math/G2', './davinci-eight/math/G3', './davinci-eight/math/mathcore', './davinci-eight/math/Vector1', './davinci-eight/math/Matrix2', './davinci-eight/math/Matrix3', './davinci-eight/math/Matrix4', './davinci-eight/math/QQ', './davinci-eight/math/R3', './davinci-eight/math/Unit', './davinci-eight/math/Geometric2', './davinci-eight/math/Geometric3', './davinci-eight/math/Spinor2', './davinci-eight/math/Spinor3', './davinci-eight/math/Vector2', './davinci-eight/math/Vector3', './davinci-eight/math/Vector4', './davinci-eight/math/VectorN', './davinci-eight/overlay/Overlay', './davinci-eight/utils/getCanvasElementById', './davinci-eight/collections/ShareableArray', './davinci-eight/collections/NumberShareableMap', './davinci-eight/core/refChange', './davinci-eight/core/ShareableBase', './davinci-eight/collections/StringShareableMap', './davinci-eight/utils/animation', './davinci-eight/visual/Arrow', './davinci-eight/visual/Sphere', './davinci-eight/visual/Box', './davinci-eight/visual/RigidBody', './davinci-eight/visual/RigidBodyWithUnits', './davinci-eight/visual/Cylinder', './davinci-eight/visual/Curve', './davinci-eight/visual/Grid', './davinci-eight/visual/Tetrahedron', './davinci-eight/visual/Trail'], function (require, exports, WebGLBlendFunc_1, WebGLClearColor_1, WebGLDisable_1, WebGLEnable_1, OrbitControls_1, TrackballControls_1, Attrib_1, BeginMode_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, ClearBufferMask_1, Color_1, config_1, DataType_1, Drawable_1, DepthFunction_1, ErrorMode_1, GeometryArrays_1, GeometryContainer_1, GeometryElements_1, GraphicsProgramSymbols_1, Mesh_1, Scene_1, Shader_1, Uniform_1, Usage_1, Engine_1, VertexBuffer_1, IndexBuffer_1, vertexArraysFromPrimitive_1, geometryFromPrimitive_1, AmbientLight_1, ColorFacet_1, DirectionalLight_1, ModelFacet_1, PointSizeFacet_1, ReflectionFacetE2_1, ReflectionFacetE3_1, Vector3Facet_1, frustumMatrix_1, PerspectiveCamera_1, perspectiveMatrix_1, viewMatrixFromEyeLookUp_1, ModelE2_1, ModelE3_1, DrawAttribute_1, DrawPrimitive_1, Simplex_1, Vertex_1, ArrowGeometry_1, BoxGeometry_1, CylinderGeometry_1, GridGeometry_1, SphereGeometry_1, TetrahedronGeometry_1, ArrowBuilder_1, ConicalShellBuilder_1, CuboidPrimitivesBuilder_1, CylindricalShellBuilder_1, CylinderBuilder_1, RingBuilder_1, HTMLScriptsMaterial_1, LineMaterial_1, ShaderMaterial_1, MeshMaterial_1, PointMaterial_1, GraphicsProgramBuilder_1, Dimensions_1, G2_1, G3_1, mathcore_1, Vector1_1, Matrix2_1, Matrix3_1, Matrix4_1, QQ_1, R3_1, Unit_1, Geometric2_1, Geometric3_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1, Vector4_1, VectorN_1, Overlay_1, getCanvasElementById_1, ShareableArray_1, NumberShareableMap_1, refChange_1, ShareableBase_1, StringShareableMap_1, animation_1, Arrow_1, Sphere_1, Box_1, RigidBody_1, RigidBodyWithUnits_1, Cylinder_1, Curve_1, Grid_1, Tetrahedron_1, Trail_1) {
+define('davinci-eight',["require", "exports", './davinci-eight/commands/WebGLBlendFunc', './davinci-eight/commands/WebGLClearColor', './davinci-eight/commands/WebGLDisable', './davinci-eight/commands/WebGLEnable', './davinci-eight/controls/OrbitControls', './davinci-eight/controls/TrackballControls', './davinci-eight/core/Attrib', './davinci-eight/core/BeginMode', './davinci-eight/core/BlendingFactorDest', './davinci-eight/core/BlendingFactorSrc', './davinci-eight/core/Capability', './davinci-eight/core/ClearBufferMask', './davinci-eight/core/Color', './davinci-eight/config', './davinci-eight/core/DataType', './davinci-eight/core/Drawable', './davinci-eight/core/DepthFunction', './davinci-eight/core/ErrorMode', './davinci-eight/core/GeometryArrays', './davinci-eight/core/GeometryContainer', './davinci-eight/core/GeometryElements', './davinci-eight/core/GraphicsProgramSymbols', './davinci-eight/core/Mesh', './davinci-eight/core/Scene', './davinci-eight/core/Shader', './davinci-eight/core/Uniform', './davinci-eight/core/Usage', './davinci-eight/core/Engine', './davinci-eight/core/VertexBuffer', './davinci-eight/core/IndexBuffer', './davinci-eight/core/vertexArraysFromPrimitive', './davinci-eight/core/geometryFromPrimitive', './davinci-eight/facets/AmbientLight', './davinci-eight/facets/ColorFacet', './davinci-eight/facets/DirectionalLight', './davinci-eight/facets/ModelFacet', './davinci-eight/facets/PointSizeFacet', './davinci-eight/facets/ReflectionFacetE2', './davinci-eight/facets/ReflectionFacetE3', './davinci-eight/facets/Vector3Facet', './davinci-eight/facets/frustumMatrix', './davinci-eight/facets/PerspectiveCamera', './davinci-eight/facets/perspectiveMatrix', './davinci-eight/facets/viewMatrixFromEyeLookUp', './davinci-eight/facets/ModelE2', './davinci-eight/facets/ModelE3', './davinci-eight/atoms/DrawAttribute', './davinci-eight/atoms/DrawPrimitive', './davinci-eight/atoms/Vertex', './davinci-eight/shapes/ArrowBuilder', './davinci-eight/shapes/ConicalShellBuilder', './davinci-eight/shapes/CylindricalShellBuilder', './davinci-eight/shapes/RingBuilder', './davinci-eight/geometries/Simplex', './davinci-eight/geometries/ArrowGeometry', './davinci-eight/geometries/BoxGeometry', './davinci-eight/geometries/CylinderGeometry', './davinci-eight/geometries/GridGeometry', './davinci-eight/geometries/SphereGeometry', './davinci-eight/geometries/TetrahedronGeometry', './davinci-eight/geometries/CuboidPrimitivesBuilder', './davinci-eight/geometries/CylinderBuilder', './davinci-eight/materials/HTMLScriptsMaterial', './davinci-eight/materials/LineMaterial', './davinci-eight/materials/ShaderMaterial', './davinci-eight/materials/MeshMaterial', './davinci-eight/materials/PointMaterial', './davinci-eight/materials/GraphicsProgramBuilder', './davinci-eight/math/Dimensions', './davinci-eight/math/G2', './davinci-eight/math/G3', './davinci-eight/math/mathcore', './davinci-eight/math/Vector1', './davinci-eight/math/Matrix2', './davinci-eight/math/Matrix3', './davinci-eight/math/Matrix4', './davinci-eight/math/QQ', './davinci-eight/math/R3', './davinci-eight/math/Unit', './davinci-eight/math/Geometric2', './davinci-eight/math/Geometric3', './davinci-eight/math/Spinor2', './davinci-eight/math/Spinor3', './davinci-eight/math/Vector2', './davinci-eight/math/Vector3', './davinci-eight/math/Vector4', './davinci-eight/math/VectorN', './davinci-eight/overlay/Overlay', './davinci-eight/utils/getCanvasElementById', './davinci-eight/collections/ShareableArray', './davinci-eight/collections/NumberShareableMap', './davinci-eight/core/refChange', './davinci-eight/core/ShareableBase', './davinci-eight/collections/StringShareableMap', './davinci-eight/utils/animation', './davinci-eight/visual/Arrow', './davinci-eight/visual/Sphere', './davinci-eight/visual/Box', './davinci-eight/visual/RigidBody', './davinci-eight/visual/RigidBodyWithUnits', './davinci-eight/visual/Cylinder', './davinci-eight/visual/Curve', './davinci-eight/visual/Grid', './davinci-eight/visual/Tetrahedron', './davinci-eight/visual/Trail'], function (require, exports, WebGLBlendFunc_1, WebGLClearColor_1, WebGLDisable_1, WebGLEnable_1, OrbitControls_1, TrackballControls_1, Attrib_1, BeginMode_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, ClearBufferMask_1, Color_1, config_1, DataType_1, Drawable_1, DepthFunction_1, ErrorMode_1, GeometryArrays_1, GeometryContainer_1, GeometryElements_1, GraphicsProgramSymbols_1, Mesh_1, Scene_1, Shader_1, Uniform_1, Usage_1, Engine_1, VertexBuffer_1, IndexBuffer_1, vertexArraysFromPrimitive_1, geometryFromPrimitive_1, AmbientLight_1, ColorFacet_1, DirectionalLight_1, ModelFacet_1, PointSizeFacet_1, ReflectionFacetE2_1, ReflectionFacetE3_1, Vector3Facet_1, frustumMatrix_1, PerspectiveCamera_1, perspectiveMatrix_1, viewMatrixFromEyeLookUp_1, ModelE2_1, ModelE3_1, DrawAttribute_1, DrawPrimitive_1, Vertex_1, ArrowBuilder_1, ConicalShellBuilder_1, CylindricalShellBuilder_1, RingBuilder_1, Simplex_1, ArrowGeometry_1, BoxGeometry_1, CylinderGeometry_1, GridGeometry_1, SphereGeometry_1, TetrahedronGeometry_1, CuboidPrimitivesBuilder_1, CylinderBuilder_1, HTMLScriptsMaterial_1, LineMaterial_1, ShaderMaterial_1, MeshMaterial_1, PointMaterial_1, GraphicsProgramBuilder_1, Dimensions_1, G2_1, G3_1, mathcore_1, Vector1_1, Matrix2_1, Matrix3_1, Matrix4_1, QQ_1, R3_1, Unit_1, Geometric2_1, Geometric3_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1, Vector4_1, VectorN_1, Overlay_1, getCanvasElementById_1, ShareableArray_1, NumberShareableMap_1, refChange_1, ShareableBase_1, StringShareableMap_1, animation_1, Arrow_1, Sphere_1, Box_1, RigidBody_1, RigidBodyWithUnits_1, Cylinder_1, Curve_1, Grid_1, Tetrahedron_1, Trail_1) {
     "use strict";
     var eight = {
         get LAST_MODIFIED() { return config_1.default.LAST_MODIFIED; },
