@@ -23,50 +23,39 @@ const aNormal = GraphicsProgramSymbols.ATTRIBUTE_NORMAL
 export default class RingBuilder extends AxialShapeBuilder {
 
     /**
-     * @property innerRadius
-     * @type number
-     * @default 0
+     * The radius of the hole in the ring.
      */
     public innerRadius: number = 0;
 
     /**
-     * @property outerRadius
-     * @type number
-     * @default 1
+     * The radius of the outer edge of the ring.
      */
     public outerRadius: number = 1;
 
     /**
-     * @property radialSegments
-     * @type number
-     * @default 1
+     * The number of segments in the radial direction.
      */
     public radialSegments = 1;
 
     /**
-     * @property thetaSegments
-     * @type number
-     * @default 32
+     * The number of segments in the angular direction.
      */
     public thetaSegments = 32;
 
-    private e: Vector3
-    private cutLine: Vector3
-    private clockwise: boolean
+    /**
+     * The direction of the normal vector perpendicular to the plane of the ring.
+     */
+    public e: Vector3 = Vector3.vector(0, 1, 0);
 
     /**
-     * @class RingBuilder
-     * @constructor
-     * @param e {VectorE3}
-     * @param cutLine {VectorE3}
-     * @param clockwise {boolean}
+     * The direction from which a slice is created.
      */
-    constructor(e: VectorE3, cutLine: VectorE3, clockwise: boolean) {
-        super()
-        this.e = Vector3.copy(e)
-        this.cutLine = Vector3.copy(cutLine)
-        this.clockwise = clockwise
-    }
+    public cutLine: Vector3 = Vector3.vector(0, 0, 1);
+
+    /**
+     * The orientation of the slice relative to the cutLine.
+     */
+    public clockwise = true;
 
     /**
      *

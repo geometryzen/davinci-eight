@@ -3337,7 +3337,16 @@ declare module EIGHT {
         setPrincipalScale(name: string, value: number): void;
     }
 
+    /**
+     * Merges a list of Primitive(s) into a single Primitive to minimize WebGL calls.
+     * (Experimental)
+     */
+    function reduce(primitives: Primitive[]): Primitive;
+
     class ConicalShellBuilder {
+        e: Vector3;
+        cutLine: Vector3;
+        clockwise: boolean;
         height: number;
         offset: Vector3;
         radius: number;
@@ -3349,11 +3358,14 @@ declare module EIGHT {
         useNormal: boolean;
         usePosition: boolean;
         useTextureCoord: boolean;
-        constructor(e: VectorE3, cutLine: VectorE3, clockwise: boolean);
         toPrimitive(): Primitive;
     }
 
     class CylindricalShellBuilder {
+        e: Vector3;
+        cutLine: Vector3;
+        clockwise: boolean;
+        convex: boolean;
         height: number;
         offset: Vector3;
         radialSegments: number;
@@ -3365,11 +3377,16 @@ declare module EIGHT {
         useNormal: boolean;
         usePosition: boolean;
         useTextureCoord: boolean;
-        constructor(e: VectorE3, cutLine: VectorE3, clockwise: boolean);
         toPrimitive(): Primitive;
     }
 
     class RingBuilder {
+        /**
+         * The direction normal to the plane of the ring.
+         */
+        e: Vector3;
+        cutLine: Vector3;
+        clockwise: boolean;
         innerRadius: number;
         offset: Vector3;
         outerRadius: number;
@@ -3381,7 +3398,6 @@ declare module EIGHT {
         useNormal: boolean;
         usePosition: boolean;
         useTextureCoord: boolean;
-        constructor(e: VectorE3, cutLine: VectorE3, clockwise: boolean);
         toPrimitive(): Primitive;
     }
 

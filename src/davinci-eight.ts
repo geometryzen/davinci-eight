@@ -83,6 +83,7 @@ import ModelE3 from './davinci-eight/facets/ModelE3';
 // atoms
 import DrawAttribute from './davinci-eight/atoms/DrawAttribute';
 import DrawPrimitive from './davinci-eight/atoms/DrawPrimitive';
+import reduce from './davinci-eight/atoms/reduce';
 import Vertex from './davinci-eight/atoms/Vertex';
 
 // shapes
@@ -256,6 +257,7 @@ const eight = {
     get ModelFacet() { return ModelFacet },
 
     get Simplex() { return Simplex },
+    get reduce() { return reduce },
     get Vertex() { return Vertex },
     get frustumMatrix() { return frustumMatrix },
     get perspectiveMatrix() { return perspectiveMatrix },

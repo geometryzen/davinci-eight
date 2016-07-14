@@ -13,15 +13,20 @@ export default class CylinderTransform implements Transform {
     /**
      * Unit vector pointing along the symmetry axis of the cone.
      */
-    private e: Vector3
+    private e: Vector3;
     /**
      *
      */
-    private cutLine: Vector3
-    private generator: Spinor3
-    private sliceAngle: number
-    private aPosition: string
-    private aTangent: string
+    private cutLine: Vector3;
+    private generator: Spinor3;
+    private sliceAngle: number;
+    private aPosition: string;
+    private aTangent: string;
+    /**
+     * +1 is conventional orientation with outward normals.
+     * -1 for inward facing normals.
+     */
+    private orientation: number;
 
     /**
      * @class CylinderTransform
@@ -30,11 +35,13 @@ export default class CylinderTransform implements Transform {
      * @param aPosition {string} The name to use for the position attribute.
      * @param aTangent {string} The name to use for the tangent plane attribute.
      */
-    constructor(e: VectorE3, cutLine: VectorE3, clockwise: boolean, sliceAngle: number, aPosition: string, aTangent: string) {
+    constructor(
+        e: VectorE3, cutLine: VectorE3, clockwise: boolean, sliceAngle: number, orientation: number, aPosition: string, aTangent: string) {
         this.e = Vector3.copy(e)
         this.cutLine = Vector3.copy(cutLine)
         this.generator = Spinor3.dual(e, clockwise)
         this.sliceAngle = mustBeNumber('sliceAngle', sliceAngle)
+        this.orientation = mustBeNumber('orientation', orientation);
         this.aPosition = mustBeString('aPosition', aPosition)
         this.aTangent = mustBeString('aTangent', aTangent)
     }
@@ -57,11 +64,11 @@ export default class CylinderTransform implements Transform {
         const rotor = this.generator.clone().scale(-this.sliceAngle * u / 2).exp()
 
         /**
-         * Point on the wall of the cylinder with no vertical component.
+         * Point on the wall of the cylinder, initially with no vertical component.
          */
         const ρ = Vector3.copy(this.cutLine).rotate(rotor)
 
         vertex.attributes[this.aPosition] = ρ.clone().add(this.e, v)
-        vertex.attributes[this.aTangent] = Spinor3.dual(ρ, false)
+        vertex.attributes[this.aTangent] = Spinor3.dual(ρ, false).scale(this.orientation);
     }
 }

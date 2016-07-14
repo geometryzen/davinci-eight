@@ -105,23 +105,29 @@ export default class ArrowBuilder extends AxialShapeBuilder {
         cone.useTextureCoord = this.useTextureCoord
 
         /**
-         * The `disc` fills the space between the cone and the shaft.
+         * The `ring` fills the space between the cone and the shaft.
          */
-        const disc = new RingBuilder(back, this.cutLine, !this.clockwise)
-        disc.innerRadius = this.radiusShaft
-        disc.outerRadius = this.radiusCone
-        disc.tilt.mul(this.tilt)
-        disc.offset.copy(neck)
-        disc.sliceAngle = this.sliceAngle
-        disc.thetaSegments = this.thetaSegments
-        disc.useNormal = this.useNormal
-        disc.usePosition = this.usePosition
-        disc.useTextureCoord = this.useTextureCoord
+        const ring = new RingBuilder();
+        ring.e.copy(back);
+        ring.cutLine.copy(this.cutLine);
+        ring.clockwise = !this.clockwise;
+        ring.innerRadius = this.radiusShaft;
+        ring.outerRadius = this.radiusCone;
+        ring.tilt.mul(this.tilt);
+        ring.offset.copy(neck);
+        ring.sliceAngle = this.sliceAngle;
+        ring.thetaSegments = this.thetaSegments;
+        ring.useNormal = this.useNormal;
+        ring.usePosition = this.usePosition;
+        ring.useTextureCoord = this.useTextureCoord;
 
         /**
          * The `shaft` is the slim part of the arrow.
          */
-        const shaft = new CylindricalShellBuilder(this.e, this.cutLine, this.clockwise)
+        const shaft = new CylindricalShellBuilder();
+        shaft.e.copy(this.e);
+        shaft.cutLine.copy(this.cutLine);
+        shaft.clockwise = this.clockwise;
         shaft.radius = this.radiusShaft
         shaft.height = heightShaft
         shaft.tilt.mul(this.tilt)
@@ -135,17 +141,20 @@ export default class ArrowBuilder extends AxialShapeBuilder {
         /**
          * The `plug` fills the end of the shaft.
          */
-        const plug = new RingBuilder(back, this.cutLine, !this.clockwise)
-        plug.innerRadius = 0
-        plug.outerRadius = this.radiusShaft
-        plug.tilt.mul(this.tilt)
-        plug.offset.copy(tail)
-        plug.sliceAngle = this.sliceAngle
-        plug.thetaSegments = this.thetaSegments
-        plug.useNormal = this.useNormal
-        plug.usePosition = this.usePosition
-        plug.useTextureCoord = this.useTextureCoord
+        const plug = new RingBuilder();
+        plug.e.copy(back);
+        plug.cutLine.copy(this.cutLine);
+        plug.clockwise = !this.clockwise;
+        plug.innerRadius = 0;
+        plug.outerRadius = this.radiusShaft;
+        plug.tilt.mul(this.tilt);
+        plug.offset.copy(tail);
+        plug.sliceAngle = this.sliceAngle;
+        plug.thetaSegments = this.thetaSegments;
+        plug.useNormal = this.useNormal;
+        plug.usePosition = this.usePosition;
+        plug.useTextureCoord = this.useTextureCoord;
 
-        return reduce([cone.toPrimitive(), disc.toPrimitive(), shaft.toPrimitive(), plug.toPrimitive()])
+        return reduce([cone.toPrimitive(), ring.toPrimitive(), shaft.toPrimitive(), plug.toPrimitive()])
     }
 }

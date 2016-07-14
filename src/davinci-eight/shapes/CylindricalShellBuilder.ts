@@ -22,43 +22,13 @@ const aNormal = GraphicsProgramSymbols.ATTRIBUTE_NORMAL
  */
 export default class CylindricalShellBuilder extends AxialShapeBuilder {
 
-    /**
-     * @property radialSegments
-     * @type number
-     * @default 1
-     */
     public radialSegments = 1
-
-    /**
-     * @property thetaSegments
-     * @type number
-     * @default 32
-     */
     public thetaSegments = 32
+    public e = Vector3.vector(0, 1, 0);
+    public cutLine = Vector3.vector(0, 0, 1);
+    public clockwise = true;
+    public convex = true;
 
-    private e: Vector3
-    private cutLine: Vector3
-    private clockwise: boolean
-
-    /**
-     * @class CylindricalShellBuilder
-     * @constructor
-     * @param e {VectorE3}
-     * @param cutLine {VectorE3}
-     * @param clockwise {boolean}
-     */
-    constructor(e: VectorE3, cutLine: VectorE3, clockwise: boolean) {
-        super()
-        this.e = Vector3.copy(e)
-        this.cutLine = Vector3.copy(cutLine)
-        this.clockwise = clockwise
-    }
-
-    /**
-     * @property radius
-     * @type number
-     * @default 1
-     */
     get radius() {
         return this.stress.x
     }
@@ -67,11 +37,6 @@ export default class CylindricalShellBuilder extends AxialShapeBuilder {
         this.stress.z = radius
     }
 
-    /**
-     * @property height
-     * @type number
-     * @default 1
-     */
     get height() {
         return this.stress.y
     }
@@ -83,7 +48,8 @@ export default class CylindricalShellBuilder extends AxialShapeBuilder {
      *
      */
     toPrimitive(): Primitive {
-        this.transforms.push(new CylinderTransform(this.e, this.cutLine, this.clockwise, this.sliceAngle, aPosition, aTangent))
+        const orientation = this.convex ? +1 : -1;
+        this.transforms.push(new CylinderTransform(this.e, this.cutLine, this.clockwise, this.sliceAngle, orientation, aPosition, aTangent))
 
         this.transforms.push(new Scaling(this.stress, [aPosition, aTangent]))
         this.transforms.push(new Rotation(this.tilt, [aPosition, aTangent]))
