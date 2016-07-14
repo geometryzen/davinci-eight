@@ -254,7 +254,7 @@ export class Grid extends Mesh {
      * @param options
      */
     constructor(options: GridOptions = {}, levelUp = 0) {
-        super(void 0, void 0, null, levelUp + 1);
+        super(void 0, void 0, options.engine, levelUp + 1);
         this.setLoggingName('Grid');
 
         const drawMode: BeginMode = isDefined(options.drawMode) ? options.drawMode : BeginMode.LINES;
@@ -277,14 +277,20 @@ export class Grid extends Mesh {
                 throw new Error(`'${drawMode}' is not a valid option for drawMode.`);
             }
         }
+        if (options.color) {
+            this.color.copy(options.color);
+        }
+        if (options.position) {
+            this.X.copyVector(options.position);
+        }
+        if (options.attitude) {
+            this.R.copySpinor(options.attitude);
+        }
         if (levelUp === 0) {
             this.synchUp();
         }
     }
 
-    /**
-     *
-     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();
