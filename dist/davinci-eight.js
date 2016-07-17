@@ -556,9 +556,9 @@ define('davinci-eight/config',["require", "exports", './core/ErrorMode'], functi
         function Eight() {
             this._errorMode = ErrorMode_1.default.STRICT;
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-07-14';
+            this.LAST_MODIFIED = '2016-07-17';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.266.0';
+            this.VERSION = '2.267.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
             get: function () {
@@ -15729,12 +15729,13 @@ define('davinci-eight/shapes/ConicalShellBuilder',["require", "exports", '../tra
 define('davinci-eight/transforms/CylinderTransform',["require", "exports", '../checks/mustBeNumber', '../checks/mustBeString', '../math/Spinor3', '../math/Vector3'], function (require, exports, mustBeNumber_1, mustBeString_1, Spinor3_1, Vector3_1) {
     "use strict";
     var CylinderTransform = (function () {
-        function CylinderTransform(e, cutLine, clockwise, sliceAngle, orientation, aPosition, aTangent) {
-            this.e = Vector3_1.default.copy(e);
+        function CylinderTransform(height, cutLine, clockwise, sliceAngle, orientation, aPosition, aTangent) {
+            this.height = Vector3_1.default.copy(height);
             this.cutLine = Vector3_1.default.copy(cutLine);
-            this.generator = Spinor3_1.default.dual(e, clockwise);
+            this.generator = Spinor3_1.default.dual(this.height.clone().normalize(), clockwise);
             this.sliceAngle = mustBeNumber_1.default('sliceAngle', sliceAngle);
             this.orientation = mustBeNumber_1.default('orientation', orientation);
+            ;
             this.aPosition = mustBeString_1.default('aPosition', aPosition);
             this.aTangent = mustBeString_1.default('aTangent', aTangent);
         }
@@ -15745,7 +15746,7 @@ define('davinci-eight/transforms/CylinderTransform',["require", "exports", '../c
             var v = j / vSegments;
             var rotor = this.generator.clone().scale(-this.sliceAngle * u / 2).exp();
             var ρ = Vector3_1.default.copy(this.cutLine).rotate(rotor);
-            vertex.attributes[this.aPosition] = ρ.clone().add(this.e, v);
+            vertex.attributes[this.aPosition] = ρ.clone().add(this.height, v);
             vertex.attributes[this.aTangent] = Spinor3_1.default.dual(ρ, false).scale(this.orientation);
         };
         return CylinderTransform;
@@ -15770,35 +15771,14 @@ define('davinci-eight/shapes/CylindricalShellBuilder',["require", "exports", '..
             _super.apply(this, arguments);
             this.radialSegments = 1;
             this.thetaSegments = 32;
-            this.e = Vector3_1.default.vector(0, 1, 0);
+            this.height = Vector3_1.default.vector(0, 1, 0);
             this.cutLine = Vector3_1.default.vector(0, 0, 1);
             this.clockwise = true;
             this.convex = true;
         }
-        Object.defineProperty(CylindricalShellBuilder.prototype, "radius", {
-            get: function () {
-                return this.stress.x;
-            },
-            set: function (radius) {
-                this.stress.x = radius;
-                this.stress.z = radius;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CylindricalShellBuilder.prototype, "height", {
-            get: function () {
-                return this.stress.y;
-            },
-            set: function (height) {
-                this.stress.y = height;
-            },
-            enumerable: true,
-            configurable: true
-        });
         CylindricalShellBuilder.prototype.toPrimitive = function () {
             var orientation = this.convex ? +1 : -1;
-            this.transforms.push(new CylinderTransform_1.default(this.e, this.cutLine, this.clockwise, this.sliceAngle, orientation, aPosition, aTangent));
+            this.transforms.push(new CylinderTransform_1.default(this.height, this.cutLine, this.clockwise, this.sliceAngle, orientation, aPosition, aTangent));
             this.transforms.push(new Scaling_1.default(this.stress, [aPosition, aTangent]));
             this.transforms.push(new Rotation_1.default(this.tilt, [aPosition, aTangent]));
             this.transforms.push(new Translation_1.default(this.offset, [aPosition]));
@@ -15957,11 +15937,9 @@ define('davinci-eight/shapes/ArrowBuilder',["require", "exports", './AxialShapeB
             ring.usePosition = this.usePosition;
             ring.useTextureCoord = this.useTextureCoord;
             var shaft = new CylindricalShellBuilder_1.default();
-            shaft.e.copy(this.e);
-            shaft.cutLine.copy(this.cutLine);
+            shaft.height.copy(this.e).normalize().scale(heightShaft);
+            shaft.cutLine.copy(this.cutLine).normalize().scale(this.radiusShaft);
             shaft.clockwise = this.clockwise;
-            shaft.radius = this.radiusShaft;
-            shaft.height = heightShaft;
             shaft.tilt.mul(this.tilt);
             shaft.offset.copy(tail);
             shaft.sliceAngle = this.sliceAngle;
@@ -20119,128 +20097,6 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/visual/RigidBodyWithUnits',["require", "exports", '../math/G3', '../base/incLevel', '../checks/mustBeObject', '../core/ShareableBase', '../math/Unit'], function (require, exports, G3_1, incLevel_1, mustBeObject_1, ShareableBase_1, Unit_1) {
-    "use strict";
-    var UNIT_P = Unit_1.Unit.KILOGRAM.mul(Unit_1.Unit.METER).div(Unit_1.Unit.SECOND);
-    var UNIT_L = UNIT_P.mul(Unit_1.Unit.METER);
-    var RigidBodyWithUnits = (function (_super) {
-        __extends(RigidBodyWithUnits, _super);
-        function RigidBodyWithUnits(mesh, axis) {
-            _super.call(this);
-            this._mass = G3_1.default.scalar(1, Unit_1.Unit.KILOGRAM);
-            this._P = G3_1.default.scalar(0, UNIT_P);
-            this._L = G3_1.default.scalar(0, UNIT_L);
-            this._charge = G3_1.default.scalar(0, Unit_1.Unit.COULOMB);
-            this.setLoggingName('RigidBodyWithUnits');
-            this.mesh = mustBeObject_1.default('mesh', mesh);
-            this.mesh.addRef();
-            this.base = G3_1.default.direction(mustBeObject_1.default('axis', axis));
-        }
-        RigidBodyWithUnits.prototype.destructor = function (level) {
-            this.mesh.release();
-            this.mesh = void 0;
-            _super.prototype.destructor.call(this, incLevel_1.default(level));
-        };
-        Object.defineProperty(RigidBodyWithUnits.prototype, "axis", {
-            get: function () {
-                return this.base.rotate(this.mesh.R);
-            },
-            set: function (axis) {
-                mustBeObject_1.default('axis', axis);
-                this.mesh.R.rotorFromDirections(this.base, axis);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(RigidBodyWithUnits.prototype, "R", {
-            get: function () {
-                return G3_1.default.fromSpinor(this.mesh.R);
-            },
-            set: function (R) {
-                var _this = this;
-                mustBeObject_1.default('R', R, function () { return _this._type; });
-                Unit_1.Unit.compatible(R.uom, Unit_1.Unit.ONE);
-                this.mesh.R.copySpinor(R);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(RigidBodyWithUnits.prototype, "L", {
-            get: function () {
-                return this._L;
-            },
-            set: function (L) {
-                var _this = this;
-                mustBeObject_1.default('L', L, function () { return _this._type; });
-                Unit_1.Unit.compatible(L.uom, UNIT_L);
-                this._L = L;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(RigidBodyWithUnits.prototype, "m", {
-            get: function () {
-                return this._mass;
-            },
-            set: function (m) {
-                var _this = this;
-                mustBeObject_1.default('m', m, function () { return _this._type; });
-                Unit_1.Unit.compatible(m.uom, Unit_1.Unit.KILOGRAM);
-                this._mass = m;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(RigidBodyWithUnits.prototype, "P", {
-            get: function () {
-                return this._P;
-            },
-            set: function (P) {
-                var _this = this;
-                mustBeObject_1.default('P', P, function () { return _this._type; });
-                Unit_1.Unit.compatible(P.uom, UNIT_P);
-                this._P = P;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(RigidBodyWithUnits.prototype, "Q", {
-            get: function () {
-                return this._charge;
-            },
-            set: function (Q) {
-                var _this = this;
-                mustBeObject_1.default('Q', Q, function () { return _this._type; });
-                Unit_1.Unit.compatible(Q.uom, Unit_1.Unit.COULOMB);
-                this._charge = Q;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(RigidBodyWithUnits.prototype, "X", {
-            get: function () {
-                return G3_1.default.fromVector(this.mesh.X, Unit_1.Unit.METER);
-            },
-            set: function (X) {
-                var _this = this;
-                mustBeObject_1.default('X', X, function () { return _this._type; });
-                Unit_1.Unit.compatible(X.uom, Unit_1.Unit.METER);
-                this.mesh.X.copy(X);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return RigidBodyWithUnits;
-    }(ShareableBase_1.ShareableBase));
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = RigidBodyWithUnits;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
 define('davinci-eight/visual/Cylinder',["require", "exports", './direction', '../geometries/CylinderGeometry', '../checks/isDefined', '../materials/MeshMaterial', '../checks/mustBeNumber', './RigidBody'], function (require, exports, direction_1, CylinderGeometry_1, isDefined_1, MeshMaterial_1, mustBeNumber_1, RigidBody_1) {
     "use strict";
     var Cylinder = (function (_super) {
@@ -20951,6 +20807,237 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
+define('davinci-eight/geometries/HollowCylinderGeometry',["require", "exports", '../shapes/CylindricalShellBuilder', '../core/GeometryElements', '../shapes/RingBuilder', '../atoms/reduce', '../math/Vector3', '../core/vertexArraysFromPrimitive'], function (require, exports, CylindricalShellBuilder_1, GeometryElements_1, RingBuilder_1, reduce_1, Vector3_1, vertexArraysFromPrimitive_1) {
+    "use strict";
+    var e2 = Vector3_1.default.vector(0, 1, 0);
+    var e3 = Vector3_1.default.vector(0, 0, 1);
+    function hollowCylinderPrimitive(options) {
+        if (options === void 0) { options = {}; }
+        var height = (typeof options.height === 'object') ? Vector3_1.default.copy(options.height) : e2;
+        var cutLine = (typeof options.cutLine === 'object') ? Vector3_1.default.copy(options.cutLine).normalize() : e3;
+        var outerRadius = (typeof options.outerRadius === 'number') ? options.outerRadius : 1.0;
+        var innerRadius = (typeof options.innerRadius === 'number') ? options.innerRadius : 0.5;
+        var sliceAngle = (typeof options.sliceAngle === 'number') ? options.sliceAngle : 2 * Math.PI;
+        var walls = new CylindricalShellBuilder_1.default();
+        walls.height.copy(height);
+        walls.cutLine.copy(cutLine).normalize().scale(outerRadius);
+        walls.clockwise = true;
+        walls.sliceAngle = sliceAngle;
+        walls.offset.copy(height).scale(-0.5);
+        var outerWalls = walls.toPrimitive();
+        walls.cutLine.normalize().scale(innerRadius);
+        walls.convex = false;
+        var innerWalls = walls.toPrimitive();
+        var ring = new RingBuilder_1.default();
+        ring.e.copy(height).normalize();
+        ring.cutLine.copy(cutLine);
+        ring.clockwise = true;
+        ring.innerRadius = innerRadius;
+        ring.outerRadius = outerRadius;
+        ring.sliceAngle = sliceAngle;
+        ring.offset.copy(height).scale(0.5);
+        var cap = ring.toPrimitive();
+        ring.e.scale(-1);
+        ring.clockwise = false;
+        ring.offset.copy(height).scale(-0.5);
+        var base = ring.toPrimitive();
+        return reduce_1.default([outerWalls, innerWalls, cap, base]);
+    }
+    function hollowCylinderVertexArrays(options) {
+        if (options === void 0) { options = {}; }
+        return vertexArraysFromPrimitive_1.default(hollowCylinderPrimitive(options));
+    }
+    var HollowCylinderGeometry = (function (_super) {
+        __extends(HollowCylinderGeometry, _super);
+        function HollowCylinderGeometry(options, levelUp) {
+            if (options === void 0) { options = {}; }
+            if (levelUp === void 0) { levelUp = 0; }
+            _super.call(this, hollowCylinderVertexArrays(options), void 0, options.engine, levelUp + 1);
+            if (levelUp === 0) {
+                this.synchUp();
+            }
+        }
+        return HollowCylinderGeometry;
+    }(GeometryElements_1.default));
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = HollowCylinderGeometry;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/visual/HollowCylinder',["require", "exports", '../geometries/HollowCylinderGeometry', '../materials/MeshMaterial', './RigidBody', '../math/Vector3'], function (require, exports, HollowCylinderGeometry_1, MeshMaterial_1, RigidBody_1, Vector3_1) {
+    "use strict";
+    var e2 = Vector3_1.default.vector(0, 1, 0);
+    var HollowCylinder = (function (_super) {
+        __extends(HollowCylinder, _super);
+        function HollowCylinder(options, levelUp) {
+            if (options === void 0) { options = {}; }
+            if (levelUp === void 0) { levelUp = 0; }
+            _super.call(this, void 0, void 0, options.engine, e2, levelUp + 1);
+            var geometry = new HollowCylinderGeometry_1.default(options);
+            this.geometry = geometry;
+            geometry.release();
+            var mmo = { attributes: {}, uniforms: {} };
+            mmo.attributes['aPosition'] = 3;
+            mmo.attributes['aNormal'] = 3;
+            mmo.uniforms['uColor'] = 'vec3';
+            mmo.uniforms['uOpacity'] = 'float';
+            mmo.uniforms['uModel'] = 'mat4';
+            mmo.uniforms['uNormal'] = 'mat3';
+            mmo.uniforms['uProjection'] = 'mat4';
+            mmo.uniforms['uView'] = 'mat4';
+            mmo.uniforms['uAmbientLight'] = 'vec3';
+            mmo.uniforms['uDirectionalLightColor'] = 'vec3';
+            mmo.uniforms['uDirectionalLightDirection'] = 'vec3';
+            var material = new MeshMaterial_1.MeshMaterial(mmo, options.engine);
+            this.material = material;
+            material.release();
+            if (levelUp === 0) {
+                this.synchUp();
+            }
+        }
+        HollowCylinder.prototype.destructor = function (levelUp) {
+            if (levelUp === 0) {
+                this.cleanUp();
+            }
+            this.destructor(levelUp + 1);
+        };
+        return HollowCylinder;
+    }(RigidBody_1.RigidBody));
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = HollowCylinder;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/visual/RigidBodyWithUnits',["require", "exports", '../math/G3', '../base/incLevel', '../checks/mustBeObject', '../core/ShareableBase', '../math/Unit'], function (require, exports, G3_1, incLevel_1, mustBeObject_1, ShareableBase_1, Unit_1) {
+    "use strict";
+    var UNIT_P = Unit_1.Unit.KILOGRAM.mul(Unit_1.Unit.METER).div(Unit_1.Unit.SECOND);
+    var UNIT_L = UNIT_P.mul(Unit_1.Unit.METER);
+    var RigidBodyWithUnits = (function (_super) {
+        __extends(RigidBodyWithUnits, _super);
+        function RigidBodyWithUnits(mesh, axis) {
+            _super.call(this);
+            this._mass = G3_1.default.scalar(1, Unit_1.Unit.KILOGRAM);
+            this._P = G3_1.default.scalar(0, UNIT_P);
+            this._L = G3_1.default.scalar(0, UNIT_L);
+            this._charge = G3_1.default.scalar(0, Unit_1.Unit.COULOMB);
+            this.setLoggingName('RigidBodyWithUnits');
+            this.mesh = mustBeObject_1.default('mesh', mesh);
+            this.mesh.addRef();
+            this.base = G3_1.default.direction(mustBeObject_1.default('axis', axis));
+        }
+        RigidBodyWithUnits.prototype.destructor = function (level) {
+            this.mesh.release();
+            this.mesh = void 0;
+            _super.prototype.destructor.call(this, incLevel_1.default(level));
+        };
+        Object.defineProperty(RigidBodyWithUnits.prototype, "axis", {
+            get: function () {
+                return this.base.rotate(this.mesh.R);
+            },
+            set: function (axis) {
+                mustBeObject_1.default('axis', axis);
+                this.mesh.R.rotorFromDirections(this.base, axis);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(RigidBodyWithUnits.prototype, "R", {
+            get: function () {
+                return G3_1.default.fromSpinor(this.mesh.R);
+            },
+            set: function (R) {
+                var _this = this;
+                mustBeObject_1.default('R', R, function () { return _this._type; });
+                Unit_1.Unit.compatible(R.uom, Unit_1.Unit.ONE);
+                this.mesh.R.copySpinor(R);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(RigidBodyWithUnits.prototype, "L", {
+            get: function () {
+                return this._L;
+            },
+            set: function (L) {
+                var _this = this;
+                mustBeObject_1.default('L', L, function () { return _this._type; });
+                Unit_1.Unit.compatible(L.uom, UNIT_L);
+                this._L = L;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(RigidBodyWithUnits.prototype, "m", {
+            get: function () {
+                return this._mass;
+            },
+            set: function (m) {
+                var _this = this;
+                mustBeObject_1.default('m', m, function () { return _this._type; });
+                Unit_1.Unit.compatible(m.uom, Unit_1.Unit.KILOGRAM);
+                this._mass = m;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(RigidBodyWithUnits.prototype, "P", {
+            get: function () {
+                return this._P;
+            },
+            set: function (P) {
+                var _this = this;
+                mustBeObject_1.default('P', P, function () { return _this._type; });
+                Unit_1.Unit.compatible(P.uom, UNIT_P);
+                this._P = P;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(RigidBodyWithUnits.prototype, "Q", {
+            get: function () {
+                return this._charge;
+            },
+            set: function (Q) {
+                var _this = this;
+                mustBeObject_1.default('Q', Q, function () { return _this._type; });
+                Unit_1.Unit.compatible(Q.uom, Unit_1.Unit.COULOMB);
+                this._charge = Q;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(RigidBodyWithUnits.prototype, "X", {
+            get: function () {
+                return G3_1.default.fromVector(this.mesh.X, Unit_1.Unit.METER);
+            },
+            set: function (X) {
+                var _this = this;
+                mustBeObject_1.default('X', X, function () { return _this._type; });
+                Unit_1.Unit.compatible(X.uom, Unit_1.Unit.METER);
+                this.mesh.X.copy(X);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return RigidBodyWithUnits;
+    }(ShareableBase_1.ShareableBase));
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = RigidBodyWithUnits;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 define('davinci-eight/visual/Tetrahedron',["require", "exports", '../core/Mesh', '../materials/MeshMaterial', '../geometries/TetrahedronGeometry'], function (require, exports, Mesh_1, MeshMaterial_1, TetrahedronGeometry_1) {
     "use strict";
     var Tetrahedron = (function (_super) {
@@ -21186,7 +21273,7 @@ define('davinci-eight/visual/Trail',["require", "exports", '../math/Modulo', '..
     exports.Trail = Trail;
 });
 
-define('davinci-eight',["require", "exports", './davinci-eight/commands/WebGLBlendFunc', './davinci-eight/commands/WebGLClearColor', './davinci-eight/commands/WebGLDisable', './davinci-eight/commands/WebGLEnable', './davinci-eight/controls/OrbitControls', './davinci-eight/controls/TrackballControls', './davinci-eight/core/Attrib', './davinci-eight/core/BeginMode', './davinci-eight/core/BlendingFactorDest', './davinci-eight/core/BlendingFactorSrc', './davinci-eight/core/Capability', './davinci-eight/core/ClearBufferMask', './davinci-eight/core/Color', './davinci-eight/config', './davinci-eight/core/DataType', './davinci-eight/core/Drawable', './davinci-eight/core/DepthFunction', './davinci-eight/core/ErrorMode', './davinci-eight/core/GeometryArrays', './davinci-eight/core/GeometryContainer', './davinci-eight/core/GeometryElements', './davinci-eight/core/GraphicsProgramSymbols', './davinci-eight/core/Mesh', './davinci-eight/core/Scene', './davinci-eight/core/Shader', './davinci-eight/core/Uniform', './davinci-eight/core/Usage', './davinci-eight/core/Engine', './davinci-eight/core/VertexBuffer', './davinci-eight/core/IndexBuffer', './davinci-eight/core/vertexArraysFromPrimitive', './davinci-eight/core/geometryFromPrimitive', './davinci-eight/facets/AmbientLight', './davinci-eight/facets/ColorFacet', './davinci-eight/facets/DirectionalLight', './davinci-eight/facets/ModelFacet', './davinci-eight/facets/PointSizeFacet', './davinci-eight/facets/ReflectionFacetE2', './davinci-eight/facets/ReflectionFacetE3', './davinci-eight/facets/Vector3Facet', './davinci-eight/facets/frustumMatrix', './davinci-eight/facets/PerspectiveCamera', './davinci-eight/facets/perspectiveMatrix', './davinci-eight/facets/viewMatrixFromEyeLookUp', './davinci-eight/facets/ModelE2', './davinci-eight/facets/ModelE3', './davinci-eight/atoms/DrawAttribute', './davinci-eight/atoms/DrawPrimitive', './davinci-eight/atoms/reduce', './davinci-eight/atoms/Vertex', './davinci-eight/shapes/ArrowBuilder', './davinci-eight/shapes/ConicalShellBuilder', './davinci-eight/shapes/CylindricalShellBuilder', './davinci-eight/shapes/RingBuilder', './davinci-eight/geometries/Simplex', './davinci-eight/geometries/ArrowGeometry', './davinci-eight/geometries/BoxGeometry', './davinci-eight/geometries/CylinderGeometry', './davinci-eight/geometries/GridGeometry', './davinci-eight/geometries/SphereGeometry', './davinci-eight/geometries/TetrahedronGeometry', './davinci-eight/geometries/CuboidPrimitivesBuilder', './davinci-eight/geometries/CylinderBuilder', './davinci-eight/materials/HTMLScriptsMaterial', './davinci-eight/materials/LineMaterial', './davinci-eight/materials/ShaderMaterial', './davinci-eight/materials/MeshMaterial', './davinci-eight/materials/PointMaterial', './davinci-eight/materials/GraphicsProgramBuilder', './davinci-eight/math/Dimensions', './davinci-eight/math/G2', './davinci-eight/math/G3', './davinci-eight/math/mathcore', './davinci-eight/math/Vector1', './davinci-eight/math/Matrix2', './davinci-eight/math/Matrix3', './davinci-eight/math/Matrix4', './davinci-eight/math/QQ', './davinci-eight/math/R3', './davinci-eight/math/Unit', './davinci-eight/math/Geometric2', './davinci-eight/math/Geometric3', './davinci-eight/math/Spinor2', './davinci-eight/math/Spinor3', './davinci-eight/math/Vector2', './davinci-eight/math/Vector3', './davinci-eight/math/Vector4', './davinci-eight/math/VectorN', './davinci-eight/overlay/Overlay', './davinci-eight/utils/getCanvasElementById', './davinci-eight/collections/ShareableArray', './davinci-eight/collections/NumberShareableMap', './davinci-eight/core/refChange', './davinci-eight/core/ShareableBase', './davinci-eight/collections/StringShareableMap', './davinci-eight/utils/animation', './davinci-eight/visual/Arrow', './davinci-eight/visual/Sphere', './davinci-eight/visual/Box', './davinci-eight/visual/RigidBody', './davinci-eight/visual/RigidBodyWithUnits', './davinci-eight/visual/Cylinder', './davinci-eight/visual/Curve', './davinci-eight/visual/Grid', './davinci-eight/visual/Tetrahedron', './davinci-eight/visual/Trail'], function (require, exports, WebGLBlendFunc_1, WebGLClearColor_1, WebGLDisable_1, WebGLEnable_1, OrbitControls_1, TrackballControls_1, Attrib_1, BeginMode_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, ClearBufferMask_1, Color_1, config_1, DataType_1, Drawable_1, DepthFunction_1, ErrorMode_1, GeometryArrays_1, GeometryContainer_1, GeometryElements_1, GraphicsProgramSymbols_1, Mesh_1, Scene_1, Shader_1, Uniform_1, Usage_1, Engine_1, VertexBuffer_1, IndexBuffer_1, vertexArraysFromPrimitive_1, geometryFromPrimitive_1, AmbientLight_1, ColorFacet_1, DirectionalLight_1, ModelFacet_1, PointSizeFacet_1, ReflectionFacetE2_1, ReflectionFacetE3_1, Vector3Facet_1, frustumMatrix_1, PerspectiveCamera_1, perspectiveMatrix_1, viewMatrixFromEyeLookUp_1, ModelE2_1, ModelE3_1, DrawAttribute_1, DrawPrimitive_1, reduce_1, Vertex_1, ArrowBuilder_1, ConicalShellBuilder_1, CylindricalShellBuilder_1, RingBuilder_1, Simplex_1, ArrowGeometry_1, BoxGeometry_1, CylinderGeometry_1, GridGeometry_1, SphereGeometry_1, TetrahedronGeometry_1, CuboidPrimitivesBuilder_1, CylinderBuilder_1, HTMLScriptsMaterial_1, LineMaterial_1, ShaderMaterial_1, MeshMaterial_1, PointMaterial_1, GraphicsProgramBuilder_1, Dimensions_1, G2_1, G3_1, mathcore_1, Vector1_1, Matrix2_1, Matrix3_1, Matrix4_1, QQ_1, R3_1, Unit_1, Geometric2_1, Geometric3_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1, Vector4_1, VectorN_1, Overlay_1, getCanvasElementById_1, ShareableArray_1, NumberShareableMap_1, refChange_1, ShareableBase_1, StringShareableMap_1, animation_1, Arrow_1, Sphere_1, Box_1, RigidBody_1, RigidBodyWithUnits_1, Cylinder_1, Curve_1, Grid_1, Tetrahedron_1, Trail_1) {
+define('davinci-eight',["require", "exports", './davinci-eight/commands/WebGLBlendFunc', './davinci-eight/commands/WebGLClearColor', './davinci-eight/commands/WebGLDisable', './davinci-eight/commands/WebGLEnable', './davinci-eight/controls/OrbitControls', './davinci-eight/controls/TrackballControls', './davinci-eight/core/Attrib', './davinci-eight/core/BeginMode', './davinci-eight/core/BlendingFactorDest', './davinci-eight/core/BlendingFactorSrc', './davinci-eight/core/Capability', './davinci-eight/core/ClearBufferMask', './davinci-eight/core/Color', './davinci-eight/config', './davinci-eight/core/DataType', './davinci-eight/core/Drawable', './davinci-eight/core/DepthFunction', './davinci-eight/core/ErrorMode', './davinci-eight/core/GeometryArrays', './davinci-eight/core/GeometryContainer', './davinci-eight/core/GeometryElements', './davinci-eight/core/GraphicsProgramSymbols', './davinci-eight/core/Mesh', './davinci-eight/core/Scene', './davinci-eight/core/Shader', './davinci-eight/core/Uniform', './davinci-eight/core/Usage', './davinci-eight/core/Engine', './davinci-eight/core/VertexBuffer', './davinci-eight/core/IndexBuffer', './davinci-eight/core/vertexArraysFromPrimitive', './davinci-eight/core/geometryFromPrimitive', './davinci-eight/facets/AmbientLight', './davinci-eight/facets/ColorFacet', './davinci-eight/facets/DirectionalLight', './davinci-eight/facets/ModelFacet', './davinci-eight/facets/PointSizeFacet', './davinci-eight/facets/ReflectionFacetE2', './davinci-eight/facets/ReflectionFacetE3', './davinci-eight/facets/Vector3Facet', './davinci-eight/facets/frustumMatrix', './davinci-eight/facets/PerspectiveCamera', './davinci-eight/facets/perspectiveMatrix', './davinci-eight/facets/viewMatrixFromEyeLookUp', './davinci-eight/facets/ModelE2', './davinci-eight/facets/ModelE3', './davinci-eight/atoms/DrawAttribute', './davinci-eight/atoms/DrawPrimitive', './davinci-eight/atoms/reduce', './davinci-eight/atoms/Vertex', './davinci-eight/shapes/ArrowBuilder', './davinci-eight/shapes/ConicalShellBuilder', './davinci-eight/shapes/CylindricalShellBuilder', './davinci-eight/shapes/RingBuilder', './davinci-eight/geometries/Simplex', './davinci-eight/geometries/ArrowGeometry', './davinci-eight/geometries/BoxGeometry', './davinci-eight/geometries/CylinderGeometry', './davinci-eight/geometries/GridGeometry', './davinci-eight/geometries/SphereGeometry', './davinci-eight/geometries/TetrahedronGeometry', './davinci-eight/geometries/CuboidPrimitivesBuilder', './davinci-eight/geometries/CylinderBuilder', './davinci-eight/materials/HTMLScriptsMaterial', './davinci-eight/materials/LineMaterial', './davinci-eight/materials/ShaderMaterial', './davinci-eight/materials/MeshMaterial', './davinci-eight/materials/PointMaterial', './davinci-eight/materials/GraphicsProgramBuilder', './davinci-eight/math/Dimensions', './davinci-eight/math/G2', './davinci-eight/math/G3', './davinci-eight/math/mathcore', './davinci-eight/math/Vector1', './davinci-eight/math/Matrix2', './davinci-eight/math/Matrix3', './davinci-eight/math/Matrix4', './davinci-eight/math/QQ', './davinci-eight/math/R3', './davinci-eight/math/Unit', './davinci-eight/math/Geometric2', './davinci-eight/math/Geometric3', './davinci-eight/math/Spinor2', './davinci-eight/math/Spinor3', './davinci-eight/math/Vector2', './davinci-eight/math/Vector3', './davinci-eight/math/Vector4', './davinci-eight/math/VectorN', './davinci-eight/overlay/Overlay', './davinci-eight/utils/getCanvasElementById', './davinci-eight/collections/ShareableArray', './davinci-eight/collections/NumberShareableMap', './davinci-eight/core/refChange', './davinci-eight/core/ShareableBase', './davinci-eight/collections/StringShareableMap', './davinci-eight/utils/animation', './davinci-eight/visual/Arrow', './davinci-eight/visual/Sphere', './davinci-eight/visual/Box', './davinci-eight/visual/Cylinder', './davinci-eight/visual/Curve', './davinci-eight/visual/Grid', './davinci-eight/visual/HollowCylinder', './davinci-eight/visual/RigidBody', './davinci-eight/visual/RigidBodyWithUnits', './davinci-eight/visual/Tetrahedron', './davinci-eight/visual/Trail'], function (require, exports, WebGLBlendFunc_1, WebGLClearColor_1, WebGLDisable_1, WebGLEnable_1, OrbitControls_1, TrackballControls_1, Attrib_1, BeginMode_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, ClearBufferMask_1, Color_1, config_1, DataType_1, Drawable_1, DepthFunction_1, ErrorMode_1, GeometryArrays_1, GeometryContainer_1, GeometryElements_1, GraphicsProgramSymbols_1, Mesh_1, Scene_1, Shader_1, Uniform_1, Usage_1, Engine_1, VertexBuffer_1, IndexBuffer_1, vertexArraysFromPrimitive_1, geometryFromPrimitive_1, AmbientLight_1, ColorFacet_1, DirectionalLight_1, ModelFacet_1, PointSizeFacet_1, ReflectionFacetE2_1, ReflectionFacetE3_1, Vector3Facet_1, frustumMatrix_1, PerspectiveCamera_1, perspectiveMatrix_1, viewMatrixFromEyeLookUp_1, ModelE2_1, ModelE3_1, DrawAttribute_1, DrawPrimitive_1, reduce_1, Vertex_1, ArrowBuilder_1, ConicalShellBuilder_1, CylindricalShellBuilder_1, RingBuilder_1, Simplex_1, ArrowGeometry_1, BoxGeometry_1, CylinderGeometry_1, GridGeometry_1, SphereGeometry_1, TetrahedronGeometry_1, CuboidPrimitivesBuilder_1, CylinderBuilder_1, HTMLScriptsMaterial_1, LineMaterial_1, ShaderMaterial_1, MeshMaterial_1, PointMaterial_1, GraphicsProgramBuilder_1, Dimensions_1, G2_1, G3_1, mathcore_1, Vector1_1, Matrix2_1, Matrix3_1, Matrix4_1, QQ_1, R3_1, Unit_1, Geometric2_1, Geometric3_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1, Vector4_1, VectorN_1, Overlay_1, getCanvasElementById_1, ShareableArray_1, NumberShareableMap_1, refChange_1, ShareableBase_1, StringShareableMap_1, animation_1, Arrow_1, Sphere_1, Box_1, Cylinder_1, Curve_1, Grid_1, HollowCylinder_1, RigidBody_1, RigidBodyWithUnits_1, Tetrahedron_1, Trail_1) {
     "use strict";
     var eight = {
         get LAST_MODIFIED() { return config_1.default.LAST_MODIFIED; },
@@ -21314,6 +21401,7 @@ define('davinci-eight',["require", "exports", './davinci-eight/commands/WebGLBle
         get Cylinder() { return Cylinder_1.Cylinder; },
         get Curve() { return Curve_1.Curve; },
         get Grid() { return Grid_1.Grid; },
+        get HollowCylinder() { return HollowCylinder_1.default; },
         get Tetrahedron() { return Tetrahedron_1.default; },
         get Trail() { return Trail_1.Trail; }
     };

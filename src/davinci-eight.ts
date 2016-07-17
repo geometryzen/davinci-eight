@@ -199,11 +199,12 @@ import randomColor from './davinci-eight/utils/randomColor';
 import {Arrow} from './davinci-eight/visual/Arrow';
 import {Sphere} from './davinci-eight/visual/Sphere';
 import {Box} from './davinci-eight/visual/Box';
-import {RigidBody} from './davinci-eight/visual/RigidBody';
-import RigidBodyWithUnits from './davinci-eight/visual/RigidBodyWithUnits';
 import {Cylinder} from './davinci-eight/visual/Cylinder';
 import {Curve} from './davinci-eight/visual/Curve';
 import {Grid} from './davinci-eight/visual/Grid';
+import HollowCylinder from './davinci-eight/visual/HollowCylinder';
+import {RigidBody} from './davinci-eight/visual/RigidBody';
+import RigidBodyWithUnits from './davinci-eight/visual/RigidBodyWithUnits';
 import Tetrahedron from './davinci-eight/visual/Tetrahedron';
 import {Trail} from './davinci-eight/visual/Trail';
 import vector from './davinci-eight/visual/vector';
@@ -368,6 +369,7 @@ const eight = {
     get Cylinder() { return Cylinder },
     get Curve() { return Curve },
     get Grid() { return Grid },
+    get HollowCylinder() { return HollowCylinder },
     get Tetrahedron() { return Tetrahedron },
     get Trail() { return Trail }
 }

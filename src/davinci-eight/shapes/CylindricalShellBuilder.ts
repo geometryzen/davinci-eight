@@ -22,34 +22,25 @@ const aNormal = GraphicsProgramSymbols.ATTRIBUTE_NORMAL
  */
 export default class CylindricalShellBuilder extends AxialShapeBuilder {
 
-    public radialSegments = 1
-    public thetaSegments = 32
-    public e = Vector3.vector(0, 1, 0);
+    public radialSegments = 1;
+    public thetaSegments = 32;
+    /**
+     * The axis of symmetry and the height.
+     */
+    public height = Vector3.vector(0, 1, 0);
+    /**
+     * The initial direction and the radius vector.
+     */
     public cutLine = Vector3.vector(0, 0, 1);
     public clockwise = true;
     public convex = true;
-
-    get radius() {
-        return this.stress.x
-    }
-    set radius(radius: number) {
-        this.stress.x = radius
-        this.stress.z = radius
-    }
-
-    get height() {
-        return this.stress.y
-    }
-    set height(height: number) {
-        this.stress.y = height
-    }
 
     /**
      *
      */
     toPrimitive(): Primitive {
         const orientation = this.convex ? +1 : -1;
-        this.transforms.push(new CylinderTransform(this.e, this.cutLine, this.clockwise, this.sliceAngle, orientation, aPosition, aTangent))
+        this.transforms.push(new CylinderTransform(this.height, this.cutLine, this.clockwise, this.sliceAngle, orientation, aPosition, aTangent))
 
         this.transforms.push(new Scaling(this.stress, [aPosition, aTangent]))
         this.transforms.push(new Rotation(this.tilt, [aPosition, aTangent]))

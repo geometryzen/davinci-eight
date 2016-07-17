@@ -3362,14 +3362,24 @@ declare module EIGHT {
     }
 
     class CylindricalShellBuilder {
-        e: Vector3;
+        /**
+         * Axis of symmetry and the height vector.
+         */
+        height: Vector3;
+        /**
+         * Initial cut line and the radius vector.
+         */
         cutLine: Vector3;
+        /**
+         * Determines the orientation of the slice from the cut line.
+         */
         clockwise: boolean;
+        /**
+         * Determines the direction of normal vectors.
+         */
         convex: boolean;
-        height: number;
         offset: Vector3;
         radialSegments: number;
-        radius: number;
         sliceAngle: number;
         stress: Vector3;
         thetaSegments: number;
@@ -4058,6 +4068,37 @@ declare module EIGHT {
                 vMin?: number;
                 vSegments?: number;
             }, levelUp?: number);
+        protected destructor(levelUp: number): void;
+    }
+
+    class HollowCylinder extends RigidBody {
+        constructor(options?: {
+            /**
+             * The symmetry axis and the height of the cylinder.
+             */
+            height?: VectorE3,
+            /**
+             * The starting direction for the slice.
+             * A unit vector orthogonal to the height vector.
+             */
+            cutLine?: VectorE3,
+            /**
+             * The outer radius of the cylinder.
+             */
+            outerRadius?: number;
+            /**
+             * The inner radius of the cylinder.
+             */
+            innerRadius?: number;
+            /**
+             * The angular size of the cylinder. Default is 2 * PI.
+             */
+            sliceAngle?: number;
+            /**
+             * The WebGL context wrapper.
+             */
+            engine?: Engine;
+        }, levelUp?: number);
         protected destructor(levelUp: number): void;
     }
 

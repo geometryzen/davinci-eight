@@ -125,18 +125,16 @@ export default class ArrowBuilder extends AxialShapeBuilder {
          * The `shaft` is the slim part of the arrow.
          */
         const shaft = new CylindricalShellBuilder();
-        shaft.e.copy(this.e);
-        shaft.cutLine.copy(this.cutLine);
+        shaft.height.copy(this.e).normalize().scale(heightShaft);
+        shaft.cutLine.copy(this.cutLine).normalize().scale(this.radiusShaft);
         shaft.clockwise = this.clockwise;
-        shaft.radius = this.radiusShaft
-        shaft.height = heightShaft
-        shaft.tilt.mul(this.tilt)
-        shaft.offset.copy(tail)
-        shaft.sliceAngle = this.sliceAngle
-        shaft.thetaSegments = this.thetaSegments
-        shaft.useNormal = this.useNormal
-        shaft.usePosition = this.usePosition
-        shaft.useTextureCoord = this.useTextureCoord
+        shaft.tilt.mul(this.tilt);
+        shaft.offset.copy(tail);
+        shaft.sliceAngle = this.sliceAngle;
+        shaft.thetaSegments = this.thetaSegments;
+        shaft.useNormal = this.useNormal;
+        shaft.usePosition = this.usePosition;
+        shaft.useTextureCoord = this.useTextureCoord;
 
         /**
          * The `plug` fills the end of the shaft.
