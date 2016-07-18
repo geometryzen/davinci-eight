@@ -556,9 +556,9 @@ define('davinci-eight/config',["require", "exports", './core/ErrorMode'], functi
         function Eight() {
             this._errorMode = ErrorMode_1.default.STRICT;
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-07-17';
+            this.LAST_MODIFIED = '2016-07-18';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.267.0';
+            this.VERSION = '2.268.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
             get: function () {
@@ -15506,7 +15506,7 @@ define('davinci-eight/atoms/GridTriangleStrip',["require", "exports", '../core/B
     exports.default = GridTriangleStrip;
 });
 
-define('davinci-eight/transforms/ConeTransform',["require", "exports", '../checks/mustBeBoolean', '../checks/mustBeNumber', '../checks/mustBeString', '../math/R3', '../math/Spinor3', '../math/Vector3'], function (require, exports, mustBeBoolean_1, mustBeNumber_1, mustBeString_1, R3_1, Spinor3_1, Vector3_1) {
+define('davinci-eight/transforms/ConeTransform',["require", "exports", '../checks/mustBeBoolean', '../checks/mustBeNumber', '../checks/mustBeString', '../math/Spinor3', '../math/Vector3'], function (require, exports, mustBeBoolean_1, mustBeNumber_1, mustBeString_1, Spinor3_1, Vector3_1) {
     "use strict";
     function coneNormal(ρ, h, out) {
         out.copy(ρ);
@@ -15514,10 +15514,10 @@ define('davinci-eight/transforms/ConeTransform',["require", "exports", '../check
         out.add(h, ρ2).divByScalar(Math.sqrt(ρ2) * Math.sqrt(1 + ρ2));
     }
     var ConeTransform = (function () {
-        function ConeTransform(e, cutLine, clockwise, sliceAngle, aPosition, aTangent) {
-            this.e = R3_1.default.direction(e);
-            this.cutLine = R3_1.default.direction(cutLine);
-            this.b = new Vector3_1.default().cross2(e, cutLine).normalize();
+        function ConeTransform(clockwise, sliceAngle, aPosition, aTangent) {
+            this.h = Vector3_1.default.vector(0, 1, 0);
+            this.a = Vector3_1.default.vector(0, 0, 1);
+            this.b = Vector3_1.default.vector(1, 0, 0);
             this.clockwise = mustBeBoolean_1.default('clockwise', clockwise);
             this.sliceAngle = mustBeNumber_1.default('sliceAngle', sliceAngle);
             this.aPosition = mustBeString_1.default('aPosition', aPosition);
@@ -15532,11 +15532,11 @@ define('davinci-eight/transforms/ConeTransform',["require", "exports", '../check
             var θ = sign * this.sliceAngle * u;
             var cosθ = Math.cos(θ);
             var sinθ = Math.sin(θ);
-            var ρ = new Vector3_1.default().add(this.cutLine, cosθ).add(this.b, sinθ);
-            var x = Vector3_1.default.lerp(ρ, this.e, v);
+            var ρ = new Vector3_1.default().add(this.a, cosθ).add(this.b, sinθ);
+            var x = Vector3_1.default.lerp(ρ, this.h, v);
             vertex.attributes[this.aPosition] = x;
             var normal = Vector3_1.default.zero();
-            coneNormal(ρ, this.e, normal);
+            coneNormal(ρ, this.h, normal);
             vertex.attributes[this.aTangent] = Spinor3_1.default.dual(normal, false);
         };
         return ConeTransform;
@@ -15578,30 +15578,35 @@ define('davinci-eight/transforms/Rotation',["require", "exports", '../checks/mus
     exports.default = Rotation;
 });
 
-define('davinci-eight/transforms/Scaling',["require", "exports", '../checks/mustBeObject', '../math/Spinor3', '../math/Vector3'], function (require, exports, mustBeObject_1, Spinor3_1, Vector3_1) {
+define('davinci-eight/transforms/Scaling',["require", "exports", '../checks/mustBeArray', '../checks/mustBeObject', '../math/Spinor3', '../math/Vector3'], function (require, exports, mustBeArray_1, mustBeObject_1, Spinor3_1, Vector3_1) {
     "use strict";
     var Scaling = (function () {
         function Scaling(stress, names) {
             this.stress = Vector3_1.default.copy(mustBeObject_1.default('stress', stress));
-            this.names = names;
+            this.names = mustBeArray_1.default('names', names);
         }
         Scaling.prototype.exec = function (vertex, i, j, iLength, jLength) {
             var nLength = this.names.length;
             for (var k = 0; k < nLength; k++) {
                 var aName = this.names[k];
                 var v = vertex.attributes[aName];
-                if (v.length === 3) {
-                    var vector = Vector3_1.default.vector(v.getComponent(0), v.getComponent(1), v.getComponent(2));
-                    vector.stress(this.stress);
-                    vertex.attributes[aName] = vector;
-                }
-                else if (v.length === 4) {
-                    var spinor = Spinor3_1.default.spinor(v.getComponent(0), v.getComponent(1), v.getComponent(2), v.getComponent(3));
-                    spinor.stress(this.stress);
-                    vertex.attributes[aName] = spinor;
+                if (v) {
+                    if (v.length === 3) {
+                        var vector = Vector3_1.default.vector(v.getComponent(0), v.getComponent(1), v.getComponent(2));
+                        vector.stress(this.stress);
+                        vertex.attributes[aName] = vector;
+                    }
+                    else if (v.length === 4) {
+                        var spinor = Spinor3_1.default.spinor(v.getComponent(0), v.getComponent(1), v.getComponent(2), v.getComponent(3));
+                        spinor.stress(this.stress);
+                        vertex.attributes[aName] = spinor;
+                    }
+                    else {
+                        throw new Error("Expecting " + aName + " to be a vector with 3 coordinates or a spinor with 4 coordinates.");
+                    }
                 }
                 else {
-                    throw new Error("Expecting " + aName + " to be a vector with 3 coordinates");
+                    console.warn("Expecting " + aName + " to be a VectorN.");
                 }
             }
         };
@@ -15663,44 +15668,27 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/shapes/ConicalShellBuilder',["require", "exports", '../transforms/Approximation', '../transforms/Direction', '../transforms/Duality', '../core/GraphicsProgramSymbols', '../atoms/GridTriangleStrip', './AxialShapeBuilder', '../transforms/ConeTransform', '../transforms/Rotation', '../math/R3', '../transforms/Scaling', '../transforms/Translation', '../transforms/CoordsTransform2D'], function (require, exports, Approximation_1, Direction_1, Duality_1, GraphicsProgramSymbols_1, GridTriangleStrip_1, AxialShapeBuilder_1, ConeTransform_1, Rotation_1, R3_1, Scaling_1, Translation_1, CoordsTransform2D_1) {
+define('davinci-eight/shapes/ConicalShellBuilder',["require", "exports", '../transforms/Approximation', '../transforms/Direction', '../transforms/Duality', '../core/GraphicsProgramSymbols', '../atoms/GridTriangleStrip', './AxialShapeBuilder', '../transforms/ConeTransform', '../transforms/Rotation', '../transforms/Scaling', '../transforms/Translation', '../transforms/CoordsTransform2D', '../math/Vector3'], function (require, exports, Approximation_1, Direction_1, Duality_1, GraphicsProgramSymbols_1, GridTriangleStrip_1, AxialShapeBuilder_1, ConeTransform_1, Rotation_1, Scaling_1, Translation_1, CoordsTransform2D_1, Vector3_1) {
     "use strict";
     var aPosition = GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION;
     var aTangent = GraphicsProgramSymbols_1.default.ATTRIBUTE_TANGENT;
     var aNormal = GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL;
     var ConicalShellBuilder = (function (_super) {
         __extends(ConicalShellBuilder, _super);
-        function ConicalShellBuilder(e, cutLine, clockwise) {
+        function ConicalShellBuilder() {
             _super.call(this);
             this.radialSegments = 1;
             this.thetaSegments = 32;
-            this.e = R3_1.default.direction(e);
-            this.cutLine = R3_1.default.direction(cutLine);
-            this.clockwise = clockwise;
+            this.height = Vector3_1.default.vector(0, 1, 0);
+            this.cutLine = Vector3_1.default.vector(0, 0, 1);
+            this.clockwise = true;
         }
-        Object.defineProperty(ConicalShellBuilder.prototype, "radius", {
-            get: function () {
-                return this.stress.x;
-            },
-            set: function (radius) {
-                this.stress.x = radius;
-                this.stress.z = radius;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(ConicalShellBuilder.prototype, "height", {
-            get: function () {
-                return this.stress.y;
-            },
-            set: function (height) {
-                this.stress.y = height;
-            },
-            enumerable: true,
-            configurable: true
-        });
         ConicalShellBuilder.prototype.toPrimitive = function () {
-            this.transforms.push(new ConeTransform_1.default(this.e, this.cutLine, this.clockwise, this.sliceAngle, aPosition, aTangent));
+            var coneTransform = new ConeTransform_1.default(this.clockwise, this.sliceAngle, aPosition, aTangent);
+            coneTransform.h.copy(this.height);
+            coneTransform.a.copy(this.cutLine);
+            coneTransform.b.copy(this.height).normalize().cross(this.cutLine);
+            this.transforms.push(coneTransform);
             this.transforms.push(new Scaling_1.default(this.stress, [aPosition, aTangent]));
             this.transforms.push(new Rotation_1.default(this.tilt, [aPosition, aTangent]));
             this.transforms.push(new Translation_1.default(this.offset, [aPosition]));
@@ -15913,9 +15901,10 @@ define('davinci-eight/shapes/ArrowBuilder',["require", "exports", './AxialShapeB
             neck.rotate(this.tilt);
             var tail = Vector3_1.default.copy(this.offset);
             tail.rotate(this.tilt);
-            var cone = new ConicalShellBuilder_1.default(this.e, this.cutLine, this.clockwise);
-            cone.radius = this.radiusCone;
-            cone.height = this.heightCone;
+            var cone = new ConicalShellBuilder_1.default();
+            cone.height.copy(this.e).scale(this.heightCone);
+            cone.cutLine.copy(this.cutLine).scale(this.radiusCone);
+            cone.clockwise = this.clockwise;
             cone.tilt.mul(this.tilt);
             cone.offset.copy(neck);
             cone.sliceAngle = this.sliceAngle;

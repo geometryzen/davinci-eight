@@ -92,10 +92,10 @@ export default class ArrowBuilder extends AxialShapeBuilder {
         /**
          * The `cone` forms the head of the arrow.
          */
-        const cone = new ConicalShellBuilder(this.e, this.cutLine, this.clockwise)
-        // Use the radius and height helpers instead of the scale.
-        cone.radius = this.radiusCone
-        cone.height = this.heightCone
+        const cone = new ConicalShellBuilder()
+        cone.height.copy(this.e).scale(this.heightCone);
+        cone.cutLine.copy(this.cutLine).scale(this.radiusCone);
+        cone.clockwise = this.clockwise;
         cone.tilt.mul(this.tilt)
         cone.offset.copy(neck)
         cone.sliceAngle = this.sliceAngle

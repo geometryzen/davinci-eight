@@ -3344,10 +3344,9 @@ declare module EIGHT {
     function reduce(primitives: Primitive[]): Primitive;
 
     class ConicalShellBuilder {
-        e: Vector3;
+        height: Vector3;
         cutLine: Vector3;
         clockwise: boolean;
-        height: number;
         offset: Vector3;
         radius: number;
         radialSegments: number;

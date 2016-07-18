@@ -3539,13 +3539,12 @@ System.register("davinci-eight/utils/animation.js", ["../checks/expectArg"], fun
   };
 });
 
-System.register("davinci-eight/transforms/ConeTransform.js", ["../checks/mustBeBoolean", "../checks/mustBeNumber", "../checks/mustBeString", "../math/R3", "../math/Spinor3", "../math/Vector3"], function(exports_1, context_1) {
+System.register("davinci-eight/transforms/ConeTransform.js", ["../checks/mustBeBoolean", "../checks/mustBeNumber", "../checks/mustBeString", "../math/Spinor3", "../math/Vector3"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var mustBeBoolean_1,
       mustBeNumber_1,
       mustBeString_1,
-      R3_1,
       Spinor3_1,
       Vector3_1;
   var ConeTransform;
@@ -3561,8 +3560,6 @@ System.register("davinci-eight/transforms/ConeTransform.js", ["../checks/mustBeB
       mustBeNumber_1 = mustBeNumber_1_1;
     }, function(mustBeString_1_1) {
       mustBeString_1 = mustBeString_1_1;
-    }, function(R3_1_1) {
-      R3_1 = R3_1_1;
     }, function(Spinor3_1_1) {
       Spinor3_1 = Spinor3_1_1;
     }, function(Vector3_1_1) {
@@ -3570,10 +3567,10 @@ System.register("davinci-eight/transforms/ConeTransform.js", ["../checks/mustBeB
     }],
     execute: function() {
       ConeTransform = (function() {
-        function ConeTransform(e, cutLine, clockwise, sliceAngle, aPosition, aTangent) {
-          this.e = R3_1.default.direction(e);
-          this.cutLine = R3_1.default.direction(cutLine);
-          this.b = new Vector3_1.default().cross2(e, cutLine).normalize();
+        function ConeTransform(clockwise, sliceAngle, aPosition, aTangent) {
+          this.h = Vector3_1.default.vector(0, 1, 0);
+          this.a = Vector3_1.default.vector(0, 0, 1);
+          this.b = Vector3_1.default.vector(1, 0, 0);
           this.clockwise = mustBeBoolean_1.default('clockwise', clockwise);
           this.sliceAngle = mustBeNumber_1.default('sliceAngle', sliceAngle);
           this.aPosition = mustBeString_1.default('aPosition', aPosition);
@@ -3588,11 +3585,11 @@ System.register("davinci-eight/transforms/ConeTransform.js", ["../checks/mustBeB
           var θ = sign * this.sliceAngle * u;
           var cosθ = Math.cos(θ);
           var sinθ = Math.sin(θ);
-          var ρ = new Vector3_1.default().add(this.cutLine, cosθ).add(this.b, sinθ);
-          var x = Vector3_1.default.lerp(ρ, this.e, v);
+          var ρ = new Vector3_1.default().add(this.a, cosθ).add(this.b, sinθ);
+          var x = Vector3_1.default.lerp(ρ, this.h, v);
           vertex.attributes[this.aPosition] = x;
           var normal = Vector3_1.default.zero();
-          coneNormal(ρ, this.e, normal);
+          coneNormal(ρ, this.h, normal);
           vertex.attributes[this.aTangent] = Spinor3_1.default.dual(normal, false);
         };
         return ConeTransform;
@@ -3602,7 +3599,7 @@ System.register("davinci-eight/transforms/ConeTransform.js", ["../checks/mustBeB
   };
 });
 
-System.register("davinci-eight/shapes/ConicalShellBuilder.js", ["../transforms/Approximation", "../transforms/Direction", "../transforms/Duality", "../core/GraphicsProgramSymbols", "../atoms/GridTriangleStrip", "./AxialShapeBuilder", "../transforms/ConeTransform", "../transforms/Rotation", "../math/R3", "../transforms/Scaling", "../transforms/Translation", "../transforms/CoordsTransform2D"], function(exports_1, context_1) {
+System.register("davinci-eight/shapes/ConicalShellBuilder.js", ["../transforms/Approximation", "../transforms/Direction", "../transforms/Duality", "../core/GraphicsProgramSymbols", "../atoms/GridTriangleStrip", "./AxialShapeBuilder", "../transforms/ConeTransform", "../transforms/Rotation", "../transforms/Scaling", "../transforms/Translation", "../transforms/CoordsTransform2D", "../math/Vector3"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -3622,10 +3619,10 @@ System.register("davinci-eight/shapes/ConicalShellBuilder.js", ["../transforms/A
       AxialShapeBuilder_1,
       ConeTransform_1,
       Rotation_1,
-      R3_1,
       Scaling_1,
       Translation_1,
-      CoordsTransform2D_1;
+      CoordsTransform2D_1,
+      Vector3_1;
   var aPosition,
       aTangent,
       aNormal,
@@ -3647,14 +3644,14 @@ System.register("davinci-eight/shapes/ConicalShellBuilder.js", ["../transforms/A
       ConeTransform_1 = ConeTransform_1_1;
     }, function(Rotation_1_1) {
       Rotation_1 = Rotation_1_1;
-    }, function(R3_1_1) {
-      R3_1 = R3_1_1;
     }, function(Scaling_1_1) {
       Scaling_1 = Scaling_1_1;
     }, function(Translation_1_1) {
       Translation_1 = Translation_1_1;
     }, function(CoordsTransform2D_1_1) {
       CoordsTransform2D_1 = CoordsTransform2D_1_1;
+    }, function(Vector3_1_1) {
+      Vector3_1 = Vector3_1_1;
     }],
     execute: function() {
       aPosition = GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION;
@@ -3662,37 +3659,20 @@ System.register("davinci-eight/shapes/ConicalShellBuilder.js", ["../transforms/A
       aNormal = GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL;
       ConicalShellBuilder = (function(_super) {
         __extends(ConicalShellBuilder, _super);
-        function ConicalShellBuilder(e, cutLine, clockwise) {
+        function ConicalShellBuilder() {
           _super.call(this);
           this.radialSegments = 1;
           this.thetaSegments = 32;
-          this.e = R3_1.default.direction(e);
-          this.cutLine = R3_1.default.direction(cutLine);
-          this.clockwise = clockwise;
+          this.height = Vector3_1.default.vector(0, 1, 0);
+          this.cutLine = Vector3_1.default.vector(0, 0, 1);
+          this.clockwise = true;
         }
-        Object.defineProperty(ConicalShellBuilder.prototype, "radius", {
-          get: function() {
-            return this.stress.x;
-          },
-          set: function(radius) {
-            this.stress.x = radius;
-            this.stress.z = radius;
-          },
-          enumerable: true,
-          configurable: true
-        });
-        Object.defineProperty(ConicalShellBuilder.prototype, "height", {
-          get: function() {
-            return this.stress.y;
-          },
-          set: function(height) {
-            this.stress.y = height;
-          },
-          enumerable: true,
-          configurable: true
-        });
         ConicalShellBuilder.prototype.toPrimitive = function() {
-          this.transforms.push(new ConeTransform_1.default(this.e, this.cutLine, this.clockwise, this.sliceAngle, aPosition, aTangent));
+          var coneTransform = new ConeTransform_1.default(this.clockwise, this.sliceAngle, aPosition, aTangent);
+          coneTransform.h.copy(this.height);
+          coneTransform.a.copy(this.cutLine);
+          coneTransform.b.copy(this.height).normalize().cross(this.cutLine);
+          this.transforms.push(coneTransform);
           this.transforms.push(new Scaling_1.default(this.stress, [aPosition, aTangent]));
           this.transforms.push(new Rotation_1.default(this.tilt, [aPosition, aTangent]));
           this.transforms.push(new Translation_1.default(this.offset, [aPosition]));
@@ -3780,9 +3760,10 @@ System.register("davinci-eight/shapes/ArrowBuilder.js", ["./AxialShapeBuilder", 
           neck.rotate(this.tilt);
           var tail = Vector3_1.default.copy(this.offset);
           tail.rotate(this.tilt);
-          var cone = new ConicalShellBuilder_1.default(this.e, this.cutLine, this.clockwise);
-          cone.radius = this.radiusCone;
-          cone.height = this.heightCone;
+          var cone = new ConicalShellBuilder_1.default();
+          cone.height.copy(this.e).scale(this.heightCone);
+          cone.cutLine.copy(this.cutLine).scale(this.radiusCone);
+          cone.clockwise = this.clockwise;
           cone.tilt.mul(this.tilt);
           cone.offset.copy(neck);
           cone.sliceAngle = this.sliceAngle;
@@ -8309,15 +8290,18 @@ System.register("davinci-eight/transforms/Rotation.js", ["../checks/mustBeObject
   };
 });
 
-System.register("davinci-eight/transforms/Scaling.js", ["../checks/mustBeObject", "../math/Spinor3", "../math/Vector3"], function(exports_1, context_1) {
+System.register("davinci-eight/transforms/Scaling.js", ["../checks/mustBeArray", "../checks/mustBeObject", "../math/Spinor3", "../math/Vector3"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
-  var mustBeObject_1,
+  var mustBeArray_1,
+      mustBeObject_1,
       Spinor3_1,
       Vector3_1;
   var Scaling;
   return {
-    setters: [function(mustBeObject_1_1) {
+    setters: [function(mustBeArray_1_1) {
+      mustBeArray_1 = mustBeArray_1_1;
+    }, function(mustBeObject_1_1) {
       mustBeObject_1 = mustBeObject_1_1;
     }, function(Spinor3_1_1) {
       Spinor3_1 = Spinor3_1_1;
@@ -8328,23 +8312,27 @@ System.register("davinci-eight/transforms/Scaling.js", ["../checks/mustBeObject"
       Scaling = (function() {
         function Scaling(stress, names) {
           this.stress = Vector3_1.default.copy(mustBeObject_1.default('stress', stress));
-          this.names = names;
+          this.names = mustBeArray_1.default('names', names);
         }
         Scaling.prototype.exec = function(vertex, i, j, iLength, jLength) {
           var nLength = this.names.length;
           for (var k = 0; k < nLength; k++) {
             var aName = this.names[k];
             var v = vertex.attributes[aName];
-            if (v.length === 3) {
-              var vector = Vector3_1.default.vector(v.getComponent(0), v.getComponent(1), v.getComponent(2));
-              vector.stress(this.stress);
-              vertex.attributes[aName] = vector;
-            } else if (v.length === 4) {
-              var spinor = Spinor3_1.default.spinor(v.getComponent(0), v.getComponent(1), v.getComponent(2), v.getComponent(3));
-              spinor.stress(this.stress);
-              vertex.attributes[aName] = spinor;
+            if (v) {
+              if (v.length === 3) {
+                var vector = Vector3_1.default.vector(v.getComponent(0), v.getComponent(1), v.getComponent(2));
+                vector.stress(this.stress);
+                vertex.attributes[aName] = vector;
+              } else if (v.length === 4) {
+                var spinor = Spinor3_1.default.spinor(v.getComponent(0), v.getComponent(1), v.getComponent(2), v.getComponent(3));
+                spinor.stress(this.stress);
+                vertex.attributes[aName] = spinor;
+              } else {
+                throw new Error("Expecting " + aName + " to be a vector with 3 coordinates or a spinor with 4 coordinates.");
+              }
             } else {
-              throw new Error("Expecting " + aName + " to be a vector with 3 coordinates");
+              console.warn("Expecting " + aName + " to be a VectorN.");
             }
           }
         };
@@ -25640,9 +25628,9 @@ System.register("davinci-eight/config.js", ["./core/ErrorMode"], function(export
         function Eight() {
           this._errorMode = ErrorMode_1.default.STRICT;
           this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-          this.LAST_MODIFIED = '2016-07-17';
+          this.LAST_MODIFIED = '2016-07-18';
           this.NAMESPACE = 'EIGHT';
-          this.VERSION = '2.267.0';
+          this.VERSION = '2.268.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
           get: function() {
