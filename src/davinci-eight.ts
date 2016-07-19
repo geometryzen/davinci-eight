@@ -197,6 +197,7 @@ import randomColor from './davinci-eight/utils/randomColor';
 
 // visual
 import {Arrow} from './davinci-eight/visual/Arrow';
+import Basis from './davinci-eight/visual/Basis';
 import {Sphere} from './davinci-eight/visual/Sphere';
 import {Box} from './davinci-eight/visual/Box';
 import {Cylinder} from './davinci-eight/visual/Cylinder';
@@ -361,6 +362,7 @@ const eight = {
 
     // visual
     get Arrow() { return Arrow },
+    get Basis() { return Basis },
     get Sphere() { return Sphere },
     get Box() { return Box },
     get Mesh() { return Mesh },

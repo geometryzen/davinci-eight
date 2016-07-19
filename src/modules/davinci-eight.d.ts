@@ -3681,7 +3681,7 @@ declare module EIGHT {
      * A (name: string, vector: Vector3) pair that can be used to set a uniform variable.
      */
     class Vector3Facet extends AbstractFacet {
-        constructor(name: string, vector: Vector3);
+        constructor(name: string);
     }
 
     /**
@@ -3986,6 +3986,17 @@ declare module EIGHT {
                 tilt?: SpinorE3;
                 vector?: VectorE3;
             }, levelUp?: number);
+        protected destructor(levelUp: number): void;
+    }
+
+    class Basis extends Mesh {
+        a: Vector3;
+        b: Vector3;
+        c: Vector3;
+        colorA: Color;
+        colorB: Color;
+        colorC: Color;
+        constructor(engine: EIGHT.Engine, levelUp?: number);
         protected destructor(levelUp: number): void;
     }
 

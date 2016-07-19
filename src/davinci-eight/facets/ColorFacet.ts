@@ -55,13 +55,7 @@ export class ColorFacet implements Facet {
     /**
      *
      */
-    public uColorName: string;
-
-    /**
-     *
-     */
-    constructor() {
-        this.uColorName = GraphicsProgramSymbols.UNIFORM_COLOR
+    constructor(public uColorName = GraphicsProgramSymbols.UNIFORM_COLOR) {
     }
 
     /**

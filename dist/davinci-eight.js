@@ -558,7 +558,7 @@ define('davinci-eight/config',["require", "exports", './core/ErrorMode'], functi
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-07-19';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.271.0';
+            this.VERSION = '2.272.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
             get: function () {
@@ -10642,9 +10642,10 @@ define('davinci-eight/facets/ColorFacet',["require", "exports", '../core/Color',
         }
     }
     var ColorFacet = (function () {
-        function ColorFacet() {
+        function ColorFacet(uColorName) {
+            if (uColorName === void 0) { uColorName = GraphicsProgramSymbols_1.default.UNIFORM_COLOR; }
+            this.uColorName = uColorName;
             this.color = Color_1.Color.fromRGB(1, 1, 1);
-            this.uColorName = GraphicsProgramSymbols_1.default.UNIFORM_COLOR;
         }
         Object.defineProperty(ColorFacet.prototype, "r", {
             get: function () {
@@ -11887,16 +11888,13 @@ define('davinci-eight/facets/ReflectionFacetE3',["require", "exports", '../check
     exports.default = ReflectionFacetE3;
 });
 
-define('davinci-eight/facets/Vector3Facet',["require", "exports", '../checks/mustBeObject', '../checks/mustBeString'], function (require, exports, mustBeObject_1, mustBeString_1) {
+define('davinci-eight/facets/Vector3Facet',["require", "exports", '../checks/mustBeString', '../math/Vector3'], function (require, exports, mustBeString_1, Vector3_1) {
     "use strict";
-    var LOGGING_NAME = 'Vector3Facet';
-    function contextBuilder() {
-        return LOGGING_NAME;
-    }
     var Vector3Facet = (function () {
-        function Vector3Facet(name, vector) {
-            this._name = mustBeString_1.default('name', name, contextBuilder);
-            this._vector = mustBeObject_1.default('vector', vector, contextBuilder);
+        function Vector3Facet(name) {
+            this.name = name;
+            this.vector = Vector3_1.default.vector(0, 0, 0);
+            mustBeString_1.default('name', name);
         }
         Vector3Facet.prototype.getProperty = function (name) {
             return void 0;
@@ -11905,8 +11903,8 @@ define('davinci-eight/facets/Vector3Facet',["require", "exports", '../checks/mus
             return this;
         };
         Vector3Facet.prototype.setUniforms = function (visitor) {
-            var v = this._vector;
-            visitor.uniform3f(this._name, v.x, v.y, v.z);
+            var v = this.vector;
+            visitor.uniform3f(this.name, v.x, v.y, v.z);
         };
         return Vector3Facet;
     }());
@@ -17949,6 +17947,7 @@ define('davinci-eight/materials/ShaderMaterial',["require", "exports", '../core/
     var ShaderMaterial = (function (_super) {
         __extends(ShaderMaterial, _super);
         function ShaderMaterial(vertexShaderSrc, fragmentShaderSrc, attribs, engine, levelUp) {
+            if (levelUp === void 0) { levelUp = 0; }
             _super.call(this, engine);
             this._attributesByName = {};
             this._attributesByIndex = [];
@@ -19904,6 +19903,160 @@ define('davinci-eight/visual/Arrow',["require", "exports", '../geometries/ArrowG
     exports.Arrow = Arrow;
 });
 
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/visual/Basis',["require", "exports", '../core/BeginMode', '../core/Color', '../facets/ColorFacet', '../core/DataType', '../core/GeometryArrays', '../core/Mesh', '../math/R3', '../materials/ShaderMaterial', '../facets/Vector3Facet'], function (require, exports, BeginMode_1, Color_1, ColorFacet_1, DataType_1, GeometryArrays_1, Mesh_1, R3_1, ShaderMaterial_1, Vector3Facet_1) {
+    "use strict";
+    var uPointA = 'uPointA';
+    var uPointB = 'uPointB';
+    var uPointC = 'uPointC';
+    var uColorA = 'uColorA';
+    var uColorB = 'uColorB';
+    var uColorC = 'uColorC';
+    var vs = [
+        "attribute float aPointIndex;",
+        "attribute float aColorIndex;",
+        ("uniform vec3 " + uPointA + ";"),
+        ("uniform vec3 " + uPointB + ";"),
+        ("uniform vec3 " + uPointC + ";"),
+        ("uniform vec3 " + uColorA + ";"),
+        ("uniform vec3 " + uColorB + ";"),
+        ("uniform vec3 " + uColorC + ";"),
+        "uniform mat4 uModel;",
+        "uniform mat4 uProjection;",
+        "uniform mat4 uView;",
+        "varying highp vec4 vColor;",
+        "",
+        "void main(void) {",
+        "  vec3 aPosition;",
+        "  vec3 aColor;",
+        "  if (aPointIndex == 0.0) {",
+        "    aPosition = vec3(0.0, 0.0, 0.0);",
+        "  }",
+        "  if (aPointIndex == 1.0) {",
+        ("    aPosition = " + uPointA + ";"),
+        "  }",
+        "  if (aPointIndex == 2.0) {",
+        ("    aPosition = " + uPointB + ";"),
+        "  }",
+        "  if (aPointIndex == 3.0) {",
+        ("    aPosition = " + uPointC + ";"),
+        "  }",
+        "  if (aColorIndex == 1.0) {",
+        ("    aColor = " + uColorA + ";"),
+        "  }",
+        "  if (aColorIndex == 2.0) {",
+        ("    aColor = " + uColorB + ";"),
+        "  }",
+        "  if (aColorIndex == 3.0) {",
+        ("    aColor = " + uColorC + ";"),
+        "  }",
+        "  gl_Position = uProjection * uView * uModel * vec4(aPosition, 1.0);",
+        "  vColor = vec4(aColor, 1.0);",
+        "}"
+    ].join('\n');
+    var fs = [
+        "precision mediump float;",
+        "varying highp vec4 vColor;",
+        "",
+        "void main(void) {",
+        "  gl_FragColor = vColor;",
+        "}"
+    ].join('\n');
+    var Basis = (function (_super) {
+        __extends(Basis, _super);
+        function Basis(engine, levelUp) {
+            if (levelUp === void 0) { levelUp = 0; }
+            _super.call(this, void 0, void 0, engine, levelUp + 1);
+            this.uPointA = new Vector3Facet_1.default(uPointA);
+            this.uPointB = new Vector3Facet_1.default(uPointB);
+            this.uPointC = new Vector3Facet_1.default(uPointC);
+            this.uColorA = new ColorFacet_1.ColorFacet(uColorA);
+            this.uColorB = new ColorFacet_1.ColorFacet(uColorB);
+            this.uColorC = new ColorFacet_1.ColorFacet(uColorC);
+            this.setLoggingName("Basis");
+            this.uPointA.vector.copy(R3_1.default.e1);
+            this.colorA.copy(Color_1.Color.red);
+            this.uPointB.vector.copy(R3_1.default.e2);
+            this.colorB.copy(Color_1.Color.green);
+            this.uPointC.vector.copy(R3_1.default.e3);
+            this.colorC.copy(Color_1.Color.blue);
+            var geometry = new GeometryArrays_1.default(void 0, engine);
+            geometry.mode = BeginMode_1.default.LINES;
+            geometry.setAttribute('aPointIndex', { values: [0, 1, 0, 2, 0, 3], size: 1, type: DataType_1.default.FLOAT });
+            geometry.setAttribute('aColorIndex', { values: [1, 1, 2, 2, 3, 3], size: 1, type: DataType_1.default.FLOAT });
+            this.geometry = geometry;
+            geometry.release();
+            var material = new ShaderMaterial_1.ShaderMaterial(vs, fs, [], engine);
+            this.material = material;
+            material.release();
+            this.setFacet("Basis-" + uPointA, this.uPointA);
+            this.setFacet("Basis-" + uPointB, this.uPointB);
+            this.setFacet("Basis-" + uPointC, this.uPointC);
+            this.setFacet("Basis-" + uColorA, this.uColorA);
+            this.setFacet("Basis-" + uColorB, this.uColorB);
+            this.setFacet("Basis-" + uColorC, this.uColorC);
+            if (levelUp === 0) {
+                this.synchUp();
+            }
+        }
+        Basis.prototype.destructor = function (levelUp) {
+            if (levelUp === 0) {
+                this.cleanUp();
+            }
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        Object.defineProperty(Basis.prototype, "a", {
+            get: function () {
+                return this.uPointA.vector;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Basis.prototype, "b", {
+            get: function () {
+                return this.uPointB.vector;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Basis.prototype, "c", {
+            get: function () {
+                return this.uPointC.vector;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Basis.prototype, "colorA", {
+            get: function () {
+                return this.uColorA.color;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Basis.prototype, "colorB", {
+            get: function () {
+                return this.uColorB.color;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Basis.prototype, "colorC", {
+            get: function () {
+                return this.uColorC.color;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return Basis;
+    }(Mesh_1.Mesh));
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = Basis;
+});
+
 define('davinci-eight/visual/direction',["require", "exports", '../math/R3'], function (require, exports, R3_1) {
     "use strict";
     function default_1(options) {
@@ -21261,7 +21414,7 @@ define('davinci-eight/visual/Trail',["require", "exports", '../math/Modulo', '..
     exports.Trail = Trail;
 });
 
-define('davinci-eight',["require", "exports", './davinci-eight/commands/WebGLBlendFunc', './davinci-eight/commands/WebGLClearColor', './davinci-eight/commands/WebGLDisable', './davinci-eight/commands/WebGLEnable', './davinci-eight/controls/OrbitControls', './davinci-eight/controls/TrackballControls', './davinci-eight/core/Attrib', './davinci-eight/core/BeginMode', './davinci-eight/core/BlendingFactorDest', './davinci-eight/core/BlendingFactorSrc', './davinci-eight/core/Capability', './davinci-eight/core/ClearBufferMask', './davinci-eight/core/Color', './davinci-eight/config', './davinci-eight/core/DataType', './davinci-eight/core/Drawable', './davinci-eight/core/DepthFunction', './davinci-eight/core/ErrorMode', './davinci-eight/core/GeometryArrays', './davinci-eight/core/GeometryContainer', './davinci-eight/core/GeometryElements', './davinci-eight/core/GraphicsProgramSymbols', './davinci-eight/core/Mesh', './davinci-eight/core/Scene', './davinci-eight/core/Shader', './davinci-eight/core/Uniform', './davinci-eight/core/Usage', './davinci-eight/core/Engine', './davinci-eight/core/VertexBuffer', './davinci-eight/core/IndexBuffer', './davinci-eight/core/vertexArraysFromPrimitive', './davinci-eight/core/geometryFromPrimitive', './davinci-eight/facets/AmbientLight', './davinci-eight/facets/ColorFacet', './davinci-eight/facets/DirectionalLight', './davinci-eight/facets/ModelFacet', './davinci-eight/facets/PointSizeFacet', './davinci-eight/facets/ReflectionFacetE2', './davinci-eight/facets/ReflectionFacetE3', './davinci-eight/facets/Vector3Facet', './davinci-eight/facets/frustumMatrix', './davinci-eight/facets/PerspectiveCamera', './davinci-eight/facets/perspectiveMatrix', './davinci-eight/facets/viewMatrixFromEyeLookUp', './davinci-eight/facets/ModelE2', './davinci-eight/facets/ModelE3', './davinci-eight/atoms/DrawAttribute', './davinci-eight/atoms/DrawPrimitive', './davinci-eight/atoms/reduce', './davinci-eight/atoms/Vertex', './davinci-eight/shapes/ArrowBuilder', './davinci-eight/shapes/ConicalShellBuilder', './davinci-eight/shapes/CylindricalShellBuilder', './davinci-eight/shapes/RingBuilder', './davinci-eight/geometries/Simplex', './davinci-eight/geometries/ArrowGeometry', './davinci-eight/geometries/BoxGeometry', './davinci-eight/geometries/CylinderGeometry', './davinci-eight/geometries/GridGeometry', './davinci-eight/geometries/SphereGeometry', './davinci-eight/geometries/TetrahedronGeometry', './davinci-eight/geometries/CuboidPrimitivesBuilder', './davinci-eight/geometries/CylinderBuilder', './davinci-eight/materials/HTMLScriptsMaterial', './davinci-eight/materials/LineMaterial', './davinci-eight/materials/ShaderMaterial', './davinci-eight/materials/MeshMaterial', './davinci-eight/materials/PointMaterial', './davinci-eight/materials/GraphicsProgramBuilder', './davinci-eight/math/Dimensions', './davinci-eight/math/G2', './davinci-eight/math/G3', './davinci-eight/math/mathcore', './davinci-eight/math/Vector1', './davinci-eight/math/Matrix2', './davinci-eight/math/Matrix3', './davinci-eight/math/Matrix4', './davinci-eight/math/QQ', './davinci-eight/math/R3', './davinci-eight/math/Unit', './davinci-eight/math/Geometric2', './davinci-eight/math/Geometric3', './davinci-eight/math/Spinor2', './davinci-eight/math/Spinor3', './davinci-eight/math/Vector2', './davinci-eight/math/Vector3', './davinci-eight/math/Vector4', './davinci-eight/math/VectorN', './davinci-eight/overlay/Overlay', './davinci-eight/utils/getCanvasElementById', './davinci-eight/collections/ShareableArray', './davinci-eight/collections/NumberShareableMap', './davinci-eight/core/refChange', './davinci-eight/core/ShareableBase', './davinci-eight/collections/StringShareableMap', './davinci-eight/utils/animation', './davinci-eight/visual/Arrow', './davinci-eight/visual/Sphere', './davinci-eight/visual/Box', './davinci-eight/visual/Cylinder', './davinci-eight/visual/Curve', './davinci-eight/visual/Grid', './davinci-eight/visual/HollowCylinder', './davinci-eight/visual/RigidBody', './davinci-eight/visual/RigidBodyWithUnits', './davinci-eight/visual/Tetrahedron', './davinci-eight/visual/Trail'], function (require, exports, WebGLBlendFunc_1, WebGLClearColor_1, WebGLDisable_1, WebGLEnable_1, OrbitControls_1, TrackballControls_1, Attrib_1, BeginMode_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, ClearBufferMask_1, Color_1, config_1, DataType_1, Drawable_1, DepthFunction_1, ErrorMode_1, GeometryArrays_1, GeometryContainer_1, GeometryElements_1, GraphicsProgramSymbols_1, Mesh_1, Scene_1, Shader_1, Uniform_1, Usage_1, Engine_1, VertexBuffer_1, IndexBuffer_1, vertexArraysFromPrimitive_1, geometryFromPrimitive_1, AmbientLight_1, ColorFacet_1, DirectionalLight_1, ModelFacet_1, PointSizeFacet_1, ReflectionFacetE2_1, ReflectionFacetE3_1, Vector3Facet_1, frustumMatrix_1, PerspectiveCamera_1, perspectiveMatrix_1, viewMatrixFromEyeLookUp_1, ModelE2_1, ModelE3_1, DrawAttribute_1, DrawPrimitive_1, reduce_1, Vertex_1, ArrowBuilder_1, ConicalShellBuilder_1, CylindricalShellBuilder_1, RingBuilder_1, Simplex_1, ArrowGeometry_1, BoxGeometry_1, CylinderGeometry_1, GridGeometry_1, SphereGeometry_1, TetrahedronGeometry_1, CuboidPrimitivesBuilder_1, CylinderBuilder_1, HTMLScriptsMaterial_1, LineMaterial_1, ShaderMaterial_1, MeshMaterial_1, PointMaterial_1, GraphicsProgramBuilder_1, Dimensions_1, G2_1, G3_1, mathcore_1, Vector1_1, Matrix2_1, Matrix3_1, Matrix4_1, QQ_1, R3_1, Unit_1, Geometric2_1, Geometric3_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1, Vector4_1, VectorN_1, Overlay_1, getCanvasElementById_1, ShareableArray_1, NumberShareableMap_1, refChange_1, ShareableBase_1, StringShareableMap_1, animation_1, Arrow_1, Sphere_1, Box_1, Cylinder_1, Curve_1, Grid_1, HollowCylinder_1, RigidBody_1, RigidBodyWithUnits_1, Tetrahedron_1, Trail_1) {
+define('davinci-eight',["require", "exports", './davinci-eight/commands/WebGLBlendFunc', './davinci-eight/commands/WebGLClearColor', './davinci-eight/commands/WebGLDisable', './davinci-eight/commands/WebGLEnable', './davinci-eight/controls/OrbitControls', './davinci-eight/controls/TrackballControls', './davinci-eight/core/Attrib', './davinci-eight/core/BeginMode', './davinci-eight/core/BlendingFactorDest', './davinci-eight/core/BlendingFactorSrc', './davinci-eight/core/Capability', './davinci-eight/core/ClearBufferMask', './davinci-eight/core/Color', './davinci-eight/config', './davinci-eight/core/DataType', './davinci-eight/core/Drawable', './davinci-eight/core/DepthFunction', './davinci-eight/core/ErrorMode', './davinci-eight/core/GeometryArrays', './davinci-eight/core/GeometryContainer', './davinci-eight/core/GeometryElements', './davinci-eight/core/GraphicsProgramSymbols', './davinci-eight/core/Mesh', './davinci-eight/core/Scene', './davinci-eight/core/Shader', './davinci-eight/core/Uniform', './davinci-eight/core/Usage', './davinci-eight/core/Engine', './davinci-eight/core/VertexBuffer', './davinci-eight/core/IndexBuffer', './davinci-eight/core/vertexArraysFromPrimitive', './davinci-eight/core/geometryFromPrimitive', './davinci-eight/facets/AmbientLight', './davinci-eight/facets/ColorFacet', './davinci-eight/facets/DirectionalLight', './davinci-eight/facets/ModelFacet', './davinci-eight/facets/PointSizeFacet', './davinci-eight/facets/ReflectionFacetE2', './davinci-eight/facets/ReflectionFacetE3', './davinci-eight/facets/Vector3Facet', './davinci-eight/facets/frustumMatrix', './davinci-eight/facets/PerspectiveCamera', './davinci-eight/facets/perspectiveMatrix', './davinci-eight/facets/viewMatrixFromEyeLookUp', './davinci-eight/facets/ModelE2', './davinci-eight/facets/ModelE3', './davinci-eight/atoms/DrawAttribute', './davinci-eight/atoms/DrawPrimitive', './davinci-eight/atoms/reduce', './davinci-eight/atoms/Vertex', './davinci-eight/shapes/ArrowBuilder', './davinci-eight/shapes/ConicalShellBuilder', './davinci-eight/shapes/CylindricalShellBuilder', './davinci-eight/shapes/RingBuilder', './davinci-eight/geometries/Simplex', './davinci-eight/geometries/ArrowGeometry', './davinci-eight/geometries/BoxGeometry', './davinci-eight/geometries/CylinderGeometry', './davinci-eight/geometries/GridGeometry', './davinci-eight/geometries/SphereGeometry', './davinci-eight/geometries/TetrahedronGeometry', './davinci-eight/geometries/CuboidPrimitivesBuilder', './davinci-eight/geometries/CylinderBuilder', './davinci-eight/materials/HTMLScriptsMaterial', './davinci-eight/materials/LineMaterial', './davinci-eight/materials/ShaderMaterial', './davinci-eight/materials/MeshMaterial', './davinci-eight/materials/PointMaterial', './davinci-eight/materials/GraphicsProgramBuilder', './davinci-eight/math/Dimensions', './davinci-eight/math/G2', './davinci-eight/math/G3', './davinci-eight/math/mathcore', './davinci-eight/math/Vector1', './davinci-eight/math/Matrix2', './davinci-eight/math/Matrix3', './davinci-eight/math/Matrix4', './davinci-eight/math/QQ', './davinci-eight/math/R3', './davinci-eight/math/Unit', './davinci-eight/math/Geometric2', './davinci-eight/math/Geometric3', './davinci-eight/math/Spinor2', './davinci-eight/math/Spinor3', './davinci-eight/math/Vector2', './davinci-eight/math/Vector3', './davinci-eight/math/Vector4', './davinci-eight/math/VectorN', './davinci-eight/overlay/Overlay', './davinci-eight/utils/getCanvasElementById', './davinci-eight/collections/ShareableArray', './davinci-eight/collections/NumberShareableMap', './davinci-eight/core/refChange', './davinci-eight/core/ShareableBase', './davinci-eight/collections/StringShareableMap', './davinci-eight/utils/animation', './davinci-eight/visual/Arrow', './davinci-eight/visual/Basis', './davinci-eight/visual/Sphere', './davinci-eight/visual/Box', './davinci-eight/visual/Cylinder', './davinci-eight/visual/Curve', './davinci-eight/visual/Grid', './davinci-eight/visual/HollowCylinder', './davinci-eight/visual/RigidBody', './davinci-eight/visual/RigidBodyWithUnits', './davinci-eight/visual/Tetrahedron', './davinci-eight/visual/Trail'], function (require, exports, WebGLBlendFunc_1, WebGLClearColor_1, WebGLDisable_1, WebGLEnable_1, OrbitControls_1, TrackballControls_1, Attrib_1, BeginMode_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, ClearBufferMask_1, Color_1, config_1, DataType_1, Drawable_1, DepthFunction_1, ErrorMode_1, GeometryArrays_1, GeometryContainer_1, GeometryElements_1, GraphicsProgramSymbols_1, Mesh_1, Scene_1, Shader_1, Uniform_1, Usage_1, Engine_1, VertexBuffer_1, IndexBuffer_1, vertexArraysFromPrimitive_1, geometryFromPrimitive_1, AmbientLight_1, ColorFacet_1, DirectionalLight_1, ModelFacet_1, PointSizeFacet_1, ReflectionFacetE2_1, ReflectionFacetE3_1, Vector3Facet_1, frustumMatrix_1, PerspectiveCamera_1, perspectiveMatrix_1, viewMatrixFromEyeLookUp_1, ModelE2_1, ModelE3_1, DrawAttribute_1, DrawPrimitive_1, reduce_1, Vertex_1, ArrowBuilder_1, ConicalShellBuilder_1, CylindricalShellBuilder_1, RingBuilder_1, Simplex_1, ArrowGeometry_1, BoxGeometry_1, CylinderGeometry_1, GridGeometry_1, SphereGeometry_1, TetrahedronGeometry_1, CuboidPrimitivesBuilder_1, CylinderBuilder_1, HTMLScriptsMaterial_1, LineMaterial_1, ShaderMaterial_1, MeshMaterial_1, PointMaterial_1, GraphicsProgramBuilder_1, Dimensions_1, G2_1, G3_1, mathcore_1, Vector1_1, Matrix2_1, Matrix3_1, Matrix4_1, QQ_1, R3_1, Unit_1, Geometric2_1, Geometric3_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1, Vector4_1, VectorN_1, Overlay_1, getCanvasElementById_1, ShareableArray_1, NumberShareableMap_1, refChange_1, ShareableBase_1, StringShareableMap_1, animation_1, Arrow_1, Basis_1, Sphere_1, Box_1, Cylinder_1, Curve_1, Grid_1, HollowCylinder_1, RigidBody_1, RigidBodyWithUnits_1, Tetrahedron_1, Trail_1) {
     "use strict";
     var eight = {
         get LAST_MODIFIED() { return config_1.default.LAST_MODIFIED; },
@@ -21381,6 +21534,7 @@ define('davinci-eight',["require", "exports", './davinci-eight/commands/WebGLBle
         get sinh() { return mathcore_1.default.sinh; },
         get sqrt() { return mathcore_1.default.sqrt; },
         get Arrow() { return Arrow_1.Arrow; },
+        get Basis() { return Basis_1.default; },
         get Sphere() { return Sphere_1.Sphere; },
         get Box() { return Box_1.Box; },
         get Mesh() { return Mesh_1.Mesh; },

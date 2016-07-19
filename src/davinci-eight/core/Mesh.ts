@@ -32,8 +32,6 @@ export class Mesh extends Drawable implements AbstractMesh {
         if (levelUp === 0) {
             this.synchUp();
         }
-        // this.opacity = 1.0;
-        // this.pointSize = 2;
     }
 
     protected destructor(levelUp: number): void {

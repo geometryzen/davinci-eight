@@ -55,7 +55,7 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
      * @param attribs The attribute ordering.
      * @param engine The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
      */
-    constructor(vertexShaderSrc: string, fragmentShaderSrc: string, attribs: string[], engine: Engine, levelUp: number) {
+    constructor(vertexShaderSrc: string, fragmentShaderSrc: string, attribs: string[], engine: Engine, levelUp = 0) {
         super(engine)
         this.setLoggingName('ShaderMaterial')
         if (isDefined(vertexShaderSrc) && !isNull(vertexShaderSrc)) {
