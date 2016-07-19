@@ -67,9 +67,9 @@ export default function gridPrimitive(options: GridGeometryOptions): Primitive {
     const vMax: number = isDefined(options.vMax) ? mustBeNumber('vMax', options.vMax) : 1
     const vSegments = isDefined(options.vSegments) ? options.vSegments : 1
 
-    const drawMode = isDefined(options.drawMode) ? options.drawMode : BeginMode.LINES
+    const mode = isDefined(options.mode) ? options.mode : BeginMode.LINES
     // Working on the assumption that the grid is open in both directions.
-    const grid: GridPrimitive = topology(drawMode, uSegments, false, vSegments, false)
+    const grid: GridPrimitive = topology(mode, uSegments, false, vSegments, false)
 
     const iLen = grid.uLength
     const jLen = grid.vLength

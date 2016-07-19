@@ -36,7 +36,7 @@ interface CurveOptions extends VisualOptions {
      *
      * @default LINES
      */
-    drawMode?: BeginMode
+    mode?: BeginMode
 
     /**
      *

@@ -12,7 +12,7 @@ describe("gridVertexArrays", function() {
     })
     describe("(0, 0)", function() {
         const options: GridGeometryOptions = {}
-        options.drawMode = BeginMode.POINTS
+        options.mode = BeginMode.POINTS
         options.uSegments = 0
         options.vSegments = 0
         const vas = gridVertexArrays(options)
@@ -22,7 +22,7 @@ describe("gridVertexArrays", function() {
     })
     describe("(0, 1)", function() {
         const options: GridGeometryOptions = {}
-        options.drawMode = BeginMode.POINTS
+        options.mode = BeginMode.POINTS
         options.uSegments = 0
         options.vSegments = 1
         const vas = gridVertexArrays(options)
@@ -32,7 +32,7 @@ describe("gridVertexArrays", function() {
     })
     describe("(1, 0)", function() {
         const options: GridGeometryOptions = {}
-        options.drawMode = BeginMode.POINTS
+        options.mode = BeginMode.POINTS
         options.uSegments = 1
         options.vSegments = 0
         const vas = gridVertexArrays(options)
@@ -43,7 +43,7 @@ describe("gridVertexArrays", function() {
     describe("(1, 1)", function() {
         describe("POINTS", function() {
             const options: GridGeometryOptions = {}
-            options.drawMode = BeginMode.POINTS
+            options.mode = BeginMode.POINTS
             options.uSegments = 1
             options.vSegments = 1
             const vas = gridVertexArrays(options)
@@ -57,7 +57,7 @@ describe("gridVertexArrays", function() {
         })
         describe("LINES", function() {
             const options: GridGeometryOptions = {}
-            options.drawMode = BeginMode.LINES
+            options.mode = BeginMode.LINES
             options.uSegments = 1
             options.vSegments = 1
             const vas = gridVertexArrays(options)
@@ -71,7 +71,7 @@ describe("gridVertexArrays", function() {
                 expect(vas.attributes.length).toBe(4 * (3 + 3))
             })
         })
-        describe("drawMode undefined", function() {
+        describe("mode undefined", function() {
             const options: GridGeometryOptions = {}
             options.uSegments = 1
             options.vSegments = 1

@@ -30,7 +30,7 @@ interface GridGeometryOptions extends GeometryOptions {
     /**
      * @default LINES
      */
-    drawMode?: BeginMode
+    mode?: BeginMode
 
     /**
      * @attribute uMin

@@ -5793,7 +5793,7 @@ System.register("davinci-eight/geometries/curvePrimitive.js", ["../core/Color", 
         }
       default:
         {
-          throw new Error("drawMode must be POINTS, LINES");
+          throw new Error("mode must be POINTS, LINES");
         }
     }
   }
@@ -5811,8 +5811,8 @@ System.register("davinci-eight/geometries/curvePrimitive.js", ["../core/Color", 
     var uMin = isDefined_1.default(options.uMin) ? mustBeNumber_1.default('uMin', options.uMin) : 0;
     var uMax = isDefined_1.default(options.uMax) ? mustBeNumber_1.default('uMax', options.uMax) : 1;
     var uSegments = isDefined_1.default(options.uSegments) ? options.uSegments : 1;
-    var drawMode = isDefined_1.default(options.drawMode) ? options.drawMode : BeginMode_1.default.LINES;
-    var curve = topology(drawMode, uSegments, false);
+    var mode = isDefined_1.default(options.mode) ? options.mode : BeginMode_1.default.LINES;
+    var curve = topology(mode, uSegments, false);
     var iLen = curve.uLength;
     if (uSegments > 0) {
       for (var i = 0; i < iLen; i++) {
@@ -5974,7 +5974,7 @@ System.register("davinci-eight/visual/Curve.js", ["../core/BeginMode", "../core/
   function configPoints(options, curve) {
     var geoOptions = {};
     transferGeometryOptions(options, geoOptions);
-    geoOptions.drawMode = BeginMode_1.default.POINTS;
+    geoOptions.mode = BeginMode_1.default.POINTS;
     var geometry = new CurveGeometry_1.default(geoOptions);
     curve.geometry = geometry;
     geometry.release();
@@ -6008,7 +6008,7 @@ System.register("davinci-eight/visual/Curve.js", ["../core/BeginMode", "../core/
   function configLines(options, curve) {
     var geoOptions = {};
     transferGeometryOptions(options, geoOptions);
-    geoOptions.drawMode = BeginMode_1.default.LINES;
+    geoOptions.mode = BeginMode_1.default.LINES;
     var geometry = new CurveGeometry_1.default(geoOptions);
     curve.geometry = geometry;
     geometry.release();
@@ -6075,8 +6075,8 @@ System.register("davinci-eight/visual/Curve.js", ["../core/BeginMode", "../core/
           }
           _super.call(this, void 0, void 0, options.engine, levelUp + 1);
           this.setLoggingName('Curve');
-          var drawMode = isDefined_1.default(options.drawMode) ? options.drawMode : BeginMode_1.default.LINES;
-          switch (drawMode) {
+          var mode = isDefined_1.default(options.mode) ? options.mode : BeginMode_1.default.LINES;
+          switch (mode) {
             case BeginMode_1.default.POINTS:
               {
                 configPoints(options, this);
@@ -6090,7 +6090,7 @@ System.register("davinci-eight/visual/Curve.js", ["../core/BeginMode", "../core/
               break;
             default:
               {
-                throw new Error("'" + drawMode + "' is not a valid option for drawMode.");
+                throw new Error("'" + mode + "' is not a valid option for mode.");
               }
           }
           if (levelUp === 0) {
@@ -6317,8 +6317,8 @@ System.register("davinci-eight/geometries/gridPrimitive.js", ["../core/BeginMode
     var vMin = isDefined_1.default(options.vMin) ? mustBeNumber_1.default('vMin', options.vMin) : 0;
     var vMax = isDefined_1.default(options.vMax) ? mustBeNumber_1.default('vMax', options.vMax) : 1;
     var vSegments = isDefined_1.default(options.vSegments) ? options.vSegments : 1;
-    var drawMode = isDefined_1.default(options.drawMode) ? options.drawMode : BeginMode_1.default.LINES;
-    var grid = topology(drawMode, uSegments, false, vSegments, false);
+    var mode = isDefined_1.default(options.mode) ? options.mode : BeginMode_1.default.LINES;
+    var grid = topology(mode, uSegments, false, vSegments, false);
     var iLen = grid.uLength;
     var jLen = grid.vLength;
     if (uSegments > 0) {
@@ -6745,7 +6745,7 @@ System.register("davinci-eight/visual/Grid.js", ["../core/BeginMode", "../core/G
   function configPoints(options, grid) {
     var geoOptions = {};
     transferGeometryOptions(options, geoOptions);
-    geoOptions.drawMode = BeginMode_1.default.POINTS;
+    geoOptions.mode = BeginMode_1.default.POINTS;
     var geometry = new GridGeometry_1.default(geoOptions);
     grid.geometry = geometry;
     geometry.release();
@@ -6774,7 +6774,7 @@ System.register("davinci-eight/visual/Grid.js", ["../core/BeginMode", "../core/G
   function configLines(options, grid) {
     var geoOptions = {};
     transferGeometryOptions(options, geoOptions);
-    geoOptions.drawMode = BeginMode_1.default.LINES;
+    geoOptions.mode = BeginMode_1.default.LINES;
     var geometry = new GridGeometry_1.default(geoOptions);
     grid.geometry = geometry;
     geometry.release();
@@ -6805,7 +6805,7 @@ System.register("davinci-eight/visual/Grid.js", ["../core/BeginMode", "../core/G
   function configMesh(options, grid) {
     var geoOptions = {};
     transferGeometryOptions(options, geoOptions);
-    geoOptions.drawMode = BeginMode_1.default.TRIANGLE_STRIP;
+    geoOptions.mode = BeginMode_1.default.TRIANGLE_STRIP;
     var geometry = new GridGeometry_1.default(geoOptions);
     grid.geometry = geometry;
     geometry.release();
@@ -6887,8 +6887,8 @@ System.register("davinci-eight/visual/Grid.js", ["../core/BeginMode", "../core/G
           }
           _super.call(this, void 0, void 0, options.engine, levelUp + 1);
           this.setLoggingName('Grid');
-          var drawMode = isDefined_1.default(options.drawMode) ? options.drawMode : BeginMode_1.default.LINES;
-          switch (drawMode) {
+          var mode = isDefined_1.default(options.mode) ? options.mode : BeginMode_1.default.LINES;
+          switch (mode) {
             case BeginMode_1.default.POINTS:
               {
                 configPoints(options, this);
@@ -6908,7 +6908,7 @@ System.register("davinci-eight/visual/Grid.js", ["../core/BeginMode", "../core/G
               break;
             default:
               {
-                throw new Error("'" + drawMode + "' is not a valid option for drawMode.");
+                throw new Error("'" + mode + "' is not a valid option for mode.");
               }
           }
           if (options.color) {

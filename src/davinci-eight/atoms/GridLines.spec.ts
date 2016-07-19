@@ -44,7 +44,7 @@ describe("GridLines", function() {
         })
 
         const vas = gridLines.toVertexArrays()
-        it("drawMode should be LINES", function() {
+        it("mode should be LINES", function() {
             expect(vas.mode).toBe(BeginMode.LINES)
             expect(vas.indices.length).toBe(8)
             expect(vas.indices[0]).toBe(0)

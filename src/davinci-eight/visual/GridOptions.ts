@@ -40,7 +40,7 @@ interface GridOptions extends VisualOptions {
      *
      * @default LINES
      */
-    drawMode?: BeginMode
+    mode?: BeginMode
 
     /**
      * @default -0.5

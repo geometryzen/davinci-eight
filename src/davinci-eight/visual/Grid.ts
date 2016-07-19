@@ -113,7 +113,7 @@ function transferGeometryOptions(source: GridOptions, target: GridGeometryOption
 function configPoints(options: GridOptions, grid: Grid) {
     const geoOptions: GridGeometryOptions = {}
     transferGeometryOptions(options, geoOptions)
-    geoOptions.drawMode = BeginMode.POINTS
+    geoOptions.mode = BeginMode.POINTS
     const geometry = new GridGeometry(geoOptions)
     grid.geometry = geometry
     geometry.release()
@@ -150,7 +150,7 @@ function configPoints(options: GridOptions, grid: Grid) {
 function configLines(options: GridOptions, grid: Grid) {
     const geoOptions: GridGeometryOptions = {}
     transferGeometryOptions(options, geoOptions)
-    geoOptions.drawMode = BeginMode.LINES
+    geoOptions.mode = BeginMode.LINES
     const geometry = new GridGeometry(geoOptions)
     grid.geometry = geometry
     geometry.release()
@@ -189,7 +189,7 @@ function configLines(options: GridOptions, grid: Grid) {
 function configMesh(options: GridOptions, grid: Grid) {
     const geoOptions: GridGeometryOptions = {}
     transferGeometryOptions(options, geoOptions)
-    geoOptions.drawMode = BeginMode.TRIANGLE_STRIP
+    geoOptions.mode = BeginMode.TRIANGLE_STRIP
     const geometry = new GridGeometry(geoOptions)
     grid.geometry = geometry
     geometry.release()
@@ -257,8 +257,8 @@ export class Grid extends Mesh {
         super(void 0, void 0, options.engine, levelUp + 1);
         this.setLoggingName('Grid');
 
-        const drawMode: BeginMode = isDefined(options.drawMode) ? options.drawMode : BeginMode.LINES;
-        switch (drawMode) {
+        const mode: BeginMode = isDefined(options.mode) ? options.mode : BeginMode.LINES;
+        switch (mode) {
             case BeginMode.POINTS: {
                 configPoints(options, this);
             }
@@ -274,7 +274,7 @@ export class Grid extends Mesh {
             }
                 break
             default: {
-                throw new Error(`'${drawMode}' is not a valid option for drawMode.`);
+                throw new Error(`'${mode}' is not a valid option for mode.`);
             }
         }
         if (options.color) {

@@ -27,7 +27,7 @@ interface CurveGeometryOptions extends GeometryOptions {
     /**
      * @default LINES
      */
-    drawMode?: BeginMode
+    mode?: BeginMode
 
     /**
      * @attribute uMin

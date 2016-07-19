@@ -22,7 +22,7 @@ import VertexBuffer from './VertexBuffer';
  *     const engine = new EIGHT.Engine()
  *
  *     const geometry = new EIGHT.GeometryArrays(void 0, engine)
- *     geometry.drawMode = EIGHT.BeginMode.LINES
+ *     geometry.mode = EIGHT.BeginMode.LINES
  *     geometry.setAttribute('aPosition', {values: [0, 0, 1, 0, 0, 0, 0, 1], size: 2})
  *     geometry.setAttribute('aColor', {values: [0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0], size: 3})
  *

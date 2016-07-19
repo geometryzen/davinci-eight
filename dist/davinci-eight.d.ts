@@ -3242,7 +3242,7 @@ declare module EIGHT {
     }
 
     interface VertexArrays {
-        drawMode: BeginMode
+        mode: BeginMode
         indices?: number[]
         attributes: number[]
         stride: number
@@ -3288,7 +3288,7 @@ declare module EIGHT {
      * A Geometry for supporting drawArrays.
      */
     class GeometryArrays extends ShareableContextConsumer implements Geometry {
-        drawMode: BeginMode
+        mode: BeginMode
         partsLength: number;
         scaling: Matrix4;
         /**
@@ -3312,7 +3312,7 @@ declare module EIGHT {
 
     class GeometryElements extends ShareableContextConsumer implements Geometry {
         attributes: number[]
-        drawMode: BeginMode;
+        mode: BeginMode;
         indices: number[];
         partsLength: number;
         pointers: VertexAttribPointer[];
@@ -4042,7 +4042,7 @@ declare module EIGHT {
                 aPosition?: (u: number) => VectorE3;
                 attitude?: SpinorE3;
                 color?: AbstractColor;
-                drawMode?: BeginMode;
+                mode?: BeginMode;
                 engine?: Engine;
                 offset?: VectorE3;
                 position?: VectorE3;
@@ -4062,7 +4062,7 @@ declare module EIGHT {
                 aPosition?: (u: number, v: number) => VectorE3;
                 attitude?: SpinorE3;
                 color?: AbstractColor;
-                drawMode?: BeginMode;
+                mode?: BeginMode;
                 engine?: Engine;
                 offset?: VectorE3;
                 position?: VectorE3;

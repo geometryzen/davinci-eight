@@ -27,7 +27,7 @@ function topology(mode: BeginMode, uSegments: number, uClosed: boolean): CurvePr
             return new LineStrip(uSegments)
         }
         default: {
-            throw new Error(`drawMode must be POINTS, LINES`)
+            throw new Error(`mode must be POINTS, LINES`)
         }
     }
 }
@@ -51,9 +51,9 @@ export default function curvePrimitive(options: CurveGeometryOptions): Primitive
     const uMax: number = isDefined(options.uMax) ? mustBeNumber('uMax', options.uMax) : 1
     const uSegments = isDefined(options.uSegments) ? options.uSegments : 1
 
-    const drawMode = isDefined(options.drawMode) ? options.drawMode : BeginMode.LINES
+    const mode = isDefined(options.mode) ? options.mode : BeginMode.LINES
     // Working on the assumption that the grid is open in both directions.
-    const curve: CurvePrimitive = topology(drawMode, uSegments, false)
+    const curve: CurvePrimitive = topology(mode, uSegments, false)
 
     const iLen = curve.uLength
 

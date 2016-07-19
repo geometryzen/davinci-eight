@@ -76,7 +76,7 @@ function transferGeometryOptions(options: CurveOptions, geoOptions: CurveGeometr
 function configPoints(options: CurveOptions, curve: Curve) {
     const geoOptions: CurveGeometryOptions = {}
     transferGeometryOptions(options, geoOptions)
-    geoOptions.drawMode = BeginMode.POINTS
+    geoOptions.mode = BeginMode.POINTS
     const geometry = new CurveGeometry(geoOptions)
     curve.geometry = geometry
     geometry.release()
@@ -120,7 +120,7 @@ function configPoints(options: CurveOptions, curve: Curve) {
 function configLines(options: CurveOptions, curve: Curve) {
     const geoOptions: CurveGeometryOptions = {}
     transferGeometryOptions(options, geoOptions)
-    geoOptions.drawMode = BeginMode.LINES
+    geoOptions.mode = BeginMode.LINES
     const geometry = new CurveGeometry(geoOptions)
     curve.geometry = geometry
     geometry.release()
@@ -165,8 +165,8 @@ export class Curve extends Mesh {
         super(void 0, void 0, options.engine, levelUp + 1);
         this.setLoggingName('Curve');
 
-        const drawMode: BeginMode = isDefined(options.drawMode) ? options.drawMode : BeginMode.LINES;
-        switch (drawMode) {
+        const mode: BeginMode = isDefined(options.mode) ? options.mode : BeginMode.LINES;
+        switch (mode) {
             case BeginMode.POINTS: {
                 configPoints(options, this);
             }
@@ -177,7 +177,7 @@ export class Curve extends Mesh {
             }
                 break
             default: {
-                throw new Error(`'${drawMode}' is not a valid option for drawMode.`);
+                throw new Error(`'${mode}' is not a valid option for mode.`);
             }
         }
         if (levelUp === 0) {
