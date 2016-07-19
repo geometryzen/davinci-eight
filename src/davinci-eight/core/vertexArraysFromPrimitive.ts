@@ -13,7 +13,7 @@ export default function vertexArraysFromPrimitive(primitive: Primitive, order?: 
         const keys = order ? order : Object.keys(primitive.attributes);
 
         const that: VertexArrays = {
-            drawMode: primitive.mode,
+            mode: primitive.mode,
             indices: primitive.indices,
             attributes: computeAttributes(primitive.attributes, keys),
             stride: computeStride(primitive.attributes, keys),

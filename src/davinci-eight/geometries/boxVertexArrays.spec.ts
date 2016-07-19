@@ -12,6 +12,6 @@ describe("boxVertexArrays", function() {
     options.openBase = true;
     const vas = boxVertexArrays(options);
     it("should", function() {
-        expect(vas.drawMode).toBe(BeginMode.TRIANGLE_STRIP);
+        expect(vas.mode).toBe(BeginMode.TRIANGLE_STRIP);
     });
 });

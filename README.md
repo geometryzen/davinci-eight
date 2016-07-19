@@ -34,10 +34,10 @@ Drilling into the top-level componets will reveal a reusable structure for imple
 
 The HTML documentation is best experienced with the following settings:
 
-1. Access    - Public/Protected
-2. Inherited - Unchecked
-3. Externals - Unchecked normally but Checked in order to see interfaces :(
-4. Only exported - Checked (In order to ignore implementation details :)
+1. Access        - Public/Protected
+2. Inherited     - Unchecked
+3. Externals     - Checked
+4. Only exported - Unchecked
 
 The documentation is evolving rapidly due to transitioning to a new system of TypeScript documentation generation.
 In particular, you may see the word `default` frequently. This is because the EIGHT code uses default exports.

@@ -15,7 +15,7 @@ describe("LineStrip", function() {
         })
         describe("toVertexArrays", function() {
             it("drawMode should be LINE_STRIP", function() {
-                expect(vas.drawMode).toBe(BeginMode.LINE_STRIP)
+                expect(vas.mode).toBe(BeginMode.LINE_STRIP)
             })
         })
     })
@@ -31,7 +31,7 @@ describe("LineStrip", function() {
         })
         describe("toVertexArrays", function() {
             it("drawMode should be LINE_STRIP", function() {
-                expect(vas.drawMode).toBe(BeginMode.LINE_STRIP)
+                expect(vas.mode).toBe(BeginMode.LINE_STRIP)
             })
         })
     })
@@ -47,7 +47,7 @@ describe("LineStrip", function() {
         })
         describe("toVertexArrays", function() {
             it("drawMode should be LINE_STRIP", function() {
-                expect(vas.drawMode).toBe(BeginMode.LINE_STRIP)
+                expect(vas.mode).toBe(BeginMode.LINE_STRIP)
                 expect(vas.indices.length).toBe(5)
                 expect(vas.indices[0]).toBe(0)
                 expect(vas.indices[1]).toBe(1)

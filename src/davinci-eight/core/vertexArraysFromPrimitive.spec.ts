@@ -11,7 +11,7 @@ describe("vertexArraysFromPrimitive", function() {
             }
             const vas = f(p, []);
             expect(vas).toBeDefined();
-            expect(vas.drawMode).toBe(BeginMode.POINTS);
+            expect(vas.mode).toBe(BeginMode.POINTS);
         });
     });
 });

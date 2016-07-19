@@ -9,7 +9,7 @@ interface VertexArrays {
     /**
      *
      */
-    drawMode: BeginMode
+    mode: BeginMode
 
     /**
      *

@@ -10,7 +10,7 @@ import Vertex from '../atoms/Vertex'
 import Transform from '../atoms/Transform'
 
 /**
- * @class Approximation
+ * A `Transform` that calls the `approx` method on a `Vertex` attribute.
  */
 export default class Approximation implements Transform {
 
@@ -31,22 +31,20 @@ export default class Approximation implements Transform {
     private names: string[]
 
     /**
-     * @class Approximation
-     * @constructor
-     * @param n {number}
-     * @param names {string[]}
+     * @param n The value that will be passed to the `approx` method.
+     * @param names The names of the attributes that are affected.
      */
     constructor(n: number, names: string[]) {
         this.n = mustBeNumber('n', n)
         this.names = names
     }
+
     /**
-     * @method exec
-     * @param vertex {Vertex}
-     * @param i {number}
-     * @param j {number}
-     * @param iLength {number}
-     * @param jLength {number}
+     * @param vertex
+     * @param i
+     * @param j
+     * @param iLength
+     * @param jLength
      */
     exec(vertex: Vertex, i: number, j: number, iLength: number, jLength: number): void {
         const nLength = this.names.length;
@@ -76,7 +74,7 @@ export default class Approximation implements Transform {
                 v.approx(this.n)
             }
             else {
-                throw new Error(`Expecting ${aName} to be a Coords`)
+                throw new Error(`Expecting ${aName} to be a VectorN`)
             }
         }
     }

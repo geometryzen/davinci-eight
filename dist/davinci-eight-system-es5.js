@@ -903,7 +903,7 @@ System.register("davinci-eight/core/GeometryArrays.js", ["./computeAttributes", 
           var data = vertexArraysFromPrimitive_1.default(primitive, options.order);
           if (!isNull_1.default(data) && !isUndefined_1.default(data)) {
             if (isObject_1.default(data)) {
-              this.drawMode = data.drawMode;
+              this.mode = data.mode;
               this.vbo.data = new Float32Array(data.attributes);
               this.count = data.attributes.length / (data.stride / 4);
               this._stride = data.stride;
@@ -954,7 +954,7 @@ System.register("davinci-eight/core/GeometryArrays.js", ["./computeAttributes", 
         GeometryArrays.prototype.draw = function(material) {
           var contextProvider = this.contextProvider;
           if (contextProvider) {
-            this.contextProvider.drawArrays(this.drawMode, this.first, this.count);
+            this.contextProvider.drawArrays(this.mode, this.first, this.count);
           }
         };
         GeometryArrays.prototype.unbind = function(material) {
@@ -7138,7 +7138,7 @@ System.register("davinci-eight/transforms/Approximation.js", ["../checks/mustBeN
             } else if (v instanceof Geometric3_1.Geometric3) {
               v.approx(this.n);
             } else {
-              throw new Error("Expecting " + aName + " to be a Coords");
+              throw new Error("Expecting " + aName + " to be a VectorN");
             }
           }
         };
@@ -11664,6 +11664,42 @@ System.register("davinci-eight/materials/MeshMaterial.js", ["../materials/Graphi
   };
 });
 
+System.register("davinci-eight/checks/isBoolean.js", [], function(exports_1, context_1) {
+  "use strict";
+  var __moduleName = context_1 && context_1.id;
+  function isBoolean(x) {
+    return (typeof x === 'boolean');
+  }
+  exports_1("default", isBoolean);
+  return {
+    setters: [],
+    execute: function() {}
+  };
+});
+
+System.register("davinci-eight/checks/mustBeBoolean.js", ["../checks/mustSatisfy", "../checks/isBoolean"], function(exports_1, context_1) {
+  "use strict";
+  var __moduleName = context_1 && context_1.id;
+  var mustSatisfy_1,
+      isBoolean_1;
+  function beBoolean() {
+    return "be `boolean`";
+  }
+  function mustBeBoolean(name, value, contextBuilder) {
+    mustSatisfy_1.default(name, isBoolean_1.default(value), beBoolean, contextBuilder);
+    return value;
+  }
+  exports_1("default", mustBeBoolean);
+  return {
+    setters: [function(mustSatisfy_1_1) {
+      mustSatisfy_1 = mustSatisfy_1_1;
+    }, function(isBoolean_1_1) {
+      isBoolean_1 = isBoolean_1_1;
+    }],
+    execute: function() {}
+  };
+});
+
 System.register("davinci-eight/core/GeometryLeaf.js", ["../config", "./ErrorMode", "./GeometryBase", "../checks/isNumber", "../math/Matrix4", "../checks/mustBeNumber", "../i18n/notImplemented", "../i18n/notSupported", "../i18n/readOnly"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
@@ -12188,7 +12224,7 @@ System.register("davinci-eight/core/GeometryElements.js", ["../config", "./Error
           var data = vertexArraysFromPrimitive_1.default(primitive, options.order);
           if (!isNull_1.default(data) && !isUndefined_1.default(data)) {
             if (isObject_1.default(data)) {
-              this.drawMode = data.drawMode;
+              this.mode = data.mode;
               this.setIndices(data.indices);
               this._attributes = data.attributes;
               this._stride = data.stride;
@@ -12238,7 +12274,7 @@ System.register("davinci-eight/core/GeometryElements.js", ["../config", "./Error
         Object.defineProperty(GeometryElements.prototype, "data", {
           get: function() {
             return {
-              drawMode: this.drawMode,
+              mode: this.mode,
               indices: this._indices,
               attributes: this._attributes,
               stride: this._stride,
@@ -12357,7 +12393,7 @@ System.register("davinci-eight/core/GeometryElements.js", ["../config", "./Error
           var contextProvider = this.contextProvider;
           if (contextProvider) {
             if (this.count) {
-              contextProvider.drawElements(this.drawMode, this.count, this.offset);
+              contextProvider.drawElements(this.mode, this.count, this.offset);
             } else {
               switch (config_1.default.errorMode) {
                 case ErrorMode_1.default.WARNME:
@@ -14506,7 +14542,7 @@ System.register("davinci-eight/core/vertexArraysFromPrimitive.js", ["./computeAt
     if (primitive) {
       var keys = order ? order : Object.keys(primitive.attributes);
       var that = {
-        drawMode: primitive.mode,
+        mode: primitive.mode,
         indices: primitive.indices,
         attributes: computeAttributes_1.default(primitive.attributes, keys),
         stride: computeStride_1.default(primitive.attributes, keys),
@@ -25181,6 +25217,23 @@ System.register("davinci-eight/checks/mustBeInteger.js", ["../checks/mustSatisfy
   };
 });
 
+System.register("davinci-eight/checks/mustSatisfy.js", [], function(exports_1, context_1) {
+  "use strict";
+  var __moduleName = context_1 && context_1.id;
+  function mustSatisfy(name, condition, messageBuilder, contextBuilder) {
+    if (!condition) {
+      var message = messageBuilder ? messageBuilder() : "satisfy some condition";
+      var context = contextBuilder ? " in " + contextBuilder() : "";
+      throw new Error(name + " must " + message + context + ".");
+    }
+  }
+  exports_1("default", mustSatisfy);
+  return {
+    setters: [],
+    execute: function() {}
+  };
+});
+
 System.register("davinci-eight/checks/isString.js", [], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
@@ -25234,6 +25287,100 @@ System.register("davinci-eight/i18n/readOnly.js", ["../checks/mustBeString"], fu
       mustBeString_1 = mustBeString_1_1;
     }],
     execute: function() {}
+  };
+});
+
+System.register("davinci-eight/core/ErrorMode.js", [], function(exports_1, context_1) {
+  "use strict";
+  var __moduleName = context_1 && context_1.id;
+  var ErrorMode;
+  return {
+    setters: [],
+    execute: function() {
+      (function(ErrorMode) {
+        ErrorMode[ErrorMode["STRICT"] = 0] = "STRICT";
+        ErrorMode[ErrorMode["IGNORE"] = 1] = "IGNORE";
+        ErrorMode[ErrorMode["WARNME"] = 2] = "WARNME";
+      })(ErrorMode || (ErrorMode = {}));
+      exports_1("default", ErrorMode);
+    }
+  };
+});
+
+System.register("davinci-eight/config.js", ["./core/ErrorMode"], function(exports_1, context_1) {
+  "use strict";
+  var __moduleName = context_1 && context_1.id;
+  var ErrorMode_1;
+  var Eight,
+      config;
+  return {
+    setters: [function(ErrorMode_1_1) {
+      ErrorMode_1 = ErrorMode_1_1;
+    }],
+    execute: function() {
+      Eight = (function() {
+        function Eight() {
+          this._errorMode = ErrorMode_1.default.STRICT;
+          this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
+          this.LAST_MODIFIED = '2016-07-19';
+          this.NAMESPACE = 'EIGHT';
+          this.VERSION = '2.271.0';
+        }
+        Object.defineProperty(Eight.prototype, "errorMode", {
+          get: function() {
+            return this._errorMode;
+          },
+          set: function(errorMode) {
+            switch (errorMode) {
+              case ErrorMode_1.default.IGNORE:
+              case ErrorMode_1.default.STRICT:
+              case ErrorMode_1.default.WARNME:
+                {
+                  this._errorMode = errorMode;
+                }
+                break;
+              default:
+                {
+                  throw new Error("errorMode must be one of IGNORE, STRICT, or WARNME.");
+                }
+            }
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Eight.prototype.log = function(message) {
+          var optionalParams = [];
+          for (var _i = 1; _i < arguments.length; _i++) {
+            optionalParams[_i - 1] = arguments[_i];
+          }
+          console.log(message);
+        };
+        Eight.prototype.info = function(message) {
+          var optionalParams = [];
+          for (var _i = 1; _i < arguments.length; _i++) {
+            optionalParams[_i - 1] = arguments[_i];
+          }
+          console.info(message);
+        };
+        Eight.prototype.warn = function(message) {
+          var optionalParams = [];
+          for (var _i = 1; _i < arguments.length; _i++) {
+            optionalParams[_i - 1] = arguments[_i];
+          }
+          console.warn(message);
+        };
+        Eight.prototype.error = function(message) {
+          var optionalParams = [];
+          for (var _i = 1; _i < arguments.length; _i++) {
+            optionalParams[_i - 1] = arguments[_i];
+          }
+          console.error(message);
+        };
+        return Eight;
+      }());
+      config = new Eight();
+      exports_1("default", config);
+    }
   };
 });
 
@@ -25591,206 +25738,19 @@ System.register("davinci-eight/core/ShareableBase.js", ["../checks/isDefined", "
   };
 });
 
-System.register("davinci-eight/config.js", ["./core/ErrorMode"], function(exports_1, context_1) {
+System.register("davinci-eight/visual/TrailConfig.js", [], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
-  var ErrorMode_1;
-  var Eight,
-      config;
-  return {
-    setters: [function(ErrorMode_1_1) {
-      ErrorMode_1 = ErrorMode_1_1;
-    }],
-    execute: function() {
-      Eight = (function() {
-        function Eight() {
-          this._errorMode = ErrorMode_1.default.STRICT;
-          this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-          this.LAST_MODIFIED = '2016-07-18';
-          this.NAMESPACE = 'EIGHT';
-          this.VERSION = '2.270.0';
-        }
-        Object.defineProperty(Eight.prototype, "errorMode", {
-          get: function() {
-            return this._errorMode;
-          },
-          set: function(errorMode) {
-            switch (errorMode) {
-              case ErrorMode_1.default.IGNORE:
-              case ErrorMode_1.default.STRICT:
-              case ErrorMode_1.default.WARNME:
-                {
-                  this._errorMode = errorMode;
-                }
-                break;
-              default:
-                {
-                  throw new Error("errorMode must be one of IGNORE, STRICT, or WARNME.");
-                }
-            }
-          },
-          enumerable: true,
-          configurable: true
-        });
-        Eight.prototype.log = function(message) {
-          var optionalParams = [];
-          for (var _i = 1; _i < arguments.length; _i++) {
-            optionalParams[_i - 1] = arguments[_i];
-          }
-          console.log(message);
-        };
-        Eight.prototype.info = function(message) {
-          var optionalParams = [];
-          for (var _i = 1; _i < arguments.length; _i++) {
-            optionalParams[_i - 1] = arguments[_i];
-          }
-          console.info(message);
-        };
-        Eight.prototype.warn = function(message) {
-          var optionalParams = [];
-          for (var _i = 1; _i < arguments.length; _i++) {
-            optionalParams[_i - 1] = arguments[_i];
-          }
-          console.warn(message);
-        };
-        Eight.prototype.error = function(message) {
-          var optionalParams = [];
-          for (var _i = 1; _i < arguments.length; _i++) {
-            optionalParams[_i - 1] = arguments[_i];
-          }
-          console.error(message);
-        };
-        return Eight;
-      }());
-      config = new Eight();
-      exports_1("default", config);
-    }
-  };
-});
-
-System.register("davinci-eight/core/ErrorMode.js", [], function(exports_1, context_1) {
-  "use strict";
-  var __moduleName = context_1 && context_1.id;
-  var ErrorMode;
-  return {
-    setters: [],
-    execute: function() {
-      (function(ErrorMode) {
-        ErrorMode[ErrorMode["STRICT"] = 0] = "STRICT";
-        ErrorMode[ErrorMode["IGNORE"] = 1] = "IGNORE";
-        ErrorMode[ErrorMode["WARNME"] = 2] = "WARNME";
-      })(ErrorMode || (ErrorMode = {}));
-      exports_1("default", ErrorMode);
-    }
-  };
-});
-
-System.register("davinci-eight/checks/mustSatisfy.js", [], function(exports_1, context_1) {
-  "use strict";
-  var __moduleName = context_1 && context_1.id;
-  function mustSatisfy(name, condition, messageBuilder, contextBuilder) {
-    if (!condition) {
-      var message = messageBuilder ? messageBuilder() : "satisfy some condition";
-      var context = contextBuilder ? " in " + contextBuilder() : "";
-      throw new Error(name + " must " + message + context + ".");
-    }
-  }
-  exports_1("default", mustSatisfy);
-  return {
-    setters: [],
-    execute: function() {}
-  };
-});
-
-System.register("davinci-eight/checks/isBoolean.js", [], function(exports_1, context_1) {
-  "use strict";
-  var __moduleName = context_1 && context_1.id;
-  function isBoolean(x) {
-    return (typeof x === 'boolean');
-  }
-  exports_1("default", isBoolean);
-  return {
-    setters: [],
-    execute: function() {}
-  };
-});
-
-System.register("davinci-eight/checks/mustBeBoolean.js", ["../checks/mustSatisfy", "../checks/isBoolean"], function(exports_1, context_1) {
-  "use strict";
-  var __moduleName = context_1 && context_1.id;
-  var mustSatisfy_1,
-      isBoolean_1;
-  function beBoolean() {
-    return "be `boolean`";
-  }
-  function mustBeBoolean(name, value, contextBuilder) {
-    mustSatisfy_1.default(name, isBoolean_1.default(value), beBoolean, contextBuilder);
-    return value;
-  }
-  exports_1("default", mustBeBoolean);
-  return {
-    setters: [function(mustSatisfy_1_1) {
-      mustSatisfy_1 = mustSatisfy_1_1;
-    }, function(isBoolean_1_1) {
-      isBoolean_1 = isBoolean_1_1;
-    }],
-    execute: function() {}
-  };
-});
-
-System.register("davinci-eight/visual/TrailConfig.js", ["../config", "../core/ErrorMode", "../checks/isBoolean", "../checks/mustBeBoolean"], function(exports_1, context_1) {
-  "use strict";
-  var __moduleName = context_1 && context_1.id;
-  var config_1,
-      ErrorMode_1,
-      isBoolean_1,
-      mustBeBoolean_1;
   var TrailConfig;
   return {
-    setters: [function(config_1_1) {
-      config_1 = config_1_1;
-    }, function(ErrorMode_1_1) {
-      ErrorMode_1 = ErrorMode_1_1;
-    }, function(isBoolean_1_1) {
-      isBoolean_1 = isBoolean_1_1;
-    }, function(mustBeBoolean_1_1) {
-      mustBeBoolean_1 = mustBeBoolean_1_1;
-    }],
+    setters: [],
     execute: function() {
       TrailConfig = (function() {
         function TrailConfig() {
-          this._enabled = true;
+          this.enabled = true;
           this.interval = 10;
           this.retain = 10;
         }
-        Object.defineProperty(TrailConfig.prototype, "enabled", {
-          get: function() {
-            return this._enabled;
-          },
-          set: function(enabled) {
-            if (isBoolean_1.default(enabled)) {
-              this._enabled = enabled;
-            } else {
-              switch (config_1.default.errorMode) {
-                case ErrorMode_1.default.IGNORE:
-                  {
-                    break;
-                  }
-                case ErrorMode_1.default.WARNME:
-                  {
-                    console.warn("TrailConfig.enabled must be a boolean");
-                    break;
-                  }
-                default:
-                  {
-                    mustBeBoolean_1.default('enabled', enabled);
-                  }
-              }
-            }
-          },
-          enumerable: true,
-          configurable: true
-        });
         return TrailConfig;
       }());
       exports_1("TrailConfig", TrailConfig);

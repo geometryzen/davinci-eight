@@ -556,9 +556,9 @@ define('davinci-eight/config',["require", "exports", './core/ErrorMode'], functi
         function Eight() {
             this._errorMode = ErrorMode_1.default.STRICT;
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-07-18';
+            this.LAST_MODIFIED = '2016-07-19';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.270.0';
+            this.VERSION = '2.271.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
             get: function () {
@@ -9911,7 +9911,7 @@ define('davinci-eight/core/vertexArraysFromPrimitive',["require", "exports", './
         if (primitive) {
             var keys = order ? order : Object.keys(primitive.attributes);
             var that = {
-                drawMode: primitive.mode,
+                mode: primitive.mode,
                 indices: primitive.indices,
                 attributes: computeAttributes_1.default(primitive.attributes, keys),
                 stride: computeStride_1.default(primitive.attributes, keys),
@@ -10106,7 +10106,7 @@ define('davinci-eight/core/GeometryArrays',["require", "exports", './computeAttr
             var data = vertexArraysFromPrimitive_1.default(primitive, options.order);
             if (!isNull_1.default(data) && !isUndefined_1.default(data)) {
                 if (isObject_1.default(data)) {
-                    this.drawMode = data.drawMode;
+                    this.mode = data.mode;
                     this.vbo.data = new Float32Array(data.attributes);
                     this.count = data.attributes.length / (data.stride / 4);
                     this._stride = data.stride;
@@ -10158,7 +10158,7 @@ define('davinci-eight/core/GeometryArrays',["require", "exports", './computeAttr
         GeometryArrays.prototype.draw = function (material) {
             var contextProvider = this.contextProvider;
             if (contextProvider) {
-                this.contextProvider.drawArrays(this.drawMode, this.first, this.count);
+                this.contextProvider.drawArrays(this.mode, this.first, this.count);
             }
         };
         GeometryArrays.prototype.unbind = function (material) {
@@ -10428,7 +10428,7 @@ define('davinci-eight/core/GeometryElements',["require", "exports", '../config',
             var data = vertexArraysFromPrimitive_1.default(primitive, options.order);
             if (!isNull_1.default(data) && !isUndefined_1.default(data)) {
                 if (isObject_1.default(data)) {
-                    this.drawMode = data.drawMode;
+                    this.mode = data.mode;
                     this.setIndices(data.indices);
                     this._attributes = data.attributes;
                     this._stride = data.stride;
@@ -10482,7 +10482,7 @@ define('davinci-eight/core/GeometryElements',["require", "exports", '../config',
         Object.defineProperty(GeometryElements.prototype, "data", {
             get: function () {
                 return {
-                    drawMode: this.drawMode,
+                    mode: this.mode,
                     indices: this._indices,
                     attributes: this._attributes,
                     stride: this._stride,
@@ -10604,7 +10604,7 @@ define('davinci-eight/core/GeometryElements',["require", "exports", '../config',
             var contextProvider = this.contextProvider;
             if (contextProvider) {
                 if (this.count) {
-                    contextProvider.drawElements(this.drawMode, this.count, this.offset);
+                    contextProvider.drawElements(this.mode, this.count, this.offset);
                 }
                 else {
                     switch (config_1.default.errorMode) {
@@ -15270,7 +15270,7 @@ define('davinci-eight/transforms/Approximation',["require", "exports", '../check
                     v.approx(this.n);
                 }
                 else {
-                    throw new Error("Expecting " + aName + " to be a Coords");
+                    throw new Error("Expecting " + aName + " to be a VectorN");
                 }
             }
         };
@@ -21142,40 +21142,14 @@ define('davinci-eight/math/Modulo',["require", "exports", '../checks/mustBeGE', 
     exports.default = Modulo;
 });
 
-define('davinci-eight/visual/TrailConfig',["require", "exports", '../config', '../core/ErrorMode', '../checks/isBoolean', '../checks/mustBeBoolean'], function (require, exports, config_1, ErrorMode_1, isBoolean_1, mustBeBoolean_1) {
+define('davinci-eight/visual/TrailConfig',["require", "exports"], function (require, exports) {
     "use strict";
     var TrailConfig = (function () {
         function TrailConfig() {
-            this._enabled = true;
+            this.enabled = true;
             this.interval = 10;
             this.retain = 10;
         }
-        Object.defineProperty(TrailConfig.prototype, "enabled", {
-            get: function () {
-                return this._enabled;
-            },
-            set: function (enabled) {
-                if (isBoolean_1.default(enabled)) {
-                    this._enabled = enabled;
-                }
-                else {
-                    switch (config_1.default.errorMode) {
-                        case ErrorMode_1.default.IGNORE: {
-                            break;
-                        }
-                        case ErrorMode_1.default.WARNME: {
-                            console.warn("TrailConfig.enabled must be a boolean");
-                            break;
-                        }
-                        default: {
-                            mustBeBoolean_1.default('enabled', enabled);
-                        }
-                    }
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
         return TrailConfig;
     }());
     exports.TrailConfig = TrailConfig;

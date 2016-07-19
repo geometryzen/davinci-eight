@@ -62,8 +62,7 @@ export default class GeometryArrays extends GeometryLeaf {
         const data = vertexArraysFromPrimitive(primitive, options.order);
         if (!isNull(data) && !isUndefined(data)) {
             if (isObject(data)) {
-                // TODO: 
-                this.drawMode = data.drawMode;
+                this.mode = data.mode;
                 this.vbo.data = new Float32Array(data.attributes);
                 // FIXME: Hacky
                 this.count = data.attributes.length / (data.stride / 4);
@@ -121,7 +120,7 @@ export default class GeometryArrays extends GeometryLeaf {
     draw(material: Material): void {
         const contextProvider = this.contextProvider
         if (contextProvider) {
-            this.contextProvider.drawArrays(this.drawMode, this.first, this.count);
+            this.contextProvider.drawArrays(this.mode, this.first, this.count);
         }
     }
 

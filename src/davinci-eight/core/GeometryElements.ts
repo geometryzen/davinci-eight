@@ -46,7 +46,7 @@ export default class GeometryElements extends GeometryLeaf {
         const data = vertexArraysFromPrimitive(primitive, options.order);
         if (!isNull(data) && !isUndefined(data)) {
             if (isObject(data)) {
-                this.drawMode = data.drawMode;
+                this.mode = data.mode;
                 this.setIndices(data.indices);
 
                 this._attributes = data.attributes;
@@ -100,7 +100,7 @@ export default class GeometryElements extends GeometryLeaf {
     private get data(): VertexArrays {
         // FIXME: This should return a deep copy.
         return {
-            drawMode: this.drawMode,
+            mode: this.mode,
             indices: this._indices,
             attributes: this._attributes,
             stride: this._stride,
@@ -222,7 +222,7 @@ export default class GeometryElements extends GeometryLeaf {
         const contextProvider = this.contextProvider
         if (contextProvider) {
             if (this.count) {
-                contextProvider.drawElements(this.drawMode, this.count, this.offset)
+                contextProvider.drawElements(this.mode, this.count, this.offset)
             }
             else {
                 switch (config.errorMode) {

@@ -210,62 +210,16 @@ module.exports = function(grunt) {
                     module: 'system',
                     target: 'es5',
                     out: 'documentation/',
+                    mode: 'file',
                     name: 'EIGHT <%= pkg.version %>',
+                    exclude: [
+                        'src/davinci-eight/core/ErrorMode.ts',
+                        '**/*.spec.ts'
+                    ],
                     excludeExternals: false,
                     hideGenerator: true
                 },
-                src: [
-                    'src/davinci-eight/core/Color.ts',
-                    'src/davinci-eight/core/Engine.ts',
-                    'src/davinci-eight/core/Facet.ts',
-                    'src/davinci-eight/core/Scene.ts',
-                    'src/davinci-eight/facets/AmbientLight.ts',
-                    'src/davinci-eight/facets/DirectionalLight.ts',
-                    'src/davinci-eight/facets/PerspectiveCamera.ts',
-                    'src/davinci-eight/controls/OrbitControls.ts',
-                    'src/davinci-eight/controls/TrackballControls.ts',
-                    'src/davinci-eight/math/Dimensions.ts',
-                    'src/davinci-eight/math/G2.ts',
-                    'src/davinci-eight/math/G3.ts',
-                    'src/davinci-eight/math/Geometric2.ts',
-                    'src/davinci-eight/math/Geometric3.ts',
-                    'src/davinci-eight/math/Matrix2.ts',
-                    'src/davinci-eight/math/Matrix3.ts',
-                    'src/davinci-eight/math/Matrix4.ts',
-                    'src/davinci-eight/math/QQ.ts',
-                    'src/davinci-eight/math/Spinor2.ts',
-                    'src/davinci-eight/math/Spinor3.ts',
-                    'src/davinci-eight/math/Unit.ts',
-                    'src/davinci-eight/math/Vector2.ts',
-                    'src/davinci-eight/math/Vector3.ts',
-                    'src/davinci-eight/visual/Arrow.ts',
-                    'src/davinci-eight/visual/Box.ts',
-                    'src/davinci-eight/visual/Curve.ts',
-                    'src/davinci-eight/visual/Cylinder.ts',
-                    'src/davinci-eight/visual/Grid.ts',
-                    'src/davinci-eight/visual/Sphere.ts',
-                    'src/davinci-eight/visual/Trail.ts'
-                ]
-            }
-        },
-        // Build TypeScript documentation.
-        yuidoc: {
-            compile: {
-                name: '<%= pkg.name %>',
-                description: '<%= pkg.description %>',
-                version: '<%= pkg.version %>',
-                url: '<%= pkg.homepage %>',
-                //          logo: '../assets/logo.gif',
-                options: {
-                    linkNatives: false, // Native types get linked to MDN.
-                    quiet: true,
-                    writeJSON: true,
-                    excludes: [],
-                    extension: '.ts',
-                    paths: ['src/davinci-eight'],
-                    outdir: 'documentation',
-                    syntaxtype: 'js'  // YUIDocs doesn't understand TypeScript.
-                }
+                src: 'src/davinci-eight/**/*.ts'
             }
         },
         complexity: {
@@ -316,7 +270,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-yuidoc'); // enable the YUIDocs task.
     grunt.loadNpmTasks('grunt-complexity');
     grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-karma');

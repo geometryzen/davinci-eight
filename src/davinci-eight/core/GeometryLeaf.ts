@@ -23,7 +23,7 @@ export default class GeometryLeaf extends GeometryBase {
     /**
      *
      */
-    public drawMode: BeginMode;
+    public mode: BeginMode;
 
     /**
      * <p>

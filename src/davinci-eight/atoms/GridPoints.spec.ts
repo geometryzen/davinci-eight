@@ -20,7 +20,7 @@ describe("GridPoints", function() {
         })
         const vas = gridLines.toVertexArrays()
         it("drawMode should be POINTS", function() {
-            expect(vas.drawMode).toBe(BeginMode.POINTS)
+            expect(vas.mode).toBe(BeginMode.POINTS)
         })
         it("should consist of 1 points", function() {
             expect(vas.indices.length).toBe(1)
@@ -72,7 +72,7 @@ describe("GridPoints", function() {
 
         const vas = gridLines.toVertexArrays()
         it("drawMode should be POINTS", function() {
-            expect(vas.drawMode).toBe(BeginMode.POINTS)
+            expect(vas.mode).toBe(BeginMode.POINTS)
         })
         it("should consist of 4 points", function() {
             expect(vas.indices.length).toBe(4 * 1)

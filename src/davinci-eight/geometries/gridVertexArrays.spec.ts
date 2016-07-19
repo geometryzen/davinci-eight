@@ -7,7 +7,7 @@ describe("gridVertexArrays", function() {
         const options: GridGeometryOptions = {}
         const vas = gridVertexArrays(options)
         it("should be POINTS", function() {
-            expect(vas.drawMode).toBe(BeginMode.LINES)
+            expect(vas.mode).toBe(BeginMode.LINES)
         })
     })
     describe("(0, 0)", function() {
@@ -17,7 +17,7 @@ describe("gridVertexArrays", function() {
         options.vSegments = 0
         const vas = gridVertexArrays(options)
         it("should be POINTS", function() {
-            expect(vas.drawMode).toBe(BeginMode.POINTS)
+            expect(vas.mode).toBe(BeginMode.POINTS)
         })
     })
     describe("(0, 1)", function() {
@@ -27,7 +27,7 @@ describe("gridVertexArrays", function() {
         options.vSegments = 1
         const vas = gridVertexArrays(options)
         it("should be POINTS", function() {
-            expect(vas.drawMode).toBe(BeginMode.POINTS)
+            expect(vas.mode).toBe(BeginMode.POINTS)
         })
     })
     describe("(1, 0)", function() {
@@ -37,7 +37,7 @@ describe("gridVertexArrays", function() {
         options.vSegments = 0
         const vas = gridVertexArrays(options)
         it("should be POINTS", function() {
-            expect(vas.drawMode).toBe(BeginMode.POINTS)
+            expect(vas.mode).toBe(BeginMode.POINTS)
         })
     })
     describe("(1, 1)", function() {
@@ -48,7 +48,7 @@ describe("gridVertexArrays", function() {
             options.vSegments = 1
             const vas = gridVertexArrays(options)
             it("should be POINTS", function() {
-                expect(vas.drawMode).toBe(BeginMode.POINTS)
+                expect(vas.mode).toBe(BeginMode.POINTS)
             })
             it("should have correct arrays", function() {
                 expect(vas.indices.length).toBe(4)
@@ -62,7 +62,7 @@ describe("gridVertexArrays", function() {
             options.vSegments = 1
             const vas = gridVertexArrays(options)
             it("should be LINES", function() {
-                expect(vas.drawMode).toBe(BeginMode.LINES)
+                expect(vas.mode).toBe(BeginMode.LINES)
             })
             it("should have correct index arays", function() {
                 expect(vas.indices.length).toBe(8)
@@ -77,7 +77,7 @@ describe("gridVertexArrays", function() {
             options.vSegments = 1
             const vas = gridVertexArrays(options)
             it("should be LINES", function() {
-                expect(vas.drawMode).toBe(BeginMode.LINES)
+                expect(vas.mode).toBe(BeginMode.LINES)
             })
             it("should have correct index arays", function() {
                 expect(vas.indices.length).toBe(8)
