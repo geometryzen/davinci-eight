@@ -1,7 +1,7 @@
 import BoxGeometryOptions from './BoxGeometryOptions';
 import GeometryElements from '../core/GeometryElements';
 import notSupported from '../i18n/notSupported';
-import boxVertexArrays from './boxVertexArrays';
+import boxPrimitive from './boxPrimitive';
 
 /**
  * A convenience class for creating a BoxGeometry.
@@ -16,7 +16,7 @@ export default class BoxGeometry extends GeometryElements {
      * @param levelUp
      */
     constructor(options: BoxGeometryOptions = {}, levelUp = 0) {
-        super(boxVertexArrays(options), options.tilt, options.engine, levelUp + 1)
+        super(boxPrimitive(options), options.engine, options, levelUp + 1)
         this.setLoggingName('BoxGeometry')
         //        if (levelUp === 0) {
         //            this.synchUp();

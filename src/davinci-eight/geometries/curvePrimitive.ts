@@ -1,18 +1,18 @@
-import {Color} from '../core/Color'
-import BeginMode from '../core/BeginMode'
-import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols'
-import LineStrip from '../atoms/LineStrip'
-import CurveGeometryOptions from './CurveGeometryOptions'
-import LinePoints from '../atoms/LinePoints'
-import CurvePrimitive from '../atoms/CurvePrimitive'
-import isDefined from '../checks/isDefined'
-import isFunction from '../checks/isFunction'
-import mustBeNumber from '../checks/mustBeNumber'
-import R3 from '../math/R3'
-import {Unit} from '../math/Unit'
-import Vector3 from '../math/Vector3'
-import Vertex from '../atoms/Vertex'
-import VertexArrays from '../core/VertexArrays'
+import {Color} from '../core/Color';
+import BeginMode from '../core/BeginMode';
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
+import LineStrip from '../atoms/LineStrip';
+import CurveGeometryOptions from './CurveGeometryOptions';
+import LinePoints from '../atoms/LinePoints';
+import CurvePrimitive from '../atoms/CurvePrimitive';
+import isDefined from '../checks/isDefined';
+import isFunction from '../checks/isFunction';
+import mustBeNumber from '../checks/mustBeNumber';
+import Primitive from '../core/Primitive';
+import R3 from '../math/R3';
+import {Unit} from '../math/Unit';
+import Vector3 from '../math/Vector3';
+import Vertex from '../atoms/Vertex';
 
 function aPositionDefault(u: number): R3 {
     return R3.vector(u, 0, 0, Unit.ONE)
@@ -45,7 +45,7 @@ function transformVertex(vertex: Vertex, u: number, options: CurveGeometryOption
     }
 }
 
-export default function(options: CurveGeometryOptions): VertexArrays {
+export default function curvePrimitive(options: CurveGeometryOptions): Primitive {
 
     const uMin: number = isDefined(options.uMin) ? mustBeNumber('uMin', options.uMin) : 0
     const uMax: number = isDefined(options.uMax) ? mustBeNumber('uMax', options.uMax) : 1
@@ -69,6 +69,5 @@ export default function(options: CurveGeometryOptions): VertexArrays {
         const u = (uMin + uMax) / 2
         transformVertex(vertex, u, options)
     }
-    const vas = curve.toVertexArrays()
-    return vas
+    return curve.toPrimitive()
 }

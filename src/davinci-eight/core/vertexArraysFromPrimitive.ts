@@ -9,15 +9,20 @@ import VertexArrays from './VertexArrays';
  */
 export default function vertexArraysFromPrimitive(primitive: Primitive, order?: string[]): VertexArrays {
 
-    const keys = order ? order : Object.keys(primitive.attributes);
+    if (primitive) {
+        const keys = order ? order : Object.keys(primitive.attributes);
 
-    const that: VertexArrays = {
-        drawMode: primitive.mode,
-        indices: primitive.indices,
-        attributes: computeAttributes(primitive.attributes, keys),
-        stride: computeStride(primitive.attributes, keys),
-        pointers: computePointers(primitive.attributes, keys)
-    };
+        const that: VertexArrays = {
+            drawMode: primitive.mode,
+            indices: primitive.indices,
+            attributes: computeAttributes(primitive.attributes, keys),
+            stride: computeStride(primitive.attributes, keys),
+            pointers: computePointers(primitive.attributes, keys)
+        };
 
-    return that;
+        return that;
+    }
+    else {
+        return void 0;
+    }
 }

@@ -834,7 +834,7 @@ System.register("davinci-eight/core/Shader.js", ["./makeWebGLShader", "../checks
   };
 });
 
-System.register("davinci-eight/core/GeometryArrays.js", ["./computeAttributes", "./computeCount", "./computePointers", "./computeStride", "../config", "./ErrorMode", "./GeometryLeaf", "../checks/isNull", "../checks/isObject", "../checks/isUndefined", "./VertexBuffer"], function(exports_1, context_1) {
+System.register("davinci-eight/core/GeometryArrays.js", ["./computeAttributes", "./computeCount", "./computePointers", "./computeStride", "../config", "./ErrorMode", "./GeometryLeaf", "../checks/isNull", "../checks/isObject", "../checks/isUndefined", "./vertexArraysFromPrimitive", "./VertexBuffer"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -856,6 +856,7 @@ System.register("davinci-eight/core/GeometryArrays.js", ["./computeAttributes", 
       isNull_1,
       isObject_1,
       isUndefined_1,
+      vertexArraysFromPrimitive_1,
       VertexBuffer_1;
   var GeometryArrays;
   return {
@@ -879,21 +880,27 @@ System.register("davinci-eight/core/GeometryArrays.js", ["./computeAttributes", 
       isObject_1 = isObject_1_1;
     }, function(isUndefined_1_1) {
       isUndefined_1 = isUndefined_1_1;
+    }, function(vertexArraysFromPrimitive_1_1) {
+      vertexArraysFromPrimitive_1 = vertexArraysFromPrimitive_1_1;
     }, function(VertexBuffer_1_1) {
       VertexBuffer_1 = VertexBuffer_1_1;
     }],
     execute: function() {
       GeometryArrays = (function(_super) {
         __extends(GeometryArrays, _super);
-        function GeometryArrays(data, tilt, engine, levelUp) {
+        function GeometryArrays(primitive, engine, options, levelUp) {
+          if (options === void 0) {
+            options = {};
+          }
           if (levelUp === void 0) {
             levelUp = 0;
           }
-          _super.call(this, tilt, engine, levelUp + 1);
+          _super.call(this, options.tilt, engine, levelUp + 1);
           this.first = 0;
           this.setLoggingName('GeometryArrays');
           this.attributes = {};
           this.vbo = new VertexBuffer_1.default(engine);
+          var data = vertexArraysFromPrimitive_1.default(primitive, options.order);
           if (!isNull_1.default(data) && !isUndefined_1.default(data)) {
             if (isObject_1.default(data)) {
               this.drawMode = data.drawMode;
@@ -983,26 +990,27 @@ System.register("davinci-eight/core/GeometryArrays.js", ["./computeAttributes", 
   };
 });
 
-System.register("davinci-eight/core/geometryFromPrimitive.js", ["./Engine", "./GeometryArrays", "./GeometryElements", "../checks/mustBeArray", "./vertexArraysFromPrimitive"], function(exports_1, context_1) {
+System.register("davinci-eight/core/geometryFromPrimitive.js", ["./Engine", "./GeometryArrays", "./GeometryElements", "../checks/mustBeArray"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var Engine_1,
       GeometryArrays_1,
       GeometryElements_1,
-      mustBeArray_1,
-      vertexArraysFromPrimitive_1;
-  function geometryFromPrimitive(primitive, tilt, engine, order) {
+      mustBeArray_1;
+  function geometryFromPrimitive(primitive, engine, options) {
+    if (options === void 0) {
+      options = {};
+    }
     if (!(engine instanceof Engine_1.Engine)) {
       throw new TypeError("engine must be an Engine");
     }
-    if (order) {
-      mustBeArray_1.default('order', order);
+    if (options.order) {
+      mustBeArray_1.default('order', options.order);
     }
-    var data = vertexArraysFromPrimitive_1.default(primitive, order);
     if (primitive.indices) {
-      return new GeometryElements_1.default(data, tilt, engine);
+      return new GeometryElements_1.default(primitive, engine, options, 0);
     } else {
-      return new GeometryArrays_1.default(data, tilt, engine);
+      return new GeometryArrays_1.default(primitive, engine, options, 0);
     }
   }
   exports_1("default", geometryFromPrimitive);
@@ -1015,8 +1023,6 @@ System.register("davinci-eight/core/geometryFromPrimitive.js", ["./Engine", "./G
       GeometryElements_1 = GeometryElements_1_1;
     }, function(mustBeArray_1_1) {
       mustBeArray_1 = mustBeArray_1_1;
-    }, function(vertexArraysFromPrimitive_1_1) {
-      vertexArraysFromPrimitive_1 = vertexArraysFromPrimitive_1_1;
     }],
     execute: function() {}
   };
@@ -3811,7 +3817,7 @@ System.register("davinci-eight/shapes/ArrowBuilder.js", ["./AxialShapeBuilder", 
   };
 });
 
-System.register("davinci-eight/geometries/arrowVertexArrays.js", ["../shapes/ArrowBuilder", "../checks/isDefined", "../checks/mustBeObject", "../checks/mustBeNumber", "../math/R3", "../math/Spinor3", "../math/Vector3", "../core/vertexArraysFromPrimitive"], function(exports_1, context_1) {
+System.register("davinci-eight/geometries/arrowPrimitive.js", ["../shapes/ArrowBuilder", "../checks/isDefined", "../checks/mustBeObject", "../checks/mustBeNumber", "../math/R3", "../math/Spinor3", "../math/Vector3"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var ArrowBuilder_1,
@@ -3820,9 +3826,8 @@ System.register("davinci-eight/geometries/arrowVertexArrays.js", ["../shapes/Arr
       mustBeNumber_1,
       R3_1,
       Spinor3_1,
-      Vector3_1,
-      vertexArraysFromPrimitive_1;
-  function arrowVertexArrays(options) {
+      Vector3_1;
+  function arrowPrimitive(options) {
     if (options === void 0) {
       options = {};
     }
@@ -3836,10 +3841,9 @@ System.register("davinci-eight/geometries/arrowVertexArrays.js", ["../shapes/Arr
     builder.stress.copy(isDefined_1.default(options.stress) ? options.stress : Vector3_1.default.vector(1, 1, 1));
     builder.tilt.copySpinor(isDefined_1.default(options.tilt) ? options.tilt : Spinor3_1.default.one());
     builder.offset.copy(isDefined_1.default(options.offset) ? options.offset : Vector3_1.default.zero());
-    var primitive = builder.toPrimitive();
-    return vertexArraysFromPrimitive_1.default(primitive);
+    return builder.toPrimitive();
   }
-  exports_1("default", arrowVertexArrays);
+  exports_1("default", arrowPrimitive);
   return {
     setters: [function(ArrowBuilder_1_1) {
       ArrowBuilder_1 = ArrowBuilder_1_1;
@@ -3855,14 +3859,12 @@ System.register("davinci-eight/geometries/arrowVertexArrays.js", ["../shapes/Arr
       Spinor3_1 = Spinor3_1_1;
     }, function(Vector3_1_1) {
       Vector3_1 = Vector3_1_1;
-    }, function(vertexArraysFromPrimitive_1_1) {
-      vertexArraysFromPrimitive_1 = vertexArraysFromPrimitive_1_1;
     }],
     execute: function() {}
   };
 });
 
-System.register("davinci-eight/geometries/ArrowGeometry.js", ["./arrowVertexArrays", "../core/GeometryElements", "../checks/mustBeNumber", "../i18n/notSupported"], function(exports_1, context_1) {
+System.register("davinci-eight/geometries/ArrowGeometry.js", ["./arrowPrimitive", "../core/GeometryElements", "../checks/mustBeNumber", "../i18n/notSupported"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -3874,14 +3876,14 @@ System.register("davinci-eight/geometries/ArrowGeometry.js", ["./arrowVertexArra
     }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   };
-  var arrowVertexArrays_1,
+  var arrowPrimitive_1,
       GeometryElements_1,
       mustBeNumber_1,
       notSupported_1;
   var ArrowGeometry;
   return {
-    setters: [function(arrowVertexArrays_1_1) {
-      arrowVertexArrays_1 = arrowVertexArrays_1_1;
+    setters: [function(arrowPrimitive_1_1) {
+      arrowPrimitive_1 = arrowPrimitive_1_1;
     }, function(GeometryElements_1_1) {
       GeometryElements_1 = GeometryElements_1_1;
     }, function(mustBeNumber_1_1) {
@@ -3899,7 +3901,7 @@ System.register("davinci-eight/geometries/ArrowGeometry.js", ["./arrowVertexArra
           if (levelUp === void 0) {
             levelUp = 0;
           }
-          _super.call(this, arrowVertexArrays_1.default(options), options.tilt, options.engine, levelUp + 1);
+          _super.call(this, arrowPrimitive_1.default(options), options.engine, options, levelUp + 1);
           this._length = 1.0;
           this._radiusCone = mustBeNumber_1.default("options.radiusCone", options.radiusCone);
           this._radius = this._radiusCone;
@@ -4368,30 +4370,7 @@ System.register("davinci-eight/geometries/spherePrimitive.js", ["../atoms/reduce
   };
 });
 
-System.register("davinci-eight/geometries/sphereVertexArrays.js", ["./spherePrimitive", "../core/vertexArraysFromPrimitive"], function(exports_1, context_1) {
-  "use strict";
-  var __moduleName = context_1 && context_1.id;
-  var spherePrimitive_1,
-      vertexArraysFromPrimitive_1;
-  function sphereVertexArrays(options) {
-    if (options === void 0) {
-      options = {};
-    }
-    var primitive = spherePrimitive_1.default(options);
-    return vertexArraysFromPrimitive_1.default(primitive);
-  }
-  exports_1("default", sphereVertexArrays);
-  return {
-    setters: [function(spherePrimitive_1_1) {
-      spherePrimitive_1 = spherePrimitive_1_1;
-    }, function(vertexArraysFromPrimitive_1_1) {
-      vertexArraysFromPrimitive_1 = vertexArraysFromPrimitive_1_1;
-    }],
-    execute: function() {}
-  };
-});
-
-System.register("davinci-eight/geometries/SphereGeometry.js", ["../core/GeometryElements", "../i18n/notSupported", "./sphereVertexArrays"], function(exports_1, context_1) {
+System.register("davinci-eight/geometries/SphereGeometry.js", ["../core/GeometryElements", "../i18n/notSupported", "./spherePrimitive"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -4405,15 +4384,15 @@ System.register("davinci-eight/geometries/SphereGeometry.js", ["../core/Geometry
   };
   var GeometryElements_1,
       notSupported_1,
-      sphereVertexArrays_1;
+      spherePrimitive_1;
   var SphereGeometry;
   return {
     setters: [function(GeometryElements_1_1) {
       GeometryElements_1 = GeometryElements_1_1;
     }, function(notSupported_1_1) {
       notSupported_1 = notSupported_1_1;
-    }, function(sphereVertexArrays_1_1) {
-      sphereVertexArrays_1 = sphereVertexArrays_1_1;
+    }, function(spherePrimitive_1_1) {
+      spherePrimitive_1 = spherePrimitive_1_1;
     }],
     execute: function() {
       SphereGeometry = (function(_super) {
@@ -4425,7 +4404,7 @@ System.register("davinci-eight/geometries/SphereGeometry.js", ["../core/Geometry
           if (levelUp === void 0) {
             levelUp = 0;
           }
-          _super.call(this, sphereVertexArrays_1.default(options), options.tilt, options.engine, levelUp + 1);
+          _super.call(this, spherePrimitive_1.default(options), options.engine, options, levelUp + 1);
           this._radius = 1;
           this.setLoggingName('SphereGeometry');
           if (levelUp === 0) {
@@ -4782,30 +4761,7 @@ System.register("davinci-eight/geometries/boxPrimitive.js", ["./CuboidPrimitives
   };
 });
 
-System.register("davinci-eight/geometries/boxVertexArrays.js", ["./boxPrimitive", "../core/vertexArraysFromPrimitive"], function(exports_1, context_1) {
-  "use strict";
-  var __moduleName = context_1 && context_1.id;
-  var boxPrimitive_1,
-      vertexArraysFromPrimitive_1;
-  function boxVertexArrays(options) {
-    if (options === void 0) {
-      options = {};
-    }
-    var primitive = boxPrimitive_1.default(options);
-    return vertexArraysFromPrimitive_1.default(primitive);
-  }
-  exports_1("default", boxVertexArrays);
-  return {
-    setters: [function(boxPrimitive_1_1) {
-      boxPrimitive_1 = boxPrimitive_1_1;
-    }, function(vertexArraysFromPrimitive_1_1) {
-      vertexArraysFromPrimitive_1 = vertexArraysFromPrimitive_1_1;
-    }],
-    execute: function() {}
-  };
-});
-
-System.register("davinci-eight/geometries/BoxGeometry.js", ["../core/GeometryElements", "../i18n/notSupported", "./boxVertexArrays"], function(exports_1, context_1) {
+System.register("davinci-eight/geometries/BoxGeometry.js", ["../core/GeometryElements", "../i18n/notSupported", "./boxPrimitive"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -4819,15 +4775,15 @@ System.register("davinci-eight/geometries/BoxGeometry.js", ["../core/GeometryEle
   };
   var GeometryElements_1,
       notSupported_1,
-      boxVertexArrays_1;
+      boxPrimitive_1;
   var BoxGeometry;
   return {
     setters: [function(GeometryElements_1_1) {
       GeometryElements_1 = GeometryElements_1_1;
     }, function(notSupported_1_1) {
       notSupported_1 = notSupported_1_1;
-    }, function(boxVertexArrays_1_1) {
-      boxVertexArrays_1 = boxVertexArrays_1_1;
+    }, function(boxPrimitive_1_1) {
+      boxPrimitive_1 = boxPrimitive_1_1;
     }],
     execute: function() {
       BoxGeometry = (function(_super) {
@@ -4839,7 +4795,7 @@ System.register("davinci-eight/geometries/BoxGeometry.js", ["../core/GeometryEle
           if (levelUp === void 0) {
             levelUp = 0;
           }
-          _super.call(this, boxVertexArrays_1.default(options), options.tilt, options.engine, levelUp + 1);
+          _super.call(this, boxPrimitive_1.default(options), options.engine, options, levelUp + 1);
           this.w = 1;
           this.h = 1;
           this.d = 1;
@@ -5308,30 +5264,7 @@ System.register("davinci-eight/geometries/cylinderPrimitive.js", ["./CylinderBui
   };
 });
 
-System.register("davinci-eight/geometries/cylinderVertexArrays.js", ["./cylinderPrimitive", "../core/vertexArraysFromPrimitive"], function(exports_1, context_1) {
-  "use strict";
-  var __moduleName = context_1 && context_1.id;
-  var cylinderPrimitive_1,
-      vertexArraysFromPrimitive_1;
-  function cylinderVertexArrays(options) {
-    if (options === void 0) {
-      options = {};
-    }
-    var primitive = cylinderPrimitive_1.default(options);
-    return vertexArraysFromPrimitive_1.default(primitive);
-  }
-  exports_1("default", cylinderVertexArrays);
-  return {
-    setters: [function(cylinderPrimitive_1_1) {
-      cylinderPrimitive_1 = cylinderPrimitive_1_1;
-    }, function(vertexArraysFromPrimitive_1_1) {
-      vertexArraysFromPrimitive_1 = vertexArraysFromPrimitive_1_1;
-    }],
-    execute: function() {}
-  };
-});
-
-System.register("davinci-eight/geometries/CylinderGeometry.js", ["./cylinderVertexArrays", "../i18n/notSupported", "../core/GeometryElements"], function(exports_1, context_1) {
+System.register("davinci-eight/geometries/CylinderGeometry.js", ["./cylinderPrimitive", "../i18n/notSupported", "../core/GeometryElements"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -5343,13 +5276,13 @@ System.register("davinci-eight/geometries/CylinderGeometry.js", ["./cylinderVert
     }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   };
-  var cylinderVertexArrays_1,
+  var cylinderPrimitive_1,
       notSupported_1,
       GeometryElements_1;
   var CylinderGeometry;
   return {
-    setters: [function(cylinderVertexArrays_1_1) {
-      cylinderVertexArrays_1 = cylinderVertexArrays_1_1;
+    setters: [function(cylinderPrimitive_1_1) {
+      cylinderPrimitive_1 = cylinderPrimitive_1_1;
     }, function(notSupported_1_1) {
       notSupported_1 = notSupported_1_1;
     }, function(GeometryElements_1_1) {
@@ -5365,7 +5298,7 @@ System.register("davinci-eight/geometries/CylinderGeometry.js", ["./cylinderVert
           if (levelUp === void 0) {
             levelUp = 0;
           }
-          _super.call(this, cylinderVertexArrays_1.default(options), options.tilt, options.engine, levelUp + 1);
+          _super.call(this, cylinderPrimitive_1.default(options), options.engine, options, levelUp + 1);
           this._length = 1;
           this._radius = 1;
           this.setLoggingName('CylinderGeometry');
@@ -5831,7 +5764,7 @@ System.register("davinci-eight/atoms/LinePoints.js", ["./CurvePrimitive", "../co
   };
 });
 
-System.register("davinci-eight/geometries/curveVertexArrays.js", ["../core/Color", "../core/BeginMode", "../core/GraphicsProgramSymbols", "../atoms/LineStrip", "../atoms/LinePoints", "../checks/isDefined", "../checks/isFunction", "../checks/mustBeNumber", "../math/R3", "../math/Unit", "../math/Vector3"], function(exports_1, context_1) {
+System.register("davinci-eight/geometries/curvePrimitive.js", ["../core/Color", "../core/BeginMode", "../core/GraphicsProgramSymbols", "../atoms/LineStrip", "../atoms/LinePoints", "../checks/isDefined", "../checks/isFunction", "../checks/mustBeNumber", "../math/R3", "../math/Unit", "../math/Vector3"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var Color_1,
@@ -5874,7 +5807,7 @@ System.register("davinci-eight/geometries/curveVertexArrays.js", ["../core/Color
       vertex.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_COLOR] = Color_1.Color.copy(aColor(u));
     }
   }
-  function default_1(options) {
+  function curvePrimitive(options) {
     var uMin = isDefined_1.default(options.uMin) ? mustBeNumber_1.default('uMin', options.uMin) : 0;
     var uMax = isDefined_1.default(options.uMax) ? mustBeNumber_1.default('uMax', options.uMax) : 1;
     var uSegments = isDefined_1.default(options.uSegments) ? options.uSegments : 1;
@@ -5892,10 +5825,9 @@ System.register("davinci-eight/geometries/curveVertexArrays.js", ["../core/Color
       var u = (uMin + uMax) / 2;
       transformVertex(vertex, u, options);
     }
-    var vas = curve.toVertexArrays();
-    return vas;
+    return curve.toPrimitive();
   }
-  exports_1("default", default_1);
+  exports_1("default", curvePrimitive);
   return {
     setters: [function(Color_1_1) {
       Color_1 = Color_1_1;
@@ -5924,7 +5856,7 @@ System.register("davinci-eight/geometries/curveVertexArrays.js", ["../core/Color
   };
 });
 
-System.register("davinci-eight/geometries/CurveGeometry.js", ["../core/GeometryElements", "./curveVertexArrays"], function(exports_1, context_1) {
+System.register("davinci-eight/geometries/CurveGeometry.js", ["../core/GeometryElements", "./curvePrimitive"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -5937,13 +5869,13 @@ System.register("davinci-eight/geometries/CurveGeometry.js", ["../core/GeometryE
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   };
   var GeometryElements_1,
-      curveVertexArrays_1;
+      curvePrimitive_1;
   var CurveGeometry;
   return {
     setters: [function(GeometryElements_1_1) {
       GeometryElements_1 = GeometryElements_1_1;
-    }, function(curveVertexArrays_1_1) {
-      curveVertexArrays_1 = curveVertexArrays_1_1;
+    }, function(curvePrimitive_1_1) {
+      curvePrimitive_1 = curvePrimitive_1_1;
     }],
     execute: function() {
       CurveGeometry = (function(_super) {
@@ -5955,10 +5887,16 @@ System.register("davinci-eight/geometries/CurveGeometry.js", ["../core/GeometryE
           if (levelUp === void 0) {
             levelUp = 0;
           }
-          _super.call(this, curveVertexArrays_1.default(options), options.tilt, options.engine, levelUp + 1);
+          _super.call(this, curvePrimitive_1.default(options), options.engine, options, levelUp + 1);
           this.setLoggingName('CurveGeometry');
+          if (levelUp === 0) {
+            this.synchUp();
+          }
         }
         CurveGeometry.prototype.destructor = function(levelUp) {
+          if (levelUp === 0) {
+            this.cleanUp();
+          }
           _super.prototype.destructor.call(this, levelUp + 1);
         };
         return CurveGeometry;
@@ -6317,7 +6255,7 @@ System.register("davinci-eight/atoms/GridPoints.js", ["../core/BeginMode", "./Gr
   };
 });
 
-System.register("davinci-eight/geometries/gridVertexArrays.js", ["../core/BeginMode", "../core/Color", "../core/GraphicsProgramSymbols", "../atoms/GridLines", "../atoms/GridPoints", "../atoms/GridTriangleStrip", "../checks/isDefined", "../checks/isFunction", "../checks/mustBeNumber", "../math/R3", "../math/Unit", "../math/Vector3"], function(exports_1, context_1) {
+System.register("davinci-eight/geometries/gridPrimitive.js", ["../core/BeginMode", "../core/Color", "../core/GraphicsProgramSymbols", "../atoms/GridLines", "../atoms/GridPoints", "../atoms/GridTriangleStrip", "../checks/isDefined", "../checks/isFunction", "../checks/mustBeNumber", "../math/R3", "../math/Unit", "../math/Vector3"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var BeginMode_1,
@@ -6372,7 +6310,7 @@ System.register("davinci-eight/geometries/gridVertexArrays.js", ["../core/BeginM
       vertex.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_COLOR] = Color_1.Color.copy(aColor(u, v));
     }
   }
-  function default_1(options) {
+  function gridPrimitive(options) {
     var uMin = isDefined_1.default(options.uMin) ? mustBeNumber_1.default('uMin', options.uMin) : 0;
     var uMax = isDefined_1.default(options.uMax) ? mustBeNumber_1.default('uMax', options.uMax) : 1;
     var uSegments = isDefined_1.default(options.uSegments) ? options.uSegments : 1;
@@ -6416,10 +6354,9 @@ System.register("davinci-eight/geometries/gridVertexArrays.js", ["../core/BeginM
         transformVertex(vertex, u, v, options);
       }
     }
-    var vas = grid.toVertexArrays();
-    return vas;
+    return grid.toPrimitive();
   }
-  exports_1("default", default_1);
+  exports_1("default", gridPrimitive);
   return {
     setters: [function(BeginMode_1_1) {
       BeginMode_1 = BeginMode_1_1;
@@ -6450,7 +6387,7 @@ System.register("davinci-eight/geometries/gridVertexArrays.js", ["../core/BeginM
   };
 });
 
-System.register("davinci-eight/geometries/GridGeometry.js", ["../core/GeometryElements", "./gridVertexArrays"], function(exports_1, context_1) {
+System.register("davinci-eight/geometries/GridGeometry.js", ["../core/GeometryElements", "./gridPrimitive"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -6463,13 +6400,13 @@ System.register("davinci-eight/geometries/GridGeometry.js", ["../core/GeometryEl
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   };
   var GeometryElements_1,
-      gridVertexArrays_1;
+      gridPrimitive_1;
   var GridGeometry;
   return {
     setters: [function(GeometryElements_1_1) {
       GeometryElements_1 = GeometryElements_1_1;
-    }, function(gridVertexArrays_1_1) {
-      gridVertexArrays_1 = gridVertexArrays_1_1;
+    }, function(gridPrimitive_1_1) {
+      gridPrimitive_1 = gridPrimitive_1_1;
     }],
     execute: function() {
       GridGeometry = (function(_super) {
@@ -6481,10 +6418,16 @@ System.register("davinci-eight/geometries/GridGeometry.js", ["../core/GeometryEl
           if (levelUp === void 0) {
             levelUp = 0;
           }
-          _super.call(this, gridVertexArrays_1.default(options), options.tilt, options.engine, levelUp + 1);
+          _super.call(this, gridPrimitive_1.default(options), options.engine, options, levelUp + 1);
           this.setLoggingName('GridGeometry');
+          if (levelUp === 0) {
+            this.synchUp();
+          }
         }
         GridGeometry.prototype.destructor = function(levelUp) {
+          if (levelUp === 0) {
+            this.cleanUp();
+          }
           _super.prototype.destructor.call(this, levelUp + 1);
         };
         return GridGeometry;
@@ -8508,7 +8451,7 @@ System.register("davinci-eight/shapes/RingBuilder.js", ["../transforms/Approxima
   };
 });
 
-System.register("davinci-eight/geometries/HollowCylinderGeometry.js", ["../shapes/CylindricalShellBuilder", "../core/GeometryElements", "../shapes/RingBuilder", "../atoms/reduce", "../math/Vector3", "../core/vertexArraysFromPrimitive"], function(exports_1, context_1) {
+System.register("davinci-eight/geometries/HollowCylinderGeometry.js", ["../shapes/CylindricalShellBuilder", "../core/GeometryElements", "../shapes/RingBuilder", "../atoms/reduce", "../math/Vector3"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -8524,8 +8467,7 @@ System.register("davinci-eight/geometries/HollowCylinderGeometry.js", ["../shape
       GeometryElements_1,
       RingBuilder_1,
       reduce_1,
-      Vector3_1,
-      vertexArraysFromPrimitive_1;
+      Vector3_1;
   var e2,
       e3,
       HollowCylinderGeometry;
@@ -8563,12 +8505,6 @@ System.register("davinci-eight/geometries/HollowCylinderGeometry.js", ["../shape
     var base = ring.toPrimitive();
     return reduce_1.default([outerWalls, innerWalls, cap, base]);
   }
-  function hollowCylinderVertexArrays(options) {
-    if (options === void 0) {
-      options = {};
-    }
-    return vertexArraysFromPrimitive_1.default(hollowCylinderPrimitive(options));
-  }
   return {
     setters: [function(CylindricalShellBuilder_1_1) {
       CylindricalShellBuilder_1 = CylindricalShellBuilder_1_1;
@@ -8580,8 +8516,6 @@ System.register("davinci-eight/geometries/HollowCylinderGeometry.js", ["../shape
       reduce_1 = reduce_1_1;
     }, function(Vector3_1_1) {
       Vector3_1 = Vector3_1_1;
-    }, function(vertexArraysFromPrimitive_1_1) {
-      vertexArraysFromPrimitive_1 = vertexArraysFromPrimitive_1_1;
     }],
     execute: function() {
       e2 = Vector3_1.default.vector(0, 1, 0);
@@ -8595,7 +8529,7 @@ System.register("davinci-eight/geometries/HollowCylinderGeometry.js", ["../shape
           if (levelUp === void 0) {
             levelUp = 0;
           }
-          _super.call(this, hollowCylinderVertexArrays(options), void 0, options.engine, levelUp + 1);
+          _super.call(this, hollowCylinderPrimitive(options), void 0, options.engine, levelUp + 1);
           if (levelUp === 0) {
             this.synchUp();
           }
@@ -12182,7 +12116,7 @@ System.register("davinci-eight/core/VertexBuffer.js", ["../checks/mustBeObject",
   };
 });
 
-System.register("davinci-eight/core/GeometryElements.js", ["../config", "./ErrorMode", "./GeometryLeaf", "./IndexBuffer", "../checks/isArray", "../checks/isNull", "../checks/isObject", "../checks/isUndefined", "../checks/mustBeArray", "../checks/mustBeObject", "../i18n/readOnly", "./VertexBuffer"], function(exports_1, context_1) {
+System.register("davinci-eight/core/GeometryElements.js", ["../config", "./ErrorMode", "./GeometryLeaf", "./IndexBuffer", "../checks/isArray", "../checks/isNull", "../checks/isObject", "../checks/isUndefined", "../checks/mustBeArray", "../checks/mustBeObject", "../i18n/readOnly", "./vertexArraysFromPrimitive", "./VertexBuffer"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -12205,6 +12139,7 @@ System.register("davinci-eight/core/GeometryElements.js", ["../config", "./Error
       mustBeArray_1,
       mustBeObject_1,
       readOnly_1,
+      vertexArraysFromPrimitive_1,
       VertexBuffer_1;
   var GeometryElements;
   return {
@@ -12230,21 +12165,27 @@ System.register("davinci-eight/core/GeometryElements.js", ["../config", "./Error
       mustBeObject_1 = mustBeObject_1_1;
     }, function(readOnly_1_1) {
       readOnly_1 = readOnly_1_1;
+    }, function(vertexArraysFromPrimitive_1_1) {
+      vertexArraysFromPrimitive_1 = vertexArraysFromPrimitive_1_1;
     }, function(VertexBuffer_1_1) {
       VertexBuffer_1 = VertexBuffer_1_1;
     }],
     execute: function() {
       GeometryElements = (function(_super) {
         __extends(GeometryElements, _super);
-        function GeometryElements(data, tilt, engine, levelUp) {
+        function GeometryElements(primitive, engine, options, levelUp) {
+          if (options === void 0) {
+            options = {};
+          }
           if (levelUp === void 0) {
             levelUp = 0;
           }
-          _super.call(this, tilt, engine, levelUp + 1);
+          _super.call(this, options.tilt, engine, levelUp + 1);
           this.offset = 0;
           this.setLoggingName('GeometryElements');
           this.ibo = new IndexBuffer_1.default(engine);
           this.vbo = new VertexBuffer_1.default(engine);
+          var data = vertexArraysFromPrimitive_1.default(primitive, options.order);
           if (!isNull_1.default(data) && !isUndefined_1.default(data)) {
             if (isObject_1.default(data)) {
               this.drawMode = data.drawMode;
@@ -14454,6 +14395,141 @@ System.register("davinci-eight/core/GeometryContainer.js", ["../collections/Shar
   };
 });
 
+System.register("davinci-eight/core/computeCount.js", ["../checks/mustBeInteger"], function(exports_1, context_1) {
+  "use strict";
+  var __moduleName = context_1 && context_1.id;
+  var mustBeInteger_1;
+  function default_1(attribs, aNames) {
+    var aNamesLen = aNames.length;
+    for (var a = 0; a < aNamesLen; a++) {
+      var aName = aNames[a];
+      var attrib = attribs[aName];
+      var vLength = attrib.values.length;
+      var size = mustBeInteger_1.default('size', attrib.size);
+      return vLength / size;
+    }
+    return 0;
+  }
+  exports_1("default", default_1);
+  return {
+    setters: [function(mustBeInteger_1_1) {
+      mustBeInteger_1 = mustBeInteger_1_1;
+    }],
+    execute: function() {}
+  };
+});
+
+System.register("davinci-eight/core/computeAttributes.js", ["./computeCount"], function(exports_1, context_1) {
+  "use strict";
+  var __moduleName = context_1 && context_1.id;
+  var computeCount_1;
+  function computeAttributes(attributes, aNames) {
+    var aNamesLen = aNames.length;
+    var values = [];
+    var iLen = computeCount_1.default(attributes, aNames);
+    for (var i = 0; i < iLen; i++) {
+      for (var a = 0; a < aNamesLen; a++) {
+        var aName = aNames[a];
+        var attrib = attributes[aName];
+        var size = attrib.size;
+        for (var s = 0; s < size; s++) {
+          values.push(attrib.values[i * size + s]);
+        }
+      }
+    }
+    return values;
+  }
+  exports_1("default", computeAttributes);
+  return {
+    setters: [function(computeCount_1_1) {
+      computeCount_1 = computeCount_1_1;
+    }],
+    execute: function() {}
+  };
+});
+
+System.register("davinci-eight/core/computePointers.js", [], function(exports_1, context_1) {
+  "use strict";
+  var __moduleName = context_1 && context_1.id;
+  function computePointers(attributes, aNames) {
+    var aNamesLen = aNames.length;
+    var pointers = [];
+    var offset = 0;
+    for (var a = 0; a < aNamesLen; a++) {
+      var aName = aNames[a];
+      var attrib = attributes[aName];
+      pointers.push({
+        name: aName,
+        size: attrib.size,
+        type: attrib.type,
+        normalized: true,
+        offset: offset
+      });
+      offset += attrib.size * 4;
+    }
+    return pointers;
+  }
+  exports_1("default", computePointers);
+  return {
+    setters: [],
+    execute: function() {}
+  };
+});
+
+System.register("davinci-eight/core/computeStride.js", [], function(exports_1, context_1) {
+  "use strict";
+  var __moduleName = context_1 && context_1.id;
+  function default_1(attributes, aNames) {
+    var aNamesLen = aNames.length;
+    var stride = 0;
+    for (var a = 0; a < aNamesLen; a++) {
+      var aName = aNames[a];
+      var attrib = attributes[aName];
+      stride += attrib.size * 4;
+    }
+    return stride;
+  }
+  exports_1("default", default_1);
+  return {
+    setters: [],
+    execute: function() {}
+  };
+});
+
+System.register("davinci-eight/core/vertexArraysFromPrimitive.js", ["./computeAttributes", "./computePointers", "./computeStride"], function(exports_1, context_1) {
+  "use strict";
+  var __moduleName = context_1 && context_1.id;
+  var computeAttributes_1,
+      computePointers_1,
+      computeStride_1;
+  function vertexArraysFromPrimitive(primitive, order) {
+    if (primitive) {
+      var keys = order ? order : Object.keys(primitive.attributes);
+      var that = {
+        drawMode: primitive.mode,
+        indices: primitive.indices,
+        attributes: computeAttributes_1.default(primitive.attributes, keys),
+        stride: computeStride_1.default(primitive.attributes, keys),
+        pointers: computePointers_1.default(primitive.attributes, keys)
+      };
+      return that;
+    } else {
+      return void 0;
+    }
+  }
+  exports_1("default", vertexArraysFromPrimitive);
+  return {
+    setters: [function(computeAttributes_1_1) {
+      computeAttributes_1 = computeAttributes_1_1;
+    }, function(computePointers_1_1) {
+      computePointers_1 = computePointers_1_1;
+    }, function(computeStride_1_1) {
+      computeStride_1 = computeStride_1_1;
+    }],
+    execute: function() {}
+  };
+});
+
 System.register("davinci-eight/geometries/PrimitivesBuilder.js", ["../math/Geometric3", "../core/GeometryElements", "../core/GeometryContainer", "../math/Vector3", "../core/vertexArraysFromPrimitive"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
@@ -14498,7 +14574,7 @@ System.register("davinci-eight/geometries/PrimitivesBuilder.js", ["../math/Geome
           var iLen = ps.length;
           for (var i = 0; i < iLen; i++) {
             var dataSource = ps[i];
-            var geometry = new GeometryElements_1.default(vertexArraysFromPrimitive_1.default(dataSource), this.tilt, engine);
+            var geometry = new GeometryElements_1.default(dataSource, engine, {tilt: this.tilt}, 0);
             container.addPart(geometry);
             geometry.release();
           }
@@ -22362,161 +22438,7 @@ System.register("davinci-eight/geometries/tetrahedronPrimitive.js", ["../checks/
   };
 });
 
-System.register("davinci-eight/core/computeCount.js", ["../checks/mustBeInteger"], function(exports_1, context_1) {
-  "use strict";
-  var __moduleName = context_1 && context_1.id;
-  var mustBeInteger_1;
-  function default_1(attribs, aNames) {
-    var aNamesLen = aNames.length;
-    for (var a = 0; a < aNamesLen; a++) {
-      var aName = aNames[a];
-      var attrib = attribs[aName];
-      var vLength = attrib.values.length;
-      var size = mustBeInteger_1.default('size', attrib.size);
-      return vLength / size;
-    }
-    return 0;
-  }
-  exports_1("default", default_1);
-  return {
-    setters: [function(mustBeInteger_1_1) {
-      mustBeInteger_1 = mustBeInteger_1_1;
-    }],
-    execute: function() {}
-  };
-});
-
-System.register("davinci-eight/core/computeAttributes.js", ["./computeCount"], function(exports_1, context_1) {
-  "use strict";
-  var __moduleName = context_1 && context_1.id;
-  var computeCount_1;
-  function computeAttributes(attributes, aNames) {
-    var aNamesLen = aNames.length;
-    var values = [];
-    var iLen = computeCount_1.default(attributes, aNames);
-    for (var i = 0; i < iLen; i++) {
-      for (var a = 0; a < aNamesLen; a++) {
-        var aName = aNames[a];
-        var attrib = attributes[aName];
-        var size = attrib.size;
-        for (var s = 0; s < size; s++) {
-          values.push(attrib.values[i * size + s]);
-        }
-      }
-    }
-    return values;
-  }
-  exports_1("default", computeAttributes);
-  return {
-    setters: [function(computeCount_1_1) {
-      computeCount_1 = computeCount_1_1;
-    }],
-    execute: function() {}
-  };
-});
-
-System.register("davinci-eight/core/computePointers.js", [], function(exports_1, context_1) {
-  "use strict";
-  var __moduleName = context_1 && context_1.id;
-  function computePointers(attributes, aNames) {
-    var aNamesLen = aNames.length;
-    var pointers = [];
-    var offset = 0;
-    for (var a = 0; a < aNamesLen; a++) {
-      var aName = aNames[a];
-      var attrib = attributes[aName];
-      pointers.push({
-        name: aName,
-        size: attrib.size,
-        type: attrib.type,
-        normalized: true,
-        offset: offset
-      });
-      offset += attrib.size * 4;
-    }
-    return pointers;
-  }
-  exports_1("default", computePointers);
-  return {
-    setters: [],
-    execute: function() {}
-  };
-});
-
-System.register("davinci-eight/core/computeStride.js", [], function(exports_1, context_1) {
-  "use strict";
-  var __moduleName = context_1 && context_1.id;
-  function default_1(attributes, aNames) {
-    var aNamesLen = aNames.length;
-    var stride = 0;
-    for (var a = 0; a < aNamesLen; a++) {
-      var aName = aNames[a];
-      var attrib = attributes[aName];
-      stride += attrib.size * 4;
-    }
-    return stride;
-  }
-  exports_1("default", default_1);
-  return {
-    setters: [],
-    execute: function() {}
-  };
-});
-
-System.register("davinci-eight/core/vertexArraysFromPrimitive.js", ["./computeAttributes", "./computePointers", "./computeStride"], function(exports_1, context_1) {
-  "use strict";
-  var __moduleName = context_1 && context_1.id;
-  var computeAttributes_1,
-      computePointers_1,
-      computeStride_1;
-  function vertexArraysFromPrimitive(primitive, order) {
-    var keys = order ? order : Object.keys(primitive.attributes);
-    var that = {
-      drawMode: primitive.mode,
-      indices: primitive.indices,
-      attributes: computeAttributes_1.default(primitive.attributes, keys),
-      stride: computeStride_1.default(primitive.attributes, keys),
-      pointers: computePointers_1.default(primitive.attributes, keys)
-    };
-    return that;
-  }
-  exports_1("default", vertexArraysFromPrimitive);
-  return {
-    setters: [function(computeAttributes_1_1) {
-      computeAttributes_1 = computeAttributes_1_1;
-    }, function(computePointers_1_1) {
-      computePointers_1 = computePointers_1_1;
-    }, function(computeStride_1_1) {
-      computeStride_1 = computeStride_1_1;
-    }],
-    execute: function() {}
-  };
-});
-
-System.register("davinci-eight/geometries/tetrahedronVertexArrays.js", ["./tetrahedronPrimitive", "../core/vertexArraysFromPrimitive"], function(exports_1, context_1) {
-  "use strict";
-  var __moduleName = context_1 && context_1.id;
-  var tetrahedronPrimitive_1,
-      vertexArraysFromPrimitive_1;
-  function sphereVertexArrays(options) {
-    if (options === void 0) {
-      options = {};
-    }
-    var primitive = tetrahedronPrimitive_1.default(options);
-    return vertexArraysFromPrimitive_1.default(primitive);
-  }
-  exports_1("default", sphereVertexArrays);
-  return {
-    setters: [function(tetrahedronPrimitive_1_1) {
-      tetrahedronPrimitive_1 = tetrahedronPrimitive_1_1;
-    }, function(vertexArraysFromPrimitive_1_1) {
-      vertexArraysFromPrimitive_1 = vertexArraysFromPrimitive_1_1;
-    }],
-    execute: function() {}
-  };
-});
-
-System.register("davinci-eight/geometries/TetrahedronGeometry.js", ["../core/GeometryElements", "./tetrahedronVertexArrays"], function(exports_1, context_1) {
+System.register("davinci-eight/geometries/TetrahedronGeometry.js", ["../core/GeometryElements", "./tetrahedronPrimitive"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -22529,13 +22451,13 @@ System.register("davinci-eight/geometries/TetrahedronGeometry.js", ["../core/Geo
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   };
   var GeometryElements_1,
-      tetrahedronVertexArrays_1;
+      tetrahedronPrimitive_1;
   var TetrahedronGeometry;
   return {
     setters: [function(GeometryElements_1_1) {
       GeometryElements_1 = GeometryElements_1_1;
-    }, function(tetrahedronVertexArrays_1_1) {
-      tetrahedronVertexArrays_1 = tetrahedronVertexArrays_1_1;
+    }, function(tetrahedronPrimitive_1_1) {
+      tetrahedronPrimitive_1 = tetrahedronPrimitive_1_1;
     }],
     execute: function() {
       TetrahedronGeometry = (function(_super) {
@@ -22547,7 +22469,7 @@ System.register("davinci-eight/geometries/TetrahedronGeometry.js", ["../core/Geo
           if (levelUp === void 0) {
             levelUp = 0;
           }
-          _super.call(this, tetrahedronVertexArrays_1.default(options), options.tilt, options.engine, levelUp + 1);
+          _super.call(this, tetrahedronPrimitive_1.default(options), options.engine, options, levelUp + 1);
           this.setLoggingName('TetrahedronGeometry');
           if (levelUp === 0) {
             this.synchUp();
@@ -25686,7 +25608,7 @@ System.register("davinci-eight/config.js", ["./core/ErrorMode"], function(export
           this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
           this.LAST_MODIFIED = '2016-07-18';
           this.NAMESPACE = 'EIGHT';
-          this.VERSION = '2.269.0';
+          this.VERSION = '2.270.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
           get: function() {

@@ -1,5 +1,5 @@
 import ArrowGeometryOptions from './ArrowGeometryOptions';
-import arrowVertexArrays from './arrowVertexArrays';
+import arrowPrimitive from './arrowPrimitive';
 import GeometryElements from '../core/GeometryElements';
 import mustBeNumber from '../checks/mustBeNumber';
 import notSupported from '../i18n/notSupported';
@@ -31,7 +31,7 @@ export default class ArrowGeometry extends GeometryElements {
     private _radiusCone: number;
 
     constructor(options: ArrowGeometryOptions = {}, levelUp = 0) {
-        super(arrowVertexArrays(options), options.tilt, options.engine, levelUp + 1);
+        super(arrowPrimitive(options), options.engine, options, levelUp + 1);
         this._radiusCone = mustBeNumber("options.radiusCone", options.radiusCone);
         this._radius = this._radiusCone;
         // TODO: Why aren't we using the following?

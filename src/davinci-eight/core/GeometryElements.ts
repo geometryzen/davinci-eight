@@ -11,9 +11,11 @@ import isObject from '../checks/isObject';
 import isUndefined from '../checks/isUndefined';
 import mustBeArray from '../checks/mustBeArray';
 import mustBeObject from '../checks/mustBeObject';
+import Primitive from './Primitive';
 import readOnly from '../i18n/readOnly';
 import SpinorE3 from '../math/SpinorE3'
 import VertexArrays from './VertexArrays';
+import vertexArraysFromPrimitive from './vertexArraysFromPrimitive';
 import VertexAttribPointer from './VertexAttribPointer';
 import VertexBuffer from './VertexBuffer';
 
@@ -35,12 +37,13 @@ export default class GeometryElements extends GeometryLeaf {
     private ibo: IndexBuffer;
     private vbo: VertexBuffer;
 
-    constructor(data: VertexArrays, tilt: SpinorE3, engine: Engine, levelUp = 0) {
-        super(tilt, engine, levelUp + 1);
+    constructor(primitive: Primitive, engine: Engine, options: { order?: string[]; tilt?: SpinorE3 } = {}, levelUp = 0) {
+        super(options.tilt, engine, levelUp + 1);
         this.setLoggingName('GeometryElements');
         this.ibo = new IndexBuffer(engine);
         this.vbo = new VertexBuffer(engine);
 
+        const data = vertexArraysFromPrimitive(primitive, options.order);
         if (!isNull(data) && !isUndefined(data)) {
             if (isObject(data)) {
                 this.drawMode = data.drawMode;

@@ -11,8 +11,9 @@ import GeometryLeaf from './GeometryLeaf';
 import isNull from '../checks/isNull';
 import isObject from '../checks/isObject';
 import isUndefined from '../checks/isUndefined';
-import SpinorE3 from '../math/SpinorE3'
-import VertexArrays from './VertexArrays';
+import Primitive from './Primitive';
+import SpinorE3 from '../math/SpinorE3';
+import vertexArraysFromPrimitive from './vertexArraysFromPrimitive';
 import VertexBuffer from './VertexBuffer';
 
 /**
@@ -46,16 +47,19 @@ export default class GeometryArrays extends GeometryLeaf {
     private vbo: VertexBuffer;
 
     /**
-     * @param data
+     * @param primitive
      * @param tilt
      * @param engine
      * @param levelUp
      */
-    constructor(data: VertexArrays, tilt: SpinorE3, engine: Engine, levelUp = 0) {
-        super(tilt, engine, levelUp + 1);
+    constructor(primitive: Primitive, engine: Engine, options: { order?: string[]; tilt?: SpinorE3 } = {}, levelUp = 0) {
+        // FIXME: GeometryLeaf constructor should be extensible
+        super(options.tilt, engine, levelUp + 1);
         this.setLoggingName('GeometryArrays');
         this.attributes = {};
         this.vbo = new VertexBuffer(engine);
+        // FIXME: order as an option
+        const data = vertexArraysFromPrimitive(primitive, options.order);
         if (!isNull(data) && !isUndefined(data)) {
             if (isObject(data)) {
                 // TODO: 

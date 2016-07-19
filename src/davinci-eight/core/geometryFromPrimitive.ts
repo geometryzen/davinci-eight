@@ -5,7 +5,6 @@ import GeometryElements from './GeometryElements';
 import mustBeArray from '../checks/mustBeArray';
 import Primitive from './Primitive';
 import SpinorE3 from '../math/SpinorE3';
-import vertexArraysFromPrimitive from './vertexArraysFromPrimitive';
 
 /**
  * Computes a Geometry from the specified primitive.
@@ -18,18 +17,17 @@ import vertexArraysFromPrimitive from './vertexArraysFromPrimitive';
  * @param engine
  * @param order
  */
-export default function geometryFromPrimitive(primitive: Primitive, tilt: SpinorE3, engine: Engine, order?: string[]): Geometry {
+export default function geometryFromPrimitive(primitive: Primitive, engine: Engine, options: { order?: string[]; tilt?: SpinorE3 } = {}): Geometry {
     if (!(engine instanceof Engine)) {
         throw new TypeError("engine must be an Engine");
     }
-    if (order) {
-        mustBeArray('order', order);
+    if (options.order) {
+        mustBeArray('order', options.order);
     }
-    const data = vertexArraysFromPrimitive(primitive, order);
     if (primitive.indices) {
-        return new GeometryElements(data, tilt, engine);
+        return new GeometryElements(primitive, engine, options, 0);
     }
     else {
-        return new GeometryArrays(data, tilt, engine);
+        return new GeometryArrays(primitive, engine, options, 0);
     }
 }

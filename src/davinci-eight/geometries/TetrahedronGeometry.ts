@@ -1,6 +1,6 @@
 import GeometryElements from '../core/GeometryElements';
 import TetrahedronGeometryOptions from './TetrahedronGeometryOptions';
-import tetrahedronVertexArrays from './tetrahedronVertexArrays';
+import tetrahedronPrimitive from './tetrahedronPrimitive';
 
 /**
  * A convenience class for creating a tetrahedron geometry.
@@ -13,7 +13,7 @@ export default class TetrahedronGeometry extends GeometryElements {
      * @param levelUp
      */
     constructor(options: TetrahedronGeometryOptions = {}, levelUp = 0) {
-        super(tetrahedronVertexArrays(options), options.tilt, options.engine, levelUp + 1);
+        super(tetrahedronPrimitive(options), options.engine, options, levelUp + 1);
         this.setLoggingName('TetrahedronGeometry');
         if (levelUp === 0) {
             this.synchUp();

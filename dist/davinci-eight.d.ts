@@ -610,7 +610,7 @@ declare module EIGHT {
     /**
      *
      */
-    function geometryFromPrimitive(primitive: Primitive, tilt: SpinorE3, engine: Engine, order?: string[]): Geometry;
+    function geometryFromPrimitive(primitive: Primitive, engine: Engine, options?: { order?: string[]; tilt?: SpinorE3 }): Geometry;
 
     /**
      *
@@ -3294,7 +3294,7 @@ declare module EIGHT {
         /**
          *
          */
-        constructor(data: VertexArrays, tilt: SpinorE3, engine: Engine, levelUp?: number);
+        constructor(primitive: Primitive, engine: Engine, options?: { order?: string[]; tilt?: SpinorE3 }, levelUp?: number);
         protected destructor(levelUp: number): void;
         addPart(geometry: Geometry): void;
         bind(material: Material): void;
@@ -3321,7 +3321,7 @@ declare module EIGHT {
          * The total number of bytes for each element.
          */
         stride: number;
-        constructor(data: VertexArrays, tilt: SpinorE3, engine: Engine, levelUp?: number);
+        constructor(primitive: Primitive, engine: Engine, options?: { order?: string[]; tilt?: SpinorE3 }, levelUp?: number);
         protected destructor(levelUp: number): void;
         addPart(geometry: Geometry): void;
         bind(material: Material): void;

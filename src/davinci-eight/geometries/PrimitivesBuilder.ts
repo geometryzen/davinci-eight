@@ -13,8 +13,6 @@ import Transform from '../atoms/Transform'
 
 /**
  * A GeometryBuilder that takes building Primitive arrays as primary.
- *
- * @class PrimitivesBuilder
  */
 export default class PrimitivesBuilder implements GeometryBuilder {
 
@@ -110,7 +108,7 @@ export default class PrimitivesBuilder implements GeometryBuilder {
         const iLen = ps.length
         for (let i = 0; i < iLen; i++) {
             const dataSource = ps[i]
-            const geometry = new GeometryElements(vertexArraysFromPrimitive(dataSource), this.tilt, engine)
+            const geometry = new GeometryElements(dataSource, engine, { tilt: this.tilt }, 0);
             container.addPart(geometry)
             geometry.release()
         }

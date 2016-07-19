@@ -1,7 +1,7 @@
 import GeometryElements from '../core/GeometryElements';
 import notSupported from '../i18n/notSupported';
 import SphereGeometryOptions from './SphereGeometryOptions';
-import sphereVertexArrays from './sphereVertexArrays';
+import spherePrimitive from './spherePrimitive';
 
 
 /**
@@ -19,7 +19,7 @@ export default class SphereGeometry extends GeometryElements {
      * @param levelUp
      */
     constructor(options: SphereGeometryOptions = {}, levelUp = 0) {
-        super(sphereVertexArrays(options), options.tilt, options.engine, levelUp + 1);
+        super(spherePrimitive(options), options.engine, options, levelUp + 1);
         this.setLoggingName('SphereGeometry')
         if (levelUp === 0) {
             this.synchUp();

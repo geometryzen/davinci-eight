@@ -5,8 +5,6 @@ import Primitive from '../core/Primitive';
 import RingBuilder from '../shapes/RingBuilder';
 import reduce from '../atoms/reduce';
 import Vector3 from '../math/Vector3';
-import VertexArrays from '../core/VertexArrays';
-import vertexArraysFromPrimitive from '../core/vertexArraysFromPrimitive';
 
 const e2 = Vector3.vector(0, 1, 0);
 const e3 = Vector3.vector(0, 0, 1);
@@ -60,17 +58,9 @@ function hollowCylinderPrimitive(options: HollowCylinderOptions = {}): Primitive
     return reduce([outerWalls, innerWalls, cap, base]);
 }
 
-/**
- * Generates VertexArrays from the specified options.
- * VertexArrays provide an interleaved form of a Primitive so that only one attribute buffer is required.
- */
-function hollowCylinderVertexArrays(options: HollowCylinderOptions = {}): VertexArrays {
-    return vertexArraysFromPrimitive(hollowCylinderPrimitive(options));
-}
-
 export default class HollowCylinderGeometry extends GeometryElements {
     constructor(options: HollowCylinderOptions = {}, levelUp = 0) {
-        super(hollowCylinderVertexArrays(options), void 0, options.engine, levelUp + 1);
+        super(hollowCylinderPrimitive(options), void 0, options.engine, levelUp + 1);
         if (levelUp === 0) {
             this.synchUp()
         }
