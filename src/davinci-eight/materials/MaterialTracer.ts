@@ -31,9 +31,6 @@ export default class MaterialTracer implements Material {
     getUniform(name: string): Uniform {
         return this.inner.getUniform(name)
     }
-    getUniformLocation(name: string) {
-        return this.inner.getUniform(name)
-    }
     use() {
         return this.inner.use();
     }

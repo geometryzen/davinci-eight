@@ -24,9 +24,6 @@ export default function createPerspective(options: { fov?: number; aspect?: numb
     let matrixNeedsUpdate = true
 
     const self: Perspective = {
-        setProperty(name: string, value: number[]): Perspective {
-            return self
-        },
         get eye(): Geometric3 {
             return base.eye
         },

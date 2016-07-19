@@ -41,19 +41,9 @@ export interface Material extends FacetVisitor, ContextConsumer {
      */
     disableAttrib(indexOrName: number | string): void;
 
-    /**
-     * @param name
-     * @returns
-     */
     getUniform(name: string): Uniform;
 
-    /**
-     *
-     */
-    getUniformLocation(name: string): Uniform;
+    hasUniform(name: string): boolean;
 
-    /**
-     *
-     */
     use(): void
 }

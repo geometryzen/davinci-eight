@@ -547,7 +547,6 @@ declare module EIGHT {
         enableAttrib(indexOrName: number | string): void;
         disableAttrib(indexOrName: number | string): void;
         getUniform(name: string): Uniform;
-        getUniformLocation(name: string): Uniform;
         use(): void;
     }
 
@@ -2892,7 +2891,6 @@ declare module EIGHT {
      * A provider of a collection of 'uniform' variables for use in a WebGL program.
      */
     interface Facet {
-        setProperty(name: string, value: number[]): Facet;
         setUniforms(visitor: FacetVisitor): void;
     }
 
@@ -3445,8 +3443,7 @@ declare module EIGHT {
         getAttrib(indexOrName: number | string): Attrib;
         getAttribLocation(name: string): number;
         getUniform(name: string): Uniform;
-        getUniformLocation(name: string): Uniform;
-        hasUniformLocation(name: string): boolean;
+        hasUniform(name: string): boolean;
         matrix2fv(name: string, mat2: Float32Array, transpose: boolean): void;
         matrix3fv(name: string, mat3: Float32Array, transpose: boolean): void;
         matrix4fv(name: string, mat4: Float32Array, transpose: boolean): void;
@@ -3506,6 +3503,16 @@ declare module EIGHT {
          * Determines whether this Drawable will be rendered.
          */
         visible: boolean;
+
+        /**
+         * Determines the optional uOpacity uniform value.
+         */
+        opacity: number;
+
+        /**
+         * Determines the optional uPointSize uniform value.
+         */
+        pointSize: number;
 
         /**
          *

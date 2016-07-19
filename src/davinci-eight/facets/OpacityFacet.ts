@@ -1,7 +1,9 @@
 import {Facet} from '../core/Facet';
 import {FacetVisitor} from '../core/FacetVisitor';
 import mustBeArray from '../checks/mustBeArray';
-import mustBeInteger from '../checks/mustBeInteger';
+import mustBeGE from '../checks/mustBeGE';
+import mustBeLE from '../checks/mustBeLE';
+import mustBeNumber from '../checks/mustBeNumber';
 import mustBeString from '../checks/mustBeString';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 
@@ -25,7 +27,10 @@ export class OpacityFacet implements Facet {
      *
      */
     constructor(opacity = 1) {
-        this.opacity = mustBeInteger('opacity', opacity)
+        mustBeNumber('opacity', opacity);
+        mustBeGE('opacity', opacity, 0);
+        mustBeLE('opacity', opacity, 1);
+        this.opacity = opacity;
     }
 
     getProperty(name: string): number[] {

@@ -1,5 +1,4 @@
 import Attrib from '../core/Attrib';
-import config from '../config';
 import ContextProvider from '../core/ContextProvider';
 import isDefined from '../checks/isDefined';
 import isString from '../checks/isString';
@@ -7,7 +6,6 @@ import isNull from '../checks/isNull';
 import makeWebGLProgram from '../core/makeWebGLProgram';
 import {Material} from '../core/Material'
 import {Engine} from '../core/Engine';
-import ErrorMode from '../core/ErrorMode';
 import mustBeArray from '../checks/mustBeArray';
 import mustBeString from '../checks/mustBeString';
 import mustBeUndefined from '../checks/mustBeUndefined';
@@ -340,14 +338,9 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
     }
 
     /**
-     * <p>
      * Returns a <code>Uniform</code> object corresponding to the <code>uniform</code>
      * parameter of the same name in the shader code. If a uniform parameter of the specified name
-     * does not exist, this method throws a descriptive <code>Error</code>.
-     * </p>
-     *
-     * @param name
-     * @returns The location object bound to the specified name.
+     * does not exist, this method returns undefined (void 0).
      */
     getUniform(name: string): Uniform {
         const uniforms = this._uniforms
@@ -355,31 +348,8 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
             return uniforms[name]
         }
         else {
-            const msg = `uniform ${name} not found.`
-            switch (config.errorMode) {
-                case ErrorMode.WARNME: {
-                    console.warn(msg)
-                    return new Uniform(null)
-                }
-                case ErrorMode.IGNORE: {
-                    return new Uniform(null)
-                }
-                default: {
-                    // In STRICT mode, throwing an Error is consistent with the the other modes
-                    // returning a null-like Uniform. Returning void 0 would be inconsistent
-                    // even though it allows testing for the existence of a uniform. 
-                    throw new Error(msg)
-                }
-            }
+            return void 0;
         }
-    }
-
-    /**
-     * @deprecated Use getUniform instead.
-     */
-    getUniformLocation(name: string): Uniform {
-        console.warn("getUniformLocation is deprecated. Please use getUniform instead.")
-        return this.getUniform(name);
     }
 
     /**
@@ -387,14 +357,15 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
      * Determines whether a <code>uniform</code> with the specified <code>name</code> exists in the <code>WebGLProgram</code>.
      * </p>
      */
-    hasUniformLocation(name: string): boolean {
+    hasUniform(name: string): boolean {
+        mustBeString('name', name);
         return isDefined(this._uniforms[name])
     }
 
     uniform1f(name: string, x: number): void {
-        const uniformLoc = this._uniforms[name]
+        const uniformLoc = this.getUniform(name);
         if (uniformLoc) {
-            uniformLoc.uniform1f(x)
+            uniformLoc.uniform1f(x);
         }
     }
 

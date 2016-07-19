@@ -6,15 +6,7 @@ import {FacetVisitor} from './FacetVisitor';
  */
 export interface Facet {
 
-    /**
-     * @param visitor
-     */
     setUniforms(visitor: FacetVisitor): void
 
-    /**
-     * @param name
-     * @param value
-     * @returns
-     */
-    setProperty(name: string, value: number[]): Facet;
+    // setProperty(name: string, value: number[]): Facet;
 }

@@ -54,9 +54,6 @@ export default function createView(options: { viewMatrixName?: string } = {}): V
     up.modified = true
 
     const self: View = {
-        setProperty(name: string, value: number[]): View {
-            return self
-        },
         get eye(): Geometric3 {
             return eye
         },

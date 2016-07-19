@@ -1,13 +1,22 @@
+import {AbstractDrawable} from './AbstractDrawable';
 import ContextProvider from '../core/ContextProvider';
 import {Engine} from '../core/Engine';
 import exchange from '../base/exchange';
-import isObject from '../checks/isDefined';
-import mustBeBoolean from '../checks/mustBeBoolean';
-import {Geometry} from './Geometry';
-import {AbstractDrawable} from './AbstractDrawable';
-import {Material} from './Material';
-import {ShareableContextConsumer} from '../core/ShareableContextConsumer';
 import {Facet} from '../core/Facet';
+import {Geometry} from './Geometry';
+import GraphicsProgramSymbols from './GraphicsProgramSymbols';
+import isObject from '../checks/isObject';
+import isNull from '../checks/isNull';
+import isNumber from '../checks/isNumber';
+import isUndefined from '../checks/isUndefined';
+import mustBeBoolean from '../checks/mustBeBoolean';
+import {Material} from './Material';
+import {OpacityFacet} from '../facets/OpacityFacet';
+import {PointSizeFacet} from '../facets/PointSizeFacet';
+import {ShareableContextConsumer} from '../core/ShareableContextConsumer';
+
+const OPACITY_FACET_NAME = 'opacity';
+const POINTSIZE_FACET_NAME = 'pointSize';
 
 /**
  * This class may be used as either a base class or standalone. 
@@ -37,7 +46,7 @@ export class Drawable extends ShareableContextConsumer implements AbstractDrawab
     /**
      *
      */
-    private _facets: { [name: string]: Facet }
+    private _facets: { [name: string]: Facet } = {};
 
     /**
      * @param geometry
@@ -55,7 +64,6 @@ export class Drawable extends ShareableContextConsumer implements AbstractDrawab
             // The assignment takes care of the addRef.
             this.material = material
         }
-        this._facets = {};
 
         if (levelUp === 0) {
             this.synchUp();
@@ -114,7 +122,61 @@ export class Drawable extends ShareableContextConsumer implements AbstractDrawab
             material.vertexShaderSrc = vertexShaderSrc
         }
         else {
-            throw new Error(`Unableto  set vertexShaderSrc because ${this._type}.material is not defined.`)
+            throw new Error(`Unable to set vertexShaderSrc because ${this._type}.material is not defined.`)
+        }
+    }
+
+    get opacity(): number {
+        const facet = <OpacityFacet>this.getFacet(OPACITY_FACET_NAME)
+        if (facet) {
+            return facet.opacity;
+        }
+        else {
+            return void 0;
+        }
+    }
+    set opacity(newOpacity: number) {
+        if (isNumber(newOpacity)) {
+            const facet = <OpacityFacet>this.getFacet(OPACITY_FACET_NAME)
+            if (facet) {
+                facet.opacity = newOpacity;
+            }
+            else {
+                this.setFacet(OPACITY_FACET_NAME, new OpacityFacet(newOpacity));
+            }
+        }
+        else if (isUndefined(newOpacity) || isNull(newOpacity)) {
+            this.removeFacet(OPACITY_FACET_NAME);
+        }
+        else {
+            throw new TypeError("opacity must be a number, undefined, or null.");
+        }
+    }
+
+    get pointSize(): number {
+        const facet = <PointSizeFacet>this.getFacet(POINTSIZE_FACET_NAME)
+        if (facet) {
+            return facet.pointSize;
+        }
+        else {
+            return void 0;
+        }
+    }
+    set pointSize(newPointSize: number) {
+        if (isNumber(newPointSize)) {
+            const facet = <PointSizeFacet>this.getFacet(POINTSIZE_FACET_NAME)
+            if (facet) {
+                facet.pointSize = newPointSize;
+            }
+            else {
+                this.setFacet(POINTSIZE_FACET_NAME, new PointSizeFacet(newPointSize));
+            }
+        }
+        else if (isUndefined(newPointSize) || isNull(newPointSize)) {
+            this.removeFacet(POINTSIZE_FACET_NAME);
+        }
+        else {
+            throw new TypeError("pointSize must be a number, undefined, or null.");
         }
     }
 
@@ -172,6 +234,7 @@ export class Drawable extends ShareableContextConsumer implements AbstractDrawab
     contextGain(context: ContextProvider): void {
         this._geometry.contextGain(context)
         this._material.contextGain(context)
+        synchFacets(this._material, this);
         super.contextGain(context)
     }
 
@@ -189,6 +252,14 @@ export class Drawable extends ShareableContextConsumer implements AbstractDrawab
      */
     getFacet(name: string): Facet {
         return this._facets[name]
+    }
+
+    removeFacet(name: string): Facet {
+        const facet = this._facets[name];
+        if (facet) {
+            delete this._facets[name];
+        }
+        return facet;
     }
 
     /**
@@ -230,10 +301,13 @@ export class Drawable extends ShareableContextConsumer implements AbstractDrawab
         }
     }
     set material(material: Material) {
-        this._material = exchange(this._material, material)
-        if (this._material && this.contextProvider) {
-            this._material.contextGain(this.contextProvider)
+        this._material = exchange(this._material, material);
+        if (this._material) {
+            if (this.contextProvider) {
+                this._material.contextGain(this.contextProvider);
+            }
         }
+        synchFacets(this._material, this);
     }
 
     /**
@@ -245,5 +319,32 @@ export class Drawable extends ShareableContextConsumer implements AbstractDrawab
     set visible(visible: boolean) {
         mustBeBoolean('visible', visible, () => { return this._type })
         this._visible = visible
+    }
+}
+
+/**
+ * Helper function to synchronize and optimize facets.
+ */
+function synchFacets(material: Material, drawable: Drawable) {
+    if (material) {
+        // Ensure that the opacity property is initialized if the material has a corresponding uniform.
+        if (material.hasUniform(GraphicsProgramSymbols.UNIFORM_OPACITY)) {
+            if (!isNumber(drawable.opacity)) {
+                drawable.opacity = 1.0;
+            }
+        }
+        else {
+            drawable.removeFacet(OPACITY_FACET_NAME);
+        }
+
+        // Ensure that the pointSize property is initialized if the material has a corresponding uniform.
+        if (material.hasUniform(GraphicsProgramSymbols.UNIFORM_POINT_SIZE)) {
+            if (!isNumber(drawable.pointSize)) {
+                drawable.pointSize = 2;
+            }
+        }
+        else {
+            drawable.removeFacet(POINTSIZE_FACET_NAME);
+        }
     }
 }

@@ -26,9 +26,6 @@ export default function createFrustum(viewMatrixName: string, projectionMatrixNa
     updateProjectionMatrix()
 
     const self: Frustum = {
-        setProperty(name: string, value: number[]): Frustum {
-            return this
-        },
         get eye(): Geometric3 {
             return base.eye
         },

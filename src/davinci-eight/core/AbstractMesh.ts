@@ -7,6 +7,7 @@ interface AbstractMesh extends AbstractDrawable {
     R: Geometric3;
     color: Color;
     opacity: number;
+    pointSize: number;
     X: Geometric3;
     stress: Matrix4;
 }

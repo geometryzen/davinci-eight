@@ -5,17 +5,13 @@ import {Engine} from './Engine';
 import {Geometric3} from '../math/Geometric3';
 import {Geometry} from './Geometry';
 import {Material} from './Material';
-import {OpacityFacet} from '../facets/OpacityFacet';
 import AbstractMesh from '../core/AbstractMesh';
 import Matrix4 from '../math/Matrix4';
 import {ModelFacet} from '../facets/ModelFacet';
-import {PointSizeFacet} from '../facets/PointSizeFacet';
 import notSupported from '../i18n/notSupported';
 
 const COLOR_FACET_NAME = 'color';
 const MODEL_FACET_NAME = 'model';
-const OPACITY_FACET_NAME = 'opacity';
-const POINT_FACET_NAME = 'point';
 
 /**
  *
@@ -33,11 +29,17 @@ export class Mesh extends Drawable implements AbstractMesh {
 
         this.setFacet(MODEL_FACET_NAME, new ModelFacet());
         this.setFacet(COLOR_FACET_NAME, new ColorFacet());
-        this.setFacet(OPACITY_FACET_NAME, new OpacityFacet());
-        this.setFacet(POINT_FACET_NAME, new PointSizeFacet());
+        if (levelUp === 0) {
+            this.synchUp();
+        }
+        // this.opacity = 1.0;
+        // this.pointSize = 2;
     }
 
     protected destructor(levelUp: number): void {
+        if (levelUp === 0) {
+            this.cleanUp();
+        }
         super.destructor(levelUp + 1);
     }
 
@@ -82,28 +84,6 @@ export class Mesh extends Drawable implements AbstractMesh {
         }
         else {
             throw new Error(notSupported(COLOR_FACET_NAME).message)
-        }
-    }
-
-    /**
-     * Opacity
-     */
-    get opacity(): number {
-        const facet = <OpacityFacet>this.getFacet(OPACITY_FACET_NAME)
-        if (facet) {
-            return facet.opacity;
-        }
-        else {
-            throw new Error(notSupported(OPACITY_FACET_NAME).message)
-        }
-    }
-    set opacity(opacity: number) {
-        const facet = <OpacityFacet>this.getFacet(OPACITY_FACET_NAME)
-        if (facet) {
-            facet.opacity = opacity;
-        }
-        else {
-            throw new Error(notSupported(OPACITY_FACET_NAME).message)
         }
     }
 
