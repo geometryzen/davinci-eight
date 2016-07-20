@@ -163,20 +163,15 @@ import {Vector2} from './davinci-eight/math/Vector2';
 import Vector3 from './davinci-eight/math/Vector3';
 import Vector4 from './davinci-eight/math/Vector4';
 import {VectorN} from './davinci-eight/math/VectorN';
-import Quaternion from './davinci-eight/math/Quaternion';
 
 // utils
-// import Framerate from './davinci-eight/utils/Framerate';
 import getCanvasElementById from './davinci-eight/utils/getCanvasElementById';
 import ShareableArray from './davinci-eight/collections/ShareableArray';
-// import loadImageTexture from './davinci-eight/utils/loadImageTexture';
 import NumberShareableMap from './davinci-eight/collections/NumberShareableMap';
 import refChange from './davinci-eight/core/refChange';
 import {ShareableBase} from './davinci-eight/core/ShareableBase';
 import StringShareableMap from './davinci-eight/collections/StringShareableMap';
-// import WindowAnimationRunner from './davinci-eight/utils/WindowAnimationRunner';
 import animation from './davinci-eight/utils/animation';
-// import randomColor from './davinci-eight/utils/randomColor';
 
 // visual
 import {Arrow} from './davinci-eight/visual/Arrow';
