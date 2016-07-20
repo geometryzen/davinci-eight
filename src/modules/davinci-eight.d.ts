@@ -2835,32 +2835,35 @@ declare module EIGHT {
      * An immutable vector in Euclidean 3D space with a unit of measure.
      */
     class R3 {
-        x: number
-        y: number
-        z: number
-        uom: Unit
+        x: number;
+        y: number;
+        z: number;
+        uom: Unit;
         constructor(x: number, y: number, z: number);
-        add(rhs: R3, α: number): R3
-        divByScalar(α: Unit): R3
-        lerp(target: R3, α: number): R3
-        magnitude(): Unit
-        neg(): R3
-        reflect(n: VectorE3): R3
-        rotate(R: SpinorE3): R3
-        scale(α: Unit): R3
-        slerp(target: R3, α: number): R3
-        squaredNorm(): Unit
-        sub(rhs: R3, α: number): R3
-        toExponential(fractionDigits?: number): string
-        toFixed(fractionDigits?: number): string
-        toPrecision(precision?: number): string
-        toString(radix?: number): string
-        static direction(vector: VectorE3): R3
-        static fromVector(vector: VectorE3, uom: Unit): R3
-        static e1: R3
-        static e2: R3
-        static e3: R3
-        static zero: R3
+        add(rhs: R3, α: number): R3;
+        cross(rhs: R3): R3;
+        divByScalar(α: Unit): R3;
+        dot(rhs: R3): Unit;
+        lerp(target: R3, α: number): R3;
+        magnitude(): Unit;
+        neg(): R3;
+        reflect(n: VectorE3): R3;
+        rotate(R: SpinorE3): R3;
+        scale(α: Unit): R3;
+        slerp(target: R3, α: number): R3;
+        squaredNorm(): Unit;
+        sub(rhs: R3, α: number): R3;
+        toExponential(fractionDigits?: number): string;
+        toFixed(fractionDigits?: number): string;
+        toPrecision(precision?: number): string;
+        toString(radix?: number): string;
+        static direction(vector: VectorE3): R3;
+        static random(): R3;
+        static fromVector(vector: VectorE3, uom: Unit): R3;
+        static e1: R3;
+        static e2: R3;
+        static e3: R3;
+        static zero: R3;
     }
 
     /**

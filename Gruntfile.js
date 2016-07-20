@@ -54,7 +54,23 @@ module.exports = function(grunt) {
                 cwd: 'src/modules/',
                 src: ['davinci-eight.d.ts'],
                 dest: 'dist/'
-            }
+            },
+            all: {
+                files: [
+                    {
+                        src: 'tsconfig.all.json',
+                        dest: 'tsconfig.json'
+                    }
+                ]
+            },
+            docs: {
+                files: [
+                    {
+                        src: 'tsconfig.docs.json',
+                        dest: 'tsconfig.json'
+                    }
+                ]
+            },
         },
 
         connect: {
@@ -214,6 +230,7 @@ module.exports = function(grunt) {
                     name: 'EIGHT <%= pkg.version %>',
                     exclude: [
                         'src/davinci-eight/core/ErrorMode.ts',
+                        'src/davinci-eight/shapes/ArrowBuilder.ts',
                         '**/*.spec.ts'
                     ],
                     excludeExternals: false,
@@ -312,7 +329,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('test', ['karma']);
 
-    grunt.registerTask('docs', ['clean', 'copy', 'typedoc']);
+    grunt.registerTask('docs', ['clean', 'copy:docs', 'typedoc', 'copy:all']);
 
     //
     // Creates the bundle in the dist folder with the ES5 System.register(...) format.
@@ -328,5 +345,5 @@ module.exports = function(grunt) {
     //
     grunt.registerTask('amd', ['ts:amdES5', 'requirejs']);
 
-    grunt.registerTask('default', ['clean', 'amd', 'system', 'tslint', 'uglify', 'copy', 'typedoc']);
+    grunt.registerTask('default', ['clean', 'amd', 'system', 'tslint', 'uglify', 'copy:main', 'copy:all', 'typedoc']);
 };

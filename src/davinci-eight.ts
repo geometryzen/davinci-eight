@@ -1,14 +1,3 @@
-// slideshow
-import Slide from './davinci-eight/slideshow/Slide';
-import Director from './davinci-eight/slideshow/Director';
-import DirectorKeyboardHandler from './davinci-eight/slideshow/DirectorKeyboardHandler';
-import WaitAnimation from './davinci-eight/slideshow/animations/WaitAnimation';
-import ColorAnimation from './davinci-eight/slideshow/animations/ColorAnimation';
-import Vector2Animation from './davinci-eight/slideshow/animations/Vector2Animation';
-import Vector3Animation from './davinci-eight/slideshow/animations/Vector3Animation';
-import Spinor2Animation from './davinci-eight/slideshow/animations/Spinor2Animation';
-import Spinor3Animation from './davinci-eight/slideshow/animations/Spinor3Animation';
-
 // commands
 import WebGLBlendFunc from './davinci-eight/commands/WebGLBlendFunc';
 import {WebGLClearColor} from './davinci-eight/commands/WebGLClearColor';
@@ -147,11 +136,8 @@ import VectorE1 from './davinci-eight/math/VectorE1';
 import VectorE2 from './davinci-eight/math/VectorE2';
 import VectorE3 from './davinci-eight/math/VectorE3';
 import VectorE4 from './davinci-eight/math/VectorE4';
-import CC from './davinci-eight/math/CC';
 import {Dimensions} from './davinci-eight/math/Dimensions';
-import G1 from './davinci-eight/math/G1';
 import GeometricE1 from './davinci-eight/math/GeometricE1';
-import {G2} from './davinci-eight/math/G2';
 import G3 from './davinci-eight/math/G3';
 import gauss from './davinci-eight/math/gauss';
 import GeometricNumber from './davinci-eight/math/GeometricNumber';
@@ -179,21 +165,18 @@ import Vector4 from './davinci-eight/math/Vector4';
 import {VectorN} from './davinci-eight/math/VectorN';
 import Quaternion from './davinci-eight/math/Quaternion';
 
-// overlay
-import Overlay from './davinci-eight/overlay/Overlay';
-
 // utils
-import Framerate from './davinci-eight/utils/Framerate';
+// import Framerate from './davinci-eight/utils/Framerate';
 import getCanvasElementById from './davinci-eight/utils/getCanvasElementById';
 import ShareableArray from './davinci-eight/collections/ShareableArray';
-import loadImageTexture from './davinci-eight/utils/loadImageTexture';
+// import loadImageTexture from './davinci-eight/utils/loadImageTexture';
 import NumberShareableMap from './davinci-eight/collections/NumberShareableMap';
 import refChange from './davinci-eight/core/refChange';
 import {ShareableBase} from './davinci-eight/core/ShareableBase';
 import StringShareableMap from './davinci-eight/collections/StringShareableMap';
-import WindowAnimationRunner from './davinci-eight/utils/WindowAnimationRunner';
+// import WindowAnimationRunner from './davinci-eight/utils/WindowAnimationRunner';
 import animation from './davinci-eight/utils/animation';
-import randomColor from './davinci-eight/utils/randomColor';
+// import randomColor from './davinci-eight/utils/randomColor';
 
 // visual
 import {Arrow} from './davinci-eight/visual/Arrow';
@@ -313,7 +296,6 @@ const eight = {
 
     get Dimensions() { return Dimensions },
     get Unit() { return Unit },
-    get G2() { return G2 },
     get G3() { return G3 },
     get Matrix2() { return Matrix2 },
     get Matrix3() { return Matrix3 },
@@ -334,9 +316,6 @@ const eight = {
     get GeometryArrays() { return GeometryArrays },
     get GeometryContainer() { return GeometryContainer },
     get GeometryElements() { return GeometryElements },
-
-    // overlay
-    get Overlay() { return Overlay },
 
     // programs
     get DrawAttribute() { return DrawAttribute },

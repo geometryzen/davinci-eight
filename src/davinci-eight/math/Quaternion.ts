@@ -24,7 +24,6 @@ const EPS = 0.000001;
 // This class is for reference only and will remain undocumented and internal.
 // Notice that it is mutable, betraying a usage with animation loops.
 // But there we want to use the Spinor3 spinor, or the full multivector, Geometric3.
-// For comparison QQ and CC are immutable.
 export default class Quaternion implements MutableGeometricElement<Quaternion, Quaternion, Quaternion, VectorE3, number, number, number>, TrigMethods<Quaternion> {
     private x: number;
     private y: number;

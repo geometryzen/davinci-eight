@@ -1,5 +1,5 @@
 import IAnimation from '../slideshow/IAnimation';
-import IDirector from '../slideshow/IDirector';
+import Director from '../slideshow/Director';
 import incLevel from '../base/incLevel';
 import ISlide from '../slideshow/ISlide';
 
@@ -31,13 +31,13 @@ export default class SlideCommands extends ShareableBase implements ISlideComman
   pushWeakRef(command: ISlideCommand): number {
     return this.commands.pushWeakRef(command)
   }
-  redo(slide: ISlide, director: IDirector): void {
+  redo(slide: ISlide, director: Director): void {
     for (var i = 0, iLength = this.commands.length; i < iLength; i++) {
       this.commands.getWeakRef(i).redo(slide, director)
     }
 
   }
-  undo(slide: ISlide, director: IDirector): void {
+  undo(slide: ISlide, director: Director): void {
     for (var i = this.commands.length - 1; i >= 0; i--) {
       this.commands.getWeakRef(i).undo(slide, director)
     }

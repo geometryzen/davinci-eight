@@ -6,6 +6,7 @@ import notImplemented from '../i18n/notImplemented'
 import mustBeNumber from '../checks/mustBeNumber'
 import mustBeObject from '../checks/mustBeObject'
 import NormedLinearElement from './NormedLinearElement'
+import randomRange from './randomRange';
 import readOnly from '../i18n/readOnly'
 import SpinorE3 from './SpinorE3'
 import stringFromCoordinates from './stringFromCoordinates';
@@ -21,7 +22,7 @@ const BASIS_LABELS = ['e1', 'e2', 'e3']
 
 /**
  * <p>
- * An immutable vector in Euclidean 3D space supporting an optional unit of measure.
+ * An immutable vector in Euclidean 3D space supporting a unit of measure.
  * </p>
  * <p>
  * This class is intended to be used for Physical Science education and research by
@@ -31,63 +32,16 @@ const BASIS_LABELS = ['e1', 'e2', 'e3']
  * This class is not intended to be used in high-performance graphics applications
  * owing to the cost of creating temporary objects and unit computation.
  * </p>
- *
- * @class R3
  */
 export default class R3 implements VectorE3, NormedLinearElement<R3, R3, SpinorE3, VectorE3, Unit, Unit> {
-    /**
-     * @property _coords
-     * @type number[]
-     * @private
-     */
+
     private _coords: number[];
-
-    /**
-     * @property _uom
-     * @type {Unit}
-     * @private
-     */
     private _uom: Unit;
-
-    /**
-     * @property zero
-     * @type R3
-     * @readOnly
-     * @static
-     */
     public static zero = new R3(0, 0, 0, Unit.ONE)
-
-    /**
-     * @property e1
-     * @type R3
-     * @readOnly
-     * @static
-     */
     public static e1 = new R3(1, 0, 0, Unit.ONE)
-
-    /**
-     * @property e2
-     * @type R3
-     * @readOnly
-     * @static
-     */
     public static e2 = new R3(0, 1, 0, Unit.ONE)
-
-    /**
-     * @property e3
-     * @type R3
-     * @readOnly
-     * @static
-     */
     public static e3 = new R3(0, 0, 1, Unit.ONE)
 
-    /**
-     * @class R3
-     * @constructor
-     * @param x {number}
-     * @param y {number}
-     * @param z {number}
-     */
     constructor(x: number, y: number, z: number, uom: Unit) {
         mustBeNumber('x', x)
         mustBeNumber('y', y)
@@ -104,11 +58,6 @@ export default class R3 implements VectorE3, NormedLinearElement<R3, R3, SpinorE
         }
     }
 
-    /**
-     * @property x
-     * @type number
-     * @readOnly
-     */
     get x(): number {
         return this._coords[0]
     }
@@ -116,11 +65,6 @@ export default class R3 implements VectorE3, NormedLinearElement<R3, R3, SpinorE
         throw new Error(readOnly('x').message)
     }
 
-    /**
-     * @property y
-     * @type number
-     * @readOnly
-     */
     get y(): number {
         return this._coords[1]
     }
@@ -128,11 +72,6 @@ export default class R3 implements VectorE3, NormedLinearElement<R3, R3, SpinorE
         throw new Error(readOnly('y').message)
     }
 
-    /**
-     * @property z
-     * @type number
-     * @readOnly
-     */
     get z(): number {
         return this._coords[2]
     }
@@ -140,11 +79,6 @@ export default class R3 implements VectorE3, NormedLinearElement<R3, R3, SpinorE
         throw new Error(readOnly('z').message)
     }
 
-    /**
-     * @property uom
-     * @type Unit
-     * @readOnly
-     */
     get uom(): Unit {
         return this._uom
     }
@@ -152,65 +86,43 @@ export default class R3 implements VectorE3, NormedLinearElement<R3, R3, SpinorE
         throw new Error(readOnly('uom').message)
     }
 
-    /**
-     * @method add
-     * @param rhs {R3}
-     * @param [α = 1] {number}
-     * @return {R3}
-     */
     add(rhs: R3, α = 1): R3 {
         throw new Error(notImplemented('add').message)
     }
 
-    /**
-     * @method divByScalar
-     * @param α {Unit}
-     * @return {R3}
-     */
+    cross(rhs: R3): R3 {
+        const uom = this.uom.mul(rhs.uom);
+        const x = this.y * rhs.z - this.z * rhs.y;
+        const y = this.z * rhs.x - this.x * rhs.z;
+        const z = this.x * rhs.y - this.y * rhs.x;
+        return new R3(x, y, z, uom);
+    }
+
     divByScalar(α: Unit): R3 {
         return new R3(this.x, this.y, this.z, this.uom.div(α))
     }
 
-    /**
-     * @method lerp
-     * @param target {R3}
-     * @param α {number}
-     * @return {R3}
-     */
+    dot(rhs: R3): Unit {
+        const uom = this.uom.mul(rhs.uom);
+        return uom.scale(this.x * rhs.x + this.y * rhs.y + this.z * rhs.z);
+    }
+
     lerp(target: R3, α: number): R3 {
         throw new Error(notImplemented('lerp').message)
     }
 
-    /**
-     * @method magnitude
-     * @return {Unit}
-     */
     magnitude(): Unit {
         return this.squaredNorm().sqrt()
     }
 
-    /**
-     * @method neg
-     * @return {R3}
-     */
     neg(): R3 {
         return new R3(-this.x, -this.y, -this.z, this.uom)
     }
 
-    /**
-     * @method reflect
-     * @param n {VectorE3}
-     * @return {R3}
-     */
     reflect(n: VectorE3): R3 {
         throw new Error(notImplemented('reflect').message)
     }
 
-    /**
-     * @method rotate
-     * @param R {SpinorE3}
-     * @return {R3}
-     */
     rotate(R: SpinorE3): R3 {
         const x = this.x;
         const y = this.y;
@@ -233,29 +145,14 @@ export default class R3 implements VectorE3, NormedLinearElement<R3, R3, SpinorE
         return new R3(ox, oy, oz, this.uom)
     }
 
-    /**
-     * @method scale
-     * @param α {Unit}
-     * @return {Unit}
-     */
     scale(α: Unit): R3 {
         return new R3(this.x, this.y, this.z, this.uom.mul(α))
     }
 
-    /**
-     * @method slerp
-     * @param target R3
-     * @param α {number}
-     * @return {R3}
-     */
     slerp(target: R3, α: number): R3 {
         throw new Error(notImplemented('slerp').message)
     }
 
-    /**
-     * @method squaredNorm
-     * @return {Unit}
-     */
     squaredNorm(): Unit {
         const x = this.x
         const y = this.y
@@ -263,28 +160,14 @@ export default class R3 implements VectorE3, NormedLinearElement<R3, R3, SpinorE
         return this.uom.quad().scale(x * x + y * y + z * z)
     }
 
-    /**
-     * @method stress
-     * @param σ {VectorE3}
-     * @return {R3}
-     */
     stress(σ: VectorE3): R3 {
         return R3.vector(this.x * σ.x, this.y * σ.y, this.z * σ.z, this.uom)
     }
 
-    /**
-     * @method sub
-     * @param rhs {R3}
-     * @param [α = 1] {number}
-     * @return {R3}
-     */
     sub(rhs: R3, α = 1): R3 {
         throw new Error(notImplemented('sub').message)
     }
 
-    /**
-     * Intentionally undocumented.
-     */
     toStringCustom(coordToString: (x: number) => string, labels: (string | string[])[]): string {
         const quantityString: string = stringFromCoordinates(this._coords, coordToString, labels);
         if (this.uom) {
@@ -301,51 +184,26 @@ export default class R3 implements VectorE3, NormedLinearElement<R3, R3, SpinorE
         }
     }
 
-    /**
-     * @method toExponential
-     * @param [fractionDigits] {number}
-     * @return {string}
-     */
     toExponential(fractionDigits?: number): string {
         const coordToString = function(coord: number): string { return coord.toExponential(fractionDigits) }
         return this.toStringCustom(coordToString, BASIS_LABELS)
     }
 
-    /**
-     * @method toFixed
-     * @param [fractionDigits] {number}
-     * @return {string}
-     */
     toFixed(fractionDigits?: number): string {
         const coordToString = function(coord: number): string { return coord.toFixed(fractionDigits) }
         return this.toStringCustom(coordToString, BASIS_LABELS)
     }
 
-    /**
-     * @method toPrecision
-     * @param [precision] {number}
-     * @return {string}
-     */
     toPrecision(precision?: number): string {
         const coordToString = function(coord: number): string { return coord.toPrecision(precision) }
         return this.toStringCustom(coordToString, BASIS_LABELS)
     }
 
-    /**
-     * @method toString
-     * @param [radix] {number}
-     * @return {string}
-     */
     toString(radix?: number): string {
         const coordToString = function(coord: number): string { return coord.toString(radix) }
         return this.toStringCustom(coordToString, BASIS_LABELS)
     }
 
-    /**
-     * @method __add__
-     * @param rhs {R3}
-     * @return {R3}
-     */
     __add__(rhs: VectorE3): R3 {
         if (isObject(rhs) && !isNull(rhs))
             if (isNumber(rhs.x) && isNumber(rhs.y) && isNumber(rhs.z)) {
@@ -356,14 +214,6 @@ export default class R3 implements VectorE3, NormedLinearElement<R3, R3, SpinorE
             }
     }
 
-    /**
-     * @method fromVector
-     * @param vector {VectorE3}
-     * @param uom {Unit}
-     * @return {R3}
-     * @static
-     * @chainable
-     */
     static fromVector(vector: VectorE3, uom: Unit): R3 {
         return new R3(vector.x, vector.y, vector.z, uom)
     }
@@ -375,12 +225,6 @@ export default class R3 implements VectorE3, NormedLinearElement<R3, R3, SpinorE
      * <p>
      * If the input is <code>undefined</code> then the output is <code>undefined</code>.
      * </p>
-     *
-     * @method direction
-     * @param vector {VectorE3}
-     * @return {R3}
-     * @static
-     * @chainable
      */
     static direction(vector: VectorE3): R3 {
         if (isDefined(vector)) {
@@ -395,15 +239,14 @@ export default class R3 implements VectorE3, NormedLinearElement<R3, R3, SpinorE
         }
     }
 
-    /**
-     * @method vector
-     * @param x {number}
-     * @param y {number}
-     * @param z {number}
-     * @return {R3}
-     * @static
-     * @chainable
-     */
+    static random(): R3 {
+        const x = randomRange(-1, 1);
+        const y = randomRange(-1, 1);
+        const z = randomRange(-1, 1);
+        const m = Math.sqrt(x * x + y * y + z * z);
+        return new R3(x / m, y / m, z / m, Unit.ONE);
+    }
+
     static vector(x: number, y: number, z: number, uom: Unit): R3 {
         return new R3(x, y, z, uom)
     }

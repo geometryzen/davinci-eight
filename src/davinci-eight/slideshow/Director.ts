@@ -1,7 +1,6 @@
 import Slide from '../slideshow/Slide';
 import IAnimationTarget from '../slideshow/IAnimationTarget';
 import isDefined from '../checks/isDefined';
-import IDirector from '../slideshow/IDirector';
 import incLevel from '../base/incLevel';
 import ShareableArray from '../collections/ShareableArray';
 import mustBeDefined from '../checks/mustBeDefined';
@@ -10,7 +9,7 @@ import NumberShareableMap from '../collections/NumberShareableMap';
 import {ShareableBase} from '../core/ShareableBase';
 import StringShareableMap from '../collections/StringShareableMap';
 
-export default class Director extends ShareableBase implements IDirector {
+export default class Director extends ShareableBase {
     private step: number;
     public slides: ShareableArray<Slide>;
     private facets: { [name: string]: IAnimationTarget };
@@ -27,16 +26,16 @@ export default class Director extends ShareableBase implements IDirector {
         this.facets = void 0
         super.destructor(incLevel(level))
     }
-    addFacet(facet: IAnimationTarget, facetName: string): void {
-        this.facets[facetName] = facet
+    addTarget(target: IAnimationTarget, name: string): void {
+        this.facets[name] = target;
     }
-    getFacet(facetName: string): IAnimationTarget {
-        return this.facets[facetName]
+    getTarget(name: string): IAnimationTarget {
+        return this.facets[name];
     }
-    removeFacet(facetName: string): IAnimationTarget {
-        var facet = this.getFacet(facetName)
-        delete this.facets[facetName]
-        return facet
+    removeTarget(name: string): IAnimationTarget {
+        const target = this.getTarget(name);
+        delete this.facets[name]
+        return target;
     }
     createSlide(): Slide {
         return new Slide()

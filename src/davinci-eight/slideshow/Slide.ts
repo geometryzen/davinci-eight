@@ -1,6 +1,6 @@
 import IAnimation from '../slideshow/IAnimation';
 import IAnimationTarget from '../slideshow/IAnimationTarget';
-import IDirector from '../slideshow/IDirector';
+import Director from '../slideshow/Director';
 import incLevel from '../base/incLevel';
 import ISlide from '../slideshow/ISlide';
 import ISlideCommand from '../slideshow/ISlideCommand';
@@ -102,7 +102,7 @@ export default class Slide extends ShareableBase implements ISlide {
       }
     }
   }
-  doProlog(director: IDirector, forward: boolean): void {
+  doProlog(director: Director, forward: boolean): void {
     if (forward) {
       this.prolog.redo(this, director)
     }
@@ -110,7 +110,7 @@ export default class Slide extends ShareableBase implements ISlide {
       this.prolog.undo(this, director)
     }
   }
-  doEpilog(director: IDirector, forward: boolean): void {
+  doEpilog(director: Director, forward: boolean): void {
     if (forward) {
       this.epilog.redo(this, director)
     }
@@ -118,7 +118,7 @@ export default class Slide extends ShareableBase implements ISlide {
       this.epilog.undo(this, director)
     }
   }
-  undo(director: IDirector): void {
+  undo(director: Director): void {
     for (var i = 0, iLength = this.targets.length; i < iLength; i++) {
       var target = this.targets[i]
       var mirror = this.mirrors.getWeakRef(target.uuid)

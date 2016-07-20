@@ -1,4 +1,10 @@
-import {Geometric2} from './Geometric2'
+import {Geometric2} from './Geometric2';
+
+/**
+ * The decimal place up to which the numbers should agree.
+ * Make this as large as possible while avoiding rounding errors.
+ */
+const PRECISION = 14;
 
 describe("Geometric2", function() {
     describe("()", function() {
@@ -162,6 +168,32 @@ describe("Geometric2", function() {
                 const one: Geometric2 = Geometric2.one()
                 expect(one.magnitude()).toBe(1)
                 expect(one.equals(Geometric2.one())).toBe(true)
+            })
+        })
+    })
+    describe("reflect", function() {
+        describe("(n) should be -n * M * n", function() {
+            const S = Geometric2.fromCartesian(2, 3, 5, 7);
+            const n = Geometric2.vector(1, 2).normalize();
+            /**
+             * The 'Test' result using the specialized method.
+             */
+            const T = S.clone().reflect(n);
+            /**
+             * The 'Control' value computed explicitly as C = -n * S * n
+             */
+            const C = n.clone().mul(S).mul(n).scale(-1);
+
+            it("should be the number 1", function() {
+                expect(C.a).toBeCloseTo(-2.0, PRECISION)
+                expect(C.x).toBeCloseTo(-2.2, PRECISION)
+                expect(C.y).toBeCloseTo(-5.4, PRECISION)
+                expect(C.b).toBeCloseTo(7, PRECISION)
+
+                expect(T.a).toBeCloseTo(-2.0, PRECISION)
+                expect(T.x).toBeCloseTo(-2.2, PRECISION)
+                expect(T.y).toBeCloseTo(-5.4, PRECISION)
+                expect(T.b).toBeCloseTo(7, PRECISION)
             })
         })
     })

@@ -10,58 +10,6 @@ import LinearNumber from '../math/LinearNumber';
  * MAGNITUDE: The type for methods that compute magnitudes.
  */
 
-/**
- * <h1>
- * Which Geometric Number do I use?
- * </h1>
- *
- * <h2>
- * Introduction
- * </h2>
- * <p>
- * <code>GeometricNumber</code> is an <code>interface</code> used to enforce consistency of the design
- * of various geometric numbers. But why so many implementations? To be continued...
- * </p>
- *
- * <p>
- * </p>
- *
- * <table>
- *   <tr>
- *     <th>Usage:</th>
- *     <th>Calculations</th>
- *     <th>Graphics</th>
- *     <th>WebGL</th>
- *   </tr>
- *   <tr>
- *     <th>Design:</th>
- *     <td>Immutable</td>
- *     <td>Mutable</td>
- *     <td>Mutable</td>
- *   </tr>
- *   <tr>
- *     <th>Euclidean Line:</th>
- *     <td><b>G1</b>, R1</td>
- *     <td><b>Geometric1</b>, Vector1</td>
- *     <td><b>Matrix2</b></td>
- *   </tr>
- *   <tr>
- *     <th>Euclidean Plane:</th>
- *     <td><b>G2</b>, R2</td>
- *     <td><b>Geometric2</b>, Vector2, Spinor2</td>
- *     <td><b>Matrix3</b></td>
- *   </tr>
- *   <tr>
- *     <th>Euclidean Space:</th>
- *     <td><b>G3</b>, R3</td>
- *     <td><b>Geometric3</b>, Vector3, Spinor3</td>
- *     <td><b>Matrix4</b></td>
- *   </tr>
- * </table>
- *
- * @class GeometricNumber
- * @extends LinearNumber
- */
 interface GeometricNumber<I, M, S, V, MAGNITUDE, SCALING, UNIT> extends LinearNumber<I, M, S, V, MAGNITUDE, SCALING> {
 
     /**

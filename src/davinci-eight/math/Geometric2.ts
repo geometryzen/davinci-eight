@@ -3,7 +3,6 @@ import b2 from '../geometries/b2';
 import b3 from '../geometries/b3';
 import {Coords} from './Coords';
 import dotVector from './dotVectorE2';
-import {G2} from './G2';
 import extE2 from './extE2';
 import gauss from './gauss'
 import GeometricE2 from './GeometricE2';
@@ -1041,20 +1040,26 @@ export class Geometric2 extends Coords implements GeometricE2, Measure<Geometric
      * <p>
      * <code>this ⟼ - n * this * n</code>
      * </p>
-     *
-     * @method reflect
-     * @param n {VectorE2}
-     * @return {Geometric2} <code>this</code>
-     * @chainable
      */
-    reflect(n: VectorE2): Geometric2 {
-        // TODO: Optimize.
-        mustBeObject('n', n)
-        const N = G2.fromVectorE2(n)
-        const M = G2.copy(this)
-        const R = N.mul(M).mul(N).scale(-1)
-        this.copy(R)
-        return this
+    reflect(n: VectorE2) {
+        mustBeObject('n', n);
+
+        const nx = n.x;
+        const ny = n.y;
+        mustBeNumber('n.x', nx);
+        mustBeNumber('n.y', ny);
+        const x = this.x;
+        const y = this.y;
+
+        const μ = nx * nx - ny * ny;
+        const λ = -2 * nx * ny;
+
+        this.a = -this.a;
+        this.x = λ * y - μ * x;
+        this.y = λ * x + μ * y;
+        this.b = +this.b;
+
+        return this;
     }
 
     /**
