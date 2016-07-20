@@ -10,6 +10,12 @@ const e2 = Geometric3.fromVector(R3.e2)
 const e3 = Geometric3.fromVector(R3.e3)
 const I = e1.clone().mul(e2).mul(e3)
 
+/**
+ * The decimal place up to which the numbers should agree.
+ * Make this as large as possible while avoiding rounding errors.
+ */
+const PRECISION = 14;
+
 describe("Geometric3", function() {
 
     describe("equals", function() {
@@ -241,6 +247,29 @@ describe("Geometric3", function() {
         })
         it("should be chainable", function() {
             expect(chain === a).toBe(true)
+        })
+        describe("(n)", function() {
+            const S = Geometric3.random();
+            const n = Geometric3.random().grade(1).normalize();
+            /**
+             * The 'Test' result using the specialized method.
+             */
+            const T = S.clone().reflect(n);
+            /**
+             * The 'Control' value computed explicitly as C = -n * S * n
+             */
+            const C = n.clone().mul(S).mul(n).scale(-1);
+
+            it("should be -n * M * n", function() {
+                expect(T.a).toBeCloseTo(C.a, PRECISION)
+                expect(T.x).toBeCloseTo(C.x, PRECISION)
+                expect(T.y).toBeCloseTo(C.y, PRECISION)
+                expect(T.z).toBeCloseTo(C.z, PRECISION)
+                expect(T.yz).toBeCloseTo(C.yz, PRECISION)
+                expect(T.zx).toBeCloseTo(C.zx, PRECISION)
+                expect(T.xy).toBeCloseTo(C.xy, PRECISION)
+                expect(T.b).toBeCloseTo(C.b, PRECISION)
+            })
         })
     })
 

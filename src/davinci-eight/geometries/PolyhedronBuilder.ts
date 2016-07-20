@@ -1,4 +1,3 @@
-import G3 from '../math/G3';
 import VectorE3 from '../math/VectorE3';
 import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import Simplex from '../geometries/Simplex';
@@ -147,10 +146,10 @@ export default class PolyhedronBuilder extends SimplexPrimitivesBuilder {
         this.mergeVertices();
 
         function centroid(v1: VectorE3, v2: VectorE3, v3: VectorE3): VectorE3 {
-            const x = (v1.x + v2.x + v3.x) / 3
-            const y = (v1.y + v2.y + v3.y) / 3
-            const z = (v1.z + v2.z + v3.z) / 3
-            return new G3(0, x, y, z, 0, 0, 0, 0)
+            const x = (v1.x + v2.x + v3.x) / 3;
+            const y = (v1.y + v2.y + v3.y) / 3;
+            const z = (v1.z + v2.z + v3.z) / 3;
+            return { x, y, z };
         }
 
 

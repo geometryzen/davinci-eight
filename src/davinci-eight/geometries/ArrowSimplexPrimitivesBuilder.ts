@@ -1,4 +1,3 @@
-import G3 from '../math/G3';
 import RevolutionSimplexPrimitivesBuilder from '../geometries/RevolutionSimplexPrimitivesBuilder';
 import Spinor3 from '../math/Spinor3';
 import Vector3 from '../math/Vector3';
@@ -43,7 +42,7 @@ export default class ArrowSimplexPrimitivesBuilder extends RevolutionSimplexPrim
     public lengthCone: number = 0.20;
     public radiusCone: number = 0.08;
     public radiusShaft: number = 0.01;
-    public vector: Vector3 = Vector3.copy(G3.e1);
+    public vector: Vector3 = Vector3.vector(1, 0, 0);
     public segments: number = 12;
     constructor() {
         super()

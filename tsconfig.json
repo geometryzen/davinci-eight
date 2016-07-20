@@ -59,7 +59,6 @@
         "src/davinci-eight/materials/PointMaterial.spec.ts",
         "src/davinci-eight/materials/SmartGraphicsProgram.spec.ts",
         "src/davinci-eight/math/Dimensions.spec.ts",
-        "src/davinci-eight/math/G3.spec.ts",
         "src/davinci-eight/math/Geometric2.spec.ts",
         "src/davinci-eight/math/Geometric3.spec.ts",
         "src/davinci-eight/math/Matrix2.spec.ts",
@@ -85,7 +84,6 @@
         "src/davinci-eight/visual/Grid.spec.ts",
         "src/davinci-eight/visual/HollowCylinder.ts",
         "src/davinci-eight/visual/RigidBody.spec.ts",
-        "src/davinci-eight/visual/RigidBodyWithUnits.spec.ts",
         "src/davinci-eight/visual/Sphere.spec.ts",
         "src/davinci-eight/visual/Tetrahedron.spec.ts",
         "typings/jasmine/jasmine.d.ts"

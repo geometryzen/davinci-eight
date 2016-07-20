@@ -1,4 +1,3 @@
-import G3 from '../math/G3';
 import SliceSimplexPrimitivesBuilder from '../geometries/SliceSimplexPrimitivesBuilder';
 import {Vector2} from '../math/Vector2';
 import VectorE3 from '../math/VectorE3';
@@ -106,14 +105,14 @@ export default class ConeSimplexGeometry extends SliceSimplexPrimitivesBuilder {
 
         // top cap
         if (!openCap && radiusTop > 0) {
-            points.push(Vector3.copy(G3.e2).scale(heightHalf));
+            points.push(Vector3.vector(0, 1, 0).scale(heightHalf));
             for (x = 0; x < radialSegments; x++) {
                 let v1: number = vertices[0][x];
                 let v2: number = vertices[0][x + 1];
                 let v3: number = points.length - 1;
-                let n1: Vector3 = Vector3.copy(G3.e2);
-                let n2: Vector3 = Vector3.copy(G3.e2);
-                let n3: Vector3 = Vector3.copy(G3.e2);
+                let n1: Vector3 = Vector3.vector(0, 1, 0);
+                let n2: Vector3 = Vector3.vector(0, 1, 0);
+                let n3: Vector3 = Vector3.vector(0, 1, 0);
                 let uv1: Vector2 = uvs[0][x].clone();
                 let uv2: Vector2 = uvs[0][x + 1].clone();
                 let uv3: Vector2 = new Vector2([uv2.x, 0]);
@@ -123,14 +122,14 @@ export default class ConeSimplexGeometry extends SliceSimplexPrimitivesBuilder {
 
         // bottom cap
         if (!openBase && radiusBottom > 0) {
-            points.push(Vector3.copy(G3.e2).scale(-heightHalf));
+            points.push(Vector3.vector(0, 1, 0).scale(-heightHalf));
             for (x = 0; x < radialSegments; x++) {
                 let v1: number = vertices[heightSegments][x + 1];
                 let v2: number = vertices[heightSegments][x];
                 let v3: number = points.length - 1;
-                let n1: Vector3 = Vector3.copy(G3.e2).scale(-1);
-                let n2: Vector3 = Vector3.copy(G3.e2).scale(-1);
-                let n3: Vector3 = Vector3.copy(G3.e2).scale(-1);
+                let n1: Vector3 = Vector3.vector(0, -1, 0);
+                let n2: Vector3 = Vector3.vector(0, -1, 0);
+                let n3: Vector3 = Vector3.vector(0, -1, 0);
                 let uv1: Vector2 = uvs[heightSegments][x + 1].clone();
                 let uv2: Vector2 = uvs[heightSegments][x].clone();
                 let uv3: Vector2 = new Vector2([uv2.x, 1]);

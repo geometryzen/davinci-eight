@@ -1,5 +1,4 @@
 import computeFaceNormals from '../geometries/computeFaceNormals';
-import G3 from '../math/G3';
 import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import quad from '../geometries/quadrilateral';
 import Simplex from '../geometries/Simplex';
@@ -8,9 +7,9 @@ import triangle from '../geometries/triangle';
 import {Geometric3} from '../math/Geometric3';
 
 export default class BarnSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
-    public a: Geometric3 = Geometric3.fromVector(G3.e1);
-    public b: Geometric3 = Geometric3.fromVector(G3.e2);
-    public c: Geometric3 = Geometric3.fromVector(G3.e3);
+    public a: Geometric3 = Geometric3.vector(1, 0, 0);
+    public b: Geometric3 = Geometric3.vector(0, 1, 0);
+    public c: Geometric3 = Geometric3.vector(0, 0, 1);
     constructor() {
         super()
         this.regenerate();

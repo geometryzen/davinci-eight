@@ -118,8 +118,6 @@ import PolyhedronBuilder from './davinci-eight/geometries/PolyhedronBuilder';
 import RevolutionSimplexPrimitivesBuilder from './davinci-eight/geometries/RevolutionSimplexPrimitivesBuilder';
 import RingSimplexGeometry from './davinci-eight/geometries/RingSimplexGeometry';
 import TextSimplexGeometry from './davinci-eight/geometries/TextSimplexGeometry';
-//import TubeSimplexGeometry          from './davinci-eight/geometries/TubeSimplexGeometry';
-import VortexSimplexGeometry from './davinci-eight/geometries/VortexSimplexGeometry';
 import arc3 from './davinci-eight/geometries/arc3';
 
 // materials
@@ -138,7 +136,6 @@ import VectorE3 from './davinci-eight/math/VectorE3';
 import VectorE4 from './davinci-eight/math/VectorE4';
 import {Dimensions} from './davinci-eight/math/Dimensions';
 import GeometricE1 from './davinci-eight/math/GeometricE1';
-import G3 from './davinci-eight/math/G3';
 import gauss from './davinci-eight/math/gauss';
 import GeometricNumber from './davinci-eight/math/GeometricNumber';
 import LinearNumber from './davinci-eight/math/LinearNumber';
@@ -183,7 +180,6 @@ import {Curve} from './davinci-eight/visual/Curve';
 import {Grid} from './davinci-eight/visual/Grid';
 import HollowCylinder from './davinci-eight/visual/HollowCylinder';
 import {RigidBody} from './davinci-eight/visual/RigidBody';
-import RigidBodyWithUnits from './davinci-eight/visual/RigidBodyWithUnits';
 import Tetrahedron from './davinci-eight/visual/Tetrahedron';
 import {Trail} from './davinci-eight/visual/Trail';
 import vector from './davinci-eight/visual/vector';
@@ -291,7 +287,6 @@ const eight = {
 
     get Dimensions() { return Dimensions },
     get Unit() { return Unit },
-    get G3() { return G3 },
     get Matrix2() { return Matrix2 },
     get Matrix3() { return Matrix3 },
     get Matrix4() { return Matrix4 },
@@ -341,7 +336,6 @@ const eight = {
     get Box() { return Box },
     get Mesh() { return Mesh },
     get RigidBody() { return RigidBody },
-    get RigidBodyWithUnits() { return RigidBodyWithUnits },
     get Cylinder() { return Cylinder },
     get Curve() { return Curve },
     get Grid() { return Grid },
