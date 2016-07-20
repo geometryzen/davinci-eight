@@ -9,13 +9,12 @@ import isDefined from '../checks/isDefined';
 import isFunction from '../checks/isFunction';
 import mustBeNumber from '../checks/mustBeNumber';
 import Primitive from '../core/Primitive';
-import R3 from '../math/R3';
-import {Unit} from '../math/Unit';
 import Vector3 from '../math/Vector3';
+import VectorE3 from '../math/VectorE3';
 import Vertex from '../atoms/Vertex';
 
-function aPositionDefault(u: number): R3 {
-    return R3.vector(u, 0, 0, Unit.ONE)
+function aPositionDefault(u: number): VectorE3 {
+    return Vector3.vector(u, 0, 0);
 }
 
 function topology(mode: BeginMode, uSegments: number, uClosed: boolean): CurvePrimitive {

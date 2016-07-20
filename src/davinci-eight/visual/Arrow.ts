@@ -8,14 +8,15 @@ import {Mesh} from '../core/Mesh'
 import isGE from '../checks/isGE';
 import mustBeDefined from '../checks/mustBeDefined'
 import quadVectorE3 from '../math/quadVectorE3'
-import R3 from '../math/R3'
+import VectorE3 from '../math/VectorE3';
+import Vector3 from '../math/Vector3';
 
-function direction(options: ArrowOptions, fallback: R3): R3 {
+function direction(options: ArrowOptions, fallback: VectorE3): VectorE3 {
     if (options.vector) {
-        return R3.direction(options.vector)
+        return Vector3.copy(options.vector).normalize();
     }
     else {
-        return fallback
+        return fallback;
     }
 }
 
@@ -45,7 +46,7 @@ export class Arrow extends Mesh {
      * initial direction in order to be able to update the attitude
      * based upon a vector property.
      */
-    private direction0: R3;
+    private direction0: VectorE3;
 
     /**
      * The vector that this arrow represents.
@@ -65,7 +66,8 @@ export class Arrow extends Mesh {
         this.setLoggingName('Arrow');
 
         // TODO: This should be going into the geometry options.
-        this.direction0 = direction(options, R3.e2);
+        // FIXME: This should be random, or provided through options.
+        this.direction0 = direction(options, Vector3.vector(0, 1, 0));
         this._vector = Geometric3.fromVector(this.direction0);
 
         const geoOptions: ArrowGeometryOptions = {};

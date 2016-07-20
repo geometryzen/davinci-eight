@@ -1,5 +1,4 @@
 import arc3 from '../geometries/arc3';
-import R3 from '../math/R3';
 import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import Simplex from '../geometries/Simplex';
 import SliceSimplexPrimitivesBuilder from '../geometries/SliceSimplexPrimitivesBuilder';
@@ -10,7 +9,7 @@ import {Vector2} from '../math/Vector2';
 import Vector3 from '../math/Vector3';
 import VectorE3 from '../math/VectorE3';
 
-function computeVertices(a: number, b: number, axis: R3, start: VectorE3, angle: number, generator: SpinorE3, radialSegments: number, thetaSegments: number, vertices: Vector3[], uvs: Vector2[]) {
+function computeVertices(a: number, b: number, axis: VectorE3, start: VectorE3, angle: number, generator: SpinorE3, radialSegments: number, thetaSegments: number, vertices: Vector3[], uvs: Vector2[]) {
     /**
      * `t` is the vector perpendicular to s in the plane of the ring.
      * We could use the generator an PI / 4 to calculate this or the cross product as here.
@@ -39,7 +38,7 @@ function vertexIndex(i: number, j: number, thetaSegments: number): number {
     return i * (thetaSegments + 1) + j
 }
 
-function makeTriangles(vertices: Vector3[], uvs: Vector2[], axis: R3, radialSegments: number, thetaSegments: number, geometry: SimplexPrimitivesBuilder) {
+function makeTriangles(vertices: Vector3[], uvs: Vector2[], axis: VectorE3, radialSegments: number, thetaSegments: number, geometry: SimplexPrimitivesBuilder) {
     for (var i = 0; i < radialSegments; i++) {
         // Our traversal has resulted in the following formula for the index
         // into the vertices or uvs array
@@ -121,8 +120,8 @@ function makeEmpty(vertices: Vector3[], radialSegments: number, thetaSegments: n
 export default class RingSimplexGeometry extends SliceSimplexPrimitivesBuilder {
     public a: number;
     public b: number;
-    private e = R3.e2
-    private cutLine = R3.e3
+    private e = Vector3.vector(0, 1, 0);
+    private cutLine = Vector3.vector(0, 0, 1);
     constructor(a = 1, b = 0, sliceAngle?: number) {
         super()
         this.a = a

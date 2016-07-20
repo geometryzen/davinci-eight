@@ -5,7 +5,6 @@ import mustBeDefined from '../checks/mustBeDefined';
 import Primitive from '../core/Primitive';
 import reduce from '../atoms/reduce';
 import RingBuilder from '../shapes/RingBuilder';
-import R3 from '../math/R3';
 import Vector3 from '../math/Vector3';
 import VectorE3 from '../math/VectorE3';
 
@@ -47,8 +46,8 @@ export default class ArrowBuilder extends AxialShapeBuilder {
      */
     public thetaSegments = 16;
 
-    private e: R3;
-    private cutLine: R3;
+    private e: VectorE3;
+    private cutLine: VectorE3;
     private clockwise: boolean;
 
     /**
@@ -61,8 +60,8 @@ export default class ArrowBuilder extends AxialShapeBuilder {
         super()
         mustBeDefined('axis', axis)
         mustBeDefined('cutLine', cutLine)
-        this.e = R3.direction(axis)
-        this.cutLine = R3.direction(cutLine)
+        this.e = Vector3.copy(axis).normalize()
+        this.cutLine = Vector3.copy(cutLine).normalize()
         this.clockwise = clockwise
     }
 
@@ -75,7 +74,7 @@ export default class ArrowBuilder extends AxialShapeBuilder {
         /**
          * The opposite direction to the axis.
          */
-        const back = this.e.neg()
+        const back = Vector3.copy(this.e).neg()
 
         /**
          * The neck is the place where the cone meets the shaft. 

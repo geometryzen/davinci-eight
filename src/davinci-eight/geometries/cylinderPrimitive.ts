@@ -3,12 +3,12 @@ import CylinderGeometryOptions from './CylinderGeometryOptions';
 import isDefined from '../checks/isDefined';
 import mustBeBoolean from '../checks/mustBeBoolean';
 import Primitive from '../core/Primitive';
-import R3 from '../math/R3';
+import Vector3 from '../math/Vector3';
 import reduce from '../atoms/reduce';
 
 export default function cylinderPrimitive(options: CylinderGeometryOptions = {}): Primitive {
 
-    const builder = new CylinderBuilder(R3.e2, R3.e3, false);
+    const builder = new CylinderBuilder(Vector3.vector(0, 1, 0), Vector3.vector(0, 0, 1), false);
 
     if (isDefined(options.openBase)) {
         builder.openBase = mustBeBoolean('openBase', options.openBase);

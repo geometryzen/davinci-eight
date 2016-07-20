@@ -7,7 +7,6 @@ import AxialShapeBuilder from './AxialShapeBuilder';
 import Primitive from '../core/Primitive';
 import ConeTransform from '../transforms/ConeTransform';
 import Rotation from '../transforms/Rotation';
-import R3 from '../math/R3';
 import Scaling from '../transforms/Scaling';
 import Translation from '../transforms/Translation';
 import CoordsTransform2D from '../transforms/CoordsTransform2D';

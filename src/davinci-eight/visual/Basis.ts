@@ -5,7 +5,6 @@ import DataType from  '../core/DataType';
 import {Engine} from '../core/Engine';
 import GeometryArrays from '../core/GeometryArrays';
 import {Mesh} from '../core/Mesh';
-import R3 from '../math/R3';
 import {ShaderMaterial} from '../materials/ShaderMaterial';
 import Vector3 from '../math/Vector3';
 import Vector3Facet from '../facets/Vector3Facet';
@@ -82,13 +81,14 @@ export default class Basis extends Mesh {
         super(void 0, void 0, engine, levelUp + 1);
         this.setLoggingName("Basis");
 
-        this.uPointA.vector.copy(R3.e1);
+        // FIXME: This should be initialized to a random orthonormal basis.
+        this.uPointA.vector.copy(Vector3.vector(1, 0, 0));
         this.colorA.copy(Color.red);
 
-        this.uPointB.vector.copy(R3.e2);
+        this.uPointB.vector.copy(Vector3.vector(0, 1, 0));
         this.colorB.copy(Color.green);
 
-        this.uPointC.vector.copy(R3.e3);
+        this.uPointC.vector.copy(Vector3.vector(0, 0, 1));
         this.colorC.copy(Color.blue);
 
         const geometry = new GeometryArrays(void 0, engine);

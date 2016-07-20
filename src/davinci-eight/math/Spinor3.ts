@@ -1020,7 +1020,7 @@ export default class Spinor3 extends Coords implements CartesianG3, SpinorE3, Mu
      */
     toExponential(fractionDigits?: number): string {
         const coordToString = function(coord: number): string { return coord.toExponential(fractionDigits) }
-        return toStringCustom(coordinates(this), void 0, coordToString, BASIS_LABELS)
+        return toStringCustom(coordinates(this), coordToString, BASIS_LABELS)
     }
 
     /**
@@ -1030,7 +1030,7 @@ export default class Spinor3 extends Coords implements CartesianG3, SpinorE3, Mu
      */
     toFixed(fractionDigits?: number): string {
         const coordToString = function(coord: number): string { return coord.toFixed(fractionDigits) }
-        return toStringCustom(coordinates(this), void 0, coordToString, BASIS_LABELS)
+        return toStringCustom(coordinates(this), coordToString, BASIS_LABELS)
     }
 
     /**
@@ -1040,7 +1040,7 @@ export default class Spinor3 extends Coords implements CartesianG3, SpinorE3, Mu
      */
     toPrecision(position?: number): string {
         const coordToString = function(coord: number): string { return coord.toPrecision(position) }
-        return toStringCustom(coordinates(this), void 0, coordToString, BASIS_LABELS)
+        return toStringCustom(coordinates(this), coordToString, BASIS_LABELS)
     }
 
     /**
@@ -1050,7 +1050,7 @@ export default class Spinor3 extends Coords implements CartesianG3, SpinorE3, Mu
      */
     toString(radix?: number): string {
         const coordToString = function(coord: number): string { return coord.toString(radix) }
-        return toStringCustom(coordinates(this), void 0, coordToString, BASIS_LABELS)
+        return toStringCustom(coordinates(this), coordToString, BASIS_LABELS)
     }
 
     ext(rhs: SpinorE3): Spinor3 {

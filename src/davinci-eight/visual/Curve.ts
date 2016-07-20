@@ -14,11 +14,11 @@ import mustBeGE from '../checks/mustBeGE';
 import mustBeNumber from '../checks/mustBeNumber';
 import {PointMaterial} from '../materials/PointMaterial';
 import PointMaterialOptions from '../materials/PointMaterialOptions';
-import R3 from '../math/R3';
-import {Unit} from '../math/Unit';
+import Vector3 from '../math/Vector3';
+import VectorE3 from '../math/VectorE3';
 
-function aPositionDefault(u: number): R3 {
-    return R3.vector(u, 0, 0, Unit.ONE);
+function aPositionDefault(u: number): VectorE3 {
+    return Vector3.vector(u, 0, 0);
 }
 
 function isFunctionOrNull(x: any): boolean {

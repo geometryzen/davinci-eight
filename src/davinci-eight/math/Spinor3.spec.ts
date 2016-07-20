@@ -1,6 +1,9 @@
-import R3 from './R3'
 import Spinor3 from './Spinor3'
 import Vector3 from './Vector3'
+
+const e1 = Vector3.vector(1, 0, 0);
+const e2 = Vector3.vector(0, 1, 0);
+const e3 = Vector3.vector(0, 0, 1);
 
 describe("Spinor3", function() {
     describe("constructor", function() {
@@ -73,16 +76,16 @@ describe("Spinor3", function() {
             expect(Spinor3.zero().maskG3).toBe(0x0)
         })
         it("e1 ^ e2 => 0x4", function() {
-            expect(Spinor3.wedge(R3.e1, R3.e2).maskG3).toBe(0x4)
+            expect(Spinor3.wedge(e1, e2).maskG3).toBe(0x4)
         })
         it("e2 ^ e3 => 0x4", function() {
-            expect(Spinor3.wedge(R3.e2, R3.e3).maskG3).toBe(0x4)
+            expect(Spinor3.wedge(e2, e3).maskG3).toBe(0x4)
         })
         it("e3 ^ e1 => 0x4", function() {
-            expect(Spinor3.wedge(R3.e3, R3.e1).maskG3).toBe(0x4)
+            expect(Spinor3.wedge(e3, e1).maskG3).toBe(0x4)
         })
         it("rotorFromDirections(e1, e2) => 0x5", function() {
-            expect(Spinor3.rotorFromDirections(R3.e1, R3.e2).maskG3).toBe(0x5)
+            expect(Spinor3.rotorFromDirections(e1, e2).maskG3).toBe(0x5)
         })
     })
 

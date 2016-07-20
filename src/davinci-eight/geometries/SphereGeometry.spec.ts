@@ -1,7 +1,10 @@
-import SphereGeometryOptions from './SphereGeometryOptions'
-import SphereGeometry from './SphereGeometry'
-import R3 from '../math/R3'
-import Spinor3 from '../math/Spinor3'
+import SphereGeometryOptions from './SphereGeometryOptions';
+import SphereGeometry from './SphereGeometry';
+import Spinor3 from '../math/Spinor3';
+import Vector3 from '../math/Vector3';
+
+const e2 = Vector3.vector(0, 1, 0);
+const e3 = Vector3.vector(0, 0, 1);
 
 describe("SphereGeometry", function() {
     describe("constructor", function() {
@@ -58,7 +61,7 @@ describe("SphereGeometry", function() {
             })
             it("radius should be in all diagonal elements", function() {
                 const options: SphereGeometryOptions = {}
-                options.tilt = Spinor3.rotorFromDirections(R3.e2, R3.e3)
+                options.tilt = Spinor3.rotorFromDirections(e2, e3)
                 const sphere = new SphereGeometry(options)
                 sphere.setPrincipalScale('radius', 5)
                 const scaling = sphere.scaling

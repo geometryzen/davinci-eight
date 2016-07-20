@@ -1,13 +1,11 @@
 import {Geometric3} from './Geometric3'
-import R3 from './R3'
-import {Unit} from './Unit'
 import Spinor3 from './Spinor3'
 import Vector3 from './Vector3'
 
 const one = Geometric3.one()
-const e1 = Geometric3.fromVector(R3.e1)
-const e2 = Geometric3.fromVector(R3.e2)
-const e3 = Geometric3.fromVector(R3.e3)
+const e1 = Geometric3.vector(1, 0, 0)
+const e2 = Geometric3.vector(0, 1, 0)
+const e3 = Geometric3.vector(0, 0, 1)
 const I = e1.clone().mul(e2).mul(e3)
 
 /**
@@ -202,7 +200,7 @@ describe("Geometric3", function() {
             expect(Geometric3.wedge(e3, e1).maskG3).toBe(0x4)
         })
         it("rotorFromDirections(e1, e2) => 0x5", function() {
-            expect(Geometric3.rotorFromDirections(R3.e1, R3.e2).maskG3).toBe(0x5)
+            expect(Geometric3.rotorFromDirections(e1, e2).maskG3).toBe(0x5)
         })
         it("pseudoscalar => 0x8", function() {
             const I = new Geometric3().zero().addPseudo(1)
@@ -212,10 +210,8 @@ describe("Geometric3", function() {
 
     describe("rotorFromGeneratorAngle", function() {
         describe("(e1 ^ e2, PI)", function() {
-            const e1 = Geometric3.fromVector(R3.e1)
-            const e2 = Geometric3.fromVector(R3.e2)
             const B = e1.clone().ext(e2)
-            const R = Geometric3.one().addVector(R3.e1).addVector(R3.e2).addVector(R3.e3).addPseudo(1).add(B)
+            const R = Geometric3.one().addVector(e1).addVector(e2).addVector(e3).addPseudo(1).add(B)
             R.rotorFromGeneratorAngle(B, Math.PI)
             R.approx(12)
             it("should equal e2 ^ e1", function() {
@@ -223,10 +219,8 @@ describe("Geometric3", function() {
             })
         })
         describe("(2 * e1 ^ e2, PI/2)", function() {
-            const e1 = Geometric3.fromVector(R3.e1)
-            const e2 = Geometric3.fromVector(R3.e2)
             const B = e1.clone().ext(e2).scale(2)
-            const R = Geometric3.one().addVector(R3.e1).addVector(R3.e2).addVector(R3.e3).addPseudo(1).add(B)
+            const R = Geometric3.one().addVector(e1).addVector(e2).addVector(e3).addPseudo(1).add(B)
             R.rotorFromGeneratorAngle(B, Math.PI / 2)
             R.approx(12)
             it("should equal e2 ^ e1", function() {
@@ -236,7 +230,7 @@ describe("Geometric3", function() {
     })
 
     describe("reflect", function() {
-        const n = R3.vector(1, 0, 0, Unit.ONE)
+        const n = Vector3.vector(1, 0, 0)
         const a = Geometric3.vector(2, 3, 0)
         const chain = a.reflect(n)
 
@@ -274,7 +268,7 @@ describe("Geometric3", function() {
     })
 
     describe("stress", function() {
-        const stress = R3.vector(7, 11, 13, Unit.ONE)
+        const stress = Vector3.vector(7, 11, 13)
         const position = Geometric3.vector(2, 3, 5)
         const chain = position.stress(stress)
 

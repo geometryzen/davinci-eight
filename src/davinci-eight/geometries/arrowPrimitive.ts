@@ -4,7 +4,6 @@ import isDefined from '../checks/isDefined';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeNumber from '../checks/mustBeNumber';
 import Primitive from '../core/Primitive';
-import R3 from '../math/R3';
 import Spinor3 from '../math/Spinor3';
 import Vector3 from '../math/Vector3';
 
@@ -16,7 +15,7 @@ import Vector3 from '../math/Vector3';
 export default function arrowPrimitive(options: ArrowGeometryOptions = {}): Primitive {
     mustBeObject('options', options)
 
-    const builder = new ArrowBuilder(R3.e2, R3.e3, false);
+    const builder = new ArrowBuilder(Vector3.vector(0, 1, 0), Vector3.vector(0, 0, 1), false);
 
     // builder.heightCone;
     if (isDefined(options.radiusCone)) {

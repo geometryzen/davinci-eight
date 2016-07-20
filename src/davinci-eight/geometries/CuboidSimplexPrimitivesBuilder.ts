@@ -1,47 +1,45 @@
-import R3 from '../math/R3';
 import computeFaceNormals from '../geometries/computeFaceNormals';
 import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import quad from '../geometries/quadrilateral';
 import Simplex from '../geometries/Simplex';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-import {Unit} from '../math/Unit'
 import Vector1 from '../math/Vector1';
 import Vector3 from '../math/Vector3';
 import VectorE3 from '../math/VectorE3';
 
 export default class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
-    private _a: R3;
-    private _b: R3;
-    private _c: R3;
+    private _a: VectorE3;
+    private _b: VectorE3;
+    private _c: VectorE3;
     private _isModified: boolean = true;
     constructor(a: VectorE3, b: VectorE3, c: VectorE3, k = Simplex.TRIANGLE, subdivide = 0, boundary = 0) {
         super()
-        this._a = R3.fromVector(a, Unit.ONE)
-        this._b = R3.fromVector(b, Unit.ONE)
-        this._c = R3.fromVector(c, Unit.ONE)
+        this._a = Vector3.copy(a)
+        this._b = Vector3.copy(b)
+        this._c = Vector3.copy(c)
         this.k = k
         this.subdivide(subdivide)
         this.boundary(boundary)
         this.regenerate();
     }
-    public get a(): R3 {
+    public get a(): VectorE3 {
         return this._a
     }
-    public set a(a: R3) {
+    public set a(a: VectorE3) {
         this._a = a
         this._isModified = true
     }
-    public get b(): R3 {
+    public get b(): VectorE3 {
         return this._b
     }
-    public set b(b: R3) {
+    public set b(b: VectorE3) {
         this._b = b
         this._isModified = true
     }
-    public get c(): R3 {
+    public get c(): VectorE3 {
         return this._c
     }
-    public set c(c: R3) {
+    public set c(c: VectorE3) {
         this._c = c
         this._isModified = true
     }

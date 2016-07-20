@@ -604,7 +604,7 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
      */
     toExponential(fractionDigits?: number): string {
         var coordToString = function(coord: number): string { return coord.toExponential(fractionDigits) };
-        return toStringCustom(coordinates(this), void 0, coordToString, BASIS_LABELS)
+        return toStringCustom(coordinates(this), coordToString, BASIS_LABELS)
     }
 
     /**
@@ -614,7 +614,7 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
      */
     toFixed(fractionDigits?: number): string {
         const coordToString = function(coord: number): string { return coord.toFixed(fractionDigits) };
-        return toStringCustom(coordinates(this), void 0, coordToString, BASIS_LABELS)
+        return toStringCustom(coordinates(this), coordToString, BASIS_LABELS)
     }
 
     /**
@@ -624,7 +624,7 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
      */
     toPrecision(precision?: number): string {
         const coordToString = function(coord: number): string { return coord.toPrecision(precision) };
-        return toStringCustom(coordinates(this), void 0, coordToString, BASIS_LABELS)
+        return toStringCustom(coordinates(this), coordToString, BASIS_LABELS)
     }
 
     /**
@@ -634,7 +634,7 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
      */
     toString(radix?: number): string {
         const coordToString = function(coord: number): string { return coord.toString(radix) };
-        return toStringCustom(coordinates(this), void 0, coordToString, BASIS_LABELS)
+        return toStringCustom(coordinates(this), coordToString, BASIS_LABELS)
     }
 
     /**

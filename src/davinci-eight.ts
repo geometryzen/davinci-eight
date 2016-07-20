@@ -134,7 +134,6 @@ import VectorE1 from './davinci-eight/math/VectorE1';
 import VectorE2 from './davinci-eight/math/VectorE2';
 import VectorE3 from './davinci-eight/math/VectorE3';
 import VectorE4 from './davinci-eight/math/VectorE4';
-import {Dimensions} from './davinci-eight/math/Dimensions';
 import GeometricE1 from './davinci-eight/math/GeometricE1';
 import gauss from './davinci-eight/math/gauss';
 import GeometricNumber from './davinci-eight/math/GeometricNumber';
@@ -146,12 +145,9 @@ import Matrix3 from './davinci-eight/math/Matrix3';
 import Matrix4 from './davinci-eight/math/Matrix4';
 import Measure from './davinci-eight/math/Measure';
 import Mutable from './davinci-eight/math/Mutable';
-import {QQ} from './davinci-eight/math/QQ';
-import R3 from './davinci-eight/math/R3';
 import SpinorE1 from './davinci-eight/math/SpinorE1';
 import SpinorE2 from './davinci-eight/math/SpinorE2';
 import SpinorE3 from './davinci-eight/math/SpinorE3';
-import {Unit} from './davinci-eight/math/Unit';
 import {Geometric2} from './davinci-eight/math/Geometric2';
 import {Geometric3} from './davinci-eight/math/Geometric3';
 import Spinor2 from './davinci-eight/math/Spinor2';
@@ -285,13 +281,9 @@ const eight = {
     get SphereGeometry() { return SphereGeometry },
     get TetrahedronGeometry() { return TetrahedronGeometry },
 
-    get Dimensions() { return Dimensions },
-    get Unit() { return Unit },
     get Matrix2() { return Matrix2 },
     get Matrix3() { return Matrix3 },
     get Matrix4() { return Matrix4 },
-    get QQ() { return QQ },
-    get R3() { return R3 },
     get Geometric2() { return Geometric2 },
     get Geometric3() { return Geometric3 },
     get Vector1() { return Vector1 },

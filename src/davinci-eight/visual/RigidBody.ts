@@ -5,8 +5,7 @@ import IRigidBody from './IRigidBody'
 import {Material} from '../core/Material'
 import {Mesh} from '../core/Mesh'
 import mustBeObject from '../checks/mustBeObject'
-import R3 from '../math/R3'
-import {Unit} from '../math/Unit'
+import Vector3 from '../math/Vector3'
 import VectorE3 from '../math/VectorE3'
 
 /**
@@ -23,8 +22,6 @@ export class RigidBody extends Mesh implements IRigidBody<number, Geometric3, Ge
      * <p>
      * The (dimensionless) angular momentum of the <code>RigidBody</code>.
      * <p>
-     *
-     * @default 0
      */
     public L = Geometric3.zero()
 
@@ -35,8 +32,6 @@ export class RigidBody extends Mesh implements IRigidBody<number, Geometric3, Ge
      * <p>
      * The (dimensionless) mass of the <code>RigidBody</code>.
      * </p>
-     *
-     * @default 1
      */
     public m = 1
 
@@ -47,8 +42,6 @@ export class RigidBody extends Mesh implements IRigidBody<number, Geometric3, Ge
      * <p>
      * The (dimensionless) momentum of the <code>RigidBody</code>.
      * <p>
-     *
-     * @default 0
      */
     public P = Geometric3.zero()
 
@@ -59,8 +52,6 @@ export class RigidBody extends Mesh implements IRigidBody<number, Geometric3, Ge
      * <p>
      * The (dimensionless) charge of the <code>RigidBody</code>.
      * </p>
-     *
-     * @default 0
      */
     public Q = Geometric3.zero()
 
@@ -68,7 +59,7 @@ export class RigidBody extends Mesh implements IRigidBody<number, Geometric3, Ge
      * Cache the initial axis value so that we can compute the axis at any
      * time by rotating the initial axis using the Mesh attitude.
      */
-    public initialAxis: R3
+    public initialAxis: VectorE3
 
     /**
      * @param geometry
@@ -79,7 +70,7 @@ export class RigidBody extends Mesh implements IRigidBody<number, Geometric3, Ge
     constructor(geometry: Geometry, material: Material, engine: Engine, initialAxis: VectorE3, levelUp = 0) {
         super(geometry, material, engine, levelUp + 1);
         this.setLoggingName('RigidBody');
-        this.initialAxis = R3.fromVector(initialAxis, Unit.ONE);
+        this.initialAxis = Vector3.copy(initialAxis);
         if (levelUp === 0) {
             this.synchUp();
         }

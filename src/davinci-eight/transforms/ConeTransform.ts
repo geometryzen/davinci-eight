@@ -1,7 +1,6 @@
 import mustBeBoolean from '../checks/mustBeBoolean'
 import mustBeNumber from '../checks/mustBeNumber'
 import mustBeString from '../checks/mustBeString'
-import R3 from '../math/R3'
 import Spinor3 from '../math/Spinor3'
 import Vector3 from '../math/Vector3'
 import VectorE3 from '../math/VectorE3'
