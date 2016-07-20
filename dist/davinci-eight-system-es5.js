@@ -16926,6 +16926,11 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
           this.z = vector.z;
           return this;
         };
+        Geometric3.prototype.cross = function(m) {
+          this.ext(m);
+          this.dual(this).neg();
+          return this;
+        };
         Geometric3.prototype.div = function(m) {
           if (isScalarG3_1.default(m)) {
             return this.divByScalar(m.a);
@@ -17604,16 +17609,17 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
           return Geometric3.copy(A).lerp(B, α);
         };
         Geometric3.random = function() {
+          var lowerBound = -1;
+          var upperBound = +1;
           var g = new Geometric3();
-          g.a = randomRange_1.default(-1, 1);
-          g.x = randomRange_1.default(-1, 1);
-          g.y = randomRange_1.default(-1, 1);
-          g.z = randomRange_1.default(-1, 1);
-          g.yz = randomRange_1.default(-1, 1);
-          g.zx = randomRange_1.default(-1, 1);
-          g.xy = randomRange_1.default(-1, 1);
-          g.b = randomRange_1.default(-1, 1);
-          g.normalize();
+          g.a = randomRange_1.default(lowerBound, upperBound);
+          g.x = randomRange_1.default(lowerBound, upperBound);
+          g.y = randomRange_1.default(lowerBound, upperBound);
+          g.z = randomRange_1.default(lowerBound, upperBound);
+          g.yz = randomRange_1.default(lowerBound, upperBound);
+          g.zx = randomRange_1.default(lowerBound, upperBound);
+          g.xy = randomRange_1.default(lowerBound, upperBound);
+          g.b = randomRange_1.default(lowerBound, upperBound);
           return g;
         };
         Geometric3.rotorFromDirections = function(a, b) {
@@ -22101,7 +22107,7 @@ System.register("davinci-eight/config.js", ["./core/ErrorMode"], function(export
           this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
           this.LAST_MODIFIED = '2016-07-20';
           this.NAMESPACE = 'EIGHT';
-          this.VERSION = '2.273.0';
+          this.VERSION = '2.274.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
           get: function() {

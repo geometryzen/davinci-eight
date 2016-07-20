@@ -1817,6 +1817,11 @@ declare module EIGHT {
         copyVector(vector: VectorE3): Geometric3;
 
         /**
+         * this ⟼ this x m
+         */
+        cross(m: GeometricE3): Geometric3;
+
+        /**
          * this ⟼ this / magnitude(this)
          */
         normalize(): Geometric3;
@@ -2182,6 +2187,11 @@ declare module EIGHT {
          * Creates a copy of a vector.
          */
         static fromVector(vector: VectorE3): Geometric3;
+
+        /**
+         * Computes a random multivector.
+         */
+        static random(): Geometric3;
 
         /**
          * Computes the rotor that rotates vector <code>a</code> to vector <code>b</code>.

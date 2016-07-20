@@ -500,6 +500,18 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
     }
 
     /**
+     * Sets this multivector to the generalized vector cross product with another multivector.
+     * <p>
+     * <code>this ⟼ -I * (this ^ m)</code>
+     * </p>
+     */
+    cross(m: GeometricE3): Geometric3 {
+        this.ext(m)
+        this.dual(this).neg();
+        return this;
+    }
+
+    /**
      * <p>
      * <code>this ⟼ this / m</code>
      * </p>
@@ -1773,23 +1785,22 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
 
     /**
      * <p>
-     * Computes a unit multivector with a random direction.
+     * Computes a multivector with random components.
      * </p>
-     *
-     * @returns
      */
-    static random(): Geometric3 {
-        const g = new Geometric3()
-        g.a = randomRange(-1, 1)
-        g.x = randomRange(-1, 1)
-        g.y = randomRange(-1, 1)
-        g.z = randomRange(-1, 1)
-        g.yz = randomRange(-1, 1)
-        g.zx = randomRange(-1, 1)
-        g.xy = randomRange(-1, 1)
-        g.b = randomRange(-1, 1)
-        g.normalize()
-        return g
+    static random() {
+        const lowerBound = -1;
+        const upperBound = +1;
+        const g = new Geometric3();
+        g.a = randomRange(lowerBound, upperBound);
+        g.x = randomRange(lowerBound, upperBound);
+        g.y = randomRange(lowerBound, upperBound);
+        g.z = randomRange(lowerBound, upperBound);
+        g.yz = randomRange(lowerBound, upperBound);
+        g.zx = randomRange(lowerBound, upperBound);
+        g.xy = randomRange(lowerBound, upperBound);
+        g.b = randomRange(lowerBound, upperBound);
+        return g;
     }
 
     /**
