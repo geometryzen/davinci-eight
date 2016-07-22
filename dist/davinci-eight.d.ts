@@ -157,6 +157,22 @@ declare module EIGHT {
         ALWAYS = 0x0207
     }
 
+    enum PixelFormat {
+        DEPTH_COMPONENT = 0x1902,
+        ALPHA = 0x1906,
+        RGB = 0x1907,
+        RGBA = 0x1908,
+        LUMINANCE = 0x1909,
+        LUMINANCE_ALPHA = 0x190A
+    }
+
+    enum PixelType {
+        UNSIGNED_BYTE = 0x1401,
+        UNSIGNED_SHORT_4_4_4_4 = 0x8033,
+        UNSIGNED_SHORT_5_5_5_1 = 0x8034,
+        UNSIGNED_SHORT_5_6_5 = 0x8363
+    }
+
     enum Usage {
         /**
          * Contents of the buffer are likely to not be used often.
@@ -399,6 +415,11 @@ declare module EIGHT {
          * e.g. Int32Array[x, y, width, height]
          */
         getViewport(): Int32Array;
+
+        /**
+         * 
+         */
+        readPixels(x: number, y: number, width: number, height: number, format: PixelFormat, type: PixelType, pixels: ArrayBufferView): void;
 
         /**
          *

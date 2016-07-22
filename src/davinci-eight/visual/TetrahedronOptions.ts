@@ -1,4 +1,4 @@
-import VisualOptions from './VisualOptions'
+import VisualOptions from './VisualOptions';
 
 /**
  * @module EIGHT
@@ -13,4 +13,4 @@ interface TetrahedronOptions extends VisualOptions {
 
 }
 
-export default TetrahedronOptions
+export default TetrahedronOptions;

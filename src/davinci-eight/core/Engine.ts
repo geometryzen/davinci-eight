@@ -10,6 +10,8 @@ import DefaultContextProvider from '../base/DefaultContextProvider';
 import initWebGL from './initWebGL';
 import isDefined from '../checks/isDefined';
 import mustBeObject from '../checks/mustBeObject';
+import PixelFormat from './PixelFormat';
+import PixelType from './PixelType';
 import ShareableArray from '../collections/ShareableArray';
 import {ShareableBase} from './ShareableBase';
 import VersionLogger from '../commands/VersionLogger';
@@ -180,6 +182,15 @@ export class Engine extends ShareableBase implements VertexBufferManager {
         }
         else {
             return void 0
+        }
+    }
+
+    /**
+     * 
+     */
+    readPixels(x: number, y: number, width: number, height: number, format: PixelFormat, type: PixelType, pixels: ArrayBufferView): void {
+        if (this._gl) {
+            this._gl.readPixels(x, y, width, height, format, type, pixels);
         }
     }
 

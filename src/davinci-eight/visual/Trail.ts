@@ -55,17 +55,17 @@ export class Trail extends ShareableBase {
     /**
      * The underlying Mesh.
      */
-    private mesh: Mesh
+    private mesh: Mesh;
 
     /**
      * The position history.
      */
-    private Xs: Vector3[] = []
+    private Xs: Vector3[] = [];
 
     /**
      * The attitude history.
      */
-    private Rs: Spinor3[] = []
+    private Rs: Spinor3[] = [];
 
     /**
      * The configuration that determines how the history is recorded.
@@ -131,7 +131,7 @@ export class Trail extends ShareableBase {
                 }
                 this.modulo.inc();
             }
-            this.counter++
+            this.counter++;
         }
     }
 
@@ -155,8 +155,8 @@ export class Trail extends ShareableBase {
 
                     const iL = ambients.length;
                     for (let i = 0; i < iL; i++) {
-                        const facet = ambients[i]
-                        facet.setUniforms(material)
+                        const facet = ambients[i];
+                        facet.setUniforms(material);
                     }
 
                     geometry.bind(material);

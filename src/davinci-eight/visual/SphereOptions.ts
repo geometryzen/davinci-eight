@@ -1,38 +1,38 @@
-import AbstractColor from '../core/AbstractColor'
-import SpinorE3 from '../math/SpinorE3'
-import VectorE3 from '../math/VectorE3'
-import VisualOptions from './VisualOptions'
+import AbstractColor from '../core/AbstractColor';
+import SpinorE3 from '../math/SpinorE3';
+import VectorE3 from '../math/VectorE3';
+import VisualOptions from './VisualOptions';
 
 /**
  * The options for creating a Sphere.
  */
 interface SphereOptions extends VisualOptions {
 
-  /**
-   *
-   */
-  color?: AbstractColor
+    /**
+     *
+     */
+    color?: AbstractColor;
 
-  /**
-   *
-   * @default 0
-   */
-  offset?: VectorE3
+    /**
+     *
+     * @default 0
+     */
+    offset?: VectorE3;
 
-  /**
-   *
-   * @default 0
-   */
-  position?: VectorE3
+    /**
+     *
+     * @default 0
+     */
+    position?: VectorE3;
 
-  /**
-   *
-   * @default 0.5
-   */
-  radius?: number
+    /**
+     *
+     * @default 0.5
+     */
+    radius?: number
 
-  scale?: VectorE3
-  tilt?: SpinorE3
+    scale?: VectorE3;
+    tilt?: SpinorE3;
 }
 
-export default SphereOptions
+export default SphereOptions;

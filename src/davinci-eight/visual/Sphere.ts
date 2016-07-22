@@ -1,13 +1,12 @@
-import direction from './direction'
-import incLevel from '../base/incLevel'
-import isDefined from '../checks/isDefined'
-import {MeshMaterial} from '../materials/MeshMaterial'
-import MeshMaterialOptions from '../materials/MeshMaterialOptions'
-import mustBeNumber from '../checks/mustBeNumber'
-import {RigidBody} from './RigidBody'
-import SphereOptions from './SphereOptions'
-import SphereGeometry from '../geometries/SphereGeometry'
-import SphereGeometryOptions from '../geometries/SphereGeometryOptions'
+import direction from './direction';
+import isDefined from '../checks/isDefined';
+import {MeshMaterial} from '../materials/MeshMaterial';
+import MeshMaterialOptions from '../materials/MeshMaterialOptions';
+import mustBeNumber from '../checks/mustBeNumber';
+import {RigidBody} from './RigidBody';
+import SphereOptions from './SphereOptions';
+import SphereGeometry from '../geometries/SphereGeometry';
+import SphereGeometryOptions from '../geometries/SphereGeometryOptions';
 
 /**
  *
@@ -50,18 +49,18 @@ export class Sphere extends RigidBody {
      */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
-            this.cleanUp()
+            this.cleanUp();
         }
-        super.destructor(incLevel(levelUp))
+        super.destructor(levelUp + 1);
     }
 
     /**
      * @default 1
      */
     get radius(): number {
-        return this.getPrincipalScale('radius')
+        return this.getPrincipalScale('radius');
     }
     set radius(radius: number) {
-        this.setPrincipalScale('radius', radius)
+        this.setPrincipalScale('radius', radius);
     }
 }

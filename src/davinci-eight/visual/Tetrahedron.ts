@@ -44,9 +44,9 @@ export default class Tetrahedron extends Mesh {
     }
 
     get radius(): number {
-        return this.getPrincipalScale('radius')
+        return this.getPrincipalScale('radius');
     }
     set radius(radius: number) {
-        this.setPrincipalScale('radius', radius)
+        this.setPrincipalScale('radius', radius);
     }
 }

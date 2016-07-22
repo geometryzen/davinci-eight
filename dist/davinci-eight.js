@@ -545,7 +545,7 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-07-22';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.276.0';
+            this.VERSION = '2.277.0';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -6230,6 +6230,34 @@ define('davinci-eight/core/DepthFunction',["require", "exports"], function (requ
     exports.default = DepthFunction;
 });
 
+define('davinci-eight/core/PixelFormat',["require", "exports"], function (require, exports) {
+    "use strict";
+    var PixelFormat;
+    (function (PixelFormat) {
+        PixelFormat[PixelFormat["DEPTH_COMPONENT"] = 6402] = "DEPTH_COMPONENT";
+        PixelFormat[PixelFormat["ALPHA"] = 6406] = "ALPHA";
+        PixelFormat[PixelFormat["RGB"] = 6407] = "RGB";
+        PixelFormat[PixelFormat["RGBA"] = 6408] = "RGBA";
+        PixelFormat[PixelFormat["LUMINANCE"] = 6409] = "LUMINANCE";
+        PixelFormat[PixelFormat["LUMINANCE_ALPHA"] = 6410] = "LUMINANCE_ALPHA";
+    })(PixelFormat || (PixelFormat = {}));
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = PixelFormat;
+});
+
+define('davinci-eight/core/PixelType',["require", "exports"], function (require, exports) {
+    "use strict";
+    var PixelType;
+    (function (PixelType) {
+        PixelType[PixelType["UNSIGNED_BYTE"] = 5121] = "UNSIGNED_BYTE";
+        PixelType[PixelType["UNSIGNED_SHORT_4_4_4_4"] = 32819] = "UNSIGNED_SHORT_4_4_4_4";
+        PixelType[PixelType["UNSIGNED_SHORT_5_5_5_1"] = 32820] = "UNSIGNED_SHORT_5_5_5_1";
+        PixelType[PixelType["UNSIGNED_SHORT_5_6_5"] = 33635] = "UNSIGNED_SHORT_5_6_5";
+    })(PixelType || (PixelType = {}));
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = PixelType;
+});
+
 define('davinci-eight/core/Usage',["require", "exports"], function (require, exports) {
     "use strict";
     var Usage;
@@ -6255,7 +6283,7 @@ define('davinci-eight/core/Usage',["require", "exports"], function (require, exp
     exports.default = Usage;
 });
 
-define('davinci-eight/core/checkEnums',["require", "exports", './BeginMode', './BlendingFactorDest', './BlendingFactorSrc', './Capability', './ClearBufferMask', './DepthFunction', './Usage', '../checks/mustBeEQ'], function (require, exports, BeginMode_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, ClearBufferMask_1, DepthFunction_1, Usage_1, mustBeEQ_1) {
+define('davinci-eight/core/checkEnums',["require", "exports", './BeginMode', './BlendingFactorDest', './BlendingFactorSrc', './Capability', './ClearBufferMask', './DepthFunction', './PixelFormat', './PixelType', './Usage', '../checks/mustBeEQ'], function (require, exports, BeginMode_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, ClearBufferMask_1, DepthFunction_1, PixelFormat_1, PixelType_1, Usage_1, mustBeEQ_1) {
     "use strict";
     function checkEnums(gl) {
         mustBeEQ_1.default('LINE_LOOP', BeginMode_1.default.LINE_LOOP, gl.LINE_LOOP);
@@ -6302,6 +6330,16 @@ define('davinci-eight/core/checkEnums',["require", "exports", './BeginMode', './
         mustBeEQ_1.default('LESS', DepthFunction_1.default.LESS, gl.LESS);
         mustBeEQ_1.default('NEVER', DepthFunction_1.default.NEVER, gl.NEVER);
         mustBeEQ_1.default('NOTEQUAL', DepthFunction_1.default.NOTEQUAL, gl.NOTEQUAL);
+        mustBeEQ_1.default('DEPTH_COMPONENT', PixelFormat_1.default.DEPTH_COMPONENT, gl.DEPTH_COMPONENT);
+        mustBeEQ_1.default('ALPHA', PixelFormat_1.default.ALPHA, gl.ALPHA);
+        mustBeEQ_1.default('RGB', PixelFormat_1.default.RGB, gl.RGB);
+        mustBeEQ_1.default('RGBA', PixelFormat_1.default.RGBA, gl.RGBA);
+        mustBeEQ_1.default('LUMINANCE', PixelFormat_1.default.LUMINANCE, gl.LUMINANCE);
+        mustBeEQ_1.default('LUMINANCE_ALPHA', PixelFormat_1.default.LUMINANCE_ALPHA, gl.LUMINANCE_ALPHA);
+        mustBeEQ_1.default('UNSIGNED_BYTE', PixelType_1.default.UNSIGNED_BYTE, gl.UNSIGNED_BYTE);
+        mustBeEQ_1.default('UNSIGNED_SHORT_4_4_4_4', PixelType_1.default.UNSIGNED_SHORT_4_4_4_4, gl.UNSIGNED_SHORT_4_4_4_4);
+        mustBeEQ_1.default('UNSIGNED_SHORT_5_5_5_1', PixelType_1.default.UNSIGNED_SHORT_5_5_5_1, gl.UNSIGNED_SHORT_5_5_5_1);
+        mustBeEQ_1.default('UNSIGNED_SHORT_5_6_5', PixelType_1.default.UNSIGNED_SHORT_5_6_5, gl.UNSIGNED_SHORT_5_6_5);
         mustBeEQ_1.default('STREAM_DRAW', Usage_1.default.STREAM_DRAW, gl.STREAM_DRAW);
         mustBeEQ_1.default('STATIC_DRAW', Usage_1.default.STATIC_DRAW, gl.STATIC_DRAW);
         mustBeEQ_1.default('DYNAMIC_DRAW', Usage_1.default.DYNAMIC_DRAW, gl.DYNAMIC_DRAW);
@@ -6711,6 +6749,11 @@ define('davinci-eight/core/Engine',["require", "exports", './checkEnums', './Cle
             enumerable: true,
             configurable: true
         });
+        Engine.prototype.readPixels = function (x, y, width, height, format, type, pixels) {
+            if (this._gl) {
+                this._gl.readPixels(x, y, width, height, format, type, pixels);
+            }
+        };
         Engine.prototype.removeContextListener = function (user) {
             mustBeObject_1.default('user', user);
             var index = this._users.indexOf(user);
@@ -17049,7 +17092,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/visual/Sphere',["require", "exports", './direction', '../base/incLevel', '../checks/isDefined', '../materials/MeshMaterial', '../checks/mustBeNumber', './RigidBody', '../geometries/SphereGeometry'], function (require, exports, direction_1, incLevel_1, isDefined_1, MeshMaterial_1, mustBeNumber_1, RigidBody_1, SphereGeometry_1) {
+define('davinci-eight/visual/Sphere',["require", "exports", './direction', '../checks/isDefined', '../materials/MeshMaterial', '../checks/mustBeNumber', './RigidBody', '../geometries/SphereGeometry'], function (require, exports, direction_1, isDefined_1, MeshMaterial_1, mustBeNumber_1, RigidBody_1, SphereGeometry_1) {
     "use strict";
     var Sphere = (function (_super) {
         __extends(Sphere, _super);
@@ -17082,7 +17125,7 @@ define('davinci-eight/visual/Sphere',["require", "exports", './direction', '../b
             if (levelUp === 0) {
                 this.cleanUp();
             }
-            _super.prototype.destructor.call(this, incLevel_1.default(levelUp));
+            _super.prototype.destructor.call(this, levelUp + 1);
         };
         Object.defineProperty(Sphere.prototype, "radius", {
             get: function () {

@@ -1,7 +1,7 @@
-import AbstractColor from '../core/AbstractColor'
-import {Engine} from '../core/Engine'
-import SpinorE3 from '../math/SpinorE3'
-import VectorE3 from '../math/VectorE3'
+import AbstractColor from '../core/AbstractColor';
+import {Engine} from '../core/Engine';
+import SpinorE3 from '../math/SpinorE3';
+import VectorE3 from '../math/VectorE3';
 
 /**
  *
@@ -20,12 +20,12 @@ interface VisualOptions {
     /**
      *
      */
-    color?: AbstractColor
+    color?: AbstractColor;
 
     /**
      *
      */
-    engine?: Engine
+    engine?: Engine;
 
     /**
      * <p>
@@ -57,4 +57,4 @@ interface VisualOptions {
     tilt?: SpinorE3;
 }
 
-export default VisualOptions
+export default VisualOptions;

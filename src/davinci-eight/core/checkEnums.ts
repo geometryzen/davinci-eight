@@ -4,6 +4,8 @@ import BlendingFactorSrc from  './BlendingFactorSrc';
 import Capability from './Capability';
 import ClearBufferMask from './ClearBufferMask';
 import DepthFunction from './DepthFunction';
+import PixelFormat from './PixelFormat';
+import PixelType from './PixelType';
 import Usage from './Usage';
 import mustBeEQ from '../checks/mustBeEQ';
 
@@ -67,6 +69,20 @@ export default function checkEnums(gl: WebGLRenderingContext): void {
     mustBeEQ('LESS', DepthFunction.LESS, gl.LESS);
     mustBeEQ('NEVER', DepthFunction.NEVER, gl.NEVER);
     mustBeEQ('NOTEQUAL', DepthFunction.NOTEQUAL, gl.NOTEQUAL);
+
+    // PixelFormat
+    mustBeEQ('DEPTH_COMPONENT', PixelFormat.DEPTH_COMPONENT, gl.DEPTH_COMPONENT);
+    mustBeEQ('ALPHA', PixelFormat.ALPHA, gl.ALPHA);
+    mustBeEQ('RGB', PixelFormat.RGB, gl.RGB);
+    mustBeEQ('RGBA', PixelFormat.RGBA, gl.RGBA);
+    mustBeEQ('LUMINANCE', PixelFormat.LUMINANCE, gl.LUMINANCE);
+    mustBeEQ('LUMINANCE_ALPHA', PixelFormat.LUMINANCE_ALPHA, gl.LUMINANCE_ALPHA);
+
+    // PixelType
+    mustBeEQ('UNSIGNED_BYTE', PixelType.UNSIGNED_BYTE, gl.UNSIGNED_BYTE);
+    mustBeEQ('UNSIGNED_SHORT_4_4_4_4', PixelType.UNSIGNED_SHORT_4_4_4_4, gl.UNSIGNED_SHORT_4_4_4_4);
+    mustBeEQ('UNSIGNED_SHORT_5_5_5_1', PixelType.UNSIGNED_SHORT_5_5_5_1, gl.UNSIGNED_SHORT_5_5_5_1);
+    mustBeEQ('UNSIGNED_SHORT_5_6_5', PixelType.UNSIGNED_SHORT_5_6_5, gl.UNSIGNED_SHORT_5_6_5);
 
     // Usage
     mustBeEQ('STREAM_DRAW', Usage.STREAM_DRAW, gl.STREAM_DRAW);
