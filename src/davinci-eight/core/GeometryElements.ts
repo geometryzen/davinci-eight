@@ -1,8 +1,6 @@
 import {Material} from './Material';
 import ContextProvider from './ContextProvider';
-import config from '../config';
 import {Engine} from './Engine';
-import ErrorMode from './ErrorMode';
 import GeometryLeaf from './GeometryLeaf';
 import IndexBuffer from './IndexBuffer';
 import isArray from '../checks/isArray';
@@ -185,16 +183,6 @@ export default class GeometryElements extends GeometryLeaf {
                     }
                 }
             }
-            else {
-                switch (config.errorMode) {
-                    case ErrorMode.WARNME: {
-                        console.warn(`${this._type}.pointers must be an array.`)
-                    }
-                    default: {
-                        // Do nothing.
-                    }
-                }
-            }
             this.ibo.bind()
         }
     }
@@ -223,16 +211,6 @@ export default class GeometryElements extends GeometryLeaf {
         if (contextProvider) {
             if (this.count) {
                 contextProvider.drawElements(this.mode, this.count, this.offset)
-            }
-            else {
-                switch (config.errorMode) {
-                    case ErrorMode.WARNME: {
-                        console.warn(`${this._type}.indices must be an array.`)
-                    }
-                    default: {
-                        // Do nothing.
-                    }
-                }
             }
         }
     }

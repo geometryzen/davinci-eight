@@ -28,7 +28,6 @@
         "src/davinci-eight/core/Engine.spec.ts",
         "src/davinci-eight/core/GeometryContainer.spec.ts",
         "src/davinci-eight/core/ShareableBase.spec.ts",
-        "src/davinci-eight/core/Uniform.spec.ts",
         "src/davinci-eight/core/vertexArraysFromPrimitive.spec.ts",
         "src/davinci-eight/core/computeAttributes.spec.ts",
         "src/davinci-eight/facets/DirectionalLight.spec.ts",

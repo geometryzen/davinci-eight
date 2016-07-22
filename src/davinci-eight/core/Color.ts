@@ -1,8 +1,6 @@
 import clamp from '../math/clamp'
 import ColumnVector from '../math/ColumnVector'
 import {Coords} from '../math/Coords'
-import config from '../config'
-import ErrorMode from '../core/ErrorMode'
 import AbstractColor from './AbstractColor'
 import isDefined from '../checks/isDefined'
 import Matrix3 from '../math/Matrix3'
@@ -359,36 +357,15 @@ export class Color extends Coords implements AbstractColor, ColumnVector<Matrix3
         return Color.copy(a).lerp(b, clamp(α, 0, 1))
     }
 
-    /**
-     *
-     * @param name
-     * @param color
-     * @returns
-     */
     public static mustBe(name: string, color: Color): Color {
         if (Color.isInstance(color)) {
             return color
         }
         else {
-            switch (config.errorMode) {
-                case ErrorMode.IGNORE: {
-                    return Color.random()
-                }
-                case ErrorMode.WARNME: {
-                    console.warn(`${name} must be a Color.`)
-                    return Color.random()
-                }
-                default: {
-                    throw new Error(`${name} must be a Color.`)
-                }
-            }
+            throw new Error(`${name} must be a Color.`)
         }
     }
 
-    /**
-     *
-     * @returns
-     */
     public static random(): Color {
         return Color.fromRGB(Math.random(), Math.random(), Math.random())
     }

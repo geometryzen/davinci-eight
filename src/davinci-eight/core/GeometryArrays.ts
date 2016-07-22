@@ -4,9 +4,7 @@ import computeAttributes from './computeAttributes';
 import computeCount from './computeCount';
 import computePointers from './computePointers';
 import computeStride from './computeStride';
-import config from '../config';
 import {Engine} from './Engine';
-import ErrorMode from './ErrorMode';
 import GeometryLeaf from './GeometryLeaf';
 import isNull from '../checks/isNull';
 import isObject from '../checks/isObject';
@@ -101,16 +99,6 @@ export default class GeometryArrays extends GeometryLeaf {
                     if (attrib) {
                         attrib.config(pointer.size, pointer.type, pointer.normalized, this._stride, pointer.offset);
                         attrib.enable();
-                    }
-                }
-            }
-            else {
-                switch (config.errorMode) {
-                    case ErrorMode.WARNME: {
-                        console.warn(`${this._type}.pointers must be an array.`)
-                    }
-                    default: {
-                        // Do nothing.
                     }
                 }
             }

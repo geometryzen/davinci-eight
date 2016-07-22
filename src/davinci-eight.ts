@@ -21,7 +21,6 @@ import config from './davinci-eight/config';
 import DataType from './davinci-eight/core/DataType';
 import {Drawable} from './davinci-eight/core/Drawable';
 import DepthFunction from './davinci-eight/core/DepthFunction';
-import ErrorMode from './davinci-eight/core/ErrorMode';
 import {ContextConsumer} from './davinci-eight/core/ContextConsumer';
 import ContextProgramConsumer from './davinci-eight/core/ContextProgramConsumer';
 import ContextProvider from './davinci-eight/core/ContextProvider';
@@ -189,18 +188,6 @@ const eight = {
      */
     get LAST_MODIFIED() { return config.LAST_MODIFIED },
 
-    get errorMode(): ErrorMode {
-        return config.errorMode;
-    },
-    set errorMode(errorMode: ErrorMode) {
-        if (typeof errorMode === 'number') {
-            config.errorMode = errorMode;
-        }
-        else {
-            throw new TypeError('errorMode must be a ErrorMode');
-        }
-    },
-
     /**
      * The semantic version of the library.
      */
@@ -245,7 +232,6 @@ const eight = {
     get ClearBufferMask() { return ClearBufferMask },
     get DataType() { return DataType },
     get DrawMode() { return BeginMode },
-    get ErrorMode() { return ErrorMode },
     get Usage() { return Usage },
     get Attrib() { return Attrib },
     get Uniform() { return Uniform },

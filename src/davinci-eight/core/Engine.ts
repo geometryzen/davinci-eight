@@ -4,9 +4,7 @@ import Capability from './Capability';
 import checkEnums from './checkEnums';
 import ClearBufferMask from './ClearBufferMask';
 import DepthFunction from './DepthFunction';
-import config from '../config'
 import EIGHTLogger from '../commands/EIGHTLogger';
-import ErrorMode from './ErrorMode';
 import {ContextConsumer} from './ContextConsumer';
 import DefaultContextProvider from '../base/DefaultContextProvider';
 import initWebGL from './initWebGL';
@@ -269,11 +267,6 @@ export class Engine extends ShareableBase implements VertexBufferManager {
         const gl = this._gl;
         if (gl) {
             gl.viewport(x, y, width, height)
-        }
-        else {
-            if (config.errorMode === ErrorMode.WARNME) {
-                console.warn(`${this._type}.viewport(${x}, ${y}, ${width}, ${height}) ignored because no context.`)
-            }
         }
         return this
     }

@@ -1,6 +1,3 @@
-import config from '../config';
-import ErrorMode from './ErrorMode';
-
 function decodeType(gl: WebGLRenderingContext, type: number): string {
     if (type === gl.VERTEX_SHADER) {
         return "VERTEX_SHADER";
@@ -28,12 +25,6 @@ export default function makeWebGLShader(gl: WebGLRenderingContext, source: strin
         if (!gl.isContextLost()) {
             const message = gl.getShaderInfoLog(shader);
             gl.deleteShader(shader);
-            switch (config.errorMode) {
-                case ErrorMode.WARNME: {
-                    // Provide some extra context in WARNME mode.
-                    config.warn(`Error compiling ${decodeType(gl, type)}. Cause: ${message}.`);
-                }
-            }
             throw new Error(message);
         }
         else {

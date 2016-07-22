@@ -1,87 +1,31 @@
 import ContextProgramConsumer from './ContextProgramConsumer';
-import config from '../config'
-import ErrorMode from '../core/ErrorMode'
 import isNull from '../checks/isNull';
 import mustBeObject from '../checks/mustBeObject';
-
-/**
- * @module EIGHT
- * @submodule core
- */
 
 /**
  * <p>
  * A wrapper around a <code>WebGLUniformLocation</code>.
  * </p>
- *
- * @class Uniform
  */
 export default class Uniform implements ContextProgramConsumer {
 
-    /**
-     * @property gl
-     * @type WebGLRenderingContext
-     * @private
-     */
     private gl: WebGLRenderingContext;
 
-    /**
-     * @property location
-     * @type WebGLUniformLocation
-     * @private
-     */
     private location: WebGLUniformLocation;
 
-    /**
-     * @property name
-     * @type string
-     * @private
-     */
     private name: string;
 
-    /**
-     * @class Uniform
-     * @constructor
-     * @param info {WebGLActiveInfo}
-     */
     constructor(info: WebGLActiveInfo) {
         if (!isNull(info)) {
             mustBeObject('info', info)
             this.name = info.name
         }
-        else {
-            const msg = "Uniform constructor called with null info: WebGLActiveInfo."
-            switch (config.errorMode) {
-                case ErrorMode.IGNORE: {
-                    this.name = null
-                }
-                    break
-                case ErrorMode.WARNME: {
-                    console.warn(msg)
-                    this.name = null
-                }
-                    break
-                default: {
-                    throw new Error(msg)
-                }
-            }
-        }
     }
 
-    /**
-     * @method contextFree
-     * @return {void}
-     */
     contextFree(): void {
         this.contextLost()
     }
 
-    /**
-     * @method contextGain
-     * @param gl {WebGLRenderingContext}
-     * @param program {WebGLProgram}
-     * @return {void}
-     */
     contextGain(gl: WebGLRenderingContext, program: WebGLProgram): void {
         this.contextLost()
         this.gl = gl
@@ -94,20 +38,11 @@ export default class Uniform implements ContextProgramConsumer {
         }
     }
 
-    /**
-     * @method contextLost
-     * @return {void}
-     */
     contextLost(): void {
         this.gl = void 0
         this.location = void 0
     }
 
-    /**
-     * @method uniform1f
-     * @param x {number}
-     * @return {void}
-     */
     uniform1f(x: number): void {
         const gl = this.gl;
         if (gl) {
@@ -115,12 +50,6 @@ export default class Uniform implements ContextProgramConsumer {
         }
     }
 
-    /**
-     * @method uniform2f
-     * @param x {number}
-     * @param y {number}
-     * @return {void}
-     */
     uniform2f(x: number, y: number): void {
         const gl = this.gl;
         if (gl) {
@@ -128,13 +57,6 @@ export default class Uniform implements ContextProgramConsumer {
         }
     }
 
-    /**
-     * @method uniform3f
-     * @param x {number}
-     * @param y {number}
-     * @param z {number}
-     * @return {void}
-     */
     uniform3f(x: number, y: number, z: number): void {
         const gl = this.gl;
         if (gl) {
@@ -142,14 +64,6 @@ export default class Uniform implements ContextProgramConsumer {
         }
     }
 
-    /**
-     * @method uniform4f
-     * @param x {number}
-     * @param y {number}
-     * @param z {number}
-     * @param w {number}
-     * @return {void}
-     */
     uniform4f(x: number, y: number, z: number, w: number): void {
         const gl = this.gl;
         if (gl) {
@@ -159,11 +73,6 @@ export default class Uniform implements ContextProgramConsumer {
 
     /**
      * Sets a uniform location of type <code>mat2</code> in the <code>WebGLProgram</code>.
-     *
-     * @method matrix2fv
-     * @param transpose {boolean}
-     * @param value {Float32Array}
-     * @return {void}
      */
     matrix2fv(transpose: boolean, value: Float32Array): void {
         const gl = this.gl;
@@ -174,11 +83,6 @@ export default class Uniform implements ContextProgramConsumer {
 
     /**
      * Sets a uniform location of type <code>mat3</code> in a <code>WebGLProgram</code>.
-     *
-     * @method matrix3fv
-     * @param transpose {boolean}
-     * @param value {Float32Array}
-     * @return {void}
      */
     matrix3fv(transpose: boolean, value: Float32Array): void {
         const gl = this.gl;
@@ -189,11 +93,6 @@ export default class Uniform implements ContextProgramConsumer {
 
     /**
      * Sets a uniform location of type <code>mat4</code> in a <code>WebGLProgram</code>.
-     *
-     * @method matrix4fv
-     * @param transpose {boolean}
-     * @param value {Float32Array}
-     * @return {void}
      */
     matrix4fv(transpose: boolean, value: Float32Array): void {
         const gl = this.gl;
@@ -202,11 +101,6 @@ export default class Uniform implements ContextProgramConsumer {
         }
     }
 
-    /**
-     * @method uniform1fv
-     * @param data {Float32Array}
-     * @return {void}
-     */
     uniform1fv(data: Float32Array): void {
         const gl = this.gl;
         if (gl) {
@@ -214,11 +108,6 @@ export default class Uniform implements ContextProgramConsumer {
         }
     }
 
-    /**
-     * @method uniform2fv
-     * @param data {Float32Array}
-     * @return {void}
-     */
     uniform2fv(data: Float32Array): void {
         const gl = this.gl;
         if (gl) {
@@ -226,11 +115,6 @@ export default class Uniform implements ContextProgramConsumer {
         }
     }
 
-    /**
-     * @method uniform3fv
-     * @param data {Float32Array}
-     * @return {void}
-     */
     uniform3fv(data: Float32Array): void {
         const gl = this.gl;
         if (gl) {
@@ -238,11 +122,6 @@ export default class Uniform implements ContextProgramConsumer {
         }
     }
 
-    /**
-     * @method uniform4fv
-     * @param data {Float32Array}
-     * @return {void}
-     */
     uniform4fv(data: Float32Array): void {
         const gl = this.gl;
         if (gl) {
@@ -250,10 +129,6 @@ export default class Uniform implements ContextProgramConsumer {
         }
     }
 
-    /**
-     * @method toString
-     * @return {string}
-     */
     toString(): string {
         return ['uniform', this.name].join(' ');
     }
