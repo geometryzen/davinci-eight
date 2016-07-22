@@ -543,9 +543,9 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
     var Eight = (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-07-21';
+            this.LAST_MODIFIED = '2016-07-22';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.275.0';
+            this.VERSION = '2.276.0';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -6230,7 +6230,32 @@ define('davinci-eight/core/DepthFunction',["require", "exports"], function (requ
     exports.default = DepthFunction;
 });
 
-define('davinci-eight/core/checkEnums',["require", "exports", './BeginMode', './BlendingFactorDest', './BlendingFactorSrc', './Capability', './ClearBufferMask', './DepthFunction', '../checks/mustBeEQ'], function (require, exports, BeginMode_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, ClearBufferMask_1, DepthFunction_1, mustBeEQ_1) {
+define('davinci-eight/core/Usage',["require", "exports"], function (require, exports) {
+    "use strict";
+    var Usage;
+    (function (Usage) {
+        Usage[Usage["STREAM_DRAW"] = 35040] = "STREAM_DRAW";
+        Usage[Usage["STATIC_DRAW"] = 35044] = "STATIC_DRAW";
+        Usage[Usage["DYNAMIC_DRAW"] = 35048] = "DYNAMIC_DRAW";
+    })(Usage || (Usage = {}));
+    function checkUsage(name, usage) {
+        switch (usage) {
+            case Usage.STREAM_DRAW:
+            case Usage.STATIC_DRAW:
+            case Usage.DYNAMIC_DRAW: {
+                return;
+            }
+            default: {
+                throw new Error(name + ": Usage must be one of the enumerated values.");
+            }
+        }
+    }
+    exports.checkUsage = checkUsage;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = Usage;
+});
+
+define('davinci-eight/core/checkEnums',["require", "exports", './BeginMode', './BlendingFactorDest', './BlendingFactorSrc', './Capability', './ClearBufferMask', './DepthFunction', './Usage', '../checks/mustBeEQ'], function (require, exports, BeginMode_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, ClearBufferMask_1, DepthFunction_1, Usage_1, mustBeEQ_1) {
     "use strict";
     function checkEnums(gl) {
         mustBeEQ_1.default('LINE_LOOP', BeginMode_1.default.LINE_LOOP, gl.LINE_LOOP);
@@ -6277,6 +6302,9 @@ define('davinci-eight/core/checkEnums',["require", "exports", './BeginMode', './
         mustBeEQ_1.default('LESS', DepthFunction_1.default.LESS, gl.LESS);
         mustBeEQ_1.default('NEVER', DepthFunction_1.default.NEVER, gl.NEVER);
         mustBeEQ_1.default('NOTEQUAL', DepthFunction_1.default.NOTEQUAL, gl.NOTEQUAL);
+        mustBeEQ_1.default('STREAM_DRAW', Usage_1.default.STREAM_DRAW, gl.STREAM_DRAW);
+        mustBeEQ_1.default('STATIC_DRAW', Usage_1.default.STATIC_DRAW, gl.STATIC_DRAW);
+        mustBeEQ_1.default('DYNAMIC_DRAW', Usage_1.default.DYNAMIC_DRAW, gl.DYNAMIC_DRAW);
     }
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = checkEnums;
@@ -7953,53 +7981,12 @@ define('davinci-eight/checks/mustBeUndefined',["require", "exports", '../checks/
     exports.default = default_1;
 });
 
-define('davinci-eight/core/Usage',["require", "exports"], function (require, exports) {
-    "use strict";
-    var Usage;
-    (function (Usage) {
-        Usage[Usage["STATIC_DRAW"] = 0] = "STATIC_DRAW";
-        Usage[Usage["DYNAMIC_DRAW"] = 1] = "DYNAMIC_DRAW";
-    })(Usage || (Usage = {}));
-    function checkUsage(name, usage) {
-        switch (usage) {
-            case Usage.STATIC_DRAW:
-            case Usage.DYNAMIC_DRAW: {
-                return;
-            }
-            default: {
-                throw new Error(name + ": Usage must be one of the enumerated values.");
-            }
-        }
-    }
-    exports.checkUsage = checkUsage;
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = Usage;
-});
-
-define('davinci-eight/core/usageToGL',["require", "exports", './Usage'], function (require, exports, Usage_1) {
-    "use strict";
-    function default_1(usage, gl) {
-        if (gl) {
-            switch (usage) {
-                case Usage_1.default.STATIC_DRAW:
-                    return gl.STATIC_DRAW;
-                case Usage_1.default.DYNAMIC_DRAW:
-                    return gl.DYNAMIC_DRAW;
-                default:
-                    throw new Error("Unexpected usage: " + usage);
-            }
-        }
-    }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = default_1;
-});
-
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/VertexBuffer',["require", "exports", '../checks/mustBeObject', '../checks/mustBeUndefined', './ShareableContextConsumer', './Usage', './Usage', './usageToGL'], function (require, exports, mustBeObject_1, mustBeUndefined_1, ShareableContextConsumer_1, Usage_1, Usage_2, usageToGL_1) {
+define('davinci-eight/core/VertexBuffer',["require", "exports", '../checks/mustBeObject', '../checks/mustBeUndefined', './ShareableContextConsumer', './Usage', './Usage'], function (require, exports, mustBeObject_1, mustBeUndefined_1, ShareableContextConsumer_1, Usage_1, Usage_2) {
     "use strict";
     var VertexBuffer = (function (_super) {
         __extends(VertexBuffer, _super);
@@ -8032,7 +8019,6 @@ define('davinci-eight/core/VertexBuffer',["require", "exports", '../checks/mustB
             set: function (usage) {
                 Usage_1.checkUsage('usage', usage);
                 this._usage = usage;
-                this.usageGL = usageToGL_1.default(this._usage, this.gl);
                 this.bufferData();
             },
             enumerable: true,
@@ -8044,7 +8030,7 @@ define('davinci-eight/core/VertexBuffer',["require", "exports", '../checks/mustB
                 if (this.webGLBuffer) {
                     gl.bindBuffer(gl.ARRAY_BUFFER, this.webGLBuffer);
                     if (this._data) {
-                        gl.bufferData(gl.ARRAY_BUFFER, this._data, this.usageGL);
+                        gl.bufferData(gl.ARRAY_BUFFER, this._data, this._usage);
                     }
                     gl.bindBuffer(gl.ARRAY_BUFFER, null);
                 }
@@ -8071,7 +8057,6 @@ define('davinci-eight/core/VertexBuffer',["require", "exports", '../checks/mustB
             var gl = this.gl;
             if (!this.webGLBuffer) {
                 this.webGLBuffer = gl.createBuffer();
-                this.usageGL = usageToGL_1.default(this._usage, gl);
                 this.bufferData();
             }
             else {
@@ -8312,7 +8297,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/IndexBuffer',["require", "exports", '../checks/mustBeObject', '../checks/mustBeUndefined', './ShareableContextConsumer', './Usage', './Usage', './usageToGL'], function (require, exports, mustBeObject_1, mustBeUndefined_1, ShareableContextConsumer_1, Usage_1, Usage_2, usageToGL_1) {
+define('davinci-eight/core/IndexBuffer',["require", "exports", '../checks/mustBeObject', '../checks/mustBeUndefined', './ShareableContextConsumer', './Usage', './Usage'], function (require, exports, mustBeObject_1, mustBeUndefined_1, ShareableContextConsumer_1, Usage_1, Usage_2) {
     "use strict";
     var IndexBuffer = (function (_super) {
         __extends(IndexBuffer, _super);
@@ -8345,7 +8330,6 @@ define('davinci-eight/core/IndexBuffer',["require", "exports", '../checks/mustBe
             set: function (usage) {
                 Usage_1.checkUsage('usage', usage);
                 this._usage = usage;
-                this.usageGL = usageToGL_1.default(this._usage, this.gl);
                 this.bufferData();
             },
             enumerable: true,
@@ -8357,7 +8341,7 @@ define('davinci-eight/core/IndexBuffer',["require", "exports", '../checks/mustBe
                 if (this.webGLBuffer) {
                     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.webGLBuffer);
                     if (this.data) {
-                        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, this.data, this.usageGL);
+                        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, this.data, this._usage);
                     }
                     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
                 }
@@ -8384,7 +8368,6 @@ define('davinci-eight/core/IndexBuffer',["require", "exports", '../checks/mustBe
             var gl = this.gl;
             if (!this.webGLBuffer) {
                 this.webGLBuffer = gl.createBuffer();
-                this.usageGL = usageToGL_1.default(this._usage, gl);
                 this.bufferData();
             }
             else {

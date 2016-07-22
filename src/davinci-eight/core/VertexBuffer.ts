@@ -6,7 +6,6 @@ import mustBeUndefined from '../checks/mustBeUndefined';
 import {ShareableContextConsumer} from './ShareableContextConsumer';
 import {checkUsage} from './Usage';
 import Usage from './Usage';
-import usageToGL from './usageToGL';
 
 /**
  * A wrapper around a WebGLBuffer with binding to ARRAY_BUFFER.
@@ -16,7 +15,6 @@ export default class VertexBuffer extends ShareableContextConsumer implements Da
     private webGLBuffer: WebGLBuffer;
     private _data: Float32Array;
     public _usage = Usage.STATIC_DRAW;
-    private usageGL: number;
 
     constructor(engine: Engine) {
         super(engine);
@@ -44,7 +42,6 @@ export default class VertexBuffer extends ShareableContextConsumer implements Da
     set usage(usage: Usage) {
         checkUsage('usage', usage);
         this._usage = usage;
-        this.usageGL = usageToGL(this._usage, this.gl);
         this.bufferData();
     }
 
@@ -54,7 +51,7 @@ export default class VertexBuffer extends ShareableContextConsumer implements Da
             if (this.webGLBuffer) {
                 gl.bindBuffer(gl.ARRAY_BUFFER, this.webGLBuffer)
                 if (this._data) {
-                    gl.bufferData(gl.ARRAY_BUFFER, this._data, this.usageGL);
+                    gl.bufferData(gl.ARRAY_BUFFER, this._data, this._usage);
                 }
                 gl.bindBuffer(gl.ARRAY_BUFFER, null)
             }
@@ -84,7 +81,6 @@ export default class VertexBuffer extends ShareableContextConsumer implements Da
         const gl = this.gl
         if (!this.webGLBuffer) {
             this.webGLBuffer = gl.createBuffer();
-            this.usageGL = usageToGL(this._usage, gl);
             this.bufferData();
         }
         else {

@@ -158,8 +158,21 @@ declare module EIGHT {
     }
 
     enum Usage {
-        STATIC_DRAW,
-        DYNAMIC_DRAW
+        /**
+         * Contents of the buffer are likely to not be used often.
+         * Contents are written to the buffer, but not read.
+         */
+        STREAM_DRAW = 0x88E0,
+        /**
+         * Contents of the buffer are likely to be used often and not change often.
+         * Contents are written to the buffer, but not read.
+         */
+        STATIC_DRAW = 0x88E4,
+        /**
+         * Contents of the buffer are likely to be used often and change often.
+         * Contents are written to the buffer, but not read.
+         */
+        DYNAMIC_DRAW = 0x88E8
     }
 
     /**

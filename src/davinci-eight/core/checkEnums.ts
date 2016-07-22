@@ -4,6 +4,7 @@ import BlendingFactorSrc from  './BlendingFactorSrc';
 import Capability from './Capability';
 import ClearBufferMask from './ClearBufferMask';
 import DepthFunction from './DepthFunction';
+import Usage from './Usage';
 import mustBeEQ from '../checks/mustBeEQ';
 
 /**
@@ -66,4 +67,9 @@ export default function checkEnums(gl: WebGLRenderingContext): void {
     mustBeEQ('LESS', DepthFunction.LESS, gl.LESS);
     mustBeEQ('NEVER', DepthFunction.NEVER, gl.NEVER);
     mustBeEQ('NOTEQUAL', DepthFunction.NOTEQUAL, gl.NOTEQUAL);
+
+    // Usage
+    mustBeEQ('STREAM_DRAW', Usage.STREAM_DRAW, gl.STREAM_DRAW);
+    mustBeEQ('STATIC_DRAW', Usage.STATIC_DRAW, gl.STATIC_DRAW);
+    mustBeEQ('DYNAMIC_DRAW', Usage.DYNAMIC_DRAW, gl.DYNAMIC_DRAW);
 }

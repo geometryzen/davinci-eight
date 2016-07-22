@@ -6,7 +6,6 @@ import mustBeUndefined from '../checks/mustBeUndefined';
 import {ShareableContextConsumer} from './ShareableContextConsumer';
 import {checkUsage} from './Usage';
 import Usage from './Usage';
-import usageToGL from './usageToGL';
 
 /**
  * A wrapper around a WebGLBuffer with binding to ELEMENT_ARRAY_BUFFER.
@@ -16,7 +15,6 @@ export default class IndexBuffer extends ShareableContextConsumer implements Dat
     private webGLBuffer: WebGLBuffer;
     private _data: Uint16Array;
     private _usage = Usage.STATIC_DRAW;
-    private usageGL: number;
 
     constructor(engine: Engine) {
         super(engine);
@@ -44,7 +42,6 @@ export default class IndexBuffer extends ShareableContextConsumer implements Dat
     set usage(usage: Usage) {
         checkUsage('usage', usage);
         this._usage = usage;
-        this.usageGL = usageToGL(this._usage, this.gl);
         this.bufferData();
     }
 
@@ -54,7 +51,7 @@ export default class IndexBuffer extends ShareableContextConsumer implements Dat
             if (this.webGLBuffer) {
                 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.webGLBuffer)
                 if (this.data) {
-                    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, this.data, this.usageGL);
+                    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, this.data, this._usage);
                 }
                 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
             }
@@ -84,7 +81,6 @@ export default class IndexBuffer extends ShareableContextConsumer implements Dat
         const gl = this.gl
         if (!this.webGLBuffer) {
             this.webGLBuffer = gl.createBuffer();
-            this.usageGL = usageToGL(this._usage, gl);
             this.bufferData();
         }
         else {
