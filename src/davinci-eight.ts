@@ -31,6 +31,8 @@ import GraphicsProgramSymbols from './davinci-eight/core/GraphicsProgramSymbols'
 import {Facet} from './davinci-eight/core/Facet';
 import {FacetVisitor} from './davinci-eight/core/FacetVisitor';
 import {Mesh} from './davinci-eight/core/Mesh';
+import PixelFormat from './davinci-eight/core/PixelFormat';
+import PixelType from './davinci-eight/core/PixelType';
 import {Scene} from './davinci-eight/core/Scene';
 import Shader from './davinci-eight/core/Shader';
 import Uniform from './davinci-eight/core/Uniform';
@@ -232,6 +234,8 @@ const eight = {
     get ClearBufferMask() { return ClearBufferMask },
     get DataType() { return DataType },
     get DrawMode() { return BeginMode },
+    get PixelFormat() { return PixelFormat },
+    get PixelType() { return PixelType },
     get Usage() { return Usage },
     get Attrib() { return Attrib },
     get Uniform() { return Uniform },
