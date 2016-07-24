@@ -543,9 +543,9 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
     var Eight = (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-07-22';
+            this.LAST_MODIFIED = '2016-07-24';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.278.0';
+            this.VERSION = '2.279.0';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -6213,702 +6213,20 @@ define('davinci-eight/core/cleanUp',["require", "exports"], function (require, e
     exports.default = cleanUp;
 });
 
-define('davinci-eight/core/DepthFunction',["require", "exports"], function (require, exports) {
-    "use strict";
-    var DepthFunction;
-    (function (DepthFunction) {
-        DepthFunction[DepthFunction["NEVER"] = 512] = "NEVER";
-        DepthFunction[DepthFunction["LESS"] = 513] = "LESS";
-        DepthFunction[DepthFunction["EQUAL"] = 514] = "EQUAL";
-        DepthFunction[DepthFunction["LEQUAL"] = 515] = "LEQUAL";
-        DepthFunction[DepthFunction["GREATER"] = 516] = "GREATER";
-        DepthFunction[DepthFunction["NOTEQUAL"] = 517] = "NOTEQUAL";
-        DepthFunction[DepthFunction["GEQUAL"] = 518] = "GEQUAL";
-        DepthFunction[DepthFunction["ALWAYS"] = 519] = "ALWAYS";
-    })(DepthFunction || (DepthFunction = {}));
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = DepthFunction;
-});
-
-define('davinci-eight/core/PixelFormat',["require", "exports"], function (require, exports) {
-    "use strict";
-    var PixelFormat;
-    (function (PixelFormat) {
-        PixelFormat[PixelFormat["DEPTH_COMPONENT"] = 6402] = "DEPTH_COMPONENT";
-        PixelFormat[PixelFormat["ALPHA"] = 6406] = "ALPHA";
-        PixelFormat[PixelFormat["RGB"] = 6407] = "RGB";
-        PixelFormat[PixelFormat["RGBA"] = 6408] = "RGBA";
-        PixelFormat[PixelFormat["LUMINANCE"] = 6409] = "LUMINANCE";
-        PixelFormat[PixelFormat["LUMINANCE_ALPHA"] = 6410] = "LUMINANCE_ALPHA";
-    })(PixelFormat || (PixelFormat = {}));
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = PixelFormat;
-});
-
-define('davinci-eight/core/PixelType',["require", "exports"], function (require, exports) {
-    "use strict";
-    var PixelType;
-    (function (PixelType) {
-        PixelType[PixelType["UNSIGNED_BYTE"] = 5121] = "UNSIGNED_BYTE";
-        PixelType[PixelType["UNSIGNED_SHORT_4_4_4_4"] = 32819] = "UNSIGNED_SHORT_4_4_4_4";
-        PixelType[PixelType["UNSIGNED_SHORT_5_5_5_1"] = 32820] = "UNSIGNED_SHORT_5_5_5_1";
-        PixelType[PixelType["UNSIGNED_SHORT_5_6_5"] = 33635] = "UNSIGNED_SHORT_5_6_5";
-    })(PixelType || (PixelType = {}));
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = PixelType;
-});
-
-define('davinci-eight/core/Usage',["require", "exports"], function (require, exports) {
-    "use strict";
-    var Usage;
-    (function (Usage) {
-        Usage[Usage["STREAM_DRAW"] = 35040] = "STREAM_DRAW";
-        Usage[Usage["STATIC_DRAW"] = 35044] = "STATIC_DRAW";
-        Usage[Usage["DYNAMIC_DRAW"] = 35048] = "DYNAMIC_DRAW";
-    })(Usage || (Usage = {}));
-    function checkUsage(name, usage) {
-        switch (usage) {
-            case Usage.STREAM_DRAW:
-            case Usage.STATIC_DRAW:
-            case Usage.DYNAMIC_DRAW: {
-                return;
-            }
-            default: {
-                throw new Error(name + ": Usage must be one of the enumerated values.");
-            }
-        }
-    }
-    exports.checkUsage = checkUsage;
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = Usage;
-});
-
-define('davinci-eight/core/checkEnums',["require", "exports", './BeginMode', './BlendingFactorDest', './BlendingFactorSrc', './Capability', './ClearBufferMask', './DepthFunction', './PixelFormat', './PixelType', './Usage', '../checks/mustBeEQ'], function (require, exports, BeginMode_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, ClearBufferMask_1, DepthFunction_1, PixelFormat_1, PixelType_1, Usage_1, mustBeEQ_1) {
-    "use strict";
-    function checkEnums(gl) {
-        mustBeEQ_1.default('LINE_LOOP', BeginMode_1.default.LINE_LOOP, gl.LINE_LOOP);
-        mustBeEQ_1.default('LINE_STRIP', BeginMode_1.default.LINE_STRIP, gl.LINE_STRIP);
-        mustBeEQ_1.default('LINES', BeginMode_1.default.LINES, gl.LINES);
-        mustBeEQ_1.default('POINTS', BeginMode_1.default.POINTS, gl.POINTS);
-        mustBeEQ_1.default('TRIANGLE_FAN', BeginMode_1.default.TRIANGLE_FAN, gl.TRIANGLE_FAN);
-        mustBeEQ_1.default('TRIANGLE_STRIP', BeginMode_1.default.TRIANGLE_STRIP, gl.TRIANGLE_STRIP);
-        mustBeEQ_1.default('TRIANGLES', BeginMode_1.default.TRIANGLES, gl.TRIANGLES);
-        mustBeEQ_1.default('ZERO', BlendingFactorDest_1.default.ZERO, gl.ZERO);
-        mustBeEQ_1.default('ONE', BlendingFactorDest_1.default.ONE, gl.ONE);
-        mustBeEQ_1.default('SRC_COLOR', BlendingFactorDest_1.default.SRC_COLOR, gl.SRC_COLOR);
-        mustBeEQ_1.default('ONE_MINUS_SRC_COLOR', BlendingFactorDest_1.default.ONE_MINUS_SRC_COLOR, gl.ONE_MINUS_SRC_COLOR);
-        mustBeEQ_1.default('SRC_ALPHA', BlendingFactorDest_1.default.SRC_ALPHA, gl.SRC_ALPHA);
-        mustBeEQ_1.default('ONE_MINUS_SRC_ALPHA', BlendingFactorDest_1.default.ONE_MINUS_SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-        mustBeEQ_1.default('DST_ALPHA', BlendingFactorDest_1.default.DST_ALPHA, gl.DST_ALPHA);
-        mustBeEQ_1.default('ONE_MINUS_DST_ALPHA', BlendingFactorDest_1.default.ONE_MINUS_DST_ALPHA, gl.ONE_MINUS_DST_ALPHA);
-        mustBeEQ_1.default('ZERO', BlendingFactorSrc_1.default.ZERO, gl.ZERO);
-        mustBeEQ_1.default('ONE', BlendingFactorSrc_1.default.ONE, gl.ONE);
-        mustBeEQ_1.default('DST_COLOR', BlendingFactorSrc_1.default.DST_COLOR, gl.DST_COLOR);
-        mustBeEQ_1.default('ONE_MINUS_DST_COLOR', BlendingFactorSrc_1.default.ONE_MINUS_DST_COLOR, gl.ONE_MINUS_DST_COLOR);
-        mustBeEQ_1.default('SRC_ALPHA_SATURATE', BlendingFactorSrc_1.default.SRC_ALPHA_SATURATE, gl.SRC_ALPHA_SATURATE);
-        mustBeEQ_1.default('SRC_ALPHA', BlendingFactorSrc_1.default.SRC_ALPHA, gl.SRC_ALPHA);
-        mustBeEQ_1.default('ONE_MINUS_SRC_ALPHA', BlendingFactorSrc_1.default.ONE_MINUS_SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-        mustBeEQ_1.default('DST_ALPHA', BlendingFactorSrc_1.default.DST_ALPHA, gl.DST_ALPHA);
-        mustBeEQ_1.default('ONE_MINUS_DST_ALPHA', BlendingFactorSrc_1.default.ONE_MINUS_DST_ALPHA, gl.ONE_MINUS_DST_ALPHA);
-        mustBeEQ_1.default('CULL_FACE', Capability_1.default.CULL_FACE, gl.CULL_FACE);
-        mustBeEQ_1.default('BLEND', Capability_1.default.BLEND, gl.BLEND);
-        mustBeEQ_1.default('DITHER', Capability_1.default.DITHER, gl.DITHER);
-        mustBeEQ_1.default('STENCIL_TEST', Capability_1.default.STENCIL_TEST, gl.STENCIL_TEST);
-        mustBeEQ_1.default('DEPTH_TEST', Capability_1.default.DEPTH_TEST, gl.DEPTH_TEST);
-        mustBeEQ_1.default('SCISSOR_TEST', Capability_1.default.SCISSOR_TEST, gl.SCISSOR_TEST);
-        mustBeEQ_1.default('POLYGON_OFFSET_FILL', Capability_1.default.POLYGON_OFFSET_FILL, gl.POLYGON_OFFSET_FILL);
-        mustBeEQ_1.default('SAMPLE_ALPHA_TO_COVERAGE', Capability_1.default.SAMPLE_ALPHA_TO_COVERAGE, gl.SAMPLE_ALPHA_TO_COVERAGE);
-        mustBeEQ_1.default('SAMPLE_COVERAGE', Capability_1.default.SAMPLE_COVERAGE, gl.SAMPLE_COVERAGE);
-        mustBeEQ_1.default('COLOR_BUFFER_BIT', ClearBufferMask_1.default.COLOR_BUFFER_BIT, gl.COLOR_BUFFER_BIT);
-        mustBeEQ_1.default('DEPTH_BUFFER_BIT', ClearBufferMask_1.default.DEPTH_BUFFER_BIT, gl.DEPTH_BUFFER_BIT);
-        mustBeEQ_1.default('STENCIL_BUFFER_BIT', ClearBufferMask_1.default.STENCIL_BUFFER_BIT, gl.STENCIL_BUFFER_BIT);
-        mustBeEQ_1.default('ALWAYS', DepthFunction_1.default.ALWAYS, gl.ALWAYS);
-        mustBeEQ_1.default('EQUAL', DepthFunction_1.default.EQUAL, gl.EQUAL);
-        mustBeEQ_1.default('GEQUAL', DepthFunction_1.default.GEQUAL, gl.GEQUAL);
-        mustBeEQ_1.default('GREATER', DepthFunction_1.default.GREATER, gl.GREATER);
-        mustBeEQ_1.default('LEQUAL', DepthFunction_1.default.LEQUAL, gl.LEQUAL);
-        mustBeEQ_1.default('LESS', DepthFunction_1.default.LESS, gl.LESS);
-        mustBeEQ_1.default('NEVER', DepthFunction_1.default.NEVER, gl.NEVER);
-        mustBeEQ_1.default('NOTEQUAL', DepthFunction_1.default.NOTEQUAL, gl.NOTEQUAL);
-        mustBeEQ_1.default('DEPTH_COMPONENT', PixelFormat_1.default.DEPTH_COMPONENT, gl.DEPTH_COMPONENT);
-        mustBeEQ_1.default('ALPHA', PixelFormat_1.default.ALPHA, gl.ALPHA);
-        mustBeEQ_1.default('RGB', PixelFormat_1.default.RGB, gl.RGB);
-        mustBeEQ_1.default('RGBA', PixelFormat_1.default.RGBA, gl.RGBA);
-        mustBeEQ_1.default('LUMINANCE', PixelFormat_1.default.LUMINANCE, gl.LUMINANCE);
-        mustBeEQ_1.default('LUMINANCE_ALPHA', PixelFormat_1.default.LUMINANCE_ALPHA, gl.LUMINANCE_ALPHA);
-        mustBeEQ_1.default('UNSIGNED_BYTE', PixelType_1.default.UNSIGNED_BYTE, gl.UNSIGNED_BYTE);
-        mustBeEQ_1.default('UNSIGNED_SHORT_4_4_4_4', PixelType_1.default.UNSIGNED_SHORT_4_4_4_4, gl.UNSIGNED_SHORT_4_4_4_4);
-        mustBeEQ_1.default('UNSIGNED_SHORT_5_5_5_1', PixelType_1.default.UNSIGNED_SHORT_5_5_5_1, gl.UNSIGNED_SHORT_5_5_5_1);
-        mustBeEQ_1.default('UNSIGNED_SHORT_5_6_5', PixelType_1.default.UNSIGNED_SHORT_5_6_5, gl.UNSIGNED_SHORT_5_6_5);
-        mustBeEQ_1.default('STREAM_DRAW', Usage_1.default.STREAM_DRAW, gl.STREAM_DRAW);
-        mustBeEQ_1.default('STATIC_DRAW', Usage_1.default.STATIC_DRAW, gl.STATIC_DRAW);
-        mustBeEQ_1.default('DYNAMIC_DRAW', Usage_1.default.DYNAMIC_DRAW, gl.DYNAMIC_DRAW);
-    }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = checkEnums;
-});
-
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/commands/EIGHTLogger',["require", "exports", '../config', '../core/ShareableBase'], function (require, exports, config_1, ShareableBase_1) {
-    "use strict";
-    var EIGHTLogger = (function (_super) {
-        __extends(EIGHTLogger, _super);
-        function EIGHTLogger() {
-            _super.call(this);
-            this.setLoggingName('EIGHTLogger');
-        }
-        EIGHTLogger.prototype.destructor = function (levelUp) {
-            _super.prototype.destructor.call(this, levelUp + 1);
-        };
-        EIGHTLogger.prototype.contextFree = function (contextProvider) {
-        };
-        EIGHTLogger.prototype.contextGain = function (contextProvider) {
-            console.log(config_1.default.NAMESPACE + " " + config_1.default.VERSION + " (" + config_1.default.GITHUB + ") " + config_1.default.LAST_MODIFIED);
-        };
-        EIGHTLogger.prototype.contextLost = function () {
-        };
-        Object.defineProperty(EIGHTLogger.prototype, "name", {
-            get: function () {
-                return this._type;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return EIGHTLogger;
-    }(ShareableBase_1.ShareableBase));
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = EIGHTLogger;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/base/DefaultContextProvider',["require", "exports", '../core/DataType', '../i18n/readOnly', '../core/ShareableBase'], function (require, exports, DataType_1, readOnly_1, ShareableBase_1) {
-    "use strict";
-    var DefaultContextProvider = (function (_super) {
-        __extends(DefaultContextProvider, _super);
-        function DefaultContextProvider(engine) {
-            _super.call(this);
-            this.setLoggingName('DefaultContextProvider');
-            this.engine = engine;
-        }
-        DefaultContextProvider.prototype.destructor = function (levelUp) {
-            this.engine = void 0;
-            _super.prototype.destructor.call(this, levelUp + 1);
-        };
-        Object.defineProperty(DefaultContextProvider.prototype, "gl", {
-            get: function () {
-                if (this.engine) {
-                    return this.engine.gl;
-                }
-                else {
-                    throw new Error(this._type + ".engine is undefined.");
-                }
-            },
-            set: function (unused) {
-                throw new Error(readOnly_1.default('gl').message);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        DefaultContextProvider.prototype.disableVertexAttribArray = function (index) {
-            var gl = this.gl;
-            if (gl) {
-                gl.disableVertexAttribArray(index);
-            }
-        };
-        DefaultContextProvider.prototype.drawArrays = function (mode, first, count) {
-            var gl = this.gl;
-            gl.drawArrays(mode, first, count);
-        };
-        DefaultContextProvider.prototype.drawElements = function (mode, count, offset) {
-            var gl = this.gl;
-            gl.drawElements(mode, count, DataType_1.default.UNSIGNED_SHORT, offset);
-        };
-        DefaultContextProvider.prototype.enableVertexAttribArray = function (index) {
-            var gl = this.gl;
-            gl.enableVertexAttribArray(index);
-        };
-        DefaultContextProvider.prototype.isContextLost = function () {
-            var gl = this.gl;
-            if (gl) {
-                return gl.isContextLost();
-            }
-            else {
-                throw new Error("WebGLRenderingContext is undefined.");
-            }
-        };
-        DefaultContextProvider.prototype.vertexAttribPointer = function (index, size, type, normalized, stride, offset) {
-            var gl = this.gl;
-            gl.vertexAttribPointer(index, size, type, normalized, stride, offset);
-        };
-        return DefaultContextProvider;
-    }(ShareableBase_1.ShareableBase));
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = DefaultContextProvider;
-});
-
-define('davinci-eight/core/initWebGL',["require", "exports", '../checks/isDefined'], function (require, exports, isDefined_1) {
-    "use strict";
-    function initWebGL(canvas, attributes) {
-        if (isDefined_1.default(canvas)) {
-            var context;
-            try {
-                context = (canvas.getContext('webgl', attributes) || canvas.getContext('experimental-webgl', attributes));
-            }
-            catch (e) {
-            }
-            if (context) {
-                return context;
-            }
-            else {
-                throw new Error("Unable to initialize WebGL. Your browser may not support it.");
-            }
-        }
-        else {
-            return void 0;
-        }
-    }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = initWebGL;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/collections/ShareableArray',["require", "exports", '../i18n/readOnly', '../core/ShareableBase'], function (require, exports, readOnly_1, ShareableBase_1) {
-    "use strict";
-    function transferOwnership(data) {
-        if (data) {
-            var result = new ShareableArray(data);
-            for (var i = 0, iLength = data.length; i < iLength; i++) {
-                var element = data[i];
-                if (element) {
-                    element.release();
-                }
-            }
-            return result;
-        }
-        else {
-            return void 0;
-        }
-    }
-    var ShareableArray = (function (_super) {
-        __extends(ShareableArray, _super);
-        function ShareableArray(elements) {
-            if (elements === void 0) { elements = []; }
-            _super.call(this);
-            this.setLoggingName('ShareableArray');
-            this._elements = elements;
-            for (var i = 0, l = this._elements.length; i < l; i++) {
-                this._elements[i].addRef();
-            }
-        }
-        ShareableArray.prototype.destructor = function (levelUp) {
-            for (var i = 0, l = this._elements.length; i < l; i++) {
-                this._elements[i].release();
-            }
-            this._elements = void 0;
-            _super.prototype.destructor.call(this, levelUp + 1);
-        };
-        ShareableArray.prototype.find = function (match) {
-            var result = new ShareableArray([]);
-            var elements = this._elements;
-            var iLen = elements.length;
-            for (var i = 0; i < iLen; i++) {
-                var candidate = elements[i];
-                if (match(candidate)) {
-                    result.push(candidate);
-                }
-            }
-            return result;
-        };
-        ShareableArray.prototype.findOne = function (match) {
-            var elements = this._elements;
-            for (var i = 0, iLength = elements.length; i < iLength; i++) {
-                var candidate = elements[i];
-                if (match(candidate)) {
-                    candidate.addRef();
-                    return candidate;
-                }
-            }
-            return void 0;
-        };
-        ShareableArray.prototype.get = function (index) {
-            var element = this.getWeakRef(index);
-            if (element) {
-                element.addRef();
-            }
-            return element;
-        };
-        ShareableArray.prototype.getWeakRef = function (index) {
-            return this._elements[index];
-        };
-        ShareableArray.prototype.indexOf = function (searchElement, fromIndex) {
-            return this._elements.indexOf(searchElement, fromIndex);
-        };
-        Object.defineProperty(ShareableArray.prototype, "length", {
-            get: function () {
-                if (this._elements) {
-                    return this._elements.length;
-                }
-                else {
-                    console.warn("ShareableArray is now a zombie, length is undefined");
-                    return void 0;
-                }
-            },
-            set: function (unused) {
-                throw new Error(readOnly_1.default('length').message);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        ShareableArray.prototype.slice = function (begin, end) {
-            return new ShareableArray(this._elements.slice(begin, end));
-        };
-        ShareableArray.prototype.splice = function (index, deleteCount) {
-            return transferOwnership(this._elements.splice(index, deleteCount));
-        };
-        ShareableArray.prototype.shift = function () {
-            return this._elements.shift();
-        };
-        ShareableArray.prototype.forEach = function (callback) {
-            return this._elements.forEach(callback);
-        };
-        ShareableArray.prototype.push = function (element) {
-            if (element) {
-                element.addRef();
-            }
-            return this.pushWeakRef(element);
-        };
-        ShareableArray.prototype.pushWeakRef = function (element) {
-            return this._elements.push(element);
-        };
-        ShareableArray.prototype.pop = function () {
-            return this._elements.pop();
-        };
-        ShareableArray.prototype.unshift = function (element) {
-            element.addRef();
-            return this.unshiftWeakRef(element);
-        };
-        ShareableArray.prototype.unshiftWeakRef = function (element) {
-            return this._elements.unshift(element);
-        };
-        return ShareableArray;
-    }(ShareableBase_1.ShareableBase));
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = ShareableArray;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/commands/VersionLogger',["require", "exports", '../core/ShareableBase'], function (require, exports, ShareableBase_1) {
-    "use strict";
-    var QUALIFIED_NAME = 'EIGHT.VersionLogger';
-    var VersionLogger = (function (_super) {
-        __extends(VersionLogger, _super);
-        function VersionLogger() {
-            _super.call(this);
-            this.setLoggingName(QUALIFIED_NAME);
-        }
-        VersionLogger.prototype.destructor = function (levelUp) {
-            _super.prototype.destructor.call(this, levelUp + 1);
-        };
-        VersionLogger.prototype.contextFree = function () {
-        };
-        VersionLogger.prototype.contextGain = function (manager) {
-            var gl = manager.gl;
-            console.log(gl.getParameter(gl.VERSION));
-        };
-        VersionLogger.prototype.contextLost = function () {
-        };
-        Object.defineProperty(VersionLogger.prototype, "name", {
-            get: function () {
-                return QUALIFIED_NAME;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return VersionLogger;
-    }(ShareableBase_1.ShareableBase));
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = VersionLogger;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/core/Engine',["require", "exports", './checkEnums', './ClearBufferMask', '../commands/EIGHTLogger', '../base/DefaultContextProvider', './initWebGL', '../checks/isDefined', '../checks/mustBeObject', '../collections/ShareableArray', './ShareableBase', '../commands/VersionLogger', '../commands/WebGLClearColor', '../commands/WebGLEnable', '../commands/WebGLDisable'], function (require, exports, checkEnums_1, ClearBufferMask_1, EIGHTLogger_1, DefaultContextProvider_1, initWebGL_1, isDefined_1, mustBeObject_1, ShareableArray_1, ShareableBase_1, VersionLogger_1, WebGLClearColor_1, WebGLEnable_1, WebGLDisable_1) {
-    "use strict";
-    var Engine = (function (_super) {
-        __extends(Engine, _super);
-        function Engine(attributes) {
-            var _this = this;
-            _super.call(this);
-            this._users = [];
-            this._commands = new ShareableArray_1.default([]);
-            this.setLoggingName('Engine');
-            this._attributes = attributes;
-            this._commands.pushWeakRef(new EIGHTLogger_1.default());
-            this._commands.pushWeakRef(new VersionLogger_1.default());
-            this._contextProvider = new DefaultContextProvider_1.default(this);
-            this._webGLContextLost = function (event) {
-                if (isDefined_1.default(_this._gl)) {
-                    event.preventDefault();
-                    _this._gl = void 0;
-                    _this._users.forEach(function (user) {
-                        user.contextLost();
-                    });
-                }
-            };
-            this._webGLContextRestored = function (event) {
-                if (isDefined_1.default(_this._gl)) {
-                    event.preventDefault();
-                    _this._gl = initWebGL_1.default(_this._gl.canvas, attributes);
-                    _this._users.forEach(function (user) {
-                        user.contextGain(_this._contextProvider);
-                    });
-                }
-            };
-        }
-        Engine.prototype.destructor = function (levelUp) {
-            this.stop();
-            this._contextProvider.release();
-            while (this._users.length > 0) {
-                this._users.pop();
-            }
-            this._commands.release();
-            _super.prototype.destructor.call(this, levelUp + 1);
-        };
-        Engine.prototype.addContextListener = function (user) {
-            mustBeObject_1.default('user', user);
-            var index = this._users.indexOf(user);
-            if (index < 0) {
-                this._users.push(user);
-            }
-            else {
-                console.warn("user already exists for addContextListener");
-            }
-        };
-        Object.defineProperty(Engine.prototype, "canvas", {
-            get: function () {
-                if (this._gl) {
-                    return this._gl.canvas;
-                }
-                else {
-                    return void 0;
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Engine.prototype.clearColor = function (red, green, blue, alpha) {
-            this._commands.pushWeakRef(new WebGLClearColor_1.WebGLClearColor(red, green, blue, alpha));
-            var gl = this._gl;
-            if (gl) {
-                gl.clearColor(red, green, blue, alpha);
-            }
-            return this;
-        };
-        Engine.prototype.disable = function (capability) {
-            this._commands.pushWeakRef(new WebGLDisable_1.WebGLDisable(capability));
-            if (this._gl) {
-                this._gl.disable(capability);
-            }
-            return this;
-        };
-        Engine.prototype.enable = function (capability) {
-            this._commands.pushWeakRef(new WebGLEnable_1.WebGLEnable(capability));
-            if (this._gl) {
-                this._gl.enable(capability);
-            }
-            return this;
-        };
-        Object.defineProperty(Engine.prototype, "gl", {
-            get: function () {
-                if (this._gl) {
-                    return this._gl;
-                }
-                else {
-                    return void 0;
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Engine.prototype.readPixels = function (x, y, width, height, format, type, pixels) {
-            if (this._gl) {
-                this._gl.readPixels(x, y, width, height, format, type, pixels);
-            }
-        };
-        Engine.prototype.removeContextListener = function (user) {
-            mustBeObject_1.default('user', user);
-            var index = this._users.indexOf(user);
-            if (index >= 0) {
-                this._users.splice(index, 1);
-            }
-        };
-        Engine.prototype.blendFunc = function (sfactor, dfactor) {
-            var gl = this._gl;
-            if (gl) {
-                gl.blendFunc(sfactor, dfactor);
-            }
-        };
-        Engine.prototype.clear = function (mask) {
-            if (mask === void 0) { mask = ClearBufferMask_1.default.COLOR_BUFFER_BIT | ClearBufferMask_1.default.DEPTH_BUFFER_BIT; }
-            var gl = this._gl;
-            if (gl) {
-                gl.clear(mask);
-            }
-        };
-        Engine.prototype.depthFunc = function (func) {
-            var gl = this._gl;
-            if (gl) {
-                gl.depthFunc(func);
-            }
-        };
-        Engine.prototype.getMaxViewportDims = function () {
-            var gl = this._gl;
-            if (gl) {
-                return gl.getParameter(gl.MAX_VIEWPORT_DIMS);
-            }
-            else {
-                return void 0;
-            }
-        };
-        Engine.prototype.getViewport = function () {
-            var gl = this._gl;
-            if (gl) {
-                return gl.getParameter(gl.VIEWPORT);
-            }
-            else {
-                return void 0;
-            }
-        };
-        Engine.prototype.viewport = function (x, y, width, height) {
-            var gl = this._gl;
-            if (gl) {
-                gl.viewport(x, y, width, height);
-            }
-            return this;
-        };
-        Engine.prototype.start = function (canvas, doc) {
-            if (doc === void 0) { doc = window.document; }
-            if (typeof canvas === 'string') {
-                var canvasElement = doc.getElementById(canvas);
-                if (canvasElement) {
-                    return this.start(canvasElement, doc);
-                }
-                else {
-                    throw new Error("canvas argument must be a canvas element id or an HTMLCanvasElement.");
-                }
-            }
-            else if (canvas instanceof HTMLCanvasElement) {
-                if (isDefined_1.default(this._gl)) {
-                    console.warn(this._type + " Ignoring start() because already started.");
-                    return;
-                }
-                else {
-                    this._gl = initWebGL_1.default(canvas, this._attributes);
-                    checkEnums_1.default(this._gl);
-                    this.emitStartEvent();
-                    canvas.addEventListener('webglcontextlost', this._webGLContextLost, false);
-                    canvas.addEventListener('webglcontextrestored', this._webGLContextRestored, false);
-                }
-                return this;
-            }
-            else {
-                console.warn("canvas must be an HTMLCanvasElement to start the context.");
-                return this;
-            }
-        };
-        Engine.prototype.stop = function () {
-            if (isDefined_1.default(this._gl)) {
-                this._gl.canvas.removeEventListener('webglcontextrestored', this._webGLContextRestored, false);
-                this._gl.canvas.removeEventListener('webglcontextlost', this._webGLContextLost, false);
-                if (this._gl) {
-                    this.emitStopEvent();
-                    this._gl = void 0;
-                }
-            }
-            return this;
-        };
-        Engine.prototype.emitStartEvent = function () {
-            var _this = this;
-            this._users.forEach(function (user) {
-                _this.emitContextGain(user);
-            });
-            this._commands.forEach(function (command) {
-                _this.emitContextGain(command);
-            });
-        };
-        Engine.prototype.emitContextGain = function (consumer) {
-            if (this._gl.isContextLost()) {
-                consumer.contextLost();
-            }
-            else {
-                consumer.contextGain(this._contextProvider);
-            }
-        };
-        Engine.prototype.emitStopEvent = function () {
-            var _this = this;
-            this._users.forEach(function (user) {
-                _this.emitContextFree(user);
-            });
-            this._commands.forEach(function (command) {
-                _this.emitContextFree(command);
-            });
-        };
-        Engine.prototype.emitContextFree = function (consumer) {
-            if (this._gl.isContextLost()) {
-                consumer.contextLost();
-            }
-            else {
-                consumer.contextFree(this._contextProvider);
-            }
-        };
-        Engine.prototype.synchronize = function (consumer) {
-            if (this._gl) {
-                this.emitContextGain(consumer);
-            }
-            else {
-            }
-        };
-        return Engine;
-    }(ShareableBase_1.ShareableBase));
-    exports.Engine = Engine;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/core/ShareableContextConsumer',["require", "exports", './cleanUp', './Engine', '../checks/isUndefined', '../checks/isNull', '../checks/mustBeObject', '../i18n/readOnly', './ShareableBase'], function (require, exports, cleanUp_1, Engine_1, isUndefined_1, isNull_1, mustBeObject_1, readOnly_1, ShareableBase_1) {
+define('davinci-eight/core/ShareableContextConsumer',["require", "exports", './cleanUp', '../checks/isUndefined', '../checks/isNull', '../checks/mustBeObject', '../i18n/readOnly', './ShareableBase'], function (require, exports, cleanUp_1, isUndefined_1, isNull_1, mustBeObject_1, readOnly_1, ShareableBase_1) {
     "use strict";
     var ShareableContextConsumer = (function (_super) {
         __extends(ShareableContextConsumer, _super);
-        function ShareableContextConsumer(engine) {
+        function ShareableContextConsumer(manager) {
             _super.call(this);
             this.setLoggingName('ShareableContextConsumer');
-            if (engine instanceof Engine_1.Engine) {
-                this.subscribe(engine);
-            }
-            else if (!isNull_1.default(engine) && !isUndefined_1.default(engine)) {
-                throw new Error("engine must be an Engine or null or undefined. typeof engine => " + typeof engine);
+            if (!isNull_1.default(manager) && !isUndefined_1.default(manager)) {
+                this.subscribe(manager);
             }
         }
         ShareableContextConsumer.prototype.destructor = function (levelUp) {
@@ -6919,36 +6237,36 @@ define('davinci-eight/core/ShareableContextConsumer',["require", "exports", './c
             this.unsubscribe();
             _super.prototype.destructor.call(this, levelUp + 1);
         };
-        ShareableContextConsumer.prototype.subscribe = function (engine) {
-            engine = mustBeObject_1.default('engine', engine);
-            if (!this.engine) {
-                engine.addRef();
-                this.engine = engine;
-                engine.addContextListener(this);
+        ShareableContextConsumer.prototype.subscribe = function (manager) {
+            manager = mustBeObject_1.default('manager', manager);
+            if (!this.manager) {
+                manager.addRef();
+                this.manager = manager;
+                manager.addContextListener(this);
             }
             else {
-                if (this.engine !== engine) {
+                if (this.manager !== manager) {
                     this.unsubscribe();
-                    this.subscribe(engine);
+                    this.subscribe(manager);
                 }
                 else {
                 }
             }
         };
         ShareableContextConsumer.prototype.synchUp = function () {
-            var engine = this.engine;
-            if (engine) {
-                engine.synchronize(this);
+            var manager = this.manager;
+            if (manager) {
+                manager.synchronize(this);
             }
         };
         ShareableContextConsumer.prototype.cleanUp = function () {
             cleanUp_1.default(this.contextProvider, this);
         };
         ShareableContextConsumer.prototype.unsubscribe = function () {
-            if (this.engine) {
-                this.engine.removeContextListener(this);
-                this.engine.release();
-                this.engine = void 0;
+            if (this.manager) {
+                this.manager.removeContextListener(this);
+                this.manager.release();
+                this.manager = void 0;
             }
         };
         ShareableContextConsumer.prototype.contextFree = function (contextProvider) {
@@ -7260,6 +6578,23 @@ define('davinci-eight/core/Drawable',["require", "exports", '../base/exchange', 
             }
         }
     }
+});
+
+define('davinci-eight/core/DepthFunction',["require", "exports"], function (require, exports) {
+    "use strict";
+    var DepthFunction;
+    (function (DepthFunction) {
+        DepthFunction[DepthFunction["NEVER"] = 512] = "NEVER";
+        DepthFunction[DepthFunction["LESS"] = 513] = "LESS";
+        DepthFunction[DepthFunction["EQUAL"] = 514] = "EQUAL";
+        DepthFunction[DepthFunction["LEQUAL"] = 515] = "LEQUAL";
+        DepthFunction[DepthFunction["GREATER"] = 516] = "GREATER";
+        DepthFunction[DepthFunction["NOTEQUAL"] = 517] = "NOTEQUAL";
+        DepthFunction[DepthFunction["GEQUAL"] = 518] = "GEQUAL";
+        DepthFunction[DepthFunction["ALWAYS"] = 519] = "ALWAYS";
+    })(DepthFunction || (DepthFunction = {}));
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = DepthFunction;
 });
 
 define('davinci-eight/core/computeCount',["require", "exports", '../checks/mustBeInteger'], function (require, exports, mustBeInteger_1) {
@@ -8024,6 +7359,31 @@ define('davinci-eight/checks/mustBeUndefined',["require", "exports", '../checks/
     exports.default = default_1;
 });
 
+define('davinci-eight/core/Usage',["require", "exports"], function (require, exports) {
+    "use strict";
+    var Usage;
+    (function (Usage) {
+        Usage[Usage["STREAM_DRAW"] = 35040] = "STREAM_DRAW";
+        Usage[Usage["STATIC_DRAW"] = 35044] = "STATIC_DRAW";
+        Usage[Usage["DYNAMIC_DRAW"] = 35048] = "DYNAMIC_DRAW";
+    })(Usage || (Usage = {}));
+    function checkUsage(name, usage) {
+        switch (usage) {
+            case Usage.STREAM_DRAW:
+            case Usage.STATIC_DRAW:
+            case Usage.DYNAMIC_DRAW: {
+                return;
+            }
+            default: {
+                throw new Error(name + ": Usage must be one of the enumerated values.");
+            }
+        }
+    }
+    exports.checkUsage = checkUsage;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = Usage;
+});
+
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -8033,8 +7393,8 @@ define('davinci-eight/core/VertexBuffer',["require", "exports", '../checks/mustB
     "use strict";
     var VertexBuffer = (function (_super) {
         __extends(VertexBuffer, _super);
-        function VertexBuffer(engine) {
-            _super.call(this, engine);
+        function VertexBuffer(manager) {
+            _super.call(this, manager);
             this._usage = Usage_2.default.STATIC_DRAW;
             this.setLoggingName('VertexBuffer');
             this.synchUp();
@@ -8067,7 +7427,13 @@ define('davinci-eight/core/VertexBuffer',["require", "exports", '../checks/mustB
             enumerable: true,
             configurable: true
         });
-        VertexBuffer.prototype.bufferData = function () {
+        VertexBuffer.prototype.bufferData = function (data, usage) {
+            if (data) {
+                this._data = data;
+            }
+            if (usage) {
+                this._usage = usage;
+            }
             var gl = this.gl;
             if (gl) {
                 if (this.webGLBuffer) {
@@ -8223,6 +7589,135 @@ define('davinci-eight/core/GeometryArrays',["require", "exports", './computeAttr
     }(GeometryLeaf_1.default));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = GeometryArrays;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/collections/ShareableArray',["require", "exports", '../i18n/readOnly', '../core/ShareableBase'], function (require, exports, readOnly_1, ShareableBase_1) {
+    "use strict";
+    function transferOwnership(data) {
+        if (data) {
+            var result = new ShareableArray(data);
+            for (var i = 0, iLength = data.length; i < iLength; i++) {
+                var element = data[i];
+                if (element) {
+                    element.release();
+                }
+            }
+            return result;
+        }
+        else {
+            return void 0;
+        }
+    }
+    var ShareableArray = (function (_super) {
+        __extends(ShareableArray, _super);
+        function ShareableArray(elements) {
+            if (elements === void 0) { elements = []; }
+            _super.call(this);
+            this.setLoggingName('ShareableArray');
+            this._elements = elements;
+            for (var i = 0, l = this._elements.length; i < l; i++) {
+                this._elements[i].addRef();
+            }
+        }
+        ShareableArray.prototype.destructor = function (levelUp) {
+            for (var i = 0, l = this._elements.length; i < l; i++) {
+                this._elements[i].release();
+            }
+            this._elements = void 0;
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        ShareableArray.prototype.find = function (match) {
+            var result = new ShareableArray([]);
+            var elements = this._elements;
+            var iLen = elements.length;
+            for (var i = 0; i < iLen; i++) {
+                var candidate = elements[i];
+                if (match(candidate)) {
+                    result.push(candidate);
+                }
+            }
+            return result;
+        };
+        ShareableArray.prototype.findOne = function (match) {
+            var elements = this._elements;
+            for (var i = 0, iLength = elements.length; i < iLength; i++) {
+                var candidate = elements[i];
+                if (match(candidate)) {
+                    candidate.addRef();
+                    return candidate;
+                }
+            }
+            return void 0;
+        };
+        ShareableArray.prototype.get = function (index) {
+            var element = this.getWeakRef(index);
+            if (element) {
+                element.addRef();
+            }
+            return element;
+        };
+        ShareableArray.prototype.getWeakRef = function (index) {
+            return this._elements[index];
+        };
+        ShareableArray.prototype.indexOf = function (searchElement, fromIndex) {
+            return this._elements.indexOf(searchElement, fromIndex);
+        };
+        Object.defineProperty(ShareableArray.prototype, "length", {
+            get: function () {
+                if (this._elements) {
+                    return this._elements.length;
+                }
+                else {
+                    console.warn("ShareableArray is now a zombie, length is undefined");
+                    return void 0;
+                }
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('length').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        ShareableArray.prototype.slice = function (begin, end) {
+            return new ShareableArray(this._elements.slice(begin, end));
+        };
+        ShareableArray.prototype.splice = function (index, deleteCount) {
+            return transferOwnership(this._elements.splice(index, deleteCount));
+        };
+        ShareableArray.prototype.shift = function () {
+            return this._elements.shift();
+        };
+        ShareableArray.prototype.forEach = function (callback) {
+            return this._elements.forEach(callback);
+        };
+        ShareableArray.prototype.push = function (element) {
+            if (element) {
+                element.addRef();
+            }
+            return this.pushWeakRef(element);
+        };
+        ShareableArray.prototype.pushWeakRef = function (element) {
+            return this._elements.push(element);
+        };
+        ShareableArray.prototype.pop = function () {
+            return this._elements.pop();
+        };
+        ShareableArray.prototype.unshift = function (element) {
+            element.addRef();
+            return this.unshiftWeakRef(element);
+        };
+        ShareableArray.prototype.unshiftWeakRef = function (element) {
+            return this._elements.unshift(element);
+        };
+        return ShareableArray;
+    }(ShareableBase_1.ShareableBase));
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = ShareableArray;
 });
 
 define('davinci-eight/i18n/shouldBeImplementedBy',["require", "exports", '../checks/mustBeString'], function (require, exports, mustBeString_1) {
@@ -9050,6 +8545,34 @@ define('davinci-eight/core/Mesh',["require", "exports", '../facets/ColorFacet', 
     exports.Mesh = Mesh;
 });
 
+define('davinci-eight/core/PixelFormat',["require", "exports"], function (require, exports) {
+    "use strict";
+    var PixelFormat;
+    (function (PixelFormat) {
+        PixelFormat[PixelFormat["DEPTH_COMPONENT"] = 6402] = "DEPTH_COMPONENT";
+        PixelFormat[PixelFormat["ALPHA"] = 6406] = "ALPHA";
+        PixelFormat[PixelFormat["RGB"] = 6407] = "RGB";
+        PixelFormat[PixelFormat["RGBA"] = 6408] = "RGBA";
+        PixelFormat[PixelFormat["LUMINANCE"] = 6409] = "LUMINANCE";
+        PixelFormat[PixelFormat["LUMINANCE_ALPHA"] = 6410] = "LUMINANCE_ALPHA";
+    })(PixelFormat || (PixelFormat = {}));
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = PixelFormat;
+});
+
+define('davinci-eight/core/PixelType',["require", "exports"], function (require, exports) {
+    "use strict";
+    var PixelType;
+    (function (PixelType) {
+        PixelType[PixelType["UNSIGNED_BYTE"] = 5121] = "UNSIGNED_BYTE";
+        PixelType[PixelType["UNSIGNED_SHORT_4_4_4_4"] = 32819] = "UNSIGNED_SHORT_4_4_4_4";
+        PixelType[PixelType["UNSIGNED_SHORT_5_5_5_1"] = 32820] = "UNSIGNED_SHORT_5_5_5_1";
+        PixelType[PixelType["UNSIGNED_SHORT_5_6_5"] = 33635] = "UNSIGNED_SHORT_5_6_5";
+    })(PixelType || (PixelType = {}));
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = PixelType;
+});
+
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -9379,6 +8902,1005 @@ define('davinci-eight/core/Uniform',["require", "exports", '../checks/isNull', '
     }());
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = Uniform;
+});
+
+define('davinci-eight/core/checkEnums',["require", "exports", './BeginMode', './BlendingFactorDest', './BlendingFactorSrc', './Capability', './ClearBufferMask', './DepthFunction', './PixelFormat', './PixelType', './Usage', '../checks/mustBeEQ'], function (require, exports, BeginMode_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, ClearBufferMask_1, DepthFunction_1, PixelFormat_1, PixelType_1, Usage_1, mustBeEQ_1) {
+    "use strict";
+    function checkEnums(gl) {
+        mustBeEQ_1.default('LINE_LOOP', BeginMode_1.default.LINE_LOOP, gl.LINE_LOOP);
+        mustBeEQ_1.default('LINE_STRIP', BeginMode_1.default.LINE_STRIP, gl.LINE_STRIP);
+        mustBeEQ_1.default('LINES', BeginMode_1.default.LINES, gl.LINES);
+        mustBeEQ_1.default('POINTS', BeginMode_1.default.POINTS, gl.POINTS);
+        mustBeEQ_1.default('TRIANGLE_FAN', BeginMode_1.default.TRIANGLE_FAN, gl.TRIANGLE_FAN);
+        mustBeEQ_1.default('TRIANGLE_STRIP', BeginMode_1.default.TRIANGLE_STRIP, gl.TRIANGLE_STRIP);
+        mustBeEQ_1.default('TRIANGLES', BeginMode_1.default.TRIANGLES, gl.TRIANGLES);
+        mustBeEQ_1.default('ZERO', BlendingFactorDest_1.default.ZERO, gl.ZERO);
+        mustBeEQ_1.default('ONE', BlendingFactorDest_1.default.ONE, gl.ONE);
+        mustBeEQ_1.default('SRC_COLOR', BlendingFactorDest_1.default.SRC_COLOR, gl.SRC_COLOR);
+        mustBeEQ_1.default('ONE_MINUS_SRC_COLOR', BlendingFactorDest_1.default.ONE_MINUS_SRC_COLOR, gl.ONE_MINUS_SRC_COLOR);
+        mustBeEQ_1.default('SRC_ALPHA', BlendingFactorDest_1.default.SRC_ALPHA, gl.SRC_ALPHA);
+        mustBeEQ_1.default('ONE_MINUS_SRC_ALPHA', BlendingFactorDest_1.default.ONE_MINUS_SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+        mustBeEQ_1.default('DST_ALPHA', BlendingFactorDest_1.default.DST_ALPHA, gl.DST_ALPHA);
+        mustBeEQ_1.default('ONE_MINUS_DST_ALPHA', BlendingFactorDest_1.default.ONE_MINUS_DST_ALPHA, gl.ONE_MINUS_DST_ALPHA);
+        mustBeEQ_1.default('ZERO', BlendingFactorSrc_1.default.ZERO, gl.ZERO);
+        mustBeEQ_1.default('ONE', BlendingFactorSrc_1.default.ONE, gl.ONE);
+        mustBeEQ_1.default('DST_COLOR', BlendingFactorSrc_1.default.DST_COLOR, gl.DST_COLOR);
+        mustBeEQ_1.default('ONE_MINUS_DST_COLOR', BlendingFactorSrc_1.default.ONE_MINUS_DST_COLOR, gl.ONE_MINUS_DST_COLOR);
+        mustBeEQ_1.default('SRC_ALPHA_SATURATE', BlendingFactorSrc_1.default.SRC_ALPHA_SATURATE, gl.SRC_ALPHA_SATURATE);
+        mustBeEQ_1.default('SRC_ALPHA', BlendingFactorSrc_1.default.SRC_ALPHA, gl.SRC_ALPHA);
+        mustBeEQ_1.default('ONE_MINUS_SRC_ALPHA', BlendingFactorSrc_1.default.ONE_MINUS_SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+        mustBeEQ_1.default('DST_ALPHA', BlendingFactorSrc_1.default.DST_ALPHA, gl.DST_ALPHA);
+        mustBeEQ_1.default('ONE_MINUS_DST_ALPHA', BlendingFactorSrc_1.default.ONE_MINUS_DST_ALPHA, gl.ONE_MINUS_DST_ALPHA);
+        mustBeEQ_1.default('CULL_FACE', Capability_1.default.CULL_FACE, gl.CULL_FACE);
+        mustBeEQ_1.default('BLEND', Capability_1.default.BLEND, gl.BLEND);
+        mustBeEQ_1.default('DITHER', Capability_1.default.DITHER, gl.DITHER);
+        mustBeEQ_1.default('STENCIL_TEST', Capability_1.default.STENCIL_TEST, gl.STENCIL_TEST);
+        mustBeEQ_1.default('DEPTH_TEST', Capability_1.default.DEPTH_TEST, gl.DEPTH_TEST);
+        mustBeEQ_1.default('SCISSOR_TEST', Capability_1.default.SCISSOR_TEST, gl.SCISSOR_TEST);
+        mustBeEQ_1.default('POLYGON_OFFSET_FILL', Capability_1.default.POLYGON_OFFSET_FILL, gl.POLYGON_OFFSET_FILL);
+        mustBeEQ_1.default('SAMPLE_ALPHA_TO_COVERAGE', Capability_1.default.SAMPLE_ALPHA_TO_COVERAGE, gl.SAMPLE_ALPHA_TO_COVERAGE);
+        mustBeEQ_1.default('SAMPLE_COVERAGE', Capability_1.default.SAMPLE_COVERAGE, gl.SAMPLE_COVERAGE);
+        mustBeEQ_1.default('COLOR_BUFFER_BIT', ClearBufferMask_1.default.COLOR_BUFFER_BIT, gl.COLOR_BUFFER_BIT);
+        mustBeEQ_1.default('DEPTH_BUFFER_BIT', ClearBufferMask_1.default.DEPTH_BUFFER_BIT, gl.DEPTH_BUFFER_BIT);
+        mustBeEQ_1.default('STENCIL_BUFFER_BIT', ClearBufferMask_1.default.STENCIL_BUFFER_BIT, gl.STENCIL_BUFFER_BIT);
+        mustBeEQ_1.default('ALWAYS', DepthFunction_1.default.ALWAYS, gl.ALWAYS);
+        mustBeEQ_1.default('EQUAL', DepthFunction_1.default.EQUAL, gl.EQUAL);
+        mustBeEQ_1.default('GEQUAL', DepthFunction_1.default.GEQUAL, gl.GEQUAL);
+        mustBeEQ_1.default('GREATER', DepthFunction_1.default.GREATER, gl.GREATER);
+        mustBeEQ_1.default('LEQUAL', DepthFunction_1.default.LEQUAL, gl.LEQUAL);
+        mustBeEQ_1.default('LESS', DepthFunction_1.default.LESS, gl.LESS);
+        mustBeEQ_1.default('NEVER', DepthFunction_1.default.NEVER, gl.NEVER);
+        mustBeEQ_1.default('NOTEQUAL', DepthFunction_1.default.NOTEQUAL, gl.NOTEQUAL);
+        mustBeEQ_1.default('DEPTH_COMPONENT', PixelFormat_1.default.DEPTH_COMPONENT, gl.DEPTH_COMPONENT);
+        mustBeEQ_1.default('ALPHA', PixelFormat_1.default.ALPHA, gl.ALPHA);
+        mustBeEQ_1.default('RGB', PixelFormat_1.default.RGB, gl.RGB);
+        mustBeEQ_1.default('RGBA', PixelFormat_1.default.RGBA, gl.RGBA);
+        mustBeEQ_1.default('LUMINANCE', PixelFormat_1.default.LUMINANCE, gl.LUMINANCE);
+        mustBeEQ_1.default('LUMINANCE_ALPHA', PixelFormat_1.default.LUMINANCE_ALPHA, gl.LUMINANCE_ALPHA);
+        mustBeEQ_1.default('UNSIGNED_BYTE', PixelType_1.default.UNSIGNED_BYTE, gl.UNSIGNED_BYTE);
+        mustBeEQ_1.default('UNSIGNED_SHORT_4_4_4_4', PixelType_1.default.UNSIGNED_SHORT_4_4_4_4, gl.UNSIGNED_SHORT_4_4_4_4);
+        mustBeEQ_1.default('UNSIGNED_SHORT_5_5_5_1', PixelType_1.default.UNSIGNED_SHORT_5_5_5_1, gl.UNSIGNED_SHORT_5_5_5_1);
+        mustBeEQ_1.default('UNSIGNED_SHORT_5_6_5', PixelType_1.default.UNSIGNED_SHORT_5_6_5, gl.UNSIGNED_SHORT_5_6_5);
+        mustBeEQ_1.default('STREAM_DRAW', Usage_1.default.STREAM_DRAW, gl.STREAM_DRAW);
+        mustBeEQ_1.default('STATIC_DRAW', Usage_1.default.STATIC_DRAW, gl.STATIC_DRAW);
+        mustBeEQ_1.default('DYNAMIC_DRAW', Usage_1.default.DYNAMIC_DRAW, gl.DYNAMIC_DRAW);
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = checkEnums;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/commands/EIGHTLogger',["require", "exports", '../config', '../core/ShareableBase'], function (require, exports, config_1, ShareableBase_1) {
+    "use strict";
+    var EIGHTLogger = (function (_super) {
+        __extends(EIGHTLogger, _super);
+        function EIGHTLogger() {
+            _super.call(this);
+            this.setLoggingName('EIGHTLogger');
+        }
+        EIGHTLogger.prototype.destructor = function (levelUp) {
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        EIGHTLogger.prototype.contextFree = function (contextProvider) {
+        };
+        EIGHTLogger.prototype.contextGain = function (contextProvider) {
+            console.log(config_1.default.NAMESPACE + " " + config_1.default.VERSION + " (" + config_1.default.GITHUB + ") " + config_1.default.LAST_MODIFIED);
+        };
+        EIGHTLogger.prototype.contextLost = function () {
+        };
+        Object.defineProperty(EIGHTLogger.prototype, "name", {
+            get: function () {
+                return this._type;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return EIGHTLogger;
+    }(ShareableBase_1.ShareableBase));
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = EIGHTLogger;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/base/DefaultContextProvider',["require", "exports", '../core/DataType', '../i18n/readOnly', '../core/ShareableBase'], function (require, exports, DataType_1, readOnly_1, ShareableBase_1) {
+    "use strict";
+    var DefaultContextProvider = (function (_super) {
+        __extends(DefaultContextProvider, _super);
+        function DefaultContextProvider(engine) {
+            _super.call(this);
+            this.setLoggingName('DefaultContextProvider');
+            this.engine = engine;
+        }
+        DefaultContextProvider.prototype.destructor = function (levelUp) {
+            this.engine = void 0;
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        Object.defineProperty(DefaultContextProvider.prototype, "gl", {
+            get: function () {
+                if (this.engine) {
+                    return this.engine.gl;
+                }
+                else {
+                    throw new Error(this._type + ".engine is undefined.");
+                }
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('gl').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        DefaultContextProvider.prototype.disableVertexAttribArray = function (index) {
+            var gl = this.gl;
+            if (gl) {
+                gl.disableVertexAttribArray(index);
+            }
+        };
+        DefaultContextProvider.prototype.drawArrays = function (mode, first, count) {
+            var gl = this.gl;
+            gl.drawArrays(mode, first, count);
+        };
+        DefaultContextProvider.prototype.drawElements = function (mode, count, offset) {
+            var gl = this.gl;
+            gl.drawElements(mode, count, DataType_1.default.UNSIGNED_SHORT, offset);
+        };
+        DefaultContextProvider.prototype.enableVertexAttribArray = function (index) {
+            var gl = this.gl;
+            gl.enableVertexAttribArray(index);
+        };
+        DefaultContextProvider.prototype.isContextLost = function () {
+            var gl = this.gl;
+            if (gl) {
+                return gl.isContextLost();
+            }
+            else {
+                throw new Error("WebGLRenderingContext is undefined.");
+            }
+        };
+        DefaultContextProvider.prototype.vertexAttribPointer = function (index, size, type, normalized, stride, offset) {
+            var gl = this.gl;
+            gl.vertexAttribPointer(index, size, type, normalized, stride, offset);
+        };
+        return DefaultContextProvider;
+    }(ShareableBase_1.ShareableBase));
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = DefaultContextProvider;
+});
+
+define('davinci-eight/core/initWebGL',["require", "exports", '../checks/isDefined'], function (require, exports, isDefined_1) {
+    "use strict";
+    function initWebGL(canvas, attributes) {
+        if (isDefined_1.default(canvas)) {
+            var context;
+            try {
+                context = (canvas.getContext('webgl', attributes) || canvas.getContext('experimental-webgl', attributes));
+            }
+            catch (e) {
+            }
+            if (context) {
+                return context;
+            }
+            else {
+                throw new Error("Unable to initialize WebGL. Your browser may not support it.");
+            }
+        }
+        else {
+            return void 0;
+        }
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = initWebGL;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/commands/VersionLogger',["require", "exports", '../core/ShareableBase'], function (require, exports, ShareableBase_1) {
+    "use strict";
+    var QUALIFIED_NAME = 'EIGHT.VersionLogger';
+    var VersionLogger = (function (_super) {
+        __extends(VersionLogger, _super);
+        function VersionLogger() {
+            _super.call(this);
+            this.setLoggingName(QUALIFIED_NAME);
+        }
+        VersionLogger.prototype.destructor = function (levelUp) {
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        VersionLogger.prototype.contextFree = function () {
+        };
+        VersionLogger.prototype.contextGain = function (manager) {
+            var gl = manager.gl;
+            console.log(gl.getParameter(gl.VERSION));
+        };
+        VersionLogger.prototype.contextLost = function () {
+        };
+        Object.defineProperty(VersionLogger.prototype, "name", {
+            get: function () {
+                return QUALIFIED_NAME;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return VersionLogger;
+    }(ShareableBase_1.ShareableBase));
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = VersionLogger;
+});
+
+define('davinci-eight/core/makeWebGLProgram',["require", "exports", './makeWebGLShader'], function (require, exports, makeWebGLShader_1) {
+    "use strict";
+    function makeWebGLProgram(ctx, vertexShaderSrc, fragmentShaderSrc, attribs) {
+        var vs = makeWebGLShader_1.default(ctx, vertexShaderSrc, ctx.VERTEX_SHADER);
+        var fs = makeWebGLShader_1.default(ctx, fragmentShaderSrc, ctx.FRAGMENT_SHADER);
+        var program = ctx.createProgram();
+        ctx.attachShader(program, vs);
+        ctx.attachShader(program, fs);
+        for (var index = 0; index < attribs.length; ++index) {
+            ctx.bindAttribLocation(program, index, attribs[index]);
+        }
+        ctx.linkProgram(program);
+        var linked = ctx.getProgramParameter(program, ctx.LINK_STATUS);
+        if (linked || ctx.isContextLost()) {
+            return program;
+        }
+        else {
+            var message = ctx.getProgramInfoLog(program);
+            ctx.detachShader(program, vs);
+            ctx.deleteShader(vs);
+            ctx.detachShader(program, fs);
+            ctx.deleteShader(fs);
+            ctx.deleteProgram(program);
+            throw new Error("Error linking program: " + message);
+        }
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = makeWebGLProgram;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/materials/ShaderMaterial',["require", "exports", '../core/Attrib', '../core/DataType', '../checks/isDefined', '../checks/isString', '../checks/isNull', '../core/makeWebGLProgram', '../checks/mustBeArray', '../checks/mustBeString', '../checks/mustBeUndefined', '../i18n/readOnly', '../core/ShareableContextConsumer', '../core/Uniform'], function (require, exports, Attrib_1, DataType_1, isDefined_1, isString_1, isNull_1, makeWebGLProgram_1, mustBeArray_1, mustBeString_1, mustBeUndefined_1, readOnly_1, ShareableContextConsumer_1, Uniform_1) {
+    "use strict";
+    var ShaderMaterial = (function (_super) {
+        __extends(ShaderMaterial, _super);
+        function ShaderMaterial(vertexShaderSrc, fragmentShaderSrc, attribs, manager, levelUp) {
+            if (levelUp === void 0) { levelUp = 0; }
+            _super.call(this, manager);
+            this._attributesByName = {};
+            this._attributesByIndex = [];
+            this._uniforms = {};
+            this.setLoggingName('ShaderMaterial');
+            if (isDefined_1.default(vertexShaderSrc) && !isNull_1.default(vertexShaderSrc)) {
+                this._vertexShaderSrc = mustBeString_1.default('vertexShaderSrc', vertexShaderSrc);
+            }
+            if (isDefined_1.default(fragmentShaderSrc) && !isNull_1.default(fragmentShaderSrc)) {
+                this._fragmentShaderSrc = mustBeString_1.default('fragmentShaderSrc', fragmentShaderSrc);
+            }
+            this._attribs = mustBeArray_1.default('attribs', attribs);
+            if (levelUp === 0) {
+                this.synchUp();
+            }
+        }
+        ShaderMaterial.prototype.destructor = function (levelUp) {
+            if (levelUp === 0) {
+                this.cleanUp();
+            }
+            mustBeUndefined_1.default(this._type, this._program);
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        ShaderMaterial.prototype.contextGain = function (context) {
+            var gl = context.gl;
+            if (!this._program && isString_1.default(this._vertexShaderSrc) && isString_1.default(this._fragmentShaderSrc)) {
+                this._program = makeWebGLProgram_1.default(gl, this._vertexShaderSrc, this._fragmentShaderSrc, this._attribs);
+                this._attributesByName = {};
+                this._attributesByIndex = [];
+                this._uniforms = {};
+                var aLen = gl.getProgramParameter(this._program, gl.ACTIVE_ATTRIBUTES);
+                for (var a = 0; a < aLen; a++) {
+                    var attribInfo = gl.getActiveAttrib(this._program, a);
+                    var attrib = new Attrib_1.default(attribInfo);
+                    this._attributesByName[attribInfo.name] = attrib;
+                    this._attributesByIndex.push(attrib);
+                }
+                var uLen = gl.getProgramParameter(this._program, gl.ACTIVE_UNIFORMS);
+                for (var u = 0; u < uLen; u++) {
+                    var uniformInfo = gl.getActiveUniform(this._program, u);
+                    this._uniforms[uniformInfo.name] = new Uniform_1.default(uniformInfo);
+                }
+                for (var aName in this._attributesByName) {
+                    if (this._attributesByName.hasOwnProperty(aName)) {
+                        this._attributesByName[aName].contextGain(gl, this._program);
+                    }
+                }
+                for (var uName in this._uniforms) {
+                    if (this._uniforms.hasOwnProperty(uName)) {
+                        this._uniforms[uName].contextGain(gl, this._program);
+                    }
+                }
+            }
+            _super.prototype.contextGain.call(this, context);
+        };
+        ShaderMaterial.prototype.contextLost = function () {
+            this._program = void 0;
+            for (var aName in this._attributesByName) {
+                if (this._attributesByName.hasOwnProperty(aName)) {
+                    this._attributesByName[aName].contextLost();
+                }
+            }
+            for (var uName in this._uniforms) {
+                if (this._uniforms.hasOwnProperty(uName)) {
+                    this._uniforms[uName].contextLost();
+                }
+            }
+            _super.prototype.contextLost.call(this);
+        };
+        ShaderMaterial.prototype.contextFree = function (context) {
+            if (this._program) {
+                var gl = context.gl;
+                if (gl) {
+                    if (!gl.isContextLost()) {
+                        gl.deleteProgram(this._program);
+                    }
+                    else {
+                    }
+                }
+                else {
+                    console.warn("memory leak: WebGLProgram has not been deleted because WebGLRenderingContext is not available anymore.");
+                }
+                this._program = void 0;
+            }
+            for (var aName in this._attributesByName) {
+                if (this._attributesByName.hasOwnProperty(aName)) {
+                    this._attributesByName[aName].contextFree();
+                }
+            }
+            for (var uName in this._uniforms) {
+                if (this._uniforms.hasOwnProperty(uName)) {
+                    this._uniforms[uName].contextFree();
+                }
+            }
+            _super.prototype.contextFree.call(this, context);
+        };
+        Object.defineProperty(ShaderMaterial.prototype, "vertexShaderSrc", {
+            get: function () {
+                return this._vertexShaderSrc;
+            },
+            set: function (vertexShaderSrc) {
+                this._vertexShaderSrc = mustBeString_1.default('vertexShaderSrc', vertexShaderSrc);
+                if (this.contextProvider) {
+                    this.contextProvider.addRef();
+                    var contextProvider = this.contextProvider;
+                    try {
+                        this.contextFree(contextProvider);
+                        this.contextGain(contextProvider);
+                    }
+                    finally {
+                        contextProvider.release();
+                    }
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ShaderMaterial.prototype, "fragmentShaderSrc", {
+            get: function () {
+                return this._fragmentShaderSrc;
+            },
+            set: function (fragmentShaderSrc) {
+                this._fragmentShaderSrc = mustBeString_1.default('fragmentShaderSrc', fragmentShaderSrc);
+                if (this.contextProvider) {
+                    this.contextProvider.addRef();
+                    var contextProvider = this.contextProvider;
+                    try {
+                        this.contextFree(contextProvider);
+                        this.contextGain(contextProvider);
+                    }
+                    finally {
+                        contextProvider.release();
+                    }
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ShaderMaterial.prototype, "attributeNames", {
+            get: function () {
+                var attributes = this._attributesByName;
+                if (attributes) {
+                    return Object.keys(attributes);
+                }
+                else {
+                    return void 0;
+                }
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('attributeNames').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        ShaderMaterial.prototype.enableAttrib = function (indexOrName) {
+            if (typeof indexOrName === 'number') {
+                if (this.gl) {
+                    this.gl.enableVertexAttribArray(indexOrName);
+                }
+            }
+            else if (typeof indexOrName === 'string') {
+                var attribLoc = this._attributesByName[indexOrName];
+                if (attribLoc) {
+                    attribLoc.enable();
+                }
+            }
+            else {
+                throw new TypeError("indexOrName must have type number or string.");
+            }
+        };
+        ShaderMaterial.prototype.enableAttribs = function () {
+            var attribLocations = this._attributesByName;
+            if (attribLocations) {
+                var aNames = Object.keys(attribLocations);
+                for (var i = 0, iLength = aNames.length; i < iLength; i++) {
+                    attribLocations[aNames[i]].enable();
+                }
+            }
+        };
+        ShaderMaterial.prototype.disableAttrib = function (indexOrName) {
+            if (typeof indexOrName === 'number') {
+                if (this.gl) {
+                    this.gl.disableVertexAttribArray(indexOrName);
+                }
+            }
+            else if (typeof indexOrName === 'string') {
+                var attribLoc = this._attributesByName[indexOrName];
+                if (attribLoc) {
+                    attribLoc.disable();
+                }
+            }
+            else {
+                throw new TypeError("indexOrName must have type number or string.");
+            }
+        };
+        ShaderMaterial.prototype.disableAttribs = function () {
+            var attribLocations = this._attributesByName;
+            if (attribLocations) {
+                var aNames = Object.keys(attribLocations);
+                for (var i = 0, iLength = aNames.length; i < iLength; i++) {
+                    attribLocations[aNames[i]].disable();
+                }
+            }
+        };
+        ShaderMaterial.prototype.attrib = function (name, value, size, normalized, stride, offset) {
+            if (normalized === void 0) { normalized = false; }
+            if (stride === void 0) { stride = 0; }
+            if (offset === void 0) { offset = 0; }
+            var attrib = this.getAttrib(name);
+            if (attrib) {
+                value.bind();
+                attrib.enable();
+                attrib.config(size, DataType_1.default.FLOAT, normalized, stride, offset);
+            }
+            return this;
+        };
+        ShaderMaterial.prototype.getAttrib = function (indexOrName) {
+            if (typeof indexOrName === 'number') {
+                return this._attributesByIndex[indexOrName];
+            }
+            else if (typeof indexOrName === 'string') {
+                return this._attributesByName[indexOrName];
+            }
+            else {
+                throw new TypeError("indexOrName must be a number or a string");
+            }
+        };
+        ShaderMaterial.prototype.getAttribLocation = function (name) {
+            var attribLoc = this._attributesByName[name];
+            if (attribLoc) {
+                return attribLoc.index;
+            }
+            else {
+                return -1;
+            }
+        };
+        ShaderMaterial.prototype.getUniform = function (name) {
+            var uniforms = this._uniforms;
+            if (uniforms[name]) {
+                return uniforms[name];
+            }
+            else {
+                return void 0;
+            }
+        };
+        ShaderMaterial.prototype.hasUniform = function (name) {
+            mustBeString_1.default('name', name);
+            return isDefined_1.default(this._uniforms[name]);
+        };
+        ShaderMaterial.prototype.uniform1f = function (name, x) {
+            var uniformLoc = this.getUniform(name);
+            if (uniformLoc) {
+                uniformLoc.uniform1f(x);
+            }
+        };
+        ShaderMaterial.prototype.uniform2f = function (name, x, y) {
+            var uniformLoc = this._uniforms[name];
+            if (uniformLoc) {
+                uniformLoc.uniform2f(x, y);
+            }
+        };
+        ShaderMaterial.prototype.uniform3f = function (name, x, y, z) {
+            var uniformLoc = this._uniforms[name];
+            if (uniformLoc) {
+                uniformLoc.uniform3f(x, y, z);
+            }
+        };
+        ShaderMaterial.prototype.uniform4f = function (name, x, y, z, w) {
+            var uniformLoc = this._uniforms[name];
+            if (uniformLoc) {
+                uniformLoc.uniform4f(x, y, z, w);
+            }
+        };
+        ShaderMaterial.prototype.uniform = function (name, value) {
+            var uniformLoc = this._uniforms[name];
+            if (uniformLoc) {
+                if (typeof value === 'number') {
+                    uniformLoc.uniform1f(value);
+                }
+                else if (value) {
+                    switch (value.length) {
+                        case 1: {
+                            uniformLoc.uniform1f(value[0]);
+                        }
+                        case 2: {
+                            uniformLoc.uniform2f(value[0], value[1]);
+                        }
+                        case 3: {
+                            uniformLoc.uniform3f(value[0], value[1], value[2]);
+                        }
+                        case 4: {
+                            uniformLoc.uniform4f(value[0], value[1], value[2], value[3]);
+                        }
+                    }
+                }
+            }
+            return this;
+        };
+        ShaderMaterial.prototype.use = function () {
+            var gl = this.gl;
+            if (gl) {
+                gl.useProgram(this._program);
+            }
+            else {
+                console.warn(this._type + ".use() missing WebGL rendering context.");
+            }
+            return this;
+        };
+        ShaderMaterial.prototype.matrix2fv = function (name, matrix, transpose) {
+            var uniformLoc = this._uniforms[name];
+            if (uniformLoc) {
+                uniformLoc.matrix2fv(transpose, matrix);
+            }
+        };
+        ShaderMaterial.prototype.matrix3fv = function (name, matrix, transpose) {
+            var uniformLoc = this._uniforms[name];
+            if (uniformLoc) {
+                uniformLoc.matrix3fv(transpose, matrix);
+            }
+        };
+        ShaderMaterial.prototype.matrix4fv = function (name, matrix, transpose) {
+            var uniformLoc = this._uniforms[name];
+            if (uniformLoc) {
+                uniformLoc.matrix4fv(transpose, matrix);
+            }
+        };
+        ShaderMaterial.prototype.vector2fv = function (name, data) {
+            var uniformLoc = this._uniforms[name];
+            if (uniformLoc) {
+                uniformLoc.uniform2fv(data);
+            }
+        };
+        ShaderMaterial.prototype.vector3fv = function (name, data) {
+            var uniformLoc = this._uniforms[name];
+            if (uniformLoc) {
+                uniformLoc.uniform3fv(data);
+            }
+        };
+        ShaderMaterial.prototype.vector4fv = function (name, data) {
+            var uniformLoc = this._uniforms[name];
+            if (uniformLoc) {
+                uniformLoc.uniform4fv(data);
+            }
+        };
+        ShaderMaterial.prototype.draw = function (mode, count, type) {
+            var gl = this.gl;
+            if (type) {
+                gl.drawArrays(mode, 0, count);
+            }
+            else {
+                gl.drawElements(mode, count, type, 0);
+            }
+            return this;
+        };
+        return ShaderMaterial;
+    }(ShareableContextConsumer_1.ShareableContextConsumer));
+    exports.ShaderMaterial = ShaderMaterial;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/materials/HTMLScriptsMaterial',["require", "exports", '../checks/isString', '../checks/mustBeArray', '../checks/mustBeObject', '../checks/mustBeString', '../checks/mustSatisfy', './ShaderMaterial'], function (require, exports, isString_1, mustBeArray_1, mustBeObject_1, mustBeString_1, mustSatisfy_1, ShaderMaterial_1) {
+    "use strict";
+    function getHTMLElementById(elementId, dom) {
+        var element = dom.getElementById(mustBeString_1.default('elementId', elementId));
+        if (element) {
+            return element;
+        }
+        else {
+            throw new Error("'" + elementId + "' is not a valid element identifier.");
+        }
+    }
+    function vertexShaderSrc(vsId, dom) {
+        mustBeString_1.default('vsId', vsId);
+        mustBeObject_1.default('dom', dom);
+        return getHTMLElementById(vsId, dom).textContent;
+    }
+    function fragmentShaderSrc(fsId, dom) {
+        mustBeString_1.default('fsId', fsId);
+        mustBeObject_1.default('dom', dom);
+        return getHTMLElementById(fsId, dom).textContent;
+    }
+    function assign(elementId, dom, result) {
+        var htmlElement = dom.getElementById(elementId);
+        if (htmlElement instanceof HTMLScriptElement) {
+            var script = htmlElement;
+            if (isString_1.default(script.type)) {
+                if (script.type.indexOf('vertex') >= 0) {
+                    result[0] = elementId;
+                }
+                else if (script.type.indexOf('fragment') >= 0) {
+                    result[1] = elementId;
+                }
+                else {
+                }
+            }
+            if (isString_1.default(script.textContent)) {
+                if (script.textContent.indexOf('gl_Position') >= 0) {
+                    result[0] = elementId;
+                }
+                else if (script.textContent.indexOf('gl_FragColor') >= 0) {
+                    result[1] = elementId;
+                }
+                else {
+                }
+            }
+        }
+    }
+    function detectShaderType(scriptIds, dom) {
+        var result = [scriptIds[0], scriptIds[1]];
+        assign(scriptIds[0], dom, result);
+        assign(scriptIds[1], dom, result);
+        return result;
+    }
+    var HTMLScriptsMaterial = (function (_super) {
+        __extends(HTMLScriptsMaterial, _super);
+        function HTMLScriptsMaterial(scriptIds, dom, attribs, manager, levelUp) {
+            if (levelUp === void 0) { levelUp = 0; }
+            _super.call(this, void 0, void 0, attribs, manager, levelUp + 1);
+            this.loaded = false;
+            this.setLoggingName('HTMLScriptsMaterial');
+            mustBeArray_1.default('scriptIds', scriptIds);
+            mustSatisfy_1.default('scriptIds', scriptIds.length === 2, function () { return 'have two script element identifiers.'; });
+            this.scriptIds = [scriptIds[0], scriptIds[1]];
+            this.dom = dom;
+            if (levelUp === 0) {
+                this.synchUp();
+            }
+        }
+        HTMLScriptsMaterial.prototype.destructor = function (levelUp) {
+            if (levelUp === 0) {
+                this.cleanUp();
+            }
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        HTMLScriptsMaterial.prototype.contextGain = function (contextProvider) {
+            if (!this.loaded) {
+                var scriptIds = detectShaderType(this.scriptIds, this.dom);
+                this.vertexShaderSrc = vertexShaderSrc(scriptIds[0], this.dom);
+                this.fragmentShaderSrc = fragmentShaderSrc(scriptIds[1], this.dom);
+                this.loaded = true;
+            }
+            _super.prototype.contextGain.call(this, contextProvider);
+        };
+        return HTMLScriptsMaterial;
+    }(ShaderMaterial_1.ShaderMaterial));
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = HTMLScriptsMaterial;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/core/Engine',["require", "exports", './checkEnums', './ClearBufferMask', '../commands/EIGHTLogger', '../base/DefaultContextProvider', './initWebGL', '../checks/isDefined', '../checks/mustBeObject', '../collections/ShareableArray', './ShareableBase', './Usage', '../commands/VersionLogger', './VertexBuffer', '../commands/WebGLClearColor', '../commands/WebGLEnable', '../commands/WebGLDisable', '../materials/HTMLScriptsMaterial'], function (require, exports, checkEnums_1, ClearBufferMask_1, EIGHTLogger_1, DefaultContextProvider_1, initWebGL_1, isDefined_1, mustBeObject_1, ShareableArray_1, ShareableBase_1, Usage_1, VersionLogger_1, VertexBuffer_1, WebGLClearColor_1, WebGLEnable_1, WebGLDisable_1, HTMLScriptsMaterial_1) {
+    "use strict";
+    var Engine = (function (_super) {
+        __extends(Engine, _super);
+        function Engine(canvas, attributes, doc) {
+            var _this = this;
+            if (doc === void 0) { doc = window.document; }
+            _super.call(this);
+            this._users = [];
+            this._commands = new ShareableArray_1.default([]);
+            this.setLoggingName('Engine');
+            this._attributes = attributes;
+            this._commands.pushWeakRef(new EIGHTLogger_1.default());
+            this._commands.pushWeakRef(new VersionLogger_1.default());
+            this._contextProvider = new DefaultContextProvider_1.default(this);
+            this._webGLContextLost = function (event) {
+                if (isDefined_1.default(_this._gl)) {
+                    event.preventDefault();
+                    _this._gl = void 0;
+                    _this._users.forEach(function (user) {
+                        user.contextLost();
+                    });
+                }
+            };
+            this._webGLContextRestored = function (event) {
+                if (isDefined_1.default(_this._gl)) {
+                    event.preventDefault();
+                    _this._gl = initWebGL_1.default(_this._gl.canvas, attributes);
+                    _this._users.forEach(function (user) {
+                        user.contextGain(_this._contextProvider);
+                    });
+                }
+            };
+            if (canvas) {
+                this.start(canvas, doc);
+            }
+        }
+        Engine.prototype.destructor = function (levelUp) {
+            this.stop();
+            this._contextProvider.release();
+            while (this._users.length > 0) {
+                this._users.pop();
+            }
+            this._commands.release();
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        Engine.prototype.addContextListener = function (user) {
+            mustBeObject_1.default('user', user);
+            var index = this._users.indexOf(user);
+            if (index < 0) {
+                this._users.push(user);
+            }
+            else {
+                console.warn("user already exists for addContextListener");
+            }
+        };
+        Engine.prototype.array = function (data, usage) {
+            if (usage === void 0) { usage = Usage_1.default.STATIC_DRAW; }
+            var vbo = new VertexBuffer_1.default(this);
+            if (data) {
+                vbo.bufferData(data, usage);
+            }
+            return vbo;
+        };
+        Object.defineProperty(Engine.prototype, "canvas", {
+            get: function () {
+                if (this._gl) {
+                    return this._gl.canvas;
+                }
+                else {
+                    return void 0;
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Engine.prototype.blendFunc = function (sfactor, dfactor) {
+            var gl = this._gl;
+            if (gl) {
+                gl.blendFunc(sfactor, dfactor);
+            }
+            return this;
+        };
+        Engine.prototype.clear = function (mask) {
+            if (mask === void 0) { mask = ClearBufferMask_1.default.COLOR_BUFFER_BIT | ClearBufferMask_1.default.DEPTH_BUFFER_BIT; }
+            var gl = this._gl;
+            if (gl) {
+                gl.clear(mask);
+            }
+            return this;
+        };
+        Engine.prototype.depthFunc = function (func) {
+            var gl = this._gl;
+            if (gl) {
+                gl.depthFunc(func);
+            }
+            return this;
+        };
+        Engine.prototype.clearColor = function (red, green, blue, alpha) {
+            this._commands.pushWeakRef(new WebGLClearColor_1.WebGLClearColor(red, green, blue, alpha));
+            var gl = this._gl;
+            if (gl) {
+                gl.clearColor(red, green, blue, alpha);
+            }
+            return this;
+        };
+        Engine.prototype.disable = function (capability) {
+            this._commands.pushWeakRef(new WebGLDisable_1.WebGLDisable(capability));
+            if (this._gl) {
+                this._gl.disable(capability);
+            }
+            return this;
+        };
+        Engine.prototype.enable = function (capability) {
+            this._commands.pushWeakRef(new WebGLEnable_1.WebGLEnable(capability));
+            if (this._gl) {
+                this._gl.enable(capability);
+            }
+            return this;
+        };
+        Object.defineProperty(Engine.prototype, "gl", {
+            get: function () {
+                if (this._gl) {
+                    return this._gl;
+                }
+                else {
+                    return void 0;
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Engine.prototype.program = function (vertexShader, fragmentShader, dom) {
+            if (dom === void 0) { dom = window.document; }
+            return new HTMLScriptsMaterial_1.default([vertexShader, fragmentShader], dom, [], this, 0);
+        };
+        Engine.prototype.readPixels = function (x, y, width, height, format, type, pixels) {
+            if (this._gl) {
+                this._gl.readPixels(x, y, width, height, format, type, pixels);
+            }
+        };
+        Engine.prototype.removeContextListener = function (user) {
+            mustBeObject_1.default('user', user);
+            var index = this._users.indexOf(user);
+            if (index >= 0) {
+                this._users.splice(index, 1);
+            }
+        };
+        Engine.prototype.size = function (width, height) {
+            this.canvas.width = width;
+            this.canvas.height = height;
+            return this.viewport(0, 0, this.gl.drawingBufferWidth, this.gl.drawingBufferHeight);
+        };
+        Engine.prototype.getMaxViewportDims = function () {
+            var gl = this._gl;
+            if (gl) {
+                return gl.getParameter(gl.MAX_VIEWPORT_DIMS);
+            }
+            else {
+                return void 0;
+            }
+        };
+        Engine.prototype.getViewport = function () {
+            var gl = this._gl;
+            if (gl) {
+                return gl.getParameter(gl.VIEWPORT);
+            }
+            else {
+                return void 0;
+            }
+        };
+        Engine.prototype.viewport = function (x, y, width, height) {
+            var gl = this._gl;
+            if (gl) {
+                gl.viewport(x, y, width, height);
+            }
+            return this;
+        };
+        Engine.prototype.start = function (canvas, doc) {
+            if (doc === void 0) { doc = window.document; }
+            if (typeof canvas === 'string') {
+                var canvasElement = doc.getElementById(canvas);
+                if (canvasElement) {
+                    return this.start(canvasElement, doc);
+                }
+                else {
+                    throw new Error("canvas argument must be a canvas element id or an HTMLCanvasElement.");
+                }
+            }
+            else if (canvas instanceof HTMLCanvasElement) {
+                if (isDefined_1.default(this._gl)) {
+                    console.warn(this._type + " Ignoring start() because already started.");
+                    return;
+                }
+                else {
+                    this._gl = initWebGL_1.default(canvas, this._attributes);
+                    checkEnums_1.default(this._gl);
+                    this.emitStartEvent();
+                    canvas.addEventListener('webglcontextlost', this._webGLContextLost, false);
+                    canvas.addEventListener('webglcontextrestored', this._webGLContextRestored, false);
+                }
+                return this;
+            }
+            else {
+                this._gl = canvas;
+                return this;
+            }
+        };
+        Engine.prototype.stop = function () {
+            if (isDefined_1.default(this._gl)) {
+                this._gl.canvas.removeEventListener('webglcontextrestored', this._webGLContextRestored, false);
+                this._gl.canvas.removeEventListener('webglcontextlost', this._webGLContextLost, false);
+                if (this._gl) {
+                    this.emitStopEvent();
+                    this._gl = void 0;
+                }
+            }
+            return this;
+        };
+        Engine.prototype.emitStartEvent = function () {
+            var _this = this;
+            this._users.forEach(function (user) {
+                _this.emitContextGain(user);
+            });
+            this._commands.forEach(function (command) {
+                _this.emitContextGain(command);
+            });
+        };
+        Engine.prototype.emitContextGain = function (consumer) {
+            if (this._gl.isContextLost()) {
+                consumer.contextLost();
+            }
+            else {
+                consumer.contextGain(this._contextProvider);
+            }
+        };
+        Engine.prototype.emitStopEvent = function () {
+            var _this = this;
+            this._users.forEach(function (user) {
+                _this.emitContextFree(user);
+            });
+            this._commands.forEach(function (command) {
+                _this.emitContextFree(command);
+            });
+        };
+        Engine.prototype.emitContextFree = function (consumer) {
+            if (this._gl.isContextLost()) {
+                consumer.contextLost();
+            }
+            else {
+                consumer.contextFree(this._contextProvider);
+            }
+        };
+        Engine.prototype.synchronize = function (consumer) {
+            if (this._gl) {
+                this.emitContextGain(consumer);
+            }
+            else {
+            }
+            return this;
+        };
+        return Engine;
+    }(ShareableBase_1.ShareableBase));
+    exports.Engine = Engine;
 });
 
 define('davinci-eight/core/geometryFromPrimitive',["require", "exports", './Engine', './GeometryArrays', './GeometryElements', '../checks/mustBeArray'], function (require, exports, Engine_1, GeometryArrays_1, GeometryElements_1, mustBeArray_1) {
@@ -15145,452 +15667,6 @@ define('davinci-eight/geometries/TetrahedronGeometry',["require", "exports", '..
     }(GeometryElements_1.default));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = TetrahedronGeometry;
-});
-
-define('davinci-eight/core/makeWebGLProgram',["require", "exports", './makeWebGLShader'], function (require, exports, makeWebGLShader_1) {
-    "use strict";
-    function makeWebGLProgram(ctx, vertexShaderSrc, fragmentShaderSrc, attribs) {
-        var vs = makeWebGLShader_1.default(ctx, vertexShaderSrc, ctx.VERTEX_SHADER);
-        var fs = makeWebGLShader_1.default(ctx, fragmentShaderSrc, ctx.FRAGMENT_SHADER);
-        var program = ctx.createProgram();
-        ctx.attachShader(program, vs);
-        ctx.attachShader(program, fs);
-        for (var index = 0; index < attribs.length; ++index) {
-            ctx.bindAttribLocation(program, index, attribs[index]);
-        }
-        ctx.linkProgram(program);
-        var linked = ctx.getProgramParameter(program, ctx.LINK_STATUS);
-        if (linked || ctx.isContextLost()) {
-            return program;
-        }
-        else {
-            var message = ctx.getProgramInfoLog(program);
-            ctx.detachShader(program, vs);
-            ctx.deleteShader(vs);
-            ctx.detachShader(program, fs);
-            ctx.deleteShader(fs);
-            ctx.deleteProgram(program);
-            throw new Error("Error linking program: " + message);
-        }
-    }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = makeWebGLProgram;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/materials/ShaderMaterial',["require", "exports", '../core/Attrib', '../checks/isDefined', '../checks/isString', '../checks/isNull', '../core/makeWebGLProgram', '../checks/mustBeArray', '../checks/mustBeString', '../checks/mustBeUndefined', '../i18n/readOnly', '../core/ShareableContextConsumer', '../core/Uniform'], function (require, exports, Attrib_1, isDefined_1, isString_1, isNull_1, makeWebGLProgram_1, mustBeArray_1, mustBeString_1, mustBeUndefined_1, readOnly_1, ShareableContextConsumer_1, Uniform_1) {
-    "use strict";
-    var ShaderMaterial = (function (_super) {
-        __extends(ShaderMaterial, _super);
-        function ShaderMaterial(vertexShaderSrc, fragmentShaderSrc, attribs, engine, levelUp) {
-            if (levelUp === void 0) { levelUp = 0; }
-            _super.call(this, engine);
-            this._attributesByName = {};
-            this._attributesByIndex = [];
-            this._uniforms = {};
-            this.setLoggingName('ShaderMaterial');
-            if (isDefined_1.default(vertexShaderSrc) && !isNull_1.default(vertexShaderSrc)) {
-                this._vertexShaderSrc = mustBeString_1.default('vertexShaderSrc', vertexShaderSrc);
-            }
-            if (isDefined_1.default(fragmentShaderSrc) && !isNull_1.default(fragmentShaderSrc)) {
-                this._fragmentShaderSrc = mustBeString_1.default('fragmentShaderSrc', fragmentShaderSrc);
-            }
-            this._attribs = mustBeArray_1.default('attribs', attribs);
-            if (levelUp === 0) {
-                this.synchUp();
-            }
-        }
-        ShaderMaterial.prototype.destructor = function (levelUp) {
-            if (levelUp === 0) {
-                this.cleanUp();
-            }
-            mustBeUndefined_1.default(this._type, this._program);
-            _super.prototype.destructor.call(this, levelUp + 1);
-        };
-        ShaderMaterial.prototype.contextGain = function (context) {
-            var gl = context.gl;
-            if (!this._program && isString_1.default(this._vertexShaderSrc) && isString_1.default(this._fragmentShaderSrc)) {
-                this._program = makeWebGLProgram_1.default(gl, this._vertexShaderSrc, this._fragmentShaderSrc, this._attribs);
-                this._attributesByName = {};
-                this._attributesByIndex = [];
-                this._uniforms = {};
-                var aLen = gl.getProgramParameter(this._program, gl.ACTIVE_ATTRIBUTES);
-                for (var a = 0; a < aLen; a++) {
-                    var attribInfo = gl.getActiveAttrib(this._program, a);
-                    var attrib = new Attrib_1.default(attribInfo);
-                    this._attributesByName[attribInfo.name] = attrib;
-                    this._attributesByIndex.push(attrib);
-                }
-                var uLen = gl.getProgramParameter(this._program, gl.ACTIVE_UNIFORMS);
-                for (var u = 0; u < uLen; u++) {
-                    var uniformInfo = gl.getActiveUniform(this._program, u);
-                    this._uniforms[uniformInfo.name] = new Uniform_1.default(uniformInfo);
-                }
-                for (var aName in this._attributesByName) {
-                    if (this._attributesByName.hasOwnProperty(aName)) {
-                        this._attributesByName[aName].contextGain(gl, this._program);
-                    }
-                }
-                for (var uName in this._uniforms) {
-                    if (this._uniforms.hasOwnProperty(uName)) {
-                        this._uniforms[uName].contextGain(gl, this._program);
-                    }
-                }
-            }
-            _super.prototype.contextGain.call(this, context);
-        };
-        ShaderMaterial.prototype.contextLost = function () {
-            this._program = void 0;
-            for (var aName in this._attributesByName) {
-                if (this._attributesByName.hasOwnProperty(aName)) {
-                    this._attributesByName[aName].contextLost();
-                }
-            }
-            for (var uName in this._uniforms) {
-                if (this._uniforms.hasOwnProperty(uName)) {
-                    this._uniforms[uName].contextLost();
-                }
-            }
-            _super.prototype.contextLost.call(this);
-        };
-        ShaderMaterial.prototype.contextFree = function (context) {
-            if (this._program) {
-                var gl = context.gl;
-                if (gl) {
-                    if (!gl.isContextLost()) {
-                        gl.deleteProgram(this._program);
-                    }
-                    else {
-                    }
-                }
-                else {
-                    console.warn("memory leak: WebGLProgram has not been deleted because WebGLRenderingContext is not available anymore.");
-                }
-                this._program = void 0;
-            }
-            for (var aName in this._attributesByName) {
-                if (this._attributesByName.hasOwnProperty(aName)) {
-                    this._attributesByName[aName].contextFree();
-                }
-            }
-            for (var uName in this._uniforms) {
-                if (this._uniforms.hasOwnProperty(uName)) {
-                    this._uniforms[uName].contextFree();
-                }
-            }
-            _super.prototype.contextFree.call(this, context);
-        };
-        ShaderMaterial.prototype.use = function () {
-            var gl = this.gl;
-            if (gl) {
-                gl.useProgram(this._program);
-            }
-            else {
-                console.warn(this._type + ".use() missing WebGL rendering context.");
-            }
-        };
-        Object.defineProperty(ShaderMaterial.prototype, "vertexShaderSrc", {
-            get: function () {
-                return this._vertexShaderSrc;
-            },
-            set: function (vertexShaderSrc) {
-                this._vertexShaderSrc = mustBeString_1.default('vertexShaderSrc', vertexShaderSrc);
-                if (this.contextProvider) {
-                    this.contextProvider.addRef();
-                    var contextProvider = this.contextProvider;
-                    try {
-                        this.contextFree(contextProvider);
-                        this.contextGain(contextProvider);
-                    }
-                    finally {
-                        contextProvider.release();
-                    }
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(ShaderMaterial.prototype, "fragmentShaderSrc", {
-            get: function () {
-                return this._fragmentShaderSrc;
-            },
-            set: function (fragmentShaderSrc) {
-                this._fragmentShaderSrc = mustBeString_1.default('fragmentShaderSrc', fragmentShaderSrc);
-                if (this.contextProvider) {
-                    this.contextProvider.addRef();
-                    var contextProvider = this.contextProvider;
-                    try {
-                        this.contextFree(contextProvider);
-                        this.contextGain(contextProvider);
-                    }
-                    finally {
-                        contextProvider.release();
-                    }
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(ShaderMaterial.prototype, "attributeNames", {
-            get: function () {
-                var attributes = this._attributesByName;
-                if (attributes) {
-                    return Object.keys(attributes);
-                }
-                else {
-                    return void 0;
-                }
-            },
-            set: function (unused) {
-                throw new Error(readOnly_1.default('attributeNames').message);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        ShaderMaterial.prototype.enableAttrib = function (indexOrName) {
-            if (typeof indexOrName === 'number') {
-                if (this.gl) {
-                    this.gl.enableVertexAttribArray(indexOrName);
-                }
-            }
-            else if (typeof indexOrName === 'string') {
-                var attribLoc = this._attributesByName[indexOrName];
-                if (attribLoc) {
-                    attribLoc.enable();
-                }
-            }
-            else {
-                throw new TypeError("indexOrName must have type number or string.");
-            }
-        };
-        ShaderMaterial.prototype.enableAttribs = function () {
-            var attribLocations = this._attributesByName;
-            if (attribLocations) {
-                var aNames = Object.keys(attribLocations);
-                for (var i = 0, iLength = aNames.length; i < iLength; i++) {
-                    attribLocations[aNames[i]].enable();
-                }
-            }
-        };
-        ShaderMaterial.prototype.disableAttrib = function (indexOrName) {
-            if (typeof indexOrName === 'number') {
-                if (this.gl) {
-                    this.gl.disableVertexAttribArray(indexOrName);
-                }
-            }
-            else if (typeof indexOrName === 'string') {
-                var attribLoc = this._attributesByName[indexOrName];
-                if (attribLoc) {
-                    attribLoc.disable();
-                }
-            }
-            else {
-                throw new TypeError("indexOrName must have type number or string.");
-            }
-        };
-        ShaderMaterial.prototype.disableAttribs = function () {
-            var attribLocations = this._attributesByName;
-            if (attribLocations) {
-                var aNames = Object.keys(attribLocations);
-                for (var i = 0, iLength = aNames.length; i < iLength; i++) {
-                    attribLocations[aNames[i]].disable();
-                }
-            }
-        };
-        ShaderMaterial.prototype.getAttrib = function (indexOrName) {
-            if (typeof indexOrName === 'number') {
-                return this._attributesByIndex[indexOrName];
-            }
-            else if (typeof indexOrName === 'string') {
-                return this._attributesByName[indexOrName];
-            }
-            else {
-                throw new TypeError("indexOrName must be a number or a string");
-            }
-        };
-        ShaderMaterial.prototype.getAttribLocation = function (name) {
-            var attribLoc = this._attributesByName[name];
-            if (attribLoc) {
-                return attribLoc.index;
-            }
-            else {
-                return -1;
-            }
-        };
-        ShaderMaterial.prototype.getUniform = function (name) {
-            var uniforms = this._uniforms;
-            if (uniforms[name]) {
-                return uniforms[name];
-            }
-            else {
-                return void 0;
-            }
-        };
-        ShaderMaterial.prototype.hasUniform = function (name) {
-            mustBeString_1.default('name', name);
-            return isDefined_1.default(this._uniforms[name]);
-        };
-        ShaderMaterial.prototype.uniform1f = function (name, x) {
-            var uniformLoc = this.getUniform(name);
-            if (uniformLoc) {
-                uniformLoc.uniform1f(x);
-            }
-        };
-        ShaderMaterial.prototype.uniform2f = function (name, x, y) {
-            var uniformLoc = this._uniforms[name];
-            if (uniformLoc) {
-                uniformLoc.uniform2f(x, y);
-            }
-        };
-        ShaderMaterial.prototype.uniform3f = function (name, x, y, z) {
-            var uniformLoc = this._uniforms[name];
-            if (uniformLoc) {
-                uniformLoc.uniform3f(x, y, z);
-            }
-        };
-        ShaderMaterial.prototype.uniform4f = function (name, x, y, z, w) {
-            var uniformLoc = this._uniforms[name];
-            if (uniformLoc) {
-                uniformLoc.uniform4f(x, y, z, w);
-            }
-        };
-        ShaderMaterial.prototype.matrix2fv = function (name, matrix, transpose) {
-            var uniformLoc = this._uniforms[name];
-            if (uniformLoc) {
-                uniformLoc.matrix2fv(transpose, matrix);
-            }
-        };
-        ShaderMaterial.prototype.matrix3fv = function (name, matrix, transpose) {
-            var uniformLoc = this._uniforms[name];
-            if (uniformLoc) {
-                uniformLoc.matrix3fv(transpose, matrix);
-            }
-        };
-        ShaderMaterial.prototype.matrix4fv = function (name, matrix, transpose) {
-            var uniformLoc = this._uniforms[name];
-            if (uniformLoc) {
-                uniformLoc.matrix4fv(transpose, matrix);
-            }
-        };
-        ShaderMaterial.prototype.vector2fv = function (name, data) {
-            var uniformLoc = this._uniforms[name];
-            if (uniformLoc) {
-                uniformLoc.uniform2fv(data);
-            }
-        };
-        ShaderMaterial.prototype.vector3fv = function (name, data) {
-            var uniformLoc = this._uniforms[name];
-            if (uniformLoc) {
-                uniformLoc.uniform3fv(data);
-            }
-        };
-        ShaderMaterial.prototype.vector4fv = function (name, data) {
-            var uniformLoc = this._uniforms[name];
-            if (uniformLoc) {
-                uniformLoc.uniform4fv(data);
-            }
-        };
-        return ShaderMaterial;
-    }(ShareableContextConsumer_1.ShareableContextConsumer));
-    exports.ShaderMaterial = ShaderMaterial;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/materials/HTMLScriptsMaterial',["require", "exports", '../checks/isString', '../checks/mustBeArray', '../checks/mustBeObject', '../checks/mustBeString', '../checks/mustSatisfy', './ShaderMaterial'], function (require, exports, isString_1, mustBeArray_1, mustBeObject_1, mustBeString_1, mustSatisfy_1, ShaderMaterial_1) {
-    "use strict";
-    function getHTMLElementById(elementId, dom) {
-        var element = dom.getElementById(mustBeString_1.default('elementId', elementId));
-        if (element) {
-            return element;
-        }
-        else {
-            throw new Error("'" + elementId + "' is not a valid element identifier.");
-        }
-    }
-    function vertexShaderSrc(vsId, dom) {
-        mustBeString_1.default('vsId', vsId);
-        mustBeObject_1.default('dom', dom);
-        return getHTMLElementById(vsId, dom).textContent;
-    }
-    function fragmentShaderSrc(fsId, dom) {
-        mustBeString_1.default('fsId', fsId);
-        mustBeObject_1.default('dom', dom);
-        return getHTMLElementById(fsId, dom).textContent;
-    }
-    function assign(elementId, dom, result) {
-        var htmlElement = dom.getElementById(elementId);
-        if (htmlElement instanceof HTMLScriptElement) {
-            var script = htmlElement;
-            if (isString_1.default(script.type)) {
-                if (script.type.indexOf('vertex') >= 0) {
-                    result[0] = elementId;
-                }
-                else if (script.type.indexOf('fragment') >= 0) {
-                    result[1] = elementId;
-                }
-                else {
-                }
-            }
-            if (isString_1.default(script.textContent)) {
-                if (script.textContent.indexOf('gl_Position') >= 0) {
-                    result[0] = elementId;
-                }
-                else if (script.textContent.indexOf('gl_FragColor') >= 0) {
-                    result[1] = elementId;
-                }
-                else {
-                }
-            }
-        }
-    }
-    function detectShaderType(scriptIds, dom) {
-        var result = [scriptIds[0], scriptIds[1]];
-        assign(scriptIds[0], dom, result);
-        assign(scriptIds[1], dom, result);
-        return result;
-    }
-    var HTMLScriptsMaterial = (function (_super) {
-        __extends(HTMLScriptsMaterial, _super);
-        function HTMLScriptsMaterial(scriptIds, dom, attribs, engine, levelUp) {
-            if (levelUp === void 0) { levelUp = 0; }
-            _super.call(this, void 0, void 0, attribs, engine, levelUp + 1);
-            this.loaded = false;
-            this.setLoggingName('HTMLScriptsMaterial');
-            mustBeArray_1.default('scriptIds', scriptIds);
-            mustSatisfy_1.default('scriptIds', scriptIds.length === 2, function () { return 'have two script element identifiers.'; });
-            this.scriptIds = [scriptIds[0], scriptIds[1]];
-            this.dom = dom;
-            if (levelUp === 0) {
-                this.synchUp();
-            }
-        }
-        HTMLScriptsMaterial.prototype.destructor = function (levelUp) {
-            if (levelUp === 0) {
-                this.cleanUp();
-            }
-            _super.prototype.destructor.call(this, levelUp + 1);
-        };
-        HTMLScriptsMaterial.prototype.contextGain = function (contextProvider) {
-            if (!this.loaded) {
-                var scriptIds = detectShaderType(this.scriptIds, this.dom);
-                this.vertexShaderSrc = vertexShaderSrc(scriptIds[0], this.dom);
-                this.fragmentShaderSrc = fragmentShaderSrc(scriptIds[1], this.dom);
-                this.loaded = true;
-            }
-            _super.prototype.contextGain.call(this, contextProvider);
-        };
-        return HTMLScriptsMaterial;
-    }(ShaderMaterial_1.ShaderMaterial));
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = HTMLScriptsMaterial;
 });
 
 define('davinci-eight/core/getAttribVarName',["require", "exports", '../checks/isDefined', '../checks/mustBeObject', '../checks/mustBeString'], function (require, exports, isDefined_1, mustBeObject_1, mustBeString_1) {

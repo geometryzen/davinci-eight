@@ -340,10 +340,7 @@ declare module EIGHT {
     class Engine extends ShareableBase {
 
         /**
-         * If the canvas property has not been initialized by calling `start()`,
-         * then any attempt to access this property will trigger the construction of
-         * a new HTML canvas element which will remain in effect for this Engine
-         * until `stop()` is called.
+         * The canvas containing associated with the underlying WebGLRenderingContext.
          */
         canvas: HTMLCanvasElement;
 
@@ -363,9 +360,10 @@ declare module EIGHT {
         mayUseCache: boolean;
 
         /**
-         * Constructs an <code>Engine</code> using <code>WebGLContextAttributes</code>.
+         * Constructs an Engine.
+         * If the canvas arguments is provided then the Engine will be started automatically.
          */
-        constructor(attributes?: WebGLContextAttributes);
+        constructor(canvas?: string | HTMLCanvasElement | WebGLRenderingContext, attributes?: WebGLContextAttributes);
 
         /**
          * Called when the last reference to this Engine has been released.
@@ -378,14 +376,19 @@ declare module EIGHT {
         addContextListener(user: ContextConsumer): void;
 
         /**
+         * 
+         */
+        array(data?: Float32Array, usage?: Usage): VertexBuffer;
+
+        /**
          *
          */
-        clear(mask?: ClearBufferMask): void;
+        clear(mask?: ClearBufferMask): Engine;
 
         /**
          * Specifies a function that compares the incoming pixel depth to the current depth buffer value.
          */
-        depthFunc(func: DepthFunction): void;
+        depthFunc(func: DepthFunction): Engine;
 
         /**
          * <p>
@@ -419,12 +422,23 @@ declare module EIGHT {
         /**
          * 
          */
+        program(vertexShaderSrc: string, fragmentShaderSrc: string, dom?: Document): Material;
+
+        /**
+         * 
+         */
         readPixels(x: number, y: number, width: number, height: number, format: PixelFormat, type: PixelType, pixels: ArrayBufferView): void;
 
         /**
          *
          */
         removeContextListener(user: ContextConsumer): void;
+
+        /**
+         * A convenience method for setting the width and height properties of the
+         * underlying canvas and for setting the viewport to the drawing buffer height and width.
+         */
+        size(width: number, height: number): Engine;
 
         /**
          * Initializes the WebGL context for the specified canvas or canvas element identifier.
@@ -439,7 +453,7 @@ declare module EIGHT {
         /**
          *
          */
-        synchronize(user: ContextConsumer): void;
+        synchronize(user: ContextConsumer): Engine;
 
         /**
          * Defines what part of the canvas will be used in rendering the drawing buffer.
@@ -576,12 +590,15 @@ declare module EIGHT {
     interface Material extends FacetVisitor, ContextConsumer {
         vertexShaderSrc: string;
         fragmentShaderSrc: string;
+        attrib(name: string, value: VertexBuffer, size: number, normalized?: boolean, stride?: number, offset?: number): Material;
         getAttrib(indexOrName: number | string): Attrib;
         getAttribLocation(name: string): number;
         enableAttrib(indexOrName: number | string): void;
         disableAttrib(indexOrName: number | string): void;
+        draw(mode: BeginMode, count: number, type?: DataType): Material;
         getUniform(name: string): Uniform;
-        use(): void;
+        uniform(name: string, value: number | number[]): Material;
+        use(): Material;
     }
 
     /**
@@ -3076,8 +3093,10 @@ declare module EIGHT {
         contextGain(contextProvider: ContextProvider): void;
         contextLost(): void;
         protected destructor(levelUp: number): void;
+        attrib(name: string, value: VertexBuffer, size: number, normalized?: boolean, stride?: number, offset?: number): Material;
         disableAttrib(indexOrName: number | string): void;
         disableAttribs(): void;
+        draw(mode: BeginMode, count: number, type?: DataType): Material;
         enableAttrib(indexOrName: number | string): void;
         enableAttribs(): void;
         getAttrib(indexOrName: number | string): Attrib;
@@ -3091,7 +3110,8 @@ declare module EIGHT {
         uniform2f(name: string, x: number, y: number): void;
         uniform3f(name: string, x: number, y: number, z: number): void;
         uniform4f(name: string, x: number, y: number, z: number, w: number): void;
-        use(): void;
+        uniform(name: string, value: number | number[]): Material;
+        use(): Material;
         vector2fv(name: string, vec2: Float32Array): void;
         vector3fv(name: string, vec3: Float32Array): void;
         vector4fv(name: string, vec4: Float32Array): void;

@@ -6,19 +6,23 @@ import ClearBufferMask from './ClearBufferMask';
 import DepthFunction from './DepthFunction';
 import EIGHTLogger from '../commands/EIGHTLogger';
 import {ContextConsumer} from './ContextConsumer';
+import ContextManager from './ContextManager';
 import DefaultContextProvider from '../base/DefaultContextProvider';
 import initWebGL from './initWebGL';
 import isDefined from '../checks/isDefined';
+import {Material} from './Material';
 import mustBeObject from '../checks/mustBeObject';
 import PixelFormat from './PixelFormat';
 import PixelType from './PixelType';
 import ShareableArray from '../collections/ShareableArray';
 import {ShareableBase} from './ShareableBase';
+import Usage from './Usage';
 import VersionLogger from '../commands/VersionLogger';
-import VertexBufferManager from './VertexBufferManager';
+import VertexBuffer from './VertexBuffer';
 import {WebGLClearColor} from '../commands/WebGLClearColor';
 import {WebGLEnable} from '../commands/WebGLEnable';
 import {WebGLDisable} from '../commands/WebGLDisable';
+import HTMLScriptsMaterial from '../materials/HTMLScriptsMaterial';
 
 /**
  *
@@ -34,7 +38,7 @@ import {WebGLDisable} from '../commands/WebGLDisable';
  *     // When no longer needed, usually in the window.onunload function...
  *     engine.release()
  */
-export class Engine extends ShareableBase implements VertexBufferManager {
+export class Engine extends ShareableBase implements ContextManager {
 
     /**
      * 
@@ -59,9 +63,11 @@ export class Engine extends ShareableBase implements VertexBufferManager {
     private _contextProvider: DefaultContextProvider
 
     /**
+     * @param canvas 
      * @param attributes Allows the context to be configured.
+     * @param doc The document object model that contains the canvas identifier.
      */
-    constructor(attributes?: WebGLContextAttributes) {
+    constructor(canvas?: string | HTMLCanvasElement | WebGLRenderingContext, attributes?: WebGLContextAttributes, doc = window.document) {
         super()
         this.setLoggingName('Engine')
 
@@ -90,6 +96,10 @@ export class Engine extends ShareableBase implements VertexBufferManager {
                     user.contextGain(this._contextProvider)
                 })
             }
+        }
+
+        if (canvas) {
+            this.start(canvas, doc)
         }
     }
 
@@ -120,6 +130,14 @@ export class Engine extends ShareableBase implements VertexBufferManager {
         }
     }
 
+    array(data?: Float32Array, usage = Usage.STATIC_DRAW): VertexBuffer {
+        const vbo = new VertexBuffer(this);
+        if (data) {
+            vbo.bufferData(data, usage);
+        }
+        return vbo;
+    }
+
     /**
      * The canvas element associated with the WebGLRenderingContext.
      */
@@ -130,6 +148,35 @@ export class Engine extends ShareableBase implements VertexBufferManager {
         else {
             return void 0;
         }
+    }
+
+    blendFunc(sfactor: BlendingFactorSrc, dfactor: BlendingFactorDest): Engine {
+        const gl = this._gl
+        if (gl) {
+            gl.blendFunc(sfactor, dfactor)
+        }
+        return this;
+    }
+
+    /**
+     * <p>
+     * Sets the graphics buffers to values preselected by clearColor, clearDepth or clearStencil.
+     * </p>
+     */
+    clear(mask = ClearBufferMask.COLOR_BUFFER_BIT | ClearBufferMask.DEPTH_BUFFER_BIT): Engine {
+        const gl = this._gl
+        if (gl) {
+            gl.clear(mask)
+        }
+        return this;
+    }
+
+    depthFunc(func: DepthFunction): Engine {
+        const gl = this._gl
+        if (gl) {
+            gl.depthFunc(func)
+        }
+        return this;
     }
 
     /**
@@ -188,6 +235,13 @@ export class Engine extends ShareableBase implements VertexBufferManager {
     /**
      * 
      */
+    program(vertexShader: string, fragmentShader: string, dom = window.document): Material {
+        return new HTMLScriptsMaterial([vertexShader, fragmentShader], dom, [], this, 0);
+    }
+
+    /**
+     * 
+     */
     readPixels(x: number, y: number, width: number, height: number, format: PixelFormat, type: PixelType, pixels: ArrayBufferView): void {
         if (this._gl) {
             this._gl.readPixels(x, y, width, height, format, type, pixels);
@@ -198,37 +252,21 @@ export class Engine extends ShareableBase implements VertexBufferManager {
      * @param user
      */
     removeContextListener(user: ContextConsumer): void {
-        mustBeObject('user', user)
-        const index = this._users.indexOf(user)
+        mustBeObject('user', user);
+        const index = this._users.indexOf(user);
         if (index >= 0) {
-            this._users.splice(index, 1)
-        }
-    }
-
-    blendFunc(sfactor: BlendingFactorSrc, dfactor: BlendingFactorDest): void {
-        const gl = this._gl
-        if (gl) {
-            gl.blendFunc(sfactor, dfactor)
+            this._users.splice(index, 1);
         }
     }
 
     /**
-     * <p>
-     * Sets the graphics buffers to values preselected by clearColor, clearDepth or clearStencil.
-     * </p>
+     * A convenience method for setting the width and height properties of the
+     * underlying canvas and for setting the viewport to the drawing buffer height and width.
      */
-    clear(mask = ClearBufferMask.COLOR_BUFFER_BIT | ClearBufferMask.DEPTH_BUFFER_BIT): void {
-        const gl = this._gl
-        if (gl) {
-            gl.clear(mask)
-        }
-    }
-
-    depthFunc(func: DepthFunction): void {
-        const gl = this._gl
-        if (gl) {
-            gl.depthFunc(func)
-        }
+    size(width: number, height: number): Engine {
+        this.canvas.width = width;
+        this.canvas.height = height;
+        return this.viewport(0, 0, this.gl.drawingBufferWidth, this.gl.drawingBufferHeight);
     }
 
     /**
@@ -288,7 +326,7 @@ export class Engine extends ShareableBase implements VertexBufferManager {
      * @param canvas The HTML canvas element or canvas element identifier.
      * @param doc The document object model that contains the canvas identifier.
      */
-    start(canvas: string | HTMLCanvasElement, doc = window.document): Engine {
+    start(canvas: string | HTMLCanvasElement | WebGLRenderingContext, doc = window.document): Engine {
         if (typeof canvas === 'string') {
             const canvasElement = <HTMLCanvasElement>doc.getElementById(canvas);
             if (canvasElement) {
@@ -315,7 +353,9 @@ export class Engine extends ShareableBase implements VertexBufferManager {
             return this;
         }
         else {
-            console.warn("canvas must be an HTMLCanvasElement to start the context.");
+            // TODO: How to check that this is a WebGLRenderingContext?
+            this._gl = canvas;
+            // console.warn("canvas must be an HTMLCanvasElement to start the context.");
             return this;
         }
     }
@@ -374,12 +414,13 @@ export class Engine extends ShareableBase implements VertexBufferManager {
     /**
      * @param consumer
      */
-    synchronize(consumer: ContextConsumer): void {
+    synchronize(consumer: ContextConsumer): Engine {
         if (this._gl) {
             this.emitContextGain(consumer)
         }
         else {
             // FIXME: Broken symmetry.
         }
+        return this;
     }
 }

@@ -1,7 +1,7 @@
 import cleanUp from './cleanUp';
 import {ContextConsumer} from './ContextConsumer';
+import ContextManager from './ContextManager';
 import ContextProvider from './ContextProvider';
-import {Engine} from './Engine';
 import EngineSubscriber from './EngineSubscriber';
 import isUndefined from '../checks/isUndefined';
 import isNull from '../checks/isNull';
@@ -43,7 +43,7 @@ export class ShareableContextConsumer extends ShareableBase implements ContextCo
      * The existence of this property indicates a subscription.
      * Therefore, before releasing this reference, be sure to unsubscribe.
      */
-    private engine: Engine;
+    private manager: ContextManager;
 
     /**
      * We hold onto the context provider after a contextGain event.
@@ -56,16 +56,13 @@ export class ShareableContextConsumer extends ShareableBase implements ContextCo
 
     /**
      *
-     * @param engine The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
+     * @param manager The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
      */
-    constructor(engine: Engine) {
-        super()
-        this.setLoggingName('ShareableContextConsumer')
-        if (engine instanceof Engine) {
-            this.subscribe(engine)
-        }
-        else if (!isNull(engine) && !isUndefined(engine)) {
-            throw new Error(`engine must be an Engine or null or undefined. typeof engine => ${typeof engine}`)
+    constructor(manager: ContextManager) {
+        super();
+        this.setLoggingName('ShareableContextConsumer');
+        if (!isNull(manager) && !isUndefined(manager)) {
+            this.subscribe(manager);
         }
     }
 
@@ -91,21 +88,19 @@ export class ShareableContextConsumer extends ShareableBase implements ContextCo
      * <p>
      * This method is idempotent; calling it more than once with the same <code>Engine</code> does not change the state.
      * </p>
-     *
-     * @param engine
      */
-    subscribe(engine: Engine): void {
-        engine = mustBeObject('engine', engine)
-        if (!this.engine) {
-            engine.addRef()
-            this.engine = engine
-            engine.addContextListener(this)
+    subscribe(manager: ContextManager): void {
+        manager = mustBeObject('manager', manager);
+        if (!this.manager) {
+            manager.addRef();
+            this.manager = manager;
+            manager.addContextListener(this);
         }
         else {
-            if (this.engine !== engine) {
+            if (this.manager !== manager) {
                 // We can only subscribe to one Engine at at time.
                 this.unsubscribe()
-                this.subscribe(engine)
+                this.subscribe(manager)
             }
             else {
                 // We are already subscribed to this engine (Idempotentency)
@@ -117,9 +112,9 @@ export class ShareableContextConsumer extends ShareableBase implements ContextCo
      *
      */
     public synchUp() {
-        const engine = this.engine
-        if (engine) {
-            engine.synchronize(this)
+        const manager = this.manager
+        if (manager) {
+            manager.synchronize(this)
         }
     }
 
@@ -139,10 +134,10 @@ export class ShareableContextConsumer extends ShareableBase implements ContextCo
      * </p>
      */
     unsubscribe(): void {
-        if (this.engine) {
-            this.engine.removeContextListener(this)
-            this.engine.release()
-            this.engine = void 0
+        if (this.manager) {
+            this.manager.removeContextListener(this)
+            this.manager.release()
+            this.manager = void 0
         }
     }
 

@@ -1,7 +1,10 @@
+import Attrib from './Attrib';
+import BeginMode from './BeginMode';
+import DataType from './DataType';
 import {FacetVisitor} from './FacetVisitor';
 import {ContextConsumer} from './ContextConsumer';
-import Attrib from './Attrib';
 import Uniform from './Uniform';
+import VertexBuffer from './VertexBuffer';
 
 /**
  * <p>
@@ -13,12 +16,17 @@ export interface Material extends FacetVisitor, ContextConsumer {
     /**
      *
      */
-    vertexShaderSrc: string
+    vertexShaderSrc: string;
 
     /**
      *
      */
-    fragmentShaderSrc: string
+    fragmentShaderSrc: string;
+
+    /**
+     * 
+     */
+    attrib(name: string, value: VertexBuffer, size: number, normalized?: boolean, stride?: number, offset?: number): Material;
 
     /**
      *
@@ -41,9 +49,20 @@ export interface Material extends FacetVisitor, ContextConsumer {
      */
     disableAttrib(indexOrName: number | string): void;
 
+    /**
+     * 
+     */
+    draw(mode: BeginMode, count: number, type?: DataType): Material;
+
+
     getUniform(name: string): Uniform;
 
     hasUniform(name: string): boolean;
 
-    use(): void
+    /**
+     * 
+     */
+    uniform(name: string, value: number | number[]): Material;
+
+    use(): Material;
 }

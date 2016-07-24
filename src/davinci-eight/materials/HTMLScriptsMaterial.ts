@@ -1,5 +1,5 @@
+import ContextManager from '../core/ContextManager';
 import ContextProvider from '../core/ContextProvider';
-import {Engine} from '../core/Engine';
 import isString from '../checks/isString';
 import mustBeArray from '../checks/mustBeArray';
 import mustBeObject from '../checks/mustBeObject';
@@ -90,11 +90,11 @@ export default class HTMLScriptsMaterial extends ShaderMaterial {
      * @param scriptIds The element identifiers for the vertex and fragment shader respectively.
      * @param dom The document object model that owns the script elements.
      * @param attribs An array of strings containing the order of attributes.
-     * @param engine
+     * @param manager
      * @param levelUp
      */
-    constructor(scriptIds: string[], dom: Document, attribs: string[], engine: Engine, levelUp = 0) {
-        super(void 0, void 0, attribs, engine, levelUp + 1);
+    constructor(scriptIds: string[], dom: Document, attribs: string[], manager: ContextManager, levelUp = 0) {
+        super(void 0, void 0, attribs, manager, levelUp + 1);
         this.setLoggingName('HTMLScriptsMaterial');
         mustBeArray('scriptIds', scriptIds);
         mustSatisfy('scriptIds', scriptIds.length === 2, () => { return 'have two script element identifiers.' });
@@ -107,9 +107,9 @@ export default class HTMLScriptsMaterial extends ShaderMaterial {
 
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
-            this.cleanUp()
+            this.cleanUp();
         }
-        super.destructor(levelUp + 1)
+        super.destructor(levelUp + 1);
     }
 
     /**

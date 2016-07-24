@@ -1,6 +1,6 @@
+import ContextManager from './ContextManager';
 import ContextProvider from './ContextProvider';
 import DataBuffer from './DataBuffer';
-import {Engine} from './Engine';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeUndefined from '../checks/mustBeUndefined';
 import {ShareableContextConsumer} from './ShareableContextConsumer';
@@ -16,8 +16,8 @@ export default class VertexBuffer extends ShareableContextConsumer implements Da
     private _data: Float32Array;
     public _usage = Usage.STATIC_DRAW;
 
-    constructor(engine: Engine) {
-        super(engine);
+    constructor(manager: ContextManager) {
+        super(manager);
         this.setLoggingName('VertexBuffer');
         this.synchUp();
     }
@@ -45,7 +45,13 @@ export default class VertexBuffer extends ShareableContextConsumer implements Da
         this.bufferData();
     }
 
-    bufferData(): void {
+    bufferData(data?: Float32Array, usage?: Usage): void {
+        if (data) {
+            this._data = data;
+        }
+        if (usage) {
+            this._usage = usage;
+        }
         const gl = this.gl
         if (gl) {
             if (this.webGLBuffer) {
