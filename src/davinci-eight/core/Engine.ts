@@ -8,12 +8,15 @@ import EIGHTLogger from '../commands/EIGHTLogger';
 import {ContextConsumer} from './ContextConsumer';
 import ContextManager from './ContextManager';
 import DefaultContextProvider from '../base/DefaultContextProvider';
+import {Geometry} from './Geometry';
+import geometryFromPrimitive from './geometryFromPrimitive';
 import initWebGL from './initWebGL';
 import isDefined from '../checks/isDefined';
 import {Material} from './Material';
 import mustBeObject from '../checks/mustBeObject';
 import PixelFormat from './PixelFormat';
 import PixelType from './PixelType';
+import Primitive from './Primitive';
 import ShareableArray from '../collections/ShareableArray';
 import {ShareableBase} from './ShareableBase';
 import Usage from './Usage';
@@ -232,10 +235,14 @@ export class Engine extends ShareableBase implements ContextManager {
         }
     }
 
+    geometry(primitive: Primitive): Geometry {
+        return geometryFromPrimitive(primitive, this);
+    }
+
     /**
      * 
      */
-    program(vertexShader: string, fragmentShader: string, dom = window.document): Material {
+    material(vertexShader: string, fragmentShader: string, dom = window.document): Material {
         return new HTMLScriptsMaterial([vertexShader, fragmentShader], dom, [], this, 0);
     }
 

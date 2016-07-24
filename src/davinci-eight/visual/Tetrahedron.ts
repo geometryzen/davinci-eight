@@ -15,13 +15,13 @@ export default class Tetrahedron extends Mesh {
      * @param levelUp
      */
     constructor(options: TetrahedronOptions = {}, levelUp = 0) {
-        super(void 0, void 0, options.engine, levelUp + 1);
+        super(void 0, void 0, options.contextManager, levelUp + 1);
         this.setLoggingName('Tetrahedron');
         const geoOptions: TetrahedronGeometryOptions = {};
-        geoOptions.engine = options.engine;
+        geoOptions.contextManager = options.contextManager;
         const geometry = new TetrahedronGeometry(geoOptions);
         const matOptions: MeshMaterialOptions = null;
-        const material = new MeshMaterial(matOptions, options.engine);
+        const material = new MeshMaterial(matOptions, options.contextManager);
         this.geometry = geometry;
         this.material = material;
         geometry.release();

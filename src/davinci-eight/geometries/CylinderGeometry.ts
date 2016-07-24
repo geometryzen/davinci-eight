@@ -17,7 +17,7 @@ export default class CylinderGeometry extends GeometryElements {
      * @param levelUp
      */
     constructor(options: CylinderGeometryOptions = {}, levelUp = 0) {
-        super(cylinderPrimitive(options), options.engine, options, levelUp + 1);
+        super(cylinderPrimitive(options), options.contextManager, options, levelUp + 1);
         this.setLoggingName('CylinderGeometry')
         if (levelUp === 0) {
             this.synchUp();

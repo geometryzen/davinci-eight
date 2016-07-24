@@ -1,8 +1,8 @@
 import BeginMode from '../core/BeginMode';
 import {Color} from '../core/Color';
 import {ColorFacet} from '../facets/ColorFacet';
+import ContextManager from '../core/ContextManager';
 import DataType from  '../core/DataType';
-import {Engine} from '../core/Engine';
 import GeometryArrays from '../core/GeometryArrays';
 import {Mesh} from '../core/Mesh';
 import {ShaderMaterial} from '../materials/ShaderMaterial';
@@ -77,8 +77,8 @@ export default class Basis extends Mesh {
     private uColorA = new ColorFacet(uColorA);
     private uColorB = new ColorFacet(uColorB);
     private uColorC = new ColorFacet(uColorC);
-    constructor(engine: Engine, levelUp = 0) {
-        super(void 0, void 0, engine, levelUp + 1);
+    constructor(contextManager: ContextManager, levelUp = 0) {
+        super(void 0, void 0, contextManager, levelUp + 1);
         this.setLoggingName("Basis");
 
         // FIXME: This should be initialized to a random orthonormal basis.
@@ -91,14 +91,14 @@ export default class Basis extends Mesh {
         this.uPointC.vector.copy(Vector3.vector(0, 0, 1));
         this.colorC.copy(Color.blue);
 
-        const geometry = new GeometryArrays(void 0, engine);
+        const geometry = new GeometryArrays(void 0, contextManager);
         geometry.mode = BeginMode.LINES;
         geometry.setAttribute('aPointIndex', { values: [0, 1, 0, 2, 0, 3], size: 1, type: DataType.FLOAT });
         geometry.setAttribute('aColorIndex', { values: [1, 1, 2, 2, 3, 3], size: 1, type: DataType.FLOAT });
         this.geometry = geometry;
         geometry.release();
 
-        const material = new ShaderMaterial(vs, fs, [], engine);
+        const material = new ShaderMaterial(vs, fs, [], contextManager);
         this.material = material;
         material.release();
 

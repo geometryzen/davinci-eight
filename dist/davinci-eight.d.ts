@@ -337,7 +337,7 @@ declare module EIGHT {
      * A wrapper around an HTMLCanvasElement that provides WebGLRenderingContext initialization
      * and context lost management.
      */
-    class Engine extends ShareableBase {
+    class Engine extends ShareableBase implements ContextProvider {
 
         /**
          * The canvas containing associated with the underlying WebGLRenderingContext.
@@ -422,7 +422,12 @@ declare module EIGHT {
         /**
          * 
          */
-        program(vertexShaderSrc: string, fragmentShaderSrc: string, dom?: Document): Material;
+        geometry(primitive: Primitive): Geometry;
+
+        /**
+         * 
+         */
+        material(vertexShader: string, fragmentShader: string, dom?: Document): Material;
 
         /**
          * 
@@ -492,12 +497,21 @@ declare module EIGHT {
         contextLost(): void;
     }
 
+    /**
+     * 
+     */
+    interface ContextManager extends Shareable {
+        synchronize(consumer: ContextConsumer): void;
+        addContextListener(consumer: ContextConsumer): void;
+        removeContextListener(consumer: ContextConsumer): void;
+    }
+
     class ShareableContextConsumer extends ShareableBase implements ContextConsumer {
         cleanUp(): void;
         contextFree(contextProvider: ContextProvider): void;
         contextGain(contextProvider: ContextProvider): void;
         contextLost(): void;
-        subscribe(engine: Engine): void;
+        subscribe(contextManager: ContextManager): void;
         synchUp(): void;
         unsubscribe(): void;
     }
@@ -516,7 +530,7 @@ declare module EIGHT {
     class VertexBuffer extends ShareableContextConsumer implements DataBuffer<Float32Array> {
         data: Float32Array;
         usage: Usage;
-        constructor(engine: Engine);
+        constructor(contextManager: ContextManager);
         bind(): void;
         bufferData(): void;
         unbind(): void
@@ -528,7 +542,7 @@ declare module EIGHT {
     class IndexBuffer extends ShareableContextConsumer implements DataBuffer<Uint16Array> {
         data: Uint16Array;
         usage: Usage;
-        constructor(engine: Engine);
+        constructor(contextManager: ContextManager);
         bind(): void;
         bufferData(): void;
         unbind(): void;
@@ -661,7 +675,7 @@ declare module EIGHT {
     /**
      *
      */
-    function geometryFromPrimitive(primitive: Primitive, engine: Engine, options?: { order?: string[]; tilt?: SpinorE3 }): Geometry;
+    function geometryFromPrimitive(primitive: Primitive, contextManager: ContextManager, options?: { order?: string[]; tilt?: SpinorE3 }): Geometry;
 
     /**
      *
@@ -2779,19 +2793,19 @@ declare module EIGHT {
      *
      */
     class Scene extends ShareableContextConsumer {
-        constructor(engine: Engine)
-        add(drawable: AbstractDrawable): void
-        contains(drawable: AbstractDrawable)
-        contextFree(contextProvider: ContextProvider): void
-        contextGain(contextProvider: ContextProvider): void
-        contextLost(): void
-        protected destructor(): void
-        draw(ambients: Facet[]): void
-        find(match: (drawable: AbstractDrawable) => boolean): ShareableArray<AbstractDrawable>
-        findByName(name: string): ShareableArray<AbstractDrawable>
-        findOne(match: (drawable: AbstractDrawable) => boolean): AbstractDrawable
-        findOneByName(name: string): AbstractDrawable
-        remove(drawable: AbstractDrawable): void
+        constructor(contextManager: ContextManager);
+        add(drawable: AbstractDrawable): void;
+        contains(drawable: AbstractDrawable);
+        contextFree(contextProvider: ContextProvider): void;
+        contextGain(contextProvider: ContextProvider): void;
+        contextLost(): void;
+        protected destructor(): void;
+        draw(ambients: Facet[]): void;
+        find(match: (drawable: AbstractDrawable) => boolean): ShareableArray<AbstractDrawable>;
+        findByName(name: string): ShareableArray<AbstractDrawable>;
+        findOne(match: (drawable: AbstractDrawable) => boolean): AbstractDrawable;
+        findOneByName(name: string): AbstractDrawable;
+        remove(drawable: AbstractDrawable): void;
     }
 
     interface View {
@@ -2951,7 +2965,7 @@ declare module EIGHT {
         /**
          *
          */
-        constructor(primitive: Primitive, engine: Engine, options?: { order?: string[]; tilt?: SpinorE3 }, levelUp?: number);
+        constructor(primitive: Primitive, contextManager: ContextManager, options?: { order?: string[]; tilt?: SpinorE3 }, levelUp?: number);
         protected destructor(levelUp: number): void;
         addPart(geometry: Geometry): void;
         bind(material: Material): void;
@@ -2978,7 +2992,7 @@ declare module EIGHT {
          * The total number of bytes for each element.
          */
         stride: number;
-        constructor(primitive: Primitive, engine: Engine, options?: { order?: string[]; tilt?: SpinorE3 }, levelUp?: number);
+        constructor(primitive: Primitive, contextManager: ContextManager, options?: { order?: string[]; tilt?: SpinorE3 }, levelUp?: number);
         protected destructor(levelUp: number): void;
         addPart(geometry: Geometry): void;
         bind(material: Material): void;
@@ -3088,7 +3102,7 @@ declare module EIGHT {
         attributeNames: string[];
         fragmentShaderSrc: string;
         vertexShaderSrc: string;
-        constructor(vertexShaderSrc: string, fragmentShaderSrc: string, attribs: string[], engine: Engine);
+        constructor(vertexShaderSrc: string, fragmentShaderSrc: string, attribs: string[], contextManager: ContextManager);
         contextFree(contextProvider: ContextProvider): void;
         contextGain(contextProvider: ContextProvider): void;
         contextLost(): void;
@@ -3177,10 +3191,10 @@ declare module EIGHT {
         /**
          *
          */
-        constructor(geometry: Geometry, material: Material, engine: Engine, levelUp?: number);
+        constructor(geometry: Geometry, material: Material, contextManager: ContextManager, levelUp?: number);
 
-        contextFree(manager: ContextProvider): void;
-        contextGain(manager: ContextProvider): void;
+        contextFree(contextProvider: ContextProvider): void;
+        contextGain(contextProvider: ContextProvider): void;
         contextLost(): void;
 
         protected destructor(levelUp: number): void;
@@ -3209,7 +3223,7 @@ declare module EIGHT {
         /**
          *
          */
-        constructor(scriptIds: string[], dom: Document, attribs: string[], engine: Engine, levelUp?: number);
+        constructor(scriptIds: string[], dom: Document, attribs: string[], contextManager: ContextManager, levelUp?: number);
         protected destructor(levelUp: number): void;
     }
 
@@ -3230,7 +3244,7 @@ declare module EIGHT {
      *
      */
     class PointMaterial extends ShaderMaterial {
-        constructor(options: PointMaterialOptions, engine: Engine, levelUp?: number);
+        constructor(options: PointMaterialOptions, contextManager: ContextManager, levelUp?: number);
         protected destructor(levelUp: number): void;
     }
 
@@ -3251,7 +3265,7 @@ declare module EIGHT {
      *
      */
     class LineMaterial extends ShaderMaterial {
-        constructor(options: LineMaterialOptions, engine: Engine, levelUp?: number)
+        constructor(options: LineMaterialOptions, contextManager: ContextManager, levelUp?: number)
         protected destructor(levelUp: number): void;
     }
 
@@ -3272,7 +3286,7 @@ declare module EIGHT {
      *
      */
     class MeshMaterial extends ShaderMaterial {
-        constructor(options: MeshMaterialOptions, engine: Engine, levelUp?: number);
+        constructor(options: MeshMaterialOptions, contextManager: ContextManager, levelUp?: number);
         protected destructor(levelUp: number): void;
     }
 
@@ -3545,7 +3559,7 @@ declare module EIGHT {
         /**
          *
          */
-        constructor(geometry: Geometry, material: Material, engine: Engine, levelUp?: number);
+        constructor(geometry: Geometry, material: Material, contextManager: ContextManager, levelUp?: number);
         /**
          *
          */
@@ -3586,7 +3600,7 @@ declare module EIGHT {
         /**
          *
          */
-        constructor(geometry: Geometry, material: Material, engine: Engine, initialAxis: VectorE3, levelUp?: number);
+        constructor(geometry: Geometry, material: Material, contextManager: ContextManager, initialAxis: VectorE3, levelUp?: number);
         protected destructor(levelUp: number): void;
     }
 
@@ -3601,7 +3615,7 @@ declare module EIGHT {
             options?: {
                 attitude?: SpinorE3;
                 color?: AbstractColor;
-                engine?: Engine;
+                contextManager?: ContextManager;
                 offset?: VectorE3;
                 position?: VectorE3;
                 tilt?: SpinorE3;
@@ -3617,7 +3631,7 @@ declare module EIGHT {
         colorA: Color;
         colorB: Color;
         colorC: Color;
-        constructor(engine: EIGHT.Engine, levelUp?: number);
+        constructor(contextManager: ContextManager, levelUp?: number);
         protected destructor(levelUp: number): void;
     }
 
@@ -3630,7 +3644,7 @@ declare module EIGHT {
                 attitude?: SpinorE3;
                 color?: AbstractColor;
                 depth?: number;
-                engine?: Engine;
+                contextManager?: ContextManager;
                 height?: number;
                 offset?: VectorE3;
                 openBack?: boolean;
@@ -3654,7 +3668,7 @@ declare module EIGHT {
                 attitude?: SpinorE3;
                 axis?: VectorE3;
                 color?: AbstractColor;
-                engine?: Engine;
+                contextManager?: ContextManager;
                 length?: number;
                 offset?: VectorE3;
                 openBase?: boolean;
@@ -3675,7 +3689,7 @@ declare module EIGHT {
                 attitude?: SpinorE3;
                 color?: AbstractColor;
                 mode?: BeginMode;
-                engine?: Engine;
+                contextManager?: ContextManager;
                 offset?: VectorE3;
                 position?: VectorE3;
                 tilt?: SpinorE3;
@@ -3695,7 +3709,7 @@ declare module EIGHT {
                 attitude?: SpinorE3;
                 color?: AbstractColor;
                 mode?: BeginMode;
-                engine?: Engine;
+                contextManager?: ContextManager;
                 offset?: VectorE3;
                 position?: VectorE3;
                 tilt?: SpinorE3;
@@ -3735,7 +3749,7 @@ declare module EIGHT {
             /**
              * The WebGL context wrapper.
              */
-            engine?: Engine;
+            contextManager?: ContextManager;
         }, levelUp?: number);
         protected destructor(levelUp: number): void;
     }
@@ -3746,7 +3760,7 @@ declare module EIGHT {
             options?: {
                 attitude?: SpinorE3;
                 color?: AbstractColor;
-                engine?: Engine;
+                contextManager?: ContextManager;
                 offset?: VectorE3;
                 position?: VectorE3;
                 radius?: number;
@@ -3761,7 +3775,7 @@ declare module EIGHT {
             options?: {
                 attitude?: SpinorE3;
                 color?: AbstractColor;
-                engine?: Engine;
+                contextManager?: ContextManager;
                 offset?: VectorE3;
                 position?: VectorE3;
                 tilt?: SpinorE3;

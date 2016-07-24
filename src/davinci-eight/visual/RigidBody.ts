@@ -1,12 +1,12 @@
-import {Engine} from '../core/Engine'
-import {Geometric3} from '../math/Geometric3'
-import {Geometry} from '../core/Geometry'
-import IRigidBody from './IRigidBody'
-import {Material} from '../core/Material'
-import {Mesh} from '../core/Mesh'
-import mustBeObject from '../checks/mustBeObject'
-import Vector3 from '../math/Vector3'
-import VectorE3 from '../math/VectorE3'
+import ContextManager from '../core/ContextManager';
+import {Geometric3} from '../math/Geometric3';
+import {Geometry} from '../core/Geometry';
+import IRigidBody from './IRigidBody';
+import {Material} from '../core/Material';
+import {Mesh} from '../core/Mesh';
+import mustBeObject from '../checks/mustBeObject';
+import Vector3 from '../math/Vector3';
+import VectorE3 from '../math/VectorE3';
 
 /**
  * <p>
@@ -23,7 +23,7 @@ export class RigidBody extends Mesh implements IRigidBody<number, Geometric3, Ge
      * The (dimensionless) angular momentum of the <code>RigidBody</code>.
      * <p>
      */
-    public L = Geometric3.zero()
+    public L = Geometric3.zero();
 
     /**
      * <p>
@@ -33,7 +33,7 @@ export class RigidBody extends Mesh implements IRigidBody<number, Geometric3, Ge
      * The (dimensionless) mass of the <code>RigidBody</code>.
      * </p>
      */
-    public m = 1
+    public m = 1;
 
     /**
      * <p>
@@ -43,7 +43,7 @@ export class RigidBody extends Mesh implements IRigidBody<number, Geometric3, Ge
      * The (dimensionless) momentum of the <code>RigidBody</code>.
      * <p>
      */
-    public P = Geometric3.zero()
+    public P = Geometric3.zero();
 
     /**
      * <p>
@@ -53,22 +53,22 @@ export class RigidBody extends Mesh implements IRigidBody<number, Geometric3, Ge
      * The (dimensionless) charge of the <code>RigidBody</code>.
      * </p>
      */
-    public Q = Geometric3.zero()
+    public Q = Geometric3.zero();
 
     /**
      * Cache the initial axis value so that we can compute the axis at any
      * time by rotating the initial axis using the Mesh attitude.
      */
-    public initialAxis: VectorE3
+    public initialAxis: VectorE3;
 
     /**
      * @param geometry
      * @param material
-     * @param engine
+     * @param contextManager
      * @param initialAxis The initial direction of the symmetry axis
      */
-    constructor(geometry: Geometry, material: Material, engine: Engine, initialAxis: VectorE3, levelUp = 0) {
-        super(geometry, material, engine, levelUp + 1);
+    constructor(geometry: Geometry, material: Material, contextManager: ContextManager, initialAxis: VectorE3, levelUp = 0) {
+        super(geometry, material, contextManager, levelUp + 1);
         this.setLoggingName('RigidBody');
         this.initialAxis = Vector3.copy(initialAxis);
         if (levelUp === 0) {

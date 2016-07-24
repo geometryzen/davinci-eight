@@ -1,6 +1,6 @@
 import {AbstractDrawable} from './AbstractDrawable';
+import ContextManager from '../core/ContextManager';
 import ContextProvider from '../core/ContextProvider';
-import {Engine} from '../core/Engine';
 import exchange from '../base/exchange';
 import {Facet} from '../core/Facet';
 import {Geometry} from './Geometry';
@@ -51,18 +51,18 @@ export class Drawable extends ShareableContextConsumer implements AbstractDrawab
     /**
      * @param geometry
      * @param material
-     * @param engine The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
+     * @param contextManager The <code>ContextManager</code> to subscribe to or <code>null</code> for deferred subscription.
      */
-    constructor(geometry: Geometry, material: Material, engine: Engine, levelUp = 0) {
-        super(engine)
-        this.setLoggingName('Drawable')
+    constructor(geometry: Geometry, material: Material, contextManager: ContextManager, levelUp = 0) {
+        super(contextManager);
+        this.setLoggingName('Drawable');
         if (isObject(geometry)) {
             // The assignment takes care of the addRef.
-            this.geometry = geometry
+            this.geometry = geometry;
         }
         if (isObject(material)) {
             // The assignment takes care of the addRef.
-            this.material = material
+            this.material = material;
         }
 
         if (levelUp === 0) {
@@ -78,9 +78,9 @@ export class Drawable extends ShareableContextConsumer implements AbstractDrawab
             this.cleanUp();
         }
 
-        this._geometry = exchange(this._geometry, void 0)
-        this._material = exchange(this._material, void 0)
-        super.destructor(levelUp + 1)
+        this._geometry = exchange(this._geometry, void 0);
+        this._material = exchange(this._material, void 0);
+        super.destructor(levelUp + 1);
     }
 
     /**

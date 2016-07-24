@@ -18,17 +18,17 @@ export class Sphere extends RigidBody {
      * @param options
      */
     constructor(options: SphereOptions = {}, levelUp = 0) {
-        super(void 0, void 0, options.engine, direction(options), levelUp + 1);
+        super(void 0, void 0, options.contextManager, direction(options), levelUp + 1);
         this.setLoggingName('Sphere');
 
         const geoOptions: SphereGeometryOptions = {};
-        geoOptions.engine = options.engine;
+        geoOptions.contextManager = options.contextManager;
         const geometry = new SphereGeometry(geoOptions);
         this.geometry = geometry;
         geometry.release();
 
         const matOptions: MeshMaterialOptions = void 0;
-        const material = new MeshMaterial(matOptions, options.engine);
+        const material = new MeshMaterial(matOptions, options.contextManager);
         this.material = material;
         material.release();
 

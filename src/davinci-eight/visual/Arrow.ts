@@ -62,7 +62,7 @@ export class Arrow extends Mesh {
      * @param options
      */
     constructor(options: ArrowOptions = {}, levelUp = 0) {
-        super(void 0, void 0, options.engine, levelUp + 1);
+        super(void 0, void 0, options.contextManager, levelUp + 1);
         this.setLoggingName('Arrow');
 
         // TODO: This should be going into the geometry options.
@@ -71,14 +71,14 @@ export class Arrow extends Mesh {
         this._vector = Geometric3.fromVector(this.direction0);
 
         const geoOptions: ArrowGeometryOptions = {};
-        geoOptions.engine = options.engine;
+        geoOptions.contextManager = options.contextManager;
         geoOptions.offset = options.offset;
         // geoOptions.stress; // Nothing correspondint to stress
         geoOptions.tilt = options.tilt;
         const geometry = new ArrowGeometry(geoOptions);
 
         const matOptions: MeshMaterialOptions = void 0;
-        const material = new MeshMaterial(matOptions, options.engine);
+        const material = new MeshMaterial(matOptions, options.contextManager);
 
         this.geometry = geometry;
         this.material = material;

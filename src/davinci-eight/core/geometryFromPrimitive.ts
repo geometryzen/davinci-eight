@@ -1,4 +1,4 @@
-import {Engine} from './Engine';
+import ContextManager from './ContextManager';
 import {Geometry} from './Geometry';
 import GeometryArrays from './GeometryArrays';
 import GeometryElements from './GeometryElements';
@@ -14,20 +14,17 @@ import SpinorE3 from '../math/SpinorE3';
  * 
  * @param primitive
  * @param tilt The rotor that was used to move the primitive from canonical configuration to the reference configuration.
- * @param engine
+ * @param manager
  * @param order
  */
-export default function geometryFromPrimitive(primitive: Primitive, engine: Engine, options: { order?: string[]; tilt?: SpinorE3 } = {}): Geometry {
-    if (!(engine instanceof Engine)) {
-        throw new TypeError("engine must be an Engine");
-    }
+export default function geometryFromPrimitive(primitive: Primitive, contextManager: ContextManager, options: { order?: string[]; tilt?: SpinorE3 } = {}): Geometry {
     if (options.order) {
         mustBeArray('order', options.order);
     }
     if (primitive.indices) {
-        return new GeometryElements(primitive, engine, options, 0);
+        return new GeometryElements(primitive, contextManager, options, 0);
     }
     else {
-        return new GeometryArrays(primitive, engine, options, 0);
+        return new GeometryArrays(primitive, contextManager, options, 0);
     }
 }

@@ -545,7 +545,7 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-07-24';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.279.0';
+            this.VERSION = '2.280.0';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -6222,11 +6222,11 @@ define('davinci-eight/core/ShareableContextConsumer',["require", "exports", './c
     "use strict";
     var ShareableContextConsumer = (function (_super) {
         __extends(ShareableContextConsumer, _super);
-        function ShareableContextConsumer(manager) {
+        function ShareableContextConsumer(contextManager) {
             _super.call(this);
             this.setLoggingName('ShareableContextConsumer');
-            if (!isNull_1.default(manager) && !isUndefined_1.default(manager)) {
-                this.subscribe(manager);
+            if (!isNull_1.default(contextManager) && !isUndefined_1.default(contextManager)) {
+                this.subscribe(contextManager);
             }
         }
         ShareableContextConsumer.prototype.destructor = function (levelUp) {
@@ -6237,17 +6237,17 @@ define('davinci-eight/core/ShareableContextConsumer',["require", "exports", './c
             this.unsubscribe();
             _super.prototype.destructor.call(this, levelUp + 1);
         };
-        ShareableContextConsumer.prototype.subscribe = function (manager) {
-            manager = mustBeObject_1.default('manager', manager);
+        ShareableContextConsumer.prototype.subscribe = function (contextManager) {
+            contextManager = mustBeObject_1.default('contextManager', contextManager);
             if (!this.manager) {
-                manager.addRef();
-                this.manager = manager;
-                manager.addContextListener(this);
+                contextManager.addRef();
+                this.manager = contextManager;
+                contextManager.addContextListener(this);
             }
             else {
-                if (this.manager !== manager) {
+                if (this.manager !== contextManager) {
                     this.unsubscribe();
-                    this.subscribe(manager);
+                    this.subscribe(contextManager);
                 }
                 else {
                 }
@@ -6322,9 +6322,9 @@ define('davinci-eight/core/Drawable',["require", "exports", '../base/exchange', 
     var POINTSIZE_FACET_NAME = 'pointSize';
     var Drawable = (function (_super) {
         __extends(Drawable, _super);
-        function Drawable(geometry, material, engine, levelUp) {
+        function Drawable(geometry, material, contextManager, levelUp) {
             if (levelUp === void 0) { levelUp = 0; }
-            _super.call(this, engine);
+            _super.call(this, contextManager);
             this._visible = true;
             this._facets = {};
             this.setLoggingName('Drawable');
@@ -7171,8 +7171,8 @@ define('davinci-eight/core/GeometryBase',["require", "exports", '../math/Matrix4
     "use strict";
     var GeometryBase = (function (_super) {
         __extends(GeometryBase, _super);
-        function GeometryBase(tilt, engine, levelUp) {
-            _super.call(this, engine);
+        function GeometryBase(tilt, contextManager, levelUp) {
+            _super.call(this, contextManager);
             this.scaling = Matrix4_1.default.one();
             this.canonicalScale = Matrix4_1.default.one();
             this.K = Matrix4_1.default.one();
@@ -7263,8 +7263,8 @@ define('davinci-eight/core/GeometryLeaf',["require", "exports", './GeometryBase'
     "use strict";
     var GeometryLeaf = (function (_super) {
         __extends(GeometryLeaf, _super);
-        function GeometryLeaf(tilt, engine, levelUp) {
-            _super.call(this, tilt, engine, levelUp + 1);
+        function GeometryLeaf(tilt, contextManager, levelUp) {
+            _super.call(this, tilt, contextManager, levelUp + 1);
             this.scaling = Matrix4_1.default.one();
             mustBeNumber_1.default('levelUp', levelUp);
             this.setLoggingName('GeometryLeaf');
@@ -7393,14 +7393,19 @@ define('davinci-eight/core/VertexBuffer',["require", "exports", '../checks/mustB
     "use strict";
     var VertexBuffer = (function (_super) {
         __extends(VertexBuffer, _super);
-        function VertexBuffer(manager) {
-            _super.call(this, manager);
+        function VertexBuffer(contextManager, levelUp) {
+            if (levelUp === void 0) { levelUp = 0; }
+            _super.call(this, contextManager);
             this._usage = Usage_2.default.STATIC_DRAW;
             this.setLoggingName('VertexBuffer');
-            this.synchUp();
+            if (levelUp === 0) {
+                this.synchUp();
+            }
         }
         VertexBuffer.prototype.destructor = function (levelUp) {
-            this.cleanUp();
+            if (levelUp === 0) {
+                this.cleanUp();
+            }
             mustBeUndefined_1.default(this._type, this.webGLBuffer);
             _super.prototype.destructor.call(this, levelUp + 1);
         };
@@ -7502,14 +7507,14 @@ define('davinci-eight/core/GeometryArrays',["require", "exports", './computeAttr
     "use strict";
     var GeometryArrays = (function (_super) {
         __extends(GeometryArrays, _super);
-        function GeometryArrays(primitive, engine, options, levelUp) {
+        function GeometryArrays(primitive, contextManager, options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
-            _super.call(this, options.tilt, engine, levelUp + 1);
+            _super.call(this, options.tilt, contextManager, levelUp + 1);
             this.first = 0;
             this.setLoggingName('GeometryArrays');
             this.attributes = {};
-            this.vbo = new VertexBuffer_1.default(engine);
+            this.vbo = new VertexBuffer_1.default(contextManager);
             var data = vertexArraysFromPrimitive_1.default(primitive, options.order);
             if (!isNull_1.default(data) && !isUndefined_1.default(data)) {
                 if (isObject_1.default(data)) {
@@ -7839,14 +7844,19 @@ define('davinci-eight/core/IndexBuffer',["require", "exports", '../checks/mustBe
     "use strict";
     var IndexBuffer = (function (_super) {
         __extends(IndexBuffer, _super);
-        function IndexBuffer(engine) {
-            _super.call(this, engine);
+        function IndexBuffer(contextManager, levelUp) {
+            if (levelUp === void 0) { levelUp = 0; }
+            _super.call(this, contextManager);
             this._usage = Usage_2.default.STATIC_DRAW;
             this.setLoggingName('IndexBuffer');
-            this.synchUp();
+            if (levelUp === 0) {
+                this.synchUp();
+            }
         }
         IndexBuffer.prototype.destructor = function (levelUp) {
-            this.cleanUp();
+            if (levelUp === 0) {
+                this.cleanUp();
+            }
             mustBeUndefined_1.default(this._type, this.webGLBuffer);
             _super.prototype.destructor.call(this, levelUp + 1);
         };
@@ -7942,14 +7952,14 @@ define('davinci-eight/core/GeometryElements',["require", "exports", './GeometryL
     "use strict";
     var GeometryElements = (function (_super) {
         __extends(GeometryElements, _super);
-        function GeometryElements(primitive, engine, options, levelUp) {
+        function GeometryElements(primitive, manager, options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
-            _super.call(this, options.tilt, engine, levelUp + 1);
+            _super.call(this, options.tilt, manager, levelUp + 1);
             this.offset = 0;
             this.setLoggingName('GeometryElements');
-            this.ibo = new IndexBuffer_1.default(engine);
-            this.vbo = new VertexBuffer_1.default(engine);
+            this.ibo = new IndexBuffer_1.default(manager);
+            this.vbo = new VertexBuffer_1.default(manager);
             var data = vertexArraysFromPrimitive_1.default(primitive, options.order);
             if (!isNull_1.default(data) && !isUndefined_1.default(data)) {
                 if (isObject_1.default(data)) {
@@ -8418,9 +8428,9 @@ define('davinci-eight/core/Mesh',["require", "exports", '../facets/ColorFacet', 
     var MODEL_FACET_NAME = 'model';
     var Mesh = (function (_super) {
         __extends(Mesh, _super);
-        function Mesh(geometry, material, engine, levelUp) {
+        function Mesh(geometry, material, contextManager, levelUp) {
             if (levelUp === void 0) { levelUp = 0; }
-            _super.call(this, geometry, material, engine, levelUp + 1);
+            _super.call(this, geometry, material, contextManager, levelUp + 1);
             this.setLoggingName('Mesh');
             this.setFacet(MODEL_FACET_NAME, new ModelFacet_1.ModelFacet());
             this.setFacet(COLOR_FACET_NAME, new ColorFacet_1.ColorFacet());
@@ -8639,11 +8649,11 @@ define('davinci-eight/core/Scene',["require", "exports", '../collections/Shareab
     }
     var Scene = (function (_super) {
         __extends(Scene, _super);
-        function Scene(engine, levelUp) {
+        function Scene(contextManager, levelUp) {
             if (levelUp === void 0) { levelUp = 0; }
-            _super.call(this, engine);
+            _super.call(this, contextManager);
             this.setLoggingName('Scene');
-            mustBeObject_1.default('engine', engine);
+            mustBeObject_1.default('contextManager', contextManager);
             this._drawables = new ShareableArray_1.default([]);
             this._parts = new ShareableArray_1.default([]);
             if (levelUp === 0) {
@@ -9073,6 +9083,24 @@ define('davinci-eight/base/DefaultContextProvider',["require", "exports", '../co
     }(ShareableBase_1.ShareableBase));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = DefaultContextProvider;
+});
+
+define('davinci-eight/core/geometryFromPrimitive',["require", "exports", './GeometryArrays', './GeometryElements', '../checks/mustBeArray'], function (require, exports, GeometryArrays_1, GeometryElements_1, mustBeArray_1) {
+    "use strict";
+    function geometryFromPrimitive(primitive, contextManager, options) {
+        if (options === void 0) { options = {}; }
+        if (options.order) {
+            mustBeArray_1.default('order', options.order);
+        }
+        if (primitive.indices) {
+            return new GeometryElements_1.default(primitive, contextManager, options, 0);
+        }
+        else {
+            return new GeometryArrays_1.default(primitive, contextManager, options, 0);
+        }
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = geometryFromPrimitive;
 });
 
 define('davinci-eight/core/initWebGL',["require", "exports", '../checks/isDefined'], function (require, exports, isDefined_1) {
@@ -9637,7 +9665,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/Engine',["require", "exports", './checkEnums', './ClearBufferMask', '../commands/EIGHTLogger', '../base/DefaultContextProvider', './initWebGL', '../checks/isDefined', '../checks/mustBeObject', '../collections/ShareableArray', './ShareableBase', './Usage', '../commands/VersionLogger', './VertexBuffer', '../commands/WebGLClearColor', '../commands/WebGLEnable', '../commands/WebGLDisable', '../materials/HTMLScriptsMaterial'], function (require, exports, checkEnums_1, ClearBufferMask_1, EIGHTLogger_1, DefaultContextProvider_1, initWebGL_1, isDefined_1, mustBeObject_1, ShareableArray_1, ShareableBase_1, Usage_1, VersionLogger_1, VertexBuffer_1, WebGLClearColor_1, WebGLEnable_1, WebGLDisable_1, HTMLScriptsMaterial_1) {
+define('davinci-eight/core/Engine',["require", "exports", './checkEnums', './ClearBufferMask', '../commands/EIGHTLogger', '../base/DefaultContextProvider', './geometryFromPrimitive', './initWebGL', '../checks/isDefined', '../checks/mustBeObject', '../collections/ShareableArray', './ShareableBase', './Usage', '../commands/VersionLogger', './VertexBuffer', '../commands/WebGLClearColor', '../commands/WebGLEnable', '../commands/WebGLDisable', '../materials/HTMLScriptsMaterial'], function (require, exports, checkEnums_1, ClearBufferMask_1, EIGHTLogger_1, DefaultContextProvider_1, geometryFromPrimitive_1, initWebGL_1, isDefined_1, mustBeObject_1, ShareableArray_1, ShareableBase_1, Usage_1, VersionLogger_1, VertexBuffer_1, WebGLClearColor_1, WebGLEnable_1, WebGLDisable_1, HTMLScriptsMaterial_1) {
     "use strict";
     var Engine = (function (_super) {
         __extends(Engine, _super);
@@ -9769,7 +9797,10 @@ define('davinci-eight/core/Engine',["require", "exports", './checkEnums', './Cle
             enumerable: true,
             configurable: true
         });
-        Engine.prototype.program = function (vertexShader, fragmentShader, dom) {
+        Engine.prototype.geometry = function (primitive) {
+            return geometryFromPrimitive_1.default(primitive, this);
+        };
+        Engine.prototype.material = function (vertexShader, fragmentShader, dom) {
             if (dom === void 0) { dom = window.document; }
             return new HTMLScriptsMaterial_1.default([vertexShader, fragmentShader], dom, [], this, 0);
         };
@@ -9901,27 +9932,6 @@ define('davinci-eight/core/Engine',["require", "exports", './checkEnums', './Cle
         return Engine;
     }(ShareableBase_1.ShareableBase));
     exports.Engine = Engine;
-});
-
-define('davinci-eight/core/geometryFromPrimitive',["require", "exports", './Engine', './GeometryArrays', './GeometryElements', '../checks/mustBeArray'], function (require, exports, Engine_1, GeometryArrays_1, GeometryElements_1, mustBeArray_1) {
-    "use strict";
-    function geometryFromPrimitive(primitive, engine, options) {
-        if (options === void 0) { options = {}; }
-        if (!(engine instanceof Engine_1.Engine)) {
-            throw new TypeError("engine must be an Engine");
-        }
-        if (options.order) {
-            mustBeArray_1.default('order', options.order);
-        }
-        if (primitive.indices) {
-            return new GeometryElements_1.default(primitive, engine, options, 0);
-        }
-        else {
-            return new GeometryArrays_1.default(primitive, engine, options, 0);
-        }
-    }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = geometryFromPrimitive;
 });
 
 define('davinci-eight/facets/AmbientLight',["require", "exports", '../core/Color', '../checks/mustBeArray', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeString', '../core/GraphicsProgramSymbols'], function (require, exports, Color_1, mustBeArray_1, mustBeNumber_1, mustBeObject_1, mustBeString_1, GraphicsProgramSymbols_1) {
@@ -14013,7 +14023,7 @@ define('davinci-eight/geometries/ArrowGeometry',["require", "exports", './arrowP
         function ArrowGeometry(options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
-            _super.call(this, arrowPrimitive_1.default(options), options.engine, options, levelUp + 1);
+            _super.call(this, arrowPrimitive_1.default(options), options.contextManager, options, levelUp + 1);
             this._length = 1.0;
             this._radiusCone = mustBeNumber_1.default("options.radiusCone", options.radiusCone);
             this._radius = this._radiusCone;
@@ -14304,7 +14314,7 @@ define('davinci-eight/geometries/BoxGeometry',["require", "exports", '../core/Ge
         function BoxGeometry(options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
-            _super.call(this, boxPrimitive_1.default(options), options.engine, options, levelUp + 1);
+            _super.call(this, boxPrimitive_1.default(options), options.contextManager, options, levelUp + 1);
             this.w = 1;
             this.h = 1;
             this.d = 1;
@@ -14917,7 +14927,7 @@ define('davinci-eight/geometries/CylinderGeometry',["require", "exports", './cyl
         function CylinderGeometry(options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
-            _super.call(this, cylinderPrimitive_1.default(options), options.engine, options, levelUp + 1);
+            _super.call(this, cylinderPrimitive_1.default(options), options.contextManager, options, levelUp + 1);
             this._length = 1;
             this._radius = 1;
             this.setLoggingName('CylinderGeometry');
@@ -15203,7 +15213,7 @@ define('davinci-eight/geometries/GridGeometry',["require", "exports", '../core/G
         function GridGeometry(options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
-            _super.call(this, gridPrimitive_1.default(options), options.engine, options, levelUp + 1);
+            _super.call(this, gridPrimitive_1.default(options), options.contextManager, options, levelUp + 1);
             this.setLoggingName('GridGeometry');
             if (levelUp === 0) {
                 this.synchUp();
@@ -15432,7 +15442,7 @@ define('davinci-eight/geometries/SphereGeometry',["require", "exports", '../core
         function SphereGeometry(options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
-            _super.call(this, spherePrimitive_1.default(options), options.engine, options, levelUp + 1);
+            _super.call(this, spherePrimitive_1.default(options), options.contextManager, options, levelUp + 1);
             this._radius = 1;
             this.setLoggingName('SphereGeometry');
             if (levelUp === 0) {
@@ -15651,7 +15661,7 @@ define('davinci-eight/geometries/TetrahedronGeometry',["require", "exports", '..
         function TetrahedronGeometry(options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
-            _super.call(this, tetrahedronPrimitive_1.default(options), options.engine, options, levelUp + 1);
+            _super.call(this, tetrahedronPrimitive_1.default(options), options.contextManager, options, levelUp + 1);
             this.setLoggingName('TetrahedronGeometry');
             if (levelUp === 0) {
                 this.synchUp();
@@ -16136,9 +16146,9 @@ define('davinci-eight/materials/LineMaterial',["require", "exports", '../materia
     }
     var LineMaterial = (function (_super) {
         __extends(LineMaterial, _super);
-        function LineMaterial(options, engine, levelUp) {
+        function LineMaterial(options, contextManager, levelUp) {
             if (levelUp === void 0) { levelUp = 0; }
-            _super.call(this, vertexShaderSrc(options), fragmentShaderSrc(options), [], engine, levelUp + 1);
+            _super.call(this, vertexShaderSrc(options), fragmentShaderSrc(options), [], contextManager, levelUp + 1);
             this.setLoggingName('LineMaterial');
             if (levelUp === 0) {
                 this.synchUp();
@@ -16205,9 +16215,9 @@ define('davinci-eight/materials/MeshMaterial',["require", "exports", '../materia
     }
     var MeshMaterial = (function (_super) {
         __extends(MeshMaterial, _super);
-        function MeshMaterial(options, engine, levelUp) {
+        function MeshMaterial(options, contextManager, levelUp) {
             if (levelUp === void 0) { levelUp = 0; }
-            _super.call(this, vertexShaderSrc(options), fragmentShaderSrc(options), [], engine, levelUp + 1);
+            _super.call(this, vertexShaderSrc(options), fragmentShaderSrc(options), [], contextManager, levelUp + 1);
             this.setLoggingName('MeshMaterial');
             if (levelUp === 0) {
                 this.synchUp();
@@ -16270,9 +16280,9 @@ define('davinci-eight/materials/PointMaterial',["require", "exports", '../materi
     }
     var PointMaterial = (function (_super) {
         __extends(PointMaterial, _super);
-        function PointMaterial(options, engine, levelUp) {
+        function PointMaterial(options, contextManager, levelUp) {
             if (levelUp === void 0) { levelUp = 0; }
-            _super.call(this, vertexShaderSrc(options), fragmentShaderSrc(options), [], engine, levelUp + 1);
+            _super.call(this, vertexShaderSrc(options), fragmentShaderSrc(options), [], contextManager, levelUp + 1);
             this.setLoggingName('PointMaterial');
             if (levelUp === 0) {
                 this.synchUp();
@@ -16868,17 +16878,17 @@ define('davinci-eight/visual/Arrow',["require", "exports", '../geometries/ArrowG
             var _this = this;
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
-            _super.call(this, void 0, void 0, options.engine, levelUp + 1);
+            _super.call(this, void 0, void 0, options.contextManager, levelUp + 1);
             this.setLoggingName('Arrow');
             this.direction0 = direction(options, Vector3_1.default.vector(0, 1, 0));
             this._vector = Geometric3_1.Geometric3.fromVector(this.direction0);
             var geoOptions = {};
-            geoOptions.engine = options.engine;
+            geoOptions.contextManager = options.contextManager;
             geoOptions.offset = options.offset;
             geoOptions.tilt = options.tilt;
             var geometry = new ArrowGeometry_1.default(geoOptions);
             var matOptions = void 0;
-            var material = new MeshMaterial_1.MeshMaterial(matOptions, options.engine);
+            var material = new MeshMaterial_1.MeshMaterial(matOptions, options.contextManager);
             this.geometry = geometry;
             this.material = material;
             geometry.release();
@@ -17016,9 +17026,9 @@ define('davinci-eight/visual/Basis',["require", "exports", '../core/BeginMode', 
     ].join('\n');
     var Basis = (function (_super) {
         __extends(Basis, _super);
-        function Basis(engine, levelUp) {
+        function Basis(contextManager, levelUp) {
             if (levelUp === void 0) { levelUp = 0; }
-            _super.call(this, void 0, void 0, engine, levelUp + 1);
+            _super.call(this, void 0, void 0, contextManager, levelUp + 1);
             this.uPointA = new Vector3Facet_1.default(uPointA);
             this.uPointB = new Vector3Facet_1.default(uPointB);
             this.uPointC = new Vector3Facet_1.default(uPointC);
@@ -17032,13 +17042,13 @@ define('davinci-eight/visual/Basis',["require", "exports", '../core/BeginMode', 
             this.colorB.copy(Color_1.Color.green);
             this.uPointC.vector.copy(Vector3_1.default.vector(0, 0, 1));
             this.colorC.copy(Color_1.Color.blue);
-            var geometry = new GeometryArrays_1.default(void 0, engine);
+            var geometry = new GeometryArrays_1.default(void 0, contextManager);
             geometry.mode = BeginMode_1.default.LINES;
             geometry.setAttribute('aPointIndex', { values: [0, 1, 0, 2, 0, 3], size: 1, type: DataType_1.default.FLOAT });
             geometry.setAttribute('aColorIndex', { values: [1, 1, 2, 2, 3, 3], size: 1, type: DataType_1.default.FLOAT });
             this.geometry = geometry;
             geometry.release();
-            var material = new ShaderMaterial_1.ShaderMaterial(vs, fs, [], engine);
+            var material = new ShaderMaterial_1.ShaderMaterial(vs, fs, [], contextManager);
             this.material = material;
             material.release();
             this.setFacet("Basis-" + uPointA, this.uPointA);
@@ -17128,9 +17138,9 @@ define('davinci-eight/visual/RigidBody',["require", "exports", '../math/Geometri
     "use strict";
     var RigidBody = (function (_super) {
         __extends(RigidBody, _super);
-        function RigidBody(geometry, material, engine, initialAxis, levelUp) {
+        function RigidBody(geometry, material, contextManager, initialAxis, levelUp) {
             if (levelUp === void 0) { levelUp = 0; }
-            _super.call(this, geometry, material, engine, levelUp + 1);
+            _super.call(this, geometry, material, contextManager, levelUp + 1);
             this.L = Geometric3_1.Geometric3.zero();
             this.m = 1;
             this.P = Geometric3_1.Geometric3.zero();
@@ -17175,15 +17185,15 @@ define('davinci-eight/visual/Sphere',["require", "exports", './direction', '../c
         function Sphere(options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
-            _super.call(this, void 0, void 0, options.engine, direction_1.default(options), levelUp + 1);
+            _super.call(this, void 0, void 0, options.contextManager, direction_1.default(options), levelUp + 1);
             this.setLoggingName('Sphere');
             var geoOptions = {};
-            geoOptions.engine = options.engine;
+            geoOptions.contextManager = options.contextManager;
             var geometry = new SphereGeometry_1.default(geoOptions);
             this.geometry = geometry;
             geometry.release();
             var matOptions = void 0;
-            var material = new MeshMaterial_1.MeshMaterial(matOptions, options.engine);
+            var material = new MeshMaterial_1.MeshMaterial(matOptions, options.contextManager);
             this.material = material;
             material.release();
             if (options.color) {
@@ -17230,10 +17240,10 @@ define('davinci-eight/visual/Box',["require", "exports", '../geometries/BoxGeome
         function Box(options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
-            _super.call(this, void 0, void 0, options.engine, direction_1.default(options), levelUp + 1);
+            _super.call(this, void 0, void 0, options.contextManager, direction_1.default(options), levelUp + 1);
             this.setLoggingName('Box');
             var geoOptions = {};
-            geoOptions.engine = options.engine;
+            geoOptions.contextManager = options.contextManager;
             geoOptions.tilt = options.tilt;
             geoOptions.offset = options.offset;
             geoOptions.openBack = options.openBack;
@@ -17246,7 +17256,7 @@ define('davinci-eight/visual/Box',["require", "exports", '../geometries/BoxGeome
             this.geometry = geometry;
             geometry.release();
             var matOptions = void 0;
-            var material = new MeshMaterial_1.MeshMaterial(matOptions, options.engine);
+            var material = new MeshMaterial_1.MeshMaterial(matOptions, options.contextManager);
             this.material = material;
             material.release();
             if (options.color) {
@@ -17318,10 +17328,10 @@ define('davinci-eight/visual/Cylinder',["require", "exports", './direction', '..
         function Cylinder(options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
-            _super.call(this, void 0, void 0, options.engine, direction_1.default(options), levelUp + 1);
+            _super.call(this, void 0, void 0, options.contextManager, direction_1.default(options), levelUp + 1);
             this.setLoggingName('Cylinder');
             var geoOptions = {};
-            geoOptions.engine = options.engine;
+            geoOptions.contextManager = options.contextManager;
             geoOptions.tilt = options.tilt;
             geoOptions.offset = options.offset;
             geoOptions.openCap = options.openCap;
@@ -17331,7 +17341,7 @@ define('davinci-eight/visual/Cylinder',["require", "exports", './direction', '..
             this.geometry = geometry;
             geometry.release();
             var matOptions = null;
-            var material = new MeshMaterial_1.MeshMaterial(matOptions, options.engine);
+            var material = new MeshMaterial_1.MeshMaterial(matOptions, options.contextManager);
             this.material = material;
             material.release();
             if (options.color) {
@@ -17600,7 +17610,7 @@ define('davinci-eight/geometries/CurveGeometry',["require", "exports", '../core/
         function CurveGeometry(options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
-            _super.call(this, curvePrimitive_1.default(options), options.engine, options, levelUp + 1);
+            _super.call(this, curvePrimitive_1.default(options), options.contextManager, options, levelUp + 1);
             this.setLoggingName('CurveGeometry');
             if (levelUp === 0) {
                 this.synchUp();
@@ -17703,7 +17713,7 @@ define('davinci-eight/visual/Curve',["require", "exports", '../core/BeginMode', 
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_PROJECTION_MATRIX] = 'mat4';
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_VIEW_MATRIX] = 'mat4';
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_POINT_SIZE] = 'float';
-        var material = new PointMaterial_1.PointMaterial(matOptions, options.engine);
+        var material = new PointMaterial_1.PointMaterial(matOptions, options.contextManager);
         curve.material = material;
         material.release();
     }
@@ -17732,7 +17742,7 @@ define('davinci-eight/visual/Curve',["require", "exports", '../core/BeginMode', 
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_MODEL_MATRIX] = 'mat4';
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_PROJECTION_MATRIX] = 'mat4';
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_VIEW_MATRIX] = 'mat4';
-        var material = new LineMaterial_1.LineMaterial(matOptions, options.engine);
+        var material = new LineMaterial_1.LineMaterial(matOptions, options.contextManager);
         curve.material = material;
         material.release();
     }
@@ -17741,7 +17751,7 @@ define('davinci-eight/visual/Curve',["require", "exports", '../core/BeginMode', 
         function Curve(options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
-            _super.call(this, void 0, void 0, options.engine, levelUp + 1);
+            _super.call(this, void 0, void 0, options.contextManager, levelUp + 1);
             this.setLoggingName('Curve');
             var mode = isDefined_1.default(options.mode) ? options.mode : BeginMode_1.default.LINES;
             switch (mode) {
@@ -17884,7 +17894,7 @@ define('davinci-eight/visual/Grid',["require", "exports", '../core/BeginMode', '
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_PROJECTION_MATRIX] = 'mat4';
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_VIEW_MATRIX] = 'mat4';
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_POINT_SIZE] = 'float';
-        var material = new PointMaterial_1.PointMaterial(matOptions, options.engine);
+        var material = new PointMaterial_1.PointMaterial(matOptions, options.contextManager);
         grid.material = material;
         material.release();
     }
@@ -17916,7 +17926,7 @@ define('davinci-eight/visual/Grid',["require", "exports", '../core/BeginMode', '
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_MODEL_MATRIX] = 'mat4';
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_PROJECTION_MATRIX] = 'mat4';
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_VIEW_MATRIX] = 'mat4';
-        var material = new LineMaterial_1.LineMaterial(matOptions, options.engine);
+        var material = new LineMaterial_1.LineMaterial(matOptions, options.contextManager);
         grid.material = material;
         material.release();
     }
@@ -17963,7 +17973,7 @@ define('davinci-eight/visual/Grid',["require", "exports", '../core/BeginMode', '
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_PROJECTION_MATRIX] = 'mat4';
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_VIEW_MATRIX] = 'mat4';
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_AMBIENT_LIGHT] = 'vec3';
-        var material = new MeshMaterial_1.MeshMaterial(matOptions, options.engine);
+        var material = new MeshMaterial_1.MeshMaterial(matOptions, options.contextManager);
         grid.material = material;
         material.release();
     }
@@ -17972,7 +17982,7 @@ define('davinci-eight/visual/Grid',["require", "exports", '../core/BeginMode', '
         function Grid(options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
-            _super.call(this, void 0, void 0, options.engine, levelUp + 1);
+            _super.call(this, void 0, void 0, options.contextManager, levelUp + 1);
             this.setLoggingName('Grid');
             var mode = isDefined_1.default(options.mode) ? options.mode : BeginMode_1.default.LINES;
             switch (mode) {
@@ -18138,13 +18148,13 @@ define('davinci-eight/visual/Tetrahedron',["require", "exports", '../core/Mesh',
         function Tetrahedron(options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
-            _super.call(this, void 0, void 0, options.engine, levelUp + 1);
+            _super.call(this, void 0, void 0, options.contextManager, levelUp + 1);
             this.setLoggingName('Tetrahedron');
             var geoOptions = {};
-            geoOptions.engine = options.engine;
+            geoOptions.contextManager = options.contextManager;
             var geometry = new TetrahedronGeometry_1.default(geoOptions);
             var matOptions = null;
-            var material = new MeshMaterial_1.MeshMaterial(matOptions, options.engine);
+            var material = new MeshMaterial_1.MeshMaterial(matOptions, options.contextManager);
             this.geometry = geometry;
             this.material = material;
             geometry.release();

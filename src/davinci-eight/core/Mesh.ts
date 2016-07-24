@@ -1,7 +1,7 @@
 import {Color} from './Color';
 import {ColorFacet} from '../facets/ColorFacet';
+import ContextManager from './ContextManager';
 import {Drawable} from './Drawable';
-import {Engine} from './Engine';
 import {Geometric3} from '../math/Geometric3';
 import {Geometry} from './Geometry';
 import {Material} from './Material';
@@ -21,10 +21,10 @@ export class Mesh extends Drawable implements AbstractMesh {
     /**
      * @param geometry
      * @param material
-     * @param engine The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
+     * @param contextManager The <code>ContextManager</code> to subscribe to or <code>null</code> for deferred subscription.
      */
-    constructor(geometry: Geometry, material: Material, engine: Engine, levelUp = 0) {
-        super(geometry, material, engine, levelUp + 1);
+    constructor(geometry: Geometry, material: Material, contextManager: ContextManager, levelUp = 0) {
+        super(geometry, material, contextManager, levelUp + 1);
         this.setLoggingName('Mesh');
 
         this.setFacet(MODEL_FACET_NAME, new ModelFacet());

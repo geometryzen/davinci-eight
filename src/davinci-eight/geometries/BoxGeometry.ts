@@ -16,7 +16,7 @@ export default class BoxGeometry extends GeometryElements {
      * @param levelUp
      */
     constructor(options: BoxGeometryOptions = {}, levelUp = 0) {
-        super(boxPrimitive(options), options.engine, options, levelUp + 1)
+        super(boxPrimitive(options), options.contextManager, options, levelUp + 1)
         this.setLoggingName('BoxGeometry')
         //        if (levelUp === 0) {
         //            this.synchUp();

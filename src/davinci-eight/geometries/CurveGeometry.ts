@@ -12,7 +12,7 @@ export default class CurveGeometry extends GeometryElements {
      * @param levelUp
      */
     constructor(options: CurveGeometryOptions = {}, levelUp = 0) {
-        super(curvePrimitive(options), options.engine, options, levelUp + 1);
+        super(curvePrimitive(options), options.contextManager, options, levelUp + 1);
         this.setLoggingName('CurveGeometry');
         if (levelUp === 0) {
             this.synchUp();

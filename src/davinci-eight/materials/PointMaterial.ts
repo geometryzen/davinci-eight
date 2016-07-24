@@ -1,12 +1,12 @@
-import {Engine} from '../core/Engine'
-import GraphicsProgramBuilder from '../materials/GraphicsProgramBuilder'
-import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols'
-import isDefined from '../checks/isDefined'
-import isNull from '../checks/isNull'
-import isUndefined from '../checks/isUndefined'
-import {ShaderMaterial} from './ShaderMaterial'
-import mustBeObject from '../checks/mustBeObject'
-import PointMaterialOptions from './PointMaterialOptions'
+import ContextManager from '../core/ContextManager';
+import GraphicsProgramBuilder from '../materials/GraphicsProgramBuilder';
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
+import isDefined from '../checks/isDefined';
+import isNull from '../checks/isNull';
+import isUndefined from '../checks/isUndefined';
+import {ShaderMaterial} from './ShaderMaterial';
+import mustBeObject from '../checks/mustBeObject';
+import PointMaterialOptions from './PointMaterialOptions';
 
 function builder(options: PointMaterialOptions) {
     if (isNull(options) || isUndefined(options)) {
@@ -63,10 +63,10 @@ export class PointMaterial extends ShaderMaterial {
 
     /**
      * @param options
-     * @param engine
+     * @param contextManager
      */
-    constructor(options: PointMaterialOptions, engine: Engine, levelUp = 0) {
-        super(vertexShaderSrc(options), fragmentShaderSrc(options), [], engine, levelUp + 1);
+    constructor(options: PointMaterialOptions, contextManager: ContextManager, levelUp = 0) {
+        super(vertexShaderSrc(options), fragmentShaderSrc(options), [], contextManager, levelUp + 1);
         this.setLoggingName('PointMaterial');
         if (levelUp === 0) {
             this.synchUp();

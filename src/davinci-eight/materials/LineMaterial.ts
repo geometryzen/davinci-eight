@@ -1,4 +1,4 @@
-import {Engine} from '../core/Engine';
+import ContextManager from '../core/ContextManager';
 import GraphicsProgramBuilder from '../materials/GraphicsProgramBuilder';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import isDefined from '../checks/isDefined';
@@ -68,11 +68,11 @@ export class LineMaterial extends ShaderMaterial {
 
     /**
      * @param options
-     * @param engine
+     * @param contextManager
      * @param levelUp
      */
-    constructor(options: LineMaterialOptions, engine: Engine, levelUp = 0) {
-        super(vertexShaderSrc(options), fragmentShaderSrc(options), [], engine, levelUp + 1);
+    constructor(options: LineMaterialOptions, contextManager: ContextManager, levelUp = 0) {
+        super(vertexShaderSrc(options), fragmentShaderSrc(options), [], contextManager, levelUp + 1);
         this.setLoggingName('LineMaterial');
         if (levelUp === 0) {
             this.synchUp();

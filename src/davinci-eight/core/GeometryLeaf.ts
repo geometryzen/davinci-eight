@@ -1,15 +1,15 @@
-import {Material} from './Material'
-import BeginMode from './BeginMode'
-import {Engine} from './Engine'
-import {Geometry} from './Geometry'
-import GeometryBase from './GeometryBase'
-import Matrix4 from '../math/Matrix4'
-import mustBeNumber from '../checks/mustBeNumber'
-import notImplemented from '../i18n/notImplemented'
-import notSupported from '../i18n/notSupported'
-import readOnly from '../i18n/readOnly'
-import SpinorE3 from '../math/SpinorE3'
-import VertexAttribPointer from './VertexAttribPointer'
+import {Material} from './Material';
+import BeginMode from './BeginMode';
+import ContextManager from './ContextManager';
+import {Geometry} from './Geometry';
+import GeometryBase from './GeometryBase';
+import Matrix4 from '../math/Matrix4';
+import mustBeNumber from '../checks/mustBeNumber';
+import notImplemented from '../i18n/notImplemented';
+import notSupported from '../i18n/notSupported';
+import readOnly from '../i18n/readOnly';
+import SpinorE3 from '../math/SpinorE3';
+import VertexAttribPointer from './VertexAttribPointer';
 
 /**
  *
@@ -35,8 +35,8 @@ export default class GeometryLeaf extends GeometryBase {
 
     public scaling = Matrix4.one();
 
-    constructor(tilt: SpinorE3, engine: Engine, levelUp: number) {
-        super(tilt, engine, levelUp + 1);
+    constructor(tilt: SpinorE3, contextManager: ContextManager, levelUp: number) {
+        super(tilt, contextManager, levelUp + 1);
         mustBeNumber('levelUp', levelUp);
         this.setLoggingName('GeometryLeaf')
         if (levelUp === 0) {

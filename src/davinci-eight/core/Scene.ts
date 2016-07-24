@@ -1,4 +1,5 @@
 import {Facet} from '../core/Facet';
+import ContextManager from './ContextManager';
 import ContextProvider from '../core/ContextProvider';
 import {AbstractDrawable} from './AbstractDrawable';
 import ShareableArray from '../collections/ShareableArray';
@@ -7,7 +8,6 @@ import mustBeObject from '../checks/mustBeObject';
 import {Geometry} from './Geometry';
 import {ShareableBase} from '../core/ShareableBase';
 import {ShareableContextConsumer} from '../core/ShareableContextConsumer';
-import {Engine} from './Engine';
 
 /**
  * The parts of a scene are the smallest components that
@@ -107,16 +107,16 @@ export class Scene extends ShareableContextConsumer {
     private _parts: ShareableArray<ScenePart>;
 
     /**
-     * @param engine
+     * @param contextManager
      */
-    constructor(engine: Engine, levelUp = 0) {
-        super(engine);
+    constructor(contextManager: ContextManager, levelUp = 0) {
+        super(contextManager);
         this.setLoggingName('Scene');
-        mustBeObject('engine', engine);
+        mustBeObject('contextManager', contextManager);
         this._drawables = new ShareableArray<AbstractDrawable>([]);
         this._parts = new ShareableArray<ScenePart>([]);
         if (levelUp === 0) {
-            this.synchUp()
+            this.synchUp();
         }
     }
 

@@ -31,7 +31,7 @@ export default class ArrowGeometry extends GeometryElements {
     private _radiusCone: number;
 
     constructor(options: ArrowGeometryOptions = {}, levelUp = 0) {
-        super(arrowPrimitive(options), options.engine, options, levelUp + 1);
+        super(arrowPrimitive(options), options.contextManager, options, levelUp + 1);
         this._radiusCone = mustBeNumber("options.radiusCone", options.radiusCone);
         this._radius = this._radiusCone;
         // TODO: Why aren't we using the following?

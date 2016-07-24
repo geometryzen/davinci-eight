@@ -13,7 +13,7 @@ export default class TetrahedronGeometry extends GeometryElements {
      * @param levelUp
      */
     constructor(options: TetrahedronGeometryOptions = {}, levelUp = 0) {
-        super(tetrahedronPrimitive(options), options.engine, options, levelUp + 1);
+        super(tetrahedronPrimitive(options), options.contextManager, options, levelUp + 1);
         this.setLoggingName('TetrahedronGeometry');
         if (levelUp === 0) {
             this.synchUp();

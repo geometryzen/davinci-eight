@@ -4,7 +4,7 @@ import computeAttributes from './computeAttributes';
 import computeCount from './computeCount';
 import computePointers from './computePointers';
 import computeStride from './computeStride';
-import {Engine} from './Engine';
+import ContextManager from './ContextManager';
 import GeometryLeaf from './GeometryLeaf';
 import isNull from '../checks/isNull';
 import isObject from '../checks/isObject';
@@ -47,15 +47,15 @@ export default class GeometryArrays extends GeometryLeaf {
     /**
      * @param primitive
      * @param tilt
-     * @param engine
+     * @param contextManager
      * @param levelUp
      */
-    constructor(primitive: Primitive, engine: Engine, options: { order?: string[]; tilt?: SpinorE3 } = {}, levelUp = 0) {
+    constructor(primitive: Primitive, contextManager: ContextManager, options: { order?: string[]; tilt?: SpinorE3 } = {}, levelUp = 0) {
         // FIXME: GeometryLeaf constructor should be extensible
-        super(options.tilt, engine, levelUp + 1);
+        super(options.tilt, contextManager, levelUp + 1);
         this.setLoggingName('GeometryArrays');
         this.attributes = {};
-        this.vbo = new VertexBuffer(engine);
+        this.vbo = new VertexBuffer(contextManager);
         // FIXME: order as an option
         const data = vertexArraysFromPrimitive(primitive, options.order);
         if (!isNull(data) && !isUndefined(data)) {

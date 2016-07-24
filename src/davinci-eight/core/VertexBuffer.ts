@@ -16,14 +16,18 @@ export default class VertexBuffer extends ShareableContextConsumer implements Da
     private _data: Float32Array;
     public _usage = Usage.STATIC_DRAW;
 
-    constructor(manager: ContextManager) {
-        super(manager);
+    constructor(contextManager: ContextManager, levelUp = 0) {
+        super(contextManager);
         this.setLoggingName('VertexBuffer');
-        this.synchUp();
+        if (levelUp === 0) {
+            this.synchUp();
+        }
     }
 
     protected destructor(levelUp: number): void {
-        this.cleanUp();
+        if (levelUp === 0) {
+            this.cleanUp();
+        }
         mustBeUndefined(this._type, this.webGLBuffer);
         super.destructor(levelUp + 1);
     }

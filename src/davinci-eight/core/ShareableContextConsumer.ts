@@ -15,7 +15,7 @@ import {ShareableBase} from './ShareableBase';
  * </p>
  * <p>
  * Using this base <code>class</code> provides a standard and reliable way to
- * subscribe to <code>Engine</code> events. Extending this class provides automatic
+ * subscribe to <code>ContextManager</code> events. Extending this class provides automatic
  * subscribe at construction time and automatic unsubscribe in destruction. However,
  * it does not provide automatic synchronization (contextGain events) or automatic clean up
  * (contextFree or contextLost events) as these would violate the principle that the base
@@ -24,14 +24,20 @@ import {ShareableBase} from './ShareableBase';
  *
  *
  *     class MyContextConsumer extends EIGHT.ShareableContextConsumer {
- *       constructor(engine: EIGHT.Engine) {
+ *       constructor(contextManager: EIGHT.ContextManager, levelUp = 0) {
  *         // Allocate your own resources here or on-demand.
- *         super(engine)
- *         this.setLoggingName('MyContextConsumer')
+ *         super(contestManager);
+ *         this.setLoggingName('MyContextConsumer');
+ *         if (levelUp === 0) {
+ *           this.synchUp();
+ *         }
  *       }
  *       protected destructor(levelUp: number): void {
+ *         if (levelUp === 0) {
+ *           this.cleanUp();
+ *         }
  *         // Deallocate your own resources here.
- *         super.destructor(levelUp + 1)
+ *         super.destructor(levelUp + 1);
  *       }
  *     }
  *
@@ -39,7 +45,7 @@ import {ShareableBase} from './ShareableBase';
 export class ShareableContextConsumer extends ShareableBase implements ContextConsumer, EngineSubscriber {
 
     /**
-     * The <code>Engine</code> to which this consumer is subscribed.
+     * The <code>ContextManager</code> to which this consumer is subscribed.
      * The existence of this property indicates a subscription.
      * Therefore, before releasing this reference, be sure to unsubscribe.
      */
@@ -56,13 +62,13 @@ export class ShareableContextConsumer extends ShareableBase implements ContextCo
 
     /**
      *
-     * @param manager The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
+     * @param manager The <code>ContextManager</code> to subscribe to or <code>null</code> for deferred subscription.
      */
-    constructor(manager: ContextManager) {
+    constructor(contextManager: ContextManager) {
         super();
         this.setLoggingName('ShareableContextConsumer');
-        if (!isNull(manager) && !isUndefined(manager)) {
-            this.subscribe(manager);
+        if (!isNull(contextManager) && !isUndefined(contextManager)) {
+            this.subscribe(contextManager);
         }
     }
 
@@ -86,24 +92,24 @@ export class ShareableContextConsumer extends ShareableBase implements ContextCo
      * Instructs the consumer to subscribe to context events.
      * </p>
      * <p>
-     * This method is idempotent; calling it more than once with the same <code>Engine</code> does not change the state.
+     * This method is idempotent; calling it more than once with the same <code>ContextManager</code> does not change the state.
      * </p>
      */
-    subscribe(manager: ContextManager): void {
-        manager = mustBeObject('manager', manager);
+    subscribe(contextManager: ContextManager): void {
+        contextManager = mustBeObject('contextManager', contextManager);
         if (!this.manager) {
-            manager.addRef();
-            this.manager = manager;
-            manager.addContextListener(this);
+            contextManager.addRef();
+            this.manager = contextManager;
+            contextManager.addContextListener(this);
         }
         else {
-            if (this.manager !== manager) {
-                // We can only subscribe to one Engine at at time.
+            if (this.manager !== contextManager) {
+                // We can only subscribe to one ContextManager at at time.
                 this.unsubscribe()
-                this.subscribe(manager)
+                this.subscribe(contextManager)
             }
             else {
-                // We are already subscribed to this engine (Idempotentency)
+                // We are already subscribed to this ContextManager (Idempotentency)
             }
         }
     }

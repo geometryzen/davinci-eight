@@ -1,6 +1,6 @@
+import ContextManager from './ContextManager';
 import ContextProvider from './ContextProvider';
 import DataBuffer from './DataBuffer';
-import {Engine} from './Engine';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeUndefined from '../checks/mustBeUndefined';
 import {ShareableContextConsumer} from './ShareableContextConsumer';
@@ -16,14 +16,18 @@ export default class IndexBuffer extends ShareableContextConsumer implements Dat
     private _data: Uint16Array;
     private _usage = Usage.STATIC_DRAW;
 
-    constructor(engine: Engine) {
-        super(engine);
+    constructor(contextManager: ContextManager, levelUp = 0) {
+        super(contextManager);
         this.setLoggingName('IndexBuffer');
-        this.synchUp();
+        if (levelUp === 0) {
+            this.synchUp();
+        }
     }
 
     protected destructor(levelUp: number): void {
-        this.cleanUp();
+        if (levelUp === 0) {
+            this.cleanUp();
+        }
         mustBeUndefined(this._type, this.webGLBuffer);
         super.destructor(levelUp + 1);
     }

@@ -1,6 +1,6 @@
 import {Material} from './Material';
+import ContextManager from './ContextManager';
 import ContextProvider from './ContextProvider';
-import {Engine} from './Engine';
 import GeometryLeaf from './GeometryLeaf';
 import IndexBuffer from './IndexBuffer';
 import isArray from '../checks/isArray';
@@ -35,11 +35,11 @@ export default class GeometryElements extends GeometryLeaf {
     private ibo: IndexBuffer;
     private vbo: VertexBuffer;
 
-    constructor(primitive: Primitive, engine: Engine, options: { order?: string[]; tilt?: SpinorE3 } = {}, levelUp = 0) {
-        super(options.tilt, engine, levelUp + 1);
+    constructor(primitive: Primitive, manager: ContextManager, options: { order?: string[]; tilt?: SpinorE3 } = {}, levelUp = 0) {
+        super(options.tilt, manager, levelUp + 1);
         this.setLoggingName('GeometryElements');
-        this.ibo = new IndexBuffer(engine);
-        this.vbo = new VertexBuffer(engine);
+        this.ibo = new IndexBuffer(manager);
+        this.vbo = new VertexBuffer(manager);
 
         const data = vertexArraysFromPrimitive(primitive, options.order);
         if (!isNull(data) && !isUndefined(data)) {

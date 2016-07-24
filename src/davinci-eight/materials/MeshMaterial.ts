@@ -1,4 +1,4 @@
-import {Engine} from '../core/Engine';
+import ContextManager from '../core/ContextManager';
 import GraphicsProgramBuilder from '../materials/GraphicsProgramBuilder';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import isDefined from '../checks/isDefined';
@@ -68,10 +68,10 @@ export class MeshMaterial extends ShaderMaterial {
 
     /**
      * @param options
-     * @param engine
+     * @param contextManager
      */
-    constructor(options: MeshMaterialOptions, engine: Engine, levelUp = 0) {
-        super(vertexShaderSrc(options), fragmentShaderSrc(options), [], engine, levelUp + 1);
+    constructor(options: MeshMaterialOptions, contextManager: ContextManager, levelUp = 0) {
+        super(vertexShaderSrc(options), fragmentShaderSrc(options), [], contextManager, levelUp + 1);
         this.setLoggingName('MeshMaterial');
         if (levelUp === 0) {
             this.synchUp();

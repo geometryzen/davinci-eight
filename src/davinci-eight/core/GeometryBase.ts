@@ -1,13 +1,13 @@
-import {Material} from './Material'
-import {Engine} from './Engine'
-import {Geometry} from './Geometry'
-import Matrix4 from '../math/Matrix4'
-import notImplemented from '../i18n/notImplemented'
-import notSupported from '../i18n/notSupported'
-import readOnly from '../i18n/readOnly'
-import {ShareableContextConsumer} from './ShareableContextConsumer'
-import Spinor3 from '../math/Spinor3'
-import SpinorE3 from '../math/SpinorE3'
+import ContextManager from './ContextManager';
+import {Material} from './Material';
+import {Geometry} from './Geometry';
+import Matrix4 from '../math/Matrix4';
+import notImplemented from '../i18n/notImplemented';
+import notSupported from '../i18n/notSupported';
+import readOnly from '../i18n/readOnly';
+import {ShareableContextConsumer} from './ShareableContextConsumer';
+import Spinor3 from '../math/Spinor3';
+import SpinorE3 from '../math/SpinorE3';
 
 /**
  *
@@ -32,8 +32,8 @@ export default class GeometryBase extends ShareableContextConsumer implements Ge
      */
     private Kidentity = true;
 
-    constructor(tilt: SpinorE3, engine: Engine, levelUp: number) {
-        super(engine);
+    constructor(tilt: SpinorE3, contextManager: ContextManager, levelUp: number) {
+        super(contextManager);
         this.setLoggingName("GeometryBase");
         if (tilt && !Spinor3.isOne(tilt)) {
             this.Kidentity = false

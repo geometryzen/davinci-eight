@@ -18,14 +18,14 @@ export class Box extends RigidBody {
      * @param options
      */
     constructor(options: BoxOptions = {}, levelUp = 0) {
-        super(void 0, void 0, options.engine, direction(options), levelUp + 1);
+        super(void 0, void 0, options.contextManager, direction(options), levelUp + 1);
         this.setLoggingName('Box');
         // The shape is created un-stressed and then parameters drive the scaling.
         // The scaling matrix takes into account the initial tilt from the standard configuration.
         // const stress = Vector3.vector(1, 1, 1)
 
         const geoOptions: BoxGeometryOptions = {};
-        geoOptions.engine = options.engine;
+        geoOptions.contextManager = options.contextManager;
         geoOptions.tilt = options.tilt;
         geoOptions.offset = options.offset;
         geoOptions.openBack = options.openBack;
@@ -39,7 +39,7 @@ export class Box extends RigidBody {
         geometry.release();
 
         const matOptions: MeshMaterialOptions = void 0;
-        const material = new MeshMaterial(matOptions, options.engine);
+        const material = new MeshMaterial(matOptions, options.contextManager);
         this.material = material;
         material.release();
 
