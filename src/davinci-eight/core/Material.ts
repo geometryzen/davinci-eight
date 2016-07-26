@@ -52,12 +52,22 @@ export interface Material extends FacetVisitor, ContextConsumer {
     /**
      * 
      */
-    draw(mode: BeginMode, count: number, type?: DataType): Material;
+    drawArrays(mode: BeginMode, first: number, count: number): Material;
 
+    /**
+     * 
+     */
+    drawElements(mode: BeginMode, count: number, type: DataType, offset: number): Material;
 
     getUniform(name: string): Uniform;
 
     hasUniform(name: string): boolean;
+
+    matrix2fv(name: string, elements: Float32Array, transpose?: boolean): Material;
+
+    matrix3fv(name: string, elements: Float32Array, transpose?: boolean): Material;
+
+    matrix4fv(name: string, elements: Float32Array, transpose?: boolean): Material;
 
     /**
      * 

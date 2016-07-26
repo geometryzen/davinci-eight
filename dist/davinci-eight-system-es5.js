@@ -1447,7 +1447,7 @@ System.register("davinci-eight/commands/WebGLDisable.js", ["../checks/mustBeNumb
   };
 });
 
-System.register("davinci-eight/core/Engine.js", ["./checkEnums", "./ClearBufferMask", "../commands/EIGHTLogger", "../base/DefaultContextProvider", "./geometryFromPrimitive", "./initWebGL", "../checks/isDefined", "../checks/mustBeObject", "../collections/ShareableArray", "./ShareableBase", "./Usage", "../commands/VersionLogger", "./VertexBuffer", "../commands/WebGLClearColor", "../commands/WebGLEnable", "../commands/WebGLDisable", "../materials/HTMLScriptsMaterial"], function(exports_1, context_1) {
+System.register("davinci-eight/core/Engine.js", ["./checkEnums", "./ClearBufferMask", "../commands/EIGHTLogger", "../base/DefaultContextProvider", "./geometryFromPrimitive", "./IndexBuffer", "./initWebGL", "../checks/isDefined", "../checks/mustBeObject", "../collections/ShareableArray", "./ShareableBase", "./Usage", "../commands/VersionLogger", "./VertexBuffer", "../commands/WebGLClearColor", "../commands/WebGLEnable", "../commands/WebGLDisable", "../materials/HTMLScriptsMaterial"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -1464,6 +1464,7 @@ System.register("davinci-eight/core/Engine.js", ["./checkEnums", "./ClearBufferM
       EIGHTLogger_1,
       DefaultContextProvider_1,
       geometryFromPrimitive_1,
+      IndexBuffer_1,
       initWebGL_1,
       isDefined_1,
       mustBeObject_1,
@@ -1488,6 +1489,8 @@ System.register("davinci-eight/core/Engine.js", ["./checkEnums", "./ClearBufferM
       DefaultContextProvider_1 = DefaultContextProvider_1_1;
     }, function(geometryFromPrimitive_1_1) {
       geometryFromPrimitive_1 = geometryFromPrimitive_1_1;
+    }, function(IndexBuffer_1_1) {
+      IndexBuffer_1 = IndexBuffer_1_1;
     }, function(initWebGL_1_1) {
       initWebGL_1 = initWebGL_1_1;
     }, function(isDefined_1_1) {
@@ -1579,12 +1582,40 @@ System.register("davinci-eight/core/Engine.js", ["./checkEnums", "./ClearBufferM
           }
           return vbo;
         };
+        Engine.prototype.elements = function(data, usage) {
+          if (usage === void 0) {
+            usage = Usage_1.default.STATIC_DRAW;
+          }
+          var ibo = new IndexBuffer_1.default(this);
+          if (data) {
+            ibo.bufferData(data, usage);
+          }
+          return ibo;
+        };
         Object.defineProperty(Engine.prototype, "canvas", {
           get: function() {
             if (this._gl) {
               return this._gl.canvas;
             } else {
               return void 0;
+            }
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(Engine.prototype, "drawingBufferHeight", {
+          get: function() {
+            if (this._gl) {
+              return this._gl.drawingBufferHeight;
+            }
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(Engine.prototype, "drawingBufferWidth", {
+          get: function() {
+            if (this._gl) {
+              return this._gl.drawingBufferWidth;
             }
           },
           enumerable: true,
@@ -11737,22 +11768,34 @@ System.register("davinci-eight/materials/ShaderMaterial.js", ["../core/Attrib", 
           return this;
         };
         ShaderMaterial.prototype.matrix2fv = function(name, matrix, transpose) {
+          if (transpose === void 0) {
+            transpose = false;
+          }
           var uniformLoc = this._uniforms[name];
           if (uniformLoc) {
             uniformLoc.matrix2fv(transpose, matrix);
           }
+          return this;
         };
         ShaderMaterial.prototype.matrix3fv = function(name, matrix, transpose) {
+          if (transpose === void 0) {
+            transpose = false;
+          }
           var uniformLoc = this._uniforms[name];
           if (uniformLoc) {
             uniformLoc.matrix3fv(transpose, matrix);
           }
+          return this;
         };
         ShaderMaterial.prototype.matrix4fv = function(name, matrix, transpose) {
+          if (transpose === void 0) {
+            transpose = false;
+          }
           var uniformLoc = this._uniforms[name];
           if (uniformLoc) {
             uniformLoc.matrix4fv(transpose, matrix);
           }
+          return this;
         };
         ShaderMaterial.prototype.vector2fv = function(name, data) {
           var uniformLoc = this._uniforms[name];
@@ -11772,12 +11815,17 @@ System.register("davinci-eight/materials/ShaderMaterial.js", ["../core/Attrib", 
             uniformLoc.uniform4fv(data);
           }
         };
-        ShaderMaterial.prototype.draw = function(mode, count, type) {
+        ShaderMaterial.prototype.drawArrays = function(mode, first, count) {
           var gl = this.gl;
-          if (type) {
-            gl.drawArrays(mode, 0, count);
-          } else {
-            gl.drawElements(mode, count, type, 0);
+          if (gl) {
+            gl.drawArrays(mode, first, count);
+          }
+          return this;
+        };
+        ShaderMaterial.prototype.drawElements = function(mode, count, type, offset) {
+          var gl = this.gl;
+          if (gl) {
+            gl.drawElements(mode, count, type, offset);
           }
           return this;
         };
@@ -12100,7 +12148,13 @@ System.register("davinci-eight/core/IndexBuffer.js", ["../checks/mustBeObject", 
           enumerable: true,
           configurable: true
         });
-        IndexBuffer.prototype.bufferData = function() {
+        IndexBuffer.prototype.bufferData = function(data, usage) {
+          if (data) {
+            this._data = data;
+          }
+          if (usage) {
+            this._usage = usage;
+          }
           var gl = this.gl;
           if (gl) {
             if (this.webGLBuffer) {
@@ -22099,9 +22153,9 @@ System.register("davinci-eight/config.js", [], function(exports_1, context_1) {
       Eight = (function() {
         function Eight() {
           this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-          this.LAST_MODIFIED = '2016-07-24';
+          this.LAST_MODIFIED = '2016-07-25';
           this.NAMESPACE = 'EIGHT';
-          this.VERSION = '2.280.0';
+          this.VERSION = '2.281.0';
         }
         Eight.prototype.log = function(message) {
           var optionalParams = [];

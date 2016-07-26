@@ -430,25 +430,28 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
         return this;
     }
 
-    matrix2fv(name: string, matrix: Float32Array, transpose: boolean): void {
-        const uniformLoc = this._uniforms[name]
+    matrix2fv(name: string, matrix: Float32Array, transpose = false) {
+        const uniformLoc = this._uniforms[name];
         if (uniformLoc) {
-            uniformLoc.matrix2fv(transpose, matrix)
+            uniformLoc.matrix2fv(transpose, matrix);
         }
+        return this;
     }
 
-    matrix3fv(name: string, matrix: Float32Array, transpose: boolean) {
-        const uniformLoc = this._uniforms[name]
+    matrix3fv(name: string, matrix: Float32Array, transpose = false) {
+        const uniformLoc = this._uniforms[name];
         if (uniformLoc) {
-            uniformLoc.matrix3fv(transpose, matrix)
+            uniformLoc.matrix3fv(transpose, matrix);
         }
+        return this;
     }
 
-    matrix4fv(name: string, matrix: Float32Array, transpose: boolean) {
-        const uniformLoc = this._uniforms[name]
+    matrix4fv(name: string, matrix: Float32Array, transpose = false) {
+        const uniformLoc = this._uniforms[name];
         if (uniformLoc) {
-            uniformLoc.matrix4fv(transpose, matrix)
+            uniformLoc.matrix4fv(transpose, matrix);
         }
+        return this;
     }
 
     vector2fv(name: string, data: Float32Array): void {
@@ -472,14 +475,30 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
         }
     }
 
-    draw(mode: BeginMode, count: number, type?: DataType): Material {
+    /**
+     * @param mode Specifies the type of the primitive being rendered.
+     * @param first Specifies the starting index in the array of vector points.
+     * @param count The number of points to be rendered.
+     */
+    drawArrays(mode: BeginMode, first: number, count: number): Material {
         const gl = this.gl;
-        if (type) {
-            gl.drawArrays(mode, 0, count);
-        } else {
-            gl.drawElements(mode, count, type, 0);
+        if (gl) {
+            gl.drawArrays(mode, first, count);
         }
         return this;
     }
 
+    /**
+     * @param mode Specifies the type of the primitive being rendered.
+     * @param count The number of elements to be rendered.
+     * @param type The type of the values in the element array buffer.
+     * @param offset Specifies an offset into the element array buffer.
+     */
+    drawElements(mode: BeginMode, count: number, type: DataType, offset: number): Material {
+        const gl = this.gl;
+        if (gl) {
+            gl.drawElements(mode, count, type, offset);
+        }
+        return this;
+    }
 }

@@ -10,6 +10,7 @@ import ContextManager from './ContextManager';
 import DefaultContextProvider from '../base/DefaultContextProvider';
 import {Geometry} from './Geometry';
 import geometryFromPrimitive from './geometryFromPrimitive';
+import IndexBuffer from './IndexBuffer';
 import initWebGL from './initWebGL';
 import isDefined from '../checks/isDefined';
 import {Material} from './Material';
@@ -141,6 +142,14 @@ export class Engine extends ShareableBase implements ContextManager {
         return vbo;
     }
 
+    elements(data?: Uint16Array, usage = Usage.STATIC_DRAW): IndexBuffer {
+        const ibo = new IndexBuffer(this);
+        if (data) {
+            ibo.bufferData(data, usage);
+        }
+        return ibo;
+    }
+
     /**
      * The canvas element associated with the WebGLRenderingContext.
      */
@@ -150,6 +159,18 @@ export class Engine extends ShareableBase implements ContextManager {
         }
         else {
             return void 0;
+        }
+    }
+
+    get drawingBufferHeight(): number {
+        if (this._gl) {
+            return this._gl.drawingBufferHeight;
+        }
+    }
+
+    get drawingBufferWidth(): number {
+        if (this._gl) {
+            return this._gl.drawingBufferWidth;
         }
     }
 

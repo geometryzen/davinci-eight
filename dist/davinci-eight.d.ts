@@ -345,6 +345,16 @@ declare module EIGHT {
         canvas: HTMLCanvasElement;
 
         /**
+         * 
+         */
+        drawingBufferHeight: number;
+
+        /**
+         * 
+         */
+        drawingBufferWidth: number;
+
+        /**
          *
          */
         commands: ShareableArray<ContextConsumer>;
@@ -353,11 +363,6 @@ declare module EIGHT {
          * The underlying WebGLRenderingContext.
          */
         gl: WebGLRenderingContext;
-
-        /**
-         * Determines whether this Engine may use a cache to optimize WebGL API calls.
-         */
-        mayUseCache: boolean;
 
         /**
          * Constructs an Engine.
@@ -379,6 +384,11 @@ declare module EIGHT {
          * 
          */
         array(data?: Float32Array, usage?: Usage): VertexBuffer;
+
+        /**
+         * 
+         */
+        elements(data?: Uint16Array, usage?: Usage): IndexBuffer;
 
         /**
          *
@@ -609,8 +619,23 @@ declare module EIGHT {
         getAttribLocation(name: string): number;
         enableAttrib(indexOrName: number | string): void;
         disableAttrib(indexOrName: number | string): void;
-        draw(mode: BeginMode, count: number, type?: DataType): Material;
+        /**
+         * mode Specifies the type of the primitive being rendered.
+         * first Specifies the starting index in the array of vector points.
+         * count The number of points to be rendered.
+         */
+        drawArrays(mode: BeginMode, first: number, count: number): Material;
+        /**
+         * mode Specifies the type of the primitive being rendered.
+         * count The number of elements to be rendered.
+         * type The type of the values in the element array buffer.
+         * offset Specifies an offset into the element array buffer.
+         */
+        drawElements(mode: BeginMode, count: number, type: DataType, offset: number): Material;
         getUniform(name: string): Uniform;
+        matrix2fv(name: string, elements: Float32Array, transpose?: boolean): Material;
+        matrix3fv(name: string, elements: Float32Array, transpose?: boolean): Material;
+        matrix4fv(name: string, elements: Float32Array, transpose?: boolean): Material;
         uniform(name: string, value: number | number[]): Material;
         use(): Material;
     }
@@ -3110,16 +3135,17 @@ declare module EIGHT {
         attrib(name: string, value: VertexBuffer, size: number, normalized?: boolean, stride?: number, offset?: number): Material;
         disableAttrib(indexOrName: number | string): void;
         disableAttribs(): void;
-        draw(mode: BeginMode, count: number, type?: DataType): Material;
+        drawArrays(mode: BeginMode, first: number, count: number): Material;
+        drawElements(mode: BeginMode, count: number, type: DataType, offset: number): Material;
         enableAttrib(indexOrName: number | string): void;
         enableAttribs(): void;
         getAttrib(indexOrName: number | string): Attrib;
         getAttribLocation(name: string): number;
         getUniform(name: string): Uniform;
         hasUniform(name: string): boolean;
-        matrix2fv(name: string, mat2: Float32Array, transpose: boolean): void;
-        matrix3fv(name: string, mat3: Float32Array, transpose: boolean): void;
-        matrix4fv(name: string, mat4: Float32Array, transpose: boolean): void;
+        matrix2fv(name: string, mat2: Float32Array, transpose?: boolean): Material;
+        matrix3fv(name: string, mat3: Float32Array, transpose?: boolean): Material;
+        matrix4fv(name: string, mat4: Float32Array, transpose?: boolean): Material;
         uniform1f(name: string, x: number): void;
         uniform2f(name: string, x: number, y: number): void;
         uniform3f(name: string, x: number, y: number, z: number): void;

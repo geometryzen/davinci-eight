@@ -49,7 +49,13 @@ export default class IndexBuffer extends ShareableContextConsumer implements Dat
         this.bufferData();
     }
 
-    bufferData(): void {
+    bufferData(data?: Uint16Array, usage?: Usage): void {
+        if (data) {
+            this._data = data;
+        }
+        if (usage) {
+            this._usage = usage;
+        }
         const gl = this.gl;
         if (gl) {
             if (this.webGLBuffer) {

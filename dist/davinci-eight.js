@@ -543,9 +543,9 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
     var Eight = (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-07-24';
+            this.LAST_MODIFIED = '2016-07-25';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.280.0';
+            this.VERSION = '2.281.0';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -7883,7 +7883,13 @@ define('davinci-eight/core/IndexBuffer',["require", "exports", '../checks/mustBe
             enumerable: true,
             configurable: true
         });
-        IndexBuffer.prototype.bufferData = function () {
+        IndexBuffer.prototype.bufferData = function (data, usage) {
+            if (data) {
+                this._data = data;
+            }
+            if (usage) {
+                this._usage = usage;
+            }
             var gl = this.gl;
             if (gl) {
                 if (this.webGLBuffer) {
@@ -9516,22 +9522,28 @@ define('davinci-eight/materials/ShaderMaterial',["require", "exports", '../core/
             return this;
         };
         ShaderMaterial.prototype.matrix2fv = function (name, matrix, transpose) {
+            if (transpose === void 0) { transpose = false; }
             var uniformLoc = this._uniforms[name];
             if (uniformLoc) {
                 uniformLoc.matrix2fv(transpose, matrix);
             }
+            return this;
         };
         ShaderMaterial.prototype.matrix3fv = function (name, matrix, transpose) {
+            if (transpose === void 0) { transpose = false; }
             var uniformLoc = this._uniforms[name];
             if (uniformLoc) {
                 uniformLoc.matrix3fv(transpose, matrix);
             }
+            return this;
         };
         ShaderMaterial.prototype.matrix4fv = function (name, matrix, transpose) {
+            if (transpose === void 0) { transpose = false; }
             var uniformLoc = this._uniforms[name];
             if (uniformLoc) {
                 uniformLoc.matrix4fv(transpose, matrix);
             }
+            return this;
         };
         ShaderMaterial.prototype.vector2fv = function (name, data) {
             var uniformLoc = this._uniforms[name];
@@ -9551,13 +9563,17 @@ define('davinci-eight/materials/ShaderMaterial',["require", "exports", '../core/
                 uniformLoc.uniform4fv(data);
             }
         };
-        ShaderMaterial.prototype.draw = function (mode, count, type) {
+        ShaderMaterial.prototype.drawArrays = function (mode, first, count) {
             var gl = this.gl;
-            if (type) {
-                gl.drawArrays(mode, 0, count);
+            if (gl) {
+                gl.drawArrays(mode, first, count);
             }
-            else {
-                gl.drawElements(mode, count, type, 0);
+            return this;
+        };
+        ShaderMaterial.prototype.drawElements = function (mode, count, type, offset) {
+            var gl = this.gl;
+            if (gl) {
+                gl.drawElements(mode, count, type, offset);
             }
             return this;
         };
@@ -9665,7 +9681,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/Engine',["require", "exports", './checkEnums', './ClearBufferMask', '../commands/EIGHTLogger', '../base/DefaultContextProvider', './geometryFromPrimitive', './initWebGL', '../checks/isDefined', '../checks/mustBeObject', '../collections/ShareableArray', './ShareableBase', './Usage', '../commands/VersionLogger', './VertexBuffer', '../commands/WebGLClearColor', '../commands/WebGLEnable', '../commands/WebGLDisable', '../materials/HTMLScriptsMaterial'], function (require, exports, checkEnums_1, ClearBufferMask_1, EIGHTLogger_1, DefaultContextProvider_1, geometryFromPrimitive_1, initWebGL_1, isDefined_1, mustBeObject_1, ShareableArray_1, ShareableBase_1, Usage_1, VersionLogger_1, VertexBuffer_1, WebGLClearColor_1, WebGLEnable_1, WebGLDisable_1, HTMLScriptsMaterial_1) {
+define('davinci-eight/core/Engine',["require", "exports", './checkEnums', './ClearBufferMask', '../commands/EIGHTLogger', '../base/DefaultContextProvider', './geometryFromPrimitive', './IndexBuffer', './initWebGL', '../checks/isDefined', '../checks/mustBeObject', '../collections/ShareableArray', './ShareableBase', './Usage', '../commands/VersionLogger', './VertexBuffer', '../commands/WebGLClearColor', '../commands/WebGLEnable', '../commands/WebGLDisable', '../materials/HTMLScriptsMaterial'], function (require, exports, checkEnums_1, ClearBufferMask_1, EIGHTLogger_1, DefaultContextProvider_1, geometryFromPrimitive_1, IndexBuffer_1, initWebGL_1, isDefined_1, mustBeObject_1, ShareableArray_1, ShareableBase_1, Usage_1, VersionLogger_1, VertexBuffer_1, WebGLClearColor_1, WebGLEnable_1, WebGLDisable_1, HTMLScriptsMaterial_1) {
     "use strict";
     var Engine = (function (_super) {
         __extends(Engine, _super);
@@ -9729,6 +9745,14 @@ define('davinci-eight/core/Engine',["require", "exports", './checkEnums', './Cle
             }
             return vbo;
         };
+        Engine.prototype.elements = function (data, usage) {
+            if (usage === void 0) { usage = Usage_1.default.STATIC_DRAW; }
+            var ibo = new IndexBuffer_1.default(this);
+            if (data) {
+                ibo.bufferData(data, usage);
+            }
+            return ibo;
+        };
         Object.defineProperty(Engine.prototype, "canvas", {
             get: function () {
                 if (this._gl) {
@@ -9736,6 +9760,24 @@ define('davinci-eight/core/Engine',["require", "exports", './checkEnums', './Cle
                 }
                 else {
                     return void 0;
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Engine.prototype, "drawingBufferHeight", {
+            get: function () {
+                if (this._gl) {
+                    return this._gl.drawingBufferHeight;
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Engine.prototype, "drawingBufferWidth", {
+            get: function () {
+                if (this._gl) {
+                    return this._gl.drawingBufferWidth;
                 }
             },
             enumerable: true,
