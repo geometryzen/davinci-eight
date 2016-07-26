@@ -74,15 +74,15 @@ export default class GeometryLeaf extends GeometryBase {
         throw new Error(notSupported('getPart').message)
     }
 
-    bind(material: Material): void {
+    bind(material: Material): GeometryLeaf {
         throw new Error(notSupported('bind').message)
     }
 
-    unbind(material: Material): void {
+    unbind(material: Material): GeometryLeaf {
         throw new Error(notSupported('unbind').message)
     }
 
-    draw(material: Material): void {
+    draw(material: Material): GeometryLeaf {
         throw new Error(notSupported('draw').message)
     }
 

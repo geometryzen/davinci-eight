@@ -2949,9 +2949,18 @@ declare module EIGHT {
         partsLength: number;
         scaling: Matrix4;
         addPart(geometry: Geometry): void;
-        bind(material: Material): void;
-        unbind(material: Material): void;
-        draw(material: Material): void;
+        /**
+         * Binds the attributes of the material to the buffers in this Geometry.
+         */
+        bind(material: Material): Geometry;
+        /**
+         * Unbinds the attributes of the material from the buffers in this Geometry.
+         */
+        unbind(material: Material): Geometry;
+        /**
+         * Invokes the appropriate drawArrays or drawElements call to send data to the Graphics Pipeline.
+         */
+        draw(material: Material): Geometry;
         getPart(index: number): Geometry;
         getPrincipalScale(name: string): number;
         hasPrincipalScale(name: string): boolean;
@@ -2969,9 +2978,9 @@ declare module EIGHT {
         contextFree(context: ContextProvider): void;
         contextGain(context: ContextProvider): void;
         contextLost(): void;
-        bind(material: Material): void;
-        unbind(material: Material): void;
-        draw(material: Material): void;
+        bind(material: Material): GeometryContainer;
+        unbind(material: Material): GeometryContainer;
+        draw(material: Material): GeometryContainer;
         getPart(index: number): Geometry;
         getPrincipalScale(name: string): number;
         hasPrincipalScale(name: string): boolean;
@@ -2993,9 +3002,9 @@ declare module EIGHT {
         constructor(primitive: Primitive, contextManager: ContextManager, options?: { order?: string[]; tilt?: SpinorE3 }, levelUp?: number);
         protected destructor(levelUp: number): void;
         addPart(geometry: Geometry): void;
-        bind(material: Material): void;
-        unbind(material: Material): void;
-        draw(material: Material): void;
+        bind(material: Material): GeometryArrays;
+        unbind(material: Material): GeometryArrays;
+        draw(material: Material): GeometryArrays;
         getAttribute(name: string): Attribute;
         getPart(index: number): Geometry;
         getPrincipalScale(name: string): number;
@@ -3020,9 +3029,9 @@ declare module EIGHT {
         constructor(primitive: Primitive, contextManager: ContextManager, options?: { order?: string[]; tilt?: SpinorE3 }, levelUp?: number);
         protected destructor(levelUp: number): void;
         addPart(geometry: Geometry): void;
-        bind(material: Material): void;
-        unbind(material: Material): void;
-        draw(material: Material): void;
+        bind(material: Material): GeometryElements;
+        unbind(material: Material): GeometryElements;
+        draw(material: Material): GeometryElements;
         getPart(index: number): Geometry;
         getPrincipalScale(name: string): number;
         hasPrincipalScale(name: string): boolean;

@@ -36,17 +36,17 @@ export interface Geometry extends ContextConsumer {
     /**
      * 
      */
-    bind(material: Material): void;
+    bind(material: Material): Geometry;
 
     /**
      * 
      */
-    unbind(material: Material): void;
+    unbind(material: Material): Geometry;
 
     /**
      * @param material
      */
-    draw(material: Material): void
+    draw(material: Material): Geometry;
 
     /**
      * @returns

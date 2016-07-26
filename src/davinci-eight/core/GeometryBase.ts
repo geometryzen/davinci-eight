@@ -54,32 +54,38 @@ export default class GeometryBase extends ShareableContextConsumer implements Ge
     public isLeaf(): boolean {
         throw new Error(notSupported('isLeaf').message)
     }
+
     get partsLength(): number {
         throw new Error();
     }
     set partsLength(unused) {
         throw new Error(readOnly('partsLength').message)
     }
+
     addPart(geometry: Geometry): void {
         throw new Error(notSupported('addPart').message)
     }
+
     removePart(index: number): void {
         throw new Error(notSupported('removePart').message)
     }
+
     getPart(index: number): Geometry {
         throw new Error(notSupported('getPart').message)
     }
-    bind(material: Material): void {
+
+    bind(material: Material): GeometryBase {
         throw new Error(notSupported('bind').message)
     }
 
-    unbind(material: Material): void {
+    unbind(material: Material): GeometryBase {
         throw new Error(notSupported('unbind').message)
     }
 
-    draw(material: Material): void {
+    draw(material: Material): GeometryBase {
         throw new Error(notSupported('draw').message)
     }
+
     hasPrincipalScale(name: string): boolean {
         throw new Error(notImplemented(`hasPrincipalScale(${name})`).message)
     }

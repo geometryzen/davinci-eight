@@ -84,21 +84,23 @@ export default class GeometryContainer extends GeometryBase {
     /**
      * 
      */
-    bind(material: Material): void {
+    bind(material: Material): GeometryContainer {
         // This does not make sense, so we delegate to the draw method.
+        return this;
     }
 
     /**
      * 
      */
-    unbind(material: Material): void {
+    unbind(material: Material): GeometryContainer {
         // This does not make sense, so we delegate to the draw method.
+        return this;
     }
 
     /**
      * 
      */
-    draw(material: Material): void {
+    draw(material: Material): GeometryContainer {
         const iLen = this.partsLength;
         for (let i = 0; i < iLen; i++) {
             const part = this._parts.getWeakRef(i);
@@ -106,6 +108,7 @@ export default class GeometryContainer extends GeometryBase {
             part.draw(material);
             part.unbind(material);
         }
+        return this;
     }
 
     /**

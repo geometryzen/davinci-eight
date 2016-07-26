@@ -545,7 +545,7 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-07-25';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.281.0';
+            this.VERSION = '2.282.0';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -7557,12 +7557,14 @@ define('davinci-eight/core/GeometryArrays',["require", "exports", './computeAttr
                     }
                 }
             }
+            return this;
         };
         GeometryArrays.prototype.draw = function (material) {
             var contextProvider = this.contextProvider;
             if (contextProvider) {
                 this.contextProvider.drawArrays(this.mode, this.first, this.count);
             }
+            return this;
         };
         GeometryArrays.prototype.unbind = function (material) {
             var pointers = this._pointers;
@@ -7577,6 +7579,7 @@ define('davinci-eight/core/GeometryArrays',["require", "exports", './computeAttr
                 }
             }
             this.vbo.unbind();
+            return this;
         };
         GeometryArrays.prototype.getAttribute = function (name) {
             return this.attributes[name];
@@ -7793,8 +7796,10 @@ define('davinci-eight/core/GeometryContainer',["require", "exports", '../collect
             return this._parts.get(index);
         };
         GeometryContainer.prototype.bind = function (material) {
+            return this;
         };
         GeometryContainer.prototype.unbind = function (material) {
+            return this;
         };
         GeometryContainer.prototype.draw = function (material) {
             var iLen = this.partsLength;
@@ -7804,6 +7809,7 @@ define('davinci-eight/core/GeometryContainer',["require", "exports", '../collect
                 part.draw(material);
                 part.unbind(material);
             }
+            return this;
         };
         GeometryContainer.prototype.contextFree = function (contextProvider) {
             this._parts.forEach(function (buffer) {
@@ -8113,6 +8119,7 @@ define('davinci-eight/core/GeometryElements',["require", "exports", './GeometryL
                 }
                 this.ibo.bind();
             }
+            return this;
         };
         GeometryElements.prototype.unbind = function (material) {
             var contextProvider = this.contextProvider;
@@ -8131,6 +8138,7 @@ define('davinci-eight/core/GeometryElements',["require", "exports", './GeometryL
                 }
                 this.vbo.unbind();
             }
+            return this;
         };
         GeometryElements.prototype.draw = function (material) {
             var contextProvider = this.contextProvider;
@@ -8139,6 +8147,7 @@ define('davinci-eight/core/GeometryElements',["require", "exports", './GeometryL
                     contextProvider.drawElements(this.mode, this.count, this.offset);
                 }
             }
+            return this;
         };
         return GeometryElements;
     }(GeometryLeaf_1.default));

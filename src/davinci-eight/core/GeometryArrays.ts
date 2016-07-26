@@ -86,16 +86,16 @@ export default class GeometryArrays extends GeometryLeaf {
         super.destructor(levelUp + 1);
     }
 
-    bind(material: Material): void {
-        const contextProvider = this.contextProvider
+    bind(material: Material): GeometryArrays {
+        const contextProvider = this.contextProvider;
         if (contextProvider) {
-            this.vbo.bind()
-            const pointers = this._pointers
+            this.vbo.bind();
+            const pointers = this._pointers;
             if (pointers) {
-                const iLength = pointers.length
+                const iLength = pointers.length;
                 for (let i = 0; i < iLength; i++) {
-                    const pointer = pointers[i]
-                    const attrib = material.getAttrib(pointer.name)
+                    const pointer = pointers[i];
+                    const attrib = material.getAttrib(pointer.name);
                     if (attrib) {
                         attrib.config(pointer.size, pointer.type, pointer.normalized, this._stride, pointer.offset);
                         attrib.enable();
@@ -103,16 +103,18 @@ export default class GeometryArrays extends GeometryLeaf {
                 }
             }
         }
+        return this;
     }
 
-    draw(material: Material): void {
-        const contextProvider = this.contextProvider
+    draw(material: Material): GeometryArrays {
+        const contextProvider = this.contextProvider;
         if (contextProvider) {
             this.contextProvider.drawArrays(this.mode, this.first, this.count);
         }
+        return this;
     }
 
-    unbind(material: Material): void {
+    unbind(material: Material): GeometryArrays {
         const pointers = this._pointers;
         if (pointers) {
             const iLength = pointers.length;
@@ -125,6 +127,7 @@ export default class GeometryArrays extends GeometryLeaf {
             }
         }
         this.vbo.unbind();
+        return this;
     }
 
     getAttribute(name: string): Attribute {

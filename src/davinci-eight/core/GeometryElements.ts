@@ -167,36 +167,37 @@ export default class GeometryElements extends GeometryLeaf {
         super.contextLost()
     }
 
-    bind(material: Material): void {
-        const contextProvider = this.contextProvider
+    bind(material: Material): GeometryElements {
+        const contextProvider = this.contextProvider;
         if (contextProvider) {
-            this.vbo.bind()
-            const pointers = this._pointers
+            this.vbo.bind();
+            const pointers = this._pointers;
             if (pointers) {
-                const iLength = pointers.length
+                const iLength = pointers.length;
                 for (let i = 0; i < iLength; i++) {
-                    const pointer = pointers[i]
-                    const attrib = material.getAttrib(pointer.name)
+                    const pointer = pointers[i];
+                    const attrib = material.getAttrib(pointer.name);
                     if (attrib) {
                         attrib.config(pointer.size, pointer.type, pointer.normalized, this._stride, pointer.offset);
                         attrib.enable();
                     }
                 }
             }
-            this.ibo.bind()
+            this.ibo.bind();
         }
+        return this;
     }
 
-    unbind(material: Material): void {
-        const contextProvider = this.contextProvider
+    unbind(material: Material): GeometryElements {
+        const contextProvider = this.contextProvider;
         if (contextProvider) {
             this.ibo.unbind();
-            const pointers = this._pointers
+            const pointers = this._pointers;
             if (pointers) {
-                const iLength = pointers.length
+                const iLength = pointers.length;
                 for (let i = 0; i < iLength; i++) {
-                    const pointer = pointers[i]
-                    const attrib = material.getAttrib(pointer.name)
+                    const pointer = pointers[i];
+                    const attrib = material.getAttrib(pointer.name);
                     if (attrib) {
                         attrib.disable();
                     }
@@ -204,14 +205,16 @@ export default class GeometryElements extends GeometryLeaf {
             }
             this.vbo.unbind();
         }
+        return this;
     }
 
-    draw(material: Material): void {
-        const contextProvider = this.contextProvider
+    draw(material: Material): GeometryElements {
+        const contextProvider = this.contextProvider;
         if (contextProvider) {
             if (this.count) {
-                contextProvider.drawElements(this.mode, this.count, this.offset)
+                contextProvider.drawElements(this.mode, this.count, this.offset);
             }
         }
+        return this;
     }
 }
