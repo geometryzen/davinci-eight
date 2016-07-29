@@ -1768,7 +1768,7 @@ declare module EIGHT {
         b: number
     }
 
-    interface SpinorE3 extends Scalar {
+    interface BivectorE3 {
         /**
          * The bivector component in the <b>e</b><sub>2</sub><b>e</b><sub>3</sub> plane.
          */
@@ -1783,6 +1783,9 @@ declare module EIGHT {
          * The bivector component in the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> plane.
          */
         xy: number;
+    }
+
+    interface SpinorE3 extends Scalar, BivectorE3 {
     }
 
     /**
@@ -2125,32 +2128,23 @@ declare module EIGHT {
         rotate(R: SpinorE3): Geometric3;
 
         /**
-         * <p>
-         * <code>this = ⟼ exp(- dual(a) * θ / 2)</code>
-         * </p>
-         * @param axis
-         * @param θ
-         */
-        rotorFromAxisAngle(axis: VectorE3, θ: number): Geometric3;
-
-        /**
-         * <p>
          * Sets this multivector to a rotor representing a rotation from a to b.
+         * this = ⟼ R, where
          * R = (|b||a| + b * a) / sqrt(2 * |b||a|(|b||a| + b << a))
-         * </p>
-         * @param a The <em>from</em> vector.
-         * @param b The <em>to</em> vector.
+         *
+         * a The <em>from</em> vector.
+         * b The <em>to</em> vector.
          */
         rotorFromDirections(a: VectorE3, b: VectorE3): Geometric3;
 
         /**
-         * <p>
-         * <code>this = ⟼ exp(- B * θ / 2)</code>
-         * </p>
-         * @param B
-         * @param θ
+         * Sets this multivector to a rotor represented by the plane B and angle θ.
+         * this = ⟼ R = exp(- B * θ / 2)
+         *
+         * B is the (unit) bivector generating the rotation, |B| * |B| = -1.
+         * θ The rotation angle in radians.
          */
-        rotorFromGeneratorAngle(B: SpinorE3, θ: number): Geometric3;
+        rotorFromGeneratorAngle(B: BivectorE3, θ: number): Geometric3;
 
         /**
          * <p>
@@ -2418,13 +2412,6 @@ declare module EIGHT {
         rotate(R: SpinorE3): Spinor3
 
         /**
-         * this ⟼ exp(- dual(axis) * θ / 2)
-         * <code>axis</code> The direction (unit vector) of the rotation.
-         * <code>θ</code> The angle of the rotation, measured in radians.
-         */
-        rotorFromAxisAngle(axis: VectorE3, θ: number): Spinor3
-
-        /**
          * <p>
          * Sets this multivector to a rotor representing a rotation from a to b.
          * R = (|b||a| + b * a) / sqrt(2 * |b||a|(|b||a| + b << a))
@@ -2435,13 +2422,12 @@ declare module EIGHT {
         rotorFromDirections(a: VectorE3, b: VectorE3): Spinor3
 
         /**
-         * <p>
          * <code>this = ⟼ exp(- B * θ / 2)</code>
-         * </p>
-         * @param B {SpinorE3}
-         * @param θ {number}
+         *
+         * B is the (unit) bivector generating the rotation, |B| * |B| = -1.
+         * θ The rotation angle in radians.
          */
-        rotorFromGeneratorAngle(B: SpinorE3, θ: number): Spinor3
+        rotorFromGeneratorAngle(B: BivectorE3, θ: number): Spinor3
 
         /**
          * this ⟼ this * α

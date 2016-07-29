@@ -1,4 +1,5 @@
-import CartesianG3 from './CartesianG3'
+import BivectorE3 from './BivectorE3';
+import CartesianG3 from './CartesianG3';
 import {Coords} from './Coords';
 import arraysEQ from './arraysEQ';
 import dotVector from './dotVectorE3';
@@ -1090,11 +1091,10 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
      * <code>this = ⟼ exp(- B * θ / 2) = cos(|B| * θ / 2) - B * sin(|B| * θ / 2) / |B|</code>
      * </p>
      *
-     * @param B
-     * @param θ The rotation angle when applied on both sides: R M ~R
-     * @returns <code>this</code>
+     * @param B The (unit) bivector generating the rotation.
+     * @param θ The rotation angle in radians when the rotor is applied on both sides as R * M * ~R
      */
-    rotorFromGeneratorAngle(B: SpinorE3, θ: number) {
+    rotorFromGeneratorAngle(B: BivectorE3, θ: number) {
         const φ = θ / 2
         const yz = B.yz
         const zx = B.zx

@@ -1,3 +1,4 @@
+import BivectorE3 from './BivectorE3';
 import CartesianG3 from './CartesianG3'
 import {Coords} from './Coords';
 import dotVectorCartesianE3 from './dotVectorCartesianE3';
@@ -828,20 +829,17 @@ export default class Spinor3 extends Coords implements CartesianG3, SpinorE3, Mu
      * <code>this = ⟼ exp(- B * θ / 2)</code>
      * </p>
      *
-     * @method rotorFromGeneratorAngle
-     * @param B {SpinorE3}
-     * @param θ {number}
-     * @return {Spinor3} <code>this</code>
-     * @chainable
+     * @param B The unit bivector that generates the rotation.
+     * @param θ The rotation angle in radians.
      */
-    rotorFromGeneratorAngle(B: SpinorE3, θ: number): Spinor3 {
-        let φ = θ / 2
-        let s = sin(φ)
-        this.yz = -B.yz * s
-        this.zx = -B.zx * s
-        this.xy = -B.xy * s
-        this.a = cos(φ)
-        return this
+    rotorFromGeneratorAngle(B: BivectorE3, θ: number) {
+        const φ = θ / 2;
+        const s = sin(φ);
+        this.yz = -B.yz * s;
+        this.zx = -B.zx * s;
+        this.xy = -B.xy * s;
+        this.a = cos(φ);
+        return this;
     }
 
     scp(rhs: SpinorE3): Spinor3 {

@@ -648,7 +648,7 @@ export default class Spinor2 extends Coords implements SpinorE2, Measure<Spinor2
      * @param θ {number}
      * @return {Spinor2} <code>this</code>
      */
-    rotorFromGeneratorAngle(B: SpinorE2, θ: number): Spinor2 {
+    rotorFromGeneratorAngle(B: SpinorE2, θ: number) {
         let φ = θ / 2
         let s = sin(φ)
         this.xy = -B.b * s
