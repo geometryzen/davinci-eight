@@ -391,21 +391,36 @@ declare module EIGHT {
         elements(data?: Uint16Array, usage?: Usage): IndexBuffer;
 
         /**
-         *
+         * Clears buffers to preset values.
+         * The preset values can be set by clearColor(), clearDepth() or clearStencil().
+         * The mask defaults to ClearBufferMask.COLOR_BUFFER_BIT | ClearBufferMask.DEPTH_BUFFER_BIT
          */
         clear(mask?: ClearBufferMask): Engine;
+
+        /**
+         * Specifies color values used by the clear method to clear the color buffer.
+         * The values are clamped between 0 and 1.
+         * The default value is 0.
+         */
+        clearColor(red: number, green: number, blue: number, alpha: number): Engine;
+
+        /**
+         * Specifies the depth value used by the clear method to clear the depth buffer.
+         * The value is clamped between 0 and 1.
+         * The default value is 1.
+         */
+        clearDepth(depth: number): Engine;
+
+        /**
+         * Specifies the stencil index used by the clear method to clear the stencil buffer.
+         * The default value is 0.
+         */
+        clearStencil(s: number): Engine;
 
         /**
          * Specifies a function that compares the incoming pixel depth to the current depth buffer value.
          */
         depthFunc(func: DepthFunction): Engine;
-
-        /**
-         * <p>
-         * Specifies color values to use by the <code>clear</code> method to clear the color buffer.
-         * <p>
-         */
-        clearColor(r: number, g: number, b: number, a: number): Engine;
 
         /**
          * Turns off specific WebGL capabilities for this context.

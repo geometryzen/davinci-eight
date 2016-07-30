@@ -545,7 +545,7 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-07-29';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.283.0';
+            this.VERSION = '2.284.0';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -9807,18 +9807,32 @@ define('davinci-eight/core/Engine',["require", "exports", './checkEnums', './Cle
             }
             return this;
         };
-        Engine.prototype.depthFunc = function (func) {
-            var gl = this._gl;
-            if (gl) {
-                gl.depthFunc(func);
-            }
-            return this;
-        };
         Engine.prototype.clearColor = function (red, green, blue, alpha) {
             this._commands.pushWeakRef(new WebGLClearColor_1.WebGLClearColor(red, green, blue, alpha));
             var gl = this._gl;
             if (gl) {
                 gl.clearColor(red, green, blue, alpha);
+            }
+            return this;
+        };
+        Engine.prototype.clearDepth = function (depth) {
+            var gl = this._gl;
+            if (gl) {
+                gl.clearDepth(depth);
+            }
+            return this;
+        };
+        Engine.prototype.clearStencil = function (s) {
+            var gl = this._gl;
+            if (gl) {
+                gl.clearStencil(s);
+            }
+            return this;
+        };
+        Engine.prototype.depthFunc = function (func) {
+            var gl = this._gl;
+            if (gl) {
+                gl.depthFunc(func);
             }
             return this;
         };
@@ -10046,6 +10060,7 @@ define('davinci-eight/facets/DirectionalLight',["require", "exports", '../core/C
                 return this._direction;
             },
             set: function (direction) {
+                mustBeObject_1.default('direction', direction);
                 this._direction.copy(direction);
             },
             enumerable: true,

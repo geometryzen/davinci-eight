@@ -1638,18 +1638,32 @@ System.register("davinci-eight/core/Engine.js", ["./checkEnums", "./ClearBufferM
           }
           return this;
         };
-        Engine.prototype.depthFunc = function(func) {
-          var gl = this._gl;
-          if (gl) {
-            gl.depthFunc(func);
-          }
-          return this;
-        };
         Engine.prototype.clearColor = function(red, green, blue, alpha) {
           this._commands.pushWeakRef(new WebGLClearColor_1.WebGLClearColor(red, green, blue, alpha));
           var gl = this._gl;
           if (gl) {
             gl.clearColor(red, green, blue, alpha);
+          }
+          return this;
+        };
+        Engine.prototype.clearDepth = function(depth) {
+          var gl = this._gl;
+          if (gl) {
+            gl.clearDepth(depth);
+          }
+          return this;
+        };
+        Engine.prototype.clearStencil = function(s) {
+          var gl = this._gl;
+          if (gl) {
+            gl.clearStencil(s);
+          }
+          return this;
+        };
+        Engine.prototype.depthFunc = function(func) {
+          var gl = this._gl;
+          if (gl) {
+            gl.depthFunc(func);
           }
           return this;
         };
@@ -1958,6 +1972,7 @@ System.register("davinci-eight/facets/DirectionalLight.js", ["../core/Color", ".
             return this._direction;
           },
           set: function(direction) {
+            mustBeObject_1.default('direction', direction);
             this._direction.copy(direction);
           },
           enumerable: true,
@@ -22166,7 +22181,7 @@ System.register("davinci-eight/config.js", [], function(exports_1, context_1) {
           this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
           this.LAST_MODIFIED = '2016-07-29';
           this.NAMESPACE = 'EIGHT';
-          this.VERSION = '2.283.0';
+          this.VERSION = '2.284.0';
         }
         Eight.prototype.log = function(message) {
           var optionalParams = [];

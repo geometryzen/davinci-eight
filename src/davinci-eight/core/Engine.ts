@@ -195,23 +195,8 @@ export class Engine extends ShareableBase implements ContextManager {
         return this;
     }
 
-    depthFunc(func: DepthFunction): Engine {
-        const gl = this._gl
-        if (gl) {
-            gl.depthFunc(func)
-        }
-        return this;
-    }
-
     /**
-     * <p>
      * Specifies color values to use by the <code>clear</code> method to clear the color buffer.
-     * <p>
-     *
-     * @param red
-     * @param green
-     * @param blue
-     * @param alpha
      */
     clearColor(red: number, green: number, blue: number, alpha: number): Engine {
         this._commands.pushWeakRef(new WebGLClearColor(red, green, blue, alpha))
@@ -220,6 +205,42 @@ export class Engine extends ShareableBase implements ContextManager {
             gl.clearColor(red, green, blue, alpha)
         }
         return this
+    }
+
+    /**
+     * Specifies the clear value for the depth buffer.
+     * This specifies what depth value to use when calling the clear() method.
+     * The value is clamped between 0 and 1.
+     *
+     * @param depth Specifies the depth value used when the depth buffer is cleared.
+     * The default value is 1.
+     */
+    clearDepth(depth: number): Engine {
+        const gl = this._gl
+        if (gl) {
+            gl.clearDepth(depth);
+        }
+        return this;
+    }
+
+    /**
+     * @param s Specifies the index used when the stencil buffer is cleared.
+     * The default value is 0.
+     */
+    clearStencil(s: number): Engine {
+        const gl = this._gl
+        if (gl) {
+            gl.clearStencil(s);
+        }
+        return this;
+    }
+
+    depthFunc(func: DepthFunction): Engine {
+        const gl = this._gl
+        if (gl) {
+            gl.depthFunc(func)
+        }
+        return this;
     }
 
     /**

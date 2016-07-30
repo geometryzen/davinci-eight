@@ -13,20 +13,15 @@ import SpinorE2 from '../math/SpinorE2';
 import VectorE2 from '../math/VectorE2';
 import wedgeXY from '../math/wedgeXY';
 
-/**
- * @module EIGHT
- * @submodule math
- */
-
 // Symbolic constants for the coordinate indices into the coords array.
-const COORD_SCALAR = 1
-const COORD_PSEUDO = 0
+const COORD_SCALAR = 1;
+const COORD_PSEUDO = 0;
 
 function one(): number[] {
-    const coords = [0, 0]
-    coords[COORD_SCALAR] = 1
-    coords[COORD_PSEUDO] = 0
-    return coords
+    const coords = [0, 0];
+    coords[COORD_SCALAR] = 1;
+    coords[COORD_PSEUDO] = 0;
+    return coords;
 }
 
 const abs = Math.abs
@@ -155,7 +150,7 @@ export default class Spinor2 extends Coords implements SpinorE2, Measure<Spinor2
      * @beta
      */
     adj(): Spinor2 {
-        throw new Error('TODO: Spinor2.adj')
+        throw new Error('TODO: Spinor2.adj');
     }
 
     /**
@@ -182,7 +177,7 @@ export default class Spinor2 extends Coords implements SpinorE2, Measure<Spinor2
      * @return {Spinor2} A copy of <code>this</code>.
      * @chainable
      */
-    clone(): Spinor2 {
+    clone() {
         const spinor = Spinor2.copy(this)
         spinor.modified = this.modified
         return spinor
@@ -309,7 +304,7 @@ export default class Spinor2 extends Coords implements SpinorE2, Measure<Spinor2
      * @return {Spinor2} <code>this</code>
      * @chainable
      */
-    exp(): Spinor2 {
+    exp() {
 
         const α = this.a
         const β = this.b
@@ -333,7 +328,7 @@ export default class Spinor2 extends Coords implements SpinorE2, Measure<Spinor2
      * @return {Spinor2} <code>this</code>
      * @chainable
      */
-    inv(): Spinor2 {
+    inv() {
         this.conj()
         this.divByScalar(this.squaredNormSansUnits());
         return this
@@ -355,11 +350,11 @@ export default class Spinor2 extends Coords implements SpinorE2, Measure<Spinor2
         return this.a === 0 && this.b === 0
     }
 
-    lco(rhs: SpinorE2): Spinor2 {
+    lco(rhs: SpinorE2) {
         return this.lco2(this, rhs)
     }
 
-    lco2(a: SpinorE2, b: SpinorE2): Spinor2 {
+    lco2(a: SpinorE2, b: SpinorE2) {
         // FIXME: How to leverage? Maybe break up? Don't want performance hit.
         // scpG2(a, b, this)
         return this
@@ -376,7 +371,7 @@ export default class Spinor2 extends Coords implements SpinorE2, Measure<Spinor2
      * @chainable
      */
     // FIXME: Should really be slerp?
-    lerp(target: SpinorE2, α: number): Spinor2 {
+    lerp(target: SpinorE2, α: number) {
         var Vector2 = Spinor2.copy(target)
         var Vector1 = this.clone()
         var R = Vector2.mul(Vector1.inv())
@@ -398,7 +393,7 @@ export default class Spinor2 extends Coords implements SpinorE2, Measure<Spinor2
      * @return {Spinor2} <code>this</code>
      * @chainable
      */
-    lerp2(a: SpinorE2, b: SpinorE2, α: number): Spinor2 {
+    lerp2(a: SpinorE2, b: SpinorE2, α: number) {
         this.sub2(b, a).scale(α).add(a)
         return this
     }
@@ -411,7 +406,7 @@ export default class Spinor2 extends Coords implements SpinorE2, Measure<Spinor2
      * @return {Spinor2} <code>this</code>
      * @chainable
      */
-    log(): Spinor2 {
+    log() {
         // FIXME: This is wrong see Geometric2.
         const w = this.a
         const z = this.xy
@@ -640,13 +635,12 @@ export default class Spinor2 extends Coords implements SpinorE2, Measure<Spinor2
     }
 
     /**
-     * <p>
+     *
      * <code>this = ⟼ exp(- B * θ / 2)</code>
-     * </p>
-     * @method rotorFromGeneratorAngle
-     * @param B {SpinorE2}
-     * @param θ {number}
-     * @return {Spinor2} <code>this</code>
+     *
+     * @param B
+     * @param θ
+     * @returns <code>this</code>
      */
     rotorFromGeneratorAngle(B: SpinorE2, θ: number) {
         let φ = θ / 2
