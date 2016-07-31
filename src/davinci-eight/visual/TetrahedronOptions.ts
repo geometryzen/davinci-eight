@@ -1,3 +1,4 @@
+import AbstractColor from '../core/AbstractColor';
 import VisualOptions from './VisualOptions';
 
 /**
@@ -10,7 +11,10 @@ import VisualOptions from './VisualOptions';
  * @extends VisualOptions
  */
 interface TetrahedronOptions extends VisualOptions {
-
+    /**
+     * 
+     */
+    color?: AbstractColor;
 }
 
 export default TetrahedronOptions;

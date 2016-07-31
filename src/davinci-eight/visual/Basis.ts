@@ -1,3 +1,4 @@
+import BasisOptions from './BasisOptions';
 import BeginMode from '../core/BeginMode';
 import {Color} from '../core/Color';
 import {ColorFacet} from '../facets/ColorFacet';
@@ -70,6 +71,26 @@ const fs: string = [
 
 ].join('\n');
 
+/**
+ * For backwards compatibility until deprecated alternative is removed.
+ */
+function contextManager(arg: BasisOptions | ContextManager, warn: boolean): ContextManager {
+    if (arg) {
+        if (arg['addContextListener']) {
+            if (warn) {
+                console.warn("Basis(contextManager: ContextManager) is deprecated. Please use Basis(options: {...}) instead.");
+            }
+            return <ContextManager>arg;
+        }
+        else {
+            return (<BasisOptions>arg).contextManager;
+        }
+    }
+    else {
+        return void 0;
+    }
+}
+
 export default class Basis extends Mesh {
     private uPointA = new Vector3Facet(uPointA);
     private uPointB = new Vector3Facet(uPointB);
@@ -77,8 +98,8 @@ export default class Basis extends Mesh {
     private uColorA = new ColorFacet(uColorA);
     private uColorB = new ColorFacet(uColorB);
     private uColorC = new ColorFacet(uColorC);
-    constructor(contextManager: ContextManager, levelUp = 0) {
-        super(void 0, void 0, contextManager, levelUp + 1);
+    constructor(options: BasisOptions = {}, levelUp = 0) {
+        super(void 0, void 0, contextManager(options, true), levelUp + 1);
         this.setLoggingName("Basis");
 
         // FIXME: This should be initialized to a random orthonormal basis.
@@ -91,14 +112,14 @@ export default class Basis extends Mesh {
         this.uPointC.vector.copy(Vector3.vector(0, 0, 1));
         this.colorC.copy(Color.blue);
 
-        const geometry = new GeometryArrays(void 0, contextManager);
+        const geometry = new GeometryArrays(void 0, contextManager(options, false));
         geometry.mode = BeginMode.LINES;
         geometry.setAttribute('aPointIndex', { values: [0, 1, 0, 2, 0, 3], size: 1, type: DataType.FLOAT });
         geometry.setAttribute('aColorIndex', { values: [1, 1, 2, 2, 3, 3], size: 1, type: DataType.FLOAT });
         this.geometry = geometry;
         geometry.release();
 
-        const material = new ShaderMaterial(vs, fs, [], contextManager);
+        const material = new ShaderMaterial(vs, fs, [], contextManager(options, false));
         this.material = material;
         material.release();
 

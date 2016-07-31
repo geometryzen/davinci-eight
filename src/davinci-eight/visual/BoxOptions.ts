@@ -1,9 +1,14 @@
+import AbstractColor from '../core/AbstractColor';
 import VisualOptions from './VisualOptions'
 
 /**
  *
  */
 interface BoxOptions extends VisualOptions {
+    /**
+     * 
+     */
+    color?: AbstractColor;
 
     /**
      *

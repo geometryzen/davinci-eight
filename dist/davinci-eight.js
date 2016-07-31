@@ -543,9 +543,9 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
     var Eight = (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-07-29';
+            this.LAST_MODIFIED = '2016-07-30';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.284.0';
+            this.VERSION = '2.285.0';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -17090,11 +17090,28 @@ define('davinci-eight/visual/Basis',["require", "exports", '../core/BeginMode', 
         "  gl_FragColor = vColor;",
         "}"
     ].join('\n');
+    function contextManager(arg, warn) {
+        if (arg) {
+            if (arg['addContextListener']) {
+                if (warn) {
+                    console.warn("Basis(contextManager: ContextManager) is deprecated. Please use Basis(options: {...}) instead.");
+                }
+                return arg;
+            }
+            else {
+                return arg.contextManager;
+            }
+        }
+        else {
+            return void 0;
+        }
+    }
     var Basis = (function (_super) {
         __extends(Basis, _super);
-        function Basis(contextManager, levelUp) {
+        function Basis(options, levelUp) {
+            if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
-            _super.call(this, void 0, void 0, contextManager, levelUp + 1);
+            _super.call(this, void 0, void 0, contextManager(options, true), levelUp + 1);
             this.uPointA = new Vector3Facet_1.default(uPointA);
             this.uPointB = new Vector3Facet_1.default(uPointB);
             this.uPointC = new Vector3Facet_1.default(uPointC);
@@ -17108,13 +17125,13 @@ define('davinci-eight/visual/Basis',["require", "exports", '../core/BeginMode', 
             this.colorB.copy(Color_1.Color.green);
             this.uPointC.vector.copy(Vector3_1.default.vector(0, 0, 1));
             this.colorC.copy(Color_1.Color.blue);
-            var geometry = new GeometryArrays_1.default(void 0, contextManager);
+            var geometry = new GeometryArrays_1.default(void 0, contextManager(options, false));
             geometry.mode = BeginMode_1.default.LINES;
             geometry.setAttribute('aPointIndex', { values: [0, 1, 0, 2, 0, 3], size: 1, type: DataType_1.default.FLOAT });
             geometry.setAttribute('aColorIndex', { values: [1, 1, 2, 2, 3, 3], size: 1, type: DataType_1.default.FLOAT });
             this.geometry = geometry;
             geometry.release();
-            var material = new ShaderMaterial_1.ShaderMaterial(vs, fs, [], contextManager);
+            var material = new ShaderMaterial_1.ShaderMaterial(vs, fs, [], contextManager(options, false));
             this.material = material;
             material.release();
             this.setFacet("Basis-" + uPointA, this.uPointA);

@@ -35,6 +35,11 @@ interface GridOptions extends VisualOptions {
     aColor?: (u: number, v: number) => AbstractColor
 
     /**
+     * 
+     */
+    color?: AbstractColor;
+
+    /**
      * Specifies the required Geometric Primitive Type.
      * Implementations may choose the nearest type.
      *

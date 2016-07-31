@@ -3667,7 +3667,14 @@ declare module EIGHT {
         colorA: Color;
         colorB: Color;
         colorC: Color;
-        constructor(contextManager: ContextManager, levelUp?: number);
+        constructor(
+            options?: {
+                attitude?: SpinorE3;
+                contextManager?: ContextManager;
+                offset?: VectorE3;
+                position?: VectorE3;
+                tilt?: SpinorE3;
+            }, levelUp?: number);
         protected destructor(levelUp: number): void;
     }
 

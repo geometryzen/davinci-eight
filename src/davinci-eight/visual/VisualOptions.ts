@@ -1,4 +1,3 @@
-import AbstractColor from '../core/AbstractColor';
 import ContextManager from '../core/ContextManager';
 import SpinorE3 from '../math/SpinorE3';
 import VectorE3 from '../math/VectorE3';
@@ -20,7 +19,7 @@ interface VisualOptions {
     /**
      *
      */
-    color?: AbstractColor;
+    // color?: AbstractColor;
 
     /**
      *
