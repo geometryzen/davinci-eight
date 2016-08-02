@@ -180,43 +180,41 @@ export class Drawable extends ShareableContextConsumer implements AbstractDrawab
         }
     }
 
-    /**
-     *
-     */
-    setUniforms(): void {
-        const material = this._material
-        const facets = this._facets
-        // FIXME: Temporary object creation?
-        const keys = Object.keys(facets)
-        const keysLength = keys.length
-        for (let i = 0; i < keysLength; i++) {
-            const key = keys[i]
-            const facet = facets[key]
-            facet.setUniforms(material)
-        }
+    bind(): Drawable {
+        this._geometry.bind(this._material);
+        return this;
     }
 
     /**
-     * @param ambients
+     *
      */
-    draw(ambients: Facet[]): void {
-        if (this._visible) {
-            const material = this._material;
-
-            material.use();
-
-            const iL = ambients.length;
-            for (let i = 0; i < iL; i++) {
-                const facet = ambients[i]
-                facet.setUniforms(material)
-            }
-
-            this.setUniforms();
-
-            this._geometry.bind(material);
-            this._geometry.draw(material);
-            this._geometry.unbind(material);
+    setUniforms(): Drawable {
+        const material = this._material;
+        const facets = this._facets;
+        // FIXME: Temporary object creation?
+        const keys = Object.keys(facets);
+        const keysLength = keys.length;
+        for (let i = 0; i < keysLength; i++) {
+            const key = keys[i];
+            const facet = facets[key];
+            facet.setUniforms(material);
         }
+        return this;
+    }
+
+    draw(ambients?: Facet[]): Drawable {
+        if (this._visible) {
+            if (ambients) {
+                console.warn("draw(ambients: Facet[]) is deprecated. Please use render(ambients: Facet[]) instead.");
+                this.render(ambients);
+            }
+            else {
+                if (this._geometry) {
+                    this._geometry.draw(this._material);
+                }
+            }
+        }
+        return this;
     }
 
     /**
@@ -254,6 +252,33 @@ export class Drawable extends ShareableContextConsumer implements AbstractDrawab
         return this._facets[name]
     }
 
+    /**
+     * A convenience method for performing all of the methods required for rendering.
+     * The following methods are called in order.
+     * use()
+     * bind()
+     * setAmbients(ambients)
+     * setUniforms()
+     * draw()
+     * unbind()
+     * In particle simulations it may be useful to call the underlying method directly.
+     */
+    render(ambients: Facet[]): Drawable {
+        if (this._visible) {
+            this.use().bind().setAmbients(ambients).setUniforms().draw().unbind();
+        }
+        return this;
+    }
+
+    setAmbients(ambients: Facet[]): Drawable {
+        const iL = ambients.length;
+        for (let i = 0; i < iL; i++) {
+            const facet = ambients[i];
+            facet.setUniforms(this._material);
+        }
+        return this;
+    }
+
     removeFacet(name: string): Facet {
         const facet = this._facets[name];
         if (facet) {
@@ -267,6 +292,16 @@ export class Drawable extends ShareableContextConsumer implements AbstractDrawab
      */
     setFacet(name: string, facet: Facet): void {
         this._facets[name] = facet
+    }
+
+    unbind(): Drawable {
+        this._geometry.unbind(this._material);
+        return this;
+    }
+
+    use(): Drawable {
+        this._material.use();
+        return this;
     }
 
     /**

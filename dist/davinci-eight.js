@@ -543,9 +543,9 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
     var Eight = (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-07-30';
+            this.LAST_MODIFIED = '2016-08-02';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.285.0';
+            this.VERSION = '2.286.0';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -6447,6 +6447,10 @@ define('davinci-eight/core/Drawable',["require", "exports", '../base/exchange', 
             enumerable: true,
             configurable: true
         });
+        Drawable.prototype.bind = function () {
+            this._geometry.bind(this._material);
+            return this;
+        };
         Drawable.prototype.setUniforms = function () {
             var material = this._material;
             var facets = this._facets;
@@ -6457,21 +6461,21 @@ define('davinci-eight/core/Drawable',["require", "exports", '../base/exchange', 
                 var facet = facets[key];
                 facet.setUniforms(material);
             }
+            return this;
         };
         Drawable.prototype.draw = function (ambients) {
             if (this._visible) {
-                var material = this._material;
-                material.use();
-                var iL = ambients.length;
-                for (var i = 0; i < iL; i++) {
-                    var facet = ambients[i];
-                    facet.setUniforms(material);
+                if (ambients) {
+                    console.warn("draw(ambients: Facet[]) is deprecated. Please use render(ambients: Facet[]) instead.");
+                    this.render(ambients);
                 }
-                this.setUniforms();
-                this._geometry.bind(material);
-                this._geometry.draw(material);
-                this._geometry.unbind(material);
+                else {
+                    if (this._geometry) {
+                        this._geometry.draw(this._material);
+                    }
+                }
             }
+            return this;
         };
         Drawable.prototype.contextFree = function (context) {
             this._geometry.contextFree(context);
@@ -6492,6 +6496,20 @@ define('davinci-eight/core/Drawable',["require", "exports", '../base/exchange', 
         Drawable.prototype.getFacet = function (name) {
             return this._facets[name];
         };
+        Drawable.prototype.render = function (ambients) {
+            if (this._visible) {
+                this.use().bind().setAmbients(ambients).setUniforms().draw().unbind();
+            }
+            return this;
+        };
+        Drawable.prototype.setAmbients = function (ambients) {
+            var iL = ambients.length;
+            for (var i = 0; i < iL; i++) {
+                var facet = ambients[i];
+                facet.setUniforms(this._material);
+            }
+            return this;
+        };
         Drawable.prototype.removeFacet = function (name) {
             var facet = this._facets[name];
             if (facet) {
@@ -6501,6 +6519,14 @@ define('davinci-eight/core/Drawable',["require", "exports", '../base/exchange', 
         };
         Drawable.prototype.setFacet = function (name, facet) {
             this._facets[name] = facet;
+        };
+        Drawable.prototype.unbind = function () {
+            this._geometry.unbind(this._material);
+            return this;
+        };
+        Drawable.prototype.use = function () {
+            this._material.use();
+            return this;
         };
         Object.defineProperty(Drawable.prototype, "geometry", {
             get: function () {

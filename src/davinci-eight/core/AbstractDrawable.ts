@@ -1,7 +1,7 @@
-import {Facet} from './Facet'
-import {Geometry} from './Geometry'
-import {ContextConsumer} from './ContextConsumer'
-import {Material} from './Material'
+import {Facet} from './Facet';
+import {Geometry} from './Geometry';
+import {ContextConsumer} from './ContextConsumer';
+import {Material} from './Material';
 
 /**
  *
@@ -11,7 +11,7 @@ export interface AbstractDrawable extends ContextConsumer {
     /**
      *
      */
-    name: string
+    name: string;
 
     /**
      * <p>
@@ -19,7 +19,7 @@ export interface AbstractDrawable extends ContextConsumer {
      * </p>
      *
      */
-    fragmentShaderSrc: string
+    fragmentShaderSrc: string;
 
     /**
      * <p>
@@ -33,7 +33,7 @@ export interface AbstractDrawable extends ContextConsumer {
      * </p>
      *
      */
-    geometry: Geometry
+    geometry: Geometry;
 
     /**
      * <p>
@@ -47,25 +47,58 @@ export interface AbstractDrawable extends ContextConsumer {
      * </p>
      *
      */
-    material: Material
+    material: Material;
 
     /**
      * A shortcut to the <code>material.vertexShaderSrc</code> property.
      */
-    vertexShaderSrc: string
+    vertexShaderSrc: string;
 
     /**
      * Determines whether this <code>AbstractDrawable</code> will be drawn.
      */
-    visible: boolean
+    visible: boolean;
 
     /**
-     * @param ambients
+     * A convenience method for geometry.bind(material).
      */
-    draw(ambients: Facet[]): void
+    bind(): AbstractDrawable;
+
+    /**
+     * Calls the underlying drawArrays or drawElements method on the WebGLRenderingContext.
+     * The use of the ambients parameter with this method is deprecated.
+     */
+    draw(ambients?: Facet[]): AbstractDrawable;
+
+    /**
+     * High-Level rendering convenience method equivalent to...
+     *
+     * use()
+     * bind()
+     * setAmbients(ambients)
+     * setUniforms()
+     * draw()
+     * unbind()
+     */
+    render(ambients: Facet[]): AbstractDrawable;
 
     /**
      * 
      */
-    setUniforms(): void
+    setAmbients(ambients: Facet[]): AbstractDrawable;
+
+    /**
+     * 
+     */
+    setUniforms(): AbstractDrawable;
+
+    /**
+     * A convenience method for geometry.unbind(material).
+     */
+    unbind(): AbstractDrawable;
+
+    /**
+     * A convenience method for material.use().
+     */
+    use(): AbstractDrawable;
 }

@@ -3174,6 +3174,13 @@ declare module EIGHT {
         name: string;
         vertexShaderSrc: string;
         visible: boolean;
+        bind(): AbstractDrawable;
+        draw(ambients?: Facet[]): AbstractDrawable;
+        render(ambients: Facet[]): AbstractDrawable;
+        setAmbients(ambients: Facet[]): AbstractDrawable;
+        setUniforms(): AbstractDrawable;
+        unbind(): AbstractDrawable;
+        use(): AbstractDrawable;
     }
 
 
@@ -3235,7 +3242,17 @@ declare module EIGHT {
 
         protected destructor(levelUp: number): void;
 
-        draw(ambients: Facet[]): void;
+        /**
+         * Binds the buffers in the geometry property to the attributes in the current program.
+         */
+        bind(): Drawable;
+
+        /**
+         * Calls the appropriate WebGL drawArrays or drawElements function through the geometry property.
+         * WARNING: The use of the ambients parameter is deprecated.
+         * Please use the render(ambients) method instead or unpack the render method call. 
+         */
+        draw(ambients?: Facet[]): Drawable;
 
         /**
          * Gets a facet of this composite object by name.
@@ -3244,12 +3261,42 @@ declare module EIGHT {
         getFacet(name: string): Facet;
 
         /**
+         * A convenience method for multiple methods.
+         * The sequence of internal method calls is:
+         * use()
+         * bind()
+         * setAmbients(ambients)
+         * setUniforms()
+         * draw()
+         * unbind()
+         */
+        render(ambients: Facet[]): Drawable;
+
+        /**
          * Sets a facet of this composite object by name.
          * Facets provide uniform arguments to the graphics program.
          */
         setFacet(name: string, facet: Facet): void;
 
-        setUniforms(): void;
+        /**
+         * Sets uniforms in the current program from values provided by the ambient facets.
+         */
+        setAmbients(ambients: Facet[]): Drawable;
+
+        /**
+         * Sets uniforms in the current program from values provided by this Drawable.
+         */
+        setUniforms(): Drawable;
+
+        /**
+         * Unbinds the buffers in the geometry property from the current program.
+         */
+        unbind(): Drawable;
+
+        /**
+         * Makes the WebGLProgram in the material property the current program.
+         */
+        use(): Drawable;
     }
 
     /**
