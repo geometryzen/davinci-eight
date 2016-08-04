@@ -1,4 +1,3 @@
-import AbstractColor from '../core/AbstractColor';
 import SpinorE3 from '../math/SpinorE3';
 import VectorE3 from '../math/VectorE3';
 import VisualOptions from './VisualOptions';
@@ -11,7 +10,7 @@ interface SphereOptions extends VisualOptions {
     /**
      *
      */
-    color?: AbstractColor;
+    color?: { r: number; g: number; b: number };
 
     /**
      *

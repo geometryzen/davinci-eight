@@ -8,13 +8,6 @@ const e2 = Vector3.vector(0, 1, 0);
 const e3 = Vector3.vector(0, 0, 1);
 
 describe("BoxGeometry", function() {
-    describe("constructor", function() {
-        it("should be a leaf Geometry", function() {
-            const box = new BoxGeometry()
-            expect(box.isLeaf()).toBe(true)
-            box.release()
-        })
-    })
     describe("scaling", function() {
         it("scaling should be 1 when no tilt supplied", function() {
             const options: BoxGeometryOptions = {}

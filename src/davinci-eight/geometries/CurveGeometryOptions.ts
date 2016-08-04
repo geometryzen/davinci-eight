@@ -1,7 +1,6 @@
-import AbstractColor from '../core/AbstractColor'
-import BeginMode from '../core/BeginMode'
-import GeometryOptions from './GeometryOptions'
-import VectorE3 from '../math/VectorE3'
+import BeginMode from '../core/BeginMode';
+import GeometryOptions from './GeometryOptions';
+import VectorE3 from '../math/VectorE3';
 
 interface CurveGeometryOptions extends GeometryOptions {
 
@@ -18,11 +17,9 @@ interface CurveGeometryOptions extends GeometryOptions {
     aPosition?: (u: number) => VectorE3
 
     /**
-     * @attribute aColor
-     * @type (u: number) => AbstractColor
-     * @optional
+     *
      */
-    aColor?: (u: number) => AbstractColor
+    aColor?: (u: number) => { r: number; g: number; b: number }
 
     /**
      * @default LINES

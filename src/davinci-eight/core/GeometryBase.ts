@@ -4,7 +4,6 @@ import {Geometry} from './Geometry';
 import Matrix4 from '../math/Matrix4';
 import notImplemented from '../i18n/notImplemented';
 import notSupported from '../i18n/notSupported';
-import readOnly from '../i18n/readOnly';
 import {ShareableContextConsumer} from './ShareableContextConsumer';
 import Spinor3 from '../math/Spinor3';
 import SpinorE3 from '../math/SpinorE3';
@@ -49,29 +48,6 @@ export default class GeometryBase extends ShareableContextConsumer implements Ge
             this.cleanUp();
         }
         super.destructor(levelUp + 1);
-    }
-
-    public isLeaf(): boolean {
-        throw new Error(notSupported('isLeaf').message)
-    }
-
-    get partsLength(): number {
-        throw new Error();
-    }
-    set partsLength(unused) {
-        throw new Error(readOnly('partsLength').message)
-    }
-
-    addPart(geometry: Geometry): void {
-        throw new Error(notSupported('addPart').message)
-    }
-
-    removePart(index: number): void {
-        throw new Error(notSupported('removePart').message)
-    }
-
-    getPart(index: number): Geometry {
-        throw new Error(notSupported('getPart').message)
     }
 
     bind(material: Material): GeometryBase {

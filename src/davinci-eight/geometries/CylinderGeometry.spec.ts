@@ -9,11 +9,6 @@ const e3 = Vector3.vector(0, 0, 1);
 
 describe("CylinderGeometry", function() {
     describe("constructor", function() {
-        it("should create a leaf Geometry", function() {
-            const cylinder = new CylinderGeometry()
-            expect(cylinder.isLeaf()).toBe(true)
-            cylinder.release()
-        })
         describe("radius property", function() {
             it("should default to unity", function() {
                 const cylinder = new CylinderGeometry()

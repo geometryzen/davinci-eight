@@ -2594,25 +2594,19 @@ declare module EIGHT {
     /**
      *
      */
-    interface AbstractColor {
+    class Color {
         r: number;
         g: number;
         b: number;
-    }
-
-    /**
-     *
-     */
-    class Color extends VectorN<number> implements AbstractColor {
-        r: number;
-        g: number;
-        b: number;
-        luminance: number;
-        constructor(r: number, g: number, b: number);
+        /**
+         * Constructs a new Color from its red, green, and blue values.
+         * Each value is clamped in the range [0,1].
+         */
+        constructor(red: number, green: number, blue: number);
         approx(n: number): Color;
         clone(): Color;
-        copy(color: AbstractColor): Color;
-        lerp(target: AbstractColor, α: number): Color;
+        copy(color: Color): Color;
+        lerp(target: Color, α: number): Color;
         toString(): string;
 
         static black: Color;
@@ -2624,12 +2618,13 @@ declare module EIGHT {
         static yellow: Color;
         static white: Color;
         static gray: Color;
-        static copy(color: AbstractColor): Color;
-        static fromCoords(coords: number[]): Color;
+
+        static copy(color: Color): Color;
         static fromHSL(H: number, S: number, L: number): Color;
         static fromRGB(red: number, green: number, blue: number): Color;
-        static lerp(a: AbstractColor, b: AbstractColor, α: number): Color;
-        static luminance(r: number, g: number, b: number): number
+        static lerp(a: Color, b: Color, α: number): Color;
+        static luminance(r: number, g: number, b: number): number;
+        static random(): Color;
     }
 
     /**
@@ -2947,9 +2942,7 @@ declare module EIGHT {
     }
 
     interface Geometry extends ContextConsumer {
-        partsLength: number;
         scaling: Matrix4;
-        addPart(geometry: Geometry): void;
         /**
          * Binds the attributes of the material to the buffers in this Geometry.
          */
@@ -2962,31 +2955,8 @@ declare module EIGHT {
          * Invokes the appropriate drawArrays or drawElements call to send data to the Graphics Pipeline.
          */
         draw(material: Material): Geometry;
-        getPart(index: number): Geometry;
         getPrincipalScale(name: string): number;
         hasPrincipalScale(name: string): boolean;
-        isLeaf(): boolean;
-        removePart(index: number): void;
-        setPrincipalScale(name: string, value: number): void;
-    }
-
-    class GeometryContainer extends ShareableBase implements Geometry {
-        data: VertexArrays;
-        partsLength: number;
-        scaling: Matrix4;
-        constructor();
-        addPart(geometry: Geometry): void;
-        contextFree(context: ContextProvider): void;
-        contextGain(context: ContextProvider): void;
-        contextLost(): void;
-        bind(material: Material): GeometryContainer;
-        unbind(material: Material): GeometryContainer;
-        draw(material: Material): GeometryContainer;
-        getPart(index: number): Geometry;
-        getPrincipalScale(name: string): number;
-        hasPrincipalScale(name: string): boolean;
-        isLeaf(): boolean;
-        removePart(index: number): void;
         setPrincipalScale(name: string, value: number): void;
     }
 
@@ -2995,23 +2965,18 @@ declare module EIGHT {
      */
     class GeometryArrays extends ShareableContextConsumer implements Geometry {
         mode: BeginMode
-        partsLength: number;
         scaling: Matrix4;
         /**
          *
          */
         constructor(primitive: Primitive, contextManager: ContextManager, options?: { order?: string[]; tilt?: SpinorE3 }, levelUp?: number);
         protected destructor(levelUp: number): void;
-        addPart(geometry: Geometry): void;
         bind(material: Material): GeometryArrays;
         unbind(material: Material): GeometryArrays;
         draw(material: Material): GeometryArrays;
         getAttribute(name: string): Attribute;
-        getPart(index: number): Geometry;
         getPrincipalScale(name: string): number;
         hasPrincipalScale(name: string): boolean;
-        isLeaf(): boolean;
-        removePart(index: number): void;
         setAttribute(name: string, attribute: Attribute): void;
         setPrincipalScale(name: string, value: number): void;
     }
@@ -3020,7 +2985,6 @@ declare module EIGHT {
         attributes: number[]
         mode: BeginMode;
         indices: number[];
-        partsLength: number;
         pointers: VertexAttribPointer[];
         scaling: Matrix4;
         /**
@@ -3029,15 +2993,11 @@ declare module EIGHT {
         stride: number;
         constructor(primitive: Primitive, contextManager: ContextManager, options?: { order?: string[]; tilt?: SpinorE3 }, levelUp?: number);
         protected destructor(levelUp: number): void;
-        addPart(geometry: Geometry): void;
         bind(material: Material): GeometryElements;
         unbind(material: Material): GeometryElements;
         draw(material: Material): GeometryElements;
-        getPart(index: number): Geometry;
         getPrincipalScale(name: string): number;
         hasPrincipalScale(name: string): boolean;
-        isLeaf(): boolean;
-        removePart(index: number): void;
         setPrincipalScale(name: string, value: number): void;
     }
 
@@ -3381,13 +3341,13 @@ declare module EIGHT {
 
     class AmbientLight extends AbstractFacet {
         color: Color;
-        constructor(color: AbstractColor);
+        constructor(color: Color);
     }
 
     /**
      *
      */
-    class ColorFacet extends AbstractFacet implements AbstractColor {
+    class ColorFacet extends AbstractFacet {
         r: number;
         g: number;
         b: number;
@@ -3395,7 +3355,7 @@ declare module EIGHT {
         constructor(name?: string);
         scaleRGB(α: number): ColorFacet;
         scaleRGBA(α: number): ColorFacet;
-        setColorRGB(color: AbstractColor): ColorFacet;
+        setColorRGB(color: Color): ColorFacet;
         setRGB(r: number, g: number, b: number): ColorFacet;
         setRGBA(r: number, g: number, b: number, a: number): ColorFacet;
     }
@@ -3419,7 +3379,7 @@ declare module EIGHT {
          * [direction = -e3] The initial direction.
          * [color = white] The initial color.
          */
-        constructor(direction?: VectorE3, color?: AbstractColor);
+        constructor(direction?: VectorE3, color?: Color);
         /**
          * Sets the <code>direction</code> property by copying a vector.
          * The direction is normalized to be a unit vector.
@@ -3697,7 +3657,7 @@ declare module EIGHT {
         constructor(
             options?: {
                 attitude?: SpinorE3;
-                color?: AbstractColor;
+                color?: Color;
                 contextManager?: ContextManager;
                 offset?: VectorE3;
                 position?: VectorE3;
@@ -3732,7 +3692,7 @@ declare module EIGHT {
         constructor(
             options?: {
                 attitude?: SpinorE3;
-                color?: AbstractColor;
+                color?: Color;
                 depth?: number;
                 contextManager?: ContextManager;
                 height?: number;
@@ -3757,7 +3717,7 @@ declare module EIGHT {
             options?: {
                 attitude?: SpinorE3;
                 axis?: VectorE3;
-                color?: AbstractColor;
+                color?: Color;
                 contextManager?: ContextManager;
                 length?: number;
                 offset?: VectorE3;
@@ -3774,10 +3734,10 @@ declare module EIGHT {
     class Curve extends Mesh {
         constructor(
             options?: {
-                aColor?: (u: number) => AbstractColor;
+                aColor?: (u: number) => Color;
                 aPosition?: (u: number) => VectorE3;
                 attitude?: SpinorE3;
-                color?: AbstractColor;
+                color?: Color;
                 mode?: BeginMode;
                 contextManager?: ContextManager;
                 offset?: VectorE3;
@@ -3793,11 +3753,11 @@ declare module EIGHT {
     class Grid extends Mesh {
         constructor(
             options?: {
-                aColor?: (u: number, v: number) => AbstractColor;
+                aColor?: (u: number, v: number) => Color;
                 aNormal?: (u: number, v: number) => VectorE3;
                 aPosition?: (u: number, v: number) => VectorE3;
                 attitude?: SpinorE3;
-                color?: AbstractColor;
+                color?: Color;
                 mode?: BeginMode;
                 contextManager?: ContextManager;
                 offset?: VectorE3;
@@ -3849,7 +3809,7 @@ declare module EIGHT {
         constructor(
             options?: {
                 attitude?: SpinorE3;
-                color?: AbstractColor;
+                color?: Color;
                 contextManager?: ContextManager;
                 offset?: VectorE3;
                 position?: VectorE3;
@@ -3864,7 +3824,7 @@ declare module EIGHT {
         constructor(
             options?: {
                 attitude?: SpinorE3;
-                color?: AbstractColor;
+                color?: Color;
                 contextManager?: ContextManager;
                 offset?: VectorE3;
                 position?: VectorE3;

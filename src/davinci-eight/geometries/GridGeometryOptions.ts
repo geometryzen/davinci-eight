@@ -1,4 +1,3 @@
-import AbstractColor from '../core/AbstractColor'
 import BeginMode from '../core/BeginMode'
 import GeometryOptions from './GeometryOptions'
 import VectorE3 from '../math/VectorE3'
@@ -21,11 +20,9 @@ interface GridGeometryOptions extends GeometryOptions {
     aNormal?: (u: number, v: number) => VectorE3
 
     /**
-     * @attribute aColor
-     * @type (u: number, v: number) => AbstractColor
-     * @optional
+     *
      */
-    aColor?: (u: number, v: number) => AbstractColor
+    aColor?: (u: number, v: number) => { r: number; g: number; b: number }
 
     /**
      * @default LINES

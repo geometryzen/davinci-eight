@@ -1,5 +1,4 @@
 import BeginMode from '../core/BeginMode'
-import AbstractColor from '../core/AbstractColor'
 import VectorE3 from '../math/VectorE3'
 import VisualOptions from './VisualOptions'
 
@@ -18,17 +17,17 @@ interface CurveOptions extends VisualOptions {
      *
      * @default (u: number) => u * e1 + v * e2
      */
-    aPosition?: (u: number) => VectorE3
+    aPosition?: (u: number) => VectorE3;
 
     /**
      *
      */
-    aColor?: (u: number) => AbstractColor
+    aColor?: (u: number) => { r: number; g: number; b: number };
 
     /**
      *
      */
-    aOpacity?: (u: number) => number
+    aOpacity?: (u: number) => number;
 
     /**
      * Specifies the required Geometric Primitive Type.
@@ -36,26 +35,26 @@ interface CurveOptions extends VisualOptions {
      *
      * @default LINES
      */
-    mode?: BeginMode
+    mode?: BeginMode;
 
     /**
      *
      * @default -0.5
      */
-    uMin?: number
+    uMin?: number;
 
     /**
      *
      * @default +0.5
      */
-    uMax?: number
+    uMax?: number;
 
     /**
      * The number of segments for the u coordinate.
      *
      * @default 1
      */
-    uSegments?: number
+    uSegments?: number;
 }
 
-export default CurveOptions
+export default CurveOptions;

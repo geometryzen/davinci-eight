@@ -1,15 +1,12 @@
-import clamp from '../math/clamp'
-import ColumnVector from '../math/ColumnVector'
-import {Coords} from '../math/Coords'
-import AbstractColor from './AbstractColor'
-import isDefined from '../checks/isDefined'
-import Matrix3 from '../math/Matrix3'
-import MutableLinearElement from '../math/MutableLinearElement'
-import mustBeArray from '../checks/mustBeArray'
-import mustBeGE from '../checks/mustBeGE'
-import mustBeLE from '../checks/mustBeLE'
-import mustBeNumber from '../checks/mustBeNumber'
-import principalAngle from './principalAngle'
+import clamp from '../math/clamp';
+import {Coords} from '../math/Coords';
+import isDefined from '../checks/isDefined';
+import Matrix3 from '../math/Matrix3';
+import mustBeArray from '../checks/mustBeArray';
+import mustBeGE from '../checks/mustBeGE';
+import mustBeLE from '../checks/mustBeLE';
+import mustBeNumber from '../checks/mustBeNumber';
+import principalAngle from './principalAngle';
 import SpinorE3 from '../math/SpinorE3'
 
 const COORD_R = 0
@@ -27,7 +24,7 @@ const COORD_B = 2
  * difficult bugs because it is hard to reason about where a color may have changed. 
  * </p>
  */
-export class Color extends Coords implements AbstractColor, ColumnVector<Matrix3, Color>, MutableLinearElement<AbstractColor, Color, SpinorE3, AbstractColor, number, number> {
+export class Color extends Coords {
 
     /**
      *
@@ -117,11 +114,11 @@ export class Color extends Coords implements AbstractColor, ColumnVector<Matrix3
         this.coords[COORD_B] = clamp(b, 0, 1)
     }
 
-    public add(rhs: AbstractColor): Color {
+    public add(rhs: { r: number; g: number; b: number }): Color {
         return this
     }
 
-    public add2(a: AbstractColor, b: AbstractColor): Color {
+    public add2(a: { r: number; g: number; b: number }, b: { r: number; g: number; b: number }): Color {
         return this
     }
 
@@ -149,7 +146,7 @@ export class Color extends Coords implements AbstractColor, ColumnVector<Matrix3
      * @param color
      * @returns
      */
-    public copy(color: AbstractColor): Color {
+    public copy(color: { r: number; g: number; b: number }): Color {
         if (isDefined(color)) {
             this.r = color.r
             this.g = color.g
@@ -173,7 +170,7 @@ export class Color extends Coords implements AbstractColor, ColumnVector<Matrix3
      * @param α
      * @returns
      */
-    public lerp(target: AbstractColor, α: number): Color {
+    public lerp(target: { r: number; g: number; b: number }, α: number): Color {
         this.r += (target.r - this.r) * α
         this.g += (target.g - this.g) * α
         this.b += (target.b - this.b) * α
@@ -192,7 +189,7 @@ export class Color extends Coords implements AbstractColor, ColumnVector<Matrix3
         return this
     }
 
-    public reflect(n: AbstractColor): Color {
+    public reflect(n: { r: number; g: number; b: number }): Color {
         return this
     }
 
@@ -204,19 +201,19 @@ export class Color extends Coords implements AbstractColor, ColumnVector<Matrix3
         return this
     }
 
-    public slerp(target: AbstractColor, α: number): Color {
+    public slerp(target: { r: number; g: number; b: number }, α: number): Color {
         return this
     }
 
-    public stress(σ: AbstractColor): Color {
+    public stress(σ: { r: number; g: number; b: number }): Color {
         return this
     }
 
-    public sub(rhs: AbstractColor): Color {
+    public sub(rhs: { r: number; g: number; b: number }): Color {
         return this
     }
 
-    public sub2(a: AbstractColor, b: AbstractColor): Color {
+    public sub2(a: { r: number; g: number; b: number }, b: { r: number; g: number; b: number }): Color {
         return this
     }
 
@@ -248,7 +245,7 @@ export class Color extends Coords implements AbstractColor, ColumnVector<Matrix3
      * @param color
      * @returns
      */
-    public static copy(color: AbstractColor): Color {
+    public static copy(color: { r: number; g: number; b: number }): Color {
         return new Color(color.r, color.g, color.b)
     }
 
@@ -353,7 +350,7 @@ export class Color extends Coords implements AbstractColor, ColumnVector<Matrix3
      * @param α
      * @returns
      */
-    public static lerp(a: AbstractColor, b: AbstractColor, α: number): Color {
+    public static lerp(a: { r: number; g: number; b: number }, b: { r: number; g: number; b: number }, α: number): Color {
         return Color.copy(a).lerp(b, clamp(α, 0, 1))
     }
 
@@ -366,6 +363,9 @@ export class Color extends Coords implements AbstractColor, ColumnVector<Matrix3
         }
     }
 
+    /**
+     * Creates a color in which the red, green, and blue properties lie in the range [0, 1].
+     */
     public static random(): Color {
         return Color.fromRGB(Math.random(), Math.random(), Math.random())
     }

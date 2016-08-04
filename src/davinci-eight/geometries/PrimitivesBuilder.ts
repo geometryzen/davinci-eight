@@ -1,15 +1,11 @@
-import {Engine} from '../core/Engine'
 import {Geometric3} from '../math/Geometric3';
-import GeometryBuilder from './GeometryBuilder'
-import {Geometry} from '../core/Geometry'
-import GeometryElements from '../core/GeometryElements'
-import GeometryContainer from '../core/GeometryContainer'
+import GeometryBuilder from './GeometryBuilder';
 import Primitive from '../core/Primitive';
 import Vector3 from '../math/Vector3';
 import Vertex from '../atoms/Vertex';
 import VertexArrays from '../core/VertexArrays';
-import vertexArraysFromPrimitive from '../core/vertexArraysFromPrimitive'
-import Transform from '../atoms/Transform'
+import vertexArraysFromPrimitive from '../core/vertexArraysFromPrimitive';
+import Transform from '../atoms/Transform';
 
 /**
  * A GeometryBuilder that takes building Primitive arrays as primary.
@@ -28,7 +24,7 @@ export default class PrimitivesBuilder implements GeometryBuilder {
      * @default vector(1, 1, 1)
      * @beta
      */
-    public stress = Vector3.vector(1, 1, 1)
+    public stress = Vector3.vector(1, 1, 1);
 
     /**
      * The rotor to apply to the geometry (after scale has been applied).
@@ -36,7 +32,7 @@ export default class PrimitivesBuilder implements GeometryBuilder {
      * @type Geometric3
      * @default 1
      */
-    public tilt: Geometric3 = Geometric3.one()
+    public tilt: Geometric3 = Geometric3.one();
 
     /**
      * The translation to apply to the geometry (after tilt has been applied).
@@ -44,13 +40,13 @@ export default class PrimitivesBuilder implements GeometryBuilder {
      * @type Vector3
      * @default 0
      */
-    public offset = Vector3.zero()
+    public offset = Vector3.zero();
 
     /**
      * @property transforms
      * @type Transform[]
      */
-    public transforms: Transform[] = []
+    public transforms: Transform[] = [];
 
     /**
      * Determines whether to include normals in the geometry.
@@ -88,31 +84,10 @@ export default class PrimitivesBuilder implements GeometryBuilder {
     }
 
     public applyTransforms(vertex: Vertex, i: number, j: number, iLength: number, jLength: number): void {
-        const tLen = this.transforms.length
+        const tLen = this.transforms.length;
         for (let t = 0; t < tLen; t++) {
-            this.transforms[t].exec(vertex, i, j, iLength, jLength)
+            this.transforms[t].exec(vertex, i, j, iLength, jLength);
         }
-    }
-
-    /**
-     * @method toGeometry
-     * @param engine {Engine}
-     * @return {Geometry}
-     * @beta
-     */
-    toGeometry(engine: Engine): Geometry {
-        // FIXME: This method probably should not exist because the 
-        // container must be overridden to provide scaling methods.
-        const container = new GeometryContainer(this.tilt, engine, 0)
-        const ps = this.toPrimitives()
-        const iLen = ps.length
-        for (let i = 0; i < iLen; i++) {
-            const dataSource = ps[i]
-            const geometry = new GeometryElements(dataSource, engine, { tilt: this.tilt }, 0);
-            container.addPart(geometry)
-            geometry.release()
-        }
-        return container
     }
 
     /**
@@ -121,13 +96,13 @@ export default class PrimitivesBuilder implements GeometryBuilder {
      * @beta
      */
     toVertexArrays(): VertexArrays[] {
-        const arrays: VertexArrays[] = []
-        const ps = this.toPrimitives()
-        const iLen = ps.length
+        const arrays: VertexArrays[] = [];
+        const ps = this.toPrimitives();
+        const iLen = ps.length;
         for (let i = 0; i < iLen; i++) {
-            arrays.push(vertexArraysFromPrimitive(ps[i]))
+            arrays.push(vertexArraysFromPrimitive(ps[i]));
         }
-        return arrays
+        return arrays;
     }
 
     /**
@@ -135,7 +110,7 @@ export default class PrimitivesBuilder implements GeometryBuilder {
      * @type Primitive[]
      */
     toPrimitives(): Primitive[] {
-        console.warn("toPrimitives() must be implemented by derived classes.")
-        return []
+        console.warn("toPrimitives() must be implemented by derived classes.");
+        return [];
     }
 }

@@ -1,4 +1,3 @@
-import AbstractColor from '../core/AbstractColor';
 import VisualOptions from './VisualOptions'
 import VectorE3 from '../math/VectorE3'
 
@@ -15,7 +14,7 @@ interface CylinderOptions extends VisualOptions {
     /**
      * 
      */
-    color?: AbstractColor;
+    color?: { r: number; g: number; b: number };
 
     /**
      *

@@ -1,5 +1,4 @@
 import {Color} from '../core/Color';
-import AbstractColor from '../core/AbstractColor';
 import {Facet} from '../core/Facet';
 import {FacetVisitor} from '../core/FacetVisitor';
 import {Geometric3} from '../math/Geometric3';
@@ -46,7 +45,7 @@ export class DirectionalLight implements Facet {
      * @param direction
      * @param color
      */
-    constructor(direction: VectorE3 = Vector3.vector(0, 0, 1).neg(), color: AbstractColor = Color.white) {
+    constructor(direction: VectorE3 = Vector3.vector(0, 0, 1).neg(), color: { r: number; g: number; b: number } = Color.white) {
         mustBeObject('direction', direction)
         mustBeObject('color', color)
         this._direction = Geometric3.fromVector(direction).normalize()
@@ -121,7 +120,7 @@ export class DirectionalLight implements Facet {
      * @param color
      * @returns this
      */
-    setColor(color: AbstractColor): DirectionalLight {
+    setColor(color: { r: number; g: number; b: number }): DirectionalLight {
         mustBeObject('color', color);
         this._color.copy(color);
         return this;

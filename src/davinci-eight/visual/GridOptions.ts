@@ -1,5 +1,4 @@
 import BeginMode from '../core/BeginMode'
-import AbstractColor from '../core/AbstractColor'
 import VectorE3 from '../math/VectorE3'
 import VisualOptions from './VisualOptions'
 
@@ -32,12 +31,12 @@ interface GridOptions extends VisualOptions {
     /**
      *
      */
-    aColor?: (u: number, v: number) => AbstractColor
+    aColor?: (u: number, v: number) => { r: number; g: number; b: number }
 
     /**
      * 
      */
-    color?: AbstractColor;
+    color?: { r: number; g: number; b: number };
 
     /**
      * Specifies the required Geometric Primitive Type.

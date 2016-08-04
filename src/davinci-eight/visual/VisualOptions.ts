@@ -19,11 +19,6 @@ interface VisualOptions {
     /**
      *
      */
-    // color?: AbstractColor;
-
-    /**
-     *
-     */
     contextManager?: ContextManager;
 
     /**

@@ -8,11 +8,6 @@ const e3 = Vector3.vector(0, 0, 1);
 
 describe("SphereGeometry", function() {
     describe("constructor", function() {
-        it("should create a leaf Geometry", function() {
-            const sphere = new SphereGeometry()
-            expect(sphere.isLeaf()).toBe(true)
-            sphere.release()
-        })
         describe("radius property", function() {
             it("should default to unity", function() {
                 const sphere = new SphereGeometry()

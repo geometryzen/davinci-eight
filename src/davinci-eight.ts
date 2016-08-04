@@ -25,7 +25,6 @@ import {ContextConsumer} from './davinci-eight/core/ContextConsumer';
 import ContextProgramConsumer from './davinci-eight/core/ContextProgramConsumer';
 import ContextProvider from './davinci-eight/core/ContextProvider';
 import GeometryArrays from './davinci-eight/core/GeometryArrays';
-import GeometryContainer from './davinci-eight/core/GeometryContainer';
 import GeometryElements from './davinci-eight/core/GeometryElements';
 import GraphicsProgramSymbols from './davinci-eight/core/GraphicsProgramSymbols';
 import {Facet} from './davinci-eight/core/Facet';
@@ -286,7 +285,6 @@ const eight = {
 
     get GraphicsProgramSymbols() { return GraphicsProgramSymbols },
     get GeometryArrays() { return GeometryArrays },
-    get GeometryContainer() { return GeometryContainer },
     get GeometryElements() { return GeometryElements },
 
     // programs
