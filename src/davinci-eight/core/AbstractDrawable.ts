@@ -55,9 +55,15 @@ export interface AbstractDrawable extends ContextConsumer {
     vertexShaderSrc: string;
 
     /**
-     * Determines whether this <code>AbstractDrawable</code> will be drawn.
+     * Determines whether this object will be drawn.
      */
     visible: boolean;
+
+    /**
+     * Determines when this object will be drawn.
+     * Transparent objects should be rendered after non-transparent objects.
+     */
+    transparent: boolean;
 
     /**
      * A convenience method for geometry.bind(material).

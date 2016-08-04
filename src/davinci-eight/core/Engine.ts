@@ -243,6 +243,14 @@ export class Engine extends ShareableBase implements ContextManager {
         return this;
     }
 
+    depthMask(flag: boolean): Engine {
+        const gl = this._gl
+        if (gl) {
+            gl.depthMask(flag)
+        }
+        return this;
+    }
+
     /**
      * Disables the specified WebGL capability.
      */

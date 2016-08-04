@@ -45,6 +45,11 @@ export default class DefaultContextProvider extends ShareableBase implements Con
         }
     }
 
+    depthMask(flag: boolean): void {
+        const gl = this.gl;
+        gl.depthMask(flag);
+    }
+
     drawArrays(mode: BeginMode, first: number, count: number): void {
         const gl = this.gl;
         gl.drawArrays(mode, first, count);

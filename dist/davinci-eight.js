@@ -543,9 +543,9 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
     var Eight = (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-08-03';
+            this.LAST_MODIFIED = '2016-08-04';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.287.0';
+            this.VERSION = '2.288.0';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -6326,6 +6326,7 @@ define('davinci-eight/core/Drawable',["require", "exports", '../base/exchange', 
             if (levelUp === void 0) { levelUp = 0; }
             _super.call(this, contextManager);
             this._visible = true;
+            this._transparent = false;
             this._facets = {};
             this.setLoggingName('Drawable');
             if (isObject_1.default(geometry)) {
@@ -6577,6 +6578,18 @@ define('davinci-eight/core/Drawable',["require", "exports", '../base/exchange', 
                 var _this = this;
                 mustBeBoolean_1.default('visible', visible, function () { return _this._type; });
                 this._visible = visible;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Drawable.prototype, "transparent", {
+            get: function () {
+                return this._transparent;
+            },
+            set: function (transparent) {
+                var _this = this;
+                mustBeBoolean_1.default('transparent', transparent, function () { return _this._type; });
+                this._transparent = transparent;
             },
             enumerable: true,
             configurable: true
@@ -8472,54 +8485,8 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/Scene',["require", "exports", '../collections/ShareableArray', '../base/incLevel', '../checks/mustBeObject', '../core/ShareableBase', '../core/ShareableContextConsumer'], function (require, exports, ShareableArray_1, incLevel_1, mustBeObject_1, ShareableBase_1, ShareableContextConsumer_1) {
+define('davinci-eight/core/Scene',["require", "exports", '../collections/ShareableArray', '../checks/mustBeObject', '../core/ShareableContextConsumer'], function (require, exports, ShareableArray_1, mustBeObject_1, ShareableContextConsumer_1) {
     "use strict";
-    var ScenePart = (function (_super) {
-        __extends(ScenePart, _super);
-        function ScenePart(geometry, drawable) {
-            _super.call(this);
-            this.setLoggingName('ScenePart');
-            this._geometry = geometry;
-            this._geometry.addRef();
-            this._drawable = drawable;
-            this._drawable.addRef();
-        }
-        ScenePart.prototype.destructor = function (level) {
-            this._geometry.release();
-            this._drawable.release();
-            this._geometry = void 0;
-            this._drawable = void 0;
-            _super.prototype.destructor.call(this, incLevel_1.default(level));
-        };
-        ScenePart.prototype.draw = function (ambients) {
-            if (this._drawable.visible) {
-                var material = this._drawable.material;
-                material.use();
-                if (ambients) {
-                    var aLength = ambients.length;
-                    for (var a = 0; a < aLength; a++) {
-                        var ambient = ambients[a];
-                        ambient.setUniforms(material);
-                    }
-                }
-                this._drawable.setUniforms();
-                this._geometry.bind(material);
-                this._geometry.draw(material);
-                this._geometry.unbind(material);
-                material.release();
-            }
-        };
-        return ScenePart;
-    }(ShareableBase_1.ShareableBase));
-    function partsFromMesh(drawable) {
-        mustBeObject_1.default('drawable', drawable);
-        var parts = new ShareableArray_1.default([]);
-        var geometry = drawable.geometry;
-        var scenePart = new ScenePart(geometry, drawable);
-        parts.pushWeakRef(scenePart);
-        geometry.release();
-        return parts;
-    }
     var Scene = (function (_super) {
         __extends(Scene, _super);
         function Scene(contextManager, levelUp) {
@@ -8528,7 +8495,6 @@ define('davinci-eight/core/Scene',["require", "exports", '../collections/Shareab
             this.setLoggingName('Scene');
             mustBeObject_1.default('contextManager', contextManager);
             this._drawables = new ShareableArray_1.default([]);
-            this._parts = new ShareableArray_1.default([]);
             if (levelUp === 0) {
                 this.synchUp();
             }
@@ -8538,20 +8504,11 @@ define('davinci-eight/core/Scene',["require", "exports", '../collections/Shareab
                 this.cleanUp();
             }
             this._drawables.release();
-            this._parts.release();
             _super.prototype.destructor.call(this, levelUp + 1);
         };
         Scene.prototype.add = function (drawable) {
             mustBeObject_1.default('drawable', drawable);
             this._drawables.push(drawable);
-            var drawParts = partsFromMesh(drawable);
-            var iLen = drawParts.length;
-            for (var i = 0; i < iLen; i++) {
-                var part = drawParts.get(i);
-                this._parts.push(part);
-                part.release();
-            }
-            drawParts.release();
             this.synchUp();
         };
         Scene.prototype.contains = function (drawable) {
@@ -8559,10 +8516,51 @@ define('davinci-eight/core/Scene',["require", "exports", '../collections/Shareab
             return this._drawables.indexOf(drawable) >= 0;
         };
         Scene.prototype.draw = function (ambients) {
-            var parts = this._parts;
-            var iLen = parts.length;
-            for (var i = 0; i < iLen; i++) {
-                parts.getWeakRef(i).draw(ambients);
+            var gl = this.gl;
+            if (gl) {
+                var ds = this._drawables;
+                var iLen = ds.length;
+                var passOne = false;
+                var passTwo = false;
+                for (var i = 0; i < iLen; i++) {
+                    var d = ds.getWeakRef(i);
+                    if (d.transparent) {
+                        passTwo = true;
+                    }
+                    else {
+                        passOne = true;
+                    }
+                }
+                if (passOne || passTwo) {
+                    if (passTwo) {
+                        var previousMask = gl.getParameter(gl.DEPTH_WRITEMASK);
+                        if (passOne) {
+                            gl.depthMask(true);
+                            for (var i = 0; i < iLen; i++) {
+                                var d = ds.getWeakRef(i);
+                                if (!d.transparent) {
+                                    d.render(ambients);
+                                }
+                            }
+                        }
+                        gl.depthMask(false);
+                        for (var i = 0; i < iLen; i++) {
+                            var d = ds.getWeakRef(i);
+                            if (d.transparent) {
+                                d.render(ambients);
+                            }
+                        }
+                        gl.depthMask(previousMask);
+                    }
+                    else {
+                        for (var i = 0; i < iLen; i++) {
+                            var d = ds.getWeakRef(i);
+                            if (!d.transparent) {
+                                d.render(ambients);
+                            }
+                        }
+                    }
+                }
             }
         };
         Scene.prototype.find = function (match) {
@@ -8926,6 +8924,10 @@ define('davinci-eight/base/DefaultContextProvider',["require", "exports", '../co
             if (gl) {
                 gl.disableVertexAttribArray(index);
             }
+        };
+        DefaultContextProvider.prototype.depthMask = function (flag) {
+            var gl = this.gl;
+            gl.depthMask(flag);
         };
         DefaultContextProvider.prototype.drawArrays = function (mode, first, count) {
             var gl = this.gl;
@@ -9691,6 +9693,13 @@ define('davinci-eight/core/Engine',["require", "exports", './checkEnums', './Cle
             var gl = this._gl;
             if (gl) {
                 gl.depthFunc(func);
+            }
+            return this;
+        };
+        Engine.prototype.depthMask = function (flag) {
+            var gl = this._gl;
+            if (gl) {
+                gl.depthMask(flag);
             }
             return this;
         };

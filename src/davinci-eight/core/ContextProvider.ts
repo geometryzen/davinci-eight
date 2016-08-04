@@ -24,6 +24,11 @@ interface ContextProvider extends Shareable {
     disableVertexAttribArray(index: number): void;
 
     /**
+     * Sets whether writing to the depth buffer is enabled or disabled.
+     */
+    depthMask(flag: boolean): void;
+
+    /**
      * Render geometric primitives from bound and enabled vertex data.
      *
      * @param mode Specifies the kind of geometric primitives to render from a given set of vertex attributes.

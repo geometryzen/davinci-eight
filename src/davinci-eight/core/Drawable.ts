@@ -26,25 +26,32 @@ export class Drawable extends ShareableContextConsumer implements AbstractDrawab
     /**
      *
      */
-    private _geometry: Geometry
+    private _geometry: Geometry;
 
     /**
      *
      */
-    private _material: Material
+    private _material: Material;
 
     /**
      *
      */
-    public name: string
+    public name: string;
 
     /**
      *
      */
-    private _visible = true
+    private _visible = true;
 
     /**
      *
+     */
+    private _transparent = false;
+
+    /**
+     * TODO: Replace with two data structures:
+     * 1. Use an array to provide fast access without object creation during rendering.
+     * 2. Use a map from name to index for updates.
      */
     private _facets: { [name: string]: Facet } = {};
 
@@ -309,17 +316,17 @@ export class Drawable extends ShareableContextConsumer implements AbstractDrawab
      */
     get geometry(): Geometry {
         if (this._geometry) {
-            this._geometry.addRef()
-            return this._geometry
+            this._geometry.addRef();
+            return this._geometry;
         }
         else {
-            return void 0
+            return void 0;
         }
     }
     set geometry(geometry: Geometry) {
-        this._geometry = exchange(this._geometry, geometry)
+        this._geometry = exchange(this._geometry, geometry);
         if (this._geometry && this.contextProvider) {
-            this._geometry.contextGain(this.contextProvider)
+            this._geometry.contextGain(this.contextProvider);
         }
     }
 
@@ -328,11 +335,11 @@ export class Drawable extends ShareableContextConsumer implements AbstractDrawab
      */
     get material(): Material {
         if (this._material) {
-            this._material.addRef()
-            return this._material
+            this._material.addRef();
+            return this._material;
         }
         else {
-            return void 0
+            return void 0;
         }
     }
     set material(material: Material) {
@@ -349,11 +356,22 @@ export class Drawable extends ShareableContextConsumer implements AbstractDrawab
      * @default true
      */
     get visible(): boolean {
-        return this._visible
+        return this._visible;
     }
     set visible(visible: boolean) {
-        mustBeBoolean('visible', visible, () => { return this._type })
-        this._visible = visible
+        mustBeBoolean('visible', visible, () => { return this._type });
+        this._visible = visible;
+    }
+
+    /**
+     * @default false
+     */
+    get transparent(): boolean {
+        return this._transparent;
+    }
+    set transparent(transparent: boolean) {
+        mustBeBoolean('transparent', transparent, () => { return this._type });
+        this._transparent = transparent;
     }
 }
 

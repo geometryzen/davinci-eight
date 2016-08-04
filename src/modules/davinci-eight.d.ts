@@ -3133,7 +3133,14 @@ declare module EIGHT {
         material: Material;
         name: string;
         vertexShaderSrc: string;
+        /**
+         * 
+         */
         visible: boolean;
+        /**
+         * 
+         */
+        transparent: boolean;
         bind(): AbstractDrawable;
         draw(ambients?: Facet[]): AbstractDrawable;
         render(ambients: Facet[]): AbstractDrawable;
@@ -3180,6 +3187,11 @@ declare module EIGHT {
          * Determines whether this Drawable will be rendered.
          */
         visible: boolean;
+
+        /**
+         * 
+         */
+        transparent: boolean;
 
         /**
          * Determines the optional uOpacity uniform value.
