@@ -19,20 +19,20 @@ export default class HollowCylinder extends RigidBody {
         this.geometry = geometry;
         geometry.release();
 
-        const mmo: MeshMaterialOptions = { attributes: {}, uniforms: {} }
+        const mmo: MeshMaterialOptions = { attributes: {}, uniforms: {} };
 
         mmo.attributes['aPosition'] = 3;
         mmo.attributes['aNormal'] = 3;
 
-        mmo.uniforms['uColor'] = 'vec3'
-        mmo.uniforms['uOpacity'] = 'float'
-        mmo.uniforms['uModel'] = 'mat4'
-        mmo.uniforms['uNormal'] = 'mat3'
-        mmo.uniforms['uProjection'] = 'mat4'
-        mmo.uniforms['uView'] = 'mat4'
-        mmo.uniforms['uAmbientLight'] = 'vec3'
-        mmo.uniforms['uDirectionalLightColor'] = 'vec3'
-        mmo.uniforms['uDirectionalLightDirection'] = 'vec3'
+        mmo.uniforms['uColor'] = 'vec3';
+        mmo.uniforms['uOpacity'] = 'float';
+        mmo.uniforms['uModel'] = 'mat4';
+        mmo.uniforms['uNormal'] = 'mat3';
+        mmo.uniforms['uProjection'] = 'mat4';
+        mmo.uniforms['uView'] = 'mat4';
+        mmo.uniforms['uAmbientLight'] = 'vec3';
+        mmo.uniforms['uDirectionalLightColor'] = 'vec3';
+        mmo.uniforms['uDirectionalLightDirection'] = 'vec3';
 
         const material = new MeshMaterial(mmo, options.engine);
         this.material = material;
@@ -46,6 +46,6 @@ export default class HollowCylinder extends RigidBody {
         if (levelUp === 0) {
             this.cleanUp();
         }
-        this.destructor(levelUp + 1)
+        this.destructor(levelUp + 1);
     }
 }

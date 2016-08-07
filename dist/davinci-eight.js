@@ -543,9 +543,9 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
     var Eight = (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-08-04';
+            this.LAST_MODIFIED = '2016-08-07';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.288.0';
+            this.VERSION = '2.289.0';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -7410,7 +7410,7 @@ define('davinci-eight/core/VertexBuffer',["require", "exports", '../checks/mustB
             },
             set: function (data) {
                 this._data = data;
-                this.bufferData();
+                this.bufferData(this._data, this._usage);
             },
             enumerable: true,
             configurable: true
@@ -7422,7 +7422,7 @@ define('davinci-eight/core/VertexBuffer',["require", "exports", '../checks/mustB
             set: function (usage) {
                 Usage_1.checkUsage('usage', usage);
                 this._usage = usage;
-                this.bufferData();
+                this.bufferData(this._data, this._usage);
             },
             enumerable: true,
             configurable: true
@@ -7466,7 +7466,7 @@ define('davinci-eight/core/VertexBuffer',["require", "exports", '../checks/mustB
             var gl = this.gl;
             if (!this.webGLBuffer) {
                 this.webGLBuffer = gl.createBuffer();
-                this.bufferData();
+                this.bufferData(this._data, this._usage);
             }
             else {
             }
@@ -7625,7 +7625,7 @@ define('davinci-eight/core/IndexBuffer',["require", "exports", '../checks/mustBe
             },
             set: function (data) {
                 this._data = data;
-                this.bufferData();
+                this.bufferData(this._data, this.usage);
             },
             enumerable: true,
             configurable: true
@@ -7637,7 +7637,7 @@ define('davinci-eight/core/IndexBuffer',["require", "exports", '../checks/mustBe
             set: function (usage) {
                 Usage_1.checkUsage('usage', usage);
                 this._usage = usage;
-                this.bufferData();
+                this.bufferData(this._data, this._usage);
             },
             enumerable: true,
             configurable: true
@@ -7681,7 +7681,7 @@ define('davinci-eight/core/IndexBuffer',["require", "exports", '../checks/mustBe
             var gl = this.gl;
             if (!this.webGLBuffer) {
                 this.webGLBuffer = gl.createBuffer();
-                this.bufferData();
+                this.bufferData(this._data, this._usage);
             }
             else {
             }
@@ -17924,23 +17924,20 @@ define('davinci-eight/visual/Grid',["require", "exports", '../core/BeginMode', '
             this.setLoggingName('Grid');
             var mode = isDefined_1.default(options.mode) ? options.mode : BeginMode_1.default.LINES;
             switch (mode) {
-                case BeginMode_1.default.POINTS:
-                    {
-                        configPoints(options, this);
-                    }
+                case BeginMode_1.default.POINTS: {
+                    configPoints(options, this);
                     break;
+                }
                 case BeginMode_1.default.LINES:
-                case BeginMode_1.default.LINE_STRIP:
-                    {
-                        configLines(options, this);
-                    }
+                case BeginMode_1.default.LINE_STRIP: {
+                    configLines(options, this);
                     break;
+                }
                 case BeginMode_1.default.TRIANGLE_STRIP:
-                case BeginMode_1.default.TRIANGLES:
-                    {
-                        configMesh(options, this);
-                    }
+                case BeginMode_1.default.TRIANGLES: {
+                    configMesh(options, this);
                     break;
+                }
                 default: {
                     throw new Error("'" + mode + "' is not a valid option for mode.");
                 }

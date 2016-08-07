@@ -4,40 +4,40 @@
  */
 interface IRigidBody<MASS, MV, ELECTRIC_CHARGE> {
 
-  /**
-   * Attitude (spinor)
-   */
-  R: MV
+    /**
+     * Attitude (spinor)
+     */
+    R: MV;
 
-  /**
-   * Axis (vector)
-   */
-  axis: MV
+    /**
+     * Axis (vector)
+     */
+    axis: MV;
 
-  /**
-   * Angular momentum (bivector)
-   */
-  L: MV
+    /**
+     * Angular momentum (bivector)
+     */
+    L: MV;
 
-  /**
-   * Mass (scalar)
-   */
-  m: MASS
+    /**
+     * Mass (scalar)
+     */
+    m: MASS;
 
-  /**
-   * Momentum (vector)
-   */
-  P: MV
+    /**
+     * Momentum (vector)
+     */
+    P: MV;
 
-  /**
-   * Charge
-   */
-  Q: ELECTRIC_CHARGE
+    /**
+     * Charge
+     */
+    Q: ELECTRIC_CHARGE;
 
-  /**
-   * Position (vector)
-   */
-  X: MV
+    /**
+     * Position (vector)
+     */
+    X: MV;
 }
 
-export default IRigidBody
+export default IRigidBody;

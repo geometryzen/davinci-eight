@@ -73,29 +73,29 @@ export class Box extends RigidBody {
      * @default 1
      */
     get width() {
-        return this.getPrincipalScale('width')
+        return this.getPrincipalScale('width');
     }
     set width(width: number) {
-        this.setPrincipalScale('width', width)
+        this.setPrincipalScale('width', width);
     }
 
     /**
      *
      */
     get height() {
-        return this.getPrincipalScale('height')
+        return this.getPrincipalScale('height');
     }
     set height(height: number) {
-        this.setPrincipalScale('height', height)
+        this.setPrincipalScale('height', height);
     }
 
     /**
      *
      */
     get depth() {
-        return this.getPrincipalScale('depth')
+        return this.getPrincipalScale('depth');
     }
     set depth(depth: number) {
-        this.setPrincipalScale('depth', depth)
+        this.setPrincipalScale('depth', depth);
     }
 }

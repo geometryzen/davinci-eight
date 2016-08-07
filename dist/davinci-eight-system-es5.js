@@ -7238,20 +7238,20 @@ System.register('davinci-eight/visual/Grid.js', ['../core/BeginMode', '../core/G
                         case BeginMode_1.default.POINTS:
                             {
                                 configPoints(options, this);
+                                break;
                             }
-                            break;
                         case BeginMode_1.default.LINES:
                         case BeginMode_1.default.LINE_STRIP:
                             {
                                 configLines(options, this);
+                                break;
                             }
-                            break;
                         case BeginMode_1.default.TRIANGLE_STRIP:
                         case BeginMode_1.default.TRIANGLES:
                             {
                                 configMesh(options, this);
+                                break;
                             }
-                            break;
                         default:
                             {
                                 throw new Error("'" + mode + "' is not a valid option for mode.");
@@ -12229,7 +12229,7 @@ System.register('davinci-eight/core/IndexBuffer.js', ['../checks/mustBeObject', 
                     },
                     set: function (data) {
                         this._data = data;
-                        this.bufferData();
+                        this.bufferData(this._data, this.usage);
                     },
                     enumerable: true,
                     configurable: true
@@ -12241,7 +12241,7 @@ System.register('davinci-eight/core/IndexBuffer.js', ['../checks/mustBeObject', 
                     set: function (usage) {
                         Usage_1.checkUsage('usage', usage);
                         this._usage = usage;
-                        this.bufferData();
+                        this.bufferData(this._data, this._usage);
                     },
                     enumerable: true,
                     configurable: true
@@ -12282,7 +12282,7 @@ System.register('davinci-eight/core/IndexBuffer.js', ['../checks/mustBeObject', 
                     var gl = this.gl;
                     if (!this.webGLBuffer) {
                         this.webGLBuffer = gl.createBuffer();
-                        this.bufferData();
+                        this.bufferData(this._data, this._usage);
                     } else {}
                 };
                 IndexBuffer.prototype.contextLost = function () {
@@ -12547,7 +12547,7 @@ System.register('davinci-eight/core/VertexBuffer.js', ['../checks/mustBeObject',
                     },
                     set: function (data) {
                         this._data = data;
-                        this.bufferData();
+                        this.bufferData(this._data, this._usage);
                     },
                     enumerable: true,
                     configurable: true
@@ -12559,7 +12559,7 @@ System.register('davinci-eight/core/VertexBuffer.js', ['../checks/mustBeObject',
                     set: function (usage) {
                         Usage_1.checkUsage('usage', usage);
                         this._usage = usage;
-                        this.bufferData();
+                        this.bufferData(this._data, this._usage);
                     },
                     enumerable: true,
                     configurable: true
@@ -12600,7 +12600,7 @@ System.register('davinci-eight/core/VertexBuffer.js', ['../checks/mustBeObject',
                     var gl = this.gl;
                     if (!this.webGLBuffer) {
                         this.webGLBuffer = gl.createBuffer();
-                        this.bufferData();
+                        this.bufferData(this._data, this._usage);
                     } else {}
                 };
                 VertexBuffer.prototype.contextLost = function () {
@@ -20922,9 +20922,9 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
             Eight = function () {
                 function Eight() {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-                    this.LAST_MODIFIED = '2016-08-04';
+                    this.LAST_MODIFIED = '2016-08-07';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '2.288.0';
+                    this.VERSION = '2.289.0';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];

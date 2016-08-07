@@ -5,7 +5,7 @@ import b3 from '../geometries/b3';
 import Matrix2 from '../math/Matrix2';
 import MutableLinearElement from '../math/MutableLinearElement';
 import notImplemented from '../i18n/notImplemented';
-import randomRange from './randomRange'
+import randomRange from './randomRange';
 import SpinorE2 from '../math/SpinorE2';
 import stringFromCoordinates from '../math/stringFromCoordinates';
 import VectorE2 from '../math/VectorE2';
@@ -56,9 +56,9 @@ export class Vector2 extends Coords implements ColumnVector<Matrix2, Vector2>, V
      * @returns
      */
     add(v: VectorE2, α = 1): Vector2 {
-        this.x += v.x * α
-        this.y += v.y * α
-        return this
+        this.x += v.x * α;
+        this.y += v.y * α;
+        return this;
     }
 
     /**
@@ -67,9 +67,9 @@ export class Vector2 extends Coords implements ColumnVector<Matrix2, Vector2>, V
      * @returns
      */
     add2(a: VectorE2, b: VectorE2): Vector2 {
-        this.x = a.x + b.x
-        this.y = a.y + b.y
-        return this
+        this.x = a.x + b.x;
+        this.y = a.y + b.y;
+        return this;
     }
 
     /**
@@ -83,15 +83,15 @@ export class Vector2 extends Coords implements ColumnVector<Matrix2, Vector2>, V
      * @chainable
      */
     applyMatrix(σ: Matrix2): Vector2 {
-        const x = this.x
-        const y = this.y
+        const x = this.x;
+        const y = this.y;
 
-        const e = σ.elements
+        const e = σ.elements;
 
-        this.x = e[0x0] * x + e[0x2] * y
-        this.y = e[0x1] * x + e[0x3] * y
+        this.x = e[0x0] * x + e[0x2] * y;
+        this.y = e[0x1] * x + e[0x3] * y;
 
-        return this
+        return this;
     }
 
     /**
@@ -101,8 +101,8 @@ export class Vector2 extends Coords implements ColumnVector<Matrix2, Vector2>, V
      * @chainable
      */
     approx(n: number): Vector2 {
-        super.approx(n)
-        return this
+        super.approx(n);
+        return this;
     }
 
     /**
@@ -111,7 +111,7 @@ export class Vector2 extends Coords implements ColumnVector<Matrix2, Vector2>, V
      * @chainable
      */
     clone(): Vector2 {
-        return new Vector2([this.x, this.y])
+        return new Vector2([this.x, this.y]);
     }
 
     /**
@@ -121,9 +121,9 @@ export class Vector2 extends Coords implements ColumnVector<Matrix2, Vector2>, V
      * @chainable
      */
     copy(v: VectorE2): Vector2 {
-        this.x = v.x
-        this.y = v.y
-        return this
+        this.x = v.x;
+        this.y = v.y;
+        return this;
     }
 
     /**
@@ -135,11 +135,11 @@ export class Vector2 extends Coords implements ColumnVector<Matrix2, Vector2>, V
      * @chainable
      */
     cubicBezier(t: number, controlBegin: VectorE2, controlEnd: VectorE2, endPoint: VectorE2): Vector2 {
-        const x = b3(t, this.x, controlBegin.x, controlEnd.x, endPoint.x)
-        const y = b3(t, this.y, controlBegin.y, controlEnd.y, endPoint.y)
-        this.x = x
-        this.y = y
-        return this
+        const x = b3(t, this.x, controlBegin.x, controlEnd.x, endPoint.x);
+        const y = b3(t, this.y, controlBegin.y, controlEnd.y, endPoint.y);
+        this.x = x;
+        this.y = y;
+        return this;
     }
 
     /**
@@ -190,9 +190,9 @@ export class Vector2 extends Coords implements ColumnVector<Matrix2, Vector2>, V
      * @chainable
      */
     scale(α: number): Vector2 {
-        this.x *= α
-        this.y *= α
-        return this
+        this.x *= α;
+        this.y *= α;
+        return this;
     }
 
     /**
@@ -202,9 +202,9 @@ export class Vector2 extends Coords implements ColumnVector<Matrix2, Vector2>, V
      * @chainable
      */
     divByScalar(α: number) {
-        this.x /= α
-        this.y /= α
-        return this
+        this.x /= α;
+        this.y /= α;
+        return this;
     }
     min(v: VectorE2) {
         if (this.x > v.x) {
@@ -251,9 +251,9 @@ export class Vector2 extends Coords implements ColumnVector<Matrix2, Vector2>, V
      * @chainable
      */
     neg() {
-        this.x = -this.x
-        this.y = -this.y
-        return this
+        this.x = -this.x;
+        this.y = -this.y;
+        return this;
     }
 
     dot(v: VectorE2) {
@@ -271,7 +271,7 @@ export class Vector2 extends Coords implements ColumnVector<Matrix2, Vector2>, V
     }
 
     normalize(): Vector2 {
-        return this.divByScalar(this.magnitude())
+        return this.divByScalar(this.magnitude());
     }
 
     squaredNorm(): number {
@@ -279,9 +279,9 @@ export class Vector2 extends Coords implements ColumnVector<Matrix2, Vector2>, V
     }
 
     quadranceTo(position: VectorE2) {
-        const dx = this.x - position.x
-        const dy = this.y - position.y
-        return dx * dx + dy * dy
+        const dx = this.x - position.x;
+        const dy = this.y - position.y;
+        return dx * dx + dy * dy;
     }
 
     /**
@@ -296,11 +296,11 @@ export class Vector2 extends Coords implements ColumnVector<Matrix2, Vector2>, V
         const y = b2(t, this.y, controlPoint.y, endPoint.y);
         this.x = x;
         this.y = y;
-        return this
+        return this;
     }
 
     reflect(n: VectorE2): Vector2 {
-        throw new Error(notImplemented('reflect').message)
+        throw new Error(notImplemented('reflect').message);
     }
 
     /**
@@ -310,19 +310,19 @@ export class Vector2 extends Coords implements ColumnVector<Matrix2, Vector2>, V
      * @chainable
      */
     rotate(spinor: SpinorE2): Vector2 {
-        const x = this.x
-        const y = this.y
+        const x = this.x;
+        const y = this.y;
 
-        const α = spinor.a
-        const β = spinor.b
+        const α = spinor.a;
+        const β = spinor.b;
 
-        const p = α * α - β * β
-        const q = 2 * α * β
+        const p = α * α - β * β;
+        const q = 2 * α * β;
 
-        this.x = p * x + q * y
-        this.y = p * y - q * x
+        this.x = p * x + q * y;
+        this.y = p * y - q * x;
 
-        return this
+        return this;
     }
 
     /**
@@ -335,9 +335,9 @@ export class Vector2 extends Coords implements ColumnVector<Matrix2, Vector2>, V
      * @chainable 
      */
     lerp(v: VectorE2, α: number): Vector2 {
-        this.x += (v.x - this.x) * α
-        this.y += (v.y - this.y) * α
-        return this
+        this.x += (v.x - this.x) * α;
+        this.y += (v.y - this.y) * α;
+        return this;
     }
 
     /**
@@ -353,8 +353,8 @@ export class Vector2 extends Coords implements ColumnVector<Matrix2, Vector2>, V
      * @chainable
      */
     lerp2(a: VectorE2, b: VectorE2, α: number): Vector2 {
-        this.copy(a).lerp(b, α)
-        return this
+        this.copy(a).lerp(b, α);
+        return this;
     }
 
     equals(v: VectorE2): boolean {
@@ -367,13 +367,13 @@ export class Vector2 extends Coords implements ColumnVector<Matrix2, Vector2>, V
      * @return {Vector2}
      */
     stress(σ: VectorE2) {
-        this.x *= σ.x
-        this.y *= σ.y
-        return this
+        this.x *= σ.x;
+        this.y *= σ.y;
+        return this;
     }
 
     slerp(v: VectorE2, α: number): Vector2 {
-        throw new Error(notImplemented('slerp').message)
+        throw new Error(notImplemented('slerp').message);
     }
 
     /**
@@ -382,8 +382,8 @@ export class Vector2 extends Coords implements ColumnVector<Matrix2, Vector2>, V
      * @return {string}
      */
     toExponential(fractionDigits?: number): string {
-        const coordToString = function(coord: number): string { return coord.toExponential(fractionDigits) };
-        return stringFromCoordinates(this.coords, coordToString, ['e1', 'e2'])
+        const coordToString = function(coord: number): string { return coord.toExponential(fractionDigits); };
+        return stringFromCoordinates(this.coords, coordToString, ['e1', 'e2']);
     }
 
     /**
@@ -392,8 +392,8 @@ export class Vector2 extends Coords implements ColumnVector<Matrix2, Vector2>, V
      * @return {string}
      */
     toFixed(fractionDigits?: number): string {
-        const coordToString = function(coord: number): string { return coord.toFixed(fractionDigits) };
-        return stringFromCoordinates(this.coords, coordToString, ['e1', 'e2'])
+        const coordToString = function(coord: number): string { return coord.toFixed(fractionDigits); };
+        return stringFromCoordinates(this.coords, coordToString, ['e1', 'e2']);
     }
 
     /**
@@ -402,8 +402,8 @@ export class Vector2 extends Coords implements ColumnVector<Matrix2, Vector2>, V
      * @return {string}
      */
     toPrecision(precision?: number): string {
-        const coordToString = function(coord: number): string { return coord.toPrecision(precision) };
-        return stringFromCoordinates(this.coords, coordToString, ['e1', 'e2'])
+        const coordToString = function(coord: number): string { return coord.toPrecision(precision); };
+        return stringFromCoordinates(this.coords, coordToString, ['e1', 'e2']);
     }
 
     /**
@@ -412,8 +412,8 @@ export class Vector2 extends Coords implements ColumnVector<Matrix2, Vector2>, V
      * @return {string}
      */
     toString(radix?: number): string {
-        const coordToString = function(coord: number): string { return coord.toString(radix) };
-        return stringFromCoordinates(this.coords, coordToString, ['e1', 'e2'])
+        const coordToString = function(coord: number): string { return coord.toString(radix); };
+        return stringFromCoordinates(this.coords, coordToString, ['e1', 'e2']);
     }
 
     fromArray(array: number[], offset = 0) {
@@ -437,9 +437,9 @@ export class Vector2 extends Coords implements ColumnVector<Matrix2, Vector2>, V
      * @chainable
      */
     zero(): Vector2 {
-        this.x = 0
-        this.y = 0
-        return this
+        this.x = 0;
+        this.y = 0;
+        return this;
     }
 
     /**
@@ -451,7 +451,7 @@ export class Vector2 extends Coords implements ColumnVector<Matrix2, Vector2>, V
      * @chainable
      */
     static copy(vector: VectorE2): Vector2 {
-        return Vector2.vector(vector.x, vector.y)
+        return Vector2.vector(vector.x, vector.y);
     }
 
     /**
@@ -464,7 +464,7 @@ export class Vector2 extends Coords implements ColumnVector<Matrix2, Vector2>, V
      * @chainable
      */
     static lerp(a: VectorE2, b: VectorE2, α: number): Vector2 {
-        return Vector2.copy(b).sub(a).scale(α).add(a)
+        return Vector2.copy(b).sub(a).scale(α).add(a);
     }
 
     /**
@@ -473,9 +473,9 @@ export class Vector2 extends Coords implements ColumnVector<Matrix2, Vector2>, V
      * </p>
      */
     static random(): Vector2 {
-        const x = randomRange(-1, 1)
-        const y = randomRange(-1, 1)
-        return Vector2.vector(x, y).normalize()
+        const x = randomRange(-1, 1);
+        const y = randomRange(-1, 1);
+        return Vector2.vector(x, y).normalize();
     }
 
     /**
@@ -487,7 +487,7 @@ export class Vector2 extends Coords implements ColumnVector<Matrix2, Vector2>, V
      * @chainable
      */
     static vector(x: number, y: number): Vector2 {
-        return new Vector2([x, y])
+        return new Vector2([x, y]);
     }
 
     /**
@@ -500,6 +500,6 @@ export class Vector2 extends Coords implements ColumnVector<Matrix2, Vector2>, V
      * @chainable
      */
     static zero(): Vector2 {
-        return Vector2.vector(0, 0)
+        return Vector2.vector(0, 0);
     }
 }

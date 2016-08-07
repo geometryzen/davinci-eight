@@ -541,35 +541,29 @@ declare module EIGHT {
         unsubscribe(): void;
     }
 
-    interface DataBuffer<T extends ArrayBufferView> {
-        data: T;
-        usage: Usage;
-        bufferData(): void;
-        bind(): void;
-        unbind(): void;
-    }
-
     /**
      * A wrapper around a WebGLBuffer with binding to ARRAY_BUFFER.
      */
-    class VertexBuffer extends ShareableContextConsumer implements DataBuffer<Float32Array> {
+    class VertexBuffer extends ShareableContextConsumer {
         data: Float32Array;
         usage: Usage;
-        constructor(contextManager: ContextManager);
+        constructor(contextManager: ContextManager, levelUp?: number);
+        protected destructor(levelUp: number): void;
         bind(): void;
-        bufferData(): void;
+        bufferData(data: Float32Array, usage: Usage): void;
         unbind(): void
     }
 
     /**
      * A wrapper around a WebGLBuffer with binding to ELEMENT_ARRAY_BUFFER.
      */
-    class IndexBuffer extends ShareableContextConsumer implements DataBuffer<Uint16Array> {
+    class IndexBuffer extends ShareableContextConsumer {
         data: Uint16Array;
         usage: Usage;
-        constructor(contextManager: ContextManager);
+        constructor(contextManager: ContextManager, levelUp?: number);
+        protected destructor(levelUp: number): void;
         bind(): void;
-        bufferData(): void;
+        bufferData(data: Uint16Array, usage: Usage): void;
         unbind(): void;
     }
 
@@ -3086,7 +3080,7 @@ declare module EIGHT {
         width?: number;
     }
 
-    class BoxGeometry extends GeometryContainer {
+    class BoxGeometry extends GeometryElements {
         constructor(options?: BoxGeometryOptions);
     }
 

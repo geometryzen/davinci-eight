@@ -72,19 +72,19 @@ export class Cylinder extends RigidBody {
      * @default 1
      */
     get length() {
-        return this.getPrincipalScale('length')
+        return this.getPrincipalScale('length');
     }
     set length(length: number) {
-        this.setPrincipalScale('length', length)
+        this.setPrincipalScale('length', length);
     }
 
     /**
      *
      */
     get radius(): number {
-        return this.getPrincipalScale('radius')
+        return this.getPrincipalScale('radius');
     }
     set radius(radius: number) {
-        this.setPrincipalScale('radius', radius)
+        this.setPrincipalScale('radius', radius);
     }
 }

@@ -28,7 +28,7 @@ interface SphereOptions extends VisualOptions {
      *
      * @default 0.5
      */
-    radius?: number
+    radius?: number;
 
     scale?: VectorE3;
     tilt?: SpinorE3;

@@ -1,4 +1,4 @@
-import CartesianG3 from './CartesianG3'
+import CartesianG3 from './CartesianG3';
 import ColumnVector from './ColumnVector';
 import {Coords} from './Coords';
 import VectorE3 from './VectorE3';
@@ -8,8 +8,8 @@ import Matrix3 from './Matrix3';
 import Matrix4 from './Matrix4';
 import isDefined from '../checks/isDefined';
 import isNumber from '../checks/isNumber';
-import randomRange from './randomRange'
-import readOnly from '../i18n/readOnly'
+import randomRange from './randomRange';
+import readOnly from '../i18n/readOnly';
 import SpinorE3 from './SpinorE3';
 import toStringCustom from './toStringCustom';
 import wedgeXY from './wedgeXY';
@@ -21,18 +21,18 @@ import wedgeZX from './wedgeZX';
  * @submodule math
  */
 
-const sqrt = Math.sqrt
+const sqrt = Math.sqrt;
 
-const COORD_X = 0
-const COORD_Y = 1
-const COORD_Z = 2
-const BASIS_LABELS = ['e1', 'e2', 'e3']
+const COORD_X = 0;
+const COORD_Y = 1;
+const COORD_Z = 2;
+const BASIS_LABELS = ['e1', 'e2', 'e3'];
 
 /**
  * Coordinates corresponding to basis labels.
  */
 function coordinates(m: VectorE3): number[] {
-    return [m.x, m.y, m.z]
+    return [m.x, m.y, m.z];
 }
 
 /**
@@ -104,10 +104,10 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
      * @readOnly
      */
     get maskG3(): number {
-        return this.isZero() ? 0x0 : 0x2
+        return this.isZero() ? 0x0 : 0x2;
     }
     set maskG3(unused: number) {
-        throw new Error(readOnly('maskG3').message)
+        throw new Error(readOnly('maskG3').message);
     }
 
     /**
@@ -122,10 +122,10 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
      * @chainable
      */
     add(vector: VectorE3, α = 1) {
-        this.x += vector.x * α
-        this.y += vector.y * α
-        this.z += vector.z * α
-        return this
+        this.x += vector.x * α;
+        this.y += vector.y * α;
+        this.z += vector.z * α;
+        return this;
     }
 
     /**
@@ -139,17 +139,17 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
      * @chainable
      */
     applyMatrix(σ: Matrix3): Vector3 {
-        const x = this.x
-        const y = this.y
-        const z = this.z
+        const x = this.x;
+        const y = this.y;
+        const z = this.z;
 
-        const e = σ.elements
+        const e = σ.elements;
 
-        this.x = e[0x0] * x + e[0x3] * y + e[0x6] * z
-        this.y = e[0x1] * x + e[0x4] * y + e[0x7] * z
-        this.z = e[0x2] * x + e[0x5] * y + e[0x8] * z
+        this.x = e[0x0] * x + e[0x3] * y + e[0x6] * z;
+        this.y = e[0x1] * x + e[0x4] * y + e[0x7] * z;
+        this.z = e[0x2] * x + e[0x5] * y + e[0x8] * z;
 
-        return this
+        return this;
     }
 
     /**
@@ -184,8 +184,8 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
      * @chainable
      */
     approx(n: number): Vector3 {
-        super.approx(n)
-        return this
+        super.approx(n);
+        return this;
     }
 
     /**
@@ -249,7 +249,7 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
      * @return {Vector3} <code>copy(this)</code>
      */
     clone() {
-        return new Vector3([this.x, this.y, this.z], this.modified)
+        return new Vector3([this.x, this.y, this.z], this.modified);
     }
 
     /**
@@ -264,13 +264,13 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
      */
     copy(source: VectorE3): Vector3 {
         if (source) {
-            this.x = source.x
-            this.y = source.y
-            this.z = source.z
-            return this
+            this.x = source.x;
+            this.y = source.y;
+            this.z = source.z;
+            return this;
         }
         else {
-            throw new Error("source for copy must be a vector")
+            throw new Error("source for copy must be a vector");
         }
     }
 
@@ -286,7 +286,7 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
         this.x = coordinates[COORD_X];
         this.y = coordinates[COORD_Y];
         this.z = coordinates[COORD_Z];
-        return this
+        return this;
     }
 
     /**
@@ -334,7 +334,7 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
             return sqrt(this.quadranceTo(point));
         }
         else {
-            return void 0
+            return void 0;
         }
     }
 
@@ -351,7 +351,7 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
             return dx * dx + dy * dy + dz * dz;
         }
         else {
-            return void 0
+            return void 0;
         }
     }
 
@@ -403,16 +403,16 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
      */
     dual(B: SpinorE3, changeSign: boolean): Vector3 {
         if (changeSign) {
-            this.x = B.yz
-            this.y = B.zx
-            this.z = B.xy
+            this.x = B.yz;
+            this.y = B.zx;
+            this.z = B.xy;
         }
         else {
-            this.x = -B.yz
-            this.y = -B.zx
-            this.z = -B.xy
+            this.x = -B.yz;
+            this.y = -B.zx;
+            this.z = -B.xy;
         }
-        return this
+        return this;
     }
 
     /**
@@ -422,10 +422,10 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
      */
     equals(other: any): boolean {
         if (other instanceof Vector3) {
-            return this.x === other.x && this.y === other.y && this.z === other.z
+            return this.x === other.x && this.y === other.y && this.z === other.z;
         }
         else {
-            return false
+            return false;
         }
     }
 
@@ -434,7 +434,7 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
      * @return {boolean}
      */
     isZero(): boolean {
-        return this.x === 0 && this.y === 0 && this.z === 0
+        return this.x === 0 && this.y === 0 && this.z === 0;
     }
 
     /**
@@ -453,10 +453,10 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
      * @chainable
      */
     neg() {
-        this.x = -this.x
-        this.y = -this.y
-        this.z = -this.z
-        return this
+        this.x = -this.x;
+        this.y = -this.y;
+        this.z = -this.z;
+        return this;
     }
 
     /**
@@ -489,8 +489,8 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
      * @chainable
      */
     lerp2(a: VectorE3, b: VectorE3, α: number) {
-        this.copy(a).lerp(b, α)
-        return this
+        this.copy(a).lerp(b, α);
+        return this;
     }
 
     /**
@@ -503,12 +503,12 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
      * @chainable
      */
     normalize(): Vector3 {
-        const m = this.magnitude()
+        const m = this.magnitude();
         if (m !== 0) {
-            return this.divByScalar(m)
+            return this.divByScalar(m);
         }
         else {
-            return this.zero()
+            return this.zero();
         }
     }
 
@@ -521,10 +521,10 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
      * @param α {number} 
      */
     scale(α: number): Vector3 {
-        this.x *= α
-        this.y *= α
-        this.z *= α
-        return this
+        this.x *= α;
+        this.y *= α;
+        this.z *= α;
+        return this;
     }
 
     /**
@@ -533,10 +533,10 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
      * @return Vector3
      */
     stress(σ: VectorE3) {
-        this.x *= σ.x
-        this.y *= σ.y
-        this.z *= σ.z
-        return this
+        this.x *= σ.x;
+        this.y *= σ.y;
+        this.z *= σ.z;
+        return this;
     }
 
     /**
@@ -552,10 +552,10 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
      * @chainable
      */
     setXYZ(x: number, y: number, z: number) {
-        this.x = x
-        this.y = y
-        this.z = z
-        return this
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        return this;
     }
 
     /**
@@ -576,7 +576,7 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
     squaredNorm(): number {
         // quad = scp(v, rev(v)) = scp(v, v)
         // TODO: This is correct but could be optimized.
-        return dotVectorE3(this, this)
+        return dotVectorE3(this, this);
     }
 
     /**
@@ -591,10 +591,10 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
      * @chainable
      */
     sub(v: VectorE3, α = 1): Vector3 {
-        this.x -= v.x * α
-        this.y -= v.y * α
-        this.z -= v.z * α
-        return this
+        this.x -= v.x * α;
+        this.y -= v.y * α;
+        this.z -= v.z * α;
+        return this;
     }
 
     /**
@@ -603,8 +603,8 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
      * @return {string}
      */
     toExponential(fractionDigits?: number): string {
-        var coordToString = function(coord: number): string { return coord.toExponential(fractionDigits) };
-        return toStringCustom(coordinates(this), coordToString, BASIS_LABELS)
+        var coordToString = function(coord: number): string { return coord.toExponential(fractionDigits); };
+        return toStringCustom(coordinates(this), coordToString, BASIS_LABELS);
     }
 
     /**
@@ -613,8 +613,8 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
      * @return {string}
      */
     toFixed(fractionDigits?: number): string {
-        const coordToString = function(coord: number): string { return coord.toFixed(fractionDigits) };
-        return toStringCustom(coordinates(this), coordToString, BASIS_LABELS)
+        const coordToString = function(coord: number): string { return coord.toFixed(fractionDigits); };
+        return toStringCustom(coordinates(this), coordToString, BASIS_LABELS);
     }
 
     /**
@@ -623,8 +623,8 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
      * @return {string}
      */
     toPrecision(precision?: number): string {
-        const coordToString = function(coord: number): string { return coord.toPrecision(precision) };
-        return toStringCustom(coordinates(this), coordToString, BASIS_LABELS)
+        const coordToString = function(coord: number): string { return coord.toPrecision(precision); };
+        return toStringCustom(coordinates(this), coordToString, BASIS_LABELS);
     }
 
     /**
@@ -633,8 +633,8 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
      * @return {string}
      */
     toString(radix?: number): string {
-        const coordToString = function(coord: number): string { return coord.toString(radix) };
-        return toStringCustom(coordinates(this), coordToString, BASIS_LABELS)
+        const coordToString = function(coord: number): string { return coord.toString(radix); };
+        return toStringCustom(coordinates(this), coordToString, BASIS_LABELS);
     }
 
     /**
@@ -708,7 +708,7 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
      * @chainable
      */
     static copy(vector: VectorE3): Vector3 {
-        return new Vector3([vector.x, vector.y, vector.z])
+        return new Vector3([vector.x, vector.y, vector.z]);
     }
 
     /**
@@ -725,10 +725,10 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
      */
     static dual(B: SpinorE3, changeSign: boolean): Vector3 {
         if (changeSign) {
-            return new Vector3([B.yz, B.zx, B.xy])
+            return new Vector3([B.yz, B.zx, B.xy]);
         }
         else {
-            return new Vector3([-B.yz, -B.zx, -B.xy])
+            return new Vector3([-B.yz, -B.zx, -B.xy]);
         }
     }
 
@@ -739,7 +739,7 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
      * @static
      */
     static isInstance(x: any): boolean {
-        return x instanceof Vector3
+        return x instanceof Vector3;
     }
 
     /**
@@ -752,7 +752,7 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
      * @chainable
      */
     static lerp(a: VectorE3, b: VectorE3, α: number): Vector3 {
-        return Vector3.copy(b).sub(a).scale(α).add(a)
+        return Vector3.copy(b).sub(a).scale(α).add(a);
     }
 
     /**
@@ -766,10 +766,10 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
      * @chainable
      */
     static random(): Vector3 {
-        const x = randomRange(-1, 1)
-        const y = randomRange(-1, 1)
-        const z = randomRange(-1, 1)
-        return Vector3.vector(x, y, z).normalize()
+        const x = randomRange(-1, 1);
+        const y = randomRange(-1, 1);
+        const z = randomRange(-1, 1);
+        return Vector3.vector(x, y, z).normalize();
     }
 
     /**
@@ -782,7 +782,7 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
      * @chainable
      */
     static vector(x: number, y: number, z: number): Vector3 {
-        return new Vector3([x, y, z])
+        return new Vector3([x, y, z]);
     }
 
     /**
@@ -792,6 +792,6 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
      * @chainable
      */
     static zero(): Vector3 {
-        return new Vector3([0, 0, 0])
+        return new Vector3([0, 0, 0]);
     }
 }

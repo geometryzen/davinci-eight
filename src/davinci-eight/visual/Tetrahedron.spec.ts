@@ -6,5 +6,5 @@ describe("Tetrahedron", function() {
         expect(arrow.isZombie()).toBe(false);
         arrow.release();
         expect(arrow.isZombie()).toBe(true);
-    })
-})
+    });
+});

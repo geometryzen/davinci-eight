@@ -1,6 +1,6 @@
-import BeginMode from '../core/BeginMode'
-import VectorE3 from '../math/VectorE3'
-import VisualOptions from './VisualOptions'
+import BeginMode from '../core/BeginMode';
+import VectorE3 from '../math/VectorE3';
+import VisualOptions from './VisualOptions';
 
 /**
  *
@@ -20,18 +20,18 @@ interface GridOptions extends VisualOptions {
      *
      * @default (u: number, v: number) => u * e1 + v * e2
      */
-    aPosition?: (u: number, v: number) => VectorE3
+    aPosition?: (u: number, v: number) => VectorE3;
 
     /**
      *
      * @default (u: number, v: number) => e3
      */
-    aNormal?: (u: number, v: number) => VectorE3
+    aNormal?: (u: number, v: number) => VectorE3;
 
     /**
      *
      */
-    aColor?: (u: number, v: number) => { r: number; g: number; b: number }
+    aColor?: (u: number, v: number) => { r: number; g: number; b: number };
 
     /**
      * 
@@ -44,41 +44,41 @@ interface GridOptions extends VisualOptions {
      *
      * @default LINES
      */
-    mode?: BeginMode
+    mode?: BeginMode;
 
     /**
      * @default -0.5
      */
-    uMin?: number
+    uMin?: number;
 
     /**
      * @default +0.5
      */
-    uMax?: number
+    uMax?: number;
 
     /**
      * The number of segments for the u coordinate.
      *
      * @default 1
      */
-    uSegments?: number
+    uSegments?: number;
 
     /**
      * @default -0.5
      */
-    vMin?: number
+    vMin?: number;
 
     /**
      * @default +0.5
      */
-    vMax?: number
+    vMax?: number;
 
     /**
      * The number of segments for the v coordinate.
      *
      * @default 1
      */
-    vSegments?: number
+    vSegments?: number;
 }
 
-export default GridOptions
+export default GridOptions;

@@ -1,4 +1,4 @@
-import VisualOptions from './VisualOptions'
+import VisualOptions from './VisualOptions';
 
 /**
  *
@@ -64,4 +64,4 @@ interface BoxOptions extends VisualOptions {
     width?: number;
 }
 
-export default BoxOptions
+export default BoxOptions;

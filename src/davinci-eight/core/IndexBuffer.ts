@@ -1,6 +1,5 @@
 import ContextManager from './ContextManager';
 import ContextProvider from './ContextProvider';
-import DataBuffer from './DataBuffer';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeUndefined from '../checks/mustBeUndefined';
 import {ShareableContextConsumer} from './ShareableContextConsumer';
@@ -10,7 +9,7 @@ import Usage from './Usage';
 /**
  * A wrapper around a WebGLBuffer with binding to ELEMENT_ARRAY_BUFFER.
  */
-export default class IndexBuffer extends ShareableContextConsumer implements DataBuffer<Uint16Array> {
+export default class IndexBuffer extends ShareableContextConsumer {
 
     private webGLBuffer: WebGLBuffer;
     private _data: Uint16Array;
@@ -33,11 +32,11 @@ export default class IndexBuffer extends ShareableContextConsumer implements Dat
     }
 
     get data(): Uint16Array {
-        return this._data
+        return this._data;
     }
     set data(data: Uint16Array) {
         this._data = data;
-        this.bufferData();
+        this.bufferData(this._data, this.usage);
     }
 
     get usage(): Usage {
@@ -46,10 +45,10 @@ export default class IndexBuffer extends ShareableContextConsumer implements Dat
     set usage(usage: Usage) {
         checkUsage('usage', usage);
         this._usage = usage;
-        this.bufferData();
+        this.bufferData(this._data, this._usage);
     }
 
-    bufferData(data?: Uint16Array, usage?: Usage): void {
+    bufferData(data: Uint16Array, usage: Usage): void {
         if (data) {
             this._data = data;
         }
@@ -59,7 +58,7 @@ export default class IndexBuffer extends ShareableContextConsumer implements Dat
         const gl = this.gl;
         if (gl) {
             if (this.webGLBuffer) {
-                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.webGLBuffer)
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.webGLBuffer);
                 if (this.data) {
                     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, this.data, this._usage);
                 }
@@ -69,29 +68,29 @@ export default class IndexBuffer extends ShareableContextConsumer implements Dat
     }
 
     contextFree(contextProvider: ContextProvider): void {
-        mustBeObject('contextProvider', contextProvider)
+        mustBeObject('contextProvider', contextProvider);
         if (this.webGLBuffer) {
-            const gl = this.gl
+            const gl = this.gl;
             if (gl) {
-                gl.deleteBuffer(this.webGLBuffer)
+                gl.deleteBuffer(this.webGLBuffer);
             }
             else {
-                console.error(`${this._type} must leak WebGLBuffer because WebGLRenderingContext is ` + typeof gl)
+                console.error(`${this._type} must leak WebGLBuffer because WebGLRenderingContext is ` + typeof gl);
             }
-            this.webGLBuffer = void 0
+            this.webGLBuffer = void 0;
         }
         else {
             // It's a duplicate, ignore.
         }
-        super.contextFree(contextProvider)
+        super.contextFree(contextProvider);
     }
 
     contextGain(contextProvider: ContextProvider): void {
         super.contextGain(contextProvider);
-        const gl = this.gl
+        const gl = this.gl;
         if (!this.webGLBuffer) {
             this.webGLBuffer = gl.createBuffer();
-            this.bufferData();
+            this.bufferData(this._data, this._usage);
         }
         else {
             // It's a duplicate, ignore the call.

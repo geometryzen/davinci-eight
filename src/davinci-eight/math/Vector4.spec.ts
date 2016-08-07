@@ -1,4 +1,4 @@
-import Vector4 from './Vector4'
+import Vector4 from './Vector4';
 
 describe("Vector4", function() {
 
@@ -20,17 +20,17 @@ describe("Vector4", function() {
     });
 
     describe("add", function() {
-        var a = new Vector4([Math.random(), Math.random(), Math.random(), Math.random()], false)
-        var ax = a.x
-        var ay = a.y
-        var az = a.z
-        var aw = a.w
-        var b = new Vector4([Math.random(), Math.random(), Math.random(), Math.random()], false)
-        var bx = b.x
-        var by = b.y
-        var bz = b.z
-        var bw = b.w
-        a.add(b)
+        var a = new Vector4([Math.random(), Math.random(), Math.random(), Math.random()], false);
+        var ax = a.x;
+        var ay = a.y;
+        var az = a.z;
+        var aw = a.w;
+        var b = new Vector4([Math.random(), Math.random(), Math.random(), Math.random()], false);
+        var bx = b.x;
+        var by = b.y;
+        var bz = b.z;
+        var bw = b.w;
+        a.add(b);
         it("add, x component", function() {
             expect(a.x).toBe(ax + bx);
             expect(b.x).toBe(bx);
@@ -50,17 +50,17 @@ describe("Vector4", function() {
     });
 
     describe("a.add2(a, b)", function() {
-        var a = new Vector4([Math.random(), Math.random(), Math.random(), Math.random()], false)
-        var ax = a.x
-        var ay = a.y
-        var az = a.z
-        var aw = a.w
-        var b = new Vector4([Math.random(), Math.random(), Math.random(), Math.random()], false)
-        var bx = b.x
-        var by = b.y
-        var bz = b.z
-        var bw = b.w
-        a.add2(a, b)
+        var a = new Vector4([Math.random(), Math.random(), Math.random(), Math.random()], false);
+        var ax = a.x;
+        var ay = a.y;
+        var az = a.z;
+        var aw = a.w;
+        var b = new Vector4([Math.random(), Math.random(), Math.random(), Math.random()], false);
+        var bx = b.x;
+        var by = b.y;
+        var bz = b.z;
+        var bw = b.w;
+        a.add2(a, b);
         it("add, x component", function() {
             expect(a.x).toBe(ax + bx);
             expect(b.x).toBe(bx);
@@ -80,17 +80,17 @@ describe("Vector4", function() {
     });
 
     describe("a.add2(b, a)", function() {
-        var a = new Vector4([Math.random(), Math.random(), Math.random(), Math.random()], false)
-        var ax = a.x
-        var ay = a.y
-        var az = a.z
-        var aw = a.w
-        var b = new Vector4([Math.random(), Math.random(), Math.random(), Math.random()], false)
-        var bx = b.x
-        var by = b.y
-        var bz = b.z
-        var bw = b.w
-        a.add2(b, a)
+        var a = new Vector4([Math.random(), Math.random(), Math.random(), Math.random()], false);
+        var ax = a.x;
+        var ay = a.y;
+        var az = a.z;
+        var aw = a.w;
+        var b = new Vector4([Math.random(), Math.random(), Math.random(), Math.random()], false);
+        var bx = b.x;
+        var by = b.y;
+        var bz = b.z;
+        var bw = b.w;
+        a.add2(b, a);
         it("add, x component", function() {
             expect(a.x).toBe(ax + bx);
             expect(b.x).toBe(bx);
@@ -110,9 +110,9 @@ describe("Vector4", function() {
     });
 
     describe("copy", function() {
-        var a = new Vector4([Math.random(), Math.random(), Math.random(), Math.random()], false)
-        var b = new Vector4([Math.random(), Math.random(), Math.random(), Math.random()], false)
-        a.copy(b)
+        var a = new Vector4([Math.random(), Math.random(), Math.random(), Math.random()], false);
+        var b = new Vector4([Math.random(), Math.random(), Math.random(), Math.random()], false);
+        a.copy(b);
         it("add, x component", function() {
             expect(a.x).toBe(b.x);
             expect(b.x).toBe(b.x);

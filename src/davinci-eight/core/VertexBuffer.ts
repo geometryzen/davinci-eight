@@ -1,6 +1,5 @@
 import ContextManager from './ContextManager';
 import ContextProvider from './ContextProvider';
-import DataBuffer from './DataBuffer';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeUndefined from '../checks/mustBeUndefined';
 import {ShareableContextConsumer} from './ShareableContextConsumer';
@@ -10,7 +9,7 @@ import Usage from './Usage';
 /**
  * A wrapper around a WebGLBuffer with binding to ARRAY_BUFFER.
  */
-export default class VertexBuffer extends ShareableContextConsumer implements DataBuffer<Float32Array> {
+export default class VertexBuffer extends ShareableContextConsumer {
 
     private webGLBuffer: WebGLBuffer;
     private _data: Float32Array;
@@ -37,7 +36,7 @@ export default class VertexBuffer extends ShareableContextConsumer implements Da
     }
     set data(data: Float32Array) {
         this._data = data;
-        this.bufferData();
+        this.bufferData(this._data, this._usage);
     }
 
     get usage(): Usage {
@@ -46,10 +45,10 @@ export default class VertexBuffer extends ShareableContextConsumer implements Da
     set usage(usage: Usage) {
         checkUsage('usage', usage);
         this._usage = usage;
-        this.bufferData();
+        this.bufferData(this._data, this._usage);
     }
 
-    bufferData(data?: Float32Array, usage?: Usage): void {
+    bufferData(data: Float32Array, usage: Usage): void {
         if (data) {
             this._data = data;
         }
@@ -91,7 +90,7 @@ export default class VertexBuffer extends ShareableContextConsumer implements Da
         const gl = this.gl
         if (!this.webGLBuffer) {
             this.webGLBuffer = gl.createBuffer();
-            this.bufferData();
+            this.bufferData(this._data, this._usage);
         }
         else {
             // It's a duplicate, ignore the call.

@@ -1,13 +1,13 @@
-import ArrowOptions from './ArrowOptions'
-import ArrowGeometry from '../geometries/ArrowGeometry'
-import ArrowGeometryOptions from '../geometries/ArrowGeometryOptions'
-import {Geometric3} from '../math/Geometric3'
-import {MeshMaterial} from '../materials/MeshMaterial'
-import MeshMaterialOptions from '../materials/MeshMaterialOptions'
-import {Mesh} from '../core/Mesh'
+import ArrowOptions from './ArrowOptions';
+import ArrowGeometry from '../geometries/ArrowGeometry';
+import ArrowGeometryOptions from '../geometries/ArrowGeometryOptions';
+import {Geometric3} from '../math/Geometric3';
+import {MeshMaterial} from '../materials/MeshMaterial';
+import MeshMaterialOptions from '../materials/MeshMaterialOptions';
+import {Mesh} from '../core/Mesh';
 import isGE from '../checks/isGE';
-import mustBeDefined from '../checks/mustBeDefined'
-import quadVectorE3 from '../math/quadVectorE3'
+import mustBeDefined from '../checks/mustBeDefined';
+import quadVectorE3 from '../math/quadVectorE3';
 import VectorE3 from '../math/VectorE3';
 import Vector3 from '../math/Vector3';
 
@@ -87,32 +87,32 @@ export class Arrow extends Mesh {
         material.release();
 
         if (options.color) {
-            this.color.copy(options.color)
+            this.color.copy(options.color);
         }
         if (options.position) {
-            this.X.copyVector(options.position)
+            this.X.copyVector(options.position);
         }
 
         /**
          * cascade flag prevents infinite recursion.
          */
-        let cascade = true
+        let cascade = true;
         this.vectorChangeHandler = (eventName: string, key: string, value: number, vector: Geometric3) => {
             if (cascade) {
-                cascade = false
-                this.R.rotorFromDirections(this.direction0, vector)
-                this.setPrincipalScale('length', Math.sqrt(quadVectorE3(vector)))
+                cascade = false;
+                this.R.rotorFromDirections(this.direction0, vector);
+                this.setPrincipalScale('length', Math.sqrt(quadVectorE3(vector)));
                 // this.length = Math.sqrt(quadVectorE3(vector))
-                cascade = true
-            }
-        }
-        this.attitudeChangeHandler = (eventName: string, key: string, value: number, attitude: Geometric3) => {
-            if (cascade) {
-                cascade = false
-                this._vector.copyVector(this.direction0).rotate(this.R).scale(this.length)
                 cascade = true;
             }
-        }
+        };
+        this.attitudeChangeHandler = (eventName: string, key: string, value: number, attitude: Geometric3) => {
+            if (cascade) {
+                cascade = false;
+                this._vector.copyVector(this.direction0).rotate(this.R).scale(this.length);
+                cascade = true;
+            }
+        };
 
         this._vector.on('change', this.vectorChangeHandler);
         this.R.on('change', this.attitudeChangeHandler);
@@ -129,20 +129,20 @@ export class Arrow extends Mesh {
         if (levelUp === 0) {
             this.cleanUp();
         }
-        this._vector.off('change', this.vectorChangeHandler)
-        this.R.off('change', this.attitudeChangeHandler)
-        super.destructor(levelUp + 1)
+        this._vector.off('change', this.vectorChangeHandler);
+        this.R.off('change', this.attitudeChangeHandler);
+        super.destructor(levelUp + 1);
     }
 
     // The length property is not currently exposed in the d.ts.
     private get length(): number {
-        return this.getPrincipalScale('length')
+        return this.getPrincipalScale('length');
     }
     private set length(length: number) {
         if (isGE(length, 0)) {
-            this.setPrincipalScale('length', length)
-            const magnitude = Math.sqrt(quadVectorE3(this._vector))
-            this._vector.scale(length / magnitude)
+            this.setPrincipalScale('length', length);
+            const magnitude = Math.sqrt(quadVectorE3(this._vector));
+            this._vector.scale(length / magnitude);
         }
         else {
             // Ignore
@@ -153,10 +153,10 @@ export class Arrow extends Mesh {
      * The vector from the tail of the Arrow to the head of the Arrow.
      */
     get h() {
-        return this._vector
+        return this._vector;
     }
     set h(h: Geometric3) {
-        mustBeDefined('h', h)
-        this._vector.copyVector(h)
+        mustBeDefined('h', h);
+        this._vector.copyVector(h);
     }
 }

@@ -81,9 +81,9 @@ export class RigidBody extends Mesh implements IRigidBody<number, Geometric3, Ge
      */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
-            this.cleanUp()
+            this.cleanUp();
         }
-        super.destructor(levelUp + 1)
+        super.destructor(levelUp + 1);
     }
 
     /**
@@ -93,10 +93,10 @@ export class RigidBody extends Mesh implements IRigidBody<number, Geometric3, Ge
      */
     get axis() {
         // This is a copy!
-        return Geometric3.fromVector(this.initialAxis).rotate(this.R)
+        return Geometric3.fromVector(this.initialAxis).rotate(this.R);
     }
     set axis(axis: Geometric3) {
-        mustBeObject('axis', axis)
-        this.R.rotorFromDirections(this.initialAxis, axis)
+        mustBeObject('axis', axis);
+        this.R.rotorFromDirections(this.initialAxis, axis);
     }
 }

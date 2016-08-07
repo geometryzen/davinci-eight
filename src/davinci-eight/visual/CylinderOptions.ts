@@ -1,5 +1,5 @@
-import VisualOptions from './VisualOptions'
-import VectorE3 from '../math/VectorE3'
+import VisualOptions from './VisualOptions';
+import VectorE3 from '../math/VectorE3';
 
 /**
  *
@@ -20,32 +20,32 @@ interface CylinderOptions extends VisualOptions {
      *
      * @default 1
      */
-    length?: number
+    length?: number;
 
     /**
      *
      * @default false
      */
-    openBase?: boolean
+    openBase?: boolean;
 
     /**
      *
      * @default false
      */
-    openCap?: boolean
+    openCap?: boolean;
 
     /**
      *
      * @default false
      */
-    openWall?: boolean
+    openWall?: boolean;
 
 
     /**
      *
      * @default 1
      */
-    radius?: number
+    radius?: number;
 }
 
-export default CylinderOptions
+export default CylinderOptions;
