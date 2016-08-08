@@ -2973,6 +2973,7 @@ declare module EIGHT {
         hasPrincipalScale(name: string): boolean;
         setAttribute(name: string, attribute: Attribute): void;
         setPrincipalScale(name: string, value: number): void;
+        protected setScale(x: number, y: number, z: number): void;
     }
 
     class GeometryElements extends ShareableContextConsumer implements Geometry {
@@ -2993,6 +2994,7 @@ declare module EIGHT {
         getPrincipalScale(name: string): number;
         hasPrincipalScale(name: string): boolean;
         setPrincipalScale(name: string, value: number): void;
+        protected setScale(x: number, y: number, z: number): void;
     }
 
     /**
@@ -3673,7 +3675,7 @@ declare module EIGHT {
         protected destructor(levelUp: number): void;
     }
 
-    class Basis extends Mesh {
+    class Basis extends RigidBody {
         a: Vector3;
         b: Vector3;
         c: Vector3;
@@ -3691,7 +3693,7 @@ declare module EIGHT {
         protected destructor(levelUp: number): void;
     }
 
-    class Box extends Mesh {
+    class Box extends RigidBody {
         width: number;
         height: number;
         depth: number;
@@ -3825,7 +3827,7 @@ declare module EIGHT {
         protected destructor(levelUp: number): void;
     }
 
-    class Tetrahedron extends Mesh {
+    class Tetrahedron extends RigidBody {
         radius: number;
         constructor(
             options?: {

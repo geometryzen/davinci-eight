@@ -4,8 +4,9 @@ import {Color} from '../core/Color';
 import {ColorFacet} from '../facets/ColorFacet';
 import ContextManager from '../core/ContextManager';
 import DataType from  '../core/DataType';
+import direction from './direction';
 import GeometryArrays from '../core/GeometryArrays';
-import {Mesh} from '../core/Mesh';
+import {RigidBody} from './RigidBody';
 import {ShaderMaterial} from '../materials/ShaderMaterial';
 import Vector3 from '../math/Vector3';
 import Vector3Facet from '../facets/Vector3Facet';
@@ -91,7 +92,7 @@ function contextManager(arg: BasisOptions | ContextManager, warn: boolean): Cont
     }
 }
 
-export default class Basis extends Mesh {
+export default class Basis extends RigidBody {
     private uPointA = new Vector3Facet(uPointA);
     private uPointB = new Vector3Facet(uPointB);
     private uPointC = new Vector3Facet(uPointC);
@@ -99,7 +100,7 @@ export default class Basis extends Mesh {
     private uColorB = new ColorFacet(uColorB);
     private uColorC = new ColorFacet(uColorC);
     constructor(options: BasisOptions = {}, levelUp = 0) {
-        super(void 0, void 0, contextManager(options, true), levelUp + 1);
+        super(void 0, void 0, contextManager(options, true), direction(options), levelUp + 1);
         this.setLoggingName("Basis");
 
         // FIXME: This should be initialized to a random orthonormal basis.

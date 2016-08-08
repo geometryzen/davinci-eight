@@ -1,6 +1,7 @@
-import {Mesh} from '../core/Mesh';
+import direction from './direction';
 import {MeshMaterial} from '../materials/MeshMaterial';
 import MeshMaterialOptions from '../materials/MeshMaterialOptions';
+import {RigidBody} from './RigidBody';
 import TetrahedronOptions from './TetrahedronOptions';
 import TetrahedronGeometryOptions from '../geometries//TetrahedronGeometryOptions';
 import TetrahedronGeometry from '../geometries/TetrahedronGeometry';
@@ -8,14 +9,14 @@ import TetrahedronGeometry from '../geometries/TetrahedronGeometry';
 /**
  *
  */
-export default class Tetrahedron extends Mesh {
+export default class Tetrahedron extends RigidBody {
 
     /**
      * @param options
      * @param levelUp
      */
     constructor(options: TetrahedronOptions = {}, levelUp = 0) {
-        super(void 0, void 0, options.contextManager, levelUp + 1);
+        super(void 0, void 0, options.contextManager, direction(options), levelUp + 1);
         this.setLoggingName('Tetrahedron');
         const geoOptions: TetrahedronGeometryOptions = {};
         geoOptions.contextManager = options.contextManager;

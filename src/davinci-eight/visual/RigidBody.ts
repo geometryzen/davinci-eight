@@ -1,7 +1,6 @@
 import ContextManager from '../core/ContextManager';
 import {Geometric3} from '../math/Geometric3';
 import {Geometry} from '../core/Geometry';
-import IRigidBody from './IRigidBody';
 import {Material} from '../core/Material';
 import {Mesh} from '../core/Mesh';
 import mustBeObject from '../checks/mustBeObject';
@@ -13,7 +12,7 @@ import VectorE3 from '../math/VectorE3';
  * Decorates the Mesh by adding properties for physical modeling.
  * </p>
  */
-export class RigidBody extends Mesh implements IRigidBody<number, Geometric3, Geometric3> {
+export class RigidBody extends Mesh {
 
     /**
      * <p>
