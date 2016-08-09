@@ -1,9 +1,6 @@
-import CartesianG3 from './CartesianG3';
-import ColumnVector from './ColumnVector';
 import {Coords} from './Coords';
 import VectorE3 from './VectorE3';
 import dotVectorE3 from './dotVectorE3';
-import MutableLinearElement from './MutableLinearElement';
 import Matrix3 from './Matrix3';
 import Matrix4 from './Matrix4';
 import isDefined from '../checks/isDefined';
@@ -39,7 +36,7 @@ function coordinates(m: VectorE3): number[] {
  * @class Vector3
  * @extends Coords
  */
-export default class Vector3 extends Coords implements CartesianG3, ColumnVector<Matrix3, Vector3>, VectorE3, MutableLinearElement<VectorE3, Vector3, SpinorE3, VectorE3, number, number> {
+export default class Vector3 extends Coords {
 
     /**
      * @method dot

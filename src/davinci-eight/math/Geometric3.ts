@@ -7,14 +7,12 @@ import EventEmitter from '../utils/EventEmitter';
 import extG3 from './extG3';
 import gauss from './gauss';
 import GeometricE3 from './GeometricE3';
-import GeometricOperators from './GeometricOperators';
 import isDefined from '../checks/isDefined';
 import isScalarG3 from './isScalarG3';
 import lcoG3 from './lcoG3';
 import maskG3 from './maskG3'
 import mulE3 from './mulE3';
 import mulG3 from './mulG3';
-import MutableGeometricElement from './MutableGeometricElement';
 import randomRange from './randomRange'
 import readOnly from '../i18n/readOnly'
 import rcoG3 from './rcoG3';
@@ -78,7 +76,7 @@ const cosines: number[] = [];
 /**
  *
  */
-export class Geometric3 extends Coords implements CartesianG3, GeometricE3, MutableGeometricElement<GeometricE3, Geometric3, SpinorE3, VectorE3, BivectorE3, number, number, number>, GeometricOperators<Geometric3, number> {
+export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
 
     /**
      *

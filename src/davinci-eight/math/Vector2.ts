@@ -1,9 +1,8 @@
-import ColumnVector from '../math/ColumnVector';
 import {Coords} from '../math/Coords';
 import b2 from '../geometries/b2';
 import b3 from '../geometries/b3';
 import Matrix2 from '../math/Matrix2';
-import MutableLinearElement from '../math/MutableLinearElement';
+
 import notImplemented from '../i18n/notImplemented';
 import randomRange from './randomRange';
 import SpinorE2 from '../math/SpinorE2';
@@ -18,7 +17,7 @@ const COORD_Y = 1;
 /**
  *
  */
-export class Vector2 extends Coords implements ColumnVector<Matrix2, Vector2>, VectorE2, MutableLinearElement<VectorE2, Vector2, SpinorE2, VectorE2, number, number> {
+export class Vector2 extends Coords {
     /**
      * @param data
      * @param modified

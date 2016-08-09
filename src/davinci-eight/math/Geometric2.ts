@@ -10,16 +10,12 @@ import isDefined from '../checks/isDefined';
 import isNumber from '../checks/isNumber';
 import isObject from '../checks/isObject';
 import lcoE2 from './lcoE2';
-import GeometricOperators from './GeometricOperators';
-import Measure from './Measure';
 import mulE2 from './mulE2';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeObject from '../checks/mustBeObject';
-import MutableGeometricElement from './MutableGeometricElement';
 import notImplemented from '../i18n/notImplemented';
 import notSupported from '../i18n/notSupported';
-import Pseudo from './Pseudo';
 import rcoE2 from './rcoE2';
 import rotorFromDirections from './rotorFromDirectionsE2';
 import scpE2 from './scpE2';
@@ -115,7 +111,7 @@ function duckCopy(value: any): Geometric2 {
  * @extends Coords
  * @beta
  */
-export class Geometric2 extends Coords implements GeometricE2, Measure<Geometric2>, MutableGeometricElement<GeometricE2, Geometric2, SpinorE2, VectorE2, Pseudo, number, number, number>, GeometricOperators<Geometric2, number> {
+export class Geometric2 extends Coords implements GeometricE2 {
 
     /**
      * @property BASIS_LABELS

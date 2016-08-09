@@ -6,11 +6,9 @@ import mulSpinorE3YZ from './mulSpinorE3YZ';
 import mulSpinorE3ZX from './mulSpinorE3ZX';
 import mulSpinorE3XY from './mulSpinorE3XY';
 import mulSpinorE3alpha from './mulSpinorE3alpha';
-import MutableGeometricElement from './MutableGeometricElement';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeObject from '../checks/mustBeObject';
-import Mutable from './Mutable';
 import quadSpinor from './quadSpinorE3';
 import randomRange from './randomRange'
 import readOnly from '../i18n/readOnly'
@@ -54,7 +52,7 @@ const magicCode = Math.random()
  * @class Spinor3
  * @extends Coords
  */
-export default class Spinor3 extends Coords implements CartesianG3, SpinorE3, Mutable<number[]>, MutableGeometricElement<SpinorE3, Spinor3, Spinor3, VectorE3, BivectorE3, number, number, number> {
+export default class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
 
     /**
      * @method constructor

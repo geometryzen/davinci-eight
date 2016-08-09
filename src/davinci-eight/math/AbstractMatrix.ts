@@ -1,6 +1,5 @@
 import mustBeDefined from '../checks/mustBeDefined';
 import mustBeInteger from '../checks/mustBeInteger';
-import MutableMatrix from '../math/MutableMatrix';
 import expectArg from '../checks/expectArg';
 import readOnly from '../i18n/readOnly';
 
@@ -8,7 +7,7 @@ import readOnly from '../i18n/readOnly';
  * Base class for matrices with the expectation that they will be used with WebGL.
  * The underlying data storage is a <code>Float32Array</code>.
  */
-export default class AbstractMatrix<T extends { elements: Float32Array }> implements MutableMatrix<Float32Array> {
+export default class AbstractMatrix<T extends { elements: Float32Array }> {
 
     private _elements: Float32Array;
     private _length: number;

@@ -2,13 +2,10 @@ import AbstractMatrix from '../math/AbstractMatrix';
 import add4x4 from '../math/add4x4';
 import det4x4 from './det4x4'
 import inv4x4 from '../math/inv4x4';
-import Matrix from '../math/Matrix';
 import mul4x4 from '../math/mul4x4';
 import perspectiveArray from '../facets/perspectiveArray';
-import Ring from '../math/MutableRingElement';
 import SpinorE3 from '../math/SpinorE3';
 import VectorE3 from '../math/VectorE3';
-import VectorE4 from '../math/VectorE4';
 
 /**
  * <p>
@@ -18,7 +15,7 @@ import VectorE4 from '../math/VectorE4';
  * An adapter for a <code>Float32Array</code>.
  * </p>
  */
-export default class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4, VectorE4, VectorE3>, Ring<Matrix4> {
+export default class Matrix4 extends AbstractMatrix<Matrix4> {
 
     // The correspondence between the elements property index and the matrix entries is...
     //

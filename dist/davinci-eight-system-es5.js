@@ -17099,10 +17099,10 @@ System.register("davinci-eight/math/Vector1.js", ['../math/Coords'], function (e
                     return this;
                 };
                 Vector1.random = function () {
-                    return new Vector1[Math.random()]();
+                    return new Vector1([Math.random()]);
                 };
                 Vector1.zero = function () {
-                    return new Vector1[0]();
+                    return new Vector1([0]);
                 };
                 return Vector1;
             }(Coords_1.Coords);
@@ -20977,9 +20977,9 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
             Eight = function () {
                 function Eight() {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-                    this.LAST_MODIFIED = '2016-08-11';
+                    this.LAST_MODIFIED = '2016-08-09';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '2.291.0';
+                    this.VERSION = '2.292.0';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];

@@ -1,19 +1,12 @@
-import ColumnVector from '../math/ColumnVector';
 import {Coords} from '../math/Coords';
 import VectorE4 from '../math/VectorE4';
-import MutableLinearElement from '../math/MutableLinearElement';
 import SpinorE4 from '../math/SpinorE4';
 import Matrix4 from '../math/Matrix4';
 
 /**
- * @module EIGHT
- * @submodule math
+ *
  */
-
-/**
- * @class Vector4
- */
-export default class Vector4 extends Coords implements ColumnVector<Matrix4, Vector4>, VectorE4, MutableLinearElement<VectorE4, Vector4, SpinorE4, VectorE4, number, number> {
+export default class Vector4 extends Coords {
 
     /**
      * @class Vector4

@@ -1,6 +1,5 @@
 import isDefined from '../checks/isDefined';
 import isUndefined from '../checks/isUndefined';
-import Mutable from '../math/Mutable';
 import mustSatisfy from '../checks/mustSatisfy';
 
 function pushString(T: string): string {
@@ -26,7 +25,7 @@ function verbotenPop(): string {
 /**
  *
  */
-export class VectorN<T> implements Mutable<T[]> {
+export class VectorN<T> {
     /**
      *
      */

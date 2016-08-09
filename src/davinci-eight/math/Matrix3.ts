@@ -2,20 +2,11 @@ import AbstractMatrix from '../math/AbstractMatrix';
 import add3x3 from '../math/add3x3';
 import det3x3 from '../math/det3x3';
 import inv3x3 from '../math/inv3x3';
-import Matrix from '../math/Matrix';
 import Matrix4 from './Matrix4';
 import mul3x3 from '../math/mul3x3';
 import mustBeNumber from '../checks/mustBeNumber';
-import Ring from '../math/MutableRingElement';
-import RingOperators from '../math/RingOperators';
 import SpinorE2 from '../math/SpinorE2';
 import VectorE2 from '../math/VectorE2';
-import VectorE3 from '../math/VectorE3';
-
-/**
- * @module EIGHT
- * @submodule math
- */
 
 /**
  * <p>
@@ -36,7 +27,7 @@ import VectorE3 from '../math/VectorE3';
  * @class Matrix3
  * @extends AbstractMatrix
  */
-export default class Matrix3 extends AbstractMatrix<Matrix3> implements Matrix<Matrix3, VectorE3, VectorE2>, Ring<Matrix3>, RingOperators<Matrix3, number> {
+export default class Matrix3 extends AbstractMatrix<Matrix3> {
 
     /**
      * @class Matrix3

@@ -1,13 +1,9 @@
 import {Coords} from '../math/Coords';
 import dotVectorCartesian from '../math/dotVectorCartesianE2';
-import Measure from '../math/Measure';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeObject from '../checks/mustBeObject';
-import Mutable from '../math/Mutable';
-import MutableGeometricElement from '../math/MutableGeometricElement';
 import notSupported from '../i18n/notSupported'
-import Pseudo from '../math/Pseudo';
 import quadSpinor from '../math/quadSpinorE2';
 import rotorFromDirections from '../math/rotorFromDirectionsE2';
 import SpinorE2 from '../math/SpinorE2';
@@ -36,7 +32,7 @@ const sqrt = Math.sqrt
  * @class Spinor2
  * @extends Coords
  */
-export default class Spinor2 extends Coords implements SpinorE2, Measure<Spinor2>, Mutable<number[]>, MutableGeometricElement<SpinorE2, Spinor2, Spinor2, VectorE2, Pseudo, number, number, number> {
+export default class Spinor2 extends Coords implements SpinorE2 {
     /**
      * Constructs a <code>Spinor2</code> from a <code>number[]</code>.
      * For a <em>geometric</em> implementation, use the static methods.
