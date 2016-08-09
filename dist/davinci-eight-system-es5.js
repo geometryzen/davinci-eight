@@ -7855,6 +7855,10 @@ System.register('davinci-eight/math/Spinor2.js', ['../math/Coords', '../math/dot
                     this.a = cos(φ);
                     return this;
                 };
+                Spinor2.prototype.rotorFromVectorToVector = function (a, b) {
+                    rotorFromDirectionsE2_1.default(a, b, this);
+                    return this;
+                };
                 Spinor2.prototype.scp = function (rhs) {
                     return this.scp2(this, rhs);
                 };
@@ -14276,6 +14280,10 @@ System.register('davinci-eight/math/Geometric2.js', ['./arraysEQ', '../geometrie
                     rotorFromDirectionsE2_1.default(a, b, this);
                     return this;
                 };
+                Geometric2.prototype.rotorFromVectorToVector = function (a, b) {
+                    rotorFromDirectionsE2_1.default(a, b, this);
+                    return this;
+                };
                 Geometric2.prototype.rotorFromGeneratorAngle = function (B, θ) {
                     mustBeObject_1.default('B', B);
                     mustBeNumber_1.default('θ', θ);
@@ -15587,9 +15595,18 @@ System.register('davinci-eight/math/Geometric3.js', ['./Coords', './arraysEQ', '
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
     var Coords_1, arraysEQ_1, dotVectorE3_1, EventEmitter_1, extG3_1, gauss_1, isDefined_1, isScalarG3_1, lcoG3_1, maskG3_1, mulE3_1, mulG3_1, randomRange_1, readOnly_1, rcoG3_1, rotorFromDirectionsE3_1, scpG3_1, squaredNormG3_1, stringFromCoordinates_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1;
-    var COORD_SCALAR, COORD_X, COORD_Y, COORD_Z, COORD_XY, COORD_YZ, COORD_ZX, COORD_PSEUDO, BASIS_LABELS, EVENT_NAME_CHANGE, atan2, exp, cos, log, sin, sqrt, Geometric3;
+    var COORD_SCALAR, COORD_X, COORD_Y, COORD_Z, COORD_XY, COORD_YZ, COORD_ZX, COORD_PSEUDO, BASIS_LABELS, EVENT_NAME_CHANGE, atan2, exp, cos, log, sin, sqrt, cosines, Geometric3;
     function coordinates(m) {
         return [m.a, m.x, m.y, m.z, m.xy, m.yz, m.zx, m.b];
+    }
+    function scp(a, b) {
+        return a.x * b.x + a.y * b.y + a.z * b.z;
+    }
+    function norm(v) {
+        return Math.sqrt(scp(v, v));
+    }
+    function cosVectorVector(a, b) {
+        return scp(a, b) / (norm(a) * norm(b));
     }
     return {
         setters: [function (Coords_1_1) {
@@ -15654,6 +15671,7 @@ System.register('davinci-eight/math/Geometric3.js', ['./Coords', './arraysEQ', '
             log = Math.log;
             sin = Math.sin;
             sqrt = Math.sqrt;
+            cosines = [];
             Geometric3 = function (_super) {
                 __extends(Geometric3, _super);
                 function Geometric3() {
@@ -16207,8 +16225,27 @@ System.register('davinci-eight/math/Geometric3.js', ['./Coords', './arraysEQ', '
                     return this;
                 };
                 Geometric3.prototype.rotorFromDirections = function (a, b) {
-                    rotorFromDirectionsE3_1.default(a, b, this);
-                    return this;
+                    return this.rotorFromVectorToVector(a, b, void 0);
+                };
+                Geometric3.prototype.rotorFromTwoVectors = function (e1, f1, e2, f2) {
+                    var R1 = Geometric3.rotorFromDirections(e1, f1);
+                    var f = Geometric3.fromVector(e2).rotate(R1);
+                    var B = Geometric3.zero().dual(f);
+                    var R2 = Geometric3.rotorFromVectorToVector(f, f2, B);
+                    return this.copy(R2).mul(R1);
+                };
+                Geometric3.prototype.rotorFromFrameToFrame = function (es, fs) {
+                    var biggestValue = -1;
+                    var firstVector;
+                    for (var i = 0; i < 3; i++) {
+                        cosines[i] = cosVectorVector(es[i], fs[i]);
+                        if (cosines[i] > biggestValue) {
+                            firstVector = i;
+                            biggestValue = cosines[i];
+                        }
+                    }
+                    var secondVector = (firstVector + 1) % 3;
+                    return this.rotorFromTwoVectors(es[firstVector], fs[firstVector], es[secondVector], fs[secondVector]);
                 };
                 Geometric3.prototype.rotorFromGeneratorAngle = function (B, θ) {
                     var φ = θ / 2;
@@ -16226,6 +16263,10 @@ System.register('davinci-eight/math/Geometric3.js', ['./Coords', './arraysEQ', '
                     this.zx = -zx * s / m;
                     this.xy = -xy * s / m;
                     this.b = 0;
+                    return this;
+                };
+                Geometric3.prototype.rotorFromVectorToVector = function (a, b, B) {
+                    rotorFromDirectionsE3_1.default(a, b, B, this);
                     return this;
                 };
                 Geometric3.prototype.scp = function (m) {
@@ -16615,6 +16656,9 @@ System.register('davinci-eight/math/Geometric3.js', ['./Coords', './arraysEQ', '
                 };
                 Geometric3.rotorFromDirections = function (a, b) {
                     return new Geometric3().rotorFromDirections(a, b);
+                };
+                Geometric3.rotorFromVectorToVector = function (a, b, B) {
+                    return new Geometric3().rotorFromVectorToVector(a, b, B);
                 };
                 Geometric3.scalar = function (α) {
                     return new Geometric3().copyScalar(α);
@@ -18517,7 +18561,7 @@ System.register('davinci-eight/math/rotorFromDirectionsE3.js', ['./dotVectorE3',
     var __moduleName = context_1 && context_1.id;
     var dotVectorE3_1, quadVectorE3_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1;
     var sqrt;
-    function default_1(a, b, m) {
+    function default_1(a, b, B, m) {
         var quadA = quadVectorE3_1.default(a);
         var absA = sqrt(quadA);
         var quadB = quadVectorE3_1.default(b);
@@ -18530,15 +18574,19 @@ System.register('davinci-eight/math/rotorFromDirectionsE3.js', ['./dotVectorE3',
             m = m.addScalar(BA);
             m = m.divByScalar(denom);
         } else {
-            var rx = Math.random();
-            var ry = Math.random();
-            var rz = Math.random();
-            m.zero();
-            m.yz = wedgeYZ_1.default(rx, ry, rz, a.x, a.y, a.z);
-            m.zx = wedgeZX_1.default(rx, ry, rz, a.x, a.y, a.z);
-            m.xy = wedgeXY_1.default(rx, ry, rz, a.x, a.y, a.z);
-            m.normalize();
-            m.rotorFromGeneratorAngle(m, Math.PI);
+            if (B) {
+                m.rotorFromGeneratorAngle(B, Math.PI);
+            } else {
+                var rx = Math.random();
+                var ry = Math.random();
+                var rz = Math.random();
+                m.zero();
+                m.yz = wedgeYZ_1.default(rx, ry, rz, a.x, a.y, a.z);
+                m.zx = wedgeZX_1.default(rx, ry, rz, a.x, a.y, a.z);
+                m.xy = wedgeXY_1.default(rx, ry, rz, a.x, a.y, a.z);
+                m.normalize();
+                m.rotorFromGeneratorAngle(m, Math.PI);
+            }
         }
     }
     exports_1("default", default_1);
@@ -18977,8 +19025,7 @@ System.register('davinci-eight/math/Spinor3.js', ['./Coords', './dotVectorCartes
                     return this;
                 };
                 Spinor3.prototype.rotorFromDirections = function (a, b) {
-                    rotorFromDirectionsE3_1.default(a, b, this);
-                    return this;
+                    return this.rotorFromVectorToVector(a, b, void 0);
                 };
                 Spinor3.prototype.rotorFromGeneratorAngle = function (B, θ) {
                     var φ = θ / 2;
@@ -18987,6 +19034,10 @@ System.register('davinci-eight/math/Spinor3.js', ['./Coords', './dotVectorCartes
                     this.zx = -B.zx * s;
                     this.xy = -B.xy * s;
                     this.a = cos(φ);
+                    return this;
+                };
+                Spinor3.prototype.rotorFromVectorToVector = function (a, b, B) {
+                    rotorFromDirectionsE3_1.default(a, b, B, this);
                     return this;
                 };
                 Spinor3.prototype.scp = function (rhs) {
@@ -20926,9 +20977,9 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
             Eight = function () {
                 function Eight() {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-                    this.LAST_MODIFIED = '2016-08-07';
+                    this.LAST_MODIFIED = '2016-08-11';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '2.290.0';
+                    this.VERSION = '2.291.0';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];

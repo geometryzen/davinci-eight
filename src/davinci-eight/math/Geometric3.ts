@@ -39,6 +39,7 @@ const COORD_YZ = 5
 const COORD_ZX = 6
 const COORD_PSEUDO = 7
 
+// FIXME: Change to Canonical ordering.
 const BASIS_LABELS = ["1", "e1", "e2", "e3", "e12", "e23", "e31", "e123"]
 
 /**
@@ -57,10 +58,27 @@ const log = Math.log
 const sin = Math.sin
 const sqrt = Math.sqrt
 
+function scp(a: VectorE3, b: VectorE3): number {
+    return a.x * b.x + a.y * b.y + a.z * b.z
+}
+
+function norm(v: VectorE3): number {
+    return Math.sqrt(scp(v, v))
+}
+
+function cosVectorVector(a: VectorE3, b: VectorE3): number {
+    return scp(a, b) / (norm(a) * norm(b))
+}
+
+/**
+ * Scratch variable for holding cosines.
+ */
+const cosines: number[] = [];
+
 /**
  *
  */
-export class Geometric3 extends Coords implements CartesianG3, GeometricE3, MutableGeometricElement<GeometricE3, Geometric3, SpinorE3, VectorE3, number, number, number>, GeometricOperators<Geometric3, number> {
+export class Geometric3 extends Coords implements CartesianG3, GeometricE3, MutableGeometricElement<GeometricE3, Geometric3, SpinorE3, VectorE3, BivectorE3, number, number, number>, GeometricOperators<Geometric3, number> {
 
     /**
      *
@@ -1082,8 +1100,50 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
      * @returns <code>this</code> The rotor representing a rotation from a to b.
      */
     rotorFromDirections(a: VectorE3, b: VectorE3) {
-        rotorFromDirections(a, b, this)
-        return this
+        return this.rotorFromVectorToVector(a, b, void 0);
+    }
+
+    /**
+     * Helper function for rotorFromFrameToFrame.
+     */
+    private rotorFromTwoVectors(e1: VectorE3, f1: VectorE3, e2: VectorE3, f2: VectorE3) {
+        // FIXME: This creates a lot of temporary objects.
+        // Compute the rotor that takes e1 to f1.
+        // There is no concern that the two vectors are anti-parallel.
+        const R1 = Geometric3.rotorFromDirections(e1, f1);
+        // Compute the image of e2 under the first rotation in order to calculate R2.
+        const f = Geometric3.fromVector(e2).rotate(R1);
+        // In case of rotation for antipodal vectors, define the fallback rotation bivector.
+        const B = Geometric3.zero().dual(f)
+        // Compute R2
+        const R2 = Geometric3.rotorFromVectorToVector(f, f2, B);
+        // The total rotor, R, is the composition of R1 followed by R2.
+        return this.copy(R2).mul(R1);
+    }
+
+    rotorFromFrameToFrame(es: VectorE3[], fs: VectorE3[]) {
+        // There is instability when the rotation angle is near 180 degrees.
+        // So we don't use the lovely formula based upon reciprocal frames.
+        // Our algorithm is to first pick the vector that stays most aligned with itself.
+        // This allows for the possibility that the other two vectors may become anti-aligned.
+        // Observe that all three vectors can't be anti-aligned because that would be a reflection!
+        // We then compute the rotor R1 that maps this first vector to its image.
+        // Allowing then for the possibility that the renaining vectors may have ambiguous rotors,
+        // we compute the dual of this image vector as the default rotation plane for one of the
+        // other vectors. We only need to calculate the rotor R2 for one more vector because our
+        // frames are orthogonal and so R1 and R2 determine R.
+        //
+        let biggestValue = -1;
+        let firstVector: number;
+        for (let i = 0; i < 3; i++) {
+            cosines[i] = cosVectorVector(es[i], fs[i])
+            if (cosines[i] > biggestValue) {
+                firstVector = i;
+                biggestValue = cosines[i];
+            }
+        }
+        const secondVector = (firstVector + 1) % 3;
+        return this.rotorFromTwoVectors(es[firstVector], fs[firstVector], es[secondVector], fs[secondVector]);
     }
 
     /**
@@ -1111,6 +1171,11 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
         this.xy = -xy * s / m
         this.b = 0
         return this
+    }
+
+    rotorFromVectorToVector(a: VectorE3, b: VectorE3, B: BivectorE3) {
+        rotorFromDirections(a, b, B, this);
+        return this;
     }
 
     /**
@@ -1812,6 +1877,10 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
      */
     static rotorFromDirections(a: VectorE3, b: VectorE3): Geometric3 {
         return new Geometric3().rotorFromDirections(a, b)
+    }
+
+    static rotorFromVectorToVector(a: VectorE3, b: VectorE3, B: BivectorE3): Geometric3 {
+        return new Geometric3().rotorFromVectorToVector(a, b, B)
     }
 
     /**

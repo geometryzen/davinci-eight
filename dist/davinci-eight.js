@@ -543,9 +543,9 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
     var Eight = (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-08-07';
+            this.LAST_MODIFIED = '2016-08-11';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.290.0';
+            this.VERSION = '2.291.0';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -2033,7 +2033,7 @@ define('davinci-eight/math/wedgeZX',["require", "exports"], function (require, e
 define('davinci-eight/math/rotorFromDirectionsE3',["require", "exports", './dotVectorE3', './quadVectorE3', './wedgeXY', './wedgeYZ', './wedgeZX'], function (require, exports, dotVectorE3_1, quadVectorE3_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1) {
     "use strict";
     var sqrt = Math.sqrt;
-    function default_1(a, b, m) {
+    function default_1(a, b, B, m) {
         var quadA = quadVectorE3_1.default(a);
         var absA = sqrt(quadA);
         var quadB = quadVectorE3_1.default(b);
@@ -2047,15 +2047,20 @@ define('davinci-eight/math/rotorFromDirectionsE3',["require", "exports", './dotV
             m = m.divByScalar(denom);
         }
         else {
-            var rx = Math.random();
-            var ry = Math.random();
-            var rz = Math.random();
-            m.zero();
-            m.yz = wedgeYZ_1.default(rx, ry, rz, a.x, a.y, a.z);
-            m.zx = wedgeZX_1.default(rx, ry, rz, a.x, a.y, a.z);
-            m.xy = wedgeXY_1.default(rx, ry, rz, a.x, a.y, a.z);
-            m.normalize();
-            m.rotorFromGeneratorAngle(m, Math.PI);
+            if (B) {
+                m.rotorFromGeneratorAngle(B, Math.PI);
+            }
+            else {
+                var rx = Math.random();
+                var ry = Math.random();
+                var rz = Math.random();
+                m.zero();
+                m.yz = wedgeYZ_1.default(rx, ry, rz, a.x, a.y, a.z);
+                m.zx = wedgeZX_1.default(rx, ry, rz, a.x, a.y, a.z);
+                m.xy = wedgeXY_1.default(rx, ry, rz, a.x, a.y, a.z);
+                m.normalize();
+                m.rotorFromGeneratorAngle(m, Math.PI);
+            }
         }
     }
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -2263,6 +2268,16 @@ define('davinci-eight/math/Geometric3',["require", "exports", './Coords', './arr
     var log = Math.log;
     var sin = Math.sin;
     var sqrt = Math.sqrt;
+    function scp(a, b) {
+        return a.x * b.x + a.y * b.y + a.z * b.z;
+    }
+    function norm(v) {
+        return Math.sqrt(scp(v, v));
+    }
+    function cosVectorVector(a, b) {
+        return scp(a, b) / (norm(a) * norm(b));
+    }
+    var cosines = [];
     var Geometric3 = (function (_super) {
         __extends(Geometric3, _super);
         function Geometric3() {
@@ -2834,8 +2849,27 @@ define('davinci-eight/math/Geometric3',["require", "exports", './Coords', './arr
             return this;
         };
         Geometric3.prototype.rotorFromDirections = function (a, b) {
-            rotorFromDirectionsE3_1.default(a, b, this);
-            return this;
+            return this.rotorFromVectorToVector(a, b, void 0);
+        };
+        Geometric3.prototype.rotorFromTwoVectors = function (e1, f1, e2, f2) {
+            var R1 = Geometric3.rotorFromDirections(e1, f1);
+            var f = Geometric3.fromVector(e2).rotate(R1);
+            var B = Geometric3.zero().dual(f);
+            var R2 = Geometric3.rotorFromVectorToVector(f, f2, B);
+            return this.copy(R2).mul(R1);
+        };
+        Geometric3.prototype.rotorFromFrameToFrame = function (es, fs) {
+            var biggestValue = -1;
+            var firstVector;
+            for (var i = 0; i < 3; i++) {
+                cosines[i] = cosVectorVector(es[i], fs[i]);
+                if (cosines[i] > biggestValue) {
+                    firstVector = i;
+                    biggestValue = cosines[i];
+                }
+            }
+            var secondVector = (firstVector + 1) % 3;
+            return this.rotorFromTwoVectors(es[firstVector], fs[firstVector], es[secondVector], fs[secondVector]);
         };
         Geometric3.prototype.rotorFromGeneratorAngle = function (B, θ) {
             var φ = θ / 2;
@@ -2853,6 +2887,10 @@ define('davinci-eight/math/Geometric3',["require", "exports", './Coords', './arr
             this.zx = -zx * s / m;
             this.xy = -xy * s / m;
             this.b = 0;
+            return this;
+        };
+        Geometric3.prototype.rotorFromVectorToVector = function (a, b, B) {
+            rotorFromDirectionsE3_1.default(a, b, B, this);
             return this;
         };
         Geometric3.prototype.scp = function (m) {
@@ -3245,6 +3283,9 @@ define('davinci-eight/math/Geometric3',["require", "exports", './Coords', './arr
         };
         Geometric3.rotorFromDirections = function (a, b) {
             return new Geometric3().rotorFromDirections(a, b);
+        };
+        Geometric3.rotorFromVectorToVector = function (a, b, B) {
+            return new Geometric3().rotorFromVectorToVector(a, b, B);
         };
         Geometric3.scalar = function (α) {
             return new Geometric3().copyScalar(α);
@@ -3759,8 +3800,7 @@ define('davinci-eight/math/Spinor3',["require", "exports", './Coords', './dotVec
             return this;
         };
         Spinor3.prototype.rotorFromDirections = function (a, b) {
-            rotorFromDirectionsE3_1.default(a, b, this);
-            return this;
+            return this.rotorFromVectorToVector(a, b, void 0);
         };
         Spinor3.prototype.rotorFromGeneratorAngle = function (B, θ) {
             var φ = θ / 2;
@@ -3769,6 +3809,10 @@ define('davinci-eight/math/Spinor3',["require", "exports", './Coords', './dotVec
             this.zx = -B.zx * s;
             this.xy = -B.xy * s;
             this.a = cos(φ);
+            return this;
+        };
+        Spinor3.prototype.rotorFromVectorToVector = function (a, b, B) {
+            rotorFromDirectionsE3_1.default(a, b, B, this);
             return this;
         };
         Spinor3.prototype.scp = function (rhs) {
@@ -11835,6 +11879,10 @@ define('davinci-eight/math/Geometric2',["require", "exports", './arraysEQ', '../
             rotorFromDirectionsE2_1.default(a, b, this);
             return this;
         };
+        Geometric2.prototype.rotorFromVectorToVector = function (a, b) {
+            rotorFromDirectionsE2_1.default(a, b, this);
+            return this;
+        };
         Geometric2.prototype.rotorFromGeneratorAngle = function (B, θ) {
             mustBeObject_1.default('B', B);
             mustBeNumber_1.default('θ', θ);
@@ -12551,6 +12599,10 @@ define('davinci-eight/math/Spinor2',["require", "exports", '../math/Coords', '..
             var s = sin(φ);
             this.xy = -B.b * s;
             this.a = cos(φ);
+            return this;
+        };
+        Spinor2.prototype.rotorFromVectorToVector = function (a, b) {
+            rotorFromDirectionsE2_1.default(a, b, this);
             return this;
         };
         Spinor2.prototype.scp = function (rhs) {

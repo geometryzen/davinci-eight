@@ -1,3 +1,4 @@
+import Bivector from './BivectorE3';
 import dot from './dotVectorE3'
 import quad from './quadVectorE3'
 import Vector from './VectorE3'
@@ -13,16 +14,18 @@ interface Output extends Spinor {
     addScalar(α: number): Output
     normalize(): Output
     divByScalar(α: number): Output
-    rotorFromGeneratorAngle(G: Spinor, θ: number): Output
+    rotorFromGeneratorAngle(B: Bivector, θ: number): Output
     zero(): Output
 }
 
 /**
  * Sets this multivector to a rotor representing a rotation from a to b.
  * R = (|b||a| + b * a) / sqrt(2 * |b||a|(|b||a| + b << a))
- * Returns undefined (void 0) if the vectors are anti-parallel.
+ * If the vectors are anti-parallel, making the plane of rotation ambiguous,
+ * the bivector B will be used if specified.
+ * Otherwise, returns a random bivector if the vectors are anti-parallel.
  */
-export default function(a: Vector, b: Vector, m: Output): void {
+export default function(a: Vector, b: Vector, B: Bivector, m: Output): void {
     const quadA = quad(a)
     const absA = sqrt(quadA)
     const quadB = quad(b)
@@ -42,15 +45,20 @@ export default function(a: Vector, b: Vector, m: Output): void {
         // The plane of the rotation is ambiguous.
         // Compute a random bivector containing the start vector, then turn
         // it into a rotor that achieves the 180-degree rotation.
-        const rx = Math.random()
-        const ry = Math.random()
-        const rz = Math.random()
+        if (B) {
+            m.rotorFromGeneratorAngle(B, Math.PI)
+        }
+        else {
+            const rx = Math.random()
+            const ry = Math.random()
+            const rz = Math.random()
 
-        m.zero()
-        m.yz = wedgeYZ(rx, ry, rz, a.x, a.y, a.z)
-        m.zx = wedgeZX(rx, ry, rz, a.x, a.y, a.z)
-        m.xy = wedgeXY(rx, ry, rz, a.x, a.y, a.z)
-        m.normalize()
-        m.rotorFromGeneratorAngle(m, Math.PI)
+            m.zero()
+            m.yz = wedgeYZ(rx, ry, rz, a.x, a.y, a.z)
+            m.zx = wedgeZX(rx, ry, rz, a.x, a.y, a.z)
+            m.xy = wedgeXY(rx, ry, rz, a.x, a.y, a.z)
+            m.normalize()
+            m.rotorFromGeneratorAngle(m, Math.PI)
+        }
     }
 }

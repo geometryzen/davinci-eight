@@ -6,7 +6,7 @@ import MutableRingElement from '../math/MutableRingElement';
  * This interface is provided to ensure consistency.
  * It is not part of the documented API.
  */
-interface MutableGeometricElement<I, M, S, V, MAGNITUDE, SCALING, UNIT> extends GeometricNumber<I, M, S, V, MAGNITUDE, SCALING, UNIT>, MutableLinearElement<I, M, S, V, MAGNITUDE, SCALING>, MutableRingElement<M> {
+interface MutableGeometricElement<I, M, S, V, BIVECTOR, MAGNITUDE, SCALING, UNIT> extends GeometricNumber<I, M, S, V, MAGNITUDE, SCALING, UNIT>, MutableLinearElement<I, M, S, V, MAGNITUDE, SCALING>, MutableRingElement<M> {
 
     /**
      * Sets this multivector to the left contraction of the multivectors.
@@ -50,6 +50,7 @@ interface MutableGeometricElement<I, M, S, V, MAGNITUDE, SCALING, UNIT> extends 
 
     /**
      * Sets this multivector to a unitary spinor (a rotor), even if the vectors are not unitary.
+     * In the case that the rotation angle is a half-turn the bivector is random.
      */
     rotorFromDirections(a: V, b: V): M;
 
@@ -57,6 +58,14 @@ interface MutableGeometricElement<I, M, S, V, MAGNITUDE, SCALING, UNIT> extends 
      * Sets this multivector to a unitary spinor (a rotor).
      */
     rotorFromGeneratorAngle(B: S, θ: number): M;
+
+    /**
+     * Sets this multivector to a unitary spinor (a rotor), even if the vectors are not unitary.
+     * In the case that the rotation angle is a half-turn the bivector is either the optional B,
+     * or random. This behavior is useful for computing the rotor required to rotate from one
+     * basis to another.
+     */
+    rotorFromVectorToVector(a: V, b: V, B?: BIVECTOR): M;
 
     /**
      * Sets this multivector to the scalar product of the multivectors.

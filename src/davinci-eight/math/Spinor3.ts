@@ -54,7 +54,7 @@ const magicCode = Math.random()
  * @class Spinor3
  * @extends Coords
  */
-export default class Spinor3 extends Coords implements CartesianG3, SpinorE3, Mutable<number[]>, MutableGeometricElement<SpinorE3, Spinor3, Spinor3, VectorE3, number, number, number> {
+export default class Spinor3 extends Coords implements CartesianG3, SpinorE3, Mutable<number[]>, MutableGeometricElement<SpinorE3, Spinor3, Spinor3, VectorE3, BivectorE3, number, number, number> {
 
     /**
      * @method constructor
@@ -820,8 +820,7 @@ export default class Spinor3 extends Coords implements CartesianG3, SpinorE3, Mu
      * @chainable
      */
     rotorFromDirections(a: VectorE3, b: VectorE3): Spinor3 {
-        rotorFromDirections(a, b, this)
-        return this
+        return this.rotorFromVectorToVector(a, b, void 0);
     }
 
     /**
@@ -839,6 +838,11 @@ export default class Spinor3 extends Coords implements CartesianG3, SpinorE3, Mu
         this.zx = -B.zx * s;
         this.xy = -B.xy * s;
         this.a = cos(φ);
+        return this;
+    }
+
+    rotorFromVectorToVector(a: VectorE3, b: VectorE3, B: BivectorE3): Spinor3 {
+        rotorFromDirections(a, b, B, this);
         return this;
     }
 

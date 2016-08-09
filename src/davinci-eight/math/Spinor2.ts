@@ -7,6 +7,7 @@ import mustBeObject from '../checks/mustBeObject';
 import Mutable from '../math/Mutable';
 import MutableGeometricElement from '../math/MutableGeometricElement';
 import notSupported from '../i18n/notSupported'
+import Pseudo from '../math/Pseudo';
 import quadSpinor from '../math/quadSpinorE2';
 import rotorFromDirections from '../math/rotorFromDirectionsE2';
 import SpinorE2 from '../math/SpinorE2';
@@ -35,7 +36,7 @@ const sqrt = Math.sqrt
  * @class Spinor2
  * @extends Coords
  */
-export default class Spinor2 extends Coords implements SpinorE2, Measure<Spinor2>, Mutable<number[]>, MutableGeometricElement<SpinorE2, Spinor2, Spinor2, VectorE2, number, number, number> {
+export default class Spinor2 extends Coords implements SpinorE2, Measure<Spinor2>, Mutable<number[]>, MutableGeometricElement<SpinorE2, Spinor2, Spinor2, VectorE2, Pseudo, number, number, number> {
     /**
      * Constructs a <code>Spinor2</code> from a <code>number[]</code>.
      * For a <em>geometric</em> implementation, use the static methods.
@@ -647,6 +648,11 @@ export default class Spinor2 extends Coords implements SpinorE2, Measure<Spinor2
         let s = sin(φ)
         this.xy = -B.b * s
         this.a = cos(φ)
+        return this
+    }
+
+    rotorFromVectorToVector(a: VectorE2, b: VectorE2): Spinor2 {
+        rotorFromDirections(a, b, this)
         return this
     }
 

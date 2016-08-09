@@ -1686,6 +1686,7 @@ declare module EIGHT {
          * Computes the rotor corresponding to a rotation from vector <code>a</code> to vector <code>b</code>.
          */
         static rotorFromDirections(a: VectorE2, b: VectorE2): Geometric2;
+        static rotorFromVectorToVector(a: VectorE2, b: VectorE2): Geometric2;
 
         /**
          * Creates a copy of a pseudoscalar.
@@ -2146,6 +2147,8 @@ declare module EIGHT {
          */
         rotorFromDirections(a: VectorE3, b: VectorE3): Geometric3;
 
+        rotorFromFrameToFrame(es: VectorE3[], fs: VectorE3[]): Geometric3;
+
         /**
          * Sets this multivector to a rotor represented by the plane B and angle θ.
          * this = ⟼ R = exp(- B * θ / 2)
@@ -2154,6 +2157,8 @@ declare module EIGHT {
          * θ The rotation angle in radians.
          */
         rotorFromGeneratorAngle(B: BivectorE3, θ: number): Geometric3;
+
+        rotorFromVectorToVector(a: VectorE3, b: VectorE3, B: BivectorE3): Geometric3;
 
         /**
          * <p>
@@ -2292,6 +2297,8 @@ declare module EIGHT {
          * @param b The <em>to</em> vector.
          */
         static rotorFromDirections(a: VectorE3, b: VectorE3): Geometric3;
+
+        static rotorFromVectorToVector(a: VectorE3, b: VectorE3, B: BivectorE3): Geometric3;
 
         /**
          * Constructs a new scalar from a number
@@ -2439,6 +2446,16 @@ declare module EIGHT {
         rotorFromGeneratorAngle(B: BivectorE3, θ: number): Spinor3
 
         /**
+         * <p>
+         * Sets this multivector to a rotor representing a rotation from a to b.
+         * R = (|b||a| + b * a) / sqrt(2 * |b||a|(|b||a| + b << a))
+         * </p>
+         * @param a {VectorE3} The <em>from</em> vector.
+         * @param b {VectorE3} The <em>to</em> vector.
+         */
+        rotorFromVectorToVector(a: VectorE3, b: VectorE3, B: BivectorE3): Spinor3
+
+        /**
          * this ⟼ this * α
          */
         scale(α: number): Spinor3
@@ -2476,6 +2493,7 @@ declare module EIGHT {
         static lerp(a: SpinorE3, b: SpinorE3, α: number): Spinor3
         static one(): Spinor3
         static rotorFromDirections(a: VectorE3, b: VectorE3): Spinor3
+        static rotorFromVectorToVector(a: VectorE3, b: VectorE3, B: BivectorE3): Spinor3
         static spinor(yz: number, zx: number, xy: number, α: number): Spinor3
         static zero(): Spinor3
     }
