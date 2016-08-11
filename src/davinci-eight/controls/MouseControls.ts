@@ -123,7 +123,8 @@ export class MouseControls extends ShareableBase {
     private mousewheel: (event: MouseWheelEvent) => any
     private keydown: (event: KeyboardEvent) => any
     private keyup: (event: KeyboardEvent) => any
-    private contextmenu: (event: PointerEvent) => any
+    // Disabling the context menu because it interferes with capturing the canvas.
+    // private contextmenu: (event: PointerEvent) => any
     private wnd: BrowserWindow;
 
     /**
@@ -266,9 +267,10 @@ export class MouseControls extends ShareableBase {
         /**
          *
          */
-        this.contextmenu = (event: PointerEvent) => {
-            event.preventDefault()
-        }
+        // 
+        // this.contextmenu = (event: PointerEvent) => {
+        //    event.preventDefault()
+        // }
     }
 
     /**
@@ -302,7 +304,7 @@ export class MouseControls extends ShareableBase {
             this.unsubscribe()
         }
         this.domElement = domElement
-        this.domElement.addEventListener('contextmenu', this.contextmenu, false)
+        // this.domElement.addEventListener('contextmenu', this.contextmenu, false)
         this.domElement.addEventListener('mousedown', this.mousedown, false)
         this.domElement.addEventListener('mousewheel', this.mousewheel, false)
         this.domElement.addEventListener('DOMMouseScroll', this.mousewheel, false) // Firefox
@@ -317,7 +319,7 @@ export class MouseControls extends ShareableBase {
      */
     public unsubscribe(): void {
         if (this.domElement) {
-            this.domElement.removeEventListener('contextmenu', this.contextmenu, false)
+            // this.domElement.removeEventListener('contextmenu', this.contextmenu, false)
             this.domElement.removeEventListener('mousedown', this.mousedown, false)
             this.domElement.removeEventListener('mousewheel', this.mousewheel, false)
             this.domElement.removeEventListener('DOMMouseScroll', this.mousewheel, false) // Firefox

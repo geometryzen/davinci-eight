@@ -177,7 +177,7 @@ export class Engine extends ShareableBase implements ContextManager {
     blendFunc(sfactor: BlendingFactorSrc, dfactor: BlendingFactorDest): Engine {
         const gl = this._gl
         if (gl) {
-            gl.blendFunc(sfactor, dfactor)
+            gl.blendFunc(sfactor, dfactor);
         }
         return this;
     }

@@ -283,9 +283,6 @@ System.register('davinci-eight/controls/MouseControls.js', ['../base/incLevel', 
                         _this.mode = _this.prevMode;
                         _this.wnd.addEventListener('keydown', _this.keydown, false);
                     };
-                    this.contextmenu = function (event) {
-                        event.preventDefault();
-                    };
                 }
                 MouseControls.prototype.destructor = function (levelUp) {
                     if (this.domElement) {
@@ -302,7 +299,6 @@ System.register('davinci-eight/controls/MouseControls.js', ['../base/incLevel', 
                         this.unsubscribe();
                     }
                     this.domElement = domElement;
-                    this.domElement.addEventListener('contextmenu', this.contextmenu, false);
                     this.domElement.addEventListener('mousedown', this.mousedown, false);
                     this.domElement.addEventListener('mousewheel', this.mousewheel, false);
                     this.domElement.addEventListener('DOMMouseScroll', this.mousewheel, false);
@@ -312,7 +308,6 @@ System.register('davinci-eight/controls/MouseControls.js', ['../base/incLevel', 
                 };
                 MouseControls.prototype.unsubscribe = function () {
                     if (this.domElement) {
-                        this.domElement.removeEventListener('contextmenu', this.contextmenu, false);
                         this.domElement.removeEventListener('mousedown', this.mousedown, false);
                         this.domElement.removeEventListener('mousewheel', this.mousewheel, false);
                         this.domElement.removeEventListener('DOMMouseScroll', this.mousewheel, false);
@@ -10309,6 +10304,9 @@ System.register('davinci-eight/core/Color.js', ['../math/clamp', '../math/Coords
                     return this;
                 };
                 Color.prototype.scale = function (α) {
+                    this.coords[COORD_R] *= α;
+                    this.coords[COORD_G] *= α;
+                    this.coords[COORD_B] *= α;
                     return this;
                 };
                 Color.prototype.slerp = function (target, α) {
@@ -20977,9 +20975,9 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
             Eight = function () {
                 function Eight() {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-                    this.LAST_MODIFIED = '2016-08-09';
+                    this.LAST_MODIFIED = '2016-08-10';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '2.292.0';
+                    this.VERSION = '2.293.0';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];

@@ -60,7 +60,10 @@ export class Scene extends ShareableContextConsumer {
     }
 
     /**
-     * Traverses the collection of scene parts drawing each one.
+     * Traverses the collection of AbstractDrawable objects, calling render(ambients) on each one.
+     * The rendering takes place in two stages.
+     * In the first stage, non-transparent objects are drawn.
+     * In the second state, transparent objects are drawn.
      *
      * @param ambients
      */

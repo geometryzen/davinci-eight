@@ -1,8 +1,8 @@
-import BrowserWindow from '../base/BrowserWindow'
-import {MouseControls} from './MouseControls'
-import Vector3 from '../math/Vector3'
-import View from '../facets/View'
-import {ViewController} from './ViewController'
+import BrowserWindow from '../base/BrowserWindow';
+import {MouseControls} from './MouseControls';
+import Vector3 from '../math/Vector3';
+import View from '../facets/View';
+import {ViewController} from './ViewController';
 
 /**
  *
@@ -13,19 +13,19 @@ export class ViewControls extends MouseControls implements ViewController {
      *
      * @default 1
      */
-    public rotateSpeed = 1
+    public rotateSpeed = 1;
 
     /**
      *
      * @default 1
      */
-    public zoomSpeed = 1
+    public zoomSpeed = 1;
 
     /**
      *
      * @default 1
      */
-    public panSpeed = 1
+    public panSpeed = 1;
 
     /**
      * The view.eye value when the view was acquired by this view controller.
@@ -50,40 +50,40 @@ export class ViewControls extends MouseControls implements ViewController {
     /**
      *
      */
-    protected eyeMinusLook = new Vector3()
+    protected eyeMinusLook = new Vector3();
 
     /**
      *
      */
-    protected look = new Vector3()
+    protected look = new Vector3();
 
     /**
      *
      */
-    protected up = new Vector3()
+    protected up = new Vector3();
 
     /**
      * @param view
      * @param wnd
      */
     constructor(view: View, wnd: BrowserWindow) {
-        super(wnd)
-        this.setLoggingName('ViewControls')
-        this.setView(view)
+        super(wnd);
+        this.setLoggingName('ViewControls');
+        this.setView(view);
     }
 
     /**
      * @param levelUp
      */
     protected destructor(levelUp: number): void {
-        super.destructor(levelUp + 1)
+        super.destructor(levelUp + 1);
     }
 
     /**
      * @returns
      */
     protected hasView(): boolean {
-        return !!this.view
+        return !!this.view;
     }
 
     /**
@@ -93,23 +93,23 @@ export class ViewControls extends MouseControls implements ViewController {
      */
     public update(): void {
         if (this.view) {
-            this.eyeMinusLook.copy(this.view.eye).sub(this.view.look)
-            this.look.copy(this.view.look)
-            this.up.copy(this.view.up)
+            this.eyeMinusLook.copy(this.view.eye).sub(this.view.look);
+            this.look.copy(this.view.look);
+            this.up.copy(this.view.up);
 
             if (!this.noRotate) {
-                this.rotateCamera()
+                this.rotateCamera();
             }
             if (!this.noZoom) {
-                this.zoomCamera()
+                this.zoomCamera();
             }
             if (!this.noPan) {
-                this.panCamera()
+                this.panCamera();
             }
 
-            this.view.eye.copyVector(this.look).addVector(this.eyeMinusLook)
-            this.view.look.copyVector(this.look)
-            this.view.up.copyVector(this.up)
+            this.view.eye.copyVector(this.look).addVector(this.eyeMinusLook);
+            this.view.look.copyVector(this.look);
+            this.view.up.copyVector(this.up);
         }
     }
 
@@ -124,10 +124,10 @@ export class ViewControls extends MouseControls implements ViewController {
      *
      */
     protected zoomCamera(): void {
-        const factor = 1 + (this.zoomEnd.y - this.zoomStart.y) * this.zoomSpeed
+        const factor = 1 + (this.zoomEnd.y - this.zoomStart.y) * this.zoomSpeed;
         if (factor !== 1 && factor > 0) {
-            this.eyeMinusLook.scale(factor)
-            this.zoomStart.copy(this.zoomEnd)
+            this.eyeMinusLook.scale(factor);
+            this.zoomStart.copy(this.zoomEnd);
         }
     }
 
@@ -143,11 +143,11 @@ export class ViewControls extends MouseControls implements ViewController {
      */
     public reset(): void {
         if (this.view) {
-            this.view.eye.copyVector(this.eye0)
-            this.view.look.copyVector(this.look0)
-            this.view.up.copyVector(this.up0)
+            this.view.eye.copyVector(this.eye0);
+            this.view.look.copyVector(this.look0);
+            this.view.up.copyVector(this.up0);
         }
-        super.reset()
+        super.reset();
     }
 
     /**
@@ -155,28 +155,28 @@ export class ViewControls extends MouseControls implements ViewController {
      */
     public setView(view: View): void {
         if (view) {
-            this.view = view
+            this.view = view;
         }
         else {
-            this.view = void 0
+            this.view = void 0;
         }
-        this.synchronize()
+        this.synchronize();
     }
 
     /**
      *
      */
     public synchronize(): void {
-        const view = this.view
+        const view = this.view;
         if (view) {
-            this.eye0.copy(view.eye)
-            this.look0.copy(view.look)
-            this.up0.copy(view.up)
+            this.eye0.copy(view.eye);
+            this.look0.copy(view.look);
+            this.up0.copy(view.up);
         }
         else {
-            this.eye0.setXYZ(0, 0, 1)
-            this.look0.zero()
-            this.up0.setXYZ(0, 1, 0)
+            this.eye0.setXYZ(0, 0, 1);
+            this.look0.zero();
+            this.up0.setXYZ(0, 1, 0);
         }
     }
 }

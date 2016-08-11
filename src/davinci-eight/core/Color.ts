@@ -198,6 +198,9 @@ export class Color extends Coords {
     }
 
     public scale(α: number): Color {
+        this.coords[COORD_R] *= α;
+        this.coords[COORD_G] *= α;
+        this.coords[COORD_B] *= α;
         return this
     }
 
