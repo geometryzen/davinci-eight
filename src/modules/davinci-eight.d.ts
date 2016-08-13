@@ -3914,25 +3914,26 @@ declare module EIGHT {
     }
 
     /**
-     * A graphical object used to visualize the position history of a Mesh using a line.
+     * A graphical object used to visualize a succession of points using a line.
      */
-    class Track extends Mesh {
+    class Path extends Mesh {
 
         /**
-         * Constructs a new Track.
+         * Constructs a new Path.
          * contextManager: 
          */
-        constructor(contextManager: ContextManager, trackedMesh: Mesh);
+        constructor(contextManager: ContextManager, levelUp?: number);
+        protected destructor(levelUp: number): void;
 
         /**
-         * Erases the track points, making it ready to display a new track.
+         * Extends the Path by adding a new point.
          */
-        erase(): void;
+        add(point: VectorE3): void;
 
         /**
-         * Extends the track to include a new point corresponding to the current trackedMesh position.
+         * Erases the path, making it ready to display a new path.
          */
-        snapshot(): void;
+        clear(): void;
     }
 
     /**

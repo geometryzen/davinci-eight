@@ -8,6 +8,7 @@ import {Material} from '../core/Material';
 import Matrix4 from '../math/Matrix4';
 import {Mesh} from '../core/Mesh';
 import Usage from '../core/Usage';
+import VectorE3 from '../math/VectorE3';
 import VertexBuffer from '../core/VertexBuffer';
 
 const FLOATS_PER_VERTEX = 3;
@@ -99,8 +100,8 @@ class LineGeometry implements Geometry {
     }
 }
 
-export class Track extends Mesh {
-    constructor(contextManager: ContextManager, private mesh: Mesh, levelUp = 0) {
+export class Path extends Mesh {
+    constructor(contextManager: ContextManager, levelUp = 0) {
         super(new LineGeometry(contextManager), new LineMaterial(void 0, contextManager), contextManager, levelUp + 1);
         if (levelUp === 0) {
             this.synchUp();
@@ -112,15 +113,14 @@ export class Track extends Mesh {
         }
         super.destructor(levelUp + 1)
     }
-    erase(): void {
+    add(point: VectorE3): void {
         const geometry = <LineGeometry>this.geometry;
-        geometry.erase();
+        geometry.addPoint(point.x, point.y, point.z);
         geometry.release();
     }
-    snapshot(): void {
-        const X = this.mesh.X;
+    clear(): void {
         const geometry = <LineGeometry>this.geometry;
-        geometry.addPoint(X.x, X.y, X.z);
+        geometry.erase();
         geometry.release();
     }
 }

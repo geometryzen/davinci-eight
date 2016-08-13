@@ -171,9 +171,9 @@ import {Cylinder} from './davinci-eight/visual/Cylinder';
 import {Curve} from './davinci-eight/visual/Curve';
 import {Grid} from './davinci-eight/visual/Grid';
 import HollowCylinder from './davinci-eight/visual/HollowCylinder';
+import {Path} from './davinci-eight/visual/Path';
 import {RigidBody} from './davinci-eight/visual/RigidBody';
 import Tetrahedron from './davinci-eight/visual/Tetrahedron';
-import {Track} from './davinci-eight/visual/Track';
 import {Trail} from './davinci-eight/visual/Trail';
 import vector from './davinci-eight/visual/vector';
 
@@ -312,13 +312,13 @@ const eight = {
     get Sphere() { return Sphere; },
     get Box() { return Box; },
     get Mesh() { return Mesh; },
-    get RigidBody() { return RigidBody; },
     get Cylinder() { return Cylinder; },
     get Curve() { return Curve; },
     get Grid() { return Grid; },
     get HollowCylinder() { return HollowCylinder; },
+    get Path() { return Path; },
+    get RigidBody() { return RigidBody; },
     get Tetrahedron() { return Tetrahedron; },
-    get Track() { return Track; },
     get Trail() { return Trail; }
 }
 export default eight;
