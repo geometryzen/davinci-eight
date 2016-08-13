@@ -18466,10 +18466,16 @@ System.register('davinci-eight/visual/Track.js', ['../core/BeginMode', '../core/
             }();
             Track = function (_super) {
                 __extends(Track, _super);
-                function Track(contextManager, mesh) {
-                    _super.call(this, new LineGeometry(contextManager), new LineMaterial_1.LineMaterial(void 0, contextManager), contextManager);
+                function Track(contextManager, mesh, levelUp) {
+                    if (levelUp === void 0) {
+                        levelUp = 0;
+                    }
+                    _super.call(this, new LineGeometry(contextManager), new LineMaterial_1.LineMaterial(void 0, contextManager), contextManager, levelUp + 1);
                     this.mesh = mesh;
                 }
+                Track.prototype.destructor = function (levelUp) {
+                    _super.prototype.destructor.call(this, levelUp + 1);
+                };
                 Track.prototype.erase = function () {
                     var geometry = this.geometry;
                     geometry.erase();
@@ -20881,6 +20887,15 @@ System.register('davinci-eight/math/Vector3.js', ['./Coords', './dotVectorE3', '
                         return new Vector3([-B.yz, -B.zx, -B.xy]);
                     }
                 };
+                Vector3.e1 = function () {
+                    return Vector3.vector(1, 0, 0);
+                };
+                Vector3.e2 = function () {
+                    return Vector3.vector(0, 1, 0);
+                };
+                Vector3.e3 = function () {
+                    return Vector3.vector(0, 0, 1);
+                };
                 Vector3.isInstance = function (x) {
                     return x instanceof Vector3;
                 };
@@ -21112,7 +21127,7 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
                     this.LAST_MODIFIED = '2016-08-12';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '2.294.0';
+                    this.VERSION = '2.295.0';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];

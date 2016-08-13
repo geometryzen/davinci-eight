@@ -61,7 +61,7 @@ declare module EIGHT {
     }
 
     /**
-     * A capability that may be enabled or disabled for a <code>WebGLRenderingContext</code>.
+     * A capability that may be enabled or disabled for a WebGLRenderingContext.
      */
     enum Capability {
 
@@ -478,7 +478,7 @@ declare module EIGHT {
         start(canvas: HTMLCanvasElement | string, doc?: Document): Engine;
 
         /**
-         * Terminates the <code>WebGLRenderingContext</code> for the underlying canvas.
+         * Terminates the WebGLRenderingContext for the underlying canvas.
          */
         stop(): Engine;
 
@@ -770,18 +770,18 @@ declare module EIGHT {
     }
 
     /**
-     * A 2x2 (square) matrix of <code>number</code>.
+     * A 2x2 (square) matrix of number.
      */
     class Matrix2 extends AbstractMatrix {
 
         /**
-         * Constructs a new <code>Matrix2</code> wrapper around a <code>Float32Array</code>.
+         * Constructs a new Matrix2 wrapper around a Float32Array.
          * The elements are expected to be in column-major order.
          */
         constructor(elements: Float32Array);
 
         /**
-         * Sets this matrix to the value of <code>this</code> + <code>rhs</code>.
+         * Sets this matrix to the value of this + rhs.
          */
         add(rhs: Matrix2): Matrix2;
 
@@ -811,12 +811,12 @@ declare module EIGHT {
         isZero(): boolean;
 
         /**
-         * Sets this matrix to the value of <code>this</code> * <code>rhs</code>.
+         * Sets this matrix to the value of this * rhs.
          */
         mul(rhs: Matrix2): Matrix2;
 
         /**
-         * Sets this matrix to the value of <code>a</code> * <code>b</code>.
+         * Sets this matrix to the value of a * b.
          */
         mul2(a: Matrix2, b: Matrix2): Matrix2;
 
@@ -831,23 +831,23 @@ declare module EIGHT {
         one(): Matrix2;
 
         /**
-         * <p>
+         * 
          * Sets this matrix to a matrix that effects a reflection in the
-         * line normal to the unit vector <code>n</code>.
-         * </p>
-         * <p>
-         * this ⟼ reflection(<b>n</b>) = I - 2 * <b>n</b><sup>T</sup> * <b>n</b>
-         * </p>
+         * line normal to the unit vector n.
+         * 
+         * 
+         * this ⟼ reflection(n) = I - 2 * n<sup>T</sup> * n
+         * 
          */
         reflection(n: VectorE1): Matrix2;
 
         /**
-         * Computes the row corresponding to the zero-based index, <code>i</code>.
+         * Computes the row corresponding to the zero-based index, i.
          */
         row(i: number): Array<number>;
 
         /**
-         * Sets this matrix to the value of <code>this</code> * <code>α</code>.
+         * Sets this matrix to the value of this * α.
          */
         scale(α: number): Matrix2;
 
@@ -858,7 +858,7 @@ declare module EIGHT {
         set(n11: number, n12: number, n21: number, n22: number): Matrix2;
 
         /**
-         * Sets this matrix to the value of <code>this</code> - <code>rhs</code>.
+         * Sets this matrix to the value of this - rhs.
          */
         sub(rhs: Matrix2): Matrix2;
 
@@ -893,13 +893,13 @@ declare module EIGHT {
         static one(): Matrix2;
 
         /**
-         * <P>
+         * 
          * Creates a matrix that effects a reflection in the line normal
-         * to the unit vector <code>n</code>.
-         * </p>
-         * <p>
-         * reflection(<b>n</b>) = I - 2 * <b>n</b><sup>T</sup> * <b>n</b>
-         * </p>
+         * to the unit vector n.
+         * 
+         * 
+         * reflection(n) = I - 2 * n<sup>T</sup> * n
+         * 
          */
         static reflection(n: VectorE1): Matrix2;
 
@@ -910,18 +910,18 @@ declare module EIGHT {
     }
 
     /**
-     * A 3x3 (square) matrix of <code>number</code>.
+     * A 3x3 (square) matrix of number.
      */
     class Matrix3 extends AbstractMatrix {
 
         /**
-         * Constructs a new <code>Matrix3</code> wrapper around a <code>Float32Array</code>.
+         * Constructs a new Matrix3 wrapper around a Float32Array.
          * The elements are expected to be in column-major order.
          */
         constructor(elements: Float32Array);
 
         /**
-         * Sets this matrix to the value of <code>this</code> + <code>rhs</code>.
+         * Sets this matrix to the value of this + rhs.
          */
         add(rhs: Matrix3): Matrix3;
 
@@ -971,7 +971,7 @@ declare module EIGHT {
         neg(): Matrix3;
 
         /**
-         * Sets this matrix to the identity element for multiplication, <b>1</b>.
+         * Sets this matrix to the identity element for multiplication, 1.
          */
         one(): Matrix4;
 
@@ -1069,7 +1069,7 @@ declare module EIGHT {
         static one(): Matrix4;
 
         /**
-         * Sets this matrix to the identity element for multiplication, <b>1</b>.
+         * Sets this matrix to the identity element for multiplication, 1.
          */
         one(): Matrix4;
 
@@ -1242,7 +1242,7 @@ declare module EIGHT {
         static BASIS_LABELS_STANDARD: (string | string[])[];
 
         /**
-         * Constructs a <code>Geometric2</code>.
+         * Constructs a Geometric2.
          * The multivector is initialized to zero.
          */
         constructor();
@@ -1253,31 +1253,31 @@ declare module EIGHT {
         a: number
 
         /**
-         * The coordinate corresponding to the <b>e</b><sub>1</sub> standard basis vector.
+         * The coordinate corresponding to the e1 standard basis vector.
          */
         x: number;
 
         /**
-         * The coordinate corresponding to the <b>e</b><sub>2</sub> standard basis vector.
+         * The coordinate corresponding to the e2 standard basis vector.
          */
         y: number;
 
         /**
-         * The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.
+         * The coordinate corresponding to the e1e2 standard basis bivector.
          */
         b: number;
 
         /**
-         * <p>
-         * <code>this ⟼ this + M * α</code>
-         * </p>
+         * 
+         * this ⟼ this + M * α
+         * 
          */
         add(M: GeometricE2, α?: number): Geometric2;
 
         /**
-         * <p>
-         * <code>this ⟼ a + b</code>
-         * </p>
+         * 
+         * this ⟼ a + b
+         * 
          */
         add2(a: GeometricE2, b: GeometricE2): Geometric2;
 
@@ -1286,9 +1286,9 @@ declare module EIGHT {
         addScalar(α: number): Geometric2;
 
         /**
-         * <p>
-         * <code>this ⟼ this + v * α</code>
-         * </p>
+         * 
+         * this ⟼ this + v * α
+         * 
          */
         addVector(v: VectorE2, α?: number): Geometric2;
 
@@ -1308,17 +1308,17 @@ declare module EIGHT {
 
         /**
          * Sets this <em>multivector</em> to its <em>Clifford conjugate</em>.
-         * <p>
-         * <code>this ⟼ conj(this)</code>
-         * </p>
+         * 
+         * this ⟼ conj(this)
+         * 
          */
         conj(): Geometric2;
 
         /**
          * Sets this multivector to be a copy of another multivector.
-         * <p>
-         * <code>this ⟼ copy(M)</code>
-         * </p>
+         * 
+         * this ⟼ copy(M)
+         * 
          */
         copy(M: GeometricE2): Geometric2;
 
@@ -1326,17 +1326,17 @@ declare module EIGHT {
 
         /**
          * Sets this multivector to be a copy of a spinor.
-         * <p>
-         * <code>this ⟼ copy(spinor)</code>
-         * </p>
+         * 
+         * this ⟼ copy(spinor)
+         * 
          */
         copySpinor(spinor: SpinorE2): Geometric2;
 
         /**
          * Sets this multivector to be a copy of a vector.
-         * <p>
-         * <code>this ⟼ copyVector(vector)</code>
-         * </p>
+         * 
+         * this ⟼ copyVector(vector)
+         * 
          */
         copyVector(vector: VectorE2): Geometric2;
 
@@ -1347,9 +1347,9 @@ declare module EIGHT {
         cubicBezier(t: number, controlBegin: GeometricE2, controlEnd: GeometricE2, endPoint: GeometricE2): Geometric2;
 
         /**
-         * <p>
-         * <code>this ⟼ this / magnitude(this)</code>
-         * </p>
+         * 
+         * this ⟼ this / magnitude(this)
+         * 
          */
         normalize(): Geometric2;
 
@@ -1357,30 +1357,30 @@ declare module EIGHT {
 
         /**
          * Sets this multivector to the result of division by another multivector.
-         * <p>
-         * <code>this ⟼ this / m</code>
-         * </p>
+         * 
+         * this ⟼ this / m
+         * 
          */
         div(m: GeometricE2): Geometric2;
 
         /**
-         * <p>
-         * <code>this ⟼ a / b</code>
-         * </p>
+         * 
+         * this ⟼ a / b
+         * 
          */
         div2(a: GeometricE2, b: GeometricE2): Geometric2;
 
         /**
-         * <p>
-         * <code>this ⟼ this / α</code>
-         * </p>
+         * 
+         * this ⟼ this / α
+         * 
          */
         divByScalar(α: number): Geometric2;
 
         /**
-         * <p>
-         * <code>this ⟼ dual(m) = I * m</code>
-         * </p>
+         * 
+         * this ⟼ dual(m) = I * m
+         * 
          * Notice that the dual of a vector is related to the spinor by the right-hand rule.
          */
         dual(m: GeometricE2): Geometric2;
@@ -1388,32 +1388,32 @@ declare module EIGHT {
         equals(M: GeometricE2): boolean;
 
         /**
-         * <p>
-         * <code>this ⟼ e<sup>this</sup></code>
-         * </p>
+         * 
+         * this ⟼ e<sup>this</sup>
+         * 
          */
         exp(): Geometric2;
 
         /**
-         * <p>
-         * <code>this ⟼ this ^ m</code>
-         * </p>
+         * 
+         * this ⟼ this ^ m
+         * 
          */
         ext(m: GeometricE2): Geometric2;
 
         /**
-         * <p>
-         * <code>this ⟼ a ^ b</code>
-         * </p>
+         * 
+         * this ⟼ a ^ b
+         * 
          */
         ext2(a: GeometricE2, b: GeometricE2): Geometric2;
 
         grade(grade: number): Geometric2;
 
         /**
-         * <p>
-         * <code>this ⟼ conj(this) / quad(this)</code>
-         * </p>
+         * 
+         * this ⟼ conj(this) / quad(this)
+         * 
          */
         inv(): Geometric2;
 
@@ -1423,38 +1423,38 @@ declare module EIGHT {
 
         /**
          * Sets this multivector to the left contraction with another multivector.
-         * <p>
-         * <code>this ⟼ this << m</code>
-         * </p>
+         * 
+         * this ⟼ this << m
+         * 
          */
         lco(m: GeometricE2): Geometric2;
 
         /**
          * Sets this multivector to the left contraction of two multivectors. 
-         * <p>
-         * <code>this ⟼ a << b</code>
-         * </p>
+         * 
+         * this ⟼ a << b
+         * 
          */
         lco2(a: GeometricE2, b: GeometricE2): Geometric2;
 
         /**
-         * <p>
-         * <code>this ⟼ this + α * (target - this)</code>
-         * </p>
+         * 
+         * this ⟼ this + α * (target - this)
+         * 
          */
         lerp(target: GeometricE2, α: number): Geometric2;
 
         /**
-         * <p>
-         * <code>this ⟼ a + α * (b - a)</code>
-         * </p>
+         * 
+         * this ⟼ a + α * (b - a)
+         * 
          */
         lerp2(a: GeometricE2, b: GeometricE2, α: number): Geometric2;
 
         /**
-         * <p>
-         * <code>this ⟼ log(this)</code>
-         * </p>
+         * 
+         * this ⟼ log(this)
+         * 
          */
         log(): Geometric2;
 
@@ -1464,30 +1464,30 @@ declare module EIGHT {
         magnitude(): number;
 
         /**
-         * <p>
-         * <code>this ⟼ this * s</code>
-         * </p>
+         * 
+         * this ⟼ this * s
+         * 
          */
         mul(m: GeometricE2): Geometric2;
 
         /**
-         * <p>
-         * <code>this ⟼ a * b</code>
-         * </p>
+         * 
+         * this ⟼ a * b
+         * 
          */
         mul2(a: GeometricE2, b: GeometricE2): Geometric2;
 
         /**
-         * <p>
-         * <code>this ⟼ -1 * this</code>
-         * </p>
+         * 
+         * this ⟼ -1 * this
+         * 
          */
         neg(): Geometric2;
 
         /**
-         * <p>
-         * <code>this ⟼ sqrt(this * conj(this))</code>
-         * </p>
+         * 
+         * this ⟼ sqrt(this * conj(this))
+         * 
          */
         norm(): Geometric2;
 
@@ -1496,9 +1496,9 @@ declare module EIGHT {
         pow(): Geometric2;
 
         /**
-         * <p>
-         * <code>this ⟼ this | ~this = scp(this, rev(this))</code>
-         * </p>
+         * 
+         * this ⟼ this | ~this = scp(this, rev(this))
+         * 
          */
         quad(): Geometric2;
 
@@ -1506,74 +1506,74 @@ declare module EIGHT {
 
         /**
          * Sets this multivector to the right contraction with another multivector.
-         * <p>
-         * <code>this ⟼ this >> m</code>
-         * </p>
+         * 
+         * this ⟼ this >> m
+         * 
          */
         rco(m: GeometricE2): Geometric2;
 
         /**
          * Sets this multivector to the right contraction of two multivectors.
-         * <p>
-         * <code>this ⟼ a >> b</code>
-         * </p>
+         * 
+         * this ⟼ a >> b
+         * 
          */
         rco2(a: GeometricE2, b: GeometricE2): Geometric2;
 
         /**
-         * <p>
-         * <code>this ⟼ - n * this * n</code>
-         * </p>
+         * 
+         * this ⟼ - n * this * n
+         * 
          */
         reflect(n: VectorE2): Geometric2;
 
         /**
-         * <p>
-         * <code>this ⟼ rev(this)</code>
-         * </p>
+         * 
+         * this ⟼ rev(this)
+         * 
          */
         rev(): Geometric2;
 
         /**
-         * <p>
-         * <code>this ⟼ R * this * rev(R)</code>
-         * </p>
+         * 
+         * this ⟼ R * this * rev(R)
+         * 
          */
         rotate(R: SpinorE2): Geometric2;
 
         /**
-         * <p>
+         * 
          * Sets this multivector to a rotor representing a rotation from a to b.
          * R = (|b||a| + b * a) / sqrt(2 * |b||a|(|b||a| + b << a))
-         * </p>
+         * 
          */
         rotorFromDirections(a: VectorE2, b: VectorE2): Geometric2;
 
         /**
-         * <p>
-         * <code>this = ⟼ exp(- B * θ / 2)</code>
-         * </p>
+         * 
+         * this = ⟼ exp(- B * θ / 2)
+         * 
          */
         rotorFromGeneratorAngle(B: SpinorE2, θ: number): Geometric2;
 
         /**
-         * <p>
-         * <code>this ⟼ this * α</code>
-         * </p>
+         * 
+         * this ⟼ this * α
+         * 
          */
         scale(α: number): Geometric2;
 
         /**
-         * <p>
-         * <code>this ⟼ scp(this, m)</code>
-         * </p>
+         * 
+         * this ⟼ scp(this, m)
+         * 
          */
         scp(m: GeometricE2): Geometric2;
 
         /**
-         * <p>
-         * <code>this ⟼ scp(a, b)</code>
-         * </p>
+         * 
+         * this ⟼ scp(a, b)
+         * 
          */
         scp2(a: GeometricE2, b: GeometricE2): Geometric2;
 
@@ -1591,16 +1591,16 @@ declare module EIGHT {
         stress(σ: VectorE2): Geometric2;
 
         /**
-         * <p>
-         * <code>this ⟼ this - M * α</code>
-         * </p>
+         * 
+         * this ⟼ this - M * α
+         * 
          */
         sub(M: GeometricE2, α?: number): Geometric2;
 
         /**
-         * <p>
-         * <code>this ⟼ a - b</code>
-         * </p>
+         * 
+         * this ⟼ a - b
+         * 
          */
         sub2(a: GeometricE2, b: GeometricE2): Geometric2;
 
@@ -1625,9 +1625,9 @@ declare module EIGHT {
         toString(radix?: number): string;
 
         /**
-         * <p>
-         * <code>this ⟼ a * b = a · b + a ^ b</code>
-         * </p>
+         * 
+         * this ⟼ a * b = a · b + a ^ b
+         * 
          * Sets this Geometric2 to the geometric product a * b of the vector arguments.
          */
         versor(a: VectorE2, b: VectorE2): Geometric2;
@@ -1640,17 +1640,17 @@ declare module EIGHT {
         static copy(M: GeometricE2): Geometric2;
 
         /**
-         * The identity element for addition, <b>0</b>.
+         * The identity element for addition, 0.
          */
         static zero(): Geometric2;
 
         /**
-         * Basis vector corresponding to the <code>x</code> coordinate.
+         * Constructs the standard basis vector pointing along the x axis.
          */
         static e1(): Geometric2;
 
         /**
-         * Basis vector corresponding to the <code>y</code> coordinate.
+         * Basis vector corresponding to the y coordinate.
          */
         static e2(): Geometric2;
 
@@ -1667,7 +1667,7 @@ declare module EIGHT {
         static fromVector(vector: VectorE2): Geometric2;
 
         /**
-         * Basis vector corresponding to the <code>β</code> coordinate.
+         * Basis vector corresponding to the β coordinate.
          */
         static I(): Geometric2;
 
@@ -1685,7 +1685,7 @@ declare module EIGHT {
         static one(): Geometric2;
 
         /**
-         * Computes the rotor corresponding to a rotation from vector <code>a</code> to vector <code>b</code>.
+         * Computes the rotor corresponding to a rotation from vector a to vector b.
          */
         static rotorFromDirections(a: VectorE2, b: VectorE2): Geometric2;
         static rotorFromVectorToVector(a: VectorE2, b: VectorE2): Geometric2;
@@ -1782,17 +1782,17 @@ declare module EIGHT {
 
     interface BivectorE3 {
         /**
-         * The bivector component in the <b>e</b><sub>2</sub><b>e</b><sub>3</sub> plane.
+         * The bivector component in the e2e3 plane.
          */
         yz: number;
 
         /**
-         * The bivector component in the <b>e</b><sub>3</sub><b>e</b><sub>1</sub> plane.
+         * The bivector component in the e3e1 plane.
          */
         zx: number;
 
         /**
-         * The bivector component in the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> plane.
+         * The bivector component in the e1e2 plane.
          */
         xy: number;
     }
@@ -1814,53 +1814,60 @@ declare module EIGHT {
         /**
          * The coordinate corresponding to the unit standard basis scalar.
          */
-        a: number
+        a: number;
+
         /**
-         * The coordinate corresponding to the <b>e</b><sub>1</sub> standard basis vector.
+         * The coordinate corresponding to the e1 standard basis vector.
          */
-        x: number
+        x: number;
+
         /**
-         * The coordinate corresponding to the <b>e</b><sub>2</sub> standard basis vector.
+         * The coordinate corresponding to the e2 standard basis vector.
          */
-        y: number
+        y: number;
+
         /**
-         * The coordinate corresponding to the <b>e</b><sub>3</sub> standard basis vector.
+         * The coordinate corresponding to the e3 standard basis vector.
          */
-        z: number
+        z: number;
+
         /**
-         * The bivector component in the <b>e</b><sub>2</sub><b>e</b><sub>3</sub> plane.
+         * The bivector component in the e2e3 plane.
          */
-        yz: number
+        yz: number;
+
         /**
-         * The bivector component in the <b>e</b><sub>3</sub><b>e</b><sub>1</sub> plane.
+         * The bivector component in the e3e1 plane.
          */
-        zx: number
+        zx: number;
+
         /**
-         * The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.
+         * The coordinate corresponding to the e1e2 standard basis bivector.
          */
-        xy: number
+        xy: number;
+
         /**
          * The pseudoscalar coordinate of the multivector.
          */
-        b: number
+        b: number;
 
         /**
-         * Constructs a <code>Geometric3</code>.
+         * Constructs a Geometric3.
          * The multivector is initialized to zero.
          */
         constructor();
 
         /**
-         * <p>
-         * <code>this ⟼ this + M * α</code>
-         * </p>
+         * 
+         * this ⟼ this + M * α
+         * 
          */
         add(M: GeometricE3, α?: number): Geometric3;
 
         /**
-         * <p>
-         * <code>this ⟼ a + b</code>
-         * </p>
+         * 
+         * this ⟼ a + b
+         * 
          */
         add2(a: GeometricE3, b: GeometricE3): Geometric3;
 
@@ -1869,13 +1876,11 @@ declare module EIGHT {
         addScalar(α: number): Geometric3;
 
         /**
-         * <p>
-         * <code>this ⟼ this + v * α</code>
-         * </p>
+         * 
+         * this ⟼ this + v * α
+         * 
          */
         addVector(v: VectorE3, α?: number): Geometric3;
-
-        align(m: GeometricE3): Geometric3;
 
         /**
          * The bivector whose area (magnitude) is θ/2, where θ is the radian measure. 
@@ -1889,16 +1894,16 @@ declare module EIGHT {
 
         /**
          * Sets this <em>multivector</em> to its <em>Clifford conjugate</em>.
-         * <p>
-         * <code>this ⟼ conj(this)</code>
-         * </p>
+         * 
+         * this ⟼ conj(this)
+         * 
          */
         conj(): Geometric3;
 
         /**
-         * <p>
-         * <code>this ⟼ copy(M)</code>
-         * </p>
+         * 
+         * this ⟼ copy(M)
+         * 
          */
         copy(M: GeometricE3): Geometric3;
 
@@ -1908,16 +1913,16 @@ declare module EIGHT {
         copyScalar(α: number): Geometric3;
 
         /**
-         * <p>
-         * <code>this ⟼ copy(spinor)</code>
-         * </p>
+         * 
+         * this ⟼ copy(spinor)
+         * 
          */
         copySpinor(spinor: SpinorE3): Geometric3;
 
         /**
-         * <p>
-         * <code>this ⟼ copyVector(vector)</code>
-         * </p>
+         * 
+         * this ⟼ copyVector(vector)
+         * 
          */
         copyVector(vector: VectorE3): Geometric3;
 
@@ -1933,62 +1938,73 @@ declare module EIGHT {
 
         /**
          * Sets this multivector to the result of division by another multivector.
-         * <p>
-         * <code>this ⟼ this / m</code>
-         * </p>
+         * 
+         * this ⟼ this / m
+         * 
          */
         div(m: GeometricE3): Geometric3;
 
         /**
-         * <p>
-         * <code>this ⟼ a / b</code>
-         * </p>
-         * @param a
-         * @param b
+         * 
+         * this ⟼ a / b
+         * 
+         * a
+         * b
          */
         div2(a: SpinorE3, b: SpinorE3): Geometric3;
 
         /**
-         * <p>
-         * <code>this ⟼ this / α</code>
-         * </p>
+         * 
+         * this ⟼ this / α
+         * 
          */
         divByScalar(α: number): Geometric3;
 
         /**
-         * <p>
-         * <code>this ⟼ dual(m) = I * m</code>
-         * </p>
+         * 
+         * this ⟼ dual(m) = I * m
+         * 
          * Notice that the dual of a vector is related to the spinor by the right-hand rule.
-         * @param m The vector whose dual will be used to set this spinor.
+         * m The vector whose dual will be used to set this spinor.
          */
         dual(m: VectorE3): Geometric3;
 
+        /**
+         * Sets this multivector to the standard basis unit vector pointing along the x axis.
+         */
         e1(): Geometric3;
+
+        /**
+         * Sets this multivector to the standard basis unit vector pointing along the x axis.
+         */
         e2(): Geometric3;
+
+        /**
+         * Sets this multivector to the standard basis unit vector pointing along the x axis.
+         */
         e3(): Geometric3;
 
         /**
-         * <p>
-         * <code>this ⟼ e<sup>this</sup></code>
-         * </p>
+         * 
+         * this ⟼ e<sup>this</sup>
+         * 
          */
         exp(): Geometric3;
 
         /**
-         * <p>
-         * <code>this ⟼ this ^ m</code>
-         * </p>
-         * @param m
+         * 
+         * this ⟼ this ^ m
+         * 
+         * m
          */
         ext(m: GeometricE3): Geometric3;
 
         /**
-         * <p>
-         * <code>this ⟼ a ^ b</code>
-         * </p>
-         * @param a
-         * @param b
+         * 
+         * this ⟼ a ^ b
+         * 
+         * a
+         * b
          */
         ext2(a: GeometricE3, b: GeometricE3): Geometric3;
 
@@ -1997,9 +2013,9 @@ declare module EIGHT {
         I(): Geometric3;
 
         /**
-         * <p>
-         * <code>this ⟼ conj(this) / quad(this)</code>
-         * </p>
+         * 
+         * this ⟼ conj(this) / quad(this)
+         * 
          */
         inv(): Geometric3;
 
@@ -2009,46 +2025,46 @@ declare module EIGHT {
 
         /**
          * Sets this multivector to the left contraction with another multivector.
-         * <p>
-         * <code>this ⟼ this << m</code>
-         * </p>
-         * @param m
+         * 
+         * this ⟼ this << m
+         * 
+         * m
          */
         lco(m: GeometricE3): Geometric3;
 
         /**
          * Sets this multivector to the left contraction of two multivectors. 
-         * <p>
-         * <code>this ⟼ a << b</code>
-         * </p>
-         * @param a
-         * @param b
+         * 
+         * this ⟼ a << b
+         * 
+         * a
+         * b
          */
         lco2(a: GeometricE3, b: GeometricE3): Geometric3;
 
         /**
-         * <p>
-         * <code>this ⟼ this + α * (target - this)</code>
-         * </p>
-         * @param target
-         * @param α
+         * 
+         * this ⟼ this + α * (target - this)
+         * 
+         * target
+         * α
          */
         lerp(target: GeometricE3, α: number): Geometric3;
 
         /**
-         * <p>
-         * <code>this ⟼ a + α * (b - a)</code>
-         * </p>
-         * @param a {GeometricE3}
-         * @param b {GeometricE3}
-         * @param α {number}
+         * 
+         * this ⟼ a + α * (b - a)
+         * 
+         * a {GeometricE3}
+         * b {GeometricE3}
+         * α {number}
          */
         lerp2(a: GeometricE3, b: GeometricE3, α: number): Geometric3;
 
         /**
-         * <p>
-         * <code>this ⟼ log(this)</code>
-         * </p>
+         * 
+         * this ⟼ log(this)
+         * 
          */
         log(): Geometric3;
 
@@ -2058,84 +2074,84 @@ declare module EIGHT {
         magnitude(): number;
 
         /**
-         * <p>
-         * <code>this ⟼ this * s</code>
-         * </p>
-         * @param m {GeometricE3}
+         * 
+         * this ⟼ this * s
+         * 
+         * m {GeometricE3}
          */
         mul(m: GeometricE3): Geometric3;
 
         /**
-         * <p>
-         * <code>this ⟼ a * b</code>
-         * </p>
-         * @param a
-         * @param b
+         * 
+         * this ⟼ a * b
+         * 
+         * a
+         * b
          */
         mul2(a: GeometricE3, b: GeometricE3): Geometric3;
 
         /**
-         * <p>
-         * <code>this ⟼ -1 * this</code>
-         * </p>
+         * 
+         * this ⟼ -1 * this
+         * 
          */
         neg(): Geometric3;
 
         /**
-         * <p>
-         * <code>this ⟼ sqrt(this * conj(this))</code>
-         * </p>
+         * 
+         * this ⟼ sqrt(this * conj(this))
+         * 
          */
         norm(): Geometric3;
 
         one(): Geometric3;
 
         /**
-         * <p>
-         * <code>this ⟼ this | ~this = scp(this, rev(this))</code>
-         * </p>
+         * 
+         * this ⟼ this | ~this = scp(this, rev(this))
+         * 
          */
         quad(): Geometric3;
 
         /**
          * Sets this multivector to the right contraction with another multivector.
-         * <p>
-         * <code>this ⟼ this >> m</code>
-         * </p>
-         * @param m
+         * 
+         * this ⟼ this >> m
+         * 
+         * m
          */
         rco(m: GeometricE3): Geometric3;
 
         /**
          * Sets this multivector to the right contraction of two multivectors.
-         * <p>
-         * <code>this ⟼ a >> b</code>
-         * </p>
-         * @param a
-         * @param b
+         * 
+         * this ⟼ a >> b
+         * 
+         * a
+         * b
          */
         rco2(a: GeometricE3, b: GeometricE3): Geometric3;
 
         /**
-         * <p>
-         * <code>this ⟼ - n * this * n</code>
-         * </p>
-         * @param n
+         * 
+         * this ⟼ - n * this * n
+         * 
+         * n
          */
         reflect(n: VectorE3): Geometric3;
 
         /**
-         * <p>
-         * <code>this ⟼ rev(this)</code>
-         * </p>
+         * 
+         * this ⟼ rev(this)
+         * 
          */
         rev(): Geometric3;
 
         /**
-         * <p>
-         * <code>this ⟼ R * this * rev(R)</code>
-         * </p>
-         * @param R
+         * 
+         * this ⟼ R * this * rev(R)
+         * 
+         * R
          */
         rotate(R: SpinorE3): Geometric3;
 
@@ -2163,27 +2179,27 @@ declare module EIGHT {
         rotorFromVectorToVector(a: VectorE3, b: VectorE3, B: BivectorE3): Geometric3;
 
         /**
-         * <p>
-         * <code>this ⟼ this * α</code>
-         * </p>
-         * @param α
+         * 
+         * this ⟼ this * α
+         * 
+         * α
          */
         scale(α: number): Geometric3;
 
         /**
-         * <p>
-         * <code>this ⟼ scp(this, m)</code>
-         * </p>
-         * @param m
+         * 
+         * this ⟼ scp(this, m)
+         * 
+         * m
          */
         scp(m: GeometricE3): Geometric3;
 
         /**
-         * <p>
-         * <code>this ⟼ scp(a, b)</code>
-         * </p>
-         * @param a
-         * @param b
+         * 
+         * this ⟼ scp(a, b)
+         * 
+         * a
+         * b
          */
         scp2(a: GeometricE3, b: GeometricE3): Geometric3;
 
@@ -2193,20 +2209,20 @@ declare module EIGHT {
         squaredNorm(): Geometric3;
 
         /**
-         * <p>
-         * <code>this ⟼ this - M * α</code>
-         * </p>
-         * @param M
-         * @param α
+         * 
+         * this ⟼ this - M * α
+         * 
+         * M
+         * α
          */
         sub(M: GeometricE3, α?: number): Geometric3;
 
         /**
-         * <p>
-         * <code>this ⟼ a - b</code>
-         * </p>
-         * @param a
-         * @param b
+         * 
+         * this ⟼ a - b
+         * 
+         * a
+         * b
          */
         sub2(a: GeometricE3, b: GeometricE3): Geometric3;
 
@@ -2217,7 +2233,7 @@ declare module EIGHT {
 
         /**
          * Returns a string representing the number in fixed-point notation.
-         * @param fractionDigits
+         * fractionDigits
          */
         toFixed(fractionDigits?: number): string;
 
@@ -2232,12 +2248,12 @@ declare module EIGHT {
         toString(radix?: number): string;
 
         /**
-         * <p>
-         * <code>this ⟼ a * b</code>
-         * </p>
+         * 
+         * this ⟼ a * b
+         * 
          * Sets this Geometric3 to the geometric product a * b of the vector arguments.
-         * @param a
-         * @param b
+         * a
+         * b
          */
         versor(a: VectorE3, b: VectorE3): Geometric3;
 
@@ -2263,17 +2279,17 @@ declare module EIGHT {
         static e1(): Geometric3;
 
         /**
-         * Basis vector corresponding to the <code>y</code> coordinate.
+         * Basis vector corresponding to the y coordinate.
          */
         static e2(): Geometric3;
 
         /**
-         * Basis vector corresponding to the <code>z</code> coordinate.
+         * Basis vector corresponding to the z coordinate.
          */
         static e3(): Geometric3;
 
         /**
-         * Basis vector corresponding to the <code>β</code> coordinate.
+         * Basis vector corresponding to the β coordinate.
          */
         static I(): Geometric3;
 
@@ -2298,9 +2314,9 @@ declare module EIGHT {
         static random(): Geometric3;
 
         /**
-         * Computes the rotor that rotates vector <code>a</code> to vector <code>b</code>.
-         * @param a The <em>from</em> vector.
-         * @param b The <em>to</em> vector.
+         * Computes the rotor that rotates vector a to vector b.
+         * a The <em>from</em> vector.
+         * b The <em>to</em> vector.
          */
         static rotorFromDirections(a: VectorE3, b: VectorE3): Geometric3;
 
@@ -2318,21 +2334,21 @@ declare module EIGHT {
     }
 
     /**
-     * The even sub-algebra of <code>Geometric3</code>.
+     * The even sub-algebra of Geometric3.
      */
     class Spinor3 extends VectorN<number> implements SpinorE3 {
         /**
-         * The bivector component in the <b>e</b><sub>2</sub><b>e</b><sub>3</sub> plane.
+         * The bivector component in the e2e3 plane.
          */
         yz: number;
 
         /**
-         * The bivector component in the <b>e</b><sub>3</sub><b>e</b><sub>1</sub> plane.
+         * The bivector component in the e3e1 plane.
          */
         zx: number;
 
         /**
-         * The bivector component in the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> plane.
+         * The bivector component in the e1e2 plane.
          */
         xy: number;
 
@@ -2367,7 +2383,7 @@ declare module EIGHT {
         conj(): Spinor3
 
         /**
-         * Sets this spinor to be a copy of the <code>spinor</code> argument.
+         * Sets this spinor to be a copy of the spinor argument.
          * this ⟼ copy(spinor)
          */
         copy(spinor: SpinorE3): Spinor3
@@ -2403,9 +2419,9 @@ declare module EIGHT {
         lerp2(a: SpinorE3, b: SpinorE3, α: number): Spinor3;
 
         /**
-         * <p>
-         * <code>this ⟼ log(this)</code>
-         * </p>
+         * 
+         * this ⟼ log(this)
+         * 
          */
         log(): Spinor3
 
@@ -2434,17 +2450,17 @@ declare module EIGHT {
         rotate(R: SpinorE3): Spinor3
 
         /**
-         * <p>
+         * 
          * Sets this multivector to a rotor representing a rotation from a to b.
          * R = (|b||a| + b * a) / sqrt(2 * |b||a|(|b||a| + b << a))
-         * </p>
-         * @param a {VectorE3} The <em>from</em> vector.
-         * @param b {VectorE3} The <em>to</em> vector.
+         * 
+         * a {VectorE3} The <em>from</em> vector.
+         * b {VectorE3} The <em>to</em> vector.
          */
         rotorFromDirections(a: VectorE3, b: VectorE3): Spinor3
 
         /**
-         * <code>this = ⟼ exp(- B * θ / 2)</code>
+         * this = ⟼ exp(- B * θ / 2)
          *
          * B is the (unit) bivector generating the rotation, |B| * |B| = -1.
          * θ The rotation angle in radians.
@@ -2452,12 +2468,12 @@ declare module EIGHT {
         rotorFromGeneratorAngle(B: BivectorE3, θ: number): Spinor3
 
         /**
-         * <p>
+         * 
          * Sets this multivector to a rotor representing a rotation from a to b.
          * R = (|b||a| + b * a) / sqrt(2 * |b||a|(|b||a| + b << a))
-         * </p>
-         * @param a {VectorE3} The <em>from</em> vector.
-         * @param b {VectorE3} The <em>to</em> vector.
+         * 
+         * a {VectorE3} The <em>from</em> vector.
+         * b {VectorE3} The <em>to</em> vector.
          */
         rotorFromVectorToVector(a: VectorE3, b: VectorE3, B: BivectorE3): Spinor3
 
@@ -2571,10 +2587,29 @@ declare module EIGHT {
         zero(): Vector3;
         static copy(vector: VectorE3): Vector3;
         static dot(a: VectorE3, b: VectorE3): number;
+
+        /**
+         * Constructs the standard basis vector pointing along the x axis.
+         */
+        static e1(): Vector3;
+
+        /**
+         * Constructs the standard basis vector pointing along the y axis.
+         */
+        static e2(): Vector3;
+
+        /**
+         * Constructs the standard basis vector pointing along the z axis.
+         */
+        static e3(): Vector3;
+
         static isInstance(x: any): boolean;
         static lerp(a: VectorE3, b: VectorE3, α: number): Vector3;
         static random(): Vector3;
         static vector(x: number, y: number, z: number): Vector3;
+        /**
+         * Constructs the zero (vector).
+         */
         static zero(): Vector3;
     }
 
@@ -3419,7 +3454,7 @@ declare module EIGHT {
     }
 
     /**
-     * <code>DirectionalLight</code> provides two uniform values.
+     * DirectionalLight provides two uniform values.
      * GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION
      * GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR
      */
@@ -3433,15 +3468,15 @@ declare module EIGHT {
          */
         color: Color;
         /**
-         * Constructs a <code>DirectionalLight</code>.
+         * Constructs a DirectionalLight.
          * [direction = -e3] The initial direction.
          * [color = white] The initial color.
          */
         constructor(direction?: VectorE3, color?: Color);
         /**
-         * Sets the <code>direction</code> property by copying a vector.
+         * Sets the direction property by copying a vector.
          * The direction is normalized to be a unit vector.
-         * @param direction
+         * direction
          */
         setDirection(direction: VectorE3): DirectionalLight;
     }
@@ -3469,18 +3504,18 @@ declare module EIGHT {
         public normal: Vector2;
 
         /**
-         * @param name The name of the uniform variable associated with this facet.
+         * name The name of the uniform variable associated with this facet.
          */
         constructor(name: string);
 
         /**
-         * @param name
+         * name
          */
         getProperty(name: string): Array<number>;
 
         /**
-         * @param name
-         * @param value
+         * name
+         * value
          */
         setProperty(name: string, value: Array<number>): ReflectionFacetE2;
 
@@ -3501,18 +3536,18 @@ declare module EIGHT {
         public normal: Vector3;
 
         /**
-         * @param name The name of the uniform variable associated with this facet.
+         * name The name of the uniform variable associated with this facet.
          */
         constructor(name: string);
 
         /**
-         * @param name
+         * name
          */
         getProperty(name: string): Array<number>;
 
         /**
-         * @param name
-         * @param value
+         * name
+         * value
          */
         setProperty(name: string, value: Array<number>): ReflectionFacetE3;
 
