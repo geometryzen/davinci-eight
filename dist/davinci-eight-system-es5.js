@@ -18414,7 +18414,7 @@ System.register('davinci-eight/visual/Track.js', ['../core/BeginMode', '../core/
                     return this;
                 };
                 LineGeometry.prototype.draw = function (material) {
-                    this.contextProvider.gl.drawArrays(BeginMode_1.default.LINE_STRIP, 0, this.count);
+                    this.contextProvider.drawArrays(BeginMode_1.default.LINE_STRIP, 0, this.count);
                     return this;
                 };
                 LineGeometry.prototype.getPrincipalScale = function (name) {
@@ -18472,8 +18472,14 @@ System.register('davinci-eight/visual/Track.js', ['../core/BeginMode', '../core/
                     }
                     _super.call(this, new LineGeometry(contextManager), new LineMaterial_1.LineMaterial(void 0, contextManager), contextManager, levelUp + 1);
                     this.mesh = mesh;
+                    if (levelUp === 0) {
+                        this.synchUp();
+                    }
                 }
                 Track.prototype.destructor = function (levelUp) {
+                    if (levelUp === 0) {
+                        this.cleanUp();
+                    }
                     _super.prototype.destructor.call(this, levelUp + 1);
                 };
                 Track.prototype.erase = function () {
@@ -20888,13 +20894,13 @@ System.register('davinci-eight/math/Vector3.js', ['./Coords', './dotVectorE3', '
                     }
                 };
                 Vector3.e1 = function () {
-                    return Vector3.vector(1, 0, 0);
+                    return new Vector3([1, 0, 0]);
                 };
                 Vector3.e2 = function () {
-                    return Vector3.vector(0, 1, 0);
+                    return new Vector3([0, 1, 0]);
                 };
                 Vector3.e3 = function () {
-                    return Vector3.vector(0, 0, 1);
+                    return new Vector3([0, 0, 1]);
                 };
                 Vector3.isInstance = function (x) {
                     return x instanceof Vector3;
@@ -21125,9 +21131,9 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
             Eight = function () {
                 function Eight() {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-                    this.LAST_MODIFIED = '2016-08-12';
+                    this.LAST_MODIFIED = '2016-08-13';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '2.295.0';
+                    this.VERSION = '2.296.0';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];

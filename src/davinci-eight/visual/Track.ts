@@ -47,8 +47,7 @@ class LineGeometry implements Geometry {
         return this;
     }
     draw(material: Material): LineGeometry {
-        // console.log(`LineGeometry.draw(${this.i})`)
-        this.contextProvider.gl.drawArrays(BeginMode.LINE_STRIP, 0, this.count);
+        this.contextProvider.drawArrays(BeginMode.LINE_STRIP, 0, this.count);
         return this;
     }
     getPrincipalScale(name: string): number {
@@ -103,8 +102,14 @@ class LineGeometry implements Geometry {
 export class Track extends Mesh {
     constructor(contextManager: ContextManager, private mesh: Mesh, levelUp = 0) {
         super(new LineGeometry(contextManager), new LineMaterial(void 0, contextManager), contextManager, levelUp + 1);
+        if (levelUp === 0) {
+            this.synchUp();
+        }
     }
     protected destructor(levelUp: number): void {
+        if (levelUp === 0) {
+            this.cleanUp();
+        }
         super.destructor(levelUp + 1)
     }
     erase(): void {

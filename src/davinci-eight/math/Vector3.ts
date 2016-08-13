@@ -729,20 +729,17 @@ export default class Vector3 extends Coords {
         }
     }
 
-    /**
-     * Constructs a basis vector corresponding to the <code>x</code> coordinate.
-     */
-    static e1(): Vector3 { return Vector3.vector(1, 0, 0); }
+    static e1(): Vector3 {
+        return new Vector3([1, 0, 0]);
+    }
 
-    /**
-     * Constructs a basis vector corresponding to the <code>y</code> coordinate.
-     */
-    static e2(): Vector3 { return Vector3.vector(0, 1, 0); }
+    static e2(): Vector3 {
+        return new Vector3([0, 1, 0]);
+    }
 
-    /**
-     * Constructs a basis vector corresponding to the <code>z</code> coordinate.
-     */
-    static e3(): Vector3 { return Vector3.vector(0, 0, 1); }
+    static e3(): Vector3 {
+        return new Vector3([0, 0, 1]);
+    }
 
     /**
      * @method isInstance

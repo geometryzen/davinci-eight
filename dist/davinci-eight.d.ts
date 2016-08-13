@@ -2587,22 +2587,9 @@ declare module EIGHT {
         zero(): Vector3;
         static copy(vector: VectorE3): Vector3;
         static dot(a: VectorE3, b: VectorE3): number;
-
-        /**
-         * Constructs the standard basis vector pointing along the x axis.
-         */
         static e1(): Vector3;
-
-        /**
-         * Constructs the standard basis vector pointing along the y axis.
-         */
         static e2(): Vector3;
-
-        /**
-         * Constructs the standard basis vector pointing along the z axis.
-         */
         static e3(): Vector3;
-
         static isInstance(x: any): boolean;
         static lerp(a: VectorE3, b: VectorE3, α: number): Vector3;
         static random(): Vector3;
