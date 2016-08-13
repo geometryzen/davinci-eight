@@ -76,7 +76,7 @@ export class Cylinder extends RigidBody {
         return Geometric3.scalar(L);
     }
     set length(length: Geometric3) {
-        if (length) {
+        if (length instanceof Geometric3) {
             this.setPrincipalScale('length', length.a);
         }
         else if (typeof length === 'number') {

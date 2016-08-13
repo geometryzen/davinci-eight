@@ -545,7 +545,7 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-08-13';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.299.0';
+            this.VERSION = '2.300.0';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -17368,7 +17368,7 @@ define('davinci-eight/visual/Cylinder',["require", "exports", './direction', '..
                 return Geometric3_1.Geometric3.scalar(L);
             },
             set: function (length) {
-                if (length) {
+                if (length instanceof Geometric3_1.Geometric3) {
                     this.setPrincipalScale('length', length.a);
                 }
                 else if (typeof length === 'number') {
