@@ -23,28 +23,22 @@ export interface Geometry extends ContextConsumer {
     unbind(material: Material): Geometry;
 
     /**
-     * @param material
+     *
      */
     draw(material: Material): Geometry;
 
-    // TODO: Move this to Shareable
-    isZombie(): boolean
-
     /**
-     * @param name
-     * @returns
+     *
      */
     hasPrincipalScale(name: string): boolean
 
     /**
-     * @param name
-     * @returns
+     *
      */
     getPrincipalScale(name: string): number
 
     /**
-     * @param name
-     * @param value
+     *
      */
     setPrincipalScale(name: string, value: number): void
 }

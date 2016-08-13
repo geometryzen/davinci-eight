@@ -3890,7 +3890,29 @@ declare module EIGHT {
             }, levelUp?: number);
         protected destructor(levelUp: number): void;
     }
-    ///////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * A graphical object used to visualize the position history of a Mesh using a line.
+     */
+    class Track extends Mesh {
+
+        /**
+         * Constructs a new Track.
+         * contextManager: 
+         */
+        constructor(contextManager: ContextManager, trackedMesh: Mesh);
+
+        /**
+         * Erases the track points, making it ready to display a new track.
+         */
+        erase(): void;
+
+        /**
+         * Extends the track to include a new point corresponding to the current trackedMesh position.
+         */
+        snapshot(): void;
+    }
+
     /**
      *
      */
@@ -3911,9 +3933,9 @@ declare module EIGHT {
          */
         retain: number;
     }
-    ///////////////////////////////////////////////////////////////////////////////
+
     /**
-     *
+     * A utiliy for capturing the position and attitude history of a Mesh for visualization.
      */
     class Trail extends ShareableBase {
         /**
