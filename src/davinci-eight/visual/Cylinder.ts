@@ -2,6 +2,7 @@ import direction from './direction';
 import CylinderGeometry from '../geometries/CylinderGeometry';
 import CylinderGeometryOptions from '../geometries/CylinderGeometryOptions';
 import CylinderOptions from './CylinderOptions';
+import {Geometric3} from '../math/Geometric3';
 import isDefined from '../checks/isDefined';
 import {MeshMaterial} from '../materials/MeshMaterial';
 import MeshMaterialOptions from '../materials/MeshMaterialOptions';
@@ -49,8 +50,8 @@ export class Cylinder extends RigidBody {
         if (options.attitude) {
             this.R.copySpinor(options.attitude);
         }
-        this.radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : 0.5;
-        this.length = isDefined(options.length) ? mustBeNumber('length', options.length) : 1.0;
+        this.radius = isDefined(options.radius) ? Geometric3.scalar(mustBeNumber('radius', options.radius)) : Geometric3.scalar(0.5);
+        this.length = isDefined(options.length) ? Geometric3.scalar(mustBeNumber('length', options.length)) : Geometric3.scalar(1.0);
         if (levelUp === 0) {
             this.synchUp();
         }
@@ -68,23 +69,42 @@ export class Cylinder extends RigidBody {
     }
 
     /**
-     *
-     * @default 1
+     * The length of the cylinder, a scalar. Defaults to 1
      */
     get length() {
-        return this.getPrincipalScale('length');
+        const L = this.getPrincipalScale('length');
+        return Geometric3.scalar(L);
     }
-    set length(length: number) {
-        this.setPrincipalScale('length', length);
+    set length(length: Geometric3) {
+        if (length) {
+            this.setPrincipalScale('length', length.a);
+        }
+        else if (typeof length === 'number') {
+            this.setPrincipalScale('length', <any>length);
+            console.warn("length: number is deprecated. length is a Geometric3.");
+        }
+        else {
+            throw new Error("length must be a Geometric3 (scalar)");
+        }
     }
 
     /**
-     *
+     * The radius of the cylinder, a scalar. Defaults to 1.
      */
-    get radius(): number {
-        return this.getPrincipalScale('radius');
+    get radius() {
+        const R = this.getPrincipalScale('radius');
+        return Geometric3.scalar(R);
     }
-    set radius(radius: number) {
-        this.setPrincipalScale('radius', radius);
+    set radius(radius: Geometric3) {
+        if (radius instanceof Geometric3) {
+            this.setPrincipalScale('radius', radius.a);
+        }
+        else if (typeof radius === 'number') {
+            this.setPrincipalScale('radius', <any>radius);
+            console.warn("radius: number is deprecated. radius is a Geometric3.");
+        }
+        else {
+            throw new Error("radius must be a Geometric3 (scalar)");
+        }
     }
 }

@@ -3791,8 +3791,8 @@ declare module EIGHT {
     }
 
     class Cylinder extends RigidBody {
-        length: number;
-        radius: number;
+        length: Geometric3;
+        radius: Geometric3;
         constructor(
             options?: {
                 attitude?: SpinorE3;
@@ -3915,23 +3915,34 @@ declare module EIGHT {
 
     /**
      * A graphical object used to visualize a succession of points using a line.
+     * e.g.
+     * const path = new LineStrip(engine);
+     * ...
+     * path.addPoint(X);
+     * ...
+     * path.render(ambients);
+     * 
+     * The LineStrip will only be visible if there are two or more points defined.
      */
-    class Path extends Mesh {
+    class LineStrip extends Mesh {
 
         /**
-         * Constructs a new Path.
-         * contextManager: 
+         * Constructs a new LineStrip.
          */
-        constructor(contextManager: ContextManager, levelUp?: number);
+        constructor(contextManager: ContextManager);
+
+        /**
+         * 
+         */
         protected destructor(levelUp: number): void;
 
         /**
-         * Extends the Path by adding a new point.
+         * Extends this LineStrip by adding a new point.
          */
-        add(point: VectorE3): void;
+        addPoint(point: VectorE3): void;
 
         /**
-         * Erases the path, making it ready to display a new path.
+         * Erases the points, making it ready to accept new points.
          */
         clear(): void;
     }

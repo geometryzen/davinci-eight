@@ -86,9 +86,7 @@ export class RigidBody extends Mesh {
     }
 
     /**
-     * <p>
      * Axis (vector)
-     * </p>
      */
     get axis() {
         // This is a copy!

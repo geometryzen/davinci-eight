@@ -14,10 +14,11 @@ import VertexBuffer from '../core/VertexBuffer';
 const FLOATS_PER_VERTEX = 3;
 const BYTES_PER_FLOAT = 4;
 const STRIDE = BYTES_PER_FLOAT * FLOATS_PER_VERTEX;
+
 /**
  * 
  */
-class LineGeometry implements Geometry {
+class LineStripGeometry implements Geometry {
     scaling = Matrix4.one();
     private data: Float32Array;
     private count = 0;
@@ -30,7 +31,7 @@ class LineGeometry implements Geometry {
         this.data = new Float32Array(this.N * FLOATS_PER_VERTEX);
         this.vbo = new VertexBuffer(contextManager);
     }
-    bind(material: Material): LineGeometry {
+    bind(material: Material): LineStripGeometry {
         if (this.dirty) {
             this.vbo.bufferData(this.data, Usage.DYNAMIC_DRAW);
             this.dirty = false;
@@ -41,13 +42,13 @@ class LineGeometry implements Geometry {
         aPosition.enable();
         return this;
     }
-    unbind(material: Material): LineGeometry {
+    unbind(material: Material): LineStripGeometry {
         const aPosition = material.getAttrib('aPosition');
         aPosition.disable();
         this.vbo.unbind()
         return this;
     }
-    draw(material: Material): LineGeometry {
+    draw(material: Material): LineStripGeometry {
         this.contextProvider.drawArrays(BeginMode.LINE_STRIP, 0, this.count);
         return this;
     }
@@ -100,9 +101,9 @@ class LineGeometry implements Geometry {
     }
 }
 
-export class Path extends Mesh {
+export class LineStrip extends Mesh {
     constructor(contextManager: ContextManager, levelUp = 0) {
-        super(new LineGeometry(contextManager), new LineMaterial(void 0, contextManager), contextManager, levelUp + 1);
+        super(new LineStripGeometry(contextManager), new LineMaterial(void 0, contextManager), contextManager, levelUp + 1);
         if (levelUp === 0) {
             this.synchUp();
         }
@@ -113,13 +114,15 @@ export class Path extends Mesh {
         }
         super.destructor(levelUp + 1)
     }
-    add(point: VectorE3): void {
-        const geometry = <LineGeometry>this.geometry;
-        geometry.addPoint(point.x, point.y, point.z);
-        geometry.release();
+    addPoint(point: VectorE3): void {
+        if (point) {
+            const geometry = <LineStripGeometry>this.geometry;
+            geometry.addPoint(point.x, point.y, point.z);
+            geometry.release();
+        }
     }
     clear(): void {
-        const geometry = <LineGeometry>this.geometry;
+        const geometry = <LineStripGeometry>this.geometry;
         geometry.erase();
         geometry.release();
     }
