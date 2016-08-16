@@ -2259,6 +2259,8 @@ declare module EIGHT {
 
         wedge(m: GeometricE3): Geometric3;
 
+        static copy(m: GeometricE3): Geometric3;
+
         /**
          * The identity element for addition, 0.
          * e.g.

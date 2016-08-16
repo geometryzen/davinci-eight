@@ -24,11 +24,6 @@ import stringFromCoordinates from './stringFromCoordinates';
 import VectorE2 from './VectorE2';
 import wedgeXY from './wedgeXY';
 
-/**
- * @module EIGHT
- * @submodule math
- */
-
 // GraphicsProgramSymbols constants for the coordinate indices into the data array.
 const COORD_SCALAR = 0
 const COORD_X = 1

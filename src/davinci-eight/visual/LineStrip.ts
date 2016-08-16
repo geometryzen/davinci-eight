@@ -45,7 +45,7 @@ class LineStripGeometry implements Geometry {
     unbind(material: Material): LineStripGeometry {
         const aPosition = material.getAttrib('aPosition');
         aPosition.disable();
-        this.vbo.unbind()
+        this.vbo.unbind();
         return this;
     }
     draw(material: Material): LineStripGeometry {
@@ -86,7 +86,7 @@ class LineStripGeometry implements Geometry {
         if (this.count === this.N) {
             this.N = this.N * 2;
             const temp = new Float32Array(this.N * FLOATS_PER_VERTEX);
-            temp.set(this.data)
+            temp.set(this.data);
             this.data = temp;
         }
         const offset = this.count * FLOATS_PER_VERTEX;
@@ -112,7 +112,7 @@ export class LineStrip extends Mesh {
         if (levelUp === 0) {
             this.cleanUp();
         }
-        super.destructor(levelUp + 1)
+        super.destructor(levelUp + 1);
     }
     addPoint(point: VectorE3): void {
         if (point) {

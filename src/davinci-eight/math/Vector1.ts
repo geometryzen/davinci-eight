@@ -1,5 +1,5 @@
 import {Coords} from '../math/Coords';
-import Matrix1 from '../math/Matrix1'
+import Matrix1 from '../math/Matrix1';
 import SpinorE1 from '../math/SpinorE1';
 import VectorE0 from '../math/VectorE0';
 import VectorE1 from '../math/VectorE1';
@@ -105,7 +105,7 @@ export default class Vector1 extends Coords implements VectorE1 {
         return this;
     }
     exp() {
-        this.x = exp(this.x)
+        this.x = exp(this.x);
         return this;
     }
     one() {
@@ -327,7 +327,7 @@ export default class Vector1 extends Coords implements VectorE1 {
         return new Vector1([this.x]);
     }
     ext(v: VectorE1) {
-        return this
+        return this;
     }
 
     /**
