@@ -85,13 +85,11 @@ describe("Arrow", function() {
         it("should be initialized to unity", function() {
             const options: ArrowOptions = {};
             options.vector = options.vector;
-            options.attitude = options.attitude;
             options.color = options.color;
-            options.contextManager = options.contextManager;
             options.offset = options.offset;
-            options.position = options.position;
-            options.tilt = options.tilt;
+            // options.tilt = options.tilt;
             const arrow = new Arrow(options);
+            expect(arrow.X.isZero()).toBe(true);
             expect(arrow.R.isOne()).toBe(true);
             arrow.release();
         });

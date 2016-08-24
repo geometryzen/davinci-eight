@@ -1,5 +1,7 @@
 import BeginMode from '../core/BeginMode';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
+import {Color} from '../core/Color';
+import contextManagerFromOptions from './contextManagerFromOptions';
 import CurveGeometry from '../geometries/CurveGeometry';
 import CurveGeometryOptions from '../geometries/CurveGeometryOptions';
 import CurveOptions from './CurveOptions';
@@ -14,6 +16,8 @@ import mustBeGE from '../checks/mustBeGE';
 import mustBeNumber from '../checks/mustBeNumber';
 import {PointMaterial} from '../materials/PointMaterial';
 import PointMaterialOptions from '../materials/PointMaterialOptions';
+import setColorOption from './setColorOption';
+import setDeprecatedOptions from './setDeprecatedOptions';
 import Vector3 from '../math/Vector3';
 import VectorE3 from '../math/VectorE3';
 
@@ -30,6 +34,8 @@ function isFunctionOrUndefined(x: any): boolean {
 }
 
 function transferGeometryOptions(options: CurveOptions, geoOptions: CurveGeometryOptions): void {
+
+    geoOptions.contextManager = contextManagerFromOptions(options);
 
     if (isFunctionOrNull(options.aPosition)) {
         geoOptions.aPosition = options.aPosition;
@@ -112,7 +118,7 @@ function configPoints(options: CurveOptions, curve: Curve) {
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_POINT_SIZE] = 'float';
 
-    const material = new PointMaterial(matOptions, options.contextManager);
+    const material = new PointMaterial(matOptions, contextManagerFromOptions(options));
     curve.material = material;
     material.release();
 }
@@ -148,7 +154,7 @@ function configLines(options: CurveOptions, curve: Curve) {
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4';
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
 
-    const material = new LineMaterial(matOptions, options.contextManager);
+    const material = new LineMaterial(matOptions, contextManagerFromOptions(options));
     curve.material = material;
     material.release();
 }
@@ -162,7 +168,7 @@ export class Curve extends Mesh {
      * @param options
      */
     constructor(options: CurveOptions = {}, levelUp = 0) {
-        super(void 0, void 0, options.contextManager, levelUp + 1);
+        super(void 0, void 0, contextManagerFromOptions(options), levelUp + 1);
         this.setLoggingName('Curve');
 
         const mode: BeginMode = isDefined(options.mode) ? options.mode : BeginMode.LINES;
@@ -180,6 +186,10 @@ export class Curve extends Mesh {
                 throw new Error(`'${mode}' is not a valid option for mode.`);
             }
         }
+
+        setColorOption(this, options, Color.white);
+        setDeprecatedOptions(this, options);
+
         if (levelUp === 0) {
             this.synchUp();
         }

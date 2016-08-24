@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+
+<head>
+    <style>
+
+    </style>
+    <script src="../dist/davinci-eight.min.js"></script>
+</head>
+
+<body>
+    <canvas id='canvas'></canvas>
+    <script>
+        const engine = new EIGHT.Engine('canvas')
+  .size(500, 500)
+  .clearColor(0.1, 0.1, 0.1, 1.0)
+  .enable(EIGHT.Capability.DEPTH_TEST);
+
+const ambients = [];
+
+const camera = new EIGHT.PerspectiveCamera();
+camera.eye.z = 3
+ambients.push(camera)
+
+const dirLight = new EIGHT.DirectionalLight();
+ambients.push(dirLight)
+
+const gridXY = new EIGHT.GridXY({
+    engine,
+    xMin: -1,
+    xMax: +1,
+    xSegments: 16,
+    yMin: -1,
+    yMax: +1,
+    ySegments: 16,
+    z: (x, y) => x * x - y * y
+});
+gridXY.color = EIGHT.Color.red;
+
+const grid = new EIGHT.Grid({
+    engine,
+    uSegments: 8,
+    vSegments: 8
+});
+grid.color = EIGHT.Color.gray;
+
+const trackball = new EIGHT.TrackballControls(camera, window)
+// Subscribe to mouse events from the canvas.
+trackball.subscribe(engine.canvas)
+
+/**
+ * animate is the callback point for requestAnimationFrame.
+ * This has been initialized with a function expression in order
+ * to avoid issues associated with JavaScript hoisting.
+ */
+const animate = function(timestamp) {
+  engine.clear();
+
+  // Update the camera based upon mouse events received.  
+  trackball.update();
+
+  // Keep the directional light pointing in the same direction as the camera.  
+  dirLight.direction.copy(camera.look).sub(camera.eye)
+
+  var t = timestamp * 0.001
+  
+  grid.R.rotorFromGeneratorAngle({xy: 0, yz: 1, zx: 0}, t)
+
+  grid.render(ambients);
+  gridXY.render(ambients);
+
+  requestAnimationFrame(animate)
+}
+
+requestAnimationFrame(animate)
+    </script>
+</body>
+
+</html>

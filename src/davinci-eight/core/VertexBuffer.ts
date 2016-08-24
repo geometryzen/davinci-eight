@@ -48,7 +48,7 @@ export default class VertexBuffer extends ShareableContextConsumer {
         this.bufferData(this._data, this._usage);
     }
 
-    bufferData(data: Float32Array, usage: Usage): void {
+    bufferData(data?: Float32Array, usage?: Usage): void {
         if (data) {
             this._data = data;
         }

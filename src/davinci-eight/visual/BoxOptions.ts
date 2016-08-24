@@ -7,6 +7,10 @@ interface BoxOptions extends VisualOptions {
     /**
      * 
      */
+    k?: number;
+    /**
+     * 
+     */
     color?: { r: number; g: number; b: number };
 
     /**

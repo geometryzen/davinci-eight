@@ -1,12 +1,19 @@
+import {Color} from '../core/Color';
+import contextManagerFromOptions from './contextManagerFromOptions';
 import direction from './direction';
 import isDefined from '../checks/isDefined';
-import {MeshMaterial} from '../materials/MeshMaterial';
-import MeshMaterialOptions from '../materials/MeshMaterialOptions';
+import kFromOptions from './kFromOptions';
+import materialFromOptions from './materialFromOptions';
 import mustBeNumber from '../checks/mustBeNumber';
 import {RigidBody} from './RigidBody';
+import setColorOption from './setColorOption';
+import setDeprecatedOptions from './setDeprecatedOptions';
 import SphereOptions from './SphereOptions';
 import SphereGeometry from '../geometries/SphereGeometry';
 import SphereGeometryOptions from '../geometries/SphereGeometryOptions';
+
+const RADIUS_NAME = 'radius';
+const RADIUS_DEFAULT = 1;
 
 /**
  *
@@ -18,27 +25,39 @@ export class Sphere extends RigidBody {
      * @param options
      */
     constructor(options: SphereOptions = {}, levelUp = 0) {
-        super(void 0, void 0, options.contextManager, direction(options), levelUp + 1);
+        super(void 0, void 0, contextManagerFromOptions(options), direction(options), levelUp + 1);
         this.setLoggingName('Sphere');
+        const k = kFromOptions(options);
 
         const geoOptions: SphereGeometryOptions = {};
-        geoOptions.contextManager = options.contextManager;
+
+        geoOptions.contextManager = contextManagerFromOptions(options);
+        geoOptions.k = k;
+        geoOptions.azimuthSegments = options.azimuthSegments;
+        geoOptions.azimuthStart = options.azimuthStart;
+        geoOptions.azimuthLength = options.azimuthLength;
+        geoOptions.elevationLength = options.elevationLength;
+        geoOptions.elevationSegments = options.elevationSegments;
+        geoOptions.elevationStart = options.elevationStart;
+        geoOptions.offset = options.offset;
+        geoOptions.stress = void 0;
+        geoOptions.tilt = options.tilt;
+
         const geometry = new SphereGeometry(geoOptions);
         this.geometry = geometry;
         geometry.release();
 
-        const matOptions: MeshMaterialOptions = void 0;
-        const material = new MeshMaterial(matOptions, options.contextManager);
+        const material = materialFromOptions(k, options);
         this.material = material;
         material.release();
 
-        if (options.color) {
-            this.color.copy(options.color);
+        setColorOption(this, options, k === 2 ? Color.cobalt : Color.gray);
+        setDeprecatedOptions(this, options);
+
+        if (isDefined(options.radius)) {
+            this.radius = isDefined(options.radius) ? mustBeNumber(RADIUS_NAME, options.radius) : RADIUS_DEFAULT;
         }
-        if (options.position) {
-            this.X.copyVector(options.position);
-        }
-        this.radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : 1.0;
+
         if (levelUp === 0) {
             this.synchUp();
         }
@@ -54,13 +73,10 @@ export class Sphere extends RigidBody {
         super.destructor(levelUp + 1);
     }
 
-    /**
-     * @default 1
-     */
     get radius(): number {
-        return this.getPrincipalScale('radius');
+        return this.getPrincipalScale(RADIUS_NAME);
     }
     set radius(radius: number) {
-        this.setPrincipalScale('radius', radius);
+        this.setPrincipalScale(RADIUS_NAME, mustBeNumber(RADIUS_NAME, radius));
     }
 }

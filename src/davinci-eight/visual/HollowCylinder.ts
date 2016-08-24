@@ -1,8 +1,11 @@
+import {Color} from '../core/Color';
 import HollowCylinderGeometry from '../geometries/HollowCylinderGeometry';
 import HollowCylinderOptions from '../geometries/HollowCylinderOptions';
 import {MeshMaterial} from '../materials/MeshMaterial';
 import MeshMaterialOptions from '../materials/MeshMaterialOptions';
 import {RigidBody} from './RigidBody';
+import setColorOption from './setColorOption';
+import setDeprecatedOptions from './setDeprecatedOptions';
 import Vector3 from '../math/Vector3';
 
 // TODO: Why have an initial axis when height vector is defined.
@@ -37,6 +40,9 @@ export default class HollowCylinder extends RigidBody {
         const material = new MeshMaterial(mmo, options.engine);
         this.material = material;
         material.release();
+
+        setColorOption(this, options, Color.hotpink);
+        setDeprecatedOptions(this, options);
 
         if (levelUp === 0) {
             this.synchUp();

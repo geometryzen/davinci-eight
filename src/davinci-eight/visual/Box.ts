@@ -1,12 +1,16 @@
 import BoxOptions from './BoxOptions';
 import BoxGeometry from '../geometries/BoxGeometry';
 import BoxGeometryOptions from '../geometries/BoxGeometryOptions';
+import {Color} from '../core/Color';
+import contextManagerFromOptions from './contextManagerFromOptions';
 import direction from './direction';
 import isDefined from '../checks/isDefined';
-import {MeshMaterial} from '../materials/MeshMaterial';
-import MeshMaterialOptions from '../materials/MeshMaterialOptions';
+import kFromOptions from './kFromOptions';
+import materialFromOptions from './materialFromOptions';
 import mustBeNumber from '../checks/mustBeNumber';
 import {RigidBody} from './RigidBody';
+import setColorOption from './setColorOption';
+import setDeprecatedOptions from './setDeprecatedOptions';
 
 /**
  *
@@ -18,14 +22,16 @@ export class Box extends RigidBody {
      * @param options
      */
     constructor(options: BoxOptions = {}, levelUp = 0) {
-        super(void 0, void 0, options.contextManager, direction(options), levelUp + 1);
+        super(void 0, void 0, contextManagerFromOptions(options), direction(options), levelUp + 1);
         this.setLoggingName('Box');
+        const k = kFromOptions(options);
         // The shape is created un-stressed and then parameters drive the scaling.
         // The scaling matrix takes into account the initial tilt from the standard configuration.
         // const stress = Vector3.vector(1, 1, 1)
 
         const geoOptions: BoxGeometryOptions = {};
-        geoOptions.contextManager = options.contextManager;
+        geoOptions.contextManager = contextManagerFromOptions(options);
+        geoOptions.k = k;
         geoOptions.tilt = options.tilt;
         geoOptions.offset = options.offset;
         geoOptions.openBack = options.openBack;
@@ -34,24 +40,21 @@ export class Box extends RigidBody {
         geoOptions.openLeft = options.openLeft;
         geoOptions.openRight = options.openRight;
         geoOptions.openCap = options.openCap;
+
         const geometry = new BoxGeometry(geoOptions);
         this.geometry = geometry;
         geometry.release();
 
-        const matOptions: MeshMaterialOptions = void 0;
-        const material = new MeshMaterial(matOptions, options.contextManager);
+        const material = materialFromOptions(k, options);
         this.material = material;
         material.release();
 
         if (options.color) {
             this.color.copy(options.color);
         }
-        if (options.position) {
-            this.X.copyVector(options.position);
-        }
-        if (options.attitude) {
-            this.R.copySpinor(options.attitude);
-        }
+
+        setColorOption(this, options, k === 2 ? Color.red : Color.gray);
+        setDeprecatedOptions(this, options);
 
         this.width = isDefined(options.width) ? mustBeNumber('width', options.width) : 1.0;
         this.height = isDefined(options.height) ? mustBeNumber('height', options.height) : 1.0;

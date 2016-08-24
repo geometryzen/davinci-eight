@@ -9,9 +9,9 @@ import mustBeNumber from '../checks/mustBeNumber';
 import principalAngle from './principalAngle';
 import SpinorE3 from '../math/SpinorE3'
 
-const COORD_R = 0
-const COORD_G = 1
-const COORD_B = 2
+const COORD_R = 0;
+const COORD_G = 1;
+const COORD_B = 2;
 
 /**
  * <p>
@@ -70,6 +70,15 @@ export class Color extends Coords {
      *
      */
     public static gray = new Color(0.5, 0.5, 0.5)
+
+    public static blueviolet: Color;
+    public static cobalt: Color;
+    public static chartreuse: Color;
+    public static hotpink: Color;
+    public static lime: Color;
+    public static slateblue: Color;
+    public static springgreen: Color;
+    public static teal: Color;
 
     constructor(r: number, g: number, b: number) {
         super([r, g, b], false, 3)
@@ -373,3 +382,17 @@ export class Color extends Coords {
         return Color.fromRGB(Math.random(), Math.random(), Math.random())
     }
 }
+
+const rgb255 = function(red: number, green: number, blue: number): Color {
+    const UBYTEMAX = 255;
+    return new Color(red / UBYTEMAX, green / UBYTEMAX, blue / UBYTEMAX)
+}
+
+Color.blueviolet = rgb255(138, 43, 226);
+Color.chartreuse = rgb255(127, 255, 0);
+Color.cobalt = rgb255(61, 89, 171);
+Color.hotpink = rgb255(255, 105, 180);
+Color.lime = rgb255(0, 255, 0);
+Color.slateblue = rgb255(113, 113, 198);
+Color.springgreen = rgb255(0, 255, 127);
+Color.teal = rgb255(56, 142, 142);

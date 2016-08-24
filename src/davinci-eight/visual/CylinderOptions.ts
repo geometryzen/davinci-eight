@@ -12,11 +12,6 @@ interface CylinderOptions extends VisualOptions {
     axis?: VectorE3;
 
     /**
-     * 
-     */
-    color?: { r: number; g: number; b: number };
-
-    /**
      *
      * @default 1
      */
@@ -39,7 +34,6 @@ interface CylinderOptions extends VisualOptions {
      * @default false
      */
     openWall?: boolean;
-
 
     /**
      *

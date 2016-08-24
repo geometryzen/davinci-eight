@@ -1,18 +1,23 @@
 import ArrowOptions from './ArrowOptions';
 import ArrowGeometry from '../geometries/ArrowGeometry';
 import ArrowGeometryOptions from '../geometries/ArrowGeometryOptions';
+import {Color} from '../core/Color';
+import contextManagerFromOptions from './contextManagerFromOptions';
 import {Geometric3} from '../math/Geometric3';
 import {MeshMaterial} from '../materials/MeshMaterial';
 import MeshMaterialOptions from '../materials/MeshMaterialOptions';
 import {Mesh} from '../core/Mesh';
+import isDefined from '../checks/isDefined';
 import isGE from '../checks/isGE';
 import mustBeDefined from '../checks/mustBeDefined';
 import quadVectorE3 from '../math/quadVectorE3';
+import setColorOption from './setColorOption';
+import setDeprecatedOptions from './setDeprecatedOptions';
 import VectorE3 from '../math/VectorE3';
 import Vector3 from '../math/Vector3';
 
 function direction(options: ArrowOptions, fallback: VectorE3): VectorE3 {
-    if (options.vector) {
+    if (isDefined(options.vector)) {
         return Vector3.copy(options.vector).normalize();
     }
     else {
@@ -62,7 +67,7 @@ export class Arrow extends Mesh {
      * @param options
      */
     constructor(options: ArrowOptions = {}, levelUp = 0) {
-        super(void 0, void 0, options.contextManager, levelUp + 1);
+        super(void 0, void 0, contextManagerFromOptions(options), levelUp + 1);
         this.setLoggingName('Arrow');
 
         // TODO: This should be going into the geometry options.
@@ -71,14 +76,14 @@ export class Arrow extends Mesh {
         this._vector = Geometric3.fromVector(this.direction0);
 
         const geoOptions: ArrowGeometryOptions = {};
-        geoOptions.contextManager = options.contextManager;
+        geoOptions.contextManager = contextManagerFromOptions(options);
         geoOptions.offset = options.offset;
-        // geoOptions.stress; // Nothing correspondint to stress
+        // geoOptions.stress; // Nothing corresponding to stress
         geoOptions.tilt = options.tilt;
         const geometry = new ArrowGeometry(geoOptions);
 
         const matOptions: MeshMaterialOptions = void 0;
-        const material = new MeshMaterial(matOptions, options.contextManager);
+        const material = new MeshMaterial(matOptions, contextManagerFromOptions(options));
 
         this.geometry = geometry;
         this.material = material;
@@ -89,9 +94,9 @@ export class Arrow extends Mesh {
         if (options.color) {
             this.color.copy(options.color);
         }
-        if (options.position) {
-            this.X.copyVector(options.position);
-        }
+
+        setColorOption(this, options, Color.gray);
+        setDeprecatedOptions(this, options);
 
         /**
          * cascade flag prevents infinite recursion.

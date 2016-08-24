@@ -102,9 +102,6 @@ import TetrahedronGeometry from './davinci-eight/geometries/TetrahedronGeometry'
 import ArrowSimplexPrimitivesBuilder from './davinci-eight/geometries/ArrowSimplexPrimitivesBuilder';
 import BarnSimplexPrimitivesBuilder from './davinci-eight/geometries/BarnSimplexPrimitivesBuilder';
 import ConeSimplexGeometry from './davinci-eight/geometries/ConeSimplexGeometry';
-import CuboidPrimitivesBuilder from './davinci-eight/geometries/CuboidPrimitivesBuilder';
-import CuboidSimplexPrimitivesBuilder from './davinci-eight/geometries/CuboidSimplexPrimitivesBuilder';
-import CylinderBuilder from './davinci-eight/geometries/CylinderBuilder';
 import DodecahedronSimplexGeometry from './davinci-eight/geometries/DodecahedronSimplexGeometry';
 import IcosahedronSimplexGeometry from './davinci-eight/geometries/IcosahedronSimplexGeometry';
 import KleinBottleSimplexGeometry from './davinci-eight/geometries/KleinBottleSimplexGeometry';
@@ -112,7 +109,6 @@ import Lattice2Geometry from './davinci-eight/geometries/Lattice2Geometry';
 import Simplex1Geometry from './davinci-eight/geometries/Simplex1Geometry';
 import MobiusStripSimplexGeometry from './davinci-eight/geometries/MobiusStripSimplexGeometry';
 import OctahedronBuilder from './davinci-eight/geometries/OctahedronBuilder';
-import SliceSimplexPrimitivesBuilder from './davinci-eight/geometries/SliceSimplexPrimitivesBuilder';
 import GridSimplexBuilder from './davinci-eight/geometries/GridSimplexBuilder';
 import PolyhedronBuilder from './davinci-eight/geometries/PolyhedronBuilder';
 import RevolutionSimplexPrimitivesBuilder from './davinci-eight/geometries/RevolutionSimplexPrimitivesBuilder';
@@ -170,11 +166,15 @@ import {Box} from './davinci-eight/visual/Box';
 import {Cylinder} from './davinci-eight/visual/Cylinder';
 import {Curve} from './davinci-eight/visual/Curve';
 import {Grid} from './davinci-eight/visual/Grid';
+import GridXY from './davinci-eight/visual/GridXY';
+import GridYZ from './davinci-eight/visual/GridYZ';
+import GridZX from './davinci-eight/visual/GridZX';
 import HollowCylinder from './davinci-eight/visual/HollowCylinder';
-import {LineStrip} from './davinci-eight/visual/LineStrip';
 import {RigidBody} from './davinci-eight/visual/RigidBody';
 import Tetrahedron from './davinci-eight/visual/Tetrahedron';
+import {Track} from './davinci-eight/visual/Track';
 import {Trail} from './davinci-eight/visual/Trail';
+import Turtle from './davinci-eight/visual/Turtle';
 import vector from './davinci-eight/visual/vector';
 
 /**
@@ -258,8 +258,6 @@ const eight = {
     get ArrowGeometry() { return ArrowGeometry },
     get BoxGeometry() { return BoxGeometry },
     get ConicalShellBuilder() { return ConicalShellBuilder },
-    get CuboidPrimitivesBuilder() { return CuboidPrimitivesBuilder },
-    get CylinderBuilder() { return CylinderBuilder },
     get CylinderGeometry() { return CylinderGeometry },
     get CylindricalShellBuilder() { return CylindricalShellBuilder },
     get GridGeometry() { return GridGeometry },
@@ -315,10 +313,14 @@ const eight = {
     get Cylinder() { return Cylinder; },
     get Curve() { return Curve; },
     get Grid() { return Grid; },
+    get GridXY() { return GridXY; },
+    get GridYZ() { return GridYZ; },
+    get GridZX() { return GridZX; },
     get HollowCylinder() { return HollowCylinder; },
-    get LineStrip() { return LineStrip; },
     get RigidBody() { return RigidBody; },
     get Tetrahedron() { return Tetrahedron; },
-    get Trail() { return Trail; }
+    get Track() { return Track; },
+    get Trail() { return Trail; },
+    get Turtle() { return Turtle; }
 }
 export default eight;

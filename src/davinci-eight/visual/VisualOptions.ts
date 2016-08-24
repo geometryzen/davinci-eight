@@ -6,49 +6,38 @@ import VectorE3 from '../math/VectorE3';
  *
  */
 interface VisualOptions {
-
     /**
-     * <p>
-     * Attitude (spinor)
-     * </p>
-     *
-     * @default 1
+     * 
      */
-    attitude?: SpinorE3;
+    color?: { r: number; g: number; b: number };
 
     /**
-     *
+     * The manager of the WebGL context.
      */
     contextManager?: ContextManager;
 
     /**
-     * <p>
+     * The manager of the WebGL context (alias for contextManager).
+     */
+    engine?: ContextManager;
+
+    /**
      * Displacement (vector) to be applied to the geometry at construction time to establish the reference location.
      * This cannot be changed once the object has been created because it is burned-in to the vertex locations.
-     * </p>
-     *
-     * @default 0
      */
     offset?: VectorE3;
 
     /**
-     * <p>
-     * Position (vector)
-     * </p>
-     *
-     * @default 0
-     */
-    position?: VectorE3;
-
-    /**
-     * <p>
      * Rotation (spinor) to be applied to the geometry at construction time to establish the reference orientation.
      * This cannot be changed once the object has been created because it is burned-in to the vertex locations.
-     * </p>
-     *
-     * @default 1
      */
     tilt?: SpinorE3;
+
+    /**
+     * Scaling (tensor) to be applied to the geometry at construction time to establish the reference size.
+     * This cannot be changed once the object has been created because it is burned-in to the vertex locations.
+     */
+    stress?: VectorE3;
 }
 
 export default VisualOptions;

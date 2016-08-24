@@ -552,7 +552,7 @@ declare module EIGHT {
         constructor(contextManager: ContextManager, levelUp?: number);
         protected destructor(levelUp: number): void;
         bind(): void;
-        bufferData(data: Float32Array, usage: Usage): void;
+        bufferData(data?: Float32Array, usage?: Usage): void;
         unbind(): void
     }
 
@@ -2660,6 +2660,14 @@ declare module EIGHT {
         static yellow: Color;
         static white: Color;
         static gray: Color;
+        static blueviolet: Color;
+        static cobalt: Color;
+        static chartreuse: Color;
+        static hotpink: Color;
+        static lime: Color;
+        static slateblue: Color;
+        static springgreen: Color;
+        static teal: Color;
 
         static copy(color: Color): Color;
         static fromHSL(H: number, S: number, L: number): Color;
@@ -3729,24 +3737,58 @@ declare module EIGHT {
         protected destructor(levelUp: number): void;
     }
 
-    class Arrow extends Mesh {
+    /**
+     * Common options for the creation of a new visual components.
+     */
+    interface VisualOptions {
+        /**
+         * The uniform color.
+         */
+        color?: Color;
+        /**
+         * The manager of the WebGL context.
+         */
+        contextManager?: ContextManager;
+        /**
+         * The manager of the WebGL context (alias for contextManager).
+         */
+        engine?: ContextManager;
+        /**
+         * The kind of primitive (0: points, 1: lines, 2: triangles).
+         */
+        k?: number;
+        /**
+         * The displacement from the canonical position.
+         */
+        offset?: VectorE3;
+        /**
+         * The rotation from the canonical attitude.
+         */
+        tilt?: SpinorE3;
+    }
 
+    /**
+     * Options for the creation of a new Arrow.
+     */
+    interface ArrowOptions extends VisualOptions {
+        vector?: VectorE3;
+    }
+
+    class Arrow extends Mesh {
         /**
          * The vector from the tail of the Arrow to the head of the Arrow.
          */
         h: Geometric3;
 
-        constructor(
-            options?: {
-                attitude?: SpinorE3;
-                color?: Color;
-                contextManager?: ContextManager;
-                offset?: VectorE3;
-                position?: VectorE3;
-                tilt?: SpinorE3;
-                vector?: VectorE3;
-            }, levelUp?: number);
+        constructor(options?: ArrowOptions, levelUp?: number);
         protected destructor(levelUp: number): void;
+    }
+
+    /**
+     * Options for the creation of a new Basis.
+     */
+    interface BasisOptions extends VisualOptions {
+
     }
 
     class Basis extends RigidBody {
@@ -3756,182 +3798,274 @@ declare module EIGHT {
         colorA: Color;
         colorB: Color;
         colorC: Color;
-        constructor(
-            options?: {
-                attitude?: SpinorE3;
-                contextManager?: ContextManager;
-                offset?: VectorE3;
-                position?: VectorE3;
-                tilt?: SpinorE3;
-            }, levelUp?: number);
+        constructor(options?: BasisOptions, levelUp?: number);
         protected destructor(levelUp: number): void;
+    }
+
+    /**
+     * Options for the creation of a new Box.
+     */
+    interface BoxOptions extends VisualOptions {
+        depth?: number;
+        height?: number;
+        openBack?: boolean;
+        openBase?: boolean;
+        openCap?: boolean;
+        openFront?: boolean;
+        openLeft?: boolean;
+        openRight?: boolean;
+        width?: number;
     }
 
     class Box extends RigidBody {
         width: number;
         height: number;
         depth: number;
-        constructor(
-            options?: {
-                attitude?: SpinorE3;
-                color?: Color;
-                depth?: number;
-                contextManager?: ContextManager;
-                height?: number;
-                offset?: VectorE3;
-                openBack?: boolean;
-                openBase?: boolean;
-                openCap?: boolean;
-                openFront?: boolean;
-                openLeft?: boolean;
-                openRight?: boolean;
-                position?: VectorE3;
-                tilt?: SpinorE3;
-                width?: number;
-            }, levelUp?: number);
+        constructor(options?: BoxOptions, levelUp?: number);
         protected destructor(levelUp: number): void;
+    }
+
+    /**
+     * Options for the creation of a new Cylinder.
+     */
+    interface CylinderOptions extends VisualOptions {
+        axis?: VectorE3;
+        length?: number;
+        openBase?: boolean;
+        openCap?: boolean;
+        openWall?: boolean;
+        radius?: number;
     }
 
     class Cylinder extends RigidBody {
         length: Geometric3;
         radius: Geometric3;
-        constructor(
-            options?: {
-                attitude?: SpinorE3;
-                axis?: VectorE3;
-                color?: Color;
-                contextManager?: ContextManager;
-                length?: number;
-                offset?: VectorE3;
-                openBase?: boolean;
-                openCap?: boolean;
-                openWall?: boolean;
-                position?: VectorE3;
-                radius?: number;
-                tilt?: SpinorE3;
-            }, levelUp?: number);
+        constructor(options?: CylinderOptions, levelUp?: number);
         protected destructor(levelUp: number): void;
+    }
+
+    /**
+     * Options for the creation of a new Curve.
+     */
+    interface CurveOptions extends VisualOptions {
+        aColor?: (u: number) => Color;
+        aPosition?: (u: number) => VectorE3;
+        mode?: BeginMode;
+        uMax?: number;
+        uMin?: number;
+        uSegments?: number;
     }
 
     class Curve extends Mesh {
-        constructor(
-            options?: {
-                aColor?: (u: number) => Color;
-                aPosition?: (u: number) => VectorE3;
-                attitude?: SpinorE3;
-                color?: Color;
-                mode?: BeginMode;
-                contextManager?: ContextManager;
-                offset?: VectorE3;
-                position?: VectorE3;
-                tilt?: SpinorE3;
-                uMax?: number;
-                uMin?: number;
-                uSegments?: number;
-            }, levelUp?: number);
+        constructor(options?: CurveOptions, levelUp?: number);
         protected destructor(levelUp: number): void;
+    }
+
+    /**
+     * Options for the creation of a new Grid.
+     */
+    interface GridOptions extends VisualOptions {
+        aColor?: (u: number, v: number) => Color;
+        aNormal?: (u: number, v: number) => VectorE3;
+        aPosition?: (u: number, v: number) => VectorE3;
+        mode?: BeginMode;
+        uMax?: number;
+        uMin?: number;
+        uSegments?: number;
+        vMax?: number;
+        vMin?: number;
+        vSegments?: number;
     }
 
     class Grid extends Mesh {
-        constructor(
-            options?: {
-                aColor?: (u: number, v: number) => Color;
-                aNormal?: (u: number, v: number) => VectorE3;
-                aPosition?: (u: number, v: number) => VectorE3;
-                attitude?: SpinorE3;
-                color?: Color;
-                mode?: BeginMode;
-                contextManager?: ContextManager;
-                offset?: VectorE3;
-                position?: VectorE3;
-                tilt?: SpinorE3;
-                uMax?: number;
-                uMin?: number;
-                uSegments?: number;
-                vMax?: number;
-                vMin?: number;
-                vSegments?: number;
-            }, levelUp?: number);
+        constructor(options?: GridOptions, levelUp?: number);
         protected destructor(levelUp: number): void;
     }
 
-    class HollowCylinder extends RigidBody {
-        constructor(options?: {
-            /**
-             * The symmetry axis and the height of the cylinder.
-             */
-            height?: VectorE3,
-            /**
-             * The starting direction for the slice.
-             * A unit vector orthogonal to the height vector.
-             */
-            cutLine?: VectorE3,
-            /**
-             * The outer radius of the cylinder.
-             */
-            outerRadius?: number;
-            /**
-             * The inner radius of the cylinder.
-             */
-            innerRadius?: number;
-            /**
-             * The angular size of the cylinder. Default is 2 * PI.
-             */
-            sliceAngle?: number;
-            /**
-             * The WebGL context wrapper.
-             */
-            contextManager?: ContextManager;
-        }, levelUp?: number);
+    /**
+     * Options for the creation of a new GridXY.
+     */
+    interface GridXYOptions extends VisualOptions {
+        xMin?: number;
+        xMax?: number;
+        xSegments?: number;
+        yMin?: number;
+        yMax?: number;
+        ySegments?: number;
+        /**
+         * Returns the z-coordinate for the specified x and y coordinates.
+         */
+        z?: (x: number, y: number) => number;
+    }
+
+    /**
+     * A grid in the xy-plane. 
+     */
+    class GridXY extends Grid {
+        /**
+         * Constructs a grid in the xy-plane with the following defaults:
+         * 
+         * xMin: -1
+         * xMax: +1
+         * xSegments: 10
+         * yMin: -1
+         * yMax: +1
+         * ySegments: 10
+         * z: (x: number, y: number) => 0
+         */
+        constructor(options?: GridXYOptions, levelUp?: number);
         protected destructor(levelUp: number): void;
+    }
+
+    /**
+     * Options for the creation of a new GridYZ.
+     */
+    interface GridYZOptions extends VisualOptions {
+        yMin?: number;
+        yMax?: number;
+        ySegments?: number;
+        zMin?: number;
+        zMax?: number;
+        zSegments?: number;
+        x?: (y: number, z: number) => number;
+    }
+
+    class GridYZ extends Grid {
+        constructor(options?: GridYZOptions, levelUp?: number);
+        protected destructor(levelUp: number): void;
+    }
+
+    /**
+     * Options for the creation of a new GridZX.
+     */
+    interface GridZXOptions extends VisualOptions {
+        zMin?: number;
+        zMax?: number;
+        zSegments?: number;
+        xMin?: number;
+        xMax?: number;
+        xSegments?: number;
+        y?: (z: number, x: number) => number;
+    }
+
+    class GridZX extends Grid {
+        constructor(options?: GridZXOptions, levelUp?: number);
+        protected destructor(levelUp: number): void;
+    }
+
+    /**
+     * Options for the creation of a new HollowCylinder.
+     */
+    interface HollowCylinderOptions extends VisualOptions {
+        /**
+         * The symmetry axis and the height of the cylinder.
+         */
+        height?: VectorE3,
+        /**
+         * The starting direction for the slice.
+         * A unit vector orthogonal to the height vector.
+         */
+        cutLine?: VectorE3,
+        /**
+         * The outer radius of the cylinder.
+         */
+        outerRadius?: number;
+        /**
+         * The inner radius of the cylinder.
+         */
+        innerRadius?: number;
+        /**
+         * The angular size of the cylinder. Default is 2 * PI.
+         */
+        sliceAngle?: number;
+    }
+
+    class HollowCylinder extends RigidBody {
+        constructor(options?: HollowCylinderOptions, levelUp?: number);
+        protected destructor(levelUp: number): void;
+    }
+
+    /**
+     * Options for the creation of a new Sphere.
+     */
+    interface SphereOptions extends VisualOptions {
+        /**
+         * 
+         */
+        azimuthStart?: number;
+        /**
+         * 
+         */
+        azimuthLength?: number;
+        /**
+         * 
+         */
+        azimuthSegments?: number;
+        /**
+         * 
+         */
+        elevationStart?: number;
+        /**
+         * 
+         */
+        elevationLength?: number;
+        /**
+         * 
+         */
+        elevationSegments?: number;
+        /**
+         * The kind of primitive (0: points, 1: lines, 2: triangles).
+         */
+        k?: number;
+        /**
+         * 
+         */
+        radius?: number;
     }
 
     class Sphere extends RigidBody {
         radius: number;
-        constructor(
-            options?: {
-                attitude?: SpinorE3;
-                color?: Color;
-                contextManager?: ContextManager;
-                offset?: VectorE3;
-                position?: VectorE3;
-                radius?: number;
-                tilt?: SpinorE3;
-            }, levelUp?: number);
+        constructor(options?: SphereOptions, levelUp?: number);
         protected destructor(levelUp: number): void;
+    }
+
+    /**
+     * Options for the creation of a new Tetrahedron.
+     */
+    interface TetrahedronOptions extends VisualOptions {
+
     }
 
     class Tetrahedron extends RigidBody {
         radius: number;
-        constructor(
-            options?: {
-                attitude?: SpinorE3;
-                color?: Color;
-                contextManager?: ContextManager;
-                offset?: VectorE3;
-                position?: VectorE3;
-                tilt?: SpinorE3;
-            }, levelUp?: number);
+        constructor(options?: TetrahedronOptions, levelUp?: number);
         protected destructor(levelUp: number): void;
+    }
+
+    /**
+     * Options for the creation of a new Track.
+     */
+    interface TrackOptions extends VisualOptions {
+
     }
 
     /**
      * A graphical object used to visualize a succession of points using a line.
      * e.g.
-     * const path = new LineStrip(engine);
+     * const path = new Track({engine});
      * ...
      * path.addPoint(X);
      * ...
      * path.render(ambients);
      * 
-     * The LineStrip will only be visible if there are two or more points defined.
+     * The Track will only be visible if there are two or more points defined.
      */
-    class LineStrip extends Mesh {
+    class Track extends Mesh {
 
         /**
-         * Constructs a new LineStrip.
+         * Constructs a new Track.
          */
-        constructor(contextManager: ContextManager);
+        constructor(options?: TrackOptions, levelUp?: number);
 
         /**
          * 
@@ -3939,7 +4073,7 @@ declare module EIGHT {
         protected destructor(levelUp: number): void;
 
         /**
-         * Extends this LineStrip by adding a new point.
+         * Extends this Track by adding a new point.
          */
         addPoint(point: VectorE3): void;
 
@@ -3995,6 +4129,20 @@ declare module EIGHT {
          * Records the graphics model variables.
          */
         snapshot(): void;
+    }
+
+    /**
+     * Options for the creation of a new Turtle.
+     */
+    interface TurtleOptions extends VisualOptions {
+
+    }
+
+    class Turtle extends RigidBody {
+        height: number;
+        width: number;
+        constructor(options: TurtleOptions, levelUp?: number);
+        protected destructor(levelUp: number): void;
     }
     ///////////////////////////////////////////////////////////////////////////////
     /**

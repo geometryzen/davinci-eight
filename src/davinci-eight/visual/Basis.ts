@@ -3,10 +3,13 @@ import BeginMode from '../core/BeginMode';
 import {Color} from '../core/Color';
 import {ColorFacet} from '../facets/ColorFacet';
 import ContextManager from '../core/ContextManager';
+import contextManagerFromOptions from './contextManagerFromOptions';
 import DataType from  '../core/DataType';
 import direction from './direction';
 import GeometryArrays from '../core/GeometryArrays';
 import {RigidBody} from './RigidBody';
+import setColorOption from './setColorOption';
+import setDeprecatedOptions from './setDeprecatedOptions';
 import {ShaderMaterial} from '../materials/ShaderMaterial';
 import Vector3 from '../math/Vector3';
 import Vector3Facet from '../facets/Vector3Facet';
@@ -84,7 +87,7 @@ function contextManager(arg: BasisOptions | ContextManager, warn: boolean): Cont
             return <ContextManager>arg;
         }
         else {
-            return (<BasisOptions>arg).contextManager;
+            return contextManagerFromOptions((<BasisOptions>arg));
         }
     }
     else {
@@ -131,6 +134,9 @@ export default class Basis extends RigidBody {
         this.setFacet(`Basis-${uColorA}`, this.uColorA);
         this.setFacet(`Basis-${uColorB}`, this.uColorB);
         this.setFacet(`Basis-${uColorC}`, this.uColorC);
+
+        setColorOption(this, options, void 0);
+        setDeprecatedOptions(this, options);
 
         if (levelUp === 0) {
             this.synchUp();

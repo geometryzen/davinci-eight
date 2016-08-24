@@ -1,4 +1,6 @@
 import BeginMode from '../core/BeginMode';
+import {Color} from '../core/Color';
+import contextManagerFromOptions from './contextManagerFromOptions';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import GridGeometry from '../geometries/GridGeometry';
 import GridGeometryOptions from '../geometries/GridGeometryOptions';
@@ -16,6 +18,8 @@ import mustBeGE from '../checks/mustBeGE';
 import mustBeNumber from '../checks/mustBeNumber';
 import {PointMaterial} from '../materials/PointMaterial';
 import PointMaterialOptions from '../materials/PointMaterialOptions';
+import setColorOption from './setColorOption';
+import setDeprecatedOptions from './setDeprecatedOptions';
 import VectorE3 from '../math/VectorE3';
 import Vector3 from '../math/Vector3';
 
@@ -36,6 +40,8 @@ function isFunctionOrUndefined(x: any): boolean {
 }
 
 function transferGeometryOptions(source: GridOptions, target: GridGeometryOptions): void {
+
+    target.contextManager = contextManagerFromOptions(source);
 
     if (isFunctionOrNull(source.aPosition)) {
         target.aPosition = source.aPosition;
@@ -142,7 +148,7 @@ function configPoints(options: GridOptions, grid: Grid) {
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_POINT_SIZE] = 'float';
 
-    const material = new PointMaterial(matOptions, options.contextManager);
+    const material = new PointMaterial(matOptions, contextManagerFromOptions(options));
     grid.material = material;
     material.release();
 }
@@ -181,7 +187,7 @@ function configLines(options: GridOptions, grid: Grid) {
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4';
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
 
-    const material = new LineMaterial(matOptions, options.contextManager);
+    const material = new LineMaterial(matOptions, contextManagerFromOptions(options));
     grid.material = material;
     material.release();
 }
@@ -239,7 +245,7 @@ function configMesh(options: GridOptions, grid: Grid) {
 
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT] = 'vec3';
 
-    const material = new MeshMaterial(matOptions, options.contextManager);
+    const material = new MeshMaterial(matOptions, contextManagerFromOptions(options));
     grid.material = material;
     material.release();
 }
@@ -254,7 +260,7 @@ export class Grid extends Mesh {
      * @param options
      */
     constructor(options: GridOptions = {}, levelUp = 0) {
-        super(void 0, void 0, options.contextManager, levelUp + 1);
+        super(void 0, void 0, contextManagerFromOptions(options), levelUp + 1);
         this.setLoggingName('Grid');
 
         const mode: BeginMode = isDefined(options.mode) ? options.mode : BeginMode.LINES;
@@ -277,15 +283,10 @@ export class Grid extends Mesh {
                 throw new Error(`'${mode}' is not a valid option for mode.`);
             }
         }
-        if (options.color) {
-            this.color.copy(options.color);
-        }
-        if (options.position) {
-            this.X.copyVector(options.position);
-        }
-        if (options.attitude) {
-            this.R.copySpinor(options.attitude);
-        }
+
+        setColorOption(this, options, Color.gray);
+        setDeprecatedOptions(this, options);
+
         if (levelUp === 0) {
             this.synchUp();
         }

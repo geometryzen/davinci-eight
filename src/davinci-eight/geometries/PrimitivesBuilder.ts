@@ -1,4 +1,3 @@
-import {Geometric3} from '../math/Geometric3';
 import GeometryBuilder from './GeometryBuilder';
 import Primitive from '../core/Primitive';
 import Vector3 from '../math/Vector3';
@@ -25,14 +24,6 @@ export default class PrimitivesBuilder implements GeometryBuilder {
      * @beta
      */
     public stress = Vector3.vector(1, 1, 1);
-
-    /**
-     * The rotor to apply to the geometry (after scale has been applied).
-     * @property tilt
-     * @type Geometric3
-     * @default 1
-     */
-    public tilt: Geometric3 = Geometric3.one();
 
     /**
      * The translation to apply to the geometry (after tilt has been applied).

@@ -229,14 +229,14 @@ module.exports = function(grunt) {
                     mode: 'file',
                     name: 'EIGHT <%= pkg.version %>',
                     exclude: [
-                        'src/davinci-eight/core/ErrorMode.ts',
-                        'src/davinci-eight/shapes/ArrowBuilder.ts',
                         '**/*.spec.ts'
                     ],
                     excludeExternals: false,
                     hideGenerator: true
                 },
-                src: 'src/davinci-eight/**/*.ts'
+                src: [
+                    'src/davinci-eight/**/*.ts'
+                ]
             }
         },
         complexity: {

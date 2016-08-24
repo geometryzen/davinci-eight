@@ -34,11 +34,6 @@ interface GridOptions extends VisualOptions {
     aColor?: (u: number, v: number) => { r: number; g: number; b: number };
 
     /**
-     * 
-     */
-    color?: { r: number; g: number; b: number };
-
-    /**
      * Specifies the required Geometric Primitive Type.
      * Implementations may choose the nearest type.
      *
