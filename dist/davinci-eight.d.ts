@@ -3868,7 +3868,7 @@ declare module EIGHT {
         aColor?: (u: number, v: number) => Color;
         aNormal?: (u: number, v: number) => VectorE3;
         aPosition?: (u: number, v: number) => VectorE3;
-        mode?: BeginMode;
+        k?: number;
         uMax?: number;
         uMin?: number;
         uSegments?: number;
@@ -3896,6 +3896,7 @@ declare module EIGHT {
          * Returns the z-coordinate for the specified x and y coordinates.
          */
         z?: (x: number, y: number) => number;
+        k?: number;
     }
 
     /**
@@ -3928,6 +3929,7 @@ declare module EIGHT {
         zMax?: number;
         zSegments?: number;
         x?: (y: number, z: number) => number;
+        k?: number;
     }
 
     class GridYZ extends Grid {
@@ -3946,6 +3948,7 @@ declare module EIGHT {
         xMax?: number;
         xSegments?: number;
         y?: (z: number, x: number) => number;
+        k?: number;
     }
 
     class GridZX extends Grid {

@@ -6,6 +6,7 @@ import isDefined from '../checks/isDefined';
 import mustBeFunction from '../checks/mustBeFunction';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeNumber from '../checks/mustBeNumber';
+import validate from '../checks/validate';
 import VectorE3 from '../math/VectorE3';
 import R3 from '../math/R3';
 import VisualOptions from './VisualOptions';
@@ -18,18 +19,10 @@ export interface GridXYOptions extends VisualOptions {
     yMax?: number;
     ySegments?: number;
     z?: (x: number, y: number) => number;
+    k?: number;
 }
 
-const ALLOWED_OPTIONS = ['xMin', 'xMax', 'xSegments', 'yMin', 'yMax', 'ySegments', 'z', 'engine', 'tilt', 'offset'];
-
-function override(name: string, value: number, defaultValue: number, assertFn: (name: string, value: number) => number): number {
-    if (isDefined(value)) {
-        return assertFn(name, value);
-    }
-    else {
-        return defaultValue;
-    }
-}
+const ALLOWED_OPTIONS = ['xMin', 'xMax', 'xSegments', 'yMin', 'yMax', 'ySegments', 'z', 'contextManager', 'engine', 'tilt', 'offset', 'k'];
 
 function mapOptions(options: GridXYOptions): GridOptions {
     expectOptions(ALLOWED_OPTIONS, Object.keys(options));
@@ -40,12 +33,17 @@ function mapOptions(options: GridXYOptions): GridOptions {
             return R3(x, y, options.z(x, y));
         };
     }
-    const uMin = override('xMin', options.xMin, -1, mustBeNumber);
-    const uMax = override('xMax', options.xMax, +1, mustBeNumber);
-    const uSegments = override('xSegments', options.xSegments, 10, mustBeInteger);
-    const vMin = override('yMin', options.yMin, -1, mustBeNumber);
-    const vMax = override('yMax', options.yMax, +1, mustBeNumber);
-    const vSegments = override('ySegments', options.ySegments, 10, mustBeInteger);
+    else {
+        aPosition = function(x: number, y: number): VectorE3 {
+            return R3(x, y, 0);
+        };
+    }
+    const uMin = validate('xMin', options.xMin, undefined, mustBeNumber);
+    const uMax = validate('xMax', options.xMax, undefined, mustBeNumber);
+    const uSegments = validate('xSegments', options.xSegments, undefined, mustBeInteger);
+    const vMin = validate('yMin', options.yMin, undefined, mustBeNumber);
+    const vMax = validate('yMax', options.yMax, undefined, mustBeNumber);
+    const vSegments = validate('ySegments', options.ySegments, undefined, mustBeInteger);
     return {
         engine: contextManagerFromOptions(options),
         offset: options.offset,
@@ -57,7 +55,8 @@ function mapOptions(options: GridXYOptions): GridOptions {
         vMin,
         vMax,
         vSegments,
-        aPosition
+        aPosition,
+        k: options.k
     };
 }
 

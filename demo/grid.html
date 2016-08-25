@@ -25,20 +25,15 @@ ambients.push(camera)
 const dirLight = new EIGHT.DirectionalLight();
 ambients.push(dirLight)
 
-const gridXY = new EIGHT.GridXY({
-    engine,
-    xMin: -1,
-    xMax: +1,
-    xSegments: 16,
-    yMin: -1,
-    yMax: +1,
-    ySegments: 16,
-    z: (x, y) => x * x - y * y
-});
+const gridXY = new EIGHT.GridXY({contextManager: engine, z: (x, y) => x * x - y * y});
 gridXY.color = EIGHT.Color.red;
+const gridYZ = new EIGHT.GridYZ({contextManager: engine, x: (y, z) => y * y - z * z, k: 1});
+gridYZ.color = EIGHT.Color.green;
+const gridZX = new EIGHT.GridZX({contextManager: engine});
+gridZX.color = EIGHT.Color.blue;
 
 const grid = new EIGHT.Grid({
-    engine,
+    contextManager: engine,
     uSegments: 8,
     vSegments: 8
 });
@@ -68,6 +63,8 @@ const animate = function(timestamp) {
 
   grid.render(ambients);
   gridXY.render(ambients);
+  gridYZ.render(ambients);
+  gridZX.render(ambients);
 
   requestAnimationFrame(animate)
 }

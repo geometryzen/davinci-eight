@@ -1,4 +1,3 @@
-import BeginMode from '../core/BeginMode';
 import VectorE3 from '../math/VectorE3';
 import VisualOptions from './VisualOptions';
 
@@ -34,44 +33,39 @@ interface GridOptions extends VisualOptions {
     aColor?: (u: number, v: number) => { r: number; g: number; b: number };
 
     /**
-     * Specifies the required Geometric Primitive Type.
-     * Implementations may choose the nearest type.
-     *
-     * @default LINES
+     * 0: points
+     * 1: lines
+     * 2: surface
      */
-    mode?: BeginMode;
+    k?: number;
 
     /**
-     * @default -0.5
+     * The minimum value of the u coordinate.
      */
     uMin?: number;
 
     /**
-     * @default +0.5
+     * The maximum value of the u coordinate.
      */
     uMax?: number;
 
     /**
      * The number of segments for the u coordinate.
-     *
-     * @default 1
      */
     uSegments?: number;
 
     /**
-     * @default -0.5
+     * The minimum value of the v coordinate.
      */
     vMin?: number;
 
     /**
-     * @default +0.5
+     * The maximum value of the v coordinate.
      */
     vMax?: number;
 
     /**
      * The number of segments for the v coordinate.
-     *
-     * @default 1
      */
     vSegments?: number;
 }
