@@ -1082,6 +1082,10 @@ export default class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
         return Spinor3.zero().dual(v, changeSign);
     }
 
+    static fromBivector(B: BivectorE3): Spinor3 {
+        return new Spinor3([B.yz, B.zx, B.xy, 0], magicCode);
+    }
+
     /**
      * @method isOne
      * @param spinor {SpinorE3}

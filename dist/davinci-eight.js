@@ -543,9 +543,9 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
     var Eight = (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-08-25';
+            this.LAST_MODIFIED = '2016-08-30';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.304.0';
+            this.VERSION = '2.305.0';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -3246,6 +3246,13 @@ define('davinci-eight/math/Geometric3',["require", "exports", './Coords', './arr
             copy.b = M.b;
             return copy;
         };
+        Geometric3.fromBivector = function (B) {
+            var copy = new Geometric3();
+            copy.yz = B.yz;
+            copy.zx = B.zx;
+            copy.xy = B.xy;
+            return copy;
+        };
         Geometric3.fromScalar = function (scalar) {
             return new Geometric3().copyScalar(scalar.a);
         };
@@ -3942,6 +3949,9 @@ define('davinci-eight/math/Spinor3',["require", "exports", './Coords', './dotVec
         };
         Spinor3.dual = function (v, changeSign) {
             return Spinor3.zero().dual(v, changeSign);
+        };
+        Spinor3.fromBivector = function (B) {
+            return new Spinor3([B.yz, B.zx, B.xy, 0], magicCode);
         };
         Spinor3.isOne = function (spinor) {
             return spinor.a === 1 && spinor.yz === 0 && spinor.zx === 0 && spinor.xy === 0;
@@ -4902,6 +4912,7 @@ define('davinci-eight/math/Vector3',["require", "exports", './Coords', './dotVec
             return new Vector3([vector.x, vector.y, vector.z]);
         };
         Vector3.dual = function (B, changeSign) {
+            if (changeSign === void 0) { changeSign = false; }
             if (changeSign) {
                 return new Vector3([B.yz, B.zx, B.xy]);
             }
@@ -4940,15 +4951,6 @@ define('davinci-eight/math/Vector3',["require", "exports", './Coords', './dotVec
     }(Coords_1.Coords));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = Vector3;
-});
-
-define('davinci-eight/base/incLevel',["require", "exports", '../checks/mustBeInteger'], function (require, exports, mustBeInteger_1) {
-    "use strict";
-    function incLevel(levelUp) {
-        return mustBeInteger_1.default('levelUp', levelUp) + 1;
-    }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = incLevel;
 });
 
 define('davinci-eight/geometries/b2',["require", "exports"], function (require, exports) {
@@ -5271,7 +5273,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/controls/MouseControls',["require", "exports", '../base/incLevel', '../checks/mustBeObject', '../core/ShareableBase', '../math/Vector2'], function (require, exports, incLevel_1, mustBeObject_1, ShareableBase_1, Vector2_1) {
+define('davinci-eight/controls/MouseControls',["require", "exports", '../checks/mustBeObject', '../core/ShareableBase', '../math/Vector2'], function (require, exports, mustBeObject_1, ShareableBase_1, Vector2_1) {
     "use strict";
     var MODE = { NONE: -1, ROTATE: 0, ZOOM: 1, PAN: 2, TOUCH_ROTATE: 3, TOUCH_ZOOM_PAN: 4 };
     var keys = [65, 83, 68];
@@ -5404,7 +5406,7 @@ define('davinci-eight/controls/MouseControls',["require", "exports", '../base/in
             if (this.domElement) {
                 this.unsubscribe();
             }
-            _super.prototype.destructor.call(this, incLevel_1.default(levelUp));
+            _super.prototype.destructor.call(this, levelUp + 1);
         };
         MouseControls.prototype.move = function (x, y) {
             this.moveCurr.x = x;
@@ -8548,7 +8550,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/Scene',["require", "exports", '../collections/ShareableArray', '../checks/mustBeObject', '../core/ShareableContextConsumer'], function (require, exports, ShareableArray_1, mustBeObject_1, ShareableContextConsumer_1) {
+define('davinci-eight/core/Scene',["require", "exports", '../checks/mustBeObject', '../collections/ShareableArray', '../core/ShareableContextConsumer'], function (require, exports, mustBeObject_1, ShareableArray_1, ShareableContextConsumer_1) {
     "use strict";
     var Scene = (function (_super) {
         __extends(Scene, _super);
@@ -12266,6 +12268,9 @@ define('davinci-eight/math/Geometric2',["require", "exports", './arraysEQ', '../
             m.b = β;
             return m;
         };
+        Geometric2.fromBivector = function (B) {
+            return Geometric2.fromCartesian(0, 0, 0, B.b);
+        };
         Geometric2.fromSpinor = function (spinor) {
             return new Geometric2().copySpinor(spinor);
         };
@@ -12716,6 +12721,9 @@ define('davinci-eight/math/Spinor2',["require", "exports", '../math/Coords', '..
         };
         Spinor2.copy = function (spinor) {
             return new Spinor2().copy(spinor);
+        };
+        Spinor2.fromBivector = function (B) {
+            return new Spinor2().zero().addPseudo(B.b);
         };
         Spinor2.lerp = function (a, b, α) {
             return Spinor2.copy(a).lerp(b, α);
@@ -16892,7 +16900,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/collections/StringShareableMap',["require", "exports", '../base/incLevel', '../core/ShareableBase'], function (require, exports, incLevel_1, ShareableBase_1) {
+define('davinci-eight/collections/StringShareableMap',["require", "exports", '../core/ShareableBase'], function (require, exports, ShareableBase_1) {
     "use strict";
     var StringShareableMap = (function (_super) {
         __extends(StringShareableMap, _super);
@@ -16901,12 +16909,12 @@ define('davinci-eight/collections/StringShareableMap',["require", "exports", '..
             this.elements = {};
             this.setLoggingName('StringShareableMap');
         }
-        StringShareableMap.prototype.destructor = function (level) {
+        StringShareableMap.prototype.destructor = function (levelUp) {
             var _this = this;
             this.forEach(function (key) {
                 _this.putWeakRef(key, void 0);
             });
-            _super.prototype.destructor.call(this, incLevel_1.default(level));
+            _super.prototype.destructor.call(this, levelUp + 1);
         };
         StringShareableMap.prototype.exists = function (key) {
             var element = this.elements[key];
@@ -19191,7 +19199,2976 @@ define('davinci-eight/visual/Turtle',["require", "exports", '../core/BeginMode',
     exports.default = Turtle;
 });
 
-define('davinci-eight',["require", "exports", './davinci-eight/commands/WebGLBlendFunc', './davinci-eight/commands/WebGLClearColor', './davinci-eight/commands/WebGLDisable', './davinci-eight/commands/WebGLEnable', './davinci-eight/controls/OrbitControls', './davinci-eight/controls/TrackballControls', './davinci-eight/core/Attrib', './davinci-eight/core/BeginMode', './davinci-eight/core/BlendingFactorDest', './davinci-eight/core/BlendingFactorSrc', './davinci-eight/core/Capability', './davinci-eight/core/ClearBufferMask', './davinci-eight/core/Color', './davinci-eight/config', './davinci-eight/core/DataType', './davinci-eight/core/Drawable', './davinci-eight/core/DepthFunction', './davinci-eight/core/GeometryArrays', './davinci-eight/core/GeometryElements', './davinci-eight/core/GraphicsProgramSymbols', './davinci-eight/core/Mesh', './davinci-eight/core/PixelFormat', './davinci-eight/core/PixelType', './davinci-eight/core/Scene', './davinci-eight/core/Shader', './davinci-eight/core/Uniform', './davinci-eight/core/Usage', './davinci-eight/core/Engine', './davinci-eight/core/VertexBuffer', './davinci-eight/core/IndexBuffer', './davinci-eight/core/vertexArraysFromPrimitive', './davinci-eight/core/geometryFromPrimitive', './davinci-eight/facets/AmbientLight', './davinci-eight/facets/ColorFacet', './davinci-eight/facets/DirectionalLight', './davinci-eight/facets/ModelFacet', './davinci-eight/facets/PointSizeFacet', './davinci-eight/facets/ReflectionFacetE2', './davinci-eight/facets/ReflectionFacetE3', './davinci-eight/facets/Vector3Facet', './davinci-eight/facets/frustumMatrix', './davinci-eight/facets/PerspectiveCamera', './davinci-eight/facets/perspectiveMatrix', './davinci-eight/facets/viewMatrixFromEyeLookUp', './davinci-eight/facets/ModelE2', './davinci-eight/facets/ModelE3', './davinci-eight/atoms/DrawAttribute', './davinci-eight/atoms/DrawPrimitive', './davinci-eight/atoms/reduce', './davinci-eight/atoms/Vertex', './davinci-eight/shapes/ArrowBuilder', './davinci-eight/shapes/ConicalShellBuilder', './davinci-eight/shapes/CylindricalShellBuilder', './davinci-eight/shapes/RingBuilder', './davinci-eight/geometries/Simplex', './davinci-eight/geometries/ArrowGeometry', './davinci-eight/geometries/BoxGeometry', './davinci-eight/geometries/CylinderGeometry', './davinci-eight/geometries/GridGeometry', './davinci-eight/geometries/SphereGeometry', './davinci-eight/geometries/TetrahedronGeometry', './davinci-eight/materials/HTMLScriptsMaterial', './davinci-eight/materials/LineMaterial', './davinci-eight/materials/ShaderMaterial', './davinci-eight/materials/MeshMaterial', './davinci-eight/materials/PointMaterial', './davinci-eight/materials/GraphicsProgramBuilder', './davinci-eight/math/mathcore', './davinci-eight/math/Vector1', './davinci-eight/math/Matrix2', './davinci-eight/math/Matrix3', './davinci-eight/math/Matrix4', './davinci-eight/math/Geometric2', './davinci-eight/math/Geometric3', './davinci-eight/math/Spinor2', './davinci-eight/math/Spinor3', './davinci-eight/math/Vector2', './davinci-eight/math/Vector3', './davinci-eight/math/Vector4', './davinci-eight/math/VectorN', './davinci-eight/utils/getCanvasElementById', './davinci-eight/collections/ShareableArray', './davinci-eight/collections/NumberShareableMap', './davinci-eight/core/refChange', './davinci-eight/core/ShareableBase', './davinci-eight/collections/StringShareableMap', './davinci-eight/utils/animation', './davinci-eight/visual/Arrow', './davinci-eight/visual/Basis', './davinci-eight/visual/Sphere', './davinci-eight/visual/Box', './davinci-eight/visual/Cylinder', './davinci-eight/visual/Curve', './davinci-eight/visual/Grid', './davinci-eight/visual/GridXY', './davinci-eight/visual/GridYZ', './davinci-eight/visual/GridZX', './davinci-eight/visual/HollowCylinder', './davinci-eight/visual/RigidBody', './davinci-eight/visual/Tetrahedron', './davinci-eight/visual/Track', './davinci-eight/visual/Trail', './davinci-eight/visual/Turtle'], function (require, exports, WebGLBlendFunc_1, WebGLClearColor_1, WebGLDisable_1, WebGLEnable_1, OrbitControls_1, TrackballControls_1, Attrib_1, BeginMode_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, ClearBufferMask_1, Color_1, config_1, DataType_1, Drawable_1, DepthFunction_1, GeometryArrays_1, GeometryElements_1, GraphicsProgramSymbols_1, Mesh_1, PixelFormat_1, PixelType_1, Scene_1, Shader_1, Uniform_1, Usage_1, Engine_1, VertexBuffer_1, IndexBuffer_1, vertexArraysFromPrimitive_1, geometryFromPrimitive_1, AmbientLight_1, ColorFacet_1, DirectionalLight_1, ModelFacet_1, PointSizeFacet_1, ReflectionFacetE2_1, ReflectionFacetE3_1, Vector3Facet_1, frustumMatrix_1, PerspectiveCamera_1, perspectiveMatrix_1, viewMatrixFromEyeLookUp_1, ModelE2_1, ModelE3_1, DrawAttribute_1, DrawPrimitive_1, reduce_1, Vertex_1, ArrowBuilder_1, ConicalShellBuilder_1, CylindricalShellBuilder_1, RingBuilder_1, Simplex_1, ArrowGeometry_1, BoxGeometry_1, CylinderGeometry_1, GridGeometry_1, SphereGeometry_1, TetrahedronGeometry_1, HTMLScriptsMaterial_1, LineMaterial_1, ShaderMaterial_1, MeshMaterial_1, PointMaterial_1, GraphicsProgramBuilder_1, mathcore_1, Vector1_1, Matrix2_1, Matrix3_1, Matrix4_1, Geometric2_1, Geometric3_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1, Vector4_1, VectorN_1, getCanvasElementById_1, ShareableArray_1, NumberShareableMap_1, refChange_1, ShareableBase_1, StringShareableMap_1, animation_1, Arrow_1, Basis_1, Sphere_1, Box_1, Cylinder_1, Curve_1, Grid_1, GridXY_1, GridYZ_1, GridZX_1, HollowCylinder_1, RigidBody_1, Tetrahedron_1, Track_1, Trail_1, Turtle_1) {
+define('davinci-eight/physics/QQ',["require", "exports", '../checks/mustBeInteger', '../i18n/readOnly'], function (require, exports, mustBeInteger_1, readOnly_1) {
+    "use strict";
+    var magicCode = Math.random();
+    var QQ = (function () {
+        function QQ(n, d, code) {
+            if (code !== magicCode) {
+                throw new Error("Use the static create method instead of the constructor");
+            }
+            mustBeInteger_1.default('n', n);
+            mustBeInteger_1.default('d', d);
+            var g;
+            var gcd = function (a, b) {
+                var temp;
+                if (a < 0) {
+                    a = -a;
+                }
+                if (b < 0) {
+                    b = -b;
+                }
+                if (b > a) {
+                    temp = a;
+                    a = b;
+                    b = temp;
+                }
+                while (true) {
+                    a %= b;
+                    if (a === 0) {
+                        return b;
+                    }
+                    b %= a;
+                    if (b === 0) {
+                        return a;
+                    }
+                }
+            };
+            if (d === 0) {
+                throw new Error("denominator must not be zero");
+            }
+            if (n === 0) {
+                g = 1;
+            }
+            else {
+                g = gcd(Math.abs(n), Math.abs(d));
+            }
+            if (d < 0) {
+                n = -n;
+                d = -d;
+            }
+            this._numer = n / g;
+            this._denom = d / g;
+        }
+        Object.defineProperty(QQ.prototype, "numer", {
+            get: function () {
+                return this._numer;
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('numer').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(QQ.prototype, "denom", {
+            get: function () {
+                return this._denom;
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('denom').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        QQ.prototype.add = function (rhs) {
+            return QQ.valueOf(this._numer * rhs._denom + this._denom * rhs._numer, this._denom * rhs._denom);
+        };
+        QQ.prototype.sub = function (rhs) {
+            return QQ.valueOf(this._numer * rhs._denom - this._denom * rhs._numer, this._denom * rhs._denom);
+        };
+        QQ.prototype.mul = function (rhs) {
+            return QQ.valueOf(this._numer * rhs._numer, this._denom * rhs._denom);
+        };
+        QQ.prototype.div = function (rhs) {
+            var numer = this._numer * rhs._denom;
+            var denom = this._denom * rhs._numer;
+            if (numer === 0) {
+                if (denom === 0) {
+                    return QQ.valueOf(numer, denom);
+                }
+                else {
+                    return QQ.ZERO;
+                }
+            }
+            else {
+                if (denom === 0) {
+                    return QQ.valueOf(numer, denom);
+                }
+                else {
+                    return QQ.valueOf(numer, denom);
+                }
+            }
+        };
+        QQ.prototype.isOne = function () {
+            return this._numer === 1 && this._denom === 1;
+        };
+        QQ.prototype.isZero = function () {
+            return this._numer === 0 && this._denom === 1;
+        };
+        QQ.prototype.hashCode = function () {
+            return 37 * this.numer + 13 * this.denom;
+        };
+        QQ.prototype.inv = function () {
+            return QQ.valueOf(this._denom, this._numer);
+        };
+        QQ.prototype.neg = function () {
+            return QQ.valueOf(-this._numer, this._denom);
+        };
+        QQ.prototype.equals = function (other) {
+            if (other instanceof QQ) {
+                return this._numer * other._denom === this._denom * other._numer;
+            }
+            else {
+                return false;
+            }
+        };
+        QQ.prototype.toString = function () {
+            return "" + this._numer + "/" + this._denom + "";
+        };
+        QQ.prototype.__add__ = function (rhs) {
+            if (rhs instanceof QQ) {
+                return this.add(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        QQ.prototype.__radd__ = function (lhs) {
+            if (lhs instanceof QQ) {
+                return lhs.add(this);
+            }
+            else {
+                return void 0;
+            }
+        };
+        QQ.prototype.__sub__ = function (rhs) {
+            if (rhs instanceof QQ) {
+                return this.sub(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        QQ.prototype.__rsub__ = function (lhs) {
+            if (lhs instanceof QQ) {
+                return lhs.sub(this);
+            }
+            else {
+                return void 0;
+            }
+        };
+        QQ.prototype.__mul__ = function (rhs) {
+            if (rhs instanceof QQ) {
+                return this.mul(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        QQ.prototype.__rmul__ = function (lhs) {
+            if (lhs instanceof QQ) {
+                return lhs.mul(this);
+            }
+            else {
+                return void 0;
+            }
+        };
+        QQ.prototype.__div__ = function (rhs) {
+            if (rhs instanceof QQ) {
+                return this.div(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        QQ.prototype.__rdiv__ = function (lhs) {
+            if (lhs instanceof QQ) {
+                return lhs.div(this);
+            }
+            else {
+                return void 0;
+            }
+        };
+        QQ.prototype.__pos__ = function () {
+            return this;
+        };
+        QQ.prototype.__neg__ = function () {
+            return this.neg();
+        };
+        QQ.valueOf = function (n, d) {
+            if (n === 0) {
+                if (d !== 0) {
+                    return QQ.ZERO;
+                }
+                else {
+                }
+            }
+            else if (d === 0) {
+            }
+            else if (n === d) {
+                return QQ.ONE;
+            }
+            else if (n === 1) {
+                if (d === 2) {
+                    return QQ.POS_01_02;
+                }
+                else if (d === 3) {
+                    return QQ.POS_01_03;
+                }
+                else if (d === 4) {
+                    return QQ.POS_01_04;
+                }
+                else if (d === 5) {
+                    return QQ.POS_01_05;
+                }
+                else if (d === -3) {
+                    return QQ.NEG_01_03;
+                }
+            }
+            else if (n === -1) {
+                if (d === 1) {
+                    return QQ.NEG_01_01;
+                }
+                else if (d === 3) {
+                    return QQ.NEG_01_03;
+                }
+            }
+            else if (n === 2) {
+                if (d === 1) {
+                    return QQ.POS_02_01;
+                }
+                else if (d === 3) {
+                    return QQ.POS_02_03;
+                }
+            }
+            else if (n === -2) {
+                if (d === 1) {
+                    return QQ.NEG_02_01;
+                }
+            }
+            else if (n === 3) {
+                if (d === 1) {
+                    return QQ.POS_03_01;
+                }
+            }
+            else if (n === -3) {
+                if (d === 1) {
+                    return QQ.NEG_03_01;
+                }
+            }
+            else if (n === 4) {
+                if (d === 1) {
+                    return QQ.POS_04_01;
+                }
+            }
+            else if (n === 5) {
+                if (d === 1) {
+                    return QQ.POS_05_01;
+                }
+            }
+            else if (n === 6) {
+                if (d === 1) {
+                    return QQ.POS_06_01;
+                }
+            }
+            else if (n === 7) {
+                if (d === 1) {
+                    return QQ.POS_07_01;
+                }
+            }
+            else if (n === 8) {
+                if (d === 1) {
+                    return QQ.POS_08_01;
+                }
+            }
+            return new QQ(n, d, magicCode);
+        };
+        QQ.POS_08_01 = new QQ(8, 1, magicCode);
+        QQ.POS_07_01 = new QQ(7, 1, magicCode);
+        QQ.POS_06_01 = new QQ(6, 1, magicCode);
+        QQ.POS_05_01 = new QQ(5, 1, magicCode);
+        QQ.POS_04_01 = new QQ(4, 1, magicCode);
+        QQ.POS_03_01 = new QQ(3, 1, magicCode);
+        QQ.POS_02_01 = new QQ(2, 1, magicCode);
+        QQ.ONE = new QQ(1, 1, magicCode);
+        QQ.POS_01_02 = new QQ(1, 2, magicCode);
+        QQ.POS_01_03 = new QQ(1, 3, magicCode);
+        QQ.POS_01_04 = new QQ(1, 4, magicCode);
+        QQ.POS_01_05 = new QQ(1, 5, magicCode);
+        QQ.ZERO = new QQ(0, 1, magicCode);
+        QQ.NEG_01_03 = new QQ(-1, 3, magicCode);
+        QQ.NEG_01_01 = new QQ(-1, 1, magicCode);
+        QQ.NEG_02_01 = new QQ(-2, 1, magicCode);
+        QQ.NEG_03_01 = new QQ(-3, 1, magicCode);
+        QQ.POS_02_03 = new QQ(2, 3, magicCode);
+        return QQ;
+    }());
+    exports.QQ = QQ;
+});
+
+define('davinci-eight/physics/Dimensions',["require", "exports", './QQ', '../i18n/notSupported'], function (require, exports, QQ_1, notSupported_1) {
+    "use strict";
+    var R0 = QQ_1.QQ.valueOf(0, 1);
+    var R1 = QQ_1.QQ.valueOf(1, 1);
+    var R2 = QQ_1.QQ.valueOf(2, 1);
+    var M1 = QQ_1.QQ.valueOf(-1, 1);
+    function assertArgRational(name, arg) {
+        if (arg instanceof QQ_1.QQ) {
+            return arg;
+        }
+        else {
+            throw new Error("Argument '" + arg + "' must be a QQ");
+        }
+    }
+    var Dimensions = (function () {
+        function Dimensions(M, L, T, Q, temperature, amount, intensity) {
+            this.M = M;
+            this.L = L;
+            this.T = T;
+            this.Q = Q;
+            this.temperature = temperature;
+            this.amount = amount;
+            this.intensity = intensity;
+            assertArgRational('M', M);
+            assertArgRational('L', L);
+            assertArgRational('T', T);
+            assertArgRational('Q', Q);
+            assertArgRational('temperature', temperature);
+            assertArgRational('amount', amount);
+            assertArgRational('intensity', intensity);
+            if (arguments.length !== 7) {
+                throw new Error("Expecting 7 arguments");
+            }
+        }
+        Dimensions.prototype.compatible = function (rhs) {
+            if (this.M.equals(rhs.M) && this.L.equals(rhs.L) && this.T.equals(rhs.T) && this.Q.equals(rhs.Q) && this.temperature.equals(rhs.temperature) && this.amount.equals(rhs.amount) && this.intensity.equals(rhs.intensity)) {
+                return this;
+            }
+            else {
+                if (this.isOne()) {
+                    if (rhs.isOne()) {
+                        throw new Error();
+                    }
+                    else {
+                        throw new Error("Dimensions must be equal (dimensionless, " + rhs + ")");
+                    }
+                }
+                else {
+                    if (rhs.isOne()) {
+                        throw new Error("Dimensions must be equal (" + this + ", dimensionless)");
+                    }
+                    else {
+                        throw new Error("Dimensions must be equal (" + this + ", " + rhs + ")");
+                    }
+                }
+            }
+        };
+        Dimensions.prototype.mul = function (rhs) {
+            return new Dimensions(this.M.add(rhs.M), this.L.add(rhs.L), this.T.add(rhs.T), this.Q.add(rhs.Q), this.temperature.add(rhs.temperature), this.amount.add(rhs.amount), this.intensity.add(rhs.intensity));
+        };
+        Dimensions.prototype.div = function (rhs) {
+            return new Dimensions(this.M.sub(rhs.M), this.L.sub(rhs.L), this.T.sub(rhs.T), this.Q.sub(rhs.Q), this.temperature.sub(rhs.temperature), this.amount.sub(rhs.amount), this.intensity.sub(rhs.intensity));
+        };
+        Dimensions.prototype.pow = function (exponent) {
+            return new Dimensions(this.M.mul(exponent), this.L.mul(exponent), this.T.mul(exponent), this.Q.mul(exponent), this.temperature.mul(exponent), this.amount.mul(exponent), this.intensity.mul(exponent));
+        };
+        Dimensions.prototype.sqrt = function () {
+            return new Dimensions(this.M.div(R2), this.L.div(R2), this.T.div(R2), this.Q.div(R2), this.temperature.div(R2), this.amount.div(R2), this.intensity.div(R2));
+        };
+        Dimensions.prototype.isOne = function () {
+            return this.M.isZero() && this.L.isZero() && this.T.isZero() && this.Q.isZero() && this.temperature.isZero() && this.amount.isZero() && this.intensity.isZero();
+        };
+        Dimensions.prototype.isZero = function () {
+            throw new Error(notSupported_1.default('isZero').message);
+        };
+        Dimensions.prototype.inv = function () {
+            return new Dimensions(this.M.neg(), this.L.neg(), this.T.neg(), this.Q.neg(), this.temperature.neg(), this.amount.neg(), this.intensity.neg());
+        };
+        Dimensions.prototype.neg = function () {
+            throw new Error(notSupported_1.default('neg').message);
+        };
+        Dimensions.prototype.toString = function () {
+            var stringify = function (rational, label) {
+                if (rational.numer === 0) {
+                    return null;
+                }
+                else if (rational.denom === 1) {
+                    if (rational.numer === 1) {
+                        return "" + label;
+                    }
+                    else {
+                        return "" + label + " ** " + rational.numer;
+                    }
+                }
+                return "" + label + " ** " + rational;
+            };
+            return [stringify(this.M, 'mass'), stringify(this.L, 'length'), stringify(this.T, 'time'), stringify(this.Q, 'charge'), stringify(this.temperature, 'thermodynamic temperature'), stringify(this.amount, 'amount of substance'), stringify(this.intensity, 'luminous intensity')].filter(function (x) {
+                return typeof x === 'string';
+            }).join(" * ");
+        };
+        Dimensions.prototype.__add__ = function (rhs) {
+            if (rhs instanceof Dimensions) {
+                return this.compatible(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        Dimensions.prototype.__radd__ = function (lhs) {
+            if (lhs instanceof Dimensions) {
+                return lhs.compatible(this);
+            }
+            else {
+                return void 0;
+            }
+        };
+        Dimensions.prototype.__sub__ = function (rhs) {
+            if (rhs instanceof Dimensions) {
+                return this.compatible(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        Dimensions.prototype.__rsub__ = function (lhs) {
+            if (lhs instanceof Dimensions) {
+                return lhs.compatible(this);
+            }
+            else {
+                return void 0;
+            }
+        };
+        Dimensions.prototype.__mul__ = function (rhs) {
+            if (rhs instanceof Dimensions) {
+                return this.mul(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        Dimensions.prototype.__rmul__ = function (lhs) {
+            if (lhs instanceof Dimensions) {
+                return lhs.mul(this);
+            }
+            else {
+                return void 0;
+            }
+        };
+        Dimensions.prototype.__div__ = function (rhs) {
+            if (rhs instanceof Dimensions) {
+                return this.div(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        Dimensions.prototype.__rdiv__ = function (lhs) {
+            if (lhs instanceof Dimensions) {
+                return lhs.div(this);
+            }
+            else {
+                return void 0;
+            }
+        };
+        Dimensions.prototype.__pos__ = function () {
+            return this;
+        };
+        Dimensions.prototype.__neg__ = function () {
+            return this;
+        };
+        Dimensions.ONE = new Dimensions(R0, R0, R0, R0, R0, R0, R0);
+        Dimensions.MASS = new Dimensions(R1, R0, R0, R0, R0, R0, R0);
+        Dimensions.LENGTH = new Dimensions(R0, R1, R0, R0, R0, R0, R0);
+        Dimensions.TIME = new Dimensions(R0, R0, R1, R0, R0, R0, R0);
+        Dimensions.CHARGE = new Dimensions(R0, R0, R0, R1, R0, R0, R0);
+        Dimensions.CURRENT = new Dimensions(R0, R0, M1, R1, R0, R0, R0);
+        Dimensions.TEMPERATURE = new Dimensions(R0, R0, R0, R0, R1, R0, R0);
+        Dimensions.AMOUNT = new Dimensions(R0, R0, R0, R0, R0, R1, R0);
+        Dimensions.INTENSITY = new Dimensions(R0, R0, R0, R0, R0, R0, R1);
+        return Dimensions;
+    }());
+    exports.Dimensions = Dimensions;
+});
+
+define('davinci-eight/physics/bezier2',["require", "exports"], function (require, exports) {
+    "use strict";
+    function b2p0(t, p) {
+        var k = 1 - t;
+        return k * k * p;
+    }
+    function b2p1(t, p) {
+        return 2 * (1 - t) * t * p;
+    }
+    function b2p2(t, p) {
+        return t * t * p;
+    }
+    function b2(t, begin, control, end) {
+        return b2p0(t, begin) + b2p1(t, control) + b2p2(t, end);
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = b2;
+});
+
+define('davinci-eight/physics/bezier3',["require", "exports"], function (require, exports) {
+    "use strict";
+    function b3p0(t, p) {
+        var k = 1 - t;
+        return k * k * k * p;
+    }
+    function b3p1(t, p) {
+        var k = 1 - t;
+        return 3 * k * k * t * p;
+    }
+    function b3p2(t, p) {
+        var k = 1 - t;
+        return 3 * k * t * t * p;
+    }
+    function b3p3(t, p) {
+        return t * t * t * p;
+    }
+    function default_1(t, p0, p1, p2, p3) {
+        return b3p0(t, p0) + b3p1(t, p1) + b3p2(t, p2) + b3p3(t, p3);
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = default_1;
+});
+
+define('davinci-eight/physics/Unit',["require", "exports", './Dimensions', '../i18n/notImplemented', '../i18n/notSupported'], function (require, exports, Dimensions_1, notImplemented_1, notSupported_1) {
+    "use strict";
+    var SYMBOLS_SI = ['kg', 'm', 's', 'C', 'K', 'mol', 'cd'];
+    var patterns = [
+        [-1, 1, -3, 1, 2, 1, 2, 1, 0, 1, 0, 1, 0, 1],
+        [-1, 1, -2, 1, 1, 1, 2, 1, 0, 1, 0, 1, 0, 1],
+        [-1, 1, -2, 1, 2, 1, 2, 1, 0, 1, 0, 1, 0, 1],
+        [-1, 1, +0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1],
+        [+0, 1, -3, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1],
+        [+0, 1, 2, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+        [+0, 1, 0, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+        [+0, 1, 0, 1, -1, 1, 1, 1, 0, 1, 0, 1, 0, 1],
+        [0, 1, 1, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+        [0, 1, 1, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+        [1, 1, 1, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+        [1, 1, -1, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+        [1, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+        [1, 1, 0, 1, -3, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+        [1, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+        [1, 1, 0, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1],
+        [1, 1, 1, 1, -3, 1, 0, 1, -1, 1, 0, 1, 0, 1],
+        [1, 1, 1, 1, -2, 1, -1, 1, 0, 1, 0, 1, 0, 1],
+        [1, 1, 1, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+        [1, 1, 1, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1],
+        [1, 1, 2, 1, -2, 1, 0, 1, -1, 1, 0, 1, 0, 1],
+        [0, 1, 2, 1, -2, 1, 0, 1, -1, 1, 0, 1, 0, 1],
+        [1, 1, 2, 1, -2, 1, 0, 1, -1, 1, -1, 1, 0, 1],
+        [1, 1, 2, 1, -2, 1, 0, 1, 0, 1, -1, 1, 0, 1],
+        [1, 1, 2, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+        [1, 1, 2, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+        [1, 1, 2, 1, -3, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+        [1, 1, 2, 1, -2, 1, -1, 1, 0, 1, 0, 1, 0, 1],
+        [1, 1, 2, 1, -1, 1, -2, 1, 0, 1, 0, 1, 0, 1],
+        [1, 1, 2, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1],
+        [1, 1, 2, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1]
+    ];
+    var decodes = [
+        ["F/m"],
+        ["S"],
+        ["F"],
+        ["C/kg"],
+        ["C/m ** 3"],
+        ["J/kg"],
+        ["Hz"],
+        ["A"],
+        ["m/s ** 2"],
+        ["m/s"],
+        ["kg·m/s"],
+        ["Pa"],
+        ["Pa·s"],
+        ["W/m ** 2"],
+        ["N/m"],
+        ["T"],
+        ["W/(m·K)"],
+        ["V/m"],
+        ["N"],
+        ["H/m"],
+        ["J/K"],
+        ["J/(kg·K)"],
+        ["J/(mol·K)"],
+        ["J/mol"],
+        ["J"],
+        ["J·s"],
+        ["W"],
+        ["V"],
+        ["Ω"],
+        ["H"],
+        ["Wb"]
+    ];
+    var dumbString = function (multiplier, formatted, dimensions, labels) {
+        var stringify = function (rational, label) {
+            if (rational.numer === 0) {
+                return null;
+            }
+            else if (rational.denom === 1) {
+                if (rational.numer === 1) {
+                    return "" + label;
+                }
+                else {
+                    return "" + label + " ** " + rational.numer;
+                }
+            }
+            return "" + label + " ** " + rational;
+        };
+        var operatorStr = multiplier === 1 || dimensions.isOne() ? "" : " ";
+        var scaleString = multiplier === 1 ? "" : formatted;
+        var unitsString = [stringify(dimensions.M, labels[0]), stringify(dimensions.L, labels[1]), stringify(dimensions.T, labels[2]), stringify(dimensions.Q, labels[3]), stringify(dimensions.temperature, labels[4]), stringify(dimensions.amount, labels[5]), stringify(dimensions.intensity, labels[6])].filter(function (x) {
+            return typeof x === 'string';
+        }).join(" ");
+        return "" + scaleString + operatorStr + unitsString;
+    };
+    var unitString = function (multiplier, formatted, dimensions, labels) {
+        var M = dimensions.M;
+        var L = dimensions.L;
+        var T = dimensions.T;
+        var Q = dimensions.Q;
+        var temperature = dimensions.temperature;
+        var amount = dimensions.amount;
+        var intensity = dimensions.intensity;
+        for (var i = 0, len = patterns.length; i < len; i++) {
+            var pattern = patterns[i];
+            if (M.numer === pattern[0] && M.denom === pattern[1] &&
+                L.numer === pattern[2] && L.denom === pattern[3] &&
+                T.numer === pattern[4] && T.denom === pattern[5] &&
+                Q.numer === pattern[6] && Q.denom === pattern[7] &&
+                temperature.numer === pattern[8] && temperature.denom === pattern[9] &&
+                amount.numer === pattern[10] && amount.denom === pattern[11] &&
+                intensity.numer === pattern[12] && intensity.denom === pattern[13]) {
+                if (multiplier !== 1) {
+                    return multiplier + " * " + decodes[i][0];
+                }
+                else {
+                    return decodes[i][0];
+                }
+            }
+        }
+        return dumbString(multiplier, formatted, dimensions, labels);
+    };
+    function add(lhs, rhs) {
+        return new Unit(lhs.multiplier + rhs.multiplier, lhs.dimensions.compatible(rhs.dimensions), lhs.labels);
+    }
+    function sub(lhs, rhs) {
+        return new Unit(lhs.multiplier - rhs.multiplier, lhs.dimensions.compatible(rhs.dimensions), lhs.labels);
+    }
+    function mul(lhs, rhs) {
+        return new Unit(lhs.multiplier * rhs.multiplier, lhs.dimensions.mul(rhs.dimensions), lhs.labels);
+    }
+    function scale(α, unit) {
+        return new Unit(α * unit.multiplier, unit.dimensions, unit.labels);
+    }
+    function div(lhs, rhs) {
+        return new Unit(lhs.multiplier / rhs.multiplier, lhs.dimensions.div(rhs.dimensions), lhs.labels);
+    }
+    var Unit = (function () {
+        function Unit(multiplier, dimensions, labels) {
+            this.multiplier = multiplier;
+            this.dimensions = dimensions;
+            this.labels = labels;
+            if (labels.length !== 7) {
+                throw new Error("Expecting 7 elements in the labels array.");
+            }
+            this.multiplier = multiplier;
+            this.dimensions = dimensions;
+            this.labels = labels;
+        }
+        Unit.prototype.compatible = function (rhs) {
+            if (rhs instanceof Unit) {
+                this.dimensions.compatible(rhs.dimensions);
+                return this;
+            }
+            else {
+                throw new Error("Illegal Argument for Unit.compatible: " + rhs);
+            }
+        };
+        Unit.prototype.add = function (rhs) {
+            return add(this, rhs);
+        };
+        Unit.prototype.__add__ = function (rhs) {
+            if (rhs instanceof Unit) {
+                return add(this, rhs);
+            }
+            else {
+                return;
+            }
+        };
+        Unit.prototype.__radd__ = function (lhs) {
+            if (lhs instanceof Unit) {
+                return add(lhs, this);
+            }
+            else {
+                return;
+            }
+        };
+        Unit.prototype.sub = function (rhs) {
+            return sub(this, rhs);
+        };
+        Unit.prototype.__sub__ = function (rhs) {
+            if (rhs instanceof Unit) {
+                return sub(this, rhs);
+            }
+            else {
+                return;
+            }
+        };
+        Unit.prototype.__rsub__ = function (lhs) {
+            if (lhs instanceof Unit) {
+                return sub(lhs, this);
+            }
+            else {
+                return;
+            }
+        };
+        Unit.prototype.mul = function (rhs) {
+            return mul(this, rhs);
+        };
+        Unit.prototype.__mul__ = function (rhs) {
+            if (rhs instanceof Unit) {
+                return mul(this, rhs);
+            }
+            else if (typeof rhs === 'number') {
+                return scale(rhs, this);
+            }
+            else {
+                return;
+            }
+        };
+        Unit.prototype.__rmul__ = function (lhs) {
+            if (lhs instanceof Unit) {
+                return mul(lhs, this);
+            }
+            else if (typeof lhs === 'number') {
+                return scale(lhs, this);
+            }
+            else {
+                return;
+            }
+        };
+        Unit.prototype.div = function (rhs) {
+            return div(this, rhs);
+        };
+        Unit.prototype.divByScalar = function (α) {
+            return new Unit(this.multiplier / α, this.dimensions, this.labels);
+        };
+        Unit.prototype.__div__ = function (other) {
+            if (other instanceof Unit) {
+                return div(this, other);
+            }
+            else if (typeof other === 'number') {
+                return new Unit(this.multiplier / other, this.dimensions, this.labels);
+            }
+            else {
+                return;
+            }
+        };
+        Unit.prototype.__rdiv__ = function (other) {
+            if (other instanceof Unit) {
+                return div(other, this);
+            }
+            else if (typeof other === 'number') {
+                return new Unit(other / this.multiplier, this.dimensions.inv(), this.labels);
+            }
+            else {
+                return;
+            }
+        };
+        Unit.prototype.pattern = function () {
+            var ns = [];
+            ns.push(this.dimensions.M.numer);
+            ns.push(this.dimensions.M.denom);
+            ns.push(this.dimensions.L.numer);
+            ns.push(this.dimensions.L.denom);
+            ns.push(this.dimensions.T.numer);
+            ns.push(this.dimensions.T.denom);
+            ns.push(this.dimensions.Q.numer);
+            ns.push(this.dimensions.Q.denom);
+            ns.push(this.dimensions.temperature.numer);
+            ns.push(this.dimensions.temperature.denom);
+            ns.push(this.dimensions.amount.numer);
+            ns.push(this.dimensions.amount.denom);
+            ns.push(this.dimensions.intensity.numer);
+            ns.push(this.dimensions.intensity.denom);
+            return JSON.stringify(ns);
+        };
+        Unit.prototype.pow = function (exponent) {
+            return new Unit(Math.pow(this.multiplier, exponent.numer / exponent.denom), this.dimensions.pow(exponent), this.labels);
+        };
+        Unit.prototype.inv = function () {
+            return new Unit(1 / this.multiplier, this.dimensions.inv(), this.labels);
+        };
+        Unit.prototype.neg = function () {
+            return new Unit(-this.multiplier, this.dimensions, this.labels);
+        };
+        Unit.prototype.isOne = function () {
+            return this.dimensions.isOne() && (this.multiplier === 1);
+        };
+        Unit.prototype.isZero = function () {
+            return this.dimensions.isZero() || (this.multiplier === 0);
+        };
+        Unit.prototype.lerp = function (target, α) {
+            throw new Error(notImplemented_1.default('lerp').message);
+        };
+        Unit.prototype.norm = function () {
+            return new Unit(Math.abs(this.multiplier), this.dimensions, this.labels);
+        };
+        Unit.prototype.quad = function () {
+            return new Unit(this.multiplier * this.multiplier, this.dimensions.mul(this.dimensions), this.labels);
+        };
+        Unit.prototype.reflect = function (n) {
+            return this;
+        };
+        Unit.prototype.rotate = function (rotor) {
+            return this;
+        };
+        Unit.prototype.scale = function (α) {
+            return new Unit(this.multiplier * α, this.dimensions, this.labels);
+        };
+        Unit.prototype.slerp = function (target, α) {
+            throw new Error(notImplemented_1.default('slerp').message);
+        };
+        Unit.prototype.sqrt = function () {
+            return new Unit(Math.sqrt(this.multiplier), this.dimensions.sqrt(), this.labels);
+        };
+        Unit.prototype.stress = function (σ) {
+            throw new Error(notSupported_1.default('stress').message);
+        };
+        Unit.prototype.toExponential = function (fractionDigits) {
+            return unitString(this.multiplier, this.multiplier.toExponential(fractionDigits), this.dimensions, this.labels);
+        };
+        Unit.prototype.toFixed = function (fractionDigits) {
+            return unitString(this.multiplier, this.multiplier.toFixed(fractionDigits), this.dimensions, this.labels);
+        };
+        Unit.prototype.toPrecision = function (precision) {
+            return unitString(this.multiplier, this.multiplier.toPrecision(precision), this.dimensions, this.labels);
+        };
+        Unit.prototype.toString = function (radix) {
+            return unitString(this.multiplier, this.multiplier.toString(radix), this.dimensions, this.labels);
+        };
+        Unit.prototype.__pos__ = function () {
+            return this;
+        };
+        Unit.prototype.__neg__ = function () {
+            return this.neg();
+        };
+        Unit.isOne = function (uom) {
+            if (uom === void 0) {
+                return true;
+            }
+            else if (uom instanceof Unit) {
+                return uom.isOne();
+            }
+            else {
+                throw new Error("isOne argument must be a Unit or undefined.");
+            }
+        };
+        Unit.assertDimensionless = function (uom) {
+            if (!Unit.isOne(uom)) {
+                throw new Error("uom must be dimensionless.");
+            }
+        };
+        Unit.compatible = function (lhs, rhs) {
+            if (lhs) {
+                if (rhs) {
+                    return lhs.compatible(rhs);
+                }
+                else {
+                    if (lhs.isOne()) {
+                        return void 0;
+                    }
+                    else {
+                        throw new Error(lhs + " is incompatible with 1");
+                    }
+                }
+            }
+            else {
+                if (rhs) {
+                    if (rhs.isOne()) {
+                        return void 0;
+                    }
+                    else {
+                        throw new Error("1 is incompatible with " + rhs);
+                    }
+                }
+                else {
+                    return void 0;
+                }
+            }
+        };
+        Unit.mul = function (lhs, rhs) {
+            if (lhs) {
+                if (rhs) {
+                    return lhs.mul(rhs);
+                }
+                else if (Unit.isOne(rhs)) {
+                    return lhs;
+                }
+                else {
+                    return void 0;
+                }
+            }
+            else if (Unit.isOne(lhs)) {
+                return rhs;
+            }
+            else {
+                return void 0;
+            }
+        };
+        Unit.div = function (lhs, rhs) {
+            if (lhs) {
+                if (rhs) {
+                    return lhs.div(rhs);
+                }
+                else {
+                    return lhs;
+                }
+            }
+            else {
+                if (rhs) {
+                    return rhs.inv();
+                }
+                else {
+                    return void 0;
+                }
+            }
+        };
+        Unit.sqrt = function (uom) {
+            if (typeof uom !== 'undefined') {
+                if (!uom.isOne()) {
+                    return new Unit(Math.sqrt(uom.multiplier), uom.dimensions.sqrt(), uom.labels);
+                }
+                else {
+                    return void 0;
+                }
+            }
+            else {
+                return void 0;
+            }
+        };
+        Unit.ONE = new Unit(1.0, Dimensions_1.Dimensions.ONE, SYMBOLS_SI);
+        Unit.KILOGRAM = new Unit(1.0, Dimensions_1.Dimensions.MASS, SYMBOLS_SI);
+        Unit.METER = new Unit(1.0, Dimensions_1.Dimensions.LENGTH, SYMBOLS_SI);
+        Unit.SECOND = new Unit(1.0, Dimensions_1.Dimensions.TIME, SYMBOLS_SI);
+        Unit.COULOMB = new Unit(1.0, Dimensions_1.Dimensions.CHARGE, SYMBOLS_SI);
+        Unit.AMPERE = new Unit(1.0, Dimensions_1.Dimensions.CURRENT, SYMBOLS_SI);
+        Unit.KELVIN = new Unit(1.0, Dimensions_1.Dimensions.TEMPERATURE, SYMBOLS_SI);
+        Unit.MOLE = new Unit(1.0, Dimensions_1.Dimensions.AMOUNT, SYMBOLS_SI);
+        Unit.CANDELA = new Unit(1.0, Dimensions_1.Dimensions.INTENSITY, SYMBOLS_SI);
+        return Unit;
+    }());
+    exports.Unit = Unit;
+});
+
+define('davinci-eight/physics/G2',["require", "exports", './bezier2', './bezier3', '../math/extE2', '../math/gauss', '../math/lcoE2', '../math/mulE2', '../i18n/notImplemented', '../i18n/notSupported', '../i18n/readOnly', '../math/rcoE2', '../math/scpE2', '../math/stringFromCoordinates', './Unit'], function (require, exports, bezier2_1, bezier3_1, extE2_1, gauss_1, lcoE2_1, mulE2_1, notImplemented_1, notSupported_1, readOnly_1, rcoE2_1, scpE2_1, stringFromCoordinates_1, Unit_1) {
+    "use strict";
+    var COORD_SCALAR = 0;
+    var COORD_X = 1;
+    var COORD_Y = 2;
+    var COORD_PSEUDO = 3;
+    function add00(a00, a01, a10, a11, b00, b01, b10, b11) {
+        a00 = +a00;
+        a01 = +a01;
+        a10 = +a10;
+        a11 = +a11;
+        b00 = +b00;
+        b01 = +b01;
+        b10 = +b10;
+        b11 = +b11;
+        return +(a00 + b00);
+    }
+    function add01(a00, a01, a10, a11, b00, b01, b10, b11) {
+        a00 = +a00;
+        a01 = +a01;
+        a10 = +a10;
+        a11 = +a11;
+        b00 = +b00;
+        b01 = +b01;
+        b10 = +b10;
+        b11 = +b11;
+        return +(a01 + b01);
+    }
+    function add10(a00, a01, a10, a11, b00, b01, b10, b11) {
+        a00 = +a00;
+        a01 = +a01;
+        a10 = +a10;
+        a11 = +a11;
+        b00 = +b00;
+        b01 = +b01;
+        b10 = +b10;
+        b11 = +b11;
+        return +(a10 + b10);
+    }
+    function add11(a00, a01, a10, a11, b00, b01, b10, b11) {
+        a00 = +a00;
+        a01 = +a01;
+        a10 = +a10;
+        a11 = +a11;
+        b00 = +b00;
+        b01 = +b01;
+        b10 = +b10;
+        b11 = +b11;
+        return +(a11 + b11);
+    }
+    function subE2(a0, a1, a2, a3, b0, b1, b2, b3, index) {
+        a0 = +a0;
+        a1 = +a1;
+        a2 = +a2;
+        a3 = +a3;
+        b0 = +b0;
+        b1 = +b1;
+        b2 = +b2;
+        b3 = +b3;
+        index = index | 0;
+        var x = 0.0;
+        switch (~(~index)) {
+            case 0:
+                {
+                    x = +(a0 - b0);
+                }
+                break;
+            case 1:
+                {
+                    x = +(a1 - b1);
+                }
+                break;
+            case 2:
+                {
+                    x = +(a2 - b2);
+                }
+                break;
+            case 3:
+                {
+                    x = +(a3 - b3);
+                }
+                break;
+            default: {
+                throw new Error("index must be in the range [0..3]");
+            }
+        }
+        return +x;
+    }
+    var G2 = (function () {
+        function G2(α, x, y, β, uom) {
+            if (α === void 0) { α = 0; }
+            if (x === void 0) { x = 0; }
+            if (y === void 0) { y = 0; }
+            if (β === void 0) { β = 0; }
+            this._coords = [0, 0, 0, 0];
+            this._coords[COORD_SCALAR] = α;
+            this._coords[COORD_X] = x;
+            this._coords[COORD_Y] = y;
+            this._coords[COORD_PSEUDO] = β;
+            this.uom = uom;
+            if (this.uom && this.uom.multiplier !== 1) {
+                var multiplier = this.uom.multiplier;
+                this._coords[COORD_SCALAR] *= multiplier;
+                this._coords[COORD_X] *= multiplier;
+                this._coords[COORD_Y] *= multiplier;
+                this._coords[COORD_PSEUDO] *= multiplier;
+                this.uom = new Unit_1.Unit(1, uom.dimensions, uom.labels);
+            }
+        }
+        Object.defineProperty(G2, "zero", {
+            get: function () {
+                return G2._zero;
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('zero').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(G2, "one", {
+            get: function () {
+                return G2._one;
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('one').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(G2, "e1", {
+            get: function () {
+                return G2._e1;
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('e1').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(G2, "e2", {
+            get: function () {
+                return G2._e2;
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('e2').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(G2, "I", {
+            get: function () {
+                return G2._I;
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('I').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(G2.prototype, "a", {
+            get: function () {
+                return this._coords[COORD_SCALAR];
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('a').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(G2.prototype, "x", {
+            get: function () {
+                return this._coords[COORD_X];
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('x').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(G2.prototype, "y", {
+            get: function () {
+                return this._coords[COORD_Y];
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('y').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(G2.prototype, "b", {
+            get: function () {
+                return this._coords[COORD_PSEUDO];
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('b').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        G2.fromCartesian = function (α, x, y, β, uom) {
+            return new G2(α, x, y, β, uom);
+        };
+        Object.defineProperty(G2.prototype, "coords", {
+            get: function () {
+                return [this.a, this.x, this.y, this.b];
+            },
+            enumerable: true,
+            configurable: true
+        });
+        G2.prototype.coordinate = function (index) {
+            switch (index) {
+                case 0:
+                    return this.a;
+                case 1:
+                    return this.x;
+                case 2:
+                    return this.y;
+                case 3:
+                    return this.b;
+                default:
+                    throw new Error("index must be in the range [0..3]");
+            }
+        };
+        G2.add = function (a, b) {
+            var a00 = a[0];
+            var a01 = a[1];
+            var a10 = a[2];
+            var a11 = a[3];
+            var b00 = b[0];
+            var b01 = b[1];
+            var b10 = b[2];
+            var b11 = b[3];
+            var x00 = add00(a00, a01, a10, a11, b00, b01, b10, b11);
+            var x01 = add01(a00, a01, a10, a11, b00, b01, b10, b11);
+            var x10 = add10(a00, a01, a10, a11, b00, b01, b10, b11);
+            var x11 = add11(a00, a01, a10, a11, b00, b01, b10, b11);
+            return [x00, x01, x10, x11];
+        };
+        G2.prototype.add = function (rhs) {
+            var xs = G2.add(this.coords, rhs.coords);
+            return new G2(xs[0], xs[1], xs[2], xs[3], Unit_1.Unit.compatible(this.uom, rhs.uom));
+        };
+        G2.prototype.addPseudo = function (β) {
+            return new G2(this.a, this.x, this.y, this.b + β.multiplier, Unit_1.Unit.compatible(this.uom, β));
+        };
+        G2.prototype.addScalar = function (α) {
+            return new G2(this.a + α.multiplier, this.x, this.y, this.b, Unit_1.Unit.compatible(this.uom, α));
+        };
+        G2.prototype.__add__ = function (other) {
+            if (other instanceof G2) {
+                return this.add(other);
+            }
+            else if (typeof other === 'number') {
+                return this.add(new G2(other, 0, 0, 0, undefined));
+            }
+        };
+        G2.prototype.__radd__ = function (other) {
+            if (other instanceof G2) {
+                return other.add(this);
+            }
+            else if (typeof other === 'number') {
+                return new G2(other, 0, 0, 0, undefined).add(this);
+            }
+        };
+        G2.prototype.adj = function () {
+            throw new Error(notImplemented_1.default('adj').message);
+        };
+        G2.prototype.angle = function () {
+            return this.log().grade(2);
+        };
+        G2.prototype.conj = function () {
+            throw new Error(notImplemented_1.default('conj').message);
+        };
+        G2.prototype.cubicBezier = function (t, controlBegin, controlEnd, endPoint) {
+            var α = bezier3_1.default(t, this.a, controlBegin.a, controlEnd.a, endPoint.a);
+            var x = bezier3_1.default(t, this.x, controlBegin.x, controlEnd.x, endPoint.x);
+            var y = bezier3_1.default(t, this.y, controlBegin.y, controlEnd.y, endPoint.y);
+            var β = bezier3_1.default(t, this.b, controlBegin.b, controlEnd.b, endPoint.b);
+            return new G2(α, x, y, β, this.uom);
+        };
+        G2.prototype.direction = function () {
+            var m = this.magnitudeSansUnits();
+            if (m !== 1) {
+                return new G2(this.a / m, this.x / m, this.y / m, this.b / m);
+            }
+            else {
+                if (this.uom) {
+                    return new G2(this.a, this.x, this.y, this.b);
+                }
+                else {
+                    return this;
+                }
+            }
+        };
+        G2.prototype.distanceTo = function (point) {
+            throw new Error(notImplemented_1.default('distanceTo').message);
+        };
+        G2.prototype.equals = function (point) {
+            throw new Error(notImplemented_1.default('equals').message);
+        };
+        G2.sub = function (a, b) {
+            var a0 = a[0];
+            var a1 = a[1];
+            var a2 = a[2];
+            var a3 = a[3];
+            var b0 = b[0];
+            var b1 = b[1];
+            var b2 = b[2];
+            var b3 = b[3];
+            var x0 = subE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            var x1 = subE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+            var x2 = subE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+            var x3 = subE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+            return [x0, x1, x2, x3];
+        };
+        G2.prototype.sub = function (rhs) {
+            var xs = G2.sub(this.coords, rhs.coords);
+            return new G2(xs[0], xs[1], xs[2], xs[3], Unit_1.Unit.compatible(this.uom, rhs.uom));
+        };
+        G2.prototype.__sub__ = function (rhs) {
+            if (rhs instanceof G2) {
+                return this.sub(rhs);
+            }
+            else if (rhs instanceof Unit_1.Unit) {
+                return this.addScalar(rhs.neg());
+            }
+            else if (typeof rhs === 'number') {
+                return this.sub(new G2(rhs, 0, 0, 0, undefined));
+            }
+        };
+        G2.prototype.__rsub__ = function (lhs) {
+            if (lhs instanceof G2) {
+                return lhs.sub(this);
+            }
+            else if (lhs instanceof Unit_1.Unit) {
+                return this.neg().addScalar(lhs);
+            }
+            else if (typeof lhs === 'number') {
+                return new G2(lhs, 0, 0, 0, undefined).sub(this);
+            }
+        };
+        G2.prototype.mul = function (rhs) {
+            var a0 = this.a;
+            var a1 = this.x;
+            var a2 = this.y;
+            var a3 = this.b;
+            var b0 = rhs.a;
+            var b1 = rhs.x;
+            var b2 = rhs.y;
+            var b3 = rhs.b;
+            var c0 = mulE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            var c1 = mulE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+            var c2 = mulE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+            var c3 = mulE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+            return new G2(c0, c1, c2, c3, Unit_1.Unit.mul(this.uom, rhs.uom));
+        };
+        G2.prototype.__mul__ = function (other) {
+            if (other instanceof G2) {
+                return this.mul(other);
+            }
+            else if (typeof other === 'number') {
+                return this.mul(new G2(other, 0, 0, 0, undefined));
+            }
+        };
+        G2.prototype.__rmul__ = function (other) {
+            if (other instanceof G2) {
+                var lhs = other;
+                return lhs.mul(this);
+            }
+            else if (typeof other === 'number') {
+                var w = other;
+                return new G2(w, 0, 0, 0, undefined).mul(this);
+            }
+        };
+        G2.prototype.scale = function (α) {
+            return new G2(this.a * α, this.x * α, this.y * α, this.b * α, this.uom);
+        };
+        G2.prototype.div = function (rhs) {
+            return this.mul(rhs.inv());
+        };
+        G2.prototype.divByScalar = function (α) {
+            return new G2(this.a / α, this.x / α, this.y / α, this.b / α, this.uom);
+        };
+        G2.prototype.__div__ = function (other) {
+            if (other instanceof G2) {
+                return this.div(other);
+            }
+            else if (typeof other === 'number') {
+                var w = other;
+                return this.div(new G2(w, 0, 0, 0, undefined));
+            }
+        };
+        G2.prototype.__rdiv__ = function (other) {
+            if (other instanceof G2) {
+                return other.div(this);
+            }
+            else if (typeof other === 'number') {
+                return new G2(other, 0, 0, 0, undefined).div(this);
+            }
+        };
+        G2.prototype.scp = function (rhs) {
+            var a0 = this.a;
+            var a1 = this.x;
+            var a2 = this.y;
+            var a3 = this.b;
+            var b0 = rhs.a;
+            var b1 = rhs.x;
+            var b2 = rhs.y;
+            var b3 = rhs.b;
+            var c0 = scpE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            return new G2(c0, 0, 0, 0, Unit_1.Unit.mul(this.uom, rhs.uom));
+        };
+        G2.ext = function (a, b) {
+            var a0 = a[0];
+            var a1 = a[1];
+            var a2 = a[2];
+            var a3 = a[3];
+            var b0 = b[0];
+            var b1 = b[1];
+            var b2 = b[2];
+            var b3 = b[3];
+            var x0 = extE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            var x1 = extE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+            var x2 = extE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+            var x3 = extE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+            return [x0, x1, x2, x3];
+        };
+        G2.prototype.ext = function (rhs) {
+            var xs = G2.ext(this.coords, rhs.coords);
+            return new G2(xs[0], xs[1], xs[2], xs[3], Unit_1.Unit.mul(this.uom, rhs.uom));
+        };
+        G2.prototype.__wedge__ = function (other) {
+            if (other instanceof G2) {
+                var rhs = other;
+                return this.ext(rhs);
+            }
+            else if (typeof other === 'number') {
+                var w = other;
+                return this.ext(new G2(w, 0, 0, 0, undefined));
+            }
+        };
+        G2.prototype.__rwedge__ = function (other) {
+            if (other instanceof G2) {
+                var lhs = other;
+                return lhs.ext(this);
+            }
+            else if (typeof other === 'number') {
+                var w = other;
+                return new G2(w, 0, 0, 0, undefined).ext(this);
+            }
+        };
+        G2.lshift = function (a, b) {
+            var a0 = a[0];
+            var a1 = a[1];
+            var a2 = a[2];
+            var a3 = a[3];
+            var b0 = b[0];
+            var b1 = b[1];
+            var b2 = b[2];
+            var b3 = b[3];
+            var x0 = lcoE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            var x1 = lcoE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+            var x2 = lcoE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+            var x3 = lcoE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+            return [x0, x1, x2, x3];
+        };
+        G2.prototype.lerp = function (target, α) {
+            throw new Error(notImplemented_1.default('lerp').message);
+        };
+        G2.prototype.lco = function (rhs) {
+            var xs = G2.lshift(this.coords, rhs.coords);
+            return new G2(xs[0], xs[1], xs[2], xs[3], Unit_1.Unit.mul(this.uom, rhs.uom));
+        };
+        G2.prototype.__lshift__ = function (other) {
+            if (other instanceof G2) {
+                var rhs = other;
+                return this.lco(rhs);
+            }
+            else if (typeof other === 'number') {
+                var w = other;
+                return this.lco(new G2(w, 0, 0, 0, undefined));
+            }
+        };
+        G2.prototype.__rlshift__ = function (other) {
+            if (other instanceof G2) {
+                var lhs = other;
+                return lhs.lco(this);
+            }
+            else if (typeof other === 'number') {
+                var w = other;
+                return new G2(w, 0, 0, 0, undefined).lco(this);
+            }
+        };
+        G2.rshift = function (a, b) {
+            var a0 = a[0];
+            var a1 = a[1];
+            var a2 = a[2];
+            var a3 = a[3];
+            var b0 = b[0];
+            var b1 = b[1];
+            var b2 = b[2];
+            var b3 = b[3];
+            var x0 = rcoE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            var x1 = rcoE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+            var x2 = rcoE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+            var x3 = rcoE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+            return [x0, x1, x2, x3];
+        };
+        G2.prototype.rco = function (rhs) {
+            var xs = G2.rshift(this.coords, rhs.coords);
+            return new G2(xs[0], xs[1], xs[2], xs[3], Unit_1.Unit.mul(this.uom, rhs.uom));
+        };
+        G2.prototype.__rshift__ = function (other) {
+            if (other instanceof G2) {
+                return this.rco(other);
+            }
+            else if (typeof other === 'number') {
+                return this.rco(new G2(other, 0, 0, 0, undefined));
+            }
+        };
+        G2.prototype.__rrshift__ = function (other) {
+            if (other instanceof G2) {
+                return other.rco(this);
+            }
+            else if (typeof other === 'number') {
+                return new G2(other, 0, 0, 0, undefined).rco(this);
+            }
+        };
+        G2.prototype.__vbar__ = function (other) {
+            if (other instanceof G2) {
+                return this.scp(other);
+            }
+            else if (typeof other === 'number') {
+                return this.scp(new G2(other, 0, 0, 0, undefined));
+            }
+        };
+        G2.prototype.__rvbar__ = function (other) {
+            if (other instanceof G2) {
+                return other.scp(this);
+            }
+            else if (typeof other === 'number') {
+                return new G2(other, 0, 0, 0, undefined).scp(this);
+            }
+        };
+        G2.prototype.pow = function (exponent) {
+            throw new Error(notImplemented_1.default('pow').message);
+        };
+        G2.prototype.__bang__ = function () {
+            return this.inv();
+        };
+        G2.prototype.__pos__ = function () {
+            return this;
+        };
+        G2.prototype.neg = function () {
+            return new G2(-this.a, -this.x, -this.y, -this.b, this.uom);
+        };
+        G2.prototype.__neg__ = function () {
+            return this.neg();
+        };
+        G2.prototype.__tilde__ = function () {
+            return this.rev();
+        };
+        G2.prototype.grade = function (grade) {
+            switch (grade) {
+                case 0:
+                    return new G2(this.a, 0, 0, 0, this.uom);
+                case 1:
+                    return new G2(0, this.x, this.y, 0, this.uom);
+                case 2:
+                    return new G2(0, 0, 0, this.b, this.uom);
+                default:
+                    return new G2(0, 0, 0, 0, this.uom);
+            }
+        };
+        G2.prototype.cos = function () {
+            throw new Error(notImplemented_1.default('cos').message);
+        };
+        G2.prototype.cosh = function () {
+            throw new Error(notImplemented_1.default('cosh').message);
+        };
+        G2.prototype.exp = function () {
+            Unit_1.Unit.assertDimensionless(this.uom);
+            if (this.isSpinor()) {
+                var expα = Math.exp(this.a);
+                var cosβ = Math.cos(this.b);
+                var sinβ = Math.sin(this.b);
+                return new G2(expα * cosβ, 0, 0, expα * sinβ);
+            }
+            else {
+                throw new Error(notImplemented_1.default("exp(" + this.toString() + ")").message);
+            }
+        };
+        G2.prototype.inv = function () {
+            var α = this.a;
+            var x = this.x;
+            var y = this.y;
+            var β = this.b;
+            var A = [
+                [α, x, y, -β],
+                [x, α, β, -y],
+                [y, -β, α, x],
+                [β, -y, x, α]
+            ];
+            var b = [1, 0, 0, 0];
+            var X = gauss_1.default(A, b);
+            var uom = this.uom ? this.uom.inv() : void 0;
+            return new G2(X[0], X[1], X[2], X[3], uom);
+        };
+        G2.prototype.isSpinor = function () {
+            return this.x === 0 && this.y === 0;
+        };
+        G2.prototype.log = function () {
+            Unit_1.Unit.assertDimensionless(this.uom);
+            if (this.isSpinor()) {
+                var α = this.a;
+                var β = this.b;
+                var a = Math.log(Math.sqrt(α * α + β * β));
+                var b = Math.atan2(β, α);
+                return new G2(a, 0, 0, b, void 0);
+            }
+            else {
+                throw new Error(notImplemented_1.default("log(" + this.toString() + ")").message);
+            }
+        };
+        G2.prototype.magnitude = function () {
+            return this.norm();
+        };
+        G2.prototype.magnitudeSansUnits = function () {
+            return Math.sqrt(this.squaredNormSansUnits());
+        };
+        G2.prototype.norm = function () {
+            return new G2(this.magnitudeSansUnits(), 0, 0, 0, this.uom);
+        };
+        G2.prototype.quad = function () {
+            return new G2(this.squaredNormSansUnits(), 0, 0, 0, Unit_1.Unit.mul(this.uom, this.uom));
+        };
+        G2.prototype.quadraticBezier = function (t, controlPoint, endPoint) {
+            var α = bezier2_1.default(t, this.a, controlPoint.a, endPoint.a);
+            var x = bezier2_1.default(t, this.x, controlPoint.x, endPoint.x);
+            var y = bezier2_1.default(t, this.y, controlPoint.y, endPoint.y);
+            var β = bezier2_1.default(t, this.b, controlPoint.b, endPoint.b);
+            return new G2(α, x, y, β, this.uom);
+        };
+        G2.prototype.squaredNorm = function () {
+            return this.quad();
+        };
+        G2.prototype.squaredNormSansUnits = function () {
+            var α = this.a;
+            var x = this.x;
+            var y = this.y;
+            var β = this.b;
+            return α * α + x * x + y * y + β * β;
+        };
+        G2.prototype.stress = function (σ) {
+            throw new Error(notSupported_1.default('stress').message);
+        };
+        G2.prototype.reflect = function (n) {
+            var m = G2.fromVectorE2(n);
+            return m.mul(this).mul(m).scale(-1);
+        };
+        G2.prototype.rev = function () {
+            return new G2(this.a, this.x, this.y, -this.b, this.uom);
+        };
+        G2.prototype.rotate = function (spinor) {
+            var x = this.x;
+            var y = this.y;
+            var α = spinor.a;
+            var β = spinor.b;
+            var α2 = α * α;
+            var β2 = β * β;
+            var p = α2 - β2;
+            var q = 2 * α * β;
+            var s = α2 + β2;
+            return new G2(s * this.a, p * x + q * y, p * y - q * x, s * this.b, this.uom);
+        };
+        G2.prototype.sin = function () {
+            throw new Error(notImplemented_1.default('sin').message);
+        };
+        G2.prototype.sinh = function () {
+            throw new Error(notImplemented_1.default('sinh').message);
+        };
+        G2.prototype.slerp = function (target, α) {
+            throw new Error(notImplemented_1.default('slerp').message);
+        };
+        G2.prototype.tan = function () {
+            return this.sin().div(this.cos());
+        };
+        G2.prototype.isOne = function () { return this.a === 1 && this.x === 0 && this.y === 0 && this.b === 0; };
+        G2.prototype.isNaN = function () { return isNaN(this.a) || isNaN(this.x) || isNaN(this.y) || isNaN(this.b); };
+        G2.prototype.isScalar = function () { return this.x === 0 && this.y === 0 && this.b === 0; };
+        G2.prototype.isZero = function () { return this.a === 0 && this.x === 0 && this.y === 0 && this.b === 0; };
+        G2.prototype.toStringCustom = function (coordToString, labels) {
+            var quantityString = stringFromCoordinates_1.default(this.coords, coordToString, labels);
+            if (this.uom) {
+                var unitString = this.uom.toString().trim();
+                if (unitString) {
+                    return quantityString + ' ' + unitString;
+                }
+                else {
+                    return quantityString;
+                }
+            }
+            else {
+                return quantityString;
+            }
+        };
+        G2.prototype.toExponential = function (fractionDigits) {
+            var coordToString = function (coord) { return coord.toExponential(fractionDigits); };
+            return this.toStringCustom(coordToString, ["1", "e1", "e2", "e12"]);
+        };
+        G2.prototype.toFixed = function (fractionDigits) {
+            var coordToString = function (coord) { return coord.toFixed(fractionDigits); };
+            return this.toStringCustom(coordToString, ["1", "e1", "e2", "e12"]);
+        };
+        G2.prototype.toPrecision = function (precision) {
+            var coordToString = function (coord) { return coord.toPrecision(precision); };
+            return this.toStringCustom(coordToString, ["1", "e1", "e2", "e12"]);
+        };
+        G2.prototype.toString = function (radix) {
+            var coordToString = function (coord) { return coord.toString(radix); };
+            return this.toStringCustom(coordToString, ["1", "e1", "e2", "e12"]);
+        };
+        G2.prototype.toStringIJK = function () {
+            var coordToString = function (coord) { return coord.toString(); };
+            return this.toStringCustom(coordToString, ["1", "i", "j", "I"]);
+        };
+        G2.prototype.__eq__ = function (rhs) {
+            if (rhs instanceof G2) {
+                try {
+                    Unit_1.Unit.compatible(this.uom, rhs.uom);
+                }
+                catch (e) {
+                    throw new Error("Dimensions mismatch in equality expression: " + this.uom.dimensions + " === " + rhs.uom.dimensions);
+                }
+                return this.a === rhs.a && this.x === rhs.x && this.y === rhs.y && this.b === rhs.b;
+            }
+            else {
+                return void 0;
+            }
+        };
+        G2.prototype.__ne__ = function (rhs) {
+            if (rhs instanceof G2) {
+                try {
+                    Unit_1.Unit.compatible(this.uom, rhs.uom);
+                }
+                catch (e) {
+                    throw new Error("Dimensions mismatch in inequality expression: " + this.uom.dimensions + " !== " + rhs.uom.dimensions);
+                }
+                return this.a !== rhs.a ||
+                    this.x !== rhs.x ||
+                    this.y !== rhs.y ||
+                    this.b !== this.b;
+            }
+            else {
+                return void 0;
+            }
+        };
+        G2.prototype.__ge__ = function (rhs) {
+            if (rhs instanceof G2) {
+                try {
+                    Unit_1.Unit.compatible(this.uom, rhs.uom);
+                }
+                catch (e) {
+                    throw new Error("Dimensions mismatch in comparison expression: " + this.uom.dimensions + " >= " + rhs.uom.dimensions);
+                }
+                if (!this.isScalar()) {
+                    throw new Error("left operand (" + this + ") in comparison expression must be a scalar.");
+                }
+                if (!rhs.isScalar()) {
+                    throw new Error("right operand (" + rhs + ") in comparison expression must be a scalar.");
+                }
+                return this.a >= rhs.a;
+            }
+            else {
+                return void 0;
+            }
+        };
+        G2.prototype.__gt__ = function (rhs) {
+            if (rhs instanceof G2) {
+                try {
+                    Unit_1.Unit.compatible(this.uom, rhs.uom);
+                }
+                catch (e) {
+                    throw new Error("Dimensions mismatch in comparison expression: " + this.uom.dimensions + " > " + rhs.uom.dimensions);
+                }
+                if (!this.isScalar()) {
+                    throw new Error("left operand (" + this + ") in comparison expression must be a scalar.");
+                }
+                if (!rhs.isScalar()) {
+                    throw new Error("right operand (" + rhs + ") in comparison expression must be a scalar.");
+                }
+                return this.a > rhs.a;
+            }
+            else {
+                return void 0;
+            }
+        };
+        G2.prototype.__le__ = function (rhs) {
+            if (rhs instanceof G2) {
+                try {
+                    Unit_1.Unit.compatible(this.uom, rhs.uom);
+                }
+                catch (e) {
+                    throw new Error("Dimensions mismatch in comparison expression: " + this.uom.dimensions + " <= " + rhs.uom.dimensions);
+                }
+                if (!this.isScalar()) {
+                    throw new Error("left operand (" + this + ") in comparison expression must be a scalar.");
+                }
+                if (!rhs.isScalar()) {
+                    throw new Error("right operand (" + rhs + ") in comparison expression must be a scalar.");
+                }
+                return this.a <= rhs.a;
+            }
+            else {
+                return void 0;
+            }
+        };
+        G2.prototype.__lt__ = function (rhs) {
+            if (rhs instanceof G2) {
+                try {
+                    Unit_1.Unit.compatible(this.uom, rhs.uom);
+                }
+                catch (e) {
+                    throw new Error("Dimensions mismatch in comparison expression: " + this.uom.dimensions + " < " + rhs.uom.dimensions);
+                }
+                if (!this.isScalar()) {
+                    throw new Error("left operand (" + this + ") in comparison expression must be a scalar.");
+                }
+                if (!rhs.isScalar()) {
+                    throw new Error("right operand (" + rhs + ") in comparison expression must be a scalar.");
+                }
+                return this.a < rhs.a;
+            }
+            else {
+                return void 0;
+            }
+        };
+        G2.copy = function (m) {
+            if (m instanceof G2) {
+                return m;
+            }
+            else {
+                return new G2(m.a, m.x, m.y, m.b, void 0);
+            }
+        };
+        G2.fromVectorE2 = function (vector) {
+            if (vector) {
+                if (vector instanceof G2) {
+                    return new G2(0, vector.x, vector.y, 0, vector.uom);
+                }
+                else {
+                    return new G2(0, vector.x, vector.y, 0, void 0);
+                }
+            }
+            else {
+                return void 0;
+            }
+        };
+        G2.vector = function (x, y, uom) {
+            return new G2(0, x, y, 0, uom);
+        };
+        G2._zero = new G2(0, 0, 0, 0);
+        G2._one = new G2(1, 0, 0, 0);
+        G2._e1 = new G2(0, 1, 0, 0);
+        G2._e2 = new G2(0, 0, 1, 0);
+        G2._I = new G2(0, 0, 0, 1);
+        G2.kilogram = new G2(1, 0, 0, 0, Unit_1.Unit.KILOGRAM);
+        G2.meter = new G2(1, 0, 0, 0, Unit_1.Unit.METER);
+        G2.second = new G2(1, 0, 0, 0, Unit_1.Unit.SECOND);
+        G2.coulomb = new G2(1, 0, 0, 0, Unit_1.Unit.COULOMB);
+        G2.ampere = new G2(1, 0, 0, 0, Unit_1.Unit.AMPERE);
+        G2.kelvin = new G2(1, 0, 0, 0, Unit_1.Unit.KELVIN);
+        G2.mole = new G2(1, 0, 0, 0, Unit_1.Unit.MOLE);
+        G2.candela = new G2(1, 0, 0, 0, Unit_1.Unit.CANDELA);
+        return G2;
+    }());
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = G2;
+});
+
+define('davinci-eight/math/BASIS_LABELS_G3_GEOMETRIC',["require", "exports"], function (require, exports) {
+    "use strict";
+    var SCALAR_POS_SYMBOL = "1";
+    var E1_NEG_SYMBOL = "←";
+    var E1_POS_SYMBOL = "→";
+    var E2_POS_SYMBOL = "↑";
+    var E2_NEG_SYMBOL = "↓";
+    var E3_POS_SYMBOL = "⊙";
+    var E3_NEG_SYMBOL = "⊗";
+    var E12_NEG_SYMBOL = "↻";
+    var E12_POS_SYMBOL = "↺";
+    var E31_POS_SYMBOL = "⊶";
+    var E31_NEG_SYMBOL = "⊷";
+    var E23_NEG_SYMBOL = "⬘";
+    var E23_POS_SYMBOL = "⬙";
+    var PSEUDO_POS_SYMBOL = "☐";
+    var PSEUDO_NEG_SYMBOL = "■";
+    var BASIS_LABELS_G3_GEOMETRIC = [
+        [SCALAR_POS_SYMBOL, SCALAR_POS_SYMBOL],
+        [E1_NEG_SYMBOL, E1_POS_SYMBOL],
+        [E2_NEG_SYMBOL, E2_POS_SYMBOL],
+        [E3_NEG_SYMBOL, E3_POS_SYMBOL],
+        [E12_NEG_SYMBOL, E12_POS_SYMBOL],
+        [E23_NEG_SYMBOL, E23_POS_SYMBOL],
+        [E31_NEG_SYMBOL, E31_POS_SYMBOL],
+        [PSEUDO_NEG_SYMBOL, PSEUDO_POS_SYMBOL]
+    ];
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = BASIS_LABELS_G3_GEOMETRIC;
+});
+
+define('davinci-eight/math/BASIS_LABELS_G3_HAMILTON',["require", "exports"], function (require, exports) {
+    "use strict";
+    var SCALAR_SYMBOL = "1";
+    var E1_SYMBOL = "i";
+    var E2_SYMBOL = "j";
+    var E3_SYMBOL = "k";
+    var E12_SYMBOL = "ij";
+    var E23_SYMBOL = "jk";
+    var E31_SYMBOL = "ki";
+    var PSEUDO_SYMBOL = "ijk";
+    var BASIS_LABELS_G3_HAMILTON = [
+        [SCALAR_SYMBOL],
+        [E1_SYMBOL],
+        [E2_SYMBOL],
+        [E3_SYMBOL],
+        [E12_SYMBOL],
+        [E23_SYMBOL],
+        [E31_SYMBOL],
+        [PSEUDO_SYMBOL]
+    ];
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = BASIS_LABELS_G3_HAMILTON;
+});
+
+define('davinci-eight/math/BASIS_LABELS_G3_STANDARD',["require", "exports"], function (require, exports) {
+    "use strict";
+    var SCALAR_SYMBOL = "1";
+    var E1_SYMBOL = "e1";
+    var E2_SYMBOL = "e2";
+    var E3_SYMBOL = "e3";
+    var E12_SYMBOL = "e12";
+    var E23_SYMBOL = "e23";
+    var E31_SYMBOL = "e31";
+    var PSEUDO_SYMBOL = "I";
+    var BASIS_LABELS_G3_STANDARD = [
+        [SCALAR_SYMBOL],
+        [E1_SYMBOL],
+        [E2_SYMBOL],
+        [E3_SYMBOL],
+        [E12_SYMBOL],
+        [E23_SYMBOL],
+        [E31_SYMBOL],
+        [PSEUDO_SYMBOL]
+    ];
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = BASIS_LABELS_G3_STANDARD;
+});
+
+define('davinci-eight/math/BASIS_LABELS_G3_STANDARD_HTML',["require", "exports"], function (require, exports) {
+    "use strict";
+    var SCALAR_SYMBOL = "1";
+    var E1_SYMBOL = "<b>e</b><sub>1</sub>";
+    var E2_SYMBOL = "<b>e</b><sub>2</sub>";
+    var E3_SYMBOL = "<b>e</b><sub>3</sub>";
+    var E12_SYMBOL = E1_SYMBOL + E2_SYMBOL;
+    var E23_SYMBOL = E2_SYMBOL + E3_SYMBOL;
+    var E31_SYMBOL = E3_SYMBOL + E1_SYMBOL;
+    var PSEUDO_SYMBOL = E1_SYMBOL + E2_SYMBOL + E3_SYMBOL;
+    var BASIS_LABELS_G3_STANDARD_HTML = [
+        [SCALAR_SYMBOL],
+        [E1_SYMBOL],
+        [E2_SYMBOL],
+        [E3_SYMBOL],
+        [E12_SYMBOL],
+        [E23_SYMBOL],
+        [E31_SYMBOL],
+        [PSEUDO_SYMBOL]
+    ];
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = BASIS_LABELS_G3_STANDARD_HTML;
+});
+
+define('davinci-eight/physics/G3',["require", "exports", './bezier2', './bezier3', '../math/extG3', '../math/gauss', '../math/lcoG3', '../math/mulG3', '../i18n/notImplemented', '../i18n/notSupported', '../math/quadSpinorE3', '../i18n/readOnly', '../math/rcoG3', '../math/scpG3', '../math/squaredNormG3', '../math/stringFromCoordinates', './Unit', '../math/BASIS_LABELS_G3_GEOMETRIC', '../math/BASIS_LABELS_G3_HAMILTON', '../math/BASIS_LABELS_G3_STANDARD', '../math/BASIS_LABELS_G3_STANDARD_HTML'], function (require, exports, bezier2_1, bezier3_1, extG3_1, gauss_1, lcoG3_1, mulG3_1, notImplemented_1, notSupported_1, quadSpinorE3_1, readOnly_1, rcoG3_1, scpG3_1, squaredNormG3_1, stringFromCoordinates_1, Unit_1, BASIS_LABELS_G3_GEOMETRIC_1, BASIS_LABELS_G3_HAMILTON_1, BASIS_LABELS_G3_STANDARD_1, BASIS_LABELS_G3_STANDARD_HTML_1) {
+    "use strict";
+    var COORD_SCALAR = 0;
+    var COORD_X = 1;
+    var COORD_Y = 2;
+    var COORD_Z = 3;
+    var COORD_XY = 4;
+    var COORD_YZ = 5;
+    var COORD_ZX = 6;
+    var COORD_PSEUDO = 7;
+    var G3 = (function () {
+        function G3(α, x, y, z, xy, yz, zx, β, uom) {
+            this._coords = [0, 0, 0, 0, 0, 0, 0, 0];
+            this._coords[COORD_SCALAR] = α;
+            this._coords[COORD_X] = x;
+            this._coords[COORD_Y] = y;
+            this._coords[COORD_Z] = z;
+            this._coords[COORD_XY] = xy;
+            this._coords[COORD_YZ] = yz;
+            this._coords[COORD_ZX] = zx;
+            this._coords[COORD_PSEUDO] = β;
+            this.uom = uom;
+            if (this.uom && this.uom.multiplier !== 1) {
+                var multiplier = this.uom.multiplier;
+                this._coords[COORD_SCALAR] *= multiplier;
+                this._coords[COORD_X] *= multiplier;
+                this._coords[COORD_Y] *= multiplier;
+                this._coords[COORD_Z] *= multiplier;
+                this._coords[COORD_XY] *= multiplier;
+                this._coords[COORD_YZ] *= multiplier;
+                this._coords[COORD_ZX] *= multiplier;
+                this._coords[COORD_PSEUDO] *= multiplier;
+                this.uom = new Unit_1.Unit(1, uom.dimensions, uom.labels);
+            }
+        }
+        Object.defineProperty(G3, "BASIS_LABELS_GEOMETRIC", {
+            get: function () { return BASIS_LABELS_G3_GEOMETRIC_1.default; },
+            enumerable: true,
+            configurable: true
+        });
+        ;
+        Object.defineProperty(G3, "BASIS_LABELS_HAMILTON", {
+            get: function () { return BASIS_LABELS_G3_HAMILTON_1.default; },
+            enumerable: true,
+            configurable: true
+        });
+        ;
+        Object.defineProperty(G3, "BASIS_LABELS_STANDARD", {
+            get: function () { return BASIS_LABELS_G3_STANDARD_1.default; },
+            enumerable: true,
+            configurable: true
+        });
+        ;
+        Object.defineProperty(G3, "BASIS_LABELS_STANDARD_HTML", {
+            get: function () { return BASIS_LABELS_G3_STANDARD_HTML_1.default; },
+            enumerable: true,
+            configurable: true
+        });
+        ;
+        Object.defineProperty(G3.prototype, "a", {
+            get: function () {
+                return this._coords[COORD_SCALAR];
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('a').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(G3.prototype, "x", {
+            get: function () {
+                return this._coords[COORD_X];
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('x').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(G3.prototype, "y", {
+            get: function () {
+                return this._coords[COORD_Y];
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('y').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(G3.prototype, "z", {
+            get: function () {
+                return this._coords[COORD_Z];
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('z').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(G3.prototype, "xy", {
+            get: function () {
+                return this._coords[COORD_XY];
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('xy').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(G3.prototype, "yz", {
+            get: function () {
+                return this._coords[COORD_YZ];
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('yz').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(G3.prototype, "zx", {
+            get: function () {
+                return this._coords[COORD_ZX];
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('zx').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(G3.prototype, "b", {
+            get: function () {
+                return this._coords[COORD_PSEUDO];
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('b').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        G3.fromCartesian = function (α, x, y, z, xy, yz, zx, β, uom) {
+            return new G3(α, x, y, z, xy, yz, zx, β, uom);
+        };
+        Object.defineProperty(G3.prototype, "coords", {
+            get: function () {
+                return [this.a, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.b];
+            },
+            enumerable: true,
+            configurable: true
+        });
+        G3.prototype.coordinate = function (index) {
+            switch (index) {
+                case 0:
+                    return this.a;
+                case 1:
+                    return this.x;
+                case 2:
+                    return this.y;
+                case 3:
+                    return this.z;
+                case 4:
+                    return this.xy;
+                case 5:
+                    return this.yz;
+                case 6:
+                    return this.zx;
+                case 7:
+                    return this.b;
+                default:
+                    throw new Error("index must be in the range [0..7]");
+            }
+        };
+        G3.prototype.add = function (rhs) {
+            var a = this.a + rhs.a;
+            var x = this.x + rhs.x;
+            var y = this.y + rhs.y;
+            var z = this.z + rhs.z;
+            var xy = this.xy + rhs.xy;
+            var yz = this.yz + rhs.yz;
+            var zx = this.zx + rhs.zx;
+            var b = this.b + rhs.b;
+            var uom = Unit_1.Unit.compatible(this.uom, rhs.uom);
+            return new G3(a, x, y, z, xy, yz, zx, b, uom);
+        };
+        G3.prototype.addPseudo = function (β) {
+            return new G3(this.a, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.b + β.multiplier, Unit_1.Unit.compatible(this.uom, β));
+        };
+        G3.prototype.addScalar = function (α) {
+            return new G3(this.a + α.multiplier, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.b, Unit_1.Unit.compatible(this.uom, α));
+        };
+        G3.prototype.__add__ = function (rhs) {
+            if (rhs instanceof G3) {
+                return this.add(rhs);
+            }
+            else if (rhs instanceof Unit_1.Unit) {
+                return this.addScalar(rhs);
+            }
+        };
+        G3.prototype.__radd__ = function (lhs) {
+            if (lhs instanceof G3) {
+                return lhs.add(this);
+            }
+            else if (lhs instanceof Unit_1.Unit) {
+                return this.addScalar(lhs);
+            }
+        };
+        G3.prototype.adj = function () {
+            throw new Error(notImplemented_1.default('adj').message);
+        };
+        G3.prototype.angle = function () {
+            return this.log().grade(2);
+        };
+        G3.prototype.conj = function () {
+            return new G3(this.a, -this.x, -this.y, -this.z, -this.xy, -this.yz, -this.zx, +this.b, this.uom);
+        };
+        G3.prototype.cubicBezier = function (t, controlBegin, controlEnd, endPoint) {
+            var a = bezier3_1.default(t, this.a, controlBegin.a, controlEnd.a, endPoint.a);
+            var x = bezier3_1.default(t, this.x, controlBegin.x, controlEnd.x, endPoint.x);
+            var y = bezier3_1.default(t, this.y, controlBegin.y, controlEnd.y, endPoint.y);
+            var z = bezier3_1.default(t, this.z, controlBegin.z, controlEnd.z, endPoint.z);
+            var b = bezier3_1.default(t, this.b, controlBegin.b, controlEnd.b, endPoint.b);
+            return new G3(a, x, y, z, 0, 0, 0, b, this.uom);
+        };
+        G3.prototype.direction = function () {
+            return this.div(this.norm());
+        };
+        G3.prototype.sub = function (rhs) {
+            var a = this.a - rhs.a;
+            var x = this.x - rhs.x;
+            var y = this.y - rhs.y;
+            var z = this.z - rhs.z;
+            var xy = this.xy - rhs.xy;
+            var yz = this.yz - rhs.yz;
+            var zx = this.zx - rhs.zx;
+            var b = this.b - rhs.b;
+            var uom = Unit_1.Unit.compatible(this.uom, rhs.uom);
+            return new G3(a, x, y, z, xy, yz, zx, b, uom);
+        };
+        G3.prototype.__sub__ = function (rhs) {
+            if (rhs instanceof G3) {
+                return this.sub(rhs);
+            }
+            else if (rhs instanceof Unit_1.Unit) {
+                return this.addScalar(rhs.neg());
+            }
+        };
+        G3.prototype.__rsub__ = function (lhs) {
+            if (lhs instanceof G3) {
+                return lhs.sub(this);
+            }
+            else if (lhs instanceof Unit_1.Unit) {
+                return this.neg().addScalar(lhs);
+            }
+        };
+        G3.prototype.mul = function (rhs) {
+            var out = new G3(0, 0, 0, 0, 0, 0, 0, 0, Unit_1.Unit.mul(this.uom, rhs.uom));
+            mulG3_1.default(this, rhs, out._coords);
+            return out;
+        };
+        G3.prototype.__mul__ = function (rhs) {
+            if (rhs instanceof G3) {
+                return this.mul(rhs);
+            }
+            else if (typeof rhs === 'number') {
+                return this.scale(rhs);
+            }
+        };
+        G3.prototype.__rmul__ = function (lhs) {
+            if (lhs instanceof G3) {
+                return lhs.mul(this);
+            }
+            else if (typeof lhs === 'number') {
+                return this.scale(lhs);
+            }
+        };
+        G3.prototype.scale = function (α) {
+            return new G3(this.a * α, this.x * α, this.y * α, this.z * α, this.xy * α, this.yz * α, this.zx * α, this.b * α, this.uom);
+        };
+        G3.prototype.div = function (rhs) {
+            return this.mul(rhs.inv());
+        };
+        G3.prototype.divByScalar = function (α) {
+            return new G3(this.a / α, this.x / α, this.y / α, this.z / α, this.xy / α, this.yz / α, this.zx / α, this.b / α, this.uom);
+        };
+        G3.prototype.__div__ = function (rhs) {
+            if (rhs instanceof G3) {
+                return this.div(rhs);
+            }
+            else if (typeof rhs === 'number') {
+                return this.divByScalar(rhs);
+            }
+        };
+        G3.prototype.__rdiv__ = function (lhs) {
+            if (lhs instanceof G3) {
+                return lhs.div(this);
+            }
+            else if (typeof lhs === 'number') {
+                return new G3(lhs, 0, 0, 0, 0, 0, 0, 0, void 0).div(this);
+            }
+        };
+        G3.prototype.dual = function () {
+            throw new Error(notImplemented_1.default('dual').message);
+        };
+        G3.prototype.scp = function (rhs) {
+            var out = new G3(1, 0, 0, 0, 0, 0, 0, 0, Unit_1.Unit.mul(this.uom, rhs.uom));
+            scpG3_1.default(this, rhs, G3.mutator(out));
+            return out;
+        };
+        G3.prototype.ext = function (rhs) {
+            var out = new G3(1, 0, 0, 0, 0, 0, 0, 0, Unit_1.Unit.mul(this.uom, rhs.uom));
+            extG3_1.default(this, rhs, G3.mutator(out));
+            return out;
+        };
+        G3.prototype.__vbar__ = function (rhs) {
+            if (rhs instanceof G3) {
+                return this.scp(rhs);
+            }
+            else if (typeof rhs === 'number') {
+                return this.scp(new G3(rhs, 0, 0, 0, 0, 0, 0, 0, void 0));
+            }
+        };
+        G3.prototype.__rvbar__ = function (lhs) {
+            if (lhs instanceof G3) {
+                return lhs.scp(this);
+            }
+            else if (typeof lhs === 'number') {
+                return new G3(lhs, 0, 0, 0, 0, 0, 0, 0, void 0).scp(this);
+            }
+        };
+        G3.prototype.__wedge__ = function (rhs) {
+            if (rhs instanceof G3) {
+                return this.ext(rhs);
+            }
+            else if (typeof rhs === 'number') {
+                return this.scale(rhs);
+            }
+        };
+        G3.prototype.__rwedge__ = function (lhs) {
+            if (lhs instanceof G3) {
+                return lhs.ext(this);
+            }
+            else if (typeof lhs === 'number') {
+                return this.scale(lhs);
+            }
+        };
+        G3.prototype.lco = function (rhs) {
+            var out = new G3(1, 0, 0, 0, 0, 0, 0, 0, Unit_1.Unit.mul(this.uom, rhs.uom));
+            lcoG3_1.default(this, rhs, G3.mutator(out));
+            return out;
+        };
+        G3.prototype.__lshift__ = function (rhs) {
+            if (rhs instanceof G3) {
+                return this.lco(rhs);
+            }
+            else if (typeof rhs === 'number') {
+                return this.lco(new G3(rhs, 0, 0, 0, 0, 0, 0, 0, void 0));
+            }
+        };
+        G3.prototype.__rlshift__ = function (lhs) {
+            if (lhs instanceof G3) {
+                return lhs.lco(this);
+            }
+            else if (typeof lhs === 'number') {
+                return new G3(lhs, 0, 0, 0, 0, 0, 0, 0, void 0).lco(this);
+            }
+        };
+        G3.prototype.rco = function (rhs) {
+            var out = new G3(1, 0, 0, 0, 0, 0, 0, 0, Unit_1.Unit.mul(this.uom, rhs.uom));
+            rcoG3_1.default(this, rhs, G3.mutator(out));
+            return out;
+        };
+        G3.prototype.__rshift__ = function (rhs) {
+            if (rhs instanceof G3) {
+                return this.rco(rhs);
+            }
+            else if (typeof rhs === 'number') {
+                return this.rco(new G3(rhs, 0, 0, 0, 0, 0, 0, 0, void 0));
+            }
+        };
+        G3.prototype.__rrshift__ = function (lhs) {
+            if (lhs instanceof G3) {
+                return lhs.rco(this);
+            }
+            else if (typeof lhs === 'number') {
+                return new G3(lhs, 0, 0, 0, 0, 0, 0, 0, void 0).rco(this);
+            }
+        };
+        G3.prototype.pow = function (exponent) {
+            throw new Error('pow');
+        };
+        G3.prototype.__bang__ = function () {
+            return this.inv();
+        };
+        G3.prototype.__pos__ = function () {
+            return this;
+        };
+        G3.prototype.neg = function () {
+            return new G3(-this.a, -this.x, -this.y, -this.z, -this.xy, -this.yz, -this.zx, -this.b, this.uom);
+        };
+        G3.prototype.__neg__ = function () {
+            return this.neg();
+        };
+        G3.prototype.rev = function () {
+            return new G3(this.a, this.x, this.y, this.z, -this.xy, -this.yz, -this.zx, -this.b, this.uom);
+        };
+        G3.prototype.__tilde__ = function () {
+            return this.rev();
+        };
+        G3.prototype.grade = function (grade) {
+            switch (grade) {
+                case 0:
+                    return G3.fromCartesian(this.a, 0, 0, 0, 0, 0, 0, 0, this.uom);
+                case 1:
+                    return G3.fromCartesian(0, this.x, this.y, this.z, 0, 0, 0, 0, this.uom);
+                case 2:
+                    return G3.fromCartesian(0, 0, 0, 0, this.xy, this.yz, this.zx, 0, this.uom);
+                case 3:
+                    return G3.fromCartesian(0, 0, 0, 0, 0, 0, 0, this.b, this.uom);
+                default:
+                    return G3.fromCartesian(0, 0, 0, 0, 0, 0, 0, 0, this.uom);
+            }
+        };
+        G3.prototype.cross = function (vector) {
+            var x;
+            var x2;
+            var y;
+            var y1;
+            var y2;
+            var z;
+            var z1;
+            var z2;
+            var x1 = this.x;
+            y1 = this.y;
+            z1 = this.z;
+            x2 = vector.x;
+            y2 = vector.y;
+            z2 = vector.z;
+            x = y1 * z2 - z1 * y2;
+            y = z1 * x2 - x1 * z2;
+            z = x1 * y2 - y1 * x2;
+            return new G3(0, x, y, z, 0, 0, 0, 0, Unit_1.Unit.mul(this.uom, vector.uom));
+        };
+        G3.prototype.isOne = function () {
+            return (this.a === 1) && (this.x === 0) && (this.y === 0) && (this.z === 0) && (this.yz === 0) && (this.zx === 0) && (this.xy === 0) && (this.b === 0);
+        };
+        G3.prototype.isScalar = function () {
+            return (this.x === 0) && (this.y === 0) && (this.z === 0) && (this.yz === 0) && (this.zx === 0) && (this.xy === 0) && (this.b === 0);
+        };
+        G3.prototype.isZero = function () {
+            return (this.a === 0) && (this.x === 0) && (this.y === 0) && (this.z === 0) && (this.yz === 0) && (this.zx === 0) && (this.xy === 0) && (this.b === 0);
+        };
+        G3.prototype.lerp = function (target, α) {
+            throw new Error(notImplemented_1.default('lerp').message);
+        };
+        G3.prototype.cos = function () {
+            Unit_1.Unit.assertDimensionless(this.uom);
+            var cosW = Math.cos(this.a);
+            return new G3(cosW, 0, 0, 0, 0, 0, 0, 0);
+        };
+        G3.prototype.cosh = function () {
+            throw new Error(notImplemented_1.default('cosh').message);
+        };
+        G3.prototype.distanceTo = function (point) {
+            var dx = this.x - point.x;
+            var dy = this.y - point.y;
+            var dz = this.z - point.z;
+            return Math.sqrt(dx * dx + dy * dy + dz * dz);
+        };
+        G3.prototype.equals = function (other) {
+            if (this.a === other.a && this.x === other.x && this.y === other.y && this.z === other.z && this.xy === other.xy && this.yz === other.yz && this.zx === other.zx && this.b === other.b) {
+                if (this.uom) {
+                    if (other.uom) {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                }
+                else {
+                    if (other.uom) {
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
+                }
+            }
+            else {
+                return false;
+            }
+        };
+        G3.prototype.exp = function () {
+            Unit_1.Unit.assertDimensionless(this.uom);
+            var bivector = this.grade(2);
+            var a = bivector.norm();
+            if (!a.isZero()) {
+                var c = a.cos();
+                var s = a.sin();
+                var B = bivector.direction();
+                return c.add(B.mul(s));
+            }
+            else {
+                return new G3(1, 0, 0, 0, 0, 0, 0, 0, this.uom);
+            }
+        };
+        G3.prototype.inv = function () {
+            var α = this.a;
+            var x = this.x;
+            var y = this.y;
+            var z = this.z;
+            var xy = this.xy;
+            var yz = this.yz;
+            var zx = this.zx;
+            var β = this.b;
+            var A = [
+                [α, x, y, z, -xy, -yz, -zx, -β],
+                [x, α, xy, -zx, -y, -β, z, -yz],
+                [y, -xy, α, yz, x, -z, -β, -zx],
+                [z, zx, -yz, α, -β, y, -x, -xy],
+                [xy, -y, x, β, α, zx, -yz, z],
+                [yz, β, -z, y, -zx, α, xy, x],
+                [zx, z, β, -x, yz, -xy, α, y],
+                [β, yz, zx, xy, z, x, y, α]
+            ];
+            var b = [1, 0, 0, 0, 0, 0, 0, 0];
+            var X = gauss_1.default(A, b);
+            var uom = this.uom ? this.uom.inv() : void 0;
+            return new G3(X[0], X[1], X[2], X[3], X[4], X[5], X[6], X[7], uom);
+        };
+        G3.prototype.log = function () {
+            throw new Error(notImplemented_1.default('log').message);
+        };
+        G3.prototype.magnitude = function () {
+            return this.norm();
+        };
+        G3.prototype.magnitudeSansUnits = function () {
+            return Math.sqrt(this.squaredNormSansUnits());
+        };
+        G3.prototype.norm = function () {
+            return new G3(this.magnitudeSansUnits(), 0, 0, 0, 0, 0, 0, 0, this.uom);
+        };
+        G3.prototype.quad = function () {
+            return this.squaredNorm();
+        };
+        G3.prototype.quadraticBezier = function (t, controlPoint, endPoint) {
+            var x = bezier2_1.default(t, this.x, controlPoint.x, endPoint.x);
+            var y = bezier2_1.default(t, this.y, controlPoint.y, endPoint.y);
+            var z = bezier2_1.default(t, this.z, controlPoint.z, endPoint.z);
+            return new G3(0, x, y, z, 0, 0, 0, 0, this.uom);
+        };
+        G3.prototype.squaredNorm = function () {
+            return new G3(this.squaredNormSansUnits(), 0, 0, 0, 0, 0, 0, 0, Unit_1.Unit.mul(this.uom, this.uom));
+        };
+        G3.prototype.squaredNormSansUnits = function () {
+            return squaredNormG3_1.default(this);
+        };
+        G3.prototype.stress = function (σ) {
+            throw new Error(notSupported_1.default('stress').message);
+        };
+        G3.prototype.reflect = function (n) {
+            var m = G3.fromVector(n);
+            return m.mul(this).mul(m).scale(-1);
+        };
+        G3.prototype.rotate = function (R) {
+            var x = this.x;
+            var y = this.y;
+            var z = this.z;
+            var a = R.xy;
+            var b = R.yz;
+            var c = R.zx;
+            var α = R.a;
+            var quadR = quadSpinorE3_1.default(R);
+            var ix = α * x - c * z + a * y;
+            var iy = α * y - a * x + b * z;
+            var iz = α * z - b * y + c * x;
+            var iα = b * x + c * y + a * z;
+            var αOut = quadR * this.a;
+            var xOut = ix * α + iα * b + iy * a - iz * c;
+            var yOut = iy * α + iα * c + iz * b - ix * a;
+            var zOut = iz * α + iα * a + ix * c - iy * b;
+            var βOut = quadR * this.b;
+            return G3.fromCartesian(αOut, xOut, yOut, zOut, 0, 0, 0, βOut, this.uom);
+        };
+        G3.prototype.sin = function () {
+            Unit_1.Unit.assertDimensionless(this.uom);
+            var sinW = Math.sin(this.a);
+            return new G3(sinW, 0, 0, 0, 0, 0, 0, 0, void 0);
+        };
+        G3.prototype.sinh = function () {
+            throw new Error(notImplemented_1.default('sinh').message);
+        };
+        G3.prototype.slerp = function (target, α) {
+            throw new Error(notImplemented_1.default('slerp').message);
+        };
+        G3.prototype.sqrt = function () {
+            return new G3(Math.sqrt(this.a), 0, 0, 0, 0, 0, 0, 0, Unit_1.Unit.sqrt(this.uom));
+        };
+        G3.prototype.tan = function () {
+            return this.sin().div(this.cos());
+        };
+        G3.prototype.toStringCustom = function (coordToString, labels) {
+            var quantityString = stringFromCoordinates_1.default(this.coords, coordToString, labels);
+            if (this.uom) {
+                var unitString = this.uom.toString().trim();
+                if (unitString) {
+                    return quantityString + ' ' + unitString;
+                }
+                else {
+                    return quantityString;
+                }
+            }
+            else {
+                return quantityString;
+            }
+        };
+        G3.prototype.toExponential = function (fractionDigits) {
+            var coordToString = function (coord) { return coord.toExponential(fractionDigits); };
+            return this.toStringCustom(coordToString, G3.BASIS_LABELS);
+        };
+        G3.prototype.toFixed = function (fractionDigits) {
+            var coordToString = function (coord) { return coord.toFixed(fractionDigits); };
+            return this.toStringCustom(coordToString, G3.BASIS_LABELS);
+        };
+        G3.prototype.toPrecision = function (precision) {
+            var coordToString = function (coord) { return coord.toPrecision(precision); };
+            return this.toStringCustom(coordToString, G3.BASIS_LABELS);
+        };
+        G3.prototype.toString = function (radix) {
+            var coordToString = function (coord) { return coord.toString(radix); };
+            return this.toStringCustom(coordToString, G3.BASIS_LABELS);
+        };
+        G3.prototype.__eq__ = function (rhs) {
+            if (rhs instanceof G3) {
+                try {
+                    Unit_1.Unit.compatible(this.uom, rhs.uom);
+                }
+                catch (e) {
+                    throw new Error("Dimensions mismatch in equality expression: " + this.uom.dimensions + " === " + rhs.uom.dimensions);
+                }
+                return this.a === rhs.a &&
+                    this.x === rhs.x &&
+                    this.y === rhs.y &&
+                    this.z === rhs.z &&
+                    this.xy === rhs.xy &&
+                    this.yz === rhs.yz &&
+                    this.zx === rhs.zx &&
+                    this.b === rhs.b;
+            }
+            else {
+                return void 0;
+            }
+        };
+        G3.prototype.__ne__ = function (rhs) {
+            if (rhs instanceof G3) {
+                try {
+                    Unit_1.Unit.compatible(this.uom, rhs.uom);
+                }
+                catch (e) {
+                    throw new Error("Dimensions mismatch in inequality expression: " + this.uom.dimensions + " !== " + rhs.uom.dimensions);
+                }
+                return this.a !== rhs.a ||
+                    this.x !== rhs.x ||
+                    this.y !== rhs.y ||
+                    this.z !== rhs.z ||
+                    this.xy !== rhs.xy ||
+                    this.yz !== rhs.yz ||
+                    this.zx !== rhs.zx ||
+                    this.b !== this.b;
+            }
+            else {
+                return void 0;
+            }
+        };
+        G3.prototype.__ge__ = function (rhs) {
+            if (rhs instanceof G3) {
+                try {
+                    Unit_1.Unit.compatible(this.uom, rhs.uom);
+                }
+                catch (e) {
+                    throw new Error("Dimensions mismatch in comparison expression: " + this.uom.dimensions + " >= " + rhs.uom.dimensions);
+                }
+                if (!this.isScalar()) {
+                    throw new Error("left operand (" + this + ") in comparison expression must be a scalar.");
+                }
+                if (!rhs.isScalar()) {
+                    throw new Error("right operand (" + rhs + ") in comparison expression must be a scalar.");
+                }
+                return this.a >= rhs.a;
+            }
+            else {
+                return void 0;
+            }
+        };
+        G3.prototype.__gt__ = function (rhs) {
+            if (rhs instanceof G3) {
+                try {
+                    Unit_1.Unit.compatible(this.uom, rhs.uom);
+                }
+                catch (e) {
+                    throw new Error("Dimensions mismatch in comparison expression: " + this.uom.dimensions + " > " + rhs.uom.dimensions);
+                }
+                if (!this.isScalar()) {
+                    throw new Error("left operand (" + this + ") in comparison expression must be a scalar.");
+                }
+                if (!rhs.isScalar()) {
+                    throw new Error("right operand (" + rhs + ") in comparison expression must be a scalar.");
+                }
+                return this.a > rhs.a;
+            }
+            else {
+                return void 0;
+            }
+        };
+        G3.prototype.__le__ = function (rhs) {
+            if (rhs instanceof G3) {
+                try {
+                    Unit_1.Unit.compatible(this.uom, rhs.uom);
+                }
+                catch (e) {
+                    throw new Error("Dimensions mismatch in comparison expression: " + this.uom.dimensions + " <= " + rhs.uom.dimensions);
+                }
+                if (!this.isScalar()) {
+                    throw new Error("left operand (" + this + ") in comparison expression must be a scalar.");
+                }
+                if (!rhs.isScalar()) {
+                    throw new Error("right operand (" + rhs + ") in comparison expression must be a scalar.");
+                }
+                return this.a <= rhs.a;
+            }
+            else {
+                return void 0;
+            }
+        };
+        G3.prototype.__lt__ = function (rhs) {
+            if (rhs instanceof G3) {
+                try {
+                    Unit_1.Unit.compatible(this.uom, rhs.uom);
+                }
+                catch (e) {
+                    throw new Error("Dimensions mismatch in comparison expression: " + this.uom.dimensions + " < " + rhs.uom.dimensions);
+                }
+                if (!this.isScalar()) {
+                    throw new Error("left operand (" + this + ") in comparison expression must be a scalar.");
+                }
+                if (!rhs.isScalar()) {
+                    throw new Error("right operand (" + rhs + ") in comparison expression must be a scalar.");
+                }
+                return this.a < rhs.a;
+            }
+            else {
+                return void 0;
+            }
+        };
+        G3.mutator = function (M) {
+            var that = {
+                set a(value) {
+                    M._coords[COORD_SCALAR] = value;
+                },
+                set x(value) {
+                    M._coords[COORD_X] = value;
+                },
+                set y(value) {
+                    M._coords[COORD_Y] = value;
+                },
+                set z(value) {
+                    M._coords[COORD_Z] = value;
+                },
+                set yz(value) {
+                    M._coords[COORD_YZ] = value;
+                },
+                set zx(value) {
+                    M._coords[COORD_ZX] = value;
+                },
+                set xy(value) {
+                    M._coords[COORD_XY] = value;
+                },
+                set b(value) {
+                    M._coords[COORD_PSEUDO] = value;
+                }
+            };
+            return that;
+        };
+        G3.copy = function (m, uom) {
+            return new G3(m.a, m.x, m.y, m.z, m.xy, m.yz, m.zx, m.b, uom);
+        };
+        G3.direction = function (vector) {
+            if (vector) {
+                return new G3(0, vector.x, vector.y, vector.z, 0, 0, 0, 0).direction();
+            }
+            else {
+                return void 0;
+            }
+        };
+        G3.fromSpinor = function (spinor) {
+            if (spinor) {
+                return new G3(spinor.a, 0, 0, 0, spinor.xy, spinor.yz, spinor.zx, 0, void 0);
+            }
+            else {
+                return void 0;
+            }
+        };
+        G3.fromVector = function (vector, uom) {
+            if (vector) {
+                return new G3(0, vector.x, vector.y, vector.z, 0, 0, 0, 0, uom);
+            }
+            else {
+                return void 0;
+            }
+        };
+        G3.random = function (uom) {
+            return new G3(Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), uom);
+        };
+        G3.scalar = function (α, uom) {
+            return new G3(α, 0, 0, 0, 0, 0, 0, 0, uom);
+        };
+        G3.vector = function (x, y, z, uom) {
+            return new G3(0, x, y, z, 0, 0, 0, 0, uom);
+        };
+        G3.BASIS_LABELS = BASIS_LABELS_G3_STANDARD_1.default;
+        G3.zero = new G3(0, 0, 0, 0, 0, 0, 0, 0);
+        G3.one = new G3(1, 0, 0, 0, 0, 0, 0, 0);
+        G3.e1 = new G3(0, 1, 0, 0, 0, 0, 0, 0);
+        G3.e2 = new G3(0, 0, 1, 0, 0, 0, 0, 0);
+        G3.e3 = new G3(0, 0, 0, 1, 0, 0, 0, 0);
+        G3.kilogram = new G3(1, 0, 0, 0, 0, 0, 0, 0, Unit_1.Unit.KILOGRAM);
+        G3.meter = new G3(1, 0, 0, 0, 0, 0, 0, 0, Unit_1.Unit.METER);
+        G3.second = new G3(1, 0, 0, 0, 0, 0, 0, 0, Unit_1.Unit.SECOND);
+        G3.coulomb = new G3(1, 0, 0, 0, 0, 0, 0, 0, Unit_1.Unit.COULOMB);
+        G3.ampere = new G3(1, 0, 0, 0, 0, 0, 0, 0, Unit_1.Unit.AMPERE);
+        G3.kelvin = new G3(1, 0, 0, 0, 0, 0, 0, 0, Unit_1.Unit.KELVIN);
+        G3.mole = new G3(1, 0, 0, 0, 0, 0, 0, 0, Unit_1.Unit.MOLE);
+        G3.candela = new G3(1, 0, 0, 0, 0, 0, 0, 0, Unit_1.Unit.CANDELA);
+        return G3;
+    }());
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = G3;
+});
+
+define('davinci-eight/physics/WorldG3',["require", "exports", '../visual/Arrow', '../core/BlendingFactorDest', '../core/BlendingFactorSrc', '../core/Capability', '../visual/Cylinder', '../facets/DirectionalLight', '../core/Engine', '../math/Geometric3', './G3', '../facets/PerspectiveCamera', '../core/Scene', '../visual/Sphere', '../controls/TrackballControls'], function (require, exports, Arrow_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, Cylinder_1, DirectionalLight_1, Engine_1, Geometric3_1, G3_1, PerspectiveCamera_1, Scene_1, Sphere_1, TrackballControls_1) {
+    "use strict";
+    var WorldG3 = (function () {
+        function WorldG3(canvas) {
+            this.scaleFactor = G3_1.default.meter;
+            this.ambients = [];
+            this.framecounter = 0;
+            this.engine = new Engine_1.Engine(canvas)
+                .size(500, 500)
+                .clearColor(0.1, 0.1, 0.1, 1.0)
+                .enable(Capability_1.default.DEPTH_TEST)
+                .enable(Capability_1.default.BLEND)
+                .blendFunc(BlendingFactorSrc_1.default.SRC_ALPHA, BlendingFactorDest_1.default.ONE);
+            this.scene = new Scene_1.Scene(this.engine);
+            this.arrow = new Arrow_1.Arrow({ contextManager: this.engine });
+            this.cylinder = new Cylinder_1.Cylinder({ contextManager: this.engine });
+            this.sphere = new Sphere_1.Sphere({ contextManager: this.engine });
+            this.camera = new PerspectiveCamera_1.PerspectiveCamera();
+            this.ambients.push(this.camera);
+            this.dirLight = new DirectionalLight_1.DirectionalLight();
+            this.ambients.push(this.dirLight);
+            this.trackball = new TrackballControls_1.TrackballControls(this.camera, window);
+            this.trackball.noPan = true;
+            this.trackball.subscribe(this.engine.canvas);
+        }
+        WorldG3.prototype.add = function (drawable) {
+            if (drawable) {
+                this.scene.add(drawable);
+            }
+            else {
+            }
+        };
+        WorldG3.prototype.clear = function () {
+            this.engine.clear();
+            this.trackball.update();
+            this.dirLight.direction.copy(this.camera.look).sub(this.camera.eye);
+        };
+        WorldG3.prototype.draw = function () {
+            this.scene.draw(this.ambients);
+        };
+        return WorldG3;
+    }());
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = WorldG3;
+    function scale(quantity, scaleFactor) {
+        var dimless = quantity.div(scaleFactor);
+        var uom = dimless.uom;
+        if (!uom || uom.isOne()) {
+            return Geometric3_1.Geometric3.copy(dimless);
+        }
+        else {
+            debugger;
+        }
+    }
+    exports.scale = scale;
+});
+
+define('davinci-eight/physics/ArrowG3',["require", "exports", '../core/Color', './G3', './WorldG3'], function (require, exports, Color_1, G3_1, WorldG3_1) {
+    "use strict";
+    var ArrowG3 = (function () {
+        function ArrowG3(world) {
+            this.world = world;
+            this.transparent = false;
+            this.h = G3_1.default.meter;
+            this.X = G3_1.default.meter;
+            this.color = Color_1.Color.lime.clone();
+            this.scaleFactor = G3_1.default.meter;
+            this.refCount = 1;
+            world.add(this);
+        }
+        ArrowG3.prototype.addRef = function () {
+            this.refCount++;
+            return this.refCount;
+        };
+        ArrowG3.prototype.release = function () {
+            this.refCount--;
+            return this.refCount;
+        };
+        ArrowG3.prototype.contextFree = function (contextProvider) {
+        };
+        ArrowG3.prototype.contextGain = function (contextProvider) {
+        };
+        ArrowG3.prototype.contextLost = function () {
+        };
+        ArrowG3.prototype.render = function (ambients) {
+            var arrow = this.world.arrow;
+            arrow.X = WorldG3_1.scale(this.X, this.world.scaleFactor);
+            arrow.h = WorldG3_1.scale(this.h, this.scaleFactor);
+            arrow.color.copy(this.color);
+            arrow.render(ambients);
+        };
+        return ArrowG3;
+    }());
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = ArrowG3;
+});
+
+define('davinci-eight/physics/CylinderG3',["require", "exports", '../core/Color', './G3', './WorldG3'], function (require, exports, Color_1, G3_1, WorldG3_1) {
+    "use strict";
+    var CylinderG3 = (function () {
+        function CylinderG3(world) {
+            this.world = world;
+            this.color = Color_1.Color.blueviolet.clone();
+            this.X = G3_1.default.meter;
+            this.length = G3_1.default.meter;
+            this.radius = G3_1.default.meter;
+            this.axis = G3_1.default.e2;
+            this.scaleFactor = G3_1.default.meter;
+            this.transparent = false;
+            this.refCount = 1;
+            world.add(this);
+        }
+        CylinderG3.prototype.addRef = function () {
+            this.refCount++;
+            return this.refCount;
+        };
+        CylinderG3.prototype.release = function () {
+            this.refCount--;
+            return this.refCount;
+        };
+        CylinderG3.prototype.contextFree = function (contextProvider) {
+        };
+        CylinderG3.prototype.contextGain = function (contextProvider) {
+        };
+        CylinderG3.prototype.contextLost = function () {
+        };
+        CylinderG3.prototype.render = function (ambients) {
+            var cylinder = this.world.cylinder;
+            cylinder.X = WorldG3_1.scale(this.X, this.world.scaleFactor);
+            cylinder.axis = WorldG3_1.scale(this.axis, G3_1.default.one);
+            cylinder.length = WorldG3_1.scale(this.length, this.scaleFactor);
+            cylinder.radius = WorldG3_1.scale(this.radius, this.scaleFactor);
+            cylinder.color.copy(this.color);
+            cylinder.render(ambients);
+        };
+        return CylinderG3;
+    }());
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = CylinderG3;
+});
+
+define('davinci-eight/physics/SphereG3',["require", "exports", '../core/Color', './G3', './WorldG3'], function (require, exports, Color_1, G3_1, WorldG3_1) {
+    "use strict";
+    var SphereG3 = (function () {
+        function SphereG3(world) {
+            this.world = world;
+            this.color = Color_1.Color.blueviolet.clone();
+            this.X = G3_1.default.meter;
+            this.radius = G3_1.default.meter;
+            this.axis = G3_1.default.e2;
+            this.scaleFactor = G3_1.default.meter;
+            this.transparent = false;
+            this.refCount = 1;
+            world.add(this);
+            this.color = world.sphere.color.clone();
+        }
+        SphereG3.prototype.addRef = function () {
+            this.refCount++;
+            return this.refCount;
+        };
+        SphereG3.prototype.release = function () {
+            this.refCount--;
+            return this.refCount;
+        };
+        SphereG3.prototype.contextFree = function (contextProvider) {
+        };
+        SphereG3.prototype.contextGain = function (contextProvider) {
+        };
+        SphereG3.prototype.contextLost = function () {
+        };
+        SphereG3.prototype.render = function (ambients) {
+            var sphere = this.world.sphere;
+            sphere.X = WorldG3_1.scale(this.X, this.world.scaleFactor);
+            sphere.axis.copyVector(this.axis);
+            sphere.radius = WorldG3_1.scale(this.radius, this.scaleFactor).a;
+            sphere.color.copy(this.color);
+            sphere.render(ambients);
+        };
+        return SphereG3;
+    }());
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = SphereG3;
+});
+
+define('davinci-eight',["require", "exports", './davinci-eight/commands/WebGLBlendFunc', './davinci-eight/commands/WebGLClearColor', './davinci-eight/commands/WebGLDisable', './davinci-eight/commands/WebGLEnable', './davinci-eight/controls/OrbitControls', './davinci-eight/controls/TrackballControls', './davinci-eight/core/Attrib', './davinci-eight/core/BeginMode', './davinci-eight/core/BlendingFactorDest', './davinci-eight/core/BlendingFactorSrc', './davinci-eight/core/Capability', './davinci-eight/core/ClearBufferMask', './davinci-eight/core/Color', './davinci-eight/config', './davinci-eight/core/DataType', './davinci-eight/core/Drawable', './davinci-eight/core/DepthFunction', './davinci-eight/core/GeometryArrays', './davinci-eight/core/GeometryElements', './davinci-eight/core/GraphicsProgramSymbols', './davinci-eight/core/Mesh', './davinci-eight/core/PixelFormat', './davinci-eight/core/PixelType', './davinci-eight/core/Scene', './davinci-eight/core/Shader', './davinci-eight/core/Uniform', './davinci-eight/core/Usage', './davinci-eight/core/Engine', './davinci-eight/core/VertexBuffer', './davinci-eight/core/IndexBuffer', './davinci-eight/core/vertexArraysFromPrimitive', './davinci-eight/core/geometryFromPrimitive', './davinci-eight/facets/AmbientLight', './davinci-eight/facets/ColorFacet', './davinci-eight/facets/DirectionalLight', './davinci-eight/facets/ModelFacet', './davinci-eight/facets/PointSizeFacet', './davinci-eight/facets/ReflectionFacetE2', './davinci-eight/facets/ReflectionFacetE3', './davinci-eight/facets/Vector3Facet', './davinci-eight/facets/frustumMatrix', './davinci-eight/facets/PerspectiveCamera', './davinci-eight/facets/perspectiveMatrix', './davinci-eight/facets/viewMatrixFromEyeLookUp', './davinci-eight/facets/ModelE2', './davinci-eight/facets/ModelE3', './davinci-eight/atoms/DrawAttribute', './davinci-eight/atoms/DrawPrimitive', './davinci-eight/atoms/reduce', './davinci-eight/atoms/Vertex', './davinci-eight/shapes/ArrowBuilder', './davinci-eight/shapes/ConicalShellBuilder', './davinci-eight/shapes/CylindricalShellBuilder', './davinci-eight/shapes/RingBuilder', './davinci-eight/geometries/Simplex', './davinci-eight/geometries/ArrowGeometry', './davinci-eight/geometries/BoxGeometry', './davinci-eight/geometries/CylinderGeometry', './davinci-eight/geometries/GridGeometry', './davinci-eight/geometries/SphereGeometry', './davinci-eight/geometries/TetrahedronGeometry', './davinci-eight/materials/HTMLScriptsMaterial', './davinci-eight/materials/LineMaterial', './davinci-eight/materials/ShaderMaterial', './davinci-eight/materials/MeshMaterial', './davinci-eight/materials/PointMaterial', './davinci-eight/materials/GraphicsProgramBuilder', './davinci-eight/math/mathcore', './davinci-eight/math/Vector1', './davinci-eight/math/Matrix2', './davinci-eight/math/Matrix3', './davinci-eight/math/Matrix4', './davinci-eight/math/Geometric2', './davinci-eight/math/Geometric3', './davinci-eight/math/Spinor2', './davinci-eight/math/Spinor3', './davinci-eight/math/Vector2', './davinci-eight/math/Vector3', './davinci-eight/math/Vector4', './davinci-eight/math/VectorN', './davinci-eight/utils/getCanvasElementById', './davinci-eight/collections/ShareableArray', './davinci-eight/collections/NumberShareableMap', './davinci-eight/core/refChange', './davinci-eight/core/ShareableBase', './davinci-eight/collections/StringShareableMap', './davinci-eight/utils/animation', './davinci-eight/visual/Arrow', './davinci-eight/visual/Basis', './davinci-eight/visual/Sphere', './davinci-eight/visual/Box', './davinci-eight/visual/Cylinder', './davinci-eight/visual/Curve', './davinci-eight/visual/Grid', './davinci-eight/visual/GridXY', './davinci-eight/visual/GridYZ', './davinci-eight/visual/GridZX', './davinci-eight/visual/HollowCylinder', './davinci-eight/visual/RigidBody', './davinci-eight/visual/Tetrahedron', './davinci-eight/visual/Track', './davinci-eight/visual/Trail', './davinci-eight/visual/Turtle', './davinci-eight/physics/Dimensions', './davinci-eight/physics/G2', './davinci-eight/physics/G3', './davinci-eight/physics/QQ', './davinci-eight/physics/ArrowG3', './davinci-eight/physics/CylinderG3', './davinci-eight/physics/SphereG3', './davinci-eight/physics/Unit', './davinci-eight/physics/WorldG3'], function (require, exports, WebGLBlendFunc_1, WebGLClearColor_1, WebGLDisable_1, WebGLEnable_1, OrbitControls_1, TrackballControls_1, Attrib_1, BeginMode_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, ClearBufferMask_1, Color_1, config_1, DataType_1, Drawable_1, DepthFunction_1, GeometryArrays_1, GeometryElements_1, GraphicsProgramSymbols_1, Mesh_1, PixelFormat_1, PixelType_1, Scene_1, Shader_1, Uniform_1, Usage_1, Engine_1, VertexBuffer_1, IndexBuffer_1, vertexArraysFromPrimitive_1, geometryFromPrimitive_1, AmbientLight_1, ColorFacet_1, DirectionalLight_1, ModelFacet_1, PointSizeFacet_1, ReflectionFacetE2_1, ReflectionFacetE3_1, Vector3Facet_1, frustumMatrix_1, PerspectiveCamera_1, perspectiveMatrix_1, viewMatrixFromEyeLookUp_1, ModelE2_1, ModelE3_1, DrawAttribute_1, DrawPrimitive_1, reduce_1, Vertex_1, ArrowBuilder_1, ConicalShellBuilder_1, CylindricalShellBuilder_1, RingBuilder_1, Simplex_1, ArrowGeometry_1, BoxGeometry_1, CylinderGeometry_1, GridGeometry_1, SphereGeometry_1, TetrahedronGeometry_1, HTMLScriptsMaterial_1, LineMaterial_1, ShaderMaterial_1, MeshMaterial_1, PointMaterial_1, GraphicsProgramBuilder_1, mathcore_1, Vector1_1, Matrix2_1, Matrix3_1, Matrix4_1, Geometric2_1, Geometric3_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1, Vector4_1, VectorN_1, getCanvasElementById_1, ShareableArray_1, NumberShareableMap_1, refChange_1, ShareableBase_1, StringShareableMap_1, animation_1, Arrow_1, Basis_1, Sphere_1, Box_1, Cylinder_1, Curve_1, Grid_1, GridXY_1, GridYZ_1, GridZX_1, HollowCylinder_1, RigidBody_1, Tetrahedron_1, Track_1, Trail_1, Turtle_1, Dimensions_1, G2_1, G3_1, QQ_1, ArrowG3_1, CylinderG3_1, SphereG3_1, Unit_1, WorldG3_1) {
     "use strict";
     var eight = {
         get LAST_MODIFIED() { return config_1.default.LAST_MODIFIED; },
@@ -19306,7 +22283,16 @@ define('davinci-eight',["require", "exports", './davinci-eight/commands/WebGLBle
         get Tetrahedron() { return Tetrahedron_1.default; },
         get Track() { return Track_1.Track; },
         get Trail() { return Trail_1.Trail; },
-        get Turtle() { return Turtle_1.default; }
+        get Turtle() { return Turtle_1.default; },
+        get Dimensions() { return Dimensions_1.Dimensions; },
+        get G2() { return G2_1.default; },
+        get G3() { return G3_1.default; },
+        get QQ() { return QQ_1.QQ; },
+        get ArrowG3() { return ArrowG3_1.default; },
+        get CylinderG3() { return CylinderG3_1.default; },
+        get SphereG3() { return SphereG3_1.default; },
+        get Unit() { return Unit_1.Unit; },
+        get WorldG3() { return WorldG3_1.default; }
     };
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = eight;

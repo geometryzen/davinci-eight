@@ -3,7 +3,8 @@ import dotVectorCartesian from '../math/dotVectorCartesianE2';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeObject from '../checks/mustBeObject';
-import notSupported from '../i18n/notSupported'
+import notSupported from '../i18n/notSupported';
+import Pseudo from './Pseudo';
 import quadSpinor from '../math/quadSpinorE2';
 import rotorFromDirections from '../math/rotorFromDirectionsE2';
 import SpinorE2 from '../math/SpinorE2';
@@ -142,29 +143,23 @@ export default class Spinor2 extends Coords implements SpinorE2 {
     }
 
     /**
-     * @method adj
-     * @return {number}
-     * @beta
+     *
      */
-    adj(): Spinor2 {
+    adj() {
         throw new Error('TODO: Spinor2.adj');
     }
 
     /**
-     * @method angle
-     * @return {Spinor2}
+     *
      */
-    angle(): Spinor2 {
+    angle() {
         return this.log().grade(2);
     }
 
     /**
-     * @method approx
-     * @param n {number}
-     * @return {Spinor2}
-     * @chainable
+     *
      */
-    approx(n: number): Spinor2 {
+    approx(n: number) {
         super.approx(n)
         return this
     }
@@ -818,6 +813,10 @@ export default class Spinor2 extends Coords implements SpinorE2 {
      */
     static copy(spinor: SpinorE2): Spinor2 {
         return new Spinor2().copy(spinor)
+    }
+
+    static fromBivector(B: Pseudo): Spinor2 {
+        return new Spinor2().zero().addPseudo(B.b);
     }
 
     /**

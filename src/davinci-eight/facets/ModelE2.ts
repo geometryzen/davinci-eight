@@ -3,11 +3,6 @@ import {Vector2} from '../math/Vector2';
 import Spinor2 from '../math/Spinor2';
 
 /**
- * @module EIGHT
- * @submodule facets
- */
-
-/**
  * @class ModelE2
  */
 export default class ModelE2 {
@@ -85,7 +80,7 @@ export default class ModelE2 {
         return this._attitude
     }
     set R(attitude: Geometric2) {
-      this._attitude.copy(attitude)
+        this._attitude.copy(attitude)
     }
 
     /**
@@ -102,7 +97,7 @@ export default class ModelE2 {
         return this._position
     }
     set X(position: Geometric2) {
-      this._position.copy(position)
+        this._position.copy(position)
     }
 
     /**

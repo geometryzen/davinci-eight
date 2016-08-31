@@ -1,17 +1,16 @@
-import BrowserHTMLElement from '../base/BrowserHTMLElement'
-import BrowserWindow from '../base/BrowserWindow'
-import incLevel from '../base/incLevel'
-import MouseCoordinates from './MouseCoordinates'
-import mustBeObject from '../checks/mustBeObject'
-import {ShareableBase} from '../core/ShareableBase'
-import {Vector2} from '../math/Vector2'
+import BrowserHTMLElement from '../base/BrowserHTMLElement';
+import BrowserWindow from '../base/BrowserWindow';
+import MouseCoordinates from './MouseCoordinates';
+import mustBeObject from '../checks/mustBeObject';
+import {ShareableBase} from '../core/ShareableBase';
+import {Vector2} from '../math/Vector2';
 
-const MODE = { NONE: -1, ROTATE: 0, ZOOM: 1, PAN: 2, TOUCH_ROTATE: 3, TOUCH_ZOOM_PAN: 4 }
+const MODE = { NONE: -1, ROTATE: 0, ZOOM: 1, PAN: 2, TOUCH_ROTATE: 3, TOUCH_ZOOM_PAN: 4 };
 
 /**
  * The index into the keys array is ROTATE=0, ZOOM=1, PAN=2
  */
-const keys = [65 /*A*/, 83 /*S*/, 68 /*D*/]
+const keys = [65 /*A*/, 83 /*S*/, 68 /*D*/];
 
 /**
  *
@@ -22,107 +21,106 @@ export class MouseControls extends ShareableBase {
      *
      * @default true
      */
-    public enabled = true
+    public enabled = true;
 
     /**
      *
      * @default false
      */
-    public noRotate = false
+    public noRotate = false;
 
     /**
      *
      * @default false
      */
-    public noZoom = false
+    public noZoom = false;
 
     /**
      *
      * @default false
      */
-    public noPan = false
+    public noPan = false;
 
     /**
      *
      * @default 0
      */
-    public minDistance = 0
+    public minDistance = 0;
 
     /**
      *
      * @default Infinity
      */
-    public maxDistance = Infinity
+    public maxDistance = Infinity;
 
     /**
      *
      */
-    private domElement: BrowserHTMLElement
+    private domElement: BrowserHTMLElement;
 
     /**
      * The mouse controls operate modally. You can only do one thing (rotate, zoom, or pan) at a time.
      */
-    private mode = MODE.NONE
+    private mode = MODE.NONE;
 
     /**
      * Using the keyboard allows us to change modes, so we keep this so that we can revert.
      */
-    private prevMode = MODE.NONE
+    private prevMode = MODE.NONE;
 
     /**
      *
      */
-    protected moveCurr = new Vector2()
+    protected moveCurr = new Vector2();
 
     /**
      *
      */
-    protected movePrev = new Vector2()
+    protected movePrev = new Vector2();
 
     /**
      *
      */
-    protected zoomStart = new Vector2()
+    protected zoomStart = new Vector2();
 
     /**
      *
      */
-    protected zoomEnd = new Vector2()
+    protected zoomEnd = new Vector2();
 
     /**
      *
      */
-    protected panStart = new Vector2()
+    protected panStart = new Vector2();
 
     /**
      *
      */
-    protected panEnd = new Vector2()
+    protected panEnd = new Vector2();
 
     /**
      * Initialized by calling handleResize
      */
-    private screenLoc = new Vector2()
+    private screenLoc = new Vector2();
 
     /**
      * Think of this vector as running from the top left corner of the screen.
      */
-    private circleExt = new Vector2()
+    private circleExt = new Vector2();
 
     /**
      * Think of this vector as running from the bottom left corner of the screen.
      */
-    private screenExt = new Vector2()
+    private screenExt = new Vector2();
 
-    private mouseOnCircle = new Vector2()
-    private mouseOnScreen = new Vector2()
-
-    private mousedown: (event: MouseEvent) => any
-    private mousemove: (event: MouseEvent) => any
-    private mouseup: (event: MouseEvent) => any
-    private mousewheel: (event: MouseWheelEvent) => any
-    private keydown: (event: KeyboardEvent) => any
-    private keyup: (event: KeyboardEvent) => any
+    private mouseOnCircle = new Vector2();
+    private mouseOnScreen = new Vector2();
+    private mousedown: (event: MouseEvent) => any;
+    private mousemove: (event: MouseEvent) => any;
+    private mouseup: (event: MouseEvent) => any;
+    private mousewheel: (event: MouseWheelEvent) => any;
+    private keydown: (event: KeyboardEvent) => any;
+    private keyup: (event: KeyboardEvent) => any;
     // Disabling the context menu because it interferes with capturing the canvas.
     // private contextmenu: (event: PointerEvent) => any
     private wnd: BrowserWindow;
@@ -132,9 +130,9 @@ export class MouseControls extends ShareableBase {
      * @param wnd
      */
     constructor(wnd: BrowserWindow) {
-        super()
-        this.setLoggingName('MouseControls')
-        this.wnd = mustBeObject('wnd', wnd)
+        super();
+        this.setLoggingName('MouseControls');
+        this.wnd = mustBeObject('wnd', wnd);
 
         /**
          *
@@ -278,9 +276,9 @@ export class MouseControls extends ShareableBase {
      */
     protected destructor(levelUp: number): void {
         if (this.domElement) {
-            this.unsubscribe()
+            this.unsubscribe();
         }
-        super.destructor(incLevel(levelUp))
+        super.destructor(levelUp + 1);
     }
 
     /**

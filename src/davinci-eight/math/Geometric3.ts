@@ -1803,6 +1803,14 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
         return copy
     }
 
+    static fromBivector(B: BivectorE3): Geometric3 {
+        const copy = new Geometric3();
+        copy.yz = B.yz;
+        copy.zx = B.zx;
+        copy.xy = B.xy;
+        return copy;
+    }
+
     /**
      * @param scalar
      * @returns

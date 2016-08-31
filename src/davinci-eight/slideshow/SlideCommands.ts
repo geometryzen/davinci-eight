@@ -22,10 +22,10 @@ export default class SlideCommands extends ShareableBase implements ISlideComman
         this.setLoggingName('SlideCommands')
         this.commands = new ShareableArray<ISlideCommand>([])
     }
-    protected destructor(level: number): void {
-        this.commands.release()
-        this.commands = void 0
-        super.destructor(incLevel(level))
+    protected destructor(levelUp: number): void {
+        this.commands.release();
+        this.commands = void 0;
+        super.destructor(levelUp + 1);
     }
     pushWeakRef(command: ISlideCommand): number {
         return this.commands.pushWeakRef(command)

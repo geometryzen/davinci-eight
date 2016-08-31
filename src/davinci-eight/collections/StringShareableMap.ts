@@ -1,4 +1,3 @@
-import incLevel from '../base/incLevel';
 import {Shareable} from '../core/Shareable';
 import {ShareableBase} from '../core/ShareableBase';
 
@@ -14,28 +13,18 @@ export default class StringShareableMap<V extends Shareable> extends ShareableBa
     private elements: { [key: string]: V } = {};
 
     /**
-     * <p>
      * A map of <code>string</code> to <code>V extends Shareable</code>.
-     * </p>
-     * @class StringShareableMap
-     * @constructor
      */
     constructor() {
         super()
         this.setLoggingName('StringShareableMap')
     }
 
-    /**
-     * @method destructor
-     * @param level {number}
-     * @return {void}
-     * @protected
-     */
-    protected destructor(level: number): void {
+    protected destructor(levelUp: number): void {
         this.forEach((key: string) => {
-            this.putWeakRef(key, void 0)
+            this.putWeakRef(key, void 0);
         })
-        super.destructor(incLevel(level))
+        super.destructor(levelUp + 1);
     }
 
     /**
@@ -43,7 +32,7 @@ export default class StringShareableMap<V extends Shareable> extends ShareableBa
      *
      * @method exists
      * @param key {string}
-     * @return {boolean} <p><code>true</code> if there is an element at the specified key.</p>
+     * @return <p><code>true</code> if there is an element at the specified key.</p>
      */
     public exists(key: string): boolean {
         const element = this.elements[key];

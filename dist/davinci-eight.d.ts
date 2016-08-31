@@ -1657,6 +1657,11 @@ declare module EIGHT {
         static fromCartesian(α: number, x: number, y: number, β: number): Geometric2;
 
         /**
+         * Creates a copy of a bivector.
+         */
+        static fromBivector(B: Pseudo): Geometric2;
+
+        /**
          * Creates a copy of a spinor.
          */
         static fromSpinor(spinor: SpinorE2): Geometric2;
@@ -2296,6 +2301,11 @@ declare module EIGHT {
         static I(): Geometric3;
 
         /**
+         * Creates a copy of a bivector.
+         */
+        static fromBivector(B: BivectorE3): Geometric3;
+
+        /**
          * Creates a copy of a scalar.
          */
         static fromScalar(scalar: Scalar): Geometric3;
@@ -2511,15 +2521,16 @@ declare module EIGHT {
          *
          * Sets this Spinor3 to the geometric product, a * b,  of the vector arguments
          */
-        versor(a: VectorE3, b: VectorE3): Spinor3
-        static copy(spinor: SpinorE3): Spinor3
-        static dual(vector: VectorE3, changeSign: boolean): Spinor3
-        static lerp(a: SpinorE3, b: SpinorE3, α: number): Spinor3
-        static one(): Spinor3
-        static rotorFromDirections(a: VectorE3, b: VectorE3): Spinor3
-        static rotorFromVectorToVector(a: VectorE3, b: VectorE3, B: BivectorE3): Spinor3
-        static spinor(yz: number, zx: number, xy: number, α: number): Spinor3
-        static zero(): Spinor3
+        versor(a: VectorE3, b: VectorE3): Spinor3;
+        static copy(spinor: SpinorE3): Spinor3;
+        static dual(vector: VectorE3, changeSign: boolean): Spinor3;
+        static fromBivector(B: BivectorE3): Spinor3;
+        static lerp(a: SpinorE3, b: SpinorE3, α: number): Spinor3;
+        static one(): Spinor3;
+        static rotorFromDirections(a: VectorE3, b: VectorE3): Spinor3;
+        static rotorFromVectorToVector(a: VectorE3, b: VectorE3, B: BivectorE3): Spinor3;
+        static spinor(yz: number, zx: number, xy: number, α: number): Spinor3;
+        static zero(): Spinor3;
     }
 
     /**
@@ -2589,6 +2600,13 @@ declare module EIGHT {
         zero(): Vector3;
         static copy(vector: VectorE3): Vector3;
         static dot(a: VectorE3, b: VectorE3): number;
+        /**
+         * Constructs a vector which is the dual of the supplied bivector, B.
+         * The convention used is dual(m) = I * m.
+         * If a sign change is desired from this convention,
+         * set changeSign to true.
+         */
+        static dual(B: BivectorE3, changeSign?: boolean): Vector3;
         static e1(): Vector3;
         static e2(): Vector3;
         static e3(): Vector3;
@@ -2858,10 +2876,29 @@ declare module EIGHT {
         static VARYING_LIGHT: string;
     }
 
-    ///////////////////////////////////////////////////////
+    /**
+     * The interface contract for an object that may exist in a Scene.
+     */
+    interface Renderable extends ContextConsumer {
+        /**
+         * An optional name allowing the object to be found by name.
+         */
+        name: string;
+
+        /**
+         * Determines when this object will be renderered relative to other objects.
+         * Transparent objects are rendered after non-transparent objects.
+         */
+        transparent: boolean;
+
+        /**
+         * Renders this object to the WebGL pipeline.
+         */
+        render(ambients: Facet[]): void;
+    }
 
     /**
-     * A collection of AbstractDrawable objects providing a convenient way to render multiple objects to the WebGL pipeline.
+     * A collection of Renderable objects providing a convenient way to render multiple objects to the WebGL pipeline.
      */
     class Scene extends ShareableContextConsumer {
         /**
@@ -2872,8 +2909,8 @@ declare module EIGHT {
         /**
          * Adds the specified drawable object to this Scene.
          */
-        add(drawable: AbstractDrawable): void;
-        contains(drawable: AbstractDrawable);
+        add(drawable: Renderable): void;
+        contains(drawable: Renderable);
         contextFree(contextProvider: ContextProvider): void;
         contextGain(contextProvider: ContextProvider): void;
         contextLost(): void;
@@ -2887,14 +2924,14 @@ declare module EIGHT {
          * ambients: Provide GLSL uniform values all Materials. 
          */
         draw(ambients: Facet[]): void;
-        find(match: (drawable: AbstractDrawable) => boolean): ShareableArray<AbstractDrawable>;
-        findByName(name: string): ShareableArray<AbstractDrawable>;
-        findOne(match: (drawable: AbstractDrawable) => boolean): AbstractDrawable;
-        findOneByName(name: string): AbstractDrawable;
+        find(match: (drawable: Renderable) => boolean): ShareableArray<Renderable>;
+        findByName(name: string): ShareableArray<Renderable>;
+        findOne(match: (drawable: Renderable) => boolean): Renderable;
+        findOneByName(name: string): Renderable;
         /**
          * Removes the specified drawable from this Scene.
          */
-        remove(drawable: AbstractDrawable): void;
+        remove(drawable: Renderable): void;
     }
 
     interface View {
@@ -4147,6 +4184,473 @@ declare module EIGHT {
         constructor(options: TurtleOptions, levelUp?: number);
         protected destructor(levelUp: number): void;
     }
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Physics
+    ///////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * The QQ class represents a rational number.
+     * The QQ implementation is that of an immutable value.
+     * The numerator and denominator are reduced to their lowest form.
+     * Construct new instances using the static valueOf method.
+     */
+    class QQ {
+
+        /**
+         * The denominator.
+         */
+        denom: number;
+
+        /**
+         * The numerator.
+         */
+        numer: number;
+
+        /**
+         *
+         */
+        add(rhs: QQ): QQ
+
+        /**
+         *
+         */
+        div(rhs: QQ): QQ
+
+        /**
+         *
+         */
+        equals(other: QQ): boolean
+
+        /**
+         * Computes the multiplicative inverse of this rational number.
+         */
+        inv(): QQ
+
+        /**
+         * Determines whether this rational number is the multiplicative identity, <b>1</b>.
+         */
+        isOne(): boolean
+
+        /**
+         * Determines whether this rational number is the additive identity, <b>0</b>.
+         */
+        isZero(): boolean
+
+        /**
+         *
+         */
+        mul(rhs: QQ): QQ
+
+        /**
+         * Computes the additive inverse of this rational number.
+         */
+        neg(): QQ
+
+        /**
+         *
+         */
+        sub(rhs: QQ): QQ
+
+        /**
+         *
+         */
+        toString(): string
+
+        /**
+         *
+         */
+        static valueOf(numer: number, denom: number): QQ
+    }
+
+    /**
+     * The dimensions of a physical quantity.
+     */
+    class Dimensions {
+        M: QQ;
+        L: QQ;
+        T: QQ;
+        Q: QQ;
+        temperature: QQ;
+        amount: QQ;
+        intensity: QQ;
+        constructor(M: QQ, L: QQ, T: QQ, Q: QQ, temperature: QQ, amount: QQ, intensity);
+        isOne(): boolean;
+        isZero(): boolean;
+        inv(): Dimensions;
+        neg(): Dimensions;
+
+        /**
+         *
+         */
+        static ONE: Dimensions;
+
+        /**
+         *
+         */
+        static MASS: Dimensions;
+
+        /**
+         *
+         */
+        static LENGTH: Dimensions;
+
+        /**
+         *
+         */
+        static TIME: Dimensions;
+
+        /**
+         *
+         */
+        static CHARGE: Dimensions;
+
+        /**
+         *
+         */
+        static CURRENT: Dimensions;
+
+        /**
+         *
+         */
+        static TEMPERATURE: Dimensions;
+
+        /**
+         *
+         */
+        static AMOUNT: Dimensions;
+
+        /**
+         *
+         */
+        static INTENSITY: Dimensions;
+    }
+
+    /**
+     * The unit of measure for a physical quantity.
+     */
+    class Unit {
+        multiplier: number;
+        dimensions: Dimensions;
+        labels: string[];
+        constructor(multiplier: number, dimensions: Dimensions, labels: string[]);
+        inv(): Unit;
+        isOne(): boolean;
+        isZero(): boolean;
+        neg(): Unit;
+
+        /**
+         * Tme multiplicative identity (1).
+         */
+        static ONE: Unit;
+
+        /**
+         * The kilogram.
+         */
+        static KILOGRAM: Unit;
+
+        /**
+         * The meter.
+         */
+        static METER: Unit;
+
+        /**
+         * The second.
+         */
+        static SECOND: Unit;
+
+        /**
+         * The coulomb.
+         */
+        static COULOMB: Unit;
+
+        /**
+         * The ampere.
+         */
+        static AMPERE: Unit;
+
+        /**
+         * The kelvin.
+         */
+        static KELVIN: Unit;
+
+        /**
+         * The mole.
+         */
+        static MOLE: Unit;
+
+        /**
+         * The candela.
+         */
+        static CANDELA: Unit;
+    }
+
+    /**
+     * 
+     */
+    class G2 implements VectorE2, SpinorE2 {
+        a: number
+        x: number
+        y: number
+        b: number
+        uom: Unit
+        constructor(α?: number, x?: number, y?: number, β?: number, uom?: Unit)
+        add(rhs: G2): G2
+        addPseudo(β: Unit): G2
+        addScalar(α: Unit): G2
+        angle(): G2
+        copy(M: GeometricE2): G2
+        direction(): G2
+        exp(): G2
+        inv(): G2
+        isPinor(): boolean
+        isZero(): boolean
+        magnitude(): G2
+        reflect(n: VectorE2): G2
+        rotate(spinor: SpinorE2): G2
+        squaredNorm(): G2
+        scp(rhs: G2): G2
+        toExponential(fractionDigits?: number): string;
+        toFixed(fractionDigits?: number): string;
+        toPrecision(precision?: number): string;
+        toString(radix?: number): string;
+        static ampere: G2
+        static candela: G2
+        static coulomb: G2
+        static e1: G2
+        static e2: G2
+        static I: G2
+        static kelvin: G2
+        static kilogram: G2
+        static meter: G2
+        static mole: G2
+        static one: G2
+        static second: G2
+        static zero: G2
+        static fromVectorE2(vector: VectorE2): G2
+        /**
+         * Creates a vector from Cartesian coordinates and an optional unit of measure.
+         */
+        static vector(x: number, y: number, uom?: Unit): G2
+    }
+
+    /**
+     * A measure with an optional unit of measure.
+     */
+    class G3 implements VectorE3, SpinorE3 {
+        /**
+         * The labels to use for the basis vectors.
+         * For G3 there must be eight (8) labels.
+         * e.g.
+         * [['1'], ['e1'], ['e2'], ['e3'],['e12'], ['e23'], ['e32'], ['e123']]
+         * or
+         * [["1"], ["i"], ["j"], ["k"], ["ij"], ["jk"], ["ki"], ["I"]]
+         */
+        static BASIS_LABELS: string[][];
+        // FIXME: When TypeScript has been upgraded we can do this...
+        // static BASIS_LABELS: (string | string[])[];
+        static BASIS_LABELS_GEOMETRIC: string[][];
+        static BASIS_LABELS_HAMILTON: string[][];
+        static BASIS_LABELS_STANDARD: string[][];
+        static BASIS_LABELS_STANDARD_HTML: string[][];
+
+        static ampere: G3;
+        static candela: G3;
+        static coulomb: G3;
+        static e1: G3;
+        static e2: G3;
+        static e3: G3;
+        static kelvin: G3;
+        static kilogram: G3;
+        static meter: G3;
+        static mole: G3;
+        static one: G3;
+        static second: G3;
+        static zero: G3;
+        /**
+         * The scalar component.
+         */
+        a: number
+        x: number
+        y: number
+        z: number
+        /**
+         * The bivector component in the <b>e</b><sub>2</sub><b>e</b><sub>3</sub> plane.
+         */
+        yz: number
+        /**
+         * The bivector component in the <b>e</b><sub>3</sub><b>e</b><sub>1</sub> plane.
+         */
+        zx: number
+        /**
+         * The bivector component in the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> plane.
+         */
+        xy: number
+        /**
+         * The pseudoscalar component.
+         */
+        b: number
+        /**
+         * The (optional) unit of measure.
+         */
+        uom: Unit;
+        constructor(α: number, x: number, y: number, z: number, xy: number, yz: number, zx: number, β: number, uom?: Unit)
+        add(rhs: G3): G3;
+        addPseudo(β: Unit): G3;
+        addScalar(α: Unit): G3;
+        adj(): G3;
+        angle(); G3;
+        conj(): G3;
+        coordinate(index: number): number;
+        cos(): G3;
+        cosh(): G3;
+        cross(vector: G3): G3;
+        cubicBezier(t: number, controlBegin: GeometricE3, controlEnd: GeometricE3, endPoint: GeometricE3): G3;
+        distanceTo(point: G3): number;
+        div(rhs: G3): G3;
+        divByScalar(α: number): G3;
+        dual(): G3;
+        equals(other: G3): G3;
+        exp(): G3;
+        ext(rhs: G3): G3;
+        /**
+         * Extracts the specified grade from this multivector.
+         */
+        grade(index: number): G3;
+        inv(): G3;
+        isOne(): boolean;
+        isZero(): boolean;
+        lco(rhs: G3): G3;
+        lerp(target: G3, α: number): G3;
+        log(): G3;
+        magnitude(): G3;
+        mul(rhs: G3): G3;
+        neg(): G3;
+        norm(): G3;
+        pow(exponent: G3): G3;
+        quad(): G3;
+        quadraticBezier(t: number, controlPoint: GeometricE3, endPoint: GeometricE3): G3;
+        rco(rhs: G3): G3;
+        reflect(n: VectorE3): G3;
+        rev(): G3;
+        rotate(s: SpinorE3): G3;
+        scale(α: number): G3;
+        scp(rhs: G3): G3;
+        sin(): G3;
+        sinh(): G3;
+        slerp(target: G3, α: number): G3;
+        sqrt(): G3;
+        squaredNorm(): G3;
+        sub(rhs: G3): G3;
+        toExponential(fractionDigits?: number): string;
+        toFixed(fractionDigits?: number): string;
+        toPrecision(precision?: number): string;
+        toString(radix?: number): string;
+        /**
+         * Computes the direction of this multivector.
+         */
+        direction(): G3;
+        /**
+         * Creates a new G3 from the coordinates of m and the optional unit of measure, uom.
+         */
+        static copy(m: GeometricE3, uom?: Unit): G3;
+        static fromSpinor(spinor: SpinorE3): G3;
+        static fromVector(vector: VectorE3): G3;
+        /**
+         * Computes a random multivector with an optional unit of measure.
+         */
+        static random(uom?: Unit): G3;
+        static scalar(α: number, uom?: Unit): G3;
+        static vector(x: number, y: number, z: number, uom?: Unit): G3;
+    }
+
+    /**
+     * 
+     */
+    class WorldG3 {
+        public scaleFactor: G3;
+        public engine: Engine;
+        public scene: Scene;
+        public ambients: Facet[];
+        public trackball: TrackballControls;
+        public dirLight: DirectionalLight;
+        public camera: PerspectiveCamera;
+        /**
+         * A reusable single arrow.
+         */
+        public arrow: Arrow;
+        /**
+         * A reusable single cylinder.
+         */
+        public cylinder: Cylinder;
+
+        constructor(canvas: string | HTMLCanvasElement | WebGLRenderingContext);
+
+        /**
+         * Adds a drawable object to the world.
+         */
+        add(drawable: Renderable): void;
+        clear(): void;
+        draw(): void;
+    }
+
+    /**
+     * 
+     */
+    class ArrowG3 implements Renderable {
+        public name: string;
+        public transparent: boolean;
+        public h: G3;
+        public X: G3;
+        public color: Color;
+        public scaleFactor: G3;
+        constructor(world: WorldG3);
+        addRef(): number;
+        release(): number;
+        contextFree(contextProvider: ContextProvider): void;
+        contextGain(contextProvider: ContextProvider): void;
+        contextLost(): void;
+        render(ambients: Facet[]): void;
+    }
+
+    /**
+     * 
+     */
+    class CylinderG3 implements Renderable {
+        public name: string;
+        public color: Color;
+        public X: G3;
+        public length: G3;
+        public radius: G3;
+        public axis: G3;
+        public scaleFactor: G3;
+        public transparent: boolean;
+        constructor(world: WorldG3);
+        addRef(): number;
+        release(): number;
+        contextFree(contextProvider: ContextProvider): void;
+        contextGain(contextProvider: ContextProvider): void;
+        contextLost(): void;
+        render(ambients: Facet[]): void;
+    }
+
+    class SphereG3 implements Renderable {
+        public name: string;
+        public color: Color;
+        public X: G3;
+        public radius: G3;
+        public axis: G3;
+        public scaleFactor: G3;
+        public transparent: boolean;
+        constructor(world: WorldG3);
+        addRef(): number;
+        release(): number;
+        contextFree(contextProvider: ContextProvider): void;
+        contextGain(contextProvider: ContextProvider): void;
+        contextLost(): void;
+        render(ambients: Facet[]): void;
+    }
+
     ///////////////////////////////////////////////////////////////////////////////
     /**
      *

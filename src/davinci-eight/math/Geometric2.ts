@@ -16,6 +16,7 @@ import mustBeNumber from '../checks/mustBeNumber';
 import mustBeObject from '../checks/mustBeObject';
 import notImplemented from '../i18n/notImplemented';
 import notSupported from '../i18n/notSupported';
+import Pseudo from './Pseudo';
 import rcoE2 from './rcoE2';
 import rotorFromDirections from './rotorFromDirectionsE2';
 import scpE2 from './scpE2';
@@ -1848,6 +1849,10 @@ export class Geometric2 extends Coords implements GeometricE2 {
         m.y = y
         m.b = β
         return m
+    }
+
+    static fromBivector(B: Pseudo): Geometric2 {
+        return Geometric2.fromCartesian(0, 0, 0, B.b);
     }
 
     /**

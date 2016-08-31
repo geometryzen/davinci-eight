@@ -177,6 +177,17 @@ import {Trail} from './davinci-eight/visual/Trail';
 import Turtle from './davinci-eight/visual/Turtle';
 import vector from './davinci-eight/visual/vector';
 
+// physics
+import {Dimensions} from './davinci-eight/physics/Dimensions';
+import G2 from './davinci-eight/physics/G2';
+import G3 from './davinci-eight/physics/G3';
+import {QQ} from './davinci-eight/physics/QQ';
+import ArrowG3 from './davinci-eight/physics/ArrowG3';
+import CylinderG3 from './davinci-eight/physics/CylinderG3';
+import SphereG3 from './davinci-eight/physics/SphereG3';
+import {Unit} from './davinci-eight/physics/Unit';
+import WorldG3 from './davinci-eight/physics/WorldG3';
+
 /**
  *
  */
@@ -321,6 +332,18 @@ const eight = {
     get Tetrahedron() { return Tetrahedron; },
     get Track() { return Track; },
     get Trail() { return Trail; },
-    get Turtle() { return Turtle; }
+    get Turtle() { return Turtle; },
+
+    // physics with units
+    get Dimensions() { return Dimensions; },
+    get G2() { return G2; },
+    get G3() { return G3; },
+    get QQ() { return QQ; },
+    get ArrowG3() { return ArrowG3; },
+    get CylinderG3() { return CylinderG3; },
+    get SphereG3() { return SphereG3; },
+    get Unit() { return Unit; },
+    get WorldG3() { return WorldG3; }
+
 }
 export default eight;

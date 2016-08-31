@@ -1,12 +1,12 @@
 import {Facet} from './Facet';
 import {Geometry} from './Geometry';
-import {ContextConsumer} from './ContextConsumer';
+import {Renderable} from './Renderable';
 import {Material} from './Material';
 
 /**
  *
  */
-export interface AbstractDrawable extends ContextConsumer {
+export interface AbstractDrawable extends Renderable {
 
     /**
      *

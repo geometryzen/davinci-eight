@@ -1,4 +1,3 @@
-import incLevel from '../base/incLevel';
 import ContextProvider from '../core/ContextProvider';
 import readOnly from '../i18n/readOnly';
 import {ShareableBase} from '../core/ShareableBase';
@@ -6,17 +5,14 @@ import {ShareableBase} from '../core/ShareableBase';
 /**
  * <p>
  * Displays details about the WegGL version to the console.
- * <p> 
- * @class ContextAttributesLogger
- * @extends ShareableBase
+ * <p>
  */
 export default class ContextAttributesLogger extends ShareableBase {
     /**
-     * @class ContextAttributesLogger
-     * @constructor
+     *
      */
     constructor() {
-        super()
+        super();
     }
 
     /**
@@ -25,7 +21,7 @@ export default class ContextAttributesLogger extends ShareableBase {
      * @return {void}
      */
     protected destructor(levelUp: number): void {
-        super.destructor(incLevel(levelUp))
+        super.destructor(levelUp + 1);
     }
 
     /**

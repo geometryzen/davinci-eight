@@ -3,4 +3,4 @@ interface MouseCoordinates {
   pageY: number;
 }
 
-export default MouseCoordinates
+export default MouseCoordinates;

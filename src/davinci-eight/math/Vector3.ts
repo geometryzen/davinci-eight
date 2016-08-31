@@ -1,3 +1,4 @@
+import BivectorE3 from './BivectorE3';
 import {Coords} from './Coords';
 import VectorE3 from './VectorE3';
 import dotVectorE3 from './dotVectorE3';
@@ -711,16 +712,9 @@ export default class Vector3 extends Coords {
     /**
      * Constructs a vector which is the dual of the supplied bivector, B.
      * The convention used is dual(m) = I * m.
-     * If a sign change is desired from this convention,
-     * set the <code>changeSign</code> to <code>true</code>.
-     *
-     * @method dual
-     * @param B {SpinorE3}
-     * @param changeSign {boolean}
-     * @return {Vector3}
-     * @chainable
+     * If a sign change is desired from this convention, set changeSign to true.
      */
-    static dual(B: SpinorE3, changeSign: boolean): Vector3 {
+    static dual(B: BivectorE3, changeSign = false): Vector3 {
         if (changeSign) {
             return new Vector3([B.yz, B.zx, B.xy]);
         }

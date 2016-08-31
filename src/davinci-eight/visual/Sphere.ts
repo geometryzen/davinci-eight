@@ -63,9 +63,6 @@ export class Sphere extends RigidBody {
         }
     }
 
-    /**
-     *
-     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();
@@ -73,10 +70,23 @@ export class Sphere extends RigidBody {
         super.destructor(levelUp + 1);
     }
 
-    get radius(): number {
+    get radius() {
         return this.getPrincipalScale(RADIUS_NAME);
+        // return Geometric3.scalar(r);
     }
     set radius(radius: number) {
         this.setPrincipalScale(RADIUS_NAME, mustBeNumber(RADIUS_NAME, radius));
+        /*
+        if (radius instanceof Geometric3) {
+            this.setPrincipalScale(RADIUS_NAME, radius.a);
+        }
+        else if (typeof radius === 'number') {
+            this.setPrincipalScale(RADIUS_NAME, mustBeNumber(RADIUS_NAME, <any>radius));
+            console.warn("radius: number is deprecated. radius is a Geometric3.");
+        }
+        else {
+            throw new Error("radius must be a Geometric3 (scalar)");
+        }
+        */
     }
 }

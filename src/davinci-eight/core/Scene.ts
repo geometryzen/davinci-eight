@@ -1,9 +1,9 @@
 import {Facet} from '../core/Facet';
 import ContextManager from './ContextManager';
 import ContextProvider from '../core/ContextProvider';
-import {AbstractDrawable} from './AbstractDrawable';
-import ShareableArray from '../collections/ShareableArray';
 import mustBeObject from '../checks/mustBeObject';
+import {Renderable} from '../core/Renderable';
+import ShareableArray from '../collections/ShareableArray';
 import {ShareableContextConsumer} from '../core/ShareableContextConsumer';
 
 /**
@@ -11,7 +11,7 @@ import {ShareableContextConsumer} from '../core/ShareableContextConsumer';
  */
 export class Scene extends ShareableContextConsumer {
 
-    private _drawables: ShareableArray<AbstractDrawable>;
+    private _drawables: ShareableArray<Renderable>;
 
     /**
      * @param contextManager
@@ -20,7 +20,7 @@ export class Scene extends ShareableContextConsumer {
         super(contextManager);
         this.setLoggingName('Scene');
         mustBeObject('contextManager', contextManager);
-        this._drawables = new ShareableArray<AbstractDrawable>([]);
+        this._drawables = new ShareableArray<Renderable>([]);
         if (levelUp === 0) {
             this.synchUp();
         }
@@ -44,7 +44,7 @@ export class Scene extends ShareableContextConsumer {
      *
      * @param drawable
      */
-    add(drawable: AbstractDrawable): void {
+    add(drawable: Renderable): void {
         mustBeObject('drawable', drawable);
         this._drawables.push(drawable);
         this.synchUp();
@@ -54,7 +54,7 @@ export class Scene extends ShareableContextConsumer {
      * @param drawable
      * @returns `true` if the drawable is contained in this scene, otherwise `false`.
      */
-    contains(drawable: AbstractDrawable): boolean {
+    contains(drawable: Renderable): boolean {
         mustBeObject('drawable', drawable);
         return this._drawables.indexOf(drawable) >= 0;
     }
@@ -129,28 +129,28 @@ export class Scene extends ShareableContextConsumer {
     /**
      * @param match
      */
-    find(match: (drawable: AbstractDrawable) => boolean): ShareableArray<AbstractDrawable> {
+    find(match: (drawable: Renderable) => boolean): ShareableArray<Renderable> {
         return this._drawables.find(match);
     }
 
     /**
      * @param match
      */
-    findOne(match: (drawable: AbstractDrawable) => boolean): AbstractDrawable {
+    findOne(match: (drawable: Renderable) => boolean): Renderable {
         return this._drawables.findOne(match);
     }
 
     /**
      * @param name
      */
-    findOneByName(name: string): AbstractDrawable {
+    findOneByName(name: string): Renderable {
         return this.findOne(function(drawable) { return drawable.name === name });
     }
 
     /**
      * @param name
      */
-    findByName(name: string): ShareableArray<AbstractDrawable> {
+    findByName(name: string): ShareableArray<Renderable> {
         return this.find(function(drawable) { return drawable.name === name });
     }
 
@@ -161,7 +161,7 @@ export class Scene extends ShareableContextConsumer {
      *
      * @param drawable
      */
-    remove(drawable: AbstractDrawable): void {
+    remove(drawable: Renderable): void {
         // TODO: Remove the appropriate parts from the scene.
         mustBeObject('drawable', drawable);
         const index = this._drawables.indexOf(drawable);
