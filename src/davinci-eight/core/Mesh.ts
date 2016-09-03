@@ -16,14 +16,14 @@ const MODEL_FACET_NAME = 'model';
 /**
  *
  */
-export class Mesh extends Drawable implements AbstractMesh {
+export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M> implements AbstractMesh<G, M> {
 
     /**
      * @param geometry
      * @param material
      * @param contextManager The <code>ContextManager</code> to subscribe to or <code>null</code> for deferred subscription.
      */
-    constructor(geometry: Geometry, material: Material, contextManager: ContextManager, levelUp = 0) {
+    constructor(geometry: G, material: M, contextManager: ContextManager, levelUp = 0) {
         super(geometry, material, contextManager, levelUp + 1);
         this.setLoggingName('Mesh');
 
@@ -45,21 +45,21 @@ export class Mesh extends Drawable implements AbstractMesh {
      * Attitude (spinor)
      */
     get R(): Geometric3 {
-        const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
+        const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME);
         if (facet) {
-            return facet.R
+            return facet.R;
         }
         else {
-            throw new Error(notSupported('R').message)
+            throw new Error(notSupported('R').message);
         }
     }
     set R(R: Geometric3) {
-        const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
+        const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME);
         if (facet) {
-            facet.R.copySpinor(R)
+            facet.R.copySpinor(R);
         }
         else {
-            throw new Error(notSupported('R').message)
+            throw new Error(notSupported('R').message);
         }
     }
 
@@ -67,21 +67,21 @@ export class Mesh extends Drawable implements AbstractMesh {
      * Color
      */
     get color(): Color {
-        const facet = <ColorFacet>this.getFacet(COLOR_FACET_NAME)
+        const facet = <ColorFacet>this.getFacet(COLOR_FACET_NAME);
         if (facet) {
-            return facet.color
+            return facet.color;
         }
         else {
-            throw new Error(notSupported(COLOR_FACET_NAME).message)
+            throw new Error(notSupported(COLOR_FACET_NAME).message);
         }
     }
     set color(color: Color) {
-        const facet = <ColorFacet>this.getFacet(COLOR_FACET_NAME)
+        const facet = <ColorFacet>this.getFacet(COLOR_FACET_NAME);
         if (facet) {
-            facet.color.copy(color)
+            facet.color.copy(color);
         }
         else {
-            throw new Error(notSupported(COLOR_FACET_NAME).message)
+            throw new Error(notSupported(COLOR_FACET_NAME).message);
         }
     }
 
@@ -89,21 +89,21 @@ export class Mesh extends Drawable implements AbstractMesh {
      * Position (vector)
      */
     get X(): Geometric3 {
-        const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
+        const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME);
         if (facet) {
-            return facet.X
+            return facet.X;
         }
         else {
-            throw new Error(notSupported('X').message)
+            throw new Error(notSupported('X').message);
         }
     }
     set X(X: Geometric3) {
-        const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
+        const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME);
         if (facet) {
-            facet.X.copyVector(X)
+            facet.X.copyVector(X);
         }
         else {
-            throw new Error(notSupported('X').message)
+            throw new Error(notSupported('X').message);
         }
     }
 
@@ -111,49 +111,21 @@ export class Mesh extends Drawable implements AbstractMesh {
      * Stress (tensor)
      */
     get stress(): Matrix4 {
-        const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
+        const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME);
         if (facet) {
-            return facet.stress
+            return facet.stress;
         }
         else {
-            throw new Error(notSupported('stress').message)
+            throw new Error(notSupported('stress').message);
         }
     }
     set stress(stress: Matrix4) {
-        const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
+        const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME);
         if (facet) {
-            facet.stress.copy(stress)
+            facet.stress.copy(stress);
         }
         else {
-            throw new Error(notSupported('stress').message)
+            throw new Error(notSupported('stress').message);
         }
-    }
-
-    /**
-     * @param name
-     * @returns
-     */
-    protected getPrincipalScale(name: string): number {
-        const geometry = this.geometry
-        if (geometry) {
-            const value = geometry.getPrincipalScale(name)
-            geometry.release()
-            return value
-        }
-        else {
-            throw new Error(`getPrincipalScale('${name}') is not available because geometry is not defined.`)
-        }
-    }
-
-    /**
-     * @param name
-     * @param value
-     */
-    protected setPrincipalScale(name: string, value: number): void {
-        const geometry = this.geometry
-        geometry.setPrincipalScale(name, value)
-        const scaling = geometry.scaling
-        this.stress.copy(scaling)
-        geometry.release()
     }
 }

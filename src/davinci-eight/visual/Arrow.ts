@@ -6,7 +6,7 @@ import contextManagerFromOptions from './contextManagerFromOptions';
 import {Geometric3} from '../math/Geometric3';
 import {MeshMaterial} from '../materials/MeshMaterial';
 import MeshMaterialOptions from '../materials/MeshMaterialOptions';
-import {Mesh} from '../core/Mesh';
+import PrincipalScaleMesh from './PrincipalScaleMesh';
 import isDefined from '../checks/isDefined';
 import isGE from '../checks/isGE';
 import mustBeDefined from '../checks/mustBeDefined';
@@ -43,7 +43,7 @@ function direction(options: ArrowOptions, fallback: VectorE3): VectorE3 {
  *     // Release the arrow when no longer required.
  *     arrow.release()
  */
-export class Arrow extends Mesh {
+export class Arrow extends PrincipalScaleMesh<ArrowGeometry, MeshMaterial> {
 
     /**
      * We know what the initial direction the arrow geometry takes.

@@ -1,4 +1,4 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
 
     var path = require('path');
     var cp = require('child_process');
@@ -114,6 +114,7 @@ module.exports = function(grunt) {
                     target: 'ES5',
                     moduleResolution: "classic",
                     noImplicitAny: true,
+                    strictNullChecks: true,
                     suppressImplicitAnyIndexErrors: true,
                     outDir: 'amd',
                     sourceMap: false,
@@ -132,6 +133,7 @@ module.exports = function(grunt) {
                     target: 'ES5',
                     moduleResolution: "classic",
                     noImplicitAny: true,
+                    strictNullChecks: true,
                     suppressImplicitAnyIndexErrors: true,
                     outDir: 'temp/amd',
                     sourceMap: false,
@@ -149,6 +151,7 @@ module.exports = function(grunt) {
                     module: 'system',
                     target: 'ES5',
                     noImplicitAny: true,
+                    strictNullChecks: true,
                     suppressImplicitAnyIndexErrors: true,
                     outDir: 'system',
                     sourceMap: false,
@@ -167,6 +170,7 @@ module.exports = function(grunt) {
                     target: 'ES5',
                     moduleResolution: "classic",
                     noImplicitAny: true,
+                    strictNullChecks: true,
                     suppressImplicitAnyIndexErrors: true,
                     outDir: 'test-karma',
                     sourceMap: false,
@@ -256,7 +260,7 @@ module.exports = function(grunt) {
 
     function tsc(tsfile, option) {
         var command = "node " + path.resolve(path.dirname(require.resolve("typescript")), "tsc ");
-        var optArray = Object.keys(option || {}).reduce(function(res, key) {
+        var optArray = Object.keys(option || {}).reduce(function (res, key) {
             res.push(key);
             if (option[key]) {
                 res.push(option[key]);
@@ -264,13 +268,13 @@ module.exports = function(grunt) {
             return res;
         }, []);
 
-        return Q.Promise(function(resolve, reject) {
+        return Q.Promise(function (resolve, reject) {
             var cmd = command + " " + tsfile + " " + optArray.join(" ");
             var childProcess = cp.exec(cmd, {});
-            childProcess.stdout.on('data', function(d) { grunt.log.writeln(d); });
-            childProcess.stderr.on('data', function(d) { grunt.log.error(d); });
+            childProcess.stdout.on('data', function (d) { grunt.log.writeln(d); });
+            childProcess.stderr.on('data', function (d) { grunt.log.error(d); });
 
-            childProcess.on('exit', function(code) {
+            childProcess.on('exit', function (code) {
                 if (code !== 0) {
                     reject();
                 }
@@ -315,13 +319,13 @@ module.exports = function(grunt) {
     //
     // 'bundle' is called as a step in the 'system' task.
     //
-    grunt.registerTask('bundle', "Bundle into system modules", function() {
+    grunt.registerTask('bundle', "Bundle into system modules", function () {
         var done = this.async();
         bundle()
-            .then(function() {
+            .then(function () {
                 done(true);
             })
-            .catch(function(err) {
+            .catch(function (err) {
                 console.log(err);
                 done(false);
             });

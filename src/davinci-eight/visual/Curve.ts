@@ -11,6 +11,7 @@ import isNull from '../checks/isNull';
 import isUndefined from '../checks/isUndefined';
 import {LineMaterial} from '../materials/LineMaterial';
 import LineMaterialOptions from '../materials/LineMaterialOptions';
+import {Material} from '../core/Material';
 import {Mesh} from '../core/Mesh';
 import mustBeGE from '../checks/mustBeGE';
 import mustBeNumber from '../checks/mustBeNumber';
@@ -162,7 +163,7 @@ function configLines(options: CurveOptions, curve: Curve) {
 /**
  *
  */
-export class Curve extends Mesh {
+export class Curve extends Mesh<CurveGeometry, Material> {
 
     /**
      * @param options

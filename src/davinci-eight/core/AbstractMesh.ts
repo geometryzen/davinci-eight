@@ -1,9 +1,11 @@
-import {AbstractDrawable} from './AbstractDrawable'
-import {Color} from './Color'
-import {Geometric3} from '../math/Geometric3'
-import Matrix4 from '../math/Matrix4'
+import {AbstractDrawable} from './AbstractDrawable';
+import {Color} from './Color';
+import {Geometric3} from '../math/Geometric3';
+import {Geometry} from './Geometry';
+import {Material} from './Material';
+import Matrix4 from '../math/Matrix4';
 
-interface AbstractMesh extends AbstractDrawable {
+interface AbstractMesh<G extends Geometry, M extends Material> extends AbstractDrawable<G, M> {
     R: Geometric3;
     color: Color;
     opacity: number;

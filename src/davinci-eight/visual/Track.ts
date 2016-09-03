@@ -109,7 +109,7 @@ interface TrackOptions extends VisualOptions {
 
 }
 
-export class Track extends Mesh {
+export class Track extends Mesh<TrackGeometry, LineMaterial> {
     constructor(options: TrackOptions = {}, levelUp = 0) {
         super(new TrackGeometry(contextManagerFromOptions(options)), new LineMaterial(void 0, contextManagerFromOptions(options)), contextManagerFromOptions(options), levelUp + 1);
         this.setLoggingName('Track');

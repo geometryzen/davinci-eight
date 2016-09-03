@@ -7585,7 +7585,7 @@ System.register('davinci-eight/geometries/ArrowGeometry.js', ['./arrowPrimitive'
         }
     };
 });
-System.register('davinci-eight/visual/Arrow.js', ['../geometries/ArrowGeometry', '../core/Color', './contextManagerFromOptions', '../math/Geometric3', '../materials/MeshMaterial', '../core/Mesh', '../checks/isDefined', '../checks/isGE', '../checks/mustBeDefined', '../math/quadVectorE3', './setColorOption', './setDeprecatedOptions', '../math/Vector3'], function (exports_1, context_1) {
+System.register('davinci-eight/visual/Arrow.js', ['../geometries/ArrowGeometry', '../core/Color', './contextManagerFromOptions', '../math/Geometric3', '../materials/MeshMaterial', './PrincipalScaleMesh', '../checks/isDefined', '../checks/isGE', '../checks/mustBeDefined', '../math/quadVectorE3', './setColorOption', './setDeprecatedOptions', '../math/Vector3'], function (exports_1, context_1) {
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
@@ -7596,7 +7596,7 @@ System.register('davinci-eight/visual/Arrow.js', ['../geometries/ArrowGeometry',
         }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
-    var ArrowGeometry_1, Color_1, contextManagerFromOptions_1, Geometric3_1, MeshMaterial_1, Mesh_1, isDefined_1, isGE_1, mustBeDefined_1, quadVectorE3_1, setColorOption_1, setDeprecatedOptions_1, Vector3_1;
+    var ArrowGeometry_1, Color_1, contextManagerFromOptions_1, Geometric3_1, MeshMaterial_1, PrincipalScaleMesh_1, isDefined_1, isGE_1, mustBeDefined_1, quadVectorE3_1, setColorOption_1, setDeprecatedOptions_1, Vector3_1;
     var Arrow;
     function direction(options, fallback) {
         if (isDefined_1.default(options.vector)) {
@@ -7616,8 +7616,8 @@ System.register('davinci-eight/visual/Arrow.js', ['../geometries/ArrowGeometry',
             Geometric3_1 = Geometric3_1_1;
         }, function (MeshMaterial_1_1) {
             MeshMaterial_1 = MeshMaterial_1_1;
-        }, function (Mesh_1_1) {
-            Mesh_1 = Mesh_1_1;
+        }, function (PrincipalScaleMesh_1_1) {
+            PrincipalScaleMesh_1 = PrincipalScaleMesh_1_1;
         }, function (isDefined_1_1) {
             isDefined_1 = isDefined_1_1;
         }, function (isGE_1_1) {
@@ -7720,7 +7720,7 @@ System.register('davinci-eight/visual/Arrow.js', ['../geometries/ArrowGeometry',
                     configurable: true
                 });
                 return Arrow;
-            }(Mesh_1.Mesh);
+            }(PrincipalScaleMesh_1.default);
             exports_1("Arrow", Arrow);
         }
     };
@@ -12042,19 +12042,21 @@ System.register('davinci-eight/core/Scene.js', ['../checks/mustBeObject', '../co
                         this._drawables.splice(index, 1).release();
                     }
                 };
-                Scene.prototype.contextFree = function (context) {
+                Scene.prototype.contextFree = function (contextProvider) {
                     for (var i = 0; i < this._drawables.length; i++) {
                         var drawable = this._drawables.getWeakRef(i);
-                        drawable.contextFree(context);
+                        drawable.contextFree(contextProvider);
                     }
-                    _super.prototype.contextFree.call(this, context);
+                    _super.prototype.contextFree.call(this, contextProvider);
                 };
-                Scene.prototype.contextGain = function (context) {
+                Scene.prototype.contextGain = function (contextProvider) {
                     for (var i = 0; i < this._drawables.length; i++) {
                         var drawable = this._drawables.getWeakRef(i);
-                        drawable.contextGain(context);
+                        if (drawable.contextGain) {
+                            drawable.contextGain(contextProvider);
+                        }
                     }
-                    _super.prototype.contextGain.call(this, context);
+                    _super.prototype.contextGain.call(this, contextProvider);
                 };
                 Scene.prototype.contextLost = function () {
                     for (var i = 0; i < this._drawables.length; i++) {
@@ -13150,11 +13152,11 @@ System.register('davinci-eight/materials/ShaderMaterial.js', ['../core/Attrib', 
         execute: function () {
             ShaderMaterial = function (_super) {
                 __extends(ShaderMaterial, _super);
-                function ShaderMaterial(vertexShaderSrc, fragmentShaderSrc, attribs, manager, levelUp) {
+                function ShaderMaterial(vertexShaderSrc, fragmentShaderSrc, attribs, contextManager, levelUp) {
                     if (levelUp === void 0) {
                         levelUp = 0;
                     }
-                    _super.call(this, manager);
+                    _super.call(this, contextManager);
                     this._attributesByName = {};
                     this._attributesByIndex = [];
                     this._uniforms = {};
@@ -14096,10 +14098,10 @@ System.register("davinci-eight/base/exchange.js", [], function (exports_1, conte
     var __moduleName = context_1 && context_1.id;
     function default_1(mine, yours) {
         if (mine !== yours) {
-            if (yours) {
+            if (yours && yours.addRef) {
                 yours.addRef();
             }
-            if (mine) {
+            if (mine && mine.release) {
                 mine.release();
             }
             return yours;
@@ -14414,20 +14416,38 @@ System.register('davinci-eight/core/Drawable.js', ['../base/exchange', './Graphi
                     return this;
                 };
                 Drawable.prototype.contextFree = function (context) {
-                    this._geometry.contextFree(context);
-                    this._material.contextFree(context);
-                    _super.prototype.contextFree.call(this, context);
+                    if (this._geometry && this._geometry.contextFree) {
+                        this._geometry.contextFree(context);
+                    }
+                    if (this._material && this._material.contextFree) {
+                        this._material.contextFree(context);
+                    }
+                    if (_super.prototype.contextFree) {
+                        _super.prototype.contextFree.call(this, context);
+                    }
                 };
-                Drawable.prototype.contextGain = function (context) {
-                    this._geometry.contextGain(context);
-                    this._material.contextGain(context);
+                Drawable.prototype.contextGain = function (contextProvider) {
+                    if (this._geometry && this._geometry.contextGain) {
+                        this._geometry.contextGain(contextProvider);
+                    }
+                    if (this._material && this._material.contextGain) {
+                        this._material.contextGain(contextProvider);
+                    }
                     synchFacets(this._material, this);
-                    _super.prototype.contextGain.call(this, context);
+                    if (_super.prototype.contextGain) {
+                        _super.prototype.contextGain.call(this, contextProvider);
+                    }
                 };
                 Drawable.prototype.contextLost = function () {
-                    this._geometry.contextLost();
-                    this._material.contextLost();
-                    _super.prototype.contextLost.call(this);
+                    if (this._geometry && this._geometry.contextLost) {
+                        this._geometry.contextLost();
+                    }
+                    if (this._material && this._material.contextLost) {
+                        this._material.contextLost();
+                    }
+                    if (_super.prototype.contextLost) {
+                        _super.prototype.contextLost.call(this);
+                    }
                 };
                 Drawable.prototype.getFacet = function (name) {
                     return this._facets[name];
@@ -14475,7 +14495,7 @@ System.register('davinci-eight/core/Drawable.js', ['../base/exchange', './Graphi
                     },
                     set: function (geometry) {
                         this._geometry = exchange_1.default(this._geometry, geometry);
-                        if (this._geometry && this.contextProvider) {
+                        if (this._geometry && this._geometry.contextGain && this.contextProvider) {
                             this._geometry.contextGain(this.contextProvider);
                         }
                     },
@@ -14860,30 +14880,13 @@ System.register('davinci-eight/core/Mesh.js', ['../facets/ColorFacet', './Drawab
                     enumerable: true,
                     configurable: true
                 });
-                Mesh.prototype.getPrincipalScale = function (name) {
-                    var geometry = this.geometry;
-                    if (geometry) {
-                        var value = geometry.getPrincipalScale(name);
-                        geometry.release();
-                        return value;
-                    } else {
-                        throw new Error("getPrincipalScale('" + name + "') is not available because geometry is not defined.");
-                    }
-                };
-                Mesh.prototype.setPrincipalScale = function (name, value) {
-                    var geometry = this.geometry;
-                    geometry.setPrincipalScale(name, value);
-                    var scaling = geometry.scaling;
-                    this.stress.copy(scaling);
-                    geometry.release();
-                };
                 return Mesh;
             }(Drawable_1.Drawable);
             exports_1("Mesh", Mesh);
         }
     };
 });
-System.register('davinci-eight/visual/RigidBody.js', ['../math/Geometric3', '../core/Mesh', '../checks/mustBeObject', '../math/Vector3'], function (exports_1, context_1) {
+System.register("davinci-eight/visual/PrincipalScaleMesh.js", ['../core/Mesh'], function (exports_1, context_1) {
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
@@ -14894,13 +14897,71 @@ System.register('davinci-eight/visual/RigidBody.js', ['../math/Geometric3', '../
         }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
-    var Geometric3_1, Mesh_1, mustBeObject_1, Vector3_1;
+    var Mesh_1;
+    var PrincipalScaleMesh;
+    return {
+        setters: [function (Mesh_1_1) {
+            Mesh_1 = Mesh_1_1;
+        }],
+        execute: function () {
+            PrincipalScaleMesh = function (_super) {
+                __extends(PrincipalScaleMesh, _super);
+                function PrincipalScaleMesh(geometry, material, contextManager, levelUp) {
+                    if (levelUp === void 0) {
+                        levelUp = 0;
+                    }
+                    _super.call(this, geometry, material, contextManager, levelUp + 1);
+                    if (levelUp === 0) {
+                        this.synchUp();
+                    }
+                }
+                PrincipalScaleMesh.prototype.destructor = function (levelUp) {
+                    if (levelUp === 0) {
+                        this.cleanUp();
+                    }
+                    _super.prototype.destructor.call(this, levelUp + 1);
+                };
+                PrincipalScaleMesh.prototype.getPrincipalScale = function (name) {
+                    var geometry = this.geometry;
+                    if (geometry) {
+                        var value = geometry.getPrincipalScale(name);
+                        geometry.release();
+                        return value;
+                    } else {
+                        throw new Error("getPrincipalScale('" + name + "') is not available because geometry is not defined.");
+                    }
+                };
+                PrincipalScaleMesh.prototype.setPrincipalScale = function (name, value) {
+                    var geometry = this.geometry;
+                    geometry.setPrincipalScale(name, value);
+                    var scaling = geometry.scaling;
+                    this.stress.copy(scaling);
+                    geometry.release();
+                };
+                return PrincipalScaleMesh;
+            }(Mesh_1.Mesh);
+            exports_1("default", PrincipalScaleMesh);
+        }
+    };
+});
+System.register('davinci-eight/visual/RigidBody.js', ['../math/Geometric3', './PrincipalScaleMesh', '../checks/mustBeObject', '../math/Vector3'], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    var __extends = this && this.__extends || function (d, b) {
+        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+        function __() {
+            this.constructor = d;
+        }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+    var Geometric3_1, PrincipalScaleMesh_1, mustBeObject_1, Vector3_1;
     var RigidBody;
     return {
         setters: [function (Geometric3_1_1) {
             Geometric3_1 = Geometric3_1_1;
-        }, function (Mesh_1_1) {
-            Mesh_1 = Mesh_1_1;
+        }, function (PrincipalScaleMesh_1_1) {
+            PrincipalScaleMesh_1 = PrincipalScaleMesh_1_1;
         }, function (mustBeObject_1_1) {
             mustBeObject_1 = mustBeObject_1_1;
         }, function (Vector3_1_1) {
@@ -14942,7 +15003,7 @@ System.register('davinci-eight/visual/RigidBody.js', ['../math/Geometric3', '../
                     configurable: true
                 });
                 return RigidBody;
-            }(Mesh_1.Mesh);
+            }(PrincipalScaleMesh_1.default);
             exports_1("RigidBody", RigidBody);
         }
     };
@@ -22681,9 +22742,9 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
             Eight = function () {
                 function Eight() {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-                    this.LAST_MODIFIED = '2016-08-30';
+                    this.LAST_MODIFIED = '2016-09-03';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '2.305.0';
+                    this.VERSION = '2.306.0';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];

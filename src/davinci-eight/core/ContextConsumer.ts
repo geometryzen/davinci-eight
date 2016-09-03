@@ -18,7 +18,7 @@ export interface ContextConsumer extends Shareable {
      *
      * @param contextProvider
      */
-    contextFree(contextProvider: ContextProvider): void;
+    contextFree?(contextProvider: ContextProvider): void;
 
     /**
      * Called to inform the dependent of a new WebGL rendering context.
@@ -27,7 +27,7 @@ export interface ContextConsumer extends Shareable {
      *
      * @param contextProvider
      */
-    contextGain(contextProvider: ContextProvider): void;
+    contextGain?(contextProvider: ContextProvider): void;
 
     /**
      * Called to inform the dependent of a loss of WebGL rendering context.
@@ -35,5 +35,5 @@ export interface ContextConsumer extends Shareable {
      * The dependent must not try to use and cached context to free resources.
      * The dependent should reset its state to that for which there is no context.
      */
-    contextLost(): void;
+    contextLost?(): void;
 }

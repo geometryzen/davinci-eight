@@ -12,6 +12,7 @@ import isNull from '../checks/isNull';
 import isUndefined from '../checks/isUndefined';
 import {LineMaterial} from '../materials/LineMaterial';
 import LineMaterialOptions from '../materials/LineMaterialOptions';
+import {Material} from '../core/Material';
 import {Mesh} from '../core/Mesh';
 import {MeshMaterial} from '../materials/MeshMaterial';
 import MeshMaterialOptions from '../materials/MeshMaterialOptions';
@@ -269,7 +270,7 @@ function configMesh(options: GridOptions, grid: Grid) {
 /**
  *
  */
-export class Grid extends Mesh {
+export class Grid extends Mesh<GridGeometry, Material> {
 
     /**
      *

@@ -1,17 +1,17 @@
-import {Shareable} from '../core/Shareable'
+import {Shareable} from '../core/Shareable';
 
 export default function <T extends Shareable>(mine: T, yours: T): T {
     if (mine !== yours) {
-        if (yours) {
-            yours.addRef()
+        if (yours && yours.addRef) {
+            yours.addRef();
         }
-        if (mine) {
-            mine.release()
+        if (mine && mine.release) {
+            mine.release();
         }
-        return yours
+        return yours;
     }
     else {
         // Keep mine, it's the same as yours anyway.
-        return mine
+        return mine;
     }
 }

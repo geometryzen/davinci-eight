@@ -9,7 +9,7 @@ export interface Shareable {
      *
      * @return The new reference count. This value is intended to be used only for test purposes.
      */
-    addRef(): number;
+    addRef?(): number;
 
     /**
      *
@@ -17,5 +17,5 @@ export interface Shareable {
      *
      * @return The new reference count. This value is intended to be used only for test purposes.
      */
-    release(): number;
+    release?(): number;
 }

@@ -195,14 +195,16 @@ declare module EIGHT {
      * Enables clients of Shareable instances to declare their references.
      */
     interface Shareable {
+
         /**
          * Notifies this instance that something is referencing it.
          */
-        addRef(): number;
+        addRef?(): number;
+
         /**
          * Notifies this instance that something is dereferencing it.
          */
-        release(): number;
+        release?(): number;
     }
 
     /**
@@ -508,20 +510,20 @@ declare module EIGHT {
          * method may be called multiple times for what is logically the same context. In such
          * cases the dependent must be idempotent and respond only to the first request.
          */
-        contextFree(context: ContextProvider): void;
+        contextFree?(context: ContextProvider): void;
         /**
          * Called to inform the dependent of a new WebGL rendering context.
          * The implementation should ignore the notification if it has already
          * received the same context.
          */
-        contextGain(context: ContextProvider): void;
+        contextGain?(context: ContextProvider): void;
         /**
          * Called to inform the dependent of a loss of WebGL rendering context.
          * The dependent must assume that any cached context is invalid.
          * The dependent must not try to use and cached context to free resources.
          * The dependent should reset its state to that for which there is no context.
          */
-        contextLost(): void;
+        contextLost?(): void;
     }
 
     /**
@@ -3054,23 +3056,25 @@ declare module EIGHT {
         pointers: VertexAttribPointer[]
     }
 
+    /**
+     * Encapsulates one or more buffers and a call to drawArrays or drawElements.
+     */
     interface Geometry extends ContextConsumer {
-        scaling: Matrix4;
+
         /**
          * Binds the attributes of the material to the buffers in this Geometry.
          */
-        bind(material: Material): Geometry;
+        bind(material: Material): void;
+
         /**
          * Unbinds the attributes of the material from the buffers in this Geometry.
          */
-        unbind(material: Material): Geometry;
+        unbind(material: Material): void;
+
         /**
          * Invokes the appropriate drawArrays or drawElements call to send data to the Graphics Pipeline.
          */
-        draw(material: Material): Geometry;
-        getPrincipalScale(name: string): number;
-        hasPrincipalScale(name: string): boolean;
-        setPrincipalScale(name: string, value: number): void;
+        draw(material: Material): void;
     }
 
     /**
@@ -3199,6 +3203,14 @@ declare module EIGHT {
         openRight?: boolean;
         openCap?: boolean;
         width?: number;
+        /**
+         * Determines whether the Geometry will be constructed as points, lines, or triangles.
+         *
+         * 0: points
+         * 1: lines
+         * 2: triangles
+         */
+        k?: number;
     }
 
     class BoxGeometry extends GeometryElements {
@@ -3242,10 +3254,10 @@ declare module EIGHT {
         vector4fv(name: string, vec4: Float32Array): void;
     }
 
-    interface AbstractDrawable extends ContextConsumer {
+    interface AbstractDrawable<G extends Geometry, M extends Material> extends ContextConsumer {
         fragmentShaderSrc: string;
-        geometry: Geometry;
-        material: Material;
+        geometry: G;
+        material: M;
         name: string;
         vertexShaderSrc: string;
         /**
@@ -3256,13 +3268,13 @@ declare module EIGHT {
          * 
          */
         transparent: boolean;
-        bind(): AbstractDrawable;
-        draw(ambients?: Facet[]): AbstractDrawable;
-        render(ambients: Facet[]): AbstractDrawable;
-        setAmbients(ambients: Facet[]): AbstractDrawable;
-        setUniforms(): AbstractDrawable;
-        unbind(): AbstractDrawable;
-        use(): AbstractDrawable;
+        bind(): AbstractDrawable<G, M>;
+        draw(ambients?: Facet[]): AbstractDrawable<G, M>;
+        render(ambients: Facet[]): AbstractDrawable<G, M>;
+        setAmbients(ambients: Facet[]): AbstractDrawable<G, M>;
+        setUniforms(): AbstractDrawable<G, M>;
+        unbind(): AbstractDrawable<G, M>;
+        use(): AbstractDrawable<G, M>;
     }
 
 
@@ -3271,7 +3283,7 @@ declare module EIGHT {
      * The primitives provide attribute arguments to the graphics program.
      * The facets provide uniform arguments to the graphics program. 
      */
-    class Drawable extends ShareableContextConsumer implements AbstractDrawable {
+    class Drawable<G extends Geometry, M extends Material> extends ShareableContextConsumer implements AbstractDrawable<G, M> {
 
         /**
          *
@@ -3281,12 +3293,12 @@ declare module EIGHT {
         /**
          *
          */
-        geometry: Geometry;
+        geometry: G;
 
         /**
          *
          */
-        material: Material;
+        material: M;
 
         /**
          * A user-assigned name that allows the composite object to be found.
@@ -3332,14 +3344,14 @@ declare module EIGHT {
         /**
          * Binds the buffers in the geometry property to the attributes in the current program.
          */
-        bind(): Drawable;
+        bind(): Drawable<G, M>;
 
         /**
          * Calls the appropriate WebGL drawArrays or drawElements function through the geometry property.
          * WARNING: The use of the ambients parameter is deprecated.
          * Please use the render(ambients) method instead or unpack the render method call. 
          */
-        draw(ambients?: Facet[]): Drawable;
+        draw(ambients?: Facet[]): Drawable<G, M>;
 
         /**
          * Gets a facet of this composite object by name.
@@ -3357,7 +3369,7 @@ declare module EIGHT {
          * draw()
          * unbind()
          */
-        render(ambients: Facet[]): Drawable;
+        render(ambients: Facet[]): Drawable<G, M>;
 
         /**
          * Sets a facet of this composite object by name.
@@ -3368,22 +3380,22 @@ declare module EIGHT {
         /**
          * Sets uniforms in the current program from values provided by the ambient facets.
          */
-        setAmbients(ambients: Facet[]): Drawable;
+        setAmbients(ambients: Facet[]): Drawable<G, M>;
 
         /**
          * Sets uniforms in the current program from values provided by this Drawable.
          */
-        setUniforms(): Drawable;
+        setUniforms(): Drawable<G, M>;
 
         /**
          * Unbinds the buffers in the geometry property from the current program.
          */
-        unbind(): Drawable;
+        unbind(): Drawable<G, M>;
 
         /**
          * Makes the WebGLProgram in the material property the current program.
          */
-        use(): Drawable;
+        use(): Drawable<G, M>;
     }
 
     /**
@@ -3414,7 +3426,7 @@ declare module EIGHT {
      *
      */
     class PointMaterial extends ShaderMaterial {
-        constructor(options: PointMaterialOptions, contextManager: ContextManager, levelUp?: number);
+        constructor(options?: PointMaterialOptions, contextManager?: ContextManager, levelUp?: number);
         protected destructor(levelUp: number): void;
     }
 
@@ -3435,7 +3447,7 @@ declare module EIGHT {
      *
      */
     class LineMaterial extends ShaderMaterial {
-        constructor(options: LineMaterialOptions, contextManager: ContextManager, levelUp?: number)
+        constructor(options?: LineMaterialOptions, contextManager?: ContextManager, levelUp?: number)
         protected destructor(levelUp: number): void;
     }
 
@@ -3456,7 +3468,7 @@ declare module EIGHT {
      *
      */
     class MeshMaterial extends ShaderMaterial {
-        constructor(options: MeshMaterialOptions, contextManager: ContextManager, levelUp?: number);
+        constructor(options?: MeshMaterialOptions, contextManager?: ContextManager, levelUp?: number);
         protected destructor(levelUp: number): void;
     }
 
@@ -3682,7 +3694,7 @@ declare module EIGHT {
         contextLost(): void;
     }
 
-    interface AbstractMesh extends AbstractDrawable {
+    interface AbstractMesh<G extends Geometry, M extends Material> extends AbstractDrawable<G, M> {
         /**
          * Color
          */
@@ -3705,7 +3717,7 @@ declare module EIGHT {
         stress: Matrix4;
     }
 
-    class Mesh extends Drawable implements AbstractMesh {
+    class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M> implements AbstractMesh<G, M> {
         /**
          * Color
          */
@@ -3741,7 +3753,7 @@ declare module EIGHT {
     /**
      * Decorates the Mesh by adding properties for physical modeling.
      */
-    class RigidBody extends Mesh {
+    class RigidBody extends Mesh<Geometry, Material> {
         /**
          * Axis (vector).
          * The axis of the RigidBody.
@@ -3811,7 +3823,7 @@ declare module EIGHT {
         vector?: VectorE3;
     }
 
-    class Arrow extends Mesh {
+    class Arrow extends Mesh<Geometry, MeshMaterial> {
         /**
          * The vector from the tail of the Arrow to the head of the Arrow.
          */
@@ -3893,7 +3905,7 @@ declare module EIGHT {
         uSegments?: number;
     }
 
-    class Curve extends Mesh {
+    class Curve extends Mesh<Geometry, Material> {
         constructor(options?: CurveOptions, levelUp?: number);
         protected destructor(levelUp: number): void;
     }
@@ -3914,7 +3926,7 @@ declare module EIGHT {
         vSegments?: number;
     }
 
-    class Grid extends Mesh {
+    class Grid extends Mesh<Geometry, Material> {
         constructor(options?: GridOptions, levelUp?: number);
         protected destructor(levelUp: number): void;
     }
@@ -4100,7 +4112,7 @@ declare module EIGHT {
      * 
      * The Track will only be visible if there are two or more points defined.
      */
-    class Track extends Mesh {
+    class Track extends Mesh<Geometry, Material> {
 
         /**
          * Constructs a new Track.
@@ -4155,7 +4167,7 @@ declare module EIGHT {
         /**
          * Constructs a trail for the specified mesh.
          */
-        constructor(mesh: Mesh);
+        constructor(mesh: Mesh<Geometry, Material>);
         protected destructor(levelUp: number): void;
         /**
          * Draws the mesh in its historical positions and attitudes.

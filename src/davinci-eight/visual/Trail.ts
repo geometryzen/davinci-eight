@@ -1,4 +1,6 @@
 import {Facet} from '../core/Facet';
+import {Geometry} from '../core/Geometry';
+import {Material} from '../core/Material';
 import Modulo from '../math/Modulo';
 import Spinor3 from '../math/Spinor3';
 import Vector3 from '../math/Vector3';
@@ -55,7 +57,7 @@ export class Trail extends ShareableBase {
     /**
      * The underlying Mesh.
      */
-    private mesh: Mesh;
+    private mesh: Mesh<Geometry, Material>;
 
     /**
      * The position history.
@@ -82,7 +84,7 @@ export class Trail extends ShareableBase {
     /**
      * @param mesh
      */
-    constructor(mesh: Mesh) {
+    constructor(mesh: Mesh<Geometry, Material>) {
         super();
         this.setLoggingName('Trail');
         mustBeObject('mesh', mesh);

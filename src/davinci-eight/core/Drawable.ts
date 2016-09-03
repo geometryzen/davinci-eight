@@ -21,17 +21,17 @@ const POINTSIZE_FACET_NAME = 'pointSize';
 /**
  * This class may be used as either a base class or standalone. 
  */
-export class Drawable extends ShareableContextConsumer implements AbstractDrawable {
+export class Drawable<G extends Geometry, M extends Material> extends ShareableContextConsumer implements AbstractDrawable<G, M> {
 
     /**
      *
      */
-    private _geometry: Geometry;
+    private _geometry: G;
 
     /**
      *
      */
-    private _material: Material;
+    private _material: M;
 
     /**
      *
@@ -60,7 +60,7 @@ export class Drawable extends ShareableContextConsumer implements AbstractDrawab
      * @param material
      * @param contextManager The <code>ContextManager</code> to subscribe to or <code>null</code> for deferred subscription.
      */
-    constructor(geometry: Geometry, material: Material, contextManager: ContextManager, levelUp = 0) {
+    constructor(geometry: G, material: M, contextManager: ContextManager, levelUp = 0) {
         super(contextManager);
         this.setLoggingName('Drawable');
         if (isObject(geometry)) {
@@ -187,7 +187,7 @@ export class Drawable extends ShareableContextConsumer implements AbstractDrawab
         }
     }
 
-    bind(): Drawable {
+    bind(): Drawable<G, M> {
         this._geometry.bind(this._material);
         return this;
     }
@@ -195,7 +195,7 @@ export class Drawable extends ShareableContextConsumer implements AbstractDrawab
     /**
      *
      */
-    setUniforms(): Drawable {
+    setUniforms(): Drawable<G, M> {
         const material = this._material;
         const facets = this._facets;
         // FIXME: Temporary object creation?
@@ -209,7 +209,7 @@ export class Drawable extends ShareableContextConsumer implements AbstractDrawab
         return this;
     }
 
-    draw(ambients?: Facet[]): Drawable {
+    draw(ambients?: Facet[]): Drawable<G, M> {
         if (this._visible) {
             if (ambients) {
                 console.warn("draw(ambients: Facet[]) is deprecated. Please use render(ambients: Facet[]) instead.");
@@ -224,32 +224,41 @@ export class Drawable extends ShareableContextConsumer implements AbstractDrawab
         return this;
     }
 
-    /**
-     * @param context
-     */
     contextFree(context: ContextProvider): void {
-        this._geometry.contextFree(context)
-        this._material.contextFree(context)
-        super.contextFree(context)
+        if (this._geometry && this._geometry.contextFree) {
+            this._geometry.contextFree(context);
+        }
+        if (this._material && this._material.contextFree) {
+            this._material.contextFree(context);
+        }
+        if (super.contextFree) {
+            super.contextFree(context);
+        }
     }
 
-    /**
-     * @param context
-     */
-    contextGain(context: ContextProvider): void {
-        this._geometry.contextGain(context)
-        this._material.contextGain(context)
+    contextGain(contextProvider: ContextProvider): void {
+        if (this._geometry && this._geometry.contextGain) {
+            this._geometry.contextGain(contextProvider);
+        }
+        if (this._material && this._material.contextGain) {
+            this._material.contextGain(contextProvider);
+        }
         synchFacets(this._material, this);
-        super.contextGain(context)
+        if (super.contextGain) {
+            super.contextGain(contextProvider);
+        }
     }
 
-    /**
-     *
-     */
     contextLost(): void {
-        this._geometry.contextLost()
-        this._material.contextLost()
-        super.contextLost()
+        if (this._geometry && this._geometry.contextLost) {
+            this._geometry.contextLost();
+        }
+        if (this._material && this._material.contextLost) {
+            this._material.contextLost();
+        }
+        if (super.contextLost) {
+            super.contextLost();
+        }
     }
 
     /**
@@ -270,14 +279,14 @@ export class Drawable extends ShareableContextConsumer implements AbstractDrawab
      * unbind()
      * In particle simulations it may be useful to call the underlying method directly.
      */
-    render(ambients: Facet[]): Drawable {
+    render(ambients: Facet[]): Drawable<G, M> {
         if (this._visible) {
             this.use().bind().setAmbients(ambients).setUniforms().draw().unbind();
         }
         return this;
     }
 
-    setAmbients(ambients: Facet[]): Drawable {
+    setAmbients(ambients: Facet[]): Drawable<G, M> {
         const iL = ambients.length;
         for (let i = 0; i < iL; i++) {
             const facet = ambients[i];
@@ -301,12 +310,12 @@ export class Drawable extends ShareableContextConsumer implements AbstractDrawab
         this._facets[name] = facet
     }
 
-    unbind(): Drawable {
+    unbind(): Drawable<G, M> {
         this._geometry.unbind(this._material);
         return this;
     }
 
-    use(): Drawable {
+    use(): Drawable<G, M> {
         this._material.use();
         return this;
     }
@@ -314,7 +323,7 @@ export class Drawable extends ShareableContextConsumer implements AbstractDrawab
     /**
      * Provides a reference counted reference to the graphics buffers property.
      */
-    get geometry(): Geometry {
+    get geometry(): G {
         if (this._geometry) {
             this._geometry.addRef();
             return this._geometry;
@@ -323,9 +332,9 @@ export class Drawable extends ShareableContextConsumer implements AbstractDrawab
             return void 0;
         }
     }
-    set geometry(geometry: Geometry) {
+    set geometry(geometry: G) {
         this._geometry = exchange(this._geometry, geometry);
-        if (this._geometry && this.contextProvider) {
+        if (this._geometry && this._geometry.contextGain && this.contextProvider) {
             this._geometry.contextGain(this.contextProvider);
         }
     }
@@ -333,7 +342,7 @@ export class Drawable extends ShareableContextConsumer implements AbstractDrawab
     /**
      * Provides a reference counted reference to the graphics program property.
      */
-    get material(): Material {
+    get material(): M {
         if (this._material) {
             this._material.addRef();
             return this._material;
@@ -342,7 +351,7 @@ export class Drawable extends ShareableContextConsumer implements AbstractDrawab
             return void 0;
         }
     }
-    set material(material: Material) {
+    set material(material: M) {
         this._material = exchange(this._material, material);
         if (this._material) {
             if (this.contextProvider) {
@@ -378,7 +387,7 @@ export class Drawable extends ShareableContextConsumer implements AbstractDrawab
 /**
  * Helper function to synchronize and optimize facets.
  */
-function synchFacets(material: Material, drawable: Drawable) {
+function synchFacets<G extends Geometry, M extends Material>(material: M, drawable: Drawable<G, M>) {
     if (material) {
         // Ensure that the opacity property is initialized if the material has a corresponding uniform.
         if (material.hasUniform(GraphicsProgramSymbols.UNIFORM_OPACITY)) {

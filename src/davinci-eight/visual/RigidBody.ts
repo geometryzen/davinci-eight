@@ -1,8 +1,8 @@
 import ContextManager from '../core/ContextManager';
 import {Geometric3} from '../math/Geometric3';
-import {Geometry} from '../core/Geometry';
 import {Material} from '../core/Material';
-import {Mesh} from '../core/Mesh';
+import {PrincipalScaleGeometry} from './PrincipalScaleMesh';
+import PrincipalScaleMesh from './PrincipalScaleMesh';
 import mustBeObject from '../checks/mustBeObject';
 import Vector3 from '../math/Vector3';
 import VectorE3 from '../math/VectorE3';
@@ -12,7 +12,7 @@ import VectorE3 from '../math/VectorE3';
  * Decorates the Mesh by adding properties for physical modeling.
  * </p>
  */
-export class RigidBody extends Mesh {
+export class RigidBody extends PrincipalScaleMesh<PrincipalScaleGeometry, Material> {
 
     /**
      * <p>
@@ -66,7 +66,7 @@ export class RigidBody extends Mesh {
      * @param contextManager
      * @param initialAxis The initial direction of the symmetry axis
      */
-    constructor(geometry: Geometry, material: Material, contextManager: ContextManager, initialAxis: VectorE3, levelUp = 0) {
+    constructor(geometry: PrincipalScaleGeometry, material: Material, contextManager: ContextManager, initialAxis: VectorE3, levelUp = 0) {
         super(geometry, material, contextManager, levelUp + 1);
         this.setLoggingName('RigidBody');
         this.initialAxis = Vector3.copy(initialAxis);

@@ -144,14 +144,14 @@ export class Scene extends ShareableContextConsumer {
      * @param name
      */
     findOneByName(name: string): Renderable {
-        return this.findOne(function(drawable) { return drawable.name === name });
+        return this.findOne(function (drawable) { return drawable.name === name });
     }
 
     /**
      * @param name
      */
     findByName(name: string): ShareableArray<Renderable> {
-        return this.find(function(drawable) { return drawable.name === name });
+        return this.find(function (drawable) { return drawable.name === name });
     }
 
     /**
@@ -171,25 +171,27 @@ export class Scene extends ShareableContextConsumer {
     }
 
     /**
-     * @param context
+     *
      */
-    contextFree(context: ContextProvider): void {
+    contextFree(contextProvider: ContextProvider): void {
         for (let i = 0; i < this._drawables.length; i++) {
             const drawable = this._drawables.getWeakRef(i);
-            drawable.contextFree(context);
+            drawable.contextFree(contextProvider);
         }
-        super.contextFree(context);
+        super.contextFree(contextProvider);
     }
 
     /**
-     * @param context
+     *
      */
-    contextGain(context: ContextProvider): void {
+    contextGain(contextProvider: ContextProvider): void {
         for (let i = 0; i < this._drawables.length; i++) {
             const drawable = this._drawables.getWeakRef(i);
-            drawable.contextGain(context);
+            if (drawable.contextGain) {
+                drawable.contextGain(contextProvider);
+            }
         }
-        super.contextGain(context);
+        super.contextGain(contextProvider);
     }
 
     /**

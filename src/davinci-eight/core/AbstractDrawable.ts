@@ -6,7 +6,7 @@ import {Material} from './Material';
 /**
  *
  */
-export interface AbstractDrawable extends Renderable {
+export interface AbstractDrawable<G extends Geometry, M extends Material> extends Renderable {
 
     /**
      *
@@ -33,7 +33,7 @@ export interface AbstractDrawable extends Renderable {
      * </p>
      *
      */
-    geometry: Geometry;
+    geometry: G;
 
     /**
      * <p>
@@ -47,7 +47,7 @@ export interface AbstractDrawable extends Renderable {
      * </p>
      *
      */
-    material: Material;
+    material: M;
 
     /**
      * A shortcut to the <code>material.vertexShaderSrc</code> property.
@@ -68,13 +68,13 @@ export interface AbstractDrawable extends Renderable {
     /**
      * A convenience method for geometry.bind(material).
      */
-    bind(): AbstractDrawable;
+    bind(): AbstractDrawable<G, M>;
 
     /**
      * Calls the underlying drawArrays or drawElements method on the WebGLRenderingContext.
      * The use of the ambients parameter with this method is deprecated.
      */
-    draw(ambients?: Facet[]): AbstractDrawable;
+    draw(ambients?: Facet[]): AbstractDrawable<G, M>;
 
     /**
      * High-Level rendering convenience method equivalent to...
@@ -86,25 +86,25 @@ export interface AbstractDrawable extends Renderable {
      * draw()
      * unbind()
      */
-    render(ambients: Facet[]): AbstractDrawable;
+    render(ambients: Facet[]): AbstractDrawable<G, M>;
 
     /**
      * 
      */
-    setAmbients(ambients: Facet[]): AbstractDrawable;
+    setAmbients(ambients: Facet[]): AbstractDrawable<G, M>;
 
     /**
      * 
      */
-    setUniforms(): AbstractDrawable;
+    setUniforms(): AbstractDrawable<G, M>;
 
     /**
      * A convenience method for geometry.unbind(material).
      */
-    unbind(): AbstractDrawable;
+    unbind(): AbstractDrawable<G, M>;
 
     /**
      * A convenience method for material.use().
      */
-    use(): AbstractDrawable;
+    use(): AbstractDrawable<G, M>;
 }
