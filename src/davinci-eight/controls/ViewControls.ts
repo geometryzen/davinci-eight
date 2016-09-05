@@ -1,7 +1,7 @@
 import BrowserWindow from '../base/BrowserWindow';
 import {MouseControls} from './MouseControls';
 import Vector3 from '../math/Vector3';
-import View from '../facets/View';
+import VectorE3 from '../math/VectorE3';
 import {ViewController} from './ViewController';
 
 /**
@@ -44,8 +44,9 @@ export class ViewControls extends MouseControls implements ViewController {
 
     /**
      * The view that is being controlled.
+     * We work only with coordinates to minimize requirements for interoperability.
      */
-    private view: View;
+    private view: { eye: VectorE3, look: VectorE3, up: VectorE3 };
 
     /**
      *
@@ -66,7 +67,7 @@ export class ViewControls extends MouseControls implements ViewController {
      * @param view
      * @param wnd
      */
-    constructor(view: View, wnd: BrowserWindow) {
+    constructor(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }, wnd: BrowserWindow) {
         super(wnd);
         this.setLoggingName('ViewControls');
         this.setView(view);
@@ -107,9 +108,15 @@ export class ViewControls extends MouseControls implements ViewController {
                 this.panCamera();
             }
 
-            this.view.eye.copyVector(this.look).addVector(this.eyeMinusLook);
-            this.view.look.copyVector(this.look);
-            this.view.up.copyVector(this.up);
+            this.view.eye.x = this.look.x + this.eyeMinusLook.x;
+            this.view.eye.y = this.look.y + this.eyeMinusLook.y;
+            this.view.eye.z = this.look.z + this.eyeMinusLook.z;
+            this.view.look.x = this.look.x;
+            this.view.look.y = this.look.y;
+            this.view.look.z = this.look.z;
+            this.view.up.x = this.up.x;
+            this.view.up.y = this.up.y;
+            this.view.up.z = this.up.z;
         }
     }
 
@@ -143,9 +150,15 @@ export class ViewControls extends MouseControls implements ViewController {
      */
     public reset(): void {
         if (this.view) {
-            this.view.eye.copyVector(this.eye0);
-            this.view.look.copyVector(this.look0);
-            this.view.up.copyVector(this.up0);
+            this.view.eye.x = this.eye0.x;
+            this.view.eye.y = this.eye0.y;
+            this.view.eye.z = this.eye0.z;
+            this.view.look.x = this.look0.x;
+            this.view.look.y = this.look0.y;
+            this.view.look.z = this.look0.z;
+            this.view.up.x = this.up0.x;
+            this.view.up.y = this.up0.y;
+            this.view.up.z = this.up0.z;
         }
         super.reset();
     }
@@ -153,7 +166,7 @@ export class ViewControls extends MouseControls implements ViewController {
     /**
      * @param view
      */
-    public setView(view: View): void {
+    public setView(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }): void {
         if (view) {
             this.view = view;
         }

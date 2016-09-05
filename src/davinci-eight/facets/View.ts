@@ -18,9 +18,6 @@ interface View extends Facet {
      * <p>
      * The point from which the view is constructed, a vector.
      * </p>
-     *
-     * @property eye
-     * @type Geometric3
      */
     eye: Geometric3;
 
@@ -28,9 +25,6 @@ interface View extends Facet {
      * <p>
      * The point of interest, a position vector.
      * </p>
-     *
-     * @property look
-     * @type Geometric3
      */
     look: Geometric3;
 
@@ -38,9 +32,6 @@ interface View extends Facet {
      * <p>
      * The direction considered to be up, a vector.
      * <p>
-     *
-     * @property up
-     * @type Geometric3
      */
     up: Geometric3;
 
@@ -56,28 +47,16 @@ interface View extends Facet {
 
     /**
      * Convenience method for setting the <code>eye</code> property allowing chainable method calls.
-     *
-     * @method setEye
-     * @param eye {VectorE3}
-     * @return {View}
      */
     setEye(eye: VectorE3): View;
 
     /**
      * Convenience method for setting the <code>look</code> property allowing chainable method calls.
-     *
-     * @method setLook
-     * @param look {VectorE3}
-     * @return {View}
      */
     setLook(look: VectorE3): View;
 
     /**
      * Convenience method for setting the <code>up</code> property allowing chainable method calls.
-     *
-     * @method setUp
-     * @param up {VectorE3}
-     * @return {View}
      */
     setUp(up: VectorE3): View;
 }

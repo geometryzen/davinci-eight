@@ -61,7 +61,6 @@ import createPerspective from './davinci-eight/facets/createPerspective';
 import createView from './davinci-eight/facets/createView';
 import Frustum from './davinci-eight/facets/Frustum';
 import Perspective from './davinci-eight/facets/Perspective';
-import View from './davinci-eight/facets/View';
 import frustumMatrix from './davinci-eight/facets/frustumMatrix';
 import {PerspectiveCamera} from './davinci-eight/facets/PerspectiveCamera';
 import perspectiveMatrix from './davinci-eight/facets/perspectiveMatrix';

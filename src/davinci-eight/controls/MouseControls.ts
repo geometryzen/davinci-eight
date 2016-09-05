@@ -139,30 +139,30 @@ export class MouseControls extends ShareableBase {
          */
         this.mousedown = (event: MouseEvent) => {
             if (!this.enabled) {
-                return
+                return;
             }
-            event.preventDefault()
-            event.stopPropagation()
+            event.preventDefault();
+            event.stopPropagation();
             if (this.mode === MODE.NONE) {
-                this.mode = event.button
+                this.mode = event.button;
             }
             if (this.mode === MODE.ROTATE && !this.noRotate) {
-                this.updateMouseOnCircle(event)
-                this.moveCurr.copy(this.mouseOnCircle)
-                this.movePrev.copy(this.mouseOnCircle)
+                this.updateMouseOnCircle(event);
+                this.moveCurr.copy(this.mouseOnCircle);
+                this.movePrev.copy(this.mouseOnCircle);
             }
             else if (this.mode === MODE.ZOOM && !this.noZoom) {
-                this.updateMouseOnScreen(event)
-                this.zoomStart.copy(this.mouseOnScreen)
-                this.zoomEnd.copy(this.mouseOnScreen)
+                this.updateMouseOnScreen(event);
+                this.zoomStart.copy(this.mouseOnScreen);
+                this.zoomEnd.copy(this.mouseOnScreen);
             }
             else if (this.mode === MODE.PAN && !this.noPan) {
-                this.updateMouseOnScreen(event)
-                this.panStart.copy(this.mouseOnScreen)
-                this.panEnd.copy(this.mouseOnScreen)
+                this.updateMouseOnScreen(event);
+                this.panStart.copy(this.mouseOnScreen);
+                this.panEnd.copy(this.mouseOnScreen);
             }
-            this.wnd.document.addEventListener('mousemove', this.mousemove, false)
-            this.wnd.document.addEventListener('mouseup', this.mouseup, false)
+            this.wnd.document.addEventListener('mousemove', this.mousemove, false);
+            this.wnd.document.addEventListener('mouseup', this.mouseup, false);
         }
 
         /**
@@ -170,18 +170,18 @@ export class MouseControls extends ShareableBase {
          */
         this.mousemove = (event: MouseEvent) => {
             if (!this.enabled) {
-                return
+                return;
             }
-            event.preventDefault()
-            event.stopPropagation()
+            event.preventDefault();
+            event.stopPropagation();
             if (this.mode === MODE.ROTATE && !this.noRotate) {
                 this.movePrev.copy(this.moveCurr);
-                this.updateMouseOnCircle(event)
-                this.moveCurr.copy(this.mouseOnCircle)
+                this.updateMouseOnCircle(event);
+                this.moveCurr.copy(this.mouseOnCircle);
             }
             else if (this.mode === MODE.ZOOM && !this.noZoom) {
-                this.updateMouseOnScreen(event)
-                this.zoomEnd.copy(this.mouseOnScreen)
+                this.updateMouseOnScreen(event);
+                this.zoomEnd.copy(this.mouseOnScreen);
             }
             else if (this.mode === MODE.PAN && !this.noPan) {
                 this.updateMouseOnScreen(event)

@@ -1,4 +1,4 @@
-import View from '../facets/View'
+import VectorE3 from '../math/VectorE3';
 
 /**
  *
@@ -26,7 +26,7 @@ export interface ViewController {
    *
    * @param view
    */
-  setView(view: View): void;
+  setView(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }): void;
 
   /**
    * <p>

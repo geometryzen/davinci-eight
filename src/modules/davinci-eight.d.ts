@@ -2936,21 +2936,10 @@ declare module EIGHT {
         remove(drawable: Renderable): void;
     }
 
-    interface View {
-        eye: Geometric3;
-        look: Geometric3;
-        up: Geometric3;
-        updateViewMatrix(): void;
-        viewMatrix: Matrix4;
-        setEye(eye: VectorE3): View;
-        setLook(look: VectorE3): View;
-        setUp(up: VectorE3): View;
-    }
-
     /**
      *
      */
-    class PerspectiveCamera extends AbstractFacet implements View {
+    class PerspectiveCamera extends AbstractFacet {
 
         /**
          * The aspect ratio of the viewport, i.e., width / height.
@@ -4704,7 +4693,7 @@ declare module EIGHT {
         /**
          * Called at any time to set a view for this controller.
          */
-        setView(view: View): void;
+        setView(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }): void;
         /**
          * Synchronizes this controller with the view.
          */
@@ -4719,9 +4708,8 @@ declare module EIGHT {
         protected look: Geometric3;
         public panSpeed: number;
         public rotateSpeed: number;
-        protected view: View;
         public zoomSpeed: number;
-        constructor(view: View, wnd: Window);
+        constructor(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }, wnd: Window);
         protected destructor(levelUp: number): void;
         /**
          *
@@ -4738,7 +4726,7 @@ declare module EIGHT {
         /**
          * Sets the view being controlled vythe view controller.
          */
-        setView(view: View): void;
+        setView(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }): void;
         /**
          * Synchronizes this controller with the view.
          */
@@ -4754,19 +4742,19 @@ declare module EIGHT {
     }
     ///////////////////////////////////////////////////////////////////////////////
     /**
-     * A ViewController that preserves the View up direction.
+     * A ViewController that preserves the up direction.
      */
     class OrbitControls extends ViewControls {
-        constructor(view: View, wnd: Window);
+        constructor(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }, wnd: Window);
         protected destructor(levelUp: number): void;
     }
     ///////////////////////////////////////////////////////////////////////////////
     /**
-     * A ViewController that does not preserve the View up direction.
+     * A ViewController that does not preserve the up direction.
      */
     class TrackballControls extends ViewControls {
-        constructor(view: View, wnd: Window)
-        protected destructor(): void
+        constructor(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }, wnd: Window);
+        protected destructor(levelUp: number): void;
     }
     ///////////////////////////////////////////////////////////////////////////////
     /**

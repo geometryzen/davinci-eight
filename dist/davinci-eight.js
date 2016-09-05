@@ -543,9 +543,9 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
     var Eight = (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-09-03';
+            this.LAST_MODIFIED = '2016-09-04';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.306.0';
+            this.VERSION = '2.307.0';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -5511,9 +5511,15 @@ define('davinci-eight/controls/ViewControls',["require", "exports", './MouseCont
                 if (!this.noPan) {
                     this.panCamera();
                 }
-                this.view.eye.copyVector(this.look).addVector(this.eyeMinusLook);
-                this.view.look.copyVector(this.look);
-                this.view.up.copyVector(this.up);
+                this.view.eye.x = this.look.x + this.eyeMinusLook.x;
+                this.view.eye.y = this.look.y + this.eyeMinusLook.y;
+                this.view.eye.z = this.look.z + this.eyeMinusLook.z;
+                this.view.look.x = this.look.x;
+                this.view.look.y = this.look.y;
+                this.view.look.z = this.look.z;
+                this.view.up.x = this.up.x;
+                this.view.up.y = this.up.y;
+                this.view.up.z = this.up.z;
             }
         };
         ViewControls.prototype.rotateCamera = function () {
@@ -5529,9 +5535,15 @@ define('davinci-eight/controls/ViewControls',["require", "exports", './MouseCont
         };
         ViewControls.prototype.reset = function () {
             if (this.view) {
-                this.view.eye.copyVector(this.eye0);
-                this.view.look.copyVector(this.look0);
-                this.view.up.copyVector(this.up0);
+                this.view.eye.x = this.eye0.x;
+                this.view.eye.y = this.eye0.y;
+                this.view.eye.z = this.eye0.z;
+                this.view.look.x = this.look0.x;
+                this.view.look.y = this.look0.y;
+                this.view.look.z = this.look0.z;
+                this.view.up.x = this.up0.x;
+                this.view.up.y = this.up0.y;
+                this.view.up.z = this.up0.z;
             }
             _super.prototype.reset.call(this);
         };

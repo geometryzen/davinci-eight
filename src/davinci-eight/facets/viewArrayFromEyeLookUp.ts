@@ -16,7 +16,7 @@ export default function viewArray(eye: VectorE3, look: VectorE3, up: VectorE3, m
 
   n.copy(eye).sub(look)
   if (n.x === 0 && n.y === 0 && n.z === 0) {
-    // View direction is ambiguous.
+    // view direction is ambiguous.
     n.z = 1
   }
   else {

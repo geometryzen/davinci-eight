@@ -1,7 +1,6 @@
 import {FacetVisitor} from '../core/FacetVisitor';
 import Frustum from './Frustum';
 import {Geometric3} from '../math/Geometric3';
-import View from './View';
 import createView from './createView';
 import Matrix4 from '../math/Matrix4';
 import VectorE3 from '../math/VectorE3';
@@ -9,7 +8,7 @@ import Vector1 from '../math/Vector1';
 
 export default function createFrustum(viewMatrixName: string, projectionMatrixName: string): Frustum {
 
-    const base: View = createView(viewMatrixName)
+    const base = createView(viewMatrixName)
     const left: Vector1 = new Vector1()
     const right: Vector1 = new Vector1()
     const bottom: Vector1 = new Vector1()

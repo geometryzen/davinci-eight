@@ -1,6 +1,5 @@
 import {FacetVisitor} from '../core/FacetVisitor';
 import Perspective from './Perspective';
-import View from './View';
 import createView from './createView';
 import Matrix4 from '../math/Matrix4';
 import {Geometric3} from '../math/Geometric3';
@@ -19,7 +18,7 @@ export default function createPerspective(options: { fov?: number; aspect?: numb
     const far: Vector1 = new Vector1([mustBeNumber('options.far', isUndefined(options.far) ? 2000 : options.far)]);
     const projectionMatrixName = isUndefined(options.projectionMatrixName) ? GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
 
-    const base: View = createView(options)
+    const base = createView(options)
     const projectionMatrix: Matrix4 = Matrix4.one()
     let matrixNeedsUpdate = true
 
