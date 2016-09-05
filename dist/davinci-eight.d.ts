@@ -2669,6 +2669,7 @@ declare module EIGHT {
         clone(): Color;
         copy(color: Color): Color;
         lerp(target: Color, α: number): Color;
+        scale(α: number): Color;
         toString(): string;
 
         static black: Color;

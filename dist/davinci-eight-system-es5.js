@@ -13822,9 +13822,9 @@ System.register('davinci-eight/core/Color.js', ['../math/clamp', '../math/Coords
                     return this;
                 };
                 Color.prototype.scale = function (α) {
-                    this.coords[COORD_R] *= α;
-                    this.coords[COORD_G] *= α;
-                    this.coords[COORD_B] *= α;
+                    this.r = this.r * α;
+                    this.g = this.g * α;
+                    this.b = this.b * α;
                     return this;
                 };
                 Color.prototype.slerp = function (target, α) {
@@ -14886,7 +14886,7 @@ System.register('davinci-eight/core/Mesh.js', ['../facets/ColorFacet', './Drawab
         }
     };
 });
-System.register("davinci-eight/visual/PrincipalScaleMesh.js", ['../core/Mesh'], function (exports_1, context_1) {
+System.register('davinci-eight/visual/PrincipalScaleMesh.js', ['../core/Mesh'], function (exports_1, context_1) {
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
@@ -14911,6 +14911,7 @@ System.register("davinci-eight/visual/PrincipalScaleMesh.js", ['../core/Mesh'], 
                         levelUp = 0;
                     }
                     _super.call(this, geometry, material, contextManager, levelUp + 1);
+                    this.setLoggingName('PrincipalScaleMesh');
                     if (levelUp === 0) {
                         this.synchUp();
                     }
@@ -22742,9 +22743,9 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
             Eight = function () {
                 function Eight() {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-                    this.LAST_MODIFIED = '2016-09-04';
+                    this.LAST_MODIFIED = '2016-09-05';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '2.307.0';
+                    this.VERSION = '2.308.0';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];

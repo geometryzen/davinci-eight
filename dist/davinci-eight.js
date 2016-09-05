@@ -1,7 +1,7 @@
 (function(global, define) {
   var globalDefine = global.define;
 /**
- * @license almond 0.3.2 Copyright jQuery Foundation and other contributors.
+ * @license almond 0.3.3 Copyright jQuery Foundation and other contributors.
  * Released under MIT license, http://github.com/requirejs/almond/LICENSE
  */
 //Going sloppy to avoid 'use strict' string cost, but strict practices should
@@ -197,32 +197,39 @@ var requirejs, require, define;
         return [prefix, name];
     }
 
+    //Creates a parts array for a relName where first part is plugin ID,
+    //second part is resource ID. Assumes relName has already been normalized.
+    function makeRelParts(relName) {
+        return relName ? splitPrefix(relName) : [];
+    }
+
     /**
      * Makes a name map, normalizing the name, and using a plugin
      * for normalization if necessary. Grabs a ref to plugin
      * too, as an optimization.
      */
-    makeMap = function (name, relName) {
+    makeMap = function (name, relParts) {
         var plugin,
             parts = splitPrefix(name),
-            prefix = parts[0];
+            prefix = parts[0],
+            relResourceName = relParts[1];
 
         name = parts[1];
 
         if (prefix) {
-            prefix = normalize(prefix, relName);
+            prefix = normalize(prefix, relResourceName);
             plugin = callDep(prefix);
         }
 
         //Normalize according
         if (prefix) {
             if (plugin && plugin.normalize) {
-                name = plugin.normalize(name, makeNormalize(relName));
+                name = plugin.normalize(name, makeNormalize(relResourceName));
             } else {
-                name = normalize(name, relName);
+                name = normalize(name, relResourceName);
             }
         } else {
-            name = normalize(name, relName);
+            name = normalize(name, relResourceName);
             parts = splitPrefix(name);
             prefix = parts[0];
             name = parts[1];
@@ -269,13 +276,14 @@ var requirejs, require, define;
     };
 
     main = function (name, deps, callback, relName) {
-        var cjsModule, depName, ret, map, i,
+        var cjsModule, depName, ret, map, i, relParts,
             args = [],
             callbackType = typeof callback,
             usingExports;
 
         //Use name if no relName
         relName = relName || name;
+        relParts = makeRelParts(relName);
 
         //Call the callback to define the module, if necessary.
         if (callbackType === 'undefined' || callbackType === 'function') {
@@ -284,7 +292,7 @@ var requirejs, require, define;
             //Default to [require, exports, module] if no deps
             deps = !deps.length && callback.length ? ['require', 'exports', 'module'] : deps;
             for (i = 0; i < deps.length; i += 1) {
-                map = makeMap(deps[i], relName);
+                map = makeMap(deps[i], relParts);
                 depName = map.f;
 
                 //Fast path CommonJS standard dependencies.
@@ -340,7 +348,7 @@ var requirejs, require, define;
             //deps arg is the module name, and second arg (if passed)
             //is just the relName.
             //Normalize module name, if it contains . or ..
-            return callDep(makeMap(deps, callback).f);
+            return callDep(makeMap(deps, makeRelParts(callback)).f);
         } else if (!deps.splice) {
             //deps is a config object, not an array.
             config = deps;
@@ -543,9 +551,9 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
     var Eight = (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-09-04';
+            this.LAST_MODIFIED = '2016-09-05';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.307.0';
+            this.VERSION = '2.308.0';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -5990,9 +5998,9 @@ define('davinci-eight/core/Color',["require", "exports", '../math/clamp', '../ma
             return this;
         };
         Color.prototype.scale = function (α) {
-            this.coords[COORD_R] *= α;
-            this.coords[COORD_G] *= α;
-            this.coords[COORD_B] *= α;
+            this.r = this.r * α;
+            this.g = this.g * α;
+            this.b = this.b * α;
             return this;
         };
         Color.prototype.slerp = function (target, α) {
@@ -17139,6 +17147,7 @@ define('davinci-eight/visual/PrincipalScaleMesh',["require", "exports", '../core
         function PrincipalScaleMesh(geometry, material, contextManager, levelUp) {
             if (levelUp === void 0) { levelUp = 0; }
             _super.call(this, geometry, material, contextManager, levelUp + 1);
+            this.setLoggingName('PrincipalScaleMesh');
             if (levelUp === 0) {
                 this.synchUp();
             }

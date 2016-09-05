@@ -30,6 +30,7 @@ export interface PrincipalScaleGeometry extends Geometry {
 export default class PrincipalScaleMesh<G extends PrincipalScaleGeometry, M extends Material> extends Mesh<G, M> {
     constructor(geometry: G, material: M, contextManager: ContextManager, levelUp = 0) {
         super(geometry, material, contextManager, levelUp + 1);
+        this.setLoggingName('PrincipalScaleMesh');
         if (levelUp === 0) {
             this.synchUp();
         }

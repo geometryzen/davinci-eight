@@ -207,10 +207,10 @@ export class Color extends Coords {
     }
 
     public scale(α: number): Color {
-        this.coords[COORD_R] *= α;
-        this.coords[COORD_G] *= α;
-        this.coords[COORD_B] *= α;
-        return this
+        this.r = this.r * α;
+        this.g = this.g * α;
+        this.b = this.b * α;
+        return this;
     }
 
     public slerp(target: { r: number; g: number; b: number }, α: number): Color {
@@ -383,7 +383,7 @@ export class Color extends Coords {
     }
 }
 
-const rgb255 = function(red: number, green: number, blue: number): Color {
+const rgb255 = function (red: number, green: number, blue: number): Color {
     const UBYTEMAX = 255;
     return new Color(red / UBYTEMAX, green / UBYTEMAX, blue / UBYTEMAX)
 }
