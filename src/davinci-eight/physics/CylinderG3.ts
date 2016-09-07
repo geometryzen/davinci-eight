@@ -1,5 +1,4 @@
 import {Color} from '../core/Color';
-import ContextProvider from '../core/ContextProvider';
 import {Facet} from '../core/Facet';
 import G3 from './G3';
 import {Renderable} from '../core/Renderable';
@@ -15,23 +14,8 @@ export default class CylinderG3 implements Renderable {
     public axis = G3.e2;
     public scaleFactor = G3.meter;
     public transparent = false;
-    private refCount = 1;
     constructor(private world: WorldG3) {
         world.add(this);
-    }
-    addRef(): number {
-        this.refCount++;
-        return this.refCount;
-    }
-    release(): number {
-        this.refCount--;
-        return this.refCount;
-    }
-    contextFree(contextProvider: ContextProvider): void {
-    }
-    contextGain(contextProvider: ContextProvider): void {
-    }
-    contextLost(): void {
     }
     render(ambients: Facet[]): void {
         const cylinder = this.world.cylinder;
@@ -42,4 +26,4 @@ export default class CylinderG3 implements Renderable {
         cylinder.color.copy(this.color);
         cylinder.render(ambients);
     }
-} 
+}

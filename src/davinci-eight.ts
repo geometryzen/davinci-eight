@@ -187,6 +187,15 @@ import SphereG3 from './davinci-eight/physics/SphereG3';
 import {Unit} from './davinci-eight/physics/Unit';
 import WorldG3 from './davinci-eight/physics/WorldG3';
 
+// slideshow
+import Director from './davinci-eight/slideshow/Director';
+import Slide from './davinci-eight/slideshow/Slide';
+import ColorAnimation from './davinci-eight/slideshow/animations/ColorAnimation';
+import NarrateAnimation from './davinci-eight/slideshow/animations/NarrateAnimation';
+import Spinor3Animation from './davinci-eight/slideshow/animations/Spinor3Animation';
+import Vector3Animation from './davinci-eight/slideshow/animations/Vector3Animation';
+import WaitAnimation from './davinci-eight/slideshow/animations/WaitAnimation';
+
 /**
  *
  */
@@ -342,7 +351,16 @@ const eight = {
     get CylinderG3() { return CylinderG3; },
     get SphereG3() { return SphereG3; },
     get Unit() { return Unit; },
-    get WorldG3() { return WorldG3; }
+    get WorldG3() { return WorldG3; },
+
+    // slideshow
+    get Director() { return Director; },
+    get Slide() { return Slide; },
+    get ColorAnimation() { return ColorAnimation; },
+    get NarrateAnimation() { return NarrateAnimation; },
+    get Spinor3Animation() { return Spinor3Animation; },
+    get Vector3Animation() { return Vector3Animation; },
+    get WaitAnimation() { return WaitAnimation; }
 
 }
 export default eight;

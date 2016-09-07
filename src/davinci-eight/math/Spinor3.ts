@@ -265,6 +265,15 @@ export default class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
         }
     }
 
+    copyCoordinates(coordinates: number[]): Spinor3 {
+        // Copy using the setters so that the modified flag is updated.
+        this.yz = coordinates[COORD_YZ];
+        this.zx = coordinates[COORD_ZX];
+        this.xy = coordinates[COORD_XY];
+        this.a = coordinates[COORD_SCALAR];
+        return this;
+    }
+
     /**
      * Sets this spinor to the value of the scalar, <code>α</code>.
      *
@@ -997,7 +1006,7 @@ export default class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
      * @return {string}
      */
     toExponential(fractionDigits?: number): string {
-        const coordToString = function(coord: number): string { return coord.toExponential(fractionDigits); };
+        const coordToString = function (coord: number): string { return coord.toExponential(fractionDigits); };
         return toStringCustom(coordinates(this), coordToString, BASIS_LABELS);
     }
 
@@ -1007,7 +1016,7 @@ export default class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
      * @return {string}
      */
     toFixed(fractionDigits?: number): string {
-        const coordToString = function(coord: number): string { return coord.toFixed(fractionDigits); };
+        const coordToString = function (coord: number): string { return coord.toFixed(fractionDigits); };
         return toStringCustom(coordinates(this), coordToString, BASIS_LABELS);
     }
 
@@ -1017,7 +1026,7 @@ export default class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
      * @return {string}
      */
     toPrecision(position?: number): string {
-        const coordToString = function(coord: number): string { return coord.toPrecision(position); };
+        const coordToString = function (coord: number): string { return coord.toPrecision(position); };
         return toStringCustom(coordinates(this), coordToString, BASIS_LABELS);
     }
 
@@ -1027,7 +1036,7 @@ export default class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
      * @return {string} A non-normative string representation of the target.
      */
     toString(radix?: number): string {
-        const coordToString = function(coord: number): string { return coord.toString(radix); };
+        const coordToString = function (coord: number): string { return coord.toString(radix); };
         return toStringCustom(coordinates(this), coordToString, BASIS_LABELS);
     }
 

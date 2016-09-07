@@ -1,80 +1,130 @@
 import IAnimation from '../slideshow/IAnimation';
+import AnimationOptions from './AnimationOptions';
 import IAnimationTarget from '../slideshow/IAnimationTarget';
-import Director from '../slideshow/Director';
-import incLevel from '../base/incLevel';
-import ISlide from '../slideshow/ISlide';
-import ISlideCommand from '../slideshow/ISlideCommand';
-import {Shareable} from '../core/Shareable';
-import ShareableArray from '../collections/ShareableArray';
+import {Color} from '../core/Color';
+import ColorAnimation from './animations/ColorAnimation';
+import exchange from '../base/exchange';
 import mustBeNumber from '../checks/mustBeNumber';
+import mustBeObject from '../checks/mustBeObject';
+import mustBeString from '../checks/mustBeString';
+import NarrateAnimation from './animations/NarrateAnimation';
+import ShareableArray from '../collections/ShareableArray';
 import {ShareableBase} from '../core/ShareableBase';
 import SlideCommands from '../slideshow/SlideCommands';
+import SlideHost from './SlideHost';
+import SpinorE3 from '../math/SpinorE3';
+import Spinor3Animation from './animations/Spinor3Animation';
 import StringShareableMap from '../collections/StringShareableMap';
-import WaitAnimation from '../slideshow/animations/WaitAnimation';
+import VectorE3 from '../math/VectorE3';
+import Vector3Animation from './animations/Vector3Animation';
+import WaitAnimation from './animations/WaitAnimation';
 
-export default class Slide extends ShareableBase implements ISlide {
+class TargetProperty {
+  constructor(private slide: Slide, private objectId: string, private propName: string) {
+
+  }
+  setColor(color: Color, duration = 300, options?: AnimationOptions): TargetProperty {
+    this.slide.setColor(this.objectId, this.propName, color, duration, options);
+    return this;
+  }
+  setNarrate(text: string, duration?: number, options?: AnimationOptions): TargetProperty {
+    this.slide.setNarrate(this.objectId, this.propName, text, duration, options);
+    return this;
+  }
+  setSpinor(R: SpinorE3, duration?: number, options?: AnimationOptions): TargetProperty {
+    this.slide.setSpinor(this.objectId, this.propName, R, duration, options);
+    return this;
+  }
+  setVector(X: VectorE3, duration?: number, options?: AnimationOptions): TargetProperty {
+    this.slide.setVector(this.objectId, this.propName, X, duration, options);
+    return this;
+  }
+  setWait(duration: number, options?: AnimationOptions): TargetProperty {
+    this.slide.setWait(this.objectId, this.propName, duration, options);
+    return this;
+  }
+}
+
+export default class Slide extends ShareableBase {
   public prolog: SlideCommands;
   public epilog: SlideCommands;
   /**
    * The objects that we are going to manipulate.
    */
-  private targets: IAnimationTarget[];
-  /**
-   * The companions to each target that maintain animation state.
-   */
-  private mirrors: StringShareableMap<Mirror>;
+  private mirrors: Mirror[];
   /**
    * The time standard for this Slide.
    */
   private now = 0;
-  constructor() {
-    super()
-    this.setLoggingName('Slide')
-    this.prolog = new SlideCommands()
-    this.epilog = new SlideCommands()
-    this.targets = []
-    this.mirrors = new StringShareableMap<Mirror>()
+  constructor(private host: SlideHost) {
+    super();
+    this.setLoggingName('Slide');
+    mustBeObject('host', host);
+    this.prolog = new SlideCommands();
+    this.epilog = new SlideCommands();
+    this.mirrors = [];
   }
-  protected destructor(level: number): void {
-    this.prolog.release()
-    this.prolog = void 0
-    this.epilog.release()
-    this.epilog = void 0
-    this.targets = void 0
-    this.mirrors.release()
-    this.mirrors = void 0
+  protected destructor(levelUp: number): void {
+    this.prolog.release();
+    this.prolog = void 0;
+    this.epilog.release();
+    this.epilog = void 0;
+    this.mirrors = void 0;
 
-    super.destructor(incLevel(level))
+    super.destructor(levelUp + 1);
   }
-  private ensureTarget(target: IAnimationTarget) {
-    if (this.targets.indexOf(target) < 0) {
-      this.targets.push(target)
+  private ensureTargetContext(objectId: string): Mirror {
+    for (let i = 0; i < this.mirrors.length; i++) {
+      const mirror = this.mirrors[i];
+      if (mirror.objectId === objectId) {
+        return mirror;
+      }
     }
+    const mirror = new Mirror(objectId);
+    this.mirrors.push(mirror);
+    return mirror;
   }
-  private ensureMirror(target: IAnimationTarget) {
-    if (!this.mirrors.exists(target.uuid)) {
-      this.mirrors.putWeakRef(target.uuid, new Mirror())
-    }
+
+  add(objectId: string, propName: string, animation: IAnimation): Slide {
+    mustBeString('objectId', objectId);
+    mustBeString('name', propName);
+
+    const mirror = this.ensureTargetContext(objectId);
+
+    mirror.ensureAnimationLane(propName);
+
+    const animationLane = mirror.animationLanes.getWeakRef(propName);
+
+    animationLane.push(animation);
+
+    return this;
   }
-  pushAnimation(target: IAnimationTarget, propName: string, animation: IAnimation) {
-    this.ensureTarget(target)
-    this.ensureMirror(target)
-
-    var mirror = this.mirrors.getWeakRef(target.uuid)
-
-    mirror.ensureAnimationLane(propName)
-
-    var animationLane = mirror.animationLanes.getWeakRef(propName)
-
-    animationLane.push(animation)
+  colorize(objectId: string, color: Color, duration = 300, options?: AnimationOptions): Slide {
+    return this.setColor(objectId, 'color', color, duration, options);
   }
-  popAnimation(target: IAnimationTarget, propName: string): IAnimation {
-
-    var mirror = this.mirrors.getWeakRef(target.uuid)
-
-    var animationLane = mirror.animationLanes.getWeakRef(propName)
-
-    return animationLane.pop()
+  position(objectId: string, X: VectorE3, duration?: number, options?: AnimationOptions): Slide {
+    return this.setVector(objectId, 'X', X, duration, options);
+  }
+  attitude(objectId: string, R: SpinorE3, duration?: number, options?: AnimationOptions): Slide {
+    return this.setSpinor(objectId, 'R', R, duration, options);
+  }
+  setColor(objectId: string, propName: string, color: Color, duration = 300, options?: AnimationOptions): Slide {
+    return this.add(objectId, propName, new ColorAnimation(color, duration, options));
+  }
+  setNarrate(objectId: string, propName: string, text: string, duration?: number, options?: AnimationOptions): Slide {
+    return this.add(objectId, propName, new NarrateAnimation(text, duration));
+  }
+  setSpinor(objectId: string, propName: string, R: SpinorE3, duration?: number, options?: AnimationOptions): Slide {
+    return this.add(objectId, propName, new Spinor3Animation(R, duration, options));
+  }
+  setVector(objectId: string, propName: string, X: VectorE3, duration?: number, options?: AnimationOptions): Slide {
+    return this.add(objectId, propName, new Vector3Animation(X, duration, options));
+  }
+  setWait(objectId: string, propName: string, duration: number, options?: AnimationOptions): Slide {
+    return this.add(objectId, propName, new WaitAnimation(duration));
+  }
+  target(objectId: string, name: string): TargetProperty {
+    return new TargetProperty(this, objectId, mustBeString('name', name));
   }
 
   /**
@@ -84,93 +134,98 @@ export default class Slide extends ShareableBase implements ISlide {
   advance(interval: number): void {
     this.now += interval
 
-    for (var i = 0, iLength = this.targets.length; i < iLength; i++) {
-      var target = this.targets[i]
+    for (let i = 0, iLength = this.mirrors.length; i < iLength; i++) {
+      const mirror = this.mirrors[i];
+      const target = this.host.getTarget(mirror.objectId);
       /**
        * `offset` is variable used to keep things running on schedule.
        * If an animation finishes before the interval, it reports the
-       * duration `extra` that brings the tome to `now`. Subsequent animations
+       * duration `extra` that brings the time to `now`. Subsequent animations
        * get a head start by considering their start time to be now - offset.
        */
-      var offset = 0
-      var mirror = this.mirrors.getWeakRef(target.uuid)
-      var names = mirror.animationLanes.keys;
-      for (var j = 0; j < names.length; j++) {
-        var propName = names[j]
-        var animationLane = mirror.animationLanes.getWeakRef(propName)
-        offset = animationLane.apply(target, propName, this.now, offset)
+      let offset = 0;
+      const names = mirror.animationLanes.keys;
+      for (let j = 0; j < names.length; j++) {
+        const propName = names[j];
+        const animationLane = mirror.animationLanes.getWeakRef(propName);
+        offset = animationLane.apply(target, this.now, offset);
+      }
+      // There may not be a target if it has not been created yet.
+      if (target && target.release) {
+        target.release();
       }
     }
   }
-  doProlog(director: Director, forward: boolean): void {
+  doProlog(host: SlideHost, forward: boolean): void {
     if (forward) {
-      this.prolog.redo(this, director)
+      this.prolog.redo(this, host)
     }
     else {
-      this.prolog.undo(this, director)
+      this.prolog.undo(this, host)
     }
   }
-  doEpilog(director: Director, forward: boolean): void {
+  doEpilog(host: SlideHost, forward: boolean): void {
     if (forward) {
-      this.epilog.redo(this, director)
+      this.epilog.redo(this, host);
     }
     else {
-      this.epilog.undo(this, director)
+      this.epilog.undo(this, host);
     }
   }
-  undo(director: Director): void {
-    for (var i = 0, iLength = this.targets.length; i < iLength; i++) {
-      var target = this.targets[i]
-      var mirror = this.mirrors.getWeakRef(target.uuid)
-      var names = mirror.animationLanes.keys;
-      for (var j = 0; j < names.length; j++) {
-        var propName = names[j]
-        var animationLane = mirror.animationLanes.getWeakRef(propName)
-        animationLane.undo(target, propName)
+  undo(host: SlideHost): void {
+    for (let i = 0, iLength = this.mirrors.length; i < iLength; i++) {
+      const mirror = this.mirrors[i];
+      const names = mirror.animationLanes.keys;
+      for (let j = 0; j < names.length; j++) {
+        const propName = names[j];
+        const animationLane = mirror.animationLanes.getWeakRef(propName);
+        animationLane.undo();
       }
     }
   }
 }
 
 class AnimationLane extends ShareableBase {
+  private target: IAnimationTarget;
   private completed: ShareableArray<IAnimation>;
   private remaining: ShareableArray<IAnimation>;
-  constructor() {
+  constructor(private propName: string) {
     super()
-    this.setLoggingName('AnimationLane')
-    this.completed = new ShareableArray<IAnimation>([])
-    this.remaining = new ShareableArray<IAnimation>([])
+    this.setLoggingName('AnimationLane');
+    this.target = void 0;
+    this.completed = new ShareableArray<IAnimation>([]);
+    this.remaining = new ShareableArray<IAnimation>([]);
   }
-  protected destructor(level: number): void {
-    this.completed.release()
-    this.completed = void 0
-    this.remaining.release()
-    this.remaining = void 0
-    super.destructor(incLevel(level))
+  protected destructor(levelUp: number): void {
+    this.completed = exchange(this.completed, void 0);
+    this.remaining = exchange(this.remaining, void 0);
+    this.target = exchange(this.target, void 0);
+    super.destructor(levelUp + 1);
   }
   pop(): IAnimation {
     if (this.remaining.length > 0) {
-      return this.remaining.pop()
+      return this.remaining.pop();
     }
     else {
-      return this.completed.pop()
+      return this.completed.pop();
     }
   }
   push(animation: IAnimation): number {
-    return this.remaining.push(animation)
+    return this.remaining.push(animation);
   }
   pushWeakRef(animation: IAnimation): number {
-    return this.remaining.pushWeakRef(animation)
+    return this.remaining.pushWeakRef(animation);
   }
-  apply(target: IAnimationTarget, propName: string, now: number, offset: number): number {
-    var done = false;
+  apply(target: IAnimationTarget, now: number, offset: number): number {
+    this.target = exchange(this.target, target);
+    let done = false;
     while (!done) {
       if (this.remaining.length > 0) {
-        var animation = this.remaining.getWeakRef(0)
-        animation.apply(target, propName, now, offset)
-        if (animation.done(target, propName)) {
-          offset = animation.extra(now)
-          this.completed.push(this.remaining.shift())
+        const animation = this.remaining.getWeakRef(0);
+        animation.apply(target, this.propName, now, offset);
+        if (animation.done(target, this.propName)) {
+          offset = animation.extra(now);
+          this.completed.push(this.remaining.shift());
         }
         else {
           done = true;
@@ -182,14 +237,15 @@ class AnimationLane extends ShareableBase {
     }
     return offset;
   }
-  undo(target: IAnimationTarget, propName: string): void {
+  undo(): void {
     while (this.completed.length > 0) {
-      this.remaining.unshift(this.completed.pop())
+      this.remaining.unshift(this.completed.pop());
     }
-    for (var i = this.remaining.length - 1; i >= 0; i--) {
-      var animation = this.remaining.getWeakRef(i)
-      animation.undo(target, propName)
+    for (let i = this.remaining.length - 1; i >= 0; i--) {
+      const animation = this.remaining.getWeakRef(i);
+      animation.undo(this.target, this.propName);
     }
+    this.target = exchange(this.target, void 0);
   }
 }
 
@@ -204,20 +260,22 @@ class Mirror extends ShareableBase {
    * For these reasons, we structure the data as map from property name to a queue of animations.
    */
   public animationLanes: StringShareableMap<AnimationLane>;
-  constructor() {
-    super()
-    this.setLoggingName('Mirror')
-    this.animationLanes = new StringShareableMap<AnimationLane>()
+  constructor(public objectId: string) {
+    super();
+    this.setLoggingName('Mirror');
+    mustBeString('objectId', objectId);
+    this.animationLanes = new StringShareableMap<AnimationLane>();
   }
 
-  protected destructor(level: number): void {
-    this.animationLanes.release()
-    this.animationLanes = void 0
-    super.destructor(incLevel(level))
+  protected destructor(levelUp: number): void {
+    mustBeNumber('levelUp', levelUp);
+    this.animationLanes = exchange(this.animationLanes, void 0);
+    super.destructor(levelUp + 1);
   }
-  ensureAnimationLane(key: string): void {
-    if (!this.animationLanes.exists(key)) {
-      this.animationLanes.putWeakRef(key, new AnimationLane())
+  ensureAnimationLane(name: string): void {
+    mustBeString('name', name);
+    if (!this.animationLanes.exists(name)) {
+      this.animationLanes.putWeakRef(name, new AnimationLane(name));
     }
   }
 }

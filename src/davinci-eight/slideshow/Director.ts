@@ -1,125 +1,112 @@
-import Slide from '../slideshow/Slide';
 import IAnimationTarget from '../slideshow/IAnimationTarget';
-import isDefined from '../checks/isDefined';
-import incLevel from '../base/incLevel';
+import exchange from '../base/exchange';
+import Slide from '../slideshow/Slide';
+import SlideHost from '../slideshow/SlideHost';
 import ShareableArray from '../collections/ShareableArray';
-import mustBeDefined from '../checks/mustBeDefined';
-import mustBeString from '../checks/mustBeString';
-import NumberShareableMap from '../collections/NumberShareableMap';
 import {ShareableBase} from '../core/ShareableBase';
 import StringShareableMap from '../collections/StringShareableMap';
 
-export default class Director extends ShareableBase {
-    private step: number;
+export default class Director extends ShareableBase implements SlideHost {
+    private slideIndex: number;
     public slides: ShareableArray<Slide>;
-    private facets: { [name: string]: IAnimationTarget };
+    private targets: StringShareableMap<IAnimationTarget>;
     constructor() {
-        super()
-        this.setLoggingName('Director')
-        this.step = -1 // Position before the first slide.
-        this.slides = new ShareableArray<Slide>([])
-        this.facets = {}
+        super();
+        this.setLoggingName('Director');
+        this.slideIndex = -1; // Position before the first slide.
+        this.slides = new ShareableArray<Slide>([]);
+        this.targets = new StringShareableMap<IAnimationTarget>();
     }
-    destructor(level: number): void {
-        this.slides.release()
-        this.slides = void 0
-        this.facets = void 0
-        super.destructor(incLevel(level))
+    destructor(levelUp: number): void {
+        this.slides = exchange(this.slides, void 0);
+        this.targets = exchange(this.targets, void 0);
+        super.destructor(levelUp + 1);
     }
-    addTarget(target: IAnimationTarget, name: string): void {
-        this.facets[name] = target;
+    putTarget(target: IAnimationTarget, objectId: string): void {
+        this.targets.put(objectId, target);
     }
-    getTarget(name: string): IAnimationTarget {
-        return this.facets[name];
+    getTarget(objectId: string): IAnimationTarget {
+        return this.targets.get(objectId);
     }
-    removeTarget(name: string): IAnimationTarget {
-        const target = this.getTarget(name);
-        delete this.facets[name]
-        return target;
+    removeTarget(objectId: string): IAnimationTarget {
+        return this.targets.remove(objectId);
     }
-    createSlide(): Slide {
-        return new Slide()
-    }
-    go(step: number, instant: boolean = false): void {
+    go(slideIndex: number, instant = false): void {
         if (this.slides.length === 0) {
-            return
+            return;
         }
-        while (step < 0) step += this.slides.length + 1
+        while (slideIndex < 0) slideIndex += this.slides.length + 1
     }
-    forward(instant: boolean = true, delay: number = 0) {
+    forward(instant = true, delay = 0): void {
         if (!this.canForward()) {
-            return
+            return;
         }
-        var slideLeaving: Slide = this.slides.getWeakRef(this.step)
-        var slideEntering: Slide = this.slides.getWeakRef(this.step + 1)
-        var self = this;
-        var apply = function() {
+        const slideLeaving: Slide = this.slides.getWeakRef(this.slideIndex);
+        const slideEntering: Slide = this.slides.getWeakRef(this.slideIndex + 1);
+        const apply = () => {
             if (slideLeaving) {
-                slideLeaving.doEpilog(self, true)
+                slideLeaving.doEpilog(this, true);
             }
             if (slideEntering) {
-                slideEntering.doProlog(self, true)
+                slideEntering.doProlog(this, true);
             }
-            self.step++
+            this.slideIndex++;
         }
         if (delay) {
-            setTimeout(apply, delay)
+            setTimeout(apply, delay);
         }
         else {
-            apply()
+            apply();
         }
     }
     canForward(): boolean {
-        return this.step < this.slides.length
+        return this.slideIndex < this.slides.length;
     }
-    backward(instant: boolean = true, delay: number = 0) {
+    backward(instant = true, delay = 0) {
         if (!this.canBackward()) {
-            return
+            return;
         }
-        var slideLeaving = this.slides.getWeakRef(this.step)
-        var slideEntering = this.slides.getWeakRef(this.step - 1)
-        var self = this;
-        var apply = function() {
+        const slideLeaving = this.slides.getWeakRef(this.slideIndex);
+        const slideEntering = this.slides.getWeakRef(this.slideIndex - 1);
+        const apply = () => {
             if (slideLeaving) {
-                slideLeaving.undo(self)
-                slideLeaving.doProlog(self, false)
+                slideLeaving.undo(this);
+                slideLeaving.doProlog(this, false);
             }
             if (slideEntering) {
-                slideEntering.doEpilog(self, false)
+                slideEntering.doEpilog(this, false);
             }
-            self.step--
+            this.slideIndex--;
         }
         if (delay) {
-            setTimeout(apply, delay)
+            setTimeout(apply, delay);
         }
         else {
-            apply()
+            apply();
         }
     }
     canBackward(): boolean {
-        return this.step > -1
+        return this.slideIndex > -1;
     }
-    pushSlide(slide: Slide): number {
-        return this.slides.push(slide)
-    }
-    popSlide(slide: Slide): Slide {
-        return this.slides.pop()
+    add(slide: Slide): Director {
+        this.slides.push(slide);
+        return this;
     }
     advance(interval: number): void {
-        let slideIndex = this.step
+        const slideIndex = this.slideIndex;
         if (slideIndex >= 0 && slideIndex < this.slides.length) {
-            var slide: Slide = this.slides.get(slideIndex)
+            var slide: Slide = this.slides.get(slideIndex);
             if (slide) {
                 try {
-                    slide.advance(interval)
+                    slide.advance(interval);
                 }
                 finally {
-                    slide.release()
+                    slide.release();
                 }
             }
             else {
                 // This should never happen if we manage the index properly.
-                console.warn("No slide found at index " + this.step)
+                console.warn("No slide found at index " + this.slideIndex);
             }
         }
     }

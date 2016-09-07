@@ -16,8 +16,8 @@ export default class StringShareableMap<V extends Shareable> extends ShareableBa
      * A map of <code>string</code> to <code>V extends Shareable</code>.
      */
     constructor() {
-        super()
-        this.setLoggingName('StringShareableMap')
+        super();
+        this.setLoggingName('StringShareableMap');
     }
 
     protected destructor(levelUp: number): void {
@@ -47,7 +47,9 @@ export default class StringShareableMap<V extends Shareable> extends ShareableBa
     public get(key: string): V {
         const element = this.elements[key];
         if (element) {
-            element.addRef();
+            if (element.addRef) {
+                element.addRef();
+            }
             return element;
         }
         else {
@@ -71,10 +73,10 @@ export default class StringShareableMap<V extends Shareable> extends ShareableBa
      * @return {void}
      */
     public put(key: string, value: V): void {
-        if (value) {
-            value.addRef()
+        if (value && value.addRef) {
+            value.addRef();
         }
-        this.putWeakRef(key, value)
+        this.putWeakRef(key, value);
     }
 
     /**
@@ -84,12 +86,14 @@ export default class StringShareableMap<V extends Shareable> extends ShareableBa
      * @return {void}
      */
     public putWeakRef(key: string, value: V): void {
-        const elements = this.elements
-        const existing = elements[key]
+        const elements = this.elements;
+        const existing = elements[key];
         if (existing) {
-            existing.release()
+            if (existing.release) {
+                existing.release();
+            }
         }
-        elements[key] = value
+        elements[key] = value;
     }
 
     /**
@@ -99,8 +103,8 @@ export default class StringShareableMap<V extends Shareable> extends ShareableBa
      */
     public forEach(callback: (key: string, value: V) => void): void {
         const keys: string[] = this.keys;
-        for (var i = 0, iLength = keys.length; i < iLength; i++) {
-            let key: string = keys[i];
+        for (let i = 0, iLength = keys.length; i < iLength; i++) {
+            const key: string = keys[i];
             callback(key, this.elements[key]);
         }
     }
@@ -118,13 +122,13 @@ export default class StringShareableMap<V extends Shareable> extends ShareableBa
      * @type {V[]}
      */
     get values(): V[] {
-        const values: V[] = []
-        const keys: string[] = this.keys
-        for (var i = 0, iLength = keys.length; i < iLength; i++) {
-            let key: string = keys[i]
-            values.push(this.elements[key])
+        const values: V[] = [];
+        const keys: string[] = this.keys;
+        for (let i = 0, iLength = keys.length; i < iLength; i++) {
+            const key: string = keys[i];
+            values.push(this.elements[key]);
         }
-        return values
+        return values;
     }
 
     /**
@@ -133,8 +137,8 @@ export default class StringShareableMap<V extends Shareable> extends ShareableBa
      * @return {V}
      */
     public remove(key: string): V {
-        const value = this.elements[key]
-        delete this.elements[key]
-        return value
+        const value = this.elements[key];
+        delete this.elements[key];
+        return value;
     }
 }

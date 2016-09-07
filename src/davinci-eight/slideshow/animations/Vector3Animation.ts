@@ -1,15 +1,19 @@
 import VectorE3 from '../../math/VectorE3';
 import IAnimation from '../../slideshow/IAnimation';
+import AnimationOptions from './AnimationOptions';
 import IAnimationTarget from '../../slideshow/IAnimationTarget';
-import incLevel from '../../base/incLevel';
+import mustBeObject from '../../checks/mustBeObject';
+import mustBeString from '../../checks/mustBeString';
 import {ShareableBase} from '../../core/ShareableBase';
 import Vector3 from '../../math/Vector3';
 
+/*
 function loop(n: number, callback: (i: number) => void) {
-  for (var i = 0; i < n; ++i) {
+  for (let i = 0; i < n; ++i) {
     callback(i)
   }
 }
+*/
 
 export default class Vector3Animation extends ShareableBase implements IAnimation {
   private from: Vector3;
@@ -17,30 +21,33 @@ export default class Vector3Animation extends ShareableBase implements IAnimatio
   private duration: number;
   private start: number;
   private fraction: number;
-  private callback: () => void;
+  private doneCallback: () => void;
+  private undoCallback: () => void;
   private ease: string;
-  constructor(value: VectorE3, duration: number = 300, callback?: () => void, ease?: string) {
-    super()
-    this.setLoggingName('Vector3Animation')
-    this.to = Vector3.copy(value)
-    this.duration = duration
+  constructor(value: VectorE3, duration = 300, options: AnimationOptions = {}) {
+    super();
+    this.setLoggingName('Vector3Animation');
+    this.to = Vector3.copy(value);
+    this.duration = duration;
     this.fraction = 0;
-    this.callback = callback
-    this.ease = ease
+    this.doneCallback = options.doneCallback;
+    this.undoCallback = options.undoCallback;
+    this.ease = options.ease;
   }
-  protected destructor(level: number): void {
-    super.destructor(incLevel(level))
+  protected destructor(levelUp: number): void {
+    super.destructor(levelUp + 1);
   }
-  apply(target: IAnimationTarget, propName: string, now: number, offset: number) {
-
+  apply(target: IAnimationTarget, name: string, now: number, offset: number) {
+    mustBeObject('target', target);
+    mustBeString('name', name);
     if (!this.start) {
-      this.start = now - offset
+      this.start = now - offset;
       if (this.from === void 0) {
-        var data: number[] = target.getProperty(propName)
+        var data: number[] = target.getProperty(name, void 0);
         if (data) {
           // Make sure to copy the coordinates so that we aren't
           // holding onto a reference to a mutable number array.
-          this.from = new Vector3().copyCoordinates(data)
+          this.from = new Vector3().copyCoordinates(data);
         }
       }
     }
@@ -74,16 +81,16 @@ export default class Vector3Animation extends ShareableBase implements IAnimatio
         break
     }
 
-    var lerp = Vector3.lerp(this.from, this.to, rolloff)
-    target.setProperty(propName, lerp.coords)
+    const lerp = Vector3.lerp(this.from, this.to, rolloff)
+    target.setProperty(name, void 0, lerp.coords);
   }
   hurry(factor: number): void {
     this.duration = this.duration * this.fraction + this.duration * (1 - this.fraction) / factor;
   }
   skip(target: IAnimationTarget, propName: string): void {
-    this.duration = 0
-    this.fraction = 1
-    this.done(target, propName)
+    this.duration = 0;
+    this.fraction = 1;
+    this.done(target, propName);
   }
   extra(now: number): number {
     return now - this.start - this.duration;
@@ -91,22 +98,25 @@ export default class Vector3Animation extends ShareableBase implements IAnimatio
   done(target: IAnimationTarget, propName: string): boolean {
     if (this.fraction === 1) {
       // Set final value.
-      target.setProperty(propName, this.to.coords);
-
-      this.callback && this.callback()
-      this.callback = void 0
-      return true
+      target.setProperty(propName, void 0, this.to.coords);
+      if (this.doneCallback) {
+        this.doneCallback();
+      }
+      return true;
     }
     else {
-      return false
+      return false;
     }
   }
   undo(target: IAnimationTarget, propName: string): void {
     if (this.from) {
-      target.setProperty(propName, this.from.coords)
+      target.setProperty(propName, void 0, this.from.coords)
       this.from = void 0
       this.start = void 0
       this.fraction = 0
+      if (this.undoCallback) {
+        this.undoCallback();
+      }
     }
   }
 }

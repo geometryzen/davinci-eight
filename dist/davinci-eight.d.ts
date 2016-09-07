@@ -2940,7 +2940,7 @@ declare module EIGHT {
     /**
      *
      */
-    class PerspectiveCamera extends AbstractFacet {
+    class PerspectiveCamera implements Facet {
 
         /**
          * The aspect ratio of the viewport, i.e., width / height.
@@ -3007,16 +3007,17 @@ declare module EIGHT {
          * far: The distance to the far plane from the camera. 
          */
         constructor(fov?: number, aspect?: number, near?: number, far?: number)
-        getProperty(name: string): number[]
-        setAspect(aspect: number): PerspectiveCamera
-        setEye(eye: VectorE3): PerspectiveCamera
-        setFar(far: number): PerspectiveCamera
-        setFov(fov: number): PerspectiveCamera
-        setLook(look: VectorE3): PerspectiveCamera
-        setNear(near: number): PerspectiveCamera
-        setProperty(name: string, value: number[]): PerspectiveCamera
-        setUniforms(visitor: FacetVisitor): void
-        setUp(up: VectorE3): PerspectiveCamera
+        getPropertyFormats(name: string): string[];
+        getProperty(name: string, format: string): any;
+        setAspect(aspect: number): PerspectiveCamera;
+        setEye(eye: VectorE3): PerspectiveCamera;
+        setFar(far: number): PerspectiveCamera;
+        setFov(fov: number): PerspectiveCamera;
+        setLook(look: VectorE3): PerspectiveCamera;
+        setNear(near: number): PerspectiveCamera;
+        setProperty(name: string, format: string, value: any): void;
+        setUniforms(visitor: FacetVisitor): void;
+        setUp(up: VectorE3): PerspectiveCamera;
     }
 
     interface VertexAttribPointer {
@@ -3462,21 +3463,16 @@ declare module EIGHT {
         protected destructor(levelUp: number): void;
     }
 
-    class AbstractFacet implements Facet {
-        getProperty(name: string): number[];
-        setProperty(name: string, value: number[]): Facet;
-        setUniforms(visitor: FacetVisitor): void;
-    }
-
-    class AmbientLight extends AbstractFacet {
+    class AmbientLight implements Facet {
         color: Color;
         constructor(color: Color);
+        setUniforms(visitor: FacetVisitor): void;
     }
 
     /**
      *
      */
-    class ColorFacet extends AbstractFacet {
+    class ColorFacet implements Facet {
         r: number;
         g: number;
         b: number;
@@ -3487,6 +3483,7 @@ declare module EIGHT {
         setColorRGB(color: Color): ColorFacet;
         setRGB(r: number, g: number, b: number): ColorFacet;
         setRGBA(r: number, g: number, b: number, a: number): ColorFacet;
+        setUniforms(visitor: FacetVisitor): void;
     }
 
     /**
@@ -3494,7 +3491,7 @@ declare module EIGHT {
      * GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION
      * GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR
      */
-    class DirectionalLight extends AbstractFacet {
+    class DirectionalLight implements Facet {
         /**
          * The <em>direction</em> (unit vector) in which the light is travelling.
          */
@@ -3515,19 +3512,22 @@ declare module EIGHT {
          * direction
          */
         setDirection(direction: VectorE3): DirectionalLight;
+        setUniforms(visitor: FacetVisitor): void;
     }
 
 
-    class PointSizeFacet extends AbstractFacet {
+    class PointSizeFacet implements Facet {
         pointSize: number
         constructor(pointSize?: number);
+        setUniforms(visitor: FacetVisitor): void;
     }
 
     /**
      * A (name: string, vector: Vector3) pair that can be used to set a uniform variable.
      */
-    class Vector3Facet extends AbstractFacet {
+    class Vector3Facet implements Facet {
         constructor(name: string);
+        setUniforms(visitor: FacetVisitor): void;
     }
 
     /**
@@ -3738,6 +3738,9 @@ declare module EIGHT {
         protected destructor(levelUp: number): void;
         getPrincipalScale(name: string): number;
         protected setPrincipalScale(name: string, value: number): void;
+        getPropertyFormats(name: string): string[];
+        getProperty(name: string, format: string): any;
+        setProperty(name: string, format: string, value: any): void;
     }
     ///////////////////////////////////////////////////////////////////////////////
     /**
@@ -4794,7 +4797,135 @@ declare module EIGHT {
      *
      */
     function sqrt<T>(x: T): T;
+
     ///////////////////////////////////////////////////////////////////////////////
+    // slideshow
+
+    interface SlideHost {
+        getTarget(objectId: string): IAnimationTarget;
+    }
+
+    /**
+     * 
+     */
+    class Director implements SlideHost {
+        constructor();
+        add(slide: Slide): Director;
+        canForward(): boolean;
+        forward(instant?: boolean, delay?: number): void;
+        canBackward(): boolean;
+        backward(instant?: boolean, delay?: number): void;
+        go(slideIndex: number, instant?: boolean): void;
+        advance(interval: number): void;
+        putTarget(target: IAnimationTarget, objectId: string): void;
+        getTarget(objectId: string): IAnimationTarget;
+        removeTarget(objectId: string): IAnimationTarget;
+    }
+
+    interface IAnimationTarget extends Shareable {
+        getPropertyFormats(name: string): string[];
+        getProperty(name: string, format: string): any;
+        setProperty(name: string, format: string, value: any): void;
+    }
+
+    interface AnimationOptions {
+        doneCallback?: () => any;
+        undoCallback?: () => any;
+        ease?: string;
+    }
+
+    /**
+     * 
+     */
+    interface IAnimation extends Shareable {
+        apply(target: IAnimationTarget, propName: string, now: number, offset: number): void;
+        skip(target: IAnimationTarget, propName: string): void;
+        hurry(factor: number): void;
+        extra(now: number): number;
+        done(target: IAnimationTarget, propName: string): boolean;
+        undo(target: IAnimationTarget, propName: string): void;
+    }
+
+    interface TargetProperty {
+        setColor(color: Color, duration?: number, options?: AnimationOptions): TargetProperty;
+        setNarrate(text: string, duration?: number, options?: AnimationOptions): TargetProperty;
+        setSpinor(R: SpinorE3, duration?: number, options?: AnimationOptions): TargetProperty;
+        setVector(X: VectorE3, duration?: number, options?: AnimationOptions): TargetProperty;
+        setWait(duration: number, options?: AnimationOptions): TargetProperty;
+    }
+
+    /**
+     * 
+     */
+    class Slide {
+        constructor(host: SlideHost);
+
+        add(objectId: string, propName: string, animation: IAnimation): Slide;
+        /**
+        * add(target, propName, new ColorAnimation(color, duration, options));
+        */
+        setColor(objectId: string, propName: string, color: Color, duration?: number, options?: AnimationOptions): Slide;
+        /**
+         * add(target, propName, new Spinor3Animation(R, duration, options));
+         */
+        setSpinor(objectId: string, propName: string, R: SpinorE3, duration?: number, options?: AnimationOptions): Slide;
+        /**
+         * add(target, propName, new Vector3Animation(X, duration, options));
+         */
+        setVector(objectId: string, propName: string, X: VectorE3, duration?: number, options?: AnimationOptions): Slide;
+        setWait(objectId: string, propName: string, duration: number, options?: AnimationOptions): Slide;
+        target(objectId: string, propName: string): TargetProperty;
+    }
+
+    class ColorAnimation extends ShareableBase implements IAnimation {
+        constructor(color: { r: number; g: number; b: number }, duration?, options?: AnimationOptions);
+        apply(target: IAnimationTarget, propName: string, now: number, offset: number): void;
+        skip(target: IAnimationTarget, propName: string): void;
+        hurry(factor: number): void;
+        extra(now: number): number;
+        done(target: IAnimationTarget, propName: string): boolean;
+        undo(target: IAnimationTarget, propName: string): void;
+    }
+
+    class NarrateAnimation extends ShareableBase implements IAnimation {
+        constructor(text: string, duration?, callback?: () => void);
+        apply(target: IAnimationTarget, propName: string, now: number, offset: number): void;
+        skip(target: IAnimationTarget, propName: string): void;
+        hurry(factor: number): void;
+        extra(now: number): number;
+        done(target: IAnimationTarget, propName: string): boolean;
+        undo(target: IAnimationTarget, propName: string): void;
+    }
+
+    class Spinor3Animation extends ShareableBase implements IAnimation {
+        constructor(value: SpinorE3, duration?, callback?: () => void, ease?: string);
+        apply(target: IAnimationTarget, propName: string, now: number, offset: number): void;
+        skip(target: IAnimationTarget, propName: string): void;
+        hurry(factor: number): void;
+        extra(now: number): number;
+        done(target: IAnimationTarget, propName: string): boolean;
+        undo(target: IAnimationTarget, propName: string): void;
+    }
+
+    class Vector3Animation extends ShareableBase implements IAnimation {
+        constructor(value: VectorE3, duration?, options?: AnimationOptions);
+        apply(target: IAnimationTarget, propName: string, now: number, offset: number): void;
+        skip(target: IAnimationTarget, propName: string): void;
+        hurry(factor: number): void;
+        extra(now: number): number;
+        done(target: IAnimationTarget, propName: string): boolean;
+        undo(target: IAnimationTarget, propName: string): void;
+    }
+
+    class WaitAnimation extends ShareableBase implements IAnimation {
+        constructor(duration: number);
+        apply(target: IAnimationTarget, propName: string, now: number, offset: number): void;
+        skip(target: IAnimationTarget, propName: string): void;
+        hurry(factor: number): void;
+        extra(now: number): number;
+        done(target: IAnimationTarget, propName: string): boolean;
+        undo(target: IAnimationTarget, propName: string): void;
+    }
 }
 
 declare module 'eight' {

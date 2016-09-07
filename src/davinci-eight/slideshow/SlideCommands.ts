@@ -1,26 +1,15 @@
-import IAnimation from '../slideshow/IAnimation';
-import Director from '../slideshow/Director';
-import incLevel from '../base/incLevel';
-import ISlide from '../slideshow/ISlide';
-
+import Slide from '../slideshow/Slide';
 import ISlideCommand from '../slideshow/ISlideCommand';
 import ShareableArray from '../collections/ShareableArray';
 import {ShareableBase} from '../core/ShareableBase';
-
-import ColorAnimation from '../slideshow/animations/ColorAnimation';
-
-import VectorE3 from '../math/VectorE3';
-import Vector3Animation from '../slideshow/animations/Vector3Animation';
-
-import SpinorE3 from '../math/SpinorE3';
-import Spinor3Animation from '../slideshow/animations/Spinor3Animation';
+import SlideHost from './SlideHost';
 
 export default class SlideCommands extends ShareableBase implements ISlideCommand {
     private commands: ShareableArray<ISlideCommand>;
     constructor() {
-        super()
-        this.setLoggingName('SlideCommands')
-        this.commands = new ShareableArray<ISlideCommand>([])
+        super();
+        this.setLoggingName('SlideCommands');
+        this.commands = new ShareableArray<ISlideCommand>([]);
     }
     protected destructor(levelUp: number): void {
         this.commands.release();
@@ -28,17 +17,17 @@ export default class SlideCommands extends ShareableBase implements ISlideComman
         super.destructor(levelUp + 1);
     }
     pushWeakRef(command: ISlideCommand): number {
-        return this.commands.pushWeakRef(command)
+        return this.commands.pushWeakRef(command);
     }
-    redo(slide: ISlide, director: Director): void {
-        for (var i = 0, iLength = this.commands.length; i < iLength; i++) {
-            this.commands.getWeakRef(i).redo(slide, director)
+    redo(slide: Slide, host: SlideHost): void {
+        for (let i = 0, iLength = this.commands.length; i < iLength; i++) {
+            this.commands.getWeakRef(i).redo(slide, host);
         }
 
     }
-    undo(slide: ISlide, director: Director): void {
-        for (var i = this.commands.length - 1; i >= 0; i--) {
-            this.commands.getWeakRef(i).undo(slide, director)
+    undo(slide: Slide, host: SlideHost): void {
+        for (let i = this.commands.length - 1; i >= 0; i--) {
+            this.commands.getWeakRef(i).undo(slide, host);
         }
     }
 }

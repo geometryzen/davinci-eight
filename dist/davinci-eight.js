@@ -3595,6 +3595,13 @@ define('davinci-eight/math/Spinor3',["require", "exports", './Coords', './dotVec
                 throw new Error("source for copy must be a spinor");
             }
         };
+        Spinor3.prototype.copyCoordinates = function (coordinates) {
+            this.yz = coordinates[COORD_YZ];
+            this.zx = coordinates[COORD_ZX];
+            this.xy = coordinates[COORD_XY];
+            this.a = coordinates[COORD_SCALAR];
+            return this;
+        };
         Spinor3.prototype.copyScalar = function (α) {
             return this.zero().addScalar(α);
         };
@@ -8293,7 +8300,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/Mesh',["require", "exports", '../facets/ColorFacet', './Drawable', '../facets/ModelFacet', '../i18n/notSupported'], function (require, exports, ColorFacet_1, Drawable_1, ModelFacet_1, notSupported_1) {
+define('davinci-eight/core/Mesh',["require", "exports", '../facets/ColorFacet', './Drawable', '../facets/ModelFacet', '../i18n/notSupported', '../math/Spinor3', '../math/Vector3'], function (require, exports, ColorFacet_1, Drawable_1, ModelFacet_1, notSupported_1, Spinor3_1, Vector3_1) {
     "use strict";
     var COLOR_FACET_NAME = 'color';
     var MODEL_FACET_NAME = 'model';
@@ -8403,6 +8410,62 @@ define('davinci-eight/core/Mesh',["require", "exports", '../facets/ColorFacet', 
             enumerable: true,
             configurable: true
         });
+        Mesh.prototype.getPropertyFormats = function (name) {
+            switch (name) {
+                case 'color': {
+                    return ['number[]'];
+                }
+                case 'X': {
+                    return ['number[]'];
+                }
+                case 'R': {
+                    return ['number[]'];
+                }
+                default: {
+                    throw new Error("'" + name + "' is not a valid name for getPropertyFormats.");
+                }
+            }
+        };
+        Mesh.prototype.getProperty = function (name, format) {
+            switch (name) {
+                case 'color': {
+                    return [this.color.r, this.color.g, this.color.b];
+                }
+                case 'X': {
+                    return Vector3_1.default.copy(this.X).coords;
+                }
+                case 'R': {
+                    return Spinor3_1.default.copy(this.R).coords;
+                }
+                default: {
+                    throw new Error("'" + name + "' is not a valid name for getProperty.");
+                }
+            }
+        };
+        Mesh.prototype.setProperty = function (name, format, value) {
+            switch (name) {
+                case 'color': {
+                    this.color.r = value[0];
+                    this.color.g = value[1];
+                    this.color.b = value[2];
+                    break;
+                }
+                case 'X': {
+                    var X = Vector3_1.default.zero().clone().copyCoordinates(value);
+                    this.X.copyVector(X);
+                    break;
+                }
+                case 'R': {
+                    var R = Spinor3_1.default.one().clone().copyCoordinates(value);
+                    this.R.copySpinor(R);
+                    break;
+                }
+                default: {
+                    throw new Error("'" + name + "' is not a valid name for setProperty.");
+                }
+            }
+            return void 0;
+        };
         return Mesh;
     }(Drawable_1.Drawable));
     exports.Mesh = Mesh;
@@ -10996,27 +11059,56 @@ define('davinci-eight/facets/PerspectiveCamera',["require", "exports", './create
             this.inner.setFar(this.far);
             this.inner.setUniforms(visitor);
         };
-        PerspectiveCamera.prototype.getProperty = function (name) {
+        PerspectiveCamera.prototype.getPropertyFormats = function (name) {
             mustBeString_1.default('name', name);
             switch (name) {
                 case PerspectiveCamera.PROP_EYE:
-                case PerspectiveCamera.PROP_POSITION: {
-                    return this.eye.coords;
+                case PerspectiveCamera.PROP_LOOK:
+                case PerspectiveCamera.PROP_UP: {
+                    return ['number[]'];
                 }
                 default: {
                 }
             }
         };
-        PerspectiveCamera.prototype.setProperty = function (name, value) {
+        PerspectiveCamera.prototype.getProperty = function (name, format) {
+            mustBeString_1.default('name', name);
+            switch (name) {
+                case PerspectiveCamera.PROP_EYE: {
+                    return [this.eye.x, this.eye.y, this.eye.z];
+                }
+                case PerspectiveCamera.PROP_LOOK: {
+                    return [this.look.x, this.look.y, this.look.z];
+                }
+                case PerspectiveCamera.PROP_UP: {
+                    return [this.up.x, this.up.y, this.up.z];
+                }
+                default: {
+                }
+            }
+        };
+        PerspectiveCamera.prototype.setProperty = function (name, format, value) {
             mustBeString_1.default('name', name);
             mustBeObject_1.default('value', value);
             switch (name) {
-                case PerspectiveCamera.PROP_EYE:
-                case PerspectiveCamera.PROP_POSITION:
-                    {
-                        this.eye.copyCoordinates(value);
-                    }
+                case PerspectiveCamera.PROP_EYE: {
+                    this.eye.x = value[0];
+                    this.eye.y = value[1];
+                    this.eye.z = value[2];
                     break;
+                }
+                case PerspectiveCamera.PROP_LOOK: {
+                    this.look.x = value[0];
+                    this.look.y = value[1];
+                    this.look.z = value[2];
+                    break;
+                }
+                case PerspectiveCamera.PROP_UP: {
+                    this.up.x = value[0];
+                    this.up.y = value[1];
+                    this.up.z = value[2];
+                    break;
+                }
                 default: {
                 }
             }
@@ -11147,8 +11239,9 @@ define('davinci-eight/facets/PerspectiveCamera',["require", "exports", './create
             enumerable: true,
             configurable: true
         });
-        PerspectiveCamera.PROP_POSITION = 'X';
         PerspectiveCamera.PROP_EYE = 'eye';
+        PerspectiveCamera.PROP_LOOK = 'look';
+        PerspectiveCamera.PROP_UP = 'up';
         return PerspectiveCamera;
     }());
     exports.PerspectiveCamera = PerspectiveCamera;
@@ -16945,7 +17038,9 @@ define('davinci-eight/collections/StringShareableMap',["require", "exports", '..
         StringShareableMap.prototype.get = function (key) {
             var element = this.elements[key];
             if (element) {
-                element.addRef();
+                if (element.addRef) {
+                    element.addRef();
+                }
                 return element;
             }
             else {
@@ -16956,7 +17051,7 @@ define('davinci-eight/collections/StringShareableMap',["require", "exports", '..
             return this.elements[key];
         };
         StringShareableMap.prototype.put = function (key, value) {
-            if (value) {
+            if (value && value.addRef) {
                 value.addRef();
             }
             this.putWeakRef(key, value);
@@ -16965,7 +17060,9 @@ define('davinci-eight/collections/StringShareableMap',["require", "exports", '..
             var elements = this.elements;
             var existing = elements[key];
             if (existing) {
-                existing.release();
+                if (existing.release) {
+                    existing.release();
+                }
             }
             elements[key] = value;
         };
@@ -22104,7 +22201,6 @@ define('davinci-eight/physics/WorldG3',["require", "exports", '../visual/Arrow',
             return Geometric3_1.Geometric3.copy(dimless);
         }
         else {
-            debugger;
         }
     }
     exports.scale = scale;
@@ -22120,23 +22216,8 @@ define('davinci-eight/physics/ArrowG3',["require", "exports", '../core/Color', '
             this.X = G3_1.default.meter;
             this.color = Color_1.Color.lime.clone();
             this.scaleFactor = G3_1.default.meter;
-            this.refCount = 1;
             world.add(this);
         }
-        ArrowG3.prototype.addRef = function () {
-            this.refCount++;
-            return this.refCount;
-        };
-        ArrowG3.prototype.release = function () {
-            this.refCount--;
-            return this.refCount;
-        };
-        ArrowG3.prototype.contextFree = function (contextProvider) {
-        };
-        ArrowG3.prototype.contextGain = function (contextProvider) {
-        };
-        ArrowG3.prototype.contextLost = function () {
-        };
         ArrowG3.prototype.render = function (ambients) {
             var arrow = this.world.arrow;
             arrow.X = WorldG3_1.scale(this.X, this.world.scaleFactor);
@@ -22162,23 +22243,8 @@ define('davinci-eight/physics/CylinderG3',["require", "exports", '../core/Color'
             this.axis = G3_1.default.e2;
             this.scaleFactor = G3_1.default.meter;
             this.transparent = false;
-            this.refCount = 1;
             world.add(this);
         }
-        CylinderG3.prototype.addRef = function () {
-            this.refCount++;
-            return this.refCount;
-        };
-        CylinderG3.prototype.release = function () {
-            this.refCount--;
-            return this.refCount;
-        };
-        CylinderG3.prototype.contextFree = function (contextProvider) {
-        };
-        CylinderG3.prototype.contextGain = function (contextProvider) {
-        };
-        CylinderG3.prototype.contextLost = function () {
-        };
         CylinderG3.prototype.render = function (ambients) {
             var cylinder = this.world.cylinder;
             cylinder.X = WorldG3_1.scale(this.X, this.world.scaleFactor);
@@ -22205,24 +22271,9 @@ define('davinci-eight/physics/SphereG3',["require", "exports", '../core/Color', 
             this.axis = G3_1.default.e2;
             this.scaleFactor = G3_1.default.meter;
             this.transparent = false;
-            this.refCount = 1;
             world.add(this);
             this.color = world.sphere.color.clone();
         }
-        SphereG3.prototype.addRef = function () {
-            this.refCount++;
-            return this.refCount;
-        };
-        SphereG3.prototype.release = function () {
-            this.refCount--;
-            return this.refCount;
-        };
-        SphereG3.prototype.contextFree = function (contextProvider) {
-        };
-        SphereG3.prototype.contextGain = function (contextProvider) {
-        };
-        SphereG3.prototype.contextLost = function () {
-        };
         SphereG3.prototype.render = function (ambients) {
             var sphere = this.world.sphere;
             sphere.X = WorldG3_1.scale(this.X, this.world.scaleFactor);
@@ -22237,7 +22288,874 @@ define('davinci-eight/physics/SphereG3',["require", "exports", '../core/Color', 
     exports.default = SphereG3;
 });
 
-define('davinci-eight',["require", "exports", './davinci-eight/commands/WebGLBlendFunc', './davinci-eight/commands/WebGLClearColor', './davinci-eight/commands/WebGLDisable', './davinci-eight/commands/WebGLEnable', './davinci-eight/controls/OrbitControls', './davinci-eight/controls/TrackballControls', './davinci-eight/core/Attrib', './davinci-eight/core/BeginMode', './davinci-eight/core/BlendingFactorDest', './davinci-eight/core/BlendingFactorSrc', './davinci-eight/core/Capability', './davinci-eight/core/ClearBufferMask', './davinci-eight/core/Color', './davinci-eight/config', './davinci-eight/core/DataType', './davinci-eight/core/Drawable', './davinci-eight/core/DepthFunction', './davinci-eight/core/GeometryArrays', './davinci-eight/core/GeometryElements', './davinci-eight/core/GraphicsProgramSymbols', './davinci-eight/core/Mesh', './davinci-eight/core/PixelFormat', './davinci-eight/core/PixelType', './davinci-eight/core/Scene', './davinci-eight/core/Shader', './davinci-eight/core/Uniform', './davinci-eight/core/Usage', './davinci-eight/core/Engine', './davinci-eight/core/VertexBuffer', './davinci-eight/core/IndexBuffer', './davinci-eight/core/vertexArraysFromPrimitive', './davinci-eight/core/geometryFromPrimitive', './davinci-eight/facets/AmbientLight', './davinci-eight/facets/ColorFacet', './davinci-eight/facets/DirectionalLight', './davinci-eight/facets/ModelFacet', './davinci-eight/facets/PointSizeFacet', './davinci-eight/facets/ReflectionFacetE2', './davinci-eight/facets/ReflectionFacetE3', './davinci-eight/facets/Vector3Facet', './davinci-eight/facets/frustumMatrix', './davinci-eight/facets/PerspectiveCamera', './davinci-eight/facets/perspectiveMatrix', './davinci-eight/facets/viewMatrixFromEyeLookUp', './davinci-eight/facets/ModelE2', './davinci-eight/facets/ModelE3', './davinci-eight/atoms/DrawAttribute', './davinci-eight/atoms/DrawPrimitive', './davinci-eight/atoms/reduce', './davinci-eight/atoms/Vertex', './davinci-eight/shapes/ArrowBuilder', './davinci-eight/shapes/ConicalShellBuilder', './davinci-eight/shapes/CylindricalShellBuilder', './davinci-eight/shapes/RingBuilder', './davinci-eight/geometries/Simplex', './davinci-eight/geometries/ArrowGeometry', './davinci-eight/geometries/BoxGeometry', './davinci-eight/geometries/CylinderGeometry', './davinci-eight/geometries/GridGeometry', './davinci-eight/geometries/SphereGeometry', './davinci-eight/geometries/TetrahedronGeometry', './davinci-eight/materials/HTMLScriptsMaterial', './davinci-eight/materials/LineMaterial', './davinci-eight/materials/ShaderMaterial', './davinci-eight/materials/MeshMaterial', './davinci-eight/materials/PointMaterial', './davinci-eight/materials/GraphicsProgramBuilder', './davinci-eight/math/mathcore', './davinci-eight/math/Vector1', './davinci-eight/math/Matrix2', './davinci-eight/math/Matrix3', './davinci-eight/math/Matrix4', './davinci-eight/math/Geometric2', './davinci-eight/math/Geometric3', './davinci-eight/math/Spinor2', './davinci-eight/math/Spinor3', './davinci-eight/math/Vector2', './davinci-eight/math/Vector3', './davinci-eight/math/Vector4', './davinci-eight/math/VectorN', './davinci-eight/utils/getCanvasElementById', './davinci-eight/collections/ShareableArray', './davinci-eight/collections/NumberShareableMap', './davinci-eight/core/refChange', './davinci-eight/core/ShareableBase', './davinci-eight/collections/StringShareableMap', './davinci-eight/utils/animation', './davinci-eight/visual/Arrow', './davinci-eight/visual/Basis', './davinci-eight/visual/Sphere', './davinci-eight/visual/Box', './davinci-eight/visual/Cylinder', './davinci-eight/visual/Curve', './davinci-eight/visual/Grid', './davinci-eight/visual/GridXY', './davinci-eight/visual/GridYZ', './davinci-eight/visual/GridZX', './davinci-eight/visual/HollowCylinder', './davinci-eight/visual/RigidBody', './davinci-eight/visual/Tetrahedron', './davinci-eight/visual/Track', './davinci-eight/visual/Trail', './davinci-eight/visual/Turtle', './davinci-eight/physics/Dimensions', './davinci-eight/physics/G2', './davinci-eight/physics/G3', './davinci-eight/physics/QQ', './davinci-eight/physics/ArrowG3', './davinci-eight/physics/CylinderG3', './davinci-eight/physics/SphereG3', './davinci-eight/physics/Unit', './davinci-eight/physics/WorldG3'], function (require, exports, WebGLBlendFunc_1, WebGLClearColor_1, WebGLDisable_1, WebGLEnable_1, OrbitControls_1, TrackballControls_1, Attrib_1, BeginMode_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, ClearBufferMask_1, Color_1, config_1, DataType_1, Drawable_1, DepthFunction_1, GeometryArrays_1, GeometryElements_1, GraphicsProgramSymbols_1, Mesh_1, PixelFormat_1, PixelType_1, Scene_1, Shader_1, Uniform_1, Usage_1, Engine_1, VertexBuffer_1, IndexBuffer_1, vertexArraysFromPrimitive_1, geometryFromPrimitive_1, AmbientLight_1, ColorFacet_1, DirectionalLight_1, ModelFacet_1, PointSizeFacet_1, ReflectionFacetE2_1, ReflectionFacetE3_1, Vector3Facet_1, frustumMatrix_1, PerspectiveCamera_1, perspectiveMatrix_1, viewMatrixFromEyeLookUp_1, ModelE2_1, ModelE3_1, DrawAttribute_1, DrawPrimitive_1, reduce_1, Vertex_1, ArrowBuilder_1, ConicalShellBuilder_1, CylindricalShellBuilder_1, RingBuilder_1, Simplex_1, ArrowGeometry_1, BoxGeometry_1, CylinderGeometry_1, GridGeometry_1, SphereGeometry_1, TetrahedronGeometry_1, HTMLScriptsMaterial_1, LineMaterial_1, ShaderMaterial_1, MeshMaterial_1, PointMaterial_1, GraphicsProgramBuilder_1, mathcore_1, Vector1_1, Matrix2_1, Matrix3_1, Matrix4_1, Geometric2_1, Geometric3_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1, Vector4_1, VectorN_1, getCanvasElementById_1, ShareableArray_1, NumberShareableMap_1, refChange_1, ShareableBase_1, StringShareableMap_1, animation_1, Arrow_1, Basis_1, Sphere_1, Box_1, Cylinder_1, Curve_1, Grid_1, GridXY_1, GridYZ_1, GridZX_1, HollowCylinder_1, RigidBody_1, Tetrahedron_1, Track_1, Trail_1, Turtle_1, Dimensions_1, G2_1, G3_1, QQ_1, ArrowG3_1, CylinderG3_1, SphereG3_1, Unit_1, WorldG3_1) {
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/slideshow/Director',["require", "exports", '../base/exchange', '../collections/ShareableArray', '../core/ShareableBase', '../collections/StringShareableMap'], function (require, exports, exchange_1, ShareableArray_1, ShareableBase_1, StringShareableMap_1) {
+    "use strict";
+    var Director = (function (_super) {
+        __extends(Director, _super);
+        function Director() {
+            _super.call(this);
+            this.setLoggingName('Director');
+            this.slideIndex = -1;
+            this.slides = new ShareableArray_1.default([]);
+            this.targets = new StringShareableMap_1.default();
+        }
+        Director.prototype.destructor = function (levelUp) {
+            this.slides = exchange_1.default(this.slides, void 0);
+            this.targets = exchange_1.default(this.targets, void 0);
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        Director.prototype.putTarget = function (target, objectId) {
+            this.targets.put(objectId, target);
+        };
+        Director.prototype.getTarget = function (objectId) {
+            return this.targets.get(objectId);
+        };
+        Director.prototype.removeTarget = function (objectId) {
+            return this.targets.remove(objectId);
+        };
+        Director.prototype.go = function (slideIndex, instant) {
+            if (instant === void 0) { instant = false; }
+            if (this.slides.length === 0) {
+                return;
+            }
+            while (slideIndex < 0)
+                slideIndex += this.slides.length + 1;
+        };
+        Director.prototype.forward = function (instant, delay) {
+            var _this = this;
+            if (instant === void 0) { instant = true; }
+            if (delay === void 0) { delay = 0; }
+            if (!this.canForward()) {
+                return;
+            }
+            var slideLeaving = this.slides.getWeakRef(this.slideIndex);
+            var slideEntering = this.slides.getWeakRef(this.slideIndex + 1);
+            var apply = function () {
+                if (slideLeaving) {
+                    slideLeaving.doEpilog(_this, true);
+                }
+                if (slideEntering) {
+                    slideEntering.doProlog(_this, true);
+                }
+                _this.slideIndex++;
+            };
+            if (delay) {
+                setTimeout(apply, delay);
+            }
+            else {
+                apply();
+            }
+        };
+        Director.prototype.canForward = function () {
+            return this.slideIndex < this.slides.length;
+        };
+        Director.prototype.backward = function (instant, delay) {
+            var _this = this;
+            if (instant === void 0) { instant = true; }
+            if (delay === void 0) { delay = 0; }
+            if (!this.canBackward()) {
+                return;
+            }
+            var slideLeaving = this.slides.getWeakRef(this.slideIndex);
+            var slideEntering = this.slides.getWeakRef(this.slideIndex - 1);
+            var apply = function () {
+                if (slideLeaving) {
+                    slideLeaving.undo(_this);
+                    slideLeaving.doProlog(_this, false);
+                }
+                if (slideEntering) {
+                    slideEntering.doEpilog(_this, false);
+                }
+                _this.slideIndex--;
+            };
+            if (delay) {
+                setTimeout(apply, delay);
+            }
+            else {
+                apply();
+            }
+        };
+        Director.prototype.canBackward = function () {
+            return this.slideIndex > -1;
+        };
+        Director.prototype.add = function (slide) {
+            this.slides.push(slide);
+            return this;
+        };
+        Director.prototype.advance = function (interval) {
+            var slideIndex = this.slideIndex;
+            if (slideIndex >= 0 && slideIndex < this.slides.length) {
+                var slide = this.slides.get(slideIndex);
+                if (slide) {
+                    try {
+                        slide.advance(interval);
+                    }
+                    finally {
+                        slide.release();
+                    }
+                }
+                else {
+                    console.warn("No slide found at index " + this.slideIndex);
+                }
+            }
+        };
+        return Director;
+    }(ShareableBase_1.ShareableBase));
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = Director;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/slideshow/animations/ColorAnimation',["require", "exports", '../../checks/mustBeObject', '../../checks/mustBeString', '../../core/ShareableBase', '../../core/Color'], function (require, exports, mustBeObject_1, mustBeString_1, ShareableBase_1, Color_1) {
+    "use strict";
+    var ColorAnimation = (function (_super) {
+        __extends(ColorAnimation, _super);
+        function ColorAnimation(color, duration, options) {
+            if (duration === void 0) { duration = 300; }
+            if (options === void 0) { options = {}; }
+            _super.call(this);
+            this.setLoggingName('ColorAnimation');
+            this.from = void 0;
+            this.to = Color_1.Color.copy(color);
+            this.duration = duration;
+            this.start = 0;
+            this.fraction = 0;
+            this.doneCallback = options.doneCallback;
+            this.undoCallback = options.undoCallback;
+            this.ease = options.ease;
+        }
+        ColorAnimation.prototype.destructor = function (levelUp) {
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        ColorAnimation.prototype.apply = function (target, name, now, offset) {
+            mustBeObject_1.default('target', target);
+            mustBeString_1.default('name', name);
+            if (!this.start) {
+                this.start = now - offset;
+                if (this.from === void 0) {
+                    if (target.getPropertyFormats) {
+                        var fmts = target.getPropertyFormats(name);
+                        if (fmts) {
+                            for (var i = 0; i < fmts.length; i++) {
+                                var fmt = fmts[i];
+                                var data = target.getProperty(name, fmt);
+                                if (data) {
+                                    this.from = Color_1.Color.fromCoords(data);
+                                    break;
+                                }
+                                else {
+                                    throw new Error(name + " is not supported by animation target.");
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        throw new Error("getPropertyFormats method is not supported by animation target.");
+                    }
+                }
+            }
+            var from = this.from;
+            var to = this.to;
+            var ease = this.ease;
+            var fraction;
+            if (this.duration > 0) {
+                fraction = Math.min(1, (now - this.start) / (this.duration || 1));
+            }
+            else {
+                fraction = 1;
+            }
+            this.fraction = fraction;
+            var rolloff;
+            switch (ease) {
+                case 'in':
+                    rolloff = 1 - (1 - fraction) * (1 - fraction);
+                    break;
+                case 'out':
+                    rolloff = fraction * fraction;
+                    break;
+                case 'linear':
+                    rolloff = fraction;
+                    break;
+                default:
+                    rolloff = 0.5 - 0.5 * Math.cos(fraction * Math.PI);
+                    break;
+            }
+            if (target.setProperty) {
+                target.setProperty(name, 'number[]', Color_1.Color.lerp(from, to, rolloff).coords);
+            }
+            else {
+                throw new Error("setProperty method is not supported by animation target.");
+            }
+        };
+        ColorAnimation.prototype.hurry = function (factor) {
+            this.duration = this.duration * this.fraction + this.duration * (1 - this.fraction) / factor;
+        };
+        ColorAnimation.prototype.skip = function (target, propName) {
+            this.duration = 0;
+            this.fraction = 1;
+            this.done(target, propName);
+        };
+        ColorAnimation.prototype.extra = function (now) {
+            return now - this.start - this.duration;
+        };
+        ColorAnimation.prototype.done = function (target, propName) {
+            if (this.fraction === 1) {
+                target.setProperty(propName, 'number[]', this.to.coords);
+                if (this.doneCallback) {
+                    this.doneCallback();
+                }
+                return true;
+            }
+            else {
+                return false;
+            }
+        };
+        ColorAnimation.prototype.undo = function (target, propName) {
+            if (this.from) {
+                target.setProperty(propName, 'number[]', this.from.coords);
+                this.from = void 0;
+                this.start = void 0;
+                this.fraction = 0;
+                if (this.undoCallback) {
+                    this.undoCallback();
+                }
+            }
+        };
+        return ColorAnimation;
+    }(ShareableBase_1.ShareableBase));
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = ColorAnimation;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/slideshow/animations/NarrateAnimation',["require", "exports", '../../core/ShareableBase'], function (require, exports, ShareableBase_1) {
+    "use strict";
+    var NarrateAnimation = (function (_super) {
+        __extends(NarrateAnimation, _super);
+        function NarrateAnimation(text, duration, callback) {
+            if (duration === void 0) { duration = 300; }
+            _super.call(this);
+            this.setLoggingName('NarrateAnimation');
+            this.text = text;
+            this.duration = duration;
+            this.start = 0;
+            this.fraction = 0;
+            this.callback = callback;
+        }
+        NarrateAnimation.prototype.destructor = function (levelUp) {
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        NarrateAnimation.prototype.apply = function (target, propName, now, offset) {
+            if (!this.start) {
+                this.start = now - offset;
+                var msg = new window['SpeechSynthesisUtterance']();
+                var voices = window['speechSynthesis'].getVoices();
+                msg.voice = voices[10];
+                msg.voiceURI = 'native';
+                msg.volume = 0.5;
+                msg.text = this.text;
+                msg.lang = 'en-US';
+                window['speechSynthesis'].speak(msg);
+            }
+            var fraction;
+            if (this.duration > 0) {
+                fraction = Math.min(1, (now - this.start) / (this.duration || 1));
+            }
+            else {
+                fraction = 1;
+            }
+            this.fraction = fraction;
+            if (target.setProperty) {
+            }
+            else {
+                throw new Error("setProperty method is not supported by animation target.");
+            }
+        };
+        NarrateAnimation.prototype.hurry = function (factor) {
+            this.duration = this.duration * this.fraction + this.duration * (1 - this.fraction) / factor;
+        };
+        NarrateAnimation.prototype.skip = function (target, propName) {
+            this.duration = 0;
+            this.fraction = 1;
+            this.done(target, propName);
+        };
+        NarrateAnimation.prototype.extra = function (now) {
+            return now - this.start - this.duration;
+        };
+        NarrateAnimation.prototype.done = function (target, propName) {
+            if (this.fraction === 1) {
+                if (this.callback) {
+                    this.callback();
+                    this.callback = void 0;
+                }
+                return true;
+            }
+            else {
+                return false;
+            }
+        };
+        NarrateAnimation.prototype.undo = function (target, propName) {
+            this.start = void 0;
+            this.fraction = 0;
+        };
+        return NarrateAnimation;
+    }(ShareableBase_1.ShareableBase));
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = NarrateAnimation;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/slideshow/SlideCommands',["require", "exports", '../collections/ShareableArray', '../core/ShareableBase'], function (require, exports, ShareableArray_1, ShareableBase_1) {
+    "use strict";
+    var SlideCommands = (function (_super) {
+        __extends(SlideCommands, _super);
+        function SlideCommands() {
+            _super.call(this);
+            this.setLoggingName('SlideCommands');
+            this.commands = new ShareableArray_1.default([]);
+        }
+        SlideCommands.prototype.destructor = function (levelUp) {
+            this.commands.release();
+            this.commands = void 0;
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        SlideCommands.prototype.pushWeakRef = function (command) {
+            return this.commands.pushWeakRef(command);
+        };
+        SlideCommands.prototype.redo = function (slide, host) {
+            for (var i = 0, iLength = this.commands.length; i < iLength; i++) {
+                this.commands.getWeakRef(i).redo(slide, host);
+            }
+        };
+        SlideCommands.prototype.undo = function (slide, host) {
+            for (var i = this.commands.length - 1; i >= 0; i--) {
+                this.commands.getWeakRef(i).undo(slide, host);
+            }
+        };
+        return SlideCommands;
+    }(ShareableBase_1.ShareableBase));
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = SlideCommands;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/slideshow/animations/Spinor3Animation',["require", "exports", '../../core/ShareableBase', '../../math/Spinor3'], function (require, exports, ShareableBase_1, Spinor3_1) {
+    "use strict";
+    var Spinor3Animation = (function (_super) {
+        __extends(Spinor3Animation, _super);
+        function Spinor3Animation(value, duration, options) {
+            if (duration === void 0) { duration = 300; }
+            if (options === void 0) { options = {}; }
+            _super.call(this);
+            this.setLoggingName('Spinor3Animation');
+            this.from = void 0;
+            this.to = Spinor3_1.default.copy(value);
+            this.duration = duration;
+            this.start = 0;
+            this.fraction = 0;
+            this.doneCallback = options.doneCallback;
+            this.undoCallback = options.undoCallback;
+            this.ease = options.ease;
+        }
+        Spinor3Animation.prototype.destructor = function (levelUp) {
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        Spinor3Animation.prototype.apply = function (target, propName, now, offset) {
+            if (!this.start) {
+                this.start = now - offset;
+                if (this.from === void 0) {
+                    var data = target.getProperty(propName, void 0);
+                    if (data) {
+                        this.from = Spinor3_1.default.one();
+                        this.from.coords = data;
+                    }
+                }
+            }
+            var from = this.from;
+            var to = this.to;
+            var ease = this.ease;
+            var fraction;
+            if (this.duration > 0) {
+                fraction = Math.min(1, (now - this.start) / (this.duration || 1));
+            }
+            else {
+                fraction = 1;
+            }
+            this.fraction = fraction;
+            var rolloff;
+            switch (ease) {
+                case 'in':
+                    rolloff = 1 - (1 - fraction) * (1 - fraction);
+                    break;
+                case 'out':
+                    rolloff = fraction * fraction;
+                    break;
+                case 'linear':
+                    rolloff = fraction;
+                    break;
+                default:
+                    rolloff = 0.5 - 0.5 * Math.cos(fraction * Math.PI);
+                    break;
+            }
+            var lerp = Spinor3_1.default.lerp(from, to, fraction);
+            target.setProperty(propName, void 0, lerp.coords);
+        };
+        Spinor3Animation.prototype.hurry = function (factor) {
+            this.duration = this.duration * this.fraction + this.duration * (1 - this.fraction) / factor;
+        };
+        Spinor3Animation.prototype.skip = function (target, propName) {
+            this.duration = 0;
+            this.fraction = 1;
+            this.done(target, propName);
+        };
+        Spinor3Animation.prototype.extra = function (now) {
+            return now - this.start - this.duration;
+        };
+        Spinor3Animation.prototype.done = function (target, propName) {
+            if (this.fraction === 1) {
+                target.setProperty(propName, void 0, this.to.coords);
+                if (this.doneCallback) {
+                    this.doneCallback();
+                }
+                return true;
+            }
+            else {
+                return false;
+            }
+        };
+        Spinor3Animation.prototype.undo = function (target, propName) {
+            if (this.from) {
+                target.setProperty(propName, void 0, this.from.coords);
+                this.from = void 0;
+                this.start = void 0;
+                this.fraction = 0;
+                if (this.doneCallback) {
+                    this.doneCallback();
+                }
+            }
+        };
+        return Spinor3Animation;
+    }(ShareableBase_1.ShareableBase));
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = Spinor3Animation;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/slideshow/animations/Vector3Animation',["require", "exports", '../../checks/mustBeObject', '../../checks/mustBeString', '../../core/ShareableBase', '../../math/Vector3'], function (require, exports, mustBeObject_1, mustBeString_1, ShareableBase_1, Vector3_1) {
+    "use strict";
+    var Vector3Animation = (function (_super) {
+        __extends(Vector3Animation, _super);
+        function Vector3Animation(value, duration, options) {
+            if (duration === void 0) { duration = 300; }
+            if (options === void 0) { options = {}; }
+            _super.call(this);
+            this.setLoggingName('Vector3Animation');
+            this.to = Vector3_1.default.copy(value);
+            this.duration = duration;
+            this.fraction = 0;
+            this.doneCallback = options.doneCallback;
+            this.undoCallback = options.undoCallback;
+            this.ease = options.ease;
+        }
+        Vector3Animation.prototype.destructor = function (levelUp) {
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        Vector3Animation.prototype.apply = function (target, name, now, offset) {
+            mustBeObject_1.default('target', target);
+            mustBeString_1.default('name', name);
+            if (!this.start) {
+                this.start = now - offset;
+                if (this.from === void 0) {
+                    var data = target.getProperty(name, void 0);
+                    if (data) {
+                        this.from = new Vector3_1.default().copyCoordinates(data);
+                    }
+                }
+            }
+            var ease = this.ease;
+            var fraction;
+            if (this.duration > 0) {
+                fraction = Math.min(1, (now - this.start) / (this.duration || 1));
+            }
+            else {
+                fraction = 1;
+            }
+            this.fraction = fraction;
+            var rolloff;
+            switch (ease) {
+                case 'in':
+                    rolloff = 1 - (1 - fraction) * (1 - fraction);
+                    break;
+                case 'out':
+                    rolloff = fraction * fraction;
+                    break;
+                case 'linear':
+                    rolloff = fraction;
+                    break;
+                default:
+                    rolloff = 0.5 - 0.5 * Math.cos(fraction * Math.PI);
+                    break;
+            }
+            var lerp = Vector3_1.default.lerp(this.from, this.to, rolloff);
+            target.setProperty(name, void 0, lerp.coords);
+        };
+        Vector3Animation.prototype.hurry = function (factor) {
+            this.duration = this.duration * this.fraction + this.duration * (1 - this.fraction) / factor;
+        };
+        Vector3Animation.prototype.skip = function (target, propName) {
+            this.duration = 0;
+            this.fraction = 1;
+            this.done(target, propName);
+        };
+        Vector3Animation.prototype.extra = function (now) {
+            return now - this.start - this.duration;
+        };
+        Vector3Animation.prototype.done = function (target, propName) {
+            if (this.fraction === 1) {
+                target.setProperty(propName, void 0, this.to.coords);
+                if (this.doneCallback) {
+                    this.doneCallback();
+                }
+                return true;
+            }
+            else {
+                return false;
+            }
+        };
+        Vector3Animation.prototype.undo = function (target, propName) {
+            if (this.from) {
+                target.setProperty(propName, void 0, this.from.coords);
+                this.from = void 0;
+                this.start = void 0;
+                this.fraction = 0;
+                if (this.undoCallback) {
+                    this.undoCallback();
+                }
+            }
+        };
+        return Vector3Animation;
+    }(ShareableBase_1.ShareableBase));
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = Vector3Animation;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/slideshow/animations/WaitAnimation',["require", "exports", '../../core/ShareableBase'], function (require, exports, ShareableBase_1) {
+    "use strict";
+    var WaitAnimation = (function (_super) {
+        __extends(WaitAnimation, _super);
+        function WaitAnimation(duration) {
+            _super.call(this);
+            this.setLoggingName('WaitAnimation');
+            this.duration = duration;
+            this.fraction = 0;
+        }
+        WaitAnimation.prototype.destructor = function (levelUp) {
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        WaitAnimation.prototype.apply = function (target, propName, now, offset) {
+            if (!this.start) {
+                this.start = now - offset;
+            }
+            if (this.duration > 0) {
+                this.fraction = Math.min(1, (now - this.start) / this.duration);
+            }
+            else {
+                this.fraction = 1;
+            }
+        };
+        WaitAnimation.prototype.skip = function () {
+            this.duration = 0;
+        };
+        WaitAnimation.prototype.hurry = function (factor) {
+            this.duration = this.duration * this.fraction + this.duration * (1 - this.fraction) / factor;
+        };
+        WaitAnimation.prototype.extra = function (now) {
+            return now - this.start - this.duration;
+        };
+        WaitAnimation.prototype.done = function (target, propName) {
+            return this.fraction === 1;
+        };
+        WaitAnimation.prototype.undo = function (target, propName) {
+            this.start = void 0;
+            this.fraction = 0;
+        };
+        return WaitAnimation;
+    }(ShareableBase_1.ShareableBase));
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = WaitAnimation;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/slideshow/Slide',["require", "exports", './animations/ColorAnimation', '../base/exchange', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeString', './animations/NarrateAnimation', '../collections/ShareableArray', '../core/ShareableBase', '../slideshow/SlideCommands', './animations/Spinor3Animation', '../collections/StringShareableMap', './animations/Vector3Animation', './animations/WaitAnimation'], function (require, exports, ColorAnimation_1, exchange_1, mustBeNumber_1, mustBeObject_1, mustBeString_1, NarrateAnimation_1, ShareableArray_1, ShareableBase_1, SlideCommands_1, Spinor3Animation_1, StringShareableMap_1, Vector3Animation_1, WaitAnimation_1) {
+    "use strict";
+    var TargetProperty = (function () {
+        function TargetProperty(slide, objectId, propName) {
+            this.slide = slide;
+            this.objectId = objectId;
+            this.propName = propName;
+        }
+        TargetProperty.prototype.setColor = function (color, duration, options) {
+            if (duration === void 0) { duration = 300; }
+            this.slide.setColor(this.objectId, this.propName, color, duration, options);
+            return this;
+        };
+        TargetProperty.prototype.setNarrate = function (text, duration, options) {
+            this.slide.setNarrate(this.objectId, this.propName, text, duration, options);
+            return this;
+        };
+        TargetProperty.prototype.setSpinor = function (R, duration, options) {
+            this.slide.setSpinor(this.objectId, this.propName, R, duration, options);
+            return this;
+        };
+        TargetProperty.prototype.setVector = function (X, duration, options) {
+            this.slide.setVector(this.objectId, this.propName, X, duration, options);
+            return this;
+        };
+        TargetProperty.prototype.setWait = function (duration, options) {
+            this.slide.setWait(this.objectId, this.propName, duration, options);
+            return this;
+        };
+        return TargetProperty;
+    }());
+    var Slide = (function (_super) {
+        __extends(Slide, _super);
+        function Slide(host) {
+            _super.call(this);
+            this.host = host;
+            this.now = 0;
+            this.setLoggingName('Slide');
+            mustBeObject_1.default('host', host);
+            this.prolog = new SlideCommands_1.default();
+            this.epilog = new SlideCommands_1.default();
+            this.mirrors = [];
+        }
+        Slide.prototype.destructor = function (levelUp) {
+            this.prolog.release();
+            this.prolog = void 0;
+            this.epilog.release();
+            this.epilog = void 0;
+            this.mirrors = void 0;
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        Slide.prototype.ensureTargetContext = function (objectId) {
+            for (var i = 0; i < this.mirrors.length; i++) {
+                var mirror_1 = this.mirrors[i];
+                if (mirror_1.objectId === objectId) {
+                    return mirror_1;
+                }
+            }
+            var mirror = new Mirror(objectId);
+            this.mirrors.push(mirror);
+            return mirror;
+        };
+        Slide.prototype.add = function (objectId, propName, animation) {
+            mustBeString_1.default('objectId', objectId);
+            mustBeString_1.default('name', propName);
+            var mirror = this.ensureTargetContext(objectId);
+            mirror.ensureAnimationLane(propName);
+            var animationLane = mirror.animationLanes.getWeakRef(propName);
+            animationLane.push(animation);
+            return this;
+        };
+        Slide.prototype.colorize = function (objectId, color, duration, options) {
+            if (duration === void 0) { duration = 300; }
+            return this.setColor(objectId, 'color', color, duration, options);
+        };
+        Slide.prototype.position = function (objectId, X, duration, options) {
+            return this.setVector(objectId, 'X', X, duration, options);
+        };
+        Slide.prototype.attitude = function (objectId, R, duration, options) {
+            return this.setSpinor(objectId, 'R', R, duration, options);
+        };
+        Slide.prototype.setColor = function (objectId, propName, color, duration, options) {
+            if (duration === void 0) { duration = 300; }
+            return this.add(objectId, propName, new ColorAnimation_1.default(color, duration, options));
+        };
+        Slide.prototype.setNarrate = function (objectId, propName, text, duration, options) {
+            return this.add(objectId, propName, new NarrateAnimation_1.default(text, duration));
+        };
+        Slide.prototype.setSpinor = function (objectId, propName, R, duration, options) {
+            return this.add(objectId, propName, new Spinor3Animation_1.default(R, duration, options));
+        };
+        Slide.prototype.setVector = function (objectId, propName, X, duration, options) {
+            return this.add(objectId, propName, new Vector3Animation_1.default(X, duration, options));
+        };
+        Slide.prototype.setWait = function (objectId, propName, duration, options) {
+            return this.add(objectId, propName, new WaitAnimation_1.default(duration));
+        };
+        Slide.prototype.target = function (objectId, name) {
+            return new TargetProperty(this, objectId, mustBeString_1.default('name', name));
+        };
+        Slide.prototype.advance = function (interval) {
+            this.now += interval;
+            for (var i = 0, iLength = this.mirrors.length; i < iLength; i++) {
+                var mirror = this.mirrors[i];
+                var target = this.host.getTarget(mirror.objectId);
+                var offset = 0;
+                var names = mirror.animationLanes.keys;
+                for (var j = 0; j < names.length; j++) {
+                    var propName = names[j];
+                    var animationLane = mirror.animationLanes.getWeakRef(propName);
+                    offset = animationLane.apply(target, this.now, offset);
+                }
+                if (target && target.release) {
+                    target.release();
+                }
+            }
+        };
+        Slide.prototype.doProlog = function (host, forward) {
+            if (forward) {
+                this.prolog.redo(this, host);
+            }
+            else {
+                this.prolog.undo(this, host);
+            }
+        };
+        Slide.prototype.doEpilog = function (host, forward) {
+            if (forward) {
+                this.epilog.redo(this, host);
+            }
+            else {
+                this.epilog.undo(this, host);
+            }
+        };
+        Slide.prototype.undo = function (host) {
+            for (var i = 0, iLength = this.mirrors.length; i < iLength; i++) {
+                var mirror = this.mirrors[i];
+                var names = mirror.animationLanes.keys;
+                for (var j = 0; j < names.length; j++) {
+                    var propName = names[j];
+                    var animationLane = mirror.animationLanes.getWeakRef(propName);
+                    animationLane.undo();
+                }
+            }
+        };
+        return Slide;
+    }(ShareableBase_1.ShareableBase));
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = Slide;
+    var AnimationLane = (function (_super) {
+        __extends(AnimationLane, _super);
+        function AnimationLane(propName) {
+            _super.call(this);
+            this.propName = propName;
+            this.setLoggingName('AnimationLane');
+            this.target = void 0;
+            this.completed = new ShareableArray_1.default([]);
+            this.remaining = new ShareableArray_1.default([]);
+        }
+        AnimationLane.prototype.destructor = function (levelUp) {
+            this.completed = exchange_1.default(this.completed, void 0);
+            this.remaining = exchange_1.default(this.remaining, void 0);
+            this.target = exchange_1.default(this.target, void 0);
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        AnimationLane.prototype.pop = function () {
+            if (this.remaining.length > 0) {
+                return this.remaining.pop();
+            }
+            else {
+                return this.completed.pop();
+            }
+        };
+        AnimationLane.prototype.push = function (animation) {
+            return this.remaining.push(animation);
+        };
+        AnimationLane.prototype.pushWeakRef = function (animation) {
+            return this.remaining.pushWeakRef(animation);
+        };
+        AnimationLane.prototype.apply = function (target, now, offset) {
+            this.target = exchange_1.default(this.target, target);
+            var done = false;
+            while (!done) {
+                if (this.remaining.length > 0) {
+                    var animation = this.remaining.getWeakRef(0);
+                    animation.apply(target, this.propName, now, offset);
+                    if (animation.done(target, this.propName)) {
+                        offset = animation.extra(now);
+                        this.completed.push(this.remaining.shift());
+                    }
+                    else {
+                        done = true;
+                    }
+                }
+                else {
+                    done = true;
+                }
+            }
+            return offset;
+        };
+        AnimationLane.prototype.undo = function () {
+            while (this.completed.length > 0) {
+                this.remaining.unshift(this.completed.pop());
+            }
+            for (var i = this.remaining.length - 1; i >= 0; i--) {
+                var animation = this.remaining.getWeakRef(i);
+                animation.undo(this.target, this.propName);
+            }
+            this.target = exchange_1.default(this.target, void 0);
+        };
+        return AnimationLane;
+    }(ShareableBase_1.ShareableBase));
+    var Mirror = (function (_super) {
+        __extends(Mirror, _super);
+        function Mirror(objectId) {
+            _super.call(this);
+            this.objectId = objectId;
+            this.setLoggingName('Mirror');
+            mustBeString_1.default('objectId', objectId);
+            this.animationLanes = new StringShareableMap_1.default();
+        }
+        Mirror.prototype.destructor = function (levelUp) {
+            mustBeNumber_1.default('levelUp', levelUp);
+            this.animationLanes = exchange_1.default(this.animationLanes, void 0);
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        Mirror.prototype.ensureAnimationLane = function (name) {
+            mustBeString_1.default('name', name);
+            if (!this.animationLanes.exists(name)) {
+                this.animationLanes.putWeakRef(name, new AnimationLane(name));
+            }
+        };
+        return Mirror;
+    }(ShareableBase_1.ShareableBase));
+});
+
+define('davinci-eight',["require", "exports", './davinci-eight/commands/WebGLBlendFunc', './davinci-eight/commands/WebGLClearColor', './davinci-eight/commands/WebGLDisable', './davinci-eight/commands/WebGLEnable', './davinci-eight/controls/OrbitControls', './davinci-eight/controls/TrackballControls', './davinci-eight/core/Attrib', './davinci-eight/core/BeginMode', './davinci-eight/core/BlendingFactorDest', './davinci-eight/core/BlendingFactorSrc', './davinci-eight/core/Capability', './davinci-eight/core/ClearBufferMask', './davinci-eight/core/Color', './davinci-eight/config', './davinci-eight/core/DataType', './davinci-eight/core/Drawable', './davinci-eight/core/DepthFunction', './davinci-eight/core/GeometryArrays', './davinci-eight/core/GeometryElements', './davinci-eight/core/GraphicsProgramSymbols', './davinci-eight/core/Mesh', './davinci-eight/core/PixelFormat', './davinci-eight/core/PixelType', './davinci-eight/core/Scene', './davinci-eight/core/Shader', './davinci-eight/core/Uniform', './davinci-eight/core/Usage', './davinci-eight/core/Engine', './davinci-eight/core/VertexBuffer', './davinci-eight/core/IndexBuffer', './davinci-eight/core/vertexArraysFromPrimitive', './davinci-eight/core/geometryFromPrimitive', './davinci-eight/facets/AmbientLight', './davinci-eight/facets/ColorFacet', './davinci-eight/facets/DirectionalLight', './davinci-eight/facets/ModelFacet', './davinci-eight/facets/PointSizeFacet', './davinci-eight/facets/ReflectionFacetE2', './davinci-eight/facets/ReflectionFacetE3', './davinci-eight/facets/Vector3Facet', './davinci-eight/facets/frustumMatrix', './davinci-eight/facets/PerspectiveCamera', './davinci-eight/facets/perspectiveMatrix', './davinci-eight/facets/viewMatrixFromEyeLookUp', './davinci-eight/facets/ModelE2', './davinci-eight/facets/ModelE3', './davinci-eight/atoms/DrawAttribute', './davinci-eight/atoms/DrawPrimitive', './davinci-eight/atoms/reduce', './davinci-eight/atoms/Vertex', './davinci-eight/shapes/ArrowBuilder', './davinci-eight/shapes/ConicalShellBuilder', './davinci-eight/shapes/CylindricalShellBuilder', './davinci-eight/shapes/RingBuilder', './davinci-eight/geometries/Simplex', './davinci-eight/geometries/ArrowGeometry', './davinci-eight/geometries/BoxGeometry', './davinci-eight/geometries/CylinderGeometry', './davinci-eight/geometries/GridGeometry', './davinci-eight/geometries/SphereGeometry', './davinci-eight/geometries/TetrahedronGeometry', './davinci-eight/materials/HTMLScriptsMaterial', './davinci-eight/materials/LineMaterial', './davinci-eight/materials/ShaderMaterial', './davinci-eight/materials/MeshMaterial', './davinci-eight/materials/PointMaterial', './davinci-eight/materials/GraphicsProgramBuilder', './davinci-eight/math/mathcore', './davinci-eight/math/Vector1', './davinci-eight/math/Matrix2', './davinci-eight/math/Matrix3', './davinci-eight/math/Matrix4', './davinci-eight/math/Geometric2', './davinci-eight/math/Geometric3', './davinci-eight/math/Spinor2', './davinci-eight/math/Spinor3', './davinci-eight/math/Vector2', './davinci-eight/math/Vector3', './davinci-eight/math/Vector4', './davinci-eight/math/VectorN', './davinci-eight/utils/getCanvasElementById', './davinci-eight/collections/ShareableArray', './davinci-eight/collections/NumberShareableMap', './davinci-eight/core/refChange', './davinci-eight/core/ShareableBase', './davinci-eight/collections/StringShareableMap', './davinci-eight/utils/animation', './davinci-eight/visual/Arrow', './davinci-eight/visual/Basis', './davinci-eight/visual/Sphere', './davinci-eight/visual/Box', './davinci-eight/visual/Cylinder', './davinci-eight/visual/Curve', './davinci-eight/visual/Grid', './davinci-eight/visual/GridXY', './davinci-eight/visual/GridYZ', './davinci-eight/visual/GridZX', './davinci-eight/visual/HollowCylinder', './davinci-eight/visual/RigidBody', './davinci-eight/visual/Tetrahedron', './davinci-eight/visual/Track', './davinci-eight/visual/Trail', './davinci-eight/visual/Turtle', './davinci-eight/physics/Dimensions', './davinci-eight/physics/G2', './davinci-eight/physics/G3', './davinci-eight/physics/QQ', './davinci-eight/physics/ArrowG3', './davinci-eight/physics/CylinderG3', './davinci-eight/physics/SphereG3', './davinci-eight/physics/Unit', './davinci-eight/physics/WorldG3', './davinci-eight/slideshow/Director', './davinci-eight/slideshow/Slide', './davinci-eight/slideshow/animations/ColorAnimation', './davinci-eight/slideshow/animations/NarrateAnimation', './davinci-eight/slideshow/animations/Spinor3Animation', './davinci-eight/slideshow/animations/Vector3Animation', './davinci-eight/slideshow/animations/WaitAnimation'], function (require, exports, WebGLBlendFunc_1, WebGLClearColor_1, WebGLDisable_1, WebGLEnable_1, OrbitControls_1, TrackballControls_1, Attrib_1, BeginMode_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, ClearBufferMask_1, Color_1, config_1, DataType_1, Drawable_1, DepthFunction_1, GeometryArrays_1, GeometryElements_1, GraphicsProgramSymbols_1, Mesh_1, PixelFormat_1, PixelType_1, Scene_1, Shader_1, Uniform_1, Usage_1, Engine_1, VertexBuffer_1, IndexBuffer_1, vertexArraysFromPrimitive_1, geometryFromPrimitive_1, AmbientLight_1, ColorFacet_1, DirectionalLight_1, ModelFacet_1, PointSizeFacet_1, ReflectionFacetE2_1, ReflectionFacetE3_1, Vector3Facet_1, frustumMatrix_1, PerspectiveCamera_1, perspectiveMatrix_1, viewMatrixFromEyeLookUp_1, ModelE2_1, ModelE3_1, DrawAttribute_1, DrawPrimitive_1, reduce_1, Vertex_1, ArrowBuilder_1, ConicalShellBuilder_1, CylindricalShellBuilder_1, RingBuilder_1, Simplex_1, ArrowGeometry_1, BoxGeometry_1, CylinderGeometry_1, GridGeometry_1, SphereGeometry_1, TetrahedronGeometry_1, HTMLScriptsMaterial_1, LineMaterial_1, ShaderMaterial_1, MeshMaterial_1, PointMaterial_1, GraphicsProgramBuilder_1, mathcore_1, Vector1_1, Matrix2_1, Matrix3_1, Matrix4_1, Geometric2_1, Geometric3_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1, Vector4_1, VectorN_1, getCanvasElementById_1, ShareableArray_1, NumberShareableMap_1, refChange_1, ShareableBase_1, StringShareableMap_1, animation_1, Arrow_1, Basis_1, Sphere_1, Box_1, Cylinder_1, Curve_1, Grid_1, GridXY_1, GridYZ_1, GridZX_1, HollowCylinder_1, RigidBody_1, Tetrahedron_1, Track_1, Trail_1, Turtle_1, Dimensions_1, G2_1, G3_1, QQ_1, ArrowG3_1, CylinderG3_1, SphereG3_1, Unit_1, WorldG3_1, Director_1, Slide_1, ColorAnimation_1, NarrateAnimation_1, Spinor3Animation_1, Vector3Animation_1, WaitAnimation_1) {
     "use strict";
     var eight = {
         get LAST_MODIFIED() { return config_1.default.LAST_MODIFIED; },
@@ -22361,7 +23279,14 @@ define('davinci-eight',["require", "exports", './davinci-eight/commands/WebGLBle
         get CylinderG3() { return CylinderG3_1.default; },
         get SphereG3() { return SphereG3_1.default; },
         get Unit() { return Unit_1.Unit; },
-        get WorldG3() { return WorldG3_1.default; }
+        get WorldG3() { return WorldG3_1.default; },
+        get Director() { return Director_1.default; },
+        get Slide() { return Slide_1.default; },
+        get ColorAnimation() { return ColorAnimation_1.default; },
+        get NarrateAnimation() { return NarrateAnimation_1.default; },
+        get Spinor3Animation() { return Spinor3Animation_1.default; },
+        get Vector3Animation() { return Vector3Animation_1.default; },
+        get WaitAnimation() { return WaitAnimation_1.default; }
     };
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = eight;

@@ -192,6 +192,8 @@ module.exports = function (grunt) {
                 "src/davinci-eight/materials/**/*.ts",
                 "src/davinci-eight/math/**/*.ts",
                 "src/davinci-eight/overlay/**/*.ts",
+                "src/davinci-eight/physics/**/*.ts",
+                "src/davinci-eight/slideshow/**/*.ts",
                 "src/davinci-eight/visual/**/*.ts",
 
                 "src/davinci-eight/utils/EventEmitter.ts",

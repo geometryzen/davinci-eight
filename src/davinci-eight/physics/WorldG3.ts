@@ -87,7 +87,6 @@ export function scale(quantity: G3, scaleFactor: G3): Geometric3 {
         return Geometric3.copy(dimless)
     }
     else {
-        debugger
         // window.alert(`Units of scaleFactor, ${scaleFactor}, is not consistent with units of quantity, ${quantity}.`)
     }
 }
