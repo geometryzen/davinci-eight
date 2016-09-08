@@ -5,8 +5,5 @@ import {FacetVisitor} from './FacetVisitor';
  * An object implementing the `Facet` interface is capable of setting uniform values on a `FacetVisitor`.
  */
 export interface Facet {
-
     setUniforms(visitor: FacetVisitor): void
-
-    // setProperty(name: string, value: number[]): Facet;
 }

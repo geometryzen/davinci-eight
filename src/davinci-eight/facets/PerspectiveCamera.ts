@@ -1,13 +1,10 @@
 import createPerspective from './createPerspective';
 import {Geometric3} from '../math/Geometric3';
 import readOnly from '../i18n/readOnly';
-import mustBeObject from '../checks/mustBeObject';
 import mustBeGE from '../checks/mustBeGE';
 import mustBeLE from '../checks/mustBeLE';
 import mustBeNumber from '../checks/mustBeNumber';
-import mustBeString from '../checks/mustBeString';
 import Perspective from './Perspective';
-import PropertyCollection from '../core/PropertyCollection';
 import {Facet} from '../core/Facet';
 import {FacetVisitor} from '../core/FacetVisitor';
 import VectorE3 from '../math/VectorE3';
@@ -35,12 +32,7 @@ import Matrix4 from '../math/Matrix4';
  *
  * <p>The camera is initially positioned at <b>e</b><sub>3</sub>.</p>
  */
-export class PerspectiveCamera implements Perspective, Facet, PropertyCollection {
-
-    private static PROP_EYE = 'eye';
-    private static PROP_LOOK = 'look';
-    private static PROP_UP = 'up';
-
+export class PerspectiveCamera implements Perspective, Facet {
     /**
      *
      */
@@ -79,76 +71,6 @@ export class PerspectiveCamera implements Perspective, Facet, PropertyCollection
         this.inner.setNear(this.near)
         this.inner.setFar(this.far)
         this.inner.setUniforms(visitor)
-    }
-
-    getPropertyFormats(name: string): string[] {
-        mustBeString('name', name)
-        switch (name) {
-            case PerspectiveCamera.PROP_EYE:
-            case PerspectiveCamera.PROP_LOOK:
-            case PerspectiveCamera.PROP_UP: {
-                return ['number[]'];
-            }
-            default: {
-                // TODO
-            }
-        }
-    }
-
-    /**
-     * @param name
-     * @returns
-     */
-    getProperty(name: string, format: string): number[] {
-        mustBeString('name', name)
-        switch (name) {
-            case PerspectiveCamera.PROP_EYE: {
-                return [this.eye.x, this.eye.y, this.eye.z];
-            }
-            case PerspectiveCamera.PROP_LOOK: {
-                return [this.look.x, this.look.y, this.look.z];
-            }
-            case PerspectiveCamera.PROP_UP: {
-                return [this.up.x, this.up.y, this.up.z];
-            }
-            default: {
-                // TODO
-            }
-        }
-    }
-
-    /**
-     * @param name
-     * @param value
-     * @returns
-     */
-    setProperty(name: string, format: string, value: number[]): PerspectiveCamera {
-        mustBeString('name', name)
-        mustBeObject('value', value)
-        switch (name) {
-            case PerspectiveCamera.PROP_EYE: {
-                this.eye.x = value[0];
-                this.eye.y = value[1];
-                this.eye.z = value[2];
-                break;
-            }
-            case PerspectiveCamera.PROP_LOOK: {
-                this.look.x = value[0];
-                this.look.y = value[1];
-                this.look.z = value[2];
-                break;
-            }
-            case PerspectiveCamera.PROP_UP: {
-                this.up.x = value[0];
-                this.up.y = value[1];
-                this.up.z = value[2];
-                break;
-            }
-            default: {
-                // TODO
-            }
-        }
-        return this
     }
 
     /**

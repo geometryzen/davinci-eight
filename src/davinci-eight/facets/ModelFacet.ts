@@ -3,9 +3,7 @@ import {FacetVisitor} from '../core/FacetVisitor'
 import Matrix3 from '../math/Matrix3'
 import Matrix4 from '../math/Matrix4'
 import ModelE3 from './ModelE3'
-import mustBeArray from '../checks/mustBeArray'
 import mustBeObject from '../checks/mustBeObject'
-import mustBeString from '../checks/mustBeString'
 import readOnly from '../i18n/readOnly'
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols'
 
@@ -108,17 +106,5 @@ export class ModelFacet extends ModelE3 implements Facet {
                 this._matN.one()
             }
         }
-    }
-
-    /**
-     * @param name
-     * @param data
-     * @returns
-     */
-    setProperty(name: string, data: number[]): ModelFacet {
-        mustBeString('name', name);
-        mustBeArray('data', data);
-        super.setProperty(name, data);
-        return this;
     }
 }

@@ -1,6 +1,5 @@
 import {Facet} from '../core/Facet';
 import {FacetVisitor} from '../core/FacetVisitor';
-import mustBeArray from '../checks/mustBeArray';
 import mustBeString from '../checks/mustBeString';
 import {Vector2} from '../math/Vector2';
 import Matrix2 from '../math/Matrix2';
@@ -52,28 +51,6 @@ export default class ReflectionFacetE2 implements Facet {
     }
     set normal(unused) {
         throw new Error(readOnly('normal').message)
-    }
-
-    /**
-     * @method getProperty
-     * @param name {string}
-     * @return {Array<number>}
-     */
-    getProperty(name: string): Array<number> {
-        mustBeString('name', name)
-        return void 0;
-    }
-
-    /**
-     * @method setProperty
-     * @param name {string}
-     * @param value {Array<number>}
-     * @return {void}
-     */
-    setProperty(name: string, value: Array<number>): ReflectionFacetE2 {
-        mustBeString('name', name)
-        mustBeArray('value', value)
-        return this;
     }
 
     /**

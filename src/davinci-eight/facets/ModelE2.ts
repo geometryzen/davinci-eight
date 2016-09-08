@@ -1,6 +1,4 @@
 import {Geometric2} from '../math/Geometric2';
-import {Vector2} from '../math/Vector2';
-import Spinor2 from '../math/Spinor2';
 
 /**
  * @class ModelE2
@@ -30,24 +28,6 @@ export default class ModelE2 {
     private _position = new Geometric2().zero();
 
     private _attitude = new Geometric2().zero().addScalar(1);
-
-    /**
-     * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
-     *
-     * @property _posCache
-     * @type {Vector2}
-     * @private
-     */
-    private _posCache = new Vector2();
-
-    /**
-     * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
-     *
-     * @property _attCache
-     * @type {Spinor2}
-     * @private
-     */
-    private _attCache = new Spinor2();
 
     /**
      * <p>
@@ -98,51 +78,5 @@ export default class ModelE2 {
     }
     set X(position: Geometric2) {
         this._position.copy(position)
-    }
-
-    /**
-     * @method getProperty
-     * @param name {string}
-     * @return {number[]}
-     */
-    getProperty(name: string): number[] {
-        switch (name) {
-            case ModelE2.PROP_ATTITUDE: {
-                return this._attCache.copy(this._attitude).coords
-            }
-            case ModelE2.PROP_POSITION: {
-                return this._posCache.copy(this._position).coords
-            }
-            default: {
-                console.warn("ModelE2.getProperty " + name)
-                return void 0
-            }
-        }
-    }
-
-    /**
-     * @method setProperty
-     * @param name {string}
-     * @param data {number[]}
-     * @return {ModelE2}
-     * @chainable
-     */
-    setProperty(name: string, data: number[]): ModelE2 {
-        switch (name) {
-            case ModelE2.PROP_ATTITUDE: {
-                this._attCache.coords = data
-                this._attitude.copySpinor(this._attCache)
-            }
-                break;
-            case ModelE2.PROP_POSITION: {
-                this._posCache.coords = data
-                this._position.copyVector(this._posCache)
-            }
-                break;
-            default: {
-                console.warn("ModelE2.setProperty " + name)
-            }
-        }
-        return this;
     }
 }

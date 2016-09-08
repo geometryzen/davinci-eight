@@ -4,24 +4,6 @@ import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import {Facet} from '../core/Facet';
 import {FacetVisitor} from '../core/FacetVisitor';
 
-const COORD_R = 0
-const COORD_G = 1
-const COORD_B = 2
-
-function checkPropertyName(name: string): void {
-    if (typeof name !== 'string') {
-        const msg = "ColorFacet property 'name' must be a string.";
-        throw new TypeError(msg);
-    }
-    switch (name) {
-        case ColorFacet.PROP_RGB: return;
-        default: {
-            const msg = `ColorFacet property 'name' must be one of ${[ColorFacet.PROP_RGB, ColorFacet.PROP_RED, ColorFacet.PROP_GREEN, ColorFacet.PROP_BLUE]}.`;
-            throw new Error(msg);
-        }
-    }
-}
-
 /**
  *
  */
@@ -103,53 +85,6 @@ export class ColorFacet implements Facet {
         this.g = g
         this.b = b
         return this
-    }
-
-    /**
-     * @param name
-     * @returns
-     */
-    getProperty(name: string): number[] {
-        checkPropertyName(name);
-        switch (name) {
-            case ColorFacet.PROP_RGB: {
-                return [this.r, this.g, this.b]
-            }
-            case ColorFacet.PROP_RED: {
-                return [this.r]
-            }
-            case ColorFacet.PROP_GREEN: {
-                return [this.g]
-            }
-            default: {
-                return void 0
-            }
-        }
-    }
-
-    /**
-     * @param name
-     * @param data
-     * @returns
-     */
-    setProperty(name: string, data: number[]): ColorFacet {
-        checkPropertyName(name);
-        switch (name) {
-            case ColorFacet.PROP_RGB: {
-                this.r = data[COORD_R]
-                this.g = data[COORD_G]
-                this.b = data[COORD_B]
-            }
-                break;
-            case ColorFacet.PROP_RED: {
-                this.r = data[COORD_R]
-            }
-                break;
-            default: {
-                // Do nothing.
-            }
-        }
-        return this;
     }
 
     /**

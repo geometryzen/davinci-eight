@@ -14,14 +14,6 @@ export default class Vector3Facet implements Facet {
         mustBeString('name', name);
     }
 
-    getProperty(name: string): number[] {
-        return void 0
-    }
-
-    setProperty(name: string, value: number[]): Vector3Facet {
-        return this
-    }
-
     setUniforms(visitor: FacetVisitor): void {
         const v = this.vector
         visitor.uniform3f(this.name, v.x, v.y, v.z)

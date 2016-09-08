@@ -1,6 +1,4 @@
 import {Geometric3} from '../math/Geometric3'
-import Vector3 from '../math/Vector3';
-import Spinor3 from '../math/Spinor3';
 
 /**
  * @module EIGHT
@@ -47,22 +45,6 @@ export default class ModelE3 {
   private _attitude: Geometric3 = Geometric3.one()
 
   /**
-   * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
-   * @property _posCache
-   * @type {Vector3}
-   * @private
-   */
-  private _posCache: Vector3 = Vector3.zero();
-
-  /**
-   * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
-   * @property _attCache
-   * @type {Spinor3}
-   * @private
-   */
-  private _attCache: Spinor3 = Spinor3.one()
-
-  /**
    * <p>
    * A collection of properties for Rigid Body Modeling.
    * </p>
@@ -107,51 +89,5 @@ export default class ModelE3 {
   }
   set X(position: Geometric3) {
     this._position.copyVector(position)
-  }
-
-  /**
-   * @method getProperty
-   * @param name {string}
-   * @return {number[]}
-   */
-  getProperty(name: string): number[] {
-    switch (name) {
-      case ModelE3.PROP_ATTITUDE: {
-        return this._attCache.copy(this._attitude).coords
-      }
-      case ModelE3.PROP_POSITION: {
-        return this._posCache.copy(this._position).coords
-      }
-      default: {
-        console.warn("ModelE3.getProperty " + name)
-        return void 0
-      }
-    }
-  }
-
-  /**
-   * @method setProperty
-   * @param name {string}
-   * @param data {number[]}
-   * @return {ModelE3}
-   * @chainable
-   */
-  setProperty(name: string, data: number[]): ModelE3 {
-    switch (name) {
-      case ModelE3.PROP_ATTITUDE: {
-        this._attCache.coords = data
-        this._attitude.copySpinor(this._attCache)
-      }
-        break;
-      case ModelE3.PROP_POSITION: {
-        this._posCache.coords = data
-        this._position.copyVector(this._posCache)
-      }
-        break;
-      default: {
-        console.warn("ModelE3.setProperty " + name)
-      }
-    }
-    return this;
   }
 }

@@ -1,17 +1,9 @@
 import {Color} from '../core/Color';
 import {Facet} from '../core/Facet';
 import {FacetVisitor} from '../core/FacetVisitor';
-import mustBeArray from '../checks/mustBeArray';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeObject from '../checks/mustBeObject';
-import mustBeString from '../checks/mustBeString';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-
-const LOGGING_NAME = 'AmbientLight'
-
-function contextBuilder() {
-    return LOGGING_NAME
-}
 
 /**
  *
@@ -32,21 +24,6 @@ export class AmbientLight implements Facet {
         this.color.r = mustBeNumber('color.r', color.r)
         this.color.g = mustBeNumber('color.g', color.g)
         this.color.b = mustBeNumber('color.b', color.b)
-    }
-
-    getProperty(name: string): number[] {
-        return void 0;
-    }
-
-    /**
-     * @param name
-     * @param value
-     * @returns
-     */
-    setProperty(name: string, value: number[]): AmbientLight {
-        mustBeString('name', name, contextBuilder)
-        mustBeArray('value', value, contextBuilder)
-        return this
     }
 
     /**

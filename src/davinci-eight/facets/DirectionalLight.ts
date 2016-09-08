@@ -3,16 +3,9 @@ import {Facet} from '../core/Facet';
 import {FacetVisitor} from '../core/FacetVisitor';
 import {Geometric3} from '../math/Geometric3';
 import mustBeObject from '../checks/mustBeObject';
-import mustBeString from '../checks/mustBeString';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import VectorE3 from '../math/VectorE3';
 import Vector3 from '../math/Vector3';
-
-const LOGGING_NAME = 'DirectionalLight';
-
-function contextBuilder() {
-    return LOGGING_NAME;
-}
 
 /**
  *
@@ -71,49 +64,6 @@ export class DirectionalLight implements Facet {
     set direction(direction: Geometric3) {
         mustBeObject('direction', direction);
         this._direction.copy(direction);
-    }
-
-    /**
-     * @param name
-     * @returns
-     */
-    getProperty(name: string): number[] {
-        mustBeString('name', name, contextBuilder)
-        switch (name) {
-            case DirectionalLight.PROP_COLOR: {
-                return this._color.coords;
-            }
-            case DirectionalLight.PROP_DIRECTION: {
-                return this._direction.coords
-            }
-            default: {
-                console.warn("unknown property: " + name);
-            }
-        }
-    }
-
-    /**
-     * @param name
-     * @param value
-     * @returns this
-     */
-    setProperty(name: string, value: number[]): DirectionalLight {
-        mustBeString('name', name, contextBuilder);
-        mustBeObject('value', value, contextBuilder);
-        switch (name) {
-            case DirectionalLight.PROP_COLOR: {
-                this._color.coords = value;
-            }
-                break;
-            case DirectionalLight.PROP_DIRECTION: {
-                this._direction.coords = value;
-            }
-                break;
-            default: {
-                console.warn("unknown property: " + name)
-            }
-        }
-        return this;
     }
 
     /**

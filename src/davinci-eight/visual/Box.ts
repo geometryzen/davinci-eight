@@ -8,8 +8,6 @@ import isDefined from '../checks/isDefined';
 import kFromOptions from './kFromOptions';
 import materialFromOptions from './materialFromOptions';
 import mustBeNumber from '../checks/mustBeNumber';
-import IAnimationTarget from '../slideshow/IAnimationTarget';
-import PropertyCollection from '../core/PropertyCollection';
 import {RigidBody} from './RigidBody';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
@@ -17,7 +15,7 @@ import setDeprecatedOptions from './setDeprecatedOptions';
 /**
  *
  */
-export class Box extends RigidBody implements PropertyCollection, IAnimationTarget {
+export class Box extends RigidBody {
 
     /**
      *

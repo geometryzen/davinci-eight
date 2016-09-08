@@ -9,9 +9,6 @@ import AbstractMesh from '../core/AbstractMesh';
 import Matrix4 from '../math/Matrix4';
 import {ModelFacet} from '../facets/ModelFacet';
 import notSupported from '../i18n/notSupported';
-import PropertyCollection from './PropertyCollection';
-import Spinor3 from '../math/Spinor3';
-import Vector3 from '../math/Vector3';
 
 const COLOR_FACET_NAME = 'color';
 const MODEL_FACET_NAME = 'model';
@@ -19,7 +16,7 @@ const MODEL_FACET_NAME = 'model';
 /**
  *
  */
-export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M> implements AbstractMesh<G, M>, PropertyCollection {
+export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M> implements AbstractMesh<G, M> {
 
     /**
      * @param geometry
@@ -130,62 +127,5 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
         else {
             throw new Error(notSupported('stress').message);
         }
-    }
-    getPropertyFormats(name: string): string[] {
-        switch (name) {
-            case 'color': {
-                return ['number[]'];
-            }
-            case 'X': {
-                return ['number[]'];
-            }
-            case 'R': {
-                return ['number[]'];
-            }
-            default: {
-                throw new Error(`'${name}' is not a valid name for getPropertyFormats.`);
-            }
-        }
-    }
-
-    getProperty(name: string, format: string): any {
-        switch (name) {
-            case 'color': {
-                return [this.color.r, this.color.g, this.color.b];
-            }
-            case 'X': {
-                return Vector3.copy(this.X).coords;
-            }
-            case 'R': {
-                return Spinor3.copy(this.R).coords;
-            }
-            default: {
-                throw new Error(`'${name}' is not a valid name for getProperty.`);
-            }
-        }
-    }
-    setProperty(name: string, format: string, value: any): void {
-        switch (name) {
-            case 'color': {
-                this.color.r = value[0];
-                this.color.g = value[1];
-                this.color.b = value[2];
-                break;
-            }
-            case 'X': {
-                const X = Vector3.zero().clone().copyCoordinates(value);
-                this.X.copyVector(X);
-                break;
-            }
-            case 'R': {
-                const R = Spinor3.one().clone().copyCoordinates(value);
-                this.R.copySpinor(R);
-                break;
-            }
-            default: {
-                throw new Error(`'${name}' is not a valid name for setProperty.`);
-            }
-        }
-        return void 0;
     }
 }
