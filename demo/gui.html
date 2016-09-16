@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+
+<head>
+    <link rel='stylesheet' type='text/css' href='../dist/davinci-eight.css'>
+    <link>
+    <style>
+
+    </style>
+    <script src="../dist/davinci-eight.min.js"></script>
+</head>
+
+<body>
+    <canvas id='canvas'></canvas>
+    <script>
+        const engine = new EIGHT.Engine('canvas')
+  .size(500, 500)
+  .clearColor(0.1, 0.1, 0.1, 1.0)
+  .enable(EIGHT.Capability.DEPTH_TEST);
+
+const ambients = [];
+
+const camera = new EIGHT.PerspectiveCamera();
+camera.eye.z = 5
+ambients.push(camera)
+
+const dirLight = new EIGHT.DirectionalLight();
+ambients.push(dirLight)
+
+const box = new EIGHT.Box({
+    engine,
+    k: 1,
+});
+
+const arrowA = new EIGHT.Arrow({engine, color: EIGHT.Color.red});
+const arrowB = new EIGHT.Arrow({engine, color: EIGHT.Color.blue});
+
+const trackball = new EIGHT.TrackballControls(camera, window)
+// Subscribe to mouse events from the canvas.
+trackball.subscribe(engine.canvas)
+
+// const gui = new EIGHT.DemoGUI();
+const model = {
+    message: "Box",
+    rotate: true,
+    speed: 0.001,
+    color: '#4964a4',
+    a: {x:1,y:0,z:0},
+    b: {x:0,y:1,z:0},
+    reset: function() {
+        model.a.x = 1
+        model.a.y = 0
+        model.a.z = 0
+        model.b.x = 0
+        model.b.y = 1
+        model.b.z = 0
+        trackball.reset()
+    }
+}
+const gui = new EIGHT.GUI();
+gui.add(model, 'message');
+// gui.add(model, 'rotate');
+// gui.add(model, 'speed');
+gui.add(model, 'reset');
+// gui.addColor(model, 'color');
+gui.addVectorE3(model, 'a');
+gui.addVectorE3(model, 'b');
+
+const a = EIGHT.Geometric3.zero().clone();
+const b = EIGHT.Geometric3.zero().clone();
+
+/**
+ * animate is the callback point for requestAnimationFrame.
+ * This has been initialized with a function expression in order
+ * to avoid issues associated with JavaScript hoisting.
+ */
+const animate = function(timestamp) {
+  engine.clear();
+
+  // Update the camera based upon mouse events received.  
+  trackball.update();
+
+  // Keep the directional light pointing in the same direction as the camera.  
+  dirLight.direction.copy(camera.look).sub(camera.eye)
+
+  var t = model.rotate ? timestamp * model.speed : 0;
+
+  a.copyVector(model.a)
+  arrowA.h.copyVector(a);
+  b.copyVector(model.b)
+  arrowB.h.copyVector(b);
+  
+  box.R.rotorFromDirections(a, b)
+
+  arrowA.render(ambients);
+  arrowB.render(ambients);
+  box.render(ambients);
+
+  requestAnimationFrame(animate)
+}
+
+requestAnimationFrame(animate)
+    </script>
+</body>
+
+</html>

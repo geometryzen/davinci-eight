@@ -176,6 +176,10 @@ import {Trail} from './davinci-eight/visual/Trail';
 import Turtle from './davinci-eight/visual/Turtle';
 import vector from './davinci-eight/visual/vector';
 
+// GUI
+import GUI from './davinci-eight/gui/gui/GUI';
+import DemoGUI from './davinci-eight/gui/gui/DemoGUI';
+
 /**
  *
  */
@@ -321,5 +325,9 @@ const eight = {
     get Track() { return Track; },
     get Trail() { return Trail; },
     get Turtle() { return Turtle; },
+
+    // gui
+    get GUI() { return GUI; },
+    get DemoGUI() { return DemoGUI; }
 }
 export default eight;

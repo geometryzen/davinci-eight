@@ -4262,6 +4262,22 @@ declare module EIGHT {
         protected destructor(levelUp: number): void;
     }
     ///////////////////////////////////////////////////////////////////////////////
+    interface GUIParams {
+        autoPlace?: boolean;
+        closed?: boolean;
+        hideable?: boolean;
+        parent?: GUI;
+        resizable?: boolean;
+        scrollable?: boolean;
+        width?: number;
+    }
+
+    class GUI {
+        constructor(params?: GUIParams);
+        add(object: {}, property: string): void;
+        addColor(object: {}, property: string): void;
+    }
+    ///////////////////////////////////////////////////////////////////////////////
     /**
      * Universal cosine function.
      */

@@ -55,6 +55,12 @@ module.exports = function (grunt) {
                 src: ['davinci-eight.d.ts'],
                 dest: 'dist/'
             },
+            css: {
+                expand: true,
+                cwd: 'src/davinci-eight/gui/gui',
+                src: ['davinci-eight.css'],
+                dest: 'dist/'
+            },
             all: {
                 files: [
                     {
@@ -351,5 +357,5 @@ module.exports = function (grunt) {
     //
     grunt.registerTask('amd', ['ts:amdES5', 'requirejs']);
 
-    grunt.registerTask('default', ['clean', 'amd', 'system', 'tslint', 'uglify', 'copy:main', 'copy:all', 'typedoc']);
+    grunt.registerTask('default', ['clean', 'amd', 'system', 'tslint', 'uglify', 'copy:main', 'copy:css', 'copy:all', 'typedoc']);
 };
