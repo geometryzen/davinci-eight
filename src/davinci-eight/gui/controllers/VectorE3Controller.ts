@@ -4,6 +4,7 @@ import Matrix from './Matrix';
 import binding from '../dom/binding';
 import Bindable from '../dom/Bindable';
 import addClass from '../dom/addClass';
+import VectorE3 from '../../math/VectorE3';
 
 interface Shape {
     nodeColour?: string;
@@ -15,7 +16,11 @@ interface Shape {
     text?: string[];
 }
 
-export default class Vec3Picker extends Picker<Vector> {
+function point(v: VectorE3, scale: number): number[] {
+    return [v.x * scale, v.y * scale, v.z * scale];
+}
+
+export default class VectorE3Controller extends Picker<VectorE3> {
     scale: number;
     camera: Matrix;
     shapes: Shape[];
@@ -25,10 +30,11 @@ export default class Vec3Picker extends Picker<Vector> {
      */
     prevMouseOffsetXY: number[];
     overPoint: boolean;
-    point: number[];
+    // Why do I need to repeat this?
+    // point: number[];
     private __elementDblClickBinding: Bindable;
-    constructor(object: {}, property: string, dir = [0, 0, 1], properties?: {}) {
-        super(object, property, 'ge_vec3picker_', properties);
+    constructor(object: {}, property: string, properties?: {}) {
+        super(object, property, 'ge_vectorE3Controller_', properties);
 
         this.width = this.width || 200;
         this.height = this.width || 200;
@@ -59,9 +65,6 @@ export default class Vec3Picker extends Picker<Vector> {
         // Mouse events
         this.prevMouseOffsetXY = [0, 0];
         this.overPoint = false;
-
-        // TODO: This will actually trigger a display update so the call following this line is not required.
-        this.setValue(dir);
 
         this.updateDisplay();
     }
@@ -110,24 +113,20 @@ export default class Vec3Picker extends Picker<Vector> {
             }
         }
 
-        if (this.point) {
-            // The line from the origin to the point.
-            this.drawShapeEdges({
-                edgeColour: this.fnColor,
-                nodes: [[0, 0, 0], this.point],
-                edges: [[0, 1]]
-            });
+        const X = point(this.getValue(), this.scale);
+        // The line from the origin to the point.
+        this.drawShapeEdges({
+            edgeColour: this.fnColor,
+            nodes: [[0, 0, 0], X],
+            edges: [[0, 1]]
+        });
 
-            // The point itself.
-            this.drawShapeNodes({
-                nodeColour: this.overPoint ? this.selColor : this.fnColor,
-                nodeRadius: this.overPoint ? 4 : 2,
-                nodes: [this.point]
-            });
-        }
-        else {
-            console.warn("this.point is not defined.");
-        }
+        // The point itself.
+        this.drawShapeNodes({
+            nodeColour: this.overPoint ? this.selColor : this.fnColor,
+            nodeRadius: this.overPoint ? 4 : 2,
+            nodes: [X]
+        });
     }
 
     drawShapeEdges(shape: Shape): void {
@@ -174,7 +173,7 @@ export default class Vec3Picker extends Picker<Vector> {
         this.prevMouseOffsetXY = mouse;
 
         // Project the point onto the mouse coordinates plane.
-        const pos = new Vector(this.viewFromCamera(this.point));
+        const pos = new Vector(this.viewFromCamera(point(this.getValue(), this.scale)));
         const diff = pos.getSub(mouse);
         this.overPoint = diff.getLength() < 10;
 
@@ -236,8 +235,12 @@ export default class Vec3Picker extends Picker<Vector> {
             let vel = invM.getMult([dx, -dy, 0.0]);
             vel.mult(2);
             const value = super.getValue();
-            value.add(vel);
-            this.point = [value.x * this.scale, value.y * this.scale, value.z * this.scale];
+            const x = value.x + vel.x;
+            const y = value.y + vel.y;
+            const z = value.z + vel.z;
+            value.x = x;
+            value.y = y;
+            value.z = z;
             super.setValue(value);
         }
         else {
@@ -258,11 +261,5 @@ export default class Vec3Picker extends Picker<Vector> {
             this.__elementDblClickBinding.unbind();
             this.__elementDblClickBinding = void 0;
         }
-    }
-
-    setValue(dir: any): void {
-        const value = new Vector(dir);
-        this.point = [value.x * this.scale, value.y * this.scale, value.z * this.scale];
-        super.setValue(value);
     }
 }

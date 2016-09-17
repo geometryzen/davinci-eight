@@ -177,8 +177,8 @@ import Turtle from './davinci-eight/visual/Turtle';
 import vector from './davinci-eight/visual/vector';
 
 // GUI
-import GUI from './davinci-eight/gui/gui/GUI';
-import DemoGUI from './davinci-eight/gui/gui/DemoGUI';
+// import GUI from './davinci-eight/gui/gui/GUI';
+// import DemoGUI from './davinci-eight/gui/gui/DemoGUI';
 
 /**
  *
@@ -307,6 +307,9 @@ const eight = {
     get sinh() { return mathcore.sinh },
     get sqrt() { return mathcore.sqrt },
 
+    // gui
+    //    get GUI() { return GUI; },
+    //    get DemoGUI() { return DemoGUI; }
     // visual
     get Arrow() { return Arrow; },
     get Basis() { return Basis; },
@@ -324,10 +327,6 @@ const eight = {
     get Tetrahedron() { return Tetrahedron; },
     get Track() { return Track; },
     get Trail() { return Trail; },
-    get Turtle() { return Turtle; },
-
-    // gui
-    get GUI() { return GUI; },
-    get DemoGUI() { return DemoGUI; }
+    get Turtle() { return Turtle; }
 }
 export default eight;

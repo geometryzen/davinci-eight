@@ -6,7 +6,7 @@ import NumberControllerBox from './NumberControllerBox';
 import StringController from './StringController';
 import FloatPicker from './FloatPicker';
 import Vec2Picker from './Vec2Picker';
-import Vec3Picker from './Vec3Picker';
+import VectorE3Controller from './VectorE3Controller';
 
 export default function controllerFactory(object: {}, property: string, params: { kind?: 'color' | 'R1' | 'R2' | 'R3' }): IController<any> {
   if (params.kind === 'color') {
@@ -19,7 +19,7 @@ export default function controllerFactory(object: {}, property: string, params: 
     return new Vec2Picker(object, property);
   }
   else if (params.kind === 'R3') {
-    return new Vec3Picker(object, property);
+    return new VectorE3Controller(object, property);
   }
   else {
     const initialValue = object[property];

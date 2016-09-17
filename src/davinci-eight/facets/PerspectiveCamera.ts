@@ -1,14 +1,11 @@
 import createPerspective from './createPerspective';
 import {Geometric3} from '../math/Geometric3';
-import readOnly from '../i18n/readOnly';
 import mustBeGE from '../checks/mustBeGE';
 import mustBeLE from '../checks/mustBeLE';
 import mustBeNumber from '../checks/mustBeNumber';
 import Perspective from './Perspective';
 import {Facet} from '../core/Facet';
 import {FacetVisitor} from '../core/FacetVisitor';
-import VectorE3 from '../math/VectorE3';
-import Matrix4 from '../math/Matrix4';
 
 /**
  * <p>
@@ -32,7 +29,7 @@ import Matrix4 from '../math/Matrix4';
  *
  * <p>The camera is initially positioned at <b>e</b><sub>3</sub>.</p>
  */
-export class PerspectiveCamera implements Perspective, Facet {
+export class PerspectiveCamera implements Facet {
     /**
      *
      */
@@ -47,68 +44,50 @@ export class PerspectiveCamera implements Perspective, Facet {
      */
     constructor(fov = 45 * Math.PI / 180, aspect = 1, near = 0.1, far = 1000) {
 
-        mustBeNumber('fov', fov)
-        mustBeGE('fov', fov, 0)
-        mustBeLE('fov', fov, Math.PI)
+        mustBeNumber('fov', fov);
+        mustBeGE('fov', fov, 0);
+        mustBeLE('fov', fov, Math.PI);
 
-        mustBeNumber('aspect', aspect)
-        mustBeGE('aspect', aspect, 0)
+        mustBeNumber('aspect', aspect);
+        mustBeGE('aspect', aspect, 0);
 
-        mustBeNumber('near', near)
-        mustBeGE('near', near, 0)
+        mustBeNumber('near', near);
+        mustBeGE('near', near, 0);
 
-        mustBeNumber('far', far)
-        mustBeGE('far', far, 0)
+        mustBeNumber('far', far);
+        mustBeGE('far', far, 0);
 
-        this.inner = createPerspective({ fov: fov, aspect: aspect, near: near, far: far })
+        this.inner = createPerspective({ fov, aspect, near, far });
     }
 
     /**
-     * @param visitor
+     *
      */
     setUniforms(visitor: FacetVisitor): void {
         // Synchronize the near and far properties before delegating.
-        this.inner.setNear(this.near)
-        this.inner.setFar(this.far)
-        this.inner.setUniforms(visitor)
+        this.inner.setNear(this.near);
+        this.inner.setFar(this.far);
+        this.inner.setUniforms(visitor);
     }
 
     /**
      * The aspect ratio (width / height) of the camera viewport.
      */
     get aspect(): number {
-        return this.inner.aspect
+        return this.inner.aspect;
     }
     set aspect(aspect: number) {
-        this.inner.aspect = aspect
-    }
-
-    /**
-     * @param aspect
-     * @returns
-     */
-    setAspect(aspect: number): PerspectiveCamera {
-        this.inner.aspect = aspect
-        return this
+        this.inner.aspect = aspect;
     }
 
     /**
      * The position of the camera, a vector.
      */
     get eye(): Geometric3 {
-        return this.inner.eye
+        return this.inner.eye;
     }
     set eye(eye: Geometric3) {
-        this.inner.eye.copyVector(eye)
-    }
-
-    /**
-     * @param eye
-     * @returns
-     */
-    setEye(eye: VectorE3): PerspectiveCamera {
-        this.inner.setEye(eye)
-        return this
+        this.inner.eye.copyVector(eye);
     }
 
     /**
@@ -116,119 +95,49 @@ export class PerspectiveCamera implements Perspective, Facet {
      * Measured in radians.
      */
     get fov(): number {
-        return this.inner.fov
+        return this.inner.fov;
     }
-    set fov(unused: number) {
-        throw new Error(readOnly('fov').message)
-    }
-
-    /**
-     * @param fov
-     * @returns
-     */
-    setFov(fov: number): PerspectiveCamera {
-        mustBeNumber('fov', fov)
-        this.inner.fov = fov
-        return this
+    set fov(value: number) {
+        this.inner.fov = value;
     }
 
     /**
-     *
+     * The point that is being looked at.
      */
     get look(): Geometric3 {
-        return this.inner.look
+        return this.inner.look;
     }
     set look(look: Geometric3) {
-        this.inner.setLook(look)
-    }
-
-    /**
-     * @param look
-     * @returns
-     */
-    setLook(look: VectorE3): PerspectiveCamera {
-        this.inner.setLook(look)
-        return this
+        this.inner.look.copyVector(look);
     }
 
     /**
      * The distance to the near plane.
      */
     get near(): number {
-        return this.inner.near
+        return this.inner.near;
     }
     set near(near: number) {
-        this.inner.near = near
+        this.inner.near = near;
     }
 
     /**
-     * @param near
-     * @returns
-     */
-    setNear(near: number): PerspectiveCamera {
-        this.inner.setNear(near)
-        return this
-    }
-
-    /**
-     *
+     * The distance to the far plane.
      */
     get far(): number {
-        return this.inner.far
+        return this.inner.far;
     }
     set far(far: number) {
-        this.inner.far = far
+        this.inner.far = far;
     }
 
     /**
-     * @param far
-     * @returns
-     */
-    setFar(far: number): PerspectiveCamera {
-        this.inner.setFar(far)
-        return this
-    }
-
-    /**
-     *
+     * The approximate up direction.
      */
     get up(): Geometric3 {
-        return this.inner.up
+        return this.inner.up;
     }
     set up(up: Geometric3) {
-        this.inner.up = up
-    }
-
-    /**
-     * @param up
-     * @returns
-     */
-    setUp(up: VectorE3): PerspectiveCamera {
-        this.inner.setUp(up)
-        return this
-    }
-
-    get projectionMatrix(): Matrix4 {
-        return this.inner.projectionMatrix;
-    }
-
-    set projectionMatrix(projectionMatrix: Matrix4) {
-        this.inner.projectionMatrix = projectionMatrix;
-    }
-
-    updateProjectionMatrix(): void {
-        this.inner.updateProjectionMatrix();
-    }
-
-    updateViewMatrix(): void {
-        this.inner.updateViewMatrix();
-    }
-
-    get viewMatrix(): Matrix4 {
-        return this.inner.viewMatrix;
-    }
-
-    set viewMatrix(viewMatrix: Matrix4) {
-        this.inner.viewMatrix = viewMatrix;
+        this.inner.up.copyVector(up);
     }
 }

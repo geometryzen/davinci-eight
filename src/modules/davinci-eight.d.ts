@@ -2974,26 +2974,6 @@ declare module EIGHT {
         up: Geometric3;
 
         /**
-         * Updates the projectionMatrix property based upon the fov, aspect, near, and far properties.
-         */
-        updateProjectionMatrix(): void;
-
-        /**
-         * Updates the viewMatrix property based upon the eye, look, and up properties.
-         */
-        updateViewMatrix(): void;
-
-        /**
-         * The projection matrix matrix transformation.
-         */
-        projectionMatrix: Matrix4;
-
-        /**
-         * The view matrix transformation.
-         */
-        viewMatrix: Matrix4;
-
-        /**
          * Constructs a PerspectiveCamera from optional parameters.
          * 
          * fov: The vertical field of view, measured in radians.
@@ -3002,14 +2982,7 @@ declare module EIGHT {
          * far: The distance to the far plane from the camera. 
          */
         constructor(fov?: number, aspect?: number, near?: number, far?: number)
-        setAspect(aspect: number): PerspectiveCamera;
-        setEye(eye: VectorE3): PerspectiveCamera;
-        setFar(far: number): PerspectiveCamera;
-        setFov(fov: number): PerspectiveCamera;
-        setLook(look: VectorE3): PerspectiveCamera;
-        setNear(near: number): PerspectiveCamera;
         setUniforms(visitor: FacetVisitor): void;
-        setUp(up: VectorE3): PerspectiveCamera;
     }
 
     interface VertexAttribPointer {
@@ -4262,6 +4235,7 @@ declare module EIGHT {
         protected destructor(levelUp: number): void;
     }
     ///////////////////////////////////////////////////////////////////////////////
+    /*
     interface GUIParams {
         autoPlace?: boolean;
         closed?: boolean;
@@ -4277,6 +4251,7 @@ declare module EIGHT {
         add(object: {}, property: string): void;
         addColor(object: {}, property: string): void;
     }
+    */
     ///////////////////////////////////////////////////////////////////////////////
     /**
      * Universal cosine function.
