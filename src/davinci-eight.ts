@@ -176,7 +176,10 @@ import {Trail} from './davinci-eight/visual/Trail';
 import Turtle from './davinci-eight/visual/Turtle';
 import vector from './davinci-eight/visual/vector';
 
-// GUI
+// diiagram
+import Diagram3D from './davinci-eight/diagram/Diagram3D';
+
+// gui
 // import GUI from './davinci-eight/gui/gui/GUI';
 // import DemoGUI from './davinci-eight/gui/gui/DemoGUI';
 
@@ -306,6 +309,9 @@ const eight = {
     get sin() { return mathcore.sin },
     get sinh() { return mathcore.sinh },
     get sqrt() { return mathcore.sqrt },
+
+    // diagram
+    get Diagram3D() { return Diagram3D; },
 
     // gui
     //    get GUI() { return GUI; },

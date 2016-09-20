@@ -7451,34 +7451,6 @@ System.register('davinci-eight/checks/mustBeFunction.js', ['../checks/mustSatisf
         execute: function () {}
     };
 });
-System.register("davinci-eight/math/R3.js", [], function (exports_1, context_1) {
-    "use strict";
-
-    var __moduleName = context_1 && context_1.id;
-    function vec(x, y, z) {
-        var scale = function (α) {
-            return vec(α * x, α * y, α * z);
-        };
-        var that = {
-            get x() {
-                return x;
-            },
-            get y() {
-                return y;
-            },
-            get z() {
-                return z;
-            },
-            scale: scale
-        };
-        return that;
-    }
-    exports_1("default", vec);
-    return {
-        setters: [],
-        execute: function () {}
-    };
-});
 System.register("davinci-eight/checks/validate.js", ['./isDefined'], function (exports_1, context_1) {
     "use strict";
 
@@ -16479,9 +16451,9 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
             Eight = function () {
                 function Eight() {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-                    this.LAST_MODIFIED = '2016-09-17';
+                    this.LAST_MODIFIED = '2016-09-19';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '2.310.0';
+                    this.VERSION = '2.311.0';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];
@@ -20642,41 +20614,6 @@ System.register("davinci-eight/math/Coords.js", ['./VectorN'], function (exports
         }
     };
 });
-System.register("davinci-eight/math/dotVectorCartesianE3.js", [], function (exports_1, context_1) {
-    "use strict";
-
-    var __moduleName = context_1 && context_1.id;
-    function dotVectorCartesianE3(ax, ay, az, bx, by, bz) {
-        return ax * bx + ay * by + az * bz;
-    }
-    exports_1("default", dotVectorCartesianE3);
-    return {
-        setters: [],
-        execute: function () {}
-    };
-});
-System.register('davinci-eight/math/dotVectorE3.js', ['../math/dotVectorCartesianE3', '../checks/isDefined'], function (exports_1, context_1) {
-    "use strict";
-
-    var __moduleName = context_1 && context_1.id;
-    var dotVectorCartesianE3_1, isDefined_1;
-    function dotVectorE3(a, b) {
-        if (isDefined_1.default(a) && isDefined_1.default(b)) {
-            return dotVectorCartesianE3_1.default(a.x, a.y, a.z, b.x, b.y, b.z);
-        } else {
-            return void 0;
-        }
-    }
-    exports_1("default", dotVectorE3);
-    return {
-        setters: [function (dotVectorCartesianE3_1_1) {
-            dotVectorCartesianE3_1 = dotVectorCartesianE3_1_1;
-        }, function (isDefined_1_1) {
-            isDefined_1 = isDefined_1_1;
-        }],
-        execute: function () {}
-    };
-});
 System.register('davinci-eight/checks/mustBeDefined.js', ['../checks/mustSatisfy', '../checks/isDefined'], function (exports_1, context_1) {
     "use strict";
 
@@ -21691,45 +21628,6 @@ System.register("davinci-eight/math/toStringCustom.js", ['../math/stringFromCoor
         execute: function () {}
     };
 });
-System.register("davinci-eight/math/wedgeXY.js", [], function (exports_1, context_1) {
-    "use strict";
-
-    var __moduleName = context_1 && context_1.id;
-    function wedgeXY(ax, ay, az, bx, by, bz) {
-        return ax * by - ay * bx;
-    }
-    exports_1("default", wedgeXY);
-    return {
-        setters: [],
-        execute: function () {}
-    };
-});
-System.register("davinci-eight/math/wedgeYZ.js", [], function (exports_1, context_1) {
-    "use strict";
-
-    var __moduleName = context_1 && context_1.id;
-    function wedgeYZ(ax, ay, az, bx, by, bz) {
-        return ay * bz - az * by;
-    }
-    exports_1("default", wedgeYZ);
-    return {
-        setters: [],
-        execute: function () {}
-    };
-});
-System.register("davinci-eight/math/wedgeZX.js", [], function (exports_1, context_1) {
-    "use strict";
-
-    var __moduleName = context_1 && context_1.id;
-    function wedgeZX(ax, ay, az, bx, by, bz) {
-        return az * bx - ax * bz;
-    }
-    exports_1("default", wedgeZX);
-    return {
-        setters: [],
-        execute: function () {}
-    };
-});
 System.register('davinci-eight/math/Vector3.js', ['./Coords', './dotVectorE3', './Matrix3', '../checks/isDefined', '../checks/isNumber', './randomRange', '../i18n/readOnly', './toStringCustom', './wedgeXY', './wedgeYZ', './wedgeZX'], function (exports_1, context_1) {
     "use strict";
 
@@ -22215,19 +22113,6 @@ System.register('davinci-eight/visual/RigidBody.js', ['../math/Geometric3', './P
         }
     };
 });
-System.register("davinci-eight/checks/isDefined.js", [], function (exports_1, context_1) {
-    "use strict";
-
-    var __moduleName = context_1 && context_1.id;
-    function isDefined(arg) {
-        return typeof arg !== 'undefined';
-    }
-    exports_1("default", isDefined);
-    return {
-        setters: [],
-        execute: function () {}
-    };
-});
 System.register("davinci-eight/visual/setColorOption.js", ['../checks/isDefined'], function (exports_1, context_1) {
     "use strict";
 
@@ -22404,11 +22289,247 @@ System.register('davinci-eight/visual/Turtle.js', ['../core/BeginMode', '../core
         }
     };
 });
-System.register('davinci-eight.js', ['./davinci-eight/commands/WebGLBlendFunc', './davinci-eight/commands/WebGLClearColor', './davinci-eight/commands/WebGLDisable', './davinci-eight/commands/WebGLEnable', './davinci-eight/controls/OrbitControls', './davinci-eight/controls/TrackballControls', './davinci-eight/core/Attrib', './davinci-eight/core/BeginMode', './davinci-eight/core/BlendingFactorDest', './davinci-eight/core/BlendingFactorSrc', './davinci-eight/core/Capability', './davinci-eight/core/ClearBufferMask', './davinci-eight/core/Color', './davinci-eight/config', './davinci-eight/core/DataType', './davinci-eight/core/Drawable', './davinci-eight/core/DepthFunction', './davinci-eight/core/GeometryArrays', './davinci-eight/core/GeometryElements', './davinci-eight/core/GraphicsProgramSymbols', './davinci-eight/core/Mesh', './davinci-eight/core/PixelFormat', './davinci-eight/core/PixelType', './davinci-eight/core/Scene', './davinci-eight/core/Shader', './davinci-eight/core/Uniform', './davinci-eight/core/Usage', './davinci-eight/core/Engine', './davinci-eight/core/VertexBuffer', './davinci-eight/core/IndexBuffer', './davinci-eight/core/vertexArraysFromPrimitive', './davinci-eight/core/geometryFromPrimitive', './davinci-eight/facets/AmbientLight', './davinci-eight/facets/ColorFacet', './davinci-eight/facets/DirectionalLight', './davinci-eight/facets/ModelFacet', './davinci-eight/facets/PointSizeFacet', './davinci-eight/facets/ReflectionFacetE2', './davinci-eight/facets/ReflectionFacetE3', './davinci-eight/facets/Vector3Facet', './davinci-eight/facets/frustumMatrix', './davinci-eight/facets/PerspectiveCamera', './davinci-eight/facets/perspectiveMatrix', './davinci-eight/facets/viewMatrixFromEyeLookUp', './davinci-eight/facets/ModelE2', './davinci-eight/facets/ModelE3', './davinci-eight/atoms/DrawAttribute', './davinci-eight/atoms/DrawPrimitive', './davinci-eight/atoms/reduce', './davinci-eight/atoms/Vertex', './davinci-eight/shapes/ArrowBuilder', './davinci-eight/shapes/ConicalShellBuilder', './davinci-eight/shapes/CylindricalShellBuilder', './davinci-eight/shapes/RingBuilder', './davinci-eight/geometries/Simplex', './davinci-eight/geometries/ArrowGeometry', './davinci-eight/geometries/BoxGeometry', './davinci-eight/geometries/CylinderGeometry', './davinci-eight/geometries/GridGeometry', './davinci-eight/geometries/SphereGeometry', './davinci-eight/geometries/TetrahedronGeometry', './davinci-eight/materials/HTMLScriptsMaterial', './davinci-eight/materials/LineMaterial', './davinci-eight/materials/ShaderMaterial', './davinci-eight/materials/MeshMaterial', './davinci-eight/materials/PointMaterial', './davinci-eight/materials/GraphicsProgramBuilder', './davinci-eight/math/mathcore', './davinci-eight/math/Vector1', './davinci-eight/math/Matrix2', './davinci-eight/math/Matrix3', './davinci-eight/math/Matrix4', './davinci-eight/math/Geometric2', './davinci-eight/math/Geometric3', './davinci-eight/math/Spinor2', './davinci-eight/math/Spinor3', './davinci-eight/math/Vector2', './davinci-eight/math/Vector3', './davinci-eight/math/Vector4', './davinci-eight/math/VectorN', './davinci-eight/utils/getCanvasElementById', './davinci-eight/collections/ShareableArray', './davinci-eight/collections/NumberShareableMap', './davinci-eight/core/refChange', './davinci-eight/core/ShareableBase', './davinci-eight/collections/StringShareableMap', './davinci-eight/utils/animation', './davinci-eight/visual/Arrow', './davinci-eight/visual/Basis', './davinci-eight/visual/Sphere', './davinci-eight/visual/Box', './davinci-eight/visual/Cylinder', './davinci-eight/visual/Curve', './davinci-eight/visual/Grid', './davinci-eight/visual/GridXY', './davinci-eight/visual/GridYZ', './davinci-eight/visual/GridZX', './davinci-eight/visual/HollowCylinder', './davinci-eight/visual/RigidBody', './davinci-eight/visual/Tetrahedron', './davinci-eight/visual/Track', './davinci-eight/visual/Trail', './davinci-eight/visual/Turtle'], function (exports_1, context_1) {
+System.register("davinci-eight/math/dotVectorCartesianE3.js", [], function (exports_1, context_1) {
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
-    var WebGLBlendFunc_1, WebGLClearColor_1, WebGLDisable_1, WebGLEnable_1, OrbitControls_1, TrackballControls_1, Attrib_1, BeginMode_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, ClearBufferMask_1, Color_1, config_1, DataType_1, Drawable_1, DepthFunction_1, GeometryArrays_1, GeometryElements_1, GraphicsProgramSymbols_1, Mesh_1, PixelFormat_1, PixelType_1, Scene_1, Shader_1, Uniform_1, Usage_1, Engine_1, VertexBuffer_1, IndexBuffer_1, vertexArraysFromPrimitive_1, geometryFromPrimitive_1, AmbientLight_1, ColorFacet_1, DirectionalLight_1, ModelFacet_1, PointSizeFacet_1, ReflectionFacetE2_1, ReflectionFacetE3_1, Vector3Facet_1, frustumMatrix_1, PerspectiveCamera_1, perspectiveMatrix_1, viewMatrixFromEyeLookUp_1, ModelE2_1, ModelE3_1, DrawAttribute_1, DrawPrimitive_1, reduce_1, Vertex_1, ArrowBuilder_1, ConicalShellBuilder_1, CylindricalShellBuilder_1, RingBuilder_1, Simplex_1, ArrowGeometry_1, BoxGeometry_1, CylinderGeometry_1, GridGeometry_1, SphereGeometry_1, TetrahedronGeometry_1, HTMLScriptsMaterial_1, LineMaterial_1, ShaderMaterial_1, MeshMaterial_1, PointMaterial_1, GraphicsProgramBuilder_1, mathcore_1, Vector1_1, Matrix2_1, Matrix3_1, Matrix4_1, Geometric2_1, Geometric3_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1, Vector4_1, VectorN_1, getCanvasElementById_1, ShareableArray_1, NumberShareableMap_1, refChange_1, ShareableBase_1, StringShareableMap_1, animation_1, Arrow_1, Basis_1, Sphere_1, Box_1, Cylinder_1, Curve_1, Grid_1, GridXY_1, GridYZ_1, GridZX_1, HollowCylinder_1, RigidBody_1, Tetrahedron_1, Track_1, Trail_1, Turtle_1;
+    function dotVectorCartesianE3(ax, ay, az, bx, by, bz) {
+        return ax * bx + ay * by + az * bz;
+    }
+    exports_1("default", dotVectorCartesianE3);
+    return {
+        setters: [],
+        execute: function () {}
+    };
+});
+System.register("davinci-eight/checks/isDefined.js", [], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    function isDefined(arg) {
+        return typeof arg !== 'undefined';
+    }
+    exports_1("default", isDefined);
+    return {
+        setters: [],
+        execute: function () {}
+    };
+});
+System.register('davinci-eight/math/dotVectorE3.js', ['../math/dotVectorCartesianE3', '../checks/isDefined'], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    var dotVectorCartesianE3_1, isDefined_1;
+    function dotVectorE3(a, b) {
+        if (isDefined_1.default(a) && isDefined_1.default(b)) {
+            return dotVectorCartesianE3_1.default(a.x, a.y, a.z, b.x, b.y, b.z);
+        } else {
+            return void 0;
+        }
+    }
+    exports_1("default", dotVectorE3);
+    return {
+        setters: [function (dotVectorCartesianE3_1_1) {
+            dotVectorCartesianE3_1 = dotVectorCartesianE3_1_1;
+        }, function (isDefined_1_1) {
+            isDefined_1 = isDefined_1_1;
+        }],
+        execute: function () {}
+    };
+});
+System.register("davinci-eight/math/wedgeXY.js", [], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    function wedgeXY(ax, ay, az, bx, by, bz) {
+        return ax * by - ay * bx;
+    }
+    exports_1("default", wedgeXY);
+    return {
+        setters: [],
+        execute: function () {}
+    };
+});
+System.register("davinci-eight/math/wedgeYZ.js", [], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    function wedgeYZ(ax, ay, az, bx, by, bz) {
+        return ay * bz - az * by;
+    }
+    exports_1("default", wedgeYZ);
+    return {
+        setters: [],
+        execute: function () {}
+    };
+});
+System.register("davinci-eight/math/wedgeZX.js", [], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    function wedgeZX(ax, ay, az, bx, by, bz) {
+        return az * bx - ax * bz;
+    }
+    exports_1("default", wedgeZX);
+    return {
+        setters: [],
+        execute: function () {}
+    };
+});
+System.register('davinci-eight/math/R3.js', ['./wedgeXY', './wedgeYZ', './wedgeZX'], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    var wedgeXY_1, wedgeYZ_1, wedgeZX_1;
+    function vec(x, y, z) {
+        var scale = function (α) {
+            return vec(α * x, α * y, α * z);
+        };
+        var that = {
+            get x() {
+                return x;
+            },
+            get y() {
+                return y;
+            },
+            get z() {
+                return z;
+            },
+            cross: function (rhs) {
+                var x = wedgeYZ_1.default(that.x, that.y, that.z, rhs.x, rhs.y, rhs.z);
+                var y = wedgeZX_1.default(that.x, that.y, that.z, rhs.x, rhs.y, rhs.z);
+                var z = wedgeXY_1.default(that.x, that.y, that.z, rhs.x, rhs.y, rhs.z);
+                return vec(x, y, z);
+            },
+            direction: function () {
+                var x = that.x;
+                var y = that.y;
+                var z = that.z;
+                var magnitude = Math.sqrt(x * x + y * y + z * z);
+                return vec(x / magnitude, y / magnitude, z / magnitude);
+            },
+            scale: scale,
+            sub: function (rhs) {
+                return vec(that.x - rhs.x, that.y - rhs.y, that.z - rhs.z);
+            }
+        };
+        return that;
+    }
+    exports_1("default", vec);
+    return {
+        setters: [function (wedgeXY_1_1) {
+            wedgeXY_1 = wedgeXY_1_1;
+        }, function (wedgeYZ_1_1) {
+            wedgeYZ_1 = wedgeYZ_1_1;
+        }, function (wedgeZX_1_1) {
+            wedgeZX_1 = wedgeZX_1_1;
+        }],
+        execute: function () {}
+    };
+});
+System.register('davinci-eight/diagram/Diagram3D.js', ['../math/dotVectorE3', '../math/R3'], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    var dotVectorE3_1, R3_1;
+    var Diagram3D;
+    function view(X, eye, look, up) {
+        var e = R3_1.default(eye.x, eye.y, eye.z);
+        var l = R3_1.default(look.x, look.y, look.z);
+        var n = e.sub(l).direction();
+        var u = R3_1.default(up.x, up.y, up.z).cross(n).direction();
+        var v = n.cross(u);
+        var du = -dotVectorE3_1.default(eye, u);
+        var dv = -dotVectorE3_1.default(eye, v);
+        var dn = -dotVectorE3_1.default(eye, n);
+        var x = dotVectorE3_1.default(X, u) + du;
+        var y = dotVectorE3_1.default(X, v) + dv;
+        var z = dotVectorE3_1.default(X, n) + dn;
+        return { x: x, y: y, z: z };
+    }
+    function perspective(X, N, F, fov, aspect) {
+        var t = N * Math.tan(fov / 2);
+        var b = -t;
+        var r = aspect * t;
+        var l = -r;
+        var x = N * X.x / (X.z * l);
+        var y = (2 * N * X.y + (t + b) * X.z) / (-X.z * (t - b));
+        var z = (-(F + N) * X.z - 2 * F * N) / (-X.z * (F - N));
+        return { x: x, y: y, z: z };
+    }
+    return {
+        setters: [function (dotVectorE3_1_1) {
+            dotVectorE3_1 = dotVectorE3_1_1;
+        }, function (R3_1_1) {
+            R3_1 = R3_1_1;
+        }],
+        execute: function () {
+            Diagram3D = function () {
+                function Diagram3D(canvas, camera) {
+                    this.camera = camera;
+                    var canvasElement = document.getElementById('canvas2D');
+                    this.ctx = canvasElement.getContext('2d');
+                    this.ctx.strokeStyle = "#FFFFFF";
+                    this.ctx.fillStyle = '#ffffff';
+                    this.ctx.font = '24px Helvetica';
+                }
+                Object.defineProperty(Diagram3D.prototype, "canvas", {
+                    get: function () {
+                        return this.ctx.canvas;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Diagram3D.prototype.beginPath = function () {
+                    this.ctx.beginPath();
+                };
+                Diagram3D.prototype.clear = function () {
+                    this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+                };
+                Diagram3D.prototype.closePath = function () {
+                    this.ctx.closePath();
+                };
+                Diagram3D.prototype.fill = function (fillRule) {
+                    this.ctx.fill(fillRule);
+                };
+                Diagram3D.prototype.fillText = function (text, X, maxWidth) {
+                    var coords = this.canvasCoords(X);
+                    this.ctx.fillText(text, coords.x, coords.y, maxWidth);
+                };
+                Diagram3D.prototype.moveTo = function (X) {
+                    var coords = this.canvasCoords(X);
+                    this.ctx.moveTo(coords.x, coords.y);
+                };
+                Diagram3D.prototype.lineTo = function (X) {
+                    var coords = this.canvasCoords(X);
+                    this.ctx.lineTo(coords.x, coords.y);
+                };
+                Diagram3D.prototype.stroke = function () {
+                    this.ctx.stroke();
+                };
+                Diagram3D.prototype.canvasCoords = function (X) {
+                    var camera = this.camera;
+                    var cameraCoords = view(X, camera.eye, camera.look, camera.up);
+                    var N = camera.near;
+                    var F = camera.far;
+                    var θ = camera.fov;
+                    var aspect = camera.aspect;
+                    var canonCoords = perspective(cameraCoords, N, F, θ, aspect);
+                    var x = (canonCoords.x + 1) * this.ctx.canvas.width / 2;
+                    var y = (canonCoords.y - 1) * -this.ctx.canvas.height / 2;
+                    return { x: x, y: y };
+                };
+                return Diagram3D;
+            }();
+            exports_1("default", Diagram3D);
+        }
+    };
+});
+System.register('davinci-eight.js', ['./davinci-eight/commands/WebGLBlendFunc', './davinci-eight/commands/WebGLClearColor', './davinci-eight/commands/WebGLDisable', './davinci-eight/commands/WebGLEnable', './davinci-eight/controls/OrbitControls', './davinci-eight/controls/TrackballControls', './davinci-eight/core/Attrib', './davinci-eight/core/BeginMode', './davinci-eight/core/BlendingFactorDest', './davinci-eight/core/BlendingFactorSrc', './davinci-eight/core/Capability', './davinci-eight/core/ClearBufferMask', './davinci-eight/core/Color', './davinci-eight/config', './davinci-eight/core/DataType', './davinci-eight/core/Drawable', './davinci-eight/core/DepthFunction', './davinci-eight/core/GeometryArrays', './davinci-eight/core/GeometryElements', './davinci-eight/core/GraphicsProgramSymbols', './davinci-eight/core/Mesh', './davinci-eight/core/PixelFormat', './davinci-eight/core/PixelType', './davinci-eight/core/Scene', './davinci-eight/core/Shader', './davinci-eight/core/Uniform', './davinci-eight/core/Usage', './davinci-eight/core/Engine', './davinci-eight/core/VertexBuffer', './davinci-eight/core/IndexBuffer', './davinci-eight/core/vertexArraysFromPrimitive', './davinci-eight/core/geometryFromPrimitive', './davinci-eight/facets/AmbientLight', './davinci-eight/facets/ColorFacet', './davinci-eight/facets/DirectionalLight', './davinci-eight/facets/ModelFacet', './davinci-eight/facets/PointSizeFacet', './davinci-eight/facets/ReflectionFacetE2', './davinci-eight/facets/ReflectionFacetE3', './davinci-eight/facets/Vector3Facet', './davinci-eight/facets/frustumMatrix', './davinci-eight/facets/PerspectiveCamera', './davinci-eight/facets/perspectiveMatrix', './davinci-eight/facets/viewMatrixFromEyeLookUp', './davinci-eight/facets/ModelE2', './davinci-eight/facets/ModelE3', './davinci-eight/atoms/DrawAttribute', './davinci-eight/atoms/DrawPrimitive', './davinci-eight/atoms/reduce', './davinci-eight/atoms/Vertex', './davinci-eight/shapes/ArrowBuilder', './davinci-eight/shapes/ConicalShellBuilder', './davinci-eight/shapes/CylindricalShellBuilder', './davinci-eight/shapes/RingBuilder', './davinci-eight/geometries/Simplex', './davinci-eight/geometries/ArrowGeometry', './davinci-eight/geometries/BoxGeometry', './davinci-eight/geometries/CylinderGeometry', './davinci-eight/geometries/GridGeometry', './davinci-eight/geometries/SphereGeometry', './davinci-eight/geometries/TetrahedronGeometry', './davinci-eight/materials/HTMLScriptsMaterial', './davinci-eight/materials/LineMaterial', './davinci-eight/materials/ShaderMaterial', './davinci-eight/materials/MeshMaterial', './davinci-eight/materials/PointMaterial', './davinci-eight/materials/GraphicsProgramBuilder', './davinci-eight/math/mathcore', './davinci-eight/math/Vector1', './davinci-eight/math/Matrix2', './davinci-eight/math/Matrix3', './davinci-eight/math/Matrix4', './davinci-eight/math/Geometric2', './davinci-eight/math/Geometric3', './davinci-eight/math/Spinor2', './davinci-eight/math/Spinor3', './davinci-eight/math/Vector2', './davinci-eight/math/Vector3', './davinci-eight/math/Vector4', './davinci-eight/math/VectorN', './davinci-eight/utils/getCanvasElementById', './davinci-eight/collections/ShareableArray', './davinci-eight/collections/NumberShareableMap', './davinci-eight/core/refChange', './davinci-eight/core/ShareableBase', './davinci-eight/collections/StringShareableMap', './davinci-eight/utils/animation', './davinci-eight/visual/Arrow', './davinci-eight/visual/Basis', './davinci-eight/visual/Sphere', './davinci-eight/visual/Box', './davinci-eight/visual/Cylinder', './davinci-eight/visual/Curve', './davinci-eight/visual/Grid', './davinci-eight/visual/GridXY', './davinci-eight/visual/GridYZ', './davinci-eight/visual/GridZX', './davinci-eight/visual/HollowCylinder', './davinci-eight/visual/RigidBody', './davinci-eight/visual/Tetrahedron', './davinci-eight/visual/Track', './davinci-eight/visual/Trail', './davinci-eight/visual/Turtle', './davinci-eight/diagram/Diagram3D'], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    var WebGLBlendFunc_1, WebGLClearColor_1, WebGLDisable_1, WebGLEnable_1, OrbitControls_1, TrackballControls_1, Attrib_1, BeginMode_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, ClearBufferMask_1, Color_1, config_1, DataType_1, Drawable_1, DepthFunction_1, GeometryArrays_1, GeometryElements_1, GraphicsProgramSymbols_1, Mesh_1, PixelFormat_1, PixelType_1, Scene_1, Shader_1, Uniform_1, Usage_1, Engine_1, VertexBuffer_1, IndexBuffer_1, vertexArraysFromPrimitive_1, geometryFromPrimitive_1, AmbientLight_1, ColorFacet_1, DirectionalLight_1, ModelFacet_1, PointSizeFacet_1, ReflectionFacetE2_1, ReflectionFacetE3_1, Vector3Facet_1, frustumMatrix_1, PerspectiveCamera_1, perspectiveMatrix_1, viewMatrixFromEyeLookUp_1, ModelE2_1, ModelE3_1, DrawAttribute_1, DrawPrimitive_1, reduce_1, Vertex_1, ArrowBuilder_1, ConicalShellBuilder_1, CylindricalShellBuilder_1, RingBuilder_1, Simplex_1, ArrowGeometry_1, BoxGeometry_1, CylinderGeometry_1, GridGeometry_1, SphereGeometry_1, TetrahedronGeometry_1, HTMLScriptsMaterial_1, LineMaterial_1, ShaderMaterial_1, MeshMaterial_1, PointMaterial_1, GraphicsProgramBuilder_1, mathcore_1, Vector1_1, Matrix2_1, Matrix3_1, Matrix4_1, Geometric2_1, Geometric3_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1, Vector4_1, VectorN_1, getCanvasElementById_1, ShareableArray_1, NumberShareableMap_1, refChange_1, ShareableBase_1, StringShareableMap_1, animation_1, Arrow_1, Basis_1, Sphere_1, Box_1, Cylinder_1, Curve_1, Grid_1, GridXY_1, GridYZ_1, GridZX_1, HollowCylinder_1, RigidBody_1, Tetrahedron_1, Track_1, Trail_1, Turtle_1, Diagram3D_1;
     var eight;
     return {
         setters: [function (WebGLBlendFunc_1_1) {
@@ -22617,6 +22738,8 @@ System.register('davinci-eight.js', ['./davinci-eight/commands/WebGLBlendFunc', 
             Trail_1 = Trail_1_1;
         }, function (Turtle_1_1) {
             Turtle_1 = Turtle_1_1;
+        }, function (Diagram3D_1_1) {
+            Diagram3D_1 = Diagram3D_1_1;
         }],
         execute: function () {
             eight = {
@@ -22907,6 +23030,9 @@ System.register('davinci-eight.js', ['./davinci-eight/commands/WebGLBlendFunc', 
                 },
                 get sqrt() {
                     return mathcore_1.default.sqrt;
+                },
+                get Diagram3D() {
+                    return Diagram3D_1.default;
                 },
                 get Arrow() {
                     return Arrow_1.Arrow;

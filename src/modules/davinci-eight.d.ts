@@ -4253,6 +4253,19 @@ declare module EIGHT {
     }
     */
     ///////////////////////////////////////////////////////////////////////////////
+    class Diagram3D {
+        canvas: HTMLCanvasElement;
+        constructor(canvas: string, camera: { eye: VectorE3; look: VectorE3; up: VectorE3; near: number, far: number, fov: number, aspect: number });
+        beginPath(): void;
+        clear(): void;
+        closePath(): void;
+        fill(fillRule?: string): void;
+        fillText(text: string, X: VectorE3): void;
+        moveTo(X: VectorE3): void;
+        lineTo(X: VectorE3): void;
+        stroke(): void;
+    }
+    ///////////////////////////////////////////////////////////////////////////////
     /**
      * Universal cosine function.
      */
