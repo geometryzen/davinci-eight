@@ -3769,10 +3769,20 @@ declare module EIGHT {
     /**
      * Options for the creation of a new Basis.
      */
-    interface BasisOptions extends VisualOptions {
-
+    interface BasisOptions {
+        /**
+         * The manager of the WebGL context.
+         */
+        contextManager?: ContextManager;
+        /**
+         * The manager of the WebGL context (alias for contextManager).
+         */
+        engine?: ContextManager;
     }
 
+    /**
+     * A visual representation of a list of vectors, [a, b, c], called a basis.
+     */
     class Basis extends RigidBody {
         a: Vector3;
         b: Vector3;

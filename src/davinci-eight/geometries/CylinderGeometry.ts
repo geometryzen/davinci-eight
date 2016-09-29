@@ -1,5 +1,6 @@
 import CylinderGeometryOptions from './CylinderGeometryOptions';
 import notSupported from '../i18n/notSupported';
+// import Geometric3 from '../math/Geometric3';
 import GeometryElements from '../core/GeometryElements';
 import isDefined from '../checks/isDefined';
 import mustBeBoolean from '../checks/mustBeBoolean';
@@ -9,7 +10,7 @@ import arc3 from '../geometries/arc3';
 import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import Spinor3 from '../math/Spinor3';
 import SpinorE3 from '../math/SpinorE3';
-import {Vector2} from '../math/Vector2';
+import { Vector2 } from '../math/Vector2';
 import Vector3 from '../math/Vector3';
 import VectorE3 from '../math/VectorE3';
 
@@ -100,7 +101,8 @@ class CylinderBuilder extends SimplexPrimitivesBuilder {
     private sliceAngle = 2 * Math.PI;
 
     /**
-     * FIXME: This should be computed from the axis and cutLine.
+     * The axis and cutLine are treated as the canonical configuration.
+     * The tilt moves the cylinder to th referemce configuration.
      */
     private tilt = Spinor3.one();
 
@@ -240,9 +242,20 @@ class CylinderBuilder extends SimplexPrimitivesBuilder {
     }
 }
 
+function tilt(v: VectorE3, options: CylinderGeometryOptions = {}): VectorE3 {
+    const vector = Vector3.copy(v);
+    if (options.tilt) {
+        vector.rotate(options.tilt);
+    }
+    return vector;
+}
+
 function cylinderPrimitive(options: CylinderGeometryOptions = {}): Primitive {
 
-    const builder = new CylinderBuilder(Vector3.vector(0, 1, 0), Vector3.vector(0, 0, 1), false);
+    const axis = tilt(Vector3.vector(0, 1, 0), options);
+    const cutLine = tilt(Vector3.vector(0, 0, 1), options);
+
+    const builder = new CylinderBuilder(axis, cutLine, false);
 
     if (isDefined(options.openBase)) {
         builder.openBase = mustBeBoolean('openBase', options.openBase);
@@ -255,9 +268,6 @@ function cylinderPrimitive(options: CylinderGeometryOptions = {}): Primitive {
     }
 
     //        builder.stress.copy(stress)
-    //    if (options.tilt) {
-    //        builder.tilt.copySpinor(options.tilt);
-    //    }
     if (options.offset) {
         builder.offset.copy(options.offset);
     }

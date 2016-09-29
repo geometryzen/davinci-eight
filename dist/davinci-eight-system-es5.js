@@ -5614,11 +5614,23 @@ System.register('davinci-eight/geometries/CylinderGeometry.js', ['../i18n/notSup
             uvs.push(uvsRow);
         }
     }
+    function tilt(v, options) {
+        if (options === void 0) {
+            options = {};
+        }
+        var vector = Vector3_1.default.copy(v);
+        if (options.tilt) {
+            vector.rotate(options.tilt);
+        }
+        return vector;
+    }
     function cylinderPrimitive(options) {
         if (options === void 0) {
             options = {};
         }
-        var builder = new CylinderBuilder(Vector3_1.default.vector(0, 1, 0), Vector3_1.default.vector(0, 0, 1), false);
+        var axis = tilt(Vector3_1.default.vector(0, 1, 0), options);
+        var cutLine = tilt(Vector3_1.default.vector(0, 0, 1), options);
+        var builder = new CylinderBuilder(axis, cutLine, false);
         if (isDefined_1.default(options.openBase)) {
             builder.openBase = mustBeBoolean_1.default('openBase', options.openBase);
         }
@@ -16451,9 +16463,9 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
             Eight = function () {
                 function Eight() {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-                    this.LAST_MODIFIED = '2016-09-19';
+                    this.LAST_MODIFIED = '2016-09-28';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '2.311.0';
+                    this.VERSION = '2.312.0';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];

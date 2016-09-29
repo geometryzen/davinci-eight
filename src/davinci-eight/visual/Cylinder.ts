@@ -1,16 +1,16 @@
 import direction from './direction';
-import {Color} from '../core/Color';
+import { Color } from '../core/Color';
 import contextManagerFromOptions from './contextManagerFromOptions';
 import CylinderGeometry from '../geometries/CylinderGeometry';
 import CylinderGeometryOptions from '../geometries/CylinderGeometryOptions';
 import CylinderOptions from './CylinderOptions';
-import {Geometric3} from '../math/Geometric3';
+import { Geometric3 } from '../math/Geometric3';
 import isDefined from '../checks/isDefined';
 import kFromOptions from './kFromOptions';
-import {MeshMaterial} from '../materials/MeshMaterial';
+import { MeshMaterial } from '../materials/MeshMaterial';
 import MeshMaterialOptions from '../materials/MeshMaterialOptions';
 import mustBeNumber from '../checks/mustBeNumber';
-import {RigidBody} from './RigidBody';
+import { RigidBody } from './RigidBody';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
 
@@ -71,7 +71,7 @@ export class Cylinder extends RigidBody {
     /**
      * The length of the cylinder, a scalar. Defaults to 1
      */
-    get length() {
+    get length(): Geometric3 {
         const L = this.getPrincipalScale('length');
         return Geometric3.scalar(L);
     }
