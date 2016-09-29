@@ -668,7 +668,9 @@ System.register('davinci-eight/core/Scene.js', ['../checks/mustBeObject', '../co
                 Scene.prototype.contextFree = function (contextProvider) {
                     for (var i = 0; i < this._drawables.length; i++) {
                         var drawable = this._drawables.getWeakRef(i);
-                        drawable.contextFree(contextProvider);
+                        if (drawable.contextFree) {
+                            drawable.contextFree(contextProvider);
+                        }
                     }
                     _super.prototype.contextFree.call(this, contextProvider);
                 };
@@ -684,7 +686,9 @@ System.register('davinci-eight/core/Scene.js', ['../checks/mustBeObject', '../co
                 Scene.prototype.contextLost = function () {
                     for (var i = 0; i < this._drawables.length; i++) {
                         var drawable = this._drawables.getWeakRef(i);
-                        drawable.contextLost();
+                        if (drawable.contextLost) {
+                            drawable.contextLost();
+                        }
                     }
                     _super.prototype.contextLost.call(this);
                 };
@@ -16463,9 +16467,9 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
             Eight = function () {
                 function Eight() {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-                    this.LAST_MODIFIED = '2016-09-28';
+                    this.LAST_MODIFIED = '2016-09-29';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '2.312.0';
+                    this.VERSION = '2.313.0';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];
