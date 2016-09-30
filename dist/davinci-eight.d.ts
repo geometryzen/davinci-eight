@@ -3980,6 +3980,43 @@ declare module EIGHT {
         protected destructor(levelUp: number): void;
     }
 
+    class Parallelepiped implements Renderable {
+        public name: string;
+        public opacity: number;
+        public transparent: boolean;
+        public X: Geometric3;
+        /**
+         * Edge vector, defaults to e1.
+         */
+        public a: Geometric3;
+        /**
+         * Edge vector, defaults to e2.
+         */
+        public b: Geometric3;
+        /**
+         * Edge vector, defaults to e3.
+         */
+        public c: Geometric3;
+        /**
+         * Face colors
+         * top    - 0
+         * right  - 1
+         * front  - 2
+         * bottom - 3
+         * left   - 4
+         * back   - 5
+         */
+        public colors: Color[];
+        constructor(contextManager: ContextManager);
+        protected destructor(): void;
+        render(ambients: Facet[]): void;
+        addRef(): number;
+        release(): number;
+        contextFree(contextProvider: ContextProvider): void;
+        contextGain(contextProvider: ContextProvider): void;
+        contextLost(): void;
+    }
+
     /**
      * Options for the creation of a new Sphere.
      */

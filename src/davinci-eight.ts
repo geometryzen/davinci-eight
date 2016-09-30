@@ -1,12 +1,12 @@
 // commands
 import WebGLBlendFunc from './davinci-eight/commands/WebGLBlendFunc';
-import {WebGLClearColor} from './davinci-eight/commands/WebGLClearColor';
-import {WebGLDisable} from './davinci-eight/commands/WebGLDisable';
-import {WebGLEnable} from './davinci-eight/commands/WebGLEnable';
+import { WebGLClearColor } from './davinci-eight/commands/WebGLClearColor';
+import { WebGLDisable } from './davinci-eight/commands/WebGLDisable';
+import { WebGLEnable } from './davinci-eight/commands/WebGLEnable';
 
 // controls
-import {OrbitControls} from './davinci-eight/controls/OrbitControls'
-import {TrackballControls} from './davinci-eight/controls/TrackballControls'
+import { OrbitControls } from './davinci-eight/controls/OrbitControls'
+import { TrackballControls } from './davinci-eight/controls/TrackballControls'
 
 // core
 import Attrib from './davinci-eight/core/Attrib';
@@ -16,28 +16,28 @@ import BlendingFactorDest from './davinci-eight/core/BlendingFactorDest';
 import BlendingFactorSrc from './davinci-eight/core/BlendingFactorSrc';
 import Capability from './davinci-eight/core/Capability';
 import ClearBufferMask from './davinci-eight/core/ClearBufferMask';
-import {Color} from './davinci-eight/core/Color';
+import { Color } from './davinci-eight/core/Color';
 import config from './davinci-eight/config';
 import DataType from './davinci-eight/core/DataType';
-import {Drawable} from './davinci-eight/core/Drawable';
+import { Drawable } from './davinci-eight/core/Drawable';
 import DepthFunction from './davinci-eight/core/DepthFunction';
-import {ContextConsumer} from './davinci-eight/core/ContextConsumer';
+import { ContextConsumer } from './davinci-eight/core/ContextConsumer';
 import ContextProgramConsumer from './davinci-eight/core/ContextProgramConsumer';
 import ContextProvider from './davinci-eight/core/ContextProvider';
 import GeometryArrays from './davinci-eight/core/GeometryArrays';
 import GeometryElements from './davinci-eight/core/GeometryElements';
 import GraphicsProgramSymbols from './davinci-eight/core/GraphicsProgramSymbols';
-import {Facet} from './davinci-eight/core/Facet';
-import {FacetVisitor} from './davinci-eight/core/FacetVisitor';
-import {Mesh} from './davinci-eight/core/Mesh';
+import { Facet } from './davinci-eight/core/Facet';
+import { FacetVisitor } from './davinci-eight/core/FacetVisitor';
+import { Mesh } from './davinci-eight/core/Mesh';
 import PixelFormat from './davinci-eight/core/PixelFormat';
 import PixelType from './davinci-eight/core/PixelType';
-import {Scene} from './davinci-eight/core/Scene';
+import { Scene } from './davinci-eight/core/Scene';
 import Shader from './davinci-eight/core/Shader';
 import Uniform from './davinci-eight/core/Uniform';
 import UniformMetaInfo from './davinci-eight/core/UniformMetaInfo';
 import Usage from './davinci-eight/core/Usage';
-import {Engine} from './davinci-eight/core/Engine';
+import { Engine } from './davinci-eight/core/Engine';
 import initWebGL from './davinci-eight/core/initWebGL';
 import VertexBuffer from './davinci-eight/core/VertexBuffer';
 import IndexBuffer from './davinci-eight/core/IndexBuffer';
@@ -48,11 +48,11 @@ import geometryFromPrimitive from './davinci-eight/core/geometryFromPrimitive';
 import Keyboard from './davinci-eight/devices/Keyboard';
 
 // facets and animation targets
-import {AmbientLight} from './davinci-eight/facets/AmbientLight';
-import {ColorFacet} from './davinci-eight/facets/ColorFacet';
-import {DirectionalLight} from './davinci-eight/facets/DirectionalLight';
-import {ModelFacet} from './davinci-eight/facets/ModelFacet';
-import {PointSizeFacet} from './davinci-eight/facets/PointSizeFacet';
+import { AmbientLight } from './davinci-eight/facets/AmbientLight';
+import { ColorFacet } from './davinci-eight/facets/ColorFacet';
+import { DirectionalLight } from './davinci-eight/facets/DirectionalLight';
+import { ModelFacet } from './davinci-eight/facets/ModelFacet';
+import { PointSizeFacet } from './davinci-eight/facets/PointSizeFacet';
 import ReflectionFacetE2 from './davinci-eight/facets/ReflectionFacetE2';
 import ReflectionFacetE3 from './davinci-eight/facets/ReflectionFacetE3';
 import Vector3Facet from './davinci-eight/facets/Vector3Facet';
@@ -62,7 +62,7 @@ import createView from './davinci-eight/facets/createView';
 import Frustum from './davinci-eight/facets/Frustum';
 import Perspective from './davinci-eight/facets/Perspective';
 import frustumMatrix from './davinci-eight/facets/frustumMatrix';
-import {PerspectiveCamera} from './davinci-eight/facets/PerspectiveCamera';
+import { PerspectiveCamera } from './davinci-eight/facets/PerspectiveCamera';
 import perspectiveMatrix from './davinci-eight/facets/perspectiveMatrix';
 import viewMatrix from './davinci-eight/facets/viewMatrixFromEyeLookUp';
 import ModelE2 from './davinci-eight/facets/ModelE2';
@@ -117,10 +117,10 @@ import arc3 from './davinci-eight/geometries/arc3';
 
 // materials
 import HTMLScriptsMaterial from './davinci-eight/materials/HTMLScriptsMaterial';
-import {LineMaterial} from './davinci-eight/materials/LineMaterial';
-import {ShaderMaterial} from './davinci-eight/materials/ShaderMaterial';
-import {MeshMaterial} from './davinci-eight/materials/MeshMaterial';
-import {PointMaterial} from './davinci-eight/materials/PointMaterial';
+import { LineMaterial } from './davinci-eight/materials/LineMaterial';
+import { ShaderMaterial } from './davinci-eight/materials/ShaderMaterial';
+import { MeshMaterial } from './davinci-eight/materials/MeshMaterial';
+import { PointMaterial } from './davinci-eight/materials/PointMaterial';
 import GraphicsProgramBuilder from './davinci-eight/materials/GraphicsProgramBuilder';
 
 // math
@@ -139,40 +139,41 @@ import Matrix4 from './davinci-eight/math/Matrix4';
 import SpinorE1 from './davinci-eight/math/SpinorE1';
 import SpinorE2 from './davinci-eight/math/SpinorE2';
 import SpinorE3 from './davinci-eight/math/SpinorE3';
-import {Geometric2} from './davinci-eight/math/Geometric2';
-import {Geometric3} from './davinci-eight/math/Geometric3';
+import { Geometric2 } from './davinci-eight/math/Geometric2';
+import { Geometric3 } from './davinci-eight/math/Geometric3';
 import Spinor2 from './davinci-eight/math/Spinor2';
 import Spinor3 from './davinci-eight/math/Spinor3';
-import {Vector2} from './davinci-eight/math/Vector2';
+import { Vector2 } from './davinci-eight/math/Vector2';
 import Vector3 from './davinci-eight/math/Vector3';
 import Vector4 from './davinci-eight/math/Vector4';
-import {VectorN} from './davinci-eight/math/VectorN';
+import { VectorN } from './davinci-eight/math/VectorN';
 
 // utils
 import getCanvasElementById from './davinci-eight/utils/getCanvasElementById';
 import ShareableArray from './davinci-eight/collections/ShareableArray';
 import NumberShareableMap from './davinci-eight/collections/NumberShareableMap';
 import refChange from './davinci-eight/core/refChange';
-import {ShareableBase} from './davinci-eight/core/ShareableBase';
+import { ShareableBase } from './davinci-eight/core/ShareableBase';
 import StringShareableMap from './davinci-eight/collections/StringShareableMap';
 import animation from './davinci-eight/utils/animation';
 
 // visual
-import {Arrow} from './davinci-eight/visual/Arrow';
+import { Arrow } from './davinci-eight/visual/Arrow';
 import Basis from './davinci-eight/visual/Basis';
-import {Sphere} from './davinci-eight/visual/Sphere';
-import {Box} from './davinci-eight/visual/Box';
-import {Cylinder} from './davinci-eight/visual/Cylinder';
-import {Curve} from './davinci-eight/visual/Curve';
-import {Grid} from './davinci-eight/visual/Grid';
+import { Sphere } from './davinci-eight/visual/Sphere';
+import { Box } from './davinci-eight/visual/Box';
+import { Cylinder } from './davinci-eight/visual/Cylinder';
+import { Curve } from './davinci-eight/visual/Curve';
+import { Grid } from './davinci-eight/visual/Grid';
 import GridXY from './davinci-eight/visual/GridXY';
 import GridYZ from './davinci-eight/visual/GridYZ';
 import GridZX from './davinci-eight/visual/GridZX';
 import HollowCylinder from './davinci-eight/visual/HollowCylinder';
-import {RigidBody} from './davinci-eight/visual/RigidBody';
+import Parallelepiped from './davinci-eight/visual/Parallelepiped';
+import { RigidBody } from './davinci-eight/visual/RigidBody';
 import Tetrahedron from './davinci-eight/visual/Tetrahedron';
-import {Track} from './davinci-eight/visual/Track';
-import {Trail} from './davinci-eight/visual/Trail';
+import { Track } from './davinci-eight/visual/Track';
+import { Trail } from './davinci-eight/visual/Trail';
 import Turtle from './davinci-eight/visual/Turtle';
 import vector from './davinci-eight/visual/vector';
 
@@ -329,6 +330,7 @@ const eight = {
     get GridYZ() { return GridYZ; },
     get GridZX() { return GridZX; },
     get HollowCylinder() { return HollowCylinder; },
+    get Parallelepiped() { return Parallelepiped; },
     get RigidBody() { return RigidBody; },
     get Tetrahedron() { return Tetrahedron; },
     get Track() { return Track; },
