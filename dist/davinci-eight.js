@@ -553,7 +553,7 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-09-29';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.314.0';
+            this.VERSION = '2.315.0';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -18559,7 +18559,7 @@ define('davinci-eight/visual/HollowCylinder',["require", "exports", '../core/Col
     exports.default = HollowCylinder;
 });
 
-define('davinci-eight/visual/Parallelepiped',["require", "exports", '../core/BeginMode', '../core/Color', '../core/DataType', '../base/exchange', '../math/Geometric3', '../core/GeometryArrays', '../core/Mesh', '../core/refChange', '../materials/ShaderMaterial'], function (require, exports, BeginMode_1, Color_1, DataType_1, exchange_1, Geometric3_1, GeometryArrays_1, Mesh_1, refChange_1, ShaderMaterial_1) {
+define('davinci-eight/visual/Parallelepiped',["require", "exports", '../core/BeginMode', '../core/cleanUp', '../core/Color', '../core/DataType', '../base/exchange', '../math/Geometric3', '../core/GeometryArrays', '../core/Mesh', '../core/refChange', '../materials/ShaderMaterial'], function (require, exports, BeginMode_1, cleanUp_1, Color_1, DataType_1, exchange_1, Geometric3_1, GeometryArrays_1, Mesh_1, refChange_1, ShaderMaterial_1) {
     "use strict";
     var vertexShaderSrc = [
         "attribute vec3 aCoords;",
@@ -18643,7 +18643,9 @@ define('davinci-eight/visual/Parallelepiped',["require", "exports", '../core/Beg
     quad(4, 5, 6, 7);
     quad(5, 4, 0, 1);
     var Parallelepiped = (function () {
-        function Parallelepiped(contextManager) {
+        function Parallelepiped(contextManager, levelUp) {
+            if (levelUp === void 0) { levelUp = 0; }
+            this.levelUp = levelUp;
             this.opacity = 1;
             this.transparent = false;
             this.X = Geometric3_1.Geometric3.zero().clone();
@@ -18660,24 +18662,32 @@ define('davinci-eight/visual/Parallelepiped',["require", "exports", '../core/Beg
             this.colors[3] = Color_1.Color.gray.clone();
             this.colors[4] = Color_1.Color.gray.clone();
             this.colors[5] = Color_1.Color.gray.clone();
+            if (levelUp === 0) {
+                contextManager.synchronize(this);
+            }
         }
-        Parallelepiped.prototype.destructor = function () {
+        Parallelepiped.prototype.destructor = function (levelUp) {
+            if (levelUp === 0) {
+                cleanUp_1.default(this.contextProvider, this);
+            }
             this.mesh = exchange_1.default(this.mesh, void 0);
             this.contextManager = exchange_1.default(this.contextManager, void 0);
         };
         Parallelepiped.prototype.render = function (ambients) {
-            var material = this.mesh.material;
-            material.use();
-            material.getUniform('uOpacity').uniform1f(this.opacity);
-            material.getUniform('uPosition').uniform3f(this.X.x, this.X.y, this.X.z);
-            material.getUniform('a').uniform3f(this.a.x, this.a.y, this.a.z);
-            material.getUniform('b').uniform3f(this.b.x, this.b.y, this.b.z);
-            material.getUniform('c').uniform3f(this.c.x, this.c.y, this.c.z);
-            for (var i = 0; i < this.colors.length; i++) {
-                material.getUniform("color" + i).uniform3f(this.colors[i].r, this.colors[i].g, this.colors[i].b);
+            if (this.mesh) {
+                var material = this.mesh.material;
+                material.use();
+                material.getUniform('uOpacity').uniform1f(this.opacity);
+                material.getUniform('uPosition').uniform3f(this.X.x, this.X.y, this.X.z);
+                material.getUniform('a').uniform3f(this.a.x, this.a.y, this.a.z);
+                material.getUniform('b').uniform3f(this.b.x, this.b.y, this.b.z);
+                material.getUniform('c').uniform3f(this.c.x, this.c.y, this.c.z);
+                for (var i = 0; i < this.colors.length; i++) {
+                    material.getUniform("color" + i).uniform3f(this.colors[i].r, this.colors[i].g, this.colors[i].b);
+                }
+                material.release();
+                this.mesh.render(ambients);
             }
-            material.release();
-            this.mesh.render(ambients);
         };
         Parallelepiped.prototype.addRef = function () {
             refChange_1.default(ID, NAME, +1);
@@ -18688,12 +18698,13 @@ define('davinci-eight/visual/Parallelepiped',["require", "exports", '../core/Beg
             refChange_1.default(ID, NAME, -1);
             this.refCount--;
             if (this.refCount === 0) {
-                this.destructor();
+                this.destructor(this.levelUp);
             }
             return this.refCount;
         };
         Parallelepiped.prototype.contextFree = function (contextProvider) {
             this.mesh = exchange_1.default(this.mesh, void 0);
+            this.contextProvider = exchange_1.default(this.contextProvider, void 0);
         };
         Parallelepiped.prototype.contextGain = function (contextProvider) {
             if (!this.mesh) {
@@ -18705,10 +18716,12 @@ define('davinci-eight/visual/Parallelepiped',["require", "exports", '../core/Beg
                 this.mesh = new Mesh_1.Mesh(geometry, material, this.contextManager);
                 geometry.release();
                 material.release();
+                this.contextProvider = exchange_1.default(this.contextProvider, contextProvider);
             }
         };
         Parallelepiped.prototype.contextLost = function () {
             this.mesh = exchange_1.default(this.mesh, void 0);
+            this.contextProvider = exchange_1.default(this.contextProvider, void 0);
         };
         return Parallelepiped;
     }());

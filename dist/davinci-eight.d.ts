@@ -4007,8 +4007,8 @@ declare module EIGHT {
          * back   - 5
          */
         public colors: Color[];
-        constructor(contextManager: ContextManager);
-        protected destructor(): void;
+        constructor(contextManager: ContextManager, levelUp?: number);
+        protected destructor(levelUp: number): void;
         render(ambients: Facet[]): void;
         addRef(): number;
         release(): number;

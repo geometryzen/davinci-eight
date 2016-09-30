@@ -1,4 +1,5 @@
 import BeginMode from '../core/BeginMode';
+import cleanUp from '../core/cleanUp';
 import { Color } from '../core/Color';
 import ContextManager from '../core/ContextManager';
 import ContextProvider from '../core/ContextProvider';
@@ -132,9 +133,10 @@ export default class Parallelepiped implements Renderable {
      */
     public colors: Color[] = [];
     private contextManager: ContextManager;
+    private contextProvider: ContextProvider;
     private refCount = 0;
     private mesh: Mesh<GeometryArrays, ShaderMaterial>;
-    constructor(contextManager: ContextManager) {
+    constructor(contextManager: ContextManager, private levelUp = 0) {
         this.contextManager = exchange(this.contextManager, contextManager);
         this.addRef();
         this.colors[0] = Color.gray.clone();
@@ -143,24 +145,32 @@ export default class Parallelepiped implements Renderable {
         this.colors[3] = Color.gray.clone();
         this.colors[4] = Color.gray.clone();
         this.colors[5] = Color.gray.clone();
+        if (levelUp === 0) {
+            contextManager.synchronize(this);
+        }
     }
-    protected destructor(): void {
+    protected destructor(levelUp: number): void {
+        if (levelUp === 0) {
+            cleanUp(this.contextProvider, this);
+        }
         this.mesh = exchange(this.mesh, void 0);
         this.contextManager = exchange(this.contextManager, void 0);
     }
     render(ambients: Facet[]): void {
-        const material = this.mesh.material;
-        material.use();
-        material.getUniform('uOpacity').uniform1f(this.opacity);
-        material.getUniform('uPosition').uniform3f(this.X.x, this.X.y, this.X.z);
-        material.getUniform('a').uniform3f(this.a.x, this.a.y, this.a.z);
-        material.getUniform('b').uniform3f(this.b.x, this.b.y, this.b.z);
-        material.getUniform('c').uniform3f(this.c.x, this.c.y, this.c.z);
-        for (let i = 0; i < this.colors.length; i++) {
-            material.getUniform(`color${i}`).uniform3f(this.colors[i].r, this.colors[i].g, this.colors[i].b);
+        if (this.mesh) {
+            const material = this.mesh.material;
+            material.use();
+            material.getUniform('uOpacity').uniform1f(this.opacity);
+            material.getUniform('uPosition').uniform3f(this.X.x, this.X.y, this.X.z);
+            material.getUniform('a').uniform3f(this.a.x, this.a.y, this.a.z);
+            material.getUniform('b').uniform3f(this.b.x, this.b.y, this.b.z);
+            material.getUniform('c').uniform3f(this.c.x, this.c.y, this.c.z);
+            for (let i = 0; i < this.colors.length; i++) {
+                material.getUniform(`color${i}`).uniform3f(this.colors[i].r, this.colors[i].g, this.colors[i].b);
+            }
+            material.release();
+            this.mesh.render(ambients);
         }
-        material.release();
-        this.mesh.render(ambients);
     }
     addRef(): number {
         refChange(ID, NAME, +1);
@@ -171,12 +181,13 @@ export default class Parallelepiped implements Renderable {
         refChange(ID, NAME, -1);
         this.refCount--;
         if (this.refCount === 0) {
-            this.destructor();
+            this.destructor(this.levelUp);
         }
         return this.refCount;
     }
     contextFree(contextProvider: ContextProvider): void {
         this.mesh = exchange(this.mesh, void 0);
+        this.contextProvider = exchange(this.contextProvider, void 0);
     }
     contextGain(contextProvider: ContextProvider): void {
         if (!this.mesh) {
@@ -192,9 +203,12 @@ export default class Parallelepiped implements Renderable {
 
             geometry.release();
             material.release();
+
+            this.contextProvider = exchange(this.contextProvider, contextProvider);
         }
     }
     contextLost(): void {
         this.mesh = exchange(this.mesh, void 0);
+        this.contextProvider = exchange(this.contextProvider, void 0);
     }
 }
