@@ -49,6 +49,10 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 
 ## Testing
 
+```
+karma start
+```
+
 ## Versioning
 
 ```
