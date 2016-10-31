@@ -551,9 +551,9 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
     var Eight = (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-10-23';
+            this.LAST_MODIFIED = '2016-10-31';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.316.0';
+            this.VERSION = '2.317.0';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -6294,7 +6294,7 @@ define('davinci-eight/core/ShareableContextConsumer',["require", "exports", './c
             _super.call(this);
             this.setLoggingName('ShareableContextConsumer');
             if (!isNull_1.default(contextManager) && !isUndefined_1.default(contextManager)) {
-                this.subscribe(contextManager);
+                this.subscribe(contextManager, false);
             }
         }
         ShareableContextConsumer.prototype.destructor = function (levelUp) {
@@ -6305,17 +6305,20 @@ define('davinci-eight/core/ShareableContextConsumer',["require", "exports", './c
             this.unsubscribe();
             _super.prototype.destructor.call(this, levelUp + 1);
         };
-        ShareableContextConsumer.prototype.subscribe = function (contextManager) {
+        ShareableContextConsumer.prototype.subscribe = function (contextManager, synchUp) {
             contextManager = mustBeObject_1.default('contextManager', contextManager);
             if (!this.manager) {
                 contextManager.addRef();
                 this.manager = contextManager;
                 contextManager.addContextListener(this);
+                if (synchUp) {
+                    this.synchUp();
+                }
             }
             else {
                 if (this.manager !== contextManager) {
                     this.unsubscribe();
-                    this.subscribe(contextManager);
+                    this.subscribe(contextManager, synchUp);
                 }
                 else {
                 }

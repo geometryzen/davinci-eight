@@ -1,5 +1,5 @@
 import cleanUp from './cleanUp';
-import {ContextConsumer} from './ContextConsumer';
+import { ContextConsumer } from './ContextConsumer';
 import ContextManager from './ContextManager';
 import ContextProvider from './ContextProvider';
 import EngineSubscriber from './EngineSubscriber';
@@ -7,7 +7,7 @@ import isUndefined from '../checks/isUndefined';
 import isNull from '../checks/isNull';
 import mustBeObject from '../checks/mustBeObject'
 import readOnly from '../i18n/readOnly';
-import {ShareableBase} from './ShareableBase';
+import { ShareableBase } from './ShareableBase';
 
 /**
  * <p>
@@ -68,7 +68,7 @@ export class ShareableContextConsumer extends ShareableBase implements ContextCo
         super();
         this.setLoggingName('ShareableContextConsumer');
         if (!isNull(contextManager) && !isUndefined(contextManager)) {
-            this.subscribe(contextManager);
+            this.subscribe(contextManager, false);
         }
     }
 
@@ -95,18 +95,21 @@ export class ShareableContextConsumer extends ShareableBase implements ContextCo
      * This method is idempotent; calling it more than once with the same <code>ContextManager</code> does not change the state.
      * </p>
      */
-    subscribe(contextManager: ContextManager): void {
+    subscribe(contextManager: ContextManager, synchUp: boolean): void {
         contextManager = mustBeObject('contextManager', contextManager);
         if (!this.manager) {
             contextManager.addRef();
             this.manager = contextManager;
             contextManager.addContextListener(this);
+            if (synchUp) {
+                this.synchUp();
+            }
         }
         else {
             if (this.manager !== contextManager) {
                 // We can only subscribe to one ContextManager at at time.
-                this.unsubscribe()
-                this.subscribe(contextManager)
+                this.unsubscribe();
+                this.subscribe(contextManager, synchUp);
             }
             else {
                 // We are already subscribed to this ContextManager (Idempotentency)

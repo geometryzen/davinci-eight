@@ -540,7 +540,7 @@ declare module EIGHT {
         contextFree(contextProvider: ContextProvider): void;
         contextGain(contextProvider: ContextProvider): void;
         contextLost(): void;
-        subscribe(contextManager: ContextManager): void;
+        subscribe(contextManager: ContextManager, synchUp: boolean): void;
         synchUp(): void;
         unsubscribe(): void;
     }

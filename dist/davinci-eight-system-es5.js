@@ -16609,9 +16609,9 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
             Eight = function () {
                 function Eight() {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-                    this.LAST_MODIFIED = '2016-10-23';
+                    this.LAST_MODIFIED = '2016-10-31';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '2.316.0';
+                    this.VERSION = '2.317.0';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];
@@ -17007,7 +17007,7 @@ System.register('davinci-eight/core/ShareableContextConsumer.js', ['./cleanUp', 
                     _super.call(this);
                     this.setLoggingName('ShareableContextConsumer');
                     if (!isNull_1.default(contextManager) && !isUndefined_1.default(contextManager)) {
-                        this.subscribe(contextManager);
+                        this.subscribe(contextManager, false);
                     }
                 }
                 ShareableContextConsumer.prototype.destructor = function (levelUp) {
@@ -17018,16 +17018,19 @@ System.register('davinci-eight/core/ShareableContextConsumer.js', ['./cleanUp', 
                     this.unsubscribe();
                     _super.prototype.destructor.call(this, levelUp + 1);
                 };
-                ShareableContextConsumer.prototype.subscribe = function (contextManager) {
+                ShareableContextConsumer.prototype.subscribe = function (contextManager, synchUp) {
                     contextManager = mustBeObject_1.default('contextManager', contextManager);
                     if (!this.manager) {
                         contextManager.addRef();
                         this.manager = contextManager;
                         contextManager.addContextListener(this);
+                        if (synchUp) {
+                            this.synchUp();
+                        }
                     } else {
                         if (this.manager !== contextManager) {
                             this.unsubscribe();
-                            this.subscribe(contextManager);
+                            this.subscribe(contextManager, synchUp);
                         } else {}
                     }
                 };

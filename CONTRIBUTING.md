@@ -17,18 +17,21 @@ cd davinci-eight
 Install NPM:
 ```
 npm install
+npm update
 ```
 to install the tooling dependencies (For this you need to have [Node.js](http://nodejs.org) installed).
 
 Install Bower:
 ```
 bower install
+bower update
 ```
 to install the software dependencies (For this you need to have [Bower](http://bower.io) installed).
 
 Install JSPM:
 ```
 jspm install
+jspm update
 ```
 to install JSPM, used for testing.
 
@@ -54,6 +57,8 @@ karma start
 ```
 
 ## Versioning
+
+The following files should be changed.
 
 ```
 src/davinci-eight/config.ts
