@@ -1,3 +1,3 @@
-export default function isNumber(x: any): boolean {
+export default function isNumber(x: any): x is number {
     return (typeof x === 'number');
 }

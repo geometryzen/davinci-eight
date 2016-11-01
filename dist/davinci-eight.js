@@ -551,9 +551,9 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
     var Eight = (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-10-31';
+            this.LAST_MODIFIED = '2016-11-1';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.317.0';
+            this.VERSION = '2.318.0';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -4896,9 +4896,25 @@ define('davinci-eight/math/Vector3',["require", "exports", './Coords', './dotVec
                 return void 0;
             }
         };
+        Vector3.prototype.__radd__ = function (lhs) {
+            if (lhs instanceof Vector3) {
+                return lhs.clone().add(this, 1.0);
+            }
+            else {
+                return void 0;
+            }
+        };
         Vector3.prototype.__sub__ = function (rhs) {
             if (rhs instanceof Vector3) {
                 return this.clone().sub(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        Vector3.prototype.__rsub__ = function (lhs) {
+            if (lhs instanceof Vector3) {
+                return lhs.clone().sub(this, 1.0);
             }
             else {
                 return void 0;
@@ -4922,6 +4938,17 @@ define('davinci-eight/math/Vector3',["require", "exports", './Coords', './dotVec
             else {
                 return void 0;
             }
+        };
+        Vector3.prototype.__div__ = function (rhs) {
+            if (isNumber_1.default(rhs)) {
+                return this.clone().divByScalar(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        Vector3.prototype.__rdiv__ = function (lhs) {
+            return void 0;
         };
         Vector3.copy = function (vector) {
             return new Vector3([vector.x, vector.y, vector.z]);

@@ -1,5 +1,5 @@
 import BivectorE3 from './BivectorE3';
-import {Coords} from './Coords';
+import { Coords } from './Coords';
 import VectorE3 from './VectorE3';
 import dotVectorE3 from './dotVectorE3';
 import Matrix3 from './Matrix3';
@@ -601,7 +601,7 @@ export default class Vector3 extends Coords {
      * @return {string}
      */
     toExponential(fractionDigits?: number): string {
-        var coordToString = function(coord: number): string { return coord.toExponential(fractionDigits); };
+        var coordToString = function (coord: number): string { return coord.toExponential(fractionDigits); };
         return toStringCustom(coordinates(this), coordToString, BASIS_LABELS);
     }
 
@@ -611,7 +611,7 @@ export default class Vector3 extends Coords {
      * @return {string}
      */
     toFixed(fractionDigits?: number): string {
-        const coordToString = function(coord: number): string { return coord.toFixed(fractionDigits); };
+        const coordToString = function (coord: number): string { return coord.toFixed(fractionDigits); };
         return toStringCustom(coordinates(this), coordToString, BASIS_LABELS);
     }
 
@@ -621,7 +621,7 @@ export default class Vector3 extends Coords {
      * @return {string}
      */
     toPrecision(precision?: number): string {
-        const coordToString = function(coord: number): string { return coord.toPrecision(precision); };
+        const coordToString = function (coord: number): string { return coord.toPrecision(precision); };
         return toStringCustom(coordinates(this), coordToString, BASIS_LABELS);
     }
 
@@ -631,7 +631,7 @@ export default class Vector3 extends Coords {
      * @return {string}
      */
     toString(radix?: number): string {
-        const coordToString = function(coord: number): string { return coord.toString(radix); };
+        const coordToString = function (coord: number): string { return coord.toString(radix); };
         return toStringCustom(coordinates(this), coordToString, BASIS_LABELS);
     }
 
@@ -656,6 +656,16 @@ export default class Vector3 extends Coords {
             return void 0;
         }
     }
+
+    __radd__(lhs: Vector3): Vector3 {
+        if (lhs instanceof Vector3) {
+            return lhs.clone().add(this, 1.0);
+        }
+        else {
+            return void 0;
+        }
+    }
+
     __sub__(rhs: Vector3): Vector3 {
         if (rhs instanceof Vector3) {
             return this.clone().sub(rhs);
@@ -665,12 +675,15 @@ export default class Vector3 extends Coords {
         }
     }
 
-    /**
-     * @method mul
-     * @param rhs {number}
-     * @return {Vector3}
-     * @private
-     */
+    __rsub__(lhs: Vector3): Vector3 {
+        if (lhs instanceof Vector3) {
+            return lhs.clone().sub(this, 1.0);
+        }
+        else {
+            return void 0;
+        }
+    }
+
     __mul__(rhs: number): Vector3 {
         if (isNumber(rhs)) {
             return this.clone().scale(rhs);
@@ -680,12 +693,6 @@ export default class Vector3 extends Coords {
         }
     }
 
-    /**
-     * @method rmul
-     * @param lhs {number | Matrix3}
-     * @return {Vector3}
-     * @private
-     */
     __rmul__(lhs: number | Matrix3): Vector3 {
         if (typeof lhs === 'number') {
             return this.clone().scale(lhs);
@@ -696,6 +703,19 @@ export default class Vector3 extends Coords {
         else {
             return void 0;
         }
+    }
+
+    __div__(rhs: number): Vector3 {
+        if (isNumber(rhs)) {
+            return this.clone().divByScalar(rhs);
+        }
+        else {
+            return void 0;
+        }
+    }
+
+    __rdiv__(lhs: any): Vector3 {
+        return void 0;
     }
 
     /**
