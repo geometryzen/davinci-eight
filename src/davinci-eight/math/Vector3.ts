@@ -718,6 +718,14 @@ export default class Vector3 extends Coords {
         return void 0;
     }
 
+    __pos__(): Vector3 {
+        return Vector3.copy(this);
+    }
+
+    __neg__(): Vector3 {
+        return Vector3.copy(this).neg();
+    }
+
     /**
      * @method copy
      * @param vector {VectorE3}

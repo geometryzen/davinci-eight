@@ -553,7 +553,7 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-11-1';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.318.0';
+            this.VERSION = '2.319.0';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -4949,6 +4949,12 @@ define('davinci-eight/math/Vector3',["require", "exports", './Coords', './dotVec
         };
         Vector3.prototype.__rdiv__ = function (lhs) {
             return void 0;
+        };
+        Vector3.prototype.__pos__ = function () {
+            return Vector3.copy(this);
+        };
+        Vector3.prototype.__neg__ = function () {
+            return Vector3.copy(this).neg();
         };
         Vector3.copy = function (vector) {
             return new Vector3([vector.x, vector.y, vector.z]);

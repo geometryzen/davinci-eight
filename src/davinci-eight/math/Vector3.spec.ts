@@ -163,5 +163,36 @@ describe("Vector3", function () {
                 expect(a.z).toBe(6);
             });
         });
+        describe("__neg__", function () {
+            const a = new Vector3([1, 2, 3]);
+            const b = a.__neg__()
+            it("should have negated coordinates", function () {
+                expect(b.x).toBe(-a.x);
+                expect(b.y).toBe(-a.y);
+                expect(b.z).toBe(-a.z);
+            });
+            it("should not change the vector", function () {
+                expect(a.x).toBe(1);
+                expect(a.y).toBe(2);
+                expect(a.z).toBe(3);
+            });
+        });
+        describe("__pos__", function () {
+            const a = new Vector3([1, 2, 3]);
+            const b = a.__pos__()
+            it("should have same coordinates", function () {
+                expect(b.x).toBe(a.x);
+                expect(b.y).toBe(a.y);
+                expect(b.z).toBe(a.z);
+                expect(b.x).toBe(+a.x);
+                expect(b.y).toBe(+a.y);
+                expect(b.z).toBe(+a.z);
+            });
+            it("should not change the vector", function () {
+                expect(a.x).toBe(1);
+                expect(a.y).toBe(2);
+                expect(a.z).toBe(3);
+            });
+        });
     });
 });

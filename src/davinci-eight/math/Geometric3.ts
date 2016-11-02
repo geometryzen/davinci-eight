@@ -1,6 +1,6 @@
 import BivectorE3 from './BivectorE3';
 import CartesianG3 from './CartesianG3';
-import {Coords} from './Coords';
+import { Coords } from './Coords';
 import arraysEQ from './arraysEQ';
 import dotVector from './dotVectorE3';
 import EventEmitter from '../utils/EventEmitter';
@@ -1338,7 +1338,7 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * @returns
      */
     toExponential(fractionDigits?: number): string {
-        const coordToString = function(coord: number): string { return coord.toExponential(fractionDigits) };
+        const coordToString = function (coord: number): string { return coord.toExponential(fractionDigits) };
         return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS)
     }
 
@@ -1349,7 +1349,7 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * @returns
      */
     toFixed(fractionDigits?: number): string {
-        const coordToString = function(coord: number): string { return coord.toFixed(fractionDigits) };
+        const coordToString = function (coord: number): string { return coord.toFixed(fractionDigits) };
         return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS)
     }
 
@@ -1358,7 +1358,7 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * @returns
      */
     toPrecision(precision?: number): string {
-        const coordToString = function(coord: number): string { return coord.toPrecision(precision) };
+        const coordToString = function (coord: number): string { return coord.toPrecision(precision) };
         return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS)
     }
 
@@ -1369,7 +1369,7 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * @returns
      */
     toString(radix?: number): string {
-        const coordToString = function(coord: number): string { return coord.toString(radix) };
+        const coordToString = function (coord: number): string { return coord.toString(radix) };
         return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS)
     }
 
@@ -1721,24 +1721,15 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
         }
     }
 
-    /**
-     * @returns
-     */
     __bang__(): Geometric3 {
         return Geometric3.copy(this).inv()
     }
 
-    /**
-     * @returns
-     */
-    __pos__() {
-        return Geometric3.copy(this)/*.pos()*/
+    __pos__(): Geometric3 {
+        return Geometric3.copy(this)
     }
 
-    /**
-     * @returns
-     */
-    __neg__() {
+    __neg__(): Geometric3 {
         return Geometric3.copy(this).neg()
     }
 
