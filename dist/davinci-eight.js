@@ -551,9 +551,9 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
     var Eight = (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-11-1';
+            this.LAST_MODIFIED = '2016-11-4';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.319.0';
+            this.VERSION = '2.320.0';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -2290,13 +2290,18 @@ define('davinci-eight/math/Geometric3',["require", "exports", './Coords', './arr
         __extends(Geometric3, _super);
         function Geometric3() {
             _super.call(this, [0, 0, 0, 0, 0, 0, 0, 0], false, 8);
-            this.eventBus = new EventEmitter_1.default(this);
         }
+        Geometric3.prototype.ensureBus = function () {
+            if (!this._eventBus) {
+                this._eventBus = new EventEmitter_1.default(this);
+            }
+            return this._eventBus;
+        };
         Geometric3.prototype.on = function (eventName, callback) {
-            this.eventBus.addEventListener(eventName, callback);
+            this.ensureBus().addEventListener(eventName, callback);
         };
         Geometric3.prototype.off = function (eventName, callback) {
-            this.eventBus.removeEventListener(eventName, callback);
+            this.ensureBus().removeEventListener(eventName, callback);
         };
         Geometric3.prototype.setCoordinate = function (index, newValue, name) {
             var coords = this.coords;
@@ -2304,7 +2309,9 @@ define('davinci-eight/math/Geometric3',["require", "exports", './Coords', './arr
             if (newValue !== previous) {
                 coords[index] = newValue;
                 this.modified = true;
-                this.eventBus.emit(EVENT_NAME_CHANGE, name, newValue);
+                if (this._eventBus) {
+                    this._eventBus.emit(EVENT_NAME_CHANGE, name, newValue);
+                }
             }
         };
         Object.defineProperty(Geometric3.prototype, "a", {
@@ -7328,7 +7335,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/GeometryBase',["require", "exports", '../math/Matrix4', '../i18n/notImplemented', '../i18n/notSupported', './ShareableContextConsumer', '../math/Spinor3'], function (require, exports, Matrix4_1, notImplemented_1, notSupported_1, ShareableContextConsumer_1, Spinor3_1) {
+define('davinci-eight/core/GeometryBase',["require", "exports", '../utils/EventEmitter', '../math/Matrix4', '../i18n/notImplemented', '../i18n/notSupported', './ShareableContextConsumer', '../math/Spinor3'], function (require, exports, EventEmitter_1, Matrix4_1, notImplemented_1, notSupported_1, ShareableContextConsumer_1, Spinor3_1) {
     "use strict";
     var GeometryBase = (function (_super) {
         __extends(GeometryBase, _super);
@@ -7355,6 +7362,18 @@ define('davinci-eight/core/GeometryBase',["require", "exports", '../math/Matrix4
             }
             _super.prototype.destructor.call(this, levelUp + 1);
         };
+        GeometryBase.prototype.ensureBus = function () {
+            if (!this._eventBus) {
+                this._eventBus = new EventEmitter_1.default(this);
+            }
+            return this._eventBus;
+        };
+        GeometryBase.prototype.on = function (eventName, callback) {
+            this.ensureBus().addEventListener(eventName, callback);
+        };
+        GeometryBase.prototype.off = function (eventName, callback) {
+            this.ensureBus().removeEventListener(eventName, callback);
+        };
         GeometryBase.prototype.bind = function (material) {
             throw new Error(notSupported_1.default('bind').message);
         };
@@ -7375,70 +7394,61 @@ define('davinci-eight/core/GeometryBase',["require", "exports", '../math/Matrix4
         };
         GeometryBase.prototype.setScale = function (x, y, z) {
             if (this.Kidentity) {
-                this.scaling.setElement(0, 0, x);
-                this.scaling.setElement(1, 1, y);
-                this.scaling.setElement(2, 2, z);
+                var sMatrix = this.scaling;
+                var oldX = sMatrix.getElement(0, 0);
+                var oldY = sMatrix.getElement(1, 1);
+                var oldZ = sMatrix.getElement(2, 2);
+                if (x !== oldX) {
+                    sMatrix.setElement(0, 0, x);
+                    if (this._eventBus) {
+                        this._eventBus.emit('change', 'scaling', sMatrix);
+                    }
+                }
+                if (y !== oldY) {
+                    sMatrix.setElement(1, 1, y);
+                    if (this._eventBus) {
+                        this._eventBus.emit('change', 'scaling', sMatrix);
+                    }
+                }
+                if (z !== oldZ) {
+                    sMatrix.setElement(2, 2, z);
+                    if (this._eventBus) {
+                        this._eventBus.emit('change', 'scaling', sMatrix);
+                    }
+                }
             }
             else {
-                this.canonicalScale.copy(this.Kinv).mul(this.scaling).mul(this.K);
-                this.canonicalScale.setElement(0, 0, x);
-                this.canonicalScale.setElement(1, 1, y);
-                this.canonicalScale.setElement(2, 2, z);
-                this.scaling.copy(this.K).mul(this.canonicalScale).mul(this.Kinv);
+                var sMatrix = this.scaling;
+                var cMatrix = this.canonicalScale;
+                cMatrix.copy(this.Kinv).mul(sMatrix).mul(this.K);
+                var oldX = cMatrix.getElement(0, 0);
+                var oldY = cMatrix.getElement(1, 1);
+                var oldZ = cMatrix.getElement(2, 2);
+                var matrixChanged = false;
+                if (x !== oldX) {
+                    cMatrix.setElement(0, 0, x);
+                    matrixChanged = true;
+                }
+                if (y !== oldY) {
+                    cMatrix.setElement(1, 1, y);
+                    matrixChanged = true;
+                }
+                if (z !== oldZ) {
+                    cMatrix.setElement(2, 2, z);
+                    matrixChanged = true;
+                }
+                if (matrixChanged) {
+                    sMatrix.copy(this.K).mul(cMatrix).mul(this.Kinv);
+                    if (this._eventBus) {
+                        this._eventBus.emit('change', 'scaling', sMatrix);
+                    }
+                }
             }
         };
         return GeometryBase;
     }(ShareableContextConsumer_1.ShareableContextConsumer));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = GeometryBase;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/core/GeometryLeaf',["require", "exports", './GeometryBase', '../math/Matrix4', '../checks/mustBeNumber', '../i18n/notImplemented', '../i18n/notSupported'], function (require, exports, GeometryBase_1, Matrix4_1, mustBeNumber_1, notImplemented_1, notSupported_1) {
-    "use strict";
-    var GeometryLeaf = (function (_super) {
-        __extends(GeometryLeaf, _super);
-        function GeometryLeaf(tilt, contextManager, levelUp) {
-            _super.call(this, tilt, contextManager, levelUp + 1);
-            this.scaling = Matrix4_1.default.one();
-            mustBeNumber_1.default('levelUp', levelUp);
-            this.setLoggingName('GeometryLeaf');
-            if (levelUp === 0) {
-                this.synchUp();
-            }
-        }
-        GeometryLeaf.prototype.destructor = function (levelUp) {
-            if (levelUp === 0) {
-                this.cleanUp();
-            }
-            _super.prototype.destructor.call(this, levelUp + 1);
-        };
-        GeometryLeaf.prototype.bind = function (material) {
-            throw new Error(notSupported_1.default('bind').message);
-        };
-        GeometryLeaf.prototype.unbind = function (material) {
-            throw new Error(notSupported_1.default('unbind').message);
-        };
-        GeometryLeaf.prototype.draw = function (material) {
-            throw new Error(notSupported_1.default('draw').message);
-        };
-        GeometryLeaf.prototype.hasPrincipalScale = function (name) {
-            throw new Error(notImplemented_1.default("hasPrincipalScale(" + name + ")").message);
-        };
-        GeometryLeaf.prototype.getPrincipalScale = function (name) {
-            throw new Error(notImplemented_1.default('getPrincipalScale').message);
-        };
-        GeometryLeaf.prototype.setPrincipalScale = function (name, value) {
-            throw new Error(notImplemented_1.default('setPrincipalScale').message);
-        };
-        return GeometryLeaf;
-    }(GeometryBase_1.default));
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = GeometryLeaf;
 });
 
 define('davinci-eight/core/vertexArraysFromPrimitive',["require", "exports", './computeAttributes', './computePointers', './computeStride'], function (require, exports, computeAttributes_1, computePointers_1, computeStride_1) {
@@ -7620,7 +7630,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/GeometryArrays',["require", "exports", './computeAttributes', './computeCount', './computePointers', './computeStride', './GeometryLeaf', '../checks/isNull', '../checks/isObject', '../checks/isUndefined', './vertexArraysFromPrimitive', './VertexBuffer'], function (require, exports, computeAttributes_1, computeCount_1, computePointers_1, computeStride_1, GeometryLeaf_1, isNull_1, isObject_1, isUndefined_1, vertexArraysFromPrimitive_1, VertexBuffer_1) {
+define('davinci-eight/core/GeometryArrays',["require", "exports", './computeAttributes', './computeCount', './computePointers', './computeStride', './GeometryBase', '../checks/isNull', '../checks/isObject', '../checks/isUndefined', './vertexArraysFromPrimitive', './VertexBuffer'], function (require, exports, computeAttributes_1, computeCount_1, computePointers_1, computeStride_1, GeometryBase_1, isNull_1, isObject_1, isUndefined_1, vertexArraysFromPrimitive_1, VertexBuffer_1) {
     "use strict";
     var GeometryArrays = (function (_super) {
         __extends(GeometryArrays, _super);
@@ -7711,7 +7721,7 @@ define('davinci-eight/core/GeometryArrays',["require", "exports", './computeAttr
             this.vbo.data = new Float32Array(array);
         };
         return GeometryArrays;
-    }(GeometryLeaf_1.default));
+    }(GeometryBase_1.default));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = GeometryArrays;
 });
@@ -7835,7 +7845,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/GeometryElements',["require", "exports", './GeometryLeaf', './IndexBuffer', '../checks/isArray', '../checks/isNull', '../checks/isObject', '../checks/isUndefined', '../checks/mustBeArray', '../checks/mustBeObject', '../i18n/readOnly', './vertexArraysFromPrimitive', './VertexBuffer'], function (require, exports, GeometryLeaf_1, IndexBuffer_1, isArray_1, isNull_1, isObject_1, isUndefined_1, mustBeArray_1, mustBeObject_1, readOnly_1, vertexArraysFromPrimitive_1, VertexBuffer_1) {
+define('davinci-eight/core/GeometryElements',["require", "exports", './GeometryBase', './IndexBuffer', '../checks/isArray', '../checks/isNull', '../checks/isObject', '../checks/isUndefined', '../checks/mustBeArray', '../checks/mustBeObject', '../i18n/readOnly', './vertexArraysFromPrimitive', './VertexBuffer'], function (require, exports, GeometryBase_1, IndexBuffer_1, isArray_1, isNull_1, isObject_1, isUndefined_1, mustBeArray_1, mustBeObject_1, readOnly_1, vertexArraysFromPrimitive_1, VertexBuffer_1) {
     "use strict";
     var GeometryElements = (function (_super) {
         __extends(GeometryElements, _super);
@@ -8025,7 +8035,7 @@ define('davinci-eight/core/GeometryElements',["require", "exports", './GeometryL
             return this;
         };
         return GeometryElements;
-    }(GeometryLeaf_1.default));
+    }(GeometryBase_1.default));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = GeometryElements;
 });
@@ -13857,16 +13867,14 @@ define('davinci-eight/geometries/ArrowGeometry',["require", "exports", './arrowP
         };
         ArrowGeometry.prototype.setPrincipalScale = function (name, value) {
             switch (name) {
-                case 'length':
-                    {
-                        this._length = value;
-                    }
+                case 'length': {
+                    this._length = value;
                     break;
-                case 'radius':
-                    {
-                        this._radius = value;
-                    }
+                }
+                case 'radius': {
+                    this._radius = value;
                     break;
+                }
                 default: {
                     throw new Error(notSupported_1.default("getPrincipalScale('" + name + "')").message);
                 }
@@ -14698,16 +14706,49 @@ define('davinci-eight/geometries/BoxGeometry',["require", "exports", '../core/Ge
         BoxGeometry.prototype.destructor = function (levelUp) {
             _super.prototype.destructor.call(this, levelUp + 1);
         };
+        Object.defineProperty(BoxGeometry.prototype, "width", {
+            get: function () {
+                return this.w;
+            },
+            set: function (value) {
+                this.w = value;
+                this.setScale(this.w, this.h, this.d);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(BoxGeometry.prototype, "height", {
+            get: function () {
+                return this.h;
+            },
+            set: function (value) {
+                this.h = value;
+                this.setScale(this.w, this.h, this.d);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(BoxGeometry.prototype, "depth", {
+            get: function () {
+                return this.d;
+            },
+            set: function (value) {
+                this.d = value;
+                this.setScale(this.w, this.h, this.d);
+            },
+            enumerable: true,
+            configurable: true
+        });
         BoxGeometry.prototype.getPrincipalScale = function (name) {
             switch (name) {
                 case 'width': {
-                    return this.w;
+                    return this.width;
                 }
                 case 'height': {
-                    return this.h;
+                    return this.height;
                 }
                 case 'depth': {
-                    return this.d;
+                    return this.depth;
                 }
                 default: {
                     throw new Error(notSupported_1.default("getPrincipalScale('" + name + "')").message);
@@ -14716,26 +14757,22 @@ define('davinci-eight/geometries/BoxGeometry',["require", "exports", '../core/Ge
         };
         BoxGeometry.prototype.setPrincipalScale = function (name, value) {
             switch (name) {
-                case 'width':
-                    {
-                        this.w = value;
-                    }
+                case 'width': {
+                    this.width = value;
                     break;
-                case 'height':
-                    {
-                        this.h = value;
-                    }
+                }
+                case 'height': {
+                    this.height = value;
                     break;
-                case 'depth':
-                    {
-                        this.d = value;
-                    }
+                }
+                case 'depth': {
+                    this.depth = value;
                     break;
+                }
                 default: {
                     throw new Error(notSupported_1.default("setPrincipalScale('" + name + "')").message);
                 }
             }
-            this.setScale(this.w, this.h, this.d);
         };
         return BoxGeometry;
     }(GeometryElements_1.default));

@@ -14,11 +14,6 @@ import wedgeXY from './wedgeXY';
 import wedgeYZ from './wedgeYZ';
 import wedgeZX from './wedgeZX';
 
-/**
- * @module EIGHT
- * @submodule math
- */
-
 const sqrt = Math.sqrt;
 
 const COORD_X = 0;
@@ -34,8 +29,7 @@ function coordinates(m: VectorE3): number[] {
 }
 
 /**
- * @class Vector3
- * @extends Coords
+ *
  */
 export default class Vector3 extends Coords {
 
@@ -376,6 +370,7 @@ export default class Vector3 extends Coords {
         }
         return this;
     }
+
     /**
      * @method dot
      * @param v {VectorE3}
@@ -637,9 +632,6 @@ export default class Vector3 extends Coords {
 
     /**
      * Sets this vector to the identity element for addition, <b>0</b>.
-     * @method zero
-     * @return {Vector3}
-     * @chainable
      */
     zero(): Vector3 {
         this.x = 0;
@@ -764,12 +756,9 @@ export default class Vector3 extends Coords {
     }
 
     /**
-     * @method isInstance
-     * @param x {any}
-     * @return {boolean}
-     * @static
+     *
      */
-    static isInstance(x: any): boolean {
+    static isInstance(x: any): x is Vector3 {
         return x instanceof Vector3;
     }
 

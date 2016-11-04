@@ -1,7 +1,7 @@
-import {Material} from './Material';
+import { Material } from './Material';
 import ContextManager from './ContextManager';
 import ContextProvider from './ContextProvider';
-import GeometryLeaf from './GeometryLeaf';
+import GeometryBase from './GeometryBase';
 import IndexBuffer from './IndexBuffer';
 import isArray from '../checks/isArray';
 import isNull from '../checks/isNull';
@@ -20,7 +20,7 @@ import VertexBuffer from './VertexBuffer';
 /**
  * A Geometry that supports interleaved vertex buffers.
  */
-export default class GeometryElements extends GeometryLeaf {
+export default class GeometryElements extends GeometryBase {
 
     private _indices: number[];
     private _attributes: number[];

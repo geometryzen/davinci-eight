@@ -65,7 +65,7 @@ export default class ArrowGeometry extends GeometryElements {
         this.setPrincipalScale('length', length);
     }
 
-    getPrincipalScale(name: string): number {
+    getPrincipalScale(name: 'length' | 'radius'): number {
         switch (name) {
             case 'length': {
                 return this._length;
@@ -79,16 +79,16 @@ export default class ArrowGeometry extends GeometryElements {
         }
     }
 
-    setPrincipalScale(name: string, value: number): void {
+    setPrincipalScale(name: 'length' | 'radius', value: number): void {
         switch (name) {
             case 'length': {
-                this._length = value
+                this._length = value;
+                break;
             }
-                break
             case 'radius': {
-                this._radius = value
+                this._radius = value;
+                break;
             }
-                break
             default: {
                 throw new Error(notSupported(`getPrincipalScale('${name}')`).message)
             }

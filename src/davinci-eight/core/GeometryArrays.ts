@@ -1,11 +1,11 @@
-import {Material} from './Material';
+import { Material } from './Material';
 import Attribute from './Attribute';
 import computeAttributes from './computeAttributes';
 import computeCount from './computeCount';
 import computePointers from './computePointers';
 import computeStride from './computeStride';
 import ContextManager from './ContextManager';
-import GeometryLeaf from './GeometryLeaf';
+import GeometryBase from './GeometryBase';
 import isNull from '../checks/isNull';
 import isObject from '../checks/isObject';
 import isUndefined from '../checks/isUndefined';
@@ -28,7 +28,7 @@ import VertexBuffer from './VertexBuffer';
  *
  *     geometry.release()
  */
-export default class GeometryArrays extends GeometryLeaf {
+export default class GeometryArrays extends GeometryBase {
 
     /**
      * The <code>first</code> parameter in the drawArrays call.

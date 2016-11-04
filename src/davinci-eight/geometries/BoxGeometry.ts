@@ -11,7 +11,7 @@ import PrimitivesBuilder from './PrimitivesBuilder'
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols'
 import SpinorE3 from '../math/SpinorE3'
 import Spinor3 from '../math/Spinor3'
-import {Vector2} from '../math/Vector2'
+import { Vector2 } from '../math/Vector2'
 import computeFaceNormals from '../geometries/computeFaceNormals';
 import R3 from '../math/R3';
 import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
@@ -73,7 +73,7 @@ class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
         this.setModified(false)
 
         // Define the anchor points relative to the origin.
-        var pos: Vector3[] = [0, 1, 2, 3, 4, 5, 6, 7].map(function(index) { return void 0 })
+        var pos: Vector3[] = [0, 1, 2, 3, 4, 5, 6, 7].map(function (index) { return void 0 })
         pos[0] = new Vector3().sub(this._a).sub(this._b).add(this._c).divByScalar(2)
         pos[1] = new Vector3().add(this._a).sub(this._b).add(this._c).divByScalar(2)
         pos[2] = new Vector3().add(this._a).add(this._b).add(this._c).divByScalar(2)
@@ -101,25 +101,25 @@ class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
         switch (this.k) {
             case 0: {
                 var points = [[0], [1], [2], [3], [4], [5], [6], [7]]
-                this.data = points.map(function(point) { return simplex(point) })
+                this.data = points.map(function (point) { return simplex(point) })
             }
                 break
             case 1: {
                 let lines = [[0, 1], [1, 2], [2, 3], [3, 0], [0, 7], [1, 6], [2, 5], [3, 4], [4, 5], [5, 6], [6, 7], [7, 4]]
-                this.data = lines.map(function(line) { return simplex(line) })
+                this.data = lines.map(function (line) { return simplex(line) })
             }
                 break
             case 2: {
-                var faces: Simplex[][] = [0, 1, 2, 3, 4, 5].map(function(index) { return void 0 })
+                var faces: Simplex[][] = [0, 1, 2, 3, 4, 5].map(function (index) { return void 0 })
                 faces[0] = quad(pos[0], pos[1], pos[2], pos[3])
                 faces[1] = quad(pos[1], pos[6], pos[5], pos[2])
                 faces[2] = quad(pos[7], pos[0], pos[3], pos[4])
                 faces[3] = quad(pos[6], pos[7], pos[4], pos[5])
                 faces[4] = quad(pos[3], pos[2], pos[5], pos[4])
                 faces[5] = quad(pos[7], pos[6], pos[1], pos[0])
-                this.data = faces.reduce(function(a, b) { return a.concat(b) }, []);
+                this.data = faces.reduce(function (a, b) { return a.concat(b) }, []);
 
-                this.data.forEach(function(simplex) {
+                this.data.forEach(function (simplex) {
                     computeFaceNormals(simplex);
                 })
             }
@@ -336,9 +336,9 @@ function boxPrimitive(options: BoxGeometryOptions = {}): Primitive {
  * A convenience class for creating a BoxGeometry.
  */
 export default class BoxGeometry extends GeometryElements {
-    private w = 1
-    private h = 1
-    private d = 1
+    private w = 1;
+    private h = 1;
+    private d = 1;
 
     /**
      * @param options
@@ -359,21 +359,43 @@ export default class BoxGeometry extends GeometryElements {
         super.destructor(levelUp + 1);
     }
 
+    get width() {
+        return this.w;
+    }
+    set width(value: number) {
+        this.w = value;
+        this.setScale(this.w, this.h, this.d);
+    }
+
+    get height() {
+        return this.h;
+    }
+    set height(value: number) {
+        this.h = value;
+        this.setScale(this.w, this.h, this.d);
+    }
+
+    get depth() {
+        return this.d;
+    }
+    set depth(value: number) {
+        this.d = value;
+        this.setScale(this.w, this.h, this.d);
+    }
+
     /**
-     * @method getPrincipalScale
-     * @param name {string}
-     * @return {number}
+     *
      */
-    getPrincipalScale(name: string): number {
+    getPrincipalScale(name: 'width' | 'height' | 'depth'): number {
         switch (name) {
             case 'width': {
-                return this.w
+                return this.width;
             }
             case 'height': {
-                return this.h
+                return this.height
             }
             case 'depth': {
-                return this.d
+                return this.depth
             }
             default: {
                 throw new Error(notSupported(`getPrincipalScale('${name}')`).message)
@@ -382,29 +404,25 @@ export default class BoxGeometry extends GeometryElements {
     }
 
     /**
-     * @method setPrincipalScale
-     * @param name {string}
-     * @param value {number}
-     * @return {void}
+     *
      */
-    setPrincipalScale(name: string, value: number): void {
+    setPrincipalScale(name: 'width' | 'depth' | 'height', value: number): void {
         switch (name) {
             case 'width': {
-                this.w = value
+                this.width = value;
+                break;
             }
-                break
             case 'height': {
-                this.h = value
+                this.height = value;
+                break;
             }
-                break
             case 'depth': {
-                this.d = value
+                this.depth = value;
+                break;
             }
-                break
             default: {
                 throw new Error(notSupported(`setPrincipalScale('${name}')`).message)
             }
         }
-        this.setScale(this.w, this.h, this.d)
     }
 }

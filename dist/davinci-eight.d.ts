@@ -3149,7 +3149,46 @@ declare module EIGHT {
         toPrimitive(): Primitive;
     }
 
-    interface BoxGeometryOptions {
+    interface GeometryOptions {
+
+        contextManager?: ContextManager;
+
+        /**
+         * A translation from the canonical position.
+         * This is the third and last operation applied to canonical vertex data.
+         */
+        offset?: VectorE3;
+
+        /**
+         * A scaling along the standard basis directions from the canonical unit scaling.
+         * This is the first operation applied to canonical vertex data.
+         */
+        stress?: VectorE3;
+
+        /**
+         * A rotation from the canonical attitude.
+         * This is the second operation applied to canonical vertex data.
+         */
+        tilt?: SpinorE3;
+
+        /**
+         * Determines whether the Geometry will be constructed as points, lines, or triangles.
+         *
+         * 0: points
+         * 1: lines
+         * 2: triangles
+         */
+        k?: number;
+    }
+
+    interface ArrowGeometryOptions extends GeometryOptions {
+    }
+
+    class ArrowGeometry extends GeometryElements {
+        constructor(options?: ArrowGeometryOptions);
+    }
+
+    interface BoxGeometryOptions extends GeometryOptions {
         depth?: number;
         height?: number;
         openBack?: boolean;
@@ -3169,8 +3208,27 @@ declare module EIGHT {
         k?: number;
     }
 
+    /**
+     * 
+     */
     class BoxGeometry extends GeometryElements {
+        width: number;
+        height: number;
+        depth: number;
         constructor(options?: BoxGeometryOptions);
+    }
+
+    interface SphereGeometryOptions extends GeometryOptions {
+        azimuthSegments?: number;
+        azimuthStart?: number;
+        azimuthLength?: number;
+        elevationSegments?: number;
+        elevationStart?: number;
+        elevationLength?: number;
+    }
+
+    class SphereGeometry extends GeometryElements {
+        constructor(options?: SphereGeometryOptions);
     }
 
     /**
@@ -3679,8 +3737,6 @@ declare module EIGHT {
          *
          */
         protected destructor(levelUp: number): void;
-        getPrincipalScale(name: string): number;
-        protected setPrincipalScale(name: string, value: number): void;
     }
     ///////////////////////////////////////////////////////////////////////////////
     /**
@@ -3717,6 +3773,8 @@ declare module EIGHT {
          */
         constructor(geometry: Geometry, material: Material, contextManager: ContextManager, initialAxis: VectorE3, levelUp?: number);
         protected destructor(levelUp: number): void;
+        getPrincipalScale(name: string): number;
+        protected setPrincipalScale(name: string, value: number): void;
     }
 
     /**

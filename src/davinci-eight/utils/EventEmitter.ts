@@ -1,13 +1,13 @@
-export default class EventEmitter<T> {
+export default class EventEmitter<T, V> {
 
-    private _eventRegistry: { [name: string]: ((eventName: string, key: string, value: number, source: T) => any)[] };
+    private _eventRegistry: { [name: string]: ((eventName: string, key: string, value: V, source: T) => any)[] };
     private owner: T;
 
     constructor(owner: T) {
         this.owner = owner;
     }
 
-    public addEventListener(eventName: string, callback: (eventName: string, key: string, value: number, source: T) => void) {
+    public addEventListener(eventName: string, callback: (eventName: string, key: string, value: V, source: T) => void) {
         this._eventRegistry = this._eventRegistry || {};
 
         let listeners = this._eventRegistry[eventName];
@@ -21,7 +21,7 @@ export default class EventEmitter<T> {
         return callback;
     }
 
-    public removeEventListener(eventName: string, callback: (eventName: string, key: string, value: number, source: T) => any) {
+    public removeEventListener(eventName: string, callback: (eventName: string, key: string, value: V, source: T) => any) {
         this._eventRegistry = this._eventRegistry || {};
 
         const listeners = this._eventRegistry[eventName];
@@ -34,7 +34,7 @@ export default class EventEmitter<T> {
         }
     }
 
-    public emit(eventName: string, key: string, value: number): any {
+    public emit(eventName: string, key: string, value: V): any {
         if (this._eventRegistry) {
             const listeners = this._eventRegistry[eventName];
             if (listeners) {

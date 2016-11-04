@@ -79,9 +79,9 @@ const cosines: number[] = [];
 export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
 
     /**
-     *
+     * Lazily instantiated EventEmitter.
      */
-    private eventBus: EventEmitter<Geometric3>;
+    private _eventBus: EventEmitter<Geometric3, number>;
 
     /**
      * Constructs a <code>Geometric3</code>.
@@ -89,15 +89,21 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      */
     constructor() {
         super([0, 0, 0, 0, 0, 0, 0, 0], false, 8);
-        this.eventBus = new EventEmitter<Geometric3>(this);
+    }
+
+    private ensureBus(): EventEmitter<Geometric3, number> {
+        if (!this._eventBus) {
+            this._eventBus = new EventEmitter<Geometric3, number>(this);
+        }
+        return this._eventBus;
     }
 
     on(eventName: string, callback: (eventName: string, key: string, value: number, source: Geometric3) => void) {
-        this.eventBus.addEventListener(eventName, callback);
+        this.ensureBus().addEventListener(eventName, callback);
     }
 
     off(eventName: string, callback: (eventName: string, key: string, value: number, source: Geometric3) => void) {
-        this.eventBus.removeEventListener(eventName, callback);
+        this.ensureBus().removeEventListener(eventName, callback);
     }
 
     /**
@@ -109,7 +115,9 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
         if (newValue !== previous) {
             coords[index] = newValue;
             this.modified = true;
-            this.eventBus.emit(EVENT_NAME_CHANGE, name, newValue);
+            if (this._eventBus) {
+                this._eventBus.emit(EVENT_NAME_CHANGE, name, newValue);
+            }
         }
     }
 

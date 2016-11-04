@@ -1,13 +1,16 @@
 import ContextManager from '../core/ContextManager';
-import {Geometry} from '../core/Geometry';
-import {Mesh} from '../core/Mesh';
-import {Material} from '../core/Material';
+import { Geometry } from '../core/Geometry';
+import { Mesh } from '../core/Mesh';
+import { Material } from '../core/Material';
 import Matrix4 from '../math/Matrix4'
 
+/**
+ * A Geometry that can be scaled by referring to its principal properties.
+ */
 export interface PrincipalScaleGeometry extends Geometry {
 
     /**
-     *
+     * The matrix that is updated following calls to the setPrincipalScale method.
      */
     scaling: Matrix4
 
@@ -35,6 +38,7 @@ export default class PrincipalScaleMesh<G extends PrincipalScaleGeometry, M exte
             this.synchUp();
         }
     }
+
     protected destructor(levelUp: number) {
         if (levelUp === 0) {
             this.cleanUp();
@@ -54,6 +58,9 @@ export default class PrincipalScaleMesh<G extends PrincipalScaleGeometry, M exte
         }
     }
 
+    /**
+     * 
+     */
     protected setPrincipalScale(name: string, value: number): void {
         const geometry = this.geometry;
         geometry.setPrincipalScale(name, value);
