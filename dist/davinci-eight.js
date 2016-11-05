@@ -553,7 +553,7 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-11-4';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.320.0';
+            this.VERSION = '2.320.1';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -18379,6 +18379,7 @@ define('davinci-eight/visual/GridXY',["require", "exports", './contextManagerFro
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
             _super.call(this, mapOptions(options), levelUp + 1);
+            this.setLoggingName('GridXY');
             if (levelUp === 0) {
                 this.synchUp();
             }
@@ -18444,6 +18445,7 @@ define('davinci-eight/visual/GridYZ',["require", "exports", './contextManagerFro
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
             _super.call(this, mapOptions(options), levelUp + 1);
+            this.setLoggingName('GridYZ');
             if (levelUp === 0) {
                 this.synchUp();
             }
@@ -18509,6 +18511,7 @@ define('davinci-eight/visual/GridZX',["require", "exports", './contextManagerFro
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
             _super.call(this, mapOptions(options), levelUp + 1);
+            this.setLoggingName('GridZX');
             if (levelUp === 0) {
                 this.synchUp();
             }

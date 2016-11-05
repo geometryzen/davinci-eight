@@ -1,6 +1,6 @@
 import contextManagerFromOptions from './contextManagerFromOptions';
 import expectOptions from '../checks/expectOptions';
-import {Grid} from './Grid';
+import { Grid } from './Grid';
 import GridOptions from './GridOptions';
 import isDefined from '../checks/isDefined';
 import mustBeFunction from '../checks/mustBeFunction';
@@ -29,12 +29,12 @@ function mapOptions(options: GridYZOptions): GridOptions {
     let aPosition: (u: number, v: number) => VectorE3;
     if (isDefined(options.x)) {
         mustBeFunction('x', options.x);
-        aPosition = function(y: number, z: number): VectorE3 {
+        aPosition = function (y: number, z: number): VectorE3 {
             return R3(options.x(y, z), y, z);
         };
     }
     else {
-        aPosition = function(y: number, z: number): VectorE3 {
+        aPosition = function (y: number, z: number): VectorE3 {
             return R3(0, y, z);
         };
     }
@@ -66,6 +66,7 @@ function mapOptions(options: GridYZOptions): GridOptions {
 export default class GridYZ extends Grid {
     constructor(options: GridYZOptions = {}, levelUp = 0) {
         super(mapOptions(options), levelUp + 1);
+        this.setLoggingName('GridYZ');
         if (levelUp === 0) {
             this.synchUp();
         }
