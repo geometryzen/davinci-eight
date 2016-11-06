@@ -34,7 +34,11 @@ import PixelFormat from './davinci-eight/core/PixelFormat';
 import PixelType from './davinci-eight/core/PixelType';
 import { Scene } from './davinci-eight/core/Scene';
 import Shader from './davinci-eight/core/Shader';
+import TextureMagFilter from './davinci-eight/core/TextureMagFilter';
+import TextureMinFilter from './davinci-eight/core/TextureMinFilter';
+import TextureParameterName from './davinci-eight/core/TextureParameterName';
 import TextureTarget from './davinci-eight/core/TextureTarget';
+import TextureWrapMode from './davinci-eight/core/TextureWrapMode';
 import Uniform from './davinci-eight/core/Uniform';
 import UniformMetaInfo from './davinci-eight/core/UniformMetaInfo';
 import Usage from './davinci-eight/core/Usage';
@@ -243,7 +247,11 @@ const eight = {
     get DrawMode() { return BeginMode },
     get PixelFormat() { return PixelFormat },
     get PixelType() { return PixelType },
+    get TextureMagFilter() { return TextureMagFilter },
+    get TextureMinFilter() { return TextureMinFilter },
+    get TextureParameterName() { return TextureParameterName },
     get TextureTarget() { return TextureTarget },
+    get TextureWrapMode() { return TextureWrapMode },
     get Usage() { return Usage },
     get Attrib() { return Attrib },
     get Uniform() { return Uniform },

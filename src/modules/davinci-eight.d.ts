@@ -789,7 +789,7 @@ declare module EIGHT {
 
     class TextureLoader {
         constructor(contextManager: ContextManager);
-        load(src: string, callback: (err: any, texture: Texture) => any): void;
+        load(url: string, onLoad: (texture: Texture) => any): void;
     }
 
     /**
