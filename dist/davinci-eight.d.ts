@@ -173,6 +173,31 @@ declare module EIGHT {
         UNSIGNED_SHORT_5_6_5 = 0x8363
     }
 
+    enum TextureMagFilter {
+        NEAREST = 0x2600,
+        LINEAR = 0x2601
+    }
+
+    enum TextureMinFilter {
+        NEAREST = 0x2600,
+        LINEAR = 0x2601,
+        NEAREST_MIPMAP_NEAREST = 0x2700,
+        LINEAR_MIPMAP_NEAREST = 0x2701,
+        NEAREST_MIPMAP_LINEAR = 0x2702,
+        LINEAR_MIPMAP_LINEAR = 0x2703
+    }
+
+    enum TextureTarget {
+        TEXTURE_2D = 0x0DE1,
+        TEXTURE = 0x1702
+    }
+
+    enum TextureWrapMode {
+        REPEAT = 0x2901,
+        CLAMP_TO_EDGE = 0x812F,
+        MIRRORED_REPEAT = 0x8370
+    }
+
     enum Usage {
         /**
          * Contents of the buffer are likely to not be used often.
@@ -737,28 +762,34 @@ declare module EIGHT {
         disable(): void;
     }
 
-    /**
-     *
-     */
-    interface ITexture extends ContextConsumer {
+    class Texture extends ShareableContextConsumer {
+        image: HTMLImageElement;
+        minFilter: TextureMinFilter;
+        magFilter: TextureMagFilter;
+        wrapS: TextureWrapMode;
+        wrapT: TextureWrapMode;
+        constructor(target: TextureTarget, contextManager: ContextManager, levelUp?: number);
+        protected destructor(levelUp: number): void;
+
+        /**
+         *
+         */
         bind(): void;
+
+        /**
+         *
+         */
         unbind(): void;
+
+        /**
+         *
+         */
+        upload(): void;
     }
 
-    /**
-     * A reference-counted wrapper around a `WebGLTexture`.
-     * It is associated with the `TEXTURE_2D` target at construction time. 
-     */
-    interface ITexture2D extends ITexture {
-
-    }
-
-    /**
-     * A reference-counted wrapper around a `WebGLTexture`.
-     * It is associated with the `TEXTURE_CUBE_MAP` target at construction time. 
-     */
-    interface ITextureCubeMap extends ITexture {
-
+    class TextureLoader {
+        constructor(contextManager: ContextManager);
+        load(src: string, callback: (err: any, texture: Texture) => any): void;
     }
 
     /**

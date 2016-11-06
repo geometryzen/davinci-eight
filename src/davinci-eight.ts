@@ -34,6 +34,7 @@ import PixelFormat from './davinci-eight/core/PixelFormat';
 import PixelType from './davinci-eight/core/PixelType';
 import { Scene } from './davinci-eight/core/Scene';
 import Shader from './davinci-eight/core/Shader';
+import TextureTarget from './davinci-eight/core/TextureTarget';
 import Uniform from './davinci-eight/core/Uniform';
 import UniformMetaInfo from './davinci-eight/core/UniformMetaInfo';
 import Usage from './davinci-eight/core/Usage';
@@ -177,12 +178,15 @@ import { Trail } from './davinci-eight/visual/Trail';
 import Turtle from './davinci-eight/visual/Turtle';
 import vector from './davinci-eight/visual/vector';
 
-// diiagram
+// diagram
 import Diagram3D from './davinci-eight/diagram/Diagram3D';
 
 // gui
 // import GUI from './davinci-eight/gui/gui/GUI';
 // import DemoGUI from './davinci-eight/gui/gui/DemoGUI';
+
+//loaders
+import TextureLoader from './davinci-eight/loaders/TextureLoader';
 
 /**
  *
@@ -239,6 +243,7 @@ const eight = {
     get DrawMode() { return BeginMode },
     get PixelFormat() { return PixelFormat },
     get PixelType() { return PixelType },
+    get TextureTarget() { return TextureTarget },
     get Usage() { return Usage },
     get Attrib() { return Attrib },
     get Uniform() { return Uniform },
@@ -317,6 +322,8 @@ const eight = {
     // gui
     //    get GUI() { return GUI; },
     //    get DemoGUI() { return DemoGUI; }
+    // loaders
+    get TextureLoader() { return TextureLoader },
     // visual
     get Arrow() { return Arrow; },
     get Basis() { return Basis; },

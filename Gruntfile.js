@@ -197,6 +197,7 @@ module.exports = function (grunt) {
                 "src/davinci-eight/facets/**/*.ts",
                 "src/davinci-eight/geometries/**/*.ts",
                 "src/davinci-eight/gui/**/*.ts",
+                "src/davinci-eight/loaders/**/*.ts",
                 "src/davinci-eight/materials/**/*.ts",
                 "src/davinci-eight/math/**/*.ts",
                 "src/davinci-eight/overlay/**/*.ts",
