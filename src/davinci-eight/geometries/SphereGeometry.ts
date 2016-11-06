@@ -1,5 +1,5 @@
 import arc3 from '../geometries/arc3';
-import {Geometric3} from '../math/Geometric3';
+import { Geometric3 } from '../math/Geometric3';
 import GeometryElements from '../core/GeometryElements';
 import isInteger from '../checks/isInteger';
 import isNumber from '../checks/isNumber';
@@ -16,7 +16,7 @@ import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import Simplex from '../geometries/Simplex';
 import Spinor3 from '../math/Spinor3';
 import SpinorE3 from '../math/SpinorE3';
-import {Vector2} from '../math/Vector2';
+import { Vector2 } from '../math/Vector2';
 import Vector3 from '../math/Vector3';
 import VectorE3 from '../math/VectorE3';
 
@@ -386,11 +386,6 @@ function spherePrimitive(options: SphereGeometryOptions = {}): Primitive {
 export default class SphereGeometry extends GeometryElements {
 
     /**
-     * @default 1
-     */
-    private _radius = 1;
-
-    /**
      * @param options
      * @param levelUp
      */
@@ -410,17 +405,17 @@ export default class SphereGeometry extends GeometryElements {
     }
 
     get radius(): number {
-        return this._radius;
+        return this.getScaleX();
     }
+
     set radius(radius: number) {
-        this._radius = radius;
-        this.setPrincipalScale('radius', radius);
+        this.setScale(radius, radius, radius);
     }
 
     getPrincipalScale(name: string): number {
         switch (name) {
             case 'radius': {
-                return this._radius;
+                return this.getScaleX();
             }
             default: {
                 throw new Error(notSupported(`getPrincipalScale('${name}')`).message);
@@ -431,13 +426,12 @@ export default class SphereGeometry extends GeometryElements {
     setPrincipalScale(name: string, value: number): void {
         switch (name) {
             case 'radius': {
-                this._radius = value;
                 break;
             }
             default: {
                 throw new Error(notSupported(`setPrincipalScale('${name}')`).message);
             }
         }
-        this.setScale(this._radius, this._radius, this._radius);
+        this.setScale(value, value, value);
     }
 }

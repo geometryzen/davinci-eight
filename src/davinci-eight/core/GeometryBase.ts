@@ -43,7 +43,6 @@ export default class GeometryBase extends ShareableContextConsumer implements Ge
     protected _pointers: VertexAttribPointer[];
 
     /**
-     * 
      * Defaults to diag(1, 1, 1, 1)
      */
     public scaling = Matrix4.one();
@@ -126,6 +125,31 @@ export default class GeometryBase extends ShareableContextConsumer implements Ge
 
     public setPrincipalScale(name: string, value: number): void {
         throw new Error(notImplemented('setPrincipalScale').message)
+    }
+
+    private getScale(i: number, j: number): number {
+        if (this.Kidentity) {
+            const sMatrix = this.scaling;
+            return sMatrix.getElement(i, j);
+        }
+        else {
+            const sMatrix = this.scaling;
+            const cMatrix = this.canonicalScale;
+            cMatrix.copy(this.Kinv).mul(sMatrix).mul(this.K);
+            return cMatrix.getElement(i, j);
+        }
+    }
+
+    protected getScaleX(): number {
+        return this.getScale(0, 0);
+    }
+
+    protected getScaleY(): number {
+        return this.getScale(1, 1);
+    }
+
+    protected getScaleZ(): number {
+        return this.getScale(2, 2);
     }
 
     /**

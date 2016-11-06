@@ -3228,6 +3228,7 @@ declare module EIGHT {
     }
 
     class SphereGeometry extends GeometryElements {
+        radius: number;
         constructor(options?: SphereGeometryOptions);
     }
 

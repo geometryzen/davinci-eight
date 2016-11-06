@@ -551,9 +551,9 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
     var Eight = (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-11-4';
+            this.LAST_MODIFIED = '2016-11-5';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.320.1';
+            this.VERSION = '2.321.0';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -7391,6 +7391,27 @@ define('davinci-eight/core/GeometryBase',["require", "exports", '../utils/EventE
         };
         GeometryBase.prototype.setPrincipalScale = function (name, value) {
             throw new Error(notImplemented_1.default('setPrincipalScale').message);
+        };
+        GeometryBase.prototype.getScale = function (i, j) {
+            if (this.Kidentity) {
+                var sMatrix = this.scaling;
+                return sMatrix.getElement(i, j);
+            }
+            else {
+                var sMatrix = this.scaling;
+                var cMatrix = this.canonicalScale;
+                cMatrix.copy(this.Kinv).mul(sMatrix).mul(this.K);
+                return cMatrix.getElement(i, j);
+            }
+        };
+        GeometryBase.prototype.getScaleX = function () {
+            return this.getScale(0, 0);
+        };
+        GeometryBase.prototype.getScaleY = function () {
+            return this.getScale(1, 1);
+        };
+        GeometryBase.prototype.getScaleZ = function () {
+            return this.getScale(2, 2);
         };
         GeometryBase.prototype.setScale = function (x, y, z) {
             if (this.Kidentity) {
@@ -15518,7 +15539,6 @@ define('davinci-eight/geometries/SphereGeometry',["require", "exports", '../geom
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
             _super.call(this, spherePrimitive(options), options.contextManager, options, levelUp + 1);
-            this._radius = 1;
             this.setLoggingName('SphereGeometry');
             if (levelUp === 0) {
                 this.synchUp();
@@ -15532,11 +15552,10 @@ define('davinci-eight/geometries/SphereGeometry',["require", "exports", '../geom
         };
         Object.defineProperty(SphereGeometry.prototype, "radius", {
             get: function () {
-                return this._radius;
+                return this.getScaleX();
             },
             set: function (radius) {
-                this._radius = radius;
-                this.setPrincipalScale('radius', radius);
+                this.setScale(radius, radius, radius);
             },
             enumerable: true,
             configurable: true
@@ -15544,7 +15563,7 @@ define('davinci-eight/geometries/SphereGeometry',["require", "exports", '../geom
         SphereGeometry.prototype.getPrincipalScale = function (name) {
             switch (name) {
                 case 'radius': {
-                    return this._radius;
+                    return this.getScaleX();
                 }
                 default: {
                     throw new Error(notSupported_1.default("getPrincipalScale('" + name + "')").message);
@@ -15554,14 +15573,13 @@ define('davinci-eight/geometries/SphereGeometry',["require", "exports", '../geom
         SphereGeometry.prototype.setPrincipalScale = function (name, value) {
             switch (name) {
                 case 'radius': {
-                    this._radius = value;
                     break;
                 }
                 default: {
                     throw new Error(notSupported_1.default("setPrincipalScale('" + name + "')").message);
                 }
             }
-            this.setScale(this._radius, this._radius, this._radius);
+            this.setScale(value, value, value);
         };
         return SphereGeometry;
     }(GeometryElements_1.default));
