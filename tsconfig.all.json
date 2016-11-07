@@ -49,6 +49,7 @@
         "src/davinci-eight/geometries/SphereGeometry.spec.ts",
         "src/davinci-eight/geometries/cube.spec.ts",
         "src/davinci-eight/geometries/triangles.spec.ts",
+        "src/davinci-eight/materials/GraphicsProgramBuilder.spec.ts",
         "src/davinci-eight/materials/LineMaterial.spec.ts",
         "src/davinci-eight/materials/MeshMaterial.spec.ts",
         "src/davinci-eight/materials/PointMaterial.spec.ts",

@@ -15,6 +15,9 @@ export default class TextureLoader {
         image.onload = () => {
             const texture = new Texture(TextureTarget.TEXTURE_2D, this.contextManager);
             texture.image = image;
+            texture.bind();
+            texture.upload();
+            texture.unbind();
             onLoad(texture);
         }
         image.src = url;

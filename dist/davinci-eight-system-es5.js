@@ -3451,110 +3451,6 @@ System.register('davinci-eight/collections/NumberShareableMap.js', ['../core/Sha
         }
     };
 });
-System.register('davinci-eight/collections/StringShareableMap.js', ['../core/ShareableBase'], function (exports_1, context_1) {
-    "use strict";
-
-    var __moduleName = context_1 && context_1.id;
-    var __extends = this && this.__extends || function (d, b) {
-        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-        function __() {
-            this.constructor = d;
-        }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-    var ShareableBase_1;
-    var StringShareableMap;
-    return {
-        setters: [function (ShareableBase_1_1) {
-            ShareableBase_1 = ShareableBase_1_1;
-        }],
-        execute: function () {
-            StringShareableMap = function (_super) {
-                __extends(StringShareableMap, _super);
-                function StringShareableMap() {
-                    _super.call(this);
-                    this.elements = {};
-                    this.setLoggingName('StringShareableMap');
-                }
-                StringShareableMap.prototype.destructor = function (levelUp) {
-                    var _this = this;
-                    this.forEach(function (key) {
-                        _this.putWeakRef(key, void 0);
-                    });
-                    _super.prototype.destructor.call(this, levelUp + 1);
-                };
-                StringShareableMap.prototype.exists = function (key) {
-                    var element = this.elements[key];
-                    return element ? true : false;
-                };
-                StringShareableMap.prototype.get = function (key) {
-                    var element = this.elements[key];
-                    if (element) {
-                        if (element.addRef) {
-                            element.addRef();
-                        }
-                        return element;
-                    } else {
-                        return void 0;
-                    }
-                };
-                StringShareableMap.prototype.getWeakRef = function (key) {
-                    return this.elements[key];
-                };
-                StringShareableMap.prototype.put = function (key, value) {
-                    if (value && value.addRef) {
-                        value.addRef();
-                    }
-                    this.putWeakRef(key, value);
-                };
-                StringShareableMap.prototype.putWeakRef = function (key, value) {
-                    var elements = this.elements;
-                    var existing = elements[key];
-                    if (existing) {
-                        if (existing.release) {
-                            existing.release();
-                        }
-                    }
-                    elements[key] = value;
-                };
-                StringShareableMap.prototype.forEach = function (callback) {
-                    var keys = this.keys;
-                    for (var i = 0, iLength = keys.length; i < iLength; i++) {
-                        var key = keys[i];
-                        callback(key, this.elements[key]);
-                    }
-                };
-                Object.defineProperty(StringShareableMap.prototype, "keys", {
-                    get: function () {
-                        return Object.keys(this.elements);
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                Object.defineProperty(StringShareableMap.prototype, "values", {
-                    get: function () {
-                        var values = [];
-                        var keys = this.keys;
-                        for (var i = 0, iLength = keys.length; i < iLength; i++) {
-                            var key = keys[i];
-                            values.push(this.elements[key]);
-                        }
-                        return values;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                StringShareableMap.prototype.remove = function (key) {
-                    var value = this.elements[key];
-                    delete this.elements[key];
-                    return value;
-                };
-                return StringShareableMap;
-            }(ShareableBase_1.ShareableBase);
-            exports_1("default", StringShareableMap);
-        }
-    };
-});
 System.register("davinci-eight/utils/animation.js", ['../checks/expectArg'], function (exports_1, context_1) {
     "use strict";
 
@@ -14710,7 +14606,7 @@ System.register('davinci-eight/materials/glslAttribType.js', ['../core/GraphicsP
         switch (key) {
             case GraphicsProgramSymbols_1.default.ATTRIBUTE_COLOR:
                 {
-                    return 'vec3';
+                    return sizeType(size);
                 }
             default:
                 {
@@ -14754,11 +14650,11 @@ System.register('davinci-eight/materials/SmartGraphicsProgram.js', ['./fragmentS
         execute: function () {
             SmartGraphicsProgram = function (_super) {
                 __extends(SmartGraphicsProgram, _super);
-                function SmartGraphicsProgram(aParams, uParams, vColor, vLight, engine, levelUp) {
+                function SmartGraphicsProgram(aParams, uParams, vColor, vCoords, vLight, contextManager, levelUp) {
                     if (levelUp === void 0) {
                         levelUp = 0;
                     }
-                    _super.call(this, vertexShaderSrc_1.default(aParams, uParams, vColor, vLight), fragmentShaderSrc_1.default(aParams, uParams, vColor, vLight), [], engine, levelUp + 1);
+                    _super.call(this, vertexShaderSrc_1.default(aParams, uParams, vColor, vCoords, vLight), fragmentShaderSrc_1.default(aParams, uParams, vColor, vCoords, vLight), [], contextManager, levelUp + 1);
                     this.setLoggingName('SmartGraphicsProgram');
                     if (levelUp === 0) {
                         this.synchUp();
@@ -14792,6 +14688,26 @@ System.register("davinci-eight/materials/vColorRequired.js", ['../core/GraphicsP
         execute: function () {}
     };
 });
+System.register('davinci-eight/materials/vCoordsRequired.js', ['../checks/mustBeDefined', '../core/GraphicsProgramSymbols'], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    var mustBeDefined_1, GraphicsProgramSymbols_1;
+    function vCoordsRequired(attributes, uniforms) {
+        mustBeDefined_1.default('attributes', attributes);
+        mustBeDefined_1.default('uniforms', uniforms);
+        return !!attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_COORDS];
+    }
+    exports_1("default", vCoordsRequired);
+    return {
+        setters: [function (mustBeDefined_1_1) {
+            mustBeDefined_1 = mustBeDefined_1_1;
+        }, function (GraphicsProgramSymbols_1_1) {
+            GraphicsProgramSymbols_1 = GraphicsProgramSymbols_1_1;
+        }],
+        execute: function () {}
+    };
+});
 System.register('davinci-eight/materials/vLightRequired.js', ['../checks/mustBeDefined', '../core/GraphicsProgramSymbols'], function (exports_1, context_1) {
     "use strict";
 
@@ -14812,16 +14728,20 @@ System.register('davinci-eight/materials/vLightRequired.js', ['../checks/mustBeD
         execute: function () {}
     };
 });
-System.register('davinci-eight/materials/fragmentShaderSrc.js', ['../config', '../checks/mustBeBoolean', '../checks/mustBeDefined'], function (exports_1, context_1) {
+System.register('davinci-eight/materials/fragmentShaderSrc.js', ['../config', '../core/getUniformVarName', '../core/GraphicsProgramSymbols', '../checks/mustBeBoolean', '../checks/mustBeDefined'], function (exports_1, context_1) {
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
-    var config_1, mustBeBoolean_1, mustBeDefined_1;
-    var emitFragmentPrecision;
-    function default_1(attributes, uniforms, vColor, vLight) {
+    var config_1, getUniformVarName_1, GraphicsProgramSymbols_1, mustBeBoolean_1, mustBeDefined_1;
+    var emitFragmentPrecision, SPACE, UNIFORM, SEMICOLON;
+    function getUniformCodeName(uniforms, name) {
+        return getUniformVarName_1.default(uniforms[name], name);
+    }
+    function default_1(attributes, uniforms, vColor, vCoords, vLight) {
         mustBeDefined_1.default('attributes', attributes);
         mustBeDefined_1.default('uniforms', uniforms);
         mustBeBoolean_1.default('vColor', vColor);
+        mustBeBoolean_1.default('vCoords', vCoords);
         mustBeBoolean_1.default('vLight', vLight);
         var lines = [];
         lines.push("// fragment shader generated by " + config_1.default.NAMESPACE + " " + config_1.default.VERSION);
@@ -14837,21 +14757,49 @@ System.register('davinci-eight/materials/fragmentShaderSrc.js', ['../config', '.
         if (vColor) {
             lines.push("varying highp vec4 vColor;");
         }
+        if (vCoords) {
+            lines.push("varying highp vec2 vCoords;");
+        }
         if (vLight) {
             lines.push("varying highp vec3 vLight;");
+        }
+        for (var uName in uniforms) {
+            if (uniforms.hasOwnProperty(uName)) {
+                switch (uniforms[uName].glslType) {
+                    case 'sampler2D':
+                        {
+                            lines.push(UNIFORM + uniforms[uName].glslType + SPACE + getUniformCodeName(uniforms, uName) + SEMICOLON);
+                            break;
+                        }
+                    default:
+                        {}
+                }
+            }
         }
         lines.push("void main(void) {");
         if (vLight) {
             if (vColor) {
-                lines.push("  gl_FragColor = vec4(vColor.xyz * vLight, vColor.a);");
+                if (vCoords && uniforms[GraphicsProgramSymbols_1.default.UNIFORM_IMAGE]) {
+                    lines.push("  gl_FragColor = texture2D(" + GraphicsProgramSymbols_1.default.UNIFORM_IMAGE + ", vCoords) * vec4(vColor.xyz * vLight, vColor.a);");
+                } else {
+                    lines.push("  gl_FragColor = vec4(vColor.xyz * vLight, vColor.a);");
+                }
             } else {
                 lines.push("  gl_FragColor = vec4(vLight, 1.0);");
             }
         } else {
             if (vColor) {
-                lines.push("  gl_FragColor = vColor;");
+                if (vCoords && uniforms[GraphicsProgramSymbols_1.default.UNIFORM_IMAGE]) {
+                    lines.push("  gl_FragColor = texture2D(" + GraphicsProgramSymbols_1.default.UNIFORM_IMAGE + ", vCoords) * vColor;");
+                } else {
+                    lines.push("  gl_FragColor = vColor;");
+                }
             } else {
-                lines.push("  gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);");
+                if (vCoords && uniforms[GraphicsProgramSymbols_1.default.UNIFORM_IMAGE]) {
+                    lines.push("  gl_FragColor = texture2D(" + GraphicsProgramSymbols_1.default.UNIFORM_IMAGE + ", vCoords);");
+                } else {
+                    lines.push("  gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);");
+                }
             }
         }
         lines.push("}");
@@ -14863,6 +14811,10 @@ System.register('davinci-eight/materials/fragmentShaderSrc.js', ['../config', '.
     return {
         setters: [function (config_1_1) {
             config_1 = config_1_1;
+        }, function (getUniformVarName_1_1) {
+            getUniformVarName_1 = getUniformVarName_1_1;
+        }, function (GraphicsProgramSymbols_1_1) {
+            GraphicsProgramSymbols_1 = GraphicsProgramSymbols_1_1;
         }, function (mustBeBoolean_1_1) {
             mustBeBoolean_1 = mustBeBoolean_1_1;
         }, function (mustBeDefined_1_1) {
@@ -14870,6 +14822,9 @@ System.register('davinci-eight/materials/fragmentShaderSrc.js', ['../config', '.
         }],
         execute: function () {
             emitFragmentPrecision = false;
+            SPACE = ' ';
+            UNIFORM = 'uniform' + SPACE;
+            SEMICOLON = ';';
         }
     };
 });
@@ -14924,10 +14879,11 @@ System.register('davinci-eight/materials/vertexShaderSrc.js', ['../config', '../
     function getUniformCodeName(uniforms, name) {
         return getUniformVarName_1.default(uniforms[name], name);
     }
-    function default_1(attributes, uniforms, vColor, vLight) {
+    function vertexShaderSrc(attributes, uniforms, vColor, vCoords, vLight) {
         mustBeDefined_1.default('attributes', attributes);
         mustBeDefined_1.default('uniforms', uniforms);
         mustBeBoolean_1.default('vColor', vColor);
+        mustBeBoolean_1.default('vCoords', vCoords);
         mustBeBoolean_1.default('vLight', vLight);
         var lines = [];
         lines.push("// vertex shader generated by " + config_1.default.NAMESPACE + " " + config_1.default.VERSION);
@@ -14938,11 +14894,23 @@ System.register('davinci-eight/materials/vertexShaderSrc.js', ['../config', '../
         }
         for (var uName in uniforms) {
             if (uniforms.hasOwnProperty(uName)) {
-                lines.push(UNIFORM + uniforms[uName].glslType + SPACE + getUniformCodeName(uniforms, uName) + SEMICOLON);
+                switch (uniforms[uName].glslType) {
+                    case 'sampler2D':
+                        {
+                            break;
+                        }
+                    default:
+                        {
+                            lines.push(UNIFORM + uniforms[uName].glslType + SPACE + getUniformCodeName(uniforms, uName) + SEMICOLON);
+                        }
+                }
             }
         }
         if (vColor) {
             lines.push("varying highp vec4 vColor;");
+        }
+        if (vCoords) {
+            lines.push("varying highp vec2 vCoords;");
         }
         if (vLight) {
             lines.push("varying highp vec3 vLight;");
@@ -15031,8 +14999,8 @@ System.register('davinci-eight/materials/vertexShaderSrc.js', ['../config', '../
                     case 'vec4':
                         {
                             lines.push("  vColor = " + colorAttribVarName + SEMICOLON);
+                            break;
                         }
-                        break;
                     case 'vec3':
                         {
                             if (uniforms[GraphicsProgramSymbols_1.default.UNIFORM_OPACITY]) {
@@ -15040,8 +15008,8 @@ System.register('davinci-eight/materials/vertexShaderSrc.js', ['../config', '../
                             } else {
                                 lines.push("  vColor = vec4(" + colorAttribVarName + ", 1.0);");
                             }
+                            break;
                         }
-                        break;
                     default:
                         {
                             throw new Error("Unexpected type for color attribute: " + attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_COLOR].glslType);
@@ -15073,6 +15041,9 @@ System.register('davinci-eight/materials/vertexShaderSrc.js', ['../config', '../
                 lines.push("  vColor = vec4(1.0, 1.0, 1.0, 1.0);");
             }
         }
+        if (vCoords) {
+            lines.push("  vCoords = aCoords;");
+        }
         if (vLight) {
             if (uniforms[GraphicsProgramSymbols_1.default.UNIFORM_DIRECTIONAL_LIGHT_COLOR] && uniforms[GraphicsProgramSymbols_1.default.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION] && uniforms[GraphicsProgramSymbols_1.default.UNIFORM_NORMAL_MATRIX] && attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL]) {
                 lines.push("  vec3 L = normalize(" + getUniformCodeName(uniforms, GraphicsProgramSymbols_1.default.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION) + ");");
@@ -15097,7 +15068,7 @@ System.register('davinci-eight/materials/vertexShaderSrc.js', ['../config', '../
         var code = lines.join("\n");
         return code;
     }
-    exports_1("default", default_1);
+    exports_1("default", vertexShaderSrc);
     return {
         setters: [function (config_1_1) {
             config_1 = config_1_1;
@@ -15126,11 +15097,11 @@ System.register('davinci-eight/materials/vertexShaderSrc.js', ['../config', '../
         }
     };
 });
-System.register('davinci-eight/materials/GraphicsProgramBuilder.js', ['../core/getAttribVarName', './glslAttribType', '../checks/mustBeInteger', '../checks/mustBeString', '../materials/SmartGraphicsProgram', './vColorRequired', './vLightRequired', './fragmentShaderSrc', './vertexShaderSrc'], function (exports_1, context_1) {
+System.register('davinci-eight/materials/GraphicsProgramBuilder.js', ['../core/getAttribVarName', './glslAttribType', '../checks/mustBeInteger', '../checks/mustBeString', '../materials/SmartGraphicsProgram', './vColorRequired', './vCoordsRequired', './vLightRequired', './fragmentShaderSrc', './vertexShaderSrc'], function (exports_1, context_1) {
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
-    var getAttribVarName_1, glslAttribType_1, mustBeInteger_1, mustBeString_1, SmartGraphicsProgram_1, vColorRequired_1, vLightRequired_1, fragmentShaderSrc_1, vertexShaderSrc_1;
+    var getAttribVarName_1, glslAttribType_1, mustBeInteger_1, mustBeString_1, SmartGraphicsProgram_1, vColorRequired_1, vCoordsRequired_1, vLightRequired_1, fragmentShaderSrc_1, vertexShaderSrc_1;
     var GraphicsProgramBuilder;
     function computeAttribParams(values) {
         var result = {};
@@ -15158,6 +15129,8 @@ System.register('davinci-eight/materials/GraphicsProgramBuilder.js', ['../core/g
             SmartGraphicsProgram_1 = SmartGraphicsProgram_1_1;
         }, function (vColorRequired_1_1) {
             vColorRequired_1 = vColorRequired_1_1;
+        }, function (vCoordsRequired_1_1) {
+            vCoordsRequired_1 = vCoordsRequired_1_1;
         }, function (vLightRequired_1_1) {
             vLightRequired_1 = vLightRequired_1_1;
         }, function (fragmentShaderSrc_1_1) {
@@ -15192,23 +15165,26 @@ System.register('davinci-eight/materials/GraphicsProgramBuilder.js', ['../core/g
                     this.uParams[name] = { glslType: type };
                     return this;
                 };
-                GraphicsProgramBuilder.prototype.build = function (engine) {
+                GraphicsProgramBuilder.prototype.build = function (contextManager) {
                     var aParams = computeAttribParams(this.aMeta);
                     var vColor = vColorRequired_1.default(aParams, this.uParams);
+                    var vCoords = vCoordsRequired_1.default(aParams, this.uParams);
                     var vLight = vLightRequired_1.default(aParams, this.uParams);
-                    return new SmartGraphicsProgram_1.SmartGraphicsProgram(aParams, this.uParams, vColor, vLight, engine);
+                    return new SmartGraphicsProgram_1.SmartGraphicsProgram(aParams, this.uParams, vColor, vCoords, vLight, contextManager);
                 };
                 GraphicsProgramBuilder.prototype.vertexShaderSrc = function () {
                     var aParams = computeAttribParams(this.aMeta);
                     var vColor = vColorRequired_1.default(aParams, this.uParams);
+                    var vCoords = vCoordsRequired_1.default(aParams, this.uParams);
                     var vLight = vLightRequired_1.default(aParams, this.uParams);
-                    return vertexShaderSrc_1.default(aParams, this.uParams, vColor, vLight);
+                    return vertexShaderSrc_1.default(aParams, this.uParams, vColor, vCoords, vLight);
                 };
                 GraphicsProgramBuilder.prototype.fragmentShaderSrc = function () {
                     var aParams = computeAttribParams(this.aMeta);
                     var vColor = vColorRequired_1.default(aParams, this.uParams);
+                    var vCoords = vCoordsRequired_1.default(aParams, this.uParams);
                     var vLight = vLightRequired_1.default(aParams, this.uParams);
-                    return fragmentShaderSrc_1.default(aParams, this.uParams, vColor, vLight);
+                    return fragmentShaderSrc_1.default(aParams, this.uParams, vColor, vCoords, vLight);
                 };
                 return GraphicsProgramBuilder;
             }();
@@ -15394,10 +15370,22 @@ System.register('davinci-eight/core/Uniform.js', ['../checks/isNull', '../checks
                         gl.uniform1f(this.location, x);
                     }
                 };
+                Uniform.prototype.uniform1i = function (x) {
+                    var gl = this.gl;
+                    if (gl) {
+                        gl.uniform1i(this.location, x);
+                    }
+                };
                 Uniform.prototype.uniform2f = function (x, y) {
                     var gl = this.gl;
                     if (gl) {
                         gl.uniform2f(this.location, x, y);
+                    }
+                };
+                Uniform.prototype.uniform2i = function (x, y) {
+                    var gl = this.gl;
+                    if (gl) {
+                        gl.uniform2i(this.location, x, y);
                     }
                 };
                 Uniform.prototype.uniform3f = function (x, y, z) {
@@ -15406,10 +15394,22 @@ System.register('davinci-eight/core/Uniform.js', ['../checks/isNull', '../checks
                         gl.uniform3f(this.location, x, y, z);
                     }
                 };
+                Uniform.prototype.uniform3i = function (x, y, z) {
+                    var gl = this.gl;
+                    if (gl) {
+                        gl.uniform3i(this.location, x, y, z);
+                    }
+                };
                 Uniform.prototype.uniform4f = function (x, y, z, w) {
                     var gl = this.gl;
                     if (gl) {
                         gl.uniform4f(this.location, x, y, z, w);
+                    }
+                };
+                Uniform.prototype.uniform4i = function (x, y, z, w) {
+                    var gl = this.gl;
+                    if (gl) {
+                        gl.uniform4i(this.location, x, y, z, w);
                     }
                 };
                 Uniform.prototype.matrix2fv = function (transpose, value) {
@@ -15749,6 +15749,17 @@ System.register('davinci-eight/materials/ShaderMaterial.js', ['../core/Attrib', 
                 ShaderMaterial.prototype.hasUniform = function (name) {
                     mustBeString_1.default('name', name);
                     return isDefined_1.default(this._uniforms[name]);
+                };
+                ShaderMaterial.prototype.activeTexture = function (texture) {
+                    if (this.gl) {
+                        this.gl.activeTexture(texture);
+                    }
+                };
+                ShaderMaterial.prototype.uniform1i = function (name, x) {
+                    var uniformLoc = this.getUniform(name);
+                    if (uniformLoc) {
+                        uniformLoc.uniform1i(x);
+                    }
                 };
                 ShaderMaterial.prototype.uniform1f = function (name, x) {
                     var uniformLoc = this.getUniform(name);
@@ -16347,29 +16358,6 @@ System.register('davinci-eight/facets/ColorFacet.js', ['../core/Color', '../chec
         }
     };
 });
-System.register("davinci-eight/base/exchange.js", [], function (exports_1, context_1) {
-    "use strict";
-
-    var __moduleName = context_1 && context_1.id;
-    function default_1(mine, yours) {
-        if (mine !== yours) {
-            if (yours && yours.addRef) {
-                yours.addRef();
-            }
-            if (mine && mine.release) {
-                mine.release();
-            }
-            return yours;
-        } else {
-            return mine;
-        }
-    }
-    exports_1("default", default_1);
-    return {
-        setters: [],
-        execute: function () {}
-    };
-});
 System.register("davinci-eight/checks/isBoolean.js", [], function (exports_1, context_1) {
     "use strict";
 
@@ -16538,7 +16526,7 @@ System.register('davinci-eight/facets/PointSizeFacet.js', ['../checks/mustBeInte
         }
     };
 });
-System.register('davinci-eight/core/Drawable.js', ['../base/exchange', './GraphicsProgramSymbols', '../checks/isObject', '../checks/isNull', '../checks/isNumber', '../checks/isUndefined', '../checks/mustBeBoolean', '../facets/OpacityFacet', '../facets/PointSizeFacet', '../core/ShareableContextConsumer'], function (exports_1, context_1) {
+System.register('davinci-eight/collections/StringShareableMap.js', ['../core/ShareableBase'], function (exports_1, context_1) {
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
@@ -16549,7 +16537,111 @@ System.register('davinci-eight/core/Drawable.js', ['../base/exchange', './Graphi
         }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
-    var exchange_1, GraphicsProgramSymbols_1, isObject_1, isNull_1, isNumber_1, isUndefined_1, mustBeBoolean_1, OpacityFacet_1, PointSizeFacet_1, ShareableContextConsumer_1;
+    var ShareableBase_1;
+    var StringShareableMap;
+    return {
+        setters: [function (ShareableBase_1_1) {
+            ShareableBase_1 = ShareableBase_1_1;
+        }],
+        execute: function () {
+            StringShareableMap = function (_super) {
+                __extends(StringShareableMap, _super);
+                function StringShareableMap() {
+                    _super.call(this);
+                    this.elements = {};
+                    this.setLoggingName('StringShareableMap');
+                }
+                StringShareableMap.prototype.destructor = function (levelUp) {
+                    var _this = this;
+                    this.forEach(function (key) {
+                        _this.putWeakRef(key, void 0);
+                    });
+                    _super.prototype.destructor.call(this, levelUp + 1);
+                };
+                StringShareableMap.prototype.exists = function (key) {
+                    var element = this.elements[key];
+                    return element ? true : false;
+                };
+                StringShareableMap.prototype.get = function (key) {
+                    var element = this.elements[key];
+                    if (element) {
+                        if (element.addRef) {
+                            element.addRef();
+                        }
+                        return element;
+                    } else {
+                        return void 0;
+                    }
+                };
+                StringShareableMap.prototype.getWeakRef = function (key) {
+                    return this.elements[key];
+                };
+                StringShareableMap.prototype.put = function (key, value) {
+                    if (value && value.addRef) {
+                        value.addRef();
+                    }
+                    this.putWeakRef(key, value);
+                };
+                StringShareableMap.prototype.putWeakRef = function (key, value) {
+                    var elements = this.elements;
+                    var existing = elements[key];
+                    if (existing) {
+                        if (existing.release) {
+                            existing.release();
+                        }
+                    }
+                    elements[key] = value;
+                };
+                StringShareableMap.prototype.forEach = function (callback) {
+                    var keys = this.keys;
+                    for (var i = 0, iLength = keys.length; i < iLength; i++) {
+                        var key = keys[i];
+                        callback(key, this.elements[key]);
+                    }
+                };
+                Object.defineProperty(StringShareableMap.prototype, "keys", {
+                    get: function () {
+                        return Object.keys(this.elements);
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(StringShareableMap.prototype, "values", {
+                    get: function () {
+                        var values = [];
+                        var keys = this.keys;
+                        for (var i = 0, iLength = keys.length; i < iLength; i++) {
+                            var key = keys[i];
+                            values.push(this.elements[key]);
+                        }
+                        return values;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                StringShareableMap.prototype.remove = function (key) {
+                    var value = this.elements[key];
+                    delete this.elements[key];
+                    return value;
+                };
+                return StringShareableMap;
+            }(ShareableBase_1.ShareableBase);
+            exports_1("default", StringShareableMap);
+        }
+    };
+});
+System.register('davinci-eight/core/Drawable.js', ['../base/exchange', './GraphicsProgramSymbols', '../checks/isObject', '../checks/isNull', '../checks/isNumber', '../checks/isUndefined', '../checks/mustBeBoolean', '../facets/OpacityFacet', '../facets/PointSizeFacet', '../core/ShareableContextConsumer', '../collections/StringShareableMap'], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    var __extends = this && this.__extends || function (d, b) {
+        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+        function __() {
+            this.constructor = d;
+        }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+    var exchange_1, GraphicsProgramSymbols_1, isObject_1, isNull_1, isNumber_1, isUndefined_1, mustBeBoolean_1, OpacityFacet_1, PointSizeFacet_1, ShareableContextConsumer_1, StringShareableMap_1;
     var OPACITY_FACET_NAME, POINTSIZE_FACET_NAME, Drawable;
     function synchFacets(material, drawable) {
         if (material) {
@@ -16590,6 +16682,8 @@ System.register('davinci-eight/core/Drawable.js', ['../base/exchange', './Graphi
             PointSizeFacet_1 = PointSizeFacet_1_1;
         }, function (ShareableContextConsumer_1_1) {
             ShareableContextConsumer_1 = ShareableContextConsumer_1_1;
+        }, function (StringShareableMap_1_1) {
+            StringShareableMap_1 = StringShareableMap_1_1;
         }],
         execute: function () {
             OPACITY_FACET_NAME = 'opacity';
@@ -16603,7 +16697,7 @@ System.register('davinci-eight/core/Drawable.js', ['../base/exchange', './Graphi
                     _super.call(this, contextManager);
                     this._visible = true;
                     this._transparent = false;
-                    this._facets = {};
+                    this.facetMap = new StringShareableMap_1.default();
                     this.setLoggingName('Drawable');
                     if (isObject_1.default(geometry)) {
                         this.geometry = geometry;
@@ -16616,6 +16710,7 @@ System.register('davinci-eight/core/Drawable.js', ['../base/exchange', './Graphi
                     }
                 }
                 Drawable.prototype.destructor = function (levelUp) {
+                    this.facetMap.release();
                     if (levelUp === 0) {
                         this.cleanUp();
                     }
@@ -16718,12 +16813,11 @@ System.register('davinci-eight/core/Drawable.js', ['../base/exchange', './Graphi
                 };
                 Drawable.prototype.setUniforms = function () {
                     var material = this._material;
-                    var facets = this._facets;
-                    var keys = Object.keys(facets);
+                    var keys = this.facetMap.keys;
                     var keysLength = keys.length;
                     for (var i = 0; i < keysLength; i++) {
                         var key = keys[i];
-                        var facet = facets[key];
+                        var facet = this.facetMap.getWeakRef(key);
                         facet.setUniforms(material);
                     }
                     return this;
@@ -16776,7 +16870,7 @@ System.register('davinci-eight/core/Drawable.js', ['../base/exchange', './Graphi
                     }
                 };
                 Drawable.prototype.getFacet = function (name) {
-                    return this._facets[name];
+                    return this.facetMap.get(name);
                 };
                 Drawable.prototype.render = function (ambients) {
                     if (this._visible) {
@@ -16793,14 +16887,10 @@ System.register('davinci-eight/core/Drawable.js', ['../base/exchange', './Graphi
                     return this;
                 };
                 Drawable.prototype.removeFacet = function (name) {
-                    var facet = this._facets[name];
-                    if (facet) {
-                        delete this._facets[name];
-                    }
-                    return facet;
+                    return this.facetMap.remove(name);
                 };
                 Drawable.prototype.setFacet = function (name, facet) {
-                    this._facets[name] = facet;
+                    this.facetMap.put(name, facet);
                 };
                 Drawable.prototype.unbind = function () {
                     this._geometry.unbind(this._material);
@@ -19652,46 +19742,6 @@ System.register("davinci-eight/facets/ModelE3.js", ['../math/Geometric3'], funct
         }
     };
 });
-System.register('davinci-eight/core/GraphicsProgramSymbols.js', [], function (exports_1, context_1) {
-    "use strict";
-
-    var __moduleName = context_1 && context_1.id;
-    var GraphicsProgramSymbols;
-    return {
-        setters: [],
-        execute: function () {
-            GraphicsProgramSymbols = function () {
-                function GraphicsProgramSymbols() {}
-                GraphicsProgramSymbols.ATTRIBUTE_COLOR = 'aColor';
-                GraphicsProgramSymbols.ATTRIBUTE_GEOMETRY_INDEX = 'aGeometryIndex';
-                GraphicsProgramSymbols.ATTRIBUTE_NORMAL = 'aNormal';
-                GraphicsProgramSymbols.ATTRIBUTE_OPACITY = 'aOpacity';
-                GraphicsProgramSymbols.ATTRIBUTE_POSITION = 'aPosition';
-                GraphicsProgramSymbols.ATTRIBUTE_TANGENT = 'aTangent';
-                GraphicsProgramSymbols.ATTRIBUTE_COORDS = 'aCoords';
-                GraphicsProgramSymbols.UNIFORM_ALPHA = 'uAlpha';
-                GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT = 'uAmbientLight';
-                GraphicsProgramSymbols.UNIFORM_COLOR = 'uColor';
-                GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR = 'uDirectionalLightColor';
-                GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION = 'uDirectionalLightDirection';
-                GraphicsProgramSymbols.UNIFORM_OPACITY = 'uOpacity';
-                GraphicsProgramSymbols.UNIFORM_POINT_LIGHT_COLOR = 'uPointLightColor';
-                GraphicsProgramSymbols.UNIFORM_POINT_LIGHT_POSITION = 'uPointLightPosition';
-                GraphicsProgramSymbols.UNIFORM_POINT_SIZE = 'uPointSize';
-                GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX = 'uProjection';
-                GraphicsProgramSymbols.UNIFORM_REFLECTION_ONE_MATRIX = 'uReflectionOne';
-                GraphicsProgramSymbols.UNIFORM_REFLECTION_TWO_MATRIX = 'uReflectionTwo';
-                GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX = 'uModel';
-                GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX = 'uNormal';
-                GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX = 'uView';
-                GraphicsProgramSymbols.VARYING_COLOR = 'vColor';
-                GraphicsProgramSymbols.VARYING_LIGHT = 'vLight';
-                return GraphicsProgramSymbols;
-            }();
-            exports_1("default", GraphicsProgramSymbols);
-        }
-    };
-});
 System.register('davinci-eight/facets/ModelFacet.js', ['../math/Matrix3', '../math/Matrix4', './ModelE3', '../checks/mustBeObject', '../i18n/readOnly', '../core/GraphicsProgramSymbols'], function (exports_1, context_1) {
     "use strict";
 
@@ -19811,7 +19861,118 @@ System.register('davinci-eight/i18n/notSupported.js', ['../checks/mustBeString']
         execute: function () {}
     };
 });
-System.register('davinci-eight/core/Mesh.js', ['../facets/ColorFacet', './Drawable', '../facets/ModelFacet', '../i18n/notSupported'], function (exports_1, context_1) {
+System.register("davinci-eight/base/exchange.js", [], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    function default_1(mine, yours) {
+        if (mine !== yours) {
+            if (yours && yours.addRef) {
+                yours.addRef();
+            }
+            if (mine && mine.release) {
+                mine.release();
+            }
+            return yours;
+        } else {
+            return mine;
+        }
+    }
+    exports_1("default", default_1);
+    return {
+        setters: [],
+        execute: function () {}
+    };
+});
+System.register('davinci-eight/core/GraphicsProgramSymbols.js', [], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    var GraphicsProgramSymbols;
+    return {
+        setters: [],
+        execute: function () {
+            GraphicsProgramSymbols = function () {
+                function GraphicsProgramSymbols() {}
+                GraphicsProgramSymbols.ATTRIBUTE_COLOR = 'aColor';
+                GraphicsProgramSymbols.ATTRIBUTE_GEOMETRY_INDEX = 'aGeometryIndex';
+                GraphicsProgramSymbols.ATTRIBUTE_NORMAL = 'aNormal';
+                GraphicsProgramSymbols.ATTRIBUTE_OPACITY = 'aOpacity';
+                GraphicsProgramSymbols.ATTRIBUTE_POSITION = 'aPosition';
+                GraphicsProgramSymbols.ATTRIBUTE_TANGENT = 'aTangent';
+                GraphicsProgramSymbols.ATTRIBUTE_COORDS = 'aCoords';
+                GraphicsProgramSymbols.UNIFORM_ALPHA = 'uAlpha';
+                GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT = 'uAmbientLight';
+                GraphicsProgramSymbols.UNIFORM_COLOR = 'uColor';
+                GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR = 'uDirectionalLightColor';
+                GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION = 'uDirectionalLightDirection';
+                GraphicsProgramSymbols.UNIFORM_IMAGE = 'uImage';
+                GraphicsProgramSymbols.UNIFORM_OPACITY = 'uOpacity';
+                GraphicsProgramSymbols.UNIFORM_POINT_LIGHT_COLOR = 'uPointLightColor';
+                GraphicsProgramSymbols.UNIFORM_POINT_LIGHT_POSITION = 'uPointLightPosition';
+                GraphicsProgramSymbols.UNIFORM_POINT_SIZE = 'uPointSize';
+                GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX = 'uProjection';
+                GraphicsProgramSymbols.UNIFORM_REFLECTION_ONE_MATRIX = 'uReflectionOne';
+                GraphicsProgramSymbols.UNIFORM_REFLECTION_TWO_MATRIX = 'uReflectionTwo';
+                GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX = 'uModel';
+                GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX = 'uNormal';
+                GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX = 'uView';
+                GraphicsProgramSymbols.VARYING_COLOR = 'vColor';
+                GraphicsProgramSymbols.VARYING_LIGHT = 'vLight';
+                return GraphicsProgramSymbols;
+            }();
+            exports_1("default", GraphicsProgramSymbols);
+        }
+    };
+});
+System.register("davinci-eight/core/TextureUnit.js", [], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    var TextureUnit;
+    return {
+        setters: [],
+        execute: function () {
+            (function (TextureUnit) {
+                TextureUnit[TextureUnit["TEXTURE0"] = 33984] = "TEXTURE0";
+                TextureUnit[TextureUnit["TEXTURE1"] = 33985] = "TEXTURE1";
+                TextureUnit[TextureUnit["TEXTURE2"] = 33986] = "TEXTURE2";
+                TextureUnit[TextureUnit["TEXTURE3"] = 33987] = "TEXTURE3";
+                TextureUnit[TextureUnit["TEXTURE4"] = 33988] = "TEXTURE4";
+                TextureUnit[TextureUnit["TEXTURE5"] = 33989] = "TEXTURE5";
+                TextureUnit[TextureUnit["TEXTURE6"] = 33990] = "TEXTURE6";
+                TextureUnit[TextureUnit["TEXTURE7"] = 33991] = "TEXTURE7";
+                TextureUnit[TextureUnit["TEXTURE8"] = 33992] = "TEXTURE8";
+                TextureUnit[TextureUnit["TEXTURE9"] = 33993] = "TEXTURE9";
+                TextureUnit[TextureUnit["TEXTURE10"] = 33994] = "TEXTURE10";
+                TextureUnit[TextureUnit["TEXTURE11"] = 33995] = "TEXTURE11";
+                TextureUnit[TextureUnit["TEXTURE12"] = 33996] = "TEXTURE12";
+                TextureUnit[TextureUnit["TEXTURE13"] = 33997] = "TEXTURE13";
+                TextureUnit[TextureUnit["TEXTURE14"] = 33998] = "TEXTURE14";
+                TextureUnit[TextureUnit["TEXTURE15"] = 33999] = "TEXTURE15";
+                TextureUnit[TextureUnit["TEXTURE16"] = 34000] = "TEXTURE16";
+                TextureUnit[TextureUnit["TEXTURE17"] = 34001] = "TEXTURE17";
+                TextureUnit[TextureUnit["TEXTURE18"] = 34002] = "TEXTURE18";
+                TextureUnit[TextureUnit["TEXTURE19"] = 34003] = "TEXTURE19";
+                TextureUnit[TextureUnit["TEXTURE20"] = 34004] = "TEXTURE20";
+                TextureUnit[TextureUnit["TEXTURE21"] = 34005] = "TEXTURE21";
+                TextureUnit[TextureUnit["TEXTURE22"] = 34006] = "TEXTURE22";
+                TextureUnit[TextureUnit["TEXTURE23"] = 34007] = "TEXTURE23";
+                TextureUnit[TextureUnit["TEXTURE24"] = 34008] = "TEXTURE24";
+                TextureUnit[TextureUnit["TEXTURE25"] = 34009] = "TEXTURE25";
+                TextureUnit[TextureUnit["TEXTURE26"] = 34010] = "TEXTURE26";
+                TextureUnit[TextureUnit["TEXTURE27"] = 34011] = "TEXTURE27";
+                TextureUnit[TextureUnit["TEXTURE28"] = 34012] = "TEXTURE28";
+                TextureUnit[TextureUnit["TEXTURE29"] = 34013] = "TEXTURE29";
+                TextureUnit[TextureUnit["TEXTURE30"] = 34014] = "TEXTURE30";
+                TextureUnit[TextureUnit["TEXTURE31"] = 34015] = "TEXTURE31";
+                TextureUnit[TextureUnit["ACTIVE_TEXTURE"] = 34016] = "ACTIVE_TEXTURE";
+            })(TextureUnit || (TextureUnit = {}));
+            exports_1("default", TextureUnit);
+        }
+    };
+});
+System.register('davinci-eight/facets/TextureFacet.js', ['../base/exchange', '../core/GraphicsProgramSymbols', '../core/ShareableBase', '../core/TextureUnit'], function (exports_1, context_1) {
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
@@ -19822,8 +19983,66 @@ System.register('davinci-eight/core/Mesh.js', ['../facets/ColorFacet', './Drawab
         }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
-    var ColorFacet_1, Drawable_1, ModelFacet_1, notSupported_1;
-    var COLOR_FACET_NAME, MODEL_FACET_NAME, Mesh;
+    var exchange_1, GraphicsProgramSymbols_1, ShareableBase_1, TextureUnit_1;
+    var TextureFacet;
+    return {
+        setters: [function (exchange_1_1) {
+            exchange_1 = exchange_1_1;
+        }, function (GraphicsProgramSymbols_1_1) {
+            GraphicsProgramSymbols_1 = GraphicsProgramSymbols_1_1;
+        }, function (ShareableBase_1_1) {
+            ShareableBase_1 = ShareableBase_1_1;
+        }, function (TextureUnit_1_1) {
+            TextureUnit_1 = TextureUnit_1_1;
+        }],
+        execute: function () {
+            TextureFacet = function (_super) {
+                __extends(TextureFacet, _super);
+                function TextureFacet() {
+                    _super.call(this);
+                    this.unit = TextureUnit_1.default.TEXTURE0;
+                    this.setLoggingName('TextureFacet');
+                }
+                TextureFacet.prototype.destructor = function (levelUp) {
+                    this._texture = exchange_1.default(this._texture, void 0);
+                    _super.prototype.destructor.call(this, levelUp + 1);
+                };
+                Object.defineProperty(TextureFacet.prototype, "texture", {
+                    get: function () {
+                        return this._texture;
+                    },
+                    set: function (value) {
+                        this._texture = exchange_1.default(this._texture, value);
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                TextureFacet.prototype.setUniforms = function (visitor) {
+                    if (this._texture) {
+                        visitor.activeTexture(this.unit);
+                        this._texture.bind();
+                        visitor.uniform1i(GraphicsProgramSymbols_1.default.UNIFORM_IMAGE, 0);
+                    }
+                };
+                return TextureFacet;
+            }(ShareableBase_1.ShareableBase);
+            exports_1("default", TextureFacet);
+        }
+    };
+});
+System.register('davinci-eight/core/Mesh.js', ['../facets/ColorFacet', './Drawable', '../facets/ModelFacet', '../i18n/notSupported', '../facets/TextureFacet'], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    var __extends = this && this.__extends || function (d, b) {
+        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+        function __() {
+            this.constructor = d;
+        }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+    var ColorFacet_1, Drawable_1, ModelFacet_1, notSupported_1, TextureFacet_1;
+    var COLOR_FACET_NAME, TEXTURE_FACET_NAME, MODEL_FACET_NAME, Mesh;
     return {
         setters: [function (ColorFacet_1_1) {
             ColorFacet_1 = ColorFacet_1_1;
@@ -19833,9 +20052,12 @@ System.register('davinci-eight/core/Mesh.js', ['../facets/ColorFacet', './Drawab
             ModelFacet_1 = ModelFacet_1_1;
         }, function (notSupported_1_1) {
             notSupported_1 = notSupported_1_1;
+        }, function (TextureFacet_1_1) {
+            TextureFacet_1 = TextureFacet_1_1;
         }],
         execute: function () {
             COLOR_FACET_NAME = 'color';
+            TEXTURE_FACET_NAME = 'image';
             MODEL_FACET_NAME = 'model';
             Mesh = function (_super) {
                 __extends(Mesh, _super);
@@ -19845,8 +20067,11 @@ System.register('davinci-eight/core/Mesh.js', ['../facets/ColorFacet', './Drawab
                     }
                     _super.call(this, geometry, material, contextManager, levelUp + 1);
                     this.setLoggingName('Mesh');
-                    this.setFacet(MODEL_FACET_NAME, new ModelFacet_1.ModelFacet());
                     this.setFacet(COLOR_FACET_NAME, new ColorFacet_1.ColorFacet());
+                    var textureFacet = new TextureFacet_1.default();
+                    this.setFacet(TEXTURE_FACET_NAME, textureFacet);
+                    textureFacet.release();
+                    this.setFacet(MODEL_FACET_NAME, new ModelFacet_1.ModelFacet());
                     if (levelUp === 0) {
                         this.synchUp();
                     }
@@ -19892,6 +20117,29 @@ System.register('davinci-eight/core/Mesh.js', ['../facets/ColorFacet', './Drawab
                             facet.color.copy(color);
                         } else {
                             throw new Error(notSupported_1.default(COLOR_FACET_NAME).message);
+                        }
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(Mesh.prototype, "texture", {
+                    get: function () {
+                        var facet = this.getFacet(TEXTURE_FACET_NAME);
+                        if (facet) {
+                            var texture = facet.texture;
+                            facet.release();
+                            return texture;
+                        } else {
+                            throw new Error(notSupported_1.default(TEXTURE_FACET_NAME).message);
+                        }
+                    },
+                    set: function (value) {
+                        var facet = this.getFacet(TEXTURE_FACET_NAME);
+                        if (facet) {
+                            facet.texture = value;
+                            facet.release();
+                        } else {
+                            throw new Error(notSupported_1.default(TEXTURE_FACET_NAME).message);
                         }
                     },
                     enumerable: true,
@@ -22320,7 +22568,7 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
                     this.LAST_MODIFIED = '2016-11-6';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '2.323.1';
+                    this.VERSION = '2.324.0';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];
@@ -22913,7 +23161,9 @@ System.register('davinci-eight/core/Texture.js', ['./DataType', '../checks/mustB
                     },
                     set: function (filter) {
                         if (this.gl) {
+                            this.bind();
                             this.gl.texParameteri(this._target, TextureParameterName_1.default.TEXTURE_MIN_FILTER, filter);
+                            this.unbind();
                         } else {
                             console.warn(this._type + ".minFilter missing WebGL rendering context.");
                         }
@@ -22927,7 +23177,9 @@ System.register('davinci-eight/core/Texture.js', ['./DataType', '../checks/mustB
                     },
                     set: function (filter) {
                         if (this.gl) {
+                            this.bind();
                             this.gl.texParameteri(this._target, TextureParameterName_1.default.TEXTURE_MAG_FILTER, filter);
+                            this.unbind();
                         } else {
                             console.warn(this._type + ".magFilter missing WebGL rendering context.");
                         }
@@ -22941,7 +23193,9 @@ System.register('davinci-eight/core/Texture.js', ['./DataType', '../checks/mustB
                     },
                     set: function (mode) {
                         if (this.gl) {
+                            this.bind();
                             this.gl.texParameteri(this._target, TextureParameterName_1.default.TEXTURE_WRAP_S, mode);
+                            this.unbind();
                         } else {
                             console.warn(this._type + ".wrapS missing WebGL rendering context.");
                         }
@@ -22955,7 +23209,9 @@ System.register('davinci-eight/core/Texture.js', ['./DataType', '../checks/mustB
                     },
                     set: function (mode) {
                         if (this.gl) {
+                            this.bind();
                             this.gl.texParameteri(this._target, TextureParameterName_1.default.TEXTURE_WRAP_T, mode);
+                            this.unbind();
                         } else {
                             console.warn(this._type + ".wrapT missing WebGL rendering context.");
                         }
@@ -23035,6 +23291,9 @@ System.register('davinci-eight/loaders/TextureLoader.js', ['../checks/mustBeStri
                     image.onload = function () {
                         var texture = new Texture_1.default(TextureTarget_1.default.TEXTURE_2D, _this.contextManager);
                         texture.image = image;
+                        texture.bind();
+                        texture.upload();
+                        texture.unbind();
                         onLoad(texture);
                     };
                     image.src = url;

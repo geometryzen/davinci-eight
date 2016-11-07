@@ -28,7 +28,8 @@ export default function glslAttribType(key: string, size: number): string {
   mustBeInteger('size', size);
   switch (key) {
     case GraphicsProgramSymbols.ATTRIBUTE_COLOR: {
-      return 'vec3';
+      // No need to hard-code to 'vec3' anymore.
+      return sizeType(size);
     }
     default: {
       return sizeType(size);

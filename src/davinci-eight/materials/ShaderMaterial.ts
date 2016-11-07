@@ -7,12 +7,13 @@ import isDefined from '../checks/isDefined';
 import isString from '../checks/isString';
 import isNull from '../checks/isNull';
 import makeWebGLProgram from '../core/makeWebGLProgram';
-import {Material} from '../core/Material'
+import { Material } from '../core/Material'
 import mustBeArray from '../checks/mustBeArray';
 import mustBeString from '../checks/mustBeString';
 import mustBeUndefined from '../checks/mustBeUndefined';
 import readOnly from '../i18n/readOnly';
-import {ShareableContextConsumer} from '../core/ShareableContextConsumer';
+import { ShareableContextConsumer } from '../core/ShareableContextConsumer';
+import TextureUnit from '../core/TextureUnit';
 import Uniform from '../core/Uniform';
 import VertexBuffer from '../core/VertexBuffer';
 
@@ -360,6 +361,19 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
     hasUniform(name: string): boolean {
         mustBeString('name', name);
         return isDefined(this._uniforms[name])
+    }
+
+    activeTexture(texture: TextureUnit): void {
+        if (this.gl) {
+            this.gl.activeTexture(texture);
+        }
+    }
+
+    uniform1i(name: string, x: number): void {
+        const uniformLoc = this.getUniform(name);
+        if (uniformLoc) {
+            uniformLoc.uniform1i(x);
+        }
     }
 
     uniform1f(name: string, x: number): void {

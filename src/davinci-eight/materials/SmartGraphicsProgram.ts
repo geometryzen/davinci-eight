@@ -1,25 +1,26 @@
-import {Engine} from '../core/Engine';
+import ContextManager from '../core/ContextManager';
 import fShaderSrc from './fragmentShaderSrc';
-import {ShaderMaterial} from './ShaderMaterial';
+import { ShaderMaterial } from './ShaderMaterial';
 import vShaderSrc from './vertexShaderSrc';
 
 /**
- *
+ * A Material that is generated based upon knowledge of parameters and some hints.
  */
 export class SmartGraphicsProgram extends ShaderMaterial {
     constructor(
         aParams: { [name: string]: { glslType: string } },
         uParams: { [name: string]: { glslType: string } },
         vColor: boolean,
+        vCoords: boolean,
         vLight: boolean,
-        engine: Engine,
+        contextManager: ContextManager,
         levelUp = 0
     ) {
         super(
-            vShaderSrc(aParams, uParams, vColor, vLight),
-            fShaderSrc(aParams, uParams, vColor, vLight),
+            vShaderSrc(aParams, uParams, vColor, vCoords, vLight),
+            fShaderSrc(aParams, uParams, vColor, vCoords, vLight),
             [],
-            engine,
+            contextManager,
             levelUp + 1
         )
         this.setLoggingName('SmartGraphicsProgram');

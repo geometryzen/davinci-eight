@@ -80,6 +80,11 @@ export default class GraphicsProgramSymbols {
     public static UNIFORM_DIRECTIONAL_LIGHT_DIRECTION: string = 'uDirectionalLightDirection';
 
     /**
+     * 'uImage'
+     */
+    public static UNIFORM_IMAGE: string = 'uImage';
+
+    /**
      * 'uOpacity'
      * @property UNIFORM_OPACITY
      * @type {string}

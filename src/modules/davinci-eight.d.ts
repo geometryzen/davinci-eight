@@ -3844,6 +3844,10 @@ declare module EIGHT {
          */
         stress: Matrix4;
         /**
+         * Texture
+         */
+        texture: Texture;
+        /**
          * Position (vector)
          */
         X: Geometric3;

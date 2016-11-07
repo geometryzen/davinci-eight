@@ -1,16 +1,19 @@
-import {Color} from './Color';
-import {ColorFacet} from '../facets/ColorFacet';
+import { Color } from './Color';
+import { ColorFacet } from '../facets/ColorFacet';
 import ContextManager from './ContextManager';
-import {Drawable} from './Drawable';
-import {Geometric3} from '../math/Geometric3';
-import {Geometry} from './Geometry';
-import {Material} from './Material';
+import { Drawable } from './Drawable';
+import { Geometric3 } from '../math/Geometric3';
+import { Geometry } from './Geometry';
+import { Material } from './Material';
 import AbstractMesh from '../core/AbstractMesh';
 import Matrix4 from '../math/Matrix4';
-import {ModelFacet} from '../facets/ModelFacet';
+import { ModelFacet } from '../facets/ModelFacet';
 import notSupported from '../i18n/notSupported';
+import Texture from './Texture';
+import TextureFacet from '../facets/TextureFacet';
 
 const COLOR_FACET_NAME = 'color';
+const TEXTURE_FACET_NAME = 'image';
 const MODEL_FACET_NAME = 'model';
 
 /**
@@ -27,8 +30,13 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
         super(geometry, material, contextManager, levelUp + 1);
         this.setLoggingName('Mesh');
 
-        this.setFacet(MODEL_FACET_NAME, new ModelFacet());
         this.setFacet(COLOR_FACET_NAME, new ColorFacet());
+
+        const textureFacet = new TextureFacet();
+        this.setFacet(TEXTURE_FACET_NAME, textureFacet);
+        textureFacet.release();
+
+        this.setFacet(MODEL_FACET_NAME, new ModelFacet());
         if (levelUp === 0) {
             this.synchUp();
         }
@@ -82,6 +90,28 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
         }
         else {
             throw new Error(notSupported(COLOR_FACET_NAME).message);
+        }
+    }
+
+    get texture(): Texture {
+        const facet = <TextureFacet>this.getFacet(TEXTURE_FACET_NAME);
+        if (facet) {
+            const texture = facet.texture;
+            facet.release();
+            return texture;
+        }
+        else {
+            throw new Error(notSupported(TEXTURE_FACET_NAME).message);
+        }
+    }
+    set texture(value: Texture) {
+        const facet = <TextureFacet>this.getFacet(TEXTURE_FACET_NAME);
+        if (facet) {
+            facet.texture = value;
+            facet.release();
+        }
+        else {
+            throw new Error(notSupported(TEXTURE_FACET_NAME).message);
         }
     }
 

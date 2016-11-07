@@ -78,7 +78,9 @@ export default class Texture extends ShareableContextConsumer {
     }
     set minFilter(filter: TextureMinFilter) {
         if (this.gl) {
+            this.bind();
             this.gl.texParameteri(this._target, TextureParameterName.TEXTURE_MIN_FILTER, filter);
+            this.unbind();
         }
         else {
             console.warn(`${this._type}.minFilter missing WebGL rendering context.`)
@@ -90,7 +92,9 @@ export default class Texture extends ShareableContextConsumer {
     }
     set magFilter(filter: TextureMagFilter) {
         if (this.gl) {
+            this.bind();
             this.gl.texParameteri(this._target, TextureParameterName.TEXTURE_MAG_FILTER, filter);
+            this.unbind();
         }
         else {
             console.warn(`${this._type}.magFilter missing WebGL rendering context.`)
@@ -102,7 +106,9 @@ export default class Texture extends ShareableContextConsumer {
     }
     set wrapS(mode: TextureWrapMode) {
         if (this.gl) {
+            this.bind();
             this.gl.texParameteri(this._target, TextureParameterName.TEXTURE_WRAP_S, mode);
+            this.unbind();
         }
         else {
             console.warn(`${this._type}.wrapS missing WebGL rendering context.`)
@@ -114,7 +120,9 @@ export default class Texture extends ShareableContextConsumer {
     }
     set wrapT(mode: TextureWrapMode) {
         if (this.gl) {
+            this.bind();
             this.gl.texParameteri(this._target, TextureParameterName.TEXTURE_WRAP_T, mode);
+            this.unbind();
         }
         else {
             console.warn(`${this._type}.wrapT missing WebGL rendering context.`)

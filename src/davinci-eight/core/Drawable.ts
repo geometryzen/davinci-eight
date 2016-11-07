@@ -1,19 +1,20 @@
-import {AbstractDrawable} from './AbstractDrawable';
+import { AbstractDrawable } from './AbstractDrawable';
 import ContextManager from '../core/ContextManager';
 import ContextProvider from '../core/ContextProvider';
 import exchange from '../base/exchange';
-import {Facet} from '../core/Facet';
-import {Geometry} from './Geometry';
+import { Facet } from '../core/Facet';
+import { Geometry } from './Geometry';
 import GraphicsProgramSymbols from './GraphicsProgramSymbols';
 import isObject from '../checks/isObject';
 import isNull from '../checks/isNull';
 import isNumber from '../checks/isNumber';
 import isUndefined from '../checks/isUndefined';
 import mustBeBoolean from '../checks/mustBeBoolean';
-import {Material} from './Material';
-import {OpacityFacet} from '../facets/OpacityFacet';
-import {PointSizeFacet} from '../facets/PointSizeFacet';
-import {ShareableContextConsumer} from '../core/ShareableContextConsumer';
+import { Material } from './Material';
+import { OpacityFacet } from '../facets/OpacityFacet';
+import { PointSizeFacet } from '../facets/PointSizeFacet';
+import { ShareableContextConsumer } from '../core/ShareableContextConsumer';
+import StringShareableMap from '../collections/StringShareableMap';
 
 const OPACITY_FACET_NAME = 'opacity';
 const POINTSIZE_FACET_NAME = 'pointSize';
@@ -53,7 +54,8 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
      * 1. Use an array to provide fast access without object creation during rendering.
      * 2. Use a map from name to index for updates.
      */
-    private _facets: { [name: string]: Facet } = {};
+    // private _facets: { [name: string]: Facet } = {};
+    private facetMap = new StringShareableMap<Facet>();
 
     /**
      * @param geometry
@@ -81,6 +83,8 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
      * @param levelUp
      */
     protected destructor(levelUp: number): void {
+        this.facetMap.release();
+
         if (levelUp === 0) {
             this.cleanUp();
         }
@@ -197,13 +201,11 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
      */
     setUniforms(): Drawable<G, M> {
         const material = this._material;
-        const facets = this._facets;
-        // FIXME: Temporary object creation?
-        const keys = Object.keys(facets);
+        const keys = this.facetMap.keys;
         const keysLength = keys.length;
         for (let i = 0; i < keysLength; i++) {
             const key = keys[i];
-            const facet = facets[key];
+            const facet = this.facetMap.getWeakRef(key);
             facet.setUniforms(material);
         }
         return this;
@@ -265,7 +267,7 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
      * @param name {string}
      */
     getFacet(name: string): Facet {
-        return this._facets[name]
+        return this.facetMap.get(name);
     }
 
     /**
@@ -296,18 +298,14 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
     }
 
     removeFacet(name: string): Facet {
-        const facet = this._facets[name];
-        if (facet) {
-            delete this._facets[name];
-        }
-        return facet;
+        return this.facetMap.remove(name);
     }
 
     /**
      * @param facet
      */
     setFacet(name: string, facet: Facet): void {
-        this._facets[name] = facet
+        this.facetMap.put(name, facet);
     }
 
     unbind(): Drawable<G, M> {

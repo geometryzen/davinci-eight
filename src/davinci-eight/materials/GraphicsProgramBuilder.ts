@@ -1,11 +1,12 @@
-import {Engine} from '../core/Engine';
+import ContextManager from '../core/ContextManager';
 import getAttribVarName from '../core/getAttribVarName';
 import glslAttribType from './glslAttribType';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeString from '../checks/mustBeString';
 import Primitive from '../core/Primitive';
-import {SmartGraphicsProgram} from '../materials/SmartGraphicsProgram';
+import { SmartGraphicsProgram } from '../materials/SmartGraphicsProgram';
 import vColorRequired from './vColorRequired';
+import vCoordsRequired from './vCoordsRequired';
 import vLightRequired from './vLightRequired';
 import fragmentShaderSrc from './fragmentShaderSrc';
 import vertexShaderSrc from './vertexShaderSrc';
@@ -56,27 +57,39 @@ export default class GraphicsProgramBuilder {
         return this
     }
 
-    public build(engine: Engine): SmartGraphicsProgram {
+    /**
+     * Returns a Material consistent with the state of this builder.
+     */
+    public build(contextManager: ContextManager): SmartGraphicsProgram {
         // FIXME: Push this calculation down into the functions.
         // Then the data structures are based on size.
         // uniforms based on numeric type?
-        const aParams = computeAttribParams(this.aMeta)
-        const vColor = vColorRequired(aParams, this.uParams)
+        const aParams = computeAttribParams(this.aMeta);
+        const vColor = vColorRequired(aParams, this.uParams);
+        const vCoords = vCoordsRequired(aParams, this.uParams);
         const vLight = vLightRequired(aParams, this.uParams)
-        return new SmartGraphicsProgram(aParams, this.uParams, vColor, vLight, engine)
+        return new SmartGraphicsProgram(aParams, this.uParams, vColor, vCoords, vLight, contextManager)
     }
 
+    /**
+     * Computes a vertex shader consistent with the state of this builder.
+     */
     public vertexShaderSrc(): string {
-        const aParams = computeAttribParams(this.aMeta)
-        const vColor = vColorRequired(aParams, this.uParams)
-        const vLight = vLightRequired(aParams, this.uParams)
-        return vertexShaderSrc(aParams, this.uParams, vColor, vLight)
+        const aParams = computeAttribParams(this.aMeta);
+        const vColor = vColorRequired(aParams, this.uParams);
+        const vCoords = vCoordsRequired(aParams, this.uParams);
+        const vLight = vLightRequired(aParams, this.uParams);
+        return vertexShaderSrc(aParams, this.uParams, vColor, vCoords, vLight);
     }
 
+    /**
+     * Computes a fragment shader consistent with the state of this builder.
+     */
     public fragmentShaderSrc(): string {
-        const aParams = computeAttribParams(this.aMeta)
-        const vColor = vColorRequired(aParams, this.uParams)
-        const vLight = vLightRequired(aParams, this.uParams)
-        return fragmentShaderSrc(aParams, this.uParams, vColor, vLight)
+        const aParams = computeAttribParams(this.aMeta);
+        const vColor = vColorRequired(aParams, this.uParams);
+        const vCoords = vCoordsRequired(aParams, this.uParams);
+        const vLight = vLightRequired(aParams, this.uParams);
+        return fragmentShaderSrc(aParams, this.uParams, vColor, vCoords, vLight)
     }
 }

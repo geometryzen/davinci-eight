@@ -25,11 +25,12 @@ const DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME = "directionalLightCosineFactor"
 /**
  * Generates a vertex shader.
  */
-export default function(attributes: { [name: string]: AttribMetaInfo }, uniforms: { [name: string]: UniformMetaInfo }, vColor: boolean, vLight: boolean): string {
+export default function vertexShaderSrc(attributes: { [name: string]: AttribMetaInfo }, uniforms: { [name: string]: UniformMetaInfo }, vColor: boolean, vCoords: boolean, vLight: boolean): string {
 
     mustBeDefined('attributes', attributes)
     mustBeDefined('uniforms', uniforms)
     mustBeBoolean('vColor', vColor)
+    mustBeBoolean('vCoords', vCoords)
     mustBeBoolean('vLight', vLight)
 
     const lines: string[] = []
@@ -37,18 +38,28 @@ export default function(attributes: { [name: string]: AttribMetaInfo }, uniforms
     // The precision is implicitly highp for vertex shaders.
     // So there is no need to add preamble for changing the precision unless
     // we want to lower the precision.
-    for (var aName in attributes) {
+    for (let aName in attributes) {
         if (attributes.hasOwnProperty(aName)) {
             lines.push(ATTRIBUTE + attributes[aName].glslType + SPACE + getAttribVarName(attributes[aName], aName) + SEMICOLON)
         }
     }
-    for (var uName in uniforms) {
+    for (let uName in uniforms) {
         if (uniforms.hasOwnProperty(uName)) {
-            lines.push(UNIFORM + uniforms[uName].glslType + SPACE + getUniformCodeName(uniforms, uName) + SEMICOLON)
+            switch (uniforms[uName].glslType) {
+                case 'sampler2D': {
+                    break;
+                }
+                default: {
+                    lines.push(UNIFORM + uniforms[uName].glslType + SPACE + getUniformCodeName(uniforms, uName) + SEMICOLON);
+                }
+            }
         }
     }
     if (vColor) {
         lines.push("varying highp vec4 vColor;")
+    }
+    if (vCoords) {
+        lines.push("varying highp vec2 vCoords;")
     }
     if (vLight) {
         lines.push("varying highp vec3 vLight;");
@@ -146,9 +157,9 @@ export default function(attributes: { [name: string]: AttribMetaInfo }, uniforms
             let colorAttribVarName = getAttribVarName(attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR], GraphicsProgramSymbols.ATTRIBUTE_COLOR)
             switch (attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR].glslType) {
                 case 'vec4': {
-                    lines.push("  vColor = " + colorAttribVarName + SEMICOLON)
+                    lines.push("  vColor = " + colorAttribVarName + SEMICOLON);
+                    break;
                 }
-                    break
                 case 'vec3': {
                     if (uniforms[GraphicsProgramSymbols.UNIFORM_OPACITY]) {
                         lines.push(`  vColor = vec4(${colorAttribVarName}, ${getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_OPACITY)});`);
@@ -156,8 +167,8 @@ export default function(attributes: { [name: string]: AttribMetaInfo }, uniforms
                     else {
                         lines.push(`  vColor = vec4(${colorAttribVarName}, 1.0);`);
                     }
+                    break;
                 }
-                    break
                 default: {
                     throw new Error("Unexpected type for color attribute: " + attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR].glslType)
                 }
@@ -187,6 +198,10 @@ export default function(attributes: { [name: string]: AttribMetaInfo }, uniforms
         else {
             lines.push("  vColor = vec4(1.0, 1.0, 1.0, 1.0);")
         }
+    }
+
+    if (vCoords) {
+        lines.push("  vCoords = aCoords;")
     }
 
     if (vLight) {

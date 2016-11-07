@@ -50,10 +50,24 @@ export default class Uniform implements ContextProgramConsumer {
         }
     }
 
+    uniform1i(x: number): void {
+        const gl = this.gl;
+        if (gl) {
+            gl.uniform1i(this.location, x);
+        }
+    }
+
     uniform2f(x: number, y: number): void {
         const gl = this.gl;
         if (gl) {
             gl.uniform2f(this.location, x, y)
+        }
+    }
+
+    uniform2i(x: number, y: number): void {
+        const gl = this.gl;
+        if (gl) {
+            gl.uniform2i(this.location, x, y);
         }
     }
 
@@ -64,10 +78,24 @@ export default class Uniform implements ContextProgramConsumer {
         }
     }
 
+    uniform3i(x: number, y: number, z: number): void {
+        const gl = this.gl;
+        if (gl) {
+            gl.uniform3i(this.location, x, y, z);
+        }
+    }
+
     uniform4f(x: number, y: number, z: number, w: number): void {
         const gl = this.gl;
         if (gl) {
             gl.uniform4f(this.location, x, y, z, w)
+        }
+    }
+
+    uniform4i(x: number, y: number, z: number, w: number): void {
+        const gl = this.gl;
+        if (gl) {
+            gl.uniform4i(this.location, x, y, z, w);
         }
     }
 
