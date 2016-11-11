@@ -1,5 +1,5 @@
-import {Facet} from '../core/Facet'
-import {FacetVisitor} from '../core/FacetVisitor'
+import { Facet } from '../core/Facet'
+import { FacetVisitor } from '../core/FacetVisitor'
 import Matrix3 from '../math/Matrix3'
 import Matrix4 from '../math/Matrix4'
 import ModelE3 from './ModelE3'
@@ -13,7 +13,6 @@ import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols'
 export class ModelFacet extends ModelE3 implements Facet {
 
     /**
-     *
      * @default diag(1, 1, 1, 1)
      */
     private matS: Matrix4 = Matrix4.one();
@@ -68,7 +67,7 @@ export class ModelFacet extends ModelE3 implements Facet {
     }
 
     /**
-     * @param visitor
+     *
      */
     setUniforms(visitor: FacetVisitor): void {
         this.updateMatrices()

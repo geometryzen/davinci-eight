@@ -1,48 +1,22 @@
-import {Geometric3} from '../math/Geometric3'
+import { Geometric3 } from '../math/Geometric3'
 
 /**
- * @module EIGHT
- * @submodule facets
- */
-
-/**
- * @class ModelE3
+ *
  */
 export default class ModelE3 {
 
   /**
    * The name of the property that designates the attitude.
-   * @property PROP_ATTITUDE
-   * @type {string}
-   * @default 'R'
-   * @static
-   * @readOnly
    */
   public static PROP_ATTITUDE = 'R';
 
   /**
    * The name of the property that designates the position.
-   * @property PROP_POSITION
-   * @type {string}
-   * @default 'X'
-   * @static
-   * @readOnly
    */
   public static PROP_POSITION = 'X';
 
-  /**
-   * @property _position
-   * @type {Geometric3}
-   * @private
-   */
   private _position = Geometric3.zero();
-
-  /**
-   * @property _attitude
-   * @type {Geometric3}
-   * @private
-   */
-  private _attitude: Geometric3 = Geometric3.one()
+  private _attitude = Geometric3.one()
 
   /**
    * <p>
@@ -54,8 +28,6 @@ export default class ModelE3 {
    * <p>
    * Constructs a ModelE3 at the origin and with unity attitude.
    * </p>
-   * @class ModelE3
-   * @constructor
    */
   constructor() {
     this._position.modified = true
@@ -66,9 +38,6 @@ export default class ModelE3 {
    * <p>
    * The <em>attitude</em>, a rotor.
    * </p>
-   *
-   * @property R
-   * @type Geometric3
    */
   get R(): Geometric3 {
     return this._attitude
@@ -81,8 +50,6 @@ export default class ModelE3 {
    * <p>
    * The <em>position</em>, a vector.
    * </p>
-   * @property X
-   * @type Geometric3
    */
   get X(): Geometric3 {
     return this._position

@@ -3252,6 +3252,35 @@ declare module EIGHT {
     /**
      * 
      */
+    interface CylinderGeometryOptions extends GeometryOptions {
+        /**
+         *
+         */
+        openBase?: boolean
+
+        /**
+         *
+         */
+        openCap?: boolean
+
+        /**
+         *
+         */
+        openWall?: boolean
+    }
+
+    /**
+     * 
+     */
+    class CylinderGeometry extends GeometryElements {
+        length: number;
+        radius: number;
+        constructor(options?: CylinderGeometryOptions, levelUp?: number);
+    }
+
+    /**
+     * 
+     */
     interface GridGeometryOptions extends GeometryOptions {
 
         /**

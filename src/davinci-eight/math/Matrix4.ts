@@ -338,13 +338,11 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
     }
 
     /**
-     * <p>
-     * <code>this ⟼ rotation(spinor)</code>
-     * </p>
-     * @method rotation
+     * Sets this matrix to be equivalent to the spinor.
+     *
+     * this ⟼ rotation(spinor)
+     *
      * @param attitude  The spinor from which the rotation will be computed.
-     * @return {Matrix4}
-     * @chainable
      */
     rotation(spinor: SpinorE3): Matrix4 {
         // The correspondence between quaternions and spinors is
@@ -459,7 +457,7 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
     toExponential(fractionDigits?: number): string {
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
-            text.push(this.row(i).map(function(element: number, index: number) { return element.toExponential(fractionDigits) }).join(' '));
+            text.push(this.row(i).map(function (element: number, index: number) { return element.toExponential(fractionDigits) }).join(' '));
         }
         return text.join('\n');
     }
@@ -472,7 +470,7 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
     toFixed(fractionDigits?: number): string {
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
-            text.push(this.row(i).map(function(element: number, index: number) { return element.toFixed(fractionDigits) }).join(' '));
+            text.push(this.row(i).map(function (element: number, index: number) { return element.toFixed(fractionDigits) }).join(' '));
         }
         return text.join('\n');
     }
@@ -485,7 +483,7 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
     toPrecision(fractionDigits?: number): string {
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
-            text.push(this.row(i).map(function(element: number, index: number) { return element.toPrecision(fractionDigits) }).join(' '));
+            text.push(this.row(i).map(function (element: number, index: number) { return element.toPrecision(fractionDigits) }).join(' '));
         }
         return text.join('\n');
     }
@@ -498,7 +496,7 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
     toString(radix?: number): string {
         const text: string[] = [];
         for (var i = 0; i < this.dimensions; i++) {
-            text.push(this.row(i).map(function(element: number, index: number) { return element.toString(radix) }).join(' '));
+            text.push(this.row(i).map(function (element: number, index: number) { return element.toString(radix) }).join(' '));
         }
         return text.join('\n');
     }
@@ -517,15 +515,12 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
     }
 
     /**
-     * @method translation
-     * @param d {VectorE3}
-     * @return {Matrix4}
-     * @chainable
+     * Sets this matrix to be equivalent to the displacement vector argument.
      */
-    translation(d: VectorE3): Matrix4 {
-        const x = d.x
-        const y = d.y
-        const z = d.z
+    translation(displacement: VectorE3): Matrix4 {
+        const x = displacement.x
+        const y = displacement.y
+        const z = displacement.z
         return this.set(
             1, 0, 0, x,
             0, 1, 0, y,
@@ -534,10 +529,7 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
     }
 
     /**
-     * Sets this matrix to the identity element for addition, <b>0</b>.
-     * @method zero
-     * @return {Matrix4}
-     * @chainable
+     * Sets this matrix to the identity element for addition, 0.
      */
     zero(): Matrix4 {
         return this.set(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
