@@ -1,9 +1,10 @@
-import {Color} from '../core/Color';
-import contextManagerFromOptions from './contextManagerFromOptions';
+import { Color } from '../core/Color';
 import direction from './direction';
-import {MeshMaterial} from '../materials/MeshMaterial';
+import { Engine } from '../core/Engine';
+import { MeshMaterial } from '../materials/MeshMaterial';
 import MeshMaterialOptions from '../materials/MeshMaterialOptions';
-import {RigidBody} from './RigidBody';
+import mustBeEngine from './mustBeEngine';
+import { RigidBody } from './RigidBody';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
 import TetrahedronOptions from './TetrahedronOptions';
@@ -15,20 +16,15 @@ import TetrahedronGeometry from '../geometries/TetrahedronGeometry';
  */
 export default class Tetrahedron extends RigidBody {
 
-    /**
-     * @param options
-     * @param levelUp
-     */
-    constructor(options: TetrahedronOptions = {}, levelUp = 0) {
-        super(void 0, void 0, contextManagerFromOptions(options), direction(options), levelUp + 1);
+    constructor(engine: Engine, options: TetrahedronOptions = {}, levelUp = 0) {
+        super(void 0, void 0, mustBeEngine(engine, 'Tetrahedron'), direction(options), levelUp + 1);
         this.setLoggingName('Tetrahedron');
 
         const geoOptions: TetrahedronGeometryOptions = {};
-        geoOptions.contextManager = contextManagerFromOptions(options);
-        const geometry = new TetrahedronGeometry(geoOptions);
+        const geometry = new TetrahedronGeometry(engine, geoOptions);
 
         const matOptions: MeshMaterialOptions = null;
-        const material = new MeshMaterial(matOptions, contextManagerFromOptions(options));
+        const material = new MeshMaterial(engine, matOptions);
 
         this.geometry = geometry;
         this.material = material;

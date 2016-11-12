@@ -1,4 +1,3 @@
-import {Engine} from '../core/Engine';
 import VectorE3 from '../math/VectorE3';
 
 /**
@@ -26,10 +25,6 @@ interface HollowCylinderOptions {
      * The angular size of the cylinder. Default is 2 * PI.
      */
     sliceAngle?: number;
-    /**
-     * The WebGL context wrapper.
-     */
-    engine?: Engine;
 }
 
 export default HollowCylinderOptions;

@@ -8,6 +8,7 @@ import { Material } from './Material';
 import AbstractMesh from '../core/AbstractMesh';
 import Matrix4 from '../math/Matrix4';
 import { ModelFacet } from '../facets/ModelFacet';
+import mustBeObject from '../checks/mustBeObject';
 import notSupported from '../i18n/notSupported';
 import Texture from './Texture';
 import TextureFacet from '../facets/TextureFacet';
@@ -21,13 +22,8 @@ const MODEL_FACET_NAME = 'model';
  */
 export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M> implements AbstractMesh<G, M> {
 
-    /**
-     * @param geometry
-     * @param material
-     * @param contextManager The <code>ContextManager</code> to subscribe to or <code>null</code> for deferred subscription.
-     */
     constructor(geometry: G, material: M, contextManager: ContextManager, levelUp = 0) {
-        super(geometry, material, contextManager, levelUp + 1);
+        super(geometry, material, mustBeObject('contextManager', contextManager), levelUp + 1);
         this.setLoggingName('Mesh');
 
         this.setFacet(COLOR_FACET_NAME, new ColorFacet());

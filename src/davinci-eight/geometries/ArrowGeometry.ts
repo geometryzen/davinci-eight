@@ -1,7 +1,9 @@
 import ArrowGeometryOptions from './ArrowGeometryOptions';
 import arrowPrimitive from './arrowPrimitive';
+import ContextManager from '../core/ContextManager';
 import GeometryElements from '../core/GeometryElements';
 import mustBeNumber from '../checks/mustBeNumber';
+import mustBeNonNullObject from '../checks/mustBeNonNullObject';
 import notSupported from '../i18n/notSupported';
 
 /**
@@ -30,8 +32,8 @@ export default class ArrowGeometry extends GeometryElements {
      */
     private _radiusCone: number;
 
-    constructor(options: ArrowGeometryOptions = {}, levelUp = 0) {
-        super(arrowPrimitive(options), options.contextManager, options, levelUp + 1);
+    constructor(contextManager: ContextManager, options: ArrowGeometryOptions = {}, levelUp = 0) {
+        super(arrowPrimitive(options), mustBeNonNullObject('contextManager', contextManager), options, levelUp + 1);
         this._radiusCone = mustBeNumber("options.radiusCone", options.radiusCone);
         this._radius = this._radiusCone;
         // TODO: Why aren't we using the following?

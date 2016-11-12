@@ -3182,8 +3182,6 @@ declare module EIGHT {
 
     interface GeometryOptions {
 
-        contextManager?: ContextManager;
-
         /**
          * A translation from the canonical position.
          * This is the third and last operation applied to canonical vertex data.
@@ -3216,7 +3214,7 @@ declare module EIGHT {
     }
 
     class ArrowGeometry extends GeometryElements {
-        constructor(options?: ArrowGeometryOptions);
+        constructor(contextManager: ContextManager, options?: ArrowGeometryOptions);
     }
 
     interface BoxGeometryOptions extends GeometryOptions {
@@ -3246,7 +3244,7 @@ declare module EIGHT {
         width: number;
         height: number;
         depth: number;
-        constructor(options?: BoxGeometryOptions);
+        constructor(contextManager: ContextManager, options?: BoxGeometryOptions);
     }
 
     /**
@@ -3275,7 +3273,7 @@ declare module EIGHT {
     class CylinderGeometry extends GeometryElements {
         length: number;
         radius: number;
-        constructor(options?: CylinderGeometryOptions, levelUp?: number);
+        constructor(contextManager: ContextManager, options?: CylinderGeometryOptions, levelUp?: number);
     }
 
     /**
@@ -3361,7 +3359,7 @@ declare module EIGHT {
      * 
      */
     class GridGeometry extends GeometryElements {
-        constructor(options?: GridGeometryOptions);
+        constructor(contextManager: ContextManager, options?: GridGeometryOptions);
     }
 
     interface SphereGeometryOptions extends GeometryOptions {
@@ -3375,7 +3373,7 @@ declare module EIGHT {
 
     class SphereGeometry extends GeometryElements {
         radius: number;
-        constructor(options?: SphereGeometryOptions);
+        constructor(contextManager: ContextManager, options?: SphereGeometryOptions);
     }
 
     /**
@@ -3587,7 +3585,7 @@ declare module EIGHT {
      *
      */
     class PointMaterial extends ShaderMaterial {
-        constructor(options?: PointMaterialOptions, contextManager?: ContextManager, levelUp?: number);
+        constructor(contextManager: ContextManager, options?: PointMaterialOptions, levelUp?: number);
         protected destructor(levelUp: number): void;
     }
 
@@ -3608,7 +3606,7 @@ declare module EIGHT {
      *
      */
     class LineMaterial extends ShaderMaterial {
-        constructor(options?: LineMaterialOptions, contextManager?: ContextManager, levelUp?: number)
+        constructor(contextManager: ContextManager, options?: LineMaterialOptions, levelUp?: number)
         protected destructor(levelUp: number): void;
     }
 
@@ -3629,7 +3627,7 @@ declare module EIGHT {
      *
      */
     class MeshMaterial extends ShaderMaterial {
-        constructor(options?: MeshMaterialOptions, contextManager?: ContextManager, levelUp?: number);
+        constructor(contextManager: ContextManager, options?: MeshMaterialOptions, levelUp?: number);
         protected destructor(levelUp: number): void;
     }
 
@@ -3937,14 +3935,6 @@ declare module EIGHT {
          */
         color?: Color;
         /**
-         * The manager of the WebGL context.
-         */
-        contextManager?: ContextManager;
-        /**
-         * The manager of the WebGL context (alias for contextManager).
-         */
-        engine?: ContextManager;
-        /**
          * The kind of primitive (0: points, 1: lines, 2: triangles).
          */
         k?: number;
@@ -3971,7 +3961,7 @@ declare module EIGHT {
          */
         h: Geometric3;
 
-        constructor(options?: ArrowOptions, levelUp?: number);
+        constructor(engine: Engine, options?: ArrowOptions);
         protected destructor(levelUp: number): void;
     }
 
@@ -3979,14 +3969,6 @@ declare module EIGHT {
      * Options for the creation of a new Basis.
      */
     interface BasisOptions {
-        /**
-         * The manager of the WebGL context.
-         */
-        contextManager?: ContextManager;
-        /**
-         * The manager of the WebGL context (alias for contextManager).
-         */
-        engine?: ContextManager;
     }
 
     /**
@@ -3999,7 +3981,7 @@ declare module EIGHT {
         colorA: Color;
         colorB: Color;
         colorC: Color;
-        constructor(options?: BasisOptions, levelUp?: number);
+        constructor(engine: Engine, options?: BasisOptions);
         protected destructor(levelUp: number): void;
     }
 
@@ -4022,7 +4004,7 @@ declare module EIGHT {
         width: number;
         height: number;
         depth: number;
-        constructor(options?: BoxOptions, levelUp?: number);
+        constructor(engine: Engine, options?: BoxOptions);
         protected destructor(levelUp: number): void;
     }
 
@@ -4041,7 +4023,7 @@ declare module EIGHT {
     class Cylinder extends RigidBody {
         length: Geometric3;
         radius: Geometric3;
-        constructor(options?: CylinderOptions, levelUp?: number);
+        constructor(engine: Engine, options?: CylinderOptions);
         protected destructor(levelUp: number): void;
     }
 
@@ -4058,7 +4040,7 @@ declare module EIGHT {
     }
 
     class Curve extends Mesh<Geometry, Material> {
-        constructor(options?: CurveOptions, levelUp?: number);
+        constructor(engine: Engine, options?: CurveOptions);
         protected destructor(levelUp: number): void;
     }
 
@@ -4079,7 +4061,7 @@ declare module EIGHT {
     }
 
     class Grid extends Mesh<Geometry, Material> {
-        constructor(options?: GridOptions, levelUp?: number);
+        constructor(engine: Engine, options?: GridOptions);
         protected destructor(levelUp: number): void;
     }
 
@@ -4115,7 +4097,7 @@ declare module EIGHT {
          * ySegments: 10
          * z: (x: number, y: number) => 0
          */
-        constructor(options?: GridXYOptions, levelUp?: number);
+        constructor(engine: Engine, options?: GridXYOptions);
         protected destructor(levelUp: number): void;
     }
 
@@ -4134,7 +4116,7 @@ declare module EIGHT {
     }
 
     class GridYZ extends Grid {
-        constructor(options?: GridYZOptions, levelUp?: number);
+        constructor(engine: Engine, options?: GridYZOptions);
         protected destructor(levelUp: number): void;
     }
 
@@ -4153,7 +4135,7 @@ declare module EIGHT {
     }
 
     class GridZX extends Grid {
-        constructor(options?: GridZXOptions, levelUp?: number);
+        constructor(engine: Engine, options?: GridZXOptions);
         protected destructor(levelUp: number): void;
     }
 
@@ -4185,7 +4167,7 @@ declare module EIGHT {
     }
 
     class HollowCylinder extends RigidBody {
-        constructor(options?: HollowCylinderOptions, levelUp?: number);
+        constructor(engine: Engine, options?: HollowCylinderOptions);
         protected destructor(levelUp: number): void;
     }
 
@@ -4216,7 +4198,7 @@ declare module EIGHT {
          * back   - 5
          */
         public colors: Color[];
-        constructor(contextManager: ContextManager, levelUp?: number);
+        constructor(engine: Engine, levelUp?: number);
         protected destructor(levelUp: number): void;
         render(ambients: Facet[]): void;
         addRef(): number;
@@ -4266,7 +4248,7 @@ declare module EIGHT {
 
     class Sphere extends RigidBody {
         radius: number;
-        constructor(options?: SphereOptions, levelUp?: number);
+        constructor(engine: Engine, options?: SphereOptions);
         protected destructor(levelUp: number): void;
     }
 
@@ -4279,7 +4261,7 @@ declare module EIGHT {
 
     class Tetrahedron extends RigidBody {
         radius: number;
-        constructor(options?: TetrahedronOptions, levelUp?: number);
+        constructor(engine: Engine, options?: TetrahedronOptions);
         protected destructor(levelUp: number): void;
     }
 
@@ -4306,7 +4288,7 @@ declare module EIGHT {
         /**
          * Constructs a new Track.
          */
-        constructor(options?: TrackOptions, levelUp?: number);
+        constructor(engine: Engine, options?: TrackOptions);
 
         /**
          * 
@@ -4382,7 +4364,7 @@ declare module EIGHT {
     class Turtle extends RigidBody {
         height: number;
         width: number;
-        constructor(options: TurtleOptions, levelUp?: number);
+        constructor(engine: Engine, options: TurtleOptions);
         protected destructor(levelUp: number): void;
     }
 

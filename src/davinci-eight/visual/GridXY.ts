@@ -1,8 +1,9 @@
-import contextManagerFromOptions from './contextManagerFromOptions';
 import expectOptions from '../checks/expectOptions';
+import { Engine } from '../core/Engine';
 import { Grid } from './Grid';
 import GridOptions from './GridOptions';
 import isDefined from '../checks/isDefined';
+import mustBeEngine from './mustBeEngine';
 import mustBeFunction from '../checks/mustBeFunction';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeNumber from '../checks/mustBeNumber';
@@ -45,7 +46,6 @@ function mapOptions(options: GridXYOptions): GridOptions {
     const vMax = validate('yMax', options.yMax, undefined, mustBeNumber);
     const vSegments = validate('ySegments', options.ySegments, undefined, mustBeInteger);
     return {
-        engine: contextManagerFromOptions(options),
         offset: options.offset,
         tilt: options.tilt,
         stress: options.stress,
@@ -64,8 +64,8 @@ function mapOptions(options: GridXYOptions): GridOptions {
  * A grid in the xy plane.
  */
 export default class GridXY extends Grid {
-    constructor(options: GridXYOptions = {}, levelUp = 0) {
-        super(mapOptions(options), levelUp + 1);
+    constructor(engine: Engine, options: GridXYOptions = {}, levelUp = 0) {
+        super(mustBeEngine(engine, 'GridXY'), mapOptions(options), levelUp + 1);
         this.setLoggingName('GridXY');
         if (levelUp === 0) {
             this.synchUp();

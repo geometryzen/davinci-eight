@@ -1,4 +1,5 @@
 import BoxGeometryOptions from './BoxGeometryOptions';
+import ContextManager from '../core/ContextManager';
 import GeometryElements from '../core/GeometryElements';
 import notSupported from '../i18n/notSupported';
 import isDefined from '../checks/isDefined';
@@ -340,22 +341,18 @@ export default class BoxGeometry extends GeometryElements {
     private h = 1;
     private d = 1;
 
-    /**
-     * @param options
-     * @param levelUp
-     */
-    constructor(options: BoxGeometryOptions = {}, levelUp = 0) {
-        super(boxPrimitive(options), options.contextManager, options, levelUp + 1)
+    constructor(contextManager: ContextManager, options: BoxGeometryOptions = {}, levelUp = 0) {
+        super(boxPrimitive(options), contextManager, options, levelUp + 1)
         this.setLoggingName('BoxGeometry')
-        //        if (levelUp === 0) {
-        //            this.synchUp();
-        //        }
+        if (levelUp === 0) {
+            this.synchUp();
+        }
     }
 
     protected destructor(levelUp: number): void {
-        //        if (levelUp === 0) {
-        //            this.cleanUp();
-        //        }
+        if (levelUp === 0) {
+            this.cleanUp();
+        }
         super.destructor(levelUp + 1);
     }
 

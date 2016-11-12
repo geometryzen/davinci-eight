@@ -1,14 +1,15 @@
 import BeginMode from '../core/BeginMode';
-import {Color} from '../core/Color';
+import { Color } from '../core/Color';
 import ContextManager from '../core/ContextManager';
-import contextManagerFromOptions from './contextManagerFromOptions';
 import ContextProvider from '../core/ContextProvider';
 import DataType from '../core/DataType';
-import {Geometry} from '../core/Geometry';
-import {LineMaterial} from '../materials/LineMaterial';
-import {Material} from '../core/Material';
+import { Engine } from '../core/Engine';
+import { Geometry } from '../core/Geometry';
+import { LineMaterial } from '../materials/LineMaterial';
+import { Material } from '../core/Material';
 import Matrix4 from '../math/Matrix4';
-import {Mesh} from '../core/Mesh';
+import { Mesh } from '../core/Mesh';
+import mustBeEngine from './mustBeEngine';
 import setColorOption from './setColorOption';
 import Usage from '../core/Usage';
 import VectorE3 from '../math/VectorE3';
@@ -110,8 +111,8 @@ interface TrackOptions extends VisualOptions {
 }
 
 export class Track extends Mesh<TrackGeometry, LineMaterial> {
-    constructor(options: TrackOptions = {}, levelUp = 0) {
-        super(new TrackGeometry(contextManagerFromOptions(options)), new LineMaterial(void 0, contextManagerFromOptions(options)), contextManagerFromOptions(options), levelUp + 1);
+    constructor(engine: Engine, options: TrackOptions = {}, levelUp = 0) {
+        super(new TrackGeometry(engine), new LineMaterial(void 0, engine), mustBeEngine(engine, 'Track'), levelUp + 1);
         this.setLoggingName('Track');
         setColorOption(this, options, Color.white);
         if (levelUp === 0) {

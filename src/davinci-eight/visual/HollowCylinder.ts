@@ -1,9 +1,11 @@
-import {Color} from '../core/Color';
+import { Color } from '../core/Color';
+import { Engine } from '../core/Engine';
 import HollowCylinderGeometry from '../geometries/HollowCylinderGeometry';
 import HollowCylinderOptions from '../geometries/HollowCylinderOptions';
-import {MeshMaterial} from '../materials/MeshMaterial';
+import { MeshMaterial } from '../materials/MeshMaterial';
 import MeshMaterialOptions from '../materials/MeshMaterialOptions';
-import {RigidBody} from './RigidBody';
+import mustBeEngine from './mustBeEngine';
+import { RigidBody } from './RigidBody';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
 import Vector3 from '../math/Vector3';
@@ -15,10 +17,10 @@ const e2 = Vector3.vector(0, 1, 0);
  * 
  */
 export default class HollowCylinder extends RigidBody {
-    constructor(options: HollowCylinderOptions = {}, levelUp = 0) {
-        super(void 0, void 0, options.engine, e2, levelUp + 1);
+    constructor(engine: Engine, options: HollowCylinderOptions = {}, levelUp = 0) {
+        super(void 0, void 0, mustBeEngine(engine, 'HollowCylinder'), e2, levelUp + 1);
 
-        const geometry = new HollowCylinderGeometry(options);
+        const geometry = new HollowCylinderGeometry(engine, options);
         this.geometry = geometry;
         geometry.release();
 
@@ -37,7 +39,7 @@ export default class HollowCylinder extends RigidBody {
         mmo.uniforms['uDirectionalLightColor'] = 'vec3';
         mmo.uniforms['uDirectionalLightDirection'] = 'vec3';
 
-        const material = new MeshMaterial(mmo, options.engine);
+        const material = new MeshMaterial(engine, mmo);
         this.material = material;
         material.release();
 

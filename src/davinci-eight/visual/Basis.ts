@@ -1,16 +1,16 @@
 import BasisOptions from './BasisOptions';
 import BeginMode from '../core/BeginMode';
-import {Color} from '../core/Color';
-import {ColorFacet} from '../facets/ColorFacet';
-import ContextManager from '../core/ContextManager';
-import contextManagerFromOptions from './contextManagerFromOptions';
-import DataType from  '../core/DataType';
+import { Color } from '../core/Color';
+import { ColorFacet } from '../facets/ColorFacet';
+import DataType from '../core/DataType';
 import direction from './direction';
+import { Engine } from '../core/Engine';
 import GeometryArrays from '../core/GeometryArrays';
-import {RigidBody} from './RigidBody';
+import mustBeEngine from './mustBeEngine';
+import { RigidBody } from './RigidBody';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
-import {ShaderMaterial} from '../materials/ShaderMaterial';
+import { ShaderMaterial } from '../materials/ShaderMaterial';
 import Vector3 from '../math/Vector3';
 import Vector3Facet from '../facets/Vector3Facet';
 
@@ -75,26 +75,6 @@ const fs: string = [
 
 ].join('\n');
 
-/**
- * For backwards compatibility until deprecated alternative is removed.
- */
-function contextManager(arg: BasisOptions | ContextManager, warn: boolean): ContextManager {
-    if (arg) {
-        if (arg['addContextListener']) {
-            if (warn) {
-                console.warn("Basis(contextManager: ContextManager) is deprecated. Please use Basis(options: {...}) instead.");
-            }
-            return <ContextManager>arg;
-        }
-        else {
-            return contextManagerFromOptions((<BasisOptions>arg));
-        }
-    }
-    else {
-        return void 0;
-    }
-}
-
 export default class Basis extends RigidBody {
     private uPointA = new Vector3Facet(uPointA);
     private uPointB = new Vector3Facet(uPointB);
@@ -102,8 +82,8 @@ export default class Basis extends RigidBody {
     private uColorA = new ColorFacet(uColorA);
     private uColorB = new ColorFacet(uColorB);
     private uColorC = new ColorFacet(uColorC);
-    constructor(options: BasisOptions = {}, levelUp = 0) {
-        super(void 0, void 0, contextManager(options, true), direction(options), levelUp + 1);
+    constructor(engine: Engine, options: BasisOptions = {}, levelUp = 0) {
+        super(void 0, void 0, mustBeEngine(engine, 'Basis'), direction(options), levelUp + 1);
         this.setLoggingName("Basis");
 
         // FIXME: This should be initialized to a random orthonormal basis.
@@ -116,14 +96,14 @@ export default class Basis extends RigidBody {
         this.uPointC.vector.copy(Vector3.vector(0, 0, 1));
         this.colorC.copy(Color.blue);
 
-        const geometry = new GeometryArrays(void 0, contextManager(options, false));
+        const geometry = new GeometryArrays(void 0, engine);
         geometry.mode = BeginMode.LINES;
         geometry.setAttribute('aPointIndex', { values: [0, 1, 0, 2, 0, 3], size: 1, type: DataType.FLOAT });
         geometry.setAttribute('aColorIndex', { values: [1, 1, 2, 2, 3, 3], size: 1, type: DataType.FLOAT });
         this.geometry = geometry;
         geometry.release();
 
-        const material = new ShaderMaterial(vs, fs, [], contextManager(options, false));
+        const material = new ShaderMaterial(vs, fs, [], engine);
         this.material = material;
         material.release();
 

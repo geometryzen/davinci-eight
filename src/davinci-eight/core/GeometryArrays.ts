@@ -9,6 +9,7 @@ import GeometryBase from './GeometryBase';
 import isNull from '../checks/isNull';
 import isObject from '../checks/isObject';
 import isUndefined from '../checks/isUndefined';
+import mustBeObject from '../checks/mustBeObject';
 import Primitive from './Primitive';
 import SpinorE3 from '../math/SpinorE3';
 import vertexArraysFromPrimitive from './vertexArraysFromPrimitive';
@@ -44,15 +45,9 @@ export default class GeometryArrays extends GeometryBase {
     private attributes: { [name: string]: Attribute }
     private vbo: VertexBuffer;
 
-    /**
-     * @param primitive
-     * @param tilt
-     * @param contextManager
-     * @param levelUp
-     */
     constructor(primitive: Primitive, contextManager: ContextManager, options: { order?: string[]; tilt?: SpinorE3 } = {}, levelUp = 0) {
-        // FIXME: GeometryLeaf constructor should be extensible
         super(options.tilt, contextManager, levelUp + 1);
+        mustBeObject('contextManager', contextManager);
         this.setLoggingName('GeometryArrays');
         this.attributes = {};
         this.vbo = new VertexBuffer(contextManager);

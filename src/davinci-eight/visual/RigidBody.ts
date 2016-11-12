@@ -1,7 +1,7 @@
 import ContextManager from '../core/ContextManager';
-import {Geometric3} from '../math/Geometric3';
-import {Material} from '../core/Material';
-import {PrincipalScaleGeometry} from './PrincipalScaleMesh';
+import { Geometric3 } from '../math/Geometric3';
+import { Material } from '../core/Material';
+import { PrincipalScaleGeometry } from './PrincipalScaleMesh';
 import PrincipalScaleMesh from './PrincipalScaleMesh';
 import mustBeObject from '../checks/mustBeObject';
 import Vector3 from '../math/Vector3';
@@ -67,7 +67,7 @@ export class RigidBody extends PrincipalScaleMesh<PrincipalScaleGeometry, Materi
      * @param initialAxis The initial direction of the symmetry axis
      */
     constructor(geometry: PrincipalScaleGeometry, material: Material, contextManager: ContextManager, initialAxis: VectorE3, levelUp = 0) {
-        super(geometry, material, contextManager, levelUp + 1);
+        super(geometry, material, mustBeObject('contextManager', contextManager), levelUp + 1);
         this.setLoggingName('RigidBody');
         this.initialAxis = Vector3.copy(initialAxis);
         if (levelUp === 0) {

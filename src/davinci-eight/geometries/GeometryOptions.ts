@@ -1,11 +1,7 @@
-import ContextManager from '../core/ContextManager';
 import SpinorE3 from '../math/SpinorE3';
 import VectorE3 from '../math/VectorE3';
 
 interface GeometryOptions {
-
-    contextManager?: ContextManager;
-
     /**
      * A translation from the canonical position.
      * This is the third and last operation applied to canonical vertex data.

@@ -1,21 +1,23 @@
 import BeginMode from '../core/BeginMode';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-import {Color} from '../core/Color';
-import contextManagerFromOptions from './contextManagerFromOptions';
+import { Color } from '../core/Color';
+import ContextManager from '../core/ContextManager';
 import CurveGeometry from '../geometries/CurveGeometry';
 import CurveGeometryOptions from '../geometries/CurveGeometryOptions';
 import CurveOptions from './CurveOptions';
+import { Engine } from '../core/Engine';
 import isDefined from '../checks/isDefined';
 import isFunction from '../checks/isFunction';
 import isNull from '../checks/isNull';
 import isUndefined from '../checks/isUndefined';
-import {LineMaterial} from '../materials/LineMaterial';
+import { LineMaterial } from '../materials/LineMaterial';
 import LineMaterialOptions from '../materials/LineMaterialOptions';
-import {Material} from '../core/Material';
-import {Mesh} from '../core/Mesh';
+import { Material } from '../core/Material';
+import { Mesh } from '../core/Mesh';
+import mustBeEngine from './mustBeEngine';
 import mustBeGE from '../checks/mustBeGE';
 import mustBeNumber from '../checks/mustBeNumber';
-import {PointMaterial} from '../materials/PointMaterial';
+import { PointMaterial } from '../materials/PointMaterial';
 import PointMaterialOptions from '../materials/PointMaterialOptions';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
@@ -35,8 +37,6 @@ function isFunctionOrUndefined(x: any): boolean {
 }
 
 function transferGeometryOptions(options: CurveOptions, geoOptions: CurveGeometryOptions): void {
-
-    geoOptions.contextManager = contextManagerFromOptions(options);
 
     if (isFunctionOrNull(options.aPosition)) {
         geoOptions.aPosition = options.aPosition;
@@ -80,11 +80,11 @@ function transferGeometryOptions(options: CurveOptions, geoOptions: CurveGeometr
     }
 }
 
-function configPoints(options: CurveOptions, curve: Curve) {
+function configPoints(contextManager: ContextManager, options: CurveOptions, curve: Curve) {
     const geoOptions: CurveGeometryOptions = {};
     transferGeometryOptions(options, geoOptions);
     geoOptions.mode = BeginMode.POINTS;
-    const geometry = new CurveGeometry(geoOptions);
+    const geometry = new CurveGeometry(contextManager, geoOptions);
     curve.geometry = geometry;
     geometry.release();
 
@@ -119,16 +119,16 @@ function configPoints(options: CurveOptions, curve: Curve) {
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_POINT_SIZE] = 'float';
 
-    const material = new PointMaterial(matOptions, contextManagerFromOptions(options));
+    const material = new PointMaterial(contextManager, matOptions);
     curve.material = material;
     material.release();
 }
 
-function configLines(options: CurveOptions, curve: Curve) {
+function configLines(contextManager: ContextManager, options: CurveOptions, curve: Curve) {
     const geoOptions: CurveGeometryOptions = {};
     transferGeometryOptions(options, geoOptions);
     geoOptions.mode = BeginMode.LINES;
-    const geometry = new CurveGeometry(geoOptions);
+    const geometry = new CurveGeometry(contextManager, geoOptions);
     curve.geometry = geometry;
     geometry.release();
 
@@ -155,7 +155,7 @@ function configLines(options: CurveOptions, curve: Curve) {
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4';
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
 
-    const material = new LineMaterial(matOptions, contextManagerFromOptions(options));
+    const material = new LineMaterial(contextManager, matOptions);
     curve.material = material;
     material.release();
 }
@@ -165,24 +165,21 @@ function configLines(options: CurveOptions, curve: Curve) {
  */
 export class Curve extends Mesh<CurveGeometry, Material> {
 
-    /**
-     * @param options
-     */
-    constructor(options: CurveOptions = {}, levelUp = 0) {
-        super(void 0, void 0, contextManagerFromOptions(options), levelUp + 1);
+    constructor(engine: Engine, options: CurveOptions = {}, levelUp = 0) {
+        super(void 0, void 0, mustBeEngine(engine, 'Curve'), levelUp + 1);
         this.setLoggingName('Curve');
 
         const mode: BeginMode = isDefined(options.mode) ? options.mode : BeginMode.LINES;
         switch (mode) {
             case BeginMode.POINTS: {
-                configPoints(options, this);
-            }
+                configPoints(engine, options, this);
                 break;
+            }
             case BeginMode.LINES:
             case BeginMode.LINE_STRIP: {
-                configLines(options, this);
-            }
+                configLines(engine, options, this);
                 break;
+            }
             default: {
                 throw new Error(`'${mode}' is not a valid option for mode.`);
             }

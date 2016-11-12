@@ -2,7 +2,8 @@ import ContextManager from '../core/ContextManager';
 import { Geometry } from '../core/Geometry';
 import { Mesh } from '../core/Mesh';
 import { Material } from '../core/Material';
-import Matrix4 from '../math/Matrix4'
+import Matrix4 from '../math/Matrix4';
+import mustBeObject from '../checks/mustBeObject';
 
 /**
  * A Geometry that can be scaled by referring to its principal properties.
@@ -32,7 +33,7 @@ export interface PrincipalScaleGeometry extends Geometry {
 
 export default class PrincipalScaleMesh<G extends PrincipalScaleGeometry, M extends Material> extends Mesh<G, M> {
     constructor(geometry: G, material: M, contextManager: ContextManager, levelUp = 0) {
-        super(geometry, material, contextManager, levelUp + 1);
+        super(geometry, material, mustBeObject('contextManager', contextManager), levelUp + 1);
         this.setLoggingName('PrincipalScaleMesh');
         if (levelUp === 0) {
             this.synchUp();

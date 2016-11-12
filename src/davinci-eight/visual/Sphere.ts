@@ -1,11 +1,12 @@
-import {Color} from '../core/Color';
-import contextManagerFromOptions from './contextManagerFromOptions';
+import { Color } from '../core/Color';
 import direction from './direction';
+import { Engine } from '../core/Engine';
 import isDefined from '../checks/isDefined';
 import kFromOptions from './kFromOptions';
 import materialFromOptions from './materialFromOptions';
+import mustBeEngine from './mustBeEngine';
 import mustBeNumber from '../checks/mustBeNumber';
-import {RigidBody} from './RigidBody';
+import { RigidBody } from './RigidBody';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
 import SphereOptions from './SphereOptions';
@@ -20,18 +21,13 @@ const RADIUS_DEFAULT = 1;
  */
 export class Sphere extends RigidBody {
 
-    /**
-     *
-     * @param options
-     */
-    constructor(options: SphereOptions = {}, levelUp = 0) {
-        super(void 0, void 0, contextManagerFromOptions(options), direction(options), levelUp + 1);
+    constructor(engine: Engine, options: SphereOptions = {}, levelUp = 0) {
+        super(void 0, void 0, mustBeEngine(engine, 'Sphere'), direction(options), levelUp + 1);
         this.setLoggingName('Sphere');
         const k = kFromOptions(options);
 
         const geoOptions: SphereGeometryOptions = {};
 
-        geoOptions.contextManager = contextManagerFromOptions(options);
         geoOptions.k = k;
         geoOptions.azimuthSegments = options.azimuthSegments;
         geoOptions.azimuthStart = options.azimuthStart;
@@ -43,11 +39,11 @@ export class Sphere extends RigidBody {
         geoOptions.stress = void 0;
         geoOptions.tilt = options.tilt;
 
-        const geometry = new SphereGeometry(geoOptions);
+        const geometry = new SphereGeometry(engine, geoOptions);
         this.geometry = geometry;
         geometry.release();
 
-        const material = materialFromOptions(k, options);
+        const material = materialFromOptions(engine, k, options);
         this.material = material;
         material.release();
 

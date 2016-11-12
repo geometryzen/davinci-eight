@@ -1,15 +1,16 @@
 import ArrowOptions from './ArrowOptions';
 import ArrowGeometry from '../geometries/ArrowGeometry';
 import ArrowGeometryOptions from '../geometries/ArrowGeometryOptions';
-import {Color} from '../core/Color';
-import contextManagerFromOptions from './contextManagerFromOptions';
-import {Geometric3} from '../math/Geometric3';
-import {MeshMaterial} from '../materials/MeshMaterial';
+import { Color } from '../core/Color';
+import { Engine } from '../core/Engine';
+import { Geometric3 } from '../math/Geometric3';
+import { MeshMaterial } from '../materials/MeshMaterial';
 import MeshMaterialOptions from '../materials/MeshMaterialOptions';
 import PrincipalScaleMesh from './PrincipalScaleMesh';
 import isDefined from '../checks/isDefined';
 import isGE from '../checks/isGE';
 import mustBeDefined from '../checks/mustBeDefined';
+import mustBeEngine from './mustBeEngine';
 import quadVectorE3 from '../math/quadVectorE3';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
@@ -63,11 +64,8 @@ export class Arrow extends PrincipalScaleMesh<ArrowGeometry, MeshMaterial> {
     private vectorChangeHandler: (eventName: string, key: string, value: number, source: Geometric3) => void;
     private attitudeChangeHandler: (eventName: string, key: string, value: number, source: Geometric3) => void;
 
-    /**
-     * @param options
-     */
-    constructor(options: ArrowOptions = {}, levelUp = 0) {
-        super(void 0, void 0, contextManagerFromOptions(options), levelUp + 1);
+    constructor(engine: Engine, options: ArrowOptions = {}, levelUp = 0) {
+        super(void 0, void 0, mustBeEngine(engine, 'Arrow'), levelUp + 1);
         this.setLoggingName('Arrow');
 
         // TODO: This should be going into the geometry options.
@@ -76,14 +74,13 @@ export class Arrow extends PrincipalScaleMesh<ArrowGeometry, MeshMaterial> {
         this._vector = Geometric3.fromVector(this.direction0);
 
         const geoOptions: ArrowGeometryOptions = {};
-        geoOptions.contextManager = contextManagerFromOptions(options);
         geoOptions.offset = options.offset;
         // geoOptions.stress; // Nothing corresponding to stress
         geoOptions.tilt = options.tilt;
-        const geometry = new ArrowGeometry(geoOptions);
+        const geometry = new ArrowGeometry(engine, geoOptions);
 
         const matOptions: MeshMaterialOptions = void 0;
-        const material = new MeshMaterial(matOptions, contextManagerFromOptions(options));
+        const material = new MeshMaterial(engine, matOptions);
 
         this.geometry = geometry;
         this.material = material;
@@ -127,9 +124,6 @@ export class Arrow extends PrincipalScaleMesh<ArrowGeometry, MeshMaterial> {
         }
     }
 
-    /**
-     * @param levelUp
-     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();

@@ -1,4 +1,5 @@
 import arc3 from '../geometries/arc3';
+import ContextManager from '../core/ContextManager';
 import { Geometric3 } from '../math/Geometric3';
 import GeometryElements from '../core/GeometryElements';
 import isInteger from '../checks/isInteger';
@@ -385,12 +386,8 @@ function spherePrimitive(options: SphereGeometryOptions = {}): Primitive {
  */
 export default class SphereGeometry extends GeometryElements {
 
-    /**
-     * @param options
-     * @param levelUp
-     */
-    constructor(options: SphereGeometryOptions = {}, levelUp = 0) {
-        super(spherePrimitive(options), options.contextManager, options, levelUp + 1);
+    constructor(contextManager: ContextManager, options: SphereGeometryOptions = {}, levelUp = 0) {
+        super(spherePrimitive(options), contextManager, options, levelUp + 1);
         this.setLoggingName('SphereGeometry');
         if (levelUp === 0) {
             this.synchUp();

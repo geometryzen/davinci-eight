@@ -35,11 +35,15 @@ export default class GeometryElements extends GeometryBase {
     private ibo: IndexBuffer;
     private vbo: VertexBuffer;
 
-    constructor(primitive: Primitive, manager: ContextManager, options: { order?: string[]; tilt?: SpinorE3 } = {}, levelUp = 0) {
-        super(options.tilt, manager, levelUp + 1);
+    constructor(primitive: Primitive, contextManager: ContextManager, options: { order?: string[]; tilt?: SpinorE3 } = {}, levelUp = 0) {
+        super(options.tilt, contextManager, levelUp + 1);
+
+        mustBeObject('contextManager', contextManager);
+
         this.setLoggingName('GeometryElements');
-        this.ibo = new IndexBuffer(manager);
-        this.vbo = new VertexBuffer(manager);
+
+        this.ibo = new IndexBuffer(contextManager);
+        this.vbo = new VertexBuffer(contextManager);
 
         const data = vertexArraysFromPrimitive(primitive, options.order);
         if (!isNull(data) && !isUndefined(data)) {

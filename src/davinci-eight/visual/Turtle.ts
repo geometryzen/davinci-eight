@@ -1,13 +1,14 @@
 import Attribute from '../core/Attribute';
 import BeginMode from '../core/BeginMode';
-import {Color} from '../core/Color';
+import { Color } from '../core/Color';
 import ContextManager from '../core/ContextManager';
-import contextManagerFromOptions from './contextManagerFromOptions';
 import DataType from '../core/DataType';
+import { Engine } from '../core/Engine';
 import GeometryArrays from '../core/GeometryArrays';
-import {LineMaterial} from '../materials/LineMaterial';
+import { LineMaterial } from '../materials/LineMaterial';
+import mustBeEngine from './mustBeEngine';
 import Primitive from '../core/Primitive';
-import {RigidBody} from './RigidBody';
+import { RigidBody } from './RigidBody';
 import setColorOption from './setColorOption';
 import VisualOptions from './VisualOptions';
 
@@ -101,8 +102,8 @@ interface TurtleOptions extends VisualOptions {
 }
 
 export default class Turtle extends RigidBody {
-    constructor(options: TurtleOptions, levelUp = 0) {
-        super(new TurtleGeometry(contextManagerFromOptions(options)), new LineMaterial(void 0, contextManagerFromOptions(options)), contextManagerFromOptions(options), { x: 0, y: 0, z: 1 }, levelUp + 1);
+    constructor(engine: Engine, options: TurtleOptions, levelUp = 0) {
+        super(new TurtleGeometry(engine), new LineMaterial(void 0, engine), mustBeEngine(engine, 'Turtle'), { x: 0, y: 0, z: 1 }, levelUp + 1);
         this.setLoggingName('Turtle');
         this.height = 0.1;
         this.width = 0.0618;
@@ -113,6 +114,7 @@ export default class Turtle extends RigidBody {
             this.synchUp();
         }
     }
+
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();

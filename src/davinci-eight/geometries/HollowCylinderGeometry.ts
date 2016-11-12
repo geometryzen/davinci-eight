@@ -1,3 +1,4 @@
+import ContextManager from '../core/ContextManager';
 import CylindricalShellBuilder from '../shapes/CylindricalShellBuilder';
 import GeometryElements from '../core/GeometryElements';
 import HollowCylinderOptions from './HollowCylinderOptions';
@@ -59,8 +60,8 @@ function hollowCylinderPrimitive(options: HollowCylinderOptions = {}): Primitive
 }
 
 export default class HollowCylinderGeometry extends GeometryElements {
-    constructor(options: HollowCylinderOptions = {}, levelUp = 0) {
-        super(hollowCylinderPrimitive(options), void 0, options.engine, levelUp + 1);
+    constructor(contextManager: ContextManager, options: HollowCylinderOptions = {}, levelUp = 0) {
+        super(hollowCylinderPrimitive(options), contextManager, levelUp + 1);
         if (levelUp === 0) {
             this.synchUp()
         }

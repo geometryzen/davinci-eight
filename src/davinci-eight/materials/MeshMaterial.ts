@@ -4,8 +4,9 @@ import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import isDefined from '../checks/isDefined';
 import isNull from '../checks/isNull';
 import isUndefined from '../checks/isUndefined';
-import {ShaderMaterial} from './ShaderMaterial';
+import { ShaderMaterial } from './ShaderMaterial';
 import MeshMaterialOptions from './MeshMaterialOptions';
+import mustBeNonNullObject from '../checks/mustBeNonNullObject';
 import mustBeObject from '../checks/mustBeObject';
 
 function builder(options?: MeshMaterialOptions) {
@@ -61,17 +62,10 @@ function fragmentShaderSrc(options?: MeshMaterialOptions): string {
     return builder(options).fragmentShaderSrc()
 }
 
-/**
- *
- */
 export class MeshMaterial extends ShaderMaterial {
 
-    /**
-     * @param options
-     * @param contextManager
-     */
-    constructor(options: MeshMaterialOptions, contextManager: ContextManager, levelUp = 0) {
-        super(vertexShaderSrc(options), fragmentShaderSrc(options), [], contextManager, levelUp + 1);
+    constructor(contextManager: ContextManager, options: MeshMaterialOptions, levelUp = 0) {
+        super(vertexShaderSrc(options), fragmentShaderSrc(options), [], mustBeNonNullObject('contextManager', contextManager), levelUp + 1);
         this.setLoggingName('MeshMaterial');
         if (levelUp === 0) {
             this.synchUp();

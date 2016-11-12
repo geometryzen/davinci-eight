@@ -1,8 +1,9 @@
-import contextManagerFromOptions from './contextManagerFromOptions';
 import expectOptions from '../checks/expectOptions';
+import { Engine } from '../core/Engine';
 import { Grid } from './Grid';
 import GridOptions from './GridOptions';
 import isDefined from '../checks/isDefined';
+import mustBeEngine from './mustBeEngine';
 import mustBeFunction from '../checks/mustBeFunction';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeNumber from '../checks/mustBeNumber';
@@ -29,12 +30,12 @@ function mapOptions(options: GridZXOptions): GridOptions {
     let aPosition: (u: number, v: number) => VectorE3;
     if (isDefined(options.y)) {
         mustBeFunction('y', options.y);
-        aPosition = function (z: number, x: number): VectorE3 {
+        aPosition = function(z: number, x: number): VectorE3 {
             return R3(x, options.y(z, x), z);
         };
     }
     else {
-        aPosition = function (z: number, x: number): VectorE3 {
+        aPosition = function(z: number, x: number): VectorE3 {
             return R3(x, 0, z);
         };
     }
@@ -45,7 +46,6 @@ function mapOptions(options: GridZXOptions): GridOptions {
     const vMax = validate('xMax', options.xMax, +1, mustBeNumber);
     const vSegments = validate('xSegments', options.xSegments, 10, mustBeInteger);
     return {
-        engine: contextManagerFromOptions(options),
         offset: options.offset,
         tilt: options.tilt,
         stress: options.stress,
@@ -64,8 +64,8 @@ function mapOptions(options: GridZXOptions): GridOptions {
  * A grid in the zx plane.
  */
 export default class GridZX extends Grid {
-    constructor(options: GridZXOptions = {}, levelUp = 0) {
-        super(mapOptions(options), levelUp + 1);
+    constructor(engine: Engine, options: GridZXOptions = {}, levelUp = 0) {
+        super(mustBeEngine(engine, 'GridZX'), mapOptions(options), levelUp + 1);
         this.setLoggingName('GridZX');
         if (levelUp === 0) {
             this.synchUp();

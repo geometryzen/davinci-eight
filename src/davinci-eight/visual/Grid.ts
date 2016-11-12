@@ -1,6 +1,7 @@
 import BeginMode from '../core/BeginMode';
-import {Color} from '../core/Color';
-import contextManagerFromOptions from './contextManagerFromOptions';
+import { Color } from '../core/Color';
+import ContextManager from '../core/ContextManager';
+import { Engine } from '../core/Engine';
 import expectOptions from '../checks/expectOptions';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import GridGeometry from '../geometries/GridGeometry';
@@ -10,18 +11,19 @@ import isDefined from '../checks/isDefined';
 import isFunction from '../checks/isFunction';
 import isNull from '../checks/isNull';
 import isUndefined from '../checks/isUndefined';
-import {LineMaterial} from '../materials/LineMaterial';
+import { LineMaterial } from '../materials/LineMaterial';
 import LineMaterialOptions from '../materials/LineMaterialOptions';
-import {Material} from '../core/Material';
-import {Mesh} from '../core/Mesh';
-import {MeshMaterial} from '../materials/MeshMaterial';
+import { Material } from '../core/Material';
+import { Mesh } from '../core/Mesh';
+import { MeshMaterial } from '../materials/MeshMaterial';
 import MeshMaterialOptions from '../materials/MeshMaterialOptions';
+import mustBeEngine from './mustBeEngine';
 import mustBeGE from '../checks/mustBeGE';
 import mustBeFunction from '../checks/mustBeFunction';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeObject from '../checks/mustBeObject';
-import {PointMaterial} from '../materials/PointMaterial';
+import { PointMaterial } from '../materials/PointMaterial';
 import PointMaterialOptions from '../materials/PointMaterialOptions';
 import R3 from '../math/R3';
 import setColorOption from './setColorOption';
@@ -90,8 +92,6 @@ function isFunctionOrUndefined(x: any): boolean {
 
 function transferGeometryOptions(source: GridOptions, target: GridGeometryOptions): void {
 
-    target.contextManager = contextManagerFromOptions(source);
-
     if (isFunctionOrNull(source.aPosition)) {
         target.aPosition = source.aPosition;
     }
@@ -133,11 +133,11 @@ function transferGeometryOptions(source: GridOptions, target: GridGeometryOption
     mustBeGE('vSegments', target.vSegments, 0);
 }
 
-function configPoints(options: GridOptions, grid: Grid) {
+function configPoints(contextManager: ContextManager, options: GridOptions, grid: Grid) {
     const geoOptions: GridGeometryOptions = {};
     transferGeometryOptions(options, geoOptions);
     geoOptions.mode = BeginMode.POINTS;
-    const geometry = new GridGeometry(geoOptions);
+    const geometry = new GridGeometry(contextManager, geoOptions);
     grid.geometry = geometry;
     geometry.release();
 
@@ -165,16 +165,16 @@ function configPoints(options: GridOptions, grid: Grid) {
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_POINT_SIZE] = 'float';
 
-    const material = new PointMaterial(matOptions, contextManagerFromOptions(options));
+    const material = new PointMaterial(contextManager, matOptions);
     grid.material = material;
     material.release();
 }
 
-function configLines(options: GridOptions, grid: Grid) {
+function configLines(contextManager: ContextManager, options: GridOptions, grid: Grid) {
     const geoOptions: GridGeometryOptions = {};
     transferGeometryOptions(options, geoOptions);
     geoOptions.mode = BeginMode.LINES;
-    const geometry = new GridGeometry(geoOptions);
+    const geometry = new GridGeometry(contextManager, geoOptions);
     grid.geometry = geometry;
     geometry.release();
 
@@ -204,16 +204,16 @@ function configLines(options: GridOptions, grid: Grid) {
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4';
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
 
-    const material = new LineMaterial(matOptions, contextManagerFromOptions(options));
+    const material = new LineMaterial(contextManager, matOptions);
     grid.material = material;
     material.release();
 }
 
-function configMesh(options: GridOptions, grid: Grid) {
+function configMesh(contextManager: ContextManager, options: GridOptions, grid: Grid) {
     const geoOptions: GridGeometryOptions = {};
     transferGeometryOptions(options, geoOptions);
     geoOptions.mode = BeginMode.TRIANGLE_STRIP;
-    const geometry = new GridGeometry(geoOptions);
+    const geometry = new GridGeometry(contextManager, geoOptions);
     grid.geometry = geometry;
     geometry.release();
 
@@ -262,7 +262,7 @@ function configMesh(options: GridOptions, grid: Grid) {
 
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT] = 'vec3';
 
-    const material = new MeshMaterial(matOptions, contextManagerFromOptions(options));
+    const material = new MeshMaterial(contextManager, matOptions);
     grid.material = material;
     material.release();
 }
@@ -272,27 +272,23 @@ function configMesh(options: GridOptions, grid: Grid) {
  */
 export class Grid extends Mesh<GridGeometry, Material> {
 
-    /**
-     *
-     * @param options
-     */
-    constructor(options: GridOptions = {}, levelUp = 0) {
-        super(void 0, void 0, contextManagerFromOptions(options), levelUp + 1);
+    constructor(engine: Engine, options: GridOptions = {}, levelUp = 0) {
+        super(void 0, void 0, mustBeEngine(engine, 'Grid'), levelUp + 1);
         this.setLoggingName('Grid');
         expectOptions(OPTION_NAMES, Object.keys(options));
 
         const k: number = isDefined(options.k) ? options.k : GRID_K_DEFAULT;
         switch (k) {
             case 0: {
-                configPoints(options, this);
+                configPoints(engine, options, this);
                 break;
             }
             case 1: {
-                configLines(options, this);
+                configLines(engine, options, this);
                 break;
             }
             case 2: {
-                configMesh(options, this);
+                configMesh(engine, options, this);
                 break;
             }
             default: {

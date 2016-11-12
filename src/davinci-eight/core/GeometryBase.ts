@@ -4,6 +4,7 @@ import ContextManager from './ContextManager';
 import { Material } from './Material';
 import { Geometry } from './Geometry';
 import Matrix4 from '../math/Matrix4';
+import mustBeObject from '../checks/mustBeObject';
 import notImplemented from '../i18n/notImplemented';
 import notSupported from '../i18n/notSupported';
 import { ShareableContextConsumer } from './ShareableContextConsumer';
@@ -70,6 +71,7 @@ export default class GeometryBase extends ShareableContextConsumer implements Ge
 
     constructor(tilt: SpinorE3, contextManager: ContextManager, levelUp: number) {
         super(contextManager);
+        mustBeObject('contextManager', contextManager);
         this.setLoggingName("GeometryBase");
         if (tilt && !Spinor3.isOne(tilt)) {
             this.Kidentity = false

@@ -1,18 +1,12 @@
+import ContextManager from '../core/ContextManager';
 import GeometryElements from '../core/GeometryElements';
 import CurveGeometryOptions from './CurveGeometryOptions';
 import curvePrimitive from './curvePrimitive';
 
-/**
- * 
- */
 export default class CurveGeometry extends GeometryElements {
 
-    /**
-     * @param options
-     * @param levelUp
-     */
-    constructor(options: CurveGeometryOptions = {}, levelUp = 0) {
-        super(curvePrimitive(options), options.contextManager, options, levelUp + 1);
+    constructor(contextManager: ContextManager, options: CurveGeometryOptions = {}, levelUp = 0) {
+        super(curvePrimitive(options), contextManager, options, levelUp + 1);
         this.setLoggingName('CurveGeometry');
         if (levelUp === 0) {
             this.synchUp();

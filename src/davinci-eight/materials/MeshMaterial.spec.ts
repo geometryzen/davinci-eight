@@ -1,21 +1,13 @@
-import {Engine} from '../core/Engine'
-import {MeshMaterial} from './MeshMaterial'
+import { Engine } from '../core/Engine'
+import { MeshMaterial } from './MeshMaterial'
 import MeshMaterialOptions from '../materials/MeshMaterialOptions'
 
-describe("MeshMaterial", function() {
-  describe("(void 0, null)", function() {
+describe("MeshMaterial", function () {
+  describe("(void 0, null)", function () {
     const matOptions: MeshMaterialOptions = void 0
-    const engine: Engine = null
-    const material = new MeshMaterial(matOptions, engine)
-    it("should contain aPosition", function() {
-      expect(material.vertexShaderSrc).toContain("attribute vec3 aPosition;")
-    })
-  })
-  describe("(null, null)", function() {
-    const matOptions: MeshMaterialOptions = null
-    const engine: Engine = null
-    const material = new MeshMaterial(matOptions, engine)
-    it("should contain aPosition", function() {
+    const engine: Engine = new Engine()
+    const material = new MeshMaterial(engine, matOptions)
+    it("should contain aPosition", function () {
       expect(material.vertexShaderSrc).toContain("attribute vec3 aPosition;")
     })
   })

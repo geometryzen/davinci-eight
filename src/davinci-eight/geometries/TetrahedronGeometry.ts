@@ -1,3 +1,4 @@
+import ContextManager from '../core/ContextManager';
 import GeometryElements from '../core/GeometryElements';
 import TetrahedronGeometryOptions from './TetrahedronGeometryOptions';
 import tetrahedronPrimitive from './tetrahedronPrimitive';
@@ -7,13 +8,8 @@ import tetrahedronPrimitive from './tetrahedronPrimitive';
  */
 export default class TetrahedronGeometry extends GeometryElements {
 
-    /**
-     *
-     * @param options
-     * @param levelUp
-     */
-    constructor(options: TetrahedronGeometryOptions = {}, levelUp = 0) {
-        super(tetrahedronPrimitive(options), options.contextManager, options, levelUp + 1);
+    constructor(contextManager: ContextManager, options: TetrahedronGeometryOptions = {}, levelUp = 0) {
+        super(tetrahedronPrimitive(options), contextManager, options, levelUp + 1);
         this.setLoggingName('TetrahedronGeometry');
         if (levelUp === 0) {
             this.synchUp();

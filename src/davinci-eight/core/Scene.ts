@@ -13,9 +13,6 @@ export class Scene extends ShareableContextConsumer {
 
     private _drawables: ShareableArray<Renderable>;
 
-    /**
-     * @param contextManager
-     */
     constructor(contextManager: ContextManager, levelUp = 0) {
         super(contextManager);
         this.setLoggingName('Scene');
@@ -26,9 +23,6 @@ export class Scene extends ShareableContextConsumer {
         }
     }
 
-    /**
-     * @param levelUp
-     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();
@@ -37,35 +31,21 @@ export class Scene extends ShareableContextConsumer {
         super.destructor(levelUp + 1);
     }
 
-    /**
-     * <p>
-     * Adds the <code>drawable</code> to this <code>Scene</code>.
-     * </p>
-     *
-     * @param drawable
-     */
     add(drawable: Renderable): void {
         mustBeObject('drawable', drawable);
         this._drawables.push(drawable);
-        this.synchUp();
     }
 
-    /**
-     * @param drawable
-     * @returns `true` if the drawable is contained in this scene, otherwise `false`.
-     */
     contains(drawable: Renderable): boolean {
         mustBeObject('drawable', drawable);
         return this._drawables.indexOf(drawable) >= 0;
     }
 
     /**
-     * Traverses the collection of AbstractDrawable objects, calling render(ambients) on each one.
+     * Traverses the collection of Renderable objects, calling render(ambients) on each one.
      * The rendering takes place in two stages.
      * In the first stage, non-transparent objects are drawn.
      * In the second state, transparent objects are drawn.
-     *
-     * @param ambients
      */
     draw(ambients: Facet[]): void {
         const gl = this.gl;
@@ -126,43 +106,23 @@ export class Scene extends ShareableContextConsumer {
         }
     }
 
-    /**
-     * @param match
-     */
     find(match: (drawable: Renderable) => boolean): ShareableArray<Renderable> {
         return this._drawables.find(match);
     }
 
-    /**
-     * @param match
-     */
     findOne(match: (drawable: Renderable) => boolean): Renderable {
         return this._drawables.findOne(match);
     }
 
-    /**
-     * @param name
-     */
     findOneByName(name: string): Renderable {
         return this.findOne(function (drawable) { return drawable.name === name });
     }
 
-    /**
-     * @param name
-     */
     findByName(name: string): ShareableArray<Renderable> {
         return this.find(function (drawable) { return drawable.name === name });
     }
 
-    /**
-     * <p>
-     * Removes the <code>drawable</code> from this <code>Scene</code>.
-     * </p>
-     *
-     * @param drawable
-     */
     remove(drawable: Renderable): void {
-        // TODO: Remove the appropriate parts from the scene.
         mustBeObject('drawable', drawable);
         const index = this._drawables.indexOf(drawable);
         if (index >= 0) {
@@ -170,9 +130,6 @@ export class Scene extends ShareableContextConsumer {
         }
     }
 
-    /**
-     *
-     */
     contextFree(contextProvider: ContextProvider): void {
         for (let i = 0; i < this._drawables.length; i++) {
             const drawable = this._drawables.getWeakRef(i);
@@ -183,9 +140,6 @@ export class Scene extends ShareableContextConsumer {
         super.contextFree(contextProvider);
     }
 
-    /**
-     *
-     */
     contextGain(contextProvider: ContextProvider): void {
         for (let i = 0; i < this._drawables.length; i++) {
             const drawable = this._drawables.getWeakRef(i);
@@ -196,9 +150,6 @@ export class Scene extends ShareableContextConsumer {
         super.contextGain(contextProvider);
     }
 
-    /**
-     *
-     */
     contextLost(): void {
         for (let i = 0; i < this._drawables.length; i++) {
             const drawable = this._drawables.getWeakRef(i);

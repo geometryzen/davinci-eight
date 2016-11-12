@@ -1,36 +1,31 @@
 import BoxOptions from './BoxOptions';
 import BoxGeometry from '../geometries/BoxGeometry';
 import BoxGeometryOptions from '../geometries/BoxGeometryOptions';
-import {Color} from '../core/Color';
-import contextManagerFromOptions from './contextManagerFromOptions';
+import { Color } from '../core/Color';
 import direction from './direction';
+import { Engine } from '../core/Engine';
 import isDefined from '../checks/isDefined';
 import kFromOptions from './kFromOptions';
 import materialFromOptions from './materialFromOptions';
 import mustBeNumber from '../checks/mustBeNumber';
-import {RigidBody} from './RigidBody';
+import mustBeEngine from './mustBeEngine';
+import { RigidBody } from './RigidBody';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
 
-/**
- *
- */
 export class Box extends RigidBody {
 
-    /**
-     *
-     * @param options
-     */
-    constructor(options: BoxOptions = {}, levelUp = 0) {
-        super(void 0, void 0, contextManagerFromOptions(options), direction(options), levelUp + 1);
+    constructor(engine: Engine, options: BoxOptions = {}) {
+        super(void 0, void 0, mustBeEngine(engine, 'Box'), direction(options), 1);
+
         this.setLoggingName('Box');
         const k = kFromOptions(options);
+
         // The shape is created un-stressed and then parameters drive the scaling.
         // The scaling matrix takes into account the initial tilt from the standard configuration.
         // const stress = Vector3.vector(1, 1, 1)
 
         const geoOptions: BoxGeometryOptions = {};
-        geoOptions.contextManager = contextManagerFromOptions(options);
         geoOptions.k = k;
         geoOptions.tilt = options.tilt;
         geoOptions.offset = options.offset;
@@ -41,11 +36,11 @@ export class Box extends RigidBody {
         geoOptions.openRight = options.openRight;
         geoOptions.openCap = options.openCap;
 
-        const geometry = new BoxGeometry(geoOptions);
+        const geometry = new BoxGeometry(engine, geoOptions);
         this.geometry = geometry;
         geometry.release();
 
-        const material = materialFromOptions(k, options);
+        const material = materialFromOptions(engine, k, options);
         this.material = material;
         material.release();
 
@@ -60,15 +55,11 @@ export class Box extends RigidBody {
         this.height = isDefined(options.height) ? mustBeNumber('height', options.height) : 1.0;
         this.depth = isDefined(options.depth) ? mustBeNumber('depth', options.depth) : 1.0;
 
-        if (levelUp === 0) {
-            this.synchUp();
-        }
+        this.synchUp();
     }
 
     protected destructor(levelUp: number): void {
-        if (levelUp === 0) {
-            this.cleanUp();
-        }
+        this.cleanUp();
         super.destructor(levelUp + 1);
     }
 

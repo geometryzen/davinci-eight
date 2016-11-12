@@ -3,6 +3,7 @@ import refChange from '../core/refChange'
 
 describe("EIGHTLogger", function() {
   it("new-release", function() {
+    refChange('quiet')
     refChange('start')
     const logger = new EIGHTLogger()
     logger.release()

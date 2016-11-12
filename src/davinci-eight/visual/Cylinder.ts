@@ -1,14 +1,15 @@
 import direction from './direction';
 import { Color } from '../core/Color';
-import contextManagerFromOptions from './contextManagerFromOptions';
 import CylinderGeometry from '../geometries/CylinderGeometry';
 import CylinderGeometryOptions from '../geometries/CylinderGeometryOptions';
 import CylinderOptions from './CylinderOptions';
+import { Engine } from '../core/Engine';
 import { Geometric3 } from '../math/Geometric3';
 import isDefined from '../checks/isDefined';
 import kFromOptions from './kFromOptions';
 import { MeshMaterial } from '../materials/MeshMaterial';
 import MeshMaterialOptions from '../materials/MeshMaterialOptions';
+import mustBeEngine from './mustBeEngine';
 import mustBeNumber from '../checks/mustBeNumber';
 import { RigidBody } from './RigidBody';
 import setColorOption from './setColorOption';
@@ -19,11 +20,8 @@ import setDeprecatedOptions from './setDeprecatedOptions';
  */
 export class Cylinder extends RigidBody {
 
-    /**
-     * @param options
-     */
-    constructor(options: CylinderOptions = {}, levelUp = 0) {
-        super(void 0, void 0, contextManagerFromOptions(options), direction(options), levelUp + 1);
+    constructor(engine: Engine, options: CylinderOptions = {}, levelUp = 0) {
+        super(void 0, void 0, mustBeEngine(engine, 'Cylinder'), direction(options), levelUp + 1);
         this.setLoggingName('Cylinder');
         const k = kFromOptions(options);
         // The shape is created un-stressed and then parameters drive the scaling.
@@ -31,19 +29,18 @@ export class Cylinder extends RigidBody {
         // const stress = Vector3.vector(1, 1, 1)
 
         const geoOptions: CylinderGeometryOptions = {};
-        geoOptions.contextManager = contextManagerFromOptions(options);
         geoOptions.k = k;
         geoOptions.tilt = options.tilt;
         geoOptions.offset = options.offset;
         geoOptions.openCap = options.openCap;
         geoOptions.openBase = options.openBase;
         geoOptions.openWall = options.openWall;
-        const geometry = new CylinderGeometry(geoOptions);
+        const geometry = new CylinderGeometry(engine, geoOptions);
         this.geometry = geometry;
         geometry.release();
 
         const matOptions: MeshMaterialOptions = null;
-        const material = new MeshMaterial(matOptions, contextManagerFromOptions(options));
+        const material = new MeshMaterial(engine, matOptions);
         this.material = material;
         material.release();
 

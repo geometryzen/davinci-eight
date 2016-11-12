@@ -5,7 +5,7 @@ import isDefined from '../checks/isDefined';
 import isNull from '../checks/isNull';
 import isUndefined from '../checks/isUndefined';
 import LineMaterialOptions from './LineMaterialOptions';
-import {ShaderMaterial} from './ShaderMaterial';
+import { ShaderMaterial } from './ShaderMaterial';
 import mustBeObject from '../checks/mustBeObject';
 
 function builder(options?: LineMaterialOptions) {
@@ -66,12 +66,7 @@ function fragmentShaderSrc(options?: LineMaterialOptions): string {
  */
 export class LineMaterial extends ShaderMaterial {
 
-    /**
-     * @param options
-     * @param contextManager
-     * @param levelUp
-     */
-    constructor(options: LineMaterialOptions, contextManager: ContextManager, levelUp = 0) {
+    constructor(contextManager: ContextManager, options: LineMaterialOptions, levelUp = 0) {
         super(vertexShaderSrc(options), fragmentShaderSrc(options), [], contextManager, levelUp + 1);
         this.setLoggingName('LineMaterial');
         if (levelUp === 0) {

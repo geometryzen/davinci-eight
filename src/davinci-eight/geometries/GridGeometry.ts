@@ -1,11 +1,12 @@
+import ContextManager from '../core/ContextManager';
 import GeometryElements from '../core/GeometryElements';
 import GridGeometryOptions from './GridGeometryOptions';
 import gridPrimitive from './gridPrimitive';
 
 export default class GridGeometry extends GeometryElements {
 
-    constructor(options: GridGeometryOptions = {}, levelUp = 0) {
-        super(gridPrimitive(options), options.contextManager, options, levelUp + 1);
+    constructor(contextManager: ContextManager, options: GridGeometryOptions = {}, levelUp = 0) {
+        super(gridPrimitive(options), contextManager, options, levelUp + 1);
         this.setLoggingName('GridGeometry');
         if (levelUp === 0) {
             this.synchUp();

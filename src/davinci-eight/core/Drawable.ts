@@ -10,6 +10,7 @@ import isNull from '../checks/isNull';
 import isNumber from '../checks/isNumber';
 import isUndefined from '../checks/isUndefined';
 import mustBeBoolean from '../checks/mustBeBoolean';
+import mustBeNonNullObject from '../checks/mustBeNonNullObject';
 import { Material } from './Material';
 import { OpacityFacet } from '../facets/OpacityFacet';
 import { PointSizeFacet } from '../facets/PointSizeFacet';
@@ -57,13 +58,8 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
     // private _facets: { [name: string]: Facet } = {};
     private facetMap = new StringShareableMap<Facet>();
 
-    /**
-     * @param geometry
-     * @param material
-     * @param contextManager The <code>ContextManager</code> to subscribe to or <code>null</code> for deferred subscription.
-     */
     constructor(geometry: G, material: M, contextManager: ContextManager, levelUp = 0) {
-        super(contextManager);
+        super(mustBeNonNullObject('contextManager', contextManager));
         this.setLoggingName('Drawable');
         if (isObject(geometry)) {
             // The assignment takes care of the addRef.
@@ -79,9 +75,6 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
         }
     }
 
-    /**
-     * @param levelUp
-     */
     protected destructor(levelUp: number): void {
         this.facetMap.release();
 

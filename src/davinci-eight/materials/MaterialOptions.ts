@@ -1,11 +1,3 @@
-/**
- * @module EIGHT
- * @submodule materials
- */
-
-/**
- * @class MaterialOptions
- */
 interface MaterialOptions {
 }
 

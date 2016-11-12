@@ -1,35 +1,41 @@
-import {RigidBody} from './RigidBody';
+import { Engine } from '../core/Engine';
+import { RigidBody } from './RigidBody';
 import SphereGeometry from '../geometries/SphereGeometry';
-import {MeshMaterial} from '../materials/MeshMaterial';
+import { MeshMaterial } from '../materials/MeshMaterial';
 import Vector3 from '../math/Vector3';
 
-describe('RigidBody', function() {
-    it("should be shareable", function() {
-        const geometry = new SphereGeometry();
-        const material = new MeshMaterial(null, null);
+describe('RigidBody', function () {
+    it("should be shareable", function () {
+        const engine = new Engine();
+        const geometry = new SphereGeometry(engine);
+        const material = new MeshMaterial(engine, null);
         const direction = new Vector3();
-        const rigidBody = new RigidBody(void 0, void 0, void 0, direction);
+        const rigidBody = new RigidBody(void 0, void 0, engine, direction);
         rigidBody.geometry = geometry;
         rigidBody.material = material;
         expect(rigidBody.isZombie()).toBe(false);
         rigidBody.release();
         expect(rigidBody.isZombie()).toBe(true);
+        engine.release();
     });
-    it("mass should default to 1", function() {
-        const geometry = new SphereGeometry();
-        const material = new MeshMaterial(null, null);
+    it("mass should default to 1", function () {
+        const engine = new Engine();
+        const geometry = new SphereGeometry(engine);
+        const material = new MeshMaterial(engine, null);
         const direction = new Vector3();
-        const rigidBody = new RigidBody(void 0, void 0, void 0, direction);
+        const rigidBody = new RigidBody(void 0, void 0, engine, direction);
         rigidBody.geometry = geometry;
         rigidBody.material = material;
         expect(rigidBody.m).toBe(1);
         rigidBody.release();
+        engine.release();
     });
-    it("momentum should default to 0", function() {
-        const geometry = new SphereGeometry();
-        const material = new MeshMaterial(null, null);
+    it("momentum should default to 0", function () {
+        const engine = new Engine();
+        const geometry = new SphereGeometry(engine);
+        const material = new MeshMaterial(engine, null);
         const direction = new Vector3();
-        const rigidBody = new RigidBody(void 0, void 0, void 0, direction);
+        const rigidBody = new RigidBody(void 0, void 0, engine, direction);
         rigidBody.geometry = geometry;
         rigidBody.material = material;
         expect(rigidBody.P.isZero()).toBeTruthy();
@@ -42,15 +48,18 @@ describe('RigidBody', function() {
         expect(rigidBody.P.zx).toBe(0);
         expect(rigidBody.P.b).toBe(0);
         rigidBody.release();
+        engine.release();
     });
-    it("charge should default to 0", function() {
-        const geometry = new SphereGeometry();
-        const material = new MeshMaterial(null, null);
+    it("charge should default to 0", function () {
+        const engine = new Engine()
+        const geometry = new SphereGeometry(engine);
+        const material = new MeshMaterial(engine, null);
         const direction = new Vector3();
-        const rigidBody = new RigidBody(void 0, void 0, void 0, direction);
+        const rigidBody = new RigidBody(void 0, void 0, engine, direction);
         rigidBody.geometry = geometry;
         rigidBody.material = material;
         expect(rigidBody.Q.isZero()).toBeTruthy();
         rigidBody.release();
+        engine.release();
     });
 });

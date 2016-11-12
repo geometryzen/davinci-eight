@@ -4,11 +4,13 @@ import { Color } from '../core/Color';
 import ContextManager from '../core/ContextManager';
 import ContextProvider from '../core/ContextProvider';
 import DataType from '../core/DataType';
+import { Engine } from '../core/Engine';
 import exchange from '../base/exchange';
 import { Facet } from '../core/Facet';
 import { Geometric3 } from '../math/Geometric3';
 import GeometryArrays from '../core/GeometryArrays';
 import { Mesh } from '../core/Mesh';
+import mustBeEngine from './mustBeEngine';
 import refChange from '../core/refChange';
 import { Renderable } from '../core/Renderable';
 import { ShaderMaterial } from '../materials/ShaderMaterial';
@@ -136,8 +138,8 @@ export default class Parallelepiped implements Renderable {
     private contextProvider: ContextProvider;
     private refCount = 0;
     private mesh: Mesh<GeometryArrays, ShaderMaterial>;
-    constructor(contextManager: ContextManager, private levelUp = 0) {
-        this.contextManager = exchange(this.contextManager, contextManager);
+    constructor(engine: Engine, private levelUp = 0) {
+        this.contextManager = exchange(this.contextManager, mustBeEngine(engine, 'Parallelepiped'));
         this.addRef();
         this.colors[0] = Color.gray.clone();
         this.colors[1] = Color.gray.clone();
@@ -146,7 +148,7 @@ export default class Parallelepiped implements Renderable {
         this.colors[4] = Color.gray.clone();
         this.colors[5] = Color.gray.clone();
         if (levelUp === 0) {
-            contextManager.synchronize(this);
+            engine.synchronize(this);
         }
     }
     protected destructor(levelUp: number): void {

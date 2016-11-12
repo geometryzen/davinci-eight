@@ -4,7 +4,7 @@ import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import isDefined from '../checks/isDefined';
 import isNull from '../checks/isNull';
 import isUndefined from '../checks/isUndefined';
-import {ShaderMaterial} from './ShaderMaterial';
+import { ShaderMaterial } from './ShaderMaterial';
 import mustBeObject from '../checks/mustBeObject';
 import PointMaterialOptions from './PointMaterialOptions';
 
@@ -61,11 +61,7 @@ function fragmentShaderSrc(options?: PointMaterialOptions): string {
  */
 export class PointMaterial extends ShaderMaterial {
 
-    /**
-     * @param options
-     * @param contextManager
-     */
-    constructor(options: PointMaterialOptions, contextManager: ContextManager, levelUp = 0) {
+    constructor(contextManager: ContextManager, options: PointMaterialOptions, levelUp = 0) {
         super(vertexShaderSrc(options), fragmentShaderSrc(options), [], contextManager, levelUp + 1);
         this.setLoggingName('PointMaterial');
         if (levelUp === 0) {

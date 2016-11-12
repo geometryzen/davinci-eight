@@ -5,7 +5,7 @@ import ContextProvider from './ContextProvider';
 import EngineSubscriber from './EngineSubscriber';
 import isUndefined from '../checks/isUndefined';
 import isNull from '../checks/isNull';
-import mustBeObject from '../checks/mustBeObject'
+import mustBeNonNullObject from '../checks/mustBeNonNullObject'
 import readOnly from '../i18n/readOnly';
 import { ShareableBase } from './ShareableBase';
 
@@ -60,21 +60,18 @@ export class ShareableContextConsumer extends ShareableBase implements ContextCo
      */
     protected contextProvider: ContextProvider;
 
-    /**
-     *
-     * @param manager The <code>ContextManager</code> to subscribe to or <code>null</code> for deferred subscription.
-     */
     constructor(contextManager: ContextManager) {
         super();
+
+        mustBeNonNullObject('contextManager', contextManager);
+
         this.setLoggingName('ShareableContextConsumer');
+
         if (!isNull(contextManager) && !isUndefined(contextManager)) {
             this.subscribe(contextManager, false);
         }
     }
 
-    /**
-     * @param levelUp
-     */
     protected destructor(levelUp: number): void {
         // The (protected) context provider property was only being maintained
         // for the benefit of derived classes. Now that they have already executed
@@ -96,7 +93,7 @@ export class ShareableContextConsumer extends ShareableBase implements ContextCo
      * </p>
      */
     subscribe(contextManager: ContextManager, synchUp: boolean): void {
-        contextManager = mustBeObject('contextManager', contextManager);
+        contextManager = mustBeNonNullObject('contextManager', contextManager);
         if (!this.manager) {
             contextManager.addRef();
             this.manager = contextManager;

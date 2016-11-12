@@ -9,6 +9,7 @@ import isNull from '../checks/isNull';
 import makeWebGLProgram from '../core/makeWebGLProgram';
 import { Material } from '../core/Material'
 import mustBeArray from '../checks/mustBeArray';
+import mustBeNonNullObject from '../checks/mustBeNonNullObject';
 import mustBeString from '../checks/mustBeString';
 import mustBeUndefined from '../checks/mustBeUndefined';
 import readOnly from '../i18n/readOnly';
@@ -60,7 +61,7 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
      * @param engine The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
      */
     constructor(vertexShaderSrc: string, fragmentShaderSrc: string, attribs: string[], contextManager: ContextManager, levelUp = 0) {
-        super(contextManager);
+        super(mustBeNonNullObject('contextManager', contextManager));
         this.setLoggingName('ShaderMaterial');
         if (isDefined(vertexShaderSrc) && !isNull(vertexShaderSrc)) {
             this._vertexShaderSrc = mustBeString('vertexShaderSrc', vertexShaderSrc);
