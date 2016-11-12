@@ -4198,7 +4198,7 @@ declare module EIGHT {
          * back   - 5
          */
         public colors: Color[];
-        constructor(engine: Engine, levelUp?: number);
+        constructor(engine: Engine);
         protected destructor(levelUp: number): void;
         render(ambients: Facet[]): void;
         addRef(): number;

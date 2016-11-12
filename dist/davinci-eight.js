@@ -553,7 +553,7 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-11-11';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '3.0.0';
+            this.VERSION = '3.0.1';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -19311,7 +19311,7 @@ define('davinci-eight/visual/Track',["require", "exports", "../core/BeginMode", 
         function Track(engine, options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
-            var _this = _super.call(this, new TrackGeometry(engine), new LineMaterial_1.LineMaterial(void 0, engine), mustBeEngine_1.default(engine, 'Track'), levelUp + 1) || this;
+            var _this = _super.call(this, new TrackGeometry(engine), new LineMaterial_1.LineMaterial(engine), mustBeEngine_1.default(engine, 'Track'), levelUp + 1) || this;
             _this.setLoggingName('Track');
             setColorOption_1.default(_this, options, Color_1.Color.white);
             if (levelUp === 0) {
@@ -19577,7 +19577,7 @@ define('davinci-eight/visual/Turtle',["require", "exports", "../core/BeginMode",
         __extends(Turtle, _super);
         function Turtle(engine, options, levelUp) {
             if (levelUp === void 0) { levelUp = 0; }
-            var _this = _super.call(this, new TurtleGeometry(engine), new LineMaterial_1.LineMaterial(void 0, engine), mustBeEngine_1.default(engine, 'Turtle'), { x: 0, y: 0, z: 1 }, levelUp + 1) || this;
+            var _this = _super.call(this, new TurtleGeometry(engine), new LineMaterial_1.LineMaterial(engine), mustBeEngine_1.default(engine, 'Turtle'), { x: 0, y: 0, z: 1 }, levelUp + 1) || this;
             _this.setLoggingName('Turtle');
             _this.height = 0.1;
             _this.width = 0.0618;

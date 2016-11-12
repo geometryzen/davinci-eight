@@ -66,7 +66,7 @@ function fragmentShaderSrc(options?: LineMaterialOptions): string {
  */
 export class LineMaterial extends ShaderMaterial {
 
-    constructor(contextManager: ContextManager, options: LineMaterialOptions, levelUp = 0) {
+    constructor(contextManager: ContextManager, options?: LineMaterialOptions, levelUp = 0) {
         super(vertexShaderSrc(options), fragmentShaderSrc(options), [], contextManager, levelUp + 1);
         this.setLoggingName('LineMaterial');
         if (levelUp === 0) {

@@ -112,7 +112,7 @@ interface TrackOptions extends VisualOptions {
 
 export class Track extends Mesh<TrackGeometry, LineMaterial> {
     constructor(engine: Engine, options: TrackOptions = {}, levelUp = 0) {
-        super(new TrackGeometry(engine), new LineMaterial(void 0, engine), mustBeEngine(engine, 'Track'), levelUp + 1);
+        super(new TrackGeometry(engine), new LineMaterial(engine), mustBeEngine(engine, 'Track'), levelUp + 1);
         this.setLoggingName('Track');
         setColorOption(this, options, Color.white);
         if (levelUp === 0) {
