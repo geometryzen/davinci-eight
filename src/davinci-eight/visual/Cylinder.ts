@@ -21,7 +21,7 @@ import setDeprecatedOptions from './setDeprecatedOptions';
 export class Cylinder extends RigidBody {
 
     constructor(engine: Engine, options: CylinderOptions = {}, levelUp = 0) {
-        super(void 0, void 0, mustBeEngine(engine, 'Cylinder'), direction(options), levelUp + 1);
+        super(mustBeEngine(engine, 'Cylinder'), direction(options), levelUp + 1);
         this.setLoggingName('Cylinder');
         const k = kFromOptions(options);
         // The shape is created un-stressed and then parameters drive the scaling.

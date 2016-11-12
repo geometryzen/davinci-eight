@@ -102,9 +102,15 @@ interface TurtleOptions extends VisualOptions {
 }
 
 export default class Turtle extends RigidBody {
-    constructor(engine: Engine, options: TurtleOptions, levelUp = 0) {
-        super(new TurtleGeometry(engine), new LineMaterial(engine), mustBeEngine(engine, 'Turtle'), { x: 0, y: 0, z: 1 }, levelUp + 1);
+    constructor(engine: Engine, options: TurtleOptions = {}, levelUp = 0) {
+        super(mustBeEngine(engine, 'Turtle'), { x: 0, y: 0, z: 1 }, levelUp + 1);
         this.setLoggingName('Turtle');
+        const geometry = new TurtleGeometry(engine);
+        this.geometry = geometry;
+        geometry.release();
+        const material = new LineMaterial(engine);
+        this.material = material;
+        material.release();
         this.height = 0.1;
         this.width = 0.0618;
 

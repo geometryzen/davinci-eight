@@ -83,7 +83,7 @@ export default class Basis extends RigidBody {
     private uColorB = new ColorFacet(uColorB);
     private uColorC = new ColorFacet(uColorC);
     constructor(engine: Engine, options: BasisOptions = {}, levelUp = 0) {
-        super(void 0, void 0, mustBeEngine(engine, 'Basis'), direction(options), levelUp + 1);
+        super(mustBeEngine(engine, 'Basis'), direction(options), levelUp + 1);
         this.setLoggingName("Basis");
 
         // FIXME: This should be initialized to a random orthonormal basis.

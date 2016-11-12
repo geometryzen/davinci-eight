@@ -3904,7 +3904,7 @@ declare module EIGHT {
         /**
          *
          */
-        constructor(geometry: Geometry, material: Material, contextManager: ContextManager, initialAxis: VectorE3, levelUp?: number);
+        constructor(contextManager: ContextManager, initialAxis: VectorE3, levelUp?: number);
         protected destructor(levelUp: number): void;
         getPrincipalScale(name: string): number;
         protected setPrincipalScale(name: string, value: number): void;

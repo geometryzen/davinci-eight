@@ -553,7 +553,7 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-11-12';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '3.0.2';
+            this.VERSION = '3.0.3';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -17294,9 +17294,9 @@ define('davinci-eight/visual/PrincipalScaleMesh',["require", "exports", "../core
     "use strict";
     var PrincipalScaleMesh = (function (_super) {
         __extends(PrincipalScaleMesh, _super);
-        function PrincipalScaleMesh(geometry, material, contextManager, levelUp) {
+        function PrincipalScaleMesh(contextManager, levelUp) {
             if (levelUp === void 0) { levelUp = 0; }
-            var _this = _super.call(this, geometry, material, mustBeObject_1.default('contextManager', contextManager), levelUp + 1) || this;
+            var _this = _super.call(this, void 0, void 0, mustBeObject_1.default('contextManager', contextManager), levelUp + 1) || this;
             _this.setLoggingName('PrincipalScaleMesh');
             if (levelUp === 0) {
                 _this.synchUp();
@@ -17399,7 +17399,7 @@ define('davinci-eight/visual/Arrow',["require", "exports", "../geometries/ArrowG
         function Arrow(engine, options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
-            var _this = _super.call(this, void 0, void 0, mustBeEngine_1.default(engine, 'Arrow'), levelUp + 1) || this;
+            var _this = _super.call(this, mustBeEngine_1.default(engine, 'Arrow'), levelUp + 1) || this;
             _this.setLoggingName('Arrow');
             _this.direction0 = direction(options, Vector3_1.default.vector(0, 1, 0));
             _this._vector = Geometric3_1.Geometric3.fromVector(_this.direction0);
@@ -17504,9 +17504,9 @@ define('davinci-eight/visual/RigidBody',["require", "exports", "../math/Geometri
     "use strict";
     var RigidBody = (function (_super) {
         __extends(RigidBody, _super);
-        function RigidBody(geometry, material, contextManager, initialAxis, levelUp) {
+        function RigidBody(contextManager, initialAxis, levelUp) {
             if (levelUp === void 0) { levelUp = 0; }
-            var _this = _super.call(this, geometry, material, mustBeObject_1.default('contextManager', contextManager), levelUp + 1) || this;
+            var _this = _super.call(this, mustBeObject_1.default('contextManager', contextManager), levelUp + 1) || this;
             _this.L = Geometric3_1.Geometric3.zero();
             _this.m = 1;
             _this.P = Geometric3_1.Geometric3.zero();
@@ -17608,7 +17608,7 @@ define('davinci-eight/visual/Basis',["require", "exports", "../core/BeginMode", 
         function Basis(engine, options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
-            var _this = _super.call(this, void 0, void 0, mustBeEngine_1.default(engine, 'Basis'), direction_1.default(options), levelUp + 1) || this;
+            var _this = _super.call(this, mustBeEngine_1.default(engine, 'Basis'), direction_1.default(options), levelUp + 1) || this;
             _this.uPointA = new Vector3Facet_1.default(uPointA);
             _this.uPointB = new Vector3Facet_1.default(uPointB);
             _this.uPointC = new Vector3Facet_1.default(uPointC);
@@ -17749,7 +17749,7 @@ define('davinci-eight/visual/Sphere',["require", "exports", "../core/Color", "./
         function Sphere(engine, options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
-            var _this = _super.call(this, void 0, void 0, mustBeEngine_1.default(engine, 'Sphere'), direction_1.default(options), levelUp + 1) || this;
+            var _this = _super.call(this, mustBeEngine_1.default(engine, 'Sphere'), direction_1.default(options), levelUp + 1) || this;
             _this.setLoggingName('Sphere');
             var k = kFromOptions_1.default(options);
             var geoOptions = {};
@@ -17811,7 +17811,7 @@ define('davinci-eight/visual/Box',["require", "exports", "../geometries/BoxGeome
         __extends(Box, _super);
         function Box(engine, options) {
             if (options === void 0) { options = {}; }
-            var _this = _super.call(this, void 0, void 0, mustBeEngine_1.default(engine, 'Box'), direction_1.default(options), 1) || this;
+            var _this = _super.call(this, mustBeEngine_1.default(engine, 'Box'), direction_1.default(options), 1) || this;
             _this.setLoggingName('Box');
             var k = kFromOptions_1.default(options);
             var geoOptions = {};
@@ -17892,7 +17892,7 @@ define('davinci-eight/visual/Cylinder',["require", "exports", "./direction", "..
         function Cylinder(engine, options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
-            var _this = _super.call(this, void 0, void 0, mustBeEngine_1.default(engine, 'Cylinder'), direction_1.default(options), levelUp + 1) || this;
+            var _this = _super.call(this, mustBeEngine_1.default(engine, 'Cylinder'), direction_1.default(options), levelUp + 1) || this;
             _this.setLoggingName('Cylinder');
             var k = kFromOptions_1.default(options);
             var geoOptions = {};
@@ -18929,7 +18929,7 @@ define('davinci-eight/visual/HollowCylinder',["require", "exports", "../core/Col
         function HollowCylinder(engine, options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
-            var _this = _super.call(this, void 0, void 0, mustBeEngine_1.default(engine, 'HollowCylinder'), e2, levelUp + 1) || this;
+            var _this = _super.call(this, mustBeEngine_1.default(engine, 'HollowCylinder'), e2, levelUp + 1) || this;
             var geometry = new HollowCylinderGeometry_1.default(engine, options);
             _this.geometry = geometry;
             geometry.release();
@@ -19149,7 +19149,7 @@ define('davinci-eight/visual/Tetrahedron',["require", "exports", "../core/Color"
         function Tetrahedron(engine, options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
-            var _this = _super.call(this, void 0, void 0, mustBeEngine_1.default(engine, 'Tetrahedron'), direction_1.default(options), levelUp + 1) || this;
+            var _this = _super.call(this, mustBeEngine_1.default(engine, 'Tetrahedron'), direction_1.default(options), levelUp + 1) || this;
             _this.setLoggingName('Tetrahedron');
             var geoOptions = {};
             var geometry = new TetrahedronGeometry_1.default(engine, geoOptions);
@@ -19551,9 +19551,16 @@ define('davinci-eight/visual/Turtle',["require", "exports", "../core/BeginMode",
     var Turtle = (function (_super) {
         __extends(Turtle, _super);
         function Turtle(engine, options, levelUp) {
+            if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
-            var _this = _super.call(this, new TurtleGeometry(engine), new LineMaterial_1.LineMaterial(engine), mustBeEngine_1.default(engine, 'Turtle'), { x: 0, y: 0, z: 1 }, levelUp + 1) || this;
+            var _this = _super.call(this, mustBeEngine_1.default(engine, 'Turtle'), { x: 0, y: 0, z: 1 }, levelUp + 1) || this;
             _this.setLoggingName('Turtle');
+            var geometry = new TurtleGeometry(engine);
+            _this.geometry = geometry;
+            geometry.release();
+            var material = new LineMaterial_1.LineMaterial(engine);
+            _this.material = material;
+            material.release();
             _this.height = 0.1;
             _this.width = 0.0618;
             setColorOption_1.default(_this, options, Color_1.Color.green);

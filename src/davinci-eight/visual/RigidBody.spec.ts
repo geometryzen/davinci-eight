@@ -10,7 +10,7 @@ describe('RigidBody', function () {
         const geometry = new SphereGeometry(engine);
         const material = new MeshMaterial(engine, null);
         const direction = new Vector3();
-        const rigidBody = new RigidBody(void 0, void 0, engine, direction);
+        const rigidBody = new RigidBody(engine, direction);
         rigidBody.geometry = geometry;
         rigidBody.material = material;
         expect(rigidBody.isZombie()).toBe(false);
@@ -23,7 +23,7 @@ describe('RigidBody', function () {
         const geometry = new SphereGeometry(engine);
         const material = new MeshMaterial(engine, null);
         const direction = new Vector3();
-        const rigidBody = new RigidBody(void 0, void 0, engine, direction);
+        const rigidBody = new RigidBody(engine, direction);
         rigidBody.geometry = geometry;
         rigidBody.material = material;
         expect(rigidBody.m).toBe(1);
@@ -35,7 +35,7 @@ describe('RigidBody', function () {
         const geometry = new SphereGeometry(engine);
         const material = new MeshMaterial(engine, null);
         const direction = new Vector3();
-        const rigidBody = new RigidBody(void 0, void 0, engine, direction);
+        const rigidBody = new RigidBody(engine, direction);
         rigidBody.geometry = geometry;
         rigidBody.material = material;
         expect(rigidBody.P.isZero()).toBeTruthy();
@@ -55,7 +55,7 @@ describe('RigidBody', function () {
         const geometry = new SphereGeometry(engine);
         const material = new MeshMaterial(engine, null);
         const direction = new Vector3();
-        const rigidBody = new RigidBody(void 0, void 0, engine, direction);
+        const rigidBody = new RigidBody(engine, direction);
         rigidBody.geometry = geometry;
         rigidBody.material = material;
         expect(rigidBody.Q.isZero()).toBeTruthy();

@@ -65,7 +65,7 @@ export class Arrow extends PrincipalScaleMesh<ArrowGeometry, MeshMaterial> {
     private attitudeChangeHandler: (eventName: string, key: string, value: number, source: Geometric3) => void;
 
     constructor(engine: Engine, options: ArrowOptions = {}, levelUp = 0) {
-        super(void 0, void 0, mustBeEngine(engine, 'Arrow'), levelUp + 1);
+        super(mustBeEngine(engine, 'Arrow'), levelUp + 1);
         this.setLoggingName('Arrow');
 
         // TODO: This should be going into the geometry options.

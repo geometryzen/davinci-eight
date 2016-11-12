@@ -8,9 +8,7 @@ import Vector3 from '../math/Vector3';
 import VectorE3 from '../math/VectorE3';
 
 /**
- * <p>
  * Decorates the Mesh by adding properties for physical modeling.
- * </p>
  */
 export class RigidBody extends PrincipalScaleMesh<PrincipalScaleGeometry, Material> {
 
@@ -60,14 +58,8 @@ export class RigidBody extends PrincipalScaleMesh<PrincipalScaleGeometry, Materi
      */
     public initialAxis: VectorE3;
 
-    /**
-     * @param geometry
-     * @param material
-     * @param contextManager
-     * @param initialAxis The initial direction of the symmetry axis
-     */
-    constructor(geometry: PrincipalScaleGeometry, material: Material, contextManager: ContextManager, initialAxis: VectorE3, levelUp = 0) {
-        super(geometry, material, mustBeObject('contextManager', contextManager), levelUp + 1);
+    constructor(contextManager: ContextManager, initialAxis: VectorE3, levelUp = 0) {
+        super(mustBeObject('contextManager', contextManager), levelUp + 1);
         this.setLoggingName('RigidBody');
         this.initialAxis = Vector3.copy(initialAxis);
         if (levelUp === 0) {
@@ -75,9 +67,6 @@ export class RigidBody extends PrincipalScaleMesh<PrincipalScaleGeometry, Materi
         }
     }
 
-    /**
-     * @param levelUp
-     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();
@@ -89,7 +78,6 @@ export class RigidBody extends PrincipalScaleMesh<PrincipalScaleGeometry, Materi
      * Axis (vector)
      */
     get axis() {
-        // This is a copy!
         return Geometric3.fromVector(this.initialAxis).rotate(this.R);
     }
     set axis(axis: Geometric3) {

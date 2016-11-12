@@ -17,7 +17,7 @@ import TetrahedronGeometry from '../geometries/TetrahedronGeometry';
 export default class Tetrahedron extends RigidBody {
 
     constructor(engine: Engine, options: TetrahedronOptions = {}, levelUp = 0) {
-        super(void 0, void 0, mustBeEngine(engine, 'Tetrahedron'), direction(options), levelUp + 1);
+        super(mustBeEngine(engine, 'Tetrahedron'), direction(options), levelUp + 1);
         this.setLoggingName('Tetrahedron');
 
         const geoOptions: TetrahedronGeometryOptions = {};

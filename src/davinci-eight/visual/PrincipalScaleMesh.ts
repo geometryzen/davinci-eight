@@ -13,27 +13,21 @@ export interface PrincipalScaleGeometry extends Geometry {
     /**
      * The matrix that is updated following calls to the setPrincipalScale method.
      */
-    scaling: Matrix4
+    scaling: Matrix4;
 
-    /**
-     *
-     */
-    hasPrincipalScale(name: string): boolean
-
-    /**
-     *
-     */
-    getPrincipalScale(name: string): number
-
-    /**
-     *
-     */
-    setPrincipalScale(name: string, value: number): void
+    hasPrincipalScale(name: string): boolean;
+    getPrincipalScale(name: string): number;
+    setPrincipalScale(name: string, value: number): void;
 }
 
 export default class PrincipalScaleMesh<G extends PrincipalScaleGeometry, M extends Material> extends Mesh<G, M> {
-    constructor(geometry: G, material: M, contextManager: ContextManager, levelUp = 0) {
-        super(geometry, material, mustBeObject('contextManager', contextManager), levelUp + 1);
+    constructor(contextManager: ContextManager, levelUp = 0) {
+        // Mesh was not really designed to be extended.
+        // When we start to define composites with a specific geometry and material through implementation inheritance,
+        // we run into the problem that it is cumbersome to release the geometry and material.
+        // This is why we transition from setting geometry and material through the constructor to setting
+        // properties instead. It may be better to contain, rather than extend, the Mesh?
+        super(void 0, void 0, mustBeObject('contextManager', contextManager), levelUp + 1);
         this.setLoggingName('PrincipalScaleMesh');
         if (levelUp === 0) {
             this.synchUp();
@@ -59,9 +53,6 @@ export default class PrincipalScaleMesh<G extends PrincipalScaleGeometry, M exte
         }
     }
 
-    /**
-     * 
-     */
     protected setPrincipalScale(name: string, value: number): void {
         const geometry = this.geometry;
         geometry.setPrincipalScale(name, value);

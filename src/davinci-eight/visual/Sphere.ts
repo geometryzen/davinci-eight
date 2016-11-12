@@ -22,7 +22,7 @@ const RADIUS_DEFAULT = 1;
 export class Sphere extends RigidBody {
 
     constructor(engine: Engine, options: SphereOptions = {}, levelUp = 0) {
-        super(void 0, void 0, mustBeEngine(engine, 'Sphere'), direction(options), levelUp + 1);
+        super(mustBeEngine(engine, 'Sphere'), direction(options), levelUp + 1);
         this.setLoggingName('Sphere');
         const k = kFromOptions(options);
 

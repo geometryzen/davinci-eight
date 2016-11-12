@@ -18,7 +18,7 @@ const e2 = Vector3.vector(0, 1, 0);
  */
 export default class HollowCylinder extends RigidBody {
     constructor(engine: Engine, options: HollowCylinderOptions = {}, levelUp = 0) {
-        super(void 0, void 0, mustBeEngine(engine, 'HollowCylinder'), e2, levelUp + 1);
+        super(mustBeEngine(engine, 'HollowCylinder'), e2, levelUp + 1);
 
         const geometry = new HollowCylinderGeometry(engine, options);
         this.geometry = geometry;

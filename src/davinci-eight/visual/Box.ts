@@ -16,7 +16,7 @@ import setDeprecatedOptions from './setDeprecatedOptions';
 export class Box extends RigidBody {
 
     constructor(engine: Engine, options: BoxOptions = {}) {
-        super(void 0, void 0, mustBeEngine(engine, 'Box'), direction(options), 1);
+        super(mustBeEngine(engine, 'Box'), direction(options), 1);
 
         this.setLoggingName('Box');
         const k = kFromOptions(options);
