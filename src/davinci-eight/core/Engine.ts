@@ -5,28 +5,23 @@ import checkEnums from './checkEnums';
 import ClearBufferMask from './ClearBufferMask';
 import DepthFunction from './DepthFunction';
 import EIGHTLogger from '../commands/EIGHTLogger';
-import {ContextConsumer} from './ContextConsumer';
+import { ContextConsumer } from './ContextConsumer';
 import ContextManager from './ContextManager';
 import DefaultContextProvider from '../base/DefaultContextProvider';
-import {Geometry} from './Geometry';
-import geometryFromPrimitive from './geometryFromPrimitive';
 import IndexBuffer from './IndexBuffer';
 import initWebGL from './initWebGL';
 import isDefined from '../checks/isDefined';
-import {Material} from './Material';
 import mustBeObject from '../checks/mustBeObject';
 import PixelFormat from './PixelFormat';
 import PixelType from './PixelType';
-import Primitive from './Primitive';
 import ShareableArray from '../collections/ShareableArray';
-import {ShareableBase} from './ShareableBase';
+import { ShareableBase } from './ShareableBase';
 import Usage from './Usage';
 import VersionLogger from '../commands/VersionLogger';
 import VertexBuffer from './VertexBuffer';
-import {WebGLClearColor} from '../commands/WebGLClearColor';
-import {WebGLEnable} from '../commands/WebGLEnable';
-import {WebGLDisable} from '../commands/WebGLDisable';
-import HTMLScriptsMaterial from '../materials/HTMLScriptsMaterial';
+import { WebGLClearColor } from '../commands/WebGLClearColor';
+import { WebGLEnable } from '../commands/WebGLEnable';
+import { WebGLDisable } from '../commands/WebGLDisable';
 
 /**
  *
@@ -283,17 +278,6 @@ export class Engine extends ShareableBase implements ContextManager {
         else {
             return void 0
         }
-    }
-
-    geometry(primitive: Primitive): Geometry {
-        return geometryFromPrimitive(primitive, this);
-    }
-
-    /**
-     * 
-     */
-    material(vertexShader: string, fragmentShader: string, dom = window.document): Material {
-        return new HTMLScriptsMaterial([vertexShader, fragmentShader], dom, [], this, 0);
     }
 
     /**

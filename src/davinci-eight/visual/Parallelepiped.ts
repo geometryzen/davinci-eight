@@ -193,7 +193,7 @@ export default class Parallelepiped implements Renderable {
     }
     contextGain(contextProvider: ContextProvider): void {
         if (!this.mesh) {
-            const geometry = new GeometryArrays(void 0, this.contextManager);
+            const geometry = new GeometryArrays(this.contextManager);
 
             geometry.mode = BeginMode.TRIANGLES;
             geometry.setAttribute('aCoords', { values: aCoords, size: 3, type: DataType.FLOAT });

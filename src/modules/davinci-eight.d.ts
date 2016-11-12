@@ -473,17 +473,6 @@ declare module EIGHT {
         getViewport(): Int32Array;
 
         /**
-         * Constructs a Geometry from the specified Primitive.
-         * For more flexibility, subclass GeometryArrays or GeometryElements.
-         */
-        geometry(primitive: Primitive): Geometry;
-
-        /**
-         * Constructs a Material from the specified vertex and fragment shader.
-         */
-        material(vertexShader: string, fragmentShader: string, dom?: Document): Material;
-
-        /**
          * 
          */
         readPixels(x: number, y: number, width: number, height: number, format: PixelFormat, type: PixelType, pixels: ArrayBufferView): void;
@@ -734,11 +723,6 @@ declare module EIGHT {
      * 
      */
     function vertexArraysFromPrimitive(primitive: Primitive, order?: string[]): VertexArrays;
-
-    /**
-     *
-     */
-    function geometryFromPrimitive(primitive: Primitive, contextManager: ContextManager, options?: { order?: string[]; tilt?: SpinorE3 }): Geometry;
 
     /**
      *
@@ -3073,7 +3057,7 @@ declare module EIGHT {
         /**
          *
          */
-        constructor(primitive: Primitive, contextManager: ContextManager, options?: { order?: string[]; tilt?: SpinorE3 }, levelUp?: number);
+        constructor(contextManager: ContextManager, primitive?: Primitive, options?: { order?: string[]; tilt?: SpinorE3 }, levelUp?: number);
         protected destructor(levelUp: number): void;
         bind(material: Material): GeometryArrays;
         unbind(material: Material): GeometryArrays;

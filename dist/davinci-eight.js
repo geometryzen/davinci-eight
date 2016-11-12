@@ -551,9 +551,9 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
     var Eight = (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-11-11';
+            this.LAST_MODIFIED = '2016-11-12';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '3.0.1';
+            this.VERSION = '3.0.2';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -7775,7 +7775,7 @@ define('davinci-eight/core/GeometryArrays',["require", "exports", "./computeAttr
     "use strict";
     var GeometryArrays = (function (_super) {
         __extends(GeometryArrays, _super);
-        function GeometryArrays(primitive, contextManager, options, levelUp) {
+        function GeometryArrays(contextManager, primitive, options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
             var _this = _super.call(this, options.tilt, contextManager, levelUp + 1) || this;
@@ -9362,24 +9362,6 @@ define('davinci-eight/base/DefaultContextProvider',["require", "exports", "../co
     exports.default = DefaultContextProvider;
 });
 
-define('davinci-eight/core/geometryFromPrimitive',["require", "exports", "./GeometryArrays", "./GeometryElements", "../checks/mustBeArray"], function (require, exports, GeometryArrays_1, GeometryElements_1, mustBeArray_1) {
-    "use strict";
-    function geometryFromPrimitive(primitive, contextManager, options) {
-        if (options === void 0) { options = {}; }
-        if (options.order) {
-            mustBeArray_1.default('order', options.order);
-        }
-        if (primitive.indices) {
-            return new GeometryElements_1.default(primitive, contextManager, options, 0);
-        }
-        else {
-            return new GeometryArrays_1.default(primitive, contextManager, options, 0);
-        }
-    }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = geometryFromPrimitive;
-});
-
 define('davinci-eight/core/initWebGL',["require", "exports", "../checks/isDefined"], function (require, exports, isDefined_1) {
     "use strict";
     function initWebGL(canvas, attributes) {
@@ -9444,529 +9426,12 @@ define('davinci-eight/commands/VersionLogger',["require", "exports", "../core/Sh
     exports.default = VersionLogger;
 });
 
-define('davinci-eight/core/makeWebGLProgram',["require", "exports", "./makeWebGLShader"], function (require, exports, makeWebGLShader_1) {
-    "use strict";
-    function makeWebGLProgram(ctx, vertexShaderSrc, fragmentShaderSrc, attribs) {
-        var vs = makeWebGLShader_1.default(ctx, vertexShaderSrc, ctx.VERTEX_SHADER);
-        var fs = makeWebGLShader_1.default(ctx, fragmentShaderSrc, ctx.FRAGMENT_SHADER);
-        var program = ctx.createProgram();
-        ctx.attachShader(program, vs);
-        ctx.attachShader(program, fs);
-        for (var index = 0; index < attribs.length; ++index) {
-            ctx.bindAttribLocation(program, index, attribs[index]);
-        }
-        ctx.linkProgram(program);
-        var linked = ctx.getProgramParameter(program, ctx.LINK_STATUS);
-        if (linked || ctx.isContextLost()) {
-            return program;
-        }
-        else {
-            var message = ctx.getProgramInfoLog(program);
-            ctx.detachShader(program, vs);
-            ctx.deleteShader(vs);
-            ctx.detachShader(program, fs);
-            ctx.deleteShader(fs);
-            ctx.deleteProgram(program);
-            throw new Error("Error linking program: " + message);
-        }
-    }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = makeWebGLProgram;
-});
-
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/materials/ShaderMaterial',["require", "exports", "../core/Attrib", "../core/DataType", "../checks/isDefined", "../checks/isString", "../checks/isNull", "../core/makeWebGLProgram", "../checks/mustBeArray", "../checks/mustBeNonNullObject", "../checks/mustBeString", "../checks/mustBeUndefined", "../i18n/readOnly", "../core/ShareableContextConsumer", "../core/Uniform"], function (require, exports, Attrib_1, DataType_1, isDefined_1, isString_1, isNull_1, makeWebGLProgram_1, mustBeArray_1, mustBeNonNullObject_1, mustBeString_1, mustBeUndefined_1, readOnly_1, ShareableContextConsumer_1, Uniform_1) {
-    "use strict";
-    var ShaderMaterial = (function (_super) {
-        __extends(ShaderMaterial, _super);
-        function ShaderMaterial(vertexShaderSrc, fragmentShaderSrc, attribs, contextManager, levelUp) {
-            if (levelUp === void 0) { levelUp = 0; }
-            var _this = _super.call(this, mustBeNonNullObject_1.default('contextManager', contextManager)) || this;
-            _this._attributesByName = {};
-            _this._attributesByIndex = [];
-            _this._uniforms = {};
-            _this.setLoggingName('ShaderMaterial');
-            if (isDefined_1.default(vertexShaderSrc) && !isNull_1.default(vertexShaderSrc)) {
-                _this._vertexShaderSrc = mustBeString_1.default('vertexShaderSrc', vertexShaderSrc);
-            }
-            if (isDefined_1.default(fragmentShaderSrc) && !isNull_1.default(fragmentShaderSrc)) {
-                _this._fragmentShaderSrc = mustBeString_1.default('fragmentShaderSrc', fragmentShaderSrc);
-            }
-            _this._attribs = mustBeArray_1.default('attribs', attribs);
-            if (levelUp === 0) {
-                _this.synchUp();
-            }
-            return _this;
-        }
-        ShaderMaterial.prototype.destructor = function (levelUp) {
-            if (levelUp === 0) {
-                this.cleanUp();
-            }
-            mustBeUndefined_1.default(this._type, this._program);
-            _super.prototype.destructor.call(this, levelUp + 1);
-        };
-        ShaderMaterial.prototype.contextGain = function (context) {
-            var gl = context.gl;
-            if (!this._program && isString_1.default(this._vertexShaderSrc) && isString_1.default(this._fragmentShaderSrc)) {
-                this._program = makeWebGLProgram_1.default(gl, this._vertexShaderSrc, this._fragmentShaderSrc, this._attribs);
-                this._attributesByName = {};
-                this._attributesByIndex = [];
-                this._uniforms = {};
-                var aLen = gl.getProgramParameter(this._program, gl.ACTIVE_ATTRIBUTES);
-                for (var a = 0; a < aLen; a++) {
-                    var attribInfo = gl.getActiveAttrib(this._program, a);
-                    var attrib = new Attrib_1.default(attribInfo);
-                    this._attributesByName[attribInfo.name] = attrib;
-                    this._attributesByIndex.push(attrib);
-                }
-                var uLen = gl.getProgramParameter(this._program, gl.ACTIVE_UNIFORMS);
-                for (var u = 0; u < uLen; u++) {
-                    var uniformInfo = gl.getActiveUniform(this._program, u);
-                    this._uniforms[uniformInfo.name] = new Uniform_1.default(uniformInfo);
-                }
-                for (var aName in this._attributesByName) {
-                    if (this._attributesByName.hasOwnProperty(aName)) {
-                        this._attributesByName[aName].contextGain(gl, this._program);
-                    }
-                }
-                for (var uName in this._uniforms) {
-                    if (this._uniforms.hasOwnProperty(uName)) {
-                        this._uniforms[uName].contextGain(gl, this._program);
-                    }
-                }
-            }
-            _super.prototype.contextGain.call(this, context);
-        };
-        ShaderMaterial.prototype.contextLost = function () {
-            this._program = void 0;
-            for (var aName in this._attributesByName) {
-                if (this._attributesByName.hasOwnProperty(aName)) {
-                    this._attributesByName[aName].contextLost();
-                }
-            }
-            for (var uName in this._uniforms) {
-                if (this._uniforms.hasOwnProperty(uName)) {
-                    this._uniforms[uName].contextLost();
-                }
-            }
-            _super.prototype.contextLost.call(this);
-        };
-        ShaderMaterial.prototype.contextFree = function (context) {
-            if (this._program) {
-                var gl = context.gl;
-                if (gl) {
-                    if (!gl.isContextLost()) {
-                        gl.deleteProgram(this._program);
-                    }
-                    else {
-                    }
-                }
-                else {
-                    console.warn("memory leak: WebGLProgram has not been deleted because WebGLRenderingContext is not available anymore.");
-                }
-                this._program = void 0;
-            }
-            for (var aName in this._attributesByName) {
-                if (this._attributesByName.hasOwnProperty(aName)) {
-                    this._attributesByName[aName].contextFree();
-                }
-            }
-            for (var uName in this._uniforms) {
-                if (this._uniforms.hasOwnProperty(uName)) {
-                    this._uniforms[uName].contextFree();
-                }
-            }
-            _super.prototype.contextFree.call(this, context);
-        };
-        Object.defineProperty(ShaderMaterial.prototype, "vertexShaderSrc", {
-            get: function () {
-                return this._vertexShaderSrc;
-            },
-            set: function (vertexShaderSrc) {
-                this._vertexShaderSrc = mustBeString_1.default('vertexShaderSrc', vertexShaderSrc);
-                if (this.contextProvider) {
-                    this.contextProvider.addRef();
-                    var contextProvider = this.contextProvider;
-                    try {
-                        this.contextFree(contextProvider);
-                        this.contextGain(contextProvider);
-                    }
-                    finally {
-                        contextProvider.release();
-                    }
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(ShaderMaterial.prototype, "fragmentShaderSrc", {
-            get: function () {
-                return this._fragmentShaderSrc;
-            },
-            set: function (fragmentShaderSrc) {
-                this._fragmentShaderSrc = mustBeString_1.default('fragmentShaderSrc', fragmentShaderSrc);
-                if (this.contextProvider) {
-                    this.contextProvider.addRef();
-                    var contextProvider = this.contextProvider;
-                    try {
-                        this.contextFree(contextProvider);
-                        this.contextGain(contextProvider);
-                    }
-                    finally {
-                        contextProvider.release();
-                    }
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(ShaderMaterial.prototype, "attributeNames", {
-            get: function () {
-                var attributes = this._attributesByName;
-                if (attributes) {
-                    return Object.keys(attributes);
-                }
-                else {
-                    return void 0;
-                }
-            },
-            set: function (unused) {
-                throw new Error(readOnly_1.default('attributeNames').message);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        ShaderMaterial.prototype.enableAttrib = function (indexOrName) {
-            if (typeof indexOrName === 'number') {
-                if (this.gl) {
-                    this.gl.enableVertexAttribArray(indexOrName);
-                }
-            }
-            else if (typeof indexOrName === 'string') {
-                var attribLoc = this._attributesByName[indexOrName];
-                if (attribLoc) {
-                    attribLoc.enable();
-                }
-            }
-            else {
-                throw new TypeError("indexOrName must have type number or string.");
-            }
-        };
-        ShaderMaterial.prototype.enableAttribs = function () {
-            var attribLocations = this._attributesByName;
-            if (attribLocations) {
-                var aNames = Object.keys(attribLocations);
-                for (var i = 0, iLength = aNames.length; i < iLength; i++) {
-                    attribLocations[aNames[i]].enable();
-                }
-            }
-        };
-        ShaderMaterial.prototype.disableAttrib = function (indexOrName) {
-            if (typeof indexOrName === 'number') {
-                if (this.gl) {
-                    this.gl.disableVertexAttribArray(indexOrName);
-                }
-            }
-            else if (typeof indexOrName === 'string') {
-                var attribLoc = this._attributesByName[indexOrName];
-                if (attribLoc) {
-                    attribLoc.disable();
-                }
-            }
-            else {
-                throw new TypeError("indexOrName must have type number or string.");
-            }
-        };
-        ShaderMaterial.prototype.disableAttribs = function () {
-            var attribLocations = this._attributesByName;
-            if (attribLocations) {
-                var aNames = Object.keys(attribLocations);
-                for (var i = 0, iLength = aNames.length; i < iLength; i++) {
-                    attribLocations[aNames[i]].disable();
-                }
-            }
-        };
-        ShaderMaterial.prototype.attrib = function (name, value, size, normalized, stride, offset) {
-            if (normalized === void 0) { normalized = false; }
-            if (stride === void 0) { stride = 0; }
-            if (offset === void 0) { offset = 0; }
-            var attrib = this.getAttrib(name);
-            if (attrib) {
-                value.bind();
-                attrib.enable();
-                attrib.config(size, DataType_1.default.FLOAT, normalized, stride, offset);
-            }
-            return this;
-        };
-        ShaderMaterial.prototype.getAttrib = function (indexOrName) {
-            if (typeof indexOrName === 'number') {
-                return this._attributesByIndex[indexOrName];
-            }
-            else if (typeof indexOrName === 'string') {
-                return this._attributesByName[indexOrName];
-            }
-            else {
-                throw new TypeError("indexOrName must be a number or a string");
-            }
-        };
-        ShaderMaterial.prototype.getAttribLocation = function (name) {
-            var attribLoc = this._attributesByName[name];
-            if (attribLoc) {
-                return attribLoc.index;
-            }
-            else {
-                return -1;
-            }
-        };
-        ShaderMaterial.prototype.getUniform = function (name) {
-            var uniforms = this._uniforms;
-            if (uniforms[name]) {
-                return uniforms[name];
-            }
-            else {
-                return void 0;
-            }
-        };
-        ShaderMaterial.prototype.hasUniform = function (name) {
-            mustBeString_1.default('name', name);
-            return isDefined_1.default(this._uniforms[name]);
-        };
-        ShaderMaterial.prototype.activeTexture = function (texture) {
-            if (this.gl) {
-                this.gl.activeTexture(texture);
-            }
-        };
-        ShaderMaterial.prototype.uniform1i = function (name, x) {
-            var uniformLoc = this.getUniform(name);
-            if (uniformLoc) {
-                uniformLoc.uniform1i(x);
-            }
-        };
-        ShaderMaterial.prototype.uniform1f = function (name, x) {
-            var uniformLoc = this.getUniform(name);
-            if (uniformLoc) {
-                uniformLoc.uniform1f(x);
-            }
-        };
-        ShaderMaterial.prototype.uniform2f = function (name, x, y) {
-            var uniformLoc = this._uniforms[name];
-            if (uniformLoc) {
-                uniformLoc.uniform2f(x, y);
-            }
-        };
-        ShaderMaterial.prototype.uniform3f = function (name, x, y, z) {
-            var uniformLoc = this._uniforms[name];
-            if (uniformLoc) {
-                uniformLoc.uniform3f(x, y, z);
-            }
-        };
-        ShaderMaterial.prototype.uniform4f = function (name, x, y, z, w) {
-            var uniformLoc = this._uniforms[name];
-            if (uniformLoc) {
-                uniformLoc.uniform4f(x, y, z, w);
-            }
-        };
-        ShaderMaterial.prototype.uniform = function (name, value) {
-            var uniformLoc = this._uniforms[name];
-            if (uniformLoc) {
-                if (typeof value === 'number') {
-                    uniformLoc.uniform1f(value);
-                }
-                else if (value) {
-                    switch (value.length) {
-                        case 1: {
-                            uniformLoc.uniform1f(value[0]);
-                        }
-                        case 2: {
-                            uniformLoc.uniform2f(value[0], value[1]);
-                        }
-                        case 3: {
-                            uniformLoc.uniform3f(value[0], value[1], value[2]);
-                        }
-                        case 4: {
-                            uniformLoc.uniform4f(value[0], value[1], value[2], value[3]);
-                        }
-                    }
-                }
-            }
-            return this;
-        };
-        ShaderMaterial.prototype.use = function () {
-            var gl = this.gl;
-            if (gl) {
-                gl.useProgram(this._program);
-            }
-            else {
-                console.warn(this._type + ".use() missing WebGL rendering context.");
-            }
-            return this;
-        };
-        ShaderMaterial.prototype.matrix2fv = function (name, matrix, transpose) {
-            if (transpose === void 0) { transpose = false; }
-            var uniformLoc = this._uniforms[name];
-            if (uniformLoc) {
-                uniformLoc.matrix2fv(transpose, matrix);
-            }
-            return this;
-        };
-        ShaderMaterial.prototype.matrix3fv = function (name, matrix, transpose) {
-            if (transpose === void 0) { transpose = false; }
-            var uniformLoc = this._uniforms[name];
-            if (uniformLoc) {
-                uniformLoc.matrix3fv(transpose, matrix);
-            }
-            return this;
-        };
-        ShaderMaterial.prototype.matrix4fv = function (name, matrix, transpose) {
-            if (transpose === void 0) { transpose = false; }
-            var uniformLoc = this._uniforms[name];
-            if (uniformLoc) {
-                uniformLoc.matrix4fv(transpose, matrix);
-            }
-            return this;
-        };
-        ShaderMaterial.prototype.vector2fv = function (name, data) {
-            var uniformLoc = this._uniforms[name];
-            if (uniformLoc) {
-                uniformLoc.uniform2fv(data);
-            }
-        };
-        ShaderMaterial.prototype.vector3fv = function (name, data) {
-            var uniformLoc = this._uniforms[name];
-            if (uniformLoc) {
-                uniformLoc.uniform3fv(data);
-            }
-        };
-        ShaderMaterial.prototype.vector4fv = function (name, data) {
-            var uniformLoc = this._uniforms[name];
-            if (uniformLoc) {
-                uniformLoc.uniform4fv(data);
-            }
-        };
-        ShaderMaterial.prototype.drawArrays = function (mode, first, count) {
-            var gl = this.gl;
-            if (gl) {
-                gl.drawArrays(mode, first, count);
-            }
-            return this;
-        };
-        ShaderMaterial.prototype.drawElements = function (mode, count, type, offset) {
-            var gl = this.gl;
-            if (gl) {
-                gl.drawElements(mode, count, type, offset);
-            }
-            return this;
-        };
-        return ShaderMaterial;
-    }(ShareableContextConsumer_1.ShareableContextConsumer));
-    exports.ShaderMaterial = ShaderMaterial;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/materials/HTMLScriptsMaterial',["require", "exports", "../checks/isString", "../checks/mustBeArray", "../checks/mustBeObject", "../checks/mustBeString", "../checks/mustSatisfy", "./ShaderMaterial"], function (require, exports, isString_1, mustBeArray_1, mustBeObject_1, mustBeString_1, mustSatisfy_1, ShaderMaterial_1) {
-    "use strict";
-    function getHTMLElementById(elementId, dom) {
-        var element = dom.getElementById(mustBeString_1.default('elementId', elementId));
-        if (element) {
-            return element;
-        }
-        else {
-            throw new Error("'" + elementId + "' is not a valid element identifier.");
-        }
-    }
-    function vertexShaderSrc(vsId, dom) {
-        mustBeString_1.default('vsId', vsId);
-        mustBeObject_1.default('dom', dom);
-        return getHTMLElementById(vsId, dom).textContent;
-    }
-    function fragmentShaderSrc(fsId, dom) {
-        mustBeString_1.default('fsId', fsId);
-        mustBeObject_1.default('dom', dom);
-        return getHTMLElementById(fsId, dom).textContent;
-    }
-    function assign(elementId, dom, result) {
-        var htmlElement = dom.getElementById(elementId);
-        if (htmlElement instanceof HTMLScriptElement) {
-            var script = htmlElement;
-            if (isString_1.default(script.type)) {
-                if (script.type.indexOf('vertex') >= 0) {
-                    result[0] = elementId;
-                }
-                else if (script.type.indexOf('fragment') >= 0) {
-                    result[1] = elementId;
-                }
-                else {
-                }
-            }
-            if (isString_1.default(script.textContent)) {
-                if (script.textContent.indexOf('gl_Position') >= 0) {
-                    result[0] = elementId;
-                }
-                else if (script.textContent.indexOf('gl_FragColor') >= 0) {
-                    result[1] = elementId;
-                }
-                else {
-                }
-            }
-        }
-    }
-    function detectShaderType(scriptIds, dom) {
-        var result = [scriptIds[0], scriptIds[1]];
-        assign(scriptIds[0], dom, result);
-        assign(scriptIds[1], dom, result);
-        return result;
-    }
-    var HTMLScriptsMaterial = (function (_super) {
-        __extends(HTMLScriptsMaterial, _super);
-        function HTMLScriptsMaterial(scriptIds, dom, attribs, manager, levelUp) {
-            if (levelUp === void 0) { levelUp = 0; }
-            var _this = _super.call(this, void 0, void 0, attribs, manager, levelUp + 1) || this;
-            _this.loaded = false;
-            _this.setLoggingName('HTMLScriptsMaterial');
-            mustBeArray_1.default('scriptIds', scriptIds);
-            mustSatisfy_1.default('scriptIds', scriptIds.length === 2, function () { return 'have two script element identifiers.'; });
-            _this.scriptIds = [scriptIds[0], scriptIds[1]];
-            _this.dom = dom;
-            if (levelUp === 0) {
-                _this.synchUp();
-            }
-            return _this;
-        }
-        HTMLScriptsMaterial.prototype.destructor = function (levelUp) {
-            if (levelUp === 0) {
-                this.cleanUp();
-            }
-            _super.prototype.destructor.call(this, levelUp + 1);
-        };
-        HTMLScriptsMaterial.prototype.contextGain = function (contextProvider) {
-            if (!this.loaded) {
-                var scriptIds = detectShaderType(this.scriptIds, this.dom);
-                this.vertexShaderSrc = vertexShaderSrc(scriptIds[0], this.dom);
-                this.fragmentShaderSrc = fragmentShaderSrc(scriptIds[1], this.dom);
-                this.loaded = true;
-            }
-            _super.prototype.contextGain.call(this, contextProvider);
-        };
-        return HTMLScriptsMaterial;
-    }(ShaderMaterial_1.ShaderMaterial));
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = HTMLScriptsMaterial;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/core/Engine',["require", "exports", "./checkEnums", "./ClearBufferMask", "../commands/EIGHTLogger", "../base/DefaultContextProvider", "./geometryFromPrimitive", "./IndexBuffer", "./initWebGL", "../checks/isDefined", "../checks/mustBeObject", "../collections/ShareableArray", "./ShareableBase", "./Usage", "../commands/VersionLogger", "./VertexBuffer", "../commands/WebGLClearColor", "../commands/WebGLEnable", "../commands/WebGLDisable", "../materials/HTMLScriptsMaterial"], function (require, exports, checkEnums_1, ClearBufferMask_1, EIGHTLogger_1, DefaultContextProvider_1, geometryFromPrimitive_1, IndexBuffer_1, initWebGL_1, isDefined_1, mustBeObject_1, ShareableArray_1, ShareableBase_1, Usage_1, VersionLogger_1, VertexBuffer_1, WebGLClearColor_1, WebGLEnable_1, WebGLDisable_1, HTMLScriptsMaterial_1) {
+define('davinci-eight/core/Engine',["require", "exports", "./checkEnums", "./ClearBufferMask", "../commands/EIGHTLogger", "../base/DefaultContextProvider", "./IndexBuffer", "./initWebGL", "../checks/isDefined", "../checks/mustBeObject", "../collections/ShareableArray", "./ShareableBase", "./Usage", "../commands/VersionLogger", "./VertexBuffer", "../commands/WebGLClearColor", "../commands/WebGLEnable", "../commands/WebGLDisable"], function (require, exports, checkEnums_1, ClearBufferMask_1, EIGHTLogger_1, DefaultContextProvider_1, IndexBuffer_1, initWebGL_1, isDefined_1, mustBeObject_1, ShareableArray_1, ShareableBase_1, Usage_1, VersionLogger_1, VertexBuffer_1, WebGLClearColor_1, WebGLEnable_1, WebGLDisable_1) {
     "use strict";
     var Engine = (function (_super) {
         __extends(Engine, _super);
@@ -10145,13 +9610,6 @@ define('davinci-eight/core/Engine',["require", "exports", "./checkEnums", "./Cle
             enumerable: true,
             configurable: true
         });
-        Engine.prototype.geometry = function (primitive) {
-            return geometryFromPrimitive_1.default(primitive, this);
-        };
-        Engine.prototype.material = function (vertexShader, fragmentShader, dom) {
-            if (dom === void 0) { dom = window.document; }
-            return new HTMLScriptsMaterial_1.default([vertexShader, fragmentShader], dom, [], this, 0);
-        };
         Engine.prototype.readPixels = function (x, y, width, height, format, type, pixels) {
             if (this._gl) {
                 this._gl.readPixels(x, y, width, height, format, type, pixels);
@@ -16154,6 +15612,523 @@ define('davinci-eight/geometries/TetrahedronGeometry',["require", "exports", "..
     exports.default = TetrahedronGeometry;
 });
 
+define('davinci-eight/core/makeWebGLProgram',["require", "exports", "./makeWebGLShader"], function (require, exports, makeWebGLShader_1) {
+    "use strict";
+    function makeWebGLProgram(ctx, vertexShaderSrc, fragmentShaderSrc, attribs) {
+        var vs = makeWebGLShader_1.default(ctx, vertexShaderSrc, ctx.VERTEX_SHADER);
+        var fs = makeWebGLShader_1.default(ctx, fragmentShaderSrc, ctx.FRAGMENT_SHADER);
+        var program = ctx.createProgram();
+        ctx.attachShader(program, vs);
+        ctx.attachShader(program, fs);
+        for (var index = 0; index < attribs.length; ++index) {
+            ctx.bindAttribLocation(program, index, attribs[index]);
+        }
+        ctx.linkProgram(program);
+        var linked = ctx.getProgramParameter(program, ctx.LINK_STATUS);
+        if (linked || ctx.isContextLost()) {
+            return program;
+        }
+        else {
+            var message = ctx.getProgramInfoLog(program);
+            ctx.detachShader(program, vs);
+            ctx.deleteShader(vs);
+            ctx.detachShader(program, fs);
+            ctx.deleteShader(fs);
+            ctx.deleteProgram(program);
+            throw new Error("Error linking program: " + message);
+        }
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = makeWebGLProgram;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/materials/ShaderMaterial',["require", "exports", "../core/Attrib", "../core/DataType", "../checks/isDefined", "../checks/isString", "../checks/isNull", "../core/makeWebGLProgram", "../checks/mustBeArray", "../checks/mustBeNonNullObject", "../checks/mustBeString", "../checks/mustBeUndefined", "../i18n/readOnly", "../core/ShareableContextConsumer", "../core/Uniform"], function (require, exports, Attrib_1, DataType_1, isDefined_1, isString_1, isNull_1, makeWebGLProgram_1, mustBeArray_1, mustBeNonNullObject_1, mustBeString_1, mustBeUndefined_1, readOnly_1, ShareableContextConsumer_1, Uniform_1) {
+    "use strict";
+    var ShaderMaterial = (function (_super) {
+        __extends(ShaderMaterial, _super);
+        function ShaderMaterial(vertexShaderSrc, fragmentShaderSrc, attribs, contextManager, levelUp) {
+            if (levelUp === void 0) { levelUp = 0; }
+            var _this = _super.call(this, mustBeNonNullObject_1.default('contextManager', contextManager)) || this;
+            _this._attributesByName = {};
+            _this._attributesByIndex = [];
+            _this._uniforms = {};
+            _this.setLoggingName('ShaderMaterial');
+            if (isDefined_1.default(vertexShaderSrc) && !isNull_1.default(vertexShaderSrc)) {
+                _this._vertexShaderSrc = mustBeString_1.default('vertexShaderSrc', vertexShaderSrc);
+            }
+            if (isDefined_1.default(fragmentShaderSrc) && !isNull_1.default(fragmentShaderSrc)) {
+                _this._fragmentShaderSrc = mustBeString_1.default('fragmentShaderSrc', fragmentShaderSrc);
+            }
+            _this._attribs = mustBeArray_1.default('attribs', attribs);
+            if (levelUp === 0) {
+                _this.synchUp();
+            }
+            return _this;
+        }
+        ShaderMaterial.prototype.destructor = function (levelUp) {
+            if (levelUp === 0) {
+                this.cleanUp();
+            }
+            mustBeUndefined_1.default(this._type, this._program);
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        ShaderMaterial.prototype.contextGain = function (context) {
+            var gl = context.gl;
+            if (!this._program && isString_1.default(this._vertexShaderSrc) && isString_1.default(this._fragmentShaderSrc)) {
+                this._program = makeWebGLProgram_1.default(gl, this._vertexShaderSrc, this._fragmentShaderSrc, this._attribs);
+                this._attributesByName = {};
+                this._attributesByIndex = [];
+                this._uniforms = {};
+                var aLen = gl.getProgramParameter(this._program, gl.ACTIVE_ATTRIBUTES);
+                for (var a = 0; a < aLen; a++) {
+                    var attribInfo = gl.getActiveAttrib(this._program, a);
+                    var attrib = new Attrib_1.default(attribInfo);
+                    this._attributesByName[attribInfo.name] = attrib;
+                    this._attributesByIndex.push(attrib);
+                }
+                var uLen = gl.getProgramParameter(this._program, gl.ACTIVE_UNIFORMS);
+                for (var u = 0; u < uLen; u++) {
+                    var uniformInfo = gl.getActiveUniform(this._program, u);
+                    this._uniforms[uniformInfo.name] = new Uniform_1.default(uniformInfo);
+                }
+                for (var aName in this._attributesByName) {
+                    if (this._attributesByName.hasOwnProperty(aName)) {
+                        this._attributesByName[aName].contextGain(gl, this._program);
+                    }
+                }
+                for (var uName in this._uniforms) {
+                    if (this._uniforms.hasOwnProperty(uName)) {
+                        this._uniforms[uName].contextGain(gl, this._program);
+                    }
+                }
+            }
+            _super.prototype.contextGain.call(this, context);
+        };
+        ShaderMaterial.prototype.contextLost = function () {
+            this._program = void 0;
+            for (var aName in this._attributesByName) {
+                if (this._attributesByName.hasOwnProperty(aName)) {
+                    this._attributesByName[aName].contextLost();
+                }
+            }
+            for (var uName in this._uniforms) {
+                if (this._uniforms.hasOwnProperty(uName)) {
+                    this._uniforms[uName].contextLost();
+                }
+            }
+            _super.prototype.contextLost.call(this);
+        };
+        ShaderMaterial.prototype.contextFree = function (context) {
+            if (this._program) {
+                var gl = context.gl;
+                if (gl) {
+                    if (!gl.isContextLost()) {
+                        gl.deleteProgram(this._program);
+                    }
+                    else {
+                    }
+                }
+                else {
+                    console.warn("memory leak: WebGLProgram has not been deleted because WebGLRenderingContext is not available anymore.");
+                }
+                this._program = void 0;
+            }
+            for (var aName in this._attributesByName) {
+                if (this._attributesByName.hasOwnProperty(aName)) {
+                    this._attributesByName[aName].contextFree();
+                }
+            }
+            for (var uName in this._uniforms) {
+                if (this._uniforms.hasOwnProperty(uName)) {
+                    this._uniforms[uName].contextFree();
+                }
+            }
+            _super.prototype.contextFree.call(this, context);
+        };
+        Object.defineProperty(ShaderMaterial.prototype, "vertexShaderSrc", {
+            get: function () {
+                return this._vertexShaderSrc;
+            },
+            set: function (vertexShaderSrc) {
+                this._vertexShaderSrc = mustBeString_1.default('vertexShaderSrc', vertexShaderSrc);
+                if (this.contextProvider) {
+                    this.contextProvider.addRef();
+                    var contextProvider = this.contextProvider;
+                    try {
+                        this.contextFree(contextProvider);
+                        this.contextGain(contextProvider);
+                    }
+                    finally {
+                        contextProvider.release();
+                    }
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ShaderMaterial.prototype, "fragmentShaderSrc", {
+            get: function () {
+                return this._fragmentShaderSrc;
+            },
+            set: function (fragmentShaderSrc) {
+                this._fragmentShaderSrc = mustBeString_1.default('fragmentShaderSrc', fragmentShaderSrc);
+                if (this.contextProvider) {
+                    this.contextProvider.addRef();
+                    var contextProvider = this.contextProvider;
+                    try {
+                        this.contextFree(contextProvider);
+                        this.contextGain(contextProvider);
+                    }
+                    finally {
+                        contextProvider.release();
+                    }
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ShaderMaterial.prototype, "attributeNames", {
+            get: function () {
+                var attributes = this._attributesByName;
+                if (attributes) {
+                    return Object.keys(attributes);
+                }
+                else {
+                    return void 0;
+                }
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('attributeNames').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        ShaderMaterial.prototype.enableAttrib = function (indexOrName) {
+            if (typeof indexOrName === 'number') {
+                if (this.gl) {
+                    this.gl.enableVertexAttribArray(indexOrName);
+                }
+            }
+            else if (typeof indexOrName === 'string') {
+                var attribLoc = this._attributesByName[indexOrName];
+                if (attribLoc) {
+                    attribLoc.enable();
+                }
+            }
+            else {
+                throw new TypeError("indexOrName must have type number or string.");
+            }
+        };
+        ShaderMaterial.prototype.enableAttribs = function () {
+            var attribLocations = this._attributesByName;
+            if (attribLocations) {
+                var aNames = Object.keys(attribLocations);
+                for (var i = 0, iLength = aNames.length; i < iLength; i++) {
+                    attribLocations[aNames[i]].enable();
+                }
+            }
+        };
+        ShaderMaterial.prototype.disableAttrib = function (indexOrName) {
+            if (typeof indexOrName === 'number') {
+                if (this.gl) {
+                    this.gl.disableVertexAttribArray(indexOrName);
+                }
+            }
+            else if (typeof indexOrName === 'string') {
+                var attribLoc = this._attributesByName[indexOrName];
+                if (attribLoc) {
+                    attribLoc.disable();
+                }
+            }
+            else {
+                throw new TypeError("indexOrName must have type number or string.");
+            }
+        };
+        ShaderMaterial.prototype.disableAttribs = function () {
+            var attribLocations = this._attributesByName;
+            if (attribLocations) {
+                var aNames = Object.keys(attribLocations);
+                for (var i = 0, iLength = aNames.length; i < iLength; i++) {
+                    attribLocations[aNames[i]].disable();
+                }
+            }
+        };
+        ShaderMaterial.prototype.attrib = function (name, value, size, normalized, stride, offset) {
+            if (normalized === void 0) { normalized = false; }
+            if (stride === void 0) { stride = 0; }
+            if (offset === void 0) { offset = 0; }
+            var attrib = this.getAttrib(name);
+            if (attrib) {
+                value.bind();
+                attrib.enable();
+                attrib.config(size, DataType_1.default.FLOAT, normalized, stride, offset);
+            }
+            return this;
+        };
+        ShaderMaterial.prototype.getAttrib = function (indexOrName) {
+            if (typeof indexOrName === 'number') {
+                return this._attributesByIndex[indexOrName];
+            }
+            else if (typeof indexOrName === 'string') {
+                return this._attributesByName[indexOrName];
+            }
+            else {
+                throw new TypeError("indexOrName must be a number or a string");
+            }
+        };
+        ShaderMaterial.prototype.getAttribLocation = function (name) {
+            var attribLoc = this._attributesByName[name];
+            if (attribLoc) {
+                return attribLoc.index;
+            }
+            else {
+                return -1;
+            }
+        };
+        ShaderMaterial.prototype.getUniform = function (name) {
+            var uniforms = this._uniforms;
+            if (uniforms[name]) {
+                return uniforms[name];
+            }
+            else {
+                return void 0;
+            }
+        };
+        ShaderMaterial.prototype.hasUniform = function (name) {
+            mustBeString_1.default('name', name);
+            return isDefined_1.default(this._uniforms[name]);
+        };
+        ShaderMaterial.prototype.activeTexture = function (texture) {
+            if (this.gl) {
+                this.gl.activeTexture(texture);
+            }
+        };
+        ShaderMaterial.prototype.uniform1i = function (name, x) {
+            var uniformLoc = this.getUniform(name);
+            if (uniformLoc) {
+                uniformLoc.uniform1i(x);
+            }
+        };
+        ShaderMaterial.prototype.uniform1f = function (name, x) {
+            var uniformLoc = this.getUniform(name);
+            if (uniformLoc) {
+                uniformLoc.uniform1f(x);
+            }
+        };
+        ShaderMaterial.prototype.uniform2f = function (name, x, y) {
+            var uniformLoc = this._uniforms[name];
+            if (uniformLoc) {
+                uniformLoc.uniform2f(x, y);
+            }
+        };
+        ShaderMaterial.prototype.uniform3f = function (name, x, y, z) {
+            var uniformLoc = this._uniforms[name];
+            if (uniformLoc) {
+                uniformLoc.uniform3f(x, y, z);
+            }
+        };
+        ShaderMaterial.prototype.uniform4f = function (name, x, y, z, w) {
+            var uniformLoc = this._uniforms[name];
+            if (uniformLoc) {
+                uniformLoc.uniform4f(x, y, z, w);
+            }
+        };
+        ShaderMaterial.prototype.uniform = function (name, value) {
+            var uniformLoc = this._uniforms[name];
+            if (uniformLoc) {
+                if (typeof value === 'number') {
+                    uniformLoc.uniform1f(value);
+                }
+                else if (value) {
+                    switch (value.length) {
+                        case 1: {
+                            uniformLoc.uniform1f(value[0]);
+                        }
+                        case 2: {
+                            uniformLoc.uniform2f(value[0], value[1]);
+                        }
+                        case 3: {
+                            uniformLoc.uniform3f(value[0], value[1], value[2]);
+                        }
+                        case 4: {
+                            uniformLoc.uniform4f(value[0], value[1], value[2], value[3]);
+                        }
+                    }
+                }
+            }
+            return this;
+        };
+        ShaderMaterial.prototype.use = function () {
+            var gl = this.gl;
+            if (gl) {
+                gl.useProgram(this._program);
+            }
+            else {
+                console.warn(this._type + ".use() missing WebGL rendering context.");
+            }
+            return this;
+        };
+        ShaderMaterial.prototype.matrix2fv = function (name, matrix, transpose) {
+            if (transpose === void 0) { transpose = false; }
+            var uniformLoc = this._uniforms[name];
+            if (uniformLoc) {
+                uniformLoc.matrix2fv(transpose, matrix);
+            }
+            return this;
+        };
+        ShaderMaterial.prototype.matrix3fv = function (name, matrix, transpose) {
+            if (transpose === void 0) { transpose = false; }
+            var uniformLoc = this._uniforms[name];
+            if (uniformLoc) {
+                uniformLoc.matrix3fv(transpose, matrix);
+            }
+            return this;
+        };
+        ShaderMaterial.prototype.matrix4fv = function (name, matrix, transpose) {
+            if (transpose === void 0) { transpose = false; }
+            var uniformLoc = this._uniforms[name];
+            if (uniformLoc) {
+                uniformLoc.matrix4fv(transpose, matrix);
+            }
+            return this;
+        };
+        ShaderMaterial.prototype.vector2fv = function (name, data) {
+            var uniformLoc = this._uniforms[name];
+            if (uniformLoc) {
+                uniformLoc.uniform2fv(data);
+            }
+        };
+        ShaderMaterial.prototype.vector3fv = function (name, data) {
+            var uniformLoc = this._uniforms[name];
+            if (uniformLoc) {
+                uniformLoc.uniform3fv(data);
+            }
+        };
+        ShaderMaterial.prototype.vector4fv = function (name, data) {
+            var uniformLoc = this._uniforms[name];
+            if (uniformLoc) {
+                uniformLoc.uniform4fv(data);
+            }
+        };
+        ShaderMaterial.prototype.drawArrays = function (mode, first, count) {
+            var gl = this.gl;
+            if (gl) {
+                gl.drawArrays(mode, first, count);
+            }
+            return this;
+        };
+        ShaderMaterial.prototype.drawElements = function (mode, count, type, offset) {
+            var gl = this.gl;
+            if (gl) {
+                gl.drawElements(mode, count, type, offset);
+            }
+            return this;
+        };
+        return ShaderMaterial;
+    }(ShareableContextConsumer_1.ShareableContextConsumer));
+    exports.ShaderMaterial = ShaderMaterial;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/materials/HTMLScriptsMaterial',["require", "exports", "../checks/isString", "../checks/mustBeArray", "../checks/mustBeObject", "../checks/mustBeString", "../checks/mustSatisfy", "./ShaderMaterial"], function (require, exports, isString_1, mustBeArray_1, mustBeObject_1, mustBeString_1, mustSatisfy_1, ShaderMaterial_1) {
+    "use strict";
+    function getHTMLElementById(elementId, dom) {
+        var element = dom.getElementById(mustBeString_1.default('elementId', elementId));
+        if (element) {
+            return element;
+        }
+        else {
+            throw new Error("'" + elementId + "' is not a valid element identifier.");
+        }
+    }
+    function vertexShaderSrc(vsId, dom) {
+        mustBeString_1.default('vsId', vsId);
+        mustBeObject_1.default('dom', dom);
+        return getHTMLElementById(vsId, dom).textContent;
+    }
+    function fragmentShaderSrc(fsId, dom) {
+        mustBeString_1.default('fsId', fsId);
+        mustBeObject_1.default('dom', dom);
+        return getHTMLElementById(fsId, dom).textContent;
+    }
+    function assign(elementId, dom, result) {
+        var htmlElement = dom.getElementById(elementId);
+        if (htmlElement instanceof HTMLScriptElement) {
+            var script = htmlElement;
+            if (isString_1.default(script.type)) {
+                if (script.type.indexOf('vertex') >= 0) {
+                    result[0] = elementId;
+                }
+                else if (script.type.indexOf('fragment') >= 0) {
+                    result[1] = elementId;
+                }
+                else {
+                }
+            }
+            if (isString_1.default(script.textContent)) {
+                if (script.textContent.indexOf('gl_Position') >= 0) {
+                    result[0] = elementId;
+                }
+                else if (script.textContent.indexOf('gl_FragColor') >= 0) {
+                    result[1] = elementId;
+                }
+                else {
+                }
+            }
+        }
+    }
+    function detectShaderType(scriptIds, dom) {
+        var result = [scriptIds[0], scriptIds[1]];
+        assign(scriptIds[0], dom, result);
+        assign(scriptIds[1], dom, result);
+        return result;
+    }
+    var HTMLScriptsMaterial = (function (_super) {
+        __extends(HTMLScriptsMaterial, _super);
+        function HTMLScriptsMaterial(scriptIds, dom, attribs, manager, levelUp) {
+            if (levelUp === void 0) { levelUp = 0; }
+            var _this = _super.call(this, void 0, void 0, attribs, manager, levelUp + 1) || this;
+            _this.loaded = false;
+            _this.setLoggingName('HTMLScriptsMaterial');
+            mustBeArray_1.default('scriptIds', scriptIds);
+            mustSatisfy_1.default('scriptIds', scriptIds.length === 2, function () { return 'have two script element identifiers.'; });
+            _this.scriptIds = [scriptIds[0], scriptIds[1]];
+            _this.dom = dom;
+            if (levelUp === 0) {
+                _this.synchUp();
+            }
+            return _this;
+        }
+        HTMLScriptsMaterial.prototype.destructor = function (levelUp) {
+            if (levelUp === 0) {
+                this.cleanUp();
+            }
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        HTMLScriptsMaterial.prototype.contextGain = function (contextProvider) {
+            if (!this.loaded) {
+                var scriptIds = detectShaderType(this.scriptIds, this.dom);
+                this.vertexShaderSrc = vertexShaderSrc(scriptIds[0], this.dom);
+                this.fragmentShaderSrc = fragmentShaderSrc(scriptIds[1], this.dom);
+                this.loaded = true;
+            }
+            _super.prototype.contextGain.call(this, contextProvider);
+        };
+        return HTMLScriptsMaterial;
+    }(ShaderMaterial_1.ShaderMaterial));
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = HTMLScriptsMaterial;
+});
+
 define('davinci-eight/core/getAttribVarName',["require", "exports", "../checks/isDefined", "../checks/mustBeObject", "../checks/mustBeString"], function (require, exports, isDefined_1, mustBeObject_1, mustBeString_1) {
     "use strict";
     function getAttribVarName(attribute, varName) {
@@ -17647,7 +17622,7 @@ define('davinci-eight/visual/Basis',["require", "exports", "../core/BeginMode", 
             _this.colorB.copy(Color_1.Color.green);
             _this.uPointC.vector.copy(Vector3_1.default.vector(0, 0, 1));
             _this.colorC.copy(Color_1.Color.blue);
-            var geometry = new GeometryArrays_1.default(void 0, engine);
+            var geometry = new GeometryArrays_1.default(engine);
             geometry.mode = BeginMode_1.default.LINES;
             geometry.setAttribute('aPointIndex', { values: [0, 1, 0, 2, 0, 3], size: 1, type: DataType_1.default.FLOAT });
             geometry.setAttribute('aColorIndex', { values: [1, 1, 2, 2, 3, 3], size: 1, type: DataType_1.default.FLOAT });
@@ -19141,7 +19116,7 @@ define('davinci-eight/visual/Parallelepiped',["require", "exports", "../core/Beg
         };
         Parallelepiped.prototype.contextGain = function (contextProvider) {
             if (!this.mesh) {
-                var geometry = new GeometryArrays_1.default(void 0, this.contextManager);
+                var geometry = new GeometryArrays_1.default(this.contextManager);
                 geometry.mode = BeginMode_1.default.TRIANGLES;
                 geometry.setAttribute('aCoords', { values: aCoords, size: 3, type: DataType_1.default.FLOAT });
                 geometry.setAttribute('aFace', { values: aFaces, size: 1, type: DataType_1.default.FLOAT });
@@ -19528,7 +19503,7 @@ define('davinci-eight/visual/Turtle',["require", "exports", "../core/BeginMode",
     var TurtleGeometry = (function (_super) {
         __extends(TurtleGeometry, _super);
         function TurtleGeometry(contextManager) {
-            var _this = _super.call(this, primitive(), contextManager) || this;
+            var _this = _super.call(this, contextManager, primitive()) || this;
             _this.contextManager = contextManager;
             _this.w = 1;
             _this.h = 1;
@@ -19872,7 +19847,7 @@ define('davinci-eight/loaders/TextureLoader',["require", "exports", "../checks/m
     exports.default = TextureLoader;
 });
 
-define('davinci-eight',["require", "exports", "./davinci-eight/commands/WebGLBlendFunc", "./davinci-eight/commands/WebGLClearColor", "./davinci-eight/commands/WebGLDisable", "./davinci-eight/commands/WebGLEnable", "./davinci-eight/controls/OrbitControls", "./davinci-eight/controls/TrackballControls", "./davinci-eight/core/Attrib", "./davinci-eight/core/BeginMode", "./davinci-eight/core/BlendingFactorDest", "./davinci-eight/core/BlendingFactorSrc", "./davinci-eight/core/Capability", "./davinci-eight/core/ClearBufferMask", "./davinci-eight/core/Color", "./davinci-eight/config", "./davinci-eight/core/DataType", "./davinci-eight/core/Drawable", "./davinci-eight/core/DepthFunction", "./davinci-eight/core/GeometryArrays", "./davinci-eight/core/GeometryElements", "./davinci-eight/core/GraphicsProgramSymbols", "./davinci-eight/core/Mesh", "./davinci-eight/core/PixelFormat", "./davinci-eight/core/PixelType", "./davinci-eight/core/Scene", "./davinci-eight/core/Shader", "./davinci-eight/core/TextureMagFilter", "./davinci-eight/core/TextureMinFilter", "./davinci-eight/core/TextureParameterName", "./davinci-eight/core/TextureTarget", "./davinci-eight/core/TextureWrapMode", "./davinci-eight/core/Uniform", "./davinci-eight/core/Usage", "./davinci-eight/core/Engine", "./davinci-eight/core/VertexBuffer", "./davinci-eight/core/IndexBuffer", "./davinci-eight/core/vertexArraysFromPrimitive", "./davinci-eight/core/geometryFromPrimitive", "./davinci-eight/facets/AmbientLight", "./davinci-eight/facets/ColorFacet", "./davinci-eight/facets/DirectionalLight", "./davinci-eight/facets/ModelFacet", "./davinci-eight/facets/PointSizeFacet", "./davinci-eight/facets/ReflectionFacetE2", "./davinci-eight/facets/ReflectionFacetE3", "./davinci-eight/facets/Vector3Facet", "./davinci-eight/facets/frustumMatrix", "./davinci-eight/facets/PerspectiveCamera", "./davinci-eight/facets/perspectiveMatrix", "./davinci-eight/facets/viewMatrixFromEyeLookUp", "./davinci-eight/facets/ModelE2", "./davinci-eight/facets/ModelE3", "./davinci-eight/atoms/DrawAttribute", "./davinci-eight/atoms/DrawPrimitive", "./davinci-eight/atoms/reduce", "./davinci-eight/atoms/Vertex", "./davinci-eight/shapes/ArrowBuilder", "./davinci-eight/shapes/ConicalShellBuilder", "./davinci-eight/shapes/CylindricalShellBuilder", "./davinci-eight/shapes/RingBuilder", "./davinci-eight/geometries/Simplex", "./davinci-eight/geometries/ArrowGeometry", "./davinci-eight/geometries/BoxGeometry", "./davinci-eight/geometries/CylinderGeometry", "./davinci-eight/geometries/GridGeometry", "./davinci-eight/geometries/SphereGeometry", "./davinci-eight/geometries/TetrahedronGeometry", "./davinci-eight/materials/HTMLScriptsMaterial", "./davinci-eight/materials/LineMaterial", "./davinci-eight/materials/ShaderMaterial", "./davinci-eight/materials/MeshMaterial", "./davinci-eight/materials/PointMaterial", "./davinci-eight/materials/GraphicsProgramBuilder", "./davinci-eight/math/mathcore", "./davinci-eight/math/Vector1", "./davinci-eight/math/Matrix2", "./davinci-eight/math/Matrix3", "./davinci-eight/math/Matrix4", "./davinci-eight/math/Geometric2", "./davinci-eight/math/Geometric3", "./davinci-eight/math/Spinor2", "./davinci-eight/math/Spinor3", "./davinci-eight/math/Vector2", "./davinci-eight/math/Vector3", "./davinci-eight/math/Vector4", "./davinci-eight/math/VectorN", "./davinci-eight/utils/getCanvasElementById", "./davinci-eight/collections/ShareableArray", "./davinci-eight/collections/NumberShareableMap", "./davinci-eight/core/refChange", "./davinci-eight/core/ShareableBase", "./davinci-eight/collections/StringShareableMap", "./davinci-eight/utils/animation", "./davinci-eight/visual/Arrow", "./davinci-eight/visual/Basis", "./davinci-eight/visual/Sphere", "./davinci-eight/visual/Box", "./davinci-eight/visual/Cylinder", "./davinci-eight/visual/Curve", "./davinci-eight/visual/Grid", "./davinci-eight/visual/GridXY", "./davinci-eight/visual/GridYZ", "./davinci-eight/visual/GridZX", "./davinci-eight/visual/HollowCylinder", "./davinci-eight/visual/Parallelepiped", "./davinci-eight/visual/RigidBody", "./davinci-eight/visual/Tetrahedron", "./davinci-eight/visual/Track", "./davinci-eight/visual/Trail", "./davinci-eight/visual/Turtle", "./davinci-eight/diagram/Diagram3D", "./davinci-eight/loaders/TextureLoader"], function (require, exports, WebGLBlendFunc_1, WebGLClearColor_1, WebGLDisable_1, WebGLEnable_1, OrbitControls_1, TrackballControls_1, Attrib_1, BeginMode_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, ClearBufferMask_1, Color_1, config_1, DataType_1, Drawable_1, DepthFunction_1, GeometryArrays_1, GeometryElements_1, GraphicsProgramSymbols_1, Mesh_1, PixelFormat_1, PixelType_1, Scene_1, Shader_1, TextureMagFilter_1, TextureMinFilter_1, TextureParameterName_1, TextureTarget_1, TextureWrapMode_1, Uniform_1, Usage_1, Engine_1, VertexBuffer_1, IndexBuffer_1, vertexArraysFromPrimitive_1, geometryFromPrimitive_1, AmbientLight_1, ColorFacet_1, DirectionalLight_1, ModelFacet_1, PointSizeFacet_1, ReflectionFacetE2_1, ReflectionFacetE3_1, Vector3Facet_1, frustumMatrix_1, PerspectiveCamera_1, perspectiveMatrix_1, viewMatrixFromEyeLookUp_1, ModelE2_1, ModelE3_1, DrawAttribute_1, DrawPrimitive_1, reduce_1, Vertex_1, ArrowBuilder_1, ConicalShellBuilder_1, CylindricalShellBuilder_1, RingBuilder_1, Simplex_1, ArrowGeometry_1, BoxGeometry_1, CylinderGeometry_1, GridGeometry_1, SphereGeometry_1, TetrahedronGeometry_1, HTMLScriptsMaterial_1, LineMaterial_1, ShaderMaterial_1, MeshMaterial_1, PointMaterial_1, GraphicsProgramBuilder_1, mathcore_1, Vector1_1, Matrix2_1, Matrix3_1, Matrix4_1, Geometric2_1, Geometric3_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1, Vector4_1, VectorN_1, getCanvasElementById_1, ShareableArray_1, NumberShareableMap_1, refChange_1, ShareableBase_1, StringShareableMap_1, animation_1, Arrow_1, Basis_1, Sphere_1, Box_1, Cylinder_1, Curve_1, Grid_1, GridXY_1, GridYZ_1, GridZX_1, HollowCylinder_1, Parallelepiped_1, RigidBody_1, Tetrahedron_1, Track_1, Trail_1, Turtle_1, Diagram3D_1, TextureLoader_1) {
+define('davinci-eight',["require", "exports", "./davinci-eight/commands/WebGLBlendFunc", "./davinci-eight/commands/WebGLClearColor", "./davinci-eight/commands/WebGLDisable", "./davinci-eight/commands/WebGLEnable", "./davinci-eight/controls/OrbitControls", "./davinci-eight/controls/TrackballControls", "./davinci-eight/core/Attrib", "./davinci-eight/core/BeginMode", "./davinci-eight/core/BlendingFactorDest", "./davinci-eight/core/BlendingFactorSrc", "./davinci-eight/core/Capability", "./davinci-eight/core/ClearBufferMask", "./davinci-eight/core/Color", "./davinci-eight/config", "./davinci-eight/core/DataType", "./davinci-eight/core/Drawable", "./davinci-eight/core/DepthFunction", "./davinci-eight/core/GeometryArrays", "./davinci-eight/core/GeometryElements", "./davinci-eight/core/GraphicsProgramSymbols", "./davinci-eight/core/Mesh", "./davinci-eight/core/PixelFormat", "./davinci-eight/core/PixelType", "./davinci-eight/core/Scene", "./davinci-eight/core/Shader", "./davinci-eight/core/TextureMagFilter", "./davinci-eight/core/TextureMinFilter", "./davinci-eight/core/TextureParameterName", "./davinci-eight/core/TextureTarget", "./davinci-eight/core/TextureWrapMode", "./davinci-eight/core/Uniform", "./davinci-eight/core/Usage", "./davinci-eight/core/Engine", "./davinci-eight/core/VertexBuffer", "./davinci-eight/core/IndexBuffer", "./davinci-eight/core/vertexArraysFromPrimitive", "./davinci-eight/facets/AmbientLight", "./davinci-eight/facets/ColorFacet", "./davinci-eight/facets/DirectionalLight", "./davinci-eight/facets/ModelFacet", "./davinci-eight/facets/PointSizeFacet", "./davinci-eight/facets/ReflectionFacetE2", "./davinci-eight/facets/ReflectionFacetE3", "./davinci-eight/facets/Vector3Facet", "./davinci-eight/facets/frustumMatrix", "./davinci-eight/facets/PerspectiveCamera", "./davinci-eight/facets/perspectiveMatrix", "./davinci-eight/facets/viewMatrixFromEyeLookUp", "./davinci-eight/facets/ModelE2", "./davinci-eight/facets/ModelE3", "./davinci-eight/atoms/DrawAttribute", "./davinci-eight/atoms/DrawPrimitive", "./davinci-eight/atoms/reduce", "./davinci-eight/atoms/Vertex", "./davinci-eight/shapes/ArrowBuilder", "./davinci-eight/shapes/ConicalShellBuilder", "./davinci-eight/shapes/CylindricalShellBuilder", "./davinci-eight/shapes/RingBuilder", "./davinci-eight/geometries/Simplex", "./davinci-eight/geometries/ArrowGeometry", "./davinci-eight/geometries/BoxGeometry", "./davinci-eight/geometries/CylinderGeometry", "./davinci-eight/geometries/GridGeometry", "./davinci-eight/geometries/SphereGeometry", "./davinci-eight/geometries/TetrahedronGeometry", "./davinci-eight/materials/HTMLScriptsMaterial", "./davinci-eight/materials/LineMaterial", "./davinci-eight/materials/ShaderMaterial", "./davinci-eight/materials/MeshMaterial", "./davinci-eight/materials/PointMaterial", "./davinci-eight/materials/GraphicsProgramBuilder", "./davinci-eight/math/mathcore", "./davinci-eight/math/Vector1", "./davinci-eight/math/Matrix2", "./davinci-eight/math/Matrix3", "./davinci-eight/math/Matrix4", "./davinci-eight/math/Geometric2", "./davinci-eight/math/Geometric3", "./davinci-eight/math/Spinor2", "./davinci-eight/math/Spinor3", "./davinci-eight/math/Vector2", "./davinci-eight/math/Vector3", "./davinci-eight/math/Vector4", "./davinci-eight/math/VectorN", "./davinci-eight/utils/getCanvasElementById", "./davinci-eight/collections/ShareableArray", "./davinci-eight/collections/NumberShareableMap", "./davinci-eight/core/refChange", "./davinci-eight/core/ShareableBase", "./davinci-eight/collections/StringShareableMap", "./davinci-eight/utils/animation", "./davinci-eight/visual/Arrow", "./davinci-eight/visual/Basis", "./davinci-eight/visual/Sphere", "./davinci-eight/visual/Box", "./davinci-eight/visual/Cylinder", "./davinci-eight/visual/Curve", "./davinci-eight/visual/Grid", "./davinci-eight/visual/GridXY", "./davinci-eight/visual/GridYZ", "./davinci-eight/visual/GridZX", "./davinci-eight/visual/HollowCylinder", "./davinci-eight/visual/Parallelepiped", "./davinci-eight/visual/RigidBody", "./davinci-eight/visual/Tetrahedron", "./davinci-eight/visual/Track", "./davinci-eight/visual/Trail", "./davinci-eight/visual/Turtle", "./davinci-eight/diagram/Diagram3D", "./davinci-eight/loaders/TextureLoader"], function (require, exports, WebGLBlendFunc_1, WebGLClearColor_1, WebGLDisable_1, WebGLEnable_1, OrbitControls_1, TrackballControls_1, Attrib_1, BeginMode_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, ClearBufferMask_1, Color_1, config_1, DataType_1, Drawable_1, DepthFunction_1, GeometryArrays_1, GeometryElements_1, GraphicsProgramSymbols_1, Mesh_1, PixelFormat_1, PixelType_1, Scene_1, Shader_1, TextureMagFilter_1, TextureMinFilter_1, TextureParameterName_1, TextureTarget_1, TextureWrapMode_1, Uniform_1, Usage_1, Engine_1, VertexBuffer_1, IndexBuffer_1, vertexArraysFromPrimitive_1, AmbientLight_1, ColorFacet_1, DirectionalLight_1, ModelFacet_1, PointSizeFacet_1, ReflectionFacetE2_1, ReflectionFacetE3_1, Vector3Facet_1, frustumMatrix_1, PerspectiveCamera_1, perspectiveMatrix_1, viewMatrixFromEyeLookUp_1, ModelE2_1, ModelE3_1, DrawAttribute_1, DrawPrimitive_1, reduce_1, Vertex_1, ArrowBuilder_1, ConicalShellBuilder_1, CylindricalShellBuilder_1, RingBuilder_1, Simplex_1, ArrowGeometry_1, BoxGeometry_1, CylinderGeometry_1, GridGeometry_1, SphereGeometry_1, TetrahedronGeometry_1, HTMLScriptsMaterial_1, LineMaterial_1, ShaderMaterial_1, MeshMaterial_1, PointMaterial_1, GraphicsProgramBuilder_1, mathcore_1, Vector1_1, Matrix2_1, Matrix3_1, Matrix4_1, Geometric2_1, Geometric3_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1, Vector4_1, VectorN_1, getCanvasElementById_1, ShareableArray_1, NumberShareableMap_1, refChange_1, ShareableBase_1, StringShareableMap_1, animation_1, Arrow_1, Basis_1, Sphere_1, Box_1, Cylinder_1, Curve_1, Grid_1, GridXY_1, GridYZ_1, GridZX_1, HollowCylinder_1, Parallelepiped_1, RigidBody_1, Tetrahedron_1, Track_1, Trail_1, Turtle_1, Diagram3D_1, TextureLoader_1) {
     "use strict";
     var eight = {
         get LAST_MODIFIED() { return config_1.default.LAST_MODIFIED; },
@@ -19925,7 +19900,6 @@ define('davinci-eight',["require", "exports", "./davinci-eight/commands/WebGLBle
         get IndexBuffer() { return IndexBuffer_1.default; },
         get Color() { return Color_1.Color; },
         get vertexArraysFromPrimitive() { return vertexArraysFromPrimitive_1.default; },
-        get geometryFromPrimitive() { return geometryFromPrimitive_1.default; },
         get OrbitControls() { return OrbitControls_1.OrbitControls; },
         get TrackballControls() { return TrackballControls_1.TrackballControls; },
         get AmbientLight() { return AmbientLight_1.AmbientLight; },

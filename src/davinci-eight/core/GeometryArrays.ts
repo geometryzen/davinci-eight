@@ -45,7 +45,7 @@ export default class GeometryArrays extends GeometryBase {
     private attributes: { [name: string]: Attribute }
     private vbo: VertexBuffer;
 
-    constructor(primitive: Primitive, contextManager: ContextManager, options: { order?: string[]; tilt?: SpinorE3 } = {}, levelUp = 0) {
+    constructor(contextManager: ContextManager, primitive?: Primitive, options: { order?: string[]; tilt?: SpinorE3 } = {}, levelUp = 0) {
         super(options.tilt, contextManager, levelUp + 1);
         mustBeObject('contextManager', contextManager);
         this.setLoggingName('GeometryArrays');

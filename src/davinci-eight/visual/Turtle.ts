@@ -55,7 +55,7 @@ class TurtleGeometry extends GeometryArrays {
     private h = 1;
     private d = 1;
     constructor(private contextManager: ContextManager) {
-        super(primitive(), contextManager);
+        super(contextManager, primitive());
     }
 
     getPrincipalScale(name: string): number {

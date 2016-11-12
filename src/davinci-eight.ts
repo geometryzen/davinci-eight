@@ -47,7 +47,6 @@ import initWebGL from './davinci-eight/core/initWebGL';
 import VertexBuffer from './davinci-eight/core/VertexBuffer';
 import IndexBuffer from './davinci-eight/core/IndexBuffer';
 import vertexArraysFromPrimitive from './davinci-eight/core/vertexArraysFromPrimitive';
-import geometryFromPrimitive from './davinci-eight/core/geometryFromPrimitive';
 
 // devices
 import Keyboard from './davinci-eight/devices/Keyboard';
@@ -259,7 +258,6 @@ const eight = {
     get IndexBuffer() { return IndexBuffer },
     get Color() { return Color },
     get vertexArraysFromPrimitive() { return vertexArraysFromPrimitive },
-    get geometryFromPrimitive() { return geometryFromPrimitive },
 
     get OrbitControls() { return OrbitControls },
     get TrackballControls() { return TrackballControls },
