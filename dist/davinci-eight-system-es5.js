@@ -21756,7 +21756,7 @@ System.register("davinci-eight/visual/setColorOption.js", ["../checks/isDefined"
         execute: function () {}
     };
 });
-System.register("davinci-eight/visual/Turtle.js", ["../core/BeginMode", "../core/Color", "../core/DataType", "../core/GeometryArrays", "../materials/LineMaterial", "./mustBeEngine", "./RigidBody", "./setColorOption"], function (exports_1, context_1) {
+System.register("davinci-eight/visual/Turtle.js", ["../core/BeginMode", "../core/Color", "../core/DataType", "../math/Geometric3", "../core/GeometryArrays", "../materials/LineMaterial", "./mustBeEngine", "./RigidBody", "./setColorOption"], function (exports_1, context_1) {
     "use strict";
 
     var __extends = this && this.__extends || function (d, b) {
@@ -21770,20 +21770,46 @@ System.register("davinci-eight/visual/Turtle.js", ["../core/BeginMode", "../core
     function concat(a, b) {
         return a.concat(b);
     }
-    function primitive() {
-        var aPosition = {
-            values: [[CENTER, LEFT, CENTER, TAIL].reduce(concat), [NOSE, LLEG].reduce(concat), [NOSE, RLEG].reduce(concat), [LLEG, RLEG].reduce(concat)].reduce(concat),
-            size: CENTER.length,
-            type: DataType_1.default.FLOAT
-        };
+    function transform(xs, options) {
+        if (options.tilt || options.offset) {
+            var points = xs.map(function (coords) {
+                return Geometric3_1.Geometric3.vector(coords[0], coords[1], coords[2]);
+            });
+            if (options.tilt) {
+                points.forEach(function (point) {
+                    point.rotate(options.tilt);
+                });
+            }
+            if (options.offset) {
+                points.forEach(function (point) {
+                    point.addVector(options.offset);
+                });
+            }
+            return points.map(function (point) {
+                return [point.x, point.y, point.z];
+            });
+        } else {
+            return xs;
+        }
+    }
+    function initialAxis(options) {
+        if (options.tilt) {
+            return Geometric3_1.Geometric3.e3().rotate(options.tilt);
+        } else {
+            return { x: 0, y: 0, z: 1 };
+        }
+    }
+    function primitive(options) {
+        var values = transform([CENTER, LEFT, CENTER, TAIL, NOSE, LLEG, NOSE, RLEG, LLEG, RLEG], options).reduce(concat);
         var result = {
             mode: BeginMode_1.default.LINES,
-            attributes: {}
+            attributes: {
+                'aPosition': { values: values, size: CENTER.length, type: DataType_1.default.FLOAT }
+            }
         };
-        result.attributes['aPosition'] = aPosition;
         return result;
     }
-    var BeginMode_1, Color_1, DataType_1, GeometryArrays_1, LineMaterial_1, mustBeEngine_1, RigidBody_1, setColorOption_1, NOSE, LLEG, RLEG, TAIL, CENTER, LEFT, TurtleGeometry, Turtle;
+    var BeginMode_1, Color_1, DataType_1, Geometric3_1, GeometryArrays_1, LineMaterial_1, mustBeEngine_1, RigidBody_1, setColorOption_1, NOSE, LLEG, RLEG, TAIL, CENTER, LEFT, TurtleGeometry, Turtle;
     return {
         setters: [function (BeginMode_1_1) {
             BeginMode_1 = BeginMode_1_1;
@@ -21791,6 +21817,8 @@ System.register("davinci-eight/visual/Turtle.js", ["../core/BeginMode", "../core
             Color_1 = Color_1_1;
         }, function (DataType_1_1) {
             DataType_1 = DataType_1_1;
+        }, function (Geometric3_1_1) {
+            Geometric3_1 = Geometric3_1_1;
         }, function (GeometryArrays_1_1) {
             GeometryArrays_1 = GeometryArrays_1_1;
         }, function (LineMaterial_1_1) {
@@ -21811,8 +21839,11 @@ System.register("davinci-eight/visual/Turtle.js", ["../core/BeginMode", "../core
             LEFT = [-0.5, 0, 0];
             TurtleGeometry = function (_super) {
                 __extends(TurtleGeometry, _super);
-                function TurtleGeometry(contextManager) {
-                    var _this = _super.call(this, contextManager, primitive()) || this;
+                function TurtleGeometry(contextManager, options) {
+                    if (options === void 0) {
+                        options = {};
+                    }
+                    var _this = _super.call(this, contextManager, primitive(options), options) || this;
                     _this.contextManager = contextManager;
                     _this.w = 1;
                     _this.h = 1;
@@ -21874,9 +21905,12 @@ System.register("davinci-eight/visual/Turtle.js", ["../core/BeginMode", "../core
                     if (levelUp === void 0) {
                         levelUp = 0;
                     }
-                    var _this = _super.call(this, mustBeEngine_1.default(engine, 'Turtle'), { x: 0, y: 0, z: 1 }, levelUp + 1) || this;
+                    var _this = _super.call(this, mustBeEngine_1.default(engine, 'Turtle'), initialAxis(options), levelUp + 1) || this;
                     _this.setLoggingName('Turtle');
-                    var geometry = new TurtleGeometry(engine);
+                    var geoOptions = {};
+                    geoOptions.tilt = options.tilt;
+                    geoOptions.offset = options.offset;
+                    var geometry = new TurtleGeometry(engine, geoOptions);
                     _this.geometry = geometry;
                     geometry.release();
                     var material = new LineMaterial_1.LineMaterial(engine);
@@ -22496,7 +22530,7 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
                     this.LAST_MODIFIED = '2016-11-12';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '3.0.3';
+                    this.VERSION = '3.0.4';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];

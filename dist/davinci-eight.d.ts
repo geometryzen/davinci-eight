@@ -4348,7 +4348,7 @@ declare module EIGHT {
     class Turtle extends RigidBody {
         height: number;
         width: number;
-        constructor(engine: Engine, options: TurtleOptions);
+        constructor(engine: Engine, options?: TurtleOptions);
         protected destructor(levelUp: number): void;
     }
 
