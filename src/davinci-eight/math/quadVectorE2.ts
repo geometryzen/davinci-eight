@@ -5,16 +5,16 @@ import VectorE2 from '../math/VectorE2';
 
 export default function quadVectorE2(vector: VectorE2): number {
     if (isDefined(vector)) {
-        var x = vector.x
-        var y = vector.y
+        const x = vector.x;
+        const y = vector.y;
         if (isNumber(x) && isNumber(y)) {
-            return dotVectorCartesianE2(x, y, x, y)
+            return dotVectorCartesianE2(x, y, x, y);
         }
         else {
-            return void 0
+            return void 0;
         }
     }
     else {
-        return void 0
+        return void 0;
     }
 }

@@ -47,7 +47,6 @@ const magicCode = Math.random();
 export default class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
 
     /**
-     *
      * @param coordinates
      * @param code
      */
@@ -134,7 +133,7 @@ export default class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
      * </p>
      * @param spinor
      * @param α
-     * @return {Spinor3} <code>this</code>
+     * @return this
      */
     add(spinor: SpinorE3, α = 1): Spinor3 {
         mustBeObject('spinor', spinor);
@@ -151,10 +150,9 @@ export default class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
      * <code>this ⟼ a + b</code>
      * </p>
      * @method add2
-     * @param a {SpinorE3}
-     * @param b {SpinorE3}
-     * @return {Spinor3} <code>this</code>
-     * @chainable
+     * @param a
+     * @param b
+     * @return this
      */
     add2(a: SpinorE3, b: SpinorE3): Spinor3 {
         this.a = a.a + b.a;
@@ -173,13 +171,10 @@ export default class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
     }
 
     /**
-     * <p>
-     * <code>this ⟼ this + α</code>
-     * </p>
-     * @method addScalar
-     * @param α {number}
-     * @return {Spinor3} <code>this</code>
-     * @chainable
+     * this ⟼ this + α
+     *
+     * @param α
+     * @return this
      */
     addScalar(α: number): Spinor3 {
         mustBeNumber('α', α);

@@ -28,7 +28,7 @@ function concat<T>(a: T[], b: T[]) { return a.concat(b); }
  */
 function transform(xs: number[][], options: { tilt?: SpinorE3, offset?: VectorE3 }): number[][] {
     if (options.tilt || options.offset) {
-        const points = xs.map(function (coords) { return Geometric3.vector(coords[0], coords[1], coords[2]) });
+        const points = xs.map(function (coords) { return Geometric3.vector(coords[0], coords[1], coords[2]); });
         if (options.tilt) {
             points.forEach(function (point) {
                 point.rotate(options.tilt);
@@ -39,7 +39,7 @@ function transform(xs: number[][], options: { tilt?: SpinorE3, offset?: VectorE3
                 point.addVector(options.offset);
             });
         }
-        return points.map(function (point) { return [point.x, point.y, point.z] });
+        return points.map(function (point) { return [point.x, point.y, point.z]; });
     }
     else {
         return xs;

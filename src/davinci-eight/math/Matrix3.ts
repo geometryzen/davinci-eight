@@ -56,8 +56,8 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
      * @chainable
      */
     add2(a: Matrix3, b: Matrix3): Matrix3 {
-        add3x3(a.elements, b.elements, this.elements)
-        return this
+        add3x3(a.elements, b.elements, this.elements);
+        return this;
     }
 
     /**
@@ -68,7 +68,7 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
      * @chainable
      */
     clone(): Matrix3 {
-        return Matrix3.zero().copy(this)
+        return Matrix3.zero().copy(this);
     }
 
     /**
@@ -78,7 +78,7 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
      * @return {number}
      */
     det(): number {
-        return det3x3(this.elements)
+        return det3x3(this.elements);
     }
 
     /**
@@ -95,8 +95,8 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
      */
     private invertUpperLeft(matrix: Matrix4, throwOnSingular = false): Matrix3 {
 
-        const me = matrix.elements
-        const te = this.elements
+        const me = matrix.elements;
+        const te = this.elements;
 
         // Compute the determinants of the minors.
         // This is the Laplacian development by minors.
@@ -117,18 +117,18 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
             if (throwOnSingular) {
                 // FIXME: At this point we have mutated this matrix.
                 // It would be better to leave it unchanged.
-                throw new Error(msg)
+                throw new Error(msg);
             }
             else {
-                console.warn(msg)
+                console.warn(msg);
                 // We set to the identity matrix to minimize the damage when used in a WebGL shader.
-                this.one()
+                this.one();
             }
-            return this
+            return this;
         }
         else {
-            this.scale(1 / det)
-            return this
+            this.scale(1 / det);
+            return this;
         }
     }
 
@@ -138,8 +138,8 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
      * @chainable
      */
     inv(): Matrix3 {
-        inv3x3(this.elements, this.elements)
-        return this
+        inv3x3(this.elements, this.elements);
+        return this;
     }
 
     /**
@@ -173,7 +173,7 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
      * @chainable
      */
     mul(rhs: Matrix3): Matrix3 {
-        return this.mul2(this, rhs)
+        return this.mul2(this, rhs);
     }
 
     /**
@@ -183,8 +183,8 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
      * @chainable
      */
     rmul(lhs: Matrix3): Matrix3 {
-        mul3x3(lhs.elements, this.elements, this.elements)
-        return this
+        mul3x3(lhs.elements, this.elements, this.elements);
+        return this;
     }
 
     /**
@@ -195,8 +195,8 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
      * @chainable
      */
     mul2(a: Matrix3, b: Matrix3): Matrix3 {
-        mul3x3(a.elements, b.elements, this.elements)
-        return this
+        mul3x3(a.elements, b.elements, this.elements);
+        return this;
     }
 
     /**
@@ -205,7 +205,7 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
      * @chainable
      */
     neg(): Matrix3 {
-        return this.scale(-1)
+        return this.scale(-1);
     }
 
     /**
@@ -220,7 +220,7 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
      * @chainable
      */
     normalFromMatrix4(m: Matrix4): Matrix3 {
-        return this.invertUpperLeft(m).transpose()
+        return this.invertUpperLeft(m).transpose();
     }
 
     /**
@@ -229,7 +229,7 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
      * @chainable
      */
     one(): Matrix3 {
-        return this.set(1, 0, 0, 0, 1, 0, 0, 0, 1)
+        return this.set(1, 0, 0, 0, 1, 0, 0, 0, 1);
     }
 
     /**
@@ -247,13 +247,13 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
      */
     reflection(n: VectorE2): Matrix3 {
 
-        const nx = mustBeNumber('n.x', n.x)
-        const ny = mustBeNumber('n.y', n.y)
+        const nx = mustBeNumber('n.x', n.x);
+        const ny = mustBeNumber('n.y', n.y);
 
-        const aa = -2 * nx * ny
+        const aa = -2 * nx * ny;
 
-        const xx = 1 - 2 * nx * nx
-        const yy = 1 - 2 * ny * ny
+        const xx = 1 - 2 * nx * nx;
+        const yy = 1 - 2 * ny * ny;
 
         this.set(
             xx, aa, 0,
@@ -269,8 +269,8 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
      * @return {number[]}
      */
     row(i: number): number[] {
-        const te = this.elements
-        return [te[0 + i], te[3 + i], te[6 + i]]
+        const te = this.elements;
+        return [te[0 + i], te[3 + i], te[6 + i]];
     }
 
     /**
@@ -281,7 +281,7 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
      */
     rotate(spinor: SpinorE2): Matrix3 {
         // TODO: This is creating a temporary.
-        return this.rmul(Matrix3.rotation(spinor))
+        return this.rmul(Matrix3.rotation(spinor));
     }
 
     /**
@@ -291,12 +291,12 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
      * @chainable
      */
     rotation(spinor: SpinorE2): Matrix3 {
-        const α = spinor.a
-        const β = spinor.b
-        const S = α * α - β * β
-        const A = 2 * α * β
-        this.set(S, A, 0, -A, S, 0, 0, 0, 1)
-        return this
+        const α = spinor.a;
+        const β = spinor.b;
+        const S = α * α - β * β;
+        const A = 2 * α * β;
+        this.set(S, A, 0, -A, S, 0, 0, 0, 1);
+        return this;
     }
 
     /**
@@ -388,7 +388,7 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
         const m13 = t13 - r13;
         const m23 = t23 - r23;
         const m33 = t33 - r33;
-        return this.set(m11, m12, m13, m21, m22, m23, m31, m32, m33)
+        return this.set(m11, m12, m13, m21, m22, m23, m31, m32, m33);
     }
 
     /**
@@ -398,8 +398,8 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
      */
     toExponential(fractionDigits?: number): string {
         const text: string[] = [];
-        for (var i = 0; i < this.dimensions; i++) {
-            text.push(this.row(i).map(function(element: number, index: number) { return element.toExponential(fractionDigits) }).join(' '));
+        for (let i = 0; i < this.dimensions; i++) {
+            text.push(this.row(i).map(function (element: number, index: number) { return element.toExponential(fractionDigits); }).join(' '));
         }
         return text.join('\n');
     }
@@ -411,8 +411,8 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
      */
     toFixed(fractionDigits?: number): string {
         const text: string[] = [];
-        for (var i = 0; i < this.dimensions; i++) {
-            text.push(this.row(i).map(function(element: number, index: number) { return element.toFixed(fractionDigits) }).join(' '));
+        for (let i = 0; i < this.dimensions; i++) {
+            text.push(this.row(i).map(function (element: number, index: number) { return element.toFixed(fractionDigits); }).join(' '));
         }
         return text.join('\n');
     }
@@ -424,8 +424,8 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
      */
     toPrecision(precision?: number): string {
         const text: string[] = [];
-        for (var i = 0; i < this.dimensions; i++) {
-            text.push(this.row(i).map(function(element: number, index: number) { return element.toPrecision(precision) }).join(' '));
+        for (let i = 0; i < this.dimensions; i++) {
+            text.push(this.row(i).map(function (element: number, index: number) { return element.toPrecision(precision); }).join(' '));
         }
         return text.join('\n');
     }
@@ -437,8 +437,8 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
      */
     toString(radix?: number): string {
         const text: string[] = [];
-        for (var i = 0; i < this.dimensions; i++) {
-            text.push(this.row(i).map(function(element: number, index: number) { return element.toString(radix) }).join(' '));
+        for (let i = 0; i < this.dimensions; i++) {
+            text.push(this.row(i).map(function (element: number, index: number) { return element.toString(radix); }).join(' '));
         }
         return text.join('\n');
     }
@@ -453,12 +453,12 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
      * @chainable
      */
     translation(d: VectorE2): Matrix3 {
-        const x = d.x
-        const y = d.y
+        const x = d.x;
+        const y = d.y;
         return this.set(
             1, 0, x,
             0, 1, y,
-            0, 0, 1)
+            0, 0, 1);
     }
 
     /**
@@ -489,81 +489,81 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
 
     __add__(rhs: any): Matrix3 {
         if (rhs instanceof Matrix3) {
-            return this.clone().add(rhs)
+            return this.clone().add(rhs);
         }
         // TODO: Interpret this as I * rhs?
         //        else if (typeof rhs === 'number') {
         //            return this.clone().scale(rhs);
         //        }
         else {
-            return void 0
+            return void 0;
         }
     }
 
     __radd__(lhs: any): Matrix3 {
         if (lhs instanceof Matrix3) {
-            return lhs.clone().add(this)
+            return lhs.clone().add(this);
         }
         // TODO: Interpret this as I * rhs?
         //        else if (typeof rhs === 'number') {
         //            return this.clone().scale(rhs);
         //        }
         else {
-            return void 0
+            return void 0;
         }
     }
 
     __mul__(rhs: any): Matrix3 {
         if (rhs instanceof Matrix3) {
-            return this.clone().mul(rhs)
+            return this.clone().mul(rhs);
         }
         else if (typeof rhs === 'number') {
             return this.clone().scale(rhs);
         }
         else {
-            return void 0
+            return void 0;
         }
     }
 
     __rmul__(lhs: any): Matrix3 {
         if (lhs instanceof Matrix3) {
-            return lhs.clone().mul(this)
+            return lhs.clone().mul(this);
         }
         else if (typeof lhs === 'number') {
             return this.clone().scale(lhs);
         }
         else {
-            return void 0
+            return void 0;
         }
     }
 
     __pos__(): Matrix3 {
-        return this.clone()
+        return this.clone();
     }
 
     __neg__(): Matrix3 {
-        return this.clone().scale(-1)
+        return this.clone().scale(-1);
     }
 
     __sub__(rhs: any): Matrix3 {
         if (rhs instanceof Matrix3) {
-            return this.clone().sub(rhs)
+            return this.clone().sub(rhs);
         }
         // TODO: Interpret this as I * rhs?
         //        else if (typeof rhs === 'number') {
         //            return this.clone().scale(rhs);
         //        }
         else {
-            return void 0
+            return void 0;
         }
     }
 
     __rsub__(lhs: any): Matrix3 {
         if (lhs instanceof Matrix3) {
-            return lhs.clone().sub(this)
+            return lhs.clone().sub(this);
         }
         else {
-            return void 0
+            return void 0;
         }
     }
 
@@ -588,7 +588,7 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
      * @chainable
      */
     public static reflection(n: VectorE2): Matrix3 {
-        return Matrix3.zero().reflection(n)
+        return Matrix3.zero().reflection(n);
     }
 
     /**
@@ -599,7 +599,7 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
      * @chainable
      */
     public static rotation(spinor: SpinorE2): Matrix3 {
-        return Matrix3.zero().rotation(spinor)
+        return Matrix3.zero().rotation(spinor);
     }
 
     /**
@@ -610,7 +610,7 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
      * @chainable
      */
     public static translation(d: VectorE2): Matrix3 {
-        return Matrix3.zero().translation(d)
+        return Matrix3.zero().translation(d);
     }
 
     /**

@@ -551,9 +551,9 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
     var Eight = (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-11-12';
+            this.LAST_MODIFIED = '2016-11-13';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '3.0.4';
+            this.VERSION = '3.1.0';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -1858,7 +1858,7 @@ define('davinci-eight/math/mulE3',["require", "exports"], function (require, exp
 
 define('davinci-eight/math/mulG3',["require", "exports", "../math/compG3Get", "../math/mulE3"], function (require, exports, compG3Get_1, mulE3_1) {
     "use strict";
-    function default_1(a, b, out) {
+    function mulG3(a, b, out) {
         var a0 = a.a;
         var a1 = a.x;
         var a2 = a.y;
@@ -1881,7 +1881,7 @@ define('davinci-eight/math/mulG3',["require", "exports", "../math/compG3Get", ".
         }
     }
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = default_1;
+    exports.default = mulG3;
 });
 
 define('davinci-eight/math/randomRange',["require", "exports"], function (require, exports) {
@@ -3371,38 +3371,38 @@ define('davinci-eight/facets/getViewAttitude',["require", "exports", "../math/Ge
 
 define('davinci-eight/math/mulSpinorE3YZ',["require", "exports"], function (require, exports) {
     "use strict";
-    function default_1(R, S) {
+    function mulSpinorE3YZ(R, S) {
         return R.yz * S.a - R.zx * S.xy + R.xy * S.zx + R.a * S.yz;
     }
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = default_1;
+    exports.default = mulSpinorE3YZ;
 });
 
 define('davinci-eight/math/mulSpinorE3ZX',["require", "exports"], function (require, exports) {
     "use strict";
-    function default_1(R, S) {
+    function mulSpinorE3ZX(R, S) {
         return R.yz * S.xy + R.zx * S.a - R.xy * S.yz + R.a * S.zx;
     }
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = default_1;
+    exports.default = mulSpinorE3ZX;
 });
 
 define('davinci-eight/math/mulSpinorE3XY',["require", "exports"], function (require, exports) {
     "use strict";
-    function default_1(R, S) {
+    function mulSpinorE3XY(R, S) {
         return -R.yz * S.zx + R.zx * S.yz + R.xy * S.a + R.a * S.xy;
     }
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = default_1;
+    exports.default = mulSpinorE3XY;
 });
 
 define('davinci-eight/math/mulSpinorE3alpha',["require", "exports"], function (require, exports) {
     "use strict";
-    function default_1(R, S) {
+    function mulSpinorE3alpha(R, S) {
         return -R.yz * S.yz - R.zx * S.zx - R.xy * S.xy + R.a * S.a;
     }
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = default_1;
+    exports.default = mulSpinorE3alpha;
 });
 
 define('davinci-eight/checks/mustBeObject',["require", "exports", "../checks/mustSatisfy", "../checks/isObject"], function (require, exports, mustSatisfy_1, isObject_1) {

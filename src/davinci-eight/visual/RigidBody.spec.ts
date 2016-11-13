@@ -51,7 +51,7 @@ describe('RigidBody', function () {
         engine.release();
     });
     it("charge should default to 0", function () {
-        const engine = new Engine()
+        const engine = new Engine();
         const geometry = new SphereGeometry(engine);
         const material = new MeshMaterial(engine, null);
         const direction = new Vector3();

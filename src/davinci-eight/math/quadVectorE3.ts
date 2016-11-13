@@ -5,17 +5,17 @@ import isNumber from '../checks/isNumber';
 
 export default function quadVectorE3(vector: VectorE3): number {
     if (isDefined(vector)) {
-        const x = vector.x
-        const y = vector.y
-        const z = vector.z
+        const x = vector.x;
+        const y = vector.y;
+        const z = vector.z;
         if (isNumber(x) && isNumber(y) && isNumber(z)) {
-            return dotVectorCartesianE3(x, y, z, x, y, z)
+            return dotVectorCartesianE3(x, y, z, x, y, z);
         }
         else {
-            return void 0
+            return void 0;
         }
     }
     else {
-        return void 0
+        return void 0;
     }
 }

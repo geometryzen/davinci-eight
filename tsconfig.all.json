@@ -74,6 +74,7 @@
         "src/davinci-eight/visual/Curve.spec.ts",
         "src/davinci-eight/visual/Cylinder.spec.ts",
         "src/davinci-eight/visual/Grid.spec.ts",
+        "src/davinci-eight/visual/Group.spec.ts",
         "src/davinci-eight/visual/HollowCylinder.ts",
         "src/davinci-eight/visual/RigidBody.spec.ts",
         "src/davinci-eight/visual/Sphere.spec.ts",

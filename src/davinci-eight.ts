@@ -172,6 +172,7 @@ import { Grid } from './davinci-eight/visual/Grid';
 import GridXY from './davinci-eight/visual/GridXY';
 import GridYZ from './davinci-eight/visual/GridYZ';
 import GridZX from './davinci-eight/visual/GridZX';
+import Group from './davinci-eight/visual/Group';
 import HollowCylinder from './davinci-eight/visual/HollowCylinder';
 import Parallelepiped from './davinci-eight/visual/Parallelepiped';
 import { RigidBody } from './davinci-eight/visual/RigidBody';

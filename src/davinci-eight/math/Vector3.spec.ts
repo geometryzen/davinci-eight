@@ -28,7 +28,7 @@ describe("Vector3", function () {
         describe("__add__", function () {
             const a = new Vector3([1, 2, 3]);
             const b = new Vector3([3, 2, 1]);
-            const q = a.__add__(b)
+            const q = a.__add__(b);
             it("(rhs is vector)", function () {
                 expect(q.x).toBe(4);
                 expect(q.y).toBe(4);
@@ -48,7 +48,7 @@ describe("Vector3", function () {
         describe("__radd__", function () {
             const a = new Vector3([1, 2, 3]);
             const b = new Vector3([3, 2, 1]);
-            const q = a.__radd__(b)
+            const q = a.__radd__(b);
             it("(rhs is vector)", function () {
                 expect(q.x).toBe(4);
                 expect(q.y).toBe(4);
@@ -68,7 +68,7 @@ describe("Vector3", function () {
         describe("__sub__", function () {
             const a = new Vector3([6, 4, 2]);
             const b = new Vector3([3, 2, 1]);
-            const q = a.__sub__(b)
+            const q = a.__sub__(b);
             it("(rhs is vector)", function () {
                 expect(q.x).toBe(3);
                 expect(q.y).toBe(2);
@@ -88,7 +88,7 @@ describe("Vector3", function () {
         describe("__rsub__", function () {
             const a = new Vector3([3, 2, 1]);
             const b = new Vector3([6, 4, 2]);
-            const q = a.__rsub__(b)
+            const q = a.__rsub__(b);
             it("(lhs is vector)", function () {
                 expect(q.x).toBe(3);
                 expect(q.y).toBe(2);
@@ -108,7 +108,7 @@ describe("Vector3", function () {
         describe("__mul__", function () {
             const a = new Vector3([1, 2, 3]);
             const α = 2;
-            const q = a.__mul__(α)
+            const q = a.__mul__(α);
             it("(rhs is number)", function () {
                 expect(q.x).toBe(2);
                 expect(q.y).toBe(4);
@@ -123,7 +123,7 @@ describe("Vector3", function () {
         describe("__rmul__", function () {
             const a = new Vector3([1, 2, 3]);
             const α = 2;
-            const q = a.__rmul__(α)
+            const q = a.__rmul__(α);
             it("(lhs is number)", function () {
                 expect(q.x).toBe(2);
                 expect(q.y).toBe(4);
@@ -138,7 +138,7 @@ describe("Vector3", function () {
         describe("__div__", function () {
             const a = new Vector3([2, 4, 6]);
             const α = 2;
-            const q = a.__div__(α)
+            const q = a.__div__(α);
             it("(rhs is number)", function () {
                 expect(q.x).toBe(1);
                 expect(q.y).toBe(2);
@@ -153,7 +153,7 @@ describe("Vector3", function () {
         describe("__rdiv__", function () {
             const a = new Vector3([2, 4, 6]);
             const α = 2;
-            const q = a.__rdiv__(α)
+            const q = a.__rdiv__(α);
             it("(lhs is number)", function () {
                 expect(q).toBeUndefined();
             });
@@ -165,7 +165,7 @@ describe("Vector3", function () {
         });
         describe("__neg__", function () {
             const a = new Vector3([1, 2, 3]);
-            const b = a.__neg__()
+            const b = a.__neg__();
             it("should have negated coordinates", function () {
                 expect(b.x).toBe(-a.x);
                 expect(b.y).toBe(-a.y);
@@ -179,7 +179,7 @@ describe("Vector3", function () {
         });
         describe("__pos__", function () {
             const a = new Vector3([1, 2, 3]);
-            const b = a.__pos__()
+            const b = a.__pos__();
             it("should have same coordinates", function () {
                 expect(b.x).toBe(a.x);
                 expect(b.y).toBe(a.y);

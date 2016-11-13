@@ -9,7 +9,7 @@ const e2: Geometric3 = Geometric3.e2();
 
 describe("Arrow", function () {
     it("new-release", function () {
-        const engine = new Engine()
+        const engine = new Engine();
         const arrow = new Arrow(engine);
         expect(arrow.isZombie()).toBe(false);
         arrow.release();

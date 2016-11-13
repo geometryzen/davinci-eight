@@ -1,6 +1,6 @@
 import AbstractMatrix from '../math/AbstractMatrix';
 import add4x4 from '../math/add4x4';
-import det4x4 from './det4x4'
+import det4x4 from './det4x4';
 import inv4x4 from '../math/inv4x4';
 import mul4x4 from '../math/mul4x4';
 import perspectiveArray from '../facets/perspectiveArray';
@@ -96,8 +96,8 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
      * @chainable
      */
     add2(a: Matrix4, b: Matrix4): Matrix4 {
-        add4x4(a.elements, b.elements, this.elements)
-        return this
+        add4x4(a.elements, b.elements, this.elements);
+        return this;
     }
 
     /**
@@ -132,7 +132,7 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
      * @chainable
      */
     copy(m: Matrix4): Matrix4 {
-        this.elements.set(m.elements)
+        this.elements.set(m.elements);
         return this;
     }
 
@@ -142,7 +142,7 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
      * @return {number}
      */
     det(): number {
-        return det4x4(this.elements)
+        return det4x4(this.elements);
     }
 
     /**
@@ -150,8 +150,8 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
      * @return {Matrix4}
      */
     inv(): Matrix4 {
-        inv4x4(this.elements, this.elements)
-        return this
+        inv4x4(this.elements, this.elements);
+        return this;
     }
 
     /**
@@ -334,7 +334,7 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
      * @chainable
      */
     rotate(spinor: SpinorE3): Matrix4 {
-        return this.rmul(Matrix4.rotation(spinor))
+        return this.rmul(Matrix4.rotation(spinor));
     }
 
     /**
@@ -386,10 +386,7 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
     }
 
     /**
-     * @method scaleXYZ
-     * @param scale {VectorE3}
-     * @return {Matrix4}
-     * @chainable
+     *
      */
     scaleXYZ(scale: VectorE3): Matrix4 {
         // We treat the scale operation as pre-multiplication: 
@@ -403,23 +400,18 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
         // |m[1] m[5] m[9] m[D]| * |0 y 0 0| = |x * m[1] y * m[5] z * m[9]     m[D]|
         // |m[2] m[6] m[A] m[E]|   |0 0 z 0|   |x * m[2] y * m[6] z * m[A]     m[E]|
         // |m[3] m[7] m[B] m[F]|   |0 0 0 1|   |x * m[3] y * m[7] z * m[B]     m[F]|
-        return this.rmul(Matrix4.scaling(scale))
+        return this.rmul(Matrix4.scaling(scale));
     }
 
     /**
-     * @method scaling
-     * @param scale {VectorE3}
-     * @return {Matrix4}
-     * @chainable
+     *
      */
     scaling(scale: VectorE3): Matrix4 {
         return this.set(scale.x, 0, 0, 0, 0, scale.y, 0, 0, 0, 0, scale.z, 0, 0, 0, 0, 1);
     }
 
     /**
-     * @method set
-     * @return {Matrix4}
-     * @chainable
+     *
      */
     public set(
         n11: number,
@@ -450,82 +442,68 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
     }
 
     /**
-     * @method toExponential
-     * @param [fractionDigits] {number}
-     * @return {string}
+     *
      */
     toExponential(fractionDigits?: number): string {
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
-            text.push(this.row(i).map(function (element: number, index: number) { return element.toExponential(fractionDigits) }).join(' '));
+            text.push(this.row(i).map(function(element: number, index: number) { return element.toExponential(fractionDigits); }).join(' '));
         }
         return text.join('\n');
     }
 
     /**
-     * @method toFixed
-     * @param [fractionDigits] {number}
-     * @return {string}
+     *
      */
     toFixed(fractionDigits?: number): string {
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
-            text.push(this.row(i).map(function (element: number, index: number) { return element.toFixed(fractionDigits) }).join(' '));
+            text.push(this.row(i).map(function(element: number, index: number) { return element.toFixed(fractionDigits); }).join(' '));
         }
         return text.join('\n');
     }
 
     /**
-     * @method toPrecision
-     * @param [fractionDigits] {number}
-     * @return {string}
+     *
      */
     toPrecision(fractionDigits?: number): string {
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
-            text.push(this.row(i).map(function (element: number, index: number) { return element.toPrecision(fractionDigits) }).join(' '));
+            text.push(this.row(i).map(function(element: number, index: number) { return element.toPrecision(fractionDigits); }).join(' '));
         }
         return text.join('\n');
     }
 
     /**
-     * @method toString
-     * @param [radix] {number}
-     * @return {string}
+     *
      */
     toString(radix?: number): string {
         const text: string[] = [];
-        for (var i = 0; i < this.dimensions; i++) {
-            text.push(this.row(i).map(function (element: number, index: number) { return element.toString(radix) }).join(' '));
+        for (let i = 0; i < this.dimensions; i++) {
+            text.push(this.row(i).map(function(element: number, index: number) { return element.toString(radix); }).join(' '));
         }
         return text.join('\n');
     }
 
     /**
-     * <p>
-     * <code>this ⟼ translation(spinor) * this</code>
-     * </p>
-     * @method translate
-     * @param d {VectorE3}
-     * @return {Matrix4}
-     * @chainable
+     * this ⟼ translation(spinor) * this
      */
     translate(d: VectorE3): Matrix4 {
-        return this.rmul(Matrix4.translation(d))
+        return this.rmul(Matrix4.translation(d));
     }
 
     /**
      * Sets this matrix to be equivalent to the displacement vector argument.
      */
     translation(displacement: VectorE3): Matrix4 {
-        const x = displacement.x
-        const y = displacement.y
-        const z = displacement.z
+        const x = displacement.x;
+        const y = displacement.y;
+        const z = displacement.z;
         return this.set(
             1, 0, 0, x,
             0, 1, 0, y,
             0, 0, 1, z,
-            0, 0, 0, 1)
+            0, 0, 0, 1);
     }
 
     /**
@@ -535,41 +513,27 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
         return this.set(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     }
 
-    /**
-     * @method __mul__
-     * @param rhs {Matrix4|number}
-     * @return {Matrix4}
-     * @chainable
-     * @private
-     */
     public __mul__(rhs: Matrix4 | number): Matrix4 {
         if (rhs instanceof Matrix4) {
-            return Matrix4.one().mul2(this, rhs)
+            return Matrix4.one().mul2(this, rhs);
         }
         else if (typeof rhs === 'number') {
-            return this.clone().scale(rhs)
+            return this.clone().scale(rhs);
         }
         else {
-            return void 0
+            return void 0;
         }
     }
 
-    /**
-     * @method __rmul__
-     * @param lhs {Matrix4|number}
-     * @return {Matrix4}
-     * @chainable
-     * @private
-     */
     public __rmul__(lhs: Matrix4 | number): Matrix4 {
         if (lhs instanceof Matrix4) {
-            return Matrix4.one().mul2(lhs, this)
+            return Matrix4.one().mul2(lhs, this);
         }
         else if (typeof lhs === 'number') {
-            return this.clone().scale(lhs)
+            return this.clone().scale(lhs);
         }
         else {
-            return void 0
+            return void 0;
         }
     }
 }

@@ -4123,6 +4123,42 @@ declare module EIGHT {
         protected destructor(levelUp: number): void;
     }
 
+    interface GroupMember extends Renderable {
+        X: Geometric3;
+        R: Geometric3;
+    }
+
+    class Group extends ShareableBase implements GroupMember {
+        /**
+         * 
+         */
+        X: Geometric3;
+        /**
+         * 
+         */
+        R: Geometric3;
+        /**
+         * 
+         */
+        constructor();
+        /**
+         * 
+         */
+        protected destructor(levelUp: number): void;
+        /**
+         * 
+         */
+        add(member: GroupMember): void;
+        /**
+         * 
+         */
+        remove(member: GroupMember): void;
+        /**
+         * 
+         */
+        render(ambients: Facet[]): void;
+    }
+
     /**
      * Options for the creation of a new HollowCylinder.
      */

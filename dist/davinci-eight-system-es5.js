@@ -11934,10 +11934,10 @@ System.register("davinci-eight/math/mulSpinorE3YZ.js", [], function (exports_1, 
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
-    function default_1(R, S) {
+    function mulSpinorE3YZ(R, S) {
         return R.yz * S.a - R.zx * S.xy + R.xy * S.zx + R.a * S.yz;
     }
-    exports_1("default", default_1);
+    exports_1("default", mulSpinorE3YZ);
     return {
         setters: [],
         execute: function () {}
@@ -11947,10 +11947,10 @@ System.register("davinci-eight/math/mulSpinorE3ZX.js", [], function (exports_1, 
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
-    function default_1(R, S) {
+    function mulSpinorE3ZX(R, S) {
         return R.yz * S.xy + R.zx * S.a - R.xy * S.yz + R.a * S.zx;
     }
-    exports_1("default", default_1);
+    exports_1("default", mulSpinorE3ZX);
     return {
         setters: [],
         execute: function () {}
@@ -11960,10 +11960,10 @@ System.register("davinci-eight/math/mulSpinorE3XY.js", [], function (exports_1, 
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
-    function default_1(R, S) {
+    function mulSpinorE3XY(R, S) {
         return -R.yz * S.zx + R.zx * S.yz + R.xy * S.a + R.a * S.xy;
     }
-    exports_1("default", default_1);
+    exports_1("default", mulSpinorE3XY);
     return {
         setters: [],
         execute: function () {}
@@ -11973,10 +11973,10 @@ System.register("davinci-eight/math/mulSpinorE3alpha.js", [], function (exports_
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
-    function default_1(R, S) {
+    function mulSpinorE3alpha(R, S) {
         return -R.yz * S.yz - R.zx * S.zx - R.xy * S.xy + R.a * S.a;
     }
-    exports_1("default", default_1);
+    exports_1("default", mulSpinorE3alpha);
     return {
         setters: [],
         execute: function () {}
@@ -17966,7 +17966,7 @@ System.register("davinci-eight/math/mulG3.js", ["../math/compG3Get", "../math/mu
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
-    function default_1(a, b, out) {
+    function mulG3(a, b, out) {
         var a0 = a.a;
         var a1 = a.x;
         var a2 = a.y;
@@ -17989,7 +17989,7 @@ System.register("davinci-eight/math/mulG3.js", ["../math/compG3Get", "../math/mu
         }
     }
     var compG3Get_1, mulE3_1;
-    exports_1("default", default_1);
+    exports_1("default", mulG3);
     return {
         setters: [function (compG3Get_1_1) {
             compG3Get_1 = compG3Get_1_1;
@@ -22528,9 +22528,9 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
             Eight = function () {
                 function Eight() {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-                    this.LAST_MODIFIED = '2016-11-12';
+                    this.LAST_MODIFIED = '2016-11-13';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '3.0.4';
+                    this.VERSION = '3.1.0';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];

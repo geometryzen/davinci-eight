@@ -4,18 +4,18 @@ import isNumber from '../checks/isNumber';
 
 export default function quadSpinorE3(s: SpinorE3): number {
     if (isDefined(s)) {
-        var α = s.a
-        var x = s.yz
-        var y = s.zx
-        var z = s.xy
+        const α = s.a;
+        const x = s.yz;
+        const y = s.zx;
+        const z = s.xy;
         if (isNumber(α) && isNumber(x) && isNumber(y) && isNumber(z)) {
-            return α * α + x * x + y * y + z * z
+            return α * α + x * x + y * y + z * z;
         }
         else {
-            return void 0
+            return void 0;
         }
     }
     else {
-        return void 0
+        return void 0;
     }
 }
