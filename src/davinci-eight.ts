@@ -343,6 +343,7 @@ const eight = {
     get GridXY() { return GridXY; },
     get GridYZ() { return GridYZ; },
     get GridZX() { return GridZX; },
+    get Group() { return Group; },
     get HollowCylinder() { return HollowCylinder; },
     get Parallelepiped() { return Parallelepiped; },
     get RigidBody() { return RigidBody; },
