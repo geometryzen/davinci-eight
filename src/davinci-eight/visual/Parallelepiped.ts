@@ -11,6 +11,7 @@ import { Geometric3 } from '../math/Geometric3';
 import GeometryArrays from '../core/GeometryArrays';
 import { Mesh } from '../core/Mesh';
 import mustBeEngine from './mustBeEngine';
+import Primitive from '../core/Primitive';
 import refChange from '../core/refChange';
 import { Renderable } from '../core/Renderable';
 import { ShaderMaterial } from '../materials/ShaderMaterial';
@@ -193,11 +194,18 @@ export default class Parallelepiped implements Renderable {
     }
     contextGain(contextProvider: ContextProvider): void {
         if (!this.mesh) {
-            const geometry = new GeometryArrays(this.contextManager);
+            const primitive: Primitive = {
+                mode: BeginMode.TRIANGLES,
+                attributes: {
+                    aCoords: { values: aCoords, size: 3, type: DataType.FLOAT },
+                    aFace: { values: aFaces, size: 1, type: DataType.FLOAT }
+                }
+            };
+            const geometry = new GeometryArrays(this.contextManager, primitive);
 
-            geometry.mode = BeginMode.TRIANGLES;
-            geometry.setAttribute('aCoords', { values: aCoords, size: 3, type: DataType.FLOAT });
-            geometry.setAttribute('aFace', { values: aFaces, size: 1, type: DataType.FLOAT });
+            // geometry.mode = BeginMode.TRIANGLES;
+            // geometry.setAttribute('aCoords', { values: aCoords, size: 3, type: DataType.FLOAT });
+            // geometry.setAttribute('aFace', { values: aFaces, size: 1, type: DataType.FLOAT });
 
             const material = new ShaderMaterial(vertexShaderSrc, fragmentShaderSrc, [], this.contextManager);
 

@@ -28,7 +28,7 @@ interface VertexAttribPointer {
     /**
      *
      */
-    offset: number
+    offset: number;
 }
 
-export default VertexAttribPointer
+export default VertexAttribPointer;

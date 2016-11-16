@@ -151,7 +151,7 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
         let m11 = te[0x0], m12 = te[0x3], m13 = te[0x6];
         let m21 = te[0x1], m22 = te[0x4], m23 = te[0x7];
         let m31 = te[0x2], m32 = te[0x5], m33 = te[0x8];
-        return (m11 === 1 && m12 === 0 && m13 === 0 && m21 === 0 && m22 === 1 && m23 === 0 && m31 === 0 && m32 === 0 && m33 === 1)
+        return (m11 === 1 && m12 === 0 && m13 === 0 && m21 === 0 && m22 === 1 && m23 === 0 && m31 === 0 && m32 === 0 && m33 === 1);
     }
 
     /**
@@ -163,7 +163,7 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
         let m11 = te[0x0], m12 = te[0x3], m13 = te[0x6];
         let m21 = te[0x1], m22 = te[0x4], m23 = te[0x7];
         let m31 = te[0x2], m32 = te[0x5], m33 = te[0x8];
-        return (m11 === 0 && m12 === 0 && m13 === 0 && m21 === 0 && m22 === 0 && m23 === 0 && m31 === 0 && m32 === 0 && m33 === 0)
+        return (m11 === 0 && m12 === 0 && m13 === 0 && m21 === 0 && m22 === 0 && m23 === 0 && m31 === 0 && m32 === 0 && m33 === 0);
     }
 
     /**

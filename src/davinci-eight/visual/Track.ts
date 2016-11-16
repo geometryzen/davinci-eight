@@ -53,7 +53,7 @@ class TrackGeometry implements Geometry {
         this.vbo.unbind();
         return this;
     }
-    draw(material: Material): TrackGeometry {
+    draw(): TrackGeometry {
         this.contextProvider.drawArrays(BeginMode.LINE_STRIP, 0, this.count);
         return this;
     }

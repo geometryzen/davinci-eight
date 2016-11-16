@@ -4,7 +4,7 @@ import elementsForCurve from './elementsForCurve';
 import mustBeGE from '../checks/mustBeGE';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeLT from '../checks/mustBeLT';
-import Vertex from './Vertex'
+import Vertex from './Vertex';
 
 export default class LineStrip extends CurvePrimitive {
 

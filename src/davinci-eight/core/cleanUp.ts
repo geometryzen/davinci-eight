@@ -1,4 +1,4 @@
-import {ContextConsumer} from './ContextConsumer';
+import { ContextConsumer } from './ContextConsumer';
 import ContextProvider from './ContextProvider';
 
 /**
@@ -7,10 +7,10 @@ import ContextProvider from './ContextProvider';
 export default function cleanUp(contextProvider: ContextProvider, consumer: ContextConsumer) {
   if (contextProvider) {
     if (contextProvider.isContextLost()) {
-      consumer.contextLost()
+      consumer.contextLost();
     }
     else {
-      consumer.contextFree(contextProvider)
+      consumer.contextFree(contextProvider);
     }
   }
   else {

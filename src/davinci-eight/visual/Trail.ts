@@ -1,13 +1,13 @@
-import {Facet} from '../core/Facet';
-import {Geometry} from '../core/Geometry';
-import {Material} from '../core/Material';
+import { Facet } from '../core/Facet';
+import { Geometry } from '../core/Geometry';
+import { Material } from '../core/Material';
 import Modulo from '../math/Modulo';
 import Spinor3 from '../math/Spinor3';
 import Vector3 from '../math/Vector3';
-import {Mesh} from '../core/Mesh';
+import { Mesh } from '../core/Mesh';
 import mustBeObject from '../checks/mustBeObject';
-import {ShareableBase} from '../core/ShareableBase';
-import {TrailConfig} from './TrailConfig';
+import { ShareableBase } from '../core/ShareableBase';
+import { TrailConfig } from './TrailConfig';
 
 //
 // Scratch variables used to save and restore mesh properties during the draw method.
@@ -171,7 +171,7 @@ export class Trail extends ShareableBase {
                     R.copySpinor(Rs[i]);
                 }
                 mesh.setUniforms();
-                geometry.draw(material);
+                geometry.draw();
             }
             geometry.unbind(material);
             geometry.release();

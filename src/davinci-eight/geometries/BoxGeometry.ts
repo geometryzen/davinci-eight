@@ -342,7 +342,7 @@ export default class BoxGeometry extends GeometryElements {
     private d = 1;
 
     constructor(contextManager: ContextManager, options: BoxGeometryOptions = {}, levelUp = 0) {
-        super(boxPrimitive(options), contextManager, options, levelUp + 1)
+        super(contextManager, boxPrimitive(options), options, levelUp + 1)
         this.setLoggingName('BoxGeometry')
         if (levelUp === 0) {
             this.synchUp();

@@ -668,16 +668,6 @@ declare module EIGHT {
     }
 
     /**
-     *
-     */
-    interface PrimitiveBuffers extends Shareable {
-        uuid: string;
-        bind(material: Material, aNameToKeyName?: { [name: string]: string }): void;
-        draw(): void;
-        unbind(): void;
-    }
-
-    /**
      * An array of attribute values associated with meta data describing how to interpret the values.
      * {values: number[]; size: number;}
      */
@@ -3045,46 +3035,35 @@ declare module EIGHT {
         /**
          * Invokes the appropriate drawArrays or drawElements call to send data to the Graphics Pipeline.
          */
-        draw(material: Material): void;
+        draw(): void;
     }
 
     /**
      * A Geometry for supporting drawArrays.
      */
     class GeometryArrays extends ShareableContextConsumer implements Geometry {
-        mode: BeginMode
         scaling: Matrix4;
-        /**
-         *
-         */
-        constructor(contextManager: ContextManager, primitive?: Primitive, options?: { order?: string[]; tilt?: SpinorE3 }, levelUp?: number);
+        constructor(contextManager: ContextManager, primitive: Primitive, options?: { order?: string[]; tilt?: SpinorE3 }, levelUp?: number);
         protected destructor(levelUp: number): void;
         bind(material: Material): GeometryArrays;
         unbind(material: Material): GeometryArrays;
-        draw(material: Material): GeometryArrays;
-        getAttribute(name: string): Attribute;
+        draw(): GeometryArrays;
         getPrincipalScale(name: string): number;
         hasPrincipalScale(name: string): boolean;
-        setAttribute(name: string, attribute: Attribute): void;
         setPrincipalScale(name: string, value: number): void;
         protected setScale(x: number, y: number, z: number): void;
     }
 
+    /**
+     * A Geometry for supporting drawElements.
+     */
     class GeometryElements extends ShareableContextConsumer implements Geometry {
-        attributes: number[]
-        mode: BeginMode;
-        indices: number[];
-        pointers: VertexAttribPointer[];
         scaling: Matrix4;
-        /**
-         * The total number of bytes for each element.
-         */
-        stride: number;
-        constructor(primitive: Primitive, contextManager: ContextManager, options?: { order?: string[]; tilt?: SpinorE3 }, levelUp?: number);
+        constructor(contextManager: ContextManager, primitive: Primitive, options?: { order?: string[]; tilt?: SpinorE3 }, levelUp?: number);
         protected destructor(levelUp: number): void;
         bind(material: Material): GeometryElements;
         unbind(material: Material): GeometryElements;
-        draw(material: Material): GeometryElements;
+        draw(): GeometryElements;
         getPrincipalScale(name: string): number;
         hasPrincipalScale(name: string): boolean;
         setPrincipalScale(name: string, value: number): void;

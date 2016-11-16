@@ -1,6 +1,6 @@
 import BeginMode from './BeginMode';
 import DataType from './DataType';
-import {Shareable} from './Shareable';
+import { Shareable } from './Shareable';
 
 /**
  * @module EIGHT
@@ -36,14 +36,14 @@ interface ContextProvider extends Shareable {
      * @param count The number of vector points to render. For example, a triangle would be 3.
      * @return {void}
      */
-    drawArrays(mode: BeginMode, first: number, count: number): void
+    drawArrays(mode: BeginMode, first: number, count: number): void;
 
     /**
      * @param mode
      * @param count
      * @param offset
      */
-    drawElements(mode: BeginMode, count: number, offset: number): void
+    drawElements(mode: BeginMode, count: number, offset: number): void;
 
     /**
      * @method enableVertexAttribArray

@@ -1,4 +1,4 @@
-import BrowserDocument from './BrowserDocument'
+import BrowserDocument from './BrowserDocument';
 /**
  * Intentionally undocumented.
  * This interface is defined to enable mocking in tests.
@@ -9,4 +9,4 @@ interface BrowserWindow extends EventTarget {
   requestAnimationFrame(callback: FrameRequestCallback): number;
 }
 
-export default BrowserWindow
+export default BrowserWindow;

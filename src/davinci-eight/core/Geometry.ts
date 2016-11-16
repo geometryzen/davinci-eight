@@ -26,7 +26,7 @@ export interface Geometry extends ContextConsumer {
     unbind(material: Material): void;
 
     /**
-     *
+     * A call to drawArrays or drawElements.
      */
-    draw(material: Material): void;
+    draw(): void;
 }

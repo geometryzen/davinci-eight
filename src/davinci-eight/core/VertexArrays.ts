@@ -1,5 +1,5 @@
-import BeginMode from './BeginMode'
-import VertexAttribPointer from './VertexAttribPointer'
+import BeginMode from './BeginMode';
+import VertexAttribPointer from './VertexAttribPointer';
 
 /**
  *
@@ -9,27 +9,27 @@ interface VertexArrays {
     /**
      *
      */
-    mode: BeginMode
+    mode: BeginMode;
 
     /**
      *
      */
-    indices?: number[]
+    indices?: number[];
 
     /**
      *
      */
-    attributes: number[]
+    attributes: number[];
 
     /**
      *
      */
-    stride: number
+    stride: number;
 
     /**
      *
      */
-    pointers: VertexAttribPointer[]
+    pointers: VertexAttribPointer[];
 }
 
-export default VertexArrays
+export default VertexArrays;

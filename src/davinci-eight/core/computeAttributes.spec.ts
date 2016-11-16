@@ -3,7 +3,7 @@ import BeginMode from './BeginMode';
 import DataType from './DataType';
 import Primitive from './Primitive';
 
-describe("computeAttributes", function() {
+describe("computeAttributes", function () {
     /*
      * 2-----3
      * |     |
@@ -60,17 +60,17 @@ describe("computeAttributes", function() {
             1,
             3
         ]
-    }
-    describe("using ['aPosition']", function() {
-        const attributes = computeAttributes(primitive.attributes, ['aPosition'])
-        it("should have 24 values", function() {
-            expect(attributes.length).toBe(12)
-        })
-    })
-    describe("['aPosition', 'aNormal']", function() {
-        const attributes = computeAttributes(primitive.attributes, ['aPosition', 'aNormal'])
-        it("should have 24 values", function() {
-            expect(attributes.length).toBe(24)
-        })
-    })
-})
+    };
+    describe("using ['aPosition']", function () {
+        const attributes = computeAttributes(primitive.attributes, ['aPosition']);
+        it("should have 24 values", function () {
+            expect(attributes.length).toBe(12);
+        });
+    });
+    describe("['aPosition', 'aNormal']", function () {
+        const attributes = computeAttributes(primitive.attributes, ['aPosition', 'aNormal']);
+        it("should have 24 values", function () {
+            expect(attributes.length).toBe(24);
+        });
+    });
+});

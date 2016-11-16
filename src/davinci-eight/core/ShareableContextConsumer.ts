@@ -5,7 +5,7 @@ import ContextProvider from './ContextProvider';
 import EngineSubscriber from './EngineSubscriber';
 import isUndefined from '../checks/isUndefined';
 import isNull from '../checks/isNull';
-import mustBeNonNullObject from '../checks/mustBeNonNullObject'
+import mustBeNonNullObject from '../checks/mustBeNonNullObject';
 import readOnly from '../i18n/readOnly';
 import { ShareableBase } from './ShareableBase';
 
@@ -77,11 +77,11 @@ export class ShareableContextConsumer extends ShareableBase implements ContextCo
         // for the benefit of derived classes. Now that they have already executed
         // their own cleanup in their own destructor, we are allowed to release.
         if (this.contextProvider) {
-            this.contextProvider.release()
-            this.contextProvider = void 0
+            this.contextProvider.release();
+            this.contextProvider = void 0;
         }
-        this.unsubscribe()
-        super.destructor(levelUp + 1)
+        this.unsubscribe();
+        super.destructor(levelUp + 1);
     }
 
     /**
@@ -118,9 +118,9 @@ export class ShareableContextConsumer extends ShareableBase implements ContextCo
      *
      */
     public synchUp() {
-        const manager = this.manager
+        const manager = this.manager;
         if (manager) {
-            manager.synchronize(this)
+            manager.synchronize(this);
         }
     }
 
@@ -128,7 +128,7 @@ export class ShareableContextConsumer extends ShareableBase implements ContextCo
      *
      */
     public cleanUp(): void {
-        cleanUp(this.contextProvider, this)
+        cleanUp(this.contextProvider, this);
     }
 
     /**
@@ -141,34 +141,34 @@ export class ShareableContextConsumer extends ShareableBase implements ContextCo
      */
     unsubscribe(): void {
         if (this.manager) {
-            this.manager.removeContextListener(this)
-            this.manager.release()
-            this.manager = void 0
+            this.manager.removeContextListener(this);
+            this.manager.release();
+            this.manager = void 0;
         }
     }
 
     contextFree(contextProvider: ContextProvider): void {
         if (this.contextProvider) {
-            this.contextProvider.release()
-            this.contextProvider = void 0
+            this.contextProvider.release();
+            this.contextProvider = void 0;
         }
     }
 
     contextGain(contextProvider: ContextProvider): void {
         if (this.contextProvider) {
-            this.contextProvider.release()
-            this.contextProvider = void 0
+            this.contextProvider.release();
+            this.contextProvider = void 0;
         }
         if (contextProvider) {
-            contextProvider.addRef()
+            contextProvider.addRef();
         }
-        this.contextProvider = contextProvider
+        this.contextProvider = contextProvider;
     }
 
     contextLost(): void {
         if (this.contextProvider) {
-            this.contextProvider.release()
-            this.contextProvider = void 0
+            this.contextProvider.release();
+            this.contextProvider = void 0;
         }
     }
 
@@ -177,13 +177,13 @@ export class ShareableContextConsumer extends ShareableBase implements ContextCo
      */
     get gl(): WebGLRenderingContext {
         if (this.contextProvider) {
-            return this.contextProvider.gl
+            return this.contextProvider.gl;
         }
         else {
-            return void 0
+            return void 0;
         }
     }
     set gl(unused: WebGLRenderingContext) {
-        throw new Error(readOnly('gl').message)
+        throw new Error(readOnly('gl').message);
     }
 }

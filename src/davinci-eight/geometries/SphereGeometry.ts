@@ -387,7 +387,7 @@ function spherePrimitive(options: SphereGeometryOptions = {}): Primitive {
 export default class SphereGeometry extends GeometryElements {
 
     constructor(contextManager: ContextManager, options: SphereGeometryOptions = {}, levelUp = 0) {
-        super(spherePrimitive(options), contextManager, options, levelUp + 1);
+        super(contextManager, spherePrimitive(options), options, levelUp + 1);
         this.setLoggingName('SphereGeometry');
         if (levelUp === 0) {
             this.synchUp();

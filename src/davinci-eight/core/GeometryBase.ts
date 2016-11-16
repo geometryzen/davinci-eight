@@ -25,7 +25,7 @@ export default class GeometryBase extends ShareableContextConsumer implements Ge
     /**
      *
      */
-    public mode: BeginMode;
+    protected _mode: BeginMode;
 
     /**
      * <p>
@@ -74,9 +74,9 @@ export default class GeometryBase extends ShareableContextConsumer implements Ge
         mustBeObject('contextManager', contextManager);
         this.setLoggingName("GeometryBase");
         if (tilt && !Spinor3.isOne(tilt)) {
-            this.Kidentity = false
-            this.K.rotation(tilt)
-            this.Kinv.copy(this.K).inv()
+            this.Kidentity = false;
+            this.K.rotation(tilt);
+            this.Kinv.copy(this.K).inv();
         }
         if (levelUp === 0) {
             this.synchUp();
@@ -106,27 +106,27 @@ export default class GeometryBase extends ShareableContextConsumer implements Ge
     }
 
     bind(material: Material): GeometryBase {
-        throw new Error(notSupported('bind').message)
+        throw new Error(notSupported('bind(material: Material)').message);
     }
 
     unbind(material: Material): GeometryBase {
-        throw new Error(notSupported('unbind').message)
+        throw new Error(notSupported('unbind(material: Material)').message);
     }
 
-    draw(material: Material): GeometryBase {
-        throw new Error(notSupported('draw').message)
+    draw(): GeometryBase {
+        throw new Error(notSupported('draw()').message);
     }
 
     hasPrincipalScale(name: string): boolean {
-        throw new Error(notImplemented(`hasPrincipalScale(${name})`).message)
+        throw new Error(notImplemented(`hasPrincipalScale(${name})`).message);
     }
 
     public getPrincipalScale(name: string): number {
-        throw new Error(notImplemented('getPrincipalScale').message)
+        throw new Error(notImplemented('getPrincipalScale').message);
     }
 
     public setPrincipalScale(name: string, value: number): void {
-        throw new Error(notImplemented('setPrincipalScale').message)
+        throw new Error(notImplemented('setPrincipalScale').message);
     }
 
     private getScale(i: number, j: number): number {

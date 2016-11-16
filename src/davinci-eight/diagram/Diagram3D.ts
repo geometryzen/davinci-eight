@@ -89,6 +89,6 @@ function perspective(X: VectorE3, N: number, F: number, fov: number, aspect: num
     // x simplifies because l = -r;
     const x = N * X.x / (X.z * l);
     const y = ((2 * N) * X.y + (t + b) * X.z) / (-X.z * (t - b));
-    const z = (-(F + N) * X.z - 2 * F * N) / (-X.z * (F - N))
+    const z = (-(F + N) * X.z - 2 * F * N) / (-X.z * (F - N));
     return { x, y, z };
 }

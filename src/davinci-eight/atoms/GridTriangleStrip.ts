@@ -1,22 +1,22 @@
-import BeginMode from '../core/BeginMode'
-import isDefined from '../checks/isDefined'
-import GridPrimitive from './GridPrimitive'
-import mustBeArray from '../checks/mustBeArray'
-import mustBeInteger from '../checks/mustBeInteger'
-import numPostsForFence from './numPostsForFence'
-import Vertex from './Vertex'
+import BeginMode from '../core/BeginMode';
+import isDefined from '../checks/isDefined';
+import GridPrimitive from './GridPrimitive';
+import mustBeArray from '../checks/mustBeArray';
+import mustBeInteger from '../checks/mustBeInteger';
+import numPostsForFence from './numPostsForFence';
+import Vertex from './Vertex';
 
 function triangleStripForGrid(uSegments: number, vSegments: number, elements?: number[]): number[] {
     // Make sure that we have somewhere valid to store the result.
-    elements = isDefined(elements) ? mustBeArray('elements', elements) : []
+    elements = isDefined(elements) ? mustBeArray('elements', elements) : [];
 
-    const uLength = numPostsForFence(uSegments, false/* open */)
-    const lastVertex = uSegments + uLength * vSegments
+    const uLength = numPostsForFence(uSegments, false/* open */);
+    const lastVertex = uSegments + uLength * vSegments;
     /**
      * The number of elements needed if we executed a strip per row.
      * Remark Notice the asymmetry. Could be a performance impact.
      */
-    const eSimple = 2 * uLength * vSegments
+    const eSimple = 2 * uLength * vSegments;
     /**
      * Index for TRIANGLE_STRIP array.
      */
@@ -28,9 +28,9 @@ function triangleStripForGrid(uSegments: number, vSegments: number, elements?: n
     for (let i = 1; i <= eSimple; i += 2) {
         // const k = (i - 1) / 2 // etc
         // top element
-        elements[j] = (i - 1) / 2
+        elements[j] = (i - 1) / 2;
         // bottom element
-        elements[j + 1] = elements[j] + uLength
+        elements[j + 1] = elements[j] + uLength;
         // check for end of column
         if (elements[j + 1] % uLength === uSegments) {
             // Don't add degenerate triangles if we are on either
@@ -39,7 +39,7 @@ function triangleStripForGrid(uSegments: number, vSegments: number, elements?: n
             if (elements[j + 1] !== uSegments && elements[j + 1] !== lastVertex) {
                 // additional vertex degenerate triangle
                 // The next point is the same as the one before
-                elements[j + 2] = elements[j + 1]
+                elements[j + 2] = elements[j + 1];
                 // additional vertex degenerate triangle
                 // 
                 elements[j + 3] = (1 + i) / 2;
@@ -50,7 +50,7 @@ function triangleStripForGrid(uSegments: number, vSegments: number, elements?: n
         // Increment j for this step.
         j += 2;
     }
-    return elements
+    return elements;
 }
 
 /**
@@ -66,8 +66,8 @@ export default class GridTriangleStrip extends GridPrimitive {
      * @param vSegments
      */
     constructor(uSegments: number, vSegments: number) {
-        super(BeginMode.TRIANGLE_STRIP, uSegments, vSegments)
-        this.elements = triangleStripForGrid(uSegments, vSegments)
+        super(BeginMode.TRIANGLE_STRIP, uSegments, vSegments);
+        this.elements = triangleStripForGrid(uSegments, vSegments);
     }
 
     /**
@@ -76,9 +76,9 @@ export default class GridTriangleStrip extends GridPrimitive {
      * @param vIndex An integer. 0 <= vIndex < vLength
      */
     vertex(uIndex: number, vIndex: number): Vertex {
-        mustBeInteger('uIndex', uIndex)
-        mustBeInteger('vIndex', vIndex)
+        mustBeInteger('uIndex', uIndex);
+        mustBeInteger('vIndex', vIndex);
         // I'm not sure why the indexing here reverses the second index direction.
-        return this.vertices[(this.vSegments - vIndex) * this.uLength + uIndex]
+        return this.vertices[(this.vSegments - vIndex) * this.uLength + uIndex];
     }
 }

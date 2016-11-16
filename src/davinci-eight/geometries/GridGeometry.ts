@@ -6,7 +6,7 @@ import gridPrimitive from './gridPrimitive';
 export default class GridGeometry extends GeometryElements {
 
     constructor(contextManager: ContextManager, options: GridGeometryOptions = {}, levelUp = 0) {
-        super(gridPrimitive(options), contextManager, options, levelUp + 1);
+        super(contextManager, gridPrimitive(options), options, levelUp + 1);
         this.setLoggingName('GridGeometry');
         if (levelUp === 0) {
             this.synchUp();

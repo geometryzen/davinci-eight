@@ -3,11 +3,6 @@ import DataType from '../core/DataType';
 import Primitive from '../core/Primitive';
 import Attribute from '../core/Attribute';
 
-const INITIAL: Primitive = {
-    mode: void 0,
-    attributes: {}
-};
-
 function copyIndices(src: Primitive, dest: number[], delta: number): void {
     if (src.indices) {
         const iLen = src.indices.length;
@@ -18,7 +13,7 @@ function copyIndices(src: Primitive, dest: number[], delta: number): void {
 }
 
 function max(xs: number[]): number {
-    return xs.reduce(function(a, b) { return a > b ? a : b });
+    return xs.reduce(function (a, b) { return a > b ? a : b; });
 }
 
 function joinIndices(previous: Primitive, current: Primitive, dest: number[]): void {
@@ -51,13 +46,13 @@ function copyAttributes(primitive: Primitive, attributes: { [name: string]: Attr
         const svalues = srcAttrib.values;
         const vLen = svalues.length;
         for (let v = 0; v < vLen; v++) {
-            dstAttrib.values.push(svalues[v])
+            dstAttrib.values.push(svalues[v]);
         }
     }
 }
 
 export default function reduce(primitives: Primitive[]): Primitive {
-    return primitives.reduce(function(previous: Primitive, current: Primitive) {
+    return primitives.reduce(function (previous: Primitive, current: Primitive) {
         const indices: number[] = [];
 
         copyIndices(previous, indices, 0);

@@ -7,6 +7,7 @@ import direction from './direction';
 import { Engine } from '../core/Engine';
 import GeometryArrays from '../core/GeometryArrays';
 import mustBeEngine from './mustBeEngine';
+import Primitive from '../core/Primitive';
 import { RigidBody } from './RigidBody';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
@@ -96,10 +97,17 @@ export default class Basis extends RigidBody {
         this.uPointC.vector.copy(Vector3.vector(0, 0, 1));
         this.colorC.copy(Color.blue);
 
-        const geometry = new GeometryArrays(engine);
-        geometry.mode = BeginMode.LINES;
-        geometry.setAttribute('aPointIndex', { values: [0, 1, 0, 2, 0, 3], size: 1, type: DataType.FLOAT });
-        geometry.setAttribute('aColorIndex', { values: [1, 1, 2, 2, 3, 3], size: 1, type: DataType.FLOAT });
+        const primitive: Primitive = {
+            mode: BeginMode.LINES,
+            attributes: {
+                aPointIndex: { values: [0, 1, 0, 2, 0, 3], size: 1, type: DataType.FLOAT },
+                aColorIndex: { values: [1, 1, 2, 2, 3, 3], size: 1, type: DataType.FLOAT }
+            }
+        };
+        const geometry = new GeometryArrays(engine, primitive);
+        // geometry.mode = BeginMode.LINES;
+        // geometry.setAttribute('aPointIndex', { values: [0, 1, 0, 2, 0, 3], size: 1, type: DataType.FLOAT });
+        // geometry.setAttribute('aColorIndex', { values: [1, 1, 2, 2, 3, 3], size: 1, type: DataType.FLOAT });
         this.geometry = geometry;
         geometry.release();
 

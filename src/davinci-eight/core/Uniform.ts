@@ -3,9 +3,7 @@ import isNull from '../checks/isNull';
 import mustBeObject from '../checks/mustBeObject';
 
 /**
- * <p>
  * A wrapper around a <code>WebGLUniformLocation</code>.
- * </p>
  */
 export default class Uniform implements ContextProgramConsumer {
 
@@ -17,30 +15,30 @@ export default class Uniform implements ContextProgramConsumer {
 
     constructor(info: WebGLActiveInfo) {
         if (!isNull(info)) {
-            mustBeObject('info', info)
-            this.name = info.name
+            mustBeObject('info', info);
+            this.name = info.name;
         }
     }
 
     contextFree(): void {
-        this.contextLost()
+        this.contextLost();
     }
 
     contextGain(gl: WebGLRenderingContext, program: WebGLProgram): void {
-        this.contextLost()
-        this.gl = gl
+        this.contextLost();
+        this.gl = gl;
         // If the location is null, no uniforms are updated and no error code is generated.
         if (!isNull(this.name)) {
-            this.location = gl.getUniformLocation(program, this.name)
+            this.location = gl.getUniformLocation(program, this.name);
         }
         else {
-            this.location = null
+            this.location = null;
         }
     }
 
     contextLost(): void {
-        this.gl = void 0
-        this.location = void 0
+        this.gl = void 0;
+        this.location = void 0;
     }
 
     uniform1f(x: number): void {
@@ -60,7 +58,7 @@ export default class Uniform implements ContextProgramConsumer {
     uniform2f(x: number, y: number): void {
         const gl = this.gl;
         if (gl) {
-            gl.uniform2f(this.location, x, y)
+            gl.uniform2f(this.location, x, y);
         }
     }
 
@@ -74,7 +72,7 @@ export default class Uniform implements ContextProgramConsumer {
     uniform3f(x: number, y: number, z: number): void {
         const gl = this.gl;
         if (gl) {
-            gl.uniform3f(this.location, x, y, z)
+            gl.uniform3f(this.location, x, y, z);
         }
     }
 
@@ -88,7 +86,7 @@ export default class Uniform implements ContextProgramConsumer {
     uniform4f(x: number, y: number, z: number, w: number): void {
         const gl = this.gl;
         if (gl) {
-            gl.uniform4f(this.location, x, y, z, w)
+            gl.uniform4f(this.location, x, y, z, w);
         }
     }
 
@@ -105,7 +103,7 @@ export default class Uniform implements ContextProgramConsumer {
     matrix2fv(transpose: boolean, value: Float32Array): void {
         const gl = this.gl;
         if (gl) {
-            gl.uniformMatrix2fv(this.location, transpose, value)
+            gl.uniformMatrix2fv(this.location, transpose, value);
         }
     }
 
@@ -115,7 +113,7 @@ export default class Uniform implements ContextProgramConsumer {
     matrix3fv(transpose: boolean, value: Float32Array): void {
         const gl = this.gl;
         if (gl) {
-            gl.uniformMatrix3fv(this.location, transpose, value)
+            gl.uniformMatrix3fv(this.location, transpose, value);
         }
     }
 
@@ -125,35 +123,35 @@ export default class Uniform implements ContextProgramConsumer {
     matrix4fv(transpose: boolean, value: Float32Array): void {
         const gl = this.gl;
         if (gl) {
-            gl.uniformMatrix4fv(this.location, transpose, value)
+            gl.uniformMatrix4fv(this.location, transpose, value);
         }
     }
 
     uniform1fv(data: Float32Array): void {
         const gl = this.gl;
         if (gl) {
-            gl.uniform1fv(this.location, data)
+            gl.uniform1fv(this.location, data);
         }
     }
 
     uniform2fv(data: Float32Array): void {
         const gl = this.gl;
         if (gl) {
-            gl.uniform2fv(this.location, data)
+            gl.uniform2fv(this.location, data);
         }
     }
 
     uniform3fv(data: Float32Array): void {
         const gl = this.gl;
         if (gl) {
-            gl.uniform3fv(this.location, data)
+            gl.uniform3fv(this.location, data);
         }
     }
 
     uniform4fv(data: Float32Array): void {
         const gl = this.gl;
         if (gl) {
-            gl.uniform4fv(this.location, data)
+            gl.uniform4fv(this.location, data);
         }
     }
 

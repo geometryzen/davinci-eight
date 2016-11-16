@@ -284,7 +284,7 @@ export default class CylinderGeometry extends GeometryElements {
     private _radius = 1;
 
     constructor(contextManager: ContextManager, options: CylinderGeometryOptions = {}, levelUp = 0) {
-        super(cylinderPrimitive(options), contextManager, options, levelUp + 1);
+        super(contextManager, cylinderPrimitive(options), options, levelUp + 1);
         this.setLoggingName('CylinderGeometry')
         if (levelUp === 0) {
             this.synchUp();

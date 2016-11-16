@@ -115,11 +115,11 @@ export class Scene extends ShareableContextConsumer {
     }
 
     findOneByName(name: string): Renderable {
-        return this.findOne(function (drawable) { return drawable.name === name });
+        return this.findOne(function (drawable) { return drawable.name === name; });
     }
 
     findByName(name: string): ShareableArray<Renderable> {
-        return this.find(function (drawable) { return drawable.name === name });
+        return this.find(function (drawable) { return drawable.name === name; });
     }
 
     remove(drawable: Renderable): void {

@@ -1,16 +1,15 @@
 import IKeyboardHandler from '../devices/IKeyboardHandler';
-import incLevel from '../base/incLevel'
-import {ShareableBase} from '../core/ShareableBase';
+import { ShareableBase } from '../core/ShareableBase';
 
 function makeKeyDownHandler(keyboard: Keyboard, handler: IKeyboardHandler) {
-  return function(event: KeyboardEvent) {
+  return function (event: KeyboardEvent) {
     keyboard.currentlyPressedKeys[event.keyCode] = true
     handler.keyDown(event)
   }
 }
 
 function makeKeyUpHandler(keyboard: Keyboard, handler: IKeyboardHandler) {
-  return function(event: KeyboardEvent) {
+  return function (event: KeyboardEvent) {
     keyboard.currentlyPressedKeys[event.keyCode] = false
     handler.keyUp(event)
   }
@@ -28,9 +27,9 @@ export default class Keyboard extends ShareableBase {
     this.setLoggingName('Keyboard')
     this.attach(handler, document)
   }
-  protected destructor(level: number): void {
+  protected destructor(levelUp: number): void {
     this.detach()
-    super.destructor(incLevel(level))
+    super.destructor(levelUp + 1);
   }
   attach(handler: IKeyboardHandler, document: Document = window.document, useCapture?: boolean): void {
     if (this.document !== document) {

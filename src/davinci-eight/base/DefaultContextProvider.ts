@@ -1,41 +1,40 @@
 import BeginMode from '../core/BeginMode';
 import ContextProvider from '../core/ContextProvider';
 import DataType from '../core/DataType';
-import mustBeInteger from '../checks/mustBeInteger';
 import readOnly from '../i18n/readOnly';
-import {ShareableBase} from '../core/ShareableBase';
-import {Engine} from '../core/Engine';
+import { ShareableBase } from '../core/ShareableBase';
+import { Engine } from '../core/Engine';
 
 /**
  * Intentionally undocumented.
  */
 export default class DefaultContextProvider extends ShareableBase implements ContextProvider {
 
-    private engine: Engine
+    private engine: Engine;
 
     constructor(engine: Engine) {
-        super()
-        this.setLoggingName('DefaultContextProvider')
+        super();
+        this.setLoggingName('DefaultContextProvider');
         // We don't reference count the engine in order to avoid creating a loop.
         // Our lifetime is controlled by the Engine itself.
-        this.engine = engine
+        this.engine = engine;
     }
 
     protected destructor(levelUp: number): void {
-        this.engine = void 0
-        super.destructor(levelUp + 1)
+        this.engine = void 0;
+        super.destructor(levelUp + 1);
     }
 
     get gl() {
         if (this.engine) {
-            return this.engine.gl
+            return this.engine.gl;
         }
         else {
-            throw new Error(`${this._type}.engine is undefined.`)
+            throw new Error(`${this._type}.engine is undefined.`);
         }
     }
     set gl(unused) {
-        throw new Error(readOnly('gl').message)
+        throw new Error(readOnly('gl').message);
     }
 
     disableVertexAttribArray(index: number): void {
@@ -61,17 +60,17 @@ export default class DefaultContextProvider extends ShareableBase implements Con
     }
 
     enableVertexAttribArray(index: number): void {
-        const gl = this.gl
-        gl.enableVertexAttribArray(index)
+        const gl = this.gl;
+        gl.enableVertexAttribArray(index);
     }
 
     isContextLost(): boolean {
-        const gl = this.gl
+        const gl = this.gl;
         if (gl) {
-            return gl.isContextLost()
+            return gl.isContextLost();
         }
         else {
-            throw new Error("WebGLRenderingContext is undefined.")
+            throw new Error("WebGLRenderingContext is undefined.");
         }
     }
 

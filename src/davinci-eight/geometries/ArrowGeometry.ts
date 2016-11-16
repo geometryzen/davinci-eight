@@ -33,12 +33,9 @@ export default class ArrowGeometry extends GeometryElements {
     private _radiusCone: number;
 
     constructor(contextManager: ContextManager, options: ArrowGeometryOptions = {}, levelUp = 0) {
-        super(arrowPrimitive(options), mustBeNonNullObject('contextManager', contextManager), options, levelUp + 1);
+        super(mustBeNonNullObject('contextManager', contextManager), arrowPrimitive(options), options, levelUp + 1);
         this._radiusCone = mustBeNumber("options.radiusCone", options.radiusCone);
         this._radius = this._radiusCone;
-        // TODO: Why aren't we using the following?
-        // options.offset;
-        // options.stress;
         this.setLoggingName('ArrowGeometry');
         if (levelUp === 0) {
             this.synchUp();

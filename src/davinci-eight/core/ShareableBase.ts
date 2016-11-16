@@ -4,7 +4,7 @@ import mustBeInteger from '../checks/mustBeInteger';
 import mustBeString from '../checks/mustBeString';
 import readOnly from '../i18n/readOnly';
 import refChange from './refChange';
-import {Shareable} from '../core/Shareable';
+import { Shareable } from '../core/Shareable';
 import uuid4 from './uuid4';
 
 /**
@@ -40,32 +40,32 @@ export class ShareableBase implements Shareable {
     /**
      *
      */
-    private _refCount: number = 1
+    private _refCount: number = 1;
 
     /**
      *
      */
-    protected _type: string
+    protected _type: string;
 
     /**
      * The unique identifier used for reference count monitoring.
      */
-    private _uuid: string = uuid4().generate()
+    private _uuid: string = uuid4().generate();
 
     /**
      * <p>
      * Keeps track of the level in the hierarchy of classes.
      * </p>
      */
-    private _levelUp: number = -1
+    private _levelUp: number = -1;
 
     /**
      *
      */
     constructor() {
-        this._type = 'ShareableBase'
-        this._levelUp += 1
-        refChange(this._uuid, this._type, +1)
+        this._type = 'ShareableBase';
+        this._levelUp += 1;
+        refChange(this._uuid, this._type, +1);
     }
 
     /**
@@ -82,14 +82,14 @@ export class ShareableBase implements Shareable {
      * @param levelUp A number that should be incremented for each destructor call.
      */
     protected destructor(levelUp: number, grumble = false): void {
-        mustBeInteger('levelUp', levelUp)
-        mustBeEQ(`${this._type} constructor-destructor chain mismatch: destructor index ${levelUp}`, levelUp, this._levelUp)
+        mustBeInteger('levelUp', levelUp);
+        mustBeEQ(`${this._type} constructor-destructor chain mismatch: destructor index ${levelUp}`, levelUp, this._levelUp);
         if (grumble) {
-            console.warn("`protected destructor(): void` method should be implemented by `" + this._type + "`.")
+            console.warn("`protected destructor(): void` method should be implemented by `" + this._type + "`.");
         }
         // This is the sentinel that this destructor was eventually called.
         // We can check this invariant in the final release method.
-        this._levelUp = void 0
+        this._levelUp = void 0;
     }
 
     /**
@@ -98,11 +98,11 @@ export class ShareableBase implements Shareable {
      * </p>
      */
     private get levelUp(): number {
-        return this._levelUp
+        return this._levelUp;
     }
     private set levelUp(levelUp: number) {
         // The only way the level gets changed is through setLoggingName.
-        throw new Error(readOnly('levelUp').message)
+        throw new Error(readOnly('levelUp').message);
     }
 
     /**
@@ -121,16 +121,16 @@ export class ShareableBase implements Shareable {
      * @returns The new value of the reference count.
      */
     public addRef(): number {
-        this._refCount++
-        refChange(this._uuid, this._type, +1)
-        return this._refCount
+        this._refCount++;
+        refChange(this._uuid, this._type, +1);
+        return this._refCount;
     }
 
     /**
      * @returns
      */
     public getLoggingName(): string {
-        return this._type
+        return this._type;
     }
 
     /**
@@ -168,20 +168,20 @@ export class ShareableBase implements Shareable {
      * @returns The new value of the reference count.
      */
     public release(): number {
-        this._refCount--
-        refChange(this._uuid, this._type, -1)
-        const refCount = this._refCount
+        this._refCount--;
+        refChange(this._uuid, this._type, -1);
+        const refCount = this._refCount;
         if (refCount === 0) {
             // destructor called with `true` means grumble if the method has not been overridden.
             // The following will call the most derived class first, if such a destructor exists.
-            this.destructor(0, true)
+            this.destructor(0, true);
             // refCount is used to indicate zombie status so let that go to undefined.
-            this._refCount = void 0
+            this._refCount = void 0;
             // Keep the type and uuid around for debugging reference count problems.
             // this._type = void 0
             // this._uuid = void 0
             if (isDefined(this._levelUp)) {
-                throw new Error(`${this._type}.destructor method is not calling all the way up the chain.`)
+                throw new Error(`${this._type}.destructor method is not calling all the way up the chain.`);
             }
         }
         return refCount;
@@ -191,6 +191,6 @@ export class ShareableBase implements Shareable {
      *
      */
     private get uuid(): string {
-        return this._uuid
+        return this._uuid;
     }
 }

@@ -1,9 +1,9 @@
 import { Material } from './Material';
 import Attribute from './Attribute';
-import computeAttributes from './computeAttributes';
-import computeCount from './computeCount';
-import computePointers from './computePointers';
-import computeStride from './computeStride';
+// import computeAttributes from './computeAttributes';
+// import computeCount from './computeCount';
+// import computePointers from './computePointers';
+// import computeStride from './computeStride';
 import ContextManager from './ContextManager';
 import GeometryBase from './GeometryBase';
 import isNull from '../checks/isNull';
@@ -16,18 +16,7 @@ import vertexArraysFromPrimitive from './vertexArraysFromPrimitive';
 import VertexBuffer from './VertexBuffer';
 
 /**
- *
- * @example
- *     const engine = new EIGHT.Engine()
- *
- *     const geometry = new EIGHT.GeometryArrays(void 0, engine)
- *     geometry.mode = EIGHT.BeginMode.LINES
- *     geometry.setAttribute('aPosition', {values: [0, 0, 1, 0, 0, 0, 0, 1], size: 2})
- *     geometry.setAttribute('aColor', {values: [0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0], size: 3})
- *
- *     geometry.draw(material)
- *
- *     geometry.release()
+ * A concrete Geometry for supporting drawArrays.
  */
 export default class GeometryArrays extends GeometryBase {
 
@@ -35,19 +24,20 @@ export default class GeometryArrays extends GeometryBase {
      * The <code>first</code> parameter in the drawArrays call.
      * This is currently hard-code to zero because this class only supportes buffering one primitive.
      */
-    private first: number = 0
+    private first: number = 0;
 
     /**
      * The <code>count</code> parameter in the drawArrays call.
      * This is currently maintained at this level because this class only supportes buffering one primitive.
      */
-    private count: number
-    private attributes: { [name: string]: Attribute }
+    private count: number;
+    private attributes: { [name: string]: Attribute };
     private vbo: VertexBuffer;
 
-    constructor(contextManager: ContextManager, primitive?: Primitive, options: { order?: string[]; tilt?: SpinorE3 } = {}, levelUp = 0) {
+    constructor(contextManager: ContextManager, primitive: Primitive, options: { order?: string[]; tilt?: SpinorE3 } = {}, levelUp = 0) {
         super(options.tilt, contextManager, levelUp + 1);
         mustBeObject('contextManager', contextManager);
+        mustBeObject('primitive', primitive);
         this.setLoggingName('GeometryArrays');
         this.attributes = {};
         this.vbo = new VertexBuffer(contextManager);
@@ -55,7 +45,7 @@ export default class GeometryArrays extends GeometryBase {
         const data = vertexArraysFromPrimitive(primitive, options.order);
         if (!isNull(data) && !isUndefined(data)) {
             if (isObject(data)) {
-                this.mode = data.mode;
+                this._mode = data.mode;
                 this.vbo.data = new Float32Array(data.attributes);
                 // FIXME: Hacky
                 this.count = data.attributes.length / (data.stride / 4);
@@ -101,10 +91,10 @@ export default class GeometryArrays extends GeometryBase {
         return this;
     }
 
-    draw(material: Material): GeometryArrays {
+    draw(): GeometryArrays {
         const contextProvider = this.contextProvider;
         if (contextProvider) {
-            this.contextProvider.drawArrays(this.mode, this.first, this.count);
+            this.contextProvider.drawArrays(this._mode, this.first, this.count);
         }
         return this;
     }
@@ -124,18 +114,19 @@ export default class GeometryArrays extends GeometryBase {
         this.vbo.unbind();
         return this;
     }
-
+    /*
     getAttribute(name: string): Attribute {
-        return this.attributes[name]
+        return this.attributes[name];
     }
 
     setAttribute(name: string, attribute: Attribute): void {
-        this.attributes[name] = attribute
-        const aNames = Object.keys(this.attributes)
-        this.count = computeCount(this.attributes, aNames)
-        this._stride = computeStride(this.attributes, aNames)
-        this._pointers = computePointers(this.attributes, aNames)
-        const array = computeAttributes(this.attributes, aNames)
-        this.vbo.data = new Float32Array(array)
+        this.attributes[name] = attribute;
+        const aNames = Object.keys(this.attributes);
+        this.count = computeCount(this.attributes, aNames);
+        this._stride = computeStride(this.attributes, aNames);
+        this._pointers = computePointers(this.attributes, aNames);
+        const array = computeAttributes(this.attributes, aNames);
+        this.vbo.data = new Float32Array(array);
     }
+    */
 }

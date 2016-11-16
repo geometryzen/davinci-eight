@@ -1,6 +1,6 @@
-import ContextProgramConsumer from  '../core/ContextProgramConsumer';
+import ContextProgramConsumer from '../core/ContextProgramConsumer';
 import DataType from '../core/DataType';
-import readOnly from  '../i18n/readOnly';
+import readOnly from '../i18n/readOnly';
 
 /**
  * An object-oriented representation of an attribute in a GLSL shader program.
@@ -35,10 +35,10 @@ export default class Attrib implements ContextProgramConsumer {
      * <code>WebGLRenderingContext</code>.
      */
     get index(): number {
-        return this._index
+        return this._index;
     }
     set index(unused) {
-        throw new Error(readOnly('index').message)
+        throw new Error(readOnly('index').message);
     }
 
     /**
@@ -51,8 +51,8 @@ export default class Attrib implements ContextProgramConsumer {
     contextFree(): void {
         // Nothing to deallocate. Just reflect notification in state variables.
         // This is coincidentally the same as contextLost, but not appropriate for DRY.
-        this._index = void 0
-        this._gl = void 0
+        this._index = void 0;
+        this._gl = void 0;
     }
 
     /**

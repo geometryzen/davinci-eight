@@ -2,8 +2,8 @@ import ContextManager from './ContextManager';
 import ContextProvider from './ContextProvider';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeUndefined from '../checks/mustBeUndefined';
-import {ShareableContextConsumer} from './ShareableContextConsumer';
-import {checkUsage} from './Usage';
+import { ShareableContextConsumer } from './ShareableContextConsumer';
+import { checkUsage } from './Usage';
 import Usage from './Usage';
 
 /**
@@ -32,7 +32,7 @@ export default class VertexBuffer extends ShareableContextConsumer {
     }
 
     get data(): Float32Array {
-        return this._data
+        return this._data;
     }
     set data(data: Float32Array) {
         this._data = data;
@@ -55,39 +55,39 @@ export default class VertexBuffer extends ShareableContextConsumer {
         if (usage) {
             this._usage = usage;
         }
-        const gl = this.gl
+        const gl = this.gl;
         if (gl) {
             if (this.webGLBuffer) {
-                gl.bindBuffer(gl.ARRAY_BUFFER, this.webGLBuffer)
+                gl.bindBuffer(gl.ARRAY_BUFFER, this.webGLBuffer);
                 if (this._data) {
                     gl.bufferData(gl.ARRAY_BUFFER, this._data, this._usage);
                 }
-                gl.bindBuffer(gl.ARRAY_BUFFER, null)
+                gl.bindBuffer(gl.ARRAY_BUFFER, null);
             }
         }
     }
 
     contextFree(contextProvider: ContextProvider): void {
-        mustBeObject('contextProvider', contextProvider)
+        mustBeObject('contextProvider', contextProvider);
         if (this.webGLBuffer) {
-            const gl = this.gl
+            const gl = this.gl;
             if (gl) {
-                gl.deleteBuffer(this.webGLBuffer)
+                gl.deleteBuffer(this.webGLBuffer);
             }
             else {
-                console.error(`${this._type} must leak WebGLBuffer because WebGLRenderingContext is ` + typeof gl)
+                console.error(`${this._type} must leak WebGLBuffer because WebGLRenderingContext is ` + typeof gl);
             }
-            this.webGLBuffer = void 0
+            this.webGLBuffer = void 0;
         }
         else {
             // It's a duplicate, ignore.
         }
-        super.contextFree(contextProvider)
+        super.contextFree(contextProvider);
     }
 
     contextGain(contextProvider: ContextProvider): void {
-        super.contextGain(contextProvider)
-        const gl = this.gl
+        super.contextGain(contextProvider);
+        const gl = this.gl;
         if (!this.webGLBuffer) {
             this.webGLBuffer = gl.createBuffer();
             this.bufferData(this._data, this._usage);
@@ -98,8 +98,8 @@ export default class VertexBuffer extends ShareableContextConsumer {
     }
 
     contextLost(): void {
-        this.webGLBuffer = void 0
-        super.contextLost()
+        this.webGLBuffer = void 0;
+        super.contextLost();
     }
 
     bind(): void {

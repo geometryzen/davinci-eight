@@ -2,30 +2,30 @@ import Attribute from '../core/Attribute';
 import DataType from '../core/DataType';
 
 function isVectorN(values: number[]): boolean {
-    return true
+    return true;
 }
 
 function checkValues(values: number[]): number[] {
     if (!isVectorN(values)) {
-        throw new Error("values must be a number[]")
+        throw new Error("values must be a number[]");
     }
-    return values
+    return values;
 }
 
 function isExactMultipleOf(numer: number, denom: number): boolean {
-    return numer % denom === 0
+    return numer % denom === 0;
 }
 
 function checkSize(size: number, values: number[]): number {
     if (typeof size === 'number') {
         if (!isExactMultipleOf(values.length, size)) {
-            throw new Error("values.length must be an exact multiple of size")
+            throw new Error("values.length must be an exact multiple of size");
         }
     }
     else {
-        throw new Error("size must be a number")
+        throw new Error("size must be a number");
     }
-    return size
+    return size;
 }
 
 /**
@@ -38,8 +38,8 @@ export default class DrawAttribute implements Attribute {
     constructor(values: number[], size: number, type: DataType) {
         // mustBeArray('values', values)
         // mustBeInteger('size', size)
-        this.values = checkValues(values)
-        this.size = checkSize(size, values)
+        this.values = checkValues(values);
+        this.size = checkSize(size, values);
         this.type = type;
     }
 }

@@ -42,24 +42,24 @@ export class Engine extends ShareableBase implements ContextManager {
     /**
      * 
      */
-    private _gl: WebGLRenderingContext
+    private _gl: WebGLRenderingContext;
 
-    private _attributes: WebGLContextAttributes
+    private _attributes: WebGLContextAttributes;
 
     // Remark: We only hold weak references to users so that the lifetime of resource
     // objects is not affected by the fact that they are listening for gl events.
     // Users should automatically add themselves upon construction and remove upon release.
-    private _users: ContextConsumer[] = []
+    private _users: ContextConsumer[] = [];
 
-    private _webGLContextLost: (event: Event) => any
-    private _webGLContextRestored: (event: Event) => any
+    private _webGLContextLost: (event: Event) => any;
+    private _webGLContextRestored: (event: Event) => any;
 
-    private _commands = new ShareableArray<ContextConsumer>([])
+    private _commands = new ShareableArray<ContextConsumer>([]);
 
     /**
      * The argument provided in contextGain events.
      */
-    private _contextProvider: DefaultContextProvider
+    private _contextProvider: DefaultContextProvider;
 
     /**
      * @param canvas 
@@ -67,38 +67,38 @@ export class Engine extends ShareableBase implements ContextManager {
      * @param doc The document object model that contains the canvas identifier.
      */
     constructor(canvas?: string | HTMLCanvasElement | WebGLRenderingContext, attributes?: WebGLContextAttributes, doc = window.document) {
-        super()
-        this.setLoggingName('Engine')
+        super();
+        this.setLoggingName('Engine');
 
         this._attributes = attributes;
 
-        this._commands.pushWeakRef(new EIGHTLogger())
-        this._commands.pushWeakRef(new VersionLogger())
+        this._commands.pushWeakRef(new EIGHTLogger());
+        this._commands.pushWeakRef(new VersionLogger());
 
-        this._contextProvider = new DefaultContextProvider(this)
+        this._contextProvider = new DefaultContextProvider(this);
 
         this._webGLContextLost = (event: Event) => {
             if (isDefined(this._gl)) {
-                event.preventDefault()
-                this._gl = void 0
+                event.preventDefault();
+                this._gl = void 0;
                 this._users.forEach((user: ContextConsumer) => {
-                    user.contextLost()
-                })
+                    user.contextLost();
+                });
             }
-        }
+        };
 
         this._webGLContextRestored = (event: Event) => {
             if (isDefined(this._gl)) {
-                event.preventDefault()
-                this._gl = initWebGL(this._gl.canvas, attributes)
+                event.preventDefault();
+                this._gl = initWebGL(this._gl.canvas, attributes);
                 this._users.forEach((user: ContextConsumer) => {
-                    user.contextGain(this._contextProvider)
-                })
+                    user.contextGain(this._contextProvider);
+                });
             }
-        }
+        };
 
         if (canvas) {
-            this.start(canvas, doc)
+            this.start(canvas, doc);
         }
     }
 
@@ -107,25 +107,25 @@ export class Engine extends ShareableBase implements ContextManager {
      */
     protected destructor(levelUp: number): void {
         this.stop();
-        this._contextProvider.release()
+        this._contextProvider.release();
         while (this._users.length > 0) {
             this._users.pop();
         }
         this._commands.release();
-        super.destructor(levelUp + 1)
+        super.destructor(levelUp + 1);
     }
 
     /**
      *
      */
     addContextListener(user: ContextConsumer): void {
-        mustBeObject('user', user)
-        const index = this._users.indexOf(user)
+        mustBeObject('user', user);
+        const index = this._users.indexOf(user);
         if (index < 0) {
-            this._users.push(user)
+            this._users.push(user);
         }
         else {
-            console.warn("user already exists for addContextListener")
+            console.warn("user already exists for addContextListener");
         }
     }
 
@@ -170,7 +170,7 @@ export class Engine extends ShareableBase implements ContextManager {
     }
 
     blendFunc(sfactor: BlendingFactorSrc, dfactor: BlendingFactorDest): Engine {
-        const gl = this._gl
+        const gl = this._gl;
         if (gl) {
             gl.blendFunc(sfactor, dfactor);
         }
@@ -183,9 +183,9 @@ export class Engine extends ShareableBase implements ContextManager {
      * </p>
      */
     clear(mask = ClearBufferMask.COLOR_BUFFER_BIT | ClearBufferMask.DEPTH_BUFFER_BIT): Engine {
-        const gl = this._gl
+        const gl = this._gl;
         if (gl) {
-            gl.clear(mask)
+            gl.clear(mask);
         }
         return this;
     }
@@ -194,12 +194,12 @@ export class Engine extends ShareableBase implements ContextManager {
      * Specifies color values to use by the <code>clear</code> method to clear the color buffer.
      */
     clearColor(red: number, green: number, blue: number, alpha: number): Engine {
-        this._commands.pushWeakRef(new WebGLClearColor(red, green, blue, alpha))
-        const gl = this._gl
+        this._commands.pushWeakRef(new WebGLClearColor(red, green, blue, alpha));
+        const gl = this._gl;
         if (gl) {
-            gl.clearColor(red, green, blue, alpha)
+            gl.clearColor(red, green, blue, alpha);
         }
-        return this
+        return this;
     }
 
     /**
@@ -211,7 +211,7 @@ export class Engine extends ShareableBase implements ContextManager {
      * The default value is 1.
      */
     clearDepth(depth: number): Engine {
-        const gl = this._gl
+        const gl = this._gl;
         if (gl) {
             gl.clearDepth(depth);
         }
@@ -223,7 +223,7 @@ export class Engine extends ShareableBase implements ContextManager {
      * The default value is 0.
      */
     clearStencil(s: number): Engine {
-        const gl = this._gl
+        const gl = this._gl;
         if (gl) {
             gl.clearStencil(s);
         }
@@ -231,17 +231,17 @@ export class Engine extends ShareableBase implements ContextManager {
     }
 
     depthFunc(func: DepthFunction): Engine {
-        const gl = this._gl
+        const gl = this._gl;
         if (gl) {
-            gl.depthFunc(func)
+            gl.depthFunc(func);
         }
         return this;
     }
 
     depthMask(flag: boolean): Engine {
-        const gl = this._gl
+        const gl = this._gl;
         if (gl) {
-            gl.depthMask(flag)
+            gl.depthMask(flag);
         }
         return this;
     }
@@ -273,10 +273,10 @@ export class Engine extends ShareableBase implements ContextManager {
      */
     get gl(): WebGLRenderingContext {
         if (this._gl) {
-            return this._gl
+            return this._gl;
         }
         else {
-            return void 0
+            return void 0;
         }
     }
 
@@ -319,12 +319,12 @@ export class Engine extends ShareableBase implements ContextManager {
      * @returns e.g. Int32Array[16384, 16384]
      */
     getMaxViewportDims(): Int32Array {
-        const gl = this._gl
+        const gl = this._gl;
         if (gl) {
-            return gl.getParameter(gl.MAX_VIEWPORT_DIMS)
+            return gl.getParameter(gl.MAX_VIEWPORT_DIMS);
         }
         else {
-            return void 0
+            return void 0;
         }
     }
 
@@ -336,12 +336,12 @@ export class Engine extends ShareableBase implements ContextManager {
      * @returns e.g. Int32Array[x, y, width, height]
      */
     getViewport(): Int32Array {
-        const gl = this._gl
+        const gl = this._gl;
         if (gl) {
-            return gl.getParameter(gl.VIEWPORT)
+            return gl.getParameter(gl.VIEWPORT);
         }
         else {
-            return void 0
+            return void 0;
         }
     }
 
@@ -356,9 +356,9 @@ export class Engine extends ShareableBase implements ContextManager {
     viewport(x: number, y: number, width: number, height: number): Engine {
         const gl = this._gl;
         if (gl) {
-            gl.viewport(x, y, width, height)
+            gl.viewport(x, y, width, height);
         }
-        return this
+        return this;
     }
 
     /**
@@ -381,8 +381,8 @@ export class Engine extends ShareableBase implements ContextManager {
             if (isDefined(this._gl)) {
                 // We'll just be idempotent and ignore the call because we've already been started.
                 // To use the canvas might conflict with one we have dynamically created.
-                console.warn(`${this._type} Ignoring start() because already started.`)
-                return
+                console.warn(`${this._type} Ignoring start() because already started.`);
+                return;
             }
             else {
                 this._gl = initWebGL(canvas, this._attributes);
@@ -406,49 +406,49 @@ export class Engine extends ShareableBase implements ContextManager {
      */
     stop(): Engine {
         if (isDefined(this._gl)) {
-            this._gl.canvas.removeEventListener('webglcontextrestored', this._webGLContextRestored, false)
-            this._gl.canvas.removeEventListener('webglcontextlost', this._webGLContextLost, false)
+            this._gl.canvas.removeEventListener('webglcontextrestored', this._webGLContextRestored, false);
+            this._gl.canvas.removeEventListener('webglcontextlost', this._webGLContextLost, false);
             if (this._gl) {
-                this.emitStopEvent()
-                this._gl = void 0
+                this.emitStopEvent();
+                this._gl = void 0;
             }
         }
-        return this
+        return this;
     }
 
     private emitStartEvent() {
         this._users.forEach((user: ContextConsumer) => {
-            this.emitContextGain(user)
-        })
+            this.emitContextGain(user);
+        });
         this._commands.forEach((command) => {
-            this.emitContextGain(command)
-        })
+            this.emitContextGain(command);
+        });
     }
 
     private emitContextGain(consumer: ContextConsumer): void {
         if (this._gl.isContextLost()) {
-            consumer.contextLost()
+            consumer.contextLost();
         }
         else {
-            consumer.contextGain(this._contextProvider)
+            consumer.contextGain(this._contextProvider);
         }
     }
 
     private emitStopEvent() {
         this._users.forEach((user: ContextConsumer) => {
-            this.emitContextFree(user)
-        })
+            this.emitContextFree(user);
+        });
         this._commands.forEach((command) => {
             this.emitContextFree(command);
-        })
+        });
     }
 
     private emitContextFree(consumer: ContextConsumer): void {
         if (this._gl.isContextLost()) {
-            consumer.contextLost()
+            consumer.contextLost();
         }
         else {
-            consumer.contextFree(this._contextProvider)
+            consumer.contextFree(this._contextProvider);
         }
     }
 
@@ -457,7 +457,7 @@ export class Engine extends ShareableBase implements ContextManager {
      */
     synchronize(consumer: ContextConsumer): Engine {
         if (this._gl) {
-            this.emitContextGain(consumer)
+            this.emitContextGain(consumer);
         }
         else {
             // FIXME: Broken symmetry.

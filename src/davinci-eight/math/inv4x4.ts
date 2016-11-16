@@ -32,7 +32,7 @@ export default function inv4x4(src: Float32Array, dest: Float32Array): void {
     const o43 = n13 * n22 * n41 - n12 * n23 * n41 - n13 * n21 * n42 + n11 * n23 * n42 + n12 * n21 * n43 - n11 * n22 * n43;
     const o44 = n12 * n23 * n31 - n13 * n22 * n31 + n13 * n21 * n32 - n11 * n23 * n32 - n12 * n21 * n33 + n11 * n22 * n33;
 
-    const det = n11 * o11 + n21 * o12 + n31 * o13 + n41 * o14
+    const det = n11 * o11 + n21 * o12 + n31 * o13 + n41 * o14;
 
     const α = 1 / det;
 

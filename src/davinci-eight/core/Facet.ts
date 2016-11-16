@@ -6,5 +6,5 @@ import { Shareable } from './Shareable';
  * An object implementing the `Facet` interface is capable of setting uniform values on a `FacetVisitor`.
  */
 export interface Facet extends Shareable {
-    setUniforms(visitor: FacetVisitor): void
+    setUniforms(visitor: FacetVisitor): void;
 }

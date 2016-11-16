@@ -1,11 +1,11 @@
-import {VectorN} from '../math/VectorN'
+import { VectorN } from '../math/VectorN';
 
 /**
  * A mapping from the name of an attribute to VectorN parameterized by number.
  * Using VectorN allows Geometric2, Geometric3, Vector1, Vector2, Vector3, Vector4, Spinor2, Spinor3.
  */
 interface VertexAttributeMap {
-    [name: string]: VectorN<number>
+    [name: string]: VectorN<number>;
 }
 
-export default VertexAttributeMap
+export default VertexAttributeMap;

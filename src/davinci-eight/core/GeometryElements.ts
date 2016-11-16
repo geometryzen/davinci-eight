@@ -10,11 +10,11 @@ import isUndefined from '../checks/isUndefined';
 import mustBeArray from '../checks/mustBeArray';
 import mustBeObject from '../checks/mustBeObject';
 import Primitive from './Primitive';
-import readOnly from '../i18n/readOnly';
-import SpinorE3 from '../math/SpinorE3'
-import VertexArrays from './VertexArrays';
+// import readOnly from '../i18n/readOnly';
+import SpinorE3 from '../math/SpinorE3';
+// import VertexArrays from './VertexArrays';
 import vertexArraysFromPrimitive from './vertexArraysFromPrimitive';
-import VertexAttribPointer from './VertexAttribPointer';
+// import VertexAttribPointer from './VertexAttribPointer';
 import VertexBuffer from './VertexBuffer';
 
 /**
@@ -35,9 +35,10 @@ export default class GeometryElements extends GeometryBase {
     private ibo: IndexBuffer;
     private vbo: VertexBuffer;
 
-    constructor(primitive: Primitive, contextManager: ContextManager, options: { order?: string[]; tilt?: SpinorE3 } = {}, levelUp = 0) {
+    constructor(contextManager: ContextManager, primitive: Primitive, options: { order?: string[]; tilt?: SpinorE3 } = {}, levelUp = 0) {
         super(options.tilt, contextManager, levelUp + 1);
 
+        mustBeObject('primitive', primitive);
         mustBeObject('contextManager', contextManager);
 
         this.setLoggingName('GeometryElements');
@@ -48,30 +49,30 @@ export default class GeometryElements extends GeometryBase {
         const data = vertexArraysFromPrimitive(primitive, options.order);
         if (!isNull(data) && !isUndefined(data)) {
             if (isObject(data)) {
-                this.mode = data.mode;
+                this._mode = data.mode;
                 this.setIndices(data.indices);
 
                 this._attributes = data.attributes;
-                this._stride = data.stride
+                this._stride = data.stride;
                 if (!isNull(data.pointers) && !isUndefined(data.pointers)) {
                     if (isArray(data.pointers)) {
-                        this._pointers = data.pointers
+                        this._pointers = data.pointers;
                     }
                     else {
-                        mustBeArray('data.pointers', data.pointers)
+                        mustBeArray('data.pointers', data.pointers);
                     }
                 }
                 else {
-                    this._pointers = []
+                    this._pointers = [];
                 }
-                this.vbo.data = new Float32Array(data.attributes)
+                this.vbo.data = new Float32Array(data.attributes);
             }
             else {
-                mustBeObject('data', data)
+                mustBeObject('data', data);
             }
         }
         else {
-            this._pointers = []
+            this._pointers = [];
         }
         if (levelUp === 0) {
             this.synchUp();
@@ -89,46 +90,52 @@ export default class GeometryElements extends GeometryBase {
         super.destructor(levelUp + 1);
     }
 
+    /*
     public get attributes(): number[] {
-        return this._attributes
+        return this._attributes;
     }
     public set attributes(attributes: number[]) {
         if (isArray(attributes)) {
-            this._attributes = attributes
-            this.vbo.data = new Float32Array(attributes)
+            this._attributes = attributes;
+            this.vbo.data = new Float32Array(attributes);
         }
     }
+    */
 
+    /*
     private get data(): VertexArrays {
         // FIXME: This should return a deep copy.
         return {
-            mode: this.mode,
+            mode: this._mode,
             indices: this._indices,
             attributes: this._attributes,
             stride: this._stride,
             pointers: this._pointers
-        }
+        };
     }
     private set data(data: VertexArrays) {
-        throw new Error(readOnly('data').message)
+        throw new Error(readOnly('data').message);
     }
+    */
 
+    /*
     public get indices(): number[] {
-        return this._indices
+        return this._indices;
     }
     public set indices(indices: number[]) {
-        this.setIndices(indices)
+        this.setIndices(indices);
     }
+    */
 
     private setIndices(indices: number[]): void {
         if (!isNull(indices) && !isUndefined(indices)) {
             if (isArray(indices)) {
                 this._indices = indices;
-                this.count = indices.length
-                this.ibo.data = new Uint16Array(indices)
+                this.count = indices.length;
+                this.ibo.data = new Uint16Array(indices);
             }
             else {
-                mustBeArray('indices', indices)
+                mustBeArray('indices', indices);
             }
         }
         else {
@@ -136,39 +143,43 @@ export default class GeometryElements extends GeometryBase {
         }
     }
 
+    /*
     public get pointers(): VertexAttribPointer[] {
-        return this._pointers
+        return this._pointers;
     }
     public set pointers(pointers: VertexAttribPointer[]) {
-        this._pointers = pointers
+        this._pointers = pointers;
     }
+    */
 
     /**
-     * The total number of <em>bytes</em> for each element.
+     * The total number of bytes for each element.
      */
+    /*
     public get stride(): number {
-        return this._stride
+        return this._stride;
     }
     public set stride(stride: number) {
-        this._stride = stride
+        this._stride = stride;
     }
+    */
 
     public contextFree(contextProvider: ContextProvider): void {
-        this.ibo.contextFree(contextProvider)
-        this.vbo.contextFree(contextProvider)
-        super.contextFree(contextProvider)
+        this.ibo.contextFree(contextProvider);
+        this.vbo.contextFree(contextProvider);
+        super.contextFree(contextProvider);
     }
 
     public contextGain(contextProvider: ContextProvider): void {
-        this.ibo.contextGain(contextProvider)
-        this.vbo.contextGain(contextProvider)
-        super.contextGain(contextProvider)
+        this.ibo.contextGain(contextProvider);
+        this.vbo.contextGain(contextProvider);
+        super.contextGain(contextProvider);
     }
 
     public contextLost(): void {
-        this.ibo.contextLost()
-        this.vbo.contextLost()
-        super.contextLost()
+        this.ibo.contextLost();
+        this.vbo.contextLost();
+        super.contextLost();
     }
 
     bind(material: Material): GeometryElements {
@@ -212,11 +223,11 @@ export default class GeometryElements extends GeometryBase {
         return this;
     }
 
-    draw(material: Material): GeometryElements {
+    draw(): GeometryElements {
         const contextProvider = this.contextProvider;
         if (contextProvider) {
             if (this.count) {
-                contextProvider.drawElements(this.mode, this.count, this.offset);
+                contextProvider.drawElements(this._mode, this.count, this.offset);
             }
         }
         return this;

@@ -22,29 +22,29 @@ import dataFromVectorN from '../geometries/dataFromVectorN';
  * consistent with the linear dimension (2,3), so there should be no surprises.
  */
 function attributes(unused: number[], vertices: Vertex[]): { [name: string]: Attribute } {
-    const attribs: { [name: string]: Attribute } = {}
+    const attribs: { [name: string]: Attribute } = {};
 
-    const iLen = vertices.length
+    const iLen = vertices.length;
     for (let i = 0; i < iLen; i++) {
 
-        const vertex: Vertex = vertices[i]
+        const vertex: Vertex = vertices[i];
 
-        const names: string[] = Object.keys(vertex.attributes)
-        const jLen = names.length
+        const names: string[] = Object.keys(vertex.attributes);
+        const jLen = names.length;
         for (let j = 0; j < jLen; j++) {
-            const name: string = names[j]
-            const data: number[] = dataFromVectorN(vertex.attributes[name])
-            const size = data.length
-            let attrib = attribs[name]
+            const name: string = names[j];
+            const data: number[] = dataFromVectorN(vertex.attributes[name]);
+            const size = data.length;
+            let attrib = attribs[name];
             if (!attrib) {
-                attrib = attribs[name] = new DrawAttribute([], size, DataType.FLOAT)
+                attrib = attribs[name] = new DrawAttribute([], size, DataType.FLOAT);
             }
             for (let k = 0; k < size; k++) {
-                attrib.values.push(data[k])
+                attrib.values.push(data[k]);
             }
         }
     }
-    return attribs
+    return attribs;
 }
 
 /**
@@ -65,43 +65,37 @@ export default class GeometryPrimitive {
     private mode: BeginMode;
 
     /**
-     * @property elements
-     * @type number[]
-     * @protected
+     *
      */
     protected elements: number[];
 
     /**
-     * @property vertices
-     * @type Vertex
-     * @protected
+     *
      */
     protected vertices: Vertex[];
 
     /**
      * Constructs a GeometryPrimitive and initializes the vertices property with the required number of vertices.
      *
-     * @class GeometryPrimitive
-     * @constructor
      * @param mode
      * @param numVertices
      * @param numCoordinates The number of coordinates required to label each vertex.
      */
     constructor(mode: BeginMode, numVertices: number, numCoordinates: number) {
-        this.mode = mustBeInteger('mode', mode)
-        mustBeInteger('numVertices', numVertices)
-        mustBeGE('numVertices', numVertices, 0)
-        mustBeInteger('numCoordinates', numCoordinates)
-        mustBeGE('numCoordinates', numCoordinates, 0)
-        this.vertices = []
+        this.mode = mustBeInteger('mode', mode);
+        mustBeInteger('numVertices', numVertices);
+        mustBeGE('numVertices', numVertices, 0);
+        mustBeInteger('numCoordinates', numCoordinates);
+        mustBeGE('numCoordinates', numCoordinates, 0);
+        this.vertices = [];
         for (var i = 0; i < numVertices; i++) {
-            this.vertices.push(new Vertex(numCoordinates))
+            this.vertices.push(new Vertex(numCoordinates));
         }
     }
 
     public vertexTransform(transform: Transform): void {
         // Derived classes must implement in order to supply correct ranges.
-        throw new Error(notSupported('vertexTransform').message)
+        throw new Error(notSupported('vertexTransform').message);
     }
 
     /**
@@ -110,9 +104,9 @@ export default class GeometryPrimitive {
      */
     public toPrimitive(): Primitive {
         // Derived classes are responsible for allocating the elements array.
-        const context = () => { return 'toPrimitive' }
-        mustBeArray('elements', this.elements, context)
-        return new DrawPrimitive(this.mode, this.elements, attributes(this.elements, this.vertices))
+        const context = () => { return 'toPrimitive'; };
+        mustBeArray('elements', this.elements, context);
+        return new DrawPrimitive(this.mode, this.elements, attributes(this.elements, this.vertices));
     }
 
     /**
@@ -121,6 +115,6 @@ export default class GeometryPrimitive {
      * @return {VertexArrays}
      */
     public toVertexArrays(names?: string[]): VertexArrays {
-        return vertexArraysFromPrimitive(this.toPrimitive(), names)
+        return vertexArraysFromPrimitive(this.toPrimitive(), names);
     }
 }

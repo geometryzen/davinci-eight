@@ -9,7 +9,7 @@ import tetrahedronPrimitive from './tetrahedronPrimitive';
 export default class TetrahedronGeometry extends GeometryElements {
 
     constructor(contextManager: ContextManager, options: TetrahedronGeometryOptions = {}, levelUp = 0) {
-        super(tetrahedronPrimitive(options), contextManager, options, levelUp + 1);
+        super(contextManager, tetrahedronPrimitive(options), options, levelUp + 1);
         this.setLoggingName('TetrahedronGeometry');
         if (levelUp === 0) {
             this.synchUp();

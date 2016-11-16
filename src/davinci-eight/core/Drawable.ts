@@ -92,19 +92,19 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
      */
     get fragmentShaderSrc(): string {
         if (this._material) {
-            return this._material.fragmentShaderSrc
+            return this._material.fragmentShaderSrc;
         }
         else {
-            return void 0
+            return void 0;
         }
 
     }
     set fragmentShaderSrc(fragmentShaderSrc: string) {
         if (this._material) {
-            this._material.fragmentShaderSrc = fragmentShaderSrc
+            this._material.fragmentShaderSrc = fragmentShaderSrc;
         }
         else {
-            throw new Error(`Unable to set fragmentShaderSrc because ${this._type}.material is not defined.`)
+            throw new Error(`Unable to set fragmentShaderSrc because ${this._type}.material is not defined.`);
         }
     }
 
@@ -113,25 +113,25 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
      */
     get vertexShaderSrc(): string {
         if (this._material) {
-            return this._material.vertexShaderSrc
+            return this._material.vertexShaderSrc;
         }
         else {
-            return void 0
+            return void 0;
         }
 
     }
     set vertexShaderSrc(vertexShaderSrc: string) {
-        const material = this._material
+        const material = this._material;
         if (material) {
-            material.vertexShaderSrc = vertexShaderSrc
+            material.vertexShaderSrc = vertexShaderSrc;
         }
         else {
-            throw new Error(`Unable to set vertexShaderSrc because ${this._type}.material is not defined.`)
+            throw new Error(`Unable to set vertexShaderSrc because ${this._type}.material is not defined.`);
         }
     }
 
     get opacity(): number {
-        const facet = <OpacityFacet>this.getFacet(OPACITY_FACET_NAME)
+        const facet = <OpacityFacet>this.getFacet(OPACITY_FACET_NAME);
         if (facet) {
             return facet.opacity;
         }
@@ -141,7 +141,7 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
     }
     set opacity(newOpacity: number) {
         if (isNumber(newOpacity)) {
-            const facet = <OpacityFacet>this.getFacet(OPACITY_FACET_NAME)
+            const facet = <OpacityFacet>this.getFacet(OPACITY_FACET_NAME);
             if (facet) {
                 facet.opacity = newOpacity;
             }
@@ -158,7 +158,7 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
     }
 
     get pointSize(): number {
-        const facet = <PointSizeFacet>this.getFacet(POINTSIZE_FACET_NAME)
+        const facet = <PointSizeFacet>this.getFacet(POINTSIZE_FACET_NAME);
         if (facet) {
             return facet.pointSize;
         }
@@ -168,7 +168,7 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
     }
     set pointSize(newPointSize: number) {
         if (isNumber(newPointSize)) {
-            const facet = <PointSizeFacet>this.getFacet(POINTSIZE_FACET_NAME)
+            const facet = <PointSizeFacet>this.getFacet(POINTSIZE_FACET_NAME);
             if (facet) {
                 facet.pointSize = newPointSize;
             }
@@ -212,7 +212,7 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
             }
             else {
                 if (this._geometry) {
-                    this._geometry.draw(this._material);
+                    this._geometry.draw();
                 }
             }
         }
@@ -359,7 +359,7 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
         return this._visible;
     }
     set visible(visible: boolean) {
-        mustBeBoolean('visible', visible, () => { return this._type });
+        mustBeBoolean('visible', visible, () => { return this._type; });
         this._visible = visible;
     }
 
@@ -370,7 +370,7 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
         return this._transparent;
     }
     set transparent(transparent: boolean) {
-        mustBeBoolean('transparent', transparent, () => { return this._type });
+        mustBeBoolean('transparent', transparent, () => { return this._type; });
         this._transparent = transparent;
     }
 }

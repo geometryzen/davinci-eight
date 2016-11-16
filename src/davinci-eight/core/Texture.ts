@@ -33,20 +33,20 @@ export default class Texture extends ShareableContextConsumer {
 
     contextFree(contextProvider: ContextProvider) {
         if (this._texture) {
-            this.gl.deleteTexture(this._texture)
-            this._texture = void 0
+            this.gl.deleteTexture(this._texture);
+            this._texture = void 0;
         }
-        super.contextFree(contextProvider)
+        super.contextFree(contextProvider);
     }
 
     contextGain(contextProvider: ContextProvider) {
-        this._texture = contextProvider.gl.createTexture()
-        super.contextGain(contextProvider)
+        this._texture = contextProvider.gl.createTexture();
+        super.contextGain(contextProvider);
     }
 
     contextLost() {
-        this._texture = void 0
-        super.contextLost()
+        this._texture = void 0;
+        super.contextLost();
     }
 
     /**
@@ -54,10 +54,10 @@ export default class Texture extends ShareableContextConsumer {
      */
     bind(): void {
         if (this.gl) {
-            this.gl.bindTexture(this._target, this._texture)
+            this.gl.bindTexture(this._target, this._texture);
         }
         else {
-            console.warn(`${this._type}.bind() missing WebGL rendering context.`)
+            console.warn(`${this._type}.bind() missing WebGL rendering context.`);
         }
     }
 
@@ -66,10 +66,10 @@ export default class Texture extends ShareableContextConsumer {
      */
     unbind(): void {
         if (this.gl) {
-            this.gl.bindTexture(this._target, null)
+            this.gl.bindTexture(this._target, null);
         }
         else {
-            console.warn(`${this._type}.unbind() missing WebGL rendering context.`)
+            console.warn(`${this._type}.unbind() missing WebGL rendering context.`);
         }
     }
 
@@ -83,7 +83,7 @@ export default class Texture extends ShareableContextConsumer {
             this.unbind();
         }
         else {
-            console.warn(`${this._type}.minFilter missing WebGL rendering context.`)
+            console.warn(`${this._type}.minFilter missing WebGL rendering context.`);
         }
     }
 
@@ -97,7 +97,7 @@ export default class Texture extends ShareableContextConsumer {
             this.unbind();
         }
         else {
-            console.warn(`${this._type}.magFilter missing WebGL rendering context.`)
+            console.warn(`${this._type}.magFilter missing WebGL rendering context.`);
         }
     }
 
@@ -111,7 +111,7 @@ export default class Texture extends ShareableContextConsumer {
             this.unbind();
         }
         else {
-            console.warn(`${this._type}.wrapS missing WebGL rendering context.`)
+            console.warn(`${this._type}.wrapS missing WebGL rendering context.`);
         }
     }
 
@@ -125,7 +125,7 @@ export default class Texture extends ShareableContextConsumer {
             this.unbind();
         }
         else {
-            console.warn(`${this._type}.wrapT missing WebGL rendering context.`)
+            console.warn(`${this._type}.wrapT missing WebGL rendering context.`);
         }
     }
 
@@ -134,7 +134,7 @@ export default class Texture extends ShareableContextConsumer {
             this.gl.texImage2D(this._target, 0, PixelFormat.RGBA, PixelFormat.RGBA, DataType.UNSIGNED_BYTE, this.image);
         }
         else {
-            console.warn(`${this._type}.upload() missing WebGL rendering context.`)
+            console.warn(`${this._type}.upload() missing WebGL rendering context.`);
         }
     }
 }
