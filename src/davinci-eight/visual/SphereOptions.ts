@@ -7,7 +7,7 @@ interface SphereOptions extends VisualOptions {
     /**
      * 
      */
-    k?: number;
+    wireFrame?: boolean;
     /**
      * 
      */

@@ -2,8 +2,8 @@ import BrowserHTMLElement from '../base/BrowserHTMLElement';
 import BrowserWindow from '../base/BrowserWindow';
 import MouseCoordinates from './MouseCoordinates';
 import mustBeObject from '../checks/mustBeObject';
-import {ShareableBase} from '../core/ShareableBase';
-import {Vector2} from '../math/Vector2';
+import { ShareableBase } from '../core/ShareableBase';
+import { Vector2 } from '../math/Vector2';
 
 const MODE = { NONE: -1, ROTATE: 0, ZOOM: 1, PAN: 2, TOUCH_ROTATE: 3, TOUCH_ZOOM_PAN: 4 };
 
@@ -121,8 +121,7 @@ export class MouseControls extends ShareableBase {
     private mousewheel: (event: MouseWheelEvent) => any;
     private keydown: (event: KeyboardEvent) => any;
     private keyup: (event: KeyboardEvent) => any;
-    // Disabling the context menu because it interferes with capturing the canvas.
-    // private contextmenu: (event: PointerEvent) => any
+    private contextmenu: (event: PointerEvent) => any;
     private wnd: BrowserWindow;
 
     /**
@@ -163,7 +162,7 @@ export class MouseControls extends ShareableBase {
             }
             this.wnd.document.addEventListener('mousemove', this.mousemove, false);
             this.wnd.document.addEventListener('mouseup', this.mouseup, false);
-        }
+        };
 
         /**
          *
@@ -184,96 +183,85 @@ export class MouseControls extends ShareableBase {
                 this.zoomEnd.copy(this.mouseOnScreen);
             }
             else if (this.mode === MODE.PAN && !this.noPan) {
-                this.updateMouseOnScreen(event)
-                this.panEnd.copy(this.mouseOnScreen)
+                this.updateMouseOnScreen(event);
+                this.panEnd.copy(this.mouseOnScreen);
             }
-        }
+        };
 
         /**
          *
          */
         this.mouseup = (event: MouseEvent) => {
             if (!this.enabled) {
-                return
+                return;
             }
-            event.preventDefault()
-            event.stopPropagation()
-            this.mode = MODE.NONE
-            this.wnd.document.removeEventListener('mousemove', this.mousemove)
-            this.wnd.document.removeEventListener('mouseup', this.mouseup)
-        }
+            event.preventDefault();
+            event.stopPropagation();
+            this.mode = MODE.NONE;
+            this.wnd.document.removeEventListener('mousemove', this.mousemove);
+            this.wnd.document.removeEventListener('mouseup', this.mouseup);
+        };
 
         /**
          *
          */
         this.mousewheel = (event: MouseWheelEvent) => {
             if (!this.enabled) {
-                return
+                return;
             }
-            event.preventDefault()
-            event.stopPropagation()
+            event.preventDefault();
+            event.stopPropagation();
 
-            let delta = 0
+            let delta = 0;
             if (event.wheelDelta) { // WebKit / Opera / Explorer 9
-                delta = event.wheelDelta / 40
+                delta = event.wheelDelta / 40;
             }
             else if (event.detail) { // Firefox
-                delta = event.detail / 3
+                delta = event.detail / 3;
             }
-            this.zoomStart.y += delta * 0.01
-        }
+            this.zoomStart.y += delta * 0.01;
+        };
 
         /**
          *
          */
         this.keydown = (event: KeyboardEvent) => {
             if (!this.enabled) {
-                return
+                return;
             }
-            this.wnd.removeEventListener('keydown', this.keydown, false)
-            this.prevMode = this.mode
+            this.wnd.removeEventListener('keydown', this.keydown, false);
+            this.prevMode = this.mode;
             if (this.mode !== MODE.NONE) {
                 // If we are already in a mode then keydown can't change it.
                 // The key must go down before the mouse causes us to enter a mode.
-                return
+                return;
             }
             else if (event.keyCode === keys[MODE.ROTATE] && !this.noRotate) {
                 // Pressing 'A'...
-                this.mode = MODE.ROTATE
+                this.mode = MODE.ROTATE;
             }
             else if (event.keyCode === keys[MODE.ZOOM] && !this.noRotate) {
                 // Pressing 'S'...
-                this.mode = MODE.ZOOM
+                this.mode = MODE.ZOOM;
             }
             else if (event.keyCode === keys[MODE.PAN] && !this.noRotate) {
                 // Pressing 'D'...
-                this.mode = MODE.PAN
+                this.mode = MODE.PAN;
             }
-        }
+        };
 
         /**
          *
          */
         this.keyup = (event: KeyboardEvent) => {
             if (!this.enabled) {
-                return
+                return;
             }
-            this.mode = this.prevMode
-            this.wnd.addEventListener('keydown', this.keydown, false)
-        }
-
-        /**
-         *
-         */
-        // 
-        // this.contextmenu = (event: PointerEvent) => {
-        //    event.preventDefault()
-        // }
+            this.mode = this.prevMode;
+            this.wnd.addEventListener('keydown', this.keydown, false);
+        };
     }
 
-    /**
-     * @param levelUp
-     */
     protected destructor(levelUp: number): void {
         if (this.domElement) {
             this.unsubscribe();
@@ -282,16 +270,14 @@ export class MouseControls extends ShareableBase {
     }
 
     /**
-     * <p>
      * Simulates a movement of the mouse in coordinates -1 to +1 in both directions.
-     * </p>
      *
      * @param x
      * @param y
      */
     public move(x: number, y: number): void {
-        this.moveCurr.x = x
-        this.moveCurr.y = y
+        this.moveCurr.x = x;
+        this.moveCurr.y = y;
     }
 
     /**
@@ -299,17 +285,17 @@ export class MouseControls extends ShareableBase {
      */
     public subscribe(domElement: HTMLElement): void {
         if (this.domElement) {
-            this.unsubscribe()
+            this.unsubscribe();
         }
-        this.domElement = domElement
-        // this.domElement.addEventListener('contextmenu', this.contextmenu, false)
-        this.domElement.addEventListener('mousedown', this.mousedown, false)
-        this.domElement.addEventListener('mousewheel', this.mousewheel, false)
-        this.domElement.addEventListener('DOMMouseScroll', this.mousewheel, false) // Firefox
-        this.wnd.addEventListener('keydown', this.keydown, false)
-        this.wnd.addEventListener('keyup', this.keydown, false)
+        this.domElement = domElement;
+        this.disableContextMenu();
+        this.domElement.addEventListener('mousedown', this.mousedown, false);
+        this.domElement.addEventListener('mousewheel', this.mousewheel, false);
+        this.domElement.addEventListener('DOMMouseScroll', this.mousewheel, false); // Firefox
+        this.wnd.addEventListener('keydown', this.keydown, false);
+        this.wnd.addEventListener('keyup', this.keydown, false);
 
-        this.handleResize()
+        this.handleResize();
     }
 
     /**
@@ -317,13 +303,33 @@ export class MouseControls extends ShareableBase {
      */
     public unsubscribe(): void {
         if (this.domElement) {
-            // this.domElement.removeEventListener('contextmenu', this.contextmenu, false)
-            this.domElement.removeEventListener('mousedown', this.mousedown, false)
-            this.domElement.removeEventListener('mousewheel', this.mousewheel, false)
-            this.domElement.removeEventListener('DOMMouseScroll', this.mousewheel, false) // Firefox
-            this.domElement = void 0
-            this.wnd.removeEventListener('keydown', this.keydown, false)
-            this.wnd.removeEventListener('keyup', this.keydown, false)
+            this.enableContextMenu();
+            this.domElement.removeEventListener('mousedown', this.mousedown, false);
+            this.domElement.removeEventListener('mousewheel', this.mousewheel, false);
+            this.domElement.removeEventListener('DOMMouseScroll', this.mousewheel, false); // Firefox
+            this.domElement = void 0;
+            this.wnd.removeEventListener('keydown', this.keydown, false);
+            this.wnd.removeEventListener('keyup', this.keydown, false);
+        }
+    }
+
+    public disableContextMenu(): void {
+        if (this.domElement) {
+            if (!this.contextmenu) {
+                this.contextmenu = (event: PointerEvent) => {
+                    event.preventDefault();
+                };
+                this.domElement.addEventListener('contextmenu', this.contextmenu, false);
+            }
+        }
+    }
+
+    public enableContextMenu(): void {
+        if (this.domElement) {
+            if (this.contextmenu) {
+                this.domElement.removeEventListener('contextmenu', this.contextmenu, false);
+                this.contextmenu = void 0;
+            }
         }
     }
 
@@ -331,7 +337,7 @@ export class MouseControls extends ShareableBase {
      *
      */
     public reset(): void {
-        this.mode = MODE.NONE
+        this.mode = MODE.NONE;
     }
 
     /**
@@ -343,9 +349,9 @@ export class MouseControls extends ShareableBase {
      * @param mouse
      */
     private updateMouseOnCircle(mouse: MouseCoordinates): void {
-        this.mouseOnCircle.x = mouse.pageX
-        this.mouseOnCircle.y = -mouse.pageY
-        this.mouseOnCircle.sub(this.screenLoc).scale(2).sub(this.circleExt).divByScalar(this.circleExt.x)
+        this.mouseOnCircle.x = mouse.pageX;
+        this.mouseOnCircle.y = -mouse.pageY;
+        this.mouseOnCircle.sub(this.screenLoc).scale(2).sub(this.circleExt).divByScalar(this.circleExt.x);
     }
 
     /**
@@ -357,11 +363,11 @@ export class MouseControls extends ShareableBase {
      * @param mouse
      */
     private updateMouseOnScreen(mouse: MouseCoordinates): void {
-        this.mouseOnScreen.x = mouse.pageX
-        this.mouseOnScreen.y = -mouse.pageY
-        this.mouseOnScreen.sub(this.screenLoc)
-        this.mouseOnScreen.x /= this.circleExt.x
-        this.mouseOnScreen.y /= this.circleExt.y
+        this.mouseOnScreen.x = mouse.pageX;
+        this.mouseOnScreen.y = -mouse.pageY;
+        this.mouseOnScreen.sub(this.screenLoc);
+        this.mouseOnScreen.x /= this.circleExt.x;
+        this.mouseOnScreen.y /= this.circleExt.y;
     }
 
     /**
@@ -375,11 +381,11 @@ export class MouseControls extends ShareableBase {
             // this.screen.height = window.innerHeight;
         }
         else {
-            const boundingRect = this.domElement.getBoundingClientRect()
+            const boundingRect = this.domElement.getBoundingClientRect();
             // adjustments come from similar code in the jquery offset() function
-            const domElement = this.domElement.ownerDocument.documentElement
-            this.screenLoc.x = boundingRect.left + window.pageXOffset - domElement.clientLeft
-            this.screenLoc.y = -(boundingRect.top + window.pageYOffset - domElement.clientTop)
+            const domElement = this.domElement.ownerDocument.documentElement;
+            this.screenLoc.x = boundingRect.left + window.pageXOffset - domElement.clientLeft;
+            this.screenLoc.y = -(boundingRect.top + window.pageYOffset - domElement.clientTop);
             this.circleExt.x = boundingRect.width;
             this.circleExt.y = -boundingRect.height;
             this.screenExt.x = boundingRect.width;

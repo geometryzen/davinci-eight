@@ -19,7 +19,7 @@ export default class TextureLoader {
             texture.upload();
             texture.unbind();
             onLoad(texture);
-        }
+        };
         image.src = url;
     }
 }

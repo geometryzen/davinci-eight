@@ -10,15 +10,16 @@ import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
 import Vector3 from '../math/Vector3';
 
-// TODO: Why have an initial axis when height vector is defined.
+// TODO: Why have an initial axis when height vector is defined?
 const e2 = Vector3.vector(0, 1, 0);
 
 /**
  * 
  */
 export default class HollowCylinder extends RigidBody {
-    constructor(engine: Engine, options: HollowCylinderOptions = {}, levelUp = 0) {
-        super(mustBeEngine(engine, 'HollowCylinder'), e2, levelUp + 1);
+    constructor(engine: Engine, options: HollowCylinderOptions = {}) {
+        super(mustBeEngine(engine, 'HollowCylinder'), e2, 1);
+        this.setLoggingName('HollowCylinder');
 
         const geometry = new HollowCylinderGeometry(engine, options);
         this.geometry = geometry;
@@ -46,14 +47,10 @@ export default class HollowCylinder extends RigidBody {
         setColorOption(this, options, Color.hotpink);
         setDeprecatedOptions(this, options);
 
-        if (levelUp === 0) {
-            this.synchUp();
-        }
+        this.synchUp();
     }
     protected destructor(levelUp: number): void {
-        if (levelUp === 0) {
-            this.cleanUp();
-        }
-        this.destructor(levelUp + 1);
+        this.cleanUp();
+        super.destructor(levelUp + 1);
     }
 }

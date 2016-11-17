@@ -84,7 +84,7 @@ export default function randomColor(options: { count?: number, format?: string, 
 
 function pickHue(options: { hue?: string }): number {
 
-  const hueRange = getHueRange(options.hue)
+  const hueRange = getHueRange(options.hue);
   let hue = randomWithin(hueRange);
 
   // Instead of storing red as two seperate ranges,
@@ -151,6 +151,7 @@ function pickBrightness(H: number, S: number, options: { luminosity?: string }):
   return randomWithin([bMin, bMax]);
 }
 
+/*
 function setFormatString(hsv: number[], options: { format?: string }): string {
 
   switch (options.format) {
@@ -175,6 +176,7 @@ function setFormatString(hsv: number[], options: { format?: string }): string {
       return HSVtoHex(hsv);
   }
 }
+*/
 
 function setFormatArray(hsv: number[], options: { format?: string }): number[] {
 
@@ -190,7 +192,7 @@ function setFormatArray(hsv: number[], options: { format?: string }): number[] {
       return HSVtoRGB(hsv);
 
     default:
-      throw new Error()
+      throw new Error();
   }
 }
 
@@ -253,12 +255,14 @@ function getColorInfo(hue: number): ColorEntry {
     hue -= 360;
   }
 
-  for (var colorName in colorDictionary) {
-    const color = colorDictionary[colorName];
-    if (color.hueRange &&
-      hue >= color.hueRange[0] &&
-      hue <= color.hueRange[1]) {
-      return colorDictionary[colorName];
+  for (let colorName in colorDictionary) {
+    if (colorDictionary.hasOwnProperty(colorName)) {
+      const color = colorDictionary[colorName];
+      if (color.hueRange &&
+        hue >= color.hueRange[0] &&
+        hue <= color.hueRange[1]) {
+        return colorDictionary[colorName];
+      }
     }
   }
   throw new Error(`Color with hue ${hue} not found`);
@@ -267,8 +271,9 @@ function getColorInfo(hue: number): ColorEntry {
 function randomWithin(range: number[]): number {
   if (seed === null) {
     return Math.floor(range[0] + Math.random() * (range[1] + 1 - range[0]));
-  } else {
-    //Seeded random algorithm from http://indiegamr.com/generate-repeatable-random-numbers-in-js/
+  }
+  else {
+    // Seeded random algorithm from http://indiegamr.com/generate-repeatable-random-numbers-in-js/
     var max = range[1] || 1;
     var min = range[0] || 0;
     seed = (seed * 9301 + 49297) % 233280;
@@ -277,19 +282,21 @@ function randomWithin(range: number[]): number {
   }
 }
 
+/*
 function HSVtoHex(hsv: number[]): string {
 
   const rgb: number[] = HSVtoRGB(hsv);
 
   function componentToHex(c: number): string {
     var hex = c.toString(16);
-    return hex.length == 1 ? '0' + hex : hex;
+    return hex.length === 1 ? '0' + hex : hex;
   }
 
   const hex = '#' + componentToHex(rgb[0]) + componentToHex(rgb[1]) + componentToHex(rgb[2]);
 
   return hex;
 }
+*/
 
 function defineColor(name: string, hueRange: number[], lowerBounds: number[][]): void {
 
@@ -407,10 +414,10 @@ function HSVtoHSL(hsv: number[]): number[] {
 }
 
 function stringToInteger(s: string): number {
-  let total = 0
+  let total = 0;
   for (let i = 0; i !== s.length; i++) {
     if (total >= MAX_SAFE_INTEGER) break;
-    total += s.charCodeAt(i)
+    total += s.charCodeAt(i);
   }
-  return total
+  return total;
 }

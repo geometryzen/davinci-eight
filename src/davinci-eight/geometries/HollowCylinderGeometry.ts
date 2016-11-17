@@ -62,6 +62,7 @@ function hollowCylinderPrimitive(options: HollowCylinderOptions = {}): Primitive
 export default class HollowCylinderGeometry extends GeometryElements {
     constructor(contextManager: ContextManager, options: HollowCylinderOptions = {}, levelUp = 0) {
         super(contextManager, hollowCylinderPrimitive(options), levelUp + 1);
+        this.setLoggingName('HollowCylinderGeometry');
         if (levelUp === 0) {
             this.synchUp()
         }

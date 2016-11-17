@@ -10,7 +10,6 @@ import Rotation from '../transforms/Rotation';
 import Scaling from '../transforms/Scaling';
 import Translation from '../transforms/Translation';
 import CoordsTransform2D from '../transforms/CoordsTransform2D';
-import VectorE3 from '../math/VectorE3';
 import Vector3 from '../math/Vector3';
 
 const aPosition = GraphicsProgramSymbols.ATTRIBUTE_POSITION;

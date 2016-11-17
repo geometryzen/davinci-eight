@@ -295,6 +295,7 @@ System.register("davinci-eight/controls/MouseControls.js", ["../checks/mustBeObj
                         this.unsubscribe();
                     }
                     this.domElement = domElement;
+                    this.disableContextMenu();
                     this.domElement.addEventListener('mousedown', this.mousedown, false);
                     this.domElement.addEventListener('mousewheel', this.mousewheel, false);
                     this.domElement.addEventListener('DOMMouseScroll', this.mousewheel, false);
@@ -304,12 +305,31 @@ System.register("davinci-eight/controls/MouseControls.js", ["../checks/mustBeObj
                 };
                 MouseControls.prototype.unsubscribe = function () {
                     if (this.domElement) {
+                        this.enableContextMenu();
                         this.domElement.removeEventListener('mousedown', this.mousedown, false);
                         this.domElement.removeEventListener('mousewheel', this.mousewheel, false);
                         this.domElement.removeEventListener('DOMMouseScroll', this.mousewheel, false);
                         this.domElement = void 0;
                         this.wnd.removeEventListener('keydown', this.keydown, false);
                         this.wnd.removeEventListener('keyup', this.keydown, false);
+                    }
+                };
+                MouseControls.prototype.disableContextMenu = function () {
+                    if (this.domElement) {
+                        if (!this.contextmenu) {
+                            this.contextmenu = function (event) {
+                                event.preventDefault();
+                            };
+                            this.domElement.addEventListener('contextmenu', this.contextmenu, false);
+                        }
+                    }
+                };
+                MouseControls.prototype.enableContextMenu = function () {
+                    if (this.domElement) {
+                        if (this.contextmenu) {
+                            this.domElement.removeEventListener('contextmenu', this.contextmenu, false);
+                            this.contextmenu = void 0;
+                        }
                     }
                 };
                 MouseControls.prototype.reset = function () {
@@ -4646,27 +4666,36 @@ System.register("davinci-eight/geometries/CylinderGeometry.js", ["../i18n/notSup
         }
     };
 });
-System.register("davinci-eight/visual/kFromOptions.js", ["../checks/isDefined", "../checks/mustBeInteger"], function (exports_1, context_1) {
+System.register("davinci-eight/visual/kFromOptions.js", ["../checks/isDefined", "../checks/mustBeBoolean", "../checks/mustBeInteger"], function (exports_1, context_1) {
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
     function kFromOptions(options) {
         if (isDefined_1.default(options)) {
-            return isDefined_1.default(options.k) ? mustBeInteger_1.default('k', options.k) : DEFAULT_K;
+            if (isDefined_1.default(options.wireFrame)) {
+                return mustBeBoolean_1.default('wireFrame', options.wireFrame) ? LINE : TRIANGLE;
+            } else if (isDefined_1.default(options.k)) {
+                return mustBeInteger_1.default('k', options.k);
+            } else {
+                return TRIANGLE;
+            }
         } else {
-            return DEFAULT_K;
+            return TRIANGLE;
         }
     }
-    var isDefined_1, mustBeInteger_1, DEFAULT_K;
+    var isDefined_1, mustBeBoolean_1, mustBeInteger_1, LINE, TRIANGLE;
     exports_1("default", kFromOptions);
     return {
         setters: [function (isDefined_1_1) {
             isDefined_1 = isDefined_1_1;
+        }, function (mustBeBoolean_1_1) {
+            mustBeBoolean_1 = mustBeBoolean_1_1;
         }, function (mustBeInteger_1_1) {
             mustBeInteger_1 = mustBeInteger_1_1;
         }],
         execute: function () {
-            DEFAULT_K = 2;
+            LINE = 1;
+            TRIANGLE = 2;
         }
     };
 });
@@ -7889,6 +7918,7 @@ System.register("davinci-eight/geometries/HollowCylinderGeometry.js", ["../shape
                         levelUp = 0;
                     }
                     var _this = _super.call(this, contextManager, hollowCylinderPrimitive(options), levelUp + 1) || this;
+                    _this.setLoggingName('HollowCylinderGeometry');
                     if (levelUp === 0) {
                         _this.synchUp();
                     }
@@ -7940,14 +7970,12 @@ System.register("davinci-eight/visual/HollowCylinder.js", ["../core/Color", "../
             e2 = Vector3_1.default.vector(0, 1, 0);
             HollowCylinder = function (_super) {
                 __extends(HollowCylinder, _super);
-                function HollowCylinder(engine, options, levelUp) {
+                function HollowCylinder(engine, options) {
                     if (options === void 0) {
                         options = {};
                     }
-                    if (levelUp === void 0) {
-                        levelUp = 0;
-                    }
-                    var _this = _super.call(this, mustBeEngine_1.default(engine, 'HollowCylinder'), e2, levelUp + 1) || this;
+                    var _this = _super.call(this, mustBeEngine_1.default(engine, 'HollowCylinder'), e2, 1) || this;
+                    _this.setLoggingName('HollowCylinder');
                     var geometry = new HollowCylinderGeometry_1.default(engine, options);
                     _this.geometry = geometry;
                     geometry.release();
@@ -7968,16 +7996,12 @@ System.register("davinci-eight/visual/HollowCylinder.js", ["../core/Color", "../
                     material.release();
                     setColorOption_1.default(_this, options, Color_1.Color.hotpink);
                     setDeprecatedOptions_1.default(_this, options);
-                    if (levelUp === 0) {
-                        _this.synchUp();
-                    }
+                    _this.synchUp();
                     return _this;
                 }
                 HollowCylinder.prototype.destructor = function (levelUp) {
-                    if (levelUp === 0) {
-                        this.cleanUp();
-                    }
-                    this.destructor(levelUp + 1);
+                    this.cleanUp();
+                    _super.prototype.destructor.call(this, levelUp + 1);
                 };
                 return HollowCylinder;
             }(RigidBody_1.RigidBody);

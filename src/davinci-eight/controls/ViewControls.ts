@@ -1,8 +1,8 @@
 import BrowserWindow from '../base/BrowserWindow';
-import {MouseControls} from './MouseControls';
+import { MouseControls } from './MouseControls';
 import Vector3 from '../math/Vector3';
 import VectorE3 from '../math/VectorE3';
-import {ViewController} from './ViewController';
+import { ViewController } from './ViewController';
 
 /**
  *
@@ -73,9 +73,6 @@ export class ViewControls extends MouseControls implements ViewController {
         this.setView(view);
     }
 
-    /**
-     * @param levelUp
-     */
     protected destructor(levelUp: number): void {
         super.destructor(levelUp + 1);
     }

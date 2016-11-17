@@ -3898,10 +3898,6 @@ declare module EIGHT {
          */
         color?: Color;
         /**
-         * The kind of primitive (0: points, 1: lines, 2: triangles).
-         */
-        k?: number;
-        /**
          * The displacement from the canonical position.
          */
         offset?: VectorE3;
@@ -3961,6 +3957,7 @@ declare module EIGHT {
         openLeft?: boolean;
         openRight?: boolean;
         width?: number;
+        wireFrame?: boolean;
     }
 
     class Box extends RigidBody {
@@ -4236,13 +4233,13 @@ declare module EIGHT {
          */
         elevationSegments?: number;
         /**
-         * The kind of primitive (0: points, 1: lines, 2: triangles).
-         */
-        k?: number;
-        /**
          * 
          */
         radius?: number;
+        /**
+         * 
+         */
+        wireFrame?: boolean;
     }
 
     class Sphere extends RigidBody {
@@ -4391,6 +4388,14 @@ declare module EIGHT {
         reset(): void;
         subscribe(domElement: HTMLElement): void;
         unsubscribe(): void;
+        /**
+         * Allows the context menu to be displayed.
+         */
+        enableContextMenu(): void;
+        /**
+         * Prevents the context menu from being displayed.
+         */
+        disableContextMenu(): void;
     }
     ///////////////////////////////////////////////////////////////////////////////
     /**

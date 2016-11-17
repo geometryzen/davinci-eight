@@ -65,7 +65,7 @@
             "avoid-escape"
         ],
         "radix": false,
-        "semicolon": true,
+        "semicolon": false,
         "switch-default": false,
         "triple-equals": [
             true,

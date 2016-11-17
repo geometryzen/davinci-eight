@@ -1,11 +1,6 @@
-import {Geometric3} from '../math/Geometric3';
-import {Geometry} from '../core/Geometry'
-import GeometryElements from '../core/GeometryElements'
-import Primitive from '../core/Primitive';
+import { Geometric3 } from '../math/Geometric3';
 import Vector3 from '../math/Vector3';
 import Vertex from '../atoms/Vertex';
-import VertexArrays from '../core/VertexArrays';
-import vertexArraysFromPrimitive from '../core/vertexArraysFromPrimitive'
 import Transform from '../atoms/Transform'
 
 export default class ShapeBuilder {

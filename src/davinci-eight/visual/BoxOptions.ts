@@ -5,23 +5,21 @@ import VisualOptions from './VisualOptions';
  */
 interface BoxOptions extends VisualOptions {
     /**
-     * 
+     * Determines whether the Box is rendered with lines or triangles.
      */
-    k?: number;
+    wireFrame?: boolean;
     /**
      * 
      */
     color?: { r: number; g: number; b: number };
 
     /**
-     *
-     * @default 1
+     * The extent of the box in the z-axis direction.
      */
     depth?: number;
 
     /**
-     *
-     * @default 1
+     * The extent of the box in the y-axis direction.
      */
     height?: number;
 
@@ -62,8 +60,7 @@ interface BoxOptions extends VisualOptions {
     openCap?: boolean;
 
     /**
-     *
-     * @default 1
+     * The extent of the box in the x-axis direction.
      */
     width?: number;
 }

@@ -1,9 +1,9 @@
 import BrowserWindow from '../base/BrowserWindow';
 import Spinor3 from '../math/Spinor3';
-import {Vector2} from '../math/Vector2';
+import { Vector2 } from '../math/Vector2';
 import Vector3 from '../math/Vector3';
 import VectorE3 from '../math/VectorE3';
-import {ViewControls} from './ViewControls';
+import { ViewControls } from './ViewControls';
 
 /**
  * <p>
@@ -33,31 +33,24 @@ import {ViewControls} from './ViewControls';
 export class TrackballControls extends ViewControls {
 
   // Working storage for calculations that update the camera.
-  private moveDirection = new Vector3()
-  private eyeMinusLookDirection = new Vector3()
-  private objectUpDirection = new Vector3()
-  private objectSidewaysDirection = new Vector3()
+  private moveDirection = new Vector3();
+  private eyeMinusLookDirection = new Vector3();
+  private objectUpDirection = new Vector3();
+  private objectSidewaysDirection = new Vector3();
   /**
    * The bivector for a rotation.
    */
-  private B = Spinor3.zero()
-  private rotor = Spinor3.one()
-  private mouseChange = new Vector2()
-  private pan = new Vector3()
-  private objectUp = new Vector3()
+  private B = Spinor3.zero();
+  private rotor = Spinor3.one();
+  private mouseChange = new Vector2();
+  private pan = new Vector3();
+  private objectUp = new Vector3();
 
-  /**
-   * @param view
-   * @param window
-   */
   constructor(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }, wnd: BrowserWindow) {
     super(view, wnd);
     this.setLoggingName('TrackballControls');
   }
 
-  /**
-   * @param levelUp
-   */
   protected destructor(levelUp: number): void {
     super.destructor(levelUp + 1);
   }
