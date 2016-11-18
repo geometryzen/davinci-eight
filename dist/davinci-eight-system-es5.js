@@ -16825,12 +16825,7 @@ System.register("davinci-eight/core/Drawable.js", ["../base/exchange", "./Graphi
                 };
                 Object.defineProperty(Drawable.prototype, "geometry", {
                     get: function () {
-                        if (this._geometry) {
-                            this._geometry.addRef();
-                            return this._geometry;
-                        } else {
-                            return void 0;
-                        }
+                        return exchange_1.default(void 0, this._geometry);
                     },
                     set: function (geometry) {
                         this._geometry = exchange_1.default(this._geometry, geometry);
@@ -16843,12 +16838,7 @@ System.register("davinci-eight/core/Drawable.js", ["../base/exchange", "./Graphi
                 });
                 Object.defineProperty(Drawable.prototype, "material", {
                     get: function () {
-                        if (this._material) {
-                            this._material.addRef();
-                            return this._material;
-                        } else {
-                            return void 0;
-                        }
+                        return exchange_1.default(void 0, this._material);
                     },
                     set: function (material) {
                         this._material = exchange_1.default(this._material, material);
@@ -19789,7 +19779,7 @@ System.register("davinci-eight/base/exchange.js", [], function (exports_1, conte
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
-    function default_1(mine, yours) {
+    function exchange(mine, yours) {
         if (mine !== yours) {
             if (yours && yours.addRef) {
                 yours.addRef();
@@ -19802,7 +19792,7 @@ System.register("davinci-eight/base/exchange.js", [], function (exports_1, conte
             return mine;
         }
     }
-    exports_1("default", default_1);
+    exports_1("default", exchange);
     return {
         setters: [],
         execute: function () {}
@@ -22556,9 +22546,9 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
             Eight = function () {
                 function Eight() {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-                    this.LAST_MODIFIED = '2016-11-15';
+                    this.LAST_MODIFIED = '2016-11-18';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '3.2.0';
+                    this.VERSION = '3.3.1';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];

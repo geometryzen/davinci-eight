@@ -312,16 +312,10 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
     }
 
     /**
-     * Provides a reference counted reference to the graphics buffers property.
+     * Provides a reference counted reference to the geometry property.
      */
     get geometry(): G {
-        if (this._geometry) {
-            this._geometry.addRef();
-            return this._geometry;
-        }
-        else {
-            return void 0;
-        }
+        return exchange(void 0, this._geometry);
     }
     set geometry(geometry: G) {
         this._geometry = exchange(this._geometry, geometry);
@@ -331,16 +325,10 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
     }
 
     /**
-     * Provides a reference counted reference to the graphics program property.
+     * Provides a reference counted reference to the material property.
      */
     get material(): M {
-        if (this._material) {
-            this._material.addRef();
-            return this._material;
-        }
-        else {
-            return void 0;
-        }
+        return exchange(void 0, this._material);
     }
     set material(material: M) {
         this._material = exchange(this._material, material);

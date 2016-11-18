@@ -1,6 +1,9 @@
-import {Shareable} from '../core/Shareable';
+import { Shareable } from '../core/Shareable';
 
-export default function <T extends Shareable>(mine: T, yours: T): T {
+/**
+ * exchange(thing to release, thing to addRef)
+ */
+export default function exchange<T extends Shareable>(mine: T, yours: T): T {
     if (mine !== yours) {
         if (yours && yours.addRef) {
             yours.addRef();

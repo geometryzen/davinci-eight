@@ -551,9 +551,9 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
     var Eight = (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-11-15';
+            this.LAST_MODIFIED = '2016-11-18';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '3.2.0';
+            this.VERSION = '3.3.1';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -6230,7 +6230,7 @@ define('davinci-eight/core/DataType',["require", "exports"], function (require, 
 
 define('davinci-eight/base/exchange',["require", "exports"], function (require, exports) {
     "use strict";
-    function default_1(mine, yours) {
+    function exchange(mine, yours) {
         if (mine !== yours) {
             if (yours && yours.addRef) {
                 yours.addRef();
@@ -6245,7 +6245,7 @@ define('davinci-eight/base/exchange',["require", "exports"], function (require, 
         }
     }
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = default_1;
+    exports.default = exchange;
 });
 
 define('davinci-eight/core/GraphicsProgramSymbols',["require", "exports"], function (require, exports) {
@@ -6803,13 +6803,7 @@ define('davinci-eight/core/Drawable',["require", "exports", "../base/exchange", 
         };
         Object.defineProperty(Drawable.prototype, "geometry", {
             get: function () {
-                if (this._geometry) {
-                    this._geometry.addRef();
-                    return this._geometry;
-                }
-                else {
-                    return void 0;
-                }
+                return exchange_1.default(void 0, this._geometry);
             },
             set: function (geometry) {
                 this._geometry = exchange_1.default(this._geometry, geometry);
@@ -6822,13 +6816,7 @@ define('davinci-eight/core/Drawable',["require", "exports", "../base/exchange", 
         });
         Object.defineProperty(Drawable.prototype, "material", {
             get: function () {
-                if (this._material) {
-                    this._material.addRef();
-                    return this._material;
-                }
-                else {
-                    return void 0;
-                }
+                return exchange_1.default(void 0, this._material);
             },
             set: function (material) {
                 this._material = exchange_1.default(this._material, material);

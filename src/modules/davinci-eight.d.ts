@@ -3455,7 +3455,7 @@ declare module EIGHT {
         /**
          *
          */
-        constructor(geometry: Geometry, material: Material, contextManager: ContextManager, levelUp?: number);
+        constructor(geometry: G, material: M, contextManager: ContextManager, levelUp?: number);
 
         contextFree(contextProvider: ContextProvider): void;
         contextGain(contextProvider: ContextProvider): void;
@@ -3844,7 +3844,7 @@ declare module EIGHT {
         /**
          *
          */
-        constructor(geometry: Geometry, material: Material, contextManager: ContextManager, levelUp?: number);
+        constructor(geometry: G, material: M, contextManager: ContextManager, levelUp?: number);
         /**
          *
          */
