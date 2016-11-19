@@ -638,7 +638,7 @@ declare module EIGHT {
         vector4fv(name: string, vec4: Float32Array): void;
     }
 
-    interface Material extends FacetVisitor, ContextConsumer {
+    interface Material extends Facet, FacetVisitor, ContextConsumer {
         vertexShaderSrc: string;
         fragmentShaderSrc: string;
         attrib(name: string, value: VertexBuffer, size: number, normalized?: boolean, stride?: number, offset?: number): Material;
@@ -3020,7 +3020,7 @@ declare module EIGHT {
     /**
      * Encapsulates one or more buffers and a call to drawArrays or drawElements.
      */
-    interface Geometry extends ContextConsumer {
+    interface Geometry extends Facet, ContextConsumer {
 
         /**
          * Binds the attributes of the material to the buffers in this Geometry.
@@ -3052,6 +3052,7 @@ declare module EIGHT {
         hasPrincipalScale(name: string): boolean;
         setPrincipalScale(name: string, value: number): void;
         protected setScale(x: number, y: number, z: number): void;
+        setUniforms(visitor: FacetVisitor): void;
     }
 
     /**
@@ -3068,6 +3069,7 @@ declare module EIGHT {
         hasPrincipalScale(name: string): boolean;
         setPrincipalScale(name: string, value: number): void;
         protected setScale(x: number, y: number, z: number): void;
+        setUniforms(visitor: FacetVisitor): void;
     }
 
     /**
@@ -3365,6 +3367,7 @@ declare module EIGHT {
         matrix2fv(name: string, mat2: Float32Array, transpose?: boolean): Material;
         matrix3fv(name: string, mat3: Float32Array, transpose?: boolean): Material;
         matrix4fv(name: string, mat4: Float32Array, transpose?: boolean): Material;
+        setUniforms(visitor: FacetVisitor): void;
         uniform1f(name: string, x: number): void;
         uniform2f(name: string, x: number, y: number): void;
         uniform3f(name: string, x: number, y: number, z: number): void;
@@ -3470,16 +3473,19 @@ declare module EIGHT {
 
         /**
          * Calls the appropriate WebGL drawArrays or drawElements function through the geometry property.
-         * WARNING: The use of the ambients parameter is deprecated.
-         * Please use the render(ambients) method instead or unpack the render method call. 
          */
-        draw(ambients?: Facet[]): Drawable<G, M>;
+        draw(): Drawable<G, M>;
 
         /**
          * Gets a facet of this composite object by name.
          * Facets provide uniform arguments to the graphics program.
          */
         getFacet(name: string): Facet;
+
+        /**
+         * Removes a facet of this composite object by name.
+         */
+        removeFacet(name: string): Facet;
 
         /**
          * A convenience method for multiple methods.

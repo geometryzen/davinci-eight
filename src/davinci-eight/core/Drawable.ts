@@ -25,37 +25,12 @@ const POINTSIZE_FACET_NAME = 'pointSize';
  */
 export class Drawable<G extends Geometry, M extends Material> extends ShareableContextConsumer implements AbstractDrawable<G, M> {
 
-    /**
-     *
-     */
-    private _geometry: G;
-
-    /**
-     *
-     */
-    private _material: M;
-
-    /**
-     *
-     */
     public name: string;
 
-    /**
-     *
-     */
+    private _geometry: G;
+    private _material: M;
     private _visible = true;
-
-    /**
-     *
-     */
     private _transparent = false;
-
-    /**
-     * TODO: Replace with two data structures:
-     * 1. Use an array to provide fast access without object creation during rendering.
-     * 2. Use a map from name to index for updates.
-     */
-    // private _facets: { [name: string]: Facet } = {};
     private facetMap = new StringShareableMap<Facet>();
 
     constructor(geometry: G, material: M, contextManager: ContextManager, levelUp = 0) {
@@ -184,15 +159,20 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
         }
     }
 
+    /**
+     * A convenience method for calling geometry.bind(material).
+     */
     bind(): Drawable<G, M> {
         this._geometry.bind(this._material);
         return this;
     }
 
     /**
-     *
+     * Sets the Material uniforms from the Facets of this composite object,
+     * and from Facets stored by the Geometry and Material.
      */
     setUniforms(): Drawable<G, M> {
+        const geometry = this._geometry;
         const material = this._material;
         const keys = this.facetMap.keys;
         const keysLength = keys.length;
@@ -201,19 +181,18 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
             const facet = this.facetMap.getWeakRef(key);
             facet.setUniforms(material);
         }
+        geometry.setUniforms(material);
+        material.setUniforms(material);
         return this;
     }
 
-    draw(ambients?: Facet[]): Drawable<G, M> {
+    /**
+     * 
+     */
+    draw(): Drawable<G, M> {
         if (this._visible) {
-            if (ambients) {
-                console.warn("draw(ambients: Facet[]) is deprecated. Please use render(ambients: Facet[]) instead.");
-                this.render(ambients);
-            }
-            else {
-                if (this._geometry) {
-                    this._geometry.draw();
-                }
+            if (this._geometry) {
+                this._geometry.draw();
             }
         }
         return this;
@@ -257,7 +236,7 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
     }
 
     /**
-     * @param name {string}
+     * @param name The name of the Facet.
      */
     getFacet(name: string): Facet {
         return this.facetMap.get(name);
@@ -281,6 +260,9 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
         return this;
     }
 
+    /**
+     * Updates the Material uniforms from the ambient Facets argument.
+     */
     setAmbients(ambients: Facet[]): Drawable<G, M> {
         const iL = ambients.length;
         for (let i = 0; i < iL; i++) {
@@ -295,7 +277,8 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
     }
 
     /**
-     * @param facet
+     * @param name The name of the Facet.
+     * @param facet The Facet.
      */
     setFacet(name: string, facet: Facet): void {
         this.facetMap.put(name, facet);

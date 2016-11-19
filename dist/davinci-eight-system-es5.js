@@ -11720,6 +11720,7 @@ System.register("davinci-eight/visual/Track.js", ["../core/BeginMode", "../core/
                     if (this.refCount === 0) {}
                     return this.refCount;
                 };
+                TrackGeometry.prototype.setUniforms = function (visitor) {};
                 TrackGeometry.prototype.addPoint = function (x, y, z) {
                     if (this.count === this.N) {
                         this.N = this.N * 2;
@@ -12774,6 +12775,7 @@ System.register("davinci-eight/core/GeometryBase.js", ["../utils/EventEmitter", 
                 GeometryBase.prototype.draw = function () {
                     throw new Error(notSupported_1.default('draw()').message);
                 };
+                GeometryBase.prototype.setUniforms = function (visitor) {};
                 GeometryBase.prototype.hasPrincipalScale = function (name) {
                     throw new Error(notImplemented_1.default("hasPrincipalScale(" + name + ")").message);
                 };
@@ -14345,6 +14347,7 @@ System.register("davinci-eight/materials/ShaderMaterial.js", ["../core/Attrib", 
                     }
                     return this;
                 };
+                ShaderMaterial.prototype.setUniforms = function (visitor) {};
                 ShaderMaterial.prototype.use = function () {
                     var gl = this.gl;
                     if (gl) {
@@ -16762,17 +16765,13 @@ System.register("davinci-eight/core/Drawable.js", ["../base/exchange", "./Graphi
                         var facet = this.facetMap.getWeakRef(key);
                         facet.setUniforms(material);
                     }
+                    material.setUniforms(material);
                     return this;
                 };
-                Drawable.prototype.draw = function (ambients) {
+                Drawable.prototype.draw = function () {
                     if (this._visible) {
-                        if (ambients) {
-                            console.warn("draw(ambients: Facet[]) is deprecated. Please use render(ambients: Facet[]) instead.");
-                            this.render(ambients);
-                        } else {
-                            if (this._geometry) {
-                                this._geometry.draw();
-                            }
+                        if (this._geometry) {
+                            this._geometry.draw();
                         }
                     }
                     return this;
@@ -22565,9 +22564,9 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
             Eight = function () {
                 function Eight() {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-                    this.LAST_MODIFIED = '2016-11-18';
+                    this.LAST_MODIFIED = '2016-11-19';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '3.3.2';
+                    this.VERSION = '3.4.0';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];

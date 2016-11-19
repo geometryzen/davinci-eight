@@ -3,6 +3,7 @@ import BeginMode from '../core/BeginMode';
 import ContextManager from '../core/ContextManager';
 import ContextProvider from '../core/ContextProvider';
 import DataType from '../core/DataType';
+import { FacetVisitor } from '../core/FacetVisitor';
 import isDefined from '../checks/isDefined';
 import isString from '../checks/isString';
 import isNull from '../checks/isNull';
@@ -84,7 +85,7 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
     }
 
     /**
-     * @param context
+     *
      */
     contextGain(context: ContextProvider): void {
         const gl = context.gl
@@ -143,7 +144,7 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
     }
 
     /**
-     * @param context
+     *
      */
     contextFree(context: ContextProvider): void {
         if (this._program) {
@@ -429,6 +430,13 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
             }
         }
         return this;
+    }
+
+    /**
+     * Override in derived Material.
+     */
+    setUniforms(visitor: FacetVisitor): void {
+        // Does nothing.
     }
 
     /**

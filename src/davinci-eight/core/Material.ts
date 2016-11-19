@@ -1,17 +1,16 @@
 import Attrib from './Attrib';
 import BeginMode from './BeginMode';
 import DataType from './DataType';
-import {FacetVisitor} from './FacetVisitor';
-import {ContextConsumer} from './ContextConsumer';
+import { Facet } from './Facet';
+import { FacetVisitor } from './FacetVisitor';
+import { ContextConsumer } from './ContextConsumer';
 import Uniform from './Uniform';
 import VertexBuffer from './VertexBuffer';
 
 /**
- * <p>
- * <code>Material</code> is an object-oriented wrapper around a <code>WebGLProgram</code>
- * <p/>
+ * Material is an object-oriented wrapper around a WebGLProgram
  */
-export interface Material extends FacetVisitor, ContextConsumer {
+export interface Material extends Facet, FacetVisitor, ContextConsumer {
 
     /**
      *

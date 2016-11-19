@@ -93,9 +93,7 @@ export class ShareableBase implements Shareable {
     }
 
     /**
-     * <p>
      * Returns the total length of the inheritance hierarchy that this instance is involved in.
-     * </p>
      */
     private get levelUp(): number {
         return this._levelUp;
@@ -127,30 +125,23 @@ export class ShareableBase implements Shareable {
     }
 
     /**
-     * @returns
+     *
      */
     public getLoggingName(): string {
         return this._type;
     }
 
     /**
-     * <p>
      * This method is for use within constructors.
-     * <p>
-     * <p>
-     * Immediately after a call to the super class constructor, make a call to <code>setLoggingName</code>.
+     *
+     * Immediately after a call to the super class constructor, make a call to setLoggingName.
      * This will have the effect of refining the name used for reporting reference counts.
-     * </p>
-     * <p>
+     *
      * This method has the secondary purpose of enabling a tally of the number of classes
      * in the constructor chain. This enables the runtime architecture to verify that destructor
      * chains are consistent with constructor chains, which is a good practice for cleaning up resources.
-     * </p>
-     * <p>
-     * Notice that this method is intentionally protected to discourage it from being called outside of the constructor.
-     * </p>
      *
-     * @param name
+     * Notice that this method is intentionally protected to discourage it from being called outside of the constructor.
      */
     protected setLoggingName(name: string): void {
         this._type = mustBeString('name', name);
@@ -187,9 +178,6 @@ export class ShareableBase implements Shareable {
         return refCount;
     }
 
-    /**
-     *
-     */
     private get uuid(): string {
         return this._uuid;
     }

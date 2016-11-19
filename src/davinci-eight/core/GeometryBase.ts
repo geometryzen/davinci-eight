@@ -1,6 +1,7 @@
 import BeginMode from './BeginMode';
 import EventEmitter from '../utils/EventEmitter';
 import ContextManager from './ContextManager';
+import { FacetVisitor } from './FacetVisitor';
 import { Material } from './Material';
 import { Geometry } from './Geometry';
 import Matrix4 from '../math/Matrix4';
@@ -115,6 +116,13 @@ export default class GeometryBase extends ShareableContextConsumer implements Ge
 
     draw(): GeometryBase {
         throw new Error(notSupported('draw()').message);
+    }
+
+    /**
+     * 
+     */
+    setUniforms(visitor: FacetVisitor): void {
+        // Does nothing.
     }
 
     hasPrincipalScale(name: string): boolean {

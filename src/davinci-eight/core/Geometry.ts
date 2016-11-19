@@ -1,10 +1,11 @@
 import { ContextConsumer } from './ContextConsumer';
+import { Facet } from './Facet';
 import { Material } from './Material';
 
 /**
  *
  */
-export interface Geometry extends ContextConsumer {
+export interface Geometry extends Facet, ContextConsumer {
     /**
      * 
      */

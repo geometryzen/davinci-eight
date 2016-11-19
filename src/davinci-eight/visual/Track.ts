@@ -4,6 +4,7 @@ import ContextManager from '../core/ContextManager';
 import ContextProvider from '../core/ContextProvider';
 import DataType from '../core/DataType';
 import { Engine } from '../core/Engine';
+import { FacetVisitor } from '../core/FacetVisitor';
 import { Geometry } from '../core/Geometry';
 import { LineMaterial } from '../materials/LineMaterial';
 import { Material } from '../core/Material';
@@ -86,6 +87,9 @@ class TrackGeometry implements Geometry {
             // Clean Up
         }
         return this.refCount;
+    }
+    setUniforms(visitor: FacetVisitor): void {
+        // Does nothing.
     }
     addPoint(x: number, y: number, z: number): void {
         if (this.count === this.N) {
