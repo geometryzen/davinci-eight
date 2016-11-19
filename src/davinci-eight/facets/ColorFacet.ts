@@ -1,8 +1,8 @@
-import {Color} from '../core/Color';
+import { Color } from '../core/Color';
 import mustBeNumber from '../checks/mustBeNumber';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-import {Facet} from '../core/Facet';
-import {FacetVisitor} from '../core/FacetVisitor';
+import { Facet } from '../core/Facet';
+import { FacetVisitor } from '../core/FacetVisitor';
 
 /**
  *
@@ -55,7 +55,7 @@ export class ColorFacet implements Facet {
      * The green component of the color.
      */
     get g(): number {
-        return this.color.g
+        return this.color.g;
     }
     set g(g: number) {
         mustBeNumber('g', g);
@@ -74,27 +74,27 @@ export class ColorFacet implements Facet {
     }
 
     scaleRGB(α: number): ColorFacet {
-        this.r *= α
-        this.g *= α
-        this.b *= α
-        return this
+        this.r *= α;
+        this.g *= α;
+        this.b *= α;
+        return this;
     }
 
     setRGB(r: number, g: number, b: number): ColorFacet {
-        this.r = r
-        this.g = g
-        this.b = b
-        return this
+        this.r = r;
+        this.g = g;
+        this.b = b;
+        return this;
     }
 
     /**
-     * @param visitor
+     *
      */
     setUniforms(visitor: FacetVisitor): void {
-        const name = this.uColorName
+        const name = this.uColorName;
         if (name) {
-            const color = this.color
-            visitor.uniform3f(name, color.r, color.g, color.b)
+            const color = this.color;
+            visitor.uniform3f(name, color.r, color.g, color.b);
         }
     }
 }

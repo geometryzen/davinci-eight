@@ -1,5 +1,5 @@
-import {FacetVisitor} from '../core/FacetVisitor';
-import {Geometric3} from '../math/Geometric3';
+import { FacetVisitor } from '../core/FacetVisitor';
+import { Geometric3 } from '../math/Geometric3';
 import VectorE3 from '../math/VectorE3';
 import Matrix4 from '../math/Matrix4';
 import View from './View';
@@ -45,57 +45,57 @@ export default function createView(options: { viewMatrixName?: string } = {}): V
     /**
      *
      */
-    const viewMatrix: Matrix4 = Matrix4.one()
-    const viewMatrixName = isUndefined(options.viewMatrixName) ? GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX : options.viewMatrixName
+    const viewMatrix: Matrix4 = Matrix4.one();
+    const viewMatrixName = isUndefined(options.viewMatrixName) ? GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX : options.viewMatrixName;
 
     // Force an update of the view matrix.
-    eye.modified = true
-    look.modified = true
-    up.modified = true
+    eye.modified = true;
+    look.modified = true;
+    up.modified = true;
 
     const self: View = {
         get eye(): Geometric3 {
-            return eye
+            return eye;
         },
         set eye(newEye: Geometric3) {
-            self.setEye(newEye)
+            self.setEye(newEye);
         },
         setEye(newEye: VectorE3): View {
-            eye.copyVector(newEye)
-            return self
+            eye.copyVector(newEye);
+            return self;
         },
         get look(): Geometric3 {
-            return look
+            return look;
         },
         set look(newLook: Geometric3) {
-            self.setLook(newLook)
+            self.setLook(newLook);
         },
         setLook(newLook: VectorE3): View {
-            look.copyVector(newLook)
-            return self
+            look.copyVector(newLook);
+            return self;
         },
         get up(): Geometric3 {
-            return up
+            return up;
         },
         set up(newUp: Geometric3) {
-            self.setUp(newUp)
+            self.setUp(newUp);
         },
         setUp(newUp: VectorE3): View {
-            up.copyVector(newUp)
-            up.normalize()
-            return self
+            up.copyVector(newUp);
+            up.normalize();
+            return self;
         },
         setUniforms(visitor: FacetVisitor): void {
             self.updateViewMatrix();
-            visitor.matrix4fv(viewMatrixName, viewMatrix.elements, false)
+            visitor.matrix4fv(viewMatrixName, viewMatrix.elements, false);
         },
 
         updateViewMatrix(): void {
             if (eye.modified || look.modified || up.modified) {
-                viewMatrixFromEyeLookUp(eye, look, up, viewMatrix)
-                eye.modified = false
-                look.modified = false
-                up.modified = false
+                viewMatrixFromEyeLookUp(eye, look, up, viewMatrix);
+                eye.modified = false;
+                look.modified = false;
+                up.modified = false;
             }
         },
 
@@ -103,6 +103,6 @@ export default function createView(options: { viewMatrixName?: string } = {}): V
             self.updateViewMatrix();
             return viewMatrix;
         }
-    }
-    return self
+    };
+    return self;
 }

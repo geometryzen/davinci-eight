@@ -1,4 +1,4 @@
-import {Geometric3} from '../math/Geometric3';
+import { Geometric3 } from '../math/Geometric3';
 import Vector3 from '../math/Vector3';
 import SpinorE3 from '../math/SpinorE3';
 
@@ -14,9 +14,9 @@ export default function setViewAttitude(R: SpinorE3, eye: Geometric3, look: Geom
     // Changing the attitude changes the position (The converse is also true).
     // We keep the look point and the distance to the look point invariant.
     // We also leave the up vector unchanged.
-    const d = look.distanceTo(eye)
-    u.copyVector(e1).rotate(R)
-    v.copyVector(e2).rotate(R)
-    n.copyVector(e3).rotate(R)
-    eye.copyVector(look).add(n, d)
+    const d = look.distanceTo(eye);
+    u.copyVector(e1).rotate(R);
+    v.copyVector(e2).rotate(R);
+    n.copyVector(e3).rotate(R);
+    eye.copyVector(look).add(n, d);
 }

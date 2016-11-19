@@ -553,7 +553,7 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-11-18';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '3.3.1';
+            this.VERSION = '3.3.2';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -10096,13 +10096,32 @@ define('davinci-eight/facets/Vector3Facet',["require", "exports", "../checks/mus
     "use strict";
     var Vector3Facet = (function () {
         function Vector3Facet(name) {
-            this.name = name;
             this.vector = Vector3_1.default.vector(0, 0, 0);
-            mustBeString_1.default('name', name);
+            this._name = mustBeString_1.default('name', name);
         }
+        Object.defineProperty(Vector3Facet.prototype, "name", {
+            get: function () {
+                return this._name;
+            },
+            set: function (value) {
+                this._name = mustBeString_1.default('name', value);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Vector3Facet.prototype, "value", {
+            get: function () {
+                return this.vector;
+            },
+            set: function (value) {
+                this.vector.copy(value);
+            },
+            enumerable: true,
+            configurable: true
+        });
         Vector3Facet.prototype.setUniforms = function (visitor) {
             var v = this.vector;
-            visitor.uniform3f(this.name, v.x, v.y, v.z);
+            visitor.uniform3f(this._name, v.x, v.y, v.z);
         };
         return Vector3Facet;
     }());
@@ -17557,11 +17576,11 @@ define('davinci-eight/visual/Basis',["require", "exports", "../core/BeginMode", 
             _this.uColorB = new ColorFacet_1.ColorFacet(uColorB);
             _this.uColorC = new ColorFacet_1.ColorFacet(uColorC);
             _this.setLoggingName("Basis");
-            _this.uPointA.vector.copy(Vector3_1.default.vector(1, 0, 0));
+            _this.uPointA.vector = Vector3_1.default.vector(1, 0, 0);
             _this.colorA.copy(Color_1.Color.red);
-            _this.uPointB.vector.copy(Vector3_1.default.vector(0, 1, 0));
+            _this.uPointB.vector = Vector3_1.default.vector(0, 1, 0);
             _this.colorB.copy(Color_1.Color.green);
-            _this.uPointC.vector.copy(Vector3_1.default.vector(0, 0, 1));
+            _this.uPointC.vector = Vector3_1.default.vector(0, 0, 1);
             _this.colorC.copy(Color_1.Color.blue);
             var primitive = {
                 mode: BeginMode_1.default.LINES,

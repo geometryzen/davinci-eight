@@ -35,6 +35,7 @@
         "src/davinci-eight/facets/createView.spec.ts",
         "src/davinci-eight/facets/getViewAttitude.spec.ts",
         "src/davinci-eight/facets/setViewAttitude.spec.ts",
+        "src/davinci-eight/facets/Vector3Facet.spec.ts",
         "src/davinci-eight/atoms/GridLines.spec.ts",
         "src/davinci-eight/atoms/GridPoints.spec.ts",
         "src/davinci-eight/atoms/GridTriangleStrip.spec.ts",

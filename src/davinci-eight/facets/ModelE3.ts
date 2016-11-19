@@ -1,4 +1,4 @@
-import { Geometric3 } from '../math/Geometric3'
+import { Geometric3 } from '../math/Geometric3';
 
 /**
  *
@@ -16,7 +16,7 @@ export default class ModelE3 {
   public static PROP_POSITION = 'X';
 
   private _position = Geometric3.zero();
-  private _attitude = Geometric3.one()
+  private _attitude = Geometric3.one();
 
   /**
    * <p>
@@ -30,8 +30,8 @@ export default class ModelE3 {
    * </p>
    */
   constructor() {
-    this._position.modified = true
-    this._attitude.modified = true
+    this._position.modified = true;
+    this._attitude.modified = true;
   }
 
   /**
@@ -40,10 +40,10 @@ export default class ModelE3 {
    * </p>
    */
   get R(): Geometric3 {
-    return this._attitude
+    return this._attitude;
   }
   set R(attitude: Geometric3) {
-    this._attitude.copySpinor(attitude)
+    this._attitude.copySpinor(attitude);
   }
 
   /**
@@ -52,9 +52,9 @@ export default class ModelE3 {
    * </p>
    */
   get X(): Geometric3 {
-    return this._position
+    return this._position;
   }
   set X(position: Geometric3) {
-    this._position.copyVector(position)
+    this._position.copyVector(position);
   }
 }

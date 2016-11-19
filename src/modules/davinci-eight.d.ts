@@ -3654,10 +3654,24 @@ declare module EIGHT {
     }
 
     /**
-     * A (name: string, vector: Vector3) pair that can be used to set a uniform variable.
+     * A (name: string, value: Vector3) pair that can be used to set a uniform variable.
      */
     class Vector3Facet implements Facet {
+        /**
+         * The name of the uniform that will be updated by this Facet.
+         */
+        name: string;
+        /**
+         * The value that will be given to the uniform.
+         */
+        value: VectorE3;
+        /**
+         * Constructs a Facet corresponding to a vec3 with the name specified.
+         */
         constructor(name: string);
+        /**
+         * The visit method used to update the uniform in the FacetVisitor.
+         */
         setUniforms(visitor: FacetVisitor): void;
     }
 

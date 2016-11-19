@@ -1,8 +1,8 @@
-import {FacetVisitor} from '../core/FacetVisitor';
+import { FacetVisitor } from '../core/FacetVisitor';
 import Perspective from './Perspective';
 import createView from './createView';
 import Matrix4 from '../math/Matrix4';
-import {Geometric3} from '../math/Geometric3';
+import { Geometric3 } from '../math/Geometric3';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import VectorE3 from '../math/VectorE3';
 import Vector1 from '../math/Vector1';
@@ -18,96 +18,96 @@ export default function createPerspective(options: { fov?: number; aspect?: numb
     const far: Vector1 = new Vector1([mustBeNumber('options.far', isUndefined(options.far) ? 2000 : options.far)]);
     const projectionMatrixName = isUndefined(options.projectionMatrixName) ? GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
 
-    const base = createView(options)
-    const projectionMatrix: Matrix4 = Matrix4.one()
-    let matrixNeedsUpdate = true
+    const base = createView(options);
+    const projectionMatrix: Matrix4 = Matrix4.one();
+    let matrixNeedsUpdate = true;
 
     const self: Perspective = {
         get eye(): Geometric3 {
-            return base.eye
+            return base.eye;
         },
         set eye(value: Geometric3) {
             base.eye = value;
         },
         setEye(eye: VectorE3) {
-            base.setEye(eye)
-            return self
+            base.setEye(eye);
+            return self;
         },
         get look(): Geometric3 {
-            return base.look
+            return base.look;
         },
         set look(value: Geometric3) {
-            base.look = value
+            base.look = value;
         },
         setLook(look: VectorE3) {
-            base.setLook(look)
-            return self
+            base.setLook(look);
+            return self;
         },
         get up(): Geometric3 {
-            return base.up
+            return base.up;
         },
         set up(value: Geometric3) {
-            base.up = value
+            base.up = value;
         },
         setUp(up: VectorE3) {
-            base.setUp(up)
-            return self
+            base.setUp(up);
+            return self;
         },
         get fov(): number {
-            return fov.x
+            return fov.x;
         },
         set fov(value: number) {
-            self.setFov(value)
+            self.setFov(value);
         },
         setFov(value: number) {
-            mustBeNumber('fov', value)
-            matrixNeedsUpdate = matrixNeedsUpdate || fov.x !== value
-            fov.x = value
-            return self
+            mustBeNumber('fov', value);
+            matrixNeedsUpdate = matrixNeedsUpdate || fov.x !== value;
+            fov.x = value;
+            return self;
         },
         get aspect(): number {
-            return aspect.x
+            return aspect.x;
         },
         set aspect(value: number) {
-            self.setAspect(value)
+            self.setAspect(value);
         },
         setAspect(value: number) {
-            mustBeNumber('aspect', value)
-            matrixNeedsUpdate = matrixNeedsUpdate || aspect.x !== value
-            aspect.x = value
-            return self
+            mustBeNumber('aspect', value);
+            matrixNeedsUpdate = matrixNeedsUpdate || aspect.x !== value;
+            aspect.x = value;
+            return self;
         },
         get near(): number {
-            return near.x
+            return near.x;
         },
         set near(value: number) {
-            self.setNear(value)
+            self.setNear(value);
         },
         setNear(value: number) {
             if (value !== near.x) {
-                near.x = value
-                matrixNeedsUpdate = true
+                near.x = value;
+                matrixNeedsUpdate = true;
             }
-            return self
+            return self;
         },
         get far(): number {
-            return far.x
+            return far.x;
         },
         set far(value: number) {
-            self.setFar(value)
+            self.setFar(value);
         },
         setFar(value: number) {
             if (value !== far.x) {
-                far.x = value
-                matrixNeedsUpdate = true
+                far.x = value;
+                matrixNeedsUpdate = true;
             }
-            return self
+            return self;
         },
 
         setUniforms(visitor: FacetVisitor) {
             self.updateProjectionMatrix();
-            visitor.matrix4fv(projectionMatrixName, projectionMatrix.elements, false)
-            base.setUniforms(visitor)
+            visitor.matrix4fv(projectionMatrixName, projectionMatrix.elements, false);
+            base.setUniforms(visitor);
         },
 
         get projectionMatrix(): Matrix4 {
@@ -117,8 +117,8 @@ export default function createPerspective(options: { fov?: number; aspect?: numb
 
         updateProjectionMatrix(): void {
             if (matrixNeedsUpdate) {
-                computePerspectiveMatrix(fov.x, aspect.x, near.x, far.x, projectionMatrix)
-                matrixNeedsUpdate = false
+                computePerspectiveMatrix(fov.x, aspect.x, near.x, far.x, projectionMatrix);
+                matrixNeedsUpdate = false;
             }
         },
 

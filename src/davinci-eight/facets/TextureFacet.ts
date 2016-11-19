@@ -15,7 +15,7 @@ export default class TextureFacet extends ShareableBase implements Facet {
     }
     protected destructor(levelUp: number): void {
         this._texture = exchange(this._texture, void 0);
-        super.destructor(levelUp + 1)
+        super.destructor(levelUp + 1);
     }
     get texture(): Texture {
         return this._texture;

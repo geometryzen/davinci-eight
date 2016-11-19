@@ -1,7 +1,7 @@
-import {Color} from '../core/Color';
-import {Facet} from '../core/Facet';
-import {FacetVisitor} from '../core/FacetVisitor';
-import {Geometric3} from '../math/Geometric3';
+import { Color } from '../core/Color';
+import { Facet } from '../core/Facet';
+import { FacetVisitor } from '../core/FacetVisitor';
+import { Geometric3 } from '../math/Geometric3';
 import mustBeObject from '../checks/mustBeObject';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import VectorE3 from '../math/VectorE3';
@@ -39,20 +39,20 @@ export class DirectionalLight implements Facet {
      * @param color
      */
     constructor(direction: VectorE3 = Vector3.vector(0, 0, 1).neg(), color: { r: number; g: number; b: number } = Color.white) {
-        mustBeObject('direction', direction)
-        mustBeObject('color', color)
-        this._direction = Geometric3.fromVector(direction).normalize()
-        this._color = Color.copy(color)
+        mustBeObject('direction', direction);
+        mustBeObject('color', color);
+        this._direction = Geometric3.fromVector(direction).normalize();
+        this._color = Color.copy(color);
     }
 
     /**
      *
      */
     get color(): Color {
-        return this._color
+        return this._color;
     }
     set color(color: Color) {
-        this._color.copy(Color.mustBe('color', color))
+        this._color.copy(Color.mustBe('color', color));
     }
 
     /**

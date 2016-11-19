@@ -88,13 +88,13 @@ export default class Basis extends RigidBody {
         this.setLoggingName("Basis");
 
         // FIXME: This should be initialized to a random orthonormal basis.
-        this.uPointA.vector.copy(Vector3.vector(1, 0, 0));
+        this.uPointA.vector = Vector3.vector(1, 0, 0);
         this.colorA.copy(Color.red);
 
-        this.uPointB.vector.copy(Vector3.vector(0, 1, 0));
+        this.uPointB.vector = Vector3.vector(0, 1, 0);
         this.colorB.copy(Color.green);
 
-        this.uPointC.vector.copy(Vector3.vector(0, 0, 1));
+        this.uPointC.vector = Vector3.vector(0, 0, 1);
         this.colorC.copy(Color.blue);
 
         const primitive: Primitive = {
@@ -105,9 +105,6 @@ export default class Basis extends RigidBody {
             }
         };
         const geometry = new GeometryArrays(engine, primitive);
-        // geometry.mode = BeginMode.LINES;
-        // geometry.setAttribute('aPointIndex', { values: [0, 1, 0, 2, 0, 3], size: 1, type: DataType.FLOAT });
-        // geometry.setAttribute('aColorIndex', { values: [1, 1, 2, 2, 3, 3], size: 1, type: DataType.FLOAT });
         this.geometry = geometry;
         geometry.release();
 
