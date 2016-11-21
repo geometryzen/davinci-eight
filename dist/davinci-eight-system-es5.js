@@ -6443,7 +6443,7 @@ System.register("davinci-eight/visual/Group.js", ["../math/Geometric3", "../coll
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
     var __moduleName = context_1 && context_1.id;
-    var Geometric3_1, ShareableArray_1, ShareableBase_1, X, R, Group;
+    var Geometric3_1, ShareableArray_1, ShareableBase_1, Group;
     return {
         setters: [function (Geometric3_1_1) {
             Geometric3_1 = Geometric3_1_1;
@@ -6453,8 +6453,6 @@ System.register("davinci-eight/visual/Group.js", ["../math/Geometric3", "../coll
             ShareableBase_1 = ShareableBase_1_1;
         }],
         execute: function () {
-            X = Geometric3_1.Geometric3.zero();
-            R = Geometric3_1.Geometric3.zero();
             Group = function (_super) {
                 __extends(Group, _super);
                 function Group() {
@@ -6485,13 +6483,23 @@ System.register("davinci-eight/visual/Group.js", ["../math/Geometric3", "../coll
                 Group.prototype.render = function (ambients) {
                     var _this = this;
                     this.members.forEach(function (member) {
-                        X.copyVector(member.X);
-                        R.copySpinor(member.R);
+                        var x = member.X.x;
+                        var y = member.X.y;
+                        var z = member.X.z;
+                        var a = member.R.a;
+                        var xy = member.R.xy;
+                        var yz = member.R.yz;
+                        var zx = member.R.zx;
                         member.X.rotate(_this.R).add(_this.X);
                         member.R.mul2(_this.R, member.R);
                         member.render(ambients);
-                        member.X.copyVector(X);
-                        member.R.copySpinor(R);
+                        member.X.x = x;
+                        member.X.y = y;
+                        member.X.z = z;
+                        member.R.a = a;
+                        member.R.xy = xy;
+                        member.R.yz = yz;
+                        member.R.zx = zx;
                     });
                 };
                 return Group;
@@ -22674,7 +22682,7 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
                     this.LAST_MODIFIED = '2016-11-20';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '3.5.1';
+                    this.VERSION = '3.5.2';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];
