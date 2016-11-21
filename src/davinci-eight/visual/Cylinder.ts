@@ -57,7 +57,7 @@ export class Cylinder extends RigidBody {
         this.material = material;
         material.release();
 
-        setColorOption(this, options, Color.blueviolet);
+        setColorOption(this, options, Color.gray);
         setDeprecatedOptions(this, options);
 
         this.radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : 0.5;

@@ -117,7 +117,7 @@ export class Track extends Mesh<TrackGeometry, LineMaterial> {
     constructor(engine: Engine, options: TrackOptions = {}, levelUp = 0) {
         super(new TrackGeometry(engine), new LineMaterial(engine), mustBeEngine(engine, 'Track'), levelUp + 1);
         this.setLoggingName('Track');
-        setColorOption(this, options, Color.white);
+        setColorOption(this, options, Color.gray);
         if (levelUp === 0) {
             this.synchUp();
         }

@@ -52,7 +52,7 @@ export default class HollowCylinder extends RigidBody {
         this.material = material;
         material.release();
 
-        setColorOption(this, options, Color.hotpink);
+        setColorOption(this, options, Color.gray);
         setDeprecatedOptions(this, options);
 
         this.synchUp();

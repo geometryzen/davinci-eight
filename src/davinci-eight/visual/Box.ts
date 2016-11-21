@@ -27,7 +27,6 @@ export class Box extends RigidBody {
         const geoOptions: BoxGeometryOptions = {};
         geoOptions.k = k;
         geoOptions.tilt = options.tilt;
-        // geoOptions.offset = options.offset;
         geoOptions.openBack = options.openBack;
         geoOptions.openBase = options.openBase;
         geoOptions.openFront = options.openFront;
@@ -47,7 +46,7 @@ export class Box extends RigidBody {
             this.color.copy(options.color);
         }
 
-        setColorOption(this, options, k === 2 ? Color.red : Color.gray);
+        setColorOption(this, options, Color.gray);
         setDeprecatedOptions(this, options);
 
         this.width = isDefined(options.width) ? mustBeNumber('width', options.width) : 1.0;

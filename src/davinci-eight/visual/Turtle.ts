@@ -144,7 +144,7 @@ export default class Turtle extends RigidBody {
         this.height = 0.1;
         this.width = 0.0618;
 
-        setColorOption(this, options, Color.green);
+        setColorOption(this, options, Color.gray);
 
         if (levelUp === 0) {
             this.synchUp();

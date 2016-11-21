@@ -34,7 +34,7 @@ export default class Tetrahedron extends RigidBody {
             this.color.copy(options.color);
         }
 
-        setColorOption(this, options, Color.springgreen);
+        setColorOption(this, options, Color.gray);
         setDeprecatedOptions(this, options);
 
         if (levelUp === 0) {

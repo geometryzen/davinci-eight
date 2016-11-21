@@ -553,7 +553,7 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-11-20';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '3.5.0';
+            this.VERSION = '3.5.1';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -17790,7 +17790,7 @@ define('davinci-eight/visual/Sphere',["require", "exports", "../core/Color", "./
             var material = materialFromOptions_1.default(engine, k, options);
             _this.material = material;
             material.release();
-            setColorOption_1.default(_this, options, k === 2 ? Color_1.Color.cobalt : Color_1.Color.gray);
+            setColorOption_1.default(_this, options, Color_1.Color.gray);
             setDeprecatedOptions_1.default(_this, options);
             if (isDefined_1.default(options.radius)) {
                 _this.radius = isDefined_1.default(options.radius) ? mustBeNumber_1.default(RADIUS_NAME, options.radius) : RADIUS_DEFAULT;
@@ -17864,7 +17864,7 @@ define('davinci-eight/visual/Box',["require", "exports", "../geometries/BoxGeome
             if (options.color) {
                 _this.color.copy(options.color);
             }
-            setColorOption_1.default(_this, options, k === 2 ? Color_1.Color.red : Color_1.Color.gray);
+            setColorOption_1.default(_this, options, Color_1.Color.gray);
             setDeprecatedOptions_1.default(_this, options);
             _this.width = isDefined_1.default(options.width) ? mustBeNumber_1.default('width', options.width) : 1.0;
             _this.height = isDefined_1.default(options.height) ? mustBeNumber_1.default('height', options.height) : 1.0;
@@ -17943,7 +17943,7 @@ define('davinci-eight/visual/Cylinder',["require", "exports", "./direction", "..
             var material = new MeshMaterial_1.MeshMaterial(engine, matOptions);
             _this.material = material;
             material.release();
-            setColorOption_1.default(_this, options, Color_1.Color.blueviolet);
+            setColorOption_1.default(_this, options, Color_1.Color.gray);
             setDeprecatedOptions_1.default(_this, options);
             _this.radius = isDefined_1.default(options.radius) ? mustBeNumber_1.default('radius', options.radius) : 0.5;
             _this.length = isDefined_1.default(options.length) ? mustBeNumber_1.default('length', options.length) : 1.0;
@@ -18386,7 +18386,7 @@ define('davinci-eight/visual/Curve',["require", "exports", "../core/BeginMode", 
                     throw new Error("'" + mode + "' is not a valid option for mode.");
                 }
             }
-            setColorOption_1.default(_this, options, Color_1.Color.white);
+            setColorOption_1.default(_this, options, Color_1.Color.gray);
             setDeprecatedOptions_1.default(_this, options);
             if (levelUp === 0) {
                 _this.synchUp();
@@ -19036,7 +19036,7 @@ define('davinci-eight/visual/HollowCylinder',["require", "exports", "../core/Col
             var material = new MeshMaterial_1.MeshMaterial(engine, mmo);
             _this.material = material;
             material.release();
-            setColorOption_1.default(_this, options, Color_1.Color.hotpink);
+            setColorOption_1.default(_this, options, Color_1.Color.gray);
             setDeprecatedOptions_1.default(_this, options);
             _this.synchUp();
             return _this;
@@ -19261,7 +19261,7 @@ define('davinci-eight/visual/Tetrahedron',["require", "exports", "../core/Color"
             if (options.color) {
                 _this.color.copy(options.color);
             }
-            setColorOption_1.default(_this, options, Color_1.Color.springgreen);
+            setColorOption_1.default(_this, options, Color_1.Color.gray);
             setDeprecatedOptions_1.default(_this, options);
             if (levelUp === 0) {
                 _this.synchUp();
@@ -19389,7 +19389,7 @@ define('davinci-eight/visual/Track',["require", "exports", "../core/BeginMode", 
             if (levelUp === void 0) { levelUp = 0; }
             var _this = _super.call(this, new TrackGeometry(engine), new LineMaterial_1.LineMaterial(engine), mustBeEngine_1.default(engine, 'Track'), levelUp + 1) || this;
             _this.setLoggingName('Track');
-            setColorOption_1.default(_this, options, Color_1.Color.white);
+            setColorOption_1.default(_this, options, Color_1.Color.gray);
             if (levelUp === 0) {
                 _this.synchUp();
             }
@@ -19681,7 +19681,7 @@ define('davinci-eight/visual/Turtle',["require", "exports", "../core/BeginMode",
             material.release();
             _this.height = 0.1;
             _this.width = 0.0618;
-            setColorOption_1.default(_this, options, Color_1.Color.green);
+            setColorOption_1.default(_this, options, Color_1.Color.gray);
             if (levelUp === 0) {
                 _this.synchUp();
             }

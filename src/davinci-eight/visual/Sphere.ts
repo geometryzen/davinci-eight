@@ -61,7 +61,7 @@ export class Sphere extends RigidBody {
         this.material = material;
         material.release();
 
-        setColorOption(this, options, k === 2 ? Color.cobalt : Color.gray);
+        setColorOption(this, options, Color.gray);
         setDeprecatedOptions(this, options);
 
         if (isDefined(options.radius)) {

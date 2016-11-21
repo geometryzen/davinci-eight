@@ -185,7 +185,7 @@ export class Curve extends Mesh<CurveGeometry, Material> {
             }
         }
 
-        setColorOption(this, options, Color.white);
+        setColorOption(this, options, Color.gray);
         setDeprecatedOptions(this, options);
 
         if (levelUp === 0) {
