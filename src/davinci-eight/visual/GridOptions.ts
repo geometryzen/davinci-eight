@@ -1,10 +1,9 @@
 import VectorE3 from '../math/VectorE3';
-import VisualOptions from './VisualOptions';
 
 /**
  *
  */
-interface GridOptions extends VisualOptions {
+interface GridOptions {
 
     /**
      * <p>

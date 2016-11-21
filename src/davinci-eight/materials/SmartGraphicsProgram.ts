@@ -22,7 +22,7 @@ export class SmartGraphicsProgram extends ShaderMaterial {
             [],
             contextManager,
             levelUp + 1
-        )
+        );
         this.setLoggingName('SmartGraphicsProgram');
         if (levelUp === 0) {
             this.synchUp();
@@ -32,6 +32,6 @@ export class SmartGraphicsProgram extends ShaderMaterial {
         if (levelUp === 0) {
             this.cleanUp();
         }
-        super.destructor(levelUp + 1)
+        super.destructor(levelUp + 1);
     }
 }

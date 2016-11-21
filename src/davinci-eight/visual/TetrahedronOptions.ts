@@ -1,6 +1,4 @@
-import VisualOptions from './VisualOptions';
-
-interface TetrahedronOptions extends VisualOptions {
+interface TetrahedronOptions {
     /**
      * 
      */

@@ -6,35 +6,35 @@ class Eight {
 
     constructor() {
         this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-        this.LAST_MODIFIED = '2016-11-19';
+        this.LAST_MODIFIED = '2016-11-20';
         this.NAMESPACE = 'EIGHT';
-        this.VERSION = '3.4.0';
+        this.VERSION = '3.5.0';
     }
 
     log(message?: any, ...optionalParams: any[]): void {
         // This should allow us to unit test and run in environments without a console.
-        console.log(message)
+        console.log(message);
     }
 
     info(message?: any, ...optionalParams: any[]): void {
         // This should allow us to unit test and run in environments without a console.
-        console.info(message)
+        console.log(message);
     }
 
     warn(message?: any, ...optionalParams: any[]): void {
         // This should allow us to unit test and run in environments without a console.
-        console.warn(message)
+        console.warn(message);
     }
 
     error(message?: any, ...optionalParams: any[]): void {
         // This should allow us to unit test and run in environments without a console.
-        console.error(message)
+        console.error(message);
     }
 }
 
 /**
  *
  */
-const config = new Eight()
+const config = new Eight();
 
 export default config;

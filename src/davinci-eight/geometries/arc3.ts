@@ -14,32 +14,32 @@ import Vector3 from '../math/Vector3';
  * segments {number} The number of segments.
  */
 export default function arc3(begin: VectorE3, angle: number, generator: SpinorE3, segments: number): Vector3[] {
-    mustBeDefined('begin', begin)
-    mustBeNumber('angle', angle)
-    mustBeDefined('generator', generator)
-    mustBeInteger('segments', segments)
+    mustBeDefined('begin', begin);
+    mustBeNumber('angle', angle);
+    mustBeDefined('generator', generator);
+    mustBeInteger('segments', segments);
 
     /**
      * The return value is an array of points with length => segments + 1.
      */
-    const points: Vector3[] = []
+    const points: Vector3[] = [];
 
     /**
      * Temporary point that we will advance for each segment.
      */
-    const point = Vector3.copy(begin)
+    const point = Vector3.copy(begin);
 
     /**
      * The rotor that advances us through one segment.
      */
-    const rotor = Spinor3.copy(generator).scale((-angle / 2) / segments).exp()
+    const rotor = Spinor3.copy(generator).scale((-angle / 2) / segments).exp();
 
-    points.push(point.clone())
+    points.push(point.clone());
 
     for (let i = 0; i < segments; i++) {
-        point.rotate(rotor)
-        points.push(point.clone())
+        point.rotate(rotor);
+        points.push(point.clone());
     }
 
-    return points
+    return points;
 }

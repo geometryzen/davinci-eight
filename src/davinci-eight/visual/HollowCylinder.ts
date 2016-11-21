@@ -1,25 +1,33 @@
 import { Color } from '../core/Color';
+import direction from './direction';
 import { Engine } from '../core/Engine';
+import { Geometric3 } from '../math/Geometric3';
 import HollowCylinderGeometry from '../geometries/HollowCylinderGeometry';
 import HollowCylinderOptions from '../geometries/HollowCylinderOptions';
 import { MeshMaterial } from '../materials/MeshMaterial';
 import MeshMaterialOptions from '../materials/MeshMaterialOptions';
 import mustBeEngine from './mustBeEngine';
+import mustBeObject from '../checks/mustBeObject';
 import { RigidBody } from './RigidBody';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
-import Vector3 from '../math/Vector3';
-
-// TODO: Why have an initial axis when height vector is defined?
-const e2 = Vector3.vector(0, 1, 0);
+import { R3 } from '../math/R3';
 
 /**
  * 
  */
 export default class HollowCylinder extends RigidBody {
+    /**
+     * Cache the initial axis value so that we can compute the axis at any
+     * time by rotating the initial axis using the Mesh attitude.
+     */
+    private initialAxis: R3;
+
     constructor(engine: Engine, options: HollowCylinderOptions = {}) {
-        super(mustBeEngine(engine, 'HollowCylinder'), e2, 1);
+        super(mustBeEngine(engine, 'HollowCylinder'), 1);
         this.setLoggingName('HollowCylinder');
+
+        this.initialAxis = direction(options, { x: 0, y: 1, z: 0 });
 
         const geometry = new HollowCylinderGeometry(engine, options);
         this.geometry = geometry;
@@ -53,4 +61,16 @@ export default class HollowCylinder extends RigidBody {
         this.cleanUp();
         super.destructor(levelUp + 1);
     }
+
+    /**
+     * Axis (vector)
+     */
+    get axis(): Geometric3 {
+        return Geometric3.fromVector(this.initialAxis).rotate(this.R);
+    }
+    set axis(axis: Geometric3) {
+        mustBeObject('axis', axis);
+        this.R.rotorFromDirections(this.initialAxis, axis);
+    }
+
 }

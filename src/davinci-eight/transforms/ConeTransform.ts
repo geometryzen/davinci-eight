@@ -1,16 +1,16 @@
-import mustBeBoolean from '../checks/mustBeBoolean'
-import mustBeNumber from '../checks/mustBeNumber'
-import mustBeString from '../checks/mustBeString'
-import Spinor3 from '../math/Spinor3'
-import Vector3 from '../math/Vector3'
-import VectorE3 from '../math/VectorE3'
-import Vertex from '../atoms/Vertex'
-import Transform from '../atoms/Transform'
+import mustBeBoolean from '../checks/mustBeBoolean';
+import mustBeNumber from '../checks/mustBeNumber';
+import mustBeString from '../checks/mustBeString';
+import Spinor3 from '../math/Spinor3';
+import Vector3 from '../math/Vector3';
+import VectorE3 from '../math/VectorE3';
+import Vertex from '../atoms/Vertex';
+import Transform from '../atoms/Transform';
 
 function coneNormal(ρ: VectorE3, h: VectorE3, out: Vector3): void {
-    out.copy(ρ)
-    const ρ2 = out.squaredNorm()
-    out.add(h, ρ2).divByScalar(Math.sqrt(ρ2) * Math.sqrt(1 + ρ2))
+    out.copy(ρ);
+    const ρ2 = out.squaredNorm();
+    out.add(h, ρ2).divByScalar(Math.sqrt(ρ2) * Math.sqrt(1 + ρ2));
 }
 
 /**
@@ -38,22 +38,22 @@ export default class ConeTransform implements Transform {
      */
     public b = Vector3.vector(1, 0, 0);
 
-    public clockwise: boolean
-    public sliceAngle: number
-    public aPosition: string
-    public aTangent: string
+    public clockwise: boolean;
+    public sliceAngle: number;
+    public aPosition: string;
+    public aTangent: string;
 
     /**
-     * @param clockwise {boolean}
-     * @param sliceAngle {number}
-     * @param aPosition {string} The name to use for the position attribute.
-     * @param aTangent {string} The name to use for the tangent plane attribute.
+     * @param clockwise
+     * @param sliceAngle
+     * @param aPosition The name to use for the position attribute.
+     * @param aTangent The name to use for the tangent plane attribute.
      */
     constructor(clockwise: boolean, sliceAngle: number, aPosition: string, aTangent: string) {
-        this.clockwise = mustBeBoolean('clockwise', clockwise)
-        this.sliceAngle = mustBeNumber('sliceAngle', sliceAngle)
-        this.aPosition = mustBeString('aPosition', aPosition)
-        this.aTangent = mustBeString('aTangent', aTangent)
+        this.clockwise = mustBeBoolean('clockwise', clockwise);
+        this.sliceAngle = mustBeNumber('sliceAngle', sliceAngle);
+        this.aPosition = mustBeString('aPosition', aPosition);
+        this.aTangent = mustBeString('aTangent', aTangent);
     }
 
     exec(vertex: Vertex, i: number, j: number, iLength: number, jLength: number): void {
@@ -69,32 +69,32 @@ export default class ConeTransform implements Transform {
         //
         // In order to account for the stress and tilt operations, compute the normal using
         // the transformed ρ and h
-        const uSegments = iLength - 1
-        const u = i / uSegments
+        const uSegments = iLength - 1;
+        const u = i / uSegments;
 
-        const vSegments = jLength - 1
-        const v = j / vSegments
+        const vSegments = jLength - 1;
+        const v = j / vSegments;
 
-        const sign = this.clockwise ? -1 : +1
-        const θ = sign * this.sliceAngle * u
-        const cosθ = Math.cos(θ)
-        const sinθ = Math.sin(θ)
+        const sign = this.clockwise ? -1 : +1;
+        const θ = sign * this.sliceAngle * u;
+        const cosθ = Math.cos(θ);
+        const sinθ = Math.sin(θ);
 
         /**
          * Point on the base of the cone.
          */
-        const ρ = new Vector3().add(this.a, cosθ).add(this.b, sinθ)
+        const ρ = new Vector3().add(this.a, cosθ).add(this.b, sinθ);
 
         /**
          * Point on the standard cone at uIndex, vIndex.
          */
-        const x = Vector3.lerp(ρ, this.h, v)
+        const x = Vector3.lerp(ρ, this.h, v);
 
-        vertex.attributes[this.aPosition] = x
+        vertex.attributes[this.aPosition] = x;
 
-        const normal = Vector3.zero()
-        coneNormal(ρ, this.h, normal)
+        const normal = Vector3.zero();
+        coneNormal(ρ, this.h, normal);
 
-        vertex.attributes[this.aTangent] = Spinor3.dual(normal, false)
+        vertex.attributes[this.aTangent] = Spinor3.dual(normal, false);
     }
 }

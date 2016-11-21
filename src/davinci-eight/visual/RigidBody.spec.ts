@@ -2,15 +2,13 @@ import { Engine } from '../core/Engine';
 import { RigidBody } from './RigidBody';
 import SphereGeometry from '../geometries/SphereGeometry';
 import { MeshMaterial } from '../materials/MeshMaterial';
-import Vector3 from '../math/Vector3';
 
 describe('RigidBody', function () {
     it("should be shareable", function () {
         const engine = new Engine();
         const geometry = new SphereGeometry(engine);
         const material = new MeshMaterial(engine, null);
-        const direction = new Vector3();
-        const rigidBody = new RigidBody(engine, direction);
+        const rigidBody = new RigidBody(engine);
         rigidBody.geometry = geometry;
         rigidBody.material = material;
         expect(rigidBody.isZombie()).toBe(false);
@@ -22,8 +20,7 @@ describe('RigidBody', function () {
         const engine = new Engine();
         const geometry = new SphereGeometry(engine);
         const material = new MeshMaterial(engine, null);
-        const direction = new Vector3();
-        const rigidBody = new RigidBody(engine, direction);
+        const rigidBody = new RigidBody(engine);
         rigidBody.geometry = geometry;
         rigidBody.material = material;
         expect(rigidBody.m).toBe(1);
@@ -34,8 +31,7 @@ describe('RigidBody', function () {
         const engine = new Engine();
         const geometry = new SphereGeometry(engine);
         const material = new MeshMaterial(engine, null);
-        const direction = new Vector3();
-        const rigidBody = new RigidBody(engine, direction);
+        const rigidBody = new RigidBody(engine);
         rigidBody.geometry = geometry;
         rigidBody.material = material;
         expect(rigidBody.P.isZero()).toBeTruthy();
@@ -54,8 +50,7 @@ describe('RigidBody', function () {
         const engine = new Engine();
         const geometry = new SphereGeometry(engine);
         const material = new MeshMaterial(engine, null);
-        const direction = new Vector3();
-        const rigidBody = new RigidBody(engine, direction);
+        const rigidBody = new RigidBody(engine);
         rigidBody.geometry = geometry;
         rigidBody.material = material;
         expect(rigidBody.Q.isZero()).toBeTruthy();

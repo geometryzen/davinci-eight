@@ -13,7 +13,7 @@ import Spinor3 from '../math/Spinor3';
  * This is important in order to support scaling.
  */
 export default function arrowPrimitive(options: ArrowGeometryOptions = {}): Primitive {
-    mustBeObject('options', options)
+    mustBeObject('options', options);
 
     const builder = new ArrowBuilder(Vector3.vector(0, 1, 0), Vector3.vector(0, 0, 1), false);
 

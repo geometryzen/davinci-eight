@@ -56,57 +56,57 @@ function computeVertices(
         const R = Geometric3.fromSpinor(generator).scale(-azimuthStart / 2).exp();
         const begin = Geometric3.fromVector(DEFAULT_MERIDIAN).rotate(R).scale(arcRadius);
 
-        const arcPoints: Vector3[] = arc3(begin, azimuthLength, generator, azimuthSegments)
+        const arcPoints: Vector3[] = arc3(begin, azimuthLength, generator, azimuthSegments);
         /**
          * Displacement that we need to add (in the axis direction) to each arc point to get the
          * distance position parallel to the axis correct.
          */
-        const cosθ = Math.cos(θ)
-        const displacement = cosθ
+        const cosθ = Math.cos(θ);
+        const displacement = cosθ;
 
         for (let j = 0; j < jLength; j++) {
             const point = arcPoints[j].add(DEFAULT_ZENITH, displacement).stress(stress).rotate(tilt).add(offset);
             points.push(point);
             const u = j / azimuthSegments;
-            uvs.push(new Vector2([u, 1 - v]))
+            uvs.push(new Vector2([u, 1 - v]));
         }
     }
 }
 
 function quadIndex(i: number, j: number, innerSegments: number): number {
-    return i * (innerSegments + 1) + j
+    return i * (innerSegments + 1) + j;
 }
 
 function vertexIndex(qIndex: number, n: number, innerSegments: number) {
     switch (n) {
-        case 0: return qIndex + 1
-        case 1: return qIndex
-        case 2: return qIndex + innerSegments + 1
-        case 3: return qIndex + innerSegments + 2
+        case 0: return qIndex + 1;
+        case 1: return qIndex;
+        case 2: return qIndex + innerSegments + 1;
+        case 3: return qIndex + innerSegments + 2;
     }
 }
 
 function makeTriangles(points: Vector3[], uvs: Vector2[], radius: number, heightSegments: number, widthSegments: number, geometry: SimplexPrimitivesBuilder) {
-    for (var i = 0; i < heightSegments; i++) {
-        for (var j = 0; j < widthSegments; j++) {
-            let qIndex = quadIndex(i, j, widthSegments)
+    for (let i = 0; i < heightSegments; i++) {
+        for (let j = 0; j < widthSegments; j++) {
+            const qIndex = quadIndex(i, j, widthSegments);
             // Form a quadrilateral. v0 through v3 give the indices into the points array.
-            var v0: number = vertexIndex(qIndex, 0, widthSegments)
-            var v1: number = vertexIndex(qIndex, 1, widthSegments)
-            var v2: number = vertexIndex(qIndex, 2, widthSegments)
-            var v3: number = vertexIndex(qIndex, 3, widthSegments)
+            const v0: number = vertexIndex(qIndex, 0, widthSegments);
+            const v1: number = vertexIndex(qIndex, 1, widthSegments);
+            const v2: number = vertexIndex(qIndex, 2, widthSegments);
+            const v3: number = vertexIndex(qIndex, 3, widthSegments);
 
             // The normal vectors for the sphere are simply the normalized position vectors.
-            var n0: Vector3 = Vector3.copy(points[v0]).normalize();
-            var n1: Vector3 = Vector3.copy(points[v1]).normalize();
-            var n2: Vector3 = Vector3.copy(points[v2]).normalize();
-            var n3: Vector3 = Vector3.copy(points[v3]).normalize();
+            const n0: Vector3 = Vector3.copy(points[v0]).normalize();
+            const n1: Vector3 = Vector3.copy(points[v1]).normalize();
+            const n2: Vector3 = Vector3.copy(points[v2]).normalize();
+            const n3: Vector3 = Vector3.copy(points[v3]).normalize();
 
             // Grab the uv coordinates too.
-            var uv0: Vector2 = uvs[v0].clone();
-            var uv1: Vector2 = uvs[v1].clone();
-            var uv2: Vector2 = uvs[v2].clone();
-            var uv3: Vector2 = uvs[v3].clone();
+            const uv0: Vector2 = uvs[v0].clone();
+            const uv1: Vector2 = uvs[v1].clone();
+            const uv2: Vector2 = uvs[v2].clone();
+            const uv3: Vector2 = uvs[v3].clone();
 
             // Special case the north and south poles by only creating one triangle.
             // FIXME: What's the geometric equivalent here?
@@ -125,32 +125,32 @@ function makeTriangles(points: Vector3[], uvs: Vector2[], radius: number, height
               geometry.triangle([points[v2], points[v3], points[v1]], [n2, n3, n1], [uv2, uv3, uv1])
             }
             */
-            geometry.triangle([points[v0], points[v1], points[v3]], [n0, n1, n3], [uv0, uv1, uv3])
-            geometry.triangle([points[v2], points[v3], points[v1]], [n2, n3, n1], [uv2, uv3, uv1])
+            geometry.triangle([points[v0], points[v1], points[v3]], [n0, n1, n3], [uv0, uv1, uv3]);
+            geometry.triangle([points[v2], points[v3], points[v1]], [n2, n3, n1], [uv2, uv3, uv1]);
         }
     }
 }
 
 function makeLineSegments(points: Vector3[], uvs: Vector2[], radius: number, heightSegments: number, widthSegments: number, geometry: SimplexPrimitivesBuilder) {
-    for (var i = 0; i < heightSegments; i++) {
-        for (var j = 0; j < widthSegments; j++) {
-            let qIndex = quadIndex(i, j, widthSegments)
-            var v0: number = vertexIndex(qIndex, 0, widthSegments)
-            var v1: number = vertexIndex(qIndex, 1, widthSegments)
-            var v2: number = vertexIndex(qIndex, 2, widthSegments)
-            var v3: number = vertexIndex(qIndex, 3, widthSegments)
+    for (let i = 0; i < heightSegments; i++) {
+        for (let j = 0; j < widthSegments; j++) {
+            const qIndex = quadIndex(i, j, widthSegments);
+            const v0: number = vertexIndex(qIndex, 0, widthSegments);
+            const v1: number = vertexIndex(qIndex, 1, widthSegments);
+            const v2: number = vertexIndex(qIndex, 2, widthSegments);
+            const v3: number = vertexIndex(qIndex, 3, widthSegments);
 
             // The normal vectors for the sphere are simply the normalized position vectors.
-            var n0: Vector3 = Vector3.copy(points[v0]).normalize();
-            var n1: Vector3 = Vector3.copy(points[v1]).normalize();
-            var n2: Vector3 = Vector3.copy(points[v2]).normalize();
-            var n3: Vector3 = Vector3.copy(points[v3]).normalize();
+            const n0: Vector3 = Vector3.copy(points[v0]).normalize();
+            const n1: Vector3 = Vector3.copy(points[v1]).normalize();
+            const n2: Vector3 = Vector3.copy(points[v2]).normalize();
+            const n3: Vector3 = Vector3.copy(points[v3]).normalize();
 
             // Grab the uv coordinates too.
-            var uv0: Vector2 = uvs[v0].clone();
-            var uv1: Vector2 = uvs[v1].clone();
-            var uv2: Vector2 = uvs[v2].clone();
-            var uv3: Vector2 = uvs[v3].clone();
+            const uv0: Vector2 = uvs[v0].clone();
+            const uv1: Vector2 = uvs[v1].clone();
+            const uv2: Vector2 = uvs[v2].clone();
+            const uv3: Vector2 = uvs[v3].clone();
 
             // Special case the north and south poles by only creating one triangle.
             // FIXME: What's the geometric equivalent here?
@@ -170,34 +170,34 @@ function makeLineSegments(points: Vector3[], uvs: Vector2[], radius: number, hei
               geometry.lineSegment([points[v3], points[v0]], [n3, n0], [uv3, uv0])
             }
             */
-            geometry.lineSegment([points[v0], points[v1]], [n0, n1], [uv0, uv1])
-            geometry.lineSegment([points[v1], points[v2]], [n1, n2], [uv1, uv2])
-            geometry.lineSegment([points[v2], points[v3]], [n2, n3], [uv2, uv3])
-            geometry.lineSegment([points[v3], points[v0]], [n3, n0], [uv3, uv0])
+            geometry.lineSegment([points[v0], points[v1]], [n0, n1], [uv0, uv1]);
+            geometry.lineSegment([points[v1], points[v2]], [n1, n2], [uv1, uv2]);
+            geometry.lineSegment([points[v2], points[v3]], [n2, n3], [uv2, uv3]);
+            geometry.lineSegment([points[v3], points[v0]], [n3, n0], [uv3, uv0]);
         }
     }
 }
 
 function makePoints(points: Vector3[], uvs: Vector2[], radius: number, heightSegments: number, widthSegments: number, geometry: SimplexPrimitivesBuilder) {
-    for (var i = 0; i < heightSegments; i++) {
-        for (var j = 0; j < widthSegments; j++) {
-            let qIndex = quadIndex(i, j, widthSegments)
-            var v0: number = vertexIndex(qIndex, 0, widthSegments)
-            var v1: number = vertexIndex(qIndex, 1, widthSegments)
-            var v2: number = vertexIndex(qIndex, 2, widthSegments)
-            var v3: number = vertexIndex(qIndex, 3, widthSegments)
+    for (let i = 0; i < heightSegments; i++) {
+        for (let j = 0; j < widthSegments; j++) {
+            const qIndex = quadIndex(i, j, widthSegments);
+            const v0: number = vertexIndex(qIndex, 0, widthSegments);
+            const v1: number = vertexIndex(qIndex, 1, widthSegments);
+            const v2: number = vertexIndex(qIndex, 2, widthSegments);
+            const v3: number = vertexIndex(qIndex, 3, widthSegments);
 
             // The normal vectors for the sphere are simply the normalized position vectors.
-            var n0: Vector3 = Vector3.copy(points[v0]).normalize();
-            var n1: Vector3 = Vector3.copy(points[v1]).normalize();
-            var n2: Vector3 = Vector3.copy(points[v2]).normalize();
-            var n3: Vector3 = Vector3.copy(points[v3]).normalize();
+            const n0: Vector3 = Vector3.copy(points[v0]).normalize();
+            const n1: Vector3 = Vector3.copy(points[v1]).normalize();
+            const n2: Vector3 = Vector3.copy(points[v2]).normalize();
+            const n3: Vector3 = Vector3.copy(points[v3]).normalize();
 
             // Grab the uv coordinates too.
-            var uv0: Vector2 = uvs[v0].clone();
-            var uv1: Vector2 = uvs[v1].clone();
-            var uv2: Vector2 = uvs[v2].clone();
-            var uv3: Vector2 = uvs[v3].clone();
+            const uv0: Vector2 = uvs[v0].clone();
+            const uv1: Vector2 = uvs[v1].clone();
+            const uv2: Vector2 = uvs[v2].clone();
+            const uv3: Vector2 = uvs[v3].clone();
 
             // Special case the north and south poles by only creating one triangle.
             // FIXME: What's the geometric equivalent here?
@@ -217,10 +217,10 @@ function makePoints(points: Vector3[], uvs: Vector2[], radius: number, heightSeg
               geometry.point([points[v3]], [n3], [uv3])
             }
             */
-            geometry.point([points[v0]], [n0], [uv0])
-            geometry.point([points[v1]], [n1], [uv1])
-            geometry.point([points[v2]], [n2], [uv2])
-            geometry.point([points[v3]], [n3], [uv3])
+            geometry.point([points[v0]], [n0], [uv0]);
+            geometry.point([points[v1]], [n1], [uv1]);
+            geometry.point([points[v2]], [n2], [uv2]);
+            geometry.point([points[v3]], [n3], [uv3]);
         }
     }
 }
@@ -235,34 +235,34 @@ class SphereBuilder extends SimplexPrimitivesBuilder {
     public elevationSegments = DEFAULT_ELEVATION_SEGMENTS;
 
     constructor() {
-        super()
-        this.setModified(true)
-        this.regenerate()
+        super();
+        this.setModified(true);
+        this.regenerate();
     }
 
     get radius(): number {
-        return this.stress.x
+        return this.stress.x;
     }
     set radius(radius: number) {
-        mustBeNumber('radius', radius)
-        this.stress.x = radius
-        this.stress.y = radius
-        this.stress.z = radius
+        mustBeNumber('radius', radius);
+        this.stress.x = radius;
+        this.stress.y = radius;
+        this.stress.z = radius;
     }
     public isModified(): boolean {
-        return super.isModified()
+        return super.isModified();
     }
     public setModified(modified: boolean): SphereBuilder {
-        super.setModified(modified)
-        return this
+        super.setModified(modified);
+        return this;
     }
     protected regenerate(): void {
 
-        this.data = []
+        this.data = [];
 
         // Output. Could this be {[name:string]:VertexN<number>}[]
-        const points: Vector3[] = []
-        const uvs: Vector2[] = []
+        const points: Vector3[] = [];
+        const uvs: Vector2[] = [];
 
         computeVertices(
             this.stress, this.tilt, this.offset,
@@ -272,27 +272,27 @@ class SphereBuilder extends SimplexPrimitivesBuilder {
 
         switch (this.k) {
             case Simplex.EMPTY: {
-                makeTriangles(points, uvs, this.radius, this.elevationSegments, this.azimuthSegments, this)
+                makeTriangles(points, uvs, this.radius, this.elevationSegments, this.azimuthSegments, this);
+                break;
             }
-                break
             case Simplex.POINT: {
-                makePoints(points, uvs, this.radius, this.elevationSegments, this.azimuthSegments, this)
+                makePoints(points, uvs, this.radius, this.elevationSegments, this.azimuthSegments, this);
+                break;
             }
-                break
             case Simplex.LINE: {
-                makeLineSegments(points, uvs, this.radius, this.elevationSegments, this.azimuthSegments, this)
+                makeLineSegments(points, uvs, this.radius, this.elevationSegments, this.azimuthSegments, this);
+                break;
             }
-                break
             case Simplex.TRIANGLE: {
-                makeTriangles(points, uvs, this.radius, this.elevationSegments, this.azimuthSegments, this)
+                makeTriangles(points, uvs, this.radius, this.elevationSegments, this.azimuthSegments, this);
+                break;
             }
-                break
             default: {
-                console.warn(this.k + "-simplex is not supported for geometry generation.")
+                console.warn(this.k + "-simplex is not supported for geometry generation.");
             }
         }
 
-        this.setModified(false)
+        this.setModified(false);
     }
 }
 
@@ -368,15 +368,14 @@ function spherePrimitive(options: SphereGeometryOptions = {}): Primitive {
     else {
         mustBeInteger('elevationSegments', options.elevationSegments);
     }
-
-    if (options.offset) {
-        builder.offset.copy(options.offset);
-    }
     if (options.stress) {
         builder.stress.copy(options.stress);
     }
     if (options.tilt) {
         builder.tilt.copy(options.tilt);
+    }
+    if (options.offset) {
+        builder.offset.copy(options.offset);
     }
     return reduce(builder.toPrimitives());
 }

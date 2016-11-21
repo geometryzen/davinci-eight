@@ -20,6 +20,6 @@ const indices = [
 
 export default class IcosahedronSimplexGeometry extends PolyhedronBuilder {
     constructor(radius?: number, detail?: number) {
-        super(vertices, indices, radius, detail)
+        super(vertices, indices, radius, detail);
     }
 }

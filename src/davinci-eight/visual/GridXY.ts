@@ -10,9 +10,8 @@ import mustBeNumber from '../checks/mustBeNumber';
 import validate from '../checks/validate';
 import VectorE3 from '../math/VectorE3';
 import R3 from '../math/R3';
-import VisualOptions from './VisualOptions';
 
-export interface GridXYOptions extends VisualOptions {
+export interface GridXYOptions {
     xMin?: number;
     xMax?: number;
     xSegments?: number;
@@ -46,9 +45,6 @@ function mapOptions(options: GridXYOptions): GridOptions {
     const vMax = validate('yMax', options.yMax, undefined, mustBeNumber);
     const vSegments = validate('ySegments', options.ySegments, undefined, mustBeInteger);
     return {
-        offset: options.offset,
-        tilt: options.tilt,
-        stress: options.stress,
         uMin,
         uMax,
         uSegments,

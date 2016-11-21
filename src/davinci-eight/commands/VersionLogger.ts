@@ -1,19 +1,19 @@
 import ContextProvider from '../core/ContextProvider';
 import { ShareableBase } from '../core/ShareableBase';
 
-const QUALIFIED_NAME = 'EIGHT.VersionLogger'
+const QUALIFIED_NAME = 'EIGHT.VersionLogger';
 
 /**
  * Displays details about the WegGL version to the console.
  */
 export default class VersionLogger extends ShareableBase {
   constructor() {
-    super()
-    this.setLoggingName(QUALIFIED_NAME)
+    super();
+    this.setLoggingName(QUALIFIED_NAME);
   }
 
   protected destructor(levelUp: number): void {
-    super.destructor(levelUp + 1)
+    super.destructor(levelUp + 1);
   }
 
   contextFree(): void {
@@ -30,6 +30,6 @@ export default class VersionLogger extends ShareableBase {
   }
 
   get name(): string {
-    return QUALIFIED_NAME
+    return QUALIFIED_NAME;
   }
 }

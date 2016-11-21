@@ -11,8 +11,9 @@ import Primitive from '../core/Primitive';
 import { RigidBody } from './RigidBody';
 import setColorOption from './setColorOption';
 import SpinorE3 from '../math/SpinorE3';
+import tiltFromOptions from './tiltFromOptions';
+import vec from '../math/R3';
 import VectorE3 from '../math/VectorE3';
-import VisualOptions from './VisualOptions';
 
 const NOSE = [0, +1, 0];
 const LLEG = [-1, -1, 0];
@@ -20,6 +21,9 @@ const RLEG = [+1, -1, 0];
 const TAIL = [0, -1, 0];
 const CENTER = [0, 0, 0];
 const LEFT = [-0.5, 0, 0];
+
+const canonicalAxis = vec(0, 0, 1);
+const zero = vec(0, 0, 0);
 
 function concat<T>(a: T[], b: T[]) { return a.concat(b); }
 
@@ -43,21 +47,6 @@ function transform(xs: number[][], options: { tilt?: SpinorE3, offset?: VectorE3
     }
     else {
         return xs;
-    }
-}
-
-/**
- * Computes the initialAxis for the Turtle.
- * The initial axis is a vector which is orthogonal to the plane of the Turtle.
- * The canonical axis is the standard basis vector e3.
- * The tilt rotates the canonical direction to the reference direction.
- */
-function initialAxis(options: { tilt?: SpinorE3 }): VectorE3 {
-    if (options.tilt) {
-        return Geometric3.e3().rotate(options.tilt);
-    }
-    else {
-        return { x: 0, y: 0, z: 1 };
     }
 }
 
@@ -134,17 +123,18 @@ class TurtleGeometry extends GeometryArrays {
     }
 }
 
-interface TurtleOptions extends VisualOptions {
-
+interface TurtleOptions {
+    color?: { r: number; g: number; b: number };
+    tilt?: SpinorE3;
 }
 
 export default class Turtle extends RigidBody {
     constructor(engine: Engine, options: TurtleOptions = {}, levelUp = 0) {
-        super(mustBeEngine(engine, 'Turtle'), initialAxis(options), levelUp + 1);
+        super(mustBeEngine(engine, 'Turtle'), levelUp + 1);
         this.setLoggingName('Turtle');
         const geoOptions: TurtleGeometryOptions = {};
-        geoOptions.tilt = options.tilt;
-        geoOptions.offset = options.offset;
+        geoOptions.tilt = tiltFromOptions(options, canonicalAxis);
+        geoOptions.offset = zero;
         const geometry = new TurtleGeometry(engine, geoOptions);
         this.geometry = geometry;
         geometry.release();

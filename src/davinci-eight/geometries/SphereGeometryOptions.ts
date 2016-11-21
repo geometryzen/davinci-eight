@@ -9,4 +9,4 @@ interface SphereGeometryOptions extends GeometryOptions {
     elevationLength?: number;
 }
 
-export default SphereGeometryOptions
+export default SphereGeometryOptions;

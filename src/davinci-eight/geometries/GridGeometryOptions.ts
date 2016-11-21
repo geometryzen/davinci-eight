@@ -1,6 +1,6 @@
-import BeginMode from '../core/BeginMode'
-import GeometryOptions from './GeometryOptions'
-import VectorE3 from '../math/VectorE3'
+import BeginMode from '../core/BeginMode';
+import GeometryOptions from './GeometryOptions';
+import VectorE3 from '../math/VectorE3';
 
 interface GridGeometryOptions extends GeometryOptions {
 
@@ -15,19 +15,19 @@ interface GridGeometryOptions extends GeometryOptions {
      * @optional
      * @default () => (u, v, 0)
      */
-    aPosition?: (u: number, v: number) => VectorE3
+    aPosition?: (u: number, v: number) => VectorE3;
 
-    aNormal?: (u: number, v: number) => VectorE3
+    aNormal?: (u: number, v: number) => VectorE3;
 
     /**
      *
      */
-    aColor?: (u: number, v: number) => { r: number; g: number; b: number }
+    aColor?: (u: number, v: number) => { r: number; g: number; b: number };
 
     /**
      * @default LINES
      */
-    mode?: BeginMode
+    mode?: BeginMode;
 
     /**
      * @attribute uMin
@@ -35,7 +35,7 @@ interface GridGeometryOptions extends GeometryOptions {
      * @optional
      * @default 0
      */
-    uMin?: number
+    uMin?: number;
 
     /**
      * @attribute uMax
@@ -43,7 +43,7 @@ interface GridGeometryOptions extends GeometryOptions {
      * @optional
      * @default 1
      */
-    uMax?: number
+    uMax?: number;
 
     /**
      * @attribute uSegments
@@ -51,7 +51,7 @@ interface GridGeometryOptions extends GeometryOptions {
      * @optional
      * @default 1
      */
-    uSegments?: number
+    uSegments?: number;
 
     /**
      * @attribute vMin
@@ -59,7 +59,7 @@ interface GridGeometryOptions extends GeometryOptions {
      * @optional
      * @default 0
      */
-    vMin?: number
+    vMin?: number;
 
     /**
      * @attribute uMax
@@ -67,7 +67,7 @@ interface GridGeometryOptions extends GeometryOptions {
      * @optional
      * @default 1
      */
-    vMax?: number
+    vMax?: number;
 
     /**
      * @attribute vSegments
@@ -75,7 +75,7 @@ interface GridGeometryOptions extends GeometryOptions {
      * @optional
      * @default 1
      */
-    vSegments?: number
+    vSegments?: number;
 }
 
-export default GridGeometryOptions
+export default GridGeometryOptions;

@@ -5,10 +5,10 @@ import mustBeArray from '../checks/mustBeArray';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeString from '../checks/mustBeString';
 import mustSatisfy from '../checks/mustSatisfy';
-import {ShaderMaterial} from './ShaderMaterial';
+import { ShaderMaterial } from './ShaderMaterial';
 
 function getHTMLElementById(elementId: string, dom: Document): HTMLElement {
-    const element = dom.getElementById(mustBeString('elementId', elementId))
+    const element = dom.getElementById(mustBeString('elementId', elementId));
     if (element) {
         return element;
     }
@@ -18,27 +18,27 @@ function getHTMLElementById(elementId: string, dom: Document): HTMLElement {
 }
 
 function vertexShaderSrc(vsId: string, dom: Document): string {
-    mustBeString('vsId', vsId)
-    mustBeObject('dom', dom)
-    return getHTMLElementById(vsId, dom).textContent
+    mustBeString('vsId', vsId);
+    mustBeObject('dom', dom);
+    return getHTMLElementById(vsId, dom).textContent;
 }
 
 function fragmentShaderSrc(fsId: string, dom: Document): string {
-    mustBeString('fsId', fsId)
-    mustBeObject('dom', dom)
-    return getHTMLElementById(fsId, dom).textContent
+    mustBeString('fsId', fsId);
+    mustBeObject('dom', dom);
+    return getHTMLElementById(fsId, dom).textContent;
 }
 
 function assign(elementId: string, dom: Document, result: string[]): void {
-    const htmlElement = dom.getElementById(elementId)
+    const htmlElement = dom.getElementById(elementId);
     if (htmlElement instanceof HTMLScriptElement) {
-        const script = <HTMLScriptElement>htmlElement
+        const script = <HTMLScriptElement>htmlElement;
         if (isString(script.type)) {
             if (script.type.indexOf('vertex') >= 0) {
-                result[0] = elementId
+                result[0] = elementId;
             }
             else if (script.type.indexOf('fragment') >= 0) {
-                result[1] = elementId
+                result[1] = elementId;
             }
             else {
                 // Do nothing
@@ -46,10 +46,10 @@ function assign(elementId: string, dom: Document, result: string[]): void {
         }
         if (isString(script.textContent)) {
             if (script.textContent.indexOf('gl_Position') >= 0) {
-                result[0] = elementId
+                result[0] = elementId;
             }
             else if (script.textContent.indexOf('gl_FragColor') >= 0) {
-                result[1] = elementId
+                result[1] = elementId;
             }
             else {
                 // Do nothing
@@ -59,10 +59,10 @@ function assign(elementId: string, dom: Document, result: string[]): void {
 }
 
 function detectShaderType(scriptIds: string[], dom: Document): string[] {
-    const result = [scriptIds[0], scriptIds[1]]
-    assign(scriptIds[0], dom, result)
-    assign(scriptIds[1], dom, result)
-    return result
+    const result = [scriptIds[0], scriptIds[1]];
+    assign(scriptIds[0], dom, result);
+    assign(scriptIds[1], dom, result);
+    return result;
 }
 
 /**
@@ -97,7 +97,7 @@ export default class HTMLScriptsMaterial extends ShaderMaterial {
         super(void 0, void 0, attribs, manager, levelUp + 1);
         this.setLoggingName('HTMLScriptsMaterial');
         mustBeArray('scriptIds', scriptIds);
-        mustSatisfy('scriptIds', scriptIds.length === 2, () => { return 'have two script element identifiers.' });
+        mustSatisfy('scriptIds', scriptIds.length === 2, () => { return 'have two script element identifiers.'; });
         this.scriptIds = [scriptIds[0], scriptIds[1]];
         this.dom = dom;
         if (levelUp === 0) {
@@ -119,11 +119,11 @@ export default class HTMLScriptsMaterial extends ShaderMaterial {
      */
     contextGain(contextProvider: ContextProvider): void {
         if (!this.loaded) {
-            const scriptIds = detectShaderType(this.scriptIds, this.dom)
-            this.vertexShaderSrc = vertexShaderSrc(scriptIds[0], this.dom)
-            this.fragmentShaderSrc = fragmentShaderSrc(scriptIds[1], this.dom)
-            this.loaded = true
+            const scriptIds = detectShaderType(this.scriptIds, this.dom);
+            this.vertexShaderSrc = vertexShaderSrc(scriptIds[0], this.dom);
+            this.fragmentShaderSrc = fragmentShaderSrc(scriptIds[1], this.dom);
+            this.loaded = true;
         }
-        super.contextGain(contextProvider)
+        super.contextGain(contextProvider);
     }
 }

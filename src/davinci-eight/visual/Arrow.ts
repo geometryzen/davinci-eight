@@ -2,29 +2,24 @@ import ArrowOptions from './ArrowOptions';
 import ArrowGeometry from '../geometries/ArrowGeometry';
 import ArrowGeometryOptions from '../geometries/ArrowGeometryOptions';
 import { Color } from '../core/Color';
+import direction from './direction';
 import { Engine } from '../core/Engine';
 import { Geometric3 } from '../math/Geometric3';
 import { MeshMaterial } from '../materials/MeshMaterial';
 import MeshMaterialOptions from '../materials/MeshMaterialOptions';
 import PrincipalScaleMesh from './PrincipalScaleMesh';
-import isDefined from '../checks/isDefined';
 import isGE from '../checks/isGE';
 import mustBeDefined from '../checks/mustBeDefined';
 import mustBeEngine from './mustBeEngine';
 import quadVectorE3 from '../math/quadVectorE3';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
+import tiltFromOptions from './tiltFromOptions';
+import vec from '../math/R3';
 import VectorE3 from '../math/VectorE3';
-import Vector3 from '../math/Vector3';
 
-function direction(options: ArrowOptions, fallback: VectorE3): VectorE3 {
-    if (isDefined(options.vector)) {
-        return Vector3.copy(options.vector).normalize();
-    }
-    else {
-        return fallback;
-    }
-}
+const canonicalAxis = vec(0, 1, 0);
+const zero = vec(0, 0, 0);
 
 /**
  * <p>
@@ -68,15 +63,12 @@ export class Arrow extends PrincipalScaleMesh<ArrowGeometry, MeshMaterial> {
         super(mustBeEngine(engine, 'Arrow'), levelUp + 1);
         this.setLoggingName('Arrow');
 
-        // TODO: This should be going into the geometry options.
-        // FIXME: This should be random, or provided through options.
-        this.direction0 = direction(options, Vector3.vector(0, 1, 0));
+        this.direction0 = direction(options, canonicalAxis);
         this._vector = Geometric3.fromVector(this.direction0);
 
         const geoOptions: ArrowGeometryOptions = {};
-        geoOptions.offset = options.offset;
-        // geoOptions.stress; // Nothing corresponding to stress
-        geoOptions.tilt = options.tilt;
+        geoOptions.offset = zero;
+        geoOptions.tilt = tiltFromOptions(options, canonicalAxis);
         const geometry = new ArrowGeometry(engine, geoOptions);
 
         const matOptions: MeshMaterialOptions = void 0;

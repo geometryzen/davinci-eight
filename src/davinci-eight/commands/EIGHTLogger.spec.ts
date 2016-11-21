@@ -1,8 +1,8 @@
 import EIGHTLogger from './EIGHTLogger';
 import refChange from '../core/refChange';
 
-describe("EIGHTLogger", function() {
-  it("new-release", function() {
+describe("EIGHTLogger", function () {
+  it("new-release", function () {
     refChange('quiet');
     refChange('reset');
     refChange('quiet');
@@ -14,5 +14,5 @@ describe("EIGHTLogger", function() {
     expect(outstanding).toBe(0);
     refChange('quiet');
     refChange('reset');
-  })
-})
+  });
+});

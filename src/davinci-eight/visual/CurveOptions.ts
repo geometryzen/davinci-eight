@@ -1,11 +1,10 @@
 import BeginMode from '../core/BeginMode';
 import VectorE3 from '../math/VectorE3';
-import VisualOptions from './VisualOptions';
 
 /**
  *
  */
-interface CurveOptions extends VisualOptions {
+interface CurveOptions {
 
     /**
      * <p>

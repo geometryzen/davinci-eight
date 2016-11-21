@@ -11,14 +11,14 @@ export class WebGLEnable extends ShareableBase implements ContextConsumer {
     private _capability: Capability;
 
     constructor(capability: Capability) {
-        super()
-        this.setLoggingName('WebGLEnable')
-        this._capability = mustBeNumber('capability', capability)
+        super();
+        this.setLoggingName('WebGLEnable');
+        this._capability = mustBeNumber('capability', capability);
     }
 
     protected destructor(levelUp: number): void {
-        this._capability = void 0
-        super.destructor(levelUp + 1)
+        this._capability = void 0;
+        super.destructor(levelUp + 1);
     }
 
     contextFree(manager: ContextProvider): void {
@@ -26,7 +26,7 @@ export class WebGLEnable extends ShareableBase implements ContextConsumer {
     }
 
     contextGain(manager: ContextProvider): void {
-        manager.gl.enable(this._capability)
+        manager.gl.enable(this._capability);
     }
 
     contextLost(): void {

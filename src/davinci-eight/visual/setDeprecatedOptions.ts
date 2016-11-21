@@ -1,13 +1,12 @@
-import {Geometry} from '../core/Geometry';
+import { Geometry } from '../core/Geometry';
 import isDefined from '../checks/isDefined';
-import {Material} from '../core/Material';
-import {Mesh} from '../core/Mesh';
-import VisualOptions from './VisualOptions';
+import { Material } from '../core/Material';
+import { Mesh } from '../core/Mesh';
 
 const ATTITUDE_NAME = 'attitude';
 const POSITION_NAME = 'position';
 
-export default function setDeprecatedOptions(mesh: Mesh<Geometry, Material>, options: VisualOptions): void {
+export default function setDeprecatedOptions(mesh: Mesh<Geometry, Material>, options: {}): void {
     if (isDefined(options[POSITION_NAME])) {
         console.warn(`options.${POSITION_NAME} is deprecated. Please use the X (position vector) property instead.`);
         mesh.X.copyVector(options[POSITION_NAME]);

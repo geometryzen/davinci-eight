@@ -19,18 +19,18 @@ export default class AbstractMatrix<T extends { elements: Float32Array }> {
      * @param dimensions
      */
     constructor(elements: Float32Array, dimensions: number) {
-        this._elements = mustBeDefined('elements', elements)
-        this._dimensions = mustBeInteger('dimensions', dimensions)
-        this._length = dimensions * dimensions
+        this._elements = mustBeDefined('elements', elements);
+        this._dimensions = mustBeInteger('dimensions', dimensions);
+        this._length = dimensions * dimensions;
         expectArg('elements', elements).toSatisfy(elements.length === this._length, 'elements must have length ' + this._length);
         this.modified = false;
     }
 
     get dimensions(): number {
-        return this._dimensions
+        return this._dimensions;
     }
     set dimensions(unused) {
-        throw new Error(readOnly('dimensions').message)
+        throw new Error(readOnly('dimensions').message);
     }
 
     get elements(): Float32Array {
@@ -42,7 +42,7 @@ export default class AbstractMatrix<T extends { elements: Float32Array }> {
     }
 
     copy(m: T): T {
-        this.elements.set(m.elements)
+        this.elements.set(m.elements);
         return <T><any>this;
     }
 
@@ -51,7 +51,7 @@ export default class AbstractMatrix<T extends { elements: Float32Array }> {
      * @param column The zero-based column.
      */
     getElement(row: number, column: number): number {
-        return this.elements[row + column * this._dimensions]
+        return this.elements[row + column * this._dimensions];
     }
 
     /**
@@ -60,20 +60,20 @@ export default class AbstractMatrix<T extends { elements: Float32Array }> {
     isOne(): boolean {
         for (let i = 0; i < this._dimensions; i++) {
             for (let j = 0; j < this._dimensions; j++) {
-                const value = this.getElement(i, j)
+                const value = this.getElement(i, j);
                 if (i === j) {
                     if (value !== 1) {
-                        return false
+                        return false;
                     }
                 }
                 else {
                     if (value !== 0) {
-                        return false
+                        return false;
                     }
                 }
             }
         }
-        return true
+        return true;
     }
 
     /**
@@ -82,6 +82,6 @@ export default class AbstractMatrix<T extends { elements: Float32Array }> {
      * @param value The value of the element.
      */
     setElement(row: number, column: number, value: number): void {
-        this.elements[row + column * this._dimensions] = value
+        this.elements[row + column * this._dimensions] = value;
     }
 }

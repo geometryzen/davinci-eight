@@ -10,9 +10,8 @@ import mustBeNumber from '../checks/mustBeNumber';
 import VectorE3 from '../math/VectorE3';
 import R3 from '../math/R3';
 import validate from '../checks/validate';
-import VisualOptions from './VisualOptions';
 
-export interface GridYZOptions extends VisualOptions {
+export interface GridYZOptions {
     yMin?: number;
     yMax?: number;
     ySegments?: number;
@@ -30,12 +29,12 @@ function mapOptions(options: GridYZOptions): GridOptions {
     let aPosition: (u: number, v: number) => VectorE3;
     if (isDefined(options.x)) {
         mustBeFunction('x', options.x);
-        aPosition = function(y: number, z: number): VectorE3 {
+        aPosition = function (y: number, z: number): VectorE3 {
             return R3(options.x(y, z), y, z);
         };
     }
     else {
-        aPosition = function(y: number, z: number): VectorE3 {
+        aPosition = function (y: number, z: number): VectorE3 {
             return R3(0, y, z);
         };
     }
@@ -46,9 +45,6 @@ function mapOptions(options: GridYZOptions): GridOptions {
     const vMax = validate('zMax', options.zMax, +1, mustBeNumber);
     const vSegments = validate('zSegments', options.zSegments, 10, mustBeInteger);
     return {
-        offset: options.offset,
-        tilt: options.tilt,
-        stress: options.stress,
         uMin,
         uMax,
         uSegments,

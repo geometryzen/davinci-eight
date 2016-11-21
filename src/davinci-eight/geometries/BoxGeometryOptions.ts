@@ -1,4 +1,4 @@
-import GeometryOptions from './GeometryOptions'
+import GeometryOptions from './GeometryOptions';
 
 /**
  * The options when creating a BoxGeometry.
@@ -7,47 +7,47 @@ interface BoxGeometryOptions extends GeometryOptions {
     /**
      *
      */
-    depth?: number
+    depth?: number;
 
     /**
      *
      */
-    height?: number
+    height?: number;
 
     /**
      *
      */
-    openBack?: boolean
+    openBack?: boolean;
 
     /**
      *
      */
-    openBase?: boolean
+    openBase?: boolean;
 
     /**
      *
      */
-    openFront?: boolean
+    openFront?: boolean;
 
     /**
      *
      */
-    openLeft?: boolean
+    openLeft?: boolean;
 
     /**
      *
      */
-    openRight?: boolean
+    openRight?: boolean;
 
     /**
      *
      */
-    openCap?: boolean
+    openCap?: boolean;
 
     /**
      *
      */
-    width?: number
+    width?: number;
 }
 
-export default BoxGeometryOptions
+export default BoxGeometryOptions;

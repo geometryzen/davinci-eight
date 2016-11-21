@@ -6,9 +6,8 @@ import { MeshMaterial } from '../materials/MeshMaterial';
 import MeshMaterialOptions from '../materials/MeshMaterialOptions';
 import PointMaterialOptions from '../materials/PointMaterialOptions';
 import { PointMaterial } from '../materials/PointMaterial';
-import VisualOptions from './VisualOptions';
 
-export default function materialFromOptions(contextManager: ContextManager, k: number, options: VisualOptions): Material {
+export default function materialFromOptions(contextManager: ContextManager, k: number, options: {}): Material {
     switch (k) {
         case 0: {
             const matOptions: PointMaterialOptions = void 0;

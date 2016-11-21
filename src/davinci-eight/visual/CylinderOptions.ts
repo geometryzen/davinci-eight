@@ -1,43 +1,31 @@
-import VisualOptions from './VisualOptions';
 import VectorE3 from '../math/VectorE3';
 
 /**
  *
  */
-interface CylinderOptions extends VisualOptions {
-
+interface CylinderOptions {
     /**
-     * @default e2
+     * Defaults to e2.
      */
     axis?: VectorE3;
-
     /**
-     *
-     * @default 1
+     * Defaults to 1.
      */
     length?: number;
-
     /**
-     *
-     * @default false
+     * Defaults to false.
      */
     openBase?: boolean;
-
     /**
-     *
-     * @default false
+     * Defaults to false.
      */
     openCap?: boolean;
-
     /**
-     *
-     * @default false
+     * Defaults to false.
      */
     openWall?: boolean;
-
     /**
-     *
-     * @default 1
+     * Defaults to 1.
      */
     radius?: number;
 }

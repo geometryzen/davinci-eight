@@ -43,6 +43,7 @@ describe("Arrow", function () {
             arrow.release();
             engine.release();
         });
+
         // The length property has been made private.
         // Updates are expected to happen through the 
         describe("changing the length property", function () {
@@ -73,6 +74,7 @@ describe("Arrow", function () {
                 });
             });
         });
+
         describe("changing the h property", function () {
             describe("from the default", function () {
                 it("should update the h property", function () {
@@ -102,14 +104,11 @@ describe("Arrow", function () {
             });
         });
     });
+
     describe("options", function () {
         it("should be initialized to unity", function () {
             const engine = new Engine();
             const options: ArrowOptions = {};
-            options.vector = options.vector;
-            options.color = options.color;
-            options.offset = options.offset;
-            // options.tilt = options.tilt;
             const arrow = new Arrow(engine, options);
             expect(arrow.X.isZero()).toBe(true);
             expect(arrow.R.isOne()).toBe(true);

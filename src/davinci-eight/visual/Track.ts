@@ -15,7 +15,6 @@ import setColorOption from './setColorOption';
 import Usage from '../core/Usage';
 import VectorE3 from '../math/VectorE3';
 import VertexBuffer from '../core/VertexBuffer';
-import VisualOptions from './VisualOptions';
 
 const FLOATS_PER_VERTEX = 3;
 const BYTES_PER_FLOAT = 4;
@@ -110,8 +109,8 @@ class TrackGeometry implements Geometry {
     }
 }
 
-interface TrackOptions extends VisualOptions {
-
+interface TrackOptions {
+    color?: { r: 0; g: 0; b: 0 };
 }
 
 export class Track extends Mesh<TrackGeometry, LineMaterial> {

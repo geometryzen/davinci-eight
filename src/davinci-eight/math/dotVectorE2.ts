@@ -3,9 +3,9 @@ import isDefined from '../checks/isDefined';
 
 export default function dotVectorE2(a: VectorE2, b: VectorE2): number {
     if (isDefined(a) && isDefined(b)) {
-        return a.x * b.x + a.y * b.y
+        return a.x * b.x + a.y * b.y;
     }
     else {
-        return void 0
+        return void 0;
     }
 }

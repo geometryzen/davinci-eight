@@ -22,14 +22,14 @@ export default class ContextAttributesLogger extends ShareableBase {
     }
 
     contextGain(manager: ContextProvider): void {
-        const gl = manager.gl
-        const attributes: WebGLContextAttributes = gl.getContextAttributes()
-        console.log("alpha                 => " + attributes.alpha)
-        console.log("antialias             => " + attributes.antialias)
-        console.log("depth                 => " + attributes.depth)
-        console.log("premultipliedAlpha    => " + attributes.premultipliedAlpha)
-        console.log("preserveDrawingBuffer => " + attributes.preserveDrawingBuffer)
-        console.log("stencil               => " + attributes.stencil)
+        const gl = manager.gl;
+        const attributes: WebGLContextAttributes = gl.getContextAttributes();
+        console.log("alpha                 => " + attributes.alpha);
+        console.log("antialias             => " + attributes.antialias);
+        console.log("depth                 => " + attributes.depth);
+        console.log("premultipliedAlpha    => " + attributes.premultipliedAlpha);
+        console.log("preserveDrawingBuffer => " + attributes.preserveDrawingBuffer);
+        console.log("stencil               => " + attributes.stencil);
     }
 
     contextLost(): void {
@@ -37,9 +37,9 @@ export default class ContextAttributesLogger extends ShareableBase {
     }
 
     get name(): string {
-        return this._type
+        return this._type;
     }
     set name(unused) {
-        throw new Error(readOnly('name').message)
+        throw new Error(readOnly('name').message);
     }
 }

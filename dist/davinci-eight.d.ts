@@ -3846,7 +3846,11 @@ declare module EIGHT {
          */
         opacity: number;
         /**
-         * Attitude (spinor)
+         * Attitude (spinor). This is an alias for the R property.
+         */
+        attitude: Geometric3;
+        /**
+         * Attitude (spinor). This is an alias for the attitude property.
          */
         R: Geometric3;
         /**
@@ -3858,7 +3862,11 @@ declare module EIGHT {
          */
         texture: Texture;
         /**
-         * Position (vector)
+         * Position (vector). This is an alias for the position property.
+         */
+        position: Geometric3;
+        /**
+         * Position (vector). This is an alias for the position property.
          */
         X: Geometric3;
         /**
@@ -3875,15 +3883,6 @@ declare module EIGHT {
      * Decorates the Mesh by adding properties for physical modeling.
      */
     class RigidBody extends Mesh<Geometry, Material> {
-        /**
-         * Axis (vector).
-         * The axis of the RigidBody.
-         */
-        public axis: Geometric3;
-        /**
-         *
-         */
-        public initialAxis: VectorE3;
         /**
          * Angular momentum (bivector)
          */
@@ -3910,28 +3909,17 @@ declare module EIGHT {
     }
 
     /**
-     * Common options for the creation of a new visual components.
-     */
-    interface VisualOptions {
-        /**
-         * The uniform color.
-         */
-        color?: Color;
-        /**
-         * The displacement from the canonical position.
-         */
-        offset?: VectorE3;
-        /**
-         * The rotation from the canonical attitude.
-         */
-        tilt?: SpinorE3;
-    }
-
-    /**
      * Options for the creation of a new Arrow.
      */
-    interface ArrowOptions extends VisualOptions {
-        vector?: VectorE3;
+    interface ArrowOptions {
+        /**
+         * 
+         */
+        axis?: VectorE3;
+        /**
+         * Color
+         */
+        color?: Color;
     }
 
     class Arrow extends Mesh<Geometry, MeshMaterial> {
@@ -3967,7 +3955,8 @@ declare module EIGHT {
     /**
      * Options for the creation of a new Box.
      */
-    interface BoxOptions extends VisualOptions {
+    interface BoxOptions {
+        color?: Color;
         depth?: number;
         height?: number;
         openBack?: boolean;
@@ -3976,6 +3965,7 @@ declare module EIGHT {
         openFront?: boolean;
         openLeft?: boolean;
         openRight?: boolean;
+        tilt?: SpinorE3;
         width?: number;
         wireFrame?: boolean;
     }
@@ -3991,18 +3981,24 @@ declare module EIGHT {
     /**
      * Options for the creation of a new Cylinder.
      */
-    interface CylinderOptions extends VisualOptions {
+    interface CylinderOptions {
         axis?: VectorE3;
         length?: number;
         openBase?: boolean;
         openCap?: boolean;
         openWall?: boolean;
         radius?: number;
+        tilt?: SpinorE3;
     }
 
     class Cylinder extends RigidBody {
-        length: Geometric3;
-        radius: Geometric3;
+        length: number;
+        radius: number;
+        /**
+         * Axis (vector).
+         * The symmetry axis of the Cylinder.
+         */
+        public axis: Geometric3;
         constructor(engine: Engine, options?: CylinderOptions);
         protected destructor(levelUp: number): void;
     }
@@ -4010,7 +4006,7 @@ declare module EIGHT {
     /**
      * Options for the creation of a new Curve.
      */
-    interface CurveOptions extends VisualOptions {
+    interface CurveOptions {
         aColor?: (u: number) => Color;
         aPosition?: (u: number) => VectorE3;
         mode?: BeginMode;
@@ -4027,7 +4023,7 @@ declare module EIGHT {
     /**
      * Options for the creation of a new Grid.
      */
-    interface GridOptions extends VisualOptions {
+    interface GridOptions {
         aColor?: (u: number, v: number) => Color;
         aNormal?: (u: number, v: number) => VectorE3;
         aPosition?: (u: number, v: number) => VectorE3;
@@ -4048,7 +4044,7 @@ declare module EIGHT {
     /**
      * Options for the creation of a new GridXY.
      */
-    interface GridXYOptions extends VisualOptions {
+    interface GridXYOptions {
         xMin?: number;
         xMax?: number;
         xSegments?: number;
@@ -4084,7 +4080,7 @@ declare module EIGHT {
     /**
      * Options for the creation of a new GridYZ.
      */
-    interface GridYZOptions extends VisualOptions {
+    interface GridYZOptions {
         yMin?: number;
         yMax?: number;
         ySegments?: number;
@@ -4103,7 +4099,7 @@ declare module EIGHT {
     /**
      * Options for the creation of a new GridZX.
      */
-    interface GridZXOptions extends VisualOptions {
+    interface GridZXOptions {
         zMin?: number;
         zMax?: number;
         zSegments?: number;
@@ -4158,7 +4154,7 @@ declare module EIGHT {
     /**
      * Options for the creation of a new HollowCylinder.
      */
-    interface HollowCylinderOptions extends VisualOptions {
+    interface HollowCylinderOptions {
         /**
          * The symmetry axis and the height of the cylinder.
          */
@@ -4183,6 +4179,11 @@ declare module EIGHT {
     }
 
     class HollowCylinder extends RigidBody {
+        /**
+         * Axis (vector).
+         * The symmetry axis of the Hollow Cylinder.
+         */
+        public axis: Geometric3;
         constructor(engine: Engine, options?: HollowCylinderOptions);
         protected destructor(levelUp: number): void;
     }
@@ -4227,7 +4228,7 @@ declare module EIGHT {
     /**
      * Options for the creation of a new Sphere.
      */
-    interface SphereOptions extends VisualOptions {
+    interface SphereOptions {
         /**
          * 
          */
@@ -4240,6 +4241,10 @@ declare module EIGHT {
          * 
          */
         azimuthSegments?: number;
+        /**
+         * 
+         */
+        color?: Color;
         /**
          * 
          */
@@ -4259,11 +4264,20 @@ declare module EIGHT {
         /**
          * 
          */
+        tilt?: SpinorE3;
+        /**
+         * 
+         */
         wireFrame?: boolean;
     }
 
     class Sphere extends RigidBody {
         radius: number;
+        /**
+         * Axis (vector).
+         * The symmetry axis of the Sphere.
+         */
+        public axis: Geometric3;
         constructor(engine: Engine, options?: SphereOptions);
         protected destructor(levelUp: number): void;
     }
@@ -4271,7 +4285,7 @@ declare module EIGHT {
     /**
      * Options for the creation of a new Tetrahedron.
      */
-    interface TetrahedronOptions extends VisualOptions {
+    interface TetrahedronOptions {
 
     }
 
@@ -4284,7 +4298,7 @@ declare module EIGHT {
     /**
      * Options for the creation of a new Track.
      */
-    interface TrackOptions extends VisualOptions {
+    interface TrackOptions {
 
     }
 
@@ -4373,7 +4387,7 @@ declare module EIGHT {
     /**
      * Options for the creation of a new Turtle.
      */
-    interface TurtleOptions extends VisualOptions {
+    interface TurtleOptions {
 
     }
 

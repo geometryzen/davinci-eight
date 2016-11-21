@@ -4,11 +4,11 @@ import isDefined from '../checks/isDefined';
 import GeometryMeta from './GeometryMeta';
 import Simplex from './Simplex';
 import Vertex from '../atoms/Vertex';
-import {VectorN} from '../math/VectorN';
+import { VectorN } from '../math/VectorN';
 
 function stringify(thing: any, space: any): string {
     let cache: any[] = [];
-    return JSON.stringify(thing, function(key: string, value: any) {
+    return JSON.stringify(thing, function (key: string, value: any) {
         if (typeof value === 'object' && value !== null) {
             if (cache.indexOf(value) !== -1) {
                 // Circular reference found, discard key
@@ -44,7 +44,7 @@ export default function simplicesToGeometryMeta(geometry: Simplex[]): GeometryMe
             for (var k = 0; k < keysLen; k++) {
                 let key = keys[k];
                 let value: VectorN<number> = attributes[key];
-                let dLength = dataLength(value)
+                let dLength = dataLength(value);
                 let known = knowns[key];
                 if (known) {
                     if (known.size !== dLength) {

@@ -2,7 +2,6 @@ import BoxOptions from './BoxOptions';
 import BoxGeometry from '../geometries/BoxGeometry';
 import BoxGeometryOptions from '../geometries/BoxGeometryOptions';
 import { Color } from '../core/Color';
-import direction from './direction';
 import { Engine } from '../core/Engine';
 import isDefined from '../checks/isDefined';
 import kFromOptions from './kFromOptions';
@@ -16,7 +15,7 @@ import setDeprecatedOptions from './setDeprecatedOptions';
 export class Box extends RigidBody {
 
     constructor(engine: Engine, options: BoxOptions = {}) {
-        super(mustBeEngine(engine, 'Box'), direction(options), 1);
+        super(mustBeEngine(engine, 'Box'), 1);
 
         this.setLoggingName('Box');
         const k = kFromOptions(options);
@@ -28,7 +27,7 @@ export class Box extends RigidBody {
         const geoOptions: BoxGeometryOptions = {};
         geoOptions.k = k;
         geoOptions.tilt = options.tilt;
-        geoOptions.offset = options.offset;
+        // geoOptions.offset = options.offset;
         geoOptions.openBack = options.openBack;
         geoOptions.openBase = options.openBase;
         geoOptions.openFront = options.openFront;

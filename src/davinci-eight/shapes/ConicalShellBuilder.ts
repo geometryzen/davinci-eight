@@ -24,19 +24,19 @@ export default class ConicalShellBuilder extends AxialShapeBuilder {
     /**
      *
      */
-    public radialSegments = 1
+    public radialSegments = 1;
 
     /**
      *
      */
-    public thetaSegments = 32
+    public thetaSegments = 32;
 
-    public height: Vector3
-    public cutLine: Vector3
-    public clockwise: boolean
+    public height: Vector3;
+    public cutLine: Vector3;
+    public clockwise: boolean;
 
     constructor() {
-        super()
+        super();
         this.height = Vector3.vector(0, 1, 0);
         this.cutLine = Vector3.vector(0, 0, 1);
         this.clockwise = true;

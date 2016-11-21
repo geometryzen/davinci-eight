@@ -1,4 +1,4 @@
-import GeometryOptions from './GeometryOptions'
+import GeometryOptions from './GeometryOptions';
 
 /**
  *
@@ -7,17 +7,17 @@ interface CylinderGeometryOptions extends GeometryOptions {
     /**
      *
      */
-    openBase?: boolean
+    openBase?: boolean;
 
     /**
      *
      */
-    openCap?: boolean
+    openCap?: boolean;
 
     /**
      *
      */
-    openWall?: boolean
+    openWall?: boolean;
 }
 
-export default CylinderGeometryOptions
+export default CylinderGeometryOptions;

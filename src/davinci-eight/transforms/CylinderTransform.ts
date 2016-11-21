@@ -7,7 +7,7 @@ import Vertex from '../atoms/Vertex';
 import Transform from '../atoms/Transform';
 
 /**
- * @class CylinderTransform
+ *
  */
 export default class CylinderTransform implements Transform {
     /**
@@ -31,11 +31,9 @@ export default class CylinderTransform implements Transform {
     private orientation: number;
 
     /**
-     * @class CylinderTransform
-     * @constructor
-     * @param sliceAngle {number}
-     * @param aPosition {string} The name to use for the position attribute.
-     * @param aTangent {string} The name to use for the tangent plane attribute.
+     * @param sliceAngle
+     * @param aPosition The name to use for the position attribute.
+     * @param aTangent The name to use for the tangent plane attribute.
      */
     constructor(
         height: VectorE3, cutLine: VectorE3, clockwise: boolean, sliceAngle: number, orientation: number, aPosition: string, aTangent: string) {
@@ -43,34 +41,26 @@ export default class CylinderTransform implements Transform {
         this.cutLine = Vector3.copy(cutLine);
         this.generator = Spinor3.dual(this.height.clone().normalize(), clockwise);
         this.sliceAngle = mustBeNumber('sliceAngle', sliceAngle);
-        this.orientation = mustBeNumber('orientation', orientation);;
+        this.orientation = mustBeNumber('orientation', orientation);
         this.aPosition = mustBeString('aPosition', aPosition);
         this.aTangent = mustBeString('aTangent', aTangent);
     }
 
-    /**
-     * @method exec
-     * @param vertex {Vertex}
-     * @param i {number}
-     * @param j {number}
-     * @param iLength {number}
-     * @param jLength {number}
-     */
     exec(vertex: Vertex, i: number, j: number, iLength: number, jLength: number): void {
-        const uSegments = iLength - 1
-        const u = i / uSegments
+        const uSegments = iLength - 1;
+        const u = i / uSegments;
 
-        const vSegments = jLength - 1
-        const v = j / vSegments
+        const vSegments = jLength - 1;
+        const v = j / vSegments;
 
-        const rotor = this.generator.clone().scale(-this.sliceAngle * u / 2).exp()
+        const rotor = this.generator.clone().scale(-this.sliceAngle * u / 2).exp();
 
         /**
          * Point on the wall of the cylinder, initially with no vertical component.
          */
-        const ρ = Vector3.copy(this.cutLine).rotate(rotor)
+        const ρ = Vector3.copy(this.cutLine).rotate(rotor);
 
-        vertex.attributes[this.aPosition] = ρ.clone().add(this.height, v)
+        vertex.attributes[this.aPosition] = ρ.clone().add(this.height, v);
         vertex.attributes[this.aTangent] = Spinor3.dual(ρ, false).scale(this.orientation);
     }
 }

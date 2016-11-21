@@ -1,5 +1,5 @@
 import SliceSimplexPrimitivesBuilder from '../geometries/SliceSimplexPrimitivesBuilder';
-import {Vector2} from '../math/Vector2';
+import { Vector2 } from '../math/Vector2';
 import VectorE3 from '../math/VectorE3';
 import Vector3 from '../math/Vector3';
 
@@ -19,25 +19,25 @@ export default class ConeSimplexGeometry extends SliceSimplexPrimitivesBuilder {
         openBase = false,
         thetaStart = 0) {
 
-        super()
-        this.radiusTop = radiusTop
-        this.radius = radius
-        this.height = height
-        this.openCap = openCap
-        this.openBase = openBase
-        this.thetaStart = thetaStart
+        super();
+        this.radiusTop = radiusTop;
+        this.radius = radius;
+        this.height = height;
+        this.openCap = openCap;
+        this.openBase = openBase;
+        this.thetaStart = thetaStart;
     }
 
     protected regenerate(): void {
-        let radiusBottom = this.radius
-        let radiusTop = this.radiusTop
-        let height = this.height
-        let heightSegments = this.flatSegments
-        let radialSegments = this.curvedSegments
-        let openCap = this.openCap
-        let openBase = this.openBase
-        let thetaStart = this.thetaStart
-        let sliceAngle = this.sliceAngle
+        let radiusBottom = this.radius;
+        let radiusTop = this.radiusTop;
+        let height = this.height;
+        let heightSegments = this.flatSegments;
+        let radialSegments = this.curvedSegments;
+        let openCap = this.openCap;
+        let openBase = this.openBase;
+        let thetaStart = this.thetaStart;
+        let sliceAngle = this.sliceAngle;
 
         let heightHalf = height / 2;
 
@@ -79,11 +79,11 @@ export default class ConeSimplexGeometry extends SliceSimplexPrimitivesBuilder {
                 nb = Vector3.copy(points[vertices[1][x + 1]]);
             }
 
-            na.y = Math.sqrt(na.x * na.x + na.z * na.z) * tanTheta
-            na.normalize()
+            na.y = Math.sqrt(na.x * na.x + na.z * na.z) * tanTheta;
+            na.normalize();
 
-            nb.y = Math.sqrt(nb.x * nb.x + nb.z * nb.z) * tanTheta
-            nb.normalize()
+            nb.y = Math.sqrt(nb.x * nb.x + nb.z * nb.z) * tanTheta;
+            nb.normalize();
 
             for (y = 0; y < heightSegments; y++) {
                 let v1: number = vertices[y][x];
@@ -98,8 +98,8 @@ export default class ConeSimplexGeometry extends SliceSimplexPrimitivesBuilder {
                 let uv2 = uvs[y + 1][x].clone();
                 let uv3 = uvs[y + 1][x + 1].clone();
                 let uv4 = uvs[y][x + 1].clone();
-                this.triangle([points[v1], points[v2], points[v4]], [n1, n2, n4], [uv1, uv2, uv4])
-                this.triangle([points[v2], points[v3], points[v4]], [n2.clone(), n3, n4.clone()], [uv2.clone(), uv3, uv4.clone()])
+                this.triangle([points[v1], points[v2], points[v4]], [n1, n2, n4], [uv1, uv2, uv4]);
+                this.triangle([points[v2], points[v3], points[v4]], [n2.clone(), n3, n4.clone()], [uv2.clone(), uv3, uv4.clone()]);
             }
         }
 
@@ -116,7 +116,7 @@ export default class ConeSimplexGeometry extends SliceSimplexPrimitivesBuilder {
                 let uv1: Vector2 = uvs[0][x].clone();
                 let uv2: Vector2 = uvs[0][x + 1].clone();
                 let uv3: Vector2 = new Vector2([uv2.x, 0]);
-                this.triangle([points[v1], points[v2], points[v3]], [n1, n2, n3], [uv1, uv2, uv3])
+                this.triangle([points[v1], points[v2], points[v3]], [n1, n2, n3], [uv1, uv2, uv3]);
             }
         }
 
@@ -133,7 +133,7 @@ export default class ConeSimplexGeometry extends SliceSimplexPrimitivesBuilder {
                 let uv1: Vector2 = uvs[heightSegments][x + 1].clone();
                 let uv2: Vector2 = uvs[heightSegments][x].clone();
                 let uv3: Vector2 = new Vector2([uv2.x, 1]);
-                this.triangle([points[v1], points[v2], points[v3]], [n1, n2, n3], [uv1, uv2, uv3])
+                this.triangle([points[v1], points[v2], points[v3]], [n1, n2, n3], [uv1, uv2, uv3]);
             }
         }
         //    this.computeFaceNormals();

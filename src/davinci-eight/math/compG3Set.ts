@@ -1,49 +1,49 @@
 import GeometricE3 from '../math/GeometricE3';
 
-const COORD_W = 0
-const COORD_X = 1
-const COORD_Y = 2
-const COORD_Z = 3
-const COORD_XY = 4
-const COORD_YZ = 5
-const COORD_ZX = 6
-const COORD_XYZ = 7
+const COORD_W = 0;
+const COORD_X = 1;
+const COORD_Y = 2;
+const COORD_Z = 3;
+const COORD_XY = 4;
+const COORD_YZ = 5;
+const COORD_ZX = 6;
+const COORD_XYZ = 7;
 
 export default function compG3Set(m: GeometricE3, index: number, value: number): void {
     switch (index) {
         case COORD_W: {
-            m.a = value
+            m.a = value;
+            break;
         }
-            break
         case COORD_X: {
-            m.x = value
+            m.x = value;
+            break;
         }
-            break
         case COORD_Y: {
-            m.y = value
+            m.y = value;
+            break;
         }
-            break
         case COORD_Z: {
-            m.z = value
+            m.z = value;
+            break;
         }
-            break
         case COORD_XY: {
-            m.xy = value
+            m.xy = value;
+            break;
         }
-            break
         case COORD_YZ: {
-            m.yz = value
+            m.yz = value;
+            break;
         }
-            break
         case COORD_ZX: {
-            m.zx = value
+            m.zx = value;
+            break;
         }
-            break
         case COORD_XYZ: {
-            m.b = value
+            m.b = value;
+            break;
         }
-            break
         default:
-            throw new Error("index => " + index)
+            throw new Error("index => " + index);
     }
 }

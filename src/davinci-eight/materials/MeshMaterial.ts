@@ -11,7 +11,7 @@ import mustBeObject from '../checks/mustBeObject';
 
 function builder(options?: MeshMaterialOptions) {
     if (isUndefined(options) || isNull(options)) {
-        options = { attributes: {}, uniforms: {} }
+        options = { attributes: {}, uniforms: {} };
 
         options.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
         // FIXME: The default should probably be no aNormal.
@@ -32,34 +32,34 @@ function builder(options?: MeshMaterialOptions) {
         mustBeObject('options', options);
     }
 
-    const attributes: { [name: string]: number } = isDefined(options.attributes) ? options.attributes : {}
-    const uniforms: { [name: string]: string } = isDefined(options.uniforms) ? options.uniforms : {}
+    const attributes: { [name: string]: number } = isDefined(options.attributes) ? options.attributes : {};
+    const uniforms: { [name: string]: string } = isDefined(options.uniforms) ? options.uniforms : {};
 
-    const gpb = new GraphicsProgramBuilder()
+    const gpb = new GraphicsProgramBuilder();
 
-    const aNames = Object.keys(attributes)
+    const aNames = Object.keys(attributes);
     for (let a = 0; a < aNames.length; a++) {
-        const aName = aNames[a]
-        const size: number = attributes[aName]
-        gpb.attribute(aName, size)
+        const aName = aNames[a];
+        const size: number = attributes[aName];
+        gpb.attribute(aName, size);
     }
 
-    const uNames = Object.keys(uniforms)
+    const uNames = Object.keys(uniforms);
     for (let u = 0; u < uNames.length; u++) {
-        const uName = uNames[u]
-        const type: string = uniforms[uName]
-        gpb.uniform(uName, type)
+        const uName = uNames[u];
+        const type: string = uniforms[uName];
+        gpb.uniform(uName, type);
     }
 
-    return gpb
+    return gpb;
 }
 
 function vertexShaderSrc(options?: MeshMaterialOptions): string {
-    return builder(options).vertexShaderSrc()
+    return builder(options).vertexShaderSrc();
 }
 
 function fragmentShaderSrc(options?: MeshMaterialOptions): string {
-    return builder(options).fragmentShaderSrc()
+    return builder(options).fragmentShaderSrc();
 }
 
 export class MeshMaterial extends ShaderMaterial {

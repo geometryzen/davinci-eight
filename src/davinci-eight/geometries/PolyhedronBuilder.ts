@@ -2,7 +2,7 @@ import VectorE3 from '../math/VectorE3';
 import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import Simplex from '../geometries/Simplex';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-import {Vector2} from '../math/Vector2';
+import { Vector2 } from '../math/Vector2';
 import Vector3 from '../math/Vector3';
 
 /**
@@ -31,11 +31,11 @@ function inclination(pos: VectorE3): number {
 function prepare(point: VectorE3, points: Vector3[]): VectorE3 {
     // Copy the point and project it onto the unit sphere.
     const vertex: Vector3 = Vector3.copy(point).normalize();
-    points.push(vertex)
+    points.push(vertex);
     // Texture coords are equivalent to map coords, calculate angle and convert to fraction of a circle.
     const u = azimuth(point) / 2 / Math.PI + 0.5;
     const v = inclination(point) / Math.PI + 0.5;
-    const something: any = vertex
+    const something: any = vertex;
     // This is a bit ugly from a type-safety perspective.
     // We could avoid it by working with a Vertex object instead.
     something['uv'] = new Vector2([u, 1 - v]);
@@ -78,7 +78,7 @@ export default class PolyhedronBuilder extends SimplexPrimitivesBuilder {
      * param detail The number of times to subdivide the triangles in the faces.
      */
     constructor(vertices: number[], indices: number[], radius = 1, detail = 0) {
-        super()
+        super();
 
         const points: Vector3[] = [];
 
@@ -97,7 +97,7 @@ export default class PolyhedronBuilder extends SimplexPrimitivesBuilder {
 
             const n = normal(v1, v2, v3);
 
-            const simplex = new Simplex(Simplex.TRIANGLE)
+            const simplex = new Simplex(Simplex.TRIANGLE);
             simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = v1;
             simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = Vector3.copy(n);
             simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = v2;
@@ -109,7 +109,7 @@ export default class PolyhedronBuilder extends SimplexPrimitivesBuilder {
 
         // Further subdivide the faces if more detail is required.
         for (let i = 0, facesLength = faces.length; i < facesLength; i++) {
-            subdivide(faces[i], detail, points, this)
+            subdivide(faces[i], detail, points, this);
         }
 
 
@@ -139,7 +139,7 @@ export default class PolyhedronBuilder extends SimplexPrimitivesBuilder {
 
         // Apply radius
         for (let i = 0, verticesLength = points.length; i < verticesLength; i++) {
-            points[i].scale(radius)
+            points[i].scale(radius);
         }
 
         // Merge vertices
@@ -157,9 +157,9 @@ export default class PolyhedronBuilder extends SimplexPrimitivesBuilder {
         function make(v1: VectorE3, v2: VectorE3, v3: VectorE3, builder: SimplexPrimitivesBuilder) {
 
             const azi: number = azimuth(centroid(v1, v2, v3));
-            const something1: any = v1
-            const something2: any = v2
-            const something3: any = v3
+            const something1: any = v1;
+            const something2: any = v2;
+            const something3: any = v3;
 
             // This is a bit ugly from a type-safety perspective.
             const uv1 = correctUV(something1['uv'], v1, azi);
@@ -168,7 +168,7 @@ export default class PolyhedronBuilder extends SimplexPrimitivesBuilder {
 
             const n = normal(v1, v2, v3);
 
-            const simplex = new Simplex(Simplex.TRIANGLE)
+            const simplex = new Simplex(Simplex.TRIANGLE);
             simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = Vector3.copy(v1);
             simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = Vector3.copy(n);
             simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS] = uv1;
@@ -178,7 +178,7 @@ export default class PolyhedronBuilder extends SimplexPrimitivesBuilder {
             simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = Vector3.copy(v3);
             simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = Vector3.copy(n);
             simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS] = uv3;
-            builder.data.push(simplex)
+            builder.data.push(simplex);
         }
 
         // Subdivide a face to the required detail level.

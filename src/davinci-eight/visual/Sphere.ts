@@ -1,29 +1,43 @@
 import { Color } from '../core/Color';
 import direction from './direction';
 import { Engine } from '../core/Engine';
+import { Geometric3 } from '../math/Geometric3';
 import isDefined from '../checks/isDefined';
 import kFromOptions from './kFromOptions';
 import materialFromOptions from './materialFromOptions';
 import mustBeEngine from './mustBeEngine';
 import mustBeNumber from '../checks/mustBeNumber';
+import mustBeObject from '../checks/mustBeObject';
 import { RigidBody } from './RigidBody';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
 import SphereOptions from './SphereOptions';
 import SphereGeometry from '../geometries/SphereGeometry';
 import SphereGeometryOptions from '../geometries/SphereGeometryOptions';
+import tiltFromOptions from './tiltFromOptions';
+import { R3 } from '../math/R3';
+import vec from '../math/R3';
 
 const RADIUS_NAME = 'radius';
 const RADIUS_DEFAULT = 1;
+const canonicalAxis = vec(0, 1, 0);
+const zero = vec(0, 0, 0);
 
 /**
  *
  */
 export class Sphere extends RigidBody {
 
+    /**
+     * Cache the initial axis value so that we can compute the axis at any
+     * time by rotating the initial axis using the Mesh attitude.
+     */
+    private initialAxis: R3;
+
     constructor(engine: Engine, options: SphereOptions = {}, levelUp = 0) {
-        super(mustBeEngine(engine, 'Sphere'), direction(options), levelUp + 1);
+        super(mustBeEngine(engine, 'Sphere'), levelUp + 1);
         this.setLoggingName('Sphere');
+        this.initialAxis = direction(options, canonicalAxis);
         const k = kFromOptions(options);
 
         const geoOptions: SphereGeometryOptions = {};
@@ -35,9 +49,9 @@ export class Sphere extends RigidBody {
         geoOptions.elevationLength = options.elevationLength;
         geoOptions.elevationSegments = options.elevationSegments;
         geoOptions.elevationStart = options.elevationStart;
-        geoOptions.offset = options.offset;
+        geoOptions.offset = zero;
         geoOptions.stress = void 0;
-        geoOptions.tilt = options.tilt;
+        geoOptions.tilt = tiltFromOptions(options, canonicalAxis);
 
         const geometry = new SphereGeometry(engine, geoOptions);
         this.geometry = geometry;
@@ -84,5 +98,16 @@ export class Sphere extends RigidBody {
             throw new Error("radius must be a Geometric3 (scalar)");
         }
         */
+    }
+
+    /**
+     * Axis (vector)
+     */
+    get axis(): Geometric3 {
+        return Geometric3.fromVector(this.initialAxis).rotate(this.R);
+    }
+    set axis(axis: Geometric3) {
+        mustBeObject('axis', axis);
+        this.R.rotorFromDirections(this.initialAxis, axis);
     }
 }

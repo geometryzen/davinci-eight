@@ -1,6 +1,6 @@
 import readOnly from '../i18n/readOnly';
-import {Shareable} from '../core/Shareable';
-import {ShareableBase} from '../core/ShareableBase';
+import { Shareable } from '../core/Shareable';
+import { ShareableBase } from '../core/ShareableBase';
 
 /**
  * Essentially constructs the ShareableArray without incrementing the
@@ -71,16 +71,16 @@ export default class ShareableArray<T extends Shareable> extends ShareableBase {
      *
      */
     find(match: (element: T) => boolean): ShareableArray<T> {
-        const result = new ShareableArray<T>([])
-        const elements = this._elements
-        const iLen = elements.length
+        const result = new ShareableArray<T>([]);
+        const elements = this._elements;
+        const iLen = elements.length;
         for (let i = 0; i < iLen; i++) {
-            const candidate = elements[i]
+            const candidate = elements[i];
             if (match(candidate)) {
-                result.push(candidate)
+                result.push(candidate);
             }
         }
-        return result
+        return result;
     }
 
     /**
@@ -117,7 +117,7 @@ export default class ShareableArray<T extends Shareable> extends ShareableBase {
      * Gets the element at the specified index, without incrementing the reference count.
      */
     getWeakRef(index: number): T {
-        return this._elements[index]
+        return this._elements[index];
     }
 
     /**
@@ -135,12 +135,12 @@ export default class ShareableArray<T extends Shareable> extends ShareableBase {
             return this._elements.length;
         }
         else {
-            console.warn("ShareableArray is now a zombie, length is undefined")
-            return void 0
+            console.warn("ShareableArray is now a zombie, length is undefined");
+            return void 0;
         }
     }
     set length(unused: number) {
-        throw new Error(readOnly('length').message)
+        throw new Error(readOnly('length').message);
     }
 
     /**
@@ -149,14 +149,14 @@ export default class ShareableArray<T extends Shareable> extends ShareableBase {
      * It does not remove elements from the original array.
      */
     slice(begin?: number, end?: number): ShareableArray<T> {
-        return new ShareableArray<T>(this._elements.slice(begin, end))
+        return new ShareableArray<T>(this._elements.slice(begin, end));
     }
     /**
      * The splice() method changes the content of an array by removing existing elements and/or adding new elements.
      */
     splice(index: number, deleteCount: number): ShareableArray<T> {
         // The release burdon is on the caller now.
-        return transferOwnership(this._elements.splice(index, deleteCount))
+        return transferOwnership(this._elements.splice(index, deleteCount));
     }
 
     /**
@@ -164,7 +164,7 @@ export default class ShareableArray<T extends Shareable> extends ShareableBase {
      */
     shift(): T {
         // No need to addRef because ownership is being transferred to caller.
-        return this._elements.shift()
+        return this._elements.shift();
     }
 
     /**
@@ -216,6 +216,6 @@ export default class ShareableArray<T extends Shareable> extends ShareableBase {
      * </p>
      */
     unshiftWeakRef(element: T): number {
-        return this._elements.unshift(element)
+        return this._elements.unshift(element);
     }
 }

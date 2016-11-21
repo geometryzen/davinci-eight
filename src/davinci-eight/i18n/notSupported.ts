@@ -1,12 +1,12 @@
 import LocalizableMessage from '../i18n/LocalizableMessage';
 import mustBeString from '../checks/mustBeString';
 
-export default function(name: string): LocalizableMessage {
+export default function notSupported(name: string): LocalizableMessage {
     mustBeString('name', name);
-    let message: LocalizableMessage = {
+    const message: LocalizableMessage = {
         get message(): string {
-            return "Method `" + name + "` is not supported."
+            return "Method `" + name + "` is not supported.";
         }
-    }
-    return message
+    };
+    return message;
 }

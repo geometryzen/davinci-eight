@@ -1,9 +1,9 @@
-import VisualOptions from './VisualOptions';
+import SpinorE3 from '../math/SpinorE3';
 
 /**
  * The options for creating a Sphere.
  */
-interface SphereOptions extends VisualOptions {
+interface SphereOptions {
     /**
      * 
      */
@@ -12,6 +12,10 @@ interface SphereOptions extends VisualOptions {
      * 
      */
     radius?: number;
+    /**
+     * 
+     */
+    tilt?: SpinorE3;
     /**
      * 
      */

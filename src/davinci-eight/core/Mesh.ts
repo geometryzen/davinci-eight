@@ -46,7 +46,29 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
     }
 
     /**
-     * Attitude (spinor)
+     * Attitude (spinor). This is an alias for the R property.
+     */
+    get attitude(): Geometric3 {
+        const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME);
+        if (facet) {
+            return facet.R;
+        }
+        else {
+            throw new Error(notSupported(MODEL_FACET_NAME).message);
+        }
+    }
+    set attitude(spinor: Geometric3) {
+        const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME);
+        if (facet) {
+            facet.R.copySpinor(spinor);
+        }
+        else {
+            throw new Error(notSupported(MODEL_FACET_NAME).message);
+        }
+    }
+
+    /**
+     * Attitude (spinor). This is an alias for the attitude property.
      */
     get R(): Geometric3 {
         const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME);
@@ -54,16 +76,16 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
             return facet.R;
         }
         else {
-            throw new Error(notSupported('R').message);
+            throw new Error(notSupported(MODEL_FACET_NAME).message);
         }
     }
-    set R(R: Geometric3) {
+    set R(spinor: Geometric3) {
         const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME);
         if (facet) {
-            facet.R.copySpinor(R);
+            facet.R.copySpinor(spinor);
         }
         else {
-            throw new Error(notSupported('R').message);
+            throw new Error(notSupported(MODEL_FACET_NAME).message);
         }
     }
 
@@ -112,7 +134,7 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
     }
 
     /**
-     * Position (vector)
+     * Position (vector). This is an alias for the position property.
      */
     get X(): Geometric3 {
         const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME);
@@ -120,16 +142,38 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
             return facet.X;
         }
         else {
-            throw new Error(notSupported('X').message);
+            throw new Error(notSupported(MODEL_FACET_NAME).message);
         }
     }
-    set X(X: Geometric3) {
+    set X(vector: Geometric3) {
         const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME);
         if (facet) {
-            facet.X.copyVector(X);
+            facet.X.copyVector(vector);
         }
         else {
-            throw new Error(notSupported('X').message);
+            throw new Error(notSupported(MODEL_FACET_NAME).message);
+        }
+    }
+
+    /**
+     * Position (vector). This is an alias for the X property.
+     */
+    get position(): Geometric3 {
+        const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME);
+        if (facet) {
+            return facet.X;
+        }
+        else {
+            throw new Error(notSupported(MODEL_FACET_NAME).message);
+        }
+    }
+    set position(vector: Geometric3) {
+        const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME);
+        if (facet) {
+            facet.X.copyVector(vector);
+        }
+        else {
+            throw new Error(notSupported(MODEL_FACET_NAME).message);
         }
     }
 

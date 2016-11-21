@@ -50,7 +50,7 @@ export default class ArrowGeometry extends GeometryElements {
     }
 
     get radius(): number {
-        return this._radius
+        return this._radius;
     }
     set radius(radius: number) {
         this.setPrincipalScale('radius', radius);
@@ -73,7 +73,7 @@ export default class ArrowGeometry extends GeometryElements {
                 return this._radius;
             }
             default: {
-                throw new Error(notSupported(`getPrincipalScale('${name}')`).message)
+                throw new Error(notSupported(`getPrincipalScale('${name}')`).message);
             }
         }
     }
@@ -89,7 +89,7 @@ export default class ArrowGeometry extends GeometryElements {
                 break;
             }
             default: {
-                throw new Error(notSupported(`getPrincipalScale('${name}')`).message)
+                throw new Error(notSupported(`getPrincipalScale('${name}')`).message);
             }
         }
         // For the ArrowGeometry, the canonical configuration has the axis of the arrow in the e2 direction.

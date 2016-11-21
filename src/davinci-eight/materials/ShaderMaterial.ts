@@ -8,7 +8,7 @@ import isDefined from '../checks/isDefined';
 import isString from '../checks/isString';
 import isNull from '../checks/isNull';
 import makeWebGLProgram from '../core/makeWebGLProgram';
-import { Material } from '../core/Material'
+import { Material } from '../core/Material';
 import mustBeArray from '../checks/mustBeArray';
 import mustBeNonNullObject from '../checks/mustBeNonNullObject';
 import mustBeString from '../checks/mustBeString';
@@ -27,33 +27,33 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
     /**
      *
      */
-    private _vertexShaderSrc: string
+    private _vertexShaderSrc: string;
 
     /**
      *
      */
-    private _fragmentShaderSrc: string
+    private _fragmentShaderSrc: string;
 
     /**
      *
      */
-    private _attribs: string[]
+    private _attribs: string[];
 
     /**
      *
      */
-    private _program: WebGLProgram
+    private _program: WebGLProgram;
 
     /**
      *
      */
-    private _attributesByName: { [name: string]: Attrib } = {}
+    private _attributesByName: { [name: string]: Attrib } = {};
     private _attributesByIndex: Attrib[] = [];
 
     /**
      *
      */
-    private _uniforms: { [name: string]: Uniform } = {}
+    private _uniforms: { [name: string]: Uniform } = {};
 
     /**
      * @param vertexShaderSrc The vertex shader source code.
@@ -78,24 +78,24 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
 
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
-            this.cleanUp()
+            this.cleanUp();
         }
-        mustBeUndefined(this._type, this._program)
-        super.destructor(levelUp + 1)
+        mustBeUndefined(this._type, this._program);
+        super.destructor(levelUp + 1);
     }
 
     /**
      *
      */
     contextGain(context: ContextProvider): void {
-        const gl = context.gl
+        const gl = context.gl;
         if (!this._program && isString(this._vertexShaderSrc) && isString(this._fragmentShaderSrc)) {
-            this._program = makeWebGLProgram(gl, this._vertexShaderSrc, this._fragmentShaderSrc, this._attribs)
+            this._program = makeWebGLProgram(gl, this._vertexShaderSrc, this._fragmentShaderSrc, this._attribs);
             this._attributesByName = {};
             this._attributesByIndex = [];
-            this._uniforms = {}
+            this._uniforms = {};
 
-            const aLen: number = gl.getProgramParameter(this._program, gl.ACTIVE_ATTRIBUTES)
+            const aLen: number = gl.getProgramParameter(this._program, gl.ACTIVE_ATTRIBUTES);
             for (let a = 0; a < aLen; a++) {
                 const attribInfo: WebGLActiveInfo = gl.getActiveAttrib(this._program, a);
                 const attrib = new Attrib(attribInfo);
@@ -103,10 +103,10 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
                 this._attributesByIndex.push(attrib);
             }
 
-            const uLen: number = gl.getProgramParameter(this._program, gl.ACTIVE_UNIFORMS)
+            const uLen: number = gl.getProgramParameter(this._program, gl.ACTIVE_UNIFORMS);
             for (let u = 0; u < uLen; u++) {
-                const uniformInfo: WebGLActiveInfo = gl.getActiveUniform(this._program, u)
-                this._uniforms[uniformInfo.name] = new Uniform(uniformInfo)
+                const uniformInfo: WebGLActiveInfo = gl.getActiveUniform(this._program, u);
+                this._uniforms[uniformInfo.name] = new Uniform(uniformInfo);
             }
 
             // TODO: This would be more efficient over the array.
@@ -121,26 +121,26 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
                 }
             }
         }
-        super.contextGain(context)
+        super.contextGain(context);
     }
 
     /**
      *
      */
     contextLost(): void {
-        this._program = void 0
+        this._program = void 0;
         for (var aName in this._attributesByName) {
             // TODO: This would be better over the array.
             if (this._attributesByName.hasOwnProperty(aName)) {
-                this._attributesByName[aName].contextLost()
+                this._attributesByName[aName].contextLost();
             }
         }
         for (var uName in this._uniforms) {
             if (this._uniforms.hasOwnProperty(uName)) {
-                this._uniforms[uName].contextLost()
+                this._uniforms[uName].contextLost();
             }
         }
-        super.contextLost()
+        super.contextLost();
     }
 
     /**
@@ -148,51 +148,51 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
      */
     contextFree(context: ContextProvider): void {
         if (this._program) {
-            const gl = context.gl
+            const gl = context.gl;
             if (gl) {
                 if (!gl.isContextLost()) {
-                    gl.deleteProgram(this._program)
+                    gl.deleteProgram(this._program);
                 }
                 else {
                     // WebGL has lost the context, effectively cleaning up everything.
                 }
             }
             else {
-                console.warn("memory leak: WebGLProgram has not been deleted because WebGLRenderingContext is not available anymore.")
+                console.warn("memory leak: WebGLProgram has not been deleted because WebGLRenderingContext is not available anymore.");
             }
-            this._program = void 0
+            this._program = void 0;
         }
         // TODO
         for (let aName in this._attributesByName) {
             if (this._attributesByName.hasOwnProperty(aName)) {
-                this._attributesByName[aName].contextFree()
+                this._attributesByName[aName].contextFree();
             }
         }
         for (let uName in this._uniforms) {
             if (this._uniforms.hasOwnProperty(uName)) {
-                this._uniforms[uName].contextFree()
+                this._uniforms[uName].contextFree();
             }
         }
-        super.contextFree(context)
+        super.contextFree(context);
     }
 
     /**
      *
      */
     get vertexShaderSrc(): string {
-        return this._vertexShaderSrc
+        return this._vertexShaderSrc;
     }
     set vertexShaderSrc(vertexShaderSrc: string) {
-        this._vertexShaderSrc = mustBeString('vertexShaderSrc', vertexShaderSrc)
+        this._vertexShaderSrc = mustBeString('vertexShaderSrc', vertexShaderSrc);
         if (this.contextProvider) {
-            this.contextProvider.addRef()
-            const contextProvider = this.contextProvider
+            this.contextProvider.addRef();
+            const contextProvider = this.contextProvider;
             try {
-                this.contextFree(contextProvider)
-                this.contextGain(contextProvider)
+                this.contextFree(contextProvider);
+                this.contextGain(contextProvider);
             }
             finally {
-                contextProvider.release()
+                contextProvider.release();
             }
         }
     }
@@ -201,19 +201,19 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
      *
      */
     get fragmentShaderSrc(): string {
-        return this._fragmentShaderSrc
+        return this._fragmentShaderSrc;
     }
     set fragmentShaderSrc(fragmentShaderSrc: string) {
-        this._fragmentShaderSrc = mustBeString('fragmentShaderSrc', fragmentShaderSrc)
+        this._fragmentShaderSrc = mustBeString('fragmentShaderSrc', fragmentShaderSrc);
         if (this.contextProvider) {
-            this.contextProvider.addRef()
-            const contextProvider = this.contextProvider
+            this.contextProvider.addRef();
+            const contextProvider = this.contextProvider;
             try {
-                this.contextFree(contextProvider)
-                this.contextGain(contextProvider)
+                this.contextFree(contextProvider);
+                this.contextGain(contextProvider);
             }
             finally {
-                contextProvider.release()
+                contextProvider.release();
             }
         }
     }
@@ -232,7 +232,7 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
         }
     }
     set attributeNames(unused) {
-        throw new Error(readOnly('attributeNames').message)
+        throw new Error(readOnly('attributeNames').message);
     }
 
     /**
@@ -245,9 +245,9 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
             }
         }
         else if (typeof indexOrName === 'string') {
-            const attribLoc = this._attributesByName[indexOrName]
+            const attribLoc = this._attributesByName[indexOrName];
             if (attribLoc) {
-                attribLoc.enable()
+                attribLoc.enable();
             }
         }
         else {
@@ -259,12 +259,12 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
      *
      */
     enableAttribs(): void {
-        const attribLocations = this._attributesByName
+        const attribLocations = this._attributesByName;
         if (attribLocations) {
             // TODO: Store loactions as a plain array in order to avoid temporaries (aNames)
-            const aNames = Object.keys(attribLocations)
+            const aNames = Object.keys(attribLocations);
             for (var i = 0, iLength = aNames.length; i < iLength; i++) {
-                attribLocations[aNames[i]].enable()
+                attribLocations[aNames[i]].enable();
             }
         }
     }
@@ -279,9 +279,9 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
             }
         }
         else if (typeof indexOrName === 'string') {
-            const attribLoc = this._attributesByName[indexOrName]
+            const attribLoc = this._attributesByName[indexOrName];
             if (attribLoc) {
-                attribLoc.disable()
+                attribLoc.disable();
             }
         }
         else {
@@ -293,12 +293,12 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
      *
      */
     disableAttribs(): void {
-        const attribLocations = this._attributesByName
+        const attribLocations = this._attributesByName;
         if (attribLocations) {
             // TODO: Store loactions as a plain array in order to avoid temporaries (aNames)
-            const aNames = Object.keys(attribLocations)
+            const aNames = Object.keys(attribLocations);
             for (var i = 0, iLength = aNames.length; i < iLength; i++) {
-                attribLocations[aNames[i]].disable()
+                attribLocations[aNames[i]].disable();
             }
         }
     }
@@ -308,7 +308,7 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
         if (attrib) {
             value.bind();
             attrib.enable();
-            attrib.config(size, DataType.FLOAT, normalized, stride, offset)
+            attrib.config(size, DataType.FLOAT, normalized, stride, offset);
         }
         return this;
     }
@@ -316,10 +316,10 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
     getAttrib(indexOrName: number | string): Attrib {
         if (typeof indexOrName === 'number') {
             // FIXME
-            return this._attributesByIndex[indexOrName]
+            return this._attributesByIndex[indexOrName];
         }
         else if (typeof indexOrName === 'string') {
-            return this._attributesByName[indexOrName]
+            return this._attributesByName[indexOrName];
         }
         else {
             throw new TypeError("indexOrName must be a number or a string");
@@ -331,12 +331,12 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
      * Returns <code>-1</code> if the name does not correspond to an attribute.
      */
     getAttribLocation(name: string): number {
-        const attribLoc = this._attributesByName[name]
+        const attribLoc = this._attributesByName[name];
         if (attribLoc) {
-            return attribLoc.index
+            return attribLoc.index;
         }
         else {
-            return -1
+            return -1;
         }
     }
 
@@ -346,9 +346,9 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
      * does not exist, this method returns undefined (void 0).
      */
     getUniform(name: string): Uniform {
-        const uniforms = this._uniforms
+        const uniforms = this._uniforms;
         if (uniforms[name]) {
-            return uniforms[name]
+            return uniforms[name];
         }
         else {
             return void 0;
@@ -362,7 +362,7 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
      */
     hasUniform(name: string): boolean {
         mustBeString('name', name);
-        return isDefined(this._uniforms[name])
+        return isDefined(this._uniforms[name]);
     }
 
     activeTexture(texture: TextureUnit): void {
@@ -386,23 +386,23 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
     }
 
     uniform2f(name: string, x: number, y: number): void {
-        const uniformLoc = this._uniforms[name]
+        const uniformLoc = this._uniforms[name];
         if (uniformLoc) {
-            uniformLoc.uniform2f(x, y)
+            uniformLoc.uniform2f(x, y);
         }
     }
 
     uniform3f(name: string, x: number, y: number, z: number): void {
-        const uniformLoc = this._uniforms[name]
+        const uniformLoc = this._uniforms[name];
         if (uniformLoc) {
-            uniformLoc.uniform3f(x, y, z)
+            uniformLoc.uniform3f(x, y, z);
         }
     }
 
     uniform4f(name: string, x: number, y: number, z: number, w: number): void {
-        const uniformLoc = this._uniforms[name]
+        const uniformLoc = this._uniforms[name];
         if (uniformLoc) {
-            uniformLoc.uniform4f(x, y, z, w)
+            uniformLoc.uniform4f(x, y, z, w);
         }
     }
 
@@ -416,15 +416,19 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
                 switch (value.length) {
                     case 1: {
                         uniformLoc.uniform1f(value[0]);
+                        break;
                     }
                     case 2: {
                         uniformLoc.uniform2f(value[0], value[1]);
+                        break;
                     }
                     case 3: {
                         uniformLoc.uniform3f(value[0], value[1], value[2]);
+                        break;
                     }
                     case 4: {
                         uniformLoc.uniform4f(value[0], value[1], value[2], value[3]);
+                        break;
                     }
                 }
             }
@@ -443,12 +447,12 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
      *
      */
     use(): ShaderMaterial {
-        const gl = this.gl
+        const gl = this.gl;
         if (gl) {
-            gl.useProgram(this._program)
+            gl.useProgram(this._program);
         }
         else {
-            console.warn(`${this._type}.use() missing WebGL rendering context.`)
+            console.warn(`${this._type}.use() missing WebGL rendering context.`);
         }
         return this;
     }
@@ -478,23 +482,23 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
     }
 
     vector2fv(name: string, data: Float32Array): void {
-        const uniformLoc = this._uniforms[name]
+        const uniformLoc = this._uniforms[name];
         if (uniformLoc) {
-            uniformLoc.uniform2fv(data)
+            uniformLoc.uniform2fv(data);
         }
     }
 
     vector3fv(name: string, data: Float32Array): void {
-        const uniformLoc = this._uniforms[name]
+        const uniformLoc = this._uniforms[name];
         if (uniformLoc) {
-            uniformLoc.uniform3fv(data)
+            uniformLoc.uniform3fv(data);
         }
     }
 
     vector4fv(name: string, data: Float32Array): void {
-        const uniformLoc = this._uniforms[name]
+        const uniformLoc = this._uniforms[name];
         if (uniformLoc) {
-            uniformLoc.uniform4fv(data)
+            uniformLoc.uniform4fv(data);
         }
     }
 

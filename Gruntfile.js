@@ -1,4 +1,4 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
 
     var path = require('path');
     var cp = require('child_process');
@@ -186,30 +186,7 @@ module.exports = function(grunt) {
         },
 
         tslint: {
-            src: [
-                "src/davinci-eight/davinci-eight.ts",
-                "src/davinci-eight/atoms/**/*.ts",
-                "src/davinci-eight/base/**/*.ts",
-                "src/davinci-eight/checks/**/*.ts",
-                "src/davinci-eight/collections/**/*.ts",
-                "src/davinci-eight/commands/**/*.ts",
-                "src/davinci-eight/controls/**/*.ts",
-                "src/davinci-eight/core/**/*.ts",
-                "src/davinci-eight/diagram/**/*.ts",
-                "src/davinci-eight/facets/**/*.ts",
-                "src/davinci-eight/geometries/**/*.ts",
-                "src/davinci-eight/gui/**/*.ts",
-                "src/davinci-eight/loaders/**/*.ts",
-                "src/davinci-eight/materials/**/*.ts",
-                "src/davinci-eight/math/**/*.ts",
-                "src/davinci-eight/shapes/**/*.ts",
-                "src/davinci-eight/transforms/**/*.ts",
-                "src/davinci-eight/utils/**/*.ts",
-                "src/davinci-eight/visual/**/*.ts",
-
-                "src/davinci-eight/utils/EventEmitter.ts",
-                "src/davinci-eight/utils/exists.ts"
-            ],
+            src: ["src/davinci-eight/**/*.ts"],
             options: {
                 configuration: 'tslint.json'
             }
@@ -255,25 +232,12 @@ module.exports = function(grunt) {
                     'src/davinci-eight/**/*.ts'
                 ]
             }
-        },
-        complexity: {
-            generic: {
-                src: ['amd/**/*.js'],
-                options: {
-                    jsLintXML: 'report.xml', // create XML JSLint-like report
-                    checkstyleXML: 'checkstyle.xml', // create checkstyle report
-                    errorsOnly: false, // show only maintainability errors
-                    cyclomatic: 3,
-                    halstead: 8,
-                    maintainability: 100
-                }
-            }
         }
     });
 
     function tsc(tsfile, option) {
         var command = "node " + path.resolve(path.dirname(require.resolve("typescript")), "tsc ");
-        var optArray = Object.keys(option || {}).reduce(function(res, key) {
+        var optArray = Object.keys(option || {}).reduce(function (res, key) {
             res.push(key);
             if (option[key]) {
                 res.push(option[key]);
@@ -281,13 +245,13 @@ module.exports = function(grunt) {
             return res;
         }, []);
 
-        return Q.Promise(function(resolve, reject) {
+        return Q.Promise(function (resolve, reject) {
             var cmd = command + " " + tsfile + " " + optArray.join(" ");
             var childProcess = cp.exec(cmd, {});
-            childProcess.stdout.on('data', function(d) { grunt.log.writeln(d); });
-            childProcess.stderr.on('data', function(d) { grunt.log.error(d); });
+            childProcess.stdout.on('data', function (d) { grunt.log.writeln(d); });
+            childProcess.stderr.on('data', function (d) { grunt.log.error(d); });
 
-            childProcess.on('exit', function(code) {
+            childProcess.on('exit', function (code) {
                 if (code !== 0) {
                     reject();
                 }
@@ -304,7 +268,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-complexity');
     grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-ts');
@@ -332,13 +295,13 @@ module.exports = function(grunt) {
     //
     // 'bundle' is called as a step in the 'system' task.
     //
-    grunt.registerTask('bundle', "Bundle into system modules", function() {
+    grunt.registerTask('bundle', "Bundle into system modules", function () {
         var done = this.async();
         bundle()
-            .then(function() {
+            .then(function () {
                 done(true);
             })
-            .catch(function(err) {
+            .catch(function (err) {
                 console.log(err);
                 done(false);
             });
@@ -361,6 +324,6 @@ module.exports = function(grunt) {
     // spec files are not included.
     //
     grunt.registerTask('amd', ['ts:amdES5', 'requirejs']);
-
+    grunt.registerTask('dev', ['clean', 'amd', 'system', 'uglify', 'copy:main', 'copy:css', 'copy:all']);
     grunt.registerTask('default', ['clean', 'amd', 'system', 'tslint', 'uglify', 'copy:main', 'copy:css', 'copy:all', 'typedoc']);
 };

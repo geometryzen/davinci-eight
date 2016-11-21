@@ -7,23 +7,23 @@ export default class Simplex1Geometry extends SimplexPrimitivesBuilder {
     public head: Vector3 = new Vector3([1, 0, 0]);
     public tail: Vector3 = new Vector3([0, 1, 0]);
     constructor() {
-        super()
+        super();
         this.calculate();
     }
     public calculate(): void {
-        var pos: Vector3[] = [0, 1].map(function(index) { return void 0 })
-        pos[0] = this.tail
-        pos[1] = this.head
+        const pos: Vector3[] = [0, 1].map(function(index) { return void 0; });
+        pos[0] = this.tail;
+        pos[1] = this.head;
 
         function simplex(indices: number[]): Simplex {
-            let simplex = new Simplex(indices.length - 1)
-            for (var i = 0; i < indices.length; i++) {
-                simplex.vertices[i].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = pos[indices[i]]
+            const simplex = new Simplex(indices.length - 1);
+            for (let i = 0; i < indices.length; i++) {
+                simplex.vertices[i].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = pos[indices[i]];
             }
-            return simplex
+            return simplex;
         }
-        this.data = [[0, 1]].map(function(line: number[]) { return simplex(line) })
+        this.data = [[0, 1]].map(function(line: number[]) { return simplex(line); });
         // Compute the meta data.
-        this.check()
+        this.check();
     }
 }

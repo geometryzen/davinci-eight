@@ -12,9 +12,9 @@ import Translation from '../transforms/Translation';
 import CoordsTransform2D from '../transforms/CoordsTransform2D';
 import Vector3 from '../math/Vector3';
 
-const aPosition = GraphicsProgramSymbols.ATTRIBUTE_POSITION
-const aTangent = GraphicsProgramSymbols.ATTRIBUTE_TANGENT
-const aNormal = GraphicsProgramSymbols.ATTRIBUTE_NORMAL
+const aPosition = GraphicsProgramSymbols.ATTRIBUTE_POSITION;
+const aTangent = GraphicsProgramSymbols.ATTRIBUTE_TANGENT;
+const aNormal = GraphicsProgramSymbols.ATTRIBUTE_NORMAL;
 
 /**
  * Constructs a one-sided ring using a TRIANGLE_STRIP.
@@ -60,32 +60,32 @@ export default class RingBuilder extends AxialShapeBuilder {
      *
      */
     toPrimitive(): Primitive {
-        this.transforms.push(new RingTransform(this.e, this.cutLine, this.clockwise, this.outerRadius, this.innerRadius, this.sliceAngle, aPosition, aTangent))
+        this.transforms.push(new RingTransform(this.e, this.cutLine, this.clockwise, this.outerRadius, this.innerRadius, this.sliceAngle, aPosition, aTangent));
 
-        this.transforms.push(new Scaling(this.stress, [aPosition, aTangent]))
-        this.transforms.push(new Rotation(this.tilt, [aPosition, aTangent]))
-        this.transforms.push(new Translation(this.offset, [aPosition]))
+        this.transforms.push(new Scaling(this.stress, [aPosition, aTangent]));
+        this.transforms.push(new Rotation(this.tilt, [aPosition, aTangent]));
+        this.transforms.push(new Translation(this.offset, [aPosition]));
 
         // Use a duality transformation with a sign change to convert the tangent planes to vectors.
-        this.transforms.push(new Duality(aTangent, aNormal, true, true))
+        this.transforms.push(new Duality(aTangent, aNormal, true, true));
         // Normalize the normal vectors.
-        this.transforms.push(new Direction(aNormal))
+        this.transforms.push(new Direction(aNormal));
         // Discard insignificant coordinates.
-        this.transforms.push(new Approximation(9, [aPosition, aNormal]))
+        this.transforms.push(new Approximation(9, [aPosition, aNormal]));
 
         if (this.useTextureCoord) {
-            this.transforms.push(new CoordsTransform2D(false, false, false))
+            this.transforms.push(new CoordsTransform2D(false, false, false));
         }
 
-        const grid = new GridTriangleStrip(this.thetaSegments, this.radialSegments)
+        const grid = new GridTriangleStrip(this.thetaSegments, this.radialSegments);
 
-        const iLength = grid.uLength
+        const iLength = grid.uLength;
         for (let i = 0; i < iLength; i++) {
-            const jLength = grid.vLength
+            const jLength = grid.vLength;
             for (let j = 0; j < jLength; j++) {
-                this.applyTransforms(grid.vertex(i, j), i, j, iLength, jLength)
+                this.applyTransforms(grid.vertex(i, j), i, j, iLength, jLength);
             }
         }
-        return grid.toPrimitive()
+        return grid.toPrimitive();
     }
 }

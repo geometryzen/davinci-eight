@@ -4,10 +4,10 @@ import mustBeString from '../checks/mustBeString';
 export default function cannotAssignTypeToProperty(type: string, name: string): LocalizableMessage {
     mustBeString('type', type);
     mustBeString('name', name);
-    let message: LocalizableMessage = {
+    const message: LocalizableMessage = {
         get message(): string {
-            return "Cannot assign type `" + type + "` to property `" + name + "`."
+            return "Cannot assign type `" + type + "` to property `" + name + "`.";
         }
-    }
-    return message
+    };
+    return message;
 }

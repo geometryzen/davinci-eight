@@ -4,8 +4,6 @@ import { Material } from '../core/Material';
 import { PrincipalScaleGeometry } from './PrincipalScaleMesh';
 import PrincipalScaleMesh from './PrincipalScaleMesh';
 import mustBeObject from '../checks/mustBeObject';
-import Vector3 from '../math/Vector3';
-import VectorE3 from '../math/VectorE3';
 
 /**
  * Decorates the Mesh by adding properties for physical modeling.
@@ -56,12 +54,12 @@ export class RigidBody extends PrincipalScaleMesh<PrincipalScaleGeometry, Materi
      * Cache the initial axis value so that we can compute the axis at any
      * time by rotating the initial axis using the Mesh attitude.
      */
-    public initialAxis: VectorE3;
+    // public initialAxis: VectorE3;
 
-    constructor(contextManager: ContextManager, initialAxis: VectorE3, levelUp = 0) {
+    constructor(contextManager: ContextManager, levelUp = 0) {
         super(mustBeObject('contextManager', contextManager), levelUp + 1);
         this.setLoggingName('RigidBody');
-        this.initialAxis = Vector3.copy(initialAxis);
+        // this.initialAxis = Vector3.copy(initialAxis);
         if (levelUp === 0) {
             this.synchUp();
         }
@@ -72,16 +70,5 @@ export class RigidBody extends PrincipalScaleMesh<PrincipalScaleGeometry, Materi
             this.cleanUp();
         }
         super.destructor(levelUp + 1);
-    }
-
-    /**
-     * Axis (vector)
-     */
-    get axis() {
-        return Geometric3.fromVector(this.initialAxis).rotate(this.R);
-    }
-    set axis(axis: Geometric3) {
-        mustBeObject('axis', axis);
-        this.R.rotorFromDirections(this.initialAxis, axis);
     }
 }

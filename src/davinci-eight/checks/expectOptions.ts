@@ -14,7 +14,7 @@ export default function expectOptions(expects: string[], actuals: string[]): voi
     for (let i = 0; i < iLength; i++) {
         const actual = actuals[i];
         if (expects.indexOf(actual) < 0) {
-            throw new Error(`${actual} is not one of the expected options: ${JSON.stringify(expects, null, 2)}.`)
+            throw new Error(`${actual} is not one of the expected options: ${JSON.stringify(expects, null, 2)}.`);
         }
     }
 }

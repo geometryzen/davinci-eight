@@ -1,14 +1,13 @@
 import VectorE3 from '../math/VectorE3';
-import VisualOptions from './VisualOptions';
 
 /**
  *
  */
-interface ArrowOptions extends VisualOptions {
+interface ArrowOptions {
     /**
      * 
      */
-    vector?: VectorE3;
+    axis?: VectorE3;
     /**
      * 
      */

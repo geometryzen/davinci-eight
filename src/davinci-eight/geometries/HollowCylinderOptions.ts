@@ -7,12 +7,12 @@ interface HollowCylinderOptions {
     /**
      * The symmetry axis and the height of the cylinder.
      */
-    height?: VectorE3,
+    height?: VectorE3;
     /**
      * The starting direction for the slice.
      * A unit vector orthogonal to the height vector.
      */
-    cutLine?: VectorE3,
+    cutLine?: VectorE3;
     /**
      * The outer radius of the cylinder.
      */

@@ -1,5 +1,6 @@
 import GeometryBuilder from './GeometryBuilder';
 import Primitive from '../core/Primitive';
+import Spinor3 from '../math/Spinor3';
 import Vector3 from '../math/Vector3';
 import Vertex from '../atoms/Vertex';
 import VertexArrays from '../core/VertexArrays';
@@ -17,59 +18,39 @@ export default class PrimitivesBuilder implements GeometryBuilder {
      * reference frame specific transformation.
      *
      * This may be replaced by a Matrix3 in future.
-     *
-     * @property stress
-     * @type Vector3
-     * @default vector(1, 1, 1)
-     * @beta
      */
     public stress = Vector3.vector(1, 1, 1);
 
     /**
+     * The rotation to apply to the geometry (after the stress has been applied).
+     */
+    public tilt = Spinor3.one();
+
+    /**
      * The translation to apply to the geometry (after tilt has been applied).
-     * @property offset
-     * @type Vector3
-     * @default 0
      */
     public offset = Vector3.zero();
 
     /**
-     * @property transforms
-     * @type Transform[]
+     * 
      */
     public transforms: Transform[] = [];
 
     /**
      * Determines whether to include normals in the geometry.
-     *
-     * @property useNormal
-     * @type boolean
-     * @default true
      */
     public useNormal = true;
 
     /**
      * Determines whether to include positions in the geometry.
-     *
-     * @property usePosition
-     * @type boolean
-     * @default true
      */
     public usePosition = true;
 
     /**
      * Determines whether to include texture coordinates in the geometry.
-     *
-     * @property useTextureCoord
-     * @type boolean
-     * @default false
      */
     public useTextureCoord = false;
 
-    /**
-     * @class PrimitivesBuilder
-     * @constructor
-     */
     constructor() {
         // Do nothing.
     }
@@ -81,11 +62,6 @@ export default class PrimitivesBuilder implements GeometryBuilder {
         }
     }
 
-    /**
-     * @method toVertexArrays
-     * @return {VertexArray[]}
-     * @beta
-     */
     toVertexArrays(): VertexArrays[] {
         const arrays: VertexArrays[] = [];
         const ps = this.toPrimitives();
@@ -96,10 +72,6 @@ export default class PrimitivesBuilder implements GeometryBuilder {
         return arrays;
     }
 
-    /**
-     * @method toPrimitives
-     * @type Primitive[]
-     */
     toPrimitives(): Primitive[] {
         console.warn("toPrimitives() must be implemented by derived classes.");
         return [];

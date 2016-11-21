@@ -1,4 +1,4 @@
-import MaterialOptions from './MaterialOptions'
+import MaterialOptions from './MaterialOptions';
 
 /**
  *
@@ -8,12 +8,12 @@ interface LineMaterialOptions extends MaterialOptions {
   /**
    *
    */
-  attributes?: { [name: string]: number }
+  attributes?: { [name: string]: number };
 
   /**
    *
    */
-  uniforms?: { [name: string]: string }
+  uniforms?: { [name: string]: string };
 }
 
-export default LineMaterialOptions
+export default LineMaterialOptions;

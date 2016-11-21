@@ -3,20 +3,20 @@ import mustBeDefined from '../checks/mustBeDefined';
 import mustSatisfy from '../checks/mustSatisfy';
 
 function haveOwnProperty(prop: string) {
-    return function() {
-        return "have own property `" + prop + "`"
-    }
+    return function () {
+        return "have own property `" + prop + "`";
+    };
 }
 
 export default function mustHaveOwnProperty(name: string, value: {}, prop: string, contextBuilder?: () => string): void {
-    mustBeDefined('name', name)
-    mustBeDefined('prop', prop)
+    mustBeDefined('name', name);
+    mustBeDefined('prop', prop);
     if (isDefined(value)) {
         if (!value.hasOwnProperty(prop)) {
-            mustSatisfy(name, false, haveOwnProperty(prop), contextBuilder)
+            mustSatisfy(name, false, haveOwnProperty(prop), contextBuilder);
         }
     }
     else {
-        mustBeDefined(name, value, contextBuilder)
+        mustBeDefined(name, value, contextBuilder);
     }
 }

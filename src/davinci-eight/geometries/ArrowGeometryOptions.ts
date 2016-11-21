@@ -1,4 +1,4 @@
-import GeometryOptions from './GeometryOptions'
+import GeometryOptions from './GeometryOptions';
 
 /**
  *
@@ -10,4 +10,4 @@ interface ArrowGeometryOptions extends GeometryOptions {
     radiusCone?: number;
 }
 
-export default ArrowGeometryOptions
+export default ArrowGeometryOptions;

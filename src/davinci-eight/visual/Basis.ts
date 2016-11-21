@@ -3,7 +3,6 @@ import BeginMode from '../core/BeginMode';
 import { Color } from '../core/Color';
 import { ColorFacet } from '../facets/ColorFacet';
 import DataType from '../core/DataType';
-import direction from './direction';
 import { Engine } from '../core/Engine';
 import GeometryArrays from '../core/GeometryArrays';
 import mustBeEngine from './mustBeEngine';
@@ -84,7 +83,7 @@ export default class Basis extends RigidBody {
     private uColorB = new ColorFacet(uColorB);
     private uColorC = new ColorFacet(uColorC);
     constructor(engine: Engine, options: BasisOptions = {}, levelUp = 0) {
-        super(mustBeEngine(engine, 'Basis'), direction(options), levelUp + 1);
+        super(mustBeEngine(engine, 'Basis'), levelUp + 1);
         this.setLoggingName("Basis");
 
         // FIXME: This should be initialized to a random orthonormal basis.

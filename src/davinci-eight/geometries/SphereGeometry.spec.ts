@@ -11,40 +11,40 @@ describe("SphereGeometry", function () {
     describe("constructor", function () {
         describe("radius property", function () {
             it("should default to unity", function () {
-                const engine = new Engine()
+                const engine = new Engine();
                 const sphere = new SphereGeometry(engine);
                 expect(sphere.radius).toBe(1);
                 sphere.release();
-                engine.release()
-            })
+                engine.release();
+            });
             it("should be mutable", function () {
-                const engine = new Engine()
+                const engine = new Engine();
                 const sphere = new SphereGeometry(engine);
                 sphere.radius = 7;
                 expect(sphere.radius).toBe(7);
                 sphere.release();
-                engine.release()
-            })
-        })
+                engine.release();
+            });
+        });
         describe("getPrincipalScale", function () {
             it("radius", function () {
-                const engine = new Engine()
+                const engine = new Engine();
                 const sphere = new SphereGeometry(engine);
                 expect(sphere.getPrincipalScale('radius')).toBe(1);
                 sphere.release();
                 engine.release();
-            })
-        })
+            });
+        });
         describe("setPrincipalScale", function () {
             it("radius", function () {
-                const engine = new Engine()
+                const engine = new Engine();
                 const sphere = new SphereGeometry(engine);
                 sphere.setPrincipalScale('radius', 2);
                 expect(sphere.getPrincipalScale('radius')).toBe(2);
                 sphere.release();
                 engine.release();
-            })
-        })
+            });
+        });
         describe("scaling", function () {
             it("radius", function () {
                 const engine = new Engine();
@@ -53,7 +53,7 @@ describe("SphereGeometry", function () {
                 expect(scaling.getElement(0, 0)).toBe(1);
                 sphere.release();
                 engine.release();
-            })
+            });
             it("radius should be in all diagonal elements", function () {
                 const engine = new Engine();
                 const options: SphereGeometryOptions = {};
@@ -66,9 +66,9 @@ describe("SphereGeometry", function () {
                 expect(scaling.getElement(2, 2)).toBe(5);
                 sphere.release();
                 engine.release();
-            })
+            });
             it("radius should be in all diagonal elements", function () {
-                const engine = new Engine()
+                const engine = new Engine();
                 const options: SphereGeometryOptions = {};
                 options.tilt = Spinor3.rotorFromDirections(e2, e3);
                 const sphere = new SphereGeometry(engine, options);
@@ -79,7 +79,7 @@ describe("SphereGeometry", function () {
                 expect(scaling.getElement(2, 2)).toBe(5);
                 sphere.release();
                 engine.release();
-            })
-        })
-    })
-})
+            });
+        });
+    });
+});

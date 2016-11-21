@@ -14,17 +14,17 @@ interface CurveGeometryOptions extends GeometryOptions {
      * @optional
      * @default () => (u, 0)
      */
-    aPosition?: (u: number) => VectorE3
+    aPosition?: (u: number) => VectorE3;
 
     /**
      *
      */
-    aColor?: (u: number) => { r: number; g: number; b: number }
+    aColor?: (u: number) => { r: number; g: number; b: number };
 
     /**
      * @default LINES
      */
-    mode?: BeginMode
+    mode?: BeginMode;
 
     /**
      * @attribute uMin
@@ -32,7 +32,7 @@ interface CurveGeometryOptions extends GeometryOptions {
      * @optional
      * @default 0
      */
-    uMin?: number
+    uMin?: number;
 
     /**
      * @attribute uMax
@@ -40,7 +40,7 @@ interface CurveGeometryOptions extends GeometryOptions {
      * @optional
      * @default 1
      */
-    uMax?: number
+    uMax?: number;
 
     /**
      * @attribute uSegments
@@ -48,8 +48,8 @@ interface CurveGeometryOptions extends GeometryOptions {
      * @optional
      * @default 1
      */
-    uSegments?: number
+    uSegments?: number;
 
 }
 
-export default CurveGeometryOptions
+export default CurveGeometryOptions;

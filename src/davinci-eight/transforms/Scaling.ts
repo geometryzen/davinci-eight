@@ -6,28 +6,15 @@ import VectorE3 from '../math/VectorE3';
 import Vertex from '../atoms/Vertex';
 import Transform from '../atoms/Transform';
 
-/**
- * Applies texture coordinates to a vertex.
- */
 export default class Scaling implements Transform {
-    private stress: VectorE3
-    private names: string[]
-    /**
-     * @param stress
-     * @param names
-     */
+    private stress: VectorE3;
+    private names: string[];
+
     constructor(stress: VectorE3, names: string[]) {
         this.stress = Vector3.copy(mustBeObject('stress', stress));
         this.names = mustBeArray('names', names);
     }
-    /**
-     * @method exec
-     * @param vertex {Vertex}
-     * @param i {number}
-     * @param j {number}
-     * @param iLength {number}
-     * @param jLength {number}
-     */
+
     exec(vertex: Vertex, i: number, j: number, iLength: number, jLength: number): void {
         const nLength = this.names.length;
         for (let k = 0; k < nLength; k++) {
@@ -45,11 +32,11 @@ export default class Scaling implements Transform {
                     vertex.attributes[aName] = spinor;
                 }
                 else {
-                    throw new Error(`Expecting ${aName} to be a vector with 3 coordinates or a spinor with 4 coordinates.`)
+                    throw new Error(`Expecting ${aName} to be a vector with 3 coordinates or a spinor with 4 coordinates.`);
                 }
             }
             else {
-                console.warn(`Expecting ${aName} to be a VectorN.`)
+                console.warn(`Expecting ${aName} to be a VectorN.`);
             }
         }
     }

@@ -1,16 +1,17 @@
+import { R3 } from '../math/R3';
+import vec from '../math/R3';
+import SpinorE3 from '../math/SpinorE3';
 import VectorE3 from '../math/VectorE3';
-import Vector3 from '../math/Vector3';
 
 /**
  * This function computes the initial requested direction of an object.
- * If no particular direction is requested
  */
-export default function(options: { axis?: VectorE3 }): VectorE3 {
+export default function (options: { axis?: VectorE3; tilt?: SpinorE3 }, canonical: VectorE3): R3 {
     if (options.axis) {
-        return Vector3.copy(options.axis).normalize();
+        const axis = options.axis;
+        return vec(axis.x, axis.y, axis.z).direction();
     }
     else {
-        // FIXME: This needs to be the direction associated with the Geometry?
-        return Vector3.vector(0, 1, 0);
+        return vec(canonical.x, canonical.y, canonical.z);
     }
 }

@@ -1,18 +1,18 @@
-const SCALAR_POS_SYMBOL = "1"
-const E1_NEG_SYMBOL = "←"
-const E1_POS_SYMBOL = "→"
-const E2_POS_SYMBOL = "↑"
-const E2_NEG_SYMBOL = "↓"
-const E3_POS_SYMBOL = "⊙"
-const E3_NEG_SYMBOL = "⊗"
-const E12_NEG_SYMBOL = "↻"
-const E12_POS_SYMBOL = "↺"
-const E31_POS_SYMBOL = "⊶"
-const E31_NEG_SYMBOL = "⊷"
-const E23_NEG_SYMBOL = "⬘"
-const E23_POS_SYMBOL = "⬙"
-const PSEUDO_POS_SYMBOL = "☐"
-const PSEUDO_NEG_SYMBOL = "■"
+const SCALAR_POS_SYMBOL = "1";
+const E1_NEG_SYMBOL = "←";
+const E1_POS_SYMBOL = "→";
+const E2_POS_SYMBOL = "↑";
+const E2_NEG_SYMBOL = "↓";
+const E3_POS_SYMBOL = "⊙";
+const E3_NEG_SYMBOL = "⊗";
+const E12_NEG_SYMBOL = "↻";
+const E12_POS_SYMBOL = "↺";
+const E31_POS_SYMBOL = "⊶";
+const E31_NEG_SYMBOL = "⊷";
+const E23_NEG_SYMBOL = "⬘";
+const E23_POS_SYMBOL = "⬙";
+const PSEUDO_POS_SYMBOL = "☐";
+const PSEUDO_NEG_SYMBOL = "■";
 
 const BASIS_LABELS_G3_GEOMETRIC: string[][] = [
     [SCALAR_POS_SYMBOL, SCALAR_POS_SYMBOL],
@@ -23,6 +23,6 @@ const BASIS_LABELS_G3_GEOMETRIC: string[][] = [
     [E23_NEG_SYMBOL, E23_POS_SYMBOL],
     [E31_NEG_SYMBOL, E31_POS_SYMBOL],
     [PSEUDO_NEG_SYMBOL, PSEUDO_POS_SYMBOL]
-]
+];
 
 export default BASIS_LABELS_G3_GEOMETRIC;

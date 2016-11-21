@@ -590,6 +590,13 @@ export default class Vector3 extends Coords {
         return this;
     }
 
+    sub2(a: VectorE3, b: VectorE3): Vector3 {
+        this.x = a.x - b.x;
+        this.y = a.y - b.y;
+        this.z = a.z - b.z;
+        return this;
+    }
+
     /**
      * @method toExponential
      * @param [fractionDigits] {number}

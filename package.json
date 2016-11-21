@@ -1,6 +1,6 @@
 {
   "name": "davinci-eight",
-  "version": "3.4.0",
+  "version": "3.5.0",
   "description": "WebGL library for mathematical physics using Geometric Algebra",
   "author": {
     "name": "David Holmes",
@@ -30,7 +30,6 @@
     "es6-module-loader": "^0.17.11",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
-    "grunt-complexity": "^0.3.1",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-connect": "^1.0.2",
     "grunt-contrib-copy": "^1.0.0",
@@ -40,7 +39,7 @@
     "grunt-contrib-uglify": "^1.0.2",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-contrib-yuidoc": "^1.0.0",
-    "grunt-exec": "^1.0.0",
+    "grunt-exec": "^1.0.1",
     "grunt-jasmine-task": "0.2.3",
     "grunt-karma": "^2.0.0",
     "grunt-template-jasmine-requirejs": "^0.2.3",
@@ -57,15 +56,15 @@
     "karma-phantomjs-launcher": "^0.2.1",
     "karma-systemjs": "^0.8.0",
     "phantomjs": "^1.9.18",
-    "phantomjs-polyfill": "^0.0.1",
+    "phantomjs-polyfill": "^0.0.2",
     "q": "1.4.1",
-    "requirejs": "~2.2.0",
+    "requirejs": "~2.3.2",
     "servedir": "^1.0.0",
     "systemjs": "^0.19.41",
     "systemjs-builder": "^0.15.34",
     "tslint": "^3.15.1",
-    "typedoc": "^0.4.5",
-    "typescript": "^2.1.1"
+    "typedoc": "^0.5.1",
+    "typescript": "^2.0.10"
   },
   "keywords": [],
   "jspm": {
@@ -76,7 +75,7 @@
       "babel": "npm:babel-core@^5.8.24",
       "babel-runtime": "npm:babel-runtime@^5.8.24",
       "core-js": "npm:core-js@^1.1.4",
-      "typescript": "npm:typescript@^1.8.10"
+      "typescript": "npm:typescript@^2.0.10"
     }
   }
 }

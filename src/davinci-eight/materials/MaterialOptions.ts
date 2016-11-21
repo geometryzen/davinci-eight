@@ -1,4 +1,4 @@
 interface MaterialOptions {
 }
 
-export default MaterialOptions
+export default MaterialOptions;

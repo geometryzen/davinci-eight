@@ -2,7 +2,7 @@ import mustSatisfy from '../checks/mustSatisfy';
 import isInteger from '../checks/isInteger';
 
 function beCanvasId() {
-    return "be a `number` which is also an integer"
+    return "be a `number` which is also an integer";
 }
 
 export default function mustBeCanvasId(name: string, value: number, contextBuilder?: () => string): number {

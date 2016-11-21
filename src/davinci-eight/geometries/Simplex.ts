@@ -4,7 +4,7 @@ import mustBeLE from '../checks/mustBeLE';
 import mustBeInteger from '../checks/mustBeInteger';
 import Vertex from '../atoms/Vertex';
 import VertexAttributeMap from '../atoms/VertexAttributeMap';
-import {VectorN} from '../math/VectorN';
+import { VectorN } from '../math/VectorN';
 
 function checkIntegerArg(name: string, n: number, min: number, max: number): number {
     mustBeInteger(name, n);
@@ -22,7 +22,7 @@ function concatReduce(a: Simplex[], b: Simplex[]): Simplex[] {
 }
 
 function lerp(a: number[], b: number[], alpha: number, data: number[] = []): number[] {
-    mustBeEQ('a.length', a.length, b.length)
+    mustBeEQ('a.length', a.length, b.length);
     const dims = a.length;
     var i: number;
     let beta = 1 - alpha;
@@ -54,7 +54,7 @@ export default class Simplex {
     constructor(k: number) {
         mustBeInteger('k', k);
         const numVertices: number = k + 1;
-        const numCoordinates = 0
+        const numCoordinates = 0;
         for (var i = 0; i < numVertices; i++) {
             this.vertices.push(new Vertex(numCoordinates));
         }
@@ -71,7 +71,7 @@ export default class Simplex {
     public static TETRAHEDRON = 3;
     public static FIVE_CELL = 4;
     public static indices(simplex: Simplex): number[] {
-        return simplex.vertices.map(function(vertex) { return vertex.index; });
+        return simplex.vertices.map(function (vertex) { return vertex.index; });
     }
     private static boundaryMap(simplex: Simplex): Simplex[] {
         const vertices = simplex.vertices;
@@ -119,9 +119,9 @@ export default class Simplex {
             let b = vertices[1].attributes;
             let c = vertices[2].attributes;
 
-            let m1 = lerpVertexAttributeMap(a, b, 0.5)
-            let m2 = lerpVertexAttributeMap(b, c, 0.5)
-            let m3 = lerpVertexAttributeMap(c, a, 0.5)
+            let m1 = lerpVertexAttributeMap(a, b, 0.5);
+            let m2 = lerpVertexAttributeMap(b, c, 0.5);
+            let m3 = lerpVertexAttributeMap(c, a, 0.5);
 
             let face1 = new Simplex(k);
             face1.vertices[0].attributes = c;
@@ -149,7 +149,7 @@ export default class Simplex {
             let a = vertices[0].attributes;
             let b = vertices[1].attributes;
 
-            let m = lerpVertexAttributeMap(a, b, 0.5)
+            let m = lerpVertexAttributeMap(a, b, 0.5);
 
             let line1 = new Simplex(k);
             line1.vertices[0].attributes = a;
