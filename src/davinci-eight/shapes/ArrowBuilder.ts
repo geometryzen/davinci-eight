@@ -18,32 +18,12 @@ import VectorE3 from '../math/VectorE3';
  */
 export default class ArrowBuilder extends AxialShapeBuilder {
 
-    /**
-     * @property heightCone
-     * @type number
-     * @default 0.2
-     */
     public heightCone: number = 0.20;
 
-    /**
-     * @property radiusCone
-     * @type number
-     * @default 0.08
-     */
     public radiusCone: number = 0.08;
 
-    /**
-     * @property radiusShaft
-     * @type number
-     * @default 0.01
-     */
     public radiusShaft: number = 0.01;
 
-    /**
-     * @property thetaSegments
-     * @type number
-     * @default 16
-     */
     public thetaSegments = 16;
 
     private e: VectorE3;

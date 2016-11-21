@@ -6,7 +6,7 @@ function isLabelOne(label: (string | string[])): boolean {
         return label === "1";
     }
     else {
-        let labels = mustBeArray('label', label);
+        const labels = mustBeArray('label', label);
         if (labels.length === 2) {
             return isLabelOne(labels[0]) && isLabelOne(labels[1]);
         }
@@ -24,7 +24,7 @@ function appendLabel(coord: number, label: (string | string[]), sb: string[]): v
         sb.push(label);
     }
     else {
-        let labels = mustBeArray('label', label);
+        const labels = mustBeArray('label', label);
         if (labels.length === 2) {
             sb.push(coord > 0 ? labels[1] : labels[0]);
         }
@@ -54,7 +54,7 @@ function appendCoord(coord: number, numberToString: (x: number) => string, label
                 sb.push("-");
             }
             else {
-                var labels = mustBeArray('label', label);
+                const labels = mustBeArray('label', label);
                 if (labels.length === 2) {
                     if (labels[0] !== labels[1]) {
                         if (sb.length > 0) {
@@ -74,7 +74,7 @@ function appendCoord(coord: number, numberToString: (x: number) => string, label
                 }
             }
         }
-        var n = Math.abs(coord);
+        const n = Math.abs(coord);
         if (n === 1) {
             // 1 times something is just 1, so we only need the label.
             appendLabel(coord, label, sb);
@@ -97,9 +97,9 @@ function appendCoord(coord: number, numberToString: (x: number) => string, label
 }
 
 export default function stringFromCoordinates(coordinates: number[], numberToString: (x: number) => string, labels: (string | string[])[]): string {
-    var sb: string[] = [];
-    for (var i = 0, iLength = coordinates.length; i < iLength; i++) {
-        var coord = coordinates[i];
+    const sb: string[] = [];
+    for (let i = 0, iLength = coordinates.length; i < iLength; i++) {
+        const coord = coordinates[i];
         if (isDefined(coord)) {
             appendCoord(coord, numberToString, labels[i], sb);
         }
