@@ -67,7 +67,7 @@ export class ViewControls extends MouseControls implements ViewController {
      * @param view
      * @param wnd
      */
-    constructor(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }, wnd: BrowserWindow) {
+    constructor(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }, wnd: BrowserWindow = window) {
         super(wnd);
         this.setLoggingName('ViewControls');
         this.setView(view);

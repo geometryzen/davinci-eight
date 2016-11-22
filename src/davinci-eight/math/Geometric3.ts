@@ -713,7 +713,7 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
     exp() {
         // It's always the case that the scalar commutes with every other
         // grade of the multivector, so we can pull it out the front.
-        let expW = exp(this.a);
+        const expW = exp(this.a);
 
         // In Geometric3 we have the special case that the pseudoscalar also commutes.
         // And since it squares to -1, we get a exp(Iβ) = cos(β) + I * sin(β) factor.
@@ -723,14 +723,14 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
         // We are left with the vector and bivector components.
         // For a bivector (usual case), let B = I * φ, where φ is a vector.
         // We would get cos(φ) + I * n * sin(φ), where φ = |φ|n and n is a unit vector.
-        let yz = this.yz;
-        let zx = this.zx;
-        let xy = this.xy;
+        const yz = this.yz;
+        const zx = this.zx;
+        const xy = this.xy;
         // φ is actually the absolute value of one half the rotation angle.
         // The orientation of the rotation gets carried in the bivector components.
-        let φ = sqrt(yz * yz + zx * zx + xy * xy);
-        let s = φ !== 0 ? sin(φ) / φ : 1;
-        let cosφ = cos(φ);
+        const φ = sqrt(yz * yz + zx * zx + xy * xy);
+        const s = φ !== 0 ? sin(φ) / φ : 1;
+        const cosφ = cos(φ);
 
         // For a vector a, we use exp(a) = cosh(a) + n * sinh(a)
         // The mixture of vector and bivector parts is more complex!
@@ -1346,7 +1346,7 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * @returns
      */
     toExponential(fractionDigits?: number): string {
-        const coordToString = function(coord: number): string { return coord.toExponential(fractionDigits); };
+        const coordToString = function (coord: number): string { return coord.toExponential(fractionDigits); };
         return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS);
     }
 
@@ -1357,7 +1357,7 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * @returns
      */
     toFixed(fractionDigits?: number): string {
-        const coordToString = function(coord: number): string { return coord.toFixed(fractionDigits); };
+        const coordToString = function (coord: number): string { return coord.toFixed(fractionDigits); };
         return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS);
     }
 
@@ -1366,7 +1366,7 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * @returns
      */
     toPrecision(precision?: number): string {
-        const coordToString = function(coord: number): string { return coord.toPrecision(precision); };
+        const coordToString = function (coord: number): string { return coord.toPrecision(precision); };
         return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS);
     }
 
@@ -1377,7 +1377,7 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * @returns
      */
     toString(radix?: number): string {
-        const coordToString = function(coord: number): string { return coord.toString(radix); };
+        const coordToString = function (coord: number): string { return coord.toString(radix); };
         return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS);
     }
 
@@ -1385,7 +1385,7 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * @param grade
      * @returns
      */
-    grade(grade: number) {
+    grade(grade: number): Geometric3 {
         switch (grade) {
             case 0: {
                 this.x = 0;
@@ -1395,24 +1395,24 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
                 this.zx = 0;
                 this.xy = 0;
                 this.b = 0;
-            }
                 break;
+            }
             case 1: {
                 this.a = 0;
                 this.yz = 0;
                 this.zx = 0;
                 this.xy = 0;
                 this.b = 0;
-            }
                 break;
+            }
             case 2: {
                 this.a = 0;
                 this.x = 0;
                 this.y = 0;
                 this.z = 0;
                 this.b = 0;
-            }
                 break;
+            }
             case 3: {
                 this.a = 0;
                 this.x = 0;
@@ -1421,8 +1421,8 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
                 this.yz = 0;
                 this.zx = 0;
                 this.xy = 0;
-            }
                 break;
+            }
             default: {
                 this.a = 0;
                 this.x = 0;

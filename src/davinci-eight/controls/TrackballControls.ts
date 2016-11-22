@@ -46,7 +46,7 @@ export class TrackballControls extends ViewControls {
   private pan = new Vector3();
   private objectUp = new Vector3();
 
-  constructor(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }, wnd: BrowserWindow) {
+  constructor(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }, wnd: BrowserWindow = window) {
     super(view, wnd);
     this.setLoggingName('TrackballControls');
   }

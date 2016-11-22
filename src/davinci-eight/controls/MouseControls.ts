@@ -128,7 +128,7 @@ export class MouseControls extends ShareableBase {
      *
      * @param wnd
      */
-    constructor(wnd: BrowserWindow) {
+    constructor(wnd: BrowserWindow = window) {
         super();
         this.setLoggingName('MouseControls');
         this.wnd = mustBeObject('wnd', wnd);

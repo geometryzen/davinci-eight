@@ -1,10 +1,10 @@
 import BrowserWindow from '../base/BrowserWindow';
-import {Geometric3} from '../math/Geometric3';
+import { Geometric3 } from '../math/Geometric3';
 import getViewAttitude from '../facets/getViewAttitude';
 import Spinor3 from '../math/Spinor3';
 import Vector3 from '../math/Vector3';
 import VectorE3 from '../math/VectorE3';
-import {ViewControls} from './ViewControls';
+import { ViewControls } from './ViewControls';
 
 // Scratch variables to aboid creating temporary objects.
 const a: Geometric3 = Geometric3.zero();
@@ -31,7 +31,7 @@ export class OrbitControls extends ViewControls {
    * @param view
    * @param wnd
    */
-  constructor(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }, wnd: BrowserWindow) {
+  constructor(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }, wnd: BrowserWindow = window) {
     super(view, wnd);
     this.setLoggingName('OrbitControls');
   }

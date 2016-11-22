@@ -30,6 +30,24 @@ export default class Group extends ShareableBase implements GroupMember {
         super.destructor(levelUp + 1);
     }
 
+    get position(): Geometric3 {
+        return this.X;
+    }
+    set position(value: Geometric3) {
+        if (value) {
+            this.X.copyVector(value);
+        }
+    }
+
+    get attitude(): Geometric3 {
+        return this.R;
+    }
+    set attitude(value: Geometric3) {
+        if (value) {
+            this.R.copySpinor(value);
+        }
+    }
+
     add(member: GroupMember): void {
         this.members.push(member);
     }

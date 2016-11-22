@@ -551,9 +551,9 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
     var Eight = (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-11-20';
+            this.LAST_MODIFIED = '2016-11-21';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '3.5.3';
+            this.VERSION = '3.5.4';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -2992,46 +2992,42 @@ define('davinci-eight/math/Geometric3',["require", "exports", "./Coords", "./arr
         };
         Geometric3.prototype.grade = function (grade) {
             switch (grade) {
-                case 0:
-                    {
-                        this.x = 0;
-                        this.y = 0;
-                        this.z = 0;
-                        this.yz = 0;
-                        this.zx = 0;
-                        this.xy = 0;
-                        this.b = 0;
-                    }
+                case 0: {
+                    this.x = 0;
+                    this.y = 0;
+                    this.z = 0;
+                    this.yz = 0;
+                    this.zx = 0;
+                    this.xy = 0;
+                    this.b = 0;
                     break;
-                case 1:
-                    {
-                        this.a = 0;
-                        this.yz = 0;
-                        this.zx = 0;
-                        this.xy = 0;
-                        this.b = 0;
-                    }
+                }
+                case 1: {
+                    this.a = 0;
+                    this.yz = 0;
+                    this.zx = 0;
+                    this.xy = 0;
+                    this.b = 0;
                     break;
-                case 2:
-                    {
-                        this.a = 0;
-                        this.x = 0;
-                        this.y = 0;
-                        this.z = 0;
-                        this.b = 0;
-                    }
+                }
+                case 2: {
+                    this.a = 0;
+                    this.x = 0;
+                    this.y = 0;
+                    this.z = 0;
+                    this.b = 0;
                     break;
-                case 3:
-                    {
-                        this.a = 0;
-                        this.x = 0;
-                        this.y = 0;
-                        this.z = 0;
-                        this.yz = 0;
-                        this.zx = 0;
-                        this.xy = 0;
-                    }
+                }
+                case 3: {
+                    this.a = 0;
+                    this.x = 0;
+                    this.y = 0;
+                    this.z = 0;
+                    this.yz = 0;
+                    this.zx = 0;
+                    this.xy = 0;
                     break;
+                }
                 default: {
                     this.a = 0;
                     this.x = 0;
@@ -5344,6 +5340,7 @@ define('davinci-eight/controls/MouseControls',["require", "exports", "../checks/
     var MouseControls = (function (_super) {
         __extends(MouseControls, _super);
         function MouseControls(wnd) {
+            if (wnd === void 0) { wnd = window; }
             var _this = _super.call(this) || this;
             _this.enabled = true;
             _this.noRotate = false;
@@ -5562,6 +5559,7 @@ define('davinci-eight/controls/ViewControls',["require", "exports", "./MouseCont
     var ViewControls = (function (_super) {
         __extends(ViewControls, _super);
         function ViewControls(view, wnd) {
+            if (wnd === void 0) { wnd = window; }
             var _this = _super.call(this, wnd) || this;
             _this.rotateSpeed = 1;
             _this.zoomSpeed = 1;
@@ -5675,6 +5673,7 @@ define('davinci-eight/controls/OrbitControls',["require", "exports", "../math/Ge
     var OrbitControls = (function (_super) {
         __extends(OrbitControls, _super);
         function OrbitControls(view, wnd) {
+            if (wnd === void 0) { wnd = window; }
             var _this = _super.call(this, view, wnd) || this;
             _this.setLoggingName('OrbitControls');
             return _this;
@@ -5720,6 +5719,7 @@ define('davinci-eight/controls/TrackballControls',["require", "exports", "../mat
     var TrackballControls = (function (_super) {
         __extends(TrackballControls, _super);
         function TrackballControls(view, wnd) {
+            if (wnd === void 0) { wnd = window; }
             var _this = _super.call(this, view, wnd) || this;
             _this.moveDirection = new Vector3_1.default();
             _this.eyeMinusLookDirection = new Vector3_1.default();
@@ -9777,16 +9777,6 @@ define('davinci-eight/facets/DirectionalLight',["require", "exports", "../core/C
             enumerable: true,
             configurable: true
         });
-        DirectionalLight.prototype.setColor = function (color) {
-            mustBeObject_1.default('color', color);
-            this._color.copy(color);
-            return this;
-        };
-        DirectionalLight.prototype.setDirection = function (direction) {
-            mustBeObject_1.default('direction', direction);
-            this._direction.copyVector(direction).normalize();
-            return this;
-        };
         DirectionalLight.prototype.setUniforms = function (visitor) {
             var direction = this._direction;
             visitor.uniform3f(GraphicsProgramSymbols_1.default.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION, direction.x, direction.y, direction.z);
@@ -9796,8 +9786,6 @@ define('davinci-eight/facets/DirectionalLight',["require", "exports", "../core/C
         return DirectionalLight;
     }());
     exports.DirectionalLight = DirectionalLight;
-    DirectionalLight.PROP_COLOR = 'color';
-    DirectionalLight.PROP_DIRECTION = 'direction';
 });
 
 define('davinci-eight/math/add2x2',["require", "exports"], function (require, exports) {
@@ -18906,6 +18894,30 @@ define('davinci-eight/visual/Group',["require", "exports", "../math/Geometric3",
             this.members = void 0;
             _super.prototype.destructor.call(this, levelUp + 1);
         };
+        Object.defineProperty(Group.prototype, "position", {
+            get: function () {
+                return this.X;
+            },
+            set: function (value) {
+                if (value) {
+                    this.X.copyVector(value);
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Group.prototype, "attitude", {
+            get: function () {
+                return this.R;
+            },
+            set: function (value) {
+                if (value) {
+                    this.R.copySpinor(value);
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
         Group.prototype.add = function (member) {
             this.members.push(member);
         };

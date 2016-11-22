@@ -3630,11 +3630,11 @@ declare module EIGHT {
      */
     class DirectionalLight implements Facet {
         /**
-         * The <em>direction</em> (unit vector) in which the light is travelling.
+         * The direction (unit vector) in which the light is travelling.
          */
         direction: Geometric3;
         /**
-         * The <em>color</em> of the light.
+         * The color of the light.
          */
         color: Color;
         /**
@@ -3644,11 +3644,8 @@ declare module EIGHT {
          */
         constructor(direction?: VectorE3, color?: Color);
         /**
-         * Sets the direction property by copying a vector.
-         * The direction is normalized to be a unit vector.
-         * direction
+         * Calls the visitor supplying the two uniform values.
          */
-        setDirection(direction: VectorE3): DirectionalLight;
         setUniforms(visitor: FacetVisitor): void;
     }
 
@@ -4122,13 +4119,21 @@ declare module EIGHT {
 
     class Group extends ShareableBase implements GroupMember {
         /**
-         * 
+         * Position (vector). Alias for the 'position' property.
          */
         X: Geometric3;
         /**
-         * 
+         * Attitude (spinor). Alias for the 'attitude' property.
          */
         R: Geometric3;
+        /**
+         * Position (vector). Alias for the 'X' property.
+         */
+        position: Geometric3;
+        /**
+         * Attitude (spinor). Alias for the 'R' property.
+         */
+        attitude: Geometric3;
         /**
          * 
          */
@@ -4415,7 +4420,7 @@ declare module EIGHT {
         protected panStart: Geometric2;
         protected zoomEnd: Geometric2;
         protected zoomStart: Geometric2;
-        constructor(wnd: Window);
+        constructor(wnd?: Window);
         protected destructor(levelUp: number): void;
         handleResize(): void;
         move(x: number, y: number): void;
@@ -4463,7 +4468,7 @@ declare module EIGHT {
         public panSpeed: number;
         public rotateSpeed: number;
         public zoomSpeed: number;
-        constructor(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }, wnd: Window);
+        constructor(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }, wnd?: Window);
         protected destructor(levelUp: number): void;
         /**
          *
@@ -4499,7 +4504,7 @@ declare module EIGHT {
      * A ViewController that preserves the up direction.
      */
     class OrbitControls extends ViewControls {
-        constructor(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }, wnd: Window);
+        constructor(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }, wnd?: Window);
         protected destructor(levelUp: number): void;
     }
     ///////////////////////////////////////////////////////////////////////////////
@@ -4507,7 +4512,7 @@ declare module EIGHT {
      * A ViewController that does not preserve the up direction.
      */
     class TrackballControls extends ViewControls {
-        constructor(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }, wnd: Window);
+        constructor(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }, wnd?: Window);
         protected destructor(levelUp: number): void;
     }
     ///////////////////////////////////////////////////////////////////////////////
