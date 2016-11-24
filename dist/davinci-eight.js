@@ -551,9 +551,9 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
     var Eight = (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-11-21';
+            this.LAST_MODIFIED = '2016-11-24';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '3.5.4';
+            this.VERSION = '3.7.0';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -19082,6 +19082,618 @@ define('davinci-eight/visual/HollowCylinder',["require", "exports", "../core/Col
     exports.default = HollowCylinder;
 });
 
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/visual/minecraft',["require", "exports", "../core/BeginMode", "../core/DataType", "../core/GeometryArrays", "../core/Mesh", "../materials/ShaderMaterial"], function (require, exports, BeginMode_1, DataType_1, GeometryArrays_1, Mesh_1, ShaderMaterial_1) {
+    "use strict";
+    var PartKind;
+    (function (PartKind) {
+        PartKind[PartKind["Head"] = 0] = "Head";
+        PartKind[PartKind["Helm"] = 1] = "Helm";
+        PartKind[PartKind["RightLeg"] = 2] = "RightLeg";
+        PartKind[PartKind["Torso"] = 3] = "Torso";
+        PartKind[PartKind["RightArm"] = 4] = "RightArm";
+        PartKind[PartKind["LeftLeg"] = 5] = "LeftLeg";
+        PartKind[PartKind["LeftArm"] = 6] = "LeftArm";
+        PartKind[PartKind["RightLegLayer2"] = 7] = "RightLegLayer2";
+        PartKind[PartKind["TorsoLayer2"] = 8] = "TorsoLayer2";
+        PartKind[PartKind["RightArmLayer2"] = 9] = "RightArmLayer2";
+        PartKind[PartKind["LeftLegLayer2"] = 10] = "LeftLegLayer2";
+        PartKind[PartKind["LeftArmLayer2"] = 11] = "LeftArmLayer2";
+    })(PartKind || (PartKind = {}));
+    var Side;
+    (function (Side) {
+        Side[Side["Top"] = 0] = "Top";
+        Side[Side["Bottom"] = 1] = "Bottom";
+        Side[Side["Right"] = 2] = "Right";
+        Side[Side["Front"] = 3] = "Front";
+        Side[Side["Left"] = 4] = "Left";
+        Side[Side["Back"] = 5] = "Back";
+    })(Side || (Side = {}));
+    function dimensions(part) {
+        switch (part) {
+            case PartKind.Head: {
+                return [8, 8, 8];
+            }
+            case PartKind.Helm: {
+                return [8, 8, 8];
+            }
+            case PartKind.LeftLeg:
+            case PartKind.LeftLegLayer2:
+            case PartKind.RightLeg:
+            case PartKind.RightLegLayer2: {
+                return [4, 12, 4];
+            }
+            case PartKind.Torso:
+            case PartKind.TorsoLayer2: {
+                return [8, 12, 4];
+            }
+            case PartKind.LeftArm:
+            case PartKind.LeftArmLayer2:
+            case PartKind.RightArm:
+            case PartKind.RightArmLayer2: {
+                return [4, 12, 4];
+            }
+            default: {
+                throw new Error("part: " + part);
+            }
+        }
+    }
+    function textureBounds(part, side, version, oldSkinLayout) {
+        switch (part) {
+            case PartKind.Head: {
+                switch (side) {
+                    case Side.Top: {
+                        return [8, 0, 16, 8];
+                    }
+                    case Side.Bottom: {
+                        if (oldSkinLayout) {
+                            return [16, 8, 24, 0];
+                        }
+                        else {
+                            return [16, 0, 24, 8];
+                        }
+                    }
+                    case Side.Right: {
+                        return [0, 8, 8, 16];
+                    }
+                    case Side.Front: {
+                        return [8, 8, 16, 16];
+                    }
+                    case Side.Left: {
+                        return [16, 8, 24, 16];
+                    }
+                    case Side.Back: {
+                        return [24, 8, 32, 16];
+                    }
+                    default: {
+                        throw new Error("" + side);
+                    }
+                }
+            }
+            case PartKind.Helm: {
+                switch (side) {
+                    case Side.Top: {
+                        return [40, 0, 48, 8];
+                    }
+                    case Side.Bottom: {
+                        return [48, 0, 56, 8];
+                    }
+                    case Side.Right: {
+                        return [32, 8, 40, 16];
+                    }
+                    case Side.Front: {
+                        return [40, 8, 48, 16];
+                    }
+                    case Side.Left: {
+                        return [48, 8, 56, 16];
+                    }
+                    case Side.Back: {
+                        return [56, 8, 64, 16];
+                    }
+                    default: {
+                        throw new Error("" + side);
+                    }
+                }
+            }
+            case PartKind.RightLeg: {
+                switch (side) {
+                    case Side.Top: {
+                        return [4, 16, 8, 20];
+                    }
+                    case Side.Bottom: {
+                        return [8, 16, 12, 20];
+                    }
+                    case Side.Right: {
+                        return [0, 20, 4, 32];
+                    }
+                    case Side.Front: {
+                        return [4, 20, 8, 32];
+                    }
+                    case Side.Left: {
+                        return [8, 20, 12, 32];
+                    }
+                    case Side.Back: {
+                        return [12, 20, 16, 32];
+                    }
+                    default: {
+                        throw new Error("" + side);
+                    }
+                }
+            }
+            case PartKind.Torso: {
+                switch (side) {
+                    case Side.Top: {
+                        return [20, 16, 28, 20];
+                    }
+                    case Side.Bottom: {
+                        return [28, 16, 36, 20];
+                    }
+                    case Side.Right: {
+                        return [16, 20, 20, 32];
+                    }
+                    case Side.Front: {
+                        return [20, 20, 28, 32];
+                    }
+                    case Side.Left: {
+                        return [28, 20, 32, 32];
+                    }
+                    case Side.Back: {
+                        return [32, 20, 40, 32];
+                    }
+                    default: {
+                        throw new Error("" + side);
+                    }
+                }
+            }
+            case PartKind.RightArm: {
+                switch (side) {
+                    case Side.Top: {
+                        return [44, 16, 48, 20];
+                    }
+                    case Side.Bottom: {
+                        return [48, 16, 52, 20];
+                    }
+                    case Side.Right: {
+                        return [40, 20, 44, 32];
+                    }
+                    case Side.Front: {
+                        return [44, 20, 48, 32];
+                    }
+                    case Side.Left: {
+                        return [48, 20, 52, 32];
+                    }
+                    case Side.Back: {
+                        return [52, 20, 56, 32];
+                    }
+                    default: {
+                        throw new Error("" + side);
+                    }
+                }
+            }
+            case PartKind.LeftLeg: {
+                if (version > 0) {
+                    switch (side) {
+                        case Side.Top: {
+                            return [20, 48, 24, 52];
+                        }
+                        case Side.Bottom: {
+                            return [24, 48, 28, 52];
+                        }
+                        case Side.Right: {
+                            return [16, 52, 20, 64];
+                        }
+                        case Side.Front: {
+                            return [20, 52, 24, 64];
+                        }
+                        case Side.Left: {
+                            return [24, 52, 28, 64];
+                        }
+                        case Side.Back: {
+                            return [28, 52, 32, 64];
+                        }
+                        default: {
+                            throw new Error("" + side);
+                        }
+                    }
+                }
+                else {
+                    switch (side) {
+                        case Side.Top: {
+                            return [8, 16, 4, 20];
+                        }
+                        case Side.Bottom: {
+                            return [12, 16, 8, 20];
+                        }
+                        case Side.Right: {
+                            return [12, 20, 8, 32];
+                        }
+                        case Side.Front: {
+                            return [8, 20, 4, 32];
+                        }
+                        case Side.Left: {
+                            return [4, 20, 0, 32];
+                        }
+                        case Side.Back: {
+                            return [16, 20, 12, 32];
+                        }
+                        default: {
+                            throw new Error("" + side);
+                        }
+                    }
+                }
+            }
+            case PartKind.LeftArm: {
+                if (version > 0) {
+                    switch (side) {
+                        case Side.Top: {
+                            return [36, 48, 40, 52];
+                        }
+                        case Side.Bottom: {
+                            return [40, 48, 44, 52];
+                        }
+                        case Side.Right: {
+                            return [32, 52, 36, 64];
+                        }
+                        case Side.Front: {
+                            return [36, 52, 40, 64];
+                        }
+                        case Side.Left: {
+                            return [40, 52, 44, 64];
+                        }
+                        case Side.Back: {
+                            return [44, 52, 48, 64];
+                        }
+                        default: {
+                            throw new Error("" + side);
+                        }
+                    }
+                }
+                else {
+                    switch (side) {
+                        case Side.Top: {
+                            return [48, 16, 44, 20];
+                        }
+                        case Side.Bottom: {
+                            return [52, 16, 48, 20];
+                        }
+                        case Side.Right: {
+                            return [52, 20, 48, 32];
+                        }
+                        case Side.Front: {
+                            return [48, 20, 44, 32];
+                        }
+                        case Side.Left: {
+                            return [44, 20, 40, 32];
+                        }
+                        case Side.Back: {
+                            return [56, 20, 52, 32];
+                        }
+                        default: {
+                            throw new Error("" + side);
+                        }
+                    }
+                }
+            }
+            case PartKind.RightLegLayer2: {
+                switch (side) {
+                    case Side.Top: {
+                        return [4, 48, 8, 36];
+                    }
+                    case Side.Bottom: {
+                        return [8, 48, 12, 36];
+                    }
+                    case Side.Right: {
+                        return [0, 36, 4, 48];
+                    }
+                    case Side.Front: {
+                        return [4, 36, 8, 48];
+                    }
+                    case Side.Left: {
+                        return [8, 36, 12, 48];
+                    }
+                    case Side.Back: {
+                        return [12, 36, 16, 48];
+                    }
+                    default: {
+                        throw new Error("" + side);
+                    }
+                }
+            }
+            case PartKind.TorsoLayer2: {
+                switch (side) {
+                    case Side.Top: {
+                        return [20, 48, 28, 36];
+                    }
+                    case Side.Bottom: {
+                        return [28, 48, 36, 36];
+                    }
+                    case Side.Right: {
+                        return [16, 36, 20, 48];
+                    }
+                    case Side.Front: {
+                        return [20, 36, 28, 48];
+                    }
+                    case Side.Left: {
+                        return [28, 36, 32, 48];
+                    }
+                    case Side.Back: {
+                        return [32, 36, 40, 48];
+                    }
+                    default: {
+                        throw new Error("" + side);
+                    }
+                }
+            }
+            case PartKind.RightArmLayer2: {
+                switch (side) {
+                    case Side.Top: {
+                        return [44, 48, 48, 36];
+                    }
+                    case Side.Bottom: {
+                        return [48, 48, 52, 36];
+                    }
+                    case Side.Right: {
+                        return [40, 36, 44, 48];
+                    }
+                    case Side.Front: {
+                        return [44, 36, 48, 48];
+                    }
+                    case Side.Left: {
+                        return [48, 36, 52, 48];
+                    }
+                    case Side.Back: {
+                        return [52, 36, 64, 48];
+                    }
+                    default: {
+                        throw new Error("" + side);
+                    }
+                }
+            }
+            case PartKind.LeftLegLayer2: {
+                switch (side) {
+                    case Side.Top: {
+                        return [4, 48, 8, 52];
+                    }
+                    case Side.Bottom: {
+                        return [8, 48, 12, 52];
+                    }
+                    case Side.Right: {
+                        return [0, 52, 4, 64];
+                    }
+                    case Side.Front: {
+                        return [4, 52, 8, 64];
+                    }
+                    case Side.Left: {
+                        return [8, 52, 12, 64];
+                    }
+                    case Side.Back: {
+                        return [12, 52, 16, 64];
+                    }
+                    default: {
+                        throw new Error("" + side);
+                    }
+                }
+            }
+            case PartKind.LeftArmLayer2: {
+                switch (side) {
+                    case Side.Top: {
+                        return [52, 48, 56, 52];
+                    }
+                    case Side.Bottom: {
+                        return [56, 48, 60, 52];
+                    }
+                    case Side.Right: {
+                        return [48, 52, 52, 64];
+                    }
+                    case Side.Front: {
+                        return [52, 52, 56, 64];
+                    }
+                    case Side.Left: {
+                        return [56, 52, 60, 64];
+                    }
+                    case Side.Back: {
+                        return [60, 52, 64, 64];
+                    }
+                    default: {
+                        throw new Error("" + side);
+                    }
+                }
+            }
+            default: {
+                throw new Error("part: " + part);
+            }
+        }
+    }
+    function aCoords(part, side, width, height, oldSkinLayout) {
+        var cs = textureBounds(part, side, version(width, height), oldSkinLayout);
+        var x1 = cs[0] / width;
+        var y1 = cs[1] / height;
+        var x2 = cs[2] / width;
+        var y2 = cs[3] / height;
+        return [x1, y2, x2, y2, x1, y1, x2, y2, x2, y1, x1, y1];
+    }
+    function version(width, height) {
+        if (width === 2 * height) {
+            return 0;
+        }
+        else if (width === height) {
+            return 1.8;
+        }
+        else {
+            return 0;
+        }
+    }
+    function primitiveFromOptions(options) {
+        var partKind = options.partKind;
+        var offset = options.offset ? options.offset : { x: 0, y: 0, z: 0 };
+        var dims = dimensions(partKind);
+        var positions = [
+            [-0.5, -0.5, +0.5], [+0.5, -0.5, +0.5], [-0.5, +0.5, +0.5],
+            [+0.5, -0.5, +0.5], [+0.5, +0.5, +0.5], [-0.5, +0.5, +0.5],
+            [+0.5, -0.5, -0.5], [-0.5, -0.5, -0.5], [+0.5, +0.5, -0.5],
+            [-0.5, -0.5, -0.5], [-0.5, +0.5, -0.5], [+0.5, +0.5, -0.5],
+            [+0.5, -0.5, +0.5], [+0.5, -0.5, -0.5], [+0.5, +0.5, +0.5],
+            [+0.5, -0.5, -0.5], [+0.5, +0.5, -0.5], [+0.5, +0.5, +0.5],
+            [-0.5, -0.5, -0.5], [-0.5, -0.5, +0.5], [-0.5, +0.5, -0.5],
+            [-0.5, -0.5, +0.5], [-0.5, +0.5, +0.5], [-0.5, +0.5, -0.5],
+            [-0.5, +0.5, +0.5], [+0.5, +0.5, +0.5], [-0.5, +0.5, -0.5],
+            [+0.5, +0.5, +0.5], [+0.5, +0.5, -0.5], [-0.5, +0.5, -0.5],
+            [-0.5, -0.5, -0.5], [+0.5, -0.5, -0.5], [-0.5, -0.5, +0.5],
+            [+0.5, -0.5, -0.5], [+0.5, -0.5, +0.5], [-0.5, -0.5, +0.5]
+        ]
+            .map(function (xs) { return [dims[0] * xs[0], dims[1] * xs[1], dims[2] * xs[2]]; })
+            .map(function (xs) { return [xs[0] + offset.x, xs[1] + offset.y, xs[2] + offset.z]; })
+            .reduce(function (a, b) { return a.concat(b); });
+        var scale = 64 / options.texture.image.naturalWidth;
+        var width = options.texture.image.naturalWidth * scale;
+        var height = options.texture.image.naturalHeight * scale;
+        var oldSkinLayout = options.oldSkinLayout;
+        var coords = [
+            aCoords(partKind, Side.Front, width, height, oldSkinLayout),
+            aCoords(partKind, Side.Back, width, height, oldSkinLayout),
+            aCoords(partKind, Side.Left, width, height, oldSkinLayout),
+            aCoords(partKind, Side.Right, width, height, oldSkinLayout),
+            aCoords(partKind, Side.Top, width, height, oldSkinLayout),
+            aCoords(partKind, Side.Bottom, width, height, oldSkinLayout)
+        ].reduce(function (a, b) { return a.concat(b); });
+        var primitive = {
+            mode: BeginMode_1.default.TRIANGLES,
+            attributes: {
+                aPosition: { values: positions, size: 3, type: DataType_1.default.FLOAT },
+                aCoords: { values: coords, size: 2, type: DataType_1.default.FLOAT }
+            }
+        };
+        return primitive;
+    }
+    function makeGeometry(graphics, options) {
+        return new GeometryArrays_1.default(graphics, primitiveFromOptions(options));
+    }
+    var vs = [
+        'attribute vec3 aPosition;',
+        'attribute vec2 aCoords;',
+        'uniform mat4 uModel;',
+        'uniform mat4 uProjection;',
+        'uniform mat4 uView;',
+        'varying highp vec2 vCoords;',
+        'void main(void) {',
+        '  gl_Position = uProjection * uView * uModel * vec4(aPosition, 1.0);',
+        '  vCoords = aCoords;',
+        '}'
+    ].join('\n');
+    var fs = [
+        'precision mediump float;',
+        'varying highp vec2 vCoords;',
+        'uniform sampler2D uImage;',
+        '  void main(void) {',
+        '  gl_FragColor = texture2D(uImage, vec2(vCoords.s, vCoords.t));',
+        '}'
+    ].join('\n');
+    var makeMaterial = function makeMaterial(graphics, options) {
+        return new ShaderMaterial_1.ShaderMaterial(vs, fs, [], graphics);
+    };
+    var MinecraftBodyPart = (function (_super) {
+        __extends(MinecraftBodyPart, _super);
+        function MinecraftBodyPart(graphics, options) {
+            var _this = _super.call(this, void 0, void 0, graphics) || this;
+            _this.setLoggingName('MinecraftBodyPart');
+            var geometry = makeGeometry(graphics, options);
+            _this.geometry = geometry;
+            geometry.release();
+            var material = makeMaterial(graphics, options);
+            _this.material = material;
+            material.release();
+            _this.texture = options.texture;
+            return _this;
+        }
+        MinecraftBodyPart.prototype.destructor = function (levelUp) {
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        return MinecraftBodyPart;
+    }(Mesh_1.Mesh));
+    var MinecraftHead = (function (_super) {
+        __extends(MinecraftHead, _super);
+        function MinecraftHead(graphics, options) {
+            var _this = _super.call(this, graphics, { texture: options.texture, partKind: PartKind.Head, offset: options.offset, oldSkinLayout: options.oldSkinLayout }) || this;
+            _this.setLoggingName('MinecraftHead');
+            return _this;
+        }
+        MinecraftHead.prototype.destructor = function (levelUp) {
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        return MinecraftHead;
+    }(MinecraftBodyPart));
+    exports.MinecraftHead = MinecraftHead;
+    var MinecraftTorso = (function (_super) {
+        __extends(MinecraftTorso, _super);
+        function MinecraftTorso(graphics, options) {
+            var _this = _super.call(this, graphics, { texture: options.texture, partKind: PartKind.Torso, offset: options.offset, oldSkinLayout: options.oldSkinLayout }) || this;
+            _this.setLoggingName('MinecraftTorso');
+            return _this;
+        }
+        MinecraftTorso.prototype.destructor = function (levelUp) {
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        return MinecraftTorso;
+    }(MinecraftBodyPart));
+    exports.MinecraftTorso = MinecraftTorso;
+    var MinecraftArmL = (function (_super) {
+        __extends(MinecraftArmL, _super);
+        function MinecraftArmL(graphics, options) {
+            var _this = _super.call(this, graphics, { texture: options.texture, partKind: PartKind.LeftArm, offset: options.offset, oldSkinLayout: options.oldSkinLayout }) || this;
+            _this.setLoggingName('MinecraftArmL');
+            return _this;
+        }
+        MinecraftArmL.prototype.destructor = function (levelUp) {
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        return MinecraftArmL;
+    }(MinecraftBodyPart));
+    exports.MinecraftArmL = MinecraftArmL;
+    var MinecraftArmR = (function (_super) {
+        __extends(MinecraftArmR, _super);
+        function MinecraftArmR(graphics, options) {
+            var _this = _super.call(this, graphics, { texture: options.texture, partKind: PartKind.RightArm, offset: options.offset, oldSkinLayout: options.oldSkinLayout }) || this;
+            _this.setLoggingName('MinecraftArmR');
+            return _this;
+        }
+        MinecraftArmR.prototype.destructor = function (levelUp) {
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        return MinecraftArmR;
+    }(MinecraftBodyPart));
+    exports.MinecraftArmR = MinecraftArmR;
+    var MinecraftLegL = (function (_super) {
+        __extends(MinecraftLegL, _super);
+        function MinecraftLegL(graphics, options) {
+            var _this = _super.call(this, graphics, { texture: options.texture, partKind: PartKind.LeftLeg, offset: options.offset, oldSkinLayout: options.oldSkinLayout }) || this;
+            _this.setLoggingName('MinecraftLegL');
+            return _this;
+        }
+        MinecraftLegL.prototype.destructor = function (levelUp) {
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        return MinecraftLegL;
+    }(MinecraftBodyPart));
+    exports.MinecraftLegL = MinecraftLegL;
+    var MinecraftLegR = (function (_super) {
+        __extends(MinecraftLegR, _super);
+        function MinecraftLegR(graphics, options) {
+            var _this = _super.call(this, graphics, { texture: options.texture, partKind: PartKind.RightLeg, offset: options.offset, oldSkinLayout: options.oldSkinLayout }) || this;
+            _this.setLoggingName('MinecraftLegR');
+            return _this;
+        }
+        MinecraftLegR.prototype.destructor = function (levelUp) {
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        return MinecraftLegR;
+    }(MinecraftBodyPart));
+    exports.MinecraftLegR = MinecraftLegR;
+});
+
 define('davinci-eight/visual/Parallelepiped',["require", "exports", "../core/BeginMode", "../core/cleanUp", "../core/Color", "../core/DataType", "../base/exchange", "../math/Geometric3", "../core/GeometryArrays", "../core/Mesh", "./mustBeEngine", "../core/refChange", "../materials/ShaderMaterial"], function (require, exports, BeginMode_1, cleanUp_1, Color_1, DataType_1, exchange_1, Geometric3_1, GeometryArrays_1, Mesh_1, mustBeEngine_1, refChange_1, ShaderMaterial_1) {
     "use strict";
     var vertexShaderSrc = [
@@ -19917,6 +20529,20 @@ define('davinci-eight/core/Texture',["require", "exports", "./DataType", "../che
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(Texture.prototype, "naturalHeight", {
+            get: function () {
+                return this.image.naturalHeight;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Texture.prototype, "naturalWidth", {
+            get: function () {
+                return this.image.naturalHeight;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(Texture.prototype, "wrapS", {
             get: function () {
                 throw new Error('wrapS is write-only');
@@ -19992,7 +20618,7 @@ define('davinci-eight/loaders/TextureLoader',["require", "exports", "../checks/m
     exports.default = TextureLoader;
 });
 
-define('davinci-eight',["require", "exports", "./davinci-eight/commands/WebGLBlendFunc", "./davinci-eight/commands/WebGLClearColor", "./davinci-eight/commands/WebGLDisable", "./davinci-eight/commands/WebGLEnable", "./davinci-eight/controls/OrbitControls", "./davinci-eight/controls/TrackballControls", "./davinci-eight/core/Attrib", "./davinci-eight/core/BeginMode", "./davinci-eight/core/BlendingFactorDest", "./davinci-eight/core/BlendingFactorSrc", "./davinci-eight/core/Capability", "./davinci-eight/core/ClearBufferMask", "./davinci-eight/core/Color", "./davinci-eight/config", "./davinci-eight/core/DataType", "./davinci-eight/core/Drawable", "./davinci-eight/core/DepthFunction", "./davinci-eight/core/GeometryArrays", "./davinci-eight/core/GeometryElements", "./davinci-eight/core/GraphicsProgramSymbols", "./davinci-eight/core/Mesh", "./davinci-eight/core/PixelFormat", "./davinci-eight/core/PixelType", "./davinci-eight/core/Scene", "./davinci-eight/core/Shader", "./davinci-eight/core/TextureMagFilter", "./davinci-eight/core/TextureMinFilter", "./davinci-eight/core/TextureParameterName", "./davinci-eight/core/TextureTarget", "./davinci-eight/core/TextureWrapMode", "./davinci-eight/core/Uniform", "./davinci-eight/core/Usage", "./davinci-eight/core/Engine", "./davinci-eight/core/VertexBuffer", "./davinci-eight/core/IndexBuffer", "./davinci-eight/core/vertexArraysFromPrimitive", "./davinci-eight/facets/AmbientLight", "./davinci-eight/facets/ColorFacet", "./davinci-eight/facets/DirectionalLight", "./davinci-eight/facets/ModelFacet", "./davinci-eight/facets/PointSizeFacet", "./davinci-eight/facets/ReflectionFacetE2", "./davinci-eight/facets/ReflectionFacetE3", "./davinci-eight/facets/Vector3Facet", "./davinci-eight/facets/frustumMatrix", "./davinci-eight/facets/PerspectiveCamera", "./davinci-eight/facets/perspectiveMatrix", "./davinci-eight/facets/viewMatrixFromEyeLookUp", "./davinci-eight/facets/ModelE2", "./davinci-eight/facets/ModelE3", "./davinci-eight/atoms/DrawAttribute", "./davinci-eight/atoms/DrawPrimitive", "./davinci-eight/atoms/reduce", "./davinci-eight/atoms/Vertex", "./davinci-eight/shapes/ArrowBuilder", "./davinci-eight/shapes/ConicalShellBuilder", "./davinci-eight/shapes/CylindricalShellBuilder", "./davinci-eight/shapes/RingBuilder", "./davinci-eight/geometries/Simplex", "./davinci-eight/geometries/ArrowGeometry", "./davinci-eight/geometries/BoxGeometry", "./davinci-eight/geometries/CylinderGeometry", "./davinci-eight/geometries/GridGeometry", "./davinci-eight/geometries/SphereGeometry", "./davinci-eight/geometries/TetrahedronGeometry", "./davinci-eight/materials/HTMLScriptsMaterial", "./davinci-eight/materials/LineMaterial", "./davinci-eight/materials/ShaderMaterial", "./davinci-eight/materials/MeshMaterial", "./davinci-eight/materials/PointMaterial", "./davinci-eight/materials/GraphicsProgramBuilder", "./davinci-eight/math/mathcore", "./davinci-eight/math/Vector1", "./davinci-eight/math/Matrix2", "./davinci-eight/math/Matrix3", "./davinci-eight/math/Matrix4", "./davinci-eight/math/Geometric2", "./davinci-eight/math/Geometric3", "./davinci-eight/math/Spinor2", "./davinci-eight/math/Spinor3", "./davinci-eight/math/Vector2", "./davinci-eight/math/Vector3", "./davinci-eight/math/Vector4", "./davinci-eight/math/VectorN", "./davinci-eight/utils/getCanvasElementById", "./davinci-eight/collections/ShareableArray", "./davinci-eight/collections/NumberShareableMap", "./davinci-eight/core/refChange", "./davinci-eight/core/ShareableBase", "./davinci-eight/collections/StringShareableMap", "./davinci-eight/utils/animation", "./davinci-eight/visual/Arrow", "./davinci-eight/visual/Basis", "./davinci-eight/visual/Sphere", "./davinci-eight/visual/Box", "./davinci-eight/visual/Cylinder", "./davinci-eight/visual/Curve", "./davinci-eight/visual/Grid", "./davinci-eight/visual/GridXY", "./davinci-eight/visual/GridYZ", "./davinci-eight/visual/GridZX", "./davinci-eight/visual/Group", "./davinci-eight/visual/HollowCylinder", "./davinci-eight/visual/Parallelepiped", "./davinci-eight/visual/RigidBody", "./davinci-eight/visual/Tetrahedron", "./davinci-eight/visual/Track", "./davinci-eight/visual/Trail", "./davinci-eight/visual/Turtle", "./davinci-eight/diagram/Diagram3D", "./davinci-eight/loaders/TextureLoader"], function (require, exports, WebGLBlendFunc_1, WebGLClearColor_1, WebGLDisable_1, WebGLEnable_1, OrbitControls_1, TrackballControls_1, Attrib_1, BeginMode_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, ClearBufferMask_1, Color_1, config_1, DataType_1, Drawable_1, DepthFunction_1, GeometryArrays_1, GeometryElements_1, GraphicsProgramSymbols_1, Mesh_1, PixelFormat_1, PixelType_1, Scene_1, Shader_1, TextureMagFilter_1, TextureMinFilter_1, TextureParameterName_1, TextureTarget_1, TextureWrapMode_1, Uniform_1, Usage_1, Engine_1, VertexBuffer_1, IndexBuffer_1, vertexArraysFromPrimitive_1, AmbientLight_1, ColorFacet_1, DirectionalLight_1, ModelFacet_1, PointSizeFacet_1, ReflectionFacetE2_1, ReflectionFacetE3_1, Vector3Facet_1, frustumMatrix_1, PerspectiveCamera_1, perspectiveMatrix_1, viewMatrixFromEyeLookUp_1, ModelE2_1, ModelE3_1, DrawAttribute_1, DrawPrimitive_1, reduce_1, Vertex_1, ArrowBuilder_1, ConicalShellBuilder_1, CylindricalShellBuilder_1, RingBuilder_1, Simplex_1, ArrowGeometry_1, BoxGeometry_1, CylinderGeometry_1, GridGeometry_1, SphereGeometry_1, TetrahedronGeometry_1, HTMLScriptsMaterial_1, LineMaterial_1, ShaderMaterial_1, MeshMaterial_1, PointMaterial_1, GraphicsProgramBuilder_1, mathcore_1, Vector1_1, Matrix2_1, Matrix3_1, Matrix4_1, Geometric2_1, Geometric3_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1, Vector4_1, VectorN_1, getCanvasElementById_1, ShareableArray_1, NumberShareableMap_1, refChange_1, ShareableBase_1, StringShareableMap_1, animation_1, Arrow_1, Basis_1, Sphere_1, Box_1, Cylinder_1, Curve_1, Grid_1, GridXY_1, GridYZ_1, GridZX_1, Group_1, HollowCylinder_1, Parallelepiped_1, RigidBody_1, Tetrahedron_1, Track_1, Trail_1, Turtle_1, Diagram3D_1, TextureLoader_1) {
+define('davinci-eight',["require", "exports", "./davinci-eight/commands/WebGLBlendFunc", "./davinci-eight/commands/WebGLClearColor", "./davinci-eight/commands/WebGLDisable", "./davinci-eight/commands/WebGLEnable", "./davinci-eight/controls/OrbitControls", "./davinci-eight/controls/TrackballControls", "./davinci-eight/core/Attrib", "./davinci-eight/core/BeginMode", "./davinci-eight/core/BlendingFactorDest", "./davinci-eight/core/BlendingFactorSrc", "./davinci-eight/core/Capability", "./davinci-eight/core/ClearBufferMask", "./davinci-eight/core/Color", "./davinci-eight/config", "./davinci-eight/core/DataType", "./davinci-eight/core/Drawable", "./davinci-eight/core/DepthFunction", "./davinci-eight/core/GeometryArrays", "./davinci-eight/core/GeometryElements", "./davinci-eight/core/GraphicsProgramSymbols", "./davinci-eight/core/Mesh", "./davinci-eight/core/PixelFormat", "./davinci-eight/core/PixelType", "./davinci-eight/core/Scene", "./davinci-eight/core/Shader", "./davinci-eight/core/TextureMagFilter", "./davinci-eight/core/TextureMinFilter", "./davinci-eight/core/TextureParameterName", "./davinci-eight/core/TextureTarget", "./davinci-eight/core/TextureWrapMode", "./davinci-eight/core/Uniform", "./davinci-eight/core/Usage", "./davinci-eight/core/Engine", "./davinci-eight/core/VertexBuffer", "./davinci-eight/core/IndexBuffer", "./davinci-eight/core/vertexArraysFromPrimitive", "./davinci-eight/facets/AmbientLight", "./davinci-eight/facets/ColorFacet", "./davinci-eight/facets/DirectionalLight", "./davinci-eight/facets/ModelFacet", "./davinci-eight/facets/PointSizeFacet", "./davinci-eight/facets/ReflectionFacetE2", "./davinci-eight/facets/ReflectionFacetE3", "./davinci-eight/facets/Vector3Facet", "./davinci-eight/facets/frustumMatrix", "./davinci-eight/facets/PerspectiveCamera", "./davinci-eight/facets/perspectiveMatrix", "./davinci-eight/facets/viewMatrixFromEyeLookUp", "./davinci-eight/facets/ModelE2", "./davinci-eight/facets/ModelE3", "./davinci-eight/atoms/DrawAttribute", "./davinci-eight/atoms/DrawPrimitive", "./davinci-eight/atoms/reduce", "./davinci-eight/atoms/Vertex", "./davinci-eight/shapes/ArrowBuilder", "./davinci-eight/shapes/ConicalShellBuilder", "./davinci-eight/shapes/CylindricalShellBuilder", "./davinci-eight/shapes/RingBuilder", "./davinci-eight/geometries/Simplex", "./davinci-eight/geometries/ArrowGeometry", "./davinci-eight/geometries/BoxGeometry", "./davinci-eight/geometries/CylinderGeometry", "./davinci-eight/geometries/GridGeometry", "./davinci-eight/geometries/SphereGeometry", "./davinci-eight/geometries/TetrahedronGeometry", "./davinci-eight/materials/HTMLScriptsMaterial", "./davinci-eight/materials/LineMaterial", "./davinci-eight/materials/ShaderMaterial", "./davinci-eight/materials/MeshMaterial", "./davinci-eight/materials/PointMaterial", "./davinci-eight/materials/GraphicsProgramBuilder", "./davinci-eight/math/mathcore", "./davinci-eight/math/Vector1", "./davinci-eight/math/Matrix2", "./davinci-eight/math/Matrix3", "./davinci-eight/math/Matrix4", "./davinci-eight/math/Geometric2", "./davinci-eight/math/Geometric3", "./davinci-eight/math/Spinor2", "./davinci-eight/math/Spinor3", "./davinci-eight/math/Vector2", "./davinci-eight/math/Vector3", "./davinci-eight/math/Vector4", "./davinci-eight/math/VectorN", "./davinci-eight/utils/getCanvasElementById", "./davinci-eight/collections/ShareableArray", "./davinci-eight/collections/NumberShareableMap", "./davinci-eight/core/refChange", "./davinci-eight/core/ShareableBase", "./davinci-eight/collections/StringShareableMap", "./davinci-eight/utils/animation", "./davinci-eight/visual/Arrow", "./davinci-eight/visual/Basis", "./davinci-eight/visual/Sphere", "./davinci-eight/visual/Box", "./davinci-eight/visual/Cylinder", "./davinci-eight/visual/Curve", "./davinci-eight/visual/Grid", "./davinci-eight/visual/GridXY", "./davinci-eight/visual/GridYZ", "./davinci-eight/visual/GridZX", "./davinci-eight/visual/Group", "./davinci-eight/visual/HollowCylinder", "./davinci-eight/visual/minecraft", "./davinci-eight/visual/Parallelepiped", "./davinci-eight/visual/RigidBody", "./davinci-eight/visual/Tetrahedron", "./davinci-eight/visual/Track", "./davinci-eight/visual/Trail", "./davinci-eight/visual/Turtle", "./davinci-eight/diagram/Diagram3D", "./davinci-eight/loaders/TextureLoader"], function (require, exports, WebGLBlendFunc_1, WebGLClearColor_1, WebGLDisable_1, WebGLEnable_1, OrbitControls_1, TrackballControls_1, Attrib_1, BeginMode_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, ClearBufferMask_1, Color_1, config_1, DataType_1, Drawable_1, DepthFunction_1, GeometryArrays_1, GeometryElements_1, GraphicsProgramSymbols_1, Mesh_1, PixelFormat_1, PixelType_1, Scene_1, Shader_1, TextureMagFilter_1, TextureMinFilter_1, TextureParameterName_1, TextureTarget_1, TextureWrapMode_1, Uniform_1, Usage_1, Engine_1, VertexBuffer_1, IndexBuffer_1, vertexArraysFromPrimitive_1, AmbientLight_1, ColorFacet_1, DirectionalLight_1, ModelFacet_1, PointSizeFacet_1, ReflectionFacetE2_1, ReflectionFacetE3_1, Vector3Facet_1, frustumMatrix_1, PerspectiveCamera_1, perspectiveMatrix_1, viewMatrixFromEyeLookUp_1, ModelE2_1, ModelE3_1, DrawAttribute_1, DrawPrimitive_1, reduce_1, Vertex_1, ArrowBuilder_1, ConicalShellBuilder_1, CylindricalShellBuilder_1, RingBuilder_1, Simplex_1, ArrowGeometry_1, BoxGeometry_1, CylinderGeometry_1, GridGeometry_1, SphereGeometry_1, TetrahedronGeometry_1, HTMLScriptsMaterial_1, LineMaterial_1, ShaderMaterial_1, MeshMaterial_1, PointMaterial_1, GraphicsProgramBuilder_1, mathcore_1, Vector1_1, Matrix2_1, Matrix3_1, Matrix4_1, Geometric2_1, Geometric3_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1, Vector4_1, VectorN_1, getCanvasElementById_1, ShareableArray_1, NumberShareableMap_1, refChange_1, ShareableBase_1, StringShareableMap_1, animation_1, Arrow_1, Basis_1, Sphere_1, Box_1, Cylinder_1, Curve_1, Grid_1, GridXY_1, GridYZ_1, GridZX_1, Group_1, HollowCylinder_1, minecraft_1, Parallelepiped_1, RigidBody_1, Tetrahedron_1, Track_1, Trail_1, Turtle_1, Diagram3D_1, TextureLoader_1) {
     "use strict";
     var eight = {
         get LAST_MODIFIED() { return config_1.default.LAST_MODIFIED; },
@@ -20110,6 +20736,12 @@ define('davinci-eight',["require", "exports", "./davinci-eight/commands/WebGLBle
         get GridZX() { return GridZX_1.default; },
         get Group() { return Group_1.default; },
         get HollowCylinder() { return HollowCylinder_1.default; },
+        get MinecraftArmL() { return minecraft_1.MinecraftArmL; },
+        get MinecraftArmR() { return minecraft_1.MinecraftArmR; },
+        get MinecraftHead() { return minecraft_1.MinecraftHead; },
+        get MinecraftLegL() { return minecraft_1.MinecraftLegL; },
+        get MinecraftLegR() { return minecraft_1.MinecraftLegR; },
+        get MinecraftTorso() { return minecraft_1.MinecraftTorso; },
         get Parallelepiped() { return Parallelepiped_1.default; },
         get RigidBody() { return RigidBody_1.RigidBody; },
         get Tetrahedron() { return Tetrahedron_1.default; },

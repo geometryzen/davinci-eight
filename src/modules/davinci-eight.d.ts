@@ -736,10 +736,21 @@ declare module EIGHT {
         disable(): void;
     }
 
+    /**
+     * A wrapper around a WebGLTexture and containing a loaded HTMLImageElement.
+     */
     class Texture extends ShareableContextConsumer {
         image: HTMLImageElement;
         minFilter: TextureMinFilter;
         magFilter: TextureMagFilter;
+        /**
+         * The intrinsic height of the image in CSS pixels, if it is available, otherwise zero.
+         */
+        readonly naturalHeight: number;
+        /**
+         * The intrinsic width of the image in CSS pixels, if it is available, otherwise zero.
+         */
+        readonly naturalWidth: number;
         wrapS: TextureWrapMode;
         wrapT: TextureWrapMode;
         constructor(target: TextureTarget, contextManager: ContextManager, levelUp?: number);
@@ -4402,7 +4413,51 @@ declare module EIGHT {
         constructor(engine: Engine, options?: TurtleOptions);
         protected destructor(levelUp: number): void;
     }
-
+    ///////////////////////////////////////////////////////////////////////////////
+    /*
+     *
+     */
+    interface MinecraftBodyPartOptions {
+        texture: Texture;
+        oldSkinLayout?: boolean;
+        offset?: VectorE3;
+    }
+    /**
+     * 
+     */
+    class MinecraftArmL extends Mesh<Geometry, Material> {
+        constructor(engine: EIGHT.Engine, options: MinecraftBodyPartOptions);
+    }
+    /**
+     * 
+     */
+    class MinecraftArmR extends Mesh<Geometry, Material> {
+        constructor(engine: EIGHT.Engine, options: MinecraftBodyPartOptions);
+    }
+    /**
+     * 
+     */
+    class MinecraftHead extends Mesh<Geometry, Material> {
+        constructor(engine: EIGHT.Engine, options: MinecraftBodyPartOptions);
+    }
+    /**
+     * 
+     */
+    class MinecraftLegL extends Mesh<Geometry, Material> {
+        constructor(engine: EIGHT.Engine, options: MinecraftBodyPartOptions);
+    }
+    /**
+     * 
+     */
+    class MinecraftLegR extends Mesh<Geometry, Material> {
+        constructor(engine: EIGHT.Engine, options: MinecraftBodyPartOptions);
+    }
+    /**
+     * 
+     */
+    class MinecraftTorso extends Mesh<Geometry, Material> {
+        constructor(engine: EIGHT.Engine, options: MinecraftBodyPartOptions);
+    }
     ///////////////////////////////////////////////////////////////////////////////
     /**
      *

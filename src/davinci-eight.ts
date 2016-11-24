@@ -174,6 +174,7 @@ import GridYZ from './davinci-eight/visual/GridYZ';
 import GridZX from './davinci-eight/visual/GridZX';
 import Group from './davinci-eight/visual/Group';
 import HollowCylinder from './davinci-eight/visual/HollowCylinder';
+import { MinecraftArmL, MinecraftArmR, MinecraftHead, MinecraftLegL, MinecraftLegR, MinecraftTorso } from './davinci-eight/visual/minecraft';
 import Parallelepiped from './davinci-eight/visual/Parallelepiped';
 import { RigidBody } from './davinci-eight/visual/RigidBody';
 import Tetrahedron from './davinci-eight/visual/Tetrahedron';
@@ -345,6 +346,12 @@ const eight = {
     get GridZX() { return GridZX; },
     get Group() { return Group; },
     get HollowCylinder() { return HollowCylinder; },
+    get MinecraftArmL() { return MinecraftArmL; },
+    get MinecraftArmR() { return MinecraftArmR; },
+    get MinecraftHead() { return MinecraftHead; },
+    get MinecraftLegL() { return MinecraftLegL; },
+    get MinecraftLegR() { return MinecraftLegR; },
+    get MinecraftTorso() { return MinecraftTorso; },
     get Parallelepiped() { return Parallelepiped; },
     get RigidBody() { return RigidBody; },
     get Tetrahedron() { return Tetrahedron; },

@@ -101,6 +101,14 @@ export default class Texture extends ShareableContextConsumer {
         }
     }
 
+    get naturalHeight(): number {
+        return this.image.naturalHeight;
+    }
+
+    get naturalWidth(): number {
+        return this.image.naturalHeight;
+    }
+
     get wrapS(): TextureWrapMode {
         throw new Error('wrapS is write-only');
     }
