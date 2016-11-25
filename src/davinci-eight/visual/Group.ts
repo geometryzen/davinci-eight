@@ -1,5 +1,6 @@
 import { Facet } from '../core/Facet';
 import { Geometric3 } from '../math/Geometric3';
+import Matrix4 from '../math/Matrix4';
 import { Renderable } from '../core/Renderable';
 import ShareableArray from '../collections/ShareableArray';
 import { ShareableBase } from '../core/ShareableBase';
@@ -7,6 +8,7 @@ import { ShareableBase } from '../core/ShareableBase';
 interface GroupMember extends Renderable {
     X: Geometric3;
     R: Geometric3;
+    stress: Matrix4;
 }
 
 /**
@@ -17,6 +19,7 @@ export default class Group extends ShareableBase implements GroupMember {
     private members: ShareableArray<GroupMember>;
     public X = Geometric3.zero();
     public R = Geometric3.one();
+    public stress = Matrix4.one();
 
     constructor() {
         super();

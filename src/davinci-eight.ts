@@ -174,7 +174,7 @@ import GridYZ from './davinci-eight/visual/GridYZ';
 import GridZX from './davinci-eight/visual/GridZX';
 import Group from './davinci-eight/visual/Group';
 import HollowCylinder from './davinci-eight/visual/HollowCylinder';
-import { MinecraftArmL, MinecraftArmR, MinecraftHead, MinecraftLegL, MinecraftLegR, MinecraftTorso } from './davinci-eight/visual/minecraft';
+import { MinecraftArmL, MinecraftArmR, MinecraftHead, MinecraftLegL, MinecraftLegR, MinecraftTorso } from './davinci-eight/visual/Minecraft';
 import Parallelepiped from './davinci-eight/visual/Parallelepiped';
 import { RigidBody } from './davinci-eight/visual/RigidBody';
 import Tetrahedron from './davinci-eight/visual/Tetrahedron';

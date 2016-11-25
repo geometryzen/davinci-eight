@@ -42,29 +42,36 @@ enum Side {
     Back
 }
 
+/**
+ * The dimensions have been adjusted so that the total height of the figure is 1.
+ */
 function dimensions(part: PartKind): number[] {
+    const LIMB_SIZE = 0.125;
+    const HEAD_SIZE = 0.25;
+    const TORSO_LENGTH = 0.375;
+
     switch (part) {
         case PartKind.Head: {
-            return [8, 8, 8];
+            return [HEAD_SIZE, HEAD_SIZE, HEAD_SIZE];
         }
         case PartKind.Helm: {
-            return [8, 8, 8];
+            return [HEAD_SIZE, HEAD_SIZE, HEAD_SIZE];
         }
         case PartKind.LeftLeg:
         case PartKind.LeftLegLayer2:
         case PartKind.RightLeg:
         case PartKind.RightLegLayer2: {
-            return [4, 12, 4];
+            return [LIMB_SIZE, TORSO_LENGTH, LIMB_SIZE];
         }
         case PartKind.Torso:
         case PartKind.TorsoLayer2: {
-            return [8, 12, 4];
+            return [HEAD_SIZE, TORSO_LENGTH, LIMB_SIZE];
         }
         case PartKind.LeftArm:
         case PartKind.LeftArmLayer2:
         case PartKind.RightArm:
         case PartKind.RightArmLayer2: {
-            return [4, 12, 4];
+            return [LIMB_SIZE, TORSO_LENGTH, LIMB_SIZE];
         }
         default: {
             throw new Error(`part: ${part}`);
@@ -488,9 +495,10 @@ function primitiveFromOptions(options: CubeOptions): Primitive {
         .map(function (xs) { return [dims[0] * xs[0], dims[1] * xs[1], dims[2] * xs[2]]; })
         .map(function (xs) { return [xs[0] + offset.x, xs[1] + offset.y, xs[2] + offset.z]; })
         .reduce(function (a, b) { return a.concat(b); });
-    const scale = 64 / options.texture.image.naturalWidth;
-    const width = options.texture.image.naturalWidth * scale;
-    const height = options.texture.image.naturalHeight * scale;
+
+    const naturalScale = 64 / options.texture.naturalWidth;
+    const width = options.texture.naturalWidth * naturalScale;
+    const height = options.texture.naturalHeight * naturalScale;
     const oldSkinLayout = options.oldSkinLayout;
     const coords = [
         aCoords(partKind, Side.Front, width, height, oldSkinLayout),
@@ -500,6 +508,7 @@ function primitiveFromOptions(options: CubeOptions): Primitive {
         aCoords(partKind, Side.Top, width, height, oldSkinLayout),
         aCoords(partKind, Side.Bottom, width, height, oldSkinLayout)
     ].reduce(function (a, b) { return a.concat(b); });
+
     const primitive: Primitive = {
         mode: BeginMode.TRIANGLES,
         attributes: {

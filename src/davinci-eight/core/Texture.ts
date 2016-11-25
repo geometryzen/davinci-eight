@@ -35,13 +35,15 @@ export default class Texture extends ShareableContextConsumer {
         if (this._texture) {
             this.gl.deleteTexture(this._texture);
             this._texture = void 0;
+            super.contextFree(contextProvider);
         }
-        super.contextFree(contextProvider);
     }
 
     contextGain(contextProvider: ContextProvider) {
-        this._texture = contextProvider.gl.createTexture();
-        super.contextGain(contextProvider);
+        if (!this._texture) {
+            super.contextGain(contextProvider);
+            this._texture = contextProvider.gl.createTexture();
+        }
     }
 
     contextLost() {
@@ -102,11 +104,21 @@ export default class Texture extends ShareableContextConsumer {
     }
 
     get naturalHeight(): number {
-        return this.image.naturalHeight;
+        if (this.image) {
+            return this.image.naturalHeight;
+        }
+        else {
+            return void 0;
+        }
     }
 
     get naturalWidth(): number {
-        return this.image.naturalHeight;
+        if (this.image) {
+            return this.image.naturalHeight;
+        }
+        else {
+            return void 0;
+        }
     }
 
     get wrapS(): TextureWrapMode {

@@ -551,9 +551,9 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
     var Eight = (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-11-24';
+            this.LAST_MODIFIED = '2016-11-25';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '3.7.0';
+            this.VERSION = '3.7.2';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -18877,7 +18877,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/visual/Group',["require", "exports", "../math/Geometric3", "../collections/ShareableArray", "../core/ShareableBase"], function (require, exports, Geometric3_1, ShareableArray_1, ShareableBase_1) {
+define('davinci-eight/visual/Group',["require", "exports", "../math/Geometric3", "../math/Matrix4", "../collections/ShareableArray", "../core/ShareableBase"], function (require, exports, Geometric3_1, Matrix4_1, ShareableArray_1, ShareableBase_1) {
     "use strict";
     var Group = (function (_super) {
         __extends(Group, _super);
@@ -18885,6 +18885,7 @@ define('davinci-eight/visual/Group',["require", "exports", "../math/Geometric3",
             var _this = _super.call(this) || this;
             _this.X = Geometric3_1.Geometric3.zero();
             _this.R = Geometric3_1.Geometric3.one();
+            _this.stress = Matrix4_1.default.one();
             _this.setLoggingName('Group');
             _this.members = new ShareableArray_1.default([]);
             return _this;
@@ -19087,7 +19088,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/visual/minecraft',["require", "exports", "../core/BeginMode", "../core/DataType", "../core/GeometryArrays", "../core/Mesh", "../materials/ShaderMaterial"], function (require, exports, BeginMode_1, DataType_1, GeometryArrays_1, Mesh_1, ShaderMaterial_1) {
+define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMode", "../core/DataType", "../core/GeometryArrays", "../core/Mesh", "../materials/ShaderMaterial"], function (require, exports, BeginMode_1, DataType_1, GeometryArrays_1, Mesh_1, ShaderMaterial_1) {
     "use strict";
     var PartKind;
     (function (PartKind) {
@@ -19114,28 +19115,31 @@ define('davinci-eight/visual/minecraft',["require", "exports", "../core/BeginMod
         Side[Side["Back"] = 5] = "Back";
     })(Side || (Side = {}));
     function dimensions(part) {
+        var LIMB_SIZE = 0.125;
+        var HEAD_SIZE = 0.25;
+        var TORSO_LENGTH = 0.375;
         switch (part) {
             case PartKind.Head: {
-                return [8, 8, 8];
+                return [HEAD_SIZE, HEAD_SIZE, HEAD_SIZE];
             }
             case PartKind.Helm: {
-                return [8, 8, 8];
+                return [HEAD_SIZE, HEAD_SIZE, HEAD_SIZE];
             }
             case PartKind.LeftLeg:
             case PartKind.LeftLegLayer2:
             case PartKind.RightLeg:
             case PartKind.RightLegLayer2: {
-                return [4, 12, 4];
+                return [LIMB_SIZE, TORSO_LENGTH, LIMB_SIZE];
             }
             case PartKind.Torso:
             case PartKind.TorsoLayer2: {
-                return [8, 12, 4];
+                return [HEAD_SIZE, TORSO_LENGTH, LIMB_SIZE];
             }
             case PartKind.LeftArm:
             case PartKind.LeftArmLayer2:
             case PartKind.RightArm:
             case PartKind.RightArmLayer2: {
-                return [4, 12, 4];
+                return [LIMB_SIZE, TORSO_LENGTH, LIMB_SIZE];
             }
             default: {
                 throw new Error("part: " + part);
@@ -19548,9 +19552,9 @@ define('davinci-eight/visual/minecraft',["require", "exports", "../core/BeginMod
             .map(function (xs) { return [dims[0] * xs[0], dims[1] * xs[1], dims[2] * xs[2]]; })
             .map(function (xs) { return [xs[0] + offset.x, xs[1] + offset.y, xs[2] + offset.z]; })
             .reduce(function (a, b) { return a.concat(b); });
-        var scale = 64 / options.texture.image.naturalWidth;
-        var width = options.texture.image.naturalWidth * scale;
-        var height = options.texture.image.naturalHeight * scale;
+        var naturalScale = 64 / options.texture.naturalWidth;
+        var width = options.texture.naturalWidth * naturalScale;
+        var height = options.texture.naturalHeight * naturalScale;
         var oldSkinLayout = options.oldSkinLayout;
         var coords = [
             aCoords(partKind, Side.Front, width, height, oldSkinLayout),
@@ -20468,12 +20472,14 @@ define('davinci-eight/core/Texture',["require", "exports", "./DataType", "../che
             if (this._texture) {
                 this.gl.deleteTexture(this._texture);
                 this._texture = void 0;
+                _super.prototype.contextFree.call(this, contextProvider);
             }
-            _super.prototype.contextFree.call(this, contextProvider);
         };
         Texture.prototype.contextGain = function (contextProvider) {
-            this._texture = contextProvider.gl.createTexture();
-            _super.prototype.contextGain.call(this, contextProvider);
+            if (!this._texture) {
+                _super.prototype.contextGain.call(this, contextProvider);
+                this._texture = contextProvider.gl.createTexture();
+            }
         };
         Texture.prototype.contextLost = function () {
             this._texture = void 0;
@@ -20531,14 +20537,24 @@ define('davinci-eight/core/Texture',["require", "exports", "./DataType", "../che
         });
         Object.defineProperty(Texture.prototype, "naturalHeight", {
             get: function () {
-                return this.image.naturalHeight;
+                if (this.image) {
+                    return this.image.naturalHeight;
+                }
+                else {
+                    return void 0;
+                }
             },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(Texture.prototype, "naturalWidth", {
             get: function () {
-                return this.image.naturalHeight;
+                if (this.image) {
+                    return this.image.naturalHeight;
+                }
+                else {
+                    return void 0;
+                }
             },
             enumerable: true,
             configurable: true
@@ -20618,7 +20634,7 @@ define('davinci-eight/loaders/TextureLoader',["require", "exports", "../checks/m
     exports.default = TextureLoader;
 });
 
-define('davinci-eight',["require", "exports", "./davinci-eight/commands/WebGLBlendFunc", "./davinci-eight/commands/WebGLClearColor", "./davinci-eight/commands/WebGLDisable", "./davinci-eight/commands/WebGLEnable", "./davinci-eight/controls/OrbitControls", "./davinci-eight/controls/TrackballControls", "./davinci-eight/core/Attrib", "./davinci-eight/core/BeginMode", "./davinci-eight/core/BlendingFactorDest", "./davinci-eight/core/BlendingFactorSrc", "./davinci-eight/core/Capability", "./davinci-eight/core/ClearBufferMask", "./davinci-eight/core/Color", "./davinci-eight/config", "./davinci-eight/core/DataType", "./davinci-eight/core/Drawable", "./davinci-eight/core/DepthFunction", "./davinci-eight/core/GeometryArrays", "./davinci-eight/core/GeometryElements", "./davinci-eight/core/GraphicsProgramSymbols", "./davinci-eight/core/Mesh", "./davinci-eight/core/PixelFormat", "./davinci-eight/core/PixelType", "./davinci-eight/core/Scene", "./davinci-eight/core/Shader", "./davinci-eight/core/TextureMagFilter", "./davinci-eight/core/TextureMinFilter", "./davinci-eight/core/TextureParameterName", "./davinci-eight/core/TextureTarget", "./davinci-eight/core/TextureWrapMode", "./davinci-eight/core/Uniform", "./davinci-eight/core/Usage", "./davinci-eight/core/Engine", "./davinci-eight/core/VertexBuffer", "./davinci-eight/core/IndexBuffer", "./davinci-eight/core/vertexArraysFromPrimitive", "./davinci-eight/facets/AmbientLight", "./davinci-eight/facets/ColorFacet", "./davinci-eight/facets/DirectionalLight", "./davinci-eight/facets/ModelFacet", "./davinci-eight/facets/PointSizeFacet", "./davinci-eight/facets/ReflectionFacetE2", "./davinci-eight/facets/ReflectionFacetE3", "./davinci-eight/facets/Vector3Facet", "./davinci-eight/facets/frustumMatrix", "./davinci-eight/facets/PerspectiveCamera", "./davinci-eight/facets/perspectiveMatrix", "./davinci-eight/facets/viewMatrixFromEyeLookUp", "./davinci-eight/facets/ModelE2", "./davinci-eight/facets/ModelE3", "./davinci-eight/atoms/DrawAttribute", "./davinci-eight/atoms/DrawPrimitive", "./davinci-eight/atoms/reduce", "./davinci-eight/atoms/Vertex", "./davinci-eight/shapes/ArrowBuilder", "./davinci-eight/shapes/ConicalShellBuilder", "./davinci-eight/shapes/CylindricalShellBuilder", "./davinci-eight/shapes/RingBuilder", "./davinci-eight/geometries/Simplex", "./davinci-eight/geometries/ArrowGeometry", "./davinci-eight/geometries/BoxGeometry", "./davinci-eight/geometries/CylinderGeometry", "./davinci-eight/geometries/GridGeometry", "./davinci-eight/geometries/SphereGeometry", "./davinci-eight/geometries/TetrahedronGeometry", "./davinci-eight/materials/HTMLScriptsMaterial", "./davinci-eight/materials/LineMaterial", "./davinci-eight/materials/ShaderMaterial", "./davinci-eight/materials/MeshMaterial", "./davinci-eight/materials/PointMaterial", "./davinci-eight/materials/GraphicsProgramBuilder", "./davinci-eight/math/mathcore", "./davinci-eight/math/Vector1", "./davinci-eight/math/Matrix2", "./davinci-eight/math/Matrix3", "./davinci-eight/math/Matrix4", "./davinci-eight/math/Geometric2", "./davinci-eight/math/Geometric3", "./davinci-eight/math/Spinor2", "./davinci-eight/math/Spinor3", "./davinci-eight/math/Vector2", "./davinci-eight/math/Vector3", "./davinci-eight/math/Vector4", "./davinci-eight/math/VectorN", "./davinci-eight/utils/getCanvasElementById", "./davinci-eight/collections/ShareableArray", "./davinci-eight/collections/NumberShareableMap", "./davinci-eight/core/refChange", "./davinci-eight/core/ShareableBase", "./davinci-eight/collections/StringShareableMap", "./davinci-eight/utils/animation", "./davinci-eight/visual/Arrow", "./davinci-eight/visual/Basis", "./davinci-eight/visual/Sphere", "./davinci-eight/visual/Box", "./davinci-eight/visual/Cylinder", "./davinci-eight/visual/Curve", "./davinci-eight/visual/Grid", "./davinci-eight/visual/GridXY", "./davinci-eight/visual/GridYZ", "./davinci-eight/visual/GridZX", "./davinci-eight/visual/Group", "./davinci-eight/visual/HollowCylinder", "./davinci-eight/visual/minecraft", "./davinci-eight/visual/Parallelepiped", "./davinci-eight/visual/RigidBody", "./davinci-eight/visual/Tetrahedron", "./davinci-eight/visual/Track", "./davinci-eight/visual/Trail", "./davinci-eight/visual/Turtle", "./davinci-eight/diagram/Diagram3D", "./davinci-eight/loaders/TextureLoader"], function (require, exports, WebGLBlendFunc_1, WebGLClearColor_1, WebGLDisable_1, WebGLEnable_1, OrbitControls_1, TrackballControls_1, Attrib_1, BeginMode_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, ClearBufferMask_1, Color_1, config_1, DataType_1, Drawable_1, DepthFunction_1, GeometryArrays_1, GeometryElements_1, GraphicsProgramSymbols_1, Mesh_1, PixelFormat_1, PixelType_1, Scene_1, Shader_1, TextureMagFilter_1, TextureMinFilter_1, TextureParameterName_1, TextureTarget_1, TextureWrapMode_1, Uniform_1, Usage_1, Engine_1, VertexBuffer_1, IndexBuffer_1, vertexArraysFromPrimitive_1, AmbientLight_1, ColorFacet_1, DirectionalLight_1, ModelFacet_1, PointSizeFacet_1, ReflectionFacetE2_1, ReflectionFacetE3_1, Vector3Facet_1, frustumMatrix_1, PerspectiveCamera_1, perspectiveMatrix_1, viewMatrixFromEyeLookUp_1, ModelE2_1, ModelE3_1, DrawAttribute_1, DrawPrimitive_1, reduce_1, Vertex_1, ArrowBuilder_1, ConicalShellBuilder_1, CylindricalShellBuilder_1, RingBuilder_1, Simplex_1, ArrowGeometry_1, BoxGeometry_1, CylinderGeometry_1, GridGeometry_1, SphereGeometry_1, TetrahedronGeometry_1, HTMLScriptsMaterial_1, LineMaterial_1, ShaderMaterial_1, MeshMaterial_1, PointMaterial_1, GraphicsProgramBuilder_1, mathcore_1, Vector1_1, Matrix2_1, Matrix3_1, Matrix4_1, Geometric2_1, Geometric3_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1, Vector4_1, VectorN_1, getCanvasElementById_1, ShareableArray_1, NumberShareableMap_1, refChange_1, ShareableBase_1, StringShareableMap_1, animation_1, Arrow_1, Basis_1, Sphere_1, Box_1, Cylinder_1, Curve_1, Grid_1, GridXY_1, GridYZ_1, GridZX_1, Group_1, HollowCylinder_1, minecraft_1, Parallelepiped_1, RigidBody_1, Tetrahedron_1, Track_1, Trail_1, Turtle_1, Diagram3D_1, TextureLoader_1) {
+define('davinci-eight',["require", "exports", "./davinci-eight/commands/WebGLBlendFunc", "./davinci-eight/commands/WebGLClearColor", "./davinci-eight/commands/WebGLDisable", "./davinci-eight/commands/WebGLEnable", "./davinci-eight/controls/OrbitControls", "./davinci-eight/controls/TrackballControls", "./davinci-eight/core/Attrib", "./davinci-eight/core/BeginMode", "./davinci-eight/core/BlendingFactorDest", "./davinci-eight/core/BlendingFactorSrc", "./davinci-eight/core/Capability", "./davinci-eight/core/ClearBufferMask", "./davinci-eight/core/Color", "./davinci-eight/config", "./davinci-eight/core/DataType", "./davinci-eight/core/Drawable", "./davinci-eight/core/DepthFunction", "./davinci-eight/core/GeometryArrays", "./davinci-eight/core/GeometryElements", "./davinci-eight/core/GraphicsProgramSymbols", "./davinci-eight/core/Mesh", "./davinci-eight/core/PixelFormat", "./davinci-eight/core/PixelType", "./davinci-eight/core/Scene", "./davinci-eight/core/Shader", "./davinci-eight/core/TextureMagFilter", "./davinci-eight/core/TextureMinFilter", "./davinci-eight/core/TextureParameterName", "./davinci-eight/core/TextureTarget", "./davinci-eight/core/TextureWrapMode", "./davinci-eight/core/Uniform", "./davinci-eight/core/Usage", "./davinci-eight/core/Engine", "./davinci-eight/core/VertexBuffer", "./davinci-eight/core/IndexBuffer", "./davinci-eight/core/vertexArraysFromPrimitive", "./davinci-eight/facets/AmbientLight", "./davinci-eight/facets/ColorFacet", "./davinci-eight/facets/DirectionalLight", "./davinci-eight/facets/ModelFacet", "./davinci-eight/facets/PointSizeFacet", "./davinci-eight/facets/ReflectionFacetE2", "./davinci-eight/facets/ReflectionFacetE3", "./davinci-eight/facets/Vector3Facet", "./davinci-eight/facets/frustumMatrix", "./davinci-eight/facets/PerspectiveCamera", "./davinci-eight/facets/perspectiveMatrix", "./davinci-eight/facets/viewMatrixFromEyeLookUp", "./davinci-eight/facets/ModelE2", "./davinci-eight/facets/ModelE3", "./davinci-eight/atoms/DrawAttribute", "./davinci-eight/atoms/DrawPrimitive", "./davinci-eight/atoms/reduce", "./davinci-eight/atoms/Vertex", "./davinci-eight/shapes/ArrowBuilder", "./davinci-eight/shapes/ConicalShellBuilder", "./davinci-eight/shapes/CylindricalShellBuilder", "./davinci-eight/shapes/RingBuilder", "./davinci-eight/geometries/Simplex", "./davinci-eight/geometries/ArrowGeometry", "./davinci-eight/geometries/BoxGeometry", "./davinci-eight/geometries/CylinderGeometry", "./davinci-eight/geometries/GridGeometry", "./davinci-eight/geometries/SphereGeometry", "./davinci-eight/geometries/TetrahedronGeometry", "./davinci-eight/materials/HTMLScriptsMaterial", "./davinci-eight/materials/LineMaterial", "./davinci-eight/materials/ShaderMaterial", "./davinci-eight/materials/MeshMaterial", "./davinci-eight/materials/PointMaterial", "./davinci-eight/materials/GraphicsProgramBuilder", "./davinci-eight/math/mathcore", "./davinci-eight/math/Vector1", "./davinci-eight/math/Matrix2", "./davinci-eight/math/Matrix3", "./davinci-eight/math/Matrix4", "./davinci-eight/math/Geometric2", "./davinci-eight/math/Geometric3", "./davinci-eight/math/Spinor2", "./davinci-eight/math/Spinor3", "./davinci-eight/math/Vector2", "./davinci-eight/math/Vector3", "./davinci-eight/math/Vector4", "./davinci-eight/math/VectorN", "./davinci-eight/utils/getCanvasElementById", "./davinci-eight/collections/ShareableArray", "./davinci-eight/collections/NumberShareableMap", "./davinci-eight/core/refChange", "./davinci-eight/core/ShareableBase", "./davinci-eight/collections/StringShareableMap", "./davinci-eight/utils/animation", "./davinci-eight/visual/Arrow", "./davinci-eight/visual/Basis", "./davinci-eight/visual/Sphere", "./davinci-eight/visual/Box", "./davinci-eight/visual/Cylinder", "./davinci-eight/visual/Curve", "./davinci-eight/visual/Grid", "./davinci-eight/visual/GridXY", "./davinci-eight/visual/GridYZ", "./davinci-eight/visual/GridZX", "./davinci-eight/visual/Group", "./davinci-eight/visual/HollowCylinder", "./davinci-eight/visual/Minecraft", "./davinci-eight/visual/Parallelepiped", "./davinci-eight/visual/RigidBody", "./davinci-eight/visual/Tetrahedron", "./davinci-eight/visual/Track", "./davinci-eight/visual/Trail", "./davinci-eight/visual/Turtle", "./davinci-eight/diagram/Diagram3D", "./davinci-eight/loaders/TextureLoader"], function (require, exports, WebGLBlendFunc_1, WebGLClearColor_1, WebGLDisable_1, WebGLEnable_1, OrbitControls_1, TrackballControls_1, Attrib_1, BeginMode_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, ClearBufferMask_1, Color_1, config_1, DataType_1, Drawable_1, DepthFunction_1, GeometryArrays_1, GeometryElements_1, GraphicsProgramSymbols_1, Mesh_1, PixelFormat_1, PixelType_1, Scene_1, Shader_1, TextureMagFilter_1, TextureMinFilter_1, TextureParameterName_1, TextureTarget_1, TextureWrapMode_1, Uniform_1, Usage_1, Engine_1, VertexBuffer_1, IndexBuffer_1, vertexArraysFromPrimitive_1, AmbientLight_1, ColorFacet_1, DirectionalLight_1, ModelFacet_1, PointSizeFacet_1, ReflectionFacetE2_1, ReflectionFacetE3_1, Vector3Facet_1, frustumMatrix_1, PerspectiveCamera_1, perspectiveMatrix_1, viewMatrixFromEyeLookUp_1, ModelE2_1, ModelE3_1, DrawAttribute_1, DrawPrimitive_1, reduce_1, Vertex_1, ArrowBuilder_1, ConicalShellBuilder_1, CylindricalShellBuilder_1, RingBuilder_1, Simplex_1, ArrowGeometry_1, BoxGeometry_1, CylinderGeometry_1, GridGeometry_1, SphereGeometry_1, TetrahedronGeometry_1, HTMLScriptsMaterial_1, LineMaterial_1, ShaderMaterial_1, MeshMaterial_1, PointMaterial_1, GraphicsProgramBuilder_1, mathcore_1, Vector1_1, Matrix2_1, Matrix3_1, Matrix4_1, Geometric2_1, Geometric3_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1, Vector4_1, VectorN_1, getCanvasElementById_1, ShareableArray_1, NumberShareableMap_1, refChange_1, ShareableBase_1, StringShareableMap_1, animation_1, Arrow_1, Basis_1, Sphere_1, Box_1, Cylinder_1, Curve_1, Grid_1, GridXY_1, GridYZ_1, GridZX_1, Group_1, HollowCylinder_1, Minecraft_1, Parallelepiped_1, RigidBody_1, Tetrahedron_1, Track_1, Trail_1, Turtle_1, Diagram3D_1, TextureLoader_1) {
     "use strict";
     var eight = {
         get LAST_MODIFIED() { return config_1.default.LAST_MODIFIED; },
@@ -20736,12 +20752,12 @@ define('davinci-eight',["require", "exports", "./davinci-eight/commands/WebGLBle
         get GridZX() { return GridZX_1.default; },
         get Group() { return Group_1.default; },
         get HollowCylinder() { return HollowCylinder_1.default; },
-        get MinecraftArmL() { return minecraft_1.MinecraftArmL; },
-        get MinecraftArmR() { return minecraft_1.MinecraftArmR; },
-        get MinecraftHead() { return minecraft_1.MinecraftHead; },
-        get MinecraftLegL() { return minecraft_1.MinecraftLegL; },
-        get MinecraftLegR() { return minecraft_1.MinecraftLegR; },
-        get MinecraftTorso() { return minecraft_1.MinecraftTorso; },
+        get MinecraftArmL() { return Minecraft_1.MinecraftArmL; },
+        get MinecraftArmR() { return Minecraft_1.MinecraftArmR; },
+        get MinecraftHead() { return Minecraft_1.MinecraftHead; },
+        get MinecraftLegL() { return Minecraft_1.MinecraftLegL; },
+        get MinecraftLegR() { return Minecraft_1.MinecraftLegR; },
+        get MinecraftTorso() { return Minecraft_1.MinecraftTorso; },
         get Parallelepiped() { return Parallelepiped_1.default; },
         get RigidBody() { return RigidBody_1.RigidBody; },
         get Tetrahedron() { return Tetrahedron_1.default; },

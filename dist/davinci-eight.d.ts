@@ -4148,6 +4148,14 @@ declare module EIGHT {
         /**
          * 
          */
+        name: string;
+        /**
+         * 
+         */
+        transparent: boolean;
+        /**
+         * 
+         */
         constructor();
         /**
          * 
