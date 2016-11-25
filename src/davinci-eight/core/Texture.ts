@@ -114,7 +114,7 @@ export default class Texture extends ShareableContextConsumer {
 
     get naturalWidth(): number {
         if (this.image) {
-            return this.image.naturalHeight;
+            return this.image.naturalWidth;
         }
         else {
             return void 0;

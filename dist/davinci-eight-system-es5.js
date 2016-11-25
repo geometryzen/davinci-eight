@@ -23420,7 +23420,7 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
                     this.LAST_MODIFIED = '2016-11-25';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '3.7.2';
+                    this.VERSION = '3.7.3';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];
@@ -24054,7 +24054,7 @@ System.register("davinci-eight/core/Texture.js", ["./DataType", "../checks/mustB
                 Object.defineProperty(Texture.prototype, "naturalWidth", {
                     get: function () {
                         if (this.image) {
-                            return this.image.naturalHeight;
+                            return this.image.naturalWidth;
                         } else {
                             return void 0;
                         }
