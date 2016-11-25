@@ -9,6 +9,7 @@ interface GroupMember extends Renderable {
     X: Geometric3;
     R: Geometric3;
     stress: Matrix4;
+    visible: boolean;
 }
 
 /**
@@ -20,6 +21,7 @@ export default class Group extends ShareableBase implements GroupMember {
     public X = Geometric3.zero();
     public R = Geometric3.one();
     public stress = Matrix4.one();
+    public visible = true;
 
     constructor() {
         super();
@@ -73,32 +75,34 @@ export default class Group extends ShareableBase implements GroupMember {
      *
      */
     render(ambients: Facet[]): void {
-        this.members.forEach((member) => {
-            // Make copies of member state so that it can be restored accurately.
-            // These calls are recursive so wen need to use local temporary variables.
-            const x = member.X.x;
-            const y = member.X.y;
-            const z = member.X.z;
+        if (this.visible) {
+            this.members.forEach((member) => {
+                // Make copies of member state so that it can be restored accurately.
+                // These calls are recursive so wen need to use local temporary variables.
+                const x = member.X.x;
+                const y = member.X.y;
+                const z = member.X.z;
 
-            const a = member.R.a;
-            const xy = member.R.xy;
-            const yz = member.R.yz;
-            const zx = member.R.zx;
+                const a = member.R.a;
+                const xy = member.R.xy;
+                const yz = member.R.yz;
+                const zx = member.R.zx;
 
-            member.X.rotate(this.R).add(this.X);
-            member.R.mul2(this.R, member.R);
+                member.X.rotate(this.R).add(this.X);
+                member.R.mul2(this.R, member.R);
 
-            member.render(ambients);
+                member.render(ambients);
 
-            // Resore the member state from the scratch variables.
-            member.X.x = x;
-            member.X.y = y;
-            member.X.z = z;
+                // Resore the member state from the scratch variables.
+                member.X.x = x;
+                member.X.y = y;
+                member.X.z = z;
 
-            member.R.a = a;
-            member.R.xy = xy;
-            member.R.yz = yz;
-            member.R.zx = zx;
-        });
+                member.R.a = a;
+                member.R.xy = xy;
+                member.R.yz = yz;
+                member.R.zx = zx;
+            });
+        }
     }
 }

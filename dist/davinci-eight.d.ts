@@ -4126,6 +4126,7 @@ declare module EIGHT {
     interface GroupMember extends Renderable {
         X: Geometric3;
         R: Geometric3;
+        visible: boolean;
     }
 
     class Group extends ShareableBase implements GroupMember {
@@ -4153,6 +4154,10 @@ declare module EIGHT {
          * 
          */
         transparent: boolean;
+        /**
+         * 
+         */
+        visible: boolean;
         /**
          * 
          */

@@ -553,7 +553,7 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-11-25';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '3.7.3';
+            this.VERSION = '3.7.4';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -18886,6 +18886,7 @@ define('davinci-eight/visual/Group',["require", "exports", "../math/Geometric3",
             _this.X = Geometric3_1.Geometric3.zero();
             _this.R = Geometric3_1.Geometric3.one();
             _this.stress = Matrix4_1.default.one();
+            _this.visible = true;
             _this.setLoggingName('Group');
             _this.members = new ShareableArray_1.default([]);
             return _this;
@@ -18934,25 +18935,27 @@ define('davinci-eight/visual/Group',["require", "exports", "../math/Geometric3",
         };
         Group.prototype.render = function (ambients) {
             var _this = this;
-            this.members.forEach(function (member) {
-                var x = member.X.x;
-                var y = member.X.y;
-                var z = member.X.z;
-                var a = member.R.a;
-                var xy = member.R.xy;
-                var yz = member.R.yz;
-                var zx = member.R.zx;
-                member.X.rotate(_this.R).add(_this.X);
-                member.R.mul2(_this.R, member.R);
-                member.render(ambients);
-                member.X.x = x;
-                member.X.y = y;
-                member.X.z = z;
-                member.R.a = a;
-                member.R.xy = xy;
-                member.R.yz = yz;
-                member.R.zx = zx;
-            });
+            if (this.visible) {
+                this.members.forEach(function (member) {
+                    var x = member.X.x;
+                    var y = member.X.y;
+                    var z = member.X.z;
+                    var a = member.R.a;
+                    var xy = member.R.xy;
+                    var yz = member.R.yz;
+                    var zx = member.R.zx;
+                    member.X.rotate(_this.R).add(_this.X);
+                    member.R.mul2(_this.R, member.R);
+                    member.render(ambients);
+                    member.X.x = x;
+                    member.X.y = y;
+                    member.X.z = z;
+                    member.R.a = a;
+                    member.R.xy = xy;
+                    member.R.yz = yz;
+                    member.R.zx = zx;
+                });
+            }
         };
         return Group;
     }(ShareableBase_1.ShareableBase));
