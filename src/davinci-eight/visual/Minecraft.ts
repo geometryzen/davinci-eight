@@ -3,12 +3,19 @@ import DataType from '../core/DataType';
 import { Engine } from '../core/Engine';
 import { Geometry } from '../core/Geometry';
 import GeometryArrays from '../core/GeometryArrays';
+import Group from './Group';
+import isBoolean from '../checks/isBoolean';
+import isNumber from '../checks/isNumber';
 import { Material } from '../core/Material';
 import { Mesh } from '../core/Mesh';
 import Primitive from '../core/Primitive';
+import vec from '../math/R3';
 import { ShaderMaterial } from '../materials/ShaderMaterial';
 import Texture from '../core/Texture';
 import VectorE3 from '../math/VectorE3';
+
+const e1 = vec(1, 0, 0);
+const e2 = vec(0, 1, 0);
 
 enum PartKind {
     Head,
@@ -27,6 +34,7 @@ enum PartKind {
 
 
 interface CubeOptions {
+    height: number;
     texture?: Texture;
     partKind: PartKind;
     oldSkinLayout: boolean;
@@ -45,10 +53,10 @@ enum Side {
 /**
  * The dimensions have been adjusted so that the total height of the figure is 1.
  */
-function dimensions(part: PartKind): number[] {
-    const LIMB_SIZE = 0.125;
-    const HEAD_SIZE = 0.25;
-    const TORSO_LENGTH = 0.375;
+function dimensions(part: PartKind, height: number): number[] {
+    const LIMB_SIZE = 0.125 * height;
+    const HEAD_SIZE = 0.25 * height;
+    const TORSO_LENGTH = 0.375 * height;
 
     switch (part) {
         case PartKind.Head: {
@@ -88,10 +96,10 @@ function textureBounds(part: PartKind, side: Side, version: number, oldSkinLayou
                 }
                 case Side.Bottom: {
                     if (oldSkinLayout) {
-                        return [16, 8, 24, 0];
+                        return [16, 0, 24, 8];
                     }
                     else {
-                        return [16, 0, 24, 8];
+                        return [24, 8, 16, 0];
                     }
                 }
                 case Side.Right: {
@@ -471,7 +479,7 @@ function version(width: number, height: number): number {
 function primitiveFromOptions(options: CubeOptions): Primitive {
     const partKind = options.partKind;
     const offset = options.offset ? options.offset : { x: 0, y: 0, z: 0 };
-    const dims = dimensions(partKind);
+    const dims = dimensions(partKind, options.height);
     const positions = [
         // Front
         [-0.5, -0.5, +0.5], [+0.5, -0.5, +0.5], [-0.5, +0.5, +0.5],
@@ -571,6 +579,7 @@ class MinecraftBodyPart extends Mesh<Geometry, Material> {
 }
 
 interface MinecraftBodyPartOptions {
+    height: number;
     texture: Texture;
     oldSkinLayout?: boolean;
     offset?: VectorE3;
@@ -578,7 +587,13 @@ interface MinecraftBodyPartOptions {
 
 export class MinecraftHead extends MinecraftBodyPart {
     constructor(graphics: Engine, options: MinecraftBodyPartOptions) {
-        super(graphics, { texture: options.texture, partKind: PartKind.Head, offset: options.offset, oldSkinLayout: options.oldSkinLayout });
+        super(graphics, {
+            height: isNumber(options.height) ? options.height : 1,
+            texture: options.texture,
+            partKind: PartKind.Head,
+            offset: options.offset,
+            oldSkinLayout: isBoolean(options.oldSkinLayout) ? options.oldSkinLayout : false
+        });
         this.setLoggingName('MinecraftHead');
     }
     protected destructor(levelUp: number): void {
@@ -588,7 +603,13 @@ export class MinecraftHead extends MinecraftBodyPart {
 
 export class MinecraftTorso extends MinecraftBodyPart {
     constructor(graphics: Engine, options: MinecraftBodyPartOptions) {
-        super(graphics, { texture: options.texture, partKind: PartKind.Torso, offset: options.offset, oldSkinLayout: options.oldSkinLayout });
+        super(graphics, {
+            height: isNumber(options.height) ? options.height : 1,
+            texture: options.texture,
+            partKind: PartKind.Torso,
+            offset: options.offset,
+            oldSkinLayout: isBoolean(options.oldSkinLayout) ? options.oldSkinLayout : false
+        });
         this.setLoggingName('MinecraftTorso');
     }
     protected destructor(levelUp: number): void {
@@ -598,7 +619,13 @@ export class MinecraftTorso extends MinecraftBodyPart {
 
 export class MinecraftArmL extends MinecraftBodyPart {
     constructor(graphics: Engine, options: MinecraftBodyPartOptions) {
-        super(graphics, { texture: options.texture, partKind: PartKind.LeftArm, offset: options.offset, oldSkinLayout: options.oldSkinLayout });
+        super(graphics, {
+            height: isNumber(options.height) ? options.height : 1,
+            texture: options.texture,
+            partKind: PartKind.LeftArm,
+            offset: options.offset,
+            oldSkinLayout: isBoolean(options.oldSkinLayout) ? options.oldSkinLayout : false
+        });
         this.setLoggingName('MinecraftArmL');
     }
     protected destructor(levelUp: number): void {
@@ -608,7 +635,13 @@ export class MinecraftArmL extends MinecraftBodyPart {
 
 export class MinecraftArmR extends MinecraftBodyPart {
     constructor(graphics: Engine, options: MinecraftBodyPartOptions) {
-        super(graphics, { texture: options.texture, partKind: PartKind.RightArm, offset: options.offset, oldSkinLayout: options.oldSkinLayout });
+        super(graphics, {
+            height: isNumber(options.height) ? options.height : 1,
+            texture: options.texture,
+            partKind: PartKind.RightArm,
+            offset: options.offset,
+            oldSkinLayout: isBoolean(options.oldSkinLayout) ? options.oldSkinLayout : false
+        });
         this.setLoggingName('MinecraftArmR');
     }
     protected destructor(levelUp: number): void {
@@ -618,7 +651,13 @@ export class MinecraftArmR extends MinecraftBodyPart {
 
 export class MinecraftLegL extends MinecraftBodyPart {
     constructor(graphics: Engine, options: MinecraftBodyPartOptions) {
-        super(graphics, { texture: options.texture, partKind: PartKind.LeftLeg, offset: options.offset, oldSkinLayout: options.oldSkinLayout });
+        super(graphics, {
+            height: isNumber(options.height) ? options.height : 1,
+            texture: options.texture,
+            partKind: PartKind.LeftLeg,
+            offset: options.offset,
+            oldSkinLayout: isBoolean(options.oldSkinLayout) ? options.oldSkinLayout : false
+        });
         this.setLoggingName('MinecraftLegL');
     }
     protected destructor(levelUp: number): void {
@@ -628,10 +667,69 @@ export class MinecraftLegL extends MinecraftBodyPart {
 
 export class MinecraftLegR extends MinecraftBodyPart {
     constructor(graphics: Engine, options: MinecraftBodyPartOptions) {
-        super(graphics, { texture: options.texture, partKind: PartKind.RightLeg, offset: options.offset, oldSkinLayout: options.oldSkinLayout });
+        super(graphics, {
+            height: isNumber(options.height) ? options.height : 1,
+            texture: options.texture,
+            partKind: PartKind.RightLeg,
+            offset: options.offset,
+            oldSkinLayout: isBoolean(options.oldSkinLayout) ? options.oldSkinLayout : false
+        });
         this.setLoggingName('MinecraftLegR');
     }
     protected destructor(levelUp: number): void {
         super.destructor(levelUp + 1);
     }
 }
+
+interface MinecraftFigureOptions {
+    height?: number;
+    oldSkinLayout?: boolean;
+}
+
+/**
+ * A group of body parts arranged to look like a figure.
+ */
+export class MinecraftFigure extends Group {
+    public head: MinecraftHead;
+    public armL: MinecraftArmL;
+    public armR: MinecraftArmR;
+    public legL: MinecraftLegL;
+    public legR: MinecraftLegR;
+    public torso: MinecraftTorso;
+    constructor(engine: Engine, texture: Texture, options: MinecraftFigureOptions = {}) {
+        super();
+        const height = isNumber(options.height) ? options.height : 1;
+        const scale = height / 32;
+        const oldSkinLayout = isBoolean(options.oldSkinLayout) ? options.oldSkinLayout : false;
+        this.head = new MinecraftHead(engine, { texture, height, offset: e2.scale(scale * 4), oldSkinLayout });
+        this.head.position.zero().addVector(e2, scale * 24);
+        this.add(this.head);
+        this.head.release();
+
+        this.torso = new MinecraftTorso(engine, { texture, height, oldSkinLayout });
+        this.torso.position.zero().addVector(e2, scale * 18);
+        this.add(this.torso);
+        this.torso.release();
+
+        this.armL = new MinecraftArmL(engine, { texture, height, offset: e2.scale(-scale * 4), oldSkinLayout });
+        this.armL.position.zero().addVector(e2, scale * 22).addVector(e1, scale * 6);
+        this.add(this.armL);
+        this.armL.release();
+
+        this.armR = new MinecraftArmR(engine, { texture, height, offset: e2.scale(-scale * 4), oldSkinLayout });
+        this.armR.position.zero().addVector(e2, scale * 22).subVector(e1, scale * 6);
+        this.add(this.armR);
+        this.armR.release();
+
+        this.legL = new MinecraftLegL(engine, { texture, height, offset: e2.scale(-scale * 4), oldSkinLayout });
+        this.legL.position.zero().addVector(e2, scale * 10).addVector(e1, scale * 2);
+        this.add(this.legL);
+        this.legL.release();
+
+        this.legR = new MinecraftLegR(engine, { texture, height, offset: e2.scale(-scale * 4), oldSkinLayout });
+        this.legR.position.zero().addVector(e2, scale * 10).subVector(e1, scale * 2);
+        this.add(this.legR);
+        this.legR.release();
+    }
+}
+

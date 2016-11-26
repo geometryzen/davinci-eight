@@ -4431,6 +4431,12 @@ declare module EIGHT {
      *
      */
     interface MinecraftBodyPartOptions {
+        /**
+         * The overall figure height.
+         * Determines how the body part is scaled.
+         * Default is 1.
+         */
+        height?: number;
         texture: Texture;
         oldSkinLayout?: boolean;
         offset?: VectorE3;
@@ -4471,6 +4477,35 @@ declare module EIGHT {
     class MinecraftTorso extends Mesh<Geometry, Material> {
         constructor(engine: EIGHT.Engine, options: MinecraftBodyPartOptions);
     }
+
+    /**
+     * 
+     */
+    interface MinecraftFigureOptions {
+        /**
+         * The overall height of the figure.
+         * Default is 1.
+         */
+        height?: number;
+        /**
+         * 
+         */
+        oldSkinLayout?: boolean;
+    }
+
+    /**
+     * 
+     */
+    class MinecraftFigure extends Group {
+        public head: MinecraftHead;
+        public armL: MinecraftArmL;
+        public armR: MinecraftArmR;
+        public legL: MinecraftLegL;
+        public legR: MinecraftLegR;
+        public torso: MinecraftHead;
+        constructor(engine: Engine, texture: Texture, options: MinecraftFigureOptions);
+    }
+
     ///////////////////////////////////////////////////////////////////////////////
     /**
      *

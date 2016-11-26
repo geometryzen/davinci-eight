@@ -6432,112 +6432,6 @@ System.register("davinci-eight/visual/GridZX.js", ["../checks/expectOptions", ".
         }
     };
 });
-System.register("davinci-eight/visual/Group.js", ["../math/Geometric3", "../math/Matrix4", "../collections/ShareableArray", "../core/ShareableBase"], function (exports_1, context_1) {
-    "use strict";
-
-    var __extends = this && this.__extends || function (d, b) {
-        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-        function __() {
-            this.constructor = d;
-        }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-    var __moduleName = context_1 && context_1.id;
-    var Geometric3_1, Matrix4_1, ShareableArray_1, ShareableBase_1, Group;
-    return {
-        setters: [function (Geometric3_1_1) {
-            Geometric3_1 = Geometric3_1_1;
-        }, function (Matrix4_1_1) {
-            Matrix4_1 = Matrix4_1_1;
-        }, function (ShareableArray_1_1) {
-            ShareableArray_1 = ShareableArray_1_1;
-        }, function (ShareableBase_1_1) {
-            ShareableBase_1 = ShareableBase_1_1;
-        }],
-        execute: function () {
-            Group = function (_super) {
-                __extends(Group, _super);
-                function Group() {
-                    var _this = _super.call(this) || this;
-                    _this.X = Geometric3_1.Geometric3.zero();
-                    _this.R = Geometric3_1.Geometric3.one();
-                    _this.stress = Matrix4_1.default.one();
-                    _this.visible = true;
-                    _this.setLoggingName('Group');
-                    _this.members = new ShareableArray_1.default([]);
-                    return _this;
-                }
-                Group.prototype.destructor = function (levelUp) {
-                    this.members.release();
-                    this.members = void 0;
-                    _super.prototype.destructor.call(this, levelUp + 1);
-                };
-                Object.defineProperty(Group.prototype, "position", {
-                    get: function () {
-                        return this.X;
-                    },
-                    set: function (value) {
-                        if (value) {
-                            this.X.copyVector(value);
-                        }
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                Object.defineProperty(Group.prototype, "attitude", {
-                    get: function () {
-                        return this.R;
-                    },
-                    set: function (value) {
-                        if (value) {
-                            this.R.copySpinor(value);
-                        }
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                Group.prototype.add = function (member) {
-                    this.members.push(member);
-                };
-                Group.prototype.remove = function (member) {
-                    var index = this.members.indexOf(member);
-                    if (index >= 0) {
-                        var ms = this.members.splice(index, 1);
-                        ms.release();
-                    } else {
-                        return void 0;
-                    }
-                };
-                Group.prototype.render = function (ambients) {
-                    var _this = this;
-                    if (this.visible) {
-                        this.members.forEach(function (member) {
-                            var x = member.X.x;
-                            var y = member.X.y;
-                            var z = member.X.z;
-                            var a = member.R.a;
-                            var xy = member.R.xy;
-                            var yz = member.R.yz;
-                            var zx = member.R.zx;
-                            member.X.rotate(_this.R).add(_this.X);
-                            member.R.mul2(_this.R, member.R);
-                            member.render(ambients);
-                            member.X.x = x;
-                            member.X.y = y;
-                            member.X.z = z;
-                            member.R.a = a;
-                            member.R.xy = xy;
-                            member.R.yz = yz;
-                            member.R.zx = zx;
-                        });
-                    }
-                };
-                return Group;
-            }(ShareableBase_1.ShareableBase);
-            exports_1("default", Group);
-        }
-    };
-});
 System.register("davinci-eight/visual/direction.js", ["../math/R3"], function (exports_1, context_1) {
     "use strict";
 
@@ -8133,7 +8027,7 @@ System.register("davinci-eight/visual/HollowCylinder.js", ["../core/Color", "./d
         }
     };
 });
-System.register("davinci-eight/visual/Minecraft.js", ["../core/BeginMode", "../core/DataType", "../core/GeometryArrays", "../core/Mesh", "../materials/ShaderMaterial"], function (exports_1, context_1) {
+System.register("davinci-eight/visual/Group.js", ["../math/Geometric3", "../math/Matrix4", "../collections/ShareableArray", "../core/ShareableBase"], function (exports_1, context_1) {
     "use strict";
 
     var __extends = this && this.__extends || function (d, b) {
@@ -8144,10 +8038,116 @@ System.register("davinci-eight/visual/Minecraft.js", ["../core/BeginMode", "../c
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
     var __moduleName = context_1 && context_1.id;
-    function dimensions(part) {
-        var LIMB_SIZE = 0.125;
-        var HEAD_SIZE = 0.25;
-        var TORSO_LENGTH = 0.375;
+    var Geometric3_1, Matrix4_1, ShareableArray_1, ShareableBase_1, Group;
+    return {
+        setters: [function (Geometric3_1_1) {
+            Geometric3_1 = Geometric3_1_1;
+        }, function (Matrix4_1_1) {
+            Matrix4_1 = Matrix4_1_1;
+        }, function (ShareableArray_1_1) {
+            ShareableArray_1 = ShareableArray_1_1;
+        }, function (ShareableBase_1_1) {
+            ShareableBase_1 = ShareableBase_1_1;
+        }],
+        execute: function () {
+            Group = function (_super) {
+                __extends(Group, _super);
+                function Group() {
+                    var _this = _super.call(this) || this;
+                    _this.X = Geometric3_1.Geometric3.zero();
+                    _this.R = Geometric3_1.Geometric3.one();
+                    _this.stress = Matrix4_1.default.one();
+                    _this.visible = true;
+                    _this.setLoggingName('Group');
+                    _this.members = new ShareableArray_1.default([]);
+                    return _this;
+                }
+                Group.prototype.destructor = function (levelUp) {
+                    this.members.release();
+                    this.members = void 0;
+                    _super.prototype.destructor.call(this, levelUp + 1);
+                };
+                Object.defineProperty(Group.prototype, "position", {
+                    get: function () {
+                        return this.X;
+                    },
+                    set: function (value) {
+                        if (value) {
+                            this.X.copyVector(value);
+                        }
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(Group.prototype, "attitude", {
+                    get: function () {
+                        return this.R;
+                    },
+                    set: function (value) {
+                        if (value) {
+                            this.R.copySpinor(value);
+                        }
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Group.prototype.add = function (member) {
+                    this.members.push(member);
+                };
+                Group.prototype.remove = function (member) {
+                    var index = this.members.indexOf(member);
+                    if (index >= 0) {
+                        var ms = this.members.splice(index, 1);
+                        ms.release();
+                    } else {
+                        return void 0;
+                    }
+                };
+                Group.prototype.render = function (ambients) {
+                    var _this = this;
+                    if (this.visible) {
+                        this.members.forEach(function (member) {
+                            var x = member.X.x;
+                            var y = member.X.y;
+                            var z = member.X.z;
+                            var a = member.R.a;
+                            var xy = member.R.xy;
+                            var yz = member.R.yz;
+                            var zx = member.R.zx;
+                            member.X.rotate(_this.R).add(_this.X);
+                            member.R.mul2(_this.R, member.R);
+                            member.render(ambients);
+                            member.X.x = x;
+                            member.X.y = y;
+                            member.X.z = z;
+                            member.R.a = a;
+                            member.R.xy = xy;
+                            member.R.yz = yz;
+                            member.R.zx = zx;
+                        });
+                    }
+                };
+                return Group;
+            }(ShareableBase_1.ShareableBase);
+            exports_1("default", Group);
+        }
+    };
+});
+System.register("davinci-eight/visual/Minecraft.js", ["../core/BeginMode", "../core/DataType", "../core/GeometryArrays", "./Group", "../checks/isBoolean", "../checks/isNumber", "../core/Mesh", "../math/R3", "../materials/ShaderMaterial"], function (exports_1, context_1) {
+    "use strict";
+
+    var __extends = this && this.__extends || function (d, b) {
+        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+        function __() {
+            this.constructor = d;
+        }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+    var __moduleName = context_1 && context_1.id;
+    function dimensions(part, height) {
+        var LIMB_SIZE = 0.125 * height;
+        var HEAD_SIZE = 0.25 * height;
+        var TORSO_LENGTH = 0.375 * height;
         switch (part) {
             case PartKind.Head:
                 {
@@ -8194,9 +8194,9 @@ System.register("davinci-eight/visual/Minecraft.js", ["../core/BeginMode", "../c
                         case Side.Bottom:
                             {
                                 if (oldSkinLayout) {
-                                    return [16, 8, 24, 0];
-                                } else {
                                     return [16, 0, 24, 8];
+                                } else {
+                                    return [24, 8, 16, 0];
                                 }
                             }
                         case Side.Right:
@@ -8676,7 +8676,7 @@ System.register("davinci-eight/visual/Minecraft.js", ["../core/BeginMode", "../c
     function primitiveFromOptions(options) {
         var partKind = options.partKind;
         var offset = options.offset ? options.offset : { x: 0, y: 0, z: 0 };
-        var dims = dimensions(partKind);
+        var dims = dimensions(partKind, options.height);
         var positions = [[-0.5, -0.5, +0.5], [+0.5, -0.5, +0.5], [-0.5, +0.5, +0.5], [+0.5, -0.5, +0.5], [+0.5, +0.5, +0.5], [-0.5, +0.5, +0.5], [+0.5, -0.5, -0.5], [-0.5, -0.5, -0.5], [+0.5, +0.5, -0.5], [-0.5, -0.5, -0.5], [-0.5, +0.5, -0.5], [+0.5, +0.5, -0.5], [+0.5, -0.5, +0.5], [+0.5, -0.5, -0.5], [+0.5, +0.5, +0.5], [+0.5, -0.5, -0.5], [+0.5, +0.5, -0.5], [+0.5, +0.5, +0.5], [-0.5, -0.5, -0.5], [-0.5, -0.5, +0.5], [-0.5, +0.5, -0.5], [-0.5, -0.5, +0.5], [-0.5, +0.5, +0.5], [-0.5, +0.5, -0.5], [-0.5, +0.5, +0.5], [+0.5, +0.5, +0.5], [-0.5, +0.5, -0.5], [+0.5, +0.5, +0.5], [+0.5, +0.5, -0.5], [-0.5, +0.5, -0.5], [-0.5, -0.5, -0.5], [+0.5, -0.5, -0.5], [-0.5, -0.5, +0.5], [+0.5, -0.5, -0.5], [+0.5, -0.5, +0.5], [-0.5, -0.5, +0.5]].map(function (xs) {
             return [dims[0] * xs[0], dims[1] * xs[1], dims[2] * xs[2]];
         }).map(function (xs) {
@@ -8703,7 +8703,7 @@ System.register("davinci-eight/visual/Minecraft.js", ["../core/BeginMode", "../c
     function makeGeometry(graphics, options) {
         return new GeometryArrays_1.default(graphics, primitiveFromOptions(options));
     }
-    var BeginMode_1, DataType_1, GeometryArrays_1, Mesh_1, ShaderMaterial_1, PartKind, Side, vs, fs, makeMaterial, MinecraftBodyPart, MinecraftHead, MinecraftTorso, MinecraftArmL, MinecraftArmR, MinecraftLegL, MinecraftLegR;
+    var BeginMode_1, DataType_1, GeometryArrays_1, Group_1, isBoolean_1, isNumber_1, Mesh_1, R3_1, ShaderMaterial_1, e1, e2, PartKind, Side, vs, fs, makeMaterial, MinecraftBodyPart, MinecraftHead, MinecraftTorso, MinecraftArmL, MinecraftArmR, MinecraftLegL, MinecraftLegR, MinecraftFigure;
     return {
         setters: [function (BeginMode_1_1) {
             BeginMode_1 = BeginMode_1_1;
@@ -8711,12 +8711,22 @@ System.register("davinci-eight/visual/Minecraft.js", ["../core/BeginMode", "../c
             DataType_1 = DataType_1_1;
         }, function (GeometryArrays_1_1) {
             GeometryArrays_1 = GeometryArrays_1_1;
+        }, function (Group_1_1) {
+            Group_1 = Group_1_1;
+        }, function (isBoolean_1_1) {
+            isBoolean_1 = isBoolean_1_1;
+        }, function (isNumber_1_1) {
+            isNumber_1 = isNumber_1_1;
         }, function (Mesh_1_1) {
             Mesh_1 = Mesh_1_1;
+        }, function (R3_1_1) {
+            R3_1 = R3_1_1;
         }, function (ShaderMaterial_1_1) {
             ShaderMaterial_1 = ShaderMaterial_1_1;
         }],
         execute: function () {
+            e1 = R3_1.default(1, 0, 0);
+            e2 = R3_1.default(0, 1, 0);
             (function (PartKind) {
                 PartKind[PartKind["Head"] = 0] = "Head";
                 PartKind[PartKind["Helm"] = 1] = "Helm";
@@ -8766,7 +8776,13 @@ System.register("davinci-eight/visual/Minecraft.js", ["../core/BeginMode", "../c
             MinecraftHead = function (_super) {
                 __extends(MinecraftHead, _super);
                 function MinecraftHead(graphics, options) {
-                    var _this = _super.call(this, graphics, { texture: options.texture, partKind: PartKind.Head, offset: options.offset, oldSkinLayout: options.oldSkinLayout }) || this;
+                    var _this = _super.call(this, graphics, {
+                        height: isNumber_1.default(options.height) ? options.height : 1,
+                        texture: options.texture,
+                        partKind: PartKind.Head,
+                        offset: options.offset,
+                        oldSkinLayout: isBoolean_1.default(options.oldSkinLayout) ? options.oldSkinLayout : false
+                    }) || this;
                     _this.setLoggingName('MinecraftHead');
                     return _this;
                 }
@@ -8779,7 +8795,13 @@ System.register("davinci-eight/visual/Minecraft.js", ["../core/BeginMode", "../c
             MinecraftTorso = function (_super) {
                 __extends(MinecraftTorso, _super);
                 function MinecraftTorso(graphics, options) {
-                    var _this = _super.call(this, graphics, { texture: options.texture, partKind: PartKind.Torso, offset: options.offset, oldSkinLayout: options.oldSkinLayout }) || this;
+                    var _this = _super.call(this, graphics, {
+                        height: isNumber_1.default(options.height) ? options.height : 1,
+                        texture: options.texture,
+                        partKind: PartKind.Torso,
+                        offset: options.offset,
+                        oldSkinLayout: isBoolean_1.default(options.oldSkinLayout) ? options.oldSkinLayout : false
+                    }) || this;
                     _this.setLoggingName('MinecraftTorso');
                     return _this;
                 }
@@ -8792,7 +8814,13 @@ System.register("davinci-eight/visual/Minecraft.js", ["../core/BeginMode", "../c
             MinecraftArmL = function (_super) {
                 __extends(MinecraftArmL, _super);
                 function MinecraftArmL(graphics, options) {
-                    var _this = _super.call(this, graphics, { texture: options.texture, partKind: PartKind.LeftArm, offset: options.offset, oldSkinLayout: options.oldSkinLayout }) || this;
+                    var _this = _super.call(this, graphics, {
+                        height: isNumber_1.default(options.height) ? options.height : 1,
+                        texture: options.texture,
+                        partKind: PartKind.LeftArm,
+                        offset: options.offset,
+                        oldSkinLayout: isBoolean_1.default(options.oldSkinLayout) ? options.oldSkinLayout : false
+                    }) || this;
                     _this.setLoggingName('MinecraftArmL');
                     return _this;
                 }
@@ -8805,7 +8833,13 @@ System.register("davinci-eight/visual/Minecraft.js", ["../core/BeginMode", "../c
             MinecraftArmR = function (_super) {
                 __extends(MinecraftArmR, _super);
                 function MinecraftArmR(graphics, options) {
-                    var _this = _super.call(this, graphics, { texture: options.texture, partKind: PartKind.RightArm, offset: options.offset, oldSkinLayout: options.oldSkinLayout }) || this;
+                    var _this = _super.call(this, graphics, {
+                        height: isNumber_1.default(options.height) ? options.height : 1,
+                        texture: options.texture,
+                        partKind: PartKind.RightArm,
+                        offset: options.offset,
+                        oldSkinLayout: isBoolean_1.default(options.oldSkinLayout) ? options.oldSkinLayout : false
+                    }) || this;
                     _this.setLoggingName('MinecraftArmR');
                     return _this;
                 }
@@ -8818,7 +8852,13 @@ System.register("davinci-eight/visual/Minecraft.js", ["../core/BeginMode", "../c
             MinecraftLegL = function (_super) {
                 __extends(MinecraftLegL, _super);
                 function MinecraftLegL(graphics, options) {
-                    var _this = _super.call(this, graphics, { texture: options.texture, partKind: PartKind.LeftLeg, offset: options.offset, oldSkinLayout: options.oldSkinLayout }) || this;
+                    var _this = _super.call(this, graphics, {
+                        height: isNumber_1.default(options.height) ? options.height : 1,
+                        texture: options.texture,
+                        partKind: PartKind.LeftLeg,
+                        offset: options.offset,
+                        oldSkinLayout: isBoolean_1.default(options.oldSkinLayout) ? options.oldSkinLayout : false
+                    }) || this;
                     _this.setLoggingName('MinecraftLegL');
                     return _this;
                 }
@@ -8831,7 +8871,13 @@ System.register("davinci-eight/visual/Minecraft.js", ["../core/BeginMode", "../c
             MinecraftLegR = function (_super) {
                 __extends(MinecraftLegR, _super);
                 function MinecraftLegR(graphics, options) {
-                    var _this = _super.call(this, graphics, { texture: options.texture, partKind: PartKind.RightLeg, offset: options.offset, oldSkinLayout: options.oldSkinLayout }) || this;
+                    var _this = _super.call(this, graphics, {
+                        height: isNumber_1.default(options.height) ? options.height : 1,
+                        texture: options.texture,
+                        partKind: PartKind.RightLeg,
+                        offset: options.offset,
+                        oldSkinLayout: isBoolean_1.default(options.oldSkinLayout) ? options.oldSkinLayout : false
+                    }) || this;
                     _this.setLoggingName('MinecraftLegR');
                     return _this;
                 }
@@ -8841,6 +8887,45 @@ System.register("davinci-eight/visual/Minecraft.js", ["../core/BeginMode", "../c
                 return MinecraftLegR;
             }(MinecraftBodyPart);
             exports_1("MinecraftLegR", MinecraftLegR);
+            MinecraftFigure = function (_super) {
+                __extends(MinecraftFigure, _super);
+                function MinecraftFigure(engine, texture, options) {
+                    if (options === void 0) {
+                        options = {};
+                    }
+                    var _this = _super.call(this) || this;
+                    var height = isNumber_1.default(options.height) ? options.height : 1;
+                    var scale = height / 32;
+                    var oldSkinLayout = isBoolean_1.default(options.oldSkinLayout) ? options.oldSkinLayout : false;
+                    _this.head = new MinecraftHead(engine, { texture: texture, height: height, offset: e2.scale(scale * 4), oldSkinLayout: oldSkinLayout });
+                    _this.head.position.zero().addVector(e2, scale * 24);
+                    _this.add(_this.head);
+                    _this.head.release();
+                    _this.torso = new MinecraftTorso(engine, { texture: texture, height: height, oldSkinLayout: oldSkinLayout });
+                    _this.torso.position.zero().addVector(e2, scale * 18);
+                    _this.add(_this.torso);
+                    _this.torso.release();
+                    _this.armL = new MinecraftArmL(engine, { texture: texture, height: height, offset: e2.scale(-scale * 4), oldSkinLayout: oldSkinLayout });
+                    _this.armL.position.zero().addVector(e2, scale * 22).addVector(e1, scale * 6);
+                    _this.add(_this.armL);
+                    _this.armL.release();
+                    _this.armR = new MinecraftArmR(engine, { texture: texture, height: height, offset: e2.scale(-scale * 4), oldSkinLayout: oldSkinLayout });
+                    _this.armR.position.zero().addVector(e2, scale * 22).subVector(e1, scale * 6);
+                    _this.add(_this.armR);
+                    _this.armR.release();
+                    _this.legL = new MinecraftLegL(engine, { texture: texture, height: height, offset: e2.scale(-scale * 4), oldSkinLayout: oldSkinLayout });
+                    _this.legL.position.zero().addVector(e2, scale * 10).addVector(e1, scale * 2);
+                    _this.add(_this.legL);
+                    _this.legL.release();
+                    _this.legR = new MinecraftLegR(engine, { texture: texture, height: height, offset: e2.scale(-scale * 4), oldSkinLayout: oldSkinLayout });
+                    _this.legR.position.zero().addVector(e2, scale * 10).subVector(e1, scale * 2);
+                    _this.add(_this.legR);
+                    _this.legR.release();
+                    return _this;
+                }
+                return MinecraftFigure;
+            }(Group_1.default);
+            exports_1("MinecraftFigure", MinecraftFigure);
         }
     };
 });
@@ -23423,7 +23508,7 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
                     this.LAST_MODIFIED = '2016-11-25';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '3.7.4';
+                    this.VERSION = '3.7.5';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];
@@ -24758,6 +24843,9 @@ System.register("davinci-eight.js", ["./davinci-eight/commands/WebGLBlendFunc", 
                 },
                 get HollowCylinder() {
                     return HollowCylinder_1.default;
+                },
+                get MinecraftFigure() {
+                    return Minecraft_1.MinecraftFigure;
                 },
                 get MinecraftArmL() {
                     return Minecraft_1.MinecraftArmL;

@@ -553,7 +553,7 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-11-25';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '3.7.4';
+            this.VERSION = '3.7.5';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -19091,8 +19091,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMode", "../core/DataType", "../core/GeometryArrays", "../core/Mesh", "../materials/ShaderMaterial"], function (require, exports, BeginMode_1, DataType_1, GeometryArrays_1, Mesh_1, ShaderMaterial_1) {
+define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMode", "../core/DataType", "../core/GeometryArrays", "./Group", "../checks/isBoolean", "../checks/isNumber", "../core/Mesh", "../math/R3", "../materials/ShaderMaterial"], function (require, exports, BeginMode_1, DataType_1, GeometryArrays_1, Group_1, isBoolean_1, isNumber_1, Mesh_1, R3_1, ShaderMaterial_1) {
     "use strict";
+    var e1 = R3_1.default(1, 0, 0);
+    var e2 = R3_1.default(0, 1, 0);
     var PartKind;
     (function (PartKind) {
         PartKind[PartKind["Head"] = 0] = "Head";
@@ -19117,10 +19119,10 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
         Side[Side["Left"] = 4] = "Left";
         Side[Side["Back"] = 5] = "Back";
     })(Side || (Side = {}));
-    function dimensions(part) {
-        var LIMB_SIZE = 0.125;
-        var HEAD_SIZE = 0.25;
-        var TORSO_LENGTH = 0.375;
+    function dimensions(part, height) {
+        var LIMB_SIZE = 0.125 * height;
+        var HEAD_SIZE = 0.25 * height;
+        var TORSO_LENGTH = 0.375 * height;
         switch (part) {
             case PartKind.Head: {
                 return [HEAD_SIZE, HEAD_SIZE, HEAD_SIZE];
@@ -19158,10 +19160,10 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
                     }
                     case Side.Bottom: {
                         if (oldSkinLayout) {
-                            return [16, 8, 24, 0];
+                            return [16, 0, 24, 8];
                         }
                         else {
-                            return [16, 0, 24, 8];
+                            return [24, 8, 16, 0];
                         }
                     }
                     case Side.Right: {
@@ -19537,7 +19539,7 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
     function primitiveFromOptions(options) {
         var partKind = options.partKind;
         var offset = options.offset ? options.offset : { x: 0, y: 0, z: 0 };
-        var dims = dimensions(partKind);
+        var dims = dimensions(partKind, options.height);
         var positions = [
             [-0.5, -0.5, +0.5], [+0.5, -0.5, +0.5], [-0.5, +0.5, +0.5],
             [+0.5, -0.5, +0.5], [+0.5, +0.5, +0.5], [-0.5, +0.5, +0.5],
@@ -19624,7 +19626,13 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
     var MinecraftHead = (function (_super) {
         __extends(MinecraftHead, _super);
         function MinecraftHead(graphics, options) {
-            var _this = _super.call(this, graphics, { texture: options.texture, partKind: PartKind.Head, offset: options.offset, oldSkinLayout: options.oldSkinLayout }) || this;
+            var _this = _super.call(this, graphics, {
+                height: isNumber_1.default(options.height) ? options.height : 1,
+                texture: options.texture,
+                partKind: PartKind.Head,
+                offset: options.offset,
+                oldSkinLayout: isBoolean_1.default(options.oldSkinLayout) ? options.oldSkinLayout : false
+            }) || this;
             _this.setLoggingName('MinecraftHead');
             return _this;
         }
@@ -19637,7 +19645,13 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
     var MinecraftTorso = (function (_super) {
         __extends(MinecraftTorso, _super);
         function MinecraftTorso(graphics, options) {
-            var _this = _super.call(this, graphics, { texture: options.texture, partKind: PartKind.Torso, offset: options.offset, oldSkinLayout: options.oldSkinLayout }) || this;
+            var _this = _super.call(this, graphics, {
+                height: isNumber_1.default(options.height) ? options.height : 1,
+                texture: options.texture,
+                partKind: PartKind.Torso,
+                offset: options.offset,
+                oldSkinLayout: isBoolean_1.default(options.oldSkinLayout) ? options.oldSkinLayout : false
+            }) || this;
             _this.setLoggingName('MinecraftTorso');
             return _this;
         }
@@ -19650,7 +19664,13 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
     var MinecraftArmL = (function (_super) {
         __extends(MinecraftArmL, _super);
         function MinecraftArmL(graphics, options) {
-            var _this = _super.call(this, graphics, { texture: options.texture, partKind: PartKind.LeftArm, offset: options.offset, oldSkinLayout: options.oldSkinLayout }) || this;
+            var _this = _super.call(this, graphics, {
+                height: isNumber_1.default(options.height) ? options.height : 1,
+                texture: options.texture,
+                partKind: PartKind.LeftArm,
+                offset: options.offset,
+                oldSkinLayout: isBoolean_1.default(options.oldSkinLayout) ? options.oldSkinLayout : false
+            }) || this;
             _this.setLoggingName('MinecraftArmL');
             return _this;
         }
@@ -19663,7 +19683,13 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
     var MinecraftArmR = (function (_super) {
         __extends(MinecraftArmR, _super);
         function MinecraftArmR(graphics, options) {
-            var _this = _super.call(this, graphics, { texture: options.texture, partKind: PartKind.RightArm, offset: options.offset, oldSkinLayout: options.oldSkinLayout }) || this;
+            var _this = _super.call(this, graphics, {
+                height: isNumber_1.default(options.height) ? options.height : 1,
+                texture: options.texture,
+                partKind: PartKind.RightArm,
+                offset: options.offset,
+                oldSkinLayout: isBoolean_1.default(options.oldSkinLayout) ? options.oldSkinLayout : false
+            }) || this;
             _this.setLoggingName('MinecraftArmR');
             return _this;
         }
@@ -19676,7 +19702,13 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
     var MinecraftLegL = (function (_super) {
         __extends(MinecraftLegL, _super);
         function MinecraftLegL(graphics, options) {
-            var _this = _super.call(this, graphics, { texture: options.texture, partKind: PartKind.LeftLeg, offset: options.offset, oldSkinLayout: options.oldSkinLayout }) || this;
+            var _this = _super.call(this, graphics, {
+                height: isNumber_1.default(options.height) ? options.height : 1,
+                texture: options.texture,
+                partKind: PartKind.LeftLeg,
+                offset: options.offset,
+                oldSkinLayout: isBoolean_1.default(options.oldSkinLayout) ? options.oldSkinLayout : false
+            }) || this;
             _this.setLoggingName('MinecraftLegL');
             return _this;
         }
@@ -19689,7 +19721,13 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
     var MinecraftLegR = (function (_super) {
         __extends(MinecraftLegR, _super);
         function MinecraftLegR(graphics, options) {
-            var _this = _super.call(this, graphics, { texture: options.texture, partKind: PartKind.RightLeg, offset: options.offset, oldSkinLayout: options.oldSkinLayout }) || this;
+            var _this = _super.call(this, graphics, {
+                height: isNumber_1.default(options.height) ? options.height : 1,
+                texture: options.texture,
+                partKind: PartKind.RightLeg,
+                offset: options.offset,
+                oldSkinLayout: isBoolean_1.default(options.oldSkinLayout) ? options.oldSkinLayout : false
+            }) || this;
             _this.setLoggingName('MinecraftLegR');
             return _this;
         }
@@ -19699,6 +19737,43 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
         return MinecraftLegR;
     }(MinecraftBodyPart));
     exports.MinecraftLegR = MinecraftLegR;
+    var MinecraftFigure = (function (_super) {
+        __extends(MinecraftFigure, _super);
+        function MinecraftFigure(engine, texture, options) {
+            if (options === void 0) { options = {}; }
+            var _this = _super.call(this) || this;
+            var height = isNumber_1.default(options.height) ? options.height : 1;
+            var scale = height / 32;
+            var oldSkinLayout = isBoolean_1.default(options.oldSkinLayout) ? options.oldSkinLayout : false;
+            _this.head = new MinecraftHead(engine, { texture: texture, height: height, offset: e2.scale(scale * 4), oldSkinLayout: oldSkinLayout });
+            _this.head.position.zero().addVector(e2, scale * 24);
+            _this.add(_this.head);
+            _this.head.release();
+            _this.torso = new MinecraftTorso(engine, { texture: texture, height: height, oldSkinLayout: oldSkinLayout });
+            _this.torso.position.zero().addVector(e2, scale * 18);
+            _this.add(_this.torso);
+            _this.torso.release();
+            _this.armL = new MinecraftArmL(engine, { texture: texture, height: height, offset: e2.scale(-scale * 4), oldSkinLayout: oldSkinLayout });
+            _this.armL.position.zero().addVector(e2, scale * 22).addVector(e1, scale * 6);
+            _this.add(_this.armL);
+            _this.armL.release();
+            _this.armR = new MinecraftArmR(engine, { texture: texture, height: height, offset: e2.scale(-scale * 4), oldSkinLayout: oldSkinLayout });
+            _this.armR.position.zero().addVector(e2, scale * 22).subVector(e1, scale * 6);
+            _this.add(_this.armR);
+            _this.armR.release();
+            _this.legL = new MinecraftLegL(engine, { texture: texture, height: height, offset: e2.scale(-scale * 4), oldSkinLayout: oldSkinLayout });
+            _this.legL.position.zero().addVector(e2, scale * 10).addVector(e1, scale * 2);
+            _this.add(_this.legL);
+            _this.legL.release();
+            _this.legR = new MinecraftLegR(engine, { texture: texture, height: height, offset: e2.scale(-scale * 4), oldSkinLayout: oldSkinLayout });
+            _this.legR.position.zero().addVector(e2, scale * 10).subVector(e1, scale * 2);
+            _this.add(_this.legR);
+            _this.legR.release();
+            return _this;
+        }
+        return MinecraftFigure;
+    }(Group_1.default));
+    exports.MinecraftFigure = MinecraftFigure;
 });
 
 define('davinci-eight/visual/Parallelepiped',["require", "exports", "../core/BeginMode", "../core/cleanUp", "../core/Color", "../core/DataType", "../base/exchange", "../math/Geometric3", "../core/GeometryArrays", "../core/Mesh", "./mustBeEngine", "../core/refChange", "../materials/ShaderMaterial"], function (require, exports, BeginMode_1, cleanUp_1, Color_1, DataType_1, exchange_1, Geometric3_1, GeometryArrays_1, Mesh_1, mustBeEngine_1, refChange_1, ShaderMaterial_1) {
@@ -20755,6 +20830,7 @@ define('davinci-eight',["require", "exports", "./davinci-eight/commands/WebGLBle
         get GridZX() { return GridZX_1.default; },
         get Group() { return Group_1.default; },
         get HollowCylinder() { return HollowCylinder_1.default; },
+        get MinecraftFigure() { return Minecraft_1.MinecraftFigure; },
         get MinecraftArmL() { return Minecraft_1.MinecraftArmL; },
         get MinecraftArmR() { return Minecraft_1.MinecraftArmR; },
         get MinecraftHead() { return Minecraft_1.MinecraftHead; },
