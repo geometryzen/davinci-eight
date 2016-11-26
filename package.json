@@ -1,6 +1,6 @@
 {
   "name": "davinci-eight",
-  "version": "3.7.5",
+  "version": "3.7.6",
   "description": "WebGL library for mathematical physics using Geometric Algebra",
   "author": {
     "name": "David Holmes",
@@ -72,9 +72,9 @@
       "ts": "github:frankwallis/plugin-typescript@^2.6.0"
     },
     "devDependencies": {
-      "babel": "npm:babel-core@^5.8.24",
-      "babel-runtime": "npm:babel-runtime@^5.8.24",
-      "core-js": "npm:core-js@^1.1.4",
+      "babel": "npm:babel-core@^5.8.38",
+      "babel-runtime": "npm:babel-runtime@^5.8.38",
+      "core-js": "npm:core-js@^1.2.7",
       "typescript": "npm:typescript@^2.0.10"
     }
   }

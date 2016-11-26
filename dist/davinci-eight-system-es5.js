@@ -17378,6 +17378,16 @@ System.register("davinci-eight/core/Color.js", ["../math/clamp", "../math/Coords
                     enumerable: true,
                     configurable: true
                 });
+                Object.defineProperty(Color.prototype, "red", {
+                    get: function () {
+                        return this.coords[COORD_R];
+                    },
+                    set: function (red) {
+                        this.coords[COORD_R] = clamp_1.default(red, 0, 1);
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
                 Object.defineProperty(Color.prototype, "g", {
                     get: function () {
                         return this.coords[COORD_G];
@@ -17388,12 +17398,32 @@ System.register("davinci-eight/core/Color.js", ["../math/clamp", "../math/Coords
                     enumerable: true,
                     configurable: true
                 });
+                Object.defineProperty(Color.prototype, "green", {
+                    get: function () {
+                        return this.coords[COORD_G];
+                    },
+                    set: function (green) {
+                        this.coords[COORD_G] = clamp_1.default(green, 0, 1);
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
                 Object.defineProperty(Color.prototype, "b", {
                     get: function () {
                         return this.coords[COORD_B];
                     },
                     set: function (b) {
                         this.coords[COORD_B] = clamp_1.default(b, 0, 1);
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(Color.prototype, "blue", {
+                    get: function () {
+                        return this.coords[COORD_B];
+                    },
+                    set: function (blue) {
+                        this.coords[COORD_B] = clamp_1.default(blue, 0, 1);
                     },
                     enumerable: true,
                     configurable: true
@@ -23506,9 +23536,9 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
             Eight = function () {
                 function Eight() {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-                    this.LAST_MODIFIED = '2016-11-25';
+                    this.LAST_MODIFIED = '2016-11-26';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '3.7.5';
+                    this.VERSION = '3.7.6';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];

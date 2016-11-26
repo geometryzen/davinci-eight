@@ -2673,9 +2673,38 @@ declare module EIGHT {
      *
      */
     class Color {
+        /**
+         * The red component of the Color. A short alias for the 'red' property.
+         * The value is clamped to the range [0,1].
+         */
         r: number;
+        /**
+         * The green component of the Color. A short alias for the 'green' property.
+         * The value is clamped to the range [0,1].
+         */
         g: number;
+        /**
+         * The blue component of the Color. A short alias for the 'blue' property.
+         * The value is clamped to the range [0,1].
+         */
         b: number;
+
+        /**
+         * The red component of the Color. A long alias for the 'r' property.
+         * The value is clamped to the range [0,1].
+         */
+        red: number;
+        /**
+         * The green component of the Color. A long alias for the 'g' property.
+         * The value is clamped to the range [0,1].
+         */
+        green: number;
+        /**
+         * The blue component of the Color. A long alias for the 'b' property.
+         * The value is clamped to the range [0,1].
+         */
+        blue: number;
+
         /**
          * Constructs a new Color from its red, green, and blue values.
          * Each value is clamped in the range [0,1].

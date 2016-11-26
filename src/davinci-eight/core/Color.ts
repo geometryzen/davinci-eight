@@ -102,6 +102,12 @@ export class Color extends Coords {
     set r(r: number) {
         this.coords[COORD_R] = clamp(r, 0, 1);
     }
+    get red(): number {
+        return this.coords[COORD_R];
+    }
+    set red(red: number) {
+        this.coords[COORD_R] = clamp(red, 0, 1);
+    }
 
     /**
      *
@@ -112,6 +118,12 @@ export class Color extends Coords {
     set g(g: number) {
         this.coords[COORD_G] = clamp(g, 0, 1);
     }
+    get green(): number {
+        return this.coords[COORD_G];
+    }
+    set green(green: number) {
+        this.coords[COORD_G] = clamp(green, 0, 1);
+    }
 
     /**
      *
@@ -121,6 +133,12 @@ export class Color extends Coords {
     }
     set b(b: number) {
         this.coords[COORD_B] = clamp(b, 0, 1);
+    }
+    get blue(): number {
+        return this.coords[COORD_B];
+    }
+    set blue(blue: number) {
+        this.coords[COORD_B] = clamp(blue, 0, 1);
     }
 
     public add(rhs: { r: number; g: number; b: number }): Color {
@@ -383,7 +401,7 @@ export class Color extends Coords {
     }
 }
 
-const rgb255 = function(red: number, green: number, blue: number): Color {
+const rgb255 = function (red: number, green: number, blue: number): Color {
     const UBYTEMAX = 255;
     return new Color(red / UBYTEMAX, green / UBYTEMAX, blue / UBYTEMAX);
 };
