@@ -639,8 +639,6 @@ declare module EIGHT {
     }
 
     interface Material extends Facet, FacetVisitor, ContextConsumer {
-        vertexShaderSrc: string;
-        fragmentShaderSrc: string;
         attrib(name: string, value: VertexBuffer, size: number, normalized?: boolean, stride?: number, offset?: number): Material;
         getAttrib(indexOrName: number | string): Attrib;
         getAttribLocation(name: string): number;
@@ -740,17 +738,8 @@ declare module EIGHT {
      * A wrapper around a WebGLTexture and containing a loaded HTMLImageElement.
      */
     class Texture extends ShareableContextConsumer {
-        image: HTMLImageElement;
         minFilter: TextureMinFilter;
         magFilter: TextureMagFilter;
-        /**
-         * The intrinsic height of the image in CSS pixels, if it is available, otherwise zero.
-         */
-        readonly naturalHeight: number;
-        /**
-         * The intrinsic width of the image in CSS pixels, if it is available, otherwise zero.
-         */
-        readonly naturalWidth: number;
         wrapS: TextureWrapMode;
         wrapT: TextureWrapMode;
         constructor(target: TextureTarget, contextManager: ContextManager, levelUp?: number);
@@ -772,9 +761,30 @@ declare module EIGHT {
         upload(): void;
     }
 
+    class ImageTexture extends Texture {
+        /**
+         * The intrinsic height of the image in CSS pixels, if it is available, otherwise zero.
+         */
+        readonly naturalHeight: number;
+        /**
+         * The intrinsic width of the image in CSS pixels, if it is available, otherwise zero.
+         */
+        readonly naturalWidth: number;
+        /**
+         * 
+         */
+        constructor(image: HTMLImageElement, target: TextureTarget, contextManager: ContextManager, levelUp?: number);
+        protected destructor(levelUp: number): void;
+
+        /**
+         *
+         */
+        upload(): void;
+    }
+
     class TextureLoader {
         constructor(contextManager: ContextManager);
-        load(url: string, onLoad: (texture: Texture) => any): void;
+        loadImageTexture(url: string, onLoad: (texture: ImageTexture) => any): void;
     }
 
     /**
@@ -3385,9 +3395,9 @@ declare module EIGHT {
      *
      */
     class ShaderMaterial extends ShareableContextConsumer implements Material {
-        attributeNames: string[];
-        fragmentShaderSrc: string;
-        vertexShaderSrc: string;
+        readonly attributeNames: string[];
+        readonly fragmentShaderSrc: string;
+        readonly vertexShaderSrc: string;
         constructor(vertexShaderSrc: string, fragmentShaderSrc: string, attribs: string[], contextManager: ContextManager);
         contextFree(contextProvider: ContextProvider): void;
         contextGain(contextProvider: ContextProvider): void;
@@ -3420,11 +3430,18 @@ declare module EIGHT {
     }
 
     interface AbstractDrawable<G extends Geometry, M extends Material> extends ContextConsumer {
-        fragmentShaderSrc: string;
+        /**
+         * 
+         */
         geometry: G;
+        /**
+         * 
+         */
         material: M;
+        /**
+         * 
+         */
         name: string;
-        vertexShaderSrc: string;
         /**
          * 
          */
@@ -3433,12 +3450,33 @@ declare module EIGHT {
          * 
          */
         transparent: boolean;
+        /**
+         * 
+         */
         bind(): AbstractDrawable<G, M>;
-        draw(ambients?: Facet[]): AbstractDrawable<G, M>;
+        /**
+         * 
+         */
+        draw(): AbstractDrawable<G, M>;
+        /**
+         * 
+         */
         render(ambients: Facet[]): AbstractDrawable<G, M>;
+        /**
+         * 
+         */
         setAmbients(ambients: Facet[]): AbstractDrawable<G, M>;
+        /**
+         * 
+         */
         setUniforms(): AbstractDrawable<G, M>;
+        /**
+         * 
+         */
         unbind(): AbstractDrawable<G, M>;
+        /**
+         * 
+         */
         use(): AbstractDrawable<G, M>;
     }
 
@@ -3449,12 +3487,6 @@ declare module EIGHT {
      * The facets provide uniform arguments to the graphics program. 
      */
     class Drawable<G extends Geometry, M extends Material> extends ShareableContextConsumer implements AbstractDrawable<G, M> {
-
-        /**
-         *
-         */
-        fragmentShaderSrc: string;
-
         /**
          *
          */
@@ -3469,11 +3501,6 @@ declare module EIGHT {
          * A user-assigned name that allows the composite object to be found.
          */
         name: string;
-
-        /**
-         *
-         */
-        vertexShaderSrc: string;
 
         /**
          * Determines whether this Drawable will be rendered.
@@ -4466,45 +4493,50 @@ declare module EIGHT {
          * Default is 1.
          */
         height?: number;
-        texture: Texture;
         oldSkinLayout?: boolean;
         offset?: VectorE3;
     }
+
     /**
      * 
      */
     class MinecraftArmL extends Mesh<Geometry, Material> {
-        constructor(engine: EIGHT.Engine, options: MinecraftBodyPartOptions);
+        constructor(engine: EIGHT.Engine, texture: ImageTexture, options: MinecraftBodyPartOptions);
     }
+
     /**
      * 
      */
     class MinecraftArmR extends Mesh<Geometry, Material> {
-        constructor(engine: EIGHT.Engine, options: MinecraftBodyPartOptions);
+        constructor(engine: EIGHT.Engine, texture: ImageTexture, options: MinecraftBodyPartOptions);
     }
+
     /**
      * 
      */
     class MinecraftHead extends Mesh<Geometry, Material> {
-        constructor(engine: EIGHT.Engine, options: MinecraftBodyPartOptions);
+        constructor(engine: EIGHT.Engine, texture: ImageTexture, options: MinecraftBodyPartOptions);
     }
+
     /**
      * 
      */
     class MinecraftLegL extends Mesh<Geometry, Material> {
-        constructor(engine: EIGHT.Engine, options: MinecraftBodyPartOptions);
+        constructor(engine: EIGHT.Engine, texture: ImageTexture, options: MinecraftBodyPartOptions);
     }
+
     /**
      * 
      */
     class MinecraftLegR extends Mesh<Geometry, Material> {
-        constructor(engine: EIGHT.Engine, options: MinecraftBodyPartOptions);
+        constructor(engine: EIGHT.Engine, texture: ImageTexture, options: MinecraftBodyPartOptions);
     }
+
     /**
      * 
      */
     class MinecraftTorso extends Mesh<Geometry, Material> {
-        constructor(engine: EIGHT.Engine, options: MinecraftBodyPartOptions);
+        constructor(engine: EIGHT.Engine, texture: ImageTexture, options: MinecraftBodyPartOptions);
     }
 
     /**
@@ -4532,7 +4564,7 @@ declare module EIGHT {
         public legL: MinecraftLegL;
         public legR: MinecraftLegR;
         public torso: MinecraftHead;
-        constructor(engine: Engine, texture: Texture, options: MinecraftFigureOptions);
+        constructor(engine: Engine, texture: ImageTexture, options: MinecraftFigureOptions);
     }
 
     ///////////////////////////////////////////////////////////////////////////////

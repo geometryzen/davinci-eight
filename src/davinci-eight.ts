@@ -24,16 +24,18 @@ import DepthFunction from './davinci-eight/core/DepthFunction';
 import { ContextConsumer } from './davinci-eight/core/ContextConsumer';
 import ContextProgramConsumer from './davinci-eight/core/ContextProgramConsumer';
 import ContextProvider from './davinci-eight/core/ContextProvider';
+import { Facet } from './davinci-eight/core/Facet';
+import { FacetVisitor } from './davinci-eight/core/FacetVisitor';
 import GeometryArrays from './davinci-eight/core/GeometryArrays';
 import GeometryElements from './davinci-eight/core/GeometryElements';
 import GraphicsProgramSymbols from './davinci-eight/core/GraphicsProgramSymbols';
-import { Facet } from './davinci-eight/core/Facet';
-import { FacetVisitor } from './davinci-eight/core/FacetVisitor';
+import ImageTexture from './davinci-eight/core/ImageTexture';
 import { Mesh } from './davinci-eight/core/Mesh';
 import PixelFormat from './davinci-eight/core/PixelFormat';
 import PixelType from './davinci-eight/core/PixelType';
 import { Scene } from './davinci-eight/core/Scene';
 import Shader from './davinci-eight/core/Shader';
+import Texture from './davinci-eight/core/Texture';
 import TextureMagFilter from './davinci-eight/core/TextureMagFilter';
 import TextureMinFilter from './davinci-eight/core/TextureMinFilter';
 import TextureParameterName from './davinci-eight/core/TextureParameterName';
@@ -248,6 +250,8 @@ const eight = {
     get DrawMode() { return BeginMode },
     get PixelFormat() { return PixelFormat },
     get PixelType() { return PixelType },
+    get ImageTexture() { return ImageTexture },
+    get Texture() { return Texture },
     get TextureMagFilter() { return TextureMagFilter },
     get TextureMinFilter() { return TextureMinFilter },
     get TextureParameterName() { return TextureParameterName },

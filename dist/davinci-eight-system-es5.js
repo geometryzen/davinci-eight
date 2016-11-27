@@ -1572,6 +1572,10 @@ System.register("davinci-eight/materials/HTMLScriptsMaterial.js", ["../checks/is
         }
     }
     function detectShaderType(scriptIds, dom) {
+        mustBeArray_1.default('scriptIds', scriptIds);
+        mustSatisfy_1.default('scriptIds', scriptIds.length === 2, function () {
+            return 'have two script element identifiers.';
+        });
         var result = [scriptIds[0], scriptIds[1]];
         assign(scriptIds[0], dom, result);
         assign(scriptIds[1], dom, result);
@@ -1595,19 +1599,12 @@ System.register("davinci-eight/materials/HTMLScriptsMaterial.js", ["../checks/is
         execute: function () {
             HTMLScriptsMaterial = function (_super) {
                 __extends(HTMLScriptsMaterial, _super);
-                function HTMLScriptsMaterial(scriptIds, dom, attribs, manager, levelUp) {
+                function HTMLScriptsMaterial(scriptIds, dom, attribs, contextManager, levelUp) {
                     if (levelUp === void 0) {
                         levelUp = 0;
                     }
-                    var _this = _super.call(this, void 0, void 0, attribs, manager, levelUp + 1) || this;
-                    _this.loaded = false;
+                    var _this = _super.call(this, vertexShaderSrc(detectShaderType(scriptIds, dom)[0], dom), fragmentShaderSrc(detectShaderType(scriptIds, dom)[1], dom), attribs, contextManager, levelUp + 1) || this;
                     _this.setLoggingName('HTMLScriptsMaterial');
-                    mustBeArray_1.default('scriptIds', scriptIds);
-                    mustSatisfy_1.default('scriptIds', scriptIds.length === 2, function () {
-                        return 'have two script element identifiers.';
-                    });
-                    _this.scriptIds = [scriptIds[0], scriptIds[1]];
-                    _this.dom = dom;
                     if (levelUp === 0) {
                         _this.synchUp();
                     }
@@ -1618,15 +1615,6 @@ System.register("davinci-eight/materials/HTMLScriptsMaterial.js", ["../checks/is
                         this.cleanUp();
                     }
                     _super.prototype.destructor.call(this, levelUp + 1);
-                };
-                HTMLScriptsMaterial.prototype.contextGain = function (contextProvider) {
-                    if (!this.loaded) {
-                        var scriptIds = detectShaderType(this.scriptIds, this.dom);
-                        this.vertexShaderSrc = vertexShaderSrc(scriptIds[0], this.dom);
-                        this.fragmentShaderSrc = fragmentShaderSrc(scriptIds[1], this.dom);
-                        this.loaded = true;
-                    }
-                    _super.prototype.contextGain.call(this, contextProvider);
                 };
                 return HTMLScriptsMaterial;
             }(ShaderMaterial_1.ShaderMaterial);
@@ -8673,7 +8661,7 @@ System.register("davinci-eight/visual/Minecraft.js", ["../core/BeginMode", "../c
             return 0;
         }
     }
-    function primitiveFromOptions(options) {
+    function primitiveFromOptions(texture, options) {
         var partKind = options.partKind;
         var offset = options.offset ? options.offset : { x: 0, y: 0, z: 0 };
         var dims = dimensions(partKind, options.height);
@@ -8684,9 +8672,9 @@ System.register("davinci-eight/visual/Minecraft.js", ["../core/BeginMode", "../c
         }).reduce(function (a, b) {
             return a.concat(b);
         });
-        var naturalScale = 64 / options.texture.naturalWidth;
-        var width = options.texture.naturalWidth * naturalScale;
-        var height = options.texture.naturalHeight * naturalScale;
+        var naturalScale = 64 / texture.naturalWidth;
+        var width = texture.naturalWidth * naturalScale;
+        var height = texture.naturalHeight * naturalScale;
         var oldSkinLayout = options.oldSkinLayout;
         var coords = [aCoords(partKind, Side.Front, width, height, oldSkinLayout), aCoords(partKind, Side.Back, width, height, oldSkinLayout), aCoords(partKind, Side.Left, width, height, oldSkinLayout), aCoords(partKind, Side.Right, width, height, oldSkinLayout), aCoords(partKind, Side.Top, width, height, oldSkinLayout), aCoords(partKind, Side.Bottom, width, height, oldSkinLayout)].reduce(function (a, b) {
             return a.concat(b);
@@ -8700,8 +8688,8 @@ System.register("davinci-eight/visual/Minecraft.js", ["../core/BeginMode", "../c
         };
         return primitive;
     }
-    function makeGeometry(graphics, options) {
-        return new GeometryArrays_1.default(graphics, primitiveFromOptions(options));
+    function makeGeometry(graphics, texture, options) {
+        return new GeometryArrays_1.default(graphics, primitiveFromOptions(texture, options));
     }
     var BeginMode_1, DataType_1, GeometryArrays_1, Group_1, isBoolean_1, isNumber_1, Mesh_1, R3_1, ShaderMaterial_1, e1, e2, PartKind, Side, vs, fs, makeMaterial, MinecraftBodyPart, MinecraftHead, MinecraftTorso, MinecraftArmL, MinecraftArmR, MinecraftLegL, MinecraftLegR, MinecraftFigure;
     return {
@@ -8756,16 +8744,16 @@ System.register("davinci-eight/visual/Minecraft.js", ["../core/BeginMode", "../c
             };
             MinecraftBodyPart = function (_super) {
                 __extends(MinecraftBodyPart, _super);
-                function MinecraftBodyPart(graphics, options) {
-                    var _this = _super.call(this, void 0, void 0, graphics) || this;
+                function MinecraftBodyPart(engine, texture, options) {
+                    var _this = _super.call(this, void 0, void 0, engine) || this;
                     _this.setLoggingName('MinecraftBodyPart');
-                    var geometry = makeGeometry(graphics, options);
+                    var geometry = makeGeometry(engine, texture, options);
                     _this.geometry = geometry;
                     geometry.release();
-                    var material = makeMaterial(graphics, options);
+                    var material = makeMaterial(engine, options);
                     _this.material = material;
                     material.release();
-                    _this.texture = options.texture;
+                    _this.texture = texture;
                     return _this;
                 }
                 MinecraftBodyPart.prototype.destructor = function (levelUp) {
@@ -8775,10 +8763,9 @@ System.register("davinci-eight/visual/Minecraft.js", ["../core/BeginMode", "../c
             }(Mesh_1.Mesh);
             MinecraftHead = function (_super) {
                 __extends(MinecraftHead, _super);
-                function MinecraftHead(graphics, options) {
-                    var _this = _super.call(this, graphics, {
+                function MinecraftHead(engine, texture, options) {
+                    var _this = _super.call(this, engine, texture, {
                         height: isNumber_1.default(options.height) ? options.height : 1,
-                        texture: options.texture,
                         partKind: PartKind.Head,
                         offset: options.offset,
                         oldSkinLayout: isBoolean_1.default(options.oldSkinLayout) ? options.oldSkinLayout : false
@@ -8794,10 +8781,9 @@ System.register("davinci-eight/visual/Minecraft.js", ["../core/BeginMode", "../c
             exports_1("MinecraftHead", MinecraftHead);
             MinecraftTorso = function (_super) {
                 __extends(MinecraftTorso, _super);
-                function MinecraftTorso(graphics, options) {
-                    var _this = _super.call(this, graphics, {
+                function MinecraftTorso(engine, texture, options) {
+                    var _this = _super.call(this, engine, texture, {
                         height: isNumber_1.default(options.height) ? options.height : 1,
-                        texture: options.texture,
                         partKind: PartKind.Torso,
                         offset: options.offset,
                         oldSkinLayout: isBoolean_1.default(options.oldSkinLayout) ? options.oldSkinLayout : false
@@ -8813,10 +8799,9 @@ System.register("davinci-eight/visual/Minecraft.js", ["../core/BeginMode", "../c
             exports_1("MinecraftTorso", MinecraftTorso);
             MinecraftArmL = function (_super) {
                 __extends(MinecraftArmL, _super);
-                function MinecraftArmL(graphics, options) {
-                    var _this = _super.call(this, graphics, {
+                function MinecraftArmL(engine, texture, options) {
+                    var _this = _super.call(this, engine, texture, {
                         height: isNumber_1.default(options.height) ? options.height : 1,
-                        texture: options.texture,
                         partKind: PartKind.LeftArm,
                         offset: options.offset,
                         oldSkinLayout: isBoolean_1.default(options.oldSkinLayout) ? options.oldSkinLayout : false
@@ -8832,10 +8817,9 @@ System.register("davinci-eight/visual/Minecraft.js", ["../core/BeginMode", "../c
             exports_1("MinecraftArmL", MinecraftArmL);
             MinecraftArmR = function (_super) {
                 __extends(MinecraftArmR, _super);
-                function MinecraftArmR(graphics, options) {
-                    var _this = _super.call(this, graphics, {
+                function MinecraftArmR(engine, texture, options) {
+                    var _this = _super.call(this, engine, texture, {
                         height: isNumber_1.default(options.height) ? options.height : 1,
-                        texture: options.texture,
                         partKind: PartKind.RightArm,
                         offset: options.offset,
                         oldSkinLayout: isBoolean_1.default(options.oldSkinLayout) ? options.oldSkinLayout : false
@@ -8851,10 +8835,9 @@ System.register("davinci-eight/visual/Minecraft.js", ["../core/BeginMode", "../c
             exports_1("MinecraftArmR", MinecraftArmR);
             MinecraftLegL = function (_super) {
                 __extends(MinecraftLegL, _super);
-                function MinecraftLegL(graphics, options) {
-                    var _this = _super.call(this, graphics, {
+                function MinecraftLegL(engine, texture, options) {
+                    var _this = _super.call(this, engine, texture, {
                         height: isNumber_1.default(options.height) ? options.height : 1,
-                        texture: options.texture,
                         partKind: PartKind.LeftLeg,
                         offset: options.offset,
                         oldSkinLayout: isBoolean_1.default(options.oldSkinLayout) ? options.oldSkinLayout : false
@@ -8870,10 +8853,9 @@ System.register("davinci-eight/visual/Minecraft.js", ["../core/BeginMode", "../c
             exports_1("MinecraftLegL", MinecraftLegL);
             MinecraftLegR = function (_super) {
                 __extends(MinecraftLegR, _super);
-                function MinecraftLegR(graphics, options) {
-                    var _this = _super.call(this, graphics, {
+                function MinecraftLegR(engine, texture, options) {
+                    var _this = _super.call(this, engine, texture, {
                         height: isNumber_1.default(options.height) ? options.height : 1,
-                        texture: options.texture,
                         partKind: PartKind.RightLeg,
                         offset: options.offset,
                         oldSkinLayout: isBoolean_1.default(options.oldSkinLayout) ? options.oldSkinLayout : false
@@ -8897,27 +8879,27 @@ System.register("davinci-eight/visual/Minecraft.js", ["../core/BeginMode", "../c
                     var height = isNumber_1.default(options.height) ? options.height : 1;
                     var scale = height / 32;
                     var oldSkinLayout = isBoolean_1.default(options.oldSkinLayout) ? options.oldSkinLayout : false;
-                    _this.head = new MinecraftHead(engine, { texture: texture, height: height, offset: e2.scale(scale * 4), oldSkinLayout: oldSkinLayout });
+                    _this.head = new MinecraftHead(engine, texture, { height: height, offset: e2.scale(scale * 4), oldSkinLayout: oldSkinLayout });
                     _this.head.position.zero().addVector(e2, scale * 24);
                     _this.add(_this.head);
                     _this.head.release();
-                    _this.torso = new MinecraftTorso(engine, { texture: texture, height: height, oldSkinLayout: oldSkinLayout });
+                    _this.torso = new MinecraftTorso(engine, texture, { height: height, oldSkinLayout: oldSkinLayout });
                     _this.torso.position.zero().addVector(e2, scale * 18);
                     _this.add(_this.torso);
                     _this.torso.release();
-                    _this.armL = new MinecraftArmL(engine, { texture: texture, height: height, offset: e2.scale(-scale * 4), oldSkinLayout: oldSkinLayout });
+                    _this.armL = new MinecraftArmL(engine, texture, { height: height, offset: e2.scale(-scale * 4), oldSkinLayout: oldSkinLayout });
                     _this.armL.position.zero().addVector(e2, scale * 22).addVector(e1, scale * 6);
                     _this.add(_this.armL);
                     _this.armL.release();
-                    _this.armR = new MinecraftArmR(engine, { texture: texture, height: height, offset: e2.scale(-scale * 4), oldSkinLayout: oldSkinLayout });
+                    _this.armR = new MinecraftArmR(engine, texture, { height: height, offset: e2.scale(-scale * 4), oldSkinLayout: oldSkinLayout });
                     _this.armR.position.zero().addVector(e2, scale * 22).subVector(e1, scale * 6);
                     _this.add(_this.armR);
                     _this.armR.release();
-                    _this.legL = new MinecraftLegL(engine, { texture: texture, height: height, offset: e2.scale(-scale * 4), oldSkinLayout: oldSkinLayout });
+                    _this.legL = new MinecraftLegL(engine, texture, { height: height, offset: e2.scale(-scale * 4), oldSkinLayout: oldSkinLayout });
                     _this.legL.position.zero().addVector(e2, scale * 10).addVector(e1, scale * 2);
                     _this.add(_this.legL);
                     _this.legL.release();
-                    _this.legR = new MinecraftLegR(engine, { texture: texture, height: height, offset: e2.scale(-scale * 4), oldSkinLayout: oldSkinLayout });
+                    _this.legR = new MinecraftLegR(engine, texture, { height: height, offset: e2.scale(-scale * 4), oldSkinLayout: oldSkinLayout });
                     _this.legR.position.zero().addVector(e2, scale * 10).subVector(e1, scale * 2);
                     _this.add(_this.legR);
                     _this.legR.release();
@@ -15495,38 +15477,12 @@ System.register("davinci-eight/materials/ShaderMaterial.js", ["../core/Attrib", 
                     get: function () {
                         return this._vertexShaderSrc;
                     },
-                    set: function (vertexShaderSrc) {
-                        this._vertexShaderSrc = mustBeString_1.default('vertexShaderSrc', vertexShaderSrc);
-                        if (this.contextProvider) {
-                            this.contextProvider.addRef();
-                            var contextProvider = this.contextProvider;
-                            try {
-                                this.contextFree(contextProvider);
-                                this.contextGain(contextProvider);
-                            } finally {
-                                contextProvider.release();
-                            }
-                        }
-                    },
                     enumerable: true,
                     configurable: true
                 });
                 Object.defineProperty(ShaderMaterial.prototype, "fragmentShaderSrc", {
                     get: function () {
                         return this._fragmentShaderSrc;
-                    },
-                    set: function (fragmentShaderSrc) {
-                        this._fragmentShaderSrc = mustBeString_1.default('fragmentShaderSrc', fragmentShaderSrc);
-                        if (this.contextProvider) {
-                            this.contextProvider.addRef();
-                            var contextProvider = this.contextProvider;
-                            try {
-                                this.contextFree(contextProvider);
-                                this.contextGain(contextProvider);
-                            } finally {
-                                contextProvider.release();
-                            }
-                        }
                     },
                     enumerable: true,
                     configurable: true
@@ -18052,43 +18008,6 @@ System.register("davinci-eight/core/Drawable.js", ["../base/exchange", "./Graphi
                     this._material = exchange_1.default(this._material, void 0);
                     _super.prototype.destructor.call(this, levelUp + 1);
                 };
-                Object.defineProperty(Drawable.prototype, "fragmentShaderSrc", {
-                    get: function () {
-                        if (this._material) {
-                            return this._material.fragmentShaderSrc;
-                        } else {
-                            return void 0;
-                        }
-                    },
-                    set: function (fragmentShaderSrc) {
-                        if (this._material) {
-                            this._material.fragmentShaderSrc = fragmentShaderSrc;
-                        } else {
-                            throw new Error("Unable to set fragmentShaderSrc because " + this._type + ".material is not defined.");
-                        }
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                Object.defineProperty(Drawable.prototype, "vertexShaderSrc", {
-                    get: function () {
-                        if (this._material) {
-                            return this._material.vertexShaderSrc;
-                        } else {
-                            return void 0;
-                        }
-                    },
-                    set: function (vertexShaderSrc) {
-                        var material = this._material;
-                        if (material) {
-                            material.vertexShaderSrc = vertexShaderSrc;
-                        } else {
-                            throw new Error("Unable to set vertexShaderSrc because " + this._type + ".material is not defined.");
-                        }
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
                 Object.defineProperty(Drawable.prototype, "opacity", {
                     get: function () {
                         var facet = this.getFacet(OPACITY_FACET_NAME);
@@ -23186,41 +23105,6 @@ System.register("davinci-eight/diagram/Diagram3D.js", ["../math/dotVectorE3", ".
         }
     };
 });
-System.register("davinci-eight/checks/isFunction.js", [], function (exports_1, context_1) {
-    "use strict";
-
-    var __moduleName = context_1 && context_1.id;
-    function isFunction(x) {
-        return typeof x === 'function';
-    }
-    exports_1("default", isFunction);
-    return {
-        setters: [],
-        execute: function () {}
-    };
-});
-System.register("davinci-eight/checks/mustBeFunction.js", ["../checks/mustSatisfy", "../checks/isFunction"], function (exports_1, context_1) {
-    "use strict";
-
-    var __moduleName = context_1 && context_1.id;
-    function beFunction() {
-        return "be a function";
-    }
-    function mustBeFunction(name, value, contextBuilder) {
-        mustSatisfy_1.default(name, isFunction_1.default(value), beFunction, contextBuilder);
-        return value;
-    }
-    var mustSatisfy_1, isFunction_1;
-    exports_1("default", mustBeFunction);
-    return {
-        setters: [function (mustSatisfy_1_1) {
-            mustSatisfy_1 = mustSatisfy_1_1;
-        }, function (isFunction_1_1) {
-            isFunction_1 = isFunction_1_1;
-        }],
-        execute: function () {}
-    };
-});
 System.register("davinci-eight/core/DataType.js", [], function (exports_1, context_1) {
     "use strict";
 
@@ -23239,6 +23123,26 @@ System.register("davinci-eight/core/DataType.js", [], function (exports_1, conte
                 DataType[DataType["FLOAT"] = 5126] = "FLOAT";
             })(DataType || (DataType = {}));
             exports_1("default", DataType);
+        }
+    };
+});
+System.register("davinci-eight/core/PixelFormat.js", [], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    var PixelFormat;
+    return {
+        setters: [],
+        execute: function () {
+            (function (PixelFormat) {
+                PixelFormat[PixelFormat["DEPTH_COMPONENT"] = 6402] = "DEPTH_COMPONENT";
+                PixelFormat[PixelFormat["ALPHA"] = 6406] = "ALPHA";
+                PixelFormat[PixelFormat["RGB"] = 6407] = "RGB";
+                PixelFormat[PixelFormat["RGBA"] = 6408] = "RGBA";
+                PixelFormat[PixelFormat["LUMINANCE"] = 6409] = "LUMINANCE";
+                PixelFormat[PixelFormat["LUMINANCE_ALPHA"] = 6410] = "LUMINANCE_ALPHA";
+            })(PixelFormat || (PixelFormat = {}));
+            exports_1("default", PixelFormat);
         }
     };
 });
@@ -23262,26 +23166,6 @@ System.register("davinci-eight/checks/mustBeUndefined.js", ["../checks/mustSatis
             isUndefined_1 = isUndefined_1_1;
         }],
         execute: function () {}
-    };
-});
-System.register("davinci-eight/core/PixelFormat.js", [], function (exports_1, context_1) {
-    "use strict";
-
-    var __moduleName = context_1 && context_1.id;
-    var PixelFormat;
-    return {
-        setters: [],
-        execute: function () {
-            (function (PixelFormat) {
-                PixelFormat[PixelFormat["DEPTH_COMPONENT"] = 6402] = "DEPTH_COMPONENT";
-                PixelFormat[PixelFormat["ALPHA"] = 6406] = "ALPHA";
-                PixelFormat[PixelFormat["RGB"] = 6407] = "RGB";
-                PixelFormat[PixelFormat["RGBA"] = 6408] = "RGBA";
-                PixelFormat[PixelFormat["LUMINANCE"] = 6409] = "LUMINANCE";
-                PixelFormat[PixelFormat["LUMINANCE_ALPHA"] = 6410] = "LUMINANCE_ALPHA";
-            })(PixelFormat || (PixelFormat = {}));
-            exports_1("default", PixelFormat);
-        }
     };
 });
 System.register("davinci-eight/core/cleanUp.js", [], function (exports_1, context_1) {
@@ -23451,58 +23335,6 @@ System.register("davinci-eight/checks/mustBeInteger.js", ["../checks/mustSatisfy
         execute: function () {}
     };
 });
-System.register("davinci-eight/checks/mustSatisfy.js", [], function (exports_1, context_1) {
-    "use strict";
-
-    var __moduleName = context_1 && context_1.id;
-    function mustSatisfy(name, condition, messageBuilder, contextBuilder) {
-        if (!condition) {
-            var message = messageBuilder ? messageBuilder() : "satisfy some condition";
-            var context = contextBuilder ? " in " + contextBuilder() : "";
-            throw new Error(name + " must " + message + context + ".");
-        }
-    }
-    exports_1("default", mustSatisfy);
-    return {
-        setters: [],
-        execute: function () {}
-    };
-});
-System.register("davinci-eight/checks/isString.js", [], function (exports_1, context_1) {
-    "use strict";
-
-    var __moduleName = context_1 && context_1.id;
-    function isString(s) {
-        return typeof s === 'string';
-    }
-    exports_1("default", isString);
-    return {
-        setters: [],
-        execute: function () {}
-    };
-});
-System.register("davinci-eight/checks/mustBeString.js", ["../checks/mustSatisfy", "../checks/isString"], function (exports_1, context_1) {
-    "use strict";
-
-    var __moduleName = context_1 && context_1.id;
-    function beAString() {
-        return "be a string";
-    }
-    function default_1(name, value, contextBuilder) {
-        mustSatisfy_1.default(name, isString_1.default(value), beAString, contextBuilder);
-        return value;
-    }
-    var mustSatisfy_1, isString_1;
-    exports_1("default", default_1);
-    return {
-        setters: [function (mustSatisfy_1_1) {
-            mustSatisfy_1 = mustSatisfy_1_1;
-        }, function (isString_1_1) {
-            isString_1 = isString_1_1;
-        }],
-        execute: function () {}
-    };
-});
 System.register("davinci-eight/i18n/readOnly.js", ["../checks/mustBeString"], function (exports_1, context_1) {
     "use strict";
 
@@ -23536,9 +23368,9 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
             Eight = function () {
                 function Eight() {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-                    this.LAST_MODIFIED = '2016-11-26';
+                    this.LAST_MODIFIED = '2016-11-27';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '3.7.6';
+                    this.VERSION = '3.7.7';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];
@@ -24049,7 +23881,7 @@ System.register("davinci-eight/core/TextureParameterName.js", [], function (expo
         }
     };
 });
-System.register("davinci-eight/core/Texture.js", ["./DataType", "../checks/mustBeUndefined", "./PixelFormat", "./ShareableContextConsumer", "./TextureParameterName"], function (exports_1, context_1) {
+System.register("davinci-eight/core/Texture.js", ["../checks/mustBeUndefined", "./ShareableContextConsumer", "./TextureParameterName"], function (exports_1, context_1) {
     "use strict";
 
     var __extends = this && this.__extends || function (d, b) {
@@ -24060,14 +23892,10 @@ System.register("davinci-eight/core/Texture.js", ["./DataType", "../checks/mustB
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
     var __moduleName = context_1 && context_1.id;
-    var DataType_1, mustBeUndefined_1, PixelFormat_1, ShareableContextConsumer_1, TextureParameterName_1, Texture;
+    var mustBeUndefined_1, ShareableContextConsumer_1, TextureParameterName_1, Texture;
     return {
-        setters: [function (DataType_1_1) {
-            DataType_1 = DataType_1_1;
-        }, function (mustBeUndefined_1_1) {
+        setters: [function (mustBeUndefined_1_1) {
             mustBeUndefined_1 = mustBeUndefined_1_1;
-        }, function (PixelFormat_1_1) {
-            PixelFormat_1 = PixelFormat_1_1;
         }, function (ShareableContextConsumer_1_1) {
             ShareableContextConsumer_1 = ShareableContextConsumer_1_1;
         }, function (TextureParameterName_1_1) {
@@ -24158,28 +23986,6 @@ System.register("davinci-eight/core/Texture.js", ["./DataType", "../checks/mustB
                     enumerable: true,
                     configurable: true
                 });
-                Object.defineProperty(Texture.prototype, "naturalHeight", {
-                    get: function () {
-                        if (this.image) {
-                            return this.image.naturalHeight;
-                        } else {
-                            return void 0;
-                        }
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                Object.defineProperty(Texture.prototype, "naturalWidth", {
-                    get: function () {
-                        if (this.image) {
-                            return this.image.naturalWidth;
-                        } else {
-                            return void 0;
-                        }
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
                 Object.defineProperty(Texture.prototype, "wrapS", {
                     get: function () {
                         throw new Error('wrapS is write-only');
@@ -24213,16 +24019,175 @@ System.register("davinci-eight/core/Texture.js", ["./DataType", "../checks/mustB
                     configurable: true
                 });
                 Texture.prototype.upload = function () {
+                    throw new Error(this._type + ".upload() must be implemented.");
+                };
+                return Texture;
+            }(ShareableContextConsumer_1.ShareableContextConsumer);
+            exports_1("default", Texture);
+        }
+    };
+});
+System.register("davinci-eight/core/ImageTexture.js", ["./DataType", "./PixelFormat", "./Texture"], function (exports_1, context_1) {
+    "use strict";
+
+    var __extends = this && this.__extends || function (d, b) {
+        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+        function __() {
+            this.constructor = d;
+        }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+    var __moduleName = context_1 && context_1.id;
+    var DataType_1, PixelFormat_1, Texture_1, ImageTexture;
+    return {
+        setters: [function (DataType_1_1) {
+            DataType_1 = DataType_1_1;
+        }, function (PixelFormat_1_1) {
+            PixelFormat_1 = PixelFormat_1_1;
+        }, function (Texture_1_1) {
+            Texture_1 = Texture_1_1;
+        }],
+        execute: function () {
+            ImageTexture = function (_super) {
+                __extends(ImageTexture, _super);
+                function ImageTexture(image, target, contextManager, levelUp) {
+                    if (levelUp === void 0) {
+                        levelUp = 0;
+                    }
+                    var _this = _super.call(this, target, contextManager, levelUp + 1) || this;
+                    _this.image = image;
+                    _this.setLoggingName('ImageTexture');
+                    if (levelUp === 0) {
+                        _this.synchUp();
+                    }
+                    return _this;
+                }
+                ImageTexture.prototype.destructor = function (levelUp) {
+                    if (levelUp === 0) {
+                        this.cleanUp();
+                    }
+                    _super.prototype.destructor.call(this, levelUp + 1);
+                };
+                Object.defineProperty(ImageTexture.prototype, "naturalHeight", {
+                    get: function () {
+                        if (this.image) {
+                            return this.image.naturalHeight;
+                        } else {
+                            return void 0;
+                        }
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(ImageTexture.prototype, "naturalWidth", {
+                    get: function () {
+                        if (this.image) {
+                            return this.image.naturalWidth;
+                        } else {
+                            return void 0;
+                        }
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                ImageTexture.prototype.upload = function () {
                     if (this.gl) {
                         this.gl.texImage2D(this._target, 0, PixelFormat_1.default.RGBA, PixelFormat_1.default.RGBA, DataType_1.default.UNSIGNED_BYTE, this.image);
                     } else {
                         console.warn(this._type + ".upload() missing WebGL rendering context.");
                     }
                 };
-                return Texture;
-            }(ShareableContextConsumer_1.ShareableContextConsumer);
-            exports_1("default", Texture);
+                return ImageTexture;
+            }(Texture_1.default);
+            exports_1("default", ImageTexture);
         }
+    };
+});
+System.register("davinci-eight/checks/isString.js", [], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    function isString(s) {
+        return typeof s === 'string';
+    }
+    exports_1("default", isString);
+    return {
+        setters: [],
+        execute: function () {}
+    };
+});
+System.register("davinci-eight/checks/mustBeString.js", ["../checks/mustSatisfy", "../checks/isString"], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    function beAString() {
+        return "be a string";
+    }
+    function default_1(name, value, contextBuilder) {
+        mustSatisfy_1.default(name, isString_1.default(value), beAString, contextBuilder);
+        return value;
+    }
+    var mustSatisfy_1, isString_1;
+    exports_1("default", default_1);
+    return {
+        setters: [function (mustSatisfy_1_1) {
+            mustSatisfy_1 = mustSatisfy_1_1;
+        }, function (isString_1_1) {
+            isString_1 = isString_1_1;
+        }],
+        execute: function () {}
+    };
+});
+System.register("davinci-eight/checks/mustSatisfy.js", [], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    function mustSatisfy(name, condition, messageBuilder, contextBuilder) {
+        if (!condition) {
+            var message = messageBuilder ? messageBuilder() : "satisfy some condition";
+            var context = contextBuilder ? " in " + contextBuilder() : "";
+            throw new Error(name + " must " + message + context + ".");
+        }
+    }
+    exports_1("default", mustSatisfy);
+    return {
+        setters: [],
+        execute: function () {}
+    };
+});
+System.register("davinci-eight/checks/isFunction.js", [], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    function isFunction(x) {
+        return typeof x === 'function';
+    }
+    exports_1("default", isFunction);
+    return {
+        setters: [],
+        execute: function () {}
+    };
+});
+System.register("davinci-eight/checks/mustBeFunction.js", ["../checks/mustSatisfy", "../checks/isFunction"], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    function beFunction() {
+        return "be a function";
+    }
+    function mustBeFunction(name, value, contextBuilder) {
+        mustSatisfy_1.default(name, isFunction_1.default(value), beFunction, contextBuilder);
+        return value;
+    }
+    var mustSatisfy_1, isFunction_1;
+    exports_1("default", mustBeFunction);
+    return {
+        setters: [function (mustSatisfy_1_1) {
+            mustSatisfy_1 = mustSatisfy_1_1;
+        }, function (isFunction_1_1) {
+            isFunction_1 = isFunction_1_1;
+        }],
+        execute: function () {}
     };
 });
 System.register("davinci-eight/core/TextureTarget.js", [], function (exports_1, context_1) {
@@ -24255,18 +24220,18 @@ System.register("davinci-eight/core/TextureTarget.js", [], function (exports_1, 
         }
     };
 });
-System.register("davinci-eight/loaders/TextureLoader.js", ["../checks/mustBeString", "../checks/mustBeFunction", "../core/Texture", "../core/TextureTarget"], function (exports_1, context_1) {
+System.register("davinci-eight/loaders/TextureLoader.js", ["../core/ImageTexture", "../checks/mustBeString", "../checks/mustBeFunction", "../core/TextureTarget"], function (exports_1, context_1) {
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
-    var mustBeString_1, mustBeFunction_1, Texture_1, TextureTarget_1, TextureLoader;
+    var ImageTexture_1, mustBeString_1, mustBeFunction_1, TextureTarget_1, TextureLoader;
     return {
-        setters: [function (mustBeString_1_1) {
+        setters: [function (ImageTexture_1_1) {
+            ImageTexture_1 = ImageTexture_1_1;
+        }, function (mustBeString_1_1) {
             mustBeString_1 = mustBeString_1_1;
         }, function (mustBeFunction_1_1) {
             mustBeFunction_1 = mustBeFunction_1_1;
-        }, function (Texture_1_1) {
-            Texture_1 = Texture_1_1;
         }, function (TextureTarget_1_1) {
             TextureTarget_1 = TextureTarget_1_1;
         }],
@@ -24275,14 +24240,13 @@ System.register("davinci-eight/loaders/TextureLoader.js", ["../checks/mustBeStri
                 function TextureLoader(contextManager) {
                     this.contextManager = contextManager;
                 }
-                TextureLoader.prototype.load = function (url, onLoad) {
+                TextureLoader.prototype.loadImageTexture = function (url, onLoad) {
                     var _this = this;
                     mustBeString_1.default('url', url);
                     mustBeFunction_1.default('onLoad', onLoad);
                     var image = new Image();
                     image.onload = function () {
-                        var texture = new Texture_1.default(TextureTarget_1.default.TEXTURE_2D, _this.contextManager);
-                        texture.image = image;
+                        var texture = new ImageTexture_1.default(image, TextureTarget_1.default.TEXTURE_2D, _this.contextManager);
                         texture.bind();
                         texture.upload();
                         texture.unbind();
@@ -24296,11 +24260,11 @@ System.register("davinci-eight/loaders/TextureLoader.js", ["../checks/mustBeStri
         }
     };
 });
-System.register("davinci-eight.js", ["./davinci-eight/commands/WebGLBlendFunc", "./davinci-eight/commands/WebGLClearColor", "./davinci-eight/commands/WebGLDisable", "./davinci-eight/commands/WebGLEnable", "./davinci-eight/controls/OrbitControls", "./davinci-eight/controls/TrackballControls", "./davinci-eight/core/Attrib", "./davinci-eight/core/BeginMode", "./davinci-eight/core/BlendingFactorDest", "./davinci-eight/core/BlendingFactorSrc", "./davinci-eight/core/Capability", "./davinci-eight/core/ClearBufferMask", "./davinci-eight/core/Color", "./davinci-eight/config", "./davinci-eight/core/DataType", "./davinci-eight/core/Drawable", "./davinci-eight/core/DepthFunction", "./davinci-eight/core/GeometryArrays", "./davinci-eight/core/GeometryElements", "./davinci-eight/core/GraphicsProgramSymbols", "./davinci-eight/core/Mesh", "./davinci-eight/core/PixelFormat", "./davinci-eight/core/PixelType", "./davinci-eight/core/Scene", "./davinci-eight/core/Shader", "./davinci-eight/core/TextureMagFilter", "./davinci-eight/core/TextureMinFilter", "./davinci-eight/core/TextureParameterName", "./davinci-eight/core/TextureTarget", "./davinci-eight/core/TextureWrapMode", "./davinci-eight/core/Uniform", "./davinci-eight/core/Usage", "./davinci-eight/core/Engine", "./davinci-eight/core/VertexBuffer", "./davinci-eight/core/IndexBuffer", "./davinci-eight/core/vertexArraysFromPrimitive", "./davinci-eight/facets/AmbientLight", "./davinci-eight/facets/ColorFacet", "./davinci-eight/facets/DirectionalLight", "./davinci-eight/facets/ModelFacet", "./davinci-eight/facets/PointSizeFacet", "./davinci-eight/facets/ReflectionFacetE2", "./davinci-eight/facets/ReflectionFacetE3", "./davinci-eight/facets/Vector3Facet", "./davinci-eight/facets/frustumMatrix", "./davinci-eight/facets/PerspectiveCamera", "./davinci-eight/facets/perspectiveMatrix", "./davinci-eight/facets/viewMatrixFromEyeLookUp", "./davinci-eight/facets/ModelE2", "./davinci-eight/facets/ModelE3", "./davinci-eight/atoms/DrawAttribute", "./davinci-eight/atoms/DrawPrimitive", "./davinci-eight/atoms/reduce", "./davinci-eight/atoms/Vertex", "./davinci-eight/shapes/ArrowBuilder", "./davinci-eight/shapes/ConicalShellBuilder", "./davinci-eight/shapes/CylindricalShellBuilder", "./davinci-eight/shapes/RingBuilder", "./davinci-eight/geometries/Simplex", "./davinci-eight/geometries/ArrowGeometry", "./davinci-eight/geometries/BoxGeometry", "./davinci-eight/geometries/CylinderGeometry", "./davinci-eight/geometries/GridGeometry", "./davinci-eight/geometries/SphereGeometry", "./davinci-eight/geometries/TetrahedronGeometry", "./davinci-eight/materials/HTMLScriptsMaterial", "./davinci-eight/materials/LineMaterial", "./davinci-eight/materials/ShaderMaterial", "./davinci-eight/materials/MeshMaterial", "./davinci-eight/materials/PointMaterial", "./davinci-eight/materials/GraphicsProgramBuilder", "./davinci-eight/math/mathcore", "./davinci-eight/math/Vector1", "./davinci-eight/math/Matrix2", "./davinci-eight/math/Matrix3", "./davinci-eight/math/Matrix4", "./davinci-eight/math/Geometric2", "./davinci-eight/math/Geometric3", "./davinci-eight/math/Spinor2", "./davinci-eight/math/Spinor3", "./davinci-eight/math/Vector2", "./davinci-eight/math/Vector3", "./davinci-eight/math/Vector4", "./davinci-eight/math/VectorN", "./davinci-eight/utils/getCanvasElementById", "./davinci-eight/collections/ShareableArray", "./davinci-eight/collections/NumberShareableMap", "./davinci-eight/core/refChange", "./davinci-eight/core/ShareableBase", "./davinci-eight/collections/StringShareableMap", "./davinci-eight/utils/animation", "./davinci-eight/visual/Arrow", "./davinci-eight/visual/Basis", "./davinci-eight/visual/Sphere", "./davinci-eight/visual/Box", "./davinci-eight/visual/Cylinder", "./davinci-eight/visual/Curve", "./davinci-eight/visual/Grid", "./davinci-eight/visual/GridXY", "./davinci-eight/visual/GridYZ", "./davinci-eight/visual/GridZX", "./davinci-eight/visual/Group", "./davinci-eight/visual/HollowCylinder", "./davinci-eight/visual/Minecraft", "./davinci-eight/visual/Parallelepiped", "./davinci-eight/visual/RigidBody", "./davinci-eight/visual/Tetrahedron", "./davinci-eight/visual/Track", "./davinci-eight/visual/Trail", "./davinci-eight/visual/Turtle", "./davinci-eight/diagram/Diagram3D", "./davinci-eight/loaders/TextureLoader"], function (exports_1, context_1) {
+System.register("davinci-eight.js", ["./davinci-eight/commands/WebGLBlendFunc", "./davinci-eight/commands/WebGLClearColor", "./davinci-eight/commands/WebGLDisable", "./davinci-eight/commands/WebGLEnable", "./davinci-eight/controls/OrbitControls", "./davinci-eight/controls/TrackballControls", "./davinci-eight/core/Attrib", "./davinci-eight/core/BeginMode", "./davinci-eight/core/BlendingFactorDest", "./davinci-eight/core/BlendingFactorSrc", "./davinci-eight/core/Capability", "./davinci-eight/core/ClearBufferMask", "./davinci-eight/core/Color", "./davinci-eight/config", "./davinci-eight/core/DataType", "./davinci-eight/core/Drawable", "./davinci-eight/core/DepthFunction", "./davinci-eight/core/GeometryArrays", "./davinci-eight/core/GeometryElements", "./davinci-eight/core/GraphicsProgramSymbols", "./davinci-eight/core/ImageTexture", "./davinci-eight/core/Mesh", "./davinci-eight/core/PixelFormat", "./davinci-eight/core/PixelType", "./davinci-eight/core/Scene", "./davinci-eight/core/Shader", "./davinci-eight/core/Texture", "./davinci-eight/core/TextureMagFilter", "./davinci-eight/core/TextureMinFilter", "./davinci-eight/core/TextureParameterName", "./davinci-eight/core/TextureTarget", "./davinci-eight/core/TextureWrapMode", "./davinci-eight/core/Uniform", "./davinci-eight/core/Usage", "./davinci-eight/core/Engine", "./davinci-eight/core/VertexBuffer", "./davinci-eight/core/IndexBuffer", "./davinci-eight/core/vertexArraysFromPrimitive", "./davinci-eight/facets/AmbientLight", "./davinci-eight/facets/ColorFacet", "./davinci-eight/facets/DirectionalLight", "./davinci-eight/facets/ModelFacet", "./davinci-eight/facets/PointSizeFacet", "./davinci-eight/facets/ReflectionFacetE2", "./davinci-eight/facets/ReflectionFacetE3", "./davinci-eight/facets/Vector3Facet", "./davinci-eight/facets/frustumMatrix", "./davinci-eight/facets/PerspectiveCamera", "./davinci-eight/facets/perspectiveMatrix", "./davinci-eight/facets/viewMatrixFromEyeLookUp", "./davinci-eight/facets/ModelE2", "./davinci-eight/facets/ModelE3", "./davinci-eight/atoms/DrawAttribute", "./davinci-eight/atoms/DrawPrimitive", "./davinci-eight/atoms/reduce", "./davinci-eight/atoms/Vertex", "./davinci-eight/shapes/ArrowBuilder", "./davinci-eight/shapes/ConicalShellBuilder", "./davinci-eight/shapes/CylindricalShellBuilder", "./davinci-eight/shapes/RingBuilder", "./davinci-eight/geometries/Simplex", "./davinci-eight/geometries/ArrowGeometry", "./davinci-eight/geometries/BoxGeometry", "./davinci-eight/geometries/CylinderGeometry", "./davinci-eight/geometries/GridGeometry", "./davinci-eight/geometries/SphereGeometry", "./davinci-eight/geometries/TetrahedronGeometry", "./davinci-eight/materials/HTMLScriptsMaterial", "./davinci-eight/materials/LineMaterial", "./davinci-eight/materials/ShaderMaterial", "./davinci-eight/materials/MeshMaterial", "./davinci-eight/materials/PointMaterial", "./davinci-eight/materials/GraphicsProgramBuilder", "./davinci-eight/math/mathcore", "./davinci-eight/math/Vector1", "./davinci-eight/math/Matrix2", "./davinci-eight/math/Matrix3", "./davinci-eight/math/Matrix4", "./davinci-eight/math/Geometric2", "./davinci-eight/math/Geometric3", "./davinci-eight/math/Spinor2", "./davinci-eight/math/Spinor3", "./davinci-eight/math/Vector2", "./davinci-eight/math/Vector3", "./davinci-eight/math/Vector4", "./davinci-eight/math/VectorN", "./davinci-eight/utils/getCanvasElementById", "./davinci-eight/collections/ShareableArray", "./davinci-eight/collections/NumberShareableMap", "./davinci-eight/core/refChange", "./davinci-eight/core/ShareableBase", "./davinci-eight/collections/StringShareableMap", "./davinci-eight/utils/animation", "./davinci-eight/visual/Arrow", "./davinci-eight/visual/Basis", "./davinci-eight/visual/Sphere", "./davinci-eight/visual/Box", "./davinci-eight/visual/Cylinder", "./davinci-eight/visual/Curve", "./davinci-eight/visual/Grid", "./davinci-eight/visual/GridXY", "./davinci-eight/visual/GridYZ", "./davinci-eight/visual/GridZX", "./davinci-eight/visual/Group", "./davinci-eight/visual/HollowCylinder", "./davinci-eight/visual/Minecraft", "./davinci-eight/visual/Parallelepiped", "./davinci-eight/visual/RigidBody", "./davinci-eight/visual/Tetrahedron", "./davinci-eight/visual/Track", "./davinci-eight/visual/Trail", "./davinci-eight/visual/Turtle", "./davinci-eight/diagram/Diagram3D", "./davinci-eight/loaders/TextureLoader"], function (exports_1, context_1) {
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
-    var WebGLBlendFunc_1, WebGLClearColor_1, WebGLDisable_1, WebGLEnable_1, OrbitControls_1, TrackballControls_1, Attrib_1, BeginMode_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, ClearBufferMask_1, Color_1, config_1, DataType_1, Drawable_1, DepthFunction_1, GeometryArrays_1, GeometryElements_1, GraphicsProgramSymbols_1, Mesh_1, PixelFormat_1, PixelType_1, Scene_1, Shader_1, TextureMagFilter_1, TextureMinFilter_1, TextureParameterName_1, TextureTarget_1, TextureWrapMode_1, Uniform_1, Usage_1, Engine_1, VertexBuffer_1, IndexBuffer_1, vertexArraysFromPrimitive_1, AmbientLight_1, ColorFacet_1, DirectionalLight_1, ModelFacet_1, PointSizeFacet_1, ReflectionFacetE2_1, ReflectionFacetE3_1, Vector3Facet_1, frustumMatrix_1, PerspectiveCamera_1, perspectiveMatrix_1, viewMatrixFromEyeLookUp_1, ModelE2_1, ModelE3_1, DrawAttribute_1, DrawPrimitive_1, reduce_1, Vertex_1, ArrowBuilder_1, ConicalShellBuilder_1, CylindricalShellBuilder_1, RingBuilder_1, Simplex_1, ArrowGeometry_1, BoxGeometry_1, CylinderGeometry_1, GridGeometry_1, SphereGeometry_1, TetrahedronGeometry_1, HTMLScriptsMaterial_1, LineMaterial_1, ShaderMaterial_1, MeshMaterial_1, PointMaterial_1, GraphicsProgramBuilder_1, mathcore_1, Vector1_1, Matrix2_1, Matrix3_1, Matrix4_1, Geometric2_1, Geometric3_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1, Vector4_1, VectorN_1, getCanvasElementById_1, ShareableArray_1, NumberShareableMap_1, refChange_1, ShareableBase_1, StringShareableMap_1, animation_1, Arrow_1, Basis_1, Sphere_1, Box_1, Cylinder_1, Curve_1, Grid_1, GridXY_1, GridYZ_1, GridZX_1, Group_1, HollowCylinder_1, Minecraft_1, Parallelepiped_1, RigidBody_1, Tetrahedron_1, Track_1, Trail_1, Turtle_1, Diagram3D_1, TextureLoader_1, eight;
+    var WebGLBlendFunc_1, WebGLClearColor_1, WebGLDisable_1, WebGLEnable_1, OrbitControls_1, TrackballControls_1, Attrib_1, BeginMode_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, ClearBufferMask_1, Color_1, config_1, DataType_1, Drawable_1, DepthFunction_1, GeometryArrays_1, GeometryElements_1, GraphicsProgramSymbols_1, ImageTexture_1, Mesh_1, PixelFormat_1, PixelType_1, Scene_1, Shader_1, Texture_1, TextureMagFilter_1, TextureMinFilter_1, TextureParameterName_1, TextureTarget_1, TextureWrapMode_1, Uniform_1, Usage_1, Engine_1, VertexBuffer_1, IndexBuffer_1, vertexArraysFromPrimitive_1, AmbientLight_1, ColorFacet_1, DirectionalLight_1, ModelFacet_1, PointSizeFacet_1, ReflectionFacetE2_1, ReflectionFacetE3_1, Vector3Facet_1, frustumMatrix_1, PerspectiveCamera_1, perspectiveMatrix_1, viewMatrixFromEyeLookUp_1, ModelE2_1, ModelE3_1, DrawAttribute_1, DrawPrimitive_1, reduce_1, Vertex_1, ArrowBuilder_1, ConicalShellBuilder_1, CylindricalShellBuilder_1, RingBuilder_1, Simplex_1, ArrowGeometry_1, BoxGeometry_1, CylinderGeometry_1, GridGeometry_1, SphereGeometry_1, TetrahedronGeometry_1, HTMLScriptsMaterial_1, LineMaterial_1, ShaderMaterial_1, MeshMaterial_1, PointMaterial_1, GraphicsProgramBuilder_1, mathcore_1, Vector1_1, Matrix2_1, Matrix3_1, Matrix4_1, Geometric2_1, Geometric3_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1, Vector4_1, VectorN_1, getCanvasElementById_1, ShareableArray_1, NumberShareableMap_1, refChange_1, ShareableBase_1, StringShareableMap_1, animation_1, Arrow_1, Basis_1, Sphere_1, Box_1, Cylinder_1, Curve_1, Grid_1, GridXY_1, GridYZ_1, GridZX_1, Group_1, HollowCylinder_1, Minecraft_1, Parallelepiped_1, RigidBody_1, Tetrahedron_1, Track_1, Trail_1, Turtle_1, Diagram3D_1, TextureLoader_1, eight;
     return {
         setters: [function (WebGLBlendFunc_1_1) {
             WebGLBlendFunc_1 = WebGLBlendFunc_1_1;
@@ -24342,6 +24306,8 @@ System.register("davinci-eight.js", ["./davinci-eight/commands/WebGLBlendFunc", 
             GeometryElements_1 = GeometryElements_1_1;
         }, function (GraphicsProgramSymbols_1_1) {
             GraphicsProgramSymbols_1 = GraphicsProgramSymbols_1_1;
+        }, function (ImageTexture_1_1) {
+            ImageTexture_1 = ImageTexture_1_1;
         }, function (Mesh_1_1) {
             Mesh_1 = Mesh_1_1;
         }, function (PixelFormat_1_1) {
@@ -24352,6 +24318,8 @@ System.register("davinci-eight.js", ["./davinci-eight/commands/WebGLBlendFunc", 
             Scene_1 = Scene_1_1;
         }, function (Shader_1_1) {
             Shader_1 = Shader_1_1;
+        }, function (Texture_1_1) {
+            Texture_1 = Texture_1_1;
         }, function (TextureMagFilter_1_1) {
             TextureMagFilter_1 = TextureMagFilter_1_1;
         }, function (TextureMinFilter_1_1) {
@@ -24642,6 +24610,12 @@ System.register("davinci-eight.js", ["./davinci-eight/commands/WebGLBlendFunc", 
                 },
                 get PixelType() {
                     return PixelType_1.default;
+                },
+                get ImageTexture() {
+                    return ImageTexture_1.default;
+                },
+                get Texture() {
+                    return Texture_1.default;
                 },
                 get TextureMagFilter() {
                     return TextureMagFilter_1.default;

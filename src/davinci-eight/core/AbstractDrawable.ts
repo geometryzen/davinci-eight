@@ -1,7 +1,7 @@
-import {Facet} from './Facet';
-import {Geometry} from './Geometry';
-import {Renderable} from './Renderable';
-import {Material} from './Material';
+import { Facet } from './Facet';
+import { Geometry } from './Geometry';
+import { Renderable } from './Renderable';
+import { Material } from './Material';
 
 /**
  *
@@ -12,14 +12,6 @@ export interface AbstractDrawable<G extends Geometry, M extends Material> extend
      *
      */
     name: string;
-
-    /**
-     * <p>
-     * A shortcut to the <code>material.fragmentShaderSrc</code> property.
-     * </p>
-     *
-     */
-    fragmentShaderSrc: string;
 
     /**
      * <p>
@@ -50,11 +42,6 @@ export interface AbstractDrawable<G extends Geometry, M extends Material> extend
     material: M;
 
     /**
-     * A shortcut to the <code>material.vertexShaderSrc</code> property.
-     */
-    vertexShaderSrc: string;
-
-    /**
      * Determines whether this object will be drawn.
      */
     visible: boolean;
@@ -72,9 +59,8 @@ export interface AbstractDrawable<G extends Geometry, M extends Material> extend
 
     /**
      * Calls the underlying drawArrays or drawElements method on the WebGLRenderingContext.
-     * The use of the ambients parameter with this method is deprecated.
      */
-    draw(ambients?: Facet[]): AbstractDrawable<G, M>;
+    draw(): AbstractDrawable<G, M>;
 
     /**
      * High-Level rendering convenience method equivalent to...

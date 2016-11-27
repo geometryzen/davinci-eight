@@ -11,17 +11,6 @@ import VertexBuffer from './VertexBuffer';
  * Material is an object-oriented wrapper around a WebGLProgram
  */
 export interface Material extends Facet, FacetVisitor, ContextConsumer {
-
-    /**
-     *
-     */
-    vertexShaderSrc: string;
-
-    /**
-     *
-     */
-    fragmentShaderSrc: string;
-
     /**
      * 
      */

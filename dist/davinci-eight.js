@@ -551,9 +551,9 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
     var Eight = (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-11-26';
+            this.LAST_MODIFIED = '2016-11-27';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '3.7.6';
+            this.VERSION = '3.7.7';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -6634,47 +6634,6 @@ define('davinci-eight/core/Drawable',["require", "exports", "../base/exchange", 
             this._material = exchange_1.default(this._material, void 0);
             _super.prototype.destructor.call(this, levelUp + 1);
         };
-        Object.defineProperty(Drawable.prototype, "fragmentShaderSrc", {
-            get: function () {
-                if (this._material) {
-                    return this._material.fragmentShaderSrc;
-                }
-                else {
-                    return void 0;
-                }
-            },
-            set: function (fragmentShaderSrc) {
-                if (this._material) {
-                    this._material.fragmentShaderSrc = fragmentShaderSrc;
-                }
-                else {
-                    throw new Error("Unable to set fragmentShaderSrc because " + this._type + ".material is not defined.");
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Drawable.prototype, "vertexShaderSrc", {
-            get: function () {
-                if (this._material) {
-                    return this._material.vertexShaderSrc;
-                }
-                else {
-                    return void 0;
-                }
-            },
-            set: function (vertexShaderSrc) {
-                var material = this._material;
-                if (material) {
-                    material.vertexShaderSrc = vertexShaderSrc;
-                }
-                else {
-                    throw new Error("Unable to set vertexShaderSrc because " + this._type + ".material is not defined.");
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
         Object.defineProperty(Drawable.prototype, "opacity", {
             get: function () {
                 var facet = this.getFacet(OPACITY_FACET_NAME);
@@ -8158,6 +8117,233 @@ define('davinci-eight/core/GeometryElements',["require", "exports", "./GeometryB
     exports.default = GeometryElements;
 });
 
+define('davinci-eight/core/PixelFormat',["require", "exports"], function (require, exports) {
+    "use strict";
+    var PixelFormat;
+    (function (PixelFormat) {
+        PixelFormat[PixelFormat["DEPTH_COMPONENT"] = 6402] = "DEPTH_COMPONENT";
+        PixelFormat[PixelFormat["ALPHA"] = 6406] = "ALPHA";
+        PixelFormat[PixelFormat["RGB"] = 6407] = "RGB";
+        PixelFormat[PixelFormat["RGBA"] = 6408] = "RGBA";
+        PixelFormat[PixelFormat["LUMINANCE"] = 6409] = "LUMINANCE";
+        PixelFormat[PixelFormat["LUMINANCE_ALPHA"] = 6410] = "LUMINANCE_ALPHA";
+    })(PixelFormat || (PixelFormat = {}));
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = PixelFormat;
+});
+
+define('davinci-eight/core/TextureParameterName',["require", "exports"], function (require, exports) {
+    "use strict";
+    var TextureParameterName;
+    (function (TextureParameterName) {
+        TextureParameterName[TextureParameterName["TEXTURE_MAG_FILTER"] = 10240] = "TEXTURE_MAG_FILTER";
+        TextureParameterName[TextureParameterName["TEXTURE_MIN_FILTER"] = 10241] = "TEXTURE_MIN_FILTER";
+        TextureParameterName[TextureParameterName["TEXTURE_WRAP_S"] = 10242] = "TEXTURE_WRAP_S";
+        TextureParameterName[TextureParameterName["TEXTURE_WRAP_T"] = 10243] = "TEXTURE_WRAP_T";
+    })(TextureParameterName || (TextureParameterName = {}));
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = TextureParameterName;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/core/Texture',["require", "exports", "../checks/mustBeUndefined", "./ShareableContextConsumer", "./TextureParameterName"], function (require, exports, mustBeUndefined_1, ShareableContextConsumer_1, TextureParameterName_1) {
+    "use strict";
+    var Texture = (function (_super) {
+        __extends(Texture, _super);
+        function Texture(target, contextManager, levelUp) {
+            if (levelUp === void 0) { levelUp = 0; }
+            var _this = _super.call(this, contextManager) || this;
+            _this.setLoggingName('Texture');
+            _this._target = target;
+            if (levelUp === 0) {
+                _this.synchUp();
+            }
+            return _this;
+        }
+        Texture.prototype.destructor = function (levelUp) {
+            if (levelUp === 0) {
+                this.cleanUp();
+            }
+            _super.prototype.destructor.call(this, levelUp + 1);
+            mustBeUndefined_1.default(this._type, this._texture);
+        };
+        Texture.prototype.contextFree = function (contextProvider) {
+            if (this._texture) {
+                this.gl.deleteTexture(this._texture);
+                this._texture = void 0;
+                _super.prototype.contextFree.call(this, contextProvider);
+            }
+        };
+        Texture.prototype.contextGain = function (contextProvider) {
+            if (!this._texture) {
+                _super.prototype.contextGain.call(this, contextProvider);
+                this._texture = contextProvider.gl.createTexture();
+            }
+        };
+        Texture.prototype.contextLost = function () {
+            this._texture = void 0;
+            _super.prototype.contextLost.call(this);
+        };
+        Texture.prototype.bind = function () {
+            if (this.gl) {
+                this.gl.bindTexture(this._target, this._texture);
+            }
+            else {
+                console.warn(this._type + ".bind() missing WebGL rendering context.");
+            }
+        };
+        Texture.prototype.unbind = function () {
+            if (this.gl) {
+                this.gl.bindTexture(this._target, null);
+            }
+            else {
+                console.warn(this._type + ".unbind() missing WebGL rendering context.");
+            }
+        };
+        Object.defineProperty(Texture.prototype, "minFilter", {
+            get: function () {
+                throw new Error('minFilter is write-only');
+            },
+            set: function (filter) {
+                if (this.gl) {
+                    this.bind();
+                    this.gl.texParameteri(this._target, TextureParameterName_1.default.TEXTURE_MIN_FILTER, filter);
+                    this.unbind();
+                }
+                else {
+                    console.warn(this._type + ".minFilter missing WebGL rendering context.");
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Texture.prototype, "magFilter", {
+            get: function () {
+                throw new Error('magFilter is write-only');
+            },
+            set: function (filter) {
+                if (this.gl) {
+                    this.bind();
+                    this.gl.texParameteri(this._target, TextureParameterName_1.default.TEXTURE_MAG_FILTER, filter);
+                    this.unbind();
+                }
+                else {
+                    console.warn(this._type + ".magFilter missing WebGL rendering context.");
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Texture.prototype, "wrapS", {
+            get: function () {
+                throw new Error('wrapS is write-only');
+            },
+            set: function (mode) {
+                if (this.gl) {
+                    this.bind();
+                    this.gl.texParameteri(this._target, TextureParameterName_1.default.TEXTURE_WRAP_S, mode);
+                    this.unbind();
+                }
+                else {
+                    console.warn(this._type + ".wrapS missing WebGL rendering context.");
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Texture.prototype, "wrapT", {
+            get: function () {
+                throw new Error('wrapT is write-only');
+            },
+            set: function (mode) {
+                if (this.gl) {
+                    this.bind();
+                    this.gl.texParameteri(this._target, TextureParameterName_1.default.TEXTURE_WRAP_T, mode);
+                    this.unbind();
+                }
+                else {
+                    console.warn(this._type + ".wrapT missing WebGL rendering context.");
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Texture.prototype.upload = function () {
+            throw new Error(this._type + ".upload() must be implemented.");
+        };
+        return Texture;
+    }(ShareableContextConsumer_1.ShareableContextConsumer));
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = Texture;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/core/ImageTexture',["require", "exports", "./DataType", "./PixelFormat", "./Texture"], function (require, exports, DataType_1, PixelFormat_1, Texture_1) {
+    "use strict";
+    var ImageTexture = (function (_super) {
+        __extends(ImageTexture, _super);
+        function ImageTexture(image, target, contextManager, levelUp) {
+            if (levelUp === void 0) { levelUp = 0; }
+            var _this = _super.call(this, target, contextManager, levelUp + 1) || this;
+            _this.image = image;
+            _this.setLoggingName('ImageTexture');
+            if (levelUp === 0) {
+                _this.synchUp();
+            }
+            return _this;
+        }
+        ImageTexture.prototype.destructor = function (levelUp) {
+            if (levelUp === 0) {
+                this.cleanUp();
+            }
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        Object.defineProperty(ImageTexture.prototype, "naturalHeight", {
+            get: function () {
+                if (this.image) {
+                    return this.image.naturalHeight;
+                }
+                else {
+                    return void 0;
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ImageTexture.prototype, "naturalWidth", {
+            get: function () {
+                if (this.image) {
+                    return this.image.naturalWidth;
+                }
+                else {
+                    return void 0;
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        ImageTexture.prototype.upload = function () {
+            if (this.gl) {
+                this.gl.texImage2D(this._target, 0, PixelFormat_1.default.RGBA, PixelFormat_1.default.RGBA, DataType_1.default.UNSIGNED_BYTE, this.image);
+            }
+            else {
+                console.warn(this._type + ".upload() missing WebGL rendering context.");
+            }
+        };
+        return ImageTexture;
+    }(Texture_1.default));
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = ImageTexture;
+});
+
 define('davinci-eight/facets/ColorFacet',["require", "exports", "../core/Color", "../checks/mustBeNumber", "../core/GraphicsProgramSymbols"], function (require, exports, Color_1, mustBeNumber_1, GraphicsProgramSymbols_1) {
     "use strict";
     var ColorFacet = (function () {
@@ -8619,21 +8805,6 @@ define('davinci-eight/core/Mesh',["require", "exports", "../facets/ColorFacet", 
     exports.Mesh = Mesh;
 });
 
-define('davinci-eight/core/PixelFormat',["require", "exports"], function (require, exports) {
-    "use strict";
-    var PixelFormat;
-    (function (PixelFormat) {
-        PixelFormat[PixelFormat["DEPTH_COMPONENT"] = 6402] = "DEPTH_COMPONENT";
-        PixelFormat[PixelFormat["ALPHA"] = 6406] = "ALPHA";
-        PixelFormat[PixelFormat["RGB"] = 6407] = "RGB";
-        PixelFormat[PixelFormat["RGBA"] = 6408] = "RGBA";
-        PixelFormat[PixelFormat["LUMINANCE"] = 6409] = "LUMINANCE";
-        PixelFormat[PixelFormat["LUMINANCE_ALPHA"] = 6410] = "LUMINANCE_ALPHA";
-    })(PixelFormat || (PixelFormat = {}));
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = PixelFormat;
-});
-
 define('davinci-eight/core/PixelType',["require", "exports"], function (require, exports) {
     "use strict";
     var PixelType;
@@ -9026,19 +9197,6 @@ define('davinci-eight/core/TextureMinFilter',["require", "exports"], function (r
     })(TextureMinFilter || (TextureMinFilter = {}));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = TextureMinFilter;
-});
-
-define('davinci-eight/core/TextureParameterName',["require", "exports"], function (require, exports) {
-    "use strict";
-    var TextureParameterName;
-    (function (TextureParameterName) {
-        TextureParameterName[TextureParameterName["TEXTURE_MAG_FILTER"] = 10240] = "TEXTURE_MAG_FILTER";
-        TextureParameterName[TextureParameterName["TEXTURE_MIN_FILTER"] = 10241] = "TEXTURE_MIN_FILTER";
-        TextureParameterName[TextureParameterName["TEXTURE_WRAP_S"] = 10242] = "TEXTURE_WRAP_S";
-        TextureParameterName[TextureParameterName["TEXTURE_WRAP_T"] = 10243] = "TEXTURE_WRAP_T";
-    })(TextureParameterName || (TextureParameterName = {}));
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = TextureParameterName;
 });
 
 define('davinci-eight/core/TextureTarget',["require", "exports"], function (require, exports) {
@@ -15776,40 +15934,12 @@ define('davinci-eight/materials/ShaderMaterial',["require", "exports", "../core/
             get: function () {
                 return this._vertexShaderSrc;
             },
-            set: function (vertexShaderSrc) {
-                this._vertexShaderSrc = mustBeString_1.default('vertexShaderSrc', vertexShaderSrc);
-                if (this.contextProvider) {
-                    this.contextProvider.addRef();
-                    var contextProvider = this.contextProvider;
-                    try {
-                        this.contextFree(contextProvider);
-                        this.contextGain(contextProvider);
-                    }
-                    finally {
-                        contextProvider.release();
-                    }
-                }
-            },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(ShaderMaterial.prototype, "fragmentShaderSrc", {
             get: function () {
                 return this._fragmentShaderSrc;
-            },
-            set: function (fragmentShaderSrc) {
-                this._fragmentShaderSrc = mustBeString_1.default('fragmentShaderSrc', fragmentShaderSrc);
-                if (this.contextProvider) {
-                    this.contextProvider.addRef();
-                    var contextProvider = this.contextProvider;
-                    try {
-                        this.contextFree(contextProvider);
-                        this.contextGain(contextProvider);
-                    }
-                    finally {
-                        contextProvider.release();
-                    }
-                }
             },
             enumerable: true,
             configurable: true
@@ -16115,6 +16245,8 @@ define('davinci-eight/materials/HTMLScriptsMaterial',["require", "exports", "../
         }
     }
     function detectShaderType(scriptIds, dom) {
+        mustBeArray_1.default('scriptIds', scriptIds);
+        mustSatisfy_1.default('scriptIds', scriptIds.length === 2, function () { return 'have two script element identifiers.'; });
         var result = [scriptIds[0], scriptIds[1]];
         assign(scriptIds[0], dom, result);
         assign(scriptIds[1], dom, result);
@@ -16122,15 +16254,10 @@ define('davinci-eight/materials/HTMLScriptsMaterial',["require", "exports", "../
     }
     var HTMLScriptsMaterial = (function (_super) {
         __extends(HTMLScriptsMaterial, _super);
-        function HTMLScriptsMaterial(scriptIds, dom, attribs, manager, levelUp) {
+        function HTMLScriptsMaterial(scriptIds, dom, attribs, contextManager, levelUp) {
             if (levelUp === void 0) { levelUp = 0; }
-            var _this = _super.call(this, void 0, void 0, attribs, manager, levelUp + 1) || this;
-            _this.loaded = false;
+            var _this = _super.call(this, vertexShaderSrc(detectShaderType(scriptIds, dom)[0], dom), fragmentShaderSrc(detectShaderType(scriptIds, dom)[1], dom), attribs, contextManager, levelUp + 1) || this;
             _this.setLoggingName('HTMLScriptsMaterial');
-            mustBeArray_1.default('scriptIds', scriptIds);
-            mustSatisfy_1.default('scriptIds', scriptIds.length === 2, function () { return 'have two script element identifiers.'; });
-            _this.scriptIds = [scriptIds[0], scriptIds[1]];
-            _this.dom = dom;
             if (levelUp === 0) {
                 _this.synchUp();
             }
@@ -16141,15 +16268,6 @@ define('davinci-eight/materials/HTMLScriptsMaterial',["require", "exports", "../
                 this.cleanUp();
             }
             _super.prototype.destructor.call(this, levelUp + 1);
-        };
-        HTMLScriptsMaterial.prototype.contextGain = function (contextProvider) {
-            if (!this.loaded) {
-                var scriptIds = detectShaderType(this.scriptIds, this.dom);
-                this.vertexShaderSrc = vertexShaderSrc(scriptIds[0], this.dom);
-                this.fragmentShaderSrc = fragmentShaderSrc(scriptIds[1], this.dom);
-                this.loaded = true;
-            }
-            _super.prototype.contextGain.call(this, contextProvider);
         };
         return HTMLScriptsMaterial;
     }(ShaderMaterial_1.ShaderMaterial));
@@ -19566,7 +19684,7 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
             return 0;
         }
     }
-    function primitiveFromOptions(options) {
+    function primitiveFromOptions(texture, options) {
         var partKind = options.partKind;
         var offset = options.offset ? options.offset : { x: 0, y: 0, z: 0 };
         var dims = dimensions(partKind, options.height);
@@ -19587,9 +19705,9 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
             .map(function (xs) { return [dims[0] * xs[0], dims[1] * xs[1], dims[2] * xs[2]]; })
             .map(function (xs) { return [xs[0] + offset.x, xs[1] + offset.y, xs[2] + offset.z]; })
             .reduce(function (a, b) { return a.concat(b); });
-        var naturalScale = 64 / options.texture.naturalWidth;
-        var width = options.texture.naturalWidth * naturalScale;
-        var height = options.texture.naturalHeight * naturalScale;
+        var naturalScale = 64 / texture.naturalWidth;
+        var width = texture.naturalWidth * naturalScale;
+        var height = texture.naturalHeight * naturalScale;
         var oldSkinLayout = options.oldSkinLayout;
         var coords = [
             aCoords(partKind, Side.Front, width, height, oldSkinLayout),
@@ -19608,8 +19726,8 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
         };
         return primitive;
     }
-    function makeGeometry(graphics, options) {
-        return new GeometryArrays_1.default(graphics, primitiveFromOptions(options));
+    function makeGeometry(graphics, texture, options) {
+        return new GeometryArrays_1.default(graphics, primitiveFromOptions(texture, options));
     }
     var vs = [
         'attribute vec3 aPosition;',
@@ -19636,16 +19754,16 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
     };
     var MinecraftBodyPart = (function (_super) {
         __extends(MinecraftBodyPart, _super);
-        function MinecraftBodyPart(graphics, options) {
-            var _this = _super.call(this, void 0, void 0, graphics) || this;
+        function MinecraftBodyPart(engine, texture, options) {
+            var _this = _super.call(this, void 0, void 0, engine) || this;
             _this.setLoggingName('MinecraftBodyPart');
-            var geometry = makeGeometry(graphics, options);
+            var geometry = makeGeometry(engine, texture, options);
             _this.geometry = geometry;
             geometry.release();
-            var material = makeMaterial(graphics, options);
+            var material = makeMaterial(engine, options);
             _this.material = material;
             material.release();
-            _this.texture = options.texture;
+            _this.texture = texture;
             return _this;
         }
         MinecraftBodyPart.prototype.destructor = function (levelUp) {
@@ -19655,10 +19773,9 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
     }(Mesh_1.Mesh));
     var MinecraftHead = (function (_super) {
         __extends(MinecraftHead, _super);
-        function MinecraftHead(graphics, options) {
-            var _this = _super.call(this, graphics, {
+        function MinecraftHead(engine, texture, options) {
+            var _this = _super.call(this, engine, texture, {
                 height: isNumber_1.default(options.height) ? options.height : 1,
-                texture: options.texture,
                 partKind: PartKind.Head,
                 offset: options.offset,
                 oldSkinLayout: isBoolean_1.default(options.oldSkinLayout) ? options.oldSkinLayout : false
@@ -19674,10 +19791,9 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
     exports.MinecraftHead = MinecraftHead;
     var MinecraftTorso = (function (_super) {
         __extends(MinecraftTorso, _super);
-        function MinecraftTorso(graphics, options) {
-            var _this = _super.call(this, graphics, {
+        function MinecraftTorso(engine, texture, options) {
+            var _this = _super.call(this, engine, texture, {
                 height: isNumber_1.default(options.height) ? options.height : 1,
-                texture: options.texture,
                 partKind: PartKind.Torso,
                 offset: options.offset,
                 oldSkinLayout: isBoolean_1.default(options.oldSkinLayout) ? options.oldSkinLayout : false
@@ -19693,10 +19809,9 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
     exports.MinecraftTorso = MinecraftTorso;
     var MinecraftArmL = (function (_super) {
         __extends(MinecraftArmL, _super);
-        function MinecraftArmL(graphics, options) {
-            var _this = _super.call(this, graphics, {
+        function MinecraftArmL(engine, texture, options) {
+            var _this = _super.call(this, engine, texture, {
                 height: isNumber_1.default(options.height) ? options.height : 1,
-                texture: options.texture,
                 partKind: PartKind.LeftArm,
                 offset: options.offset,
                 oldSkinLayout: isBoolean_1.default(options.oldSkinLayout) ? options.oldSkinLayout : false
@@ -19712,10 +19827,9 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
     exports.MinecraftArmL = MinecraftArmL;
     var MinecraftArmR = (function (_super) {
         __extends(MinecraftArmR, _super);
-        function MinecraftArmR(graphics, options) {
-            var _this = _super.call(this, graphics, {
+        function MinecraftArmR(engine, texture, options) {
+            var _this = _super.call(this, engine, texture, {
                 height: isNumber_1.default(options.height) ? options.height : 1,
-                texture: options.texture,
                 partKind: PartKind.RightArm,
                 offset: options.offset,
                 oldSkinLayout: isBoolean_1.default(options.oldSkinLayout) ? options.oldSkinLayout : false
@@ -19731,10 +19845,9 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
     exports.MinecraftArmR = MinecraftArmR;
     var MinecraftLegL = (function (_super) {
         __extends(MinecraftLegL, _super);
-        function MinecraftLegL(graphics, options) {
-            var _this = _super.call(this, graphics, {
+        function MinecraftLegL(engine, texture, options) {
+            var _this = _super.call(this, engine, texture, {
                 height: isNumber_1.default(options.height) ? options.height : 1,
-                texture: options.texture,
                 partKind: PartKind.LeftLeg,
                 offset: options.offset,
                 oldSkinLayout: isBoolean_1.default(options.oldSkinLayout) ? options.oldSkinLayout : false
@@ -19750,10 +19863,9 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
     exports.MinecraftLegL = MinecraftLegL;
     var MinecraftLegR = (function (_super) {
         __extends(MinecraftLegR, _super);
-        function MinecraftLegR(graphics, options) {
-            var _this = _super.call(this, graphics, {
+        function MinecraftLegR(engine, texture, options) {
+            var _this = _super.call(this, engine, texture, {
                 height: isNumber_1.default(options.height) ? options.height : 1,
-                texture: options.texture,
                 partKind: PartKind.RightLeg,
                 offset: options.offset,
                 oldSkinLayout: isBoolean_1.default(options.oldSkinLayout) ? options.oldSkinLayout : false
@@ -19775,27 +19887,27 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
             var height = isNumber_1.default(options.height) ? options.height : 1;
             var scale = height / 32;
             var oldSkinLayout = isBoolean_1.default(options.oldSkinLayout) ? options.oldSkinLayout : false;
-            _this.head = new MinecraftHead(engine, { texture: texture, height: height, offset: e2.scale(scale * 4), oldSkinLayout: oldSkinLayout });
+            _this.head = new MinecraftHead(engine, texture, { height: height, offset: e2.scale(scale * 4), oldSkinLayout: oldSkinLayout });
             _this.head.position.zero().addVector(e2, scale * 24);
             _this.add(_this.head);
             _this.head.release();
-            _this.torso = new MinecraftTorso(engine, { texture: texture, height: height, oldSkinLayout: oldSkinLayout });
+            _this.torso = new MinecraftTorso(engine, texture, { height: height, oldSkinLayout: oldSkinLayout });
             _this.torso.position.zero().addVector(e2, scale * 18);
             _this.add(_this.torso);
             _this.torso.release();
-            _this.armL = new MinecraftArmL(engine, { texture: texture, height: height, offset: e2.scale(-scale * 4), oldSkinLayout: oldSkinLayout });
+            _this.armL = new MinecraftArmL(engine, texture, { height: height, offset: e2.scale(-scale * 4), oldSkinLayout: oldSkinLayout });
             _this.armL.position.zero().addVector(e2, scale * 22).addVector(e1, scale * 6);
             _this.add(_this.armL);
             _this.armL.release();
-            _this.armR = new MinecraftArmR(engine, { texture: texture, height: height, offset: e2.scale(-scale * 4), oldSkinLayout: oldSkinLayout });
+            _this.armR = new MinecraftArmR(engine, texture, { height: height, offset: e2.scale(-scale * 4), oldSkinLayout: oldSkinLayout });
             _this.armR.position.zero().addVector(e2, scale * 22).subVector(e1, scale * 6);
             _this.add(_this.armR);
             _this.armR.release();
-            _this.legL = new MinecraftLegL(engine, { texture: texture, height: height, offset: e2.scale(-scale * 4), oldSkinLayout: oldSkinLayout });
+            _this.legL = new MinecraftLegL(engine, texture, { height: height, offset: e2.scale(-scale * 4), oldSkinLayout: oldSkinLayout });
             _this.legL.position.zero().addVector(e2, scale * 10).addVector(e1, scale * 2);
             _this.add(_this.legL);
             _this.legL.release();
-            _this.legR = new MinecraftLegR(engine, { texture: texture, height: height, offset: e2.scale(-scale * 4), oldSkinLayout: oldSkinLayout });
+            _this.legR = new MinecraftLegR(engine, texture, { height: height, offset: e2.scale(-scale * 4), oldSkinLayout: oldSkinLayout });
             _this.legR.position.zero().addVector(e2, scale * 10).subVector(e1, scale * 2);
             _this.add(_this.legR);
             _this.legR.release();
@@ -20550,185 +20662,19 @@ define('davinci-eight/diagram/Diagram3D',["require", "exports", "../math/dotVect
     }
 });
 
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/core/Texture',["require", "exports", "./DataType", "../checks/mustBeUndefined", "./PixelFormat", "./ShareableContextConsumer", "./TextureParameterName"], function (require, exports, DataType_1, mustBeUndefined_1, PixelFormat_1, ShareableContextConsumer_1, TextureParameterName_1) {
-    "use strict";
-    var Texture = (function (_super) {
-        __extends(Texture, _super);
-        function Texture(target, contextManager, levelUp) {
-            if (levelUp === void 0) { levelUp = 0; }
-            var _this = _super.call(this, contextManager) || this;
-            _this.setLoggingName('Texture');
-            _this._target = target;
-            if (levelUp === 0) {
-                _this.synchUp();
-            }
-            return _this;
-        }
-        Texture.prototype.destructor = function (levelUp) {
-            if (levelUp === 0) {
-                this.cleanUp();
-            }
-            _super.prototype.destructor.call(this, levelUp + 1);
-            mustBeUndefined_1.default(this._type, this._texture);
-        };
-        Texture.prototype.contextFree = function (contextProvider) {
-            if (this._texture) {
-                this.gl.deleteTexture(this._texture);
-                this._texture = void 0;
-                _super.prototype.contextFree.call(this, contextProvider);
-            }
-        };
-        Texture.prototype.contextGain = function (contextProvider) {
-            if (!this._texture) {
-                _super.prototype.contextGain.call(this, contextProvider);
-                this._texture = contextProvider.gl.createTexture();
-            }
-        };
-        Texture.prototype.contextLost = function () {
-            this._texture = void 0;
-            _super.prototype.contextLost.call(this);
-        };
-        Texture.prototype.bind = function () {
-            if (this.gl) {
-                this.gl.bindTexture(this._target, this._texture);
-            }
-            else {
-                console.warn(this._type + ".bind() missing WebGL rendering context.");
-            }
-        };
-        Texture.prototype.unbind = function () {
-            if (this.gl) {
-                this.gl.bindTexture(this._target, null);
-            }
-            else {
-                console.warn(this._type + ".unbind() missing WebGL rendering context.");
-            }
-        };
-        Object.defineProperty(Texture.prototype, "minFilter", {
-            get: function () {
-                throw new Error('minFilter is write-only');
-            },
-            set: function (filter) {
-                if (this.gl) {
-                    this.bind();
-                    this.gl.texParameteri(this._target, TextureParameterName_1.default.TEXTURE_MIN_FILTER, filter);
-                    this.unbind();
-                }
-                else {
-                    console.warn(this._type + ".minFilter missing WebGL rendering context.");
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Texture.prototype, "magFilter", {
-            get: function () {
-                throw new Error('magFilter is write-only');
-            },
-            set: function (filter) {
-                if (this.gl) {
-                    this.bind();
-                    this.gl.texParameteri(this._target, TextureParameterName_1.default.TEXTURE_MAG_FILTER, filter);
-                    this.unbind();
-                }
-                else {
-                    console.warn(this._type + ".magFilter missing WebGL rendering context.");
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Texture.prototype, "naturalHeight", {
-            get: function () {
-                if (this.image) {
-                    return this.image.naturalHeight;
-                }
-                else {
-                    return void 0;
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Texture.prototype, "naturalWidth", {
-            get: function () {
-                if (this.image) {
-                    return this.image.naturalWidth;
-                }
-                else {
-                    return void 0;
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Texture.prototype, "wrapS", {
-            get: function () {
-                throw new Error('wrapS is write-only');
-            },
-            set: function (mode) {
-                if (this.gl) {
-                    this.bind();
-                    this.gl.texParameteri(this._target, TextureParameterName_1.default.TEXTURE_WRAP_S, mode);
-                    this.unbind();
-                }
-                else {
-                    console.warn(this._type + ".wrapS missing WebGL rendering context.");
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Texture.prototype, "wrapT", {
-            get: function () {
-                throw new Error('wrapT is write-only');
-            },
-            set: function (mode) {
-                if (this.gl) {
-                    this.bind();
-                    this.gl.texParameteri(this._target, TextureParameterName_1.default.TEXTURE_WRAP_T, mode);
-                    this.unbind();
-                }
-                else {
-                    console.warn(this._type + ".wrapT missing WebGL rendering context.");
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Texture.prototype.upload = function () {
-            if (this.gl) {
-                this.gl.texImage2D(this._target, 0, PixelFormat_1.default.RGBA, PixelFormat_1.default.RGBA, DataType_1.default.UNSIGNED_BYTE, this.image);
-            }
-            else {
-                console.warn(this._type + ".upload() missing WebGL rendering context.");
-            }
-        };
-        return Texture;
-    }(ShareableContextConsumer_1.ShareableContextConsumer));
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = Texture;
-});
-
-define('davinci-eight/loaders/TextureLoader',["require", "exports", "../checks/mustBeString", "../checks/mustBeFunction", "../core/Texture", "../core/TextureTarget"], function (require, exports, mustBeString_1, mustBeFunction_1, Texture_1, TextureTarget_1) {
+define('davinci-eight/loaders/TextureLoader',["require", "exports", "../core/ImageTexture", "../checks/mustBeString", "../checks/mustBeFunction", "../core/TextureTarget"], function (require, exports, ImageTexture_1, mustBeString_1, mustBeFunction_1, TextureTarget_1) {
     "use strict";
     var TextureLoader = (function () {
         function TextureLoader(contextManager) {
             this.contextManager = contextManager;
         }
-        TextureLoader.prototype.load = function (url, onLoad) {
+        TextureLoader.prototype.loadImageTexture = function (url, onLoad) {
             var _this = this;
             mustBeString_1.default('url', url);
             mustBeFunction_1.default('onLoad', onLoad);
             var image = new Image();
             image.onload = function () {
-                var texture = new Texture_1.default(TextureTarget_1.default.TEXTURE_2D, _this.contextManager);
-                texture.image = image;
+                var texture = new ImageTexture_1.default(image, TextureTarget_1.default.TEXTURE_2D, _this.contextManager);
                 texture.bind();
                 texture.upload();
                 texture.unbind();
@@ -20742,7 +20688,7 @@ define('davinci-eight/loaders/TextureLoader',["require", "exports", "../checks/m
     exports.default = TextureLoader;
 });
 
-define('davinci-eight',["require", "exports", "./davinci-eight/commands/WebGLBlendFunc", "./davinci-eight/commands/WebGLClearColor", "./davinci-eight/commands/WebGLDisable", "./davinci-eight/commands/WebGLEnable", "./davinci-eight/controls/OrbitControls", "./davinci-eight/controls/TrackballControls", "./davinci-eight/core/Attrib", "./davinci-eight/core/BeginMode", "./davinci-eight/core/BlendingFactorDest", "./davinci-eight/core/BlendingFactorSrc", "./davinci-eight/core/Capability", "./davinci-eight/core/ClearBufferMask", "./davinci-eight/core/Color", "./davinci-eight/config", "./davinci-eight/core/DataType", "./davinci-eight/core/Drawable", "./davinci-eight/core/DepthFunction", "./davinci-eight/core/GeometryArrays", "./davinci-eight/core/GeometryElements", "./davinci-eight/core/GraphicsProgramSymbols", "./davinci-eight/core/Mesh", "./davinci-eight/core/PixelFormat", "./davinci-eight/core/PixelType", "./davinci-eight/core/Scene", "./davinci-eight/core/Shader", "./davinci-eight/core/TextureMagFilter", "./davinci-eight/core/TextureMinFilter", "./davinci-eight/core/TextureParameterName", "./davinci-eight/core/TextureTarget", "./davinci-eight/core/TextureWrapMode", "./davinci-eight/core/Uniform", "./davinci-eight/core/Usage", "./davinci-eight/core/Engine", "./davinci-eight/core/VertexBuffer", "./davinci-eight/core/IndexBuffer", "./davinci-eight/core/vertexArraysFromPrimitive", "./davinci-eight/facets/AmbientLight", "./davinci-eight/facets/ColorFacet", "./davinci-eight/facets/DirectionalLight", "./davinci-eight/facets/ModelFacet", "./davinci-eight/facets/PointSizeFacet", "./davinci-eight/facets/ReflectionFacetE2", "./davinci-eight/facets/ReflectionFacetE3", "./davinci-eight/facets/Vector3Facet", "./davinci-eight/facets/frustumMatrix", "./davinci-eight/facets/PerspectiveCamera", "./davinci-eight/facets/perspectiveMatrix", "./davinci-eight/facets/viewMatrixFromEyeLookUp", "./davinci-eight/facets/ModelE2", "./davinci-eight/facets/ModelE3", "./davinci-eight/atoms/DrawAttribute", "./davinci-eight/atoms/DrawPrimitive", "./davinci-eight/atoms/reduce", "./davinci-eight/atoms/Vertex", "./davinci-eight/shapes/ArrowBuilder", "./davinci-eight/shapes/ConicalShellBuilder", "./davinci-eight/shapes/CylindricalShellBuilder", "./davinci-eight/shapes/RingBuilder", "./davinci-eight/geometries/Simplex", "./davinci-eight/geometries/ArrowGeometry", "./davinci-eight/geometries/BoxGeometry", "./davinci-eight/geometries/CylinderGeometry", "./davinci-eight/geometries/GridGeometry", "./davinci-eight/geometries/SphereGeometry", "./davinci-eight/geometries/TetrahedronGeometry", "./davinci-eight/materials/HTMLScriptsMaterial", "./davinci-eight/materials/LineMaterial", "./davinci-eight/materials/ShaderMaterial", "./davinci-eight/materials/MeshMaterial", "./davinci-eight/materials/PointMaterial", "./davinci-eight/materials/GraphicsProgramBuilder", "./davinci-eight/math/mathcore", "./davinci-eight/math/Vector1", "./davinci-eight/math/Matrix2", "./davinci-eight/math/Matrix3", "./davinci-eight/math/Matrix4", "./davinci-eight/math/Geometric2", "./davinci-eight/math/Geometric3", "./davinci-eight/math/Spinor2", "./davinci-eight/math/Spinor3", "./davinci-eight/math/Vector2", "./davinci-eight/math/Vector3", "./davinci-eight/math/Vector4", "./davinci-eight/math/VectorN", "./davinci-eight/utils/getCanvasElementById", "./davinci-eight/collections/ShareableArray", "./davinci-eight/collections/NumberShareableMap", "./davinci-eight/core/refChange", "./davinci-eight/core/ShareableBase", "./davinci-eight/collections/StringShareableMap", "./davinci-eight/utils/animation", "./davinci-eight/visual/Arrow", "./davinci-eight/visual/Basis", "./davinci-eight/visual/Sphere", "./davinci-eight/visual/Box", "./davinci-eight/visual/Cylinder", "./davinci-eight/visual/Curve", "./davinci-eight/visual/Grid", "./davinci-eight/visual/GridXY", "./davinci-eight/visual/GridYZ", "./davinci-eight/visual/GridZX", "./davinci-eight/visual/Group", "./davinci-eight/visual/HollowCylinder", "./davinci-eight/visual/Minecraft", "./davinci-eight/visual/Parallelepiped", "./davinci-eight/visual/RigidBody", "./davinci-eight/visual/Tetrahedron", "./davinci-eight/visual/Track", "./davinci-eight/visual/Trail", "./davinci-eight/visual/Turtle", "./davinci-eight/diagram/Diagram3D", "./davinci-eight/loaders/TextureLoader"], function (require, exports, WebGLBlendFunc_1, WebGLClearColor_1, WebGLDisable_1, WebGLEnable_1, OrbitControls_1, TrackballControls_1, Attrib_1, BeginMode_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, ClearBufferMask_1, Color_1, config_1, DataType_1, Drawable_1, DepthFunction_1, GeometryArrays_1, GeometryElements_1, GraphicsProgramSymbols_1, Mesh_1, PixelFormat_1, PixelType_1, Scene_1, Shader_1, TextureMagFilter_1, TextureMinFilter_1, TextureParameterName_1, TextureTarget_1, TextureWrapMode_1, Uniform_1, Usage_1, Engine_1, VertexBuffer_1, IndexBuffer_1, vertexArraysFromPrimitive_1, AmbientLight_1, ColorFacet_1, DirectionalLight_1, ModelFacet_1, PointSizeFacet_1, ReflectionFacetE2_1, ReflectionFacetE3_1, Vector3Facet_1, frustumMatrix_1, PerspectiveCamera_1, perspectiveMatrix_1, viewMatrixFromEyeLookUp_1, ModelE2_1, ModelE3_1, DrawAttribute_1, DrawPrimitive_1, reduce_1, Vertex_1, ArrowBuilder_1, ConicalShellBuilder_1, CylindricalShellBuilder_1, RingBuilder_1, Simplex_1, ArrowGeometry_1, BoxGeometry_1, CylinderGeometry_1, GridGeometry_1, SphereGeometry_1, TetrahedronGeometry_1, HTMLScriptsMaterial_1, LineMaterial_1, ShaderMaterial_1, MeshMaterial_1, PointMaterial_1, GraphicsProgramBuilder_1, mathcore_1, Vector1_1, Matrix2_1, Matrix3_1, Matrix4_1, Geometric2_1, Geometric3_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1, Vector4_1, VectorN_1, getCanvasElementById_1, ShareableArray_1, NumberShareableMap_1, refChange_1, ShareableBase_1, StringShareableMap_1, animation_1, Arrow_1, Basis_1, Sphere_1, Box_1, Cylinder_1, Curve_1, Grid_1, GridXY_1, GridYZ_1, GridZX_1, Group_1, HollowCylinder_1, Minecraft_1, Parallelepiped_1, RigidBody_1, Tetrahedron_1, Track_1, Trail_1, Turtle_1, Diagram3D_1, TextureLoader_1) {
+define('davinci-eight',["require", "exports", "./davinci-eight/commands/WebGLBlendFunc", "./davinci-eight/commands/WebGLClearColor", "./davinci-eight/commands/WebGLDisable", "./davinci-eight/commands/WebGLEnable", "./davinci-eight/controls/OrbitControls", "./davinci-eight/controls/TrackballControls", "./davinci-eight/core/Attrib", "./davinci-eight/core/BeginMode", "./davinci-eight/core/BlendingFactorDest", "./davinci-eight/core/BlendingFactorSrc", "./davinci-eight/core/Capability", "./davinci-eight/core/ClearBufferMask", "./davinci-eight/core/Color", "./davinci-eight/config", "./davinci-eight/core/DataType", "./davinci-eight/core/Drawable", "./davinci-eight/core/DepthFunction", "./davinci-eight/core/GeometryArrays", "./davinci-eight/core/GeometryElements", "./davinci-eight/core/GraphicsProgramSymbols", "./davinci-eight/core/ImageTexture", "./davinci-eight/core/Mesh", "./davinci-eight/core/PixelFormat", "./davinci-eight/core/PixelType", "./davinci-eight/core/Scene", "./davinci-eight/core/Shader", "./davinci-eight/core/Texture", "./davinci-eight/core/TextureMagFilter", "./davinci-eight/core/TextureMinFilter", "./davinci-eight/core/TextureParameterName", "./davinci-eight/core/TextureTarget", "./davinci-eight/core/TextureWrapMode", "./davinci-eight/core/Uniform", "./davinci-eight/core/Usage", "./davinci-eight/core/Engine", "./davinci-eight/core/VertexBuffer", "./davinci-eight/core/IndexBuffer", "./davinci-eight/core/vertexArraysFromPrimitive", "./davinci-eight/facets/AmbientLight", "./davinci-eight/facets/ColorFacet", "./davinci-eight/facets/DirectionalLight", "./davinci-eight/facets/ModelFacet", "./davinci-eight/facets/PointSizeFacet", "./davinci-eight/facets/ReflectionFacetE2", "./davinci-eight/facets/ReflectionFacetE3", "./davinci-eight/facets/Vector3Facet", "./davinci-eight/facets/frustumMatrix", "./davinci-eight/facets/PerspectiveCamera", "./davinci-eight/facets/perspectiveMatrix", "./davinci-eight/facets/viewMatrixFromEyeLookUp", "./davinci-eight/facets/ModelE2", "./davinci-eight/facets/ModelE3", "./davinci-eight/atoms/DrawAttribute", "./davinci-eight/atoms/DrawPrimitive", "./davinci-eight/atoms/reduce", "./davinci-eight/atoms/Vertex", "./davinci-eight/shapes/ArrowBuilder", "./davinci-eight/shapes/ConicalShellBuilder", "./davinci-eight/shapes/CylindricalShellBuilder", "./davinci-eight/shapes/RingBuilder", "./davinci-eight/geometries/Simplex", "./davinci-eight/geometries/ArrowGeometry", "./davinci-eight/geometries/BoxGeometry", "./davinci-eight/geometries/CylinderGeometry", "./davinci-eight/geometries/GridGeometry", "./davinci-eight/geometries/SphereGeometry", "./davinci-eight/geometries/TetrahedronGeometry", "./davinci-eight/materials/HTMLScriptsMaterial", "./davinci-eight/materials/LineMaterial", "./davinci-eight/materials/ShaderMaterial", "./davinci-eight/materials/MeshMaterial", "./davinci-eight/materials/PointMaterial", "./davinci-eight/materials/GraphicsProgramBuilder", "./davinci-eight/math/mathcore", "./davinci-eight/math/Vector1", "./davinci-eight/math/Matrix2", "./davinci-eight/math/Matrix3", "./davinci-eight/math/Matrix4", "./davinci-eight/math/Geometric2", "./davinci-eight/math/Geometric3", "./davinci-eight/math/Spinor2", "./davinci-eight/math/Spinor3", "./davinci-eight/math/Vector2", "./davinci-eight/math/Vector3", "./davinci-eight/math/Vector4", "./davinci-eight/math/VectorN", "./davinci-eight/utils/getCanvasElementById", "./davinci-eight/collections/ShareableArray", "./davinci-eight/collections/NumberShareableMap", "./davinci-eight/core/refChange", "./davinci-eight/core/ShareableBase", "./davinci-eight/collections/StringShareableMap", "./davinci-eight/utils/animation", "./davinci-eight/visual/Arrow", "./davinci-eight/visual/Basis", "./davinci-eight/visual/Sphere", "./davinci-eight/visual/Box", "./davinci-eight/visual/Cylinder", "./davinci-eight/visual/Curve", "./davinci-eight/visual/Grid", "./davinci-eight/visual/GridXY", "./davinci-eight/visual/GridYZ", "./davinci-eight/visual/GridZX", "./davinci-eight/visual/Group", "./davinci-eight/visual/HollowCylinder", "./davinci-eight/visual/Minecraft", "./davinci-eight/visual/Parallelepiped", "./davinci-eight/visual/RigidBody", "./davinci-eight/visual/Tetrahedron", "./davinci-eight/visual/Track", "./davinci-eight/visual/Trail", "./davinci-eight/visual/Turtle", "./davinci-eight/diagram/Diagram3D", "./davinci-eight/loaders/TextureLoader"], function (require, exports, WebGLBlendFunc_1, WebGLClearColor_1, WebGLDisable_1, WebGLEnable_1, OrbitControls_1, TrackballControls_1, Attrib_1, BeginMode_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, ClearBufferMask_1, Color_1, config_1, DataType_1, Drawable_1, DepthFunction_1, GeometryArrays_1, GeometryElements_1, GraphicsProgramSymbols_1, ImageTexture_1, Mesh_1, PixelFormat_1, PixelType_1, Scene_1, Shader_1, Texture_1, TextureMagFilter_1, TextureMinFilter_1, TextureParameterName_1, TextureTarget_1, TextureWrapMode_1, Uniform_1, Usage_1, Engine_1, VertexBuffer_1, IndexBuffer_1, vertexArraysFromPrimitive_1, AmbientLight_1, ColorFacet_1, DirectionalLight_1, ModelFacet_1, PointSizeFacet_1, ReflectionFacetE2_1, ReflectionFacetE3_1, Vector3Facet_1, frustumMatrix_1, PerspectiveCamera_1, perspectiveMatrix_1, viewMatrixFromEyeLookUp_1, ModelE2_1, ModelE3_1, DrawAttribute_1, DrawPrimitive_1, reduce_1, Vertex_1, ArrowBuilder_1, ConicalShellBuilder_1, CylindricalShellBuilder_1, RingBuilder_1, Simplex_1, ArrowGeometry_1, BoxGeometry_1, CylinderGeometry_1, GridGeometry_1, SphereGeometry_1, TetrahedronGeometry_1, HTMLScriptsMaterial_1, LineMaterial_1, ShaderMaterial_1, MeshMaterial_1, PointMaterial_1, GraphicsProgramBuilder_1, mathcore_1, Vector1_1, Matrix2_1, Matrix3_1, Matrix4_1, Geometric2_1, Geometric3_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1, Vector4_1, VectorN_1, getCanvasElementById_1, ShareableArray_1, NumberShareableMap_1, refChange_1, ShareableBase_1, StringShareableMap_1, animation_1, Arrow_1, Basis_1, Sphere_1, Box_1, Cylinder_1, Curve_1, Grid_1, GridXY_1, GridYZ_1, GridZX_1, Group_1, HollowCylinder_1, Minecraft_1, Parallelepiped_1, RigidBody_1, Tetrahedron_1, Track_1, Trail_1, Turtle_1, Diagram3D_1, TextureLoader_1) {
     "use strict";
     var eight = {
         get LAST_MODIFIED() { return config_1.default.LAST_MODIFIED; },
@@ -20783,6 +20729,8 @@ define('davinci-eight',["require", "exports", "./davinci-eight/commands/WebGLBle
         get DrawMode() { return BeginMode_1.default; },
         get PixelFormat() { return PixelFormat_1.default; },
         get PixelType() { return PixelType_1.default; },
+        get ImageTexture() { return ImageTexture_1.default; },
+        get Texture() { return Texture_1.default; },
         get TextureMagFilter() { return TextureMagFilter_1.default; },
         get TextureMinFilter() { return TextureMinFilter_1.default; },
         get TextureParameterName() { return TextureParameterName_1.default; },

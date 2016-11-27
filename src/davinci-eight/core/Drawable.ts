@@ -62,49 +62,6 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
         super.destructor(levelUp + 1);
     }
 
-    /**
-     *
-     */
-    get fragmentShaderSrc(): string {
-        if (this._material) {
-            return this._material.fragmentShaderSrc;
-        }
-        else {
-            return void 0;
-        }
-
-    }
-    set fragmentShaderSrc(fragmentShaderSrc: string) {
-        if (this._material) {
-            this._material.fragmentShaderSrc = fragmentShaderSrc;
-        }
-        else {
-            throw new Error(`Unable to set fragmentShaderSrc because ${this._type}.material is not defined.`);
-        }
-    }
-
-    /**
-     *
-     */
-    get vertexShaderSrc(): string {
-        if (this._material) {
-            return this._material.vertexShaderSrc;
-        }
-        else {
-            return void 0;
-        }
-
-    }
-    set vertexShaderSrc(vertexShaderSrc: string) {
-        const material = this._material;
-        if (material) {
-            material.vertexShaderSrc = vertexShaderSrc;
-        }
-        else {
-            throw new Error(`Unable to set vertexShaderSrc because ${this._type}.material is not defined.`);
-        }
-    }
-
     get opacity(): number {
         const facet = <OpacityFacet>this.getFacet(OPACITY_FACET_NAME);
         if (facet) {

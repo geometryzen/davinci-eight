@@ -1,8 +1,6 @@
 import ContextProvider from './ContextProvider';
 import ContextManager from './ContextManager';
-import DataType from './DataType';
 import mustBeUndefined from '../checks/mustBeUndefined';
-import PixelFormat from './PixelFormat';
 import { ShareableContextConsumer } from './ShareableContextConsumer';
 import TextureMagFilter from './TextureMagFilter';
 import TextureMinFilter from './TextureMinFilter';
@@ -12,8 +10,7 @@ import TextureWrapMode from './TextureWrapMode';
 
 export default class Texture extends ShareableContextConsumer {
     private _texture: WebGLTexture;
-    private _target: TextureTarget;
-    public image: HTMLImageElement;
+    protected _target: TextureTarget;
     constructor(target: TextureTarget, contextManager: ContextManager, levelUp = 0) {
         super(contextManager);
         this.setLoggingName('Texture');
@@ -103,24 +100,6 @@ export default class Texture extends ShareableContextConsumer {
         }
     }
 
-    get naturalHeight(): number {
-        if (this.image) {
-            return this.image.naturalHeight;
-        }
-        else {
-            return void 0;
-        }
-    }
-
-    get naturalWidth(): number {
-        if (this.image) {
-            return this.image.naturalWidth;
-        }
-        else {
-            return void 0;
-        }
-    }
-
     get wrapS(): TextureWrapMode {
         throw new Error('wrapS is write-only');
     }
@@ -149,12 +128,10 @@ export default class Texture extends ShareableContextConsumer {
         }
     }
 
+    /**
+     * 
+     */
     upload(): void {
-        if (this.gl) {
-            this.gl.texImage2D(this._target, 0, PixelFormat.RGBA, PixelFormat.RGBA, DataType.UNSIGNED_BYTE, this.image);
-        }
-        else {
-            console.warn(`${this._type}.upload() missing WebGL rendering context.`);
-        }
+        throw new Error(`${this._type}.upload() must be implemented.`);
     }
 }

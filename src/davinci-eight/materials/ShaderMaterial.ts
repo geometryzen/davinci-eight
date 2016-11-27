@@ -182,6 +182,7 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
     get vertexShaderSrc(): string {
         return this._vertexShaderSrc;
     }
+    /*
     set vertexShaderSrc(vertexShaderSrc: string) {
         this._vertexShaderSrc = mustBeString('vertexShaderSrc', vertexShaderSrc);
         if (this.contextProvider) {
@@ -196,13 +197,14 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
             }
         }
     }
-
+    */
     /**
      *
      */
     get fragmentShaderSrc(): string {
         return this._fragmentShaderSrc;
     }
+    /*
     set fragmentShaderSrc(fragmentShaderSrc: string) {
         this._fragmentShaderSrc = mustBeString('fragmentShaderSrc', fragmentShaderSrc);
         if (this.contextProvider) {
@@ -217,6 +219,7 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
             }
         }
     }
+    */
 
     /**
      *
