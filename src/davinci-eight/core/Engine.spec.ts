@@ -3,6 +3,9 @@ import refChange from './refChange';
 
 describe("Engine", function () {
   xit("new-release", function () {
+    refChange('quiet');
+    refChange('reset');
+    refChange('quiet');
     refChange('start');
     const engine = new Engine();
     expect(engine instanceof Engine).toBe(true);

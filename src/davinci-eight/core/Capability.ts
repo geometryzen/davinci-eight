@@ -1,7 +1,7 @@
 /**
  * A capability that may be enabled or disabled for a WebGLRenderingContext.
  */
-enum Capability {
+export enum Capability {
     /**
      * Let polygons be culled.
      */

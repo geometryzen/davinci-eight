@@ -1,7 +1,7 @@
 /**
  *
  */
-enum TextureMinFilter {
+export enum TextureMinFilter {
     NEAREST = 0x2600,
     LINEAR = 0x2601,
     NEAREST_MIPMAP_NEAREST = 0x2700,

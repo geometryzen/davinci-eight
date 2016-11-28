@@ -3,7 +3,7 @@
  * 
  * https://www.khronos.org/registry/webgl/specs/1.0/
  */
-enum DataType {
+export enum DataType {
     BYTE = 0x1400,
     UNSIGNED_BYTE = 0x1401,
     SHORT = 0x1402,

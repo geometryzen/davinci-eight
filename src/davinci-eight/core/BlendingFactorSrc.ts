@@ -1,4 +1,4 @@
-enum BlendingFactorSrc {
+export enum BlendingFactorSrc {
     ZERO = 0,
     ONE = 1,
     DST_COLOR = 0x0306,

@@ -1,8 +1,6 @@
 import BeginMode from '../core/BeginMode';
-import cleanUp from '../core/cleanUp';
 import { Color } from '../core/Color';
 import ContextManager from '../core/ContextManager';
-import ContextProvider from '../core/ContextProvider';
 import DataType from '../core/DataType';
 import { Engine } from '../core/Engine';
 import exchange from '../base/exchange';
@@ -136,7 +134,6 @@ export default class Parallelepiped implements Renderable {
      */
     public colors: Color[] = [];
     private contextManager: ContextManager;
-    private contextProvider: ContextProvider;
     private refCount = 0;
     private mesh: Mesh<GeometryArrays, ShaderMaterial>;
     constructor(engine: Engine, private levelUp = 0) {
@@ -154,7 +151,17 @@ export default class Parallelepiped implements Renderable {
     }
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
-            cleanUp(this.contextProvider, this);
+            if (this.contextManager && this.contextManager.gl) {
+                if (this.contextManager.gl.isContextLost()) {
+                    this.contextLost();
+                }
+                else {
+                    this.contextFree();
+                }
+            }
+            else {
+                // There is no contextProvider so resources should already be clean.
+            }
         }
         this.mesh = exchange(this.mesh, void 0);
         this.contextManager = exchange(this.contextManager, void 0);
@@ -188,11 +195,10 @@ export default class Parallelepiped implements Renderable {
         }
         return this.refCount;
     }
-    contextFree(contextProvider: ContextProvider): void {
+    contextFree(): void {
         this.mesh = exchange(this.mesh, void 0);
-        this.contextProvider = exchange(this.contextProvider, void 0);
     }
-    contextGain(contextProvider: ContextProvider): void {
+    contextGain(): void {
         if (!this.mesh) {
             const primitive: Primitive = {
                 mode: BeginMode.TRIANGLES,
@@ -213,12 +219,9 @@ export default class Parallelepiped implements Renderable {
 
             geometry.release();
             material.release();
-
-            this.contextProvider = exchange(this.contextProvider, contextProvider);
         }
     }
     contextLost(): void {
         this.mesh = exchange(this.mesh, void 0);
-        this.contextProvider = exchange(this.contextProvider, void 0);
     }
 }

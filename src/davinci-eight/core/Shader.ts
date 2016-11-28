@@ -1,4 +1,3 @@
-import ContextProvider from './ContextProvider';
 import { Engine } from './Engine';
 import makeWebGLShader from './makeWebGLShader';
 import mustBeNumber from '../checks/mustBeNumber';
@@ -22,20 +21,20 @@ export default class Shader extends ShareableContextConsumer {
 
     destructor(levelUp: number): void {
         super.destructor(levelUp + 1);
-        mustBeUndefined(this._type, this._shader);
+        mustBeUndefined(this.getLoggingName(), this._shader);
     }
 
-    contextFree(context: ContextProvider): void {
+    contextFree(): void {
         if (this._shader) {
-            context.gl.deleteShader(this._shader);
+            this.contextManager.gl.deleteShader(this._shader);
             this._shader = void 0;
         }
-        super.contextFree(context);
+        super.contextFree();
     }
 
-    contextGain(context: ContextProvider): void {
-        this._shader = makeWebGLShader(context.gl, this._source, this._shaderType);
-        super.contextGain(context);
+    contextGain(): void {
+        this._shader = makeWebGLShader(this.contextManager.gl, this._source, this._shaderType);
+        super.contextGain();
     }
 
     contextLost(): void {

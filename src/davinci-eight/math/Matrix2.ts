@@ -1,10 +1,24 @@
 import AbstractMatrix from '../math/AbstractMatrix';
-import add2x2 from '../math/add2x2';
 import det2x2 from '../math/det2x2';
 import isDefined from '../checks/isDefined';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeNumber from '../checks/mustBeNumber';
 import VectorE1 from '../math/VectorE1';
+
+function add2x2(a: Float32Array, b: Float32Array, c: Float32Array): void {
+
+    const a11 = a[0x0], a12 = a[0x2];
+    const a21 = a[0x1], a22 = a[0x3];
+
+    const b11 = b[0x0], b12 = b[0x2];
+    const b21 = b[0x1], b22 = b[0x3];
+
+    c[0x0] = a11 + b11;
+    c[0x2] = a12 + b12;
+
+    c[0x1] = a21 + b21;
+    c[0x3] = a22 + b22;
+}
 
 /**
  *
@@ -213,7 +227,7 @@ export default class Matrix2 extends AbstractMatrix<Matrix2> {
     toExponential(fractionDigits?: number): string {
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
-            text.push(this.row(i).map(function(element: number, index: number) { return element.toExponential(fractionDigits); }).join(' '));
+            text.push(this.row(i).map(function (element: number, index: number) { return element.toExponential(fractionDigits); }).join(' '));
         }
         return text.join('\n');
     }
@@ -229,7 +243,7 @@ export default class Matrix2 extends AbstractMatrix<Matrix2> {
         }
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
-            text.push(this.row(i).map(function(element: number, index: number) { return element.toFixed(fractionDigits); }).join(' '));
+            text.push(this.row(i).map(function (element: number, index: number) { return element.toFixed(fractionDigits); }).join(' '));
         }
         return text.join('\n');
     }
@@ -245,7 +259,7 @@ export default class Matrix2 extends AbstractMatrix<Matrix2> {
         }
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
-            text.push(this.row(i).map(function(element: number, index: number) { return element.toPrecision(precision); }).join(' '));
+            text.push(this.row(i).map(function (element: number, index: number) { return element.toPrecision(precision); }).join(' '));
         }
         return text.join('\n');
     }
@@ -258,7 +272,7 @@ export default class Matrix2 extends AbstractMatrix<Matrix2> {
     toString(radix?: number): string {
         const text: string[] = [];
         for (let i = 0, iLength = this.dimensions; i < iLength; i++) {
-            text.push(this.row(i).map(function(element: number, index: number) { return element.toString(radix); }).join(' '));
+            text.push(this.row(i).map(function (element: number, index: number) { return element.toString(radix); }).join(' '));
         }
         return text.join('\n');
     }

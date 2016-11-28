@@ -3,7 +3,7 @@ import SpinorE3 from '../math/SpinorE3';
 /**
  * The options for creating a Sphere.
  */
-interface SphereOptions {
+export interface SphereOptions {
     /**
      * 
      */

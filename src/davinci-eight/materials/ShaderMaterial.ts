@@ -1,7 +1,6 @@
 import Attrib from '../core/Attrib';
 import BeginMode from '../core/BeginMode';
 import ContextManager from '../core/ContextManager';
-import ContextProvider from '../core/ContextProvider';
 import DataType from '../core/DataType';
 import { FacetVisitor } from '../core/FacetVisitor';
 import isDefined from '../checks/isDefined';
@@ -80,15 +79,15 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
         if (levelUp === 0) {
             this.cleanUp();
         }
-        mustBeUndefined(this._type, this._program);
+        mustBeUndefined(this.getLoggingName(), this._program);
         super.destructor(levelUp + 1);
     }
 
     /**
      *
      */
-    contextGain(context: ContextProvider): void {
-        const gl = context.gl;
+    contextGain(): void {
+        const gl = this.contextManager.gl;
         if (!this._program && isString(this._vertexShaderSrc) && isString(this._fragmentShaderSrc)) {
             this._program = makeWebGLProgram(gl, this._vertexShaderSrc, this._fragmentShaderSrc, this._attribs);
             this._attributesByName = {};
@@ -121,7 +120,7 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
                 }
             }
         }
-        super.contextGain(context);
+        super.contextGain();
     }
 
     /**
@@ -146,9 +145,9 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
     /**
      *
      */
-    contextFree(context: ContextProvider): void {
+    contextFree(): void {
         if (this._program) {
-            const gl = context.gl;
+            const gl = this.contextManager.gl;
             if (gl) {
                 if (!gl.isContextLost()) {
                     gl.deleteProgram(this._program);
@@ -173,7 +172,7 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
                 this._uniforms[uName].contextFree();
             }
         }
-        super.contextFree(context);
+        super.contextFree();
     }
 
     /**
@@ -182,44 +181,13 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
     get vertexShaderSrc(): string {
         return this._vertexShaderSrc;
     }
-    /*
-    set vertexShaderSrc(vertexShaderSrc: string) {
-        this._vertexShaderSrc = mustBeString('vertexShaderSrc', vertexShaderSrc);
-        if (this.contextProvider) {
-            this.contextProvider.addRef();
-            const contextProvider = this.contextProvider;
-            try {
-                this.contextFree(contextProvider);
-                this.contextGain(contextProvider);
-            }
-            finally {
-                contextProvider.release();
-            }
-        }
-    }
-    */
+
     /**
      *
      */
     get fragmentShaderSrc(): string {
         return this._fragmentShaderSrc;
     }
-    /*
-    set fragmentShaderSrc(fragmentShaderSrc: string) {
-        this._fragmentShaderSrc = mustBeString('fragmentShaderSrc', fragmentShaderSrc);
-        if (this.contextProvider) {
-            this.contextProvider.addRef();
-            const contextProvider = this.contextProvider;
-            try {
-                this.contextFree(contextProvider);
-                this.contextGain(contextProvider);
-            }
-            finally {
-                contextProvider.release();
-            }
-        }
-    }
-    */
 
     /**
      *
@@ -455,7 +423,7 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
             gl.useProgram(this._program);
         }
         else {
-            console.warn(`${this._type}.use() missing WebGL rendering context.`);
+            console.warn(`${this.getLoggingName()}.use() missing WebGL rendering context.`);
         }
         return this;
     }

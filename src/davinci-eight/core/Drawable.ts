@@ -1,6 +1,5 @@
 import { AbstractDrawable } from './AbstractDrawable';
 import ContextManager from '../core/ContextManager';
-import ContextProvider from '../core/ContextProvider';
 import exchange from '../base/exchange';
 import { Facet } from '../core/Facet';
 import { Geometry } from './Geometry';
@@ -155,28 +154,28 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
         return this;
     }
 
-    contextFree(context: ContextProvider): void {
+    contextFree(): void {
         if (this._geometry && this._geometry.contextFree) {
-            this._geometry.contextFree(context);
+            this._geometry.contextFree();
         }
         if (this._material && this._material.contextFree) {
-            this._material.contextFree(context);
+            this._material.contextFree();
         }
         if (super.contextFree) {
-            super.contextFree(context);
+            super.contextFree();
         }
     }
 
-    contextGain(contextProvider: ContextProvider): void {
+    contextGain(): void {
         if (this._geometry && this._geometry.contextGain) {
-            this._geometry.contextGain(contextProvider);
+            this._geometry.contextGain();
         }
         if (this._material && this._material.contextGain) {
-            this._material.contextGain(contextProvider);
+            this._material.contextGain();
         }
         synchFacets(this._material, this);
         if (super.contextGain) {
-            super.contextGain(contextProvider);
+            super.contextGain();
         }
     }
 
@@ -259,9 +258,11 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
     }
     set geometry(geometry: G) {
         this._geometry = exchange(this._geometry, geometry);
+        /*
         if (this._geometry && this._geometry.contextGain && this.contextProvider) {
             this._geometry.contextGain(this.contextProvider);
         }
+        */
     }
 
     /**
@@ -272,11 +273,13 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
     }
     set material(material: M) {
         this._material = exchange(this._material, material);
+        /*
         if (this._material) {
             if (this.contextProvider) {
                 this._material.contextGain(this.contextProvider);
             }
         }
+        */
         synchFacets(this._material, this);
     }
 
@@ -287,7 +290,7 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
         return this._visible;
     }
     set visible(visible: boolean) {
-        mustBeBoolean('visible', visible, () => { return this._type; });
+        mustBeBoolean('visible', visible, () => { return this.getLoggingName(); });
         this._visible = visible;
     }
 
@@ -298,7 +301,7 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
         return this._transparent;
     }
     set transparent(transparent: boolean) {
-        mustBeBoolean('transparent', transparent, () => { return this._type; });
+        mustBeBoolean('transparent', transparent, () => { return this.getLoggingName(); });
         this._transparent = transparent;
     }
 }

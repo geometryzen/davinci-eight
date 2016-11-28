@@ -3,7 +3,7 @@ import VectorE3 from '../math/VectorE3';
 /**
  *
  */
-interface GridOptions {
+export interface GridOptions {
 
     /**
      * <p>

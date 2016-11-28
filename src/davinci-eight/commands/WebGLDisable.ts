@@ -1,16 +1,15 @@
 import Capability from '../core/Capability';
-import { ContextConsumer } from '../core/ContextConsumer';
-import ContextProvider from '../core/ContextProvider';
+import ContextManager from '../core/ContextManager';
 import mustBeNumber from '../checks/mustBeNumber';
 import { ShareableBase } from '../core/ShareableBase';
 
 /**
  * disable(capability: Capability): void
  */
-export class WebGLDisable extends ShareableBase implements ContextConsumer {
+export class WebGLDisable extends ShareableBase {
     private _capability: Capability;
 
-    constructor(capability: Capability) {
+    constructor(private contextManager: ContextManager, capability: Capability) {
         super();
         this.setLoggingName('WebGLDisable');
         this._capability = mustBeNumber('capability', capability);
@@ -21,12 +20,12 @@ export class WebGLDisable extends ShareableBase implements ContextConsumer {
         super.destructor(levelUp + 1);
     }
 
-    contextFree(manager: ContextProvider): void {
+    contextFree(): void {
         // do nothing
     }
 
-    contextGain(manager: ContextProvider): void {
-        manager.gl.disable(this._capability);
+    contextGain(): void {
+        this.contextManager.gl.disable(this._capability);
     }
 
     contextLost(): void {

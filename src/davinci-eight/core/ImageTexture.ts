@@ -43,7 +43,7 @@ export default class ImageTexture extends Texture {
             this.gl.texImage2D(this._target, 0, PixelFormat.RGBA, PixelFormat.RGBA, DataType.UNSIGNED_BYTE, this.image);
         }
         else {
-            console.warn(`${this._type}.upload() missing WebGL rendering context.`);
+            console.warn(`${this.getLoggingName()}.upload() missing WebGL rendering context.`);
         }
     }
 }

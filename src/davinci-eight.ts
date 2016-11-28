@@ -23,7 +23,6 @@ import { Drawable } from './davinci-eight/core/Drawable';
 import DepthFunction from './davinci-eight/core/DepthFunction';
 import { ContextConsumer } from './davinci-eight/core/ContextConsumer';
 import ContextProgramConsumer from './davinci-eight/core/ContextProgramConsumer';
-import ContextProvider from './davinci-eight/core/ContextProvider';
 import { Facet } from './davinci-eight/core/Facet';
 import { FacetVisitor } from './davinci-eight/core/FacetVisitor';
 import GeometryArrays from './davinci-eight/core/GeometryArrays';

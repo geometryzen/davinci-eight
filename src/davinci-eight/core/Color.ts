@@ -178,7 +178,6 @@ export class Color extends Coords {
             this.r = color.r;
             this.g = color.g;
             this.b = color.b;
-            return this;
         }
         else {
             // We can choose what to do based upon a global setting?
@@ -186,6 +185,7 @@ export class Color extends Coords {
             this.g = Math.random();
             this.b = Math.random();
         }
+        return this;
     }
 
     public divByScalar(α: number): Color {

@@ -1,7 +1,7 @@
 /**
  *
  */
-enum TextureTarget {
+export enum TextureTarget {
     TEXTURE_2D = 0x0DE1,
     TEXTURE = 0x1702
 }

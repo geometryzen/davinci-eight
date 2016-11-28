@@ -80,7 +80,7 @@ class TurtleGeometry extends GeometryArrays {
     private w = 1;
     private h = 1;
     private d = 1;
-    constructor(private contextManager: ContextManager, options: TurtleGeometryOptions = {}) {
+    constructor(contextManager: ContextManager, options: TurtleGeometryOptions = {}) {
         super(contextManager, primitive(options), options);
     }
 
@@ -123,7 +123,7 @@ class TurtleGeometry extends GeometryArrays {
     }
 }
 
-interface TurtleOptions {
+export interface TurtleOptions {
     color?: { r: number; g: number; b: number };
     tilt?: SpinorE3;
 }

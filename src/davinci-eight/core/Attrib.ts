@@ -44,9 +44,6 @@ export default class Attrib implements ContextProgramConsumer {
     /**
      * Notifies this <code>Attrib</code> of a browser free WebGL context event.
      * This <code>Attrib</code> responds by setting its cached index and context to undefined.
-     *
-     * @method contextFree
-     * @return {void}
      */
     contextFree(): void {
         // Nothing to deallocate. Just reflect notification in state variables.

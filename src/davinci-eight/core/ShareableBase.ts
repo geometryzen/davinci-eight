@@ -45,7 +45,7 @@ export class ShareableBase implements Shareable {
     /**
      *
      */
-    protected _type: string;
+    private _type: string;
 
     /**
      * The unique identifier used for reference count monitoring.
@@ -125,7 +125,7 @@ export class ShareableBase implements Shareable {
     }
 
     /**
-     *
+     * Returns the name that was assigned by the call to the setLoggingName method.
      */
     public getLoggingName(): string {
         return this._type;
@@ -142,6 +142,8 @@ export class ShareableBase implements Shareable {
      * chains are consistent with constructor chains, which is a good practice for cleaning up resources.
      *
      * Notice that this method is intentionally protected to discourage it from being called outside of the constructor.
+     * 
+     * @param name This will usually be set to the name of the class.
      */
     protected setLoggingName(name: string): void {
         this._type = mustBeString('name', name);

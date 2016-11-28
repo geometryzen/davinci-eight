@@ -1,6 +1,5 @@
 import { Facet } from '../core/Facet';
-import ContextManager from './ContextManager';
-import ContextProvider from '../core/ContextProvider';
+import ContextManager from '../core/ContextManager';
 import mustBeObject from '../checks/mustBeObject';
 import { Renderable } from '../core/Renderable';
 import ShareableArray from '../collections/ShareableArray';
@@ -130,24 +129,24 @@ export class Scene extends ShareableContextConsumer {
         }
     }
 
-    contextFree(contextProvider: ContextProvider): void {
+    contextFree(): void {
         for (let i = 0; i < this._drawables.length; i++) {
             const drawable = this._drawables.getWeakRef(i);
             if (drawable.contextFree) {
-                drawable.contextFree(contextProvider);
+                drawable.contextFree();
             }
         }
-        super.contextFree(contextProvider);
+        super.contextFree();
     }
 
-    contextGain(contextProvider: ContextProvider): void {
+    contextGain(): void {
         for (let i = 0; i < this._drawables.length; i++) {
             const drawable = this._drawables.getWeakRef(i);
             if (drawable.contextGain) {
-                drawable.contextGain(contextProvider);
+                drawable.contextGain();
             }
         }
-        super.contextGain(contextProvider);
+        super.contextGain();
     }
 
     contextLost(): void {

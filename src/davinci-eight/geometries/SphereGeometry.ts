@@ -77,13 +77,14 @@ function quadIndex(i: number, j: number, innerSegments: number): number {
     return i * (innerSegments + 1) + j;
 }
 
-function vertexIndex(qIndex: number, n: number, innerSegments: number) {
+function vertexIndex(qIndex: number, n: number, innerSegments: number): number {
     switch (n) {
         case 0: return qIndex + 1;
         case 1: return qIndex;
         case 2: return qIndex + innerSegments + 1;
         case 3: return qIndex + innerSegments + 2;
     }
+    throw new Error(`n must be in the range [0, 3]`);
 }
 
 function makeTriangles(points: Vector3[], uvs: Vector2[], radius: number, heightSegments: number, widthSegments: number, geometry: SimplexPrimitivesBuilder) {

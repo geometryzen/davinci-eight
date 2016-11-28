@@ -1,3 +1,4 @@
+import { Engine } from '../core/Engine';
 import EIGHTLogger from './EIGHTLogger';
 import refChange from '../core/refChange';
 
@@ -7,8 +8,10 @@ describe("EIGHTLogger", function () {
     refChange('reset');
     refChange('quiet');
     refChange('start');
-    const logger = new EIGHTLogger();
+    const engine = new Engine();
+    const logger = new EIGHTLogger(engine);
     logger.release();
+    engine.release();
     refChange('quiet');
     const outstanding = refChange('stop');
     expect(outstanding).toBe(0);

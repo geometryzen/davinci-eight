@@ -3,7 +3,7 @@ import VectorE3 from '../math/VectorE3';
 /**
  *
  */
-interface CylinderOptions {
+export interface CylinderOptions {
     /**
      * Defaults to e2.
      */

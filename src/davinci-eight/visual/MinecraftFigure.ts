@@ -65,4 +65,3 @@ export default class MinecraftFigure extends Group {
         this.legR.release();
     }
 }
-

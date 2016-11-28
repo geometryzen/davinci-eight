@@ -120,6 +120,7 @@ module.exports = function (grunt) {
                     target: 'ES5',
                     moduleResolution: "classic",
                     noImplicitAny: true,
+                    noImplicitReturns: true,
                     strictNullChecks: true,
                     suppressImplicitAnyIndexErrors: true,
                     outDir: 'amd',
@@ -139,6 +140,7 @@ module.exports = function (grunt) {
                     target: 'ES5',
                     moduleResolution: "classic",
                     noImplicitAny: true,
+                    noImplicitReturns: true,
                     strictNullChecks: true,
                     suppressImplicitAnyIndexErrors: true,
                     outDir: 'temp/amd',
@@ -157,6 +159,7 @@ module.exports = function (grunt) {
                     module: 'system',
                     target: 'ES5',
                     noImplicitAny: true,
+                    noImplicitReturns: true,
                     strictNullChecks: true,
                     suppressImplicitAnyIndexErrors: true,
                     outDir: 'system',
@@ -176,6 +179,7 @@ module.exports = function (grunt) {
                     target: 'ES5',
                     moduleResolution: "classic",
                     noImplicitAny: true,
+                    noImplicitReturns: true,
                     strictNullChecks: true,
                     suppressImplicitAnyIndexErrors: true,
                     outDir: 'test-karma',
@@ -218,18 +222,18 @@ module.exports = function (grunt) {
             build: {
                 options: {
                     module: 'system',
-                    target: 'es5',
+                    target: 'ES5',
                     out: 'documentation/',
                     mode: 'file',
                     name: 'EIGHT <%= pkg.version %>',
-                    exclude: [
-                        '**/*.spec.ts'
-                    ],
+                    exclude: '**/*.spec.ts',
                     excludeExternals: false,
+                    excludeNotExported: true,
+                    excludePrivate: true,
                     hideGenerator: true
                 },
                 src: [
-                    'src/davinci-eight/**/*.ts'
+                    './src/davinci-eight/**/*.ts'
                 ]
             }
         }
@@ -325,5 +329,5 @@ module.exports = function (grunt) {
     //
     grunt.registerTask('amd', ['ts:amdES5', 'requirejs']);
     grunt.registerTask('dev', ['clean', 'amd', 'system', 'uglify', 'copy:main', 'copy:css', 'copy:all']);
-    grunt.registerTask('default', ['clean', 'amd', 'system', 'tslint', 'uglify', 'copy:main', 'copy:css', 'copy:all', 'typedoc']);
+    grunt.registerTask('default', ['clean', 'amd', 'system', 'tslint', 'uglify', 'copy:main', 'copy:css', 'copy:docs', 'typedoc', 'copy:all']);
 };

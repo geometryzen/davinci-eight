@@ -551,9 +551,9 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
     var Eight = (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-11-27';
+            this.LAST_MODIFIED = '2016-11-28';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '3.7.9';
+            this.VERSION = '4.0.0';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -657,7 +657,7 @@ define('davinci-eight/core/refChange',["require", "exports", "../config", "../ch
     function default_1(uuid, name, change) {
         if (change === void 0) { change = 0; }
         if (change !== 0 && skip) {
-            return;
+            return void 0;
         }
         if (trace) {
             if (traceName) {
@@ -752,6 +752,7 @@ define('davinci-eight/core/refChange',["require", "exports", "../config", "../ch
         else {
             throw new Error(prefix("change must be +1 or -1 for normal recording, or 0 for logging to the console."));
         }
+        return void 0;
     }
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = default_1;
@@ -908,8 +909,9 @@ define('davinci-eight/commands/WebGLBlendFunc',["require", "exports", "../core/S
     "use strict";
     var WebGLBlendFunc = (function (_super) {
         __extends(WebGLBlendFunc, _super);
-        function WebGLBlendFunc(sfactor, dfactor) {
+        function WebGLBlendFunc(contextManager, sfactor, dfactor) {
             var _this = _super.call(this) || this;
+            _this.contextManager = contextManager;
             _this.setLoggingName('WebGLBlendFunc');
             _this.sfactor = sfactor;
             _this.dfactor = dfactor;
@@ -920,10 +922,10 @@ define('davinci-eight/commands/WebGLBlendFunc',["require", "exports", "../core/S
             this.dfactor = void 0;
             _super.prototype.destructor.call(this, levelUp + 1);
         };
-        WebGLBlendFunc.prototype.contextFree = function (manager) {
+        WebGLBlendFunc.prototype.contextFree = function () {
         };
-        WebGLBlendFunc.prototype.contextGain = function (manager) {
-            this.execute(manager.gl);
+        WebGLBlendFunc.prototype.contextGain = function () {
+            this.execute(this.contextManager.gl);
         };
         WebGLBlendFunc.prototype.contextLost = function () {
         };
@@ -958,12 +960,13 @@ define('davinci-eight/commands/WebGLClearColor',["require", "exports", "../check
     "use strict";
     var WebGLClearColor = (function (_super) {
         __extends(WebGLClearColor, _super);
-        function WebGLClearColor(r, g, b, a) {
+        function WebGLClearColor(contextManager, r, g, b, a) {
             if (r === void 0) { r = 0; }
             if (g === void 0) { g = 0; }
             if (b === void 0) { b = 0; }
             if (a === void 0) { a = 1; }
             var _this = _super.call(this) || this;
+            _this.contextManager = contextManager;
             _this.setLoggingName('WebGLClearColor');
             _this.r = mustBeNumber_1.default('r', r);
             _this.g = mustBeNumber_1.default('g', g);
@@ -978,14 +981,14 @@ define('davinci-eight/commands/WebGLClearColor',["require", "exports", "../check
             this.a = void 0;
             _super.prototype.destructor.call(this, levelUp + 1);
         };
-        WebGLClearColor.prototype.contextFree = function (manager) {
+        WebGLClearColor.prototype.contextFree = function () {
         };
-        WebGLClearColor.prototype.contextGain = function (manager) {
+        WebGLClearColor.prototype.contextGain = function () {
             mustBeNumber_1.default('r', this.r);
             mustBeNumber_1.default('g', this.g);
             mustBeNumber_1.default('b', this.b);
             mustBeNumber_1.default('a', this.a);
-            manager.gl.clearColor(this.r, this.g, this.b, this.a);
+            this.contextManager.gl.clearColor(this.r, this.g, this.b, this.a);
         };
         WebGLClearColor.prototype.contextLost = function () {
         };
@@ -1003,8 +1006,9 @@ define('davinci-eight/commands/WebGLDisable',["require", "exports", "../checks/m
     "use strict";
     var WebGLDisable = (function (_super) {
         __extends(WebGLDisable, _super);
-        function WebGLDisable(capability) {
+        function WebGLDisable(contextManager, capability) {
             var _this = _super.call(this) || this;
+            _this.contextManager = contextManager;
             _this.setLoggingName('WebGLDisable');
             _this._capability = mustBeNumber_1.default('capability', capability);
             return _this;
@@ -1013,10 +1017,10 @@ define('davinci-eight/commands/WebGLDisable',["require", "exports", "../checks/m
             this._capability = void 0;
             _super.prototype.destructor.call(this, levelUp + 1);
         };
-        WebGLDisable.prototype.contextFree = function (manager) {
+        WebGLDisable.prototype.contextFree = function () {
         };
-        WebGLDisable.prototype.contextGain = function (manager) {
-            manager.gl.disable(this._capability);
+        WebGLDisable.prototype.contextGain = function () {
+            this.contextManager.gl.disable(this._capability);
         };
         WebGLDisable.prototype.contextLost = function () {
         };
@@ -1034,8 +1038,9 @@ define('davinci-eight/commands/WebGLEnable',["require", "exports", "../checks/mu
     "use strict";
     var WebGLEnable = (function (_super) {
         __extends(WebGLEnable, _super);
-        function WebGLEnable(capability) {
+        function WebGLEnable(contextManager, capability) {
             var _this = _super.call(this) || this;
+            _this.contextManager = contextManager;
             _this.setLoggingName('WebGLEnable');
             _this._capability = mustBeNumber_1.default('capability', capability);
             return _this;
@@ -1044,10 +1049,10 @@ define('davinci-eight/commands/WebGLEnable',["require", "exports", "../checks/mu
             this._capability = void 0;
             _super.prototype.destructor.call(this, levelUp + 1);
         };
-        WebGLEnable.prototype.contextFree = function (manager) {
+        WebGLEnable.prototype.contextFree = function () {
         };
-        WebGLEnable.prototype.contextGain = function (manager) {
-            manager.gl.enable(this._capability);
+        WebGLEnable.prototype.contextGain = function () {
+            this.contextManager.gl.enable(this._capability);
         };
         WebGLEnable.prototype.contextLost = function () {
         };
@@ -4198,30 +4203,6 @@ define('davinci-eight/math/AbstractMatrix',["require", "exports", "../checks/mus
     exports.default = AbstractMatrix;
 });
 
-define('davinci-eight/math/add3x3',["require", "exports"], function (require, exports) {
-    "use strict";
-    function add3x3(a, b, c) {
-        var a11 = a[0x0], a12 = a[0x3], a13 = a[0x6];
-        var a21 = a[0x1], a22 = a[0x4], a23 = a[0x7];
-        var a31 = a[0x2], a32 = a[0x5], a33 = a[0x8];
-        var b11 = b[0x0], b12 = b[0x3], b13 = b[0x6];
-        var b21 = b[0x1], b22 = b[0x4], b23 = b[0x7];
-        var b31 = b[0x2], b32 = b[0x5], b33 = b[0x8];
-        c[0x0] = a11 + b11;
-        c[0x3] = a12 + b12;
-        c[0x6] = a13 + b13;
-        c[0x1] = a21 + b21;
-        c[0x4] = a22 + b22;
-        c[0x7] = a23 + b23;
-        c[0x2] = a31 + b31;
-        c[0x5] = a32 + b32;
-        c[0x8] = a33 + b33;
-        return c;
-    }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = add3x3;
-});
-
 define('davinci-eight/math/det3x3',["require", "exports"], function (require, exports) {
     "use strict";
     function default_1(m) {
@@ -4294,8 +4275,25 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/math/Matrix3',["require", "exports", "../math/AbstractMatrix", "../math/add3x3", "../math/det3x3", "../math/inv3x3", "../math/mul3x3", "../checks/mustBeNumber"], function (require, exports, AbstractMatrix_1, add3x3_1, det3x3_1, inv3x3_1, mul3x3_1, mustBeNumber_1) {
+define('davinci-eight/math/Matrix3',["require", "exports", "../math/AbstractMatrix", "../math/det3x3", "../math/inv3x3", "../math/mul3x3", "../checks/mustBeNumber"], function (require, exports, AbstractMatrix_1, det3x3_1, inv3x3_1, mul3x3_1, mustBeNumber_1) {
     "use strict";
+    function add3x3(a, b, c) {
+        var a11 = a[0x0], a12 = a[0x3], a13 = a[0x6];
+        var a21 = a[0x1], a22 = a[0x4], a23 = a[0x7];
+        var a31 = a[0x2], a32 = a[0x5], a33 = a[0x8];
+        var b11 = b[0x0], b12 = b[0x3], b13 = b[0x6];
+        var b21 = b[0x1], b22 = b[0x4], b23 = b[0x7];
+        var b31 = b[0x2], b32 = b[0x5], b33 = b[0x8];
+        c[0x0] = a11 + b11;
+        c[0x3] = a12 + b12;
+        c[0x6] = a13 + b13;
+        c[0x1] = a21 + b21;
+        c[0x4] = a22 + b22;
+        c[0x7] = a23 + b23;
+        c[0x2] = a31 + b31;
+        c[0x5] = a32 + b32;
+        c[0x8] = a33 + b33;
+    }
     var Matrix3 = (function (_super) {
         __extends(Matrix3, _super);
         function Matrix3(elements) {
@@ -4305,7 +4303,7 @@ define('davinci-eight/math/Matrix3',["require", "exports", "../math/AbstractMatr
             return this.add2(this, rhs);
         };
         Matrix3.prototype.add2 = function (a, b) {
-            add3x3_1.default(a.elements, b.elements, this.elements);
+            add3x3(a.elements, b.elements, this.elements);
             return this;
         };
         Matrix3.prototype.clone = function () {
@@ -5825,7 +5823,6 @@ define('davinci-eight/core/Attrib',["require", "exports", "../i18n/readOnly"], f
 
 define('davinci-eight/core/BeginMode',["require", "exports"], function (require, exports) {
     "use strict";
-    var BeginMode;
     (function (BeginMode) {
         BeginMode[BeginMode["POINTS"] = 0] = "POINTS";
         BeginMode[BeginMode["LINES"] = 1] = "LINES";
@@ -5834,14 +5831,14 @@ define('davinci-eight/core/BeginMode',["require", "exports"], function (require,
         BeginMode[BeginMode["TRIANGLES"] = 4] = "TRIANGLES";
         BeginMode[BeginMode["TRIANGLE_STRIP"] = 5] = "TRIANGLE_STRIP";
         BeginMode[BeginMode["TRIANGLE_FAN"] = 6] = "TRIANGLE_FAN";
-    })(BeginMode || (BeginMode = {}));
+    })(exports.BeginMode || (exports.BeginMode = {}));
+    var BeginMode = exports.BeginMode;
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = BeginMode;
 });
 
 define('davinci-eight/core/BlendingFactorDest',["require", "exports"], function (require, exports) {
     "use strict";
-    var BlendingFactorDest;
     (function (BlendingFactorDest) {
         BlendingFactorDest[BlendingFactorDest["ZERO"] = 0] = "ZERO";
         BlendingFactorDest[BlendingFactorDest["ONE"] = 1] = "ONE";
@@ -5851,14 +5848,14 @@ define('davinci-eight/core/BlendingFactorDest',["require", "exports"], function 
         BlendingFactorDest[BlendingFactorDest["ONE_MINUS_SRC_ALPHA"] = 771] = "ONE_MINUS_SRC_ALPHA";
         BlendingFactorDest[BlendingFactorDest["DST_ALPHA"] = 772] = "DST_ALPHA";
         BlendingFactorDest[BlendingFactorDest["ONE_MINUS_DST_ALPHA"] = 773] = "ONE_MINUS_DST_ALPHA";
-    })(BlendingFactorDest || (BlendingFactorDest = {}));
+    })(exports.BlendingFactorDest || (exports.BlendingFactorDest = {}));
+    var BlendingFactorDest = exports.BlendingFactorDest;
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = BlendingFactorDest;
 });
 
 define('davinci-eight/core/BlendingFactorSrc',["require", "exports"], function (require, exports) {
     "use strict";
-    var BlendingFactorSrc;
     (function (BlendingFactorSrc) {
         BlendingFactorSrc[BlendingFactorSrc["ZERO"] = 0] = "ZERO";
         BlendingFactorSrc[BlendingFactorSrc["ONE"] = 1] = "ONE";
@@ -5869,14 +5866,14 @@ define('davinci-eight/core/BlendingFactorSrc',["require", "exports"], function (
         BlendingFactorSrc[BlendingFactorSrc["ONE_MINUS_SRC_ALPHA"] = 771] = "ONE_MINUS_SRC_ALPHA";
         BlendingFactorSrc[BlendingFactorSrc["DST_ALPHA"] = 772] = "DST_ALPHA";
         BlendingFactorSrc[BlendingFactorSrc["ONE_MINUS_DST_ALPHA"] = 773] = "ONE_MINUS_DST_ALPHA";
-    })(BlendingFactorSrc || (BlendingFactorSrc = {}));
+    })(exports.BlendingFactorSrc || (exports.BlendingFactorSrc = {}));
+    var BlendingFactorSrc = exports.BlendingFactorSrc;
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = BlendingFactorSrc;
 });
 
 define('davinci-eight/core/Capability',["require", "exports"], function (require, exports) {
     "use strict";
-    var Capability;
     (function (Capability) {
         Capability[Capability["CULL_FACE"] = 2884] = "CULL_FACE";
         Capability[Capability["BLEND"] = 3042] = "BLEND";
@@ -5887,19 +5884,20 @@ define('davinci-eight/core/Capability',["require", "exports"], function (require
         Capability[Capability["POLYGON_OFFSET_FILL"] = 32823] = "POLYGON_OFFSET_FILL";
         Capability[Capability["SAMPLE_ALPHA_TO_COVERAGE"] = 32926] = "SAMPLE_ALPHA_TO_COVERAGE";
         Capability[Capability["SAMPLE_COVERAGE"] = 32928] = "SAMPLE_COVERAGE";
-    })(Capability || (Capability = {}));
+    })(exports.Capability || (exports.Capability = {}));
+    var Capability = exports.Capability;
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = Capability;
 });
 
 define('davinci-eight/core/ClearBufferMask',["require", "exports"], function (require, exports) {
     "use strict";
-    var ClearBufferMask;
     (function (ClearBufferMask) {
         ClearBufferMask[ClearBufferMask["DEPTH_BUFFER_BIT"] = 256] = "DEPTH_BUFFER_BIT";
         ClearBufferMask[ClearBufferMask["STENCIL_BUFFER_BIT"] = 1024] = "STENCIL_BUFFER_BIT";
         ClearBufferMask[ClearBufferMask["COLOR_BUFFER_BIT"] = 16384] = "COLOR_BUFFER_BIT";
-    })(ClearBufferMask || (ClearBufferMask = {}));
+    })(exports.ClearBufferMask || (exports.ClearBufferMask = {}));
+    var ClearBufferMask = exports.ClearBufferMask;
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = ClearBufferMask;
 });
@@ -6074,13 +6072,13 @@ define('davinci-eight/core/Color',["require", "exports", "../math/clamp", "../ma
                 this.r = color.r;
                 this.g = color.g;
                 this.b = color.b;
-                return this;
             }
             else {
                 this.r = Math.random();
                 this.g = Math.random();
                 this.b = Math.random();
             }
+            return this;
         };
         Color.prototype.divByScalar = function (α) {
             return this;
@@ -6242,7 +6240,6 @@ define('davinci-eight/core/Color',["require", "exports", "../math/clamp", "../ma
 
 define('davinci-eight/core/DataType',["require", "exports"], function (require, exports) {
     "use strict";
-    var DataType;
     (function (DataType) {
         DataType[DataType["BYTE"] = 5120] = "BYTE";
         DataType[DataType["UNSIGNED_BYTE"] = 5121] = "UNSIGNED_BYTE";
@@ -6251,7 +6248,8 @@ define('davinci-eight/core/DataType',["require", "exports"], function (require, 
         DataType[DataType["INT"] = 5124] = "INT";
         DataType[DataType["UNSIGNED_INT"] = 5125] = "UNSIGNED_INT";
         DataType[DataType["FLOAT"] = 5126] = "FLOAT";
-    })(DataType || (DataType = {}));
+    })(exports.DataType || (exports.DataType = {}));
+    var DataType = exports.DataType;
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = DataType;
 });
@@ -6380,30 +6378,12 @@ define('davinci-eight/facets/PointSizeFacet',["require", "exports", "../checks/m
     exports.PointSizeFacet = PointSizeFacet;
 });
 
-define('davinci-eight/core/cleanUp',["require", "exports"], function (require, exports) {
-    "use strict";
-    function cleanUp(contextProvider, consumer) {
-        if (contextProvider) {
-            if (contextProvider.isContextLost()) {
-                consumer.contextLost();
-            }
-            else {
-                consumer.contextFree(contextProvider);
-            }
-        }
-        else {
-        }
-    }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = cleanUp;
-});
-
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/ShareableContextConsumer',["require", "exports", "./cleanUp", "../checks/isUndefined", "../checks/isNull", "../checks/mustBeNonNullObject", "../i18n/readOnly", "./ShareableBase"], function (require, exports, cleanUp_1, isUndefined_1, isNull_1, mustBeNonNullObject_1, readOnly_1, ShareableBase_1) {
+define('davinci-eight/core/ShareableContextConsumer',["require", "exports", "../checks/isUndefined", "../checks/isNull", "../checks/mustBeNonNullObject", "../i18n/readOnly", "./ShareableBase"], function (require, exports, isUndefined_1, isNull_1, mustBeNonNullObject_1, readOnly_1, ShareableBase_1) {
     "use strict";
     var ShareableContextConsumer = (function (_super) {
         __extends(ShareableContextConsumer, _super);
@@ -6417,25 +6397,21 @@ define('davinci-eight/core/ShareableContextConsumer',["require", "exports", "./c
             return _this;
         }
         ShareableContextConsumer.prototype.destructor = function (levelUp) {
-            if (this.contextProvider) {
-                this.contextProvider.release();
-                this.contextProvider = void 0;
-            }
             this.unsubscribe();
             _super.prototype.destructor.call(this, levelUp + 1);
         };
         ShareableContextConsumer.prototype.subscribe = function (contextManager, synchUp) {
             contextManager = mustBeNonNullObject_1.default('contextManager', contextManager);
-            if (!this.manager) {
+            if (!this.contextManager) {
                 contextManager.addRef();
-                this.manager = contextManager;
+                this.contextManager = contextManager;
                 contextManager.addContextListener(this);
                 if (synchUp) {
                     this.synchUp();
                 }
             }
             else {
-                if (this.manager !== contextManager) {
+                if (this.contextManager !== contextManager) {
                     this.unsubscribe();
                     this.subscribe(contextManager, synchUp);
                 }
@@ -6444,47 +6420,40 @@ define('davinci-eight/core/ShareableContextConsumer',["require", "exports", "./c
             }
         };
         ShareableContextConsumer.prototype.synchUp = function () {
-            var manager = this.manager;
+            var manager = this.contextManager;
             if (manager) {
                 manager.synchronize(this);
             }
         };
         ShareableContextConsumer.prototype.cleanUp = function () {
-            cleanUp_1.default(this.contextProvider, this);
+            if (this.contextManager && this.contextManager.gl) {
+                if (this.contextManager.gl.isContextLost()) {
+                    this.contextLost();
+                }
+                else {
+                    this.contextFree();
+                }
+            }
+            else {
+            }
         };
         ShareableContextConsumer.prototype.unsubscribe = function () {
-            if (this.manager) {
-                this.manager.removeContextListener(this);
-                this.manager.release();
-                this.manager = void 0;
+            if (this.contextManager) {
+                this.contextManager.removeContextListener(this);
+                this.contextManager.release();
+                this.contextManager = void 0;
             }
         };
-        ShareableContextConsumer.prototype.contextFree = function (contextProvider) {
-            if (this.contextProvider) {
-                this.contextProvider.release();
-                this.contextProvider = void 0;
-            }
+        ShareableContextConsumer.prototype.contextFree = function () {
         };
-        ShareableContextConsumer.prototype.contextGain = function (contextProvider) {
-            if (this.contextProvider) {
-                this.contextProvider.release();
-                this.contextProvider = void 0;
-            }
-            if (contextProvider) {
-                contextProvider.addRef();
-            }
-            this.contextProvider = contextProvider;
+        ShareableContextConsumer.prototype.contextGain = function () {
         };
         ShareableContextConsumer.prototype.contextLost = function () {
-            if (this.contextProvider) {
-                this.contextProvider.release();
-                this.contextProvider = void 0;
-            }
         };
         Object.defineProperty(ShareableContextConsumer.prototype, "gl", {
             get: function () {
-                if (this.contextProvider) {
-                    return this.contextProvider.gl;
+                if (this.contextManager) {
+                    return this.contextManager.gl;
                 }
                 else {
                     return void 0;
@@ -6720,27 +6689,27 @@ define('davinci-eight/core/Drawable',["require", "exports", "../base/exchange", 
             }
             return this;
         };
-        Drawable.prototype.contextFree = function (context) {
+        Drawable.prototype.contextFree = function () {
             if (this._geometry && this._geometry.contextFree) {
-                this._geometry.contextFree(context);
+                this._geometry.contextFree();
             }
             if (this._material && this._material.contextFree) {
-                this._material.contextFree(context);
+                this._material.contextFree();
             }
             if (_super.prototype.contextFree) {
-                _super.prototype.contextFree.call(this, context);
+                _super.prototype.contextFree.call(this);
             }
         };
-        Drawable.prototype.contextGain = function (contextProvider) {
+        Drawable.prototype.contextGain = function () {
             if (this._geometry && this._geometry.contextGain) {
-                this._geometry.contextGain(contextProvider);
+                this._geometry.contextGain();
             }
             if (this._material && this._material.contextGain) {
-                this._material.contextGain(contextProvider);
+                this._material.contextGain();
             }
             synchFacets(this._material, this);
             if (_super.prototype.contextGain) {
-                _super.prototype.contextGain.call(this, contextProvider);
+                _super.prototype.contextGain.call(this);
             }
         };
         Drawable.prototype.contextLost = function () {
@@ -6791,9 +6760,6 @@ define('davinci-eight/core/Drawable',["require", "exports", "../base/exchange", 
             },
             set: function (geometry) {
                 this._geometry = exchange_1.default(this._geometry, geometry);
-                if (this._geometry && this._geometry.contextGain && this.contextProvider) {
-                    this._geometry.contextGain(this.contextProvider);
-                }
             },
             enumerable: true,
             configurable: true
@@ -6804,11 +6770,6 @@ define('davinci-eight/core/Drawable',["require", "exports", "../base/exchange", 
             },
             set: function (material) {
                 this._material = exchange_1.default(this._material, material);
-                if (this._material) {
-                    if (this.contextProvider) {
-                        this._material.contextGain(this.contextProvider);
-                    }
-                }
                 synchFacets(this._material, this);
             },
             enumerable: true,
@@ -6820,7 +6781,7 @@ define('davinci-eight/core/Drawable',["require", "exports", "../base/exchange", 
             },
             set: function (visible) {
                 var _this = this;
-                mustBeBoolean_1.default('visible', visible, function () { return _this._type; });
+                mustBeBoolean_1.default('visible', visible, function () { return _this.getLoggingName(); });
                 this._visible = visible;
             },
             enumerable: true,
@@ -6832,7 +6793,7 @@ define('davinci-eight/core/Drawable',["require", "exports", "../base/exchange", 
             },
             set: function (transparent) {
                 var _this = this;
-                mustBeBoolean_1.default('transparent', transparent, function () { return _this._type; });
+                mustBeBoolean_1.default('transparent', transparent, function () { return _this.getLoggingName(); });
                 this._transparent = transparent;
             },
             enumerable: true,
@@ -6865,7 +6826,6 @@ define('davinci-eight/core/Drawable',["require", "exports", "../base/exchange", 
 
 define('davinci-eight/core/DepthFunction',["require", "exports"], function (require, exports) {
     "use strict";
-    var DepthFunction;
     (function (DepthFunction) {
         DepthFunction[DepthFunction["NEVER"] = 512] = "NEVER";
         DepthFunction[DepthFunction["LESS"] = 513] = "LESS";
@@ -6875,42 +6835,10 @@ define('davinci-eight/core/DepthFunction',["require", "exports"], function (requ
         DepthFunction[DepthFunction["NOTEQUAL"] = 517] = "NOTEQUAL";
         DepthFunction[DepthFunction["GEQUAL"] = 518] = "GEQUAL";
         DepthFunction[DepthFunction["ALWAYS"] = 519] = "ALWAYS";
-    })(DepthFunction || (DepthFunction = {}));
+    })(exports.DepthFunction || (exports.DepthFunction = {}));
+    var DepthFunction = exports.DepthFunction;
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = DepthFunction;
-});
-
-define('davinci-eight/math/add4x4',["require", "exports"], function (require, exports) {
-    "use strict";
-    function add4x4(a, b, c) {
-        var a11 = a[0x0], a12 = a[0x4], a13 = a[0x8], a14 = a[0xC];
-        var a21 = a[0x1], a22 = a[0x5], a23 = a[0x9], a24 = a[0xD];
-        var a31 = a[0x2], a32 = a[0x6], a33 = a[0xA], a34 = a[0xE];
-        var a41 = a[0x3], a42 = a[0x7], a43 = a[0xB], a44 = a[0xF];
-        var b11 = b[0x0], b12 = b[0x4], b13 = b[0x8], b14 = b[0xC];
-        var b21 = b[0x1], b22 = b[0x5], b23 = b[0x9], b24 = b[0xD];
-        var b31 = b[0x2], b32 = b[0x6], b33 = b[0xA], b34 = b[0xE];
-        var b41 = b[0x3], b42 = b[0x7], b43 = b[0xB], b44 = b[0xF];
-        c[0x0] = a11 + b11;
-        c[0x4] = a12 + b12;
-        c[0x8] = a13 + b13;
-        c[0xC] = a14 + b14;
-        c[0x1] = a21 + b21;
-        c[0x5] = a22 + b22;
-        c[0x9] = a23 + b23;
-        c[0xD] = a24 + b24;
-        c[0x2] = a31 + b31;
-        c[0x6] = a32 + b32;
-        c[0xA] = a33 + b33;
-        c[0xE] = a34 + b34;
-        c[0x3] = a41 + b41;
-        c[0x7] = a42 + b42;
-        c[0xB] = a43 + b43;
-        c[0xF] = a44 + b44;
-        return c;
-    }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = add4x4;
 });
 
 define('davinci-eight/math/det4x4',["require", "exports"], function (require, exports) {
@@ -7080,8 +7008,34 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/math/Matrix4',["require", "exports", "../math/AbstractMatrix", "../math/add4x4", "./det4x4", "../math/inv4x4", "../math/mul4x4", "../facets/perspectiveArray"], function (require, exports, AbstractMatrix_1, add4x4_1, det4x4_1, inv4x4_1, mul4x4_1, perspectiveArray_1) {
+define('davinci-eight/math/Matrix4',["require", "exports", "../math/AbstractMatrix", "./det4x4", "../math/inv4x4", "../math/mul4x4", "../facets/perspectiveArray"], function (require, exports, AbstractMatrix_1, det4x4_1, inv4x4_1, mul4x4_1, perspectiveArray_1) {
     "use strict";
+    function add4x4(a, b, c) {
+        var a11 = a[0x0], a12 = a[0x4], a13 = a[0x8], a14 = a[0xC];
+        var a21 = a[0x1], a22 = a[0x5], a23 = a[0x9], a24 = a[0xD];
+        var a31 = a[0x2], a32 = a[0x6], a33 = a[0xA], a34 = a[0xE];
+        var a41 = a[0x3], a42 = a[0x7], a43 = a[0xB], a44 = a[0xF];
+        var b11 = b[0x0], b12 = b[0x4], b13 = b[0x8], b14 = b[0xC];
+        var b21 = b[0x1], b22 = b[0x5], b23 = b[0x9], b24 = b[0xD];
+        var b31 = b[0x2], b32 = b[0x6], b33 = b[0xA], b34 = b[0xE];
+        var b41 = b[0x3], b42 = b[0x7], b43 = b[0xB], b44 = b[0xF];
+        c[0x0] = a11 + b11;
+        c[0x4] = a12 + b12;
+        c[0x8] = a13 + b13;
+        c[0xC] = a14 + b14;
+        c[0x1] = a21 + b21;
+        c[0x5] = a22 + b22;
+        c[0x9] = a23 + b23;
+        c[0xD] = a24 + b24;
+        c[0x2] = a31 + b31;
+        c[0x6] = a32 + b32;
+        c[0xA] = a33 + b33;
+        c[0xE] = a34 + b34;
+        c[0x3] = a41 + b41;
+        c[0x7] = a42 + b42;
+        c[0xB] = a43 + b43;
+        c[0xF] = a44 + b44;
+    }
     var Matrix4 = (function (_super) {
         __extends(Matrix4, _super);
         function Matrix4(elements) {
@@ -7106,7 +7060,7 @@ define('davinci-eight/math/Matrix4',["require", "exports", "../math/AbstractMatr
             return this.add2(this, rhs);
         };
         Matrix4.prototype.add2 = function (a, b) {
-            add4x4_1.default(a.elements, b.elements, this.elements);
+            add4x4(a.elements, b.elements, this.elements);
             return this;
         };
         Matrix4.prototype.clone = function () {
@@ -7628,12 +7582,12 @@ define('davinci-eight/checks/mustBeUndefined',["require", "exports", "../checks/
 
 define('davinci-eight/core/Usage',["require", "exports"], function (require, exports) {
     "use strict";
-    var Usage;
     (function (Usage) {
         Usage[Usage["STREAM_DRAW"] = 35040] = "STREAM_DRAW";
         Usage[Usage["STATIC_DRAW"] = 35044] = "STATIC_DRAW";
         Usage[Usage["DYNAMIC_DRAW"] = 35048] = "DYNAMIC_DRAW";
-    })(Usage || (Usage = {}));
+    })(exports.Usage || (exports.Usage = {}));
+    var Usage = exports.Usage;
     function checkUsage(name, usage) {
         switch (usage) {
             case Usage.STREAM_DRAW:
@@ -7656,7 +7610,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/VertexBuffer',["require", "exports", "../checks/mustBeObject", "../checks/mustBeUndefined", "./ShareableContextConsumer", "./Usage", "./Usage"], function (require, exports, mustBeObject_1, mustBeUndefined_1, ShareableContextConsumer_1, Usage_1, Usage_2) {
+define('davinci-eight/core/VertexBuffer',["require", "exports", "../checks/mustBeUndefined", "./ShareableContextConsumer", "./Usage", "./Usage"], function (require, exports, mustBeUndefined_1, ShareableContextConsumer_1, Usage_1, Usage_2) {
     "use strict";
     var VertexBuffer = (function (_super) {
         __extends(VertexBuffer, _super);
@@ -7674,7 +7628,7 @@ define('davinci-eight/core/VertexBuffer',["require", "exports", "../checks/mustB
             if (levelUp === 0) {
                 this.cleanUp();
             }
-            mustBeUndefined_1.default(this._type, this.webGLBuffer);
+            mustBeUndefined_1.default(this.getLoggingName(), this.webGLBuffer);
             _super.prototype.destructor.call(this, levelUp + 1);
         };
         Object.defineProperty(VertexBuffer.prototype, "data", {
@@ -7718,24 +7672,23 @@ define('davinci-eight/core/VertexBuffer',["require", "exports", "../checks/mustB
                 }
             }
         };
-        VertexBuffer.prototype.contextFree = function (contextProvider) {
-            mustBeObject_1.default('contextProvider', contextProvider);
+        VertexBuffer.prototype.contextFree = function () {
             if (this.webGLBuffer) {
                 var gl = this.gl;
                 if (gl) {
                     gl.deleteBuffer(this.webGLBuffer);
                 }
                 else {
-                    console.error(this._type + " must leak WebGLBuffer because WebGLRenderingContext is " + typeof gl);
+                    console.error(this.getLoggingName() + " must leak WebGLBuffer because WebGLRenderingContext is " + typeof gl);
                 }
                 this.webGLBuffer = void 0;
             }
             else {
             }
-            _super.prototype.contextFree.call(this, contextProvider);
+            _super.prototype.contextFree.call(this);
         };
-        VertexBuffer.prototype.contextGain = function (contextProvider) {
-            _super.prototype.contextGain.call(this, contextProvider);
+        VertexBuffer.prototype.contextGain = function () {
+            _super.prototype.contextGain.call(this);
             var gl = this.gl;
             if (!this.webGLBuffer) {
                 this.webGLBuffer = gl.createBuffer();
@@ -7812,28 +7765,24 @@ define('davinci-eight/core/GeometryArrays',["require", "exports", "./GeometryBas
             _super.prototype.destructor.call(this, levelUp + 1);
         };
         GeometryArrays.prototype.bind = function (material) {
-            var contextProvider = this.contextProvider;
-            if (contextProvider) {
-                this.vbo.bind();
-                var pointers = this._pointers;
-                if (pointers) {
-                    var iLength = pointers.length;
-                    for (var i = 0; i < iLength; i++) {
-                        var pointer = pointers[i];
-                        var attrib = material.getAttrib(pointer.name);
-                        if (attrib) {
-                            attrib.config(pointer.size, pointer.type, pointer.normalized, this._stride, pointer.offset);
-                            attrib.enable();
-                        }
+            this.vbo.bind();
+            var pointers = this._pointers;
+            if (pointers) {
+                var iLength = pointers.length;
+                for (var i = 0; i < iLength; i++) {
+                    var pointer = pointers[i];
+                    var attrib = material.getAttrib(pointer.name);
+                    if (attrib) {
+                        attrib.config(pointer.size, pointer.type, pointer.normalized, this._stride, pointer.offset);
+                        attrib.enable();
                     }
                 }
             }
             return this;
         };
         GeometryArrays.prototype.draw = function () {
-            var contextProvider = this.contextProvider;
-            if (contextProvider) {
-                this.contextProvider.drawArrays(this._mode, this.first, this.count);
+            if (this.gl) {
+                this.gl.drawArrays(this._mode, this.first, this.count);
             }
             return this;
         };
@@ -7863,7 +7812,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/IndexBuffer',["require", "exports", "../checks/mustBeObject", "../checks/mustBeUndefined", "./ShareableContextConsumer", "./Usage", "./Usage"], function (require, exports, mustBeObject_1, mustBeUndefined_1, ShareableContextConsumer_1, Usage_1, Usage_2) {
+define('davinci-eight/core/IndexBuffer',["require", "exports", "../checks/mustBeUndefined", "./ShareableContextConsumer", "./Usage", "./Usage"], function (require, exports, mustBeUndefined_1, ShareableContextConsumer_1, Usage_1, Usage_2) {
     "use strict";
     var IndexBuffer = (function (_super) {
         __extends(IndexBuffer, _super);
@@ -7881,7 +7830,7 @@ define('davinci-eight/core/IndexBuffer',["require", "exports", "../checks/mustBe
             if (levelUp === 0) {
                 this.cleanUp();
             }
-            mustBeUndefined_1.default(this._type, this.webGLBuffer);
+            mustBeUndefined_1.default(this.getLoggingName(), this.webGLBuffer);
             _super.prototype.destructor.call(this, levelUp + 1);
         };
         Object.defineProperty(IndexBuffer.prototype, "data", {
@@ -7925,24 +7874,23 @@ define('davinci-eight/core/IndexBuffer',["require", "exports", "../checks/mustBe
                 }
             }
         };
-        IndexBuffer.prototype.contextFree = function (contextProvider) {
-            mustBeObject_1.default('contextProvider', contextProvider);
+        IndexBuffer.prototype.contextFree = function () {
             if (this.webGLBuffer) {
                 var gl = this.gl;
                 if (gl) {
                     gl.deleteBuffer(this.webGLBuffer);
                 }
                 else {
-                    console.error(this._type + " must leak WebGLBuffer because WebGLRenderingContext is " + typeof gl);
+                    console.error(this.getLoggingName() + " must leak WebGLBuffer because WebGLRenderingContext is " + typeof gl);
                 }
                 this.webGLBuffer = void 0;
             }
             else {
             }
-            _super.prototype.contextFree.call(this, contextProvider);
+            _super.prototype.contextFree.call(this);
         };
-        IndexBuffer.prototype.contextGain = function (contextProvider) {
-            _super.prototype.contextGain.call(this, contextProvider);
+        IndexBuffer.prototype.contextGain = function () {
+            _super.prototype.contextGain.call(this);
             var gl = this.gl;
             if (!this.webGLBuffer) {
                 this.webGLBuffer = gl.createBuffer();
@@ -7978,7 +7926,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/GeometryElements',["require", "exports", "./GeometryBase", "./IndexBuffer", "../checks/isArray", "../checks/isNull", "../checks/isObject", "../checks/isUndefined", "../checks/mustBeArray", "../checks/mustBeObject", "./vertexArraysFromPrimitive", "./VertexBuffer"], function (require, exports, GeometryBase_1, IndexBuffer_1, isArray_1, isNull_1, isObject_1, isUndefined_1, mustBeArray_1, mustBeObject_1, vertexArraysFromPrimitive_1, VertexBuffer_1) {
+define('davinci-eight/core/GeometryElements',["require", "exports", "./DataType", "./GeometryBase", "./IndexBuffer", "../checks/isArray", "../checks/isNull", "../checks/isObject", "../checks/isUndefined", "../checks/mustBeArray", "../checks/mustBeObject", "./vertexArraysFromPrimitive", "./VertexBuffer"], function (require, exports, DataType_1, GeometryBase_1, IndexBuffer_1, isArray_1, isNull_1, isObject_1, isUndefined_1, mustBeArray_1, mustBeObject_1, vertexArraysFromPrimitive_1, VertexBuffer_1) {
     "use strict";
     var GeometryElements = (function (_super) {
         __extends(GeometryElements, _super);
@@ -8048,15 +7996,15 @@ define('davinci-eight/core/GeometryElements',["require", "exports", "./GeometryB
             else {
             }
         };
-        GeometryElements.prototype.contextFree = function (contextProvider) {
-            this.ibo.contextFree(contextProvider);
-            this.vbo.contextFree(contextProvider);
-            _super.prototype.contextFree.call(this, contextProvider);
+        GeometryElements.prototype.contextFree = function () {
+            this.ibo.contextFree();
+            this.vbo.contextFree();
+            _super.prototype.contextFree.call(this);
         };
-        GeometryElements.prototype.contextGain = function (contextProvider) {
-            this.ibo.contextGain(contextProvider);
-            this.vbo.contextGain(contextProvider);
-            _super.prototype.contextGain.call(this, contextProvider);
+        GeometryElements.prototype.contextGain = function () {
+            this.ibo.contextGain();
+            this.vbo.contextGain();
+            _super.prototype.contextGain.call(this);
         };
         GeometryElements.prototype.contextLost = function () {
             this.ibo.contextLost();
@@ -8064,49 +8012,42 @@ define('davinci-eight/core/GeometryElements',["require", "exports", "./GeometryB
             _super.prototype.contextLost.call(this);
         };
         GeometryElements.prototype.bind = function (material) {
-            var contextProvider = this.contextProvider;
-            if (contextProvider) {
-                this.vbo.bind();
-                var pointers = this._pointers;
-                if (pointers) {
-                    var iLength = pointers.length;
-                    for (var i = 0; i < iLength; i++) {
-                        var pointer = pointers[i];
-                        var attrib = material.getAttrib(pointer.name);
-                        if (attrib) {
-                            attrib.config(pointer.size, pointer.type, pointer.normalized, this._stride, pointer.offset);
-                            attrib.enable();
-                        }
+            this.vbo.bind();
+            var pointers = this._pointers;
+            if (pointers) {
+                var iLength = pointers.length;
+                for (var i = 0; i < iLength; i++) {
+                    var pointer = pointers[i];
+                    var attrib = material.getAttrib(pointer.name);
+                    if (attrib) {
+                        attrib.config(pointer.size, pointer.type, pointer.normalized, this._stride, pointer.offset);
+                        attrib.enable();
                     }
                 }
-                this.ibo.bind();
             }
+            this.ibo.bind();
             return this;
         };
         GeometryElements.prototype.unbind = function (material) {
-            var contextProvider = this.contextProvider;
-            if (contextProvider) {
-                this.ibo.unbind();
-                var pointers = this._pointers;
-                if (pointers) {
-                    var iLength = pointers.length;
-                    for (var i = 0; i < iLength; i++) {
-                        var pointer = pointers[i];
-                        var attrib = material.getAttrib(pointer.name);
-                        if (attrib) {
-                            attrib.disable();
-                        }
+            this.ibo.unbind();
+            var pointers = this._pointers;
+            if (pointers) {
+                var iLength = pointers.length;
+                for (var i = 0; i < iLength; i++) {
+                    var pointer = pointers[i];
+                    var attrib = material.getAttrib(pointer.name);
+                    if (attrib) {
+                        attrib.disable();
                     }
                 }
-                this.vbo.unbind();
             }
+            this.vbo.unbind();
             return this;
         };
         GeometryElements.prototype.draw = function () {
-            var contextProvider = this.contextProvider;
-            if (contextProvider) {
+            if (this.gl) {
                 if (this.count) {
-                    contextProvider.drawElements(this._mode, this.count, this.offset);
+                    this.gl.drawElements(this._mode, this.count, DataType_1.default.UNSIGNED_SHORT, this.offset);
                 }
             }
             return this;
@@ -8119,7 +8060,6 @@ define('davinci-eight/core/GeometryElements',["require", "exports", "./GeometryB
 
 define('davinci-eight/core/PixelFormat',["require", "exports"], function (require, exports) {
     "use strict";
-    var PixelFormat;
     (function (PixelFormat) {
         PixelFormat[PixelFormat["DEPTH_COMPONENT"] = 6402] = "DEPTH_COMPONENT";
         PixelFormat[PixelFormat["ALPHA"] = 6406] = "ALPHA";
@@ -8127,20 +8067,21 @@ define('davinci-eight/core/PixelFormat',["require", "exports"], function (requir
         PixelFormat[PixelFormat["RGBA"] = 6408] = "RGBA";
         PixelFormat[PixelFormat["LUMINANCE"] = 6409] = "LUMINANCE";
         PixelFormat[PixelFormat["LUMINANCE_ALPHA"] = 6410] = "LUMINANCE_ALPHA";
-    })(PixelFormat || (PixelFormat = {}));
+    })(exports.PixelFormat || (exports.PixelFormat = {}));
+    var PixelFormat = exports.PixelFormat;
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = PixelFormat;
 });
 
 define('davinci-eight/core/TextureParameterName',["require", "exports"], function (require, exports) {
     "use strict";
-    var TextureParameterName;
     (function (TextureParameterName) {
         TextureParameterName[TextureParameterName["TEXTURE_MAG_FILTER"] = 10240] = "TEXTURE_MAG_FILTER";
         TextureParameterName[TextureParameterName["TEXTURE_MIN_FILTER"] = 10241] = "TEXTURE_MIN_FILTER";
         TextureParameterName[TextureParameterName["TEXTURE_WRAP_S"] = 10242] = "TEXTURE_WRAP_S";
         TextureParameterName[TextureParameterName["TEXTURE_WRAP_T"] = 10243] = "TEXTURE_WRAP_T";
-    })(TextureParameterName || (TextureParameterName = {}));
+    })(exports.TextureParameterName || (exports.TextureParameterName = {}));
+    var TextureParameterName = exports.TextureParameterName;
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = TextureParameterName;
 });
@@ -8169,19 +8110,19 @@ define('davinci-eight/core/Texture',["require", "exports", "../checks/mustBeUnde
                 this.cleanUp();
             }
             _super.prototype.destructor.call(this, levelUp + 1);
-            mustBeUndefined_1.default(this._type, this._texture);
+            mustBeUndefined_1.default(this.getLoggingName(), this._texture);
         };
-        Texture.prototype.contextFree = function (contextProvider) {
+        Texture.prototype.contextFree = function () {
             if (this._texture) {
                 this.gl.deleteTexture(this._texture);
                 this._texture = void 0;
-                _super.prototype.contextFree.call(this, contextProvider);
+                _super.prototype.contextFree.call(this);
             }
         };
-        Texture.prototype.contextGain = function (contextProvider) {
+        Texture.prototype.contextGain = function () {
             if (!this._texture) {
-                _super.prototype.contextGain.call(this, contextProvider);
-                this._texture = contextProvider.gl.createTexture();
+                _super.prototype.contextGain.call(this);
+                this._texture = this.contextManager.gl.createTexture();
             }
         };
         Texture.prototype.contextLost = function () {
@@ -8193,7 +8134,7 @@ define('davinci-eight/core/Texture',["require", "exports", "../checks/mustBeUnde
                 this.gl.bindTexture(this._target, this._texture);
             }
             else {
-                console.warn(this._type + ".bind() missing WebGL rendering context.");
+                console.warn(this.getLoggingName() + ".bind() missing WebGL rendering context.");
             }
         };
         Texture.prototype.unbind = function () {
@@ -8201,7 +8142,7 @@ define('davinci-eight/core/Texture',["require", "exports", "../checks/mustBeUnde
                 this.gl.bindTexture(this._target, null);
             }
             else {
-                console.warn(this._type + ".unbind() missing WebGL rendering context.");
+                console.warn(this.getLoggingName() + ".unbind() missing WebGL rendering context.");
             }
         };
         Object.defineProperty(Texture.prototype, "minFilter", {
@@ -8215,7 +8156,7 @@ define('davinci-eight/core/Texture',["require", "exports", "../checks/mustBeUnde
                     this.unbind();
                 }
                 else {
-                    console.warn(this._type + ".minFilter missing WebGL rendering context.");
+                    console.warn(this.getLoggingName() + ".minFilter missing WebGL rendering context.");
                 }
             },
             enumerable: true,
@@ -8232,7 +8173,7 @@ define('davinci-eight/core/Texture',["require", "exports", "../checks/mustBeUnde
                     this.unbind();
                 }
                 else {
-                    console.warn(this._type + ".magFilter missing WebGL rendering context.");
+                    console.warn(this.getLoggingName() + ".magFilter missing WebGL rendering context.");
                 }
             },
             enumerable: true,
@@ -8249,7 +8190,7 @@ define('davinci-eight/core/Texture',["require", "exports", "../checks/mustBeUnde
                     this.unbind();
                 }
                 else {
-                    console.warn(this._type + ".wrapS missing WebGL rendering context.");
+                    console.warn(this.getLoggingName() + ".wrapS missing WebGL rendering context.");
                 }
             },
             enumerable: true,
@@ -8266,14 +8207,14 @@ define('davinci-eight/core/Texture',["require", "exports", "../checks/mustBeUnde
                     this.unbind();
                 }
                 else {
-                    console.warn(this._type + ".wrapT missing WebGL rendering context.");
+                    console.warn(this.getLoggingName() + ".wrapT missing WebGL rendering context.");
                 }
             },
             enumerable: true,
             configurable: true
         });
         Texture.prototype.upload = function () {
-            throw new Error(this._type + ".upload() must be implemented.");
+            throw new Error(this.getLoggingName() + ".upload() must be implemented.");
         };
         return Texture;
     }(ShareableContextConsumer_1.ShareableContextConsumer));
@@ -8335,7 +8276,7 @@ define('davinci-eight/core/ImageTexture',["require", "exports", "./DataType", ".
                 this.gl.texImage2D(this._target, 0, PixelFormat_1.default.RGBA, PixelFormat_1.default.RGBA, DataType_1.default.UNSIGNED_BYTE, this.image);
             }
             else {
-                console.warn(this._type + ".upload() missing WebGL rendering context.");
+                console.warn(this.getLoggingName() + ".upload() missing WebGL rendering context.");
             }
         };
         return ImageTexture;
@@ -8529,7 +8470,6 @@ define('davinci-eight/facets/ModelFacet',["require", "exports", "../math/Matrix3
 
 define('davinci-eight/core/TextureUnit',["require", "exports"], function (require, exports) {
     "use strict";
-    var TextureUnit;
     (function (TextureUnit) {
         TextureUnit[TextureUnit["TEXTURE0"] = 33984] = "TEXTURE0";
         TextureUnit[TextureUnit["TEXTURE1"] = 33985] = "TEXTURE1";
@@ -8564,7 +8504,8 @@ define('davinci-eight/core/TextureUnit',["require", "exports"], function (requir
         TextureUnit[TextureUnit["TEXTURE30"] = 34014] = "TEXTURE30";
         TextureUnit[TextureUnit["TEXTURE31"] = 34015] = "TEXTURE31";
         TextureUnit[TextureUnit["ACTIVE_TEXTURE"] = 34016] = "ACTIVE_TEXTURE";
-    })(TextureUnit || (TextureUnit = {}));
+    })(exports.TextureUnit || (exports.TextureUnit = {}));
+    var TextureUnit = exports.TextureUnit;
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = TextureUnit;
 });
@@ -8807,13 +8748,13 @@ define('davinci-eight/core/Mesh',["require", "exports", "../facets/ColorFacet", 
 
 define('davinci-eight/core/PixelType',["require", "exports"], function (require, exports) {
     "use strict";
-    var PixelType;
     (function (PixelType) {
         PixelType[PixelType["UNSIGNED_BYTE"] = 5121] = "UNSIGNED_BYTE";
         PixelType[PixelType["UNSIGNED_SHORT_4_4_4_4"] = 32819] = "UNSIGNED_SHORT_4_4_4_4";
         PixelType[PixelType["UNSIGNED_SHORT_5_5_5_1"] = 32820] = "UNSIGNED_SHORT_5_5_5_1";
         PixelType[PixelType["UNSIGNED_SHORT_5_6_5"] = 33635] = "UNSIGNED_SHORT_5_6_5";
-    })(PixelType || (PixelType = {}));
+    })(exports.PixelType || (exports.PixelType = {}));
+    var PixelType = exports.PixelType;
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = PixelType;
 });
@@ -9064,23 +9005,23 @@ define('davinci-eight/core/Scene',["require", "exports", "../checks/mustBeObject
                 this._drawables.splice(index, 1).release();
             }
         };
-        Scene.prototype.contextFree = function (contextProvider) {
+        Scene.prototype.contextFree = function () {
             for (var i = 0; i < this._drawables.length; i++) {
                 var drawable = this._drawables.getWeakRef(i);
                 if (drawable.contextFree) {
-                    drawable.contextFree(contextProvider);
+                    drawable.contextFree();
                 }
             }
-            _super.prototype.contextFree.call(this, contextProvider);
+            _super.prototype.contextFree.call(this);
         };
-        Scene.prototype.contextGain = function (contextProvider) {
+        Scene.prototype.contextGain = function () {
             for (var i = 0; i < this._drawables.length; i++) {
                 var drawable = this._drawables.getWeakRef(i);
                 if (drawable.contextGain) {
-                    drawable.contextGain(contextProvider);
+                    drawable.contextGain();
                 }
             }
-            _super.prototype.contextGain.call(this, contextProvider);
+            _super.prototype.contextGain.call(this);
         };
         Scene.prototype.contextLost = function () {
             for (var i = 0; i < this._drawables.length; i++) {
@@ -9150,18 +9091,18 @@ define('davinci-eight/core/Shader',["require", "exports", "./makeWebGLShader", "
         }
         Shader.prototype.destructor = function (levelUp) {
             _super.prototype.destructor.call(this, levelUp + 1);
-            mustBeUndefined_1.default(this._type, this._shader);
+            mustBeUndefined_1.default(this.getLoggingName(), this._shader);
         };
-        Shader.prototype.contextFree = function (context) {
+        Shader.prototype.contextFree = function () {
             if (this._shader) {
-                context.gl.deleteShader(this._shader);
+                this.contextManager.gl.deleteShader(this._shader);
                 this._shader = void 0;
             }
-            _super.prototype.contextFree.call(this, context);
+            _super.prototype.contextFree.call(this);
         };
-        Shader.prototype.contextGain = function (context) {
-            this._shader = makeWebGLShader_1.default(context.gl, this._source, this._shaderType);
-            _super.prototype.contextGain.call(this, context);
+        Shader.prototype.contextGain = function () {
+            this._shader = makeWebGLShader_1.default(this.contextManager.gl, this._source, this._shaderType);
+            _super.prototype.contextGain.call(this);
         };
         Shader.prototype.contextLost = function () {
             this._shader = void 0;
@@ -9175,18 +9116,17 @@ define('davinci-eight/core/Shader',["require", "exports", "./makeWebGLShader", "
 
 define('davinci-eight/core/TextureMagFilter',["require", "exports"], function (require, exports) {
     "use strict";
-    var TextureMagFilter;
     (function (TextureMagFilter) {
         TextureMagFilter[TextureMagFilter["NEAREST"] = 9728] = "NEAREST";
         TextureMagFilter[TextureMagFilter["LINEAR"] = 9729] = "LINEAR";
-    })(TextureMagFilter || (TextureMagFilter = {}));
+    })(exports.TextureMagFilter || (exports.TextureMagFilter = {}));
+    var TextureMagFilter = exports.TextureMagFilter;
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = TextureMagFilter;
 });
 
 define('davinci-eight/core/TextureMinFilter',["require", "exports"], function (require, exports) {
     "use strict";
-    var TextureMinFilter;
     (function (TextureMinFilter) {
         TextureMinFilter[TextureMinFilter["NEAREST"] = 9728] = "NEAREST";
         TextureMinFilter[TextureMinFilter["LINEAR"] = 9729] = "LINEAR";
@@ -9194,18 +9134,19 @@ define('davinci-eight/core/TextureMinFilter',["require", "exports"], function (r
         TextureMinFilter[TextureMinFilter["LINEAR_MIPMAP_NEAREST"] = 9985] = "LINEAR_MIPMAP_NEAREST";
         TextureMinFilter[TextureMinFilter["NEAREST_MIPMAP_LINEAR"] = 9986] = "NEAREST_MIPMAP_LINEAR";
         TextureMinFilter[TextureMinFilter["LINEAR_MIPMAP_LINEAR"] = 9987] = "LINEAR_MIPMAP_LINEAR";
-    })(TextureMinFilter || (TextureMinFilter = {}));
+    })(exports.TextureMinFilter || (exports.TextureMinFilter = {}));
+    var TextureMinFilter = exports.TextureMinFilter;
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = TextureMinFilter;
 });
 
 define('davinci-eight/core/TextureTarget',["require", "exports"], function (require, exports) {
     "use strict";
-    var TextureTarget;
     (function (TextureTarget) {
         TextureTarget[TextureTarget["TEXTURE_2D"] = 3553] = "TEXTURE_2D";
         TextureTarget[TextureTarget["TEXTURE"] = 5890] = "TEXTURE";
-    })(TextureTarget || (TextureTarget = {}));
+    })(exports.TextureTarget || (exports.TextureTarget = {}));
+    var TextureTarget = exports.TextureTarget;
     function checkTextureTarget(name, target) {
         switch (target) {
             case TextureTarget.TEXTURE_2D:
@@ -9224,12 +9165,12 @@ define('davinci-eight/core/TextureTarget',["require", "exports"], function (requ
 
 define('davinci-eight/core/TextureWrapMode',["require", "exports"], function (require, exports) {
     "use strict";
-    var TextureWrapMode;
     (function (TextureWrapMode) {
         TextureWrapMode[TextureWrapMode["REPEAT"] = 10497] = "REPEAT";
         TextureWrapMode[TextureWrapMode["CLAMP_TO_EDGE"] = 33071] = "CLAMP_TO_EDGE";
         TextureWrapMode[TextureWrapMode["MIRRORED_REPEAT"] = 33648] = "MIRRORED_REPEAT";
-    })(TextureWrapMode || (TextureWrapMode = {}));
+    })(exports.TextureWrapMode || (exports.TextureWrapMode = {}));
+    var TextureWrapMode = exports.TextureWrapMode;
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = TextureWrapMode;
 });
@@ -9433,107 +9374,26 @@ define('davinci-eight/commands/EIGHTLogger',["require", "exports", "../config", 
     "use strict";
     var EIGHTLogger = (function (_super) {
         __extends(EIGHTLogger, _super);
-        function EIGHTLogger() {
+        function EIGHTLogger(contextManager) {
             var _this = _super.call(this) || this;
+            _this.contextManager = contextManager;
             _this.setLoggingName('EIGHTLogger');
             return _this;
         }
         EIGHTLogger.prototype.destructor = function (levelUp) {
             _super.prototype.destructor.call(this, levelUp + 1);
         };
-        EIGHTLogger.prototype.contextFree = function (contextProvider) {
+        EIGHTLogger.prototype.contextFree = function () {
         };
-        EIGHTLogger.prototype.contextGain = function (contextProvider) {
+        EIGHTLogger.prototype.contextGain = function () {
             console.log(config_1.default.NAMESPACE + " " + config_1.default.VERSION + " (" + config_1.default.GITHUB + ") " + config_1.default.LAST_MODIFIED);
         };
         EIGHTLogger.prototype.contextLost = function () {
         };
-        Object.defineProperty(EIGHTLogger.prototype, "name", {
-            get: function () {
-                return this._type;
-            },
-            enumerable: true,
-            configurable: true
-        });
         return EIGHTLogger;
     }(ShareableBase_1.ShareableBase));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = EIGHTLogger;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/base/DefaultContextProvider',["require", "exports", "../core/DataType", "../i18n/readOnly", "../core/ShareableBase"], function (require, exports, DataType_1, readOnly_1, ShareableBase_1) {
-    "use strict";
-    var DefaultContextProvider = (function (_super) {
-        __extends(DefaultContextProvider, _super);
-        function DefaultContextProvider(engine) {
-            var _this = _super.call(this) || this;
-            _this.setLoggingName('DefaultContextProvider');
-            _this.engine = engine;
-            return _this;
-        }
-        DefaultContextProvider.prototype.destructor = function (levelUp) {
-            this.engine = void 0;
-            _super.prototype.destructor.call(this, levelUp + 1);
-        };
-        Object.defineProperty(DefaultContextProvider.prototype, "gl", {
-            get: function () {
-                if (this.engine) {
-                    return this.engine.gl;
-                }
-                else {
-                    throw new Error(this._type + ".engine is undefined.");
-                }
-            },
-            set: function (unused) {
-                throw new Error(readOnly_1.default('gl').message);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        DefaultContextProvider.prototype.disableVertexAttribArray = function (index) {
-            var gl = this.gl;
-            if (gl) {
-                gl.disableVertexAttribArray(index);
-            }
-        };
-        DefaultContextProvider.prototype.depthMask = function (flag) {
-            var gl = this.gl;
-            gl.depthMask(flag);
-        };
-        DefaultContextProvider.prototype.drawArrays = function (mode, first, count) {
-            var gl = this.gl;
-            gl.drawArrays(mode, first, count);
-        };
-        DefaultContextProvider.prototype.drawElements = function (mode, count, offset) {
-            var gl = this.gl;
-            gl.drawElements(mode, count, DataType_1.default.UNSIGNED_SHORT, offset);
-        };
-        DefaultContextProvider.prototype.enableVertexAttribArray = function (index) {
-            var gl = this.gl;
-            gl.enableVertexAttribArray(index);
-        };
-        DefaultContextProvider.prototype.isContextLost = function () {
-            var gl = this.gl;
-            if (gl) {
-                return gl.isContextLost();
-            }
-            else {
-                throw new Error("WebGLRenderingContext is undefined.");
-            }
-        };
-        DefaultContextProvider.prototype.vertexAttribPointer = function (index, size, type, normalized, stride, offset) {
-            var gl = this.gl;
-            gl.vertexAttribPointer(index, size, type, normalized, stride, offset);
-        };
-        return DefaultContextProvider;
-    }(ShareableBase_1.ShareableBase));
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = DefaultContextProvider;
 });
 
 define('davinci-eight/core/initWebGL',["require", "exports", "../checks/isDefined"], function (require, exports, isDefined_1) {
@@ -9568,12 +9428,12 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 define('davinci-eight/commands/VersionLogger',["require", "exports", "../core/ShareableBase"], function (require, exports, ShareableBase_1) {
     "use strict";
-    var QUALIFIED_NAME = 'EIGHT.VersionLogger';
     var VersionLogger = (function (_super) {
         __extends(VersionLogger, _super);
-        function VersionLogger() {
+        function VersionLogger(contextManager) {
             var _this = _super.call(this) || this;
-            _this.setLoggingName(QUALIFIED_NAME);
+            _this.contextManager = contextManager;
+            _this.setLoggingName("VersionLogger");
             return _this;
         }
         VersionLogger.prototype.destructor = function (levelUp) {
@@ -9581,19 +9441,12 @@ define('davinci-eight/commands/VersionLogger',["require", "exports", "../core/Sh
         };
         VersionLogger.prototype.contextFree = function () {
         };
-        VersionLogger.prototype.contextGain = function (contextProvider) {
-            var gl = contextProvider.gl;
+        VersionLogger.prototype.contextGain = function () {
+            var gl = this.contextManager.gl;
             console.log(gl.getParameter(gl.VERSION));
         };
         VersionLogger.prototype.contextLost = function () {
         };
-        Object.defineProperty(VersionLogger.prototype, "name", {
-            get: function () {
-                return QUALIFIED_NAME;
-            },
-            enumerable: true,
-            configurable: true
-        });
         return VersionLogger;
     }(ShareableBase_1.ShareableBase));
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -9605,7 +9458,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/Engine',["require", "exports", "./checkEnums", "./ClearBufferMask", "../commands/EIGHTLogger", "../base/DefaultContextProvider", "./IndexBuffer", "./initWebGL", "../checks/isDefined", "../checks/mustBeObject", "../collections/ShareableArray", "./ShareableBase", "./Usage", "../commands/VersionLogger", "./VertexBuffer", "../commands/WebGLClearColor", "../commands/WebGLEnable", "../commands/WebGLDisable"], function (require, exports, checkEnums_1, ClearBufferMask_1, EIGHTLogger_1, DefaultContextProvider_1, IndexBuffer_1, initWebGL_1, isDefined_1, mustBeObject_1, ShareableArray_1, ShareableBase_1, Usage_1, VersionLogger_1, VertexBuffer_1, WebGLClearColor_1, WebGLEnable_1, WebGLDisable_1) {
+define('davinci-eight/core/Engine',["require", "exports", "./checkEnums", "./ClearBufferMask", "../commands/EIGHTLogger", "./IndexBuffer", "./initWebGL", "../checks/isDefined", "../checks/mustBeObject", "../collections/ShareableArray", "./ShareableBase", "./Usage", "../commands/VersionLogger", "./VertexBuffer", "../commands/WebGLClearColor", "../commands/WebGLEnable", "../commands/WebGLDisable"], function (require, exports, checkEnums_1, ClearBufferMask_1, EIGHTLogger_1, IndexBuffer_1, initWebGL_1, isDefined_1, mustBeObject_1, ShareableArray_1, ShareableBase_1, Usage_1, VersionLogger_1, VertexBuffer_1, WebGLClearColor_1, WebGLEnable_1, WebGLDisable_1) {
     "use strict";
     var Engine = (function (_super) {
         __extends(Engine, _super);
@@ -9616,9 +9469,8 @@ define('davinci-eight/core/Engine',["require", "exports", "./checkEnums", "./Cle
             _this._commands = new ShareableArray_1.default([]);
             _this.setLoggingName('Engine');
             _this._attributes = attributes;
-            _this._commands.pushWeakRef(new EIGHTLogger_1.default());
-            _this._commands.pushWeakRef(new VersionLogger_1.default());
-            _this._contextProvider = new DefaultContextProvider_1.default(_this);
+            _this._commands.pushWeakRef(new EIGHTLogger_1.default(_this));
+            _this._commands.pushWeakRef(new VersionLogger_1.default(_this));
             _this._webGLContextLost = function (event) {
                 if (isDefined_1.default(_this._gl)) {
                     event.preventDefault();
@@ -9633,7 +9485,7 @@ define('davinci-eight/core/Engine',["require", "exports", "./checkEnums", "./Cle
                     event.preventDefault();
                     _this._gl = initWebGL_1.default(_this._gl.canvas, attributes);
                     _this._users.forEach(function (user) {
-                        user.contextGain(_this._contextProvider);
+                        user.contextGain();
                     });
                 }
             };
@@ -9644,7 +9496,6 @@ define('davinci-eight/core/Engine',["require", "exports", "./checkEnums", "./Cle
         }
         Engine.prototype.destructor = function (levelUp) {
             this.stop();
-            this._contextProvider.release();
             while (this._users.length > 0) {
                 this._users.pop();
             }
@@ -9694,6 +9545,9 @@ define('davinci-eight/core/Engine',["require", "exports", "./checkEnums", "./Cle
                 if (this._gl) {
                     return this._gl.drawingBufferHeight;
                 }
+                else {
+                    return void 0;
+                }
             },
             enumerable: true,
             configurable: true
@@ -9702,6 +9556,9 @@ define('davinci-eight/core/Engine',["require", "exports", "./checkEnums", "./Cle
             get: function () {
                 if (this._gl) {
                     return this._gl.drawingBufferWidth;
+                }
+                else {
+                    return void 0;
                 }
             },
             enumerable: true,
@@ -9723,7 +9580,7 @@ define('davinci-eight/core/Engine',["require", "exports", "./checkEnums", "./Cle
             return this;
         };
         Engine.prototype.clearColor = function (red, green, blue, alpha) {
-            this._commands.pushWeakRef(new WebGLClearColor_1.WebGLClearColor(red, green, blue, alpha));
+            this._commands.pushWeakRef(new WebGLClearColor_1.WebGLClearColor(this, red, green, blue, alpha));
             var gl = this._gl;
             if (gl) {
                 gl.clearColor(red, green, blue, alpha);
@@ -9759,14 +9616,14 @@ define('davinci-eight/core/Engine',["require", "exports", "./checkEnums", "./Cle
             return this;
         };
         Engine.prototype.disable = function (capability) {
-            this._commands.pushWeakRef(new WebGLDisable_1.WebGLDisable(capability));
+            this._commands.pushWeakRef(new WebGLDisable_1.WebGLDisable(this, capability));
             if (this._gl) {
                 this._gl.disable(capability);
             }
             return this;
         };
         Engine.prototype.enable = function (capability) {
-            this._commands.pushWeakRef(new WebGLEnable_1.WebGLEnable(capability));
+            this._commands.pushWeakRef(new WebGLEnable_1.WebGLEnable(this, capability));
             if (this._gl) {
                 this._gl.enable(capability);
             }
@@ -9839,8 +9696,8 @@ define('davinci-eight/core/Engine',["require", "exports", "./checkEnums", "./Cle
             }
             else if (canvas instanceof HTMLCanvasElement) {
                 if (isDefined_1.default(this._gl)) {
-                    console.warn(this._type + " Ignoring start() because already started.");
-                    return;
+                    console.warn(this.getLoggingName() + " Ignoring start() because already started.");
+                    return this;
                 }
                 else {
                     this._gl = initWebGL_1.default(canvas, this._attributes);
@@ -9881,7 +9738,7 @@ define('davinci-eight/core/Engine',["require", "exports", "./checkEnums", "./Cle
                 consumer.contextLost();
             }
             else {
-                consumer.contextGain(this._contextProvider);
+                consumer.contextGain();
             }
         };
         Engine.prototype.emitStopEvent = function () {
@@ -9898,7 +9755,7 @@ define('davinci-eight/core/Engine',["require", "exports", "./checkEnums", "./Cle
                 consumer.contextLost();
             }
             else {
-                consumer.contextFree(this._contextProvider);
+                consumer.contextFree();
             }
         };
         Engine.prototype.synchronize = function (consumer) {
@@ -9976,23 +9833,6 @@ define('davinci-eight/facets/DirectionalLight',["require", "exports", "../core/C
     exports.DirectionalLight = DirectionalLight;
 });
 
-define('davinci-eight/math/add2x2',["require", "exports"], function (require, exports) {
-    "use strict";
-    function add2x2(a, b, c) {
-        var a11 = a[0x0], a12 = a[0x2];
-        var a21 = a[0x1], a22 = a[0x3];
-        var b11 = b[0x0], b12 = b[0x2];
-        var b21 = b[0x1], b22 = b[0x3];
-        c[0x0] = a11 + b11;
-        c[0x2] = a12 + b12;
-        c[0x1] = a21 + b21;
-        c[0x3] = a22 + b22;
-        return c;
-    }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = add2x2;
-});
-
 define('davinci-eight/math/det2x2',["require", "exports"], function (require, exports) {
     "use strict";
     function default_1(m) {
@@ -10011,8 +9851,18 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/math/Matrix2',["require", "exports", "../math/AbstractMatrix", "../math/add2x2", "../math/det2x2", "../checks/isDefined", "../checks/mustBeInteger", "../checks/mustBeNumber"], function (require, exports, AbstractMatrix_1, add2x2_1, det2x2_1, isDefined_1, mustBeInteger_1, mustBeNumber_1) {
+define('davinci-eight/math/Matrix2',["require", "exports", "../math/AbstractMatrix", "../math/det2x2", "../checks/isDefined", "../checks/mustBeInteger", "../checks/mustBeNumber"], function (require, exports, AbstractMatrix_1, det2x2_1, isDefined_1, mustBeInteger_1, mustBeNumber_1) {
     "use strict";
+    function add2x2(a, b, c) {
+        var a11 = a[0x0], a12 = a[0x2];
+        var a21 = a[0x1], a22 = a[0x3];
+        var b11 = b[0x0], b12 = b[0x2];
+        var b21 = b[0x1], b22 = b[0x3];
+        c[0x0] = a11 + b11;
+        c[0x2] = a12 + b12;
+        c[0x1] = a21 + b21;
+        c[0x3] = a22 + b22;
+    }
     var Matrix2 = (function (_super) {
         __extends(Matrix2, _super);
         function Matrix2(elements) {
@@ -10022,7 +9872,7 @@ define('davinci-eight/math/Matrix2',["require", "exports", "../math/AbstractMatr
             return this.add2(this, rhs);
         };
         Matrix2.prototype.add2 = function (a, b) {
-            add2x2_1.default(a.elements, b.elements, this.elements);
+            add2x2(a.elements, b.elements, this.elements);
             return this;
         };
         Matrix2.prototype.clone = function () {
@@ -15341,6 +15191,7 @@ define('davinci-eight/geometries/SphereGeometry',["require", "exports", "../geom
             case 2: return qIndex + innerSegments + 1;
             case 3: return qIndex + innerSegments + 2;
         }
+        throw new Error("n must be in the range [0, 3]");
     }
     function makeTriangles(points, uvs, radius, heightSegments, widthSegments, geometry) {
         for (var i = 0; i < heightSegments; i++) {
@@ -15854,11 +15705,11 @@ define('davinci-eight/materials/ShaderMaterial',["require", "exports", "../core/
             if (levelUp === 0) {
                 this.cleanUp();
             }
-            mustBeUndefined_1.default(this._type, this._program);
+            mustBeUndefined_1.default(this.getLoggingName(), this._program);
             _super.prototype.destructor.call(this, levelUp + 1);
         };
-        ShaderMaterial.prototype.contextGain = function (context) {
-            var gl = context.gl;
+        ShaderMaterial.prototype.contextGain = function () {
+            var gl = this.contextManager.gl;
             if (!this._program && isString_1.default(this._vertexShaderSrc) && isString_1.default(this._fragmentShaderSrc)) {
                 this._program = makeWebGLProgram_1.default(gl, this._vertexShaderSrc, this._fragmentShaderSrc, this._attribs);
                 this._attributesByName = {};
@@ -15887,7 +15738,7 @@ define('davinci-eight/materials/ShaderMaterial',["require", "exports", "../core/
                     }
                 }
             }
-            _super.prototype.contextGain.call(this, context);
+            _super.prototype.contextGain.call(this);
         };
         ShaderMaterial.prototype.contextLost = function () {
             this._program = void 0;
@@ -15903,9 +15754,9 @@ define('davinci-eight/materials/ShaderMaterial',["require", "exports", "../core/
             }
             _super.prototype.contextLost.call(this);
         };
-        ShaderMaterial.prototype.contextFree = function (context) {
+        ShaderMaterial.prototype.contextFree = function () {
             if (this._program) {
-                var gl = context.gl;
+                var gl = this.contextManager.gl;
                 if (gl) {
                     if (!gl.isContextLost()) {
                         gl.deleteProgram(this._program);
@@ -15928,7 +15779,7 @@ define('davinci-eight/materials/ShaderMaterial',["require", "exports", "../core/
                     this._uniforms[uName].contextFree();
                 }
             }
-            _super.prototype.contextFree.call(this, context);
+            _super.prototype.contextFree.call(this);
         };
         Object.defineProperty(ShaderMaterial.prototype, "vertexShaderSrc", {
             get: function () {
@@ -16127,7 +15978,7 @@ define('davinci-eight/materials/ShaderMaterial',["require", "exports", "../core/
                 gl.useProgram(this._program);
             }
             else {
-                console.warn(this._type + ".use() missing WebGL rendering context.");
+                console.warn(this.getLoggingName() + ".use() missing WebGL rendering context.");
             }
             return this;
         };
@@ -19239,57 +19090,57 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMode", "../core/DataType", "../core/GeometryArrays", "../checks/isBoolean", "../checks/isNumber", "../core/Mesh", "../materials/ShaderMaterial"], function (require, exports, BeginMode_1, DataType_1, GeometryArrays_1, isBoolean_1, isNumber_1, Mesh_1, ShaderMaterial_1) {
+define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMode", "../core/DataType", "../core/GeometryArrays", "../core/ImageTexture", "../checks/isBoolean", "../checks/isNumber", "../core/Mesh", "../materials/ShaderMaterial"], function (require, exports, BeginMode_1, DataType_1, GeometryArrays_1, ImageTexture_1, isBoolean_1, isNumber_1, Mesh_1, ShaderMaterial_1) {
     "use strict";
-    var PartKind;
-    (function (PartKind) {
-        PartKind[PartKind["Head"] = 0] = "Head";
-        PartKind[PartKind["Helm"] = 1] = "Helm";
-        PartKind[PartKind["RightLeg"] = 2] = "RightLeg";
-        PartKind[PartKind["Torso"] = 3] = "Torso";
-        PartKind[PartKind["RightArm"] = 4] = "RightArm";
-        PartKind[PartKind["LeftLeg"] = 5] = "LeftLeg";
-        PartKind[PartKind["LeftArm"] = 6] = "LeftArm";
-        PartKind[PartKind["RightLegLayer2"] = 7] = "RightLegLayer2";
-        PartKind[PartKind["TorsoLayer2"] = 8] = "TorsoLayer2";
-        PartKind[PartKind["RightArmLayer2"] = 9] = "RightArmLayer2";
-        PartKind[PartKind["LeftLegLayer2"] = 10] = "LeftLegLayer2";
-        PartKind[PartKind["LeftArmLayer2"] = 11] = "LeftArmLayer2";
-    })(PartKind || (PartKind = {}));
-    var Side;
-    (function (Side) {
-        Side[Side["Top"] = 0] = "Top";
-        Side[Side["Bottom"] = 1] = "Bottom";
-        Side[Side["Right"] = 2] = "Right";
-        Side[Side["Front"] = 3] = "Front";
-        Side[Side["Left"] = 4] = "Left";
-        Side[Side["Back"] = 5] = "Back";
-    })(Side || (Side = {}));
+    var MinecraftPartKind;
+    (function (MinecraftPartKind) {
+        MinecraftPartKind[MinecraftPartKind["Head"] = 0] = "Head";
+        MinecraftPartKind[MinecraftPartKind["Helm"] = 1] = "Helm";
+        MinecraftPartKind[MinecraftPartKind["RightLeg"] = 2] = "RightLeg";
+        MinecraftPartKind[MinecraftPartKind["Torso"] = 3] = "Torso";
+        MinecraftPartKind[MinecraftPartKind["RightArm"] = 4] = "RightArm";
+        MinecraftPartKind[MinecraftPartKind["LeftLeg"] = 5] = "LeftLeg";
+        MinecraftPartKind[MinecraftPartKind["LeftArm"] = 6] = "LeftArm";
+        MinecraftPartKind[MinecraftPartKind["RightLegLayer2"] = 7] = "RightLegLayer2";
+        MinecraftPartKind[MinecraftPartKind["TorsoLayer2"] = 8] = "TorsoLayer2";
+        MinecraftPartKind[MinecraftPartKind["RightArmLayer2"] = 9] = "RightArmLayer2";
+        MinecraftPartKind[MinecraftPartKind["LeftLegLayer2"] = 10] = "LeftLegLayer2";
+        MinecraftPartKind[MinecraftPartKind["LeftArmLayer2"] = 11] = "LeftArmLayer2";
+    })(MinecraftPartKind || (MinecraftPartKind = {}));
+    var MinecraftSide;
+    (function (MinecraftSide) {
+        MinecraftSide[MinecraftSide["Top"] = 0] = "Top";
+        MinecraftSide[MinecraftSide["Bottom"] = 1] = "Bottom";
+        MinecraftSide[MinecraftSide["Right"] = 2] = "Right";
+        MinecraftSide[MinecraftSide["Front"] = 3] = "Front";
+        MinecraftSide[MinecraftSide["Left"] = 4] = "Left";
+        MinecraftSide[MinecraftSide["Back"] = 5] = "Back";
+    })(MinecraftSide || (MinecraftSide = {}));
     function dimensions(part, height) {
         var LIMB_SIZE = 0.125 * height;
         var HEAD_SIZE = 0.25 * height;
         var TORSO_LENGTH = 0.375 * height;
         switch (part) {
-            case PartKind.Head: {
+            case MinecraftPartKind.Head: {
                 return [HEAD_SIZE, HEAD_SIZE, HEAD_SIZE];
             }
-            case PartKind.Helm: {
+            case MinecraftPartKind.Helm: {
                 return [HEAD_SIZE, HEAD_SIZE, HEAD_SIZE];
             }
-            case PartKind.LeftLeg:
-            case PartKind.LeftLegLayer2:
-            case PartKind.RightLeg:
-            case PartKind.RightLegLayer2: {
+            case MinecraftPartKind.LeftLeg:
+            case MinecraftPartKind.LeftLegLayer2:
+            case MinecraftPartKind.RightLeg:
+            case MinecraftPartKind.RightLegLayer2: {
                 return [LIMB_SIZE, TORSO_LENGTH, LIMB_SIZE];
             }
-            case PartKind.Torso:
-            case PartKind.TorsoLayer2: {
+            case MinecraftPartKind.Torso:
+            case MinecraftPartKind.TorsoLayer2: {
                 return [HEAD_SIZE, TORSO_LENGTH, LIMB_SIZE];
             }
-            case PartKind.LeftArm:
-            case PartKind.LeftArmLayer2:
-            case PartKind.RightArm:
-            case PartKind.RightArmLayer2: {
+            case MinecraftPartKind.LeftArm:
+            case MinecraftPartKind.LeftArmLayer2:
+            case MinecraftPartKind.RightArm:
+            case MinecraftPartKind.RightArmLayer2: {
                 return [LIMB_SIZE, TORSO_LENGTH, LIMB_SIZE];
             }
             default: {
@@ -19299,12 +19150,12 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
     }
     function textureBounds(part, side, version, oldSkinLayout) {
         switch (part) {
-            case PartKind.Head: {
+            case MinecraftPartKind.Head: {
                 switch (side) {
-                    case Side.Top: {
+                    case MinecraftSide.Top: {
                         return [8, 0, 16, 8];
                     }
-                    case Side.Bottom: {
+                    case MinecraftSide.Bottom: {
                         if (oldSkinLayout) {
                             return [16, 0, 24, 8];
                         }
@@ -19312,16 +19163,16 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
                             return [24, 8, 16, 0];
                         }
                     }
-                    case Side.Right: {
+                    case MinecraftSide.Right: {
                         return [0, 8, 8, 16];
                     }
-                    case Side.Front: {
+                    case MinecraftSide.Front: {
                         return [8, 8, 16, 16];
                     }
-                    case Side.Left: {
+                    case MinecraftSide.Left: {
                         return [16, 8, 24, 16];
                     }
-                    case Side.Back: {
+                    case MinecraftSide.Back: {
                         return [24, 8, 32, 16];
                     }
                     default: {
@@ -19329,24 +19180,24 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
                     }
                 }
             }
-            case PartKind.Helm: {
+            case MinecraftPartKind.Helm: {
                 switch (side) {
-                    case Side.Top: {
+                    case MinecraftSide.Top: {
                         return [40, 0, 48, 8];
                     }
-                    case Side.Bottom: {
+                    case MinecraftSide.Bottom: {
                         return [48, 0, 56, 8];
                     }
-                    case Side.Right: {
+                    case MinecraftSide.Right: {
                         return [32, 8, 40, 16];
                     }
-                    case Side.Front: {
+                    case MinecraftSide.Front: {
                         return [40, 8, 48, 16];
                     }
-                    case Side.Left: {
+                    case MinecraftSide.Left: {
                         return [48, 8, 56, 16];
                     }
-                    case Side.Back: {
+                    case MinecraftSide.Back: {
                         return [56, 8, 64, 16];
                     }
                     default: {
@@ -19354,24 +19205,24 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
                     }
                 }
             }
-            case PartKind.RightLeg: {
+            case MinecraftPartKind.RightLeg: {
                 switch (side) {
-                    case Side.Top: {
+                    case MinecraftSide.Top: {
                         return [4, 16, 8, 20];
                     }
-                    case Side.Bottom: {
+                    case MinecraftSide.Bottom: {
                         return [8, 16, 12, 20];
                     }
-                    case Side.Right: {
+                    case MinecraftSide.Right: {
                         return [0, 20, 4, 32];
                     }
-                    case Side.Front: {
+                    case MinecraftSide.Front: {
                         return [4, 20, 8, 32];
                     }
-                    case Side.Left: {
+                    case MinecraftSide.Left: {
                         return [8, 20, 12, 32];
                     }
-                    case Side.Back: {
+                    case MinecraftSide.Back: {
                         return [12, 20, 16, 32];
                     }
                     default: {
@@ -19379,24 +19230,24 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
                     }
                 }
             }
-            case PartKind.Torso: {
+            case MinecraftPartKind.Torso: {
                 switch (side) {
-                    case Side.Top: {
+                    case MinecraftSide.Top: {
                         return [20, 16, 28, 20];
                     }
-                    case Side.Bottom: {
+                    case MinecraftSide.Bottom: {
                         return [28, 16, 36, 20];
                     }
-                    case Side.Right: {
+                    case MinecraftSide.Right: {
                         return [16, 20, 20, 32];
                     }
-                    case Side.Front: {
+                    case MinecraftSide.Front: {
                         return [20, 20, 28, 32];
                     }
-                    case Side.Left: {
+                    case MinecraftSide.Left: {
                         return [28, 20, 32, 32];
                     }
-                    case Side.Back: {
+                    case MinecraftSide.Back: {
                         return [32, 20, 40, 32];
                     }
                     default: {
@@ -19404,24 +19255,24 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
                     }
                 }
             }
-            case PartKind.RightArm: {
+            case MinecraftPartKind.RightArm: {
                 switch (side) {
-                    case Side.Top: {
+                    case MinecraftSide.Top: {
                         return [44, 16, 48, 20];
                     }
-                    case Side.Bottom: {
+                    case MinecraftSide.Bottom: {
                         return [48, 16, 52, 20];
                     }
-                    case Side.Right: {
+                    case MinecraftSide.Right: {
                         return [40, 20, 44, 32];
                     }
-                    case Side.Front: {
+                    case MinecraftSide.Front: {
                         return [44, 20, 48, 32];
                     }
-                    case Side.Left: {
+                    case MinecraftSide.Left: {
                         return [48, 20, 52, 32];
                     }
-                    case Side.Back: {
+                    case MinecraftSide.Back: {
                         return [52, 20, 56, 32];
                     }
                     default: {
@@ -19429,25 +19280,25 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
                     }
                 }
             }
-            case PartKind.LeftLeg: {
+            case MinecraftPartKind.LeftLeg: {
                 if (version > 0) {
                     switch (side) {
-                        case Side.Top: {
+                        case MinecraftSide.Top: {
                             return [20, 48, 24, 52];
                         }
-                        case Side.Bottom: {
+                        case MinecraftSide.Bottom: {
                             return [24, 48, 28, 52];
                         }
-                        case Side.Right: {
+                        case MinecraftSide.Right: {
                             return [16, 52, 20, 64];
                         }
-                        case Side.Front: {
+                        case MinecraftSide.Front: {
                             return [20, 52, 24, 64];
                         }
-                        case Side.Left: {
+                        case MinecraftSide.Left: {
                             return [24, 52, 28, 64];
                         }
-                        case Side.Back: {
+                        case MinecraftSide.Back: {
                             return [28, 52, 32, 64];
                         }
                         default: {
@@ -19457,22 +19308,22 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
                 }
                 else {
                     switch (side) {
-                        case Side.Top: {
+                        case MinecraftSide.Top: {
                             return [8, 16, 4, 20];
                         }
-                        case Side.Bottom: {
+                        case MinecraftSide.Bottom: {
                             return [12, 16, 8, 20];
                         }
-                        case Side.Right: {
+                        case MinecraftSide.Right: {
                             return [12, 20, 8, 32];
                         }
-                        case Side.Front: {
+                        case MinecraftSide.Front: {
                             return [8, 20, 4, 32];
                         }
-                        case Side.Left: {
+                        case MinecraftSide.Left: {
                             return [4, 20, 0, 32];
                         }
-                        case Side.Back: {
+                        case MinecraftSide.Back: {
                             return [16, 20, 12, 32];
                         }
                         default: {
@@ -19481,25 +19332,25 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
                     }
                 }
             }
-            case PartKind.LeftArm: {
+            case MinecraftPartKind.LeftArm: {
                 if (version > 0) {
                     switch (side) {
-                        case Side.Top: {
+                        case MinecraftSide.Top: {
                             return [36, 48, 40, 52];
                         }
-                        case Side.Bottom: {
+                        case MinecraftSide.Bottom: {
                             return [40, 48, 44, 52];
                         }
-                        case Side.Right: {
+                        case MinecraftSide.Right: {
                             return [32, 52, 36, 64];
                         }
-                        case Side.Front: {
+                        case MinecraftSide.Front: {
                             return [36, 52, 40, 64];
                         }
-                        case Side.Left: {
+                        case MinecraftSide.Left: {
                             return [40, 52, 44, 64];
                         }
-                        case Side.Back: {
+                        case MinecraftSide.Back: {
                             return [44, 52, 48, 64];
                         }
                         default: {
@@ -19509,22 +19360,22 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
                 }
                 else {
                     switch (side) {
-                        case Side.Top: {
+                        case MinecraftSide.Top: {
                             return [48, 16, 44, 20];
                         }
-                        case Side.Bottom: {
+                        case MinecraftSide.Bottom: {
                             return [52, 16, 48, 20];
                         }
-                        case Side.Right: {
+                        case MinecraftSide.Right: {
                             return [52, 20, 48, 32];
                         }
-                        case Side.Front: {
+                        case MinecraftSide.Front: {
                             return [48, 20, 44, 32];
                         }
-                        case Side.Left: {
+                        case MinecraftSide.Left: {
                             return [44, 20, 40, 32];
                         }
-                        case Side.Back: {
+                        case MinecraftSide.Back: {
                             return [56, 20, 52, 32];
                         }
                         default: {
@@ -19533,24 +19384,24 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
                     }
                 }
             }
-            case PartKind.RightLegLayer2: {
+            case MinecraftPartKind.RightLegLayer2: {
                 switch (side) {
-                    case Side.Top: {
+                    case MinecraftSide.Top: {
                         return [4, 48, 8, 36];
                     }
-                    case Side.Bottom: {
+                    case MinecraftSide.Bottom: {
                         return [8, 48, 12, 36];
                     }
-                    case Side.Right: {
+                    case MinecraftSide.Right: {
                         return [0, 36, 4, 48];
                     }
-                    case Side.Front: {
+                    case MinecraftSide.Front: {
                         return [4, 36, 8, 48];
                     }
-                    case Side.Left: {
+                    case MinecraftSide.Left: {
                         return [8, 36, 12, 48];
                     }
-                    case Side.Back: {
+                    case MinecraftSide.Back: {
                         return [12, 36, 16, 48];
                     }
                     default: {
@@ -19558,24 +19409,24 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
                     }
                 }
             }
-            case PartKind.TorsoLayer2: {
+            case MinecraftPartKind.TorsoLayer2: {
                 switch (side) {
-                    case Side.Top: {
+                    case MinecraftSide.Top: {
                         return [20, 48, 28, 36];
                     }
-                    case Side.Bottom: {
+                    case MinecraftSide.Bottom: {
                         return [28, 48, 36, 36];
                     }
-                    case Side.Right: {
+                    case MinecraftSide.Right: {
                         return [16, 36, 20, 48];
                     }
-                    case Side.Front: {
+                    case MinecraftSide.Front: {
                         return [20, 36, 28, 48];
                     }
-                    case Side.Left: {
+                    case MinecraftSide.Left: {
                         return [28, 36, 32, 48];
                     }
-                    case Side.Back: {
+                    case MinecraftSide.Back: {
                         return [32, 36, 40, 48];
                     }
                     default: {
@@ -19583,24 +19434,24 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
                     }
                 }
             }
-            case PartKind.RightArmLayer2: {
+            case MinecraftPartKind.RightArmLayer2: {
                 switch (side) {
-                    case Side.Top: {
+                    case MinecraftSide.Top: {
                         return [44, 48, 48, 36];
                     }
-                    case Side.Bottom: {
+                    case MinecraftSide.Bottom: {
                         return [48, 48, 52, 36];
                     }
-                    case Side.Right: {
+                    case MinecraftSide.Right: {
                         return [40, 36, 44, 48];
                     }
-                    case Side.Front: {
+                    case MinecraftSide.Front: {
                         return [44, 36, 48, 48];
                     }
-                    case Side.Left: {
+                    case MinecraftSide.Left: {
                         return [48, 36, 52, 48];
                     }
-                    case Side.Back: {
+                    case MinecraftSide.Back: {
                         return [52, 36, 64, 48];
                     }
                     default: {
@@ -19608,24 +19459,24 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
                     }
                 }
             }
-            case PartKind.LeftLegLayer2: {
+            case MinecraftPartKind.LeftLegLayer2: {
                 switch (side) {
-                    case Side.Top: {
+                    case MinecraftSide.Top: {
                         return [4, 48, 8, 52];
                     }
-                    case Side.Bottom: {
+                    case MinecraftSide.Bottom: {
                         return [8, 48, 12, 52];
                     }
-                    case Side.Right: {
+                    case MinecraftSide.Right: {
                         return [0, 52, 4, 64];
                     }
-                    case Side.Front: {
+                    case MinecraftSide.Front: {
                         return [4, 52, 8, 64];
                     }
-                    case Side.Left: {
+                    case MinecraftSide.Left: {
                         return [8, 52, 12, 64];
                     }
-                    case Side.Back: {
+                    case MinecraftSide.Back: {
                         return [12, 52, 16, 64];
                     }
                     default: {
@@ -19633,24 +19484,24 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
                     }
                 }
             }
-            case PartKind.LeftArmLayer2: {
+            case MinecraftPartKind.LeftArmLayer2: {
                 switch (side) {
-                    case Side.Top: {
+                    case MinecraftSide.Top: {
                         return [52, 48, 56, 52];
                     }
-                    case Side.Bottom: {
+                    case MinecraftSide.Bottom: {
                         return [56, 48, 60, 52];
                     }
-                    case Side.Right: {
+                    case MinecraftSide.Right: {
                         return [48, 52, 52, 64];
                     }
-                    case Side.Front: {
+                    case MinecraftSide.Front: {
                         return [52, 52, 56, 64];
                     }
-                    case Side.Left: {
+                    case MinecraftSide.Left: {
                         return [56, 52, 60, 64];
                     }
-                    case Side.Back: {
+                    case MinecraftSide.Back: {
                         return [60, 52, 64, 64];
                     }
                     default: {
@@ -19703,17 +19554,19 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
             .map(function (xs) { return [dims[0] * xs[0], dims[1] * xs[1], dims[2] * xs[2]]; })
             .map(function (xs) { return [xs[0] + offset.x, xs[1] + offset.y, xs[2] + offset.z]; })
             .reduce(function (a, b) { return a.concat(b); });
-        var naturalScale = 64 / texture.naturalWidth;
-        var width = texture.naturalWidth * naturalScale;
-        var height = texture.naturalHeight * naturalScale;
+        var naturalWidth = texture instanceof ImageTexture_1.default ? texture.naturalWidth : 64;
+        var naturalHeight = texture instanceof ImageTexture_1.default ? texture.naturalHeight : 64;
+        var naturalScale = 64 / naturalWidth;
+        var width = naturalWidth * naturalScale;
+        var height = naturalHeight * naturalScale;
         var oldSkinLayout = options.oldSkinLayout;
         var coords = [
-            aCoords(partKind, Side.Front, width, height, oldSkinLayout),
-            aCoords(partKind, Side.Back, width, height, oldSkinLayout),
-            aCoords(partKind, Side.Left, width, height, oldSkinLayout),
-            aCoords(partKind, Side.Right, width, height, oldSkinLayout),
-            aCoords(partKind, Side.Top, width, height, oldSkinLayout),
-            aCoords(partKind, Side.Bottom, width, height, oldSkinLayout)
+            aCoords(partKind, MinecraftSide.Front, width, height, oldSkinLayout),
+            aCoords(partKind, MinecraftSide.Back, width, height, oldSkinLayout),
+            aCoords(partKind, MinecraftSide.Left, width, height, oldSkinLayout),
+            aCoords(partKind, MinecraftSide.Right, width, height, oldSkinLayout),
+            aCoords(partKind, MinecraftSide.Top, width, height, oldSkinLayout),
+            aCoords(partKind, MinecraftSide.Bottom, width, height, oldSkinLayout)
         ].reduce(function (a, b) { return a.concat(b); });
         var primitive = {
             mode: BeginMode_1.default.TRIANGLES,
@@ -19774,7 +19627,7 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
         function MinecraftHead(engine, texture, options) {
             var _this = _super.call(this, engine, texture, {
                 height: isNumber_1.default(options.height) ? options.height : 1,
-                partKind: PartKind.Head,
+                partKind: MinecraftPartKind.Head,
                 offset: options.offset,
                 oldSkinLayout: isBoolean_1.default(options.oldSkinLayout) ? options.oldSkinLayout : false
             }) || this;
@@ -19792,7 +19645,7 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
         function MinecraftTorso(engine, texture, options) {
             var _this = _super.call(this, engine, texture, {
                 height: isNumber_1.default(options.height) ? options.height : 1,
-                partKind: PartKind.Torso,
+                partKind: MinecraftPartKind.Torso,
                 offset: options.offset,
                 oldSkinLayout: isBoolean_1.default(options.oldSkinLayout) ? options.oldSkinLayout : false
             }) || this;
@@ -19810,7 +19663,7 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
         function MinecraftArmL(engine, texture, options) {
             var _this = _super.call(this, engine, texture, {
                 height: isNumber_1.default(options.height) ? options.height : 1,
-                partKind: PartKind.LeftArm,
+                partKind: MinecraftPartKind.LeftArm,
                 offset: options.offset,
                 oldSkinLayout: isBoolean_1.default(options.oldSkinLayout) ? options.oldSkinLayout : false
             }) || this;
@@ -19828,7 +19681,7 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
         function MinecraftArmR(engine, texture, options) {
             var _this = _super.call(this, engine, texture, {
                 height: isNumber_1.default(options.height) ? options.height : 1,
-                partKind: PartKind.RightArm,
+                partKind: MinecraftPartKind.RightArm,
                 offset: options.offset,
                 oldSkinLayout: isBoolean_1.default(options.oldSkinLayout) ? options.oldSkinLayout : false
             }) || this;
@@ -19846,7 +19699,7 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
         function MinecraftLegL(engine, texture, options) {
             var _this = _super.call(this, engine, texture, {
                 height: isNumber_1.default(options.height) ? options.height : 1,
-                partKind: PartKind.LeftLeg,
+                partKind: MinecraftPartKind.LeftLeg,
                 offset: options.offset,
                 oldSkinLayout: isBoolean_1.default(options.oldSkinLayout) ? options.oldSkinLayout : false
             }) || this;
@@ -19864,7 +19717,7 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
         function MinecraftLegR(engine, texture, options) {
             var _this = _super.call(this, engine, texture, {
                 height: isNumber_1.default(options.height) ? options.height : 1,
-                partKind: PartKind.RightLeg,
+                partKind: MinecraftPartKind.RightLeg,
                 offset: options.offset,
                 oldSkinLayout: isBoolean_1.default(options.oldSkinLayout) ? options.oldSkinLayout : false
             }) || this;
@@ -19928,7 +19781,7 @@ define('davinci-eight/visual/MinecraftFigure',["require", "exports", "./Group", 
     exports.default = MinecraftFigure;
 });
 
-define('davinci-eight/visual/Parallelepiped',["require", "exports", "../core/BeginMode", "../core/cleanUp", "../core/Color", "../core/DataType", "../base/exchange", "../math/Geometric3", "../core/GeometryArrays", "../core/Mesh", "./mustBeEngine", "../core/refChange", "../materials/ShaderMaterial"], function (require, exports, BeginMode_1, cleanUp_1, Color_1, DataType_1, exchange_1, Geometric3_1, GeometryArrays_1, Mesh_1, mustBeEngine_1, refChange_1, ShaderMaterial_1) {
+define('davinci-eight/visual/Parallelepiped',["require", "exports", "../core/BeginMode", "../core/Color", "../core/DataType", "../base/exchange", "../math/Geometric3", "../core/GeometryArrays", "../core/Mesh", "./mustBeEngine", "../core/refChange", "../materials/ShaderMaterial"], function (require, exports, BeginMode_1, Color_1, DataType_1, exchange_1, Geometric3_1, GeometryArrays_1, Mesh_1, mustBeEngine_1, refChange_1, ShaderMaterial_1) {
     "use strict";
     var vertexShaderSrc = [
         "attribute vec3 aCoords;",
@@ -20037,7 +19890,16 @@ define('davinci-eight/visual/Parallelepiped',["require", "exports", "../core/Beg
         }
         Parallelepiped.prototype.destructor = function (levelUp) {
             if (levelUp === 0) {
-                cleanUp_1.default(this.contextProvider, this);
+                if (this.contextManager && this.contextManager.gl) {
+                    if (this.contextManager.gl.isContextLost()) {
+                        this.contextLost();
+                    }
+                    else {
+                        this.contextFree();
+                    }
+                }
+                else {
+                }
             }
             this.mesh = exchange_1.default(this.mesh, void 0);
             this.contextManager = exchange_1.default(this.contextManager, void 0);
@@ -20071,11 +19933,10 @@ define('davinci-eight/visual/Parallelepiped',["require", "exports", "../core/Beg
             }
             return this.refCount;
         };
-        Parallelepiped.prototype.contextFree = function (contextProvider) {
+        Parallelepiped.prototype.contextFree = function () {
             this.mesh = exchange_1.default(this.mesh, void 0);
-            this.contextProvider = exchange_1.default(this.contextProvider, void 0);
         };
-        Parallelepiped.prototype.contextGain = function (contextProvider) {
+        Parallelepiped.prototype.contextGain = function () {
             if (!this.mesh) {
                 var primitive = {
                     mode: BeginMode_1.default.TRIANGLES,
@@ -20089,12 +19950,10 @@ define('davinci-eight/visual/Parallelepiped',["require", "exports", "../core/Beg
                 this.mesh = new Mesh_1.Mesh(geometry, material, this.contextManager);
                 geometry.release();
                 material.release();
-                this.contextProvider = exchange_1.default(this.contextProvider, contextProvider);
             }
         };
         Parallelepiped.prototype.contextLost = function () {
             this.mesh = exchange_1.default(this.mesh, void 0);
-            this.contextProvider = exchange_1.default(this.contextProvider, void 0);
         };
         return Parallelepiped;
     }());
@@ -20195,7 +20054,7 @@ define('davinci-eight/visual/Track',["require", "exports", "../core/BeginMode", 
             return this;
         };
         TrackGeometry.prototype.draw = function () {
-            this.contextProvider.drawArrays(BeginMode_1.default.LINE_STRIP, 0, this.count);
+            this.contextManager.gl.drawArrays(BeginMode_1.default.LINE_STRIP, 0, this.count);
             return this;
         };
         TrackGeometry.prototype.getPrincipalScale = function (name) {
@@ -20207,12 +20066,11 @@ define('davinci-eight/visual/Track',["require", "exports", "../core/BeginMode", 
         TrackGeometry.prototype.setPrincipalScale = function (name, value) {
             throw new Error("LineGeometry.setPrincipalScale");
         };
-        TrackGeometry.prototype.contextFree = function (contextProvider) {
-            this.vbo.contextFree(contextProvider);
+        TrackGeometry.prototype.contextFree = function () {
+            this.vbo.contextFree();
         };
-        TrackGeometry.prototype.contextGain = function (contextProvider) {
-            this.contextProvider = contextProvider;
-            this.vbo.contextGain(contextProvider);
+        TrackGeometry.prototype.contextGain = function () {
+            this.vbo.contextGain();
         };
         TrackGeometry.prototype.contextLost = function () {
             this.vbo.contextLost();
@@ -20485,7 +20343,6 @@ define('davinci-eight/visual/Turtle',["require", "exports", "../core/BeginMode",
         function TurtleGeometry(contextManager, options) {
             if (options === void 0) { options = {}; }
             var _this = _super.call(this, contextManager, primitive(options), options) || this;
-            _this.contextManager = contextManager;
             _this.w = 1;
             _this.h = 1;
             _this.d = 1;

@@ -3,7 +3,7 @@ import SpinorE3 from '../math/SpinorE3';
 /**
  *
  */
-interface BoxOptions {
+export interface BoxOptions {
     /**
      * Determines whether the Box is rendered with lines or triangles.
      */

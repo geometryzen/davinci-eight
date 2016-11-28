@@ -1,5 +1,5 @@
 import config from '../config';
-import ContextProvider from '../core/ContextProvider';
+import ContextManager from '../core/ContextManager';
 import { ShareableBase } from '../core/ShareableBase';
 
 /**
@@ -7,7 +7,7 @@ import { ShareableBase } from '../core/ShareableBase';
  */
 export default class EIGHTLogger extends ShareableBase {
 
-  constructor() {
+  constructor(private contextManager: ContextManager) {
     super();
     this.setLoggingName('EIGHTLogger');
   }
@@ -16,22 +16,18 @@ export default class EIGHTLogger extends ShareableBase {
     super.destructor(levelUp + 1);
   }
 
-  contextFree(contextProvider: ContextProvider): void {
+  contextFree(): void {
     // Does nothing.
   }
 
   /**
    * Logs the namespace, version, GitHub URL, and last modified date to the console.
    */
-  contextGain(contextProvider: ContextProvider): void {
+  contextGain(): void {
     console.log(`${config.NAMESPACE} ${config.VERSION} (${config.GITHUB}) ${config.LAST_MODIFIED}`);
   }
 
   contextLost(): void {
     // Do nothing.
-  }
-
-  get name(): string {
-    return this._type;
   }
 }

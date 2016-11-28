@@ -1,7 +1,6 @@
 import BeginMode from '../core/BeginMode';
 import { Color } from '../core/Color';
 import ContextManager from '../core/ContextManager';
-import ContextProvider from '../core/ContextProvider';
 import DataType from '../core/DataType';
 import { Engine } from '../core/Engine';
 import { FacetVisitor } from '../core/FacetVisitor';
@@ -31,7 +30,6 @@ class TrackGeometry implements Geometry {
     private dirty = true;
     private vbo: VertexBuffer;
     private refCount = 1;
-    private contextProvider: ContextProvider;
     constructor(private contextManager: ContextManager) {
         this.data = new Float32Array(this.N * FLOATS_PER_VERTEX);
         this.vbo = new VertexBuffer(contextManager);
@@ -54,7 +52,7 @@ class TrackGeometry implements Geometry {
         return this;
     }
     draw(): TrackGeometry {
-        this.contextProvider.drawArrays(BeginMode.LINE_STRIP, 0, this.count);
+        this.contextManager.gl.drawArrays(BeginMode.LINE_STRIP, 0, this.count);
         return this;
     }
     getPrincipalScale(name: string): number {
@@ -66,12 +64,11 @@ class TrackGeometry implements Geometry {
     setPrincipalScale(name: string, value: number): void {
         throw new Error("LineGeometry.setPrincipalScale");
     }
-    contextFree(contextProvider: ContextProvider): void {
-        this.vbo.contextFree(contextProvider);
+    contextFree(): void {
+        this.vbo.contextFree();
     }
-    contextGain(contextProvider: ContextProvider): void {
-        this.contextProvider = contextProvider;
-        this.vbo.contextGain(contextProvider);
+    contextGain(): void {
+        this.vbo.contextGain();
     }
     contextLost(): void {
         this.vbo.contextLost();

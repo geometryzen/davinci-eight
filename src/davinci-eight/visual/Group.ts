@@ -13,28 +13,48 @@ interface GroupMember extends Renderable {
 }
 
 /**
- * A collection of objects that can be added to the Scene.
+ * A collection of objects that can be treated as a single Renderable.
  */
 export default class Group extends ShareableBase implements GroupMember {
-
+    /**
+     * The members of this group.
+     */
     private members: ShareableArray<GroupMember>;
+    /**
+     * Position (vector). This is a short alias for the position property.
+     */
     public X = Geometric3.zero();
+    /**
+     * Attitude (spinor). This is a short alias for the attitude property.
+     */
     public R = Geometric3.one();
     public stress = Matrix4.one();
+    /**
+     * Determines whether this group will be rendered.
+     */
     public visible = true;
 
+    /**
+     * Constructs 
+     */
     constructor() {
         super();
         this.setLoggingName('Group');
         this.members = new ShareableArray<GroupMember>([]);
     }
 
+    /**
+     * 
+     */
     protected destructor(levelUp: number): void {
         this.members.release();
         this.members = void 0;
         super.destructor(levelUp + 1);
     }
 
+    /**
+     * Position (vector). This is a long alias for the X property.
+     */
     get position(): Geometric3 {
         return this.X;
     }
@@ -44,6 +64,9 @@ export default class Group extends ShareableBase implements GroupMember {
         }
     }
 
+    /**
+     * Attitude (spinor). This is a long alias for the R property.
+     */
     get attitude(): Geometric3 {
         return this.R;
     }
@@ -53,12 +76,15 @@ export default class Group extends ShareableBase implements GroupMember {
         }
     }
 
+    /**
+     * Adds a Renderable item to this Group.
+     */
     add(member: GroupMember): void {
         this.members.push(member);
     }
 
     /**
-     * 
+     * Removes a member item from this Group.
      */
     remove(member: GroupMember): void {
         const index = this.members.indexOf(member);
@@ -72,13 +98,13 @@ export default class Group extends ShareableBase implements GroupMember {
     }
 
     /**
-     *
+     * Renders all the members of this Group.
      */
     render(ambients: Facet[]): void {
         if (this.visible) {
             this.members.forEach((member) => {
                 // Make copies of member state so that it can be restored accurately.
-                // These calls are recursive so wen need to use local temporary variables.
+                // These calls are recursive so we need to use local temporary variables.
                 const x = member.X.x;
                 const y = member.X.y;
                 const z = member.X.z;

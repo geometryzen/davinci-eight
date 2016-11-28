@@ -1,5 +1,4 @@
-import ContextProvider from './ContextProvider';
-import {Shareable} from './Shareable';
+import { Shareable } from './Shareable';
 
 /**
  * This interface standardizes the concept of an implementation being dependent upon
@@ -15,19 +14,15 @@ export interface ContextConsumer extends Shareable {
      * to properly dispose of any cached resources. In the case of shared objects, this
      * method may be called multiple times for what is logically the same context. In such
      * cases the consumer must be idempotent and respond only to the first request.
-     *
-     * @param contextProvider
      */
-    contextFree?(contextProvider: ContextProvider): void;
+    contextFree?(): void;
 
     /**
      * Called to inform the dependent of a new WebGL rendering context.
      * The implementation should ignore the notification if it has already
      * received the same context.
-     *
-     * @param contextProvider
      */
-    contextGain?(contextProvider: ContextProvider): void;
+    contextGain?(): void;
 
     /**
      * Called to inform the dependent of a loss of WebGL rendering context.

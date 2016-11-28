@@ -1,15 +1,13 @@
-import ContextProvider from '../core/ContextProvider';
+import ContextManager from '../core/ContextManager';
 import { ShareableBase } from '../core/ShareableBase';
-
-const QUALIFIED_NAME = 'EIGHT.VersionLogger';
 
 /**
  * Displays details about the WegGL version to the console.
  */
 export default class VersionLogger extends ShareableBase {
-  constructor() {
+  constructor(private contextManager: ContextManager) {
     super();
-    this.setLoggingName(QUALIFIED_NAME);
+    this.setLoggingName("VersionLogger");
   }
 
   protected destructor(levelUp: number): void {
@@ -20,16 +18,12 @@ export default class VersionLogger extends ShareableBase {
     // Do nothing.
   }
 
-  contextGain(contextProvider: ContextProvider): void {
-    const gl = contextProvider.gl;
+  contextGain(): void {
+    const gl = this.contextManager.gl;
     console.log(gl.getParameter(gl.VERSION));
   }
 
   contextLost(): void {
     // Do nothing.
-  }
-
-  get name(): string {
-    return QUALIFIED_NAME;
   }
 }

@@ -7,7 +7,6 @@ import DepthFunction from './DepthFunction';
 import EIGHTLogger from '../commands/EIGHTLogger';
 import { ContextConsumer } from './ContextConsumer';
 import ContextManager from './ContextManager';
-import DefaultContextProvider from '../base/DefaultContextProvider';
 import IndexBuffer from './IndexBuffer';
 import initWebGL from './initWebGL';
 import isDefined from '../checks/isDefined';
@@ -24,6 +23,10 @@ import { WebGLEnable } from '../commands/WebGLEnable';
 import { WebGLDisable } from '../commands/WebGLDisable';
 
 /**
+ * A wrapper around an HTMLCanvasElement providing access to the WebGLRenderingContext
+ * and notifications of context loss and restore. An instance of the Engine will usually
+ * be a required parameter for any consumer of WebGL resources.
+ *
  *
  *     // Anytime before calling the start method...
  *     const engine = new EIGHT.Engine()
@@ -57,11 +60,6 @@ export class Engine extends ShareableBase implements ContextManager {
     private _commands = new ShareableArray<ContextConsumer>([]);
 
     /**
-     * The argument provided in contextGain events.
-     */
-    private _contextProvider: DefaultContextProvider;
-
-    /**
      * @param canvas 
      * @param attributes Allows the context to be configured.
      * @param doc The document object model that contains the canvas identifier.
@@ -72,10 +70,8 @@ export class Engine extends ShareableBase implements ContextManager {
 
         this._attributes = attributes;
 
-        this._commands.pushWeakRef(new EIGHTLogger());
-        this._commands.pushWeakRef(new VersionLogger());
-
-        this._contextProvider = new DefaultContextProvider(this);
+        this._commands.pushWeakRef(new EIGHTLogger(this));
+        this._commands.pushWeakRef(new VersionLogger(this));
 
         this._webGLContextLost = (event: Event) => {
             if (isDefined(this._gl)) {
@@ -92,7 +88,7 @@ export class Engine extends ShareableBase implements ContextManager {
                 event.preventDefault();
                 this._gl = initWebGL(this._gl.canvas, attributes);
                 this._users.forEach((user: ContextConsumer) => {
-                    user.contextGain(this._contextProvider);
+                    user.contextGain();
                 });
             }
         };
@@ -107,7 +103,6 @@ export class Engine extends ShareableBase implements ContextManager {
      */
     protected destructor(levelUp: number): void {
         this.stop();
-        this._contextProvider.release();
         while (this._users.length > 0) {
             this._users.pop();
         }
@@ -161,11 +156,17 @@ export class Engine extends ShareableBase implements ContextManager {
         if (this._gl) {
             return this._gl.drawingBufferHeight;
         }
+        else {
+            return void 0;
+        }
     }
 
     get drawingBufferWidth(): number {
         if (this._gl) {
             return this._gl.drawingBufferWidth;
+        }
+        else {
+            return void 0;
         }
     }
 
@@ -194,7 +195,7 @@ export class Engine extends ShareableBase implements ContextManager {
      * Specifies color values to use by the <code>clear</code> method to clear the color buffer.
      */
     clearColor(red: number, green: number, blue: number, alpha: number): Engine {
-        this._commands.pushWeakRef(new WebGLClearColor(red, green, blue, alpha));
+        this._commands.pushWeakRef(new WebGLClearColor(this, red, green, blue, alpha));
         const gl = this._gl;
         if (gl) {
             gl.clearColor(red, green, blue, alpha);
@@ -250,7 +251,7 @@ export class Engine extends ShareableBase implements ContextManager {
      * Disables the specified WebGL capability.
      */
     disable(capability: Capability): Engine {
-        this._commands.pushWeakRef(new WebGLDisable(capability));
+        this._commands.pushWeakRef(new WebGLDisable(this, capability));
         if (this._gl) {
             this._gl.disable(capability);
         }
@@ -261,7 +262,7 @@ export class Engine extends ShareableBase implements ContextManager {
      * Enables the specified WebGL capability.
      */
     enable(capability: Capability): Engine {
-        this._commands.pushWeakRef(new WebGLEnable(capability));
+        this._commands.pushWeakRef(new WebGLEnable(this, capability));
         if (this._gl) {
             this._gl.enable(capability);
         }
@@ -381,8 +382,8 @@ export class Engine extends ShareableBase implements ContextManager {
             if (isDefined(this._gl)) {
                 // We'll just be idempotent and ignore the call because we've already been started.
                 // To use the canvas might conflict with one we have dynamically created.
-                console.warn(`${this._type} Ignoring start() because already started.`);
-                return;
+                console.warn(`${this.getLoggingName()} Ignoring start() because already started.`);
+                return this;
             }
             else {
                 this._gl = initWebGL(canvas, this._attributes);
@@ -430,7 +431,7 @@ export class Engine extends ShareableBase implements ContextManager {
             consumer.contextLost();
         }
         else {
-            consumer.contextGain(this._contextProvider);
+            consumer.contextGain();
         }
     }
 
@@ -448,7 +449,7 @@ export class Engine extends ShareableBase implements ContextManager {
             consumer.contextLost();
         }
         else {
-            consumer.contextFree(this._contextProvider);
+            consumer.contextFree();
         }
     }
 

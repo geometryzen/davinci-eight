@@ -1,7 +1,7 @@
 /**
  * WebGLBuffer usage.
  */
-enum Usage {
+export enum Usage {
     /**
      * Contents of the buffer are likely to not be used often.
      * Contents are written to the buffer, but not read.

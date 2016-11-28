@@ -13,6 +13,7 @@
         "inlineSources": false
     },
     "files": [
+        "src/davinci-eight/core/BeginMode.ts",
         "src/davinci-eight.ts"
     ]
 }

@@ -1,4 +1,4 @@
-import ContextProvider from '../core/ContextProvider';
+import ContextManager from '../core/ContextManager';
 import readOnly from '../i18n/readOnly';
 import { ShareableBase } from '../core/ShareableBase';
 
@@ -9,7 +9,7 @@ export default class ContextAttributesLogger extends ShareableBase {
     /**
      *
      */
-    constructor() {
+    constructor(private contextManager: ContextManager) {
         super();
     }
 
@@ -17,12 +17,12 @@ export default class ContextAttributesLogger extends ShareableBase {
         super.destructor(levelUp + 1);
     }
 
-    contextFree(manager: ContextProvider): void {
+    contextFree(): void {
         // Do nothing.
     }
 
-    contextGain(manager: ContextProvider): void {
-        const gl = manager.gl;
+    contextGain(): void {
+        const gl = this.contextManager.gl;
         const attributes: WebGLContextAttributes = gl.getContextAttributes();
         console.log("alpha                 => " + attributes.alpha);
         console.log("antialias             => " + attributes.antialias);
@@ -37,7 +37,7 @@ export default class ContextAttributesLogger extends ShareableBase {
     }
 
     get name(): string {
-        return this._type;
+        return this.getLoggingName();
     }
     set name(unused) {
         throw new Error(readOnly('name').message);

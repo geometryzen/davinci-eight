@@ -1,6 +1,6 @@
 import { Material } from './Material';
 import ContextManager from './ContextManager';
-import ContextProvider from './ContextProvider';
+import DataType from './DataType';
 import GeometryBase from './GeometryBase';
 import IndexBuffer from './IndexBuffer';
 import isArray from '../checks/isArray';
@@ -164,16 +164,16 @@ export default class GeometryElements extends GeometryBase {
     }
     */
 
-    public contextFree(contextProvider: ContextProvider): void {
-        this.ibo.contextFree(contextProvider);
-        this.vbo.contextFree(contextProvider);
-        super.contextFree(contextProvider);
+    public contextFree(): void {
+        this.ibo.contextFree();
+        this.vbo.contextFree();
+        super.contextFree();
     }
 
-    public contextGain(contextProvider: ContextProvider): void {
-        this.ibo.contextGain(contextProvider);
-        this.vbo.contextGain(contextProvider);
-        super.contextGain(contextProvider);
+    public contextGain(): void {
+        this.ibo.contextGain();
+        this.vbo.contextGain();
+        super.contextGain();
     }
 
     public contextLost(): void {
@@ -183,51 +183,44 @@ export default class GeometryElements extends GeometryBase {
     }
 
     bind(material: Material): GeometryElements {
-        const contextProvider = this.contextProvider;
-        if (contextProvider) {
-            this.vbo.bind();
-            const pointers = this._pointers;
-            if (pointers) {
-                const iLength = pointers.length;
-                for (let i = 0; i < iLength; i++) {
-                    const pointer = pointers[i];
-                    const attrib = material.getAttrib(pointer.name);
-                    if (attrib) {
-                        attrib.config(pointer.size, pointer.type, pointer.normalized, this._stride, pointer.offset);
-                        attrib.enable();
-                    }
+        this.vbo.bind();
+        const pointers = this._pointers;
+        if (pointers) {
+            const iLength = pointers.length;
+            for (let i = 0; i < iLength; i++) {
+                const pointer = pointers[i];
+                const attrib = material.getAttrib(pointer.name);
+                if (attrib) {
+                    attrib.config(pointer.size, pointer.type, pointer.normalized, this._stride, pointer.offset);
+                    attrib.enable();
                 }
             }
-            this.ibo.bind();
         }
+        this.ibo.bind();
         return this;
     }
 
     unbind(material: Material): GeometryElements {
-        const contextProvider = this.contextProvider;
-        if (contextProvider) {
-            this.ibo.unbind();
-            const pointers = this._pointers;
-            if (pointers) {
-                const iLength = pointers.length;
-                for (let i = 0; i < iLength; i++) {
-                    const pointer = pointers[i];
-                    const attrib = material.getAttrib(pointer.name);
-                    if (attrib) {
-                        attrib.disable();
-                    }
+        this.ibo.unbind();
+        const pointers = this._pointers;
+        if (pointers) {
+            const iLength = pointers.length;
+            for (let i = 0; i < iLength; i++) {
+                const pointer = pointers[i];
+                const attrib = material.getAttrib(pointer.name);
+                if (attrib) {
+                    attrib.disable();
                 }
             }
-            this.vbo.unbind();
         }
+        this.vbo.unbind();
         return this;
     }
 
     draw(): GeometryElements {
-        const contextProvider = this.contextProvider;
-        if (contextProvider) {
+        if (this.gl) {
             if (this.count) {
-                contextProvider.drawElements(this._mode, this.count, this.offset);
+                this.gl.drawElements(this._mode, this.count, DataType.UNSIGNED_SHORT, this.offset);
             }
         }
         return this;

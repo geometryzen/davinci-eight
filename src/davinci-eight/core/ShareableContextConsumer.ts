@@ -1,7 +1,5 @@
-import cleanUp from './cleanUp';
 import { ContextConsumer } from './ContextConsumer';
 import ContextManager from './ContextManager';
-import ContextProvider from './ContextProvider';
 import EngineSubscriber from './EngineSubscriber';
 import isUndefined from '../checks/isUndefined';
 import isNull from '../checks/isNull';
@@ -25,9 +23,9 @@ import { ShareableBase } from './ShareableBase';
  *
  *     class MyContextConsumer extends EIGHT.ShareableContextConsumer {
  *       constructor(contextManager: EIGHT.ContextManager, levelUp = 0) {
- *         // Allocate your own resources here or on-demand.
- *         super(contestManager);
+ *         super(contextManager);
  *         this.setLoggingName('MyContextConsumer');
+ *         // Allocate your own resources here or on-demand.
  *         if (levelUp === 0) {
  *           this.synchUp();
  *         }
@@ -49,7 +47,7 @@ export class ShareableContextConsumer extends ShareableBase implements ContextCo
      * The existence of this property indicates a subscription.
      * Therefore, before releasing this reference, be sure to unsubscribe.
      */
-    private manager: ContextManager;
+    protected contextManager: ContextManager;
 
     /**
      * We hold onto the context provider after a contextGain event.
@@ -58,7 +56,7 @@ export class ShareableContextConsumer extends ShareableBase implements ContextCo
      * We only need to release this property in our destructor.
      * We must not try to trigger a contextFree as that would violate Implementation Hierarchy Principle.
      */
-    protected contextProvider: ContextProvider;
+    // private contextProvider: ContextProvider;
 
     constructor(contextManager: ContextManager) {
         super();
@@ -73,13 +71,6 @@ export class ShareableContextConsumer extends ShareableBase implements ContextCo
     }
 
     protected destructor(levelUp: number): void {
-        // The (protected) context provider property was only being maintained
-        // for the benefit of derived classes. Now that they have already executed
-        // their own cleanup in their own destructor, we are allowed to release.
-        if (this.contextProvider) {
-            this.contextProvider.release();
-            this.contextProvider = void 0;
-        }
         this.unsubscribe();
         super.destructor(levelUp + 1);
     }
@@ -94,16 +85,16 @@ export class ShareableContextConsumer extends ShareableBase implements ContextCo
      */
     subscribe(contextManager: ContextManager, synchUp: boolean): void {
         contextManager = mustBeNonNullObject('contextManager', contextManager);
-        if (!this.manager) {
+        if (!this.contextManager) {
             contextManager.addRef();
-            this.manager = contextManager;
+            this.contextManager = contextManager;
             contextManager.addContextListener(this);
             if (synchUp) {
                 this.synchUp();
             }
         }
         else {
-            if (this.manager !== contextManager) {
+            if (this.contextManager !== contextManager) {
                 // We can only subscribe to one ContextManager at at time.
                 this.unsubscribe();
                 this.subscribe(contextManager, synchUp);
@@ -118,7 +109,7 @@ export class ShareableContextConsumer extends ShareableBase implements ContextCo
      *
      */
     public synchUp() {
-        const manager = this.manager;
+        const manager = this.contextManager;
         if (manager) {
             manager.synchronize(this);
         }
@@ -128,7 +119,17 @@ export class ShareableContextConsumer extends ShareableBase implements ContextCo
      *
      */
     public cleanUp(): void {
-        cleanUp(this.contextProvider, this);
+        if (this.contextManager && this.contextManager.gl) {
+            if (this.contextManager.gl.isContextLost()) {
+                this.contextLost();
+            }
+            else {
+                this.contextFree();
+            }
+        }
+        else {
+            // There is no contextProvider so resources should already be clean.
+        }
     }
 
     /**
@@ -140,44 +141,31 @@ export class ShareableContextConsumer extends ShareableBase implements ContextCo
      * </p>
      */
     unsubscribe(): void {
-        if (this.manager) {
-            this.manager.removeContextListener(this);
-            this.manager.release();
-            this.manager = void 0;
+        if (this.contextManager) {
+            this.contextManager.removeContextListener(this);
+            this.contextManager.release();
+            this.contextManager = void 0;
         }
     }
 
-    contextFree(contextProvider: ContextProvider): void {
-        if (this.contextProvider) {
-            this.contextProvider.release();
-            this.contextProvider = void 0;
-        }
+    contextFree(): void {
+        // Do nothing.
     }
 
-    contextGain(contextProvider: ContextProvider): void {
-        if (this.contextProvider) {
-            this.contextProvider.release();
-            this.contextProvider = void 0;
-        }
-        if (contextProvider) {
-            contextProvider.addRef();
-        }
-        this.contextProvider = contextProvider;
+    contextGain(): void {
+        // Do nothing.
     }
 
     contextLost(): void {
-        if (this.contextProvider) {
-            this.contextProvider.release();
-            this.contextProvider = void 0;
-        }
+        // Do nothing.
     }
 
     /**
      * Provides access to the underlying WebGL context.
      */
     get gl(): WebGLRenderingContext {
-        if (this.contextProvider) {
-            return this.contextProvider.gl;
+        if (this.contextManager) {
+            return this.contextManager.gl;
         }
         else {
             return void 0;

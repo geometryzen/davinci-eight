@@ -365,7 +365,7 @@ declare module EIGHT {
      * and context lost management. An instance of this class is provided to objects created
      * WebGL resources.
      */
-    class Engine extends ShareableBase implements ContextProvider {
+    class Engine extends ShareableBase {
 
         /**
          * The canvas containing associated with the underlying WebGLRenderingContext.
@@ -524,13 +524,13 @@ declare module EIGHT {
          * method may be called multiple times for what is logically the same context. In such
          * cases the dependent must be idempotent and respond only to the first request.
          */
-        contextFree?(context: ContextProvider): void;
+        contextFree?(): void;
         /**
          * Called to inform the dependent of a new WebGL rendering context.
          * The implementation should ignore the notification if it has already
          * received the same context.
          */
-        contextGain?(context: ContextProvider): void;
+        contextGain?(): void;
         /**
          * Called to inform the dependent of a loss of WebGL rendering context.
          * The dependent must assume that any cached context is invalid.
@@ -551,8 +551,8 @@ declare module EIGHT {
 
     class ShareableContextConsumer extends ShareableBase implements ContextConsumer {
         cleanUp(): void;
-        contextFree(contextProvider: ContextProvider): void;
-        contextGain(contextProvider: ContextProvider): void;
+        contextFree(): void;
+        contextGain(): void;
         contextLost(): void;
         subscribe(contextManager: ContextManager, synchUp: boolean): void;
         synchUp(): void;
@@ -2813,12 +2813,6 @@ declare module EIGHT {
         glslType: string;
     }
 
-    /**
-     *
-     */
-    interface ContextProvider extends Shareable {
-        gl: WebGLRenderingContext;
-    }
     ///////////////////////////////////////////////////////////////////////////////
     /**
      * A set of state variables for graphics modeling in Euclidean 2D space.
@@ -2990,8 +2984,8 @@ declare module EIGHT {
          */
         add(drawable: Renderable): void;
         contains(drawable: Renderable);
-        contextFree(contextProvider: ContextProvider): void;
-        contextGain(contextProvider: ContextProvider): void;
+        contextFree(): void;
+        contextGain(): void;
         contextLost(): void;
         protected destructor(): void;
         /**
@@ -3425,8 +3419,8 @@ declare module EIGHT {
         readonly fragmentShaderSrc: string;
         readonly vertexShaderSrc: string;
         constructor(vertexShaderSrc: string, fragmentShaderSrc: string, attribs: string[], contextManager: ContextManager);
-        contextFree(contextProvider: ContextProvider): void;
-        contextGain(contextProvider: ContextProvider): void;
+        contextFree(): void;
+        contextGain(): void;
         contextLost(): void;
         protected destructor(levelUp: number): void;
         attrib(name: string, value: VertexBuffer, size: number, normalized?: boolean, stride?: number, offset?: number): Material;
@@ -3553,8 +3547,8 @@ declare module EIGHT {
          */
         constructor(geometry: G, material: M, contextManager: ContextManager, levelUp?: number);
 
-        contextFree(contextProvider: ContextProvider): void;
-        contextGain(contextProvider: ContextProvider): void;
+        contextFree(): void;
+        contextGain(): void;
         contextLost(): void;
 
         protected destructor(levelUp: number): void;
@@ -3823,12 +3817,12 @@ declare module EIGHT {
         /**
          *
          */
-        contextFree(manager: ContextProvider): void;
+        contextFree(): void;
 
         /**
          *
          */
-        contextGain(manager: ContextProvider): void;
+        contextGain(): void;
 
         /**
          *
@@ -3844,15 +3838,15 @@ declare module EIGHT {
         g: number;
         b: number;
         a: number;
-        constructor(r?: number, g?: number, b?: number, a?: number);
+        constructor(contextManager: ContextManager, r?: number, g?: number, b?: number, a?: number);
         /**
          *
          */
-        contextFree(manager: ContextProvider): void;
+        contextFree(): void;
         /**
          *
          */
-        contextGain(manager: ContextProvider): void;
+        contextGain(): void;
         /**
          *
          */
@@ -3866,15 +3860,15 @@ declare module EIGHT {
         /**
          *
          */
-        constructor(capability: Capability);
+        constructor(contextManager: ContextManager, capability: Capability);
         /**
          *
          */
-        contextFree(manager: ContextProvider): void;
+        contextFree(): void;
         /**
          *
          */
-        contextGain(manager: ContextProvider): void;
+        contextGain(): void;
         /**
          *
          */
@@ -3888,15 +3882,15 @@ declare module EIGHT {
         /**
          *
          */
-        constructor(capability: Capability);
+        constructor(contextManager: ContextManager, capability: Capability);
         /**
          *
          */
-        contextFree(manager: ContextProvider): void;
+        contextFree(): void;
         /**
          *
          */
-        contextGain(manager: ContextProvider): void;
+        contextGain(): void;
         /**
          *
          */
@@ -4331,8 +4325,8 @@ declare module EIGHT {
         render(ambients: Facet[]): void;
         addRef(): number;
         release(): number;
-        contextFree(contextProvider: ContextProvider): void;
-        contextGain(contextProvider: ContextProvider): void;
+        contextFree(): void;
+        contextGain(): void;
         contextLost(): void;
     }
 

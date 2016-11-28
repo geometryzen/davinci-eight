@@ -3,7 +3,7 @@
  * 
  * https://www.khronos.org/registry/webgl/specs/1.0/
  */
-enum BeginMode {
+export enum BeginMode {
     POINTS = 0x0000,
     LINES = 0x0001,
     LINE_LOOP = 0x0002,

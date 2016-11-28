@@ -1,5 +1,4 @@
 import AbstractMatrix from '../math/AbstractMatrix';
-import add3x3 from '../math/add3x3';
 import det3x3 from '../math/det3x3';
 import inv3x3 from '../math/inv3x3';
 import Matrix4 from './Matrix4';
@@ -7,6 +6,29 @@ import mul3x3 from '../math/mul3x3';
 import mustBeNumber from '../checks/mustBeNumber';
 import SpinorE2 from '../math/SpinorE2';
 import VectorE2 from '../math/VectorE2';
+
+function add3x3(a: Float32Array, b: Float32Array, c: Float32Array): void {
+
+    const a11 = a[0x0], a12 = a[0x3], a13 = a[0x6];
+    const a21 = a[0x1], a22 = a[0x4], a23 = a[0x7];
+    const a31 = a[0x2], a32 = a[0x5], a33 = a[0x8];
+
+    const b11 = b[0x0], b12 = b[0x3], b13 = b[0x6];
+    const b21 = b[0x1], b22 = b[0x4], b23 = b[0x7];
+    const b31 = b[0x2], b32 = b[0x5], b33 = b[0x8];
+
+    c[0x0] = a11 + b11;
+    c[0x3] = a12 + b12;
+    c[0x6] = a13 + b13;
+
+    c[0x1] = a21 + b21;
+    c[0x4] = a22 + b22;
+    c[0x7] = a23 + b23;
+
+    c[0x2] = a31 + b31;
+    c[0x5] = a32 + b32;
+    c[0x8] = a33 + b33;
+}
 
 /**
  * <p>
@@ -23,37 +45,25 @@ import VectorE2 from '../math/VectorE2';
  * <tr><td>2</td><td>5</td><td>8</td></tr>
  * </table>
  * </p>
- *
- * @class Matrix3
- * @extends AbstractMatrix
  */
 export default class Matrix3 extends AbstractMatrix<Matrix3> {
 
     /**
-     * @class Matrix3
-     * @constructor
-     * @param elements {Float32Array}
+     * @param elements
      */
     constructor(elements: Float32Array) {
         super(elements, 3);
     }
 
     /**
-     * @method add
-     * @param rhs {Matrix3}
-     * @return {Matrix3}
-     * @chainable
+     *
      */
     add(rhs: Matrix3): Matrix3 {
         return this.add2(this, rhs);
     }
 
     /**
-     * @method add2
-     * @param a {Matrix3}
-     * @param b {Matrix3}
-     * @return {Matrix3}
-     * @chainable
+     *
      */
     add2(a: Matrix3, b: Matrix3): Matrix3 {
         add3x3(a.elements, b.elements, this.elements);
@@ -62,10 +72,6 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
 
     /**
      * Returns a copy of this Matrix3 instance.
-     *
-     * @method clone
-     * @return {Matrix3}
-     * @chainable
      */
     clone(): Matrix3 {
         return Matrix3.zero().copy(this);
@@ -73,9 +79,6 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
 
     /**
      * Computes the determinant.
-     *
-     * @method det
-     * @return {number}
      */
     det(): number {
         return det3x3(this.elements);

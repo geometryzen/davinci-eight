@@ -27,7 +27,7 @@ function error(message: string): void {
 
 function garbageCollect(): void {
     const uuids: string[] = Object.keys(statistics);
-    uuids.forEach(function(uuid: string) {
+    uuids.forEach(function (uuid: string) {
         const element = statistics[uuid];
         if (element.refCount === 0) {
             delete statistics[uuid];
@@ -74,9 +74,9 @@ function dump(): number {
     return outstanding;
 }
 
-export default function(uuid: string, name?: string, change = 0): number {
+export default function (uuid: string, name?: string, change = 0): number {
     if (change !== 0 && skip) {
-        return;
+        return void 0;
     }
     if (trace) {
         if (traceName) {
@@ -174,4 +174,5 @@ export default function(uuid: string, name?: string, change = 0): number {
     else {
         throw new Error(prefix("change must be +1 or -1 for normal recording, or 0 for logging to the console."));
     }
+    return void 0;
 }

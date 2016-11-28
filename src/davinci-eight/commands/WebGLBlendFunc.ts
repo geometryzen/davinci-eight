@@ -1,13 +1,13 @@
 import BlendingFactorDest from '../core/BlendingFactorDest';
 import BlendingFactorSrc from '../core/BlendingFactorSrc';
-import ContextProvider from '../core/ContextProvider';
+import ContextManager from '../core/ContextManager';
 import { ShareableBase } from '../core/ShareableBase';
 
 export default class WebGLBlendFunc extends ShareableBase {
     public sfactor: BlendingFactorSrc;
     public dfactor: BlendingFactorDest;
 
-    constructor(sfactor: BlendingFactorSrc, dfactor: BlendingFactorDest) {
+    constructor(private contextManager: ContextManager, sfactor: BlendingFactorSrc, dfactor: BlendingFactorDest) {
         super();
         this.setLoggingName('WebGLBlendFunc');
         this.sfactor = sfactor;
@@ -20,12 +20,12 @@ export default class WebGLBlendFunc extends ShareableBase {
         super.destructor(levelUp + 1);
     }
 
-    contextFree(manager: ContextProvider): void {
+    contextFree(): void {
         // do nothing
     }
 
-    contextGain(manager: ContextProvider): void {
-        this.execute(manager.gl);
+    contextGain(): void {
+        this.execute(this.contextManager.gl);
     }
 
     contextLost(): void {

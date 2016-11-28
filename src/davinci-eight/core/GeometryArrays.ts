@@ -72,19 +72,16 @@ export default class GeometryArrays extends GeometryBase {
     }
 
     bind(material: Material): GeometryArrays {
-        const contextProvider = this.contextProvider;
-        if (contextProvider) {
-            this.vbo.bind();
-            const pointers = this._pointers;
-            if (pointers) {
-                const iLength = pointers.length;
-                for (let i = 0; i < iLength; i++) {
-                    const pointer = pointers[i];
-                    const attrib = material.getAttrib(pointer.name);
-                    if (attrib) {
-                        attrib.config(pointer.size, pointer.type, pointer.normalized, this._stride, pointer.offset);
-                        attrib.enable();
-                    }
+        this.vbo.bind();
+        const pointers = this._pointers;
+        if (pointers) {
+            const iLength = pointers.length;
+            for (let i = 0; i < iLength; i++) {
+                const pointer = pointers[i];
+                const attrib = material.getAttrib(pointer.name);
+                if (attrib) {
+                    attrib.config(pointer.size, pointer.type, pointer.normalized, this._stride, pointer.offset);
+                    attrib.enable();
                 }
             }
         }
@@ -92,9 +89,8 @@ export default class GeometryArrays extends GeometryBase {
     }
 
     draw(): GeometryArrays {
-        const contextProvider = this.contextProvider;
-        if (contextProvider) {
-            this.contextProvider.drawArrays(this._mode, this.first, this.count);
+        if (this.gl) {
+            this.gl.drawArrays(this._mode, this.first, this.count);
         }
         return this;
     }
@@ -114,19 +110,4 @@ export default class GeometryArrays extends GeometryBase {
         this.vbo.unbind();
         return this;
     }
-    /*
-    getAttribute(name: string): Attribute {
-        return this.attributes[name];
-    }
-
-    setAttribute(name: string, attribute: Attribute): void {
-        this.attributes[name] = attribute;
-        const aNames = Object.keys(this.attributes);
-        this.count = computeCount(this.attributes, aNames);
-        this._stride = computeStride(this.attributes, aNames);
-        this._pointers = computePointers(this.attributes, aNames);
-        const array = computeAttributes(this.attributes, aNames);
-        this.vbo.data = new Float32Array(array);
-    }
-    */
 }

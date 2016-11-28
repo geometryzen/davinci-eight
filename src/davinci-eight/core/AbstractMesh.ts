@@ -5,7 +5,7 @@ import { Geometry } from './Geometry';
 import { Material } from './Material';
 import Matrix4 from '../math/Matrix4';
 
-interface AbstractMesh<G extends Geometry, M extends Material> extends AbstractDrawable<G, M> {
+export interface AbstractMesh<G extends Geometry, M extends Material> extends AbstractDrawable<G, M> {
     R: Geometric3;
     color: Color;
     opacity: number;

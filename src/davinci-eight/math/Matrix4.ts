@@ -1,11 +1,43 @@
 import AbstractMatrix from '../math/AbstractMatrix';
-import add4x4 from '../math/add4x4';
 import det4x4 from './det4x4';
 import inv4x4 from '../math/inv4x4';
 import mul4x4 from '../math/mul4x4';
 import perspectiveArray from '../facets/perspectiveArray';
 import SpinorE3 from '../math/SpinorE3';
 import VectorE3 from '../math/VectorE3';
+
+function add4x4(a: Float32Array, b: Float32Array, c: Float32Array): void {
+
+    const a11 = a[0x0], a12 = a[0x4], a13 = a[0x8], a14 = a[0xC];
+    const a21 = a[0x1], a22 = a[0x5], a23 = a[0x9], a24 = a[0xD];
+    const a31 = a[0x2], a32 = a[0x6], a33 = a[0xA], a34 = a[0xE];
+    const a41 = a[0x3], a42 = a[0x7], a43 = a[0xB], a44 = a[0xF];
+
+    const b11 = b[0x0], b12 = b[0x4], b13 = b[0x8], b14 = b[0xC];
+    const b21 = b[0x1], b22 = b[0x5], b23 = b[0x9], b24 = b[0xD];
+    const b31 = b[0x2], b32 = b[0x6], b33 = b[0xA], b34 = b[0xE];
+    const b41 = b[0x3], b42 = b[0x7], b43 = b[0xB], b44 = b[0xF];
+
+    c[0x0] = a11 + b11;
+    c[0x4] = a12 + b12;
+    c[0x8] = a13 + b13;
+    c[0xC] = a14 + b14;
+
+    c[0x1] = a21 + b21;
+    c[0x5] = a22 + b22;
+    c[0x9] = a23 + b23;
+    c[0xD] = a24 + b24;
+
+    c[0x2] = a31 + b31;
+    c[0x6] = a32 + b32;
+    c[0xA] = a33 + b33;
+    c[0xE] = a34 + b34;
+
+    c[0x3] = a41 + b41;
+    c[0x7] = a42 + b42;
+    c[0xB] = a43 + b43;
+    c[0xF] = a44 + b44;
+}
 
 /**
  * <p>
@@ -447,7 +479,7 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
     toExponential(fractionDigits?: number): string {
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
-            text.push(this.row(i).map(function(element: number, index: number) { return element.toExponential(fractionDigits); }).join(' '));
+            text.push(this.row(i).map(function (element: number, index: number) { return element.toExponential(fractionDigits); }).join(' '));
         }
         return text.join('\n');
     }
@@ -458,7 +490,7 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
     toFixed(fractionDigits?: number): string {
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
-            text.push(this.row(i).map(function(element: number, index: number) { return element.toFixed(fractionDigits); }).join(' '));
+            text.push(this.row(i).map(function (element: number, index: number) { return element.toFixed(fractionDigits); }).join(' '));
         }
         return text.join('\n');
     }
@@ -469,7 +501,7 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
     toPrecision(fractionDigits?: number): string {
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
-            text.push(this.row(i).map(function(element: number, index: number) { return element.toPrecision(fractionDigits); }).join(' '));
+            text.push(this.row(i).map(function (element: number, index: number) { return element.toPrecision(fractionDigits); }).join(' '));
         }
         return text.join('\n');
     }
@@ -480,7 +512,7 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
     toString(radix?: number): string {
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
-            text.push(this.row(i).map(function(element: number, index: number) { return element.toString(radix); }).join(' '));
+            text.push(this.row(i).map(function (element: number, index: number) { return element.toString(radix); }).join(' '));
         }
         return text.join('\n');
     }

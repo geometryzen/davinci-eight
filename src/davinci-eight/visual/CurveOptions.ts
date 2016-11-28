@@ -4,7 +4,7 @@ import VectorE3 from '../math/VectorE3';
 /**
  *
  */
-interface CurveOptions {
+export interface CurveOptions {
 
     /**
      * <p>

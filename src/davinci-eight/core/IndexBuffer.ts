@@ -1,9 +1,7 @@
 import ContextManager from './ContextManager';
-import ContextProvider from './ContextProvider';
-import mustBeObject from '../checks/mustBeObject';
 import mustBeUndefined from '../checks/mustBeUndefined';
-import {ShareableContextConsumer} from './ShareableContextConsumer';
-import {checkUsage} from './Usage';
+import { ShareableContextConsumer } from './ShareableContextConsumer';
+import { checkUsage } from './Usage';
 import Usage from './Usage';
 
 /**
@@ -27,7 +25,7 @@ export default class IndexBuffer extends ShareableContextConsumer {
         if (levelUp === 0) {
             this.cleanUp();
         }
-        mustBeUndefined(this._type, this.webGLBuffer);
+        mustBeUndefined(this.getLoggingName(), this.webGLBuffer);
         super.destructor(levelUp + 1);
     }
 
@@ -67,26 +65,25 @@ export default class IndexBuffer extends ShareableContextConsumer {
         }
     }
 
-    contextFree(contextProvider: ContextProvider): void {
-        mustBeObject('contextProvider', contextProvider);
+    contextFree(): void {
         if (this.webGLBuffer) {
             const gl = this.gl;
             if (gl) {
                 gl.deleteBuffer(this.webGLBuffer);
             }
             else {
-                console.error(`${this._type} must leak WebGLBuffer because WebGLRenderingContext is ` + typeof gl);
+                console.error(`${this.getLoggingName()} must leak WebGLBuffer because WebGLRenderingContext is ` + typeof gl);
             }
             this.webGLBuffer = void 0;
         }
         else {
             // It's a duplicate, ignore.
         }
-        super.contextFree(contextProvider);
+        super.contextFree();
     }
 
-    contextGain(contextProvider: ContextProvider): void {
-        super.contextGain(contextProvider);
+    contextGain(): void {
+        super.contextGain();
         const gl = this.gl;
         if (!this.webGLBuffer) {
             this.webGLBuffer = gl.createBuffer();
