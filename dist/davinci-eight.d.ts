@@ -1891,27 +1891,33 @@ declare module EIGHT {
         constructor();
 
         /**
-         * 
+         * Adds M * α to this multivector.
+         *
          * this ⟼ this + M * α
-         * 
          */
         add(M: GeometricE3, α?: number): Geometric3;
 
         /**
-         * 
+         * Sets this multivector to the sum of a and b.
+         *
          * this ⟼ a + b
-         * 
          */
         add2(a: GeometricE3, b: GeometricE3): Geometric3;
 
+        /**
+         * Adds the pseudoscalar coordinate to this multivector.
+         */
         addPseudo(β: number): Geometric3;
 
+        /**
+         * Adds the scalar coordinate to this multivector.
+         */
         addScalar(α: number): Geometric3;
 
         /**
-         * 
+         * Adds v * α to this multivector where v is a vector and α is an optional scalar.
+         *
          * this ⟼ this + v * α
-         * 
          */
         addVector(v: VectorE3, α?: number): Geometric3;
 
@@ -1921,7 +1927,7 @@ declare module EIGHT {
         angle(): Geometric3;
 
         /**
-         *
+         *Returns a clone of this multivector.
          */
         clone(): Geometric3;
 
@@ -1929,42 +1935,45 @@ declare module EIGHT {
          * Sets this <em>multivector</em> to its <em>Clifford conjugate</em>.
          * 
          * this ⟼ conj(this)
-         * 
          */
         conj(): Geometric3;
 
         /**
-         * 
+         * Copies the multivector M into this multivector.
+         *
          * this ⟼ copy(M)
-         * 
          */
         copy(M: GeometricE3): Geometric3;
 
         /**
+         * Copies the scalar α into this multivector.
+         *
          * this ⟼ copy(α)
          */
         copyScalar(α: number): Geometric3;
 
         /**
-         * 
+         * Copies the spinor into this multivector.
+         *
          * this ⟼ copy(spinor)
-         * 
          */
         copySpinor(spinor: SpinorE3): Geometric3;
 
         /**
-         * 
+         * Copies the vector into this multivector.
+         *
          * this ⟼ copyVector(vector)
-         * 
          */
         copyVector(vector: VectorE3): Geometric3;
 
         /**
+         * Sets this multivector to the vector cross product of this with m.
          * this ⟼ this x m
          */
         cross(m: GeometricE3): Geometric3;
 
         /**
+         * Normalizes this multivector by dividing it by its magnitude.
          * this ⟼ this / magnitude(this)
          */
         normalize(): Geometric3;
@@ -2043,12 +2052,14 @@ declare module EIGHT {
 
         grade(grade: number): Geometric3;
 
+        /**
+         * Sets this multivector to the unit pseudoscalar.
+         */
         I(): Geometric3;
 
         /**
-         * 
+         * Sets this multivector to its inverse.
          * this ⟼ conj(this) / quad(this)
-         * 
          */
         inv(): Geometric3;
 
@@ -2137,6 +2148,9 @@ declare module EIGHT {
          */
         norm(): Geometric3;
 
+        /**
+         * Sets this multivector to the identity element for multiplication, 1.
+         */
         one(): Geometric3;
 
         /**
@@ -2291,6 +2305,11 @@ declare module EIGHT {
         versor(a: VectorE3, b: VectorE3): Geometric3;
 
         wedge(m: GeometricE3): Geometric3;
+
+        /**
+         * Sets this multivector to the identity element for addition, 0.
+         */
+        zero(): Geometric3;
 
         static copy(m: GeometricE3): Geometric3;
 

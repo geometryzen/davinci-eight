@@ -1463,9 +1463,7 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
     }
 
     /**
-     * Sets this multivector to the identity element for addition, <b>0</b>.
-     *
-     * @returns
+     * Sets this multivector to the identity element for addition, 0.
      */
     zero() {
         this.a = 0;
