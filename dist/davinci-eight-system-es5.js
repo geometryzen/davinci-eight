@@ -23399,7 +23399,7 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
                     this.LAST_MODIFIED = '2016-11-27';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '3.7.8';
+                    this.VERSION = '3.7.9';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];

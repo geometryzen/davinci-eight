@@ -22,22 +22,7 @@ const canonicalAxis = vec(0, 1, 0);
 const zero = vec(0, 0, 0);
 
 /**
- * <p>
- * A <code>Mesh</code> in the form of an arrow that may be used to represent a vector quantity.
- * </p>
- *
- *
- *     // Construct the arrow at any time and add it to the scene.
- *     const arrow = new EIGHT.Arrow({color: white})
- *     scene.add(arrow)
- *
- *     // Update the arrow configuration, usually inside the animation function.
- *     arrow.position = position // position is a Geometric3
- *     arrow.attitude = attitude // attitude is a Geometric3
- *     arrow.h = vector // vector is a Geometric3
- *
- *     // Release the arrow when no longer required.
- *     arrow.release()
+ * A Mesh in the form of an arrow that may be used to represent a vector quantity.
  */
 export class Arrow extends PrincipalScaleMesh<ArrowGeometry, MeshMaterial> {
 

@@ -75,6 +75,9 @@ const fs: string = [
 
 ].join('\n');
 
+/**
+ * A visual representation of a reference frame or basis vectors.
+ */
 export default class Basis extends RigidBody {
     private uPointA = new Vector3Facet(uPointA);
     private uPointB = new Vector3Facet(uPointB);

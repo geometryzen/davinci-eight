@@ -2274,6 +2274,13 @@ declare module EIGHT {
         sub2(a: GeometricE3, b: GeometricE3): Geometric3;
 
         /**
+         * Subtracts v * α from this multivector where v is a vector and α is an optional scalar.
+         *
+         * this ⟼ this - v * α
+         */
+        subVector(v: VectorE3, α?: number): Geometric3;
+
+        /**
          * Returns a string representing the number in exponential notation.
          */
         toExponential(fractionDigits?: number): string;
