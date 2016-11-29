@@ -9,10 +9,10 @@ import { MinecraftArmR } from './Minecraft';
 import { MinecraftLegL } from './Minecraft';
 import { MinecraftLegR } from './Minecraft';
 import { MinecraftTorso } from './Minecraft';
-import vec from '../math/R3';
+import R3 from '../math/R3';
 
-const e1 = vec(1, 0, 0);
-const e2 = vec(0, 1, 0);
+const e1 = R3(1, 0, 0);
+const e2 = R3(0, 1, 0);
 
 interface MinecraftFigureOptions {
     height?: number;

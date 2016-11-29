@@ -575,13 +575,13 @@ class MinecraftBodyPart extends Mesh<Geometry, Material> {
 }
 
 interface MinecraftBodyPartOptions {
-    height: number;
+    height?: number;
     oldSkinLayout?: boolean;
     offset?: VectorE3;
 }
 
 export class MinecraftHead extends MinecraftBodyPart {
-    constructor(engine: Engine, texture: ImageTexture, options: MinecraftBodyPartOptions) {
+    constructor(engine: Engine, texture: ImageTexture, options: MinecraftBodyPartOptions = {}) {
         super(engine, texture, {
             height: isNumber(options.height) ? options.height : 1,
             partKind: MinecraftPartKind.Head,
@@ -596,7 +596,7 @@ export class MinecraftHead extends MinecraftBodyPart {
 }
 
 export class MinecraftTorso extends MinecraftBodyPart {
-    constructor(engine: Engine, texture: ImageTexture, options: MinecraftBodyPartOptions) {
+    constructor(engine: Engine, texture: ImageTexture, options: MinecraftBodyPartOptions = {}) {
         super(engine, texture, {
             height: isNumber(options.height) ? options.height : 1,
             partKind: MinecraftPartKind.Torso,
@@ -611,7 +611,7 @@ export class MinecraftTorso extends MinecraftBodyPart {
 }
 
 export class MinecraftArmL extends MinecraftBodyPart {
-    constructor(engine: Engine, texture: ImageTexture, options: MinecraftBodyPartOptions) {
+    constructor(engine: Engine, texture: ImageTexture, options: MinecraftBodyPartOptions = {}) {
         super(engine, texture, {
             height: isNumber(options.height) ? options.height : 1,
             partKind: MinecraftPartKind.LeftArm,
@@ -626,7 +626,7 @@ export class MinecraftArmL extends MinecraftBodyPart {
 }
 
 export class MinecraftArmR extends MinecraftBodyPart {
-    constructor(engine: Engine, texture: ImageTexture, options: MinecraftBodyPartOptions) {
+    constructor(engine: Engine, texture: ImageTexture, options: MinecraftBodyPartOptions = {}) {
         super(engine, texture, {
             height: isNumber(options.height) ? options.height : 1,
             partKind: MinecraftPartKind.RightArm,
@@ -641,7 +641,7 @@ export class MinecraftArmR extends MinecraftBodyPart {
 }
 
 export class MinecraftLegL extends MinecraftBodyPart {
-    constructor(engine: Engine, texture: ImageTexture, options: MinecraftBodyPartOptions) {
+    constructor(engine: Engine, texture: ImageTexture, options: MinecraftBodyPartOptions = {}) {
         super(engine, texture, {
             height: isNumber(options.height) ? options.height : 1,
             partKind: MinecraftPartKind.LeftLeg,
@@ -656,7 +656,7 @@ export class MinecraftLegL extends MinecraftBodyPart {
 }
 
 export class MinecraftLegR extends MinecraftBodyPart {
-    constructor(engine: Engine, texture: ImageTexture, options: MinecraftBodyPartOptions) {
+    constructor(engine: Engine, texture: ImageTexture, options: MinecraftBodyPartOptions = {}) {
         super(engine, texture, {
             height: isNumber(options.height) ? options.height : 1,
             partKind: MinecraftPartKind.RightLeg,

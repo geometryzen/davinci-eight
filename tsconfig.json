@@ -64,6 +64,7 @@
         "src/davinci-eight/math/Raycaster.spec.ts",
         "src/davinci-eight/math/Spinor2.spec.ts",
         "src/davinci-eight/math/Spinor3.spec.ts",
+        "src/davinci-eight/math/vec.spec.ts",
         "src/davinci-eight/math/Vector2.spec.ts",
         "src/davinci-eight/math/Vector3.spec.ts",
         "src/davinci-eight/math/Vector4.spec.ts",

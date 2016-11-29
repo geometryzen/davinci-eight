@@ -1,25 +1,19 @@
 /**
- * @class VectorE3
+ * Cartesian coordinates of a vector using the standard basis.
  */
 interface VectorE3 {
     /**
      * The Cartesian x-coordinate.
-     * @property x
-     * @type number
      */
     x: number;
 
     /**
      * The Cartesian y-coordinate.
-     * @property y
-     * @type number
      */
     y: number;
 
     /**
      * The Cartesian z-coordinate.
-     * @property z
-     * @type number
      */
     z: number;
 }

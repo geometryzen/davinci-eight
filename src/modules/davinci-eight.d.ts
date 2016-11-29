@@ -2575,22 +2575,25 @@ declare module EIGHT {
     }
 
     /**
-     * `Components` of a vector in a 3-dimensional Cartesian coordinate system.
+     * Cartesian coordinates of a vector using the standard basis.
      */
     interface VectorE3 {
 
         /**
-         * The magnitude of the projection onto the standard e1 basis vector. 
+         * The magnitude of the projection onto the standard e1 basis vector.
+         * The Cartesian x-coordinate.
          */
         x: number;
 
         /**
          * The magnitude of the projection onto the standard e2 basis vector. 
+         * The Cartesian y-coordinate.
          */
         y: number;
 
         /**
          * The magnitude of the projection onto the standard e2 basis vector. 
+         * The Cartesian z-coordinate.
          */
         z: number;
     }
@@ -4490,8 +4493,9 @@ declare module EIGHT {
         protected destructor(levelUp: number): void;
     }
     ///////////////////////////////////////////////////////////////////////////////
-    /*
-     *
+
+    /**
+     * Options used when constructing a Minecraft body part.
      */
     interface MinecraftBodyPartOptions {
         /**
@@ -4500,54 +4504,62 @@ declare module EIGHT {
          * Default is 1.
          */
         height?: number;
+        /**
+         * Adjusts texturing to compensate for old skins.
+         * Default is false.
+         */
         oldSkinLayout?: boolean;
+        /**
+         * Adjusts the geometry to change the rotation origin.
+         * Default is zero.
+         */
         offset?: VectorE3;
     }
 
     /**
-     * 
+     * Left Arm
      */
     class MinecraftArmL extends Mesh<Geometry, Material> {
-        constructor(engine: EIGHT.Engine, texture: ImageTexture, options: MinecraftBodyPartOptions);
+        constructor(engine: EIGHT.Engine, texture: ImageTexture, options?: MinecraftBodyPartOptions);
     }
 
     /**
-     * 
+     * Right Arm
      */
     class MinecraftArmR extends Mesh<Geometry, Material> {
-        constructor(engine: EIGHT.Engine, texture: ImageTexture, options: MinecraftBodyPartOptions);
+        constructor(engine: EIGHT.Engine, texture: ImageTexture, options?: MinecraftBodyPartOptions);
     }
 
     /**
-     * 
+     * Head
      */
     class MinecraftHead extends Mesh<Geometry, Material> {
-        constructor(engine: EIGHT.Engine, texture: ImageTexture, options: MinecraftBodyPartOptions);
+        constructor(engine: EIGHT.Engine, texture: ImageTexture, options?: MinecraftBodyPartOptions);
     }
 
     /**
-     * 
+     * Left Leg
      */
     class MinecraftLegL extends Mesh<Geometry, Material> {
-        constructor(engine: EIGHT.Engine, texture: ImageTexture, options: MinecraftBodyPartOptions);
+        constructor(engine: EIGHT.Engine, texture: ImageTexture, options?: MinecraftBodyPartOptions);
     }
 
     /**
-     * 
+     * Right Leg
      */
     class MinecraftLegR extends Mesh<Geometry, Material> {
-        constructor(engine: EIGHT.Engine, texture: ImageTexture, options: MinecraftBodyPartOptions);
+        constructor(engine: EIGHT.Engine, texture: ImageTexture, options?: MinecraftBodyPartOptions);
     }
 
     /**
-     * 
+     * Torso
      */
     class MinecraftTorso extends Mesh<Geometry, Material> {
-        constructor(engine: EIGHT.Engine, texture: ImageTexture, options: MinecraftBodyPartOptions);
+        constructor(engine: EIGHT.Engine, texture: ImageTexture, options?: MinecraftBodyPartOptions);
     }
 
     /**
-     * 
+     * Options used when constructing a MinecraftFigure.
      */
     interface MinecraftFigureOptions {
         /**
@@ -4556,13 +4568,14 @@ declare module EIGHT {
          */
         height?: number;
         /**
-         * 
+         * Adjusts texturing to compensate for old skins.
+         * Default is false.
          */
         oldSkinLayout?: boolean;
     }
 
     /**
-     * 
+     * Figure
      */
     class MinecraftFigure extends Group {
         public head: MinecraftHead;
@@ -4571,10 +4584,11 @@ declare module EIGHT {
         public legL: MinecraftLegL;
         public legR: MinecraftLegR;
         public torso: MinecraftHead;
-        constructor(engine: Engine, texture: ImageTexture, options: MinecraftFigureOptions);
+        constructor(engine: Engine, texture: ImageTexture, options?: MinecraftFigureOptions);
     }
 
     ///////////////////////////////////////////////////////////////////////////////
+
     /**
      *
      */

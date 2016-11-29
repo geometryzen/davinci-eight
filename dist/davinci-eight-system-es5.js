@@ -8754,6 +8754,9 @@ System.register("davinci-eight/visual/Minecraft.js", ["../core/BeginMode", "../c
             MinecraftHead = function (_super) {
                 __extends(MinecraftHead, _super);
                 function MinecraftHead(engine, texture, options) {
+                    if (options === void 0) {
+                        options = {};
+                    }
                     var _this = _super.call(this, engine, texture, {
                         height: isNumber_1.default(options.height) ? options.height : 1,
                         partKind: MinecraftPartKind.Head,
@@ -8772,6 +8775,9 @@ System.register("davinci-eight/visual/Minecraft.js", ["../core/BeginMode", "../c
             MinecraftTorso = function (_super) {
                 __extends(MinecraftTorso, _super);
                 function MinecraftTorso(engine, texture, options) {
+                    if (options === void 0) {
+                        options = {};
+                    }
                     var _this = _super.call(this, engine, texture, {
                         height: isNumber_1.default(options.height) ? options.height : 1,
                         partKind: MinecraftPartKind.Torso,
@@ -8790,6 +8796,9 @@ System.register("davinci-eight/visual/Minecraft.js", ["../core/BeginMode", "../c
             MinecraftArmL = function (_super) {
                 __extends(MinecraftArmL, _super);
                 function MinecraftArmL(engine, texture, options) {
+                    if (options === void 0) {
+                        options = {};
+                    }
                     var _this = _super.call(this, engine, texture, {
                         height: isNumber_1.default(options.height) ? options.height : 1,
                         partKind: MinecraftPartKind.LeftArm,
@@ -8808,6 +8817,9 @@ System.register("davinci-eight/visual/Minecraft.js", ["../core/BeginMode", "../c
             MinecraftArmR = function (_super) {
                 __extends(MinecraftArmR, _super);
                 function MinecraftArmR(engine, texture, options) {
+                    if (options === void 0) {
+                        options = {};
+                    }
                     var _this = _super.call(this, engine, texture, {
                         height: isNumber_1.default(options.height) ? options.height : 1,
                         partKind: MinecraftPartKind.RightArm,
@@ -8826,6 +8838,9 @@ System.register("davinci-eight/visual/Minecraft.js", ["../core/BeginMode", "../c
             MinecraftLegL = function (_super) {
                 __extends(MinecraftLegL, _super);
                 function MinecraftLegL(engine, texture, options) {
+                    if (options === void 0) {
+                        options = {};
+                    }
                     var _this = _super.call(this, engine, texture, {
                         height: isNumber_1.default(options.height) ? options.height : 1,
                         partKind: MinecraftPartKind.LeftLeg,
@@ -8844,6 +8859,9 @@ System.register("davinci-eight/visual/Minecraft.js", ["../core/BeginMode", "../c
             MinecraftLegR = function (_super) {
                 __extends(MinecraftLegR, _super);
                 function MinecraftLegR(engine, texture, options) {
+                    if (options === void 0) {
+                        options = {};
+                    }
                     var _this = _super.call(this, engine, texture, {
                         height: isNumber_1.default(options.height) ? options.height : 1,
                         partKind: MinecraftPartKind.RightLeg,
@@ -22760,22 +22778,22 @@ System.register("davinci-eight/math/R3.js", ["./wedgeXY", "./wedgeYZ", "./wedgeZ
             get z() {
                 return z;
             },
+            add: function (rhs) {
+                return vec(x + rhs.x, y + rhs.y, z + rhs.z);
+            },
             cross: function (rhs) {
-                var x = wedgeYZ_1.default(that.x, that.y, that.z, rhs.x, rhs.y, rhs.z);
-                var y = wedgeZX_1.default(that.x, that.y, that.z, rhs.x, rhs.y, rhs.z);
-                var z = wedgeXY_1.default(that.x, that.y, that.z, rhs.x, rhs.y, rhs.z);
-                return vec(x, y, z);
+                var yz = wedgeYZ_1.default(x, y, z, rhs.x, rhs.y, rhs.z);
+                var zx = wedgeZX_1.default(x, y, z, rhs.x, rhs.y, rhs.z);
+                var xy = wedgeXY_1.default(x, y, z, rhs.x, rhs.y, rhs.z);
+                return vec(yz, zx, xy);
             },
             direction: function () {
-                var x = that.x;
-                var y = that.y;
-                var z = that.z;
                 var magnitude = Math.sqrt(x * x + y * y + z * z);
                 return vec(x / magnitude, y / magnitude, z / magnitude);
             },
             scale: scale,
             sub: function (rhs) {
-                return vec(that.x - rhs.x, that.y - rhs.y, that.z - rhs.z);
+                return vec(x - rhs.x, y - rhs.y, z - rhs.z);
             }
         };
         return that;
@@ -23136,9 +23154,9 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
             Eight = function () {
                 function Eight() {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-                    this.LAST_MODIFIED = '2016-11-28';
+                    this.LAST_MODIFIED = '2016-11-29';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '4.0.4';
+                    this.VERSION = '4.0.5';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];
