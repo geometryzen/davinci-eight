@@ -553,7 +553,7 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-11-28';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '4.0.2';
+            this.VERSION = '4.0.3';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -7662,7 +7662,9 @@ define('davinci-eight/core/VertexBuffer',["require", "exports", "../checks/mustB
             var gl = this.gl;
             if (!this.webGLBuffer) {
                 this.webGLBuffer = gl.createBuffer();
+                this.bind();
                 this.upload();
+                this.unbind();
             }
             else {
             }

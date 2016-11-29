@@ -59,7 +59,9 @@ export default class VertexBuffer extends ShareableContextConsumer {
         const gl = this.gl;
         if (!this.webGLBuffer) {
             this.webGLBuffer = gl.createBuffer();
+            this.bind();
             this.upload();
+            this.unbind();
         }
         else {
             // It's a duplicate, ignore the call.

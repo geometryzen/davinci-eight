@@ -14492,7 +14492,9 @@ System.register("davinci-eight/core/VertexBuffer.js", ["../checks/mustBeUndefine
                     var gl = this.gl;
                     if (!this.webGLBuffer) {
                         this.webGLBuffer = gl.createBuffer();
+                        this.bind();
                         this.upload();
+                        this.unbind();
                     } else {}
                 };
                 VertexBuffer.prototype.contextLost = function () {
@@ -23122,7 +23124,7 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
                     this.LAST_MODIFIED = '2016-11-28';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '4.0.2';
+                    this.VERSION = '4.0.3';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];
