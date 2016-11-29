@@ -553,7 +553,7 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-11-29';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '4.0.5';
+            this.VERSION = '4.0.6';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -1881,6 +1881,19 @@ define('davinci-eight/math/mulG3',["require", "exports", "../math/compG3Get", ".
     exports.default = mulG3;
 });
 
+define('davinci-eight/checks/mustBeDefined',["require", "exports", "../checks/mustSatisfy", "../checks/isDefined"], function (require, exports, mustSatisfy_1, isDefined_1) {
+    "use strict";
+    function beDefined() {
+        return "not be 'undefined'";
+    }
+    function mustBeDefined(name, value, contextBuilder) {
+        mustSatisfy_1.default(name, isDefined_1.default(value), beDefined, contextBuilder);
+        return value;
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = mustBeDefined;
+});
+
 define('davinci-eight/math/randomRange',["require", "exports"], function (require, exports) {
     "use strict";
     function default_1(a, b) {
@@ -2256,7 +2269,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/math/Geometric3',["require", "exports", "./Coords", "./arraysEQ", "./dotVectorE3", "../utils/EventEmitter", "./extG3", "./gauss", "../checks/isDefined", "./isScalarG3", "./lcoG3", "./maskG3", "./mulE3", "./mulG3", "./randomRange", "../i18n/readOnly", "./rcoG3", "./rotorFromDirectionsE3", "./scpG3", "./squaredNormG3", "./stringFromCoordinates", "./wedgeXY", "./wedgeYZ", "./wedgeZX"], function (require, exports, Coords_1, arraysEQ_1, dotVectorE3_1, EventEmitter_1, extG3_1, gauss_1, isDefined_1, isScalarG3_1, lcoG3_1, maskG3_1, mulE3_1, mulG3_1, randomRange_1, readOnly_1, rcoG3_1, rotorFromDirectionsE3_1, scpG3_1, squaredNormG3_1, stringFromCoordinates_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1) {
+define('davinci-eight/math/Geometric3',["require", "exports", "./Coords", "./arraysEQ", "./dotVectorE3", "../utils/EventEmitter", "./extG3", "./gauss", "../checks/isDefined", "./isScalarG3", "./lcoG3", "./maskG3", "./mulE3", "./mulG3", "../checks/mustBeDefined", "../checks/mustBeNumber", "./randomRange", "../i18n/readOnly", "./rcoG3", "./rotorFromDirectionsE3", "./scpG3", "./squaredNormG3", "./stringFromCoordinates", "./wedgeXY", "./wedgeYZ", "./wedgeZX"], function (require, exports, Coords_1, arraysEQ_1, dotVectorE3_1, EventEmitter_1, extG3_1, gauss_1, isDefined_1, isScalarG3_1, lcoG3_1, maskG3_1, mulE3_1, mulG3_1, mustBeDefined_1, mustBeNumber_1, randomRange_1, readOnly_1, rcoG3_1, rotorFromDirectionsE3_1, scpG3_1, squaredNormG3_1, stringFromCoordinates_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1) {
     "use strict";
     var COORD_SCALAR = 0;
     var COORD_X = 1;
@@ -2541,18 +2554,29 @@ define('davinci-eight/math/Geometric3',["require", "exports", "./Coords", "./arr
             return this.zero().addScalar(α);
         };
         Geometric3.prototype.copySpinor = function (spinor) {
+            var contextBuilder = function () { return 'copySpinor'; };
+            mustBeDefined_1.default('spinor', spinor, contextBuilder);
+            var a = mustBeNumber_1.default('spinor.a', spinor.a, contextBuilder);
+            var yz = mustBeNumber_1.default('spinor.yz', spinor.yz, contextBuilder);
+            var zx = mustBeNumber_1.default('spinor.zx', spinor.zx, contextBuilder);
+            var xy = mustBeNumber_1.default('spinor.xy', spinor.xy, contextBuilder);
             this.zero();
-            this.a = spinor.a;
-            this.yz = spinor.yz;
-            this.zx = spinor.zx;
-            this.xy = spinor.xy;
+            this.a = a;
+            this.yz = yz;
+            this.zx = zx;
+            this.xy = xy;
             return this;
         };
         Geometric3.prototype.copyVector = function (vector) {
+            var contextBuilder = function () { return 'copyVector'; };
+            mustBeDefined_1.default('vector', vector, contextBuilder);
+            var x = mustBeNumber_1.default('vector.x', vector.x, contextBuilder);
+            var y = mustBeNumber_1.default('vector.y', vector.y, contextBuilder);
+            var z = mustBeNumber_1.default('vector.z', vector.z, contextBuilder);
             this.zero();
-            this.x = vector.x;
-            this.y = vector.y;
-            this.z = vector.z;
+            this.x = x;
+            this.y = y;
+            this.z = z;
             return this;
         };
         Geometric3.prototype.cross = function (m) {
@@ -4020,19 +4044,6 @@ define('davinci-eight/math/Spinor3',["require", "exports", "./Coords", "./dotVec
     }(Coords_1.Coords));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = Spinor3;
-});
-
-define('davinci-eight/checks/mustBeDefined',["require", "exports", "../checks/mustSatisfy", "../checks/isDefined"], function (require, exports, mustSatisfy_1, isDefined_1) {
-    "use strict";
-    function beDefined() {
-        return "not be 'undefined'";
-    }
-    function mustBeDefined(name, value, contextBuilder) {
-        mustSatisfy_1.default(name, isDefined_1.default(value), beDefined, contextBuilder);
-        return value;
-    }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = mustBeDefined;
 });
 
 define('davinci-eight/checks/expectArg',["require", "exports", "../checks/isUndefined", "../checks/mustBeNumber"], function (require, exports, isUndefined_1, mustBeNumber_1) {
@@ -8839,6 +8850,7 @@ define('davinci-eight/core/Scene',["require", "exports", "../checks/mustBeObject
                 this.cleanUp();
             }
             this._drawables.release();
+            this._drawables = void 0;
             _super.prototype.destructor.call(this, levelUp + 1);
         };
         Scene.prototype.add = function (drawable) {

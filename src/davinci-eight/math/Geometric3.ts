@@ -13,6 +13,8 @@ import lcoG3 from './lcoG3';
 import maskG3 from './maskG3';
 import mulE3 from './mulE3';
 import mulG3 from './mulG3';
+import mustBeDefined from '../checks/mustBeDefined';
+import mustBeNumber from '../checks/mustBeNumber';
 import randomRange from './randomRange';
 import readOnly from '../i18n/readOnly';
 import rcoG3 from './rcoG3';
@@ -234,15 +236,14 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
     }
 
     /**
-     * <p>
-     * <code>this ⟼ this + M * α</code>
-     * </p>
+     * Adds a multivector value to this multivector with optional scaling.
      *
-     * @param M
-     * @param α
-     * @returns <code>this</code>
+     * this ⟼ this + M * α
+     *
+     * @param M The multivector to be added to this multivector.
+     * @param α An optional scale factor that multiplies the multivector argument.
      */
-    add(M: GeometricE3, α = 1): Geometric3 {
+    add(M: GeometricE3, α = 1): this {
         this.a += M.a * α;
         this.x += M.x * α;
         this.y += M.y * α;
@@ -255,27 +256,25 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
     }
 
     /**
-     * <p>
-     * <code>this ⟼ this + Iβ</code>
-     * </p>
+     * Adds a pseudoscalar value to this multivector.
      *
-     * @param β
-     * @returns <code>this</code>
+     * this ⟼ this + Iβ
+     *
+     * @param β The pseudoscalar value to be added to this multivector.
      */
-    addPseudo(β: number): Geometric3 {
+    addPseudo(β: number): this {
         this.b += β;
         return this;
     }
 
     /**
-     * <p>
-     * <code>this ⟼ this + α</code>
-     * </p>
+     * Adds a scalar value to this multivector.
      *
-     * @param α
-     * @returns <code>this</code>
+     * this ⟼ this + α
+     *
+     * @param α The scalar value to be added to this multivector.
      */
-    addScalar(α: number): Geometric3 {
+    addScalar(α: number): this {
         this.a += α;
         return this;
     }
@@ -481,46 +480,55 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
     }
 
     /**
-     * Sets this multivector to the value of the scalar, <code>α</code>.
+     * Sets this multivector to the value of the scalar, α.
      *
      * @param α
-     * @returns
      */
     copyScalar(α: number) {
         return this.zero().addScalar(α);
     }
 
     /**
-     * <p>
-     * <code>this ⟼ copy(spinor)</code>
-     * </p>
+     * Copies the spinor argument value into this multivector.
+     * The non-spinor components are set to zero.
      *
-     * @param spinor
-     * @returns <code>this</code>
+     * this ⟼ copySpinor(spinor)
+     *
+     * @param spinor The spinor to be copied.
      */
-    copySpinor(spinor: SpinorE3) {
+    copySpinor(spinor: SpinorE3): Geometric3 {
+        const contextBuilder = () => 'copySpinor';
+        mustBeDefined('spinor', spinor, contextBuilder);
+        const a = mustBeNumber('spinor.a', spinor.a, contextBuilder);
+        const yz = mustBeNumber('spinor.yz', spinor.yz, contextBuilder);
+        const zx = mustBeNumber('spinor.zx', spinor.zx, contextBuilder);
+        const xy = mustBeNumber('spinor.xy', spinor.xy, contextBuilder);
         this.zero();
-        this.a = spinor.a;
-        this.yz = spinor.yz;
-        this.zx = spinor.zx;
-        this.xy = spinor.xy;
+        this.a = a;
+        this.yz = yz;
+        this.zx = zx;
+        this.xy = xy;
         return this;
     }
 
     /**
-     * <p>
-     * <code>this ⟼ copyVector(vector)</code>
-     * </p>
+     * Copies the vector argument value into this multivector.
+     * The non-vector components are set to zero.
      *
-     * @param vector
-     * @returns <code>this</code>
+     * this ⟼ copyVector(vector)
+     *
+     * @param vector The vector to be copied.
      */
-    copyVector(vector: VectorE3) {
-        // FIXME: This fails for copying self
+    copyVector(vector: VectorE3): Geometric3 {
+        const contextBuilder = () => 'copyVector';
+        mustBeDefined('vector', vector, contextBuilder);
+        const x = mustBeNumber('vector.x', vector.x, contextBuilder);
+        const y = mustBeNumber('vector.y', vector.y, contextBuilder);
+        const z = mustBeNumber('vector.z', vector.z, contextBuilder);
         this.zero();
-        this.x = vector.x;
-        this.y = vector.y;
-        this.z = vector.z;
+        this.x = x;
+        this.y = y;
+        this.z = z;
         return this;
     }
 

@@ -815,4 +815,75 @@ describe("Geometric3", function () {
             });
         });
     });
+
+    describe("copySpinor", function () {
+        const target = Geometric3.random();
+        const a = Math.random();
+        const yz = Math.random();
+        const zx = Math.random();
+        const xy = Math.random();
+        const spinor = Geometric3.spinor(yz, zx, xy, a);
+        target.copySpinor(spinor);
+        describe("should copy spinor components and zero out others", function () {
+            it("a", function () {
+                expect(target.a).toBe(spinor.a);
+            });
+            it("x", function () {
+                expect(target.x).toBe(0);
+            });
+            it("y", function () {
+                expect(target.y).toBe(0);
+            });
+            it("z", function () {
+                expect(target.z).toBe(0);
+            });
+            it("yz", function () {
+                expect(target.yz).toBe(yz);
+            });
+            it("zx", function () {
+                expect(target.zx).toBe(zx);
+            });
+            it("xy", function () {
+                expect(target.xy).toBe(xy);
+            });
+            it("b", function () {
+                expect(target.b).toBe(0);
+            });
+        });
+    });
+
+    describe("copyVector", function () {
+        const target = Geometric3.random();
+        const x = Math.random();
+        const y = Math.random();
+        const z = Math.random();
+        const vector = Geometric3.vector(x, y, z);
+        target.copyVector(vector);
+        describe("should copy vector components and zero out others", function () {
+            it("a", function () {
+                expect(target.a).toBe(0);
+            });
+            it("x", function () {
+                expect(target.x).toBe(x);
+            });
+            it("y", function () {
+                expect(target.y).toBe(y);
+            });
+            it("z", function () {
+                expect(target.z).toBe(z);
+            });
+            it("yz", function () {
+                expect(target.yz).toBe(0);
+            });
+            it("zx", function () {
+                expect(target.zx).toBe(0);
+            });
+            it("xy", function () {
+                expect(target.xy).toBe(0);
+            });
+            it("b", function () {
+                expect(target.b).toBe(0);
+            });
+        });
+    });
 });

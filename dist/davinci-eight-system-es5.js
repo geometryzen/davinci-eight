@@ -616,6 +616,7 @@ System.register("davinci-eight/core/Scene.js", ["../checks/mustBeObject", "../co
                         this.cleanUp();
                     }
                     this._drawables.release();
+                    this._drawables = void 0;
                     _super.prototype.destructor.call(this, levelUp + 1);
                 };
                 Scene.prototype.add = function (drawable) {
@@ -18513,28 +18514,6 @@ System.register("davinci-eight/math/Matrix3.js", ["../math/AbstractMatrix", "../
         }
     };
 });
-System.register("davinci-eight/checks/mustBeDefined.js", ["../checks/mustSatisfy", "../checks/isDefined"], function (exports_1, context_1) {
-    "use strict";
-
-    var __moduleName = context_1 && context_1.id;
-    function beDefined() {
-        return "not be 'undefined'";
-    }
-    function mustBeDefined(name, value, contextBuilder) {
-        mustSatisfy_1.default(name, isDefined_1.default(value), beDefined, contextBuilder);
-        return value;
-    }
-    var mustSatisfy_1, isDefined_1;
-    exports_1("default", mustBeDefined);
-    return {
-        setters: [function (mustSatisfy_1_1) {
-            mustSatisfy_1 = mustSatisfy_1_1;
-        }, function (isDefined_1_1) {
-            isDefined_1 = isDefined_1_1;
-        }],
-        execute: function () {}
-    };
-});
 System.register("davinci-eight/checks/expectArg.js", ["../checks/isUndefined", "../checks/mustBeNumber"], function (exports_1, context_1) {
     "use strict";
 
@@ -18930,28 +18909,6 @@ System.register("davinci-eight/facets/frustumMatrix.js", ["../checks/mustBeNumbe
             mustBeNumber_1 = mustBeNumber_1_1;
         }, function (isDefined_1_1) {
             isDefined_1 = isDefined_1_1;
-        }],
-        execute: function () {}
-    };
-});
-System.register("davinci-eight/checks/mustBeNumber.js", ["../checks/mustSatisfy", "../checks/isNumber"], function (exports_1, context_1) {
-    "use strict";
-
-    var __moduleName = context_1 && context_1.id;
-    function beANumber() {
-        return "be a `number`";
-    }
-    function default_1(name, value, contextBuilder) {
-        mustSatisfy_1.default(name, isNumber_1.default(value), beANumber, contextBuilder);
-        return value;
-    }
-    var mustSatisfy_1, isNumber_1;
-    exports_1("default", default_1);
-    return {
-        setters: [function (mustSatisfy_1_1) {
-            mustSatisfy_1 = mustSatisfy_1_1;
-        }, function (isNumber_1_1) {
-            isNumber_1 = isNumber_1_1;
         }],
         execute: function () {}
     };
@@ -20723,6 +20680,50 @@ System.register("davinci-eight/math/mulG3.js", ["../math/compG3Get", "../math/mu
         execute: function () {}
     };
 });
+System.register("davinci-eight/checks/mustBeDefined.js", ["../checks/mustSatisfy", "../checks/isDefined"], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    function beDefined() {
+        return "not be 'undefined'";
+    }
+    function mustBeDefined(name, value, contextBuilder) {
+        mustSatisfy_1.default(name, isDefined_1.default(value), beDefined, contextBuilder);
+        return value;
+    }
+    var mustSatisfy_1, isDefined_1;
+    exports_1("default", mustBeDefined);
+    return {
+        setters: [function (mustSatisfy_1_1) {
+            mustSatisfy_1 = mustSatisfy_1_1;
+        }, function (isDefined_1_1) {
+            isDefined_1 = isDefined_1_1;
+        }],
+        execute: function () {}
+    };
+});
+System.register("davinci-eight/checks/mustBeNumber.js", ["../checks/mustSatisfy", "../checks/isNumber"], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    function beANumber() {
+        return "be a `number`";
+    }
+    function default_1(name, value, contextBuilder) {
+        mustSatisfy_1.default(name, isNumber_1.default(value), beANumber, contextBuilder);
+        return value;
+    }
+    var mustSatisfy_1, isNumber_1;
+    exports_1("default", default_1);
+    return {
+        setters: [function (mustSatisfy_1_1) {
+            mustSatisfy_1 = mustSatisfy_1_1;
+        }, function (isNumber_1_1) {
+            isNumber_1 = isNumber_1_1;
+        }],
+        execute: function () {}
+    };
+});
 System.register("davinci-eight/math/randomRange.js", [], function (exports_1, context_1) {
     "use strict";
 
@@ -21330,7 +21331,7 @@ System.register("davinci-eight/math/stringFromCoordinates.js", ["../checks/isDef
         execute: function () {}
     };
 });
-System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "./dotVectorE3", "../utils/EventEmitter", "./extG3", "./gauss", "../checks/isDefined", "./isScalarG3", "./lcoG3", "./maskG3", "./mulE3", "./mulG3", "./randomRange", "../i18n/readOnly", "./rcoG3", "./rotorFromDirectionsE3", "./scpG3", "./squaredNormG3", "./stringFromCoordinates", "./wedgeXY", "./wedgeYZ", "./wedgeZX"], function (exports_1, context_1) {
+System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "./dotVectorE3", "../utils/EventEmitter", "./extG3", "./gauss", "../checks/isDefined", "./isScalarG3", "./lcoG3", "./maskG3", "./mulE3", "./mulG3", "../checks/mustBeDefined", "../checks/mustBeNumber", "./randomRange", "../i18n/readOnly", "./rcoG3", "./rotorFromDirectionsE3", "./scpG3", "./squaredNormG3", "./stringFromCoordinates", "./wedgeXY", "./wedgeYZ", "./wedgeZX"], function (exports_1, context_1) {
     "use strict";
 
     var __extends = this && this.__extends || function (d, b) {
@@ -21353,7 +21354,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
     function cosVectorVector(a, b) {
         return scp(a, b) / (norm(a) * norm(b));
     }
-    var Coords_1, arraysEQ_1, dotVectorE3_1, EventEmitter_1, extG3_1, gauss_1, isDefined_1, isScalarG3_1, lcoG3_1, maskG3_1, mulE3_1, mulG3_1, randomRange_1, readOnly_1, rcoG3_1, rotorFromDirectionsE3_1, scpG3_1, squaredNormG3_1, stringFromCoordinates_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1, COORD_SCALAR, COORD_X, COORD_Y, COORD_Z, COORD_XY, COORD_YZ, COORD_ZX, COORD_PSEUDO, BASIS_LABELS, EVENT_NAME_CHANGE, atan2, exp, cos, log, sin, sqrt, cosines, Geometric3;
+    var Coords_1, arraysEQ_1, dotVectorE3_1, EventEmitter_1, extG3_1, gauss_1, isDefined_1, isScalarG3_1, lcoG3_1, maskG3_1, mulE3_1, mulG3_1, mustBeDefined_1, mustBeNumber_1, randomRange_1, readOnly_1, rcoG3_1, rotorFromDirectionsE3_1, scpG3_1, squaredNormG3_1, stringFromCoordinates_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1, COORD_SCALAR, COORD_X, COORD_Y, COORD_Z, COORD_XY, COORD_YZ, COORD_ZX, COORD_PSEUDO, BASIS_LABELS, EVENT_NAME_CHANGE, atan2, exp, cos, log, sin, sqrt, cosines, Geometric3;
     return {
         setters: [function (Coords_1_1) {
             Coords_1 = Coords_1_1;
@@ -21379,6 +21380,10 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
             mulE3_1 = mulE3_1_1;
         }, function (mulG3_1_1) {
             mulG3_1 = mulG3_1_1;
+        }, function (mustBeDefined_1_1) {
+            mustBeDefined_1 = mustBeDefined_1_1;
+        }, function (mustBeNumber_1_1) {
+            mustBeNumber_1 = mustBeNumber_1_1;
         }, function (randomRange_1_1) {
             randomRange_1 = randomRange_1_1;
         }, function (readOnly_1_1) {
@@ -21674,18 +21679,33 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     return this.zero().addScalar(α);
                 };
                 Geometric3.prototype.copySpinor = function (spinor) {
+                    var contextBuilder = function () {
+                        return 'copySpinor';
+                    };
+                    mustBeDefined_1.default('spinor', spinor, contextBuilder);
+                    var a = mustBeNumber_1.default('spinor.a', spinor.a, contextBuilder);
+                    var yz = mustBeNumber_1.default('spinor.yz', spinor.yz, contextBuilder);
+                    var zx = mustBeNumber_1.default('spinor.zx', spinor.zx, contextBuilder);
+                    var xy = mustBeNumber_1.default('spinor.xy', spinor.xy, contextBuilder);
                     this.zero();
-                    this.a = spinor.a;
-                    this.yz = spinor.yz;
-                    this.zx = spinor.zx;
-                    this.xy = spinor.xy;
+                    this.a = a;
+                    this.yz = yz;
+                    this.zx = zx;
+                    this.xy = xy;
                     return this;
                 };
                 Geometric3.prototype.copyVector = function (vector) {
+                    var contextBuilder = function () {
+                        return 'copyVector';
+                    };
+                    mustBeDefined_1.default('vector', vector, contextBuilder);
+                    var x = mustBeNumber_1.default('vector.x', vector.x, contextBuilder);
+                    var y = mustBeNumber_1.default('vector.y', vector.y, contextBuilder);
+                    var z = mustBeNumber_1.default('vector.z', vector.z, contextBuilder);
                     this.zero();
-                    this.x = vector.x;
-                    this.y = vector.y;
-                    this.z = vector.z;
+                    this.x = x;
+                    this.y = y;
+                    this.z = z;
                     return this;
                 };
                 Geometric3.prototype.cross = function (m) {
@@ -23156,7 +23176,7 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
                     this.LAST_MODIFIED = '2016-11-29';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '4.0.5';
+                    this.VERSION = '4.0.6';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];

@@ -6,7 +6,7 @@ import ShareableArray from '../collections/ShareableArray';
 import { ShareableContextConsumer } from '../core/ShareableContextConsumer';
 
 /**
- * A collection of drawable objects.
+ * A collection of Renderable objects.
  */
 export class Scene extends ShareableContextConsumer {
 
@@ -27,6 +27,7 @@ export class Scene extends ShareableContextConsumer {
             this.cleanUp();
         }
         this._drawables.release();
+        this._drawables = void 0;
         super.destructor(levelUp + 1);
     }
 
