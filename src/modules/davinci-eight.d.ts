@@ -534,7 +534,7 @@ declare module EIGHT {
      * 
      */
     interface ContextManager extends Shareable {
-        readonly gl: WebGLRenderingContext;
+        /*readonly*/ gl: WebGLRenderingContext;
         synchronize(consumer: ContextConsumer): void;
         addContextListener(consumer: ContextConsumer): void;
         removeContextListener(consumer: ContextConsumer): void;
@@ -752,11 +752,11 @@ declare module EIGHT {
         /**
          * The intrinsic height of the image in CSS pixels, if it is available, otherwise zero.
          */
-        readonly naturalHeight: number;
+        /*readonly*/ naturalHeight: number;
         /**
          * The intrinsic width of the image in CSS pixels, if it is available, otherwise zero.
          */
-        readonly naturalWidth: number;
+        /*readonly*/ naturalWidth: number;
         /**
          * 
          */
@@ -3402,9 +3402,9 @@ declare module EIGHT {
      *
      */
     class ShaderMaterial extends ShareableContextConsumer implements Material {
-        readonly attributeNames: string[];
-        readonly fragmentShaderSrc: string;
-        readonly vertexShaderSrc: string;
+        /*readonly*/ attributeNames: string[];
+        /*readonly*/ fragmentShaderSrc: string;
+        /*readonly*/ vertexShaderSrc: string;
         constructor(vertexShaderSrc: string, fragmentShaderSrc: string, attribs: string[], contextManager: ContextManager);
         contextFree(): void;
         contextGain(): void;
