@@ -13,7 +13,7 @@ import lcoG3 from './lcoG3';
 import maskG3 from './maskG3';
 import mulE3 from './mulE3';
 import mulG3 from './mulG3';
-import mustBeDefined from '../checks/mustBeDefined';
+import mustBeNonNullObject from '../checks/mustBeNonNullObject';
 import mustBeNumber from '../checks/mustBeNumber';
 import randomRange from './randomRange';
 import readOnly from '../i18n/readOnly';
@@ -498,7 +498,7 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      */
     copySpinor(spinor: SpinorE3): Geometric3 {
         const contextBuilder = () => 'copySpinor';
-        mustBeDefined('spinor', spinor, contextBuilder);
+        mustBeNonNullObject('spinor', spinor, contextBuilder);
         const a = mustBeNumber('spinor.a', spinor.a, contextBuilder);
         const yz = mustBeNumber('spinor.yz', spinor.yz, contextBuilder);
         const zx = mustBeNumber('spinor.zx', spinor.zx, contextBuilder);
@@ -521,7 +521,7 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      */
     copyVector(vector: VectorE3): Geometric3 {
         const contextBuilder = () => 'copyVector';
-        mustBeDefined('vector', vector, contextBuilder);
+        mustBeNonNullObject('vector', vector, contextBuilder);
         const x = mustBeNumber('vector.x', vector.x, contextBuilder);
         const y = mustBeNumber('vector.y', vector.y, contextBuilder);
         const z = mustBeNumber('vector.z', vector.z, contextBuilder);

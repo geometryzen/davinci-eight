@@ -3996,12 +3996,24 @@ declare module EIGHT {
         color?: Color;
     }
 
+    /**
+     * A solid arrow Mesh.
+     * May be used to visualize a vector.
+     */
     class Arrow extends Mesh<Geometry, MeshMaterial> {
         /**
          * The vector from the tail of the Arrow to the head of the Arrow.
+         * A long alias for the 'h' property.
+         */
+        axis: Geometric3;
+        /**
+         * The vector from the tail of the Arrow to the head of the Arrow.
+         * A short alias for the 'axis' property.
          */
         h: Geometric3;
-
+        /**
+         * Constructs an Arrow.
+         */
         constructor(engine: Engine, options?: ArrowOptions);
         protected destructor(levelUp: number): void;
     }

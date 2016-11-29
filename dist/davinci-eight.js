@@ -553,7 +553,7 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-11-29';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '4.0.6';
+            this.VERSION = '4.0.7';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -1881,17 +1881,17 @@ define('davinci-eight/math/mulG3',["require", "exports", "../math/compG3Get", ".
     exports.default = mulG3;
 });
 
-define('davinci-eight/checks/mustBeDefined',["require", "exports", "../checks/mustSatisfy", "../checks/isDefined"], function (require, exports, mustSatisfy_1, isDefined_1) {
+define('davinci-eight/checks/mustBeNonNullObject',["require", "exports", "../checks/mustSatisfy", "../checks/isNull", "../checks/isObject"], function (require, exports, mustSatisfy_1, isNull_1, isObject_1) {
     "use strict";
-    function beDefined() {
-        return "not be 'undefined'";
+    function beObject() {
+        return "be a non-null `object`";
     }
-    function mustBeDefined(name, value, contextBuilder) {
-        mustSatisfy_1.default(name, isDefined_1.default(value), beDefined, contextBuilder);
+    function mustBeObject(name, value, contextBuilder) {
+        mustSatisfy_1.default(name, isObject_1.default(value) && !isNull_1.default(value), beObject, contextBuilder);
         return value;
     }
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = mustBeDefined;
+    exports.default = mustBeObject;
 });
 
 define('davinci-eight/math/randomRange',["require", "exports"], function (require, exports) {
@@ -2269,7 +2269,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/math/Geometric3',["require", "exports", "./Coords", "./arraysEQ", "./dotVectorE3", "../utils/EventEmitter", "./extG3", "./gauss", "../checks/isDefined", "./isScalarG3", "./lcoG3", "./maskG3", "./mulE3", "./mulG3", "../checks/mustBeDefined", "../checks/mustBeNumber", "./randomRange", "../i18n/readOnly", "./rcoG3", "./rotorFromDirectionsE3", "./scpG3", "./squaredNormG3", "./stringFromCoordinates", "./wedgeXY", "./wedgeYZ", "./wedgeZX"], function (require, exports, Coords_1, arraysEQ_1, dotVectorE3_1, EventEmitter_1, extG3_1, gauss_1, isDefined_1, isScalarG3_1, lcoG3_1, maskG3_1, mulE3_1, mulG3_1, mustBeDefined_1, mustBeNumber_1, randomRange_1, readOnly_1, rcoG3_1, rotorFromDirectionsE3_1, scpG3_1, squaredNormG3_1, stringFromCoordinates_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1) {
+define('davinci-eight/math/Geometric3',["require", "exports", "./Coords", "./arraysEQ", "./dotVectorE3", "../utils/EventEmitter", "./extG3", "./gauss", "../checks/isDefined", "./isScalarG3", "./lcoG3", "./maskG3", "./mulE3", "./mulG3", "../checks/mustBeNonNullObject", "../checks/mustBeNumber", "./randomRange", "../i18n/readOnly", "./rcoG3", "./rotorFromDirectionsE3", "./scpG3", "./squaredNormG3", "./stringFromCoordinates", "./wedgeXY", "./wedgeYZ", "./wedgeZX"], function (require, exports, Coords_1, arraysEQ_1, dotVectorE3_1, EventEmitter_1, extG3_1, gauss_1, isDefined_1, isScalarG3_1, lcoG3_1, maskG3_1, mulE3_1, mulG3_1, mustBeNonNullObject_1, mustBeNumber_1, randomRange_1, readOnly_1, rcoG3_1, rotorFromDirectionsE3_1, scpG3_1, squaredNormG3_1, stringFromCoordinates_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1) {
     "use strict";
     var COORD_SCALAR = 0;
     var COORD_X = 1;
@@ -2555,7 +2555,7 @@ define('davinci-eight/math/Geometric3',["require", "exports", "./Coords", "./arr
         };
         Geometric3.prototype.copySpinor = function (spinor) {
             var contextBuilder = function () { return 'copySpinor'; };
-            mustBeDefined_1.default('spinor', spinor, contextBuilder);
+            mustBeNonNullObject_1.default('spinor', spinor, contextBuilder);
             var a = mustBeNumber_1.default('spinor.a', spinor.a, contextBuilder);
             var yz = mustBeNumber_1.default('spinor.yz', spinor.yz, contextBuilder);
             var zx = mustBeNumber_1.default('spinor.zx', spinor.zx, contextBuilder);
@@ -2569,7 +2569,7 @@ define('davinci-eight/math/Geometric3',["require", "exports", "./Coords", "./arr
         };
         Geometric3.prototype.copyVector = function (vector) {
             var contextBuilder = function () { return 'copyVector'; };
-            mustBeDefined_1.default('vector', vector, contextBuilder);
+            mustBeNonNullObject_1.default('vector', vector, contextBuilder);
             var x = mustBeNumber_1.default('vector.x', vector.x, contextBuilder);
             var y = mustBeNumber_1.default('vector.y', vector.y, contextBuilder);
             var z = mustBeNumber_1.default('vector.z', vector.z, contextBuilder);
@@ -4044,6 +4044,19 @@ define('davinci-eight/math/Spinor3',["require", "exports", "./Coords", "./dotVec
     }(Coords_1.Coords));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = Spinor3;
+});
+
+define('davinci-eight/checks/mustBeDefined',["require", "exports", "../checks/mustSatisfy", "../checks/isDefined"], function (require, exports, mustSatisfy_1, isDefined_1) {
+    "use strict";
+    function beDefined() {
+        return "not be 'undefined'";
+    }
+    function mustBeDefined(name, value, contextBuilder) {
+        mustSatisfy_1.default(name, isDefined_1.default(value), beDefined, contextBuilder);
+        return value;
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = mustBeDefined;
 });
 
 define('davinci-eight/checks/expectArg',["require", "exports", "../checks/isUndefined", "../checks/mustBeNumber"], function (require, exports, isUndefined_1, mustBeNumber_1) {
@@ -6341,19 +6354,6 @@ define('davinci-eight/checks/mustBeBoolean',["require", "exports", "../checks/mu
     }
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = mustBeBoolean;
-});
-
-define('davinci-eight/checks/mustBeNonNullObject',["require", "exports", "../checks/mustSatisfy", "../checks/isNull", "../checks/isObject"], function (require, exports, mustSatisfy_1, isNull_1, isObject_1) {
-    "use strict";
-    function beObject() {
-        return "be a non-null `object`";
-    }
-    function mustBeObject(name, value, contextBuilder) {
-        mustSatisfy_1.default(name, isObject_1.default(value) && !isNull_1.default(value), beObject, contextBuilder);
-        return value;
-    }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = mustBeObject;
 });
 
 define('davinci-eight/facets/OpacityFacet',["require", "exports", "../checks/mustBeGE", "../checks/mustBeLE", "../checks/mustBeNumber", "../core/GraphicsProgramSymbols"], function (require, exports, mustBeGE_1, mustBeLE_1, mustBeNumber_1, GraphicsProgramSymbols_1) {
@@ -17315,7 +17315,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/visual/Arrow',["require", "exports", "../geometries/ArrowGeometry", "../core/Color", "./direction", "../math/Geometric3", "../materials/MeshMaterial", "./PrincipalScaleMesh", "../checks/isGE", "../checks/mustBeDefined", "./mustBeEngine", "../math/quadVectorE3", "./setColorOption", "./setDeprecatedOptions", "./tiltFromOptions", "../math/R3"], function (require, exports, ArrowGeometry_1, Color_1, direction_1, Geometric3_1, MeshMaterial_1, PrincipalScaleMesh_1, isGE_1, mustBeDefined_1, mustBeEngine_1, quadVectorE3_1, setColorOption_1, setDeprecatedOptions_1, tiltFromOptions_1, R3_1) {
+define('davinci-eight/visual/Arrow',["require", "exports", "../geometries/ArrowGeometry", "../core/Color", "./direction", "../math/Geometric3", "../materials/MeshMaterial", "./PrincipalScaleMesh", "../checks/isGE", "./mustBeEngine", "../math/quadVectorE3", "./setColorOption", "./setDeprecatedOptions", "./tiltFromOptions", "../math/R3"], function (require, exports, ArrowGeometry_1, Color_1, direction_1, Geometric3_1, MeshMaterial_1, PrincipalScaleMesh_1, isGE_1, mustBeEngine_1, quadVectorE3_1, setColorOption_1, setDeprecatedOptions_1, tiltFromOptions_1, R3_1) {
     "use strict";
     var canonicalAxis = R3_1.default(0, 1, 0);
     var zero = R3_1.default(0, 0, 0);
@@ -17394,9 +17394,18 @@ define('davinci-eight/visual/Arrow',["require", "exports", "../geometries/ArrowG
             get: function () {
                 return this._vector;
             },
-            set: function (h) {
-                mustBeDefined_1.default('h', h);
-                this._vector.copyVector(h);
+            set: function (vector) {
+                this._vector.copyVector(vector);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Arrow.prototype, "axis", {
+            get: function () {
+                return this._vector;
+            },
+            set: function (vector) {
+                this._vector.copyVector(vector);
             },
             enumerable: true,
             configurable: true

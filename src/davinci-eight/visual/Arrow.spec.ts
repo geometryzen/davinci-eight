@@ -43,6 +43,18 @@ describe("Arrow", function () {
             arrow.release();
             engine.release();
         });
+        it("should be an alias for axis", function () {
+            const engine = new Engine();
+            const arrow = new Arrow(engine);
+            arrow.axis.x = Math.random();
+            arrow.axis.y = Math.random();
+            arrow.axis.z = Math.random();
+            expect(arrow.h.x).toBe(arrow.axis.x);
+            expect(arrow.h.y).toBe(arrow.axis.y);
+            expect(arrow.h.z).toBe(arrow.axis.z);
+            arrow.release();
+            engine.release();
+        });
 
         // The length property has been made private.
         // Updates are expected to happen through the 
@@ -102,6 +114,28 @@ describe("Arrow", function () {
                     engine.release();
                 });
             });
+        });
+    });
+    describe("axis", function () {
+        it("should default to e2", function () {
+            const engine = new Engine();
+            const arrow = new Arrow(engine);
+            expect(arrow.axis.toString()).toBe('e2');
+            expect(arrow.axis.equals(e2)).toBe(true);
+            arrow.release();
+            engine.release();
+        });
+        it("should be an alias for h", function () {
+            const engine = new Engine();
+            const arrow = new Arrow(engine);
+            arrow.h.x = Math.random();
+            arrow.h.y = Math.random();
+            arrow.h.z = Math.random();
+            expect(arrow.axis.x).toBe(arrow.h.x);
+            expect(arrow.axis.y).toBe(arrow.h.y);
+            expect(arrow.axis.z).toBe(arrow.h.z);
+            arrow.release();
+            engine.release();
         });
     });
 

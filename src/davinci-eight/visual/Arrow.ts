@@ -9,7 +9,6 @@ import { MeshMaterial } from '../materials/MeshMaterial';
 import MeshMaterialOptions from '../materials/MeshMaterialOptions';
 import PrincipalScaleMesh from './PrincipalScaleMesh';
 import isGE from '../checks/isGE';
-import mustBeDefined from '../checks/mustBeDefined';
 import mustBeEngine from './mustBeEngine';
 import quadVectorE3 from '../math/quadVectorE3';
 import setColorOption from './setColorOption';
@@ -127,12 +126,22 @@ export class Arrow extends PrincipalScaleMesh<ArrowGeometry, MeshMaterial> {
 
     /**
      * The vector from the tail of the Arrow to the head of the Arrow.
+     * A short alias for the axis property.
      */
     get h() {
         return this._vector;
     }
-    set h(h: Geometric3) {
-        mustBeDefined('h', h);
-        this._vector.copyVector(h);
+    set h(vector: Geometric3) {
+        this._vector.copyVector(vector);
+    }
+
+    /**
+     * A long alias for the h property.
+     */
+    get axis() {
+        return this._vector;
+    }
+    set axis(vector: Geometric3) {
+        this._vector.copyVector(vector);
     }
 }
