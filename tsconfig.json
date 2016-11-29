@@ -84,6 +84,7 @@
         "src/davinci-eight/visual/RigidBody.spec.ts",
         "src/davinci-eight/visual/Sphere.spec.ts",
         "src/davinci-eight/visual/Tetrahedron.spec.ts",
+        "src/davinci-eight/visual/Track.spec.ts",
         "src/davinci-eight/visual/Turtle.spec.ts",
         "typings/jasmine/jasmine.d.ts"
     ]

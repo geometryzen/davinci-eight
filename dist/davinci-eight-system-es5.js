@@ -12631,6 +12631,10 @@ System.register("davinci-eight/visual/Track.js", ["../core/BeginMode", "../core/
                     this.data = new Float32Array(this.N * FLOATS_PER_VERTEX);
                     this.vbo = new VertexBuffer_1.default(contextManager, this.data, Usage_1.default.DYNAMIC_DRAW);
                 }
+                TrackGeometry.prototype.destructor = function () {
+                    this.vbo.release();
+                    this.vbo = void 0;
+                };
                 TrackGeometry.prototype.bind = function (material) {
                     if (this.dirty) {
                         this.vbo.bind();
@@ -12678,7 +12682,9 @@ System.register("davinci-eight/visual/Track.js", ["../core/BeginMode", "../core/
                 };
                 TrackGeometry.prototype.release = function () {
                     this.refCount--;
-                    if (this.refCount === 0) {}
+                    if (this.refCount === 0) {
+                        this.destructor();
+                    }
                     return this.refCount;
                 };
                 TrackGeometry.prototype.setUniforms = function (visitor) {};
@@ -12688,6 +12694,8 @@ System.register("davinci-eight/visual/Track.js", ["../core/BeginMode", "../core/
                         var temp = new Float32Array(this.N * FLOATS_PER_VERTEX);
                         temp.set(this.data);
                         this.data = temp;
+                        this.vbo.release();
+                        this.vbo = new VertexBuffer_1.default(this.contextManager, this.data, Usage_1.default.DYNAMIC_DRAW);
                     }
                     var offset = this.count * FLOATS_PER_VERTEX;
                     this.data[offset + 0] = x;
@@ -12712,6 +12720,12 @@ System.register("davinci-eight/visual/Track.js", ["../core/BeginMode", "../core/
                     }
                     var _this = _super.call(this, new TrackGeometry(engine), new LineMaterial_1.LineMaterial(engine), mustBeEngine_1.default(engine, 'Track'), levelUp + 1) || this;
                     _this.setLoggingName('Track');
+                    var geometry = _this.geometry;
+                    geometry.release();
+                    geometry.release();
+                    var material = _this.material;
+                    material.release();
+                    material.release();
                     setColorOption_1.default(_this, options, Color_1.Color.gray);
                     if (levelUp === 0) {
                         _this.synchUp();
@@ -23124,7 +23138,7 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
                     this.LAST_MODIFIED = '2016-11-28';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '4.0.3';
+                    this.VERSION = '4.0.4';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];

@@ -1,19 +1,19 @@
 import { Engine } from '../core/Engine';
-import MinecraftFigure from './MinecraftFigure';
+import { Track } from './Track';
 import refChange from '../core/refChange';
 
-describe("MinecraftFigure", function () {
+describe('Track', function () {
     it("new-release", function () {
         refChange('quiet');
         refChange('reset');
         refChange('quiet');
         refChange('start');
         const engine = new Engine();
-        const figure = new MinecraftFigure(engine, void 0);
-        expect(figure.isZombie()).toBe(false);
-        figure.release();
-        expect(figure.isZombie()).toBe(true);
+        const track = new Track(engine);
+        expect(track.isZombie()).toBe(false);
+        track.release();
         engine.release();
+        expect(track.isZombie()).toBe(true);
         refChange('stop');
         const outstanding = refChange('dump');
         expect(outstanding).toBe(0);

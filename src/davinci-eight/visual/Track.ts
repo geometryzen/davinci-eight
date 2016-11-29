@@ -34,6 +34,10 @@ class TrackGeometry implements Geometry {
         this.data = new Float32Array(this.N * FLOATS_PER_VERTEX);
         this.vbo = new VertexBuffer(contextManager, this.data, Usage.DYNAMIC_DRAW);
     }
+    protected destructor(): void {
+        this.vbo.release();
+        this.vbo = void 0;
+    }
     bind(material: Material): TrackGeometry {
         if (this.dirty) {
             this.vbo.bind();
@@ -82,7 +86,7 @@ class TrackGeometry implements Geometry {
     release(): number {
         this.refCount--;
         if (this.refCount === 0) {
-            // Clean Up
+            this.destructor();
         }
         return this.refCount;
     }
@@ -95,6 +99,8 @@ class TrackGeometry implements Geometry {
             const temp = new Float32Array(this.N * FLOATS_PER_VERTEX);
             temp.set(this.data);
             this.data = temp;
+            this.vbo.release();
+            this.vbo = new VertexBuffer(this.contextManager, this.data, Usage.DYNAMIC_DRAW);
         }
         const offset = this.count * FLOATS_PER_VERTEX;
         this.data[offset + 0] = x;
@@ -116,7 +122,17 @@ export class Track extends Mesh<TrackGeometry, LineMaterial> {
     constructor(engine: Engine, options: TrackOptions = {}, levelUp = 0) {
         super(new TrackGeometry(engine), new LineMaterial(engine), mustBeEngine(engine, 'Track'), levelUp + 1);
         this.setLoggingName('Track');
+
+        const geometry = this.geometry;
+        geometry.release();
+        geometry.release();
+
+        const material = this.material;
+        material.release();
+        material.release();
+
         setColorOption(this, options, Color.gray);
+
         if (levelUp === 0) {
             this.synchUp();
         }
@@ -129,13 +145,13 @@ export class Track extends Mesh<TrackGeometry, LineMaterial> {
     }
     addPoint(point: VectorE3): void {
         if (point) {
-            const geometry = <TrackGeometry>this.geometry;
+            const geometry = this.geometry;
             geometry.addPoint(point.x, point.y, point.z);
             geometry.release();
         }
     }
     clear(): void {
-        const geometry = <TrackGeometry>this.geometry;
+        const geometry = this.geometry;
         geometry.erase();
         geometry.release();
     }
