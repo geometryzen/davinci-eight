@@ -1,7 +1,6 @@
 import ContextManager from './ContextManager';
 import mustBeUndefined from '../checks/mustBeUndefined';
 import { ShareableContextConsumer } from './ShareableContextConsumer';
-import { checkUsage } from './Usage';
 import Usage from './Usage';
 
 /**
@@ -10,10 +9,8 @@ import Usage from './Usage';
 export default class IndexBuffer extends ShareableContextConsumer {
 
     private webGLBuffer: WebGLBuffer;
-    private _data: Uint16Array;
-    private _usage = Usage.STATIC_DRAW;
 
-    constructor(contextManager: ContextManager, levelUp = 0) {
+    constructor(contextManager: ContextManager, private data: Uint16Array, private usage: Usage, levelUp = 0) {
         super(contextManager);
         this.setLoggingName('IndexBuffer');
         if (levelUp === 0) {
@@ -29,38 +26,13 @@ export default class IndexBuffer extends ShareableContextConsumer {
         super.destructor(levelUp + 1);
     }
 
-    get data(): Uint16Array {
-        return this._data;
-    }
-    set data(data: Uint16Array) {
-        this._data = data;
-        this.bufferData(this._data, this.usage);
-    }
-
-    get usage(): Usage {
-        return this._usage;
-    }
-    set usage(usage: Usage) {
-        checkUsage('usage', usage);
-        this._usage = usage;
-        this.bufferData(this._data, this._usage);
-    }
-
-    bufferData(data: Uint16Array, usage: Usage): void {
-        if (data) {
-            this._data = data;
-        }
-        if (usage) {
-            this._usage = usage;
-        }
+    upload(): void {
         const gl = this.gl;
         if (gl) {
             if (this.webGLBuffer) {
-                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.webGLBuffer);
                 if (this.data) {
-                    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, this.data, this._usage);
+                    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, this.data, this.usage);
                 }
-                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
             }
         }
     }
@@ -87,7 +59,9 @@ export default class IndexBuffer extends ShareableContextConsumer {
         const gl = this.gl;
         if (!this.webGLBuffer) {
             this.webGLBuffer = gl.createBuffer();
-            this.bufferData(this._data, this._usage);
+            this.bind();
+            this.upload();
+            this.unbind();
         }
         else {
             // It's a duplicate, ignore the call.

@@ -5,24 +5,20 @@ import GeometryBase from './GeometryBase';
 import IndexBuffer from './IndexBuffer';
 import isArray from '../checks/isArray';
 import isNull from '../checks/isNull';
-import isObject from '../checks/isObject';
 import isUndefined from '../checks/isUndefined';
 import mustBeArray from '../checks/mustBeArray';
 import mustBeObject from '../checks/mustBeObject';
 import Primitive from './Primitive';
-// import readOnly from '../i18n/readOnly';
 import SpinorE3 from '../math/SpinorE3';
-// import VertexArrays from './VertexArrays';
 import vertexArraysFromPrimitive from './vertexArraysFromPrimitive';
-// import VertexAttribPointer from './VertexAttribPointer';
 import VertexBuffer from './VertexBuffer';
+import Usage from './Usage';
 
 /**
  * A Geometry that supports interleaved vertex buffers.
  */
 export default class GeometryElements extends GeometryBase {
 
-    private _indices: number[];
     private _attributes: number[];
     private count: number;
 
@@ -43,37 +39,26 @@ export default class GeometryElements extends GeometryBase {
 
         this.setLoggingName('GeometryElements');
 
-        this.ibo = new IndexBuffer(contextManager);
-        this.vbo = new VertexBuffer(contextManager);
 
-        const data = vertexArraysFromPrimitive(primitive, options.order);
-        if (!isNull(data) && !isUndefined(data)) {
-            if (isObject(data)) {
-                this._mode = data.mode;
-                this.setIndices(data.indices);
+        const vertexArrays = vertexArraysFromPrimitive(primitive, options.order);
+        this._mode = vertexArrays.mode;
+        this.count = vertexArrays.indices.length;
+        this.ibo = new IndexBuffer(contextManager, new Uint16Array(vertexArrays.indices), Usage.STATIC_DRAW);
 
-                this._attributes = data.attributes;
-                this._stride = data.stride;
-                if (!isNull(data.pointers) && !isUndefined(data.pointers)) {
-                    if (isArray(data.pointers)) {
-                        this._pointers = data.pointers;
-                    }
-                    else {
-                        mustBeArray('data.pointers', data.pointers);
-                    }
-                }
-                else {
-                    this._pointers = [];
-                }
-                this.vbo.data = new Float32Array(data.attributes);
+        this._attributes = vertexArrays.attributes;
+        this._stride = vertexArrays.stride;
+        if (!isNull(vertexArrays.pointers) && !isUndefined(vertexArrays.pointers)) {
+            if (isArray(vertexArrays.pointers)) {
+                this._pointers = vertexArrays.pointers;
             }
             else {
-                mustBeObject('data', data);
+                mustBeArray('data.pointers', vertexArrays.pointers);
             }
         }
         else {
             this._pointers = [];
         }
+        this.vbo = new VertexBuffer(contextManager, new Float32Array(vertexArrays.attributes), Usage.STATIC_DRAW);
         if (levelUp === 0) {
             this.synchUp();
         }
@@ -89,80 +74,6 @@ export default class GeometryElements extends GeometryBase {
         this.vbo = void 0;
         super.destructor(levelUp + 1);
     }
-
-    /*
-    public get attributes(): number[] {
-        return this._attributes;
-    }
-    public set attributes(attributes: number[]) {
-        if (isArray(attributes)) {
-            this._attributes = attributes;
-            this.vbo.data = new Float32Array(attributes);
-        }
-    }
-    */
-
-    /*
-    private get data(): VertexArrays {
-        // FIXME: This should return a deep copy.
-        return {
-            mode: this._mode,
-            indices: this._indices,
-            attributes: this._attributes,
-            stride: this._stride,
-            pointers: this._pointers
-        };
-    }
-    private set data(data: VertexArrays) {
-        throw new Error(readOnly('data').message);
-    }
-    */
-
-    /*
-    public get indices(): number[] {
-        return this._indices;
-    }
-    public set indices(indices: number[]) {
-        this.setIndices(indices);
-    }
-    */
-
-    private setIndices(indices: number[]): void {
-        if (!isNull(indices) && !isUndefined(indices)) {
-            if (isArray(indices)) {
-                this._indices = indices;
-                this.count = indices.length;
-                this.ibo.data = new Uint16Array(indices);
-            }
-            else {
-                mustBeArray('indices', indices);
-            }
-        }
-        else {
-            // TBD
-        }
-    }
-
-    /*
-    public get pointers(): VertexAttribPointer[] {
-        return this._pointers;
-    }
-    public set pointers(pointers: VertexAttribPointer[]) {
-        this._pointers = pointers;
-    }
-    */
-
-    /**
-     * The total number of bytes for each element.
-     */
-    /*
-    public get stride(): number {
-        return this._stride;
-    }
-    public set stride(stride: number) {
-        this._stride = stride;
-    }
-    */
 
     public contextFree(): void {
         this.ibo.contextFree();

@@ -1,7 +1,6 @@
 import ContextManager from './ContextManager';
 import mustBeUndefined from '../checks/mustBeUndefined';
 import { ShareableContextConsumer } from './ShareableContextConsumer';
-import { checkUsage } from './Usage';
 import Usage from './Usage';
 
 /**
@@ -10,10 +9,8 @@ import Usage from './Usage';
 export default class VertexBuffer extends ShareableContextConsumer {
 
     private webGLBuffer: WebGLBuffer;
-    private _data: Float32Array;
-    public _usage = Usage.STATIC_DRAW;
 
-    constructor(contextManager: ContextManager, levelUp = 0) {
+    constructor(contextManager: ContextManager, private data: Float32Array, private usage: Usage, levelUp = 0) {
         super(contextManager);
         this.setLoggingName('VertexBuffer');
         if (levelUp === 0) {
@@ -29,38 +26,13 @@ export default class VertexBuffer extends ShareableContextConsumer {
         super.destructor(levelUp + 1);
     }
 
-    get data(): Float32Array {
-        return this._data;
-    }
-    set data(data: Float32Array) {
-        this._data = data;
-        this.bufferData(this._data, this._usage);
-    }
-
-    get usage(): Usage {
-        return this._usage;
-    }
-    set usage(usage: Usage) {
-        checkUsage('usage', usage);
-        this._usage = usage;
-        this.bufferData(this._data, this._usage);
-    }
-
-    bufferData(data?: Float32Array, usage?: Usage): void {
-        if (data) {
-            this._data = data;
-        }
-        if (usage) {
-            this._usage = usage;
-        }
+    upload(): void {
         const gl = this.gl;
         if (gl) {
             if (this.webGLBuffer) {
-                gl.bindBuffer(gl.ARRAY_BUFFER, this.webGLBuffer);
-                if (this._data) {
-                    gl.bufferData(gl.ARRAY_BUFFER, this._data, this._usage);
+                if (this.data) {
+                    gl.bufferData(gl.ARRAY_BUFFER, this.data, this.usage);
                 }
-                gl.bindBuffer(gl.ARRAY_BUFFER, null);
             }
         }
     }
@@ -87,7 +59,7 @@ export default class VertexBuffer extends ShareableContextConsumer {
         const gl = this.gl;
         if (!this.webGLBuffer) {
             this.webGLBuffer = gl.createBuffer();
-            this.bufferData(this._data, this._usage);
+            this.upload();
         }
         else {
             // It's a duplicate, ignore the call.

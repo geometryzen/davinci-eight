@@ -32,11 +32,13 @@ class TrackGeometry implements Geometry {
     private refCount = 1;
     constructor(private contextManager: ContextManager) {
         this.data = new Float32Array(this.N * FLOATS_PER_VERTEX);
-        this.vbo = new VertexBuffer(contextManager);
+        this.vbo = new VertexBuffer(contextManager, this.data, Usage.DYNAMIC_DRAW);
     }
     bind(material: Material): TrackGeometry {
         if (this.dirty) {
-            this.vbo.bufferData(this.data, Usage.DYNAMIC_DRAW);
+            this.vbo.bind();
+            this.vbo.upload();
+            this.vbo.unbind();
             this.dirty = false;
         }
         this.vbo.bind();

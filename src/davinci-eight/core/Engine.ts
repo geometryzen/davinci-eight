@@ -7,7 +7,6 @@ import DepthFunction from './DepthFunction';
 import EIGHTLogger from '../commands/EIGHTLogger';
 import { ContextConsumer } from './ContextConsumer';
 import ContextManager from './ContextManager';
-import IndexBuffer from './IndexBuffer';
 import initWebGL from './initWebGL';
 import isDefined from '../checks/isDefined';
 import mustBeObject from '../checks/mustBeObject';
@@ -15,9 +14,7 @@ import PixelFormat from './PixelFormat';
 import PixelType from './PixelType';
 import ShareableArray from '../collections/ShareableArray';
 import { ShareableBase } from './ShareableBase';
-import Usage from './Usage';
 import VersionLogger from '../commands/VersionLogger';
-import VertexBuffer from './VertexBuffer';
 import { WebGLClearColor } from '../commands/WebGLClearColor';
 import { WebGLEnable } from '../commands/WebGLEnable';
 import { WebGLDisable } from '../commands/WebGLDisable';
@@ -122,22 +119,6 @@ export class Engine extends ShareableBase implements ContextManager {
         else {
             console.warn("user already exists for addContextListener");
         }
-    }
-
-    array(data?: Float32Array, usage = Usage.STATIC_DRAW): VertexBuffer {
-        const vbo = new VertexBuffer(this);
-        if (data) {
-            vbo.bufferData(data, usage);
-        }
-        return vbo;
-    }
-
-    elements(data?: Uint16Array, usage = Usage.STATIC_DRAW): IndexBuffer {
-        const ibo = new IndexBuffer(this);
-        if (data) {
-            ibo.bufferData(data, usage);
-        }
-        return ibo;
     }
 
     /**

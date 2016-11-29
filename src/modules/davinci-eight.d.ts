@@ -404,11 +404,6 @@ declare module EIGHT {
         addContextListener(user: ContextConsumer): void;
 
         /**
-         * Creates a VertexBuffer from the provided Float32Array data.
-         */
-        array(data?: Float32Array, usage?: Usage): VertexBuffer;
-
-        /**
          * Sets the parameters for blending.
          */
         blendFunc(sfactor: BlendingFactorSrc, dfactor: BlendingFactorDest): Engine;
@@ -449,11 +444,6 @@ declare module EIGHT {
          * Turns off specific WebGL capabilities for this context.
          */
         disable(capability: Capability): Engine;
-
-        /**
-         * Creates an IndexBuffer from the provided Uint16Array data.
-         */
-        elements(data?: Uint16Array, usage?: Usage): IndexBuffer;
 
         /**
          * Turns on specific WebGL capabilities for this context.
@@ -544,6 +534,7 @@ declare module EIGHT {
      * 
      */
     interface ContextManager extends Shareable {
+        readonly gl: WebGLRenderingContext;
         synchronize(consumer: ContextConsumer): void;
         addContextListener(consumer: ContextConsumer): void;
         removeContextListener(consumer: ContextConsumer): void;
@@ -563,12 +554,10 @@ declare module EIGHT {
      * A wrapper around a WebGLBuffer with binding to ARRAY_BUFFER.
      */
     class VertexBuffer extends ShareableContextConsumer {
-        data: Float32Array;
-        usage: Usage;
-        constructor(contextManager: ContextManager, levelUp?: number);
+        constructor(contextManager: ContextManager, data: Float32Array, usage: Usage, levelUp?: number);
         protected destructor(levelUp: number): void;
         bind(): void;
-        bufferData(data?: Float32Array, usage?: Usage): void;
+        upload(): void;
         unbind(): void
     }
 
@@ -576,12 +565,10 @@ declare module EIGHT {
      * A wrapper around a WebGLBuffer with binding to ELEMENT_ARRAY_BUFFER.
      */
     class IndexBuffer extends ShareableContextConsumer {
-        data: Uint16Array;
-        usage: Usage;
-        constructor(contextManager: ContextManager, levelUp?: number);
+        constructor(contextManager: ContextManager, data: Uint16Array, usage: Usage, levelUp?: number);
         protected destructor(levelUp: number): void;
         bind(): void;
-        bufferData(data: Uint16Array, usage: Usage): void;
+        upload(): void;
         unbind(): void;
     }
 

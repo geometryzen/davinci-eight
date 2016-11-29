@@ -1,17 +1,11 @@
 import { Material } from './Material';
 import Attribute from './Attribute';
-// import computeAttributes from './computeAttributes';
-// import computeCount from './computeCount';
-// import computePointers from './computePointers';
-// import computeStride from './computeStride';
 import ContextManager from './ContextManager';
 import GeometryBase from './GeometryBase';
-import isNull from '../checks/isNull';
-import isObject from '../checks/isObject';
-import isUndefined from '../checks/isUndefined';
 import mustBeObject from '../checks/mustBeObject';
 import Primitive from './Primitive';
 import SpinorE3 from '../math/SpinorE3';
+import Usage from './Usage';
 import vertexArraysFromPrimitive from './vertexArraysFromPrimitive';
 import VertexBuffer from './VertexBuffer';
 
@@ -40,23 +34,15 @@ export default class GeometryArrays extends GeometryBase {
         mustBeObject('primitive', primitive);
         this.setLoggingName('GeometryArrays');
         this.attributes = {};
-        this.vbo = new VertexBuffer(contextManager);
         // FIXME: order as an option
-        const data = vertexArraysFromPrimitive(primitive, options.order);
-        if (!isNull(data) && !isUndefined(data)) {
-            if (isObject(data)) {
-                this._mode = data.mode;
-                this.vbo.data = new Float32Array(data.attributes);
-                // FIXME: Hacky
-                this.count = data.attributes.length / (data.stride / 4);
-                // FIXME: stride is not quite appropriate here because we don't have BYTES.
-                this._stride = data.stride;
-                this._pointers = data.pointers;
-            }
-            else {
-                throw new TypeError("data must be an object");
-            }
-        }
+        const vertexArrays = vertexArraysFromPrimitive(primitive, options.order);
+        this._mode = vertexArrays.mode;
+        this.vbo = new VertexBuffer(contextManager, new Float32Array(vertexArrays.attributes), Usage.STATIC_DRAW);
+        // FIXME: Hacky
+        this.count = vertexArrays.attributes.length / (vertexArrays.stride / 4);
+        // FIXME: stride is not quite appropriate here because we don't have BYTES.
+        this._stride = vertexArrays.stride;
+        this._pointers = vertexArrays.pointers;
         if (levelUp === 0) {
             this.synchUp();
         }

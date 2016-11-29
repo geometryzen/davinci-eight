@@ -553,7 +553,7 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-11-28';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '4.0.0';
+            this.VERSION = '4.0.1';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -7472,6 +7472,31 @@ define('davinci-eight/core/GeometryBase',["require", "exports", "../utils/EventE
     exports.default = GeometryBase;
 });
 
+define('davinci-eight/core/Usage',["require", "exports"], function (require, exports) {
+    "use strict";
+    (function (Usage) {
+        Usage[Usage["STREAM_DRAW"] = 35040] = "STREAM_DRAW";
+        Usage[Usage["STATIC_DRAW"] = 35044] = "STATIC_DRAW";
+        Usage[Usage["DYNAMIC_DRAW"] = 35048] = "DYNAMIC_DRAW";
+    })(exports.Usage || (exports.Usage = {}));
+    var Usage = exports.Usage;
+    function checkUsage(name, usage) {
+        switch (usage) {
+            case Usage.STREAM_DRAW:
+            case Usage.STATIC_DRAW:
+            case Usage.DYNAMIC_DRAW: {
+                return;
+            }
+            default: {
+                throw new Error(name + ": Usage must be one of the enumerated values.");
+            }
+        }
+    }
+    exports.checkUsage = checkUsage;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = Usage;
+});
+
 define('davinci-eight/core/computeCount',["require", "exports", "../checks/mustBeInteger"], function (require, exports, mustBeInteger_1) {
     "use strict";
     function default_1(attribs, aNames) {
@@ -7580,44 +7605,20 @@ define('davinci-eight/checks/mustBeUndefined',["require", "exports", "../checks/
     exports.default = default_1;
 });
 
-define('davinci-eight/core/Usage',["require", "exports"], function (require, exports) {
-    "use strict";
-    (function (Usage) {
-        Usage[Usage["STREAM_DRAW"] = 35040] = "STREAM_DRAW";
-        Usage[Usage["STATIC_DRAW"] = 35044] = "STATIC_DRAW";
-        Usage[Usage["DYNAMIC_DRAW"] = 35048] = "DYNAMIC_DRAW";
-    })(exports.Usage || (exports.Usage = {}));
-    var Usage = exports.Usage;
-    function checkUsage(name, usage) {
-        switch (usage) {
-            case Usage.STREAM_DRAW:
-            case Usage.STATIC_DRAW:
-            case Usage.DYNAMIC_DRAW: {
-                return;
-            }
-            default: {
-                throw new Error(name + ": Usage must be one of the enumerated values.");
-            }
-        }
-    }
-    exports.checkUsage = checkUsage;
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = Usage;
-});
-
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/VertexBuffer',["require", "exports", "../checks/mustBeUndefined", "./ShareableContextConsumer", "./Usage", "./Usage"], function (require, exports, mustBeUndefined_1, ShareableContextConsumer_1, Usage_1, Usage_2) {
+define('davinci-eight/core/VertexBuffer',["require", "exports", "../checks/mustBeUndefined", "./ShareableContextConsumer"], function (require, exports, mustBeUndefined_1, ShareableContextConsumer_1) {
     "use strict";
     var VertexBuffer = (function (_super) {
         __extends(VertexBuffer, _super);
-        function VertexBuffer(contextManager, levelUp) {
+        function VertexBuffer(contextManager, data, usage, levelUp) {
             if (levelUp === void 0) { levelUp = 0; }
             var _this = _super.call(this, contextManager) || this;
-            _this._usage = Usage_2.default.STATIC_DRAW;
+            _this.data = data;
+            _this.usage = usage;
             _this.setLoggingName('VertexBuffer');
             if (levelUp === 0) {
                 _this.synchUp();
@@ -7631,44 +7632,13 @@ define('davinci-eight/core/VertexBuffer',["require", "exports", "../checks/mustB
             mustBeUndefined_1.default(this.getLoggingName(), this.webGLBuffer);
             _super.prototype.destructor.call(this, levelUp + 1);
         };
-        Object.defineProperty(VertexBuffer.prototype, "data", {
-            get: function () {
-                return this._data;
-            },
-            set: function (data) {
-                this._data = data;
-                this.bufferData(this._data, this._usage);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(VertexBuffer.prototype, "usage", {
-            get: function () {
-                return this._usage;
-            },
-            set: function (usage) {
-                Usage_1.checkUsage('usage', usage);
-                this._usage = usage;
-                this.bufferData(this._data, this._usage);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        VertexBuffer.prototype.bufferData = function (data, usage) {
-            if (data) {
-                this._data = data;
-            }
-            if (usage) {
-                this._usage = usage;
-            }
+        VertexBuffer.prototype.upload = function () {
             var gl = this.gl;
             if (gl) {
                 if (this.webGLBuffer) {
-                    gl.bindBuffer(gl.ARRAY_BUFFER, this.webGLBuffer);
-                    if (this._data) {
-                        gl.bufferData(gl.ARRAY_BUFFER, this._data, this._usage);
+                    if (this.data) {
+                        gl.bufferData(gl.ARRAY_BUFFER, this.data, this.usage);
                     }
-                    gl.bindBuffer(gl.ARRAY_BUFFER, null);
                 }
             }
         };
@@ -7692,7 +7662,7 @@ define('davinci-eight/core/VertexBuffer',["require", "exports", "../checks/mustB
             var gl = this.gl;
             if (!this.webGLBuffer) {
                 this.webGLBuffer = gl.createBuffer();
-                this.bufferData(this._data, this._usage);
+                this.upload();
             }
             else {
             }
@@ -7724,7 +7694,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/GeometryArrays',["require", "exports", "./GeometryBase", "../checks/isNull", "../checks/isObject", "../checks/isUndefined", "../checks/mustBeObject", "./vertexArraysFromPrimitive", "./VertexBuffer"], function (require, exports, GeometryBase_1, isNull_1, isObject_1, isUndefined_1, mustBeObject_1, vertexArraysFromPrimitive_1, VertexBuffer_1) {
+define('davinci-eight/core/GeometryArrays',["require", "exports", "./GeometryBase", "../checks/mustBeObject", "./Usage", "./vertexArraysFromPrimitive", "./VertexBuffer"], function (require, exports, GeometryBase_1, mustBeObject_1, Usage_1, vertexArraysFromPrimitive_1, VertexBuffer_1) {
     "use strict";
     var GeometryArrays = (function (_super) {
         __extends(GeometryArrays, _super);
@@ -7737,20 +7707,12 @@ define('davinci-eight/core/GeometryArrays',["require", "exports", "./GeometryBas
             mustBeObject_1.default('primitive', primitive);
             _this.setLoggingName('GeometryArrays');
             _this.attributes = {};
-            _this.vbo = new VertexBuffer_1.default(contextManager);
-            var data = vertexArraysFromPrimitive_1.default(primitive, options.order);
-            if (!isNull_1.default(data) && !isUndefined_1.default(data)) {
-                if (isObject_1.default(data)) {
-                    _this._mode = data.mode;
-                    _this.vbo.data = new Float32Array(data.attributes);
-                    _this.count = data.attributes.length / (data.stride / 4);
-                    _this._stride = data.stride;
-                    _this._pointers = data.pointers;
-                }
-                else {
-                    throw new TypeError("data must be an object");
-                }
-            }
+            var vertexArrays = vertexArraysFromPrimitive_1.default(primitive, options.order);
+            _this._mode = vertexArrays.mode;
+            _this.vbo = new VertexBuffer_1.default(contextManager, new Float32Array(vertexArrays.attributes), Usage_1.default.STATIC_DRAW);
+            _this.count = vertexArrays.attributes.length / (vertexArrays.stride / 4);
+            _this._stride = vertexArrays.stride;
+            _this._pointers = vertexArrays.pointers;
             if (levelUp === 0) {
                 _this.synchUp();
             }
@@ -7812,14 +7774,15 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/IndexBuffer',["require", "exports", "../checks/mustBeUndefined", "./ShareableContextConsumer", "./Usage", "./Usage"], function (require, exports, mustBeUndefined_1, ShareableContextConsumer_1, Usage_1, Usage_2) {
+define('davinci-eight/core/IndexBuffer',["require", "exports", "../checks/mustBeUndefined", "./ShareableContextConsumer"], function (require, exports, mustBeUndefined_1, ShareableContextConsumer_1) {
     "use strict";
     var IndexBuffer = (function (_super) {
         __extends(IndexBuffer, _super);
-        function IndexBuffer(contextManager, levelUp) {
+        function IndexBuffer(contextManager, data, usage, levelUp) {
             if (levelUp === void 0) { levelUp = 0; }
             var _this = _super.call(this, contextManager) || this;
-            _this._usage = Usage_2.default.STATIC_DRAW;
+            _this.data = data;
+            _this.usage = usage;
             _this.setLoggingName('IndexBuffer');
             if (levelUp === 0) {
                 _this.synchUp();
@@ -7833,44 +7796,13 @@ define('davinci-eight/core/IndexBuffer',["require", "exports", "../checks/mustBe
             mustBeUndefined_1.default(this.getLoggingName(), this.webGLBuffer);
             _super.prototype.destructor.call(this, levelUp + 1);
         };
-        Object.defineProperty(IndexBuffer.prototype, "data", {
-            get: function () {
-                return this._data;
-            },
-            set: function (data) {
-                this._data = data;
-                this.bufferData(this._data, this.usage);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(IndexBuffer.prototype, "usage", {
-            get: function () {
-                return this._usage;
-            },
-            set: function (usage) {
-                Usage_1.checkUsage('usage', usage);
-                this._usage = usage;
-                this.bufferData(this._data, this._usage);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        IndexBuffer.prototype.bufferData = function (data, usage) {
-            if (data) {
-                this._data = data;
-            }
-            if (usage) {
-                this._usage = usage;
-            }
+        IndexBuffer.prototype.upload = function () {
             var gl = this.gl;
             if (gl) {
                 if (this.webGLBuffer) {
-                    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.webGLBuffer);
                     if (this.data) {
-                        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, this.data, this._usage);
+                        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, this.data, this.usage);
                     }
-                    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
                 }
             }
         };
@@ -7894,7 +7826,9 @@ define('davinci-eight/core/IndexBuffer',["require", "exports", "../checks/mustBe
             var gl = this.gl;
             if (!this.webGLBuffer) {
                 this.webGLBuffer = gl.createBuffer();
-                this.bufferData(this._data, this._usage);
+                this.bind();
+                this.upload();
+                this.unbind();
             }
             else {
             }
@@ -7926,7 +7860,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/GeometryElements',["require", "exports", "./DataType", "./GeometryBase", "./IndexBuffer", "../checks/isArray", "../checks/isNull", "../checks/isObject", "../checks/isUndefined", "../checks/mustBeArray", "../checks/mustBeObject", "./vertexArraysFromPrimitive", "./VertexBuffer"], function (require, exports, DataType_1, GeometryBase_1, IndexBuffer_1, isArray_1, isNull_1, isObject_1, isUndefined_1, mustBeArray_1, mustBeObject_1, vertexArraysFromPrimitive_1, VertexBuffer_1) {
+define('davinci-eight/core/GeometryElements',["require", "exports", "./DataType", "./GeometryBase", "./IndexBuffer", "../checks/isArray", "../checks/isNull", "../checks/isUndefined", "../checks/mustBeArray", "../checks/mustBeObject", "./vertexArraysFromPrimitive", "./VertexBuffer", "./Usage"], function (require, exports, DataType_1, GeometryBase_1, IndexBuffer_1, isArray_1, isNull_1, isUndefined_1, mustBeArray_1, mustBeObject_1, vertexArraysFromPrimitive_1, VertexBuffer_1, Usage_1) {
     "use strict";
     var GeometryElements = (function (_super) {
         __extends(GeometryElements, _super);
@@ -7938,35 +7872,24 @@ define('davinci-eight/core/GeometryElements',["require", "exports", "./DataType"
             mustBeObject_1.default('primitive', primitive);
             mustBeObject_1.default('contextManager', contextManager);
             _this.setLoggingName('GeometryElements');
-            _this.ibo = new IndexBuffer_1.default(contextManager);
-            _this.vbo = new VertexBuffer_1.default(contextManager);
-            var data = vertexArraysFromPrimitive_1.default(primitive, options.order);
-            if (!isNull_1.default(data) && !isUndefined_1.default(data)) {
-                if (isObject_1.default(data)) {
-                    _this._mode = data.mode;
-                    _this.setIndices(data.indices);
-                    _this._attributes = data.attributes;
-                    _this._stride = data.stride;
-                    if (!isNull_1.default(data.pointers) && !isUndefined_1.default(data.pointers)) {
-                        if (isArray_1.default(data.pointers)) {
-                            _this._pointers = data.pointers;
-                        }
-                        else {
-                            mustBeArray_1.default('data.pointers', data.pointers);
-                        }
-                    }
-                    else {
-                        _this._pointers = [];
-                    }
-                    _this.vbo.data = new Float32Array(data.attributes);
+            var vertexArrays = vertexArraysFromPrimitive_1.default(primitive, options.order);
+            _this._mode = vertexArrays.mode;
+            _this.count = vertexArrays.indices.length;
+            _this.ibo = new IndexBuffer_1.default(contextManager, new Uint16Array(vertexArrays.indices), Usage_1.default.STATIC_DRAW);
+            _this._attributes = vertexArrays.attributes;
+            _this._stride = vertexArrays.stride;
+            if (!isNull_1.default(vertexArrays.pointers) && !isUndefined_1.default(vertexArrays.pointers)) {
+                if (isArray_1.default(vertexArrays.pointers)) {
+                    _this._pointers = vertexArrays.pointers;
                 }
                 else {
-                    mustBeObject_1.default('data', data);
+                    mustBeArray_1.default('data.pointers', vertexArrays.pointers);
                 }
             }
             else {
                 _this._pointers = [];
             }
+            _this.vbo = new VertexBuffer_1.default(contextManager, new Float32Array(vertexArrays.attributes), Usage_1.default.STATIC_DRAW);
             if (levelUp === 0) {
                 _this.synchUp();
             }
@@ -7981,20 +7904,6 @@ define('davinci-eight/core/GeometryElements',["require", "exports", "./DataType"
             this.vbo.release();
             this.vbo = void 0;
             _super.prototype.destructor.call(this, levelUp + 1);
-        };
-        GeometryElements.prototype.setIndices = function (indices) {
-            if (!isNull_1.default(indices) && !isUndefined_1.default(indices)) {
-                if (isArray_1.default(indices)) {
-                    this._indices = indices;
-                    this.count = indices.length;
-                    this.ibo.data = new Uint16Array(indices);
-                }
-                else {
-                    mustBeArray_1.default('indices', indices);
-                }
-            }
-            else {
-            }
         };
         GeometryElements.prototype.contextFree = function () {
             this.ibo.contextFree();
@@ -9458,7 +9367,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/Engine',["require", "exports", "./checkEnums", "./ClearBufferMask", "../commands/EIGHTLogger", "./IndexBuffer", "./initWebGL", "../checks/isDefined", "../checks/mustBeObject", "../collections/ShareableArray", "./ShareableBase", "./Usage", "../commands/VersionLogger", "./VertexBuffer", "../commands/WebGLClearColor", "../commands/WebGLEnable", "../commands/WebGLDisable"], function (require, exports, checkEnums_1, ClearBufferMask_1, EIGHTLogger_1, IndexBuffer_1, initWebGL_1, isDefined_1, mustBeObject_1, ShareableArray_1, ShareableBase_1, Usage_1, VersionLogger_1, VertexBuffer_1, WebGLClearColor_1, WebGLEnable_1, WebGLDisable_1) {
+define('davinci-eight/core/Engine',["require", "exports", "./checkEnums", "./ClearBufferMask", "../commands/EIGHTLogger", "./initWebGL", "../checks/isDefined", "../checks/mustBeObject", "../collections/ShareableArray", "./ShareableBase", "../commands/VersionLogger", "../commands/WebGLClearColor", "../commands/WebGLEnable", "../commands/WebGLDisable"], function (require, exports, checkEnums_1, ClearBufferMask_1, EIGHTLogger_1, initWebGL_1, isDefined_1, mustBeObject_1, ShareableArray_1, ShareableBase_1, VersionLogger_1, WebGLClearColor_1, WebGLEnable_1, WebGLDisable_1) {
     "use strict";
     var Engine = (function (_super) {
         __extends(Engine, _super);
@@ -9511,22 +9420,6 @@ define('davinci-eight/core/Engine',["require", "exports", "./checkEnums", "./Cle
             else {
                 console.warn("user already exists for addContextListener");
             }
-        };
-        Engine.prototype.array = function (data, usage) {
-            if (usage === void 0) { usage = Usage_1.default.STATIC_DRAW; }
-            var vbo = new VertexBuffer_1.default(this);
-            if (data) {
-                vbo.bufferData(data, usage);
-            }
-            return vbo;
-        };
-        Engine.prototype.elements = function (data, usage) {
-            if (usage === void 0) { usage = Usage_1.default.STATIC_DRAW; }
-            var ibo = new IndexBuffer_1.default(this);
-            if (data) {
-                ibo.bufferData(data, usage);
-            }
-            return ibo;
         };
         Object.defineProperty(Engine.prototype, "canvas", {
             get: function () {
@@ -20034,11 +19927,13 @@ define('davinci-eight/visual/Track',["require", "exports", "../core/BeginMode", 
             this.dirty = true;
             this.refCount = 1;
             this.data = new Float32Array(this.N * FLOATS_PER_VERTEX);
-            this.vbo = new VertexBuffer_1.default(contextManager);
+            this.vbo = new VertexBuffer_1.default(contextManager, this.data, Usage_1.default.DYNAMIC_DRAW);
         }
         TrackGeometry.prototype.bind = function (material) {
             if (this.dirty) {
-                this.vbo.bufferData(this.data, Usage_1.default.DYNAMIC_DRAW);
+                this.vbo.bind();
+                this.vbo.upload();
+                this.vbo.unbind();
                 this.dirty = false;
             }
             this.vbo.bind();
