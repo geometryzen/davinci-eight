@@ -4745,18 +4745,31 @@ declare module EIGHT {
     }
     */
     ///////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * HTMLCanvasElement overlay for putting labels and lines on a 3D diagram.
+     */
     class Diagram3D {
+        ctx: CanvasRenderingContext2D;
         canvas: HTMLCanvasElement;
         constructor(canvas: string, camera: { eye: VectorE3; look: VectorE3; up: VectorE3; near: number, far: number, fov: number, aspect: number });
         beginPath(): void;
         clear(): void;
         closePath(): void;
         fill(fillRule?: string): void;
-        fillText(text: string, X: VectorE3): void;
+        /**
+         * Fills the text at the position specified.
+         */
+        fillText(text: string, X: VectorE3, maxWidth?: number): void;
         moveTo(X: VectorE3): void;
         lineTo(X: VectorE3): void;
         stroke(): void;
+        /**
+         * Strokes the text at the position specified.
+         */
+        strokeText(text: string, X: VectorE3, maxWidth?: number): void;
     }
+
     ///////////////////////////////////////////////////////////////////////////////
     /**
      * Universal cosine function.

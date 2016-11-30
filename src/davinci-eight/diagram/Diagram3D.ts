@@ -41,7 +41,11 @@ export default class Diagram3D {
     stroke(): void {
         this.ctx.stroke();
     }
-    private canvasCoords(X: VectorE3) {
+    strokeText(text: string, X: VectorE3, maxWidth?: number): void {
+        const coords = this.canvasCoords(X);
+        this.ctx.strokeText(text, coords.x, coords.y, maxWidth);
+    }
+    private canvasCoords(X: VectorE3): { x: number; y: number } {
         const camera = this.camera;
         const cameraCoords = view(X, camera.eye, camera.look, camera.up);
         const N = camera.near;
@@ -50,11 +54,10 @@ export default class Diagram3D {
         const aspect = camera.aspect;
         const canonCoords = perspective(cameraCoords, N, F, θ, aspect);
         const x = (canonCoords.x + 1) * this.ctx.canvas.width / 2;
-        const y = (canonCoords.y - 1) * -this.ctx.canvas.height / 2;
+        const y = (1 - canonCoords.y) * this.ctx.canvas.height / 2;
         return { x, y };
     }
 }
-
 
 /**
  * View transformation converts world coordinates to camera frame coordinates.
@@ -88,7 +91,7 @@ function perspective(X: VectorE3, N: number, F: number, fov: number, aspect: num
     const l = -r;
     // x simplifies because l = -r;
     const x = N * X.x / (X.z * l);
-    const y = ((2 * N) * X.y + (t + b) * X.z) / (-X.z * (t - b));
-    const z = (-(F + N) * X.z - 2 * F * N) / (-X.z * (F - N));
+    const y = ((2 * N) * X.y + (t + b) * X.z) / (X.z * (b - t));
+    const z = ((F + N) * X.z + 2 * F * N) / (X.z * (F - N));
     return { x, y, z };
 }

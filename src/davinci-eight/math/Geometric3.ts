@@ -1185,6 +1185,8 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * @param θ The rotation angle in radians when the rotor is applied on both sides as R * M * ~R
      */
     rotorFromGeneratorAngle(B: BivectorE3, θ: number) {
+        mustBeNonNullObject('B', B);
+        mustBeNumber('θ', θ);
         const φ = θ / 2;
         const yz = B.yz;
         const zx = B.zx;

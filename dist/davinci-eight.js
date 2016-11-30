@@ -553,7 +553,7 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-11-29';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '4.0.8';
+            this.VERSION = '4.0.9';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -2920,6 +2920,8 @@ define('davinci-eight/math/Geometric3',["require", "exports", "./Coords", "./arr
             return this.rotorFromTwoVectors(es[firstVector], fs[firstVector], es[secondVector], fs[secondVector]);
         };
         Geometric3.prototype.rotorFromGeneratorAngle = function (B, θ) {
+            mustBeNonNullObject_1.default('B', B);
+            mustBeNumber_1.default('θ', θ);
             var φ = θ / 2;
             var yz = B.yz;
             var zx = B.zx;
@@ -20432,6 +20434,10 @@ define('davinci-eight/diagram/Diagram3D',["require", "exports", "../math/dotVect
         Diagram3D.prototype.stroke = function () {
             this.ctx.stroke();
         };
+        Diagram3D.prototype.strokeText = function (text, X, maxWidth) {
+            var coords = this.canvasCoords(X);
+            this.ctx.strokeText(text, coords.x, coords.y, maxWidth);
+        };
         Diagram3D.prototype.canvasCoords = function (X) {
             var camera = this.camera;
             var cameraCoords = view(X, camera.eye, camera.look, camera.up);
@@ -20441,7 +20447,7 @@ define('davinci-eight/diagram/Diagram3D',["require", "exports", "../math/dotVect
             var aspect = camera.aspect;
             var canonCoords = perspective(cameraCoords, N, F, θ, aspect);
             var x = (canonCoords.x + 1) * this.ctx.canvas.width / 2;
-            var y = (canonCoords.y - 1) * -this.ctx.canvas.height / 2;
+            var y = (1 - canonCoords.y) * this.ctx.canvas.height / 2;
             return { x: x, y: y };
         };
         return Diagram3D;
@@ -20468,8 +20474,8 @@ define('davinci-eight/diagram/Diagram3D',["require", "exports", "../math/dotVect
         var r = aspect * t;
         var l = -r;
         var x = N * X.x / (X.z * l);
-        var y = ((2 * N) * X.y + (t + b) * X.z) / (-X.z * (t - b));
-        var z = (-(F + N) * X.z - 2 * F * N) / (-X.z * (F - N));
+        var y = ((2 * N) * X.y + (t + b) * X.z) / (X.z * (b - t));
+        var z = ((F + N) * X.z + 2 * F * N) / (X.z * (F - N));
         return { x: x, y: y, z: z };
     }
 });
