@@ -22004,6 +22004,14 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     this.z = iz * α + iα * a + ix * c - iy * b;
                     return this;
                 };
+                Geometric3.prototype.rotorFromAxisAngle = function (axis, θ) {
+                    mustBeNonNullObject_1.default('axis', axis);
+                    mustBeNumber_1.default('θ', θ);
+                    var yz = mustBeNumber_1.default('axis.x', axis.x);
+                    var zx = mustBeNumber_1.default('axis.y', axis.y);
+                    var xy = mustBeNumber_1.default('axis.z', axis.z);
+                    return this.rotorFromGeneratorAngle({ yz: yz, zx: zx, xy: xy }, θ);
+                };
                 Geometric3.prototype.rotorFromDirections = function (a, b) {
                     return this.rotorFromVectorToVector(a, b, void 0);
                 };
@@ -23183,7 +23191,7 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
                     this.LAST_MODIFIED = '2016-11-29';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '4.0.7';
+                    this.VERSION = '4.0.8';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];

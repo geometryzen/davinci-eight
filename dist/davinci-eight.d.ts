@@ -2190,6 +2190,14 @@ declare module EIGHT {
         rotate(R: SpinorE3): Geometric3;
 
         /**
+         * Sets this multivector to a rotor that rotates through angle θ around the specified axis.
+         *
+         * @param axis The (unit) vector defining the rotation direction.
+         * @param θ The rotation angle in radians when the rotor is applied on both sides as R * M * ~R
+         */
+        rotorFromAxisAngle(axis: VectorE3, θ: number): Geometric3;
+
+        /**
          * Sets this multivector to a rotor representing a rotation from a to b.
          * this = ⟼ R, where
          * R = (|b||a| + b * a) / sqrt(2 * |b||a|(|b||a| + b << a))
@@ -2199,17 +2207,23 @@ declare module EIGHT {
          */
         rotorFromDirections(a: VectorE3, b: VectorE3): Geometric3;
 
+        /**
+         * 
+         */
         rotorFromFrameToFrame(es: VectorE3[], fs: VectorE3[]): Geometric3;
 
         /**
          * Sets this multivector to a rotor represented by the plane B and angle θ.
          * this = ⟼ R = exp(- B * θ / 2)
          *
-         * B is the (unit) bivector generating the rotation, |B| * |B| = -1.
+         * B is the (unit) bivector generating the rotation, B * B = -1.
          * θ The rotation angle in radians.
          */
         rotorFromGeneratorAngle(B: BivectorE3, θ: number): Geometric3;
 
+        /**
+         * 
+         */
         rotorFromVectorToVector(a: VectorE3, b: VectorE3, B: BivectorE3): Geometric3;
 
         /**

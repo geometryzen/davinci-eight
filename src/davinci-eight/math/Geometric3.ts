@@ -1104,6 +1104,22 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
     }
 
     /**
+     * Sets this multivector to a rotor that rotates through angle θ around the specified axis.
+     *
+     * @param axis The (unit) vector defining the rotation direction.
+     * @param θ The rotation angle in radians when the rotor is applied on both sides as R * M * ~R
+     */
+    rotorFromAxisAngle(axis: VectorE3, θ: number) {
+        mustBeNonNullObject('axis', axis);
+        mustBeNumber('θ', θ);
+        // Compute the dual of the axis to obtain the corresponding bivector.
+        const yz = mustBeNumber('axis.x', axis.x);
+        const zx = mustBeNumber('axis.y', axis.y);
+        const xy = mustBeNumber('axis.z', axis.z);
+        return this.rotorFromGeneratorAngle({ yz, zx, xy }, θ);
+    }
+
+    /**
      * <p>
      * Computes a rotor, R, from two unit vectors, where
      * R = (1 + b * a) / sqrt(2 * (1 + b << a))
@@ -1161,9 +1177,9 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
     }
 
     /**
-     * <p>
-     * <code>this = ⟼ exp(- B * θ / 2) = cos(|B| * θ / 2) - B * sin(|B| * θ / 2) / |B|</code>
-     * </p>
+     * Sets this multivector to a rotor that rotates through angle θ in the oriented plane defined by B.
+     *
+     * this = ⟼ exp(- B * θ / 2) = cos(|B| * θ / 2) - B * sin(|B| * θ / 2) / |B|
      *
      * @param B The (unit) bivector generating the rotation.
      * @param θ The rotation angle in radians when the rotor is applied on both sides as R * M * ~R

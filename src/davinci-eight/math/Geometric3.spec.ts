@@ -1,6 +1,8 @@
 import { Geometric3 } from './Geometric3';
+import BivectorE3 from './BivectorE3';
 import Spinor3 from './Spinor3';
 import Vector3 from './Vector3';
+import VectorE3 from './VectorE3';
 
 const one = Geometric3.one();
 const e1 = Geometric3.vector(1, 0, 0);
@@ -208,10 +210,47 @@ describe("Geometric3", function () {
         });
     });
 
+    describe("rotorFromAxisAngle", function () {
+        describe("(e3, PI)", function () {
+            const axis: VectorE3 = e3;
+            const R = Geometric3.random();
+            R.rotorFromAxisAngle(axis, Math.PI);
+            R.approx(12);
+            it("should equal e2 ^ e1", function () {
+                expect(R.equals(e2.clone().ext(e1))).toBeTruthy();
+            });
+        });
+        describe("(e3, PI/2)", function () {
+            const axis: VectorE3 = e3;
+            const R = Geometric3.random();
+            R.rotorFromAxisAngle(axis, Math.PI / 2);
+            R.approx(12);
+            it("should equal (1-e1e2)/sqrt(2)", function () {
+                expect(R.a).toBeCloseTo(1 / Math.sqrt(2), 15);
+                expect(R.x).toBe(0);
+                expect(R.y).toBe(0);
+                expect(R.z).toBe(0);
+                expect(R.yz).toBe(0);
+                expect(R.zx).toBe(0);
+                expect(R.xy).toBeCloseTo(-1 / Math.sqrt(2), 17);
+                expect(R.b).toBe(0);
+            });
+        });
+        describe("(2 * e3, PI/2)", function () {
+            const axis: VectorE3 = e3.clone().scale(2);
+            const R = Geometric3.random();
+            R.rotorFromAxisAngle(axis, Math.PI / 2);
+            R.approx(12);
+            it("should equal e2 ^ e1", function () {
+                expect(R.equals(e2.clone().ext(e1))).toBeTruthy();
+            });
+        });
+    });
+
     describe("rotorFromGeneratorAngle", function () {
         describe("(e1 ^ e2, PI)", function () {
-            const B = e1.clone().ext(e2);
-            const R = Geometric3.one().addVector(e1).addVector(e2).addVector(e3).addPseudo(1).add(B);
+            const B: BivectorE3 = e1.clone().ext(e2);
+            const R = Geometric3.random();
             R.rotorFromGeneratorAngle(B, Math.PI);
             R.approx(12);
             it("should equal e2 ^ e1", function () {
