@@ -2977,7 +2977,7 @@ declare module EIGHT {
     /**
      * A collection of Renderable objects providing a convenient way to render multiple objects to the WebGL pipeline.
      */
-    class Scene extends ShareableContextConsumer {
+    class Scene extends ShareableContextConsumer implements Renderable {
         /**
          * Constructs a Scene instance.
          * contextManager: Usually an instance of Engine.
@@ -2987,18 +2987,13 @@ declare module EIGHT {
          * Adds the specified drawable object to this Scene.
          */
         add(drawable: Renderable): void;
-        contains(drawable: Renderable);
+        contains(drawable: Renderable): boolean;
         contextFree(): void;
         contextGain(): void;
         contextLost(): void;
-        protected destructor(): void;
+        protected destructor(levelUp: number): void;
         /**
-         * Traverses the collection of AbstractDrawable objects, calling render(ambients) on each one.
-         * The rendering takes place in two stages.
-         * In the first stage, non-transparent objects are drawn.
-         * In the second state, transparent objects are drawn.
-         *
-         * ambients: Provide GLSL uniform values all Materials. 
+         * @deprecated. Please use the render method instead.
          */
         draw(ambients: Facet[]): void;
         find(match: (drawable: Renderable) => boolean): ShareableArray<Renderable>;
@@ -3009,6 +3004,15 @@ declare module EIGHT {
          * Removes the specified drawable from this Scene.
          */
         remove(drawable: Renderable): void;
+        /**
+         * Traverses the collection of AbstractDrawable objects, calling render(ambients) on each one.
+         * The rendering takes place in two stages.
+         * In the first stage, non-transparent objects are drawn.
+         * In the second state, transparent objects are drawn.
+         *
+         * ambients: Provide GLSL uniform values all Materials. 
+         */
+        render(ambients: Facet[]): void;
     }
 
     /**
@@ -4481,7 +4485,7 @@ declare module EIGHT {
     /**
      * A utiliy for capturing the position and attitude history of a Mesh for visualization.
      */
-    class Trail extends ShareableBase {
+    class Trail extends ShareableBase implements Renderable {
         /**
          *
          */
@@ -4492,13 +4496,17 @@ declare module EIGHT {
         constructor(mesh: Mesh<Geometry, Material>);
         protected destructor(levelUp: number): void;
         /**
-         * Draws the mesh in its historical positions and attitudes.
+         * @deprecated. Use the render method instead.
          */
         draw(ambients: Facet[]): void;
         /**
          * Erases the trail history.
          */
         erase(): void;
+        /**
+         * Renders the mesh in its historical positions and attitudes.
+         */
+        render(ambients: Facet[]): void;
         /**
          * Records the graphics model variables.
          */

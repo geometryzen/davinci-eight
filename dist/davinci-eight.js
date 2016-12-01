@@ -551,9 +551,9 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
     var Eight = (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-11-29';
+            this.LAST_MODIFIED = '2016-11-30';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '4.0.9';
+            this.VERSION = '4.0.10';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -8840,7 +8840,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/Scene',["require", "exports", "../checks/mustBeObject", "../collections/ShareableArray", "../core/ShareableContextConsumer"], function (require, exports, mustBeObject_1, ShareableArray_1, ShareableContextConsumer_1) {
+define('davinci-eight/core/Scene',["require", "exports", "../checks/mustBeNonNullObject", "../collections/ShareableArray", "../core/ShareableContextConsumer"], function (require, exports, mustBeNonNullObject_1, ShareableArray_1, ShareableContextConsumer_1) {
     "use strict";
     var Scene = (function (_super) {
         __extends(Scene, _super);
@@ -8848,7 +8848,7 @@ define('davinci-eight/core/Scene',["require", "exports", "../checks/mustBeObject
             if (levelUp === void 0) { levelUp = 0; }
             var _this = _super.call(this, contextManager) || this;
             _this.setLoggingName('Scene');
-            mustBeObject_1.default('contextManager', contextManager);
+            mustBeNonNullObject_1.default('contextManager', contextManager);
             _this._drawables = new ShareableArray_1.default([]);
             if (levelUp === 0) {
                 _this.synchUp();
@@ -8864,14 +8864,18 @@ define('davinci-eight/core/Scene',["require", "exports", "../checks/mustBeObject
             _super.prototype.destructor.call(this, levelUp + 1);
         };
         Scene.prototype.add = function (drawable) {
-            mustBeObject_1.default('drawable', drawable);
+            mustBeNonNullObject_1.default('drawable', drawable);
             this._drawables.push(drawable);
         };
         Scene.prototype.contains = function (drawable) {
-            mustBeObject_1.default('drawable', drawable);
+            mustBeNonNullObject_1.default('drawable', drawable);
             return this._drawables.indexOf(drawable) >= 0;
         };
         Scene.prototype.draw = function (ambients) {
+            console.warn("Scene.draw is deprecated. Please use the Scene.render method instead.");
+            this.render(ambients);
+        };
+        Scene.prototype.render = function (ambients) {
             var gl = this.gl;
             if (gl) {
                 var ds = this._drawables;
@@ -8932,7 +8936,7 @@ define('davinci-eight/core/Scene',["require", "exports", "../checks/mustBeObject
             return this.find(function (drawable) { return drawable.name === name; });
         };
         Scene.prototype.remove = function (drawable) {
-            mustBeObject_1.default('drawable', drawable);
+            mustBeNonNullObject_1.default('drawable', drawable);
             var index = this._drawables.indexOf(drawable);
             if (index >= 0) {
                 this._drawables.splice(index, 1).release();
@@ -20150,7 +20154,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/visual/Trail',["require", "exports", "../math/Modulo", "../math/Spinor3", "../math/Vector3", "../checks/mustBeObject", "../core/ShareableBase", "./TrailConfig"], function (require, exports, Modulo_1, Spinor3_1, Vector3_1, mustBeObject_1, ShareableBase_1, TrailConfig_1) {
+define('davinci-eight/visual/Trail',["require", "exports", "../math/Modulo", "../math/Spinor3", "../math/Vector3", "../checks/mustBeNonNullObject", "../core/ShareableBase", "./TrailConfig"], function (require, exports, Modulo_1, Spinor3_1, Vector3_1, mustBeNonNullObject_1, ShareableBase_1, TrailConfig_1) {
     "use strict";
     var savedX = Vector3_1.default.zero();
     var savedR = Spinor3_1.default.zero();
@@ -20164,7 +20168,7 @@ define('davinci-eight/visual/Trail',["require", "exports", "../math/Modulo", "..
             _this.counter = 0;
             _this.modulo = new Modulo_1.default();
             _this.setLoggingName('Trail');
-            mustBeObject_1.default('mesh', mesh);
+            mustBeNonNullObject_1.default('mesh', mesh);
             mesh.addRef();
             _this.mesh = mesh;
             return _this;
@@ -20174,32 +20178,15 @@ define('davinci-eight/visual/Trail',["require", "exports", "../math/Modulo", "..
             this.mesh = void 0;
             _super.prototype.destructor.call(this, levelUp + 1);
         };
+        Trail.prototype.draw = function (ambients) {
+            console.warn("Trail.draw is deprecated. Please use the Trail.render method instead.");
+            this.render(ambients);
+        };
         Trail.prototype.erase = function () {
             this.Xs = [];
             this.Rs = [];
         };
-        Trail.prototype.snapshot = function () {
-            if (this.config.enabled) {
-                if (this.modulo.size !== this.config.retain) {
-                    this.modulo.size = this.config.retain;
-                    this.modulo.value = 0;
-                }
-                if (this.counter % this.config.interval === 0) {
-                    var index = this.modulo.value;
-                    if (this.Xs[index]) {
-                        this.Xs[index].copy(this.mesh.X);
-                        this.Rs[index].copy(this.mesh.R);
-                    }
-                    else {
-                        this.Xs[index] = Vector3_1.default.copy(this.mesh.X);
-                        this.Rs[index] = Spinor3_1.default.copy(this.mesh.R);
-                    }
-                    this.modulo.inc();
-                }
-                this.counter++;
-            }
-        };
-        Trail.prototype.draw = function (ambients) {
+        Trail.prototype.render = function (ambients) {
             if (this.config.enabled) {
                 var mesh = this.mesh;
                 var X = mesh.X;
@@ -20233,6 +20220,27 @@ define('davinci-eight/visual/Trail',["require", "exports", "../math/Modulo", "..
                 material.release();
                 X.copyVector(savedX);
                 R.copySpinor(savedR);
+            }
+        };
+        Trail.prototype.snapshot = function () {
+            if (this.config.enabled) {
+                if (this.modulo.size !== this.config.retain) {
+                    this.modulo.size = this.config.retain;
+                    this.modulo.value = 0;
+                }
+                if (this.counter % this.config.interval === 0) {
+                    var index = this.modulo.value;
+                    if (this.Xs[index]) {
+                        this.Xs[index].copy(this.mesh.X);
+                        this.Rs[index].copy(this.mesh.R);
+                    }
+                    else {
+                        this.Xs[index] = Vector3_1.default.copy(this.mesh.X);
+                        this.Rs[index] = Spinor3_1.default.copy(this.mesh.R);
+                    }
+                    this.modulo.inc();
+                }
+                this.counter++;
             }
         };
         return Trail;

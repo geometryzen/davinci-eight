@@ -1,6 +1,6 @@
 import { Facet } from '../core/Facet';
 import ContextManager from '../core/ContextManager';
-import mustBeObject from '../checks/mustBeObject';
+import mustBeNonNullObject from '../checks/mustBeNonNullObject';
 import { Renderable } from '../core/Renderable';
 import ShareableArray from '../collections/ShareableArray';
 import { ShareableContextConsumer } from '../core/ShareableContextConsumer';
@@ -8,14 +8,14 @@ import { ShareableContextConsumer } from '../core/ShareableContextConsumer';
 /**
  * A collection of Renderable objects.
  */
-export class Scene extends ShareableContextConsumer {
+export class Scene extends ShareableContextConsumer implements Renderable {
 
     private _drawables: ShareableArray<Renderable>;
 
     constructor(contextManager: ContextManager, levelUp = 0) {
         super(contextManager);
         this.setLoggingName('Scene');
-        mustBeObject('contextManager', contextManager);
+        mustBeNonNullObject('contextManager', contextManager);
         this._drawables = new ShareableArray<Renderable>([]);
         if (levelUp === 0) {
             this.synchUp();
@@ -32,13 +32,21 @@ export class Scene extends ShareableContextConsumer {
     }
 
     add(drawable: Renderable): void {
-        mustBeObject('drawable', drawable);
+        mustBeNonNullObject('drawable', drawable);
         this._drawables.push(drawable);
     }
 
     contains(drawable: Renderable): boolean {
-        mustBeObject('drawable', drawable);
+        mustBeNonNullObject('drawable', drawable);
         return this._drawables.indexOf(drawable) >= 0;
+    }
+
+    /**
+     * @deprecated. Use the render method instead.
+     */
+    draw(ambients: Facet[]): void {
+        console.warn("Scene.draw is deprecated. Please use the Scene.render method instead.");
+        this.render(ambients);
     }
 
     /**
@@ -47,7 +55,7 @@ export class Scene extends ShareableContextConsumer {
      * In the first stage, non-transparent objects are drawn.
      * In the second state, transparent objects are drawn.
      */
-    draw(ambients: Facet[]): void {
+    render(ambients: Facet[]): void {
         const gl = this.gl;
         if (gl) {
             const ds = this._drawables;
@@ -115,15 +123,15 @@ export class Scene extends ShareableContextConsumer {
     }
 
     findOneByName(name: string): Renderable {
-        return this.findOne(function (drawable) { return drawable.name === name; });
+        return this.findOne(function(drawable) { return drawable.name === name; });
     }
 
     findByName(name: string): ShareableArray<Renderable> {
-        return this.find(function (drawable) { return drawable.name === name; });
+        return this.find(function(drawable) { return drawable.name === name; });
     }
 
     remove(drawable: Renderable): void {
-        mustBeObject('drawable', drawable);
+        mustBeNonNullObject('drawable', drawable);
         const index = this._drawables.indexOf(drawable);
         if (index >= 0) {
             this._drawables.splice(index, 1).release();

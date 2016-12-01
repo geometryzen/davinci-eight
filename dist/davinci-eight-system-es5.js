@@ -575,7 +575,7 @@ System.register("davinci-eight/controls/TrackballControls.js", ["../math/Spinor3
         }
     };
 });
-System.register("davinci-eight/core/Scene.js", ["../checks/mustBeObject", "../collections/ShareableArray", "../core/ShareableContextConsumer"], function (exports_1, context_1) {
+System.register("davinci-eight/core/Scene.js", ["../checks/mustBeNonNullObject", "../collections/ShareableArray", "../core/ShareableContextConsumer"], function (exports_1, context_1) {
     "use strict";
 
     var __extends = this && this.__extends || function (d, b) {
@@ -586,10 +586,10 @@ System.register("davinci-eight/core/Scene.js", ["../checks/mustBeObject", "../co
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
     var __moduleName = context_1 && context_1.id;
-    var mustBeObject_1, ShareableArray_1, ShareableContextConsumer_1, Scene;
+    var mustBeNonNullObject_1, ShareableArray_1, ShareableContextConsumer_1, Scene;
     return {
-        setters: [function (mustBeObject_1_1) {
-            mustBeObject_1 = mustBeObject_1_1;
+        setters: [function (mustBeNonNullObject_1_1) {
+            mustBeNonNullObject_1 = mustBeNonNullObject_1_1;
         }, function (ShareableArray_1_1) {
             ShareableArray_1 = ShareableArray_1_1;
         }, function (ShareableContextConsumer_1_1) {
@@ -604,7 +604,7 @@ System.register("davinci-eight/core/Scene.js", ["../checks/mustBeObject", "../co
                     }
                     var _this = _super.call(this, contextManager) || this;
                     _this.setLoggingName('Scene');
-                    mustBeObject_1.default('contextManager', contextManager);
+                    mustBeNonNullObject_1.default('contextManager', contextManager);
                     _this._drawables = new ShareableArray_1.default([]);
                     if (levelUp === 0) {
                         _this.synchUp();
@@ -620,14 +620,18 @@ System.register("davinci-eight/core/Scene.js", ["../checks/mustBeObject", "../co
                     _super.prototype.destructor.call(this, levelUp + 1);
                 };
                 Scene.prototype.add = function (drawable) {
-                    mustBeObject_1.default('drawable', drawable);
+                    mustBeNonNullObject_1.default('drawable', drawable);
                     this._drawables.push(drawable);
                 };
                 Scene.prototype.contains = function (drawable) {
-                    mustBeObject_1.default('drawable', drawable);
+                    mustBeNonNullObject_1.default('drawable', drawable);
                     return this._drawables.indexOf(drawable) >= 0;
                 };
                 Scene.prototype.draw = function (ambients) {
+                    console.warn("Scene.draw is deprecated. Please use the Scene.render method instead.");
+                    this.render(ambients);
+                };
+                Scene.prototype.render = function (ambients) {
                     var gl = this.gl;
                     if (gl) {
                         var ds = this._drawables;
@@ -690,7 +694,7 @@ System.register("davinci-eight/core/Scene.js", ["../checks/mustBeObject", "../co
                     });
                 };
                 Scene.prototype.remove = function (drawable) {
-                    mustBeObject_1.default('drawable', drawable);
+                    mustBeNonNullObject_1.default('drawable', drawable);
                     var index = this._drawables.indexOf(drawable);
                     if (index >= 0) {
                         this._drawables.splice(index, 1).release();
@@ -13311,7 +13315,7 @@ System.register("davinci-eight/visual/TrailConfig.js", [], function (exports_1, 
         }
     };
 });
-System.register("davinci-eight/visual/Trail.js", ["../math/Modulo", "../math/Spinor3", "../math/Vector3", "../checks/mustBeObject", "../core/ShareableBase", "./TrailConfig"], function (exports_1, context_1) {
+System.register("davinci-eight/visual/Trail.js", ["../math/Modulo", "../math/Spinor3", "../math/Vector3", "../checks/mustBeNonNullObject", "../core/ShareableBase", "./TrailConfig"], function (exports_1, context_1) {
     "use strict";
 
     var __extends = this && this.__extends || function (d, b) {
@@ -13322,7 +13326,7 @@ System.register("davinci-eight/visual/Trail.js", ["../math/Modulo", "../math/Spi
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
     var __moduleName = context_1 && context_1.id;
-    var Modulo_1, Spinor3_1, Vector3_1, mustBeObject_1, ShareableBase_1, TrailConfig_1, savedX, savedR, Trail;
+    var Modulo_1, Spinor3_1, Vector3_1, mustBeNonNullObject_1, ShareableBase_1, TrailConfig_1, savedX, savedR, Trail;
     return {
         setters: [function (Modulo_1_1) {
             Modulo_1 = Modulo_1_1;
@@ -13330,8 +13334,8 @@ System.register("davinci-eight/visual/Trail.js", ["../math/Modulo", "../math/Spi
             Spinor3_1 = Spinor3_1_1;
         }, function (Vector3_1_1) {
             Vector3_1 = Vector3_1_1;
-        }, function (mustBeObject_1_1) {
-            mustBeObject_1 = mustBeObject_1_1;
+        }, function (mustBeNonNullObject_1_1) {
+            mustBeNonNullObject_1 = mustBeNonNullObject_1_1;
         }, function (ShareableBase_1_1) {
             ShareableBase_1 = ShareableBase_1_1;
         }, function (TrailConfig_1_1) {
@@ -13350,7 +13354,7 @@ System.register("davinci-eight/visual/Trail.js", ["../math/Modulo", "../math/Spi
                     _this.counter = 0;
                     _this.modulo = new Modulo_1.default();
                     _this.setLoggingName('Trail');
-                    mustBeObject_1.default('mesh', mesh);
+                    mustBeNonNullObject_1.default('mesh', mesh);
                     mesh.addRef();
                     _this.mesh = mesh;
                     return _this;
@@ -13360,31 +13364,15 @@ System.register("davinci-eight/visual/Trail.js", ["../math/Modulo", "../math/Spi
                     this.mesh = void 0;
                     _super.prototype.destructor.call(this, levelUp + 1);
                 };
+                Trail.prototype.draw = function (ambients) {
+                    console.warn("Trail.draw is deprecated. Please use the Trail.render method instead.");
+                    this.render(ambients);
+                };
                 Trail.prototype.erase = function () {
                     this.Xs = [];
                     this.Rs = [];
                 };
-                Trail.prototype.snapshot = function () {
-                    if (this.config.enabled) {
-                        if (this.modulo.size !== this.config.retain) {
-                            this.modulo.size = this.config.retain;
-                            this.modulo.value = 0;
-                        }
-                        if (this.counter % this.config.interval === 0) {
-                            var index = this.modulo.value;
-                            if (this.Xs[index]) {
-                                this.Xs[index].copy(this.mesh.X);
-                                this.Rs[index].copy(this.mesh.R);
-                            } else {
-                                this.Xs[index] = Vector3_1.default.copy(this.mesh.X);
-                                this.Rs[index] = Spinor3_1.default.copy(this.mesh.R);
-                            }
-                            this.modulo.inc();
-                        }
-                        this.counter++;
-                    }
-                };
-                Trail.prototype.draw = function (ambients) {
+                Trail.prototype.render = function (ambients) {
                     if (this.config.enabled) {
                         var mesh = this.mesh;
                         var X = mesh.X;
@@ -13418,6 +13406,26 @@ System.register("davinci-eight/visual/Trail.js", ["../math/Modulo", "../math/Spi
                         material.release();
                         X.copyVector(savedX);
                         R.copySpinor(savedR);
+                    }
+                };
+                Trail.prototype.snapshot = function () {
+                    if (this.config.enabled) {
+                        if (this.modulo.size !== this.config.retain) {
+                            this.modulo.size = this.config.retain;
+                            this.modulo.value = 0;
+                        }
+                        if (this.counter % this.config.interval === 0) {
+                            var index = this.modulo.value;
+                            if (this.Xs[index]) {
+                                this.Xs[index].copy(this.mesh.X);
+                                this.Rs[index].copy(this.mesh.R);
+                            } else {
+                                this.Xs[index] = Vector3_1.default.copy(this.mesh.X);
+                                this.Rs[index] = Spinor3_1.default.copy(this.mesh.R);
+                            }
+                            this.modulo.inc();
+                        }
+                        this.counter++;
                     }
                 };
                 return Trail;
@@ -23195,9 +23203,9 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
             Eight = function () {
                 function Eight() {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-                    this.LAST_MODIFIED = '2016-11-29';
+                    this.LAST_MODIFIED = '2016-11-30';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '4.0.9';
+                    this.VERSION = '4.0.10';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];

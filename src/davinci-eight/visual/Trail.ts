@@ -5,7 +5,8 @@ import Modulo from '../math/Modulo';
 import Spinor3 from '../math/Spinor3';
 import Vector3 from '../math/Vector3';
 import { Mesh } from '../core/Mesh';
-import mustBeObject from '../checks/mustBeObject';
+import mustBeNonNullObject from '../checks/mustBeNonNullObject';
+import { Renderable } from '../core/Renderable';
 import { ShareableBase } from '../core/ShareableBase';
 import { TrailConfig } from './TrailConfig';
 
@@ -52,7 +53,7 @@ const savedR: Spinor3 = Spinor3.zero();
  *     // Release the trail when no longer required, usually in the window.onunload function.
  *     trail.release()
  */
-export class Trail extends ShareableBase {
+export class Trail extends ShareableBase implements Renderable {
 
     /**
      * The underlying Mesh.
@@ -74,31 +75,36 @@ export class Trail extends ShareableBase {
      */
     public config: TrailConfig = new TrailConfig();
 
-    /**
-     *
-     */
     private counter = 0;
 
     private modulo = new Modulo();
 
     /**
-     * @param mesh
+     * Constructs a trail for the specified mesh.
      */
     constructor(mesh: Mesh<Geometry, Material>) {
         super();
         this.setLoggingName('Trail');
-        mustBeObject('mesh', mesh);
+        mustBeNonNullObject('mesh', mesh);
         mesh.addRef();
         this.mesh = mesh;
     }
 
     /**
-     * @param levelUp
+     *
      */
     protected destructor(levelUp: number): void {
         this.mesh.release();
         this.mesh = void 0;
         super.destructor(levelUp + 1);
+    }
+
+    /**
+     * @deprecated. Use the render method instead.
+     */
+    draw(ambients: Facet[]): void {
+        console.warn("Trail.draw is deprecated. Please use the Trail.render method instead.");
+        this.render(ambients);
     }
 
     /**
@@ -110,37 +116,9 @@ export class Trail extends ShareableBase {
     }
 
     /**
-     * Records the Mesh variables according to the interval property.
+     * Renders the mesh in its historical positions and attitudes.
      */
-    snapshot(): void {
-        if (this.config.enabled) {
-            if (this.modulo.size !== this.config.retain) {
-                this.modulo.size = this.config.retain;
-                this.modulo.value = 0;
-            }
-
-            if (this.counter % this.config.interval === 0) {
-                const index = this.modulo.value;
-                if (this.Xs[index]) {
-                    // When populating an occupied slot, don't create new objects.
-                    this.Xs[index].copy(this.mesh.X);
-                    this.Rs[index].copy(this.mesh.R);
-                }
-                else {
-                    // When populating an empty slot, allocate a new object and make a copy.
-                    this.Xs[index] = Vector3.copy(this.mesh.X);
-                    this.Rs[index] = Spinor3.copy(this.mesh.R);
-                }
-                this.modulo.inc();
-            }
-            this.counter++;
-        }
-    }
-
-    /**
-     * @param ambients
-     */
-    draw(ambients: Facet[]): void {
+    render(ambients: Facet[]): void {
         if (this.config.enabled) {
             // Save the mesh position and attitude so that we can restore them later.
             const mesh = this.mesh;
@@ -179,6 +157,34 @@ export class Trail extends ShareableBase {
             // Restore the mesh position and attitude.
             X.copyVector(savedX);
             R.copySpinor(savedR);
+        }
+    }
+
+    /**
+     * Records the Mesh variables according to the interval property.
+     */
+    snapshot(): void {
+        if (this.config.enabled) {
+            if (this.modulo.size !== this.config.retain) {
+                this.modulo.size = this.config.retain;
+                this.modulo.value = 0;
+            }
+
+            if (this.counter % this.config.interval === 0) {
+                const index = this.modulo.value;
+                if (this.Xs[index]) {
+                    // When populating an occupied slot, don't create new objects.
+                    this.Xs[index].copy(this.mesh.X);
+                    this.Rs[index].copy(this.mesh.R);
+                }
+                else {
+                    // When populating an empty slot, allocate a new object and make a copy.
+                    this.Xs[index] = Vector3.copy(this.mesh.X);
+                    this.Rs[index] = Spinor3.copy(this.mesh.R);
+                }
+                this.modulo.inc();
+            }
+            this.counter++;
         }
     }
 }
