@@ -1,16 +1,13 @@
-import GeometryBuilder from './GeometryBuilder';
 import Primitive from '../core/Primitive';
 import Spinor3 from '../math/Spinor3';
 import Vector3 from '../math/Vector3';
 import Vertex from '../atoms/Vertex';
-import VertexArrays from '../core/VertexArrays';
-import vertexArraysFromPrimitive from '../core/vertexArraysFromPrimitive';
 import Transform from '../atoms/Transform';
 
 /**
- * A GeometryBuilder that takes building Primitive arrays as primary.
+ * A framework, as a base class, for building primitives by applying transformations to vertices.
  */
-export default class PrimitivesBuilder implements GeometryBuilder {
+export default class PrimitivesBuilder {
 
     /**
      * The scaling to apply to the geometry in the initial configuration.
@@ -55,6 +52,9 @@ export default class PrimitivesBuilder implements GeometryBuilder {
         // Do nothing.
     }
 
+    /**
+     * Applies the transforms defined in this class to the vertex specified.
+     */
     public applyTransforms(vertex: Vertex, i: number, j: number, iLength: number, jLength: number): void {
         const tLen = this.transforms.length;
         for (let t = 0; t < tLen; t++) {
@@ -62,16 +62,9 @@ export default class PrimitivesBuilder implements GeometryBuilder {
         }
     }
 
-    toVertexArrays(): VertexArrays[] {
-        const arrays: VertexArrays[] = [];
-        const ps = this.toPrimitives();
-        const iLen = ps.length;
-        for (let i = 0; i < iLen; i++) {
-            arrays.push(vertexArraysFromPrimitive(ps[i]));
-        }
-        return arrays;
-    }
-
+    /**
+     * Derived classes must implement.
+     */
     toPrimitives(): Primitive[] {
         console.warn("toPrimitives() must be implemented by derived classes.");
         return [];

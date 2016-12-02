@@ -23,27 +23,27 @@ function stringifyVertex(vertex: Vertex): string {
 }
 
 /**
- *
+ * The data for a vertex in a normalized and uncompressed format that is easy to manipulate.
  */
 export default class Vertex {
 
     /**
-     *
+     * The attribute data for this vertex.
      */
     public attributes: VertexAttributeMap = {};
 
     /**
-     * The abstract cordinates that label the vertex.
+     * The abstract coordinates that label the vertex.
      */
     public coords: Coords;
 
     /**
-     *
+     * The index of the vertex.
      */
     public index: number;
 
     /**
-     *
+     * @param numCoordinates The number of coordinates (dimensionality).
      */
     constructor(numCoordinates: number) {
         mustBeInteger('numCoordinates', numCoordinates);
@@ -56,7 +56,7 @@ export default class Vertex {
     }
 
     /**
-     * 
+     * @returns A string representation of this vertex.
      */
     toString(): string {
         return stringifyVertex(this);

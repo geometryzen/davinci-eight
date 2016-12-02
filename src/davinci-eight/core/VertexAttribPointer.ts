@@ -3,7 +3,7 @@ import DataType from './DataType';
 /**
  *
  */
-interface VertexAttribPointer {
+export interface VertexAttribPointer {
 
     /**
      *

@@ -99,8 +99,7 @@ export default class GeometryPrimitive {
     }
 
     /**
-     * @method toPrimitive
-     * @return {Primitive}
+     * @returns
      */
     public toPrimitive(): Primitive {
         // Derived classes are responsible for allocating the elements array.
@@ -110,9 +109,8 @@ export default class GeometryPrimitive {
     }
 
     /**
-     * @method toVertexArrays
-     * @param [names] {string[]} Optional. Allows the attributes to be filtered and ordered.
-     * @return {VertexArrays}
+     * @param names Allows the attributes to be filtered and ordered.
+     * @returns
      */
     public toVertexArrays(names?: string[]): VertexArrays {
         return vertexArraysFromPrimitive(this.toPrimitive(), names);

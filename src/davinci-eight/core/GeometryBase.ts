@@ -29,13 +29,10 @@ export default class GeometryBase extends ShareableContextConsumer implements Ge
     protected _mode: BeginMode;
 
     /**
-     * <p>
-     * The number of <em>bytes</em> for each element.
-     * </p>
-     * <p>
+     * The number of bytes for each element.
+     *
      * This is used in the vertexAttribPointer method.
      * Normally, we will use gl.FLOAT for each number which takes 4 bytes.
-     * </p>
      */
     protected _stride: number;
 

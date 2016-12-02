@@ -9475,18 +9475,16 @@ System.register("davinci-eight/core/GeometryElements.js", ["./DataType", "./Geom
         }
     };
 });
-System.register("davinci-eight/geometries/PrimitivesBuilder.js", ["../math/Spinor3", "../math/Vector3", "../core/vertexArraysFromPrimitive"], function (exports_1, context_1) {
+System.register("davinci-eight/geometries/PrimitivesBuilder.js", ["../math/Spinor3", "../math/Vector3"], function (exports_1, context_1) {
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
-    var Spinor3_1, Vector3_1, vertexArraysFromPrimitive_1, PrimitivesBuilder;
+    var Spinor3_1, Vector3_1, PrimitivesBuilder;
     return {
         setters: [function (Spinor3_1_1) {
             Spinor3_1 = Spinor3_1_1;
         }, function (Vector3_1_1) {
             Vector3_1 = Vector3_1_1;
-        }, function (vertexArraysFromPrimitive_1_1) {
-            vertexArraysFromPrimitive_1 = vertexArraysFromPrimitive_1_1;
         }],
         execute: function () {
             PrimitivesBuilder = function () {
@@ -9504,15 +9502,6 @@ System.register("davinci-eight/geometries/PrimitivesBuilder.js", ["../math/Spino
                     for (var t = 0; t < tLen; t++) {
                         this.transforms[t].exec(vertex, i, j, iLength, jLength);
                     }
-                };
-                PrimitivesBuilder.prototype.toVertexArrays = function () {
-                    var arrays = [];
-                    var ps = this.toPrimitives();
-                    var iLen = ps.length;
-                    for (var i = 0; i < iLen; i++) {
-                        arrays.push(vertexArraysFromPrimitive_1.default(ps[i]));
-                    }
-                    return arrays;
                 };
                 PrimitivesBuilder.prototype.toPrimitives = function () {
                     console.warn("toPrimitives() must be implemented by derived classes.");
@@ -23035,56 +23024,6 @@ System.register("davinci-eight/checks/isUndefined.js", [], function (exports_1, 
         execute: function () {}
     };
 });
-System.register("davinci-eight/checks/isNull.js", [], function (exports_1, context_1) {
-    "use strict";
-
-    var __moduleName = context_1 && context_1.id;
-    function default_1(x) {
-        return x === null;
-    }
-    exports_1("default", default_1);
-    return {
-        setters: [],
-        execute: function () {}
-    };
-});
-System.register("davinci-eight/checks/isObject.js", [], function (exports_1, context_1) {
-    "use strict";
-
-    var __moduleName = context_1 && context_1.id;
-    function isObject(x) {
-        return typeof x === 'object';
-    }
-    exports_1("default", isObject);
-    return {
-        setters: [],
-        execute: function () {}
-    };
-});
-System.register("davinci-eight/checks/mustBeNonNullObject.js", ["../checks/mustSatisfy", "../checks/isNull", "../checks/isObject"], function (exports_1, context_1) {
-    "use strict";
-
-    var __moduleName = context_1 && context_1.id;
-    function beObject() {
-        return "be a non-null `object`";
-    }
-    function mustBeObject(name, value, contextBuilder) {
-        mustSatisfy_1.default(name, isObject_1.default(value) && !isNull_1.default(value), beObject, contextBuilder);
-        return value;
-    }
-    var mustSatisfy_1, isNull_1, isObject_1;
-    exports_1("default", mustBeObject);
-    return {
-        setters: [function (mustSatisfy_1_1) {
-            mustSatisfy_1 = mustSatisfy_1_1;
-        }, function (isNull_1_1) {
-            isNull_1 = isNull_1_1;
-        }, function (isObject_1_1) {
-            isObject_1 = isObject_1_1;
-        }],
-        execute: function () {}
-    };
-});
 System.register("davinci-eight/checks/isEQ.js", [], function (exports_1, context_1) {
     "use strict";
 
@@ -23203,9 +23142,9 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
             Eight = function () {
                 function Eight() {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-                    this.LAST_MODIFIED = '2016-11-30';
+                    this.LAST_MODIFIED = '2016-12-02';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '4.0.10';
+                    this.VERSION = '4.0.11';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];
@@ -23956,23 +23895,6 @@ System.register("davinci-eight/checks/mustBeString.js", ["../checks/mustSatisfy"
         execute: function () {}
     };
 });
-System.register("davinci-eight/checks/mustSatisfy.js", [], function (exports_1, context_1) {
-    "use strict";
-
-    var __moduleName = context_1 && context_1.id;
-    function mustSatisfy(name, condition, messageBuilder, contextBuilder) {
-        if (!condition) {
-            var message = messageBuilder ? messageBuilder() : "satisfy some condition";
-            var context = contextBuilder ? " in " + contextBuilder() : "";
-            throw new Error(name + " must " + message + context + ".");
-        }
-    }
-    exports_1("default", mustSatisfy);
-    return {
-        setters: [],
-        execute: function () {}
-    };
-});
 System.register("davinci-eight/checks/isFunction.js", [], function (exports_1, context_1) {
     "use strict";
 
@@ -24008,6 +23930,73 @@ System.register("davinci-eight/checks/mustBeFunction.js", ["../checks/mustSatisf
         execute: function () {}
     };
 });
+System.register("davinci-eight/checks/mustSatisfy.js", [], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    function mustSatisfy(name, condition, messageBuilder, contextBuilder) {
+        if (!condition) {
+            var message = messageBuilder ? messageBuilder() : "satisfy some condition";
+            var context = contextBuilder ? " in " + contextBuilder() : "";
+            throw new Error(name + " must " + message + context + ".");
+        }
+    }
+    exports_1("default", mustSatisfy);
+    return {
+        setters: [],
+        execute: function () {}
+    };
+});
+System.register("davinci-eight/checks/isNull.js", [], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    function default_1(x) {
+        return x === null;
+    }
+    exports_1("default", default_1);
+    return {
+        setters: [],
+        execute: function () {}
+    };
+});
+System.register("davinci-eight/checks/isObject.js", [], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    function isObject(x) {
+        return typeof x === 'object';
+    }
+    exports_1("default", isObject);
+    return {
+        setters: [],
+        execute: function () {}
+    };
+});
+System.register("davinci-eight/checks/mustBeNonNullObject.js", ["../checks/mustSatisfy", "../checks/isNull", "../checks/isObject"], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    function beObject() {
+        return "be a non-null `object`";
+    }
+    function mustBeObject(name, value, contextBuilder) {
+        mustSatisfy_1.default(name, isObject_1.default(value) && !isNull_1.default(value), beObject, contextBuilder);
+        return value;
+    }
+    var mustSatisfy_1, isNull_1, isObject_1;
+    exports_1("default", mustBeObject);
+    return {
+        setters: [function (mustSatisfy_1_1) {
+            mustSatisfy_1 = mustSatisfy_1_1;
+        }, function (isNull_1_1) {
+            isNull_1 = isNull_1_1;
+        }, function (isObject_1_1) {
+            isObject_1 = isObject_1_1;
+        }],
+        execute: function () {}
+    };
+});
 System.register("davinci-eight/core/TextureTarget.js", [], function (exports_1, context_1) {
     "use strict";
 
@@ -24039,18 +24028,22 @@ System.register("davinci-eight/core/TextureTarget.js", [], function (exports_1, 
         }
     };
 });
-System.register("davinci-eight/loaders/TextureLoader.js", ["../core/ImageTexture", "../checks/mustBeString", "../checks/mustBeFunction", "../core/TextureTarget"], function (exports_1, context_1) {
+System.register("davinci-eight/loaders/TextureLoader.js", ["../core/ImageTexture", "../checks/isFunction", "../checks/mustBeString", "../checks/mustBeFunction", "../checks/mustBeNonNullObject", "../core/TextureTarget"], function (exports_1, context_1) {
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
-    var ImageTexture_1, mustBeString_1, mustBeFunction_1, TextureTarget_1, TextureLoader;
+    var ImageTexture_1, isFunction_1, mustBeString_1, mustBeFunction_1, mustBeNonNullObject_1, TextureTarget_1, TextureLoader;
     return {
         setters: [function (ImageTexture_1_1) {
             ImageTexture_1 = ImageTexture_1_1;
+        }, function (isFunction_1_1) {
+            isFunction_1 = isFunction_1_1;
         }, function (mustBeString_1_1) {
             mustBeString_1 = mustBeString_1_1;
         }, function (mustBeFunction_1_1) {
             mustBeFunction_1 = mustBeFunction_1_1;
+        }, function (mustBeNonNullObject_1_1) {
+            mustBeNonNullObject_1 = mustBeNonNullObject_1_1;
         }, function (TextureTarget_1_1) {
             TextureTarget_1 = TextureTarget_1_1;
         }],
@@ -24058,8 +24051,9 @@ System.register("davinci-eight/loaders/TextureLoader.js", ["../core/ImageTexture
             TextureLoader = function () {
                 function TextureLoader(contextManager) {
                     this.contextManager = contextManager;
+                    mustBeNonNullObject_1.default('contextManager', contextManager);
                 }
-                TextureLoader.prototype.loadImageTexture = function (url, onLoad) {
+                TextureLoader.prototype.loadImageTexture = function (url, onLoad, onError) {
                     var _this = this;
                     mustBeString_1.default('url', url);
                     mustBeFunction_1.default('onLoad', onLoad);
@@ -24070,6 +24064,11 @@ System.register("davinci-eight/loaders/TextureLoader.js", ["../core/ImageTexture
                         texture.upload();
                         texture.unbind();
                         onLoad(texture);
+                    };
+                    image.onerror = function () {
+                        if (isFunction_1.default(onError)) {
+                            onError();
+                        }
                     };
                     image.src = url;
                 };

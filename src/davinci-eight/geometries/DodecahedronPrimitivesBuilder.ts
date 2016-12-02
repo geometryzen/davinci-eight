@@ -1,9 +1,9 @@
 import PolyhedronBuilder from '../geometries/PolyhedronBuilder';
 
-var t = (1 + Math.sqrt(5)) / 2;
-var r = 1 / t;
+const t = (1 + Math.sqrt(5)) / 2;
+const r = 1 / t;
 
-var vertices = [
+const vertices = [
 
     // (±1, ±1, ±1)
     -1, -1, -1, -1, -1, 1,
@@ -24,7 +24,7 @@ var vertices = [
     -t, 0, r, t, 0, r
 ];
 
-var indices = [
+const indices = [
     3, 11, 7, 3, 7, 15, 3, 15, 13,
     7, 19, 17, 7, 17, 6, 7, 6, 15,
     17, 4, 8, 17, 8, 10, 17, 10, 6,
@@ -39,7 +39,7 @@ var indices = [
     1, 12, 14, 1, 14, 5, 1, 5, 9
 ];
 
-export default class DodecahedronSimplexGeometry extends PolyhedronBuilder {
+export default class DodecahedronPrimitivesBuilder extends PolyhedronBuilder {
     constructor(radius?: number, detail?: number) {
         super(vertices, indices, radius, detail);
     }

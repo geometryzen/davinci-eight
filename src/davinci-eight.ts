@@ -106,7 +106,7 @@ import TetrahedronGeometry from './davinci-eight/geometries/TetrahedronGeometry'
 import ArrowSimplexPrimitivesBuilder from './davinci-eight/geometries/ArrowSimplexPrimitivesBuilder';
 import BarnSimplexPrimitivesBuilder from './davinci-eight/geometries/BarnSimplexPrimitivesBuilder';
 import ConeSimplexGeometry from './davinci-eight/geometries/ConeSimplexGeometry';
-import DodecahedronSimplexGeometry from './davinci-eight/geometries/DodecahedronSimplexGeometry';
+import DodecahedronPrimitivesBuilder from './davinci-eight/geometries/DodecahedronPrimitivesBuilder';
 import IcosahedronSimplexGeometry from './davinci-eight/geometries/IcosahedronSimplexGeometry';
 import KleinBottleSimplexGeometry from './davinci-eight/geometries/KleinBottleSimplexGeometry';
 import Lattice2Geometry from './davinci-eight/geometries/Lattice2Geometry';

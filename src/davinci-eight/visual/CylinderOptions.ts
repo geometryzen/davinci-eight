@@ -9,6 +9,10 @@ export interface CylinderOptions {
      */
     axis?: VectorE3;
     /**
+     * 
+     */
+    color?: { r: number; g: number; b: number };
+    /**
      * Defaults to 1.
      */
     length?: number;

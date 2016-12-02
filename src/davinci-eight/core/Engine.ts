@@ -25,17 +25,48 @@ import { WebGLDisable } from '../commands/WebGLDisable';
  * be a required parameter for any consumer of WebGL resources.
  *
  *
- *     // Anytime before calling the start method...
- *     const engine = new EIGHT.Engine()
+ *     export const e1 = EIGHT.Geometric3.e1();
+ *     export const e2 = EIGHT.Geometric3.e2();
+ *     export const e3 = EIGHT.Geometric3.e3();
  *
- *     // When the DOM canvas element is available...
- *     engine.start(canvas)
+ *     const engine = new EIGHT.Engine('canvas3D')
+ *       .size(500, 500)
+ *       .clearColor(0.1, 0.1, 0.1, 1.0)
+ *       .enable(EIGHT.Capability.DEPTH_TEST)
  *
- *     // At the start of each animation frame, before drawing...
- *     engine.clear()
+ *     const scene = new EIGHT.Scene(engine)
  *
- *     // When no longer needed, usually in the window.onunload function...
- *     engine.release()
+ *     const ambients: EIGHT.Facet[] = []
+ *
+ *     const camera = new EIGHT.PerspectiveCamera()
+ *     camera.eye = e2 + 3 * e3
+ *     ambients.push(camera)
+ *
+ *     const dirLight = new EIGHT.DirectionalLight()
+ *     ambients.push(dirLight)
+ *
+ *     const trackball = new EIGHT.TrackballControls(camera)
+ *     trackball.subscribe(engine.canvas)
+ *
+ *     const box = new EIGHT.Box(engine)
+ *     box.color = EIGHT.Color.green
+ *     scene.add(box)
+ *
+ *     const animate = function(timestamp: number) {
+ *       engine.clear()
+ *
+ *       trackball.update()
+ *
+ *       dirLight.direction = camera.look - camera.eye
+ *
+ *       box.attitude.rotorFromAxisAngle(e2, timestamp * 0.001)
+ *
+ *       scene.render(ambients)
+ *
+ *       requestAnimationFrame(animate)
+ *     }
+ *
+ *     requestAnimationFrame(animate)
  */
 export class Engine extends ShareableBase implements ContextManager {
 
@@ -293,10 +324,8 @@ export class Engine extends ShareableBase implements ContextManager {
     }
 
     /**
-     * <p>
      * The viewport width and height are clamped to a range that is
      * implementation dependent.
-     * </p>
      *
      * @returns e.g. Int32Array[16384, 16384]
      */
@@ -311,9 +340,7 @@ export class Engine extends ShareableBase implements ContextManager {
     }
 
     /**
-     * <p>
      * Returns the current viewport settings.
-     * </p>
      *
      * @returns e.g. Int32Array[x, y, width, height]
      */

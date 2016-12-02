@@ -1,14 +1,26 @@
 class Eight {
+    /**
+     * The GitHub URL of the repository.
+     */
     GITHUB: string;
+    /**
+     * The last modification date in YYYY-MM-DD format.
+     */
     LAST_MODIFIED: string;
+    /**
+     * The namespace used for traditional JavaScript module loading.
+     */
     NAMESPACE: string;
+    /**
+     * The semantic version number of this library, i.e., (major.minor.patch) format.
+     */
     VERSION: string;
 
     constructor() {
         this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-        this.LAST_MODIFIED = '2016-11-30';
+        this.LAST_MODIFIED = '2016-12-02';
         this.NAMESPACE = 'EIGHT';
-        this.VERSION = '4.0.10';
+        this.VERSION = '4.0.11';
     }
 
     log(message?: any, ...optionalParams: any[]): void {

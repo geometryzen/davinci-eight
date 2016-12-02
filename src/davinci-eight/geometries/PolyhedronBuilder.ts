@@ -61,11 +61,6 @@ function normal(v1: VectorE3, v2: VectorE3, v3: VectorE3): Vector3 {
 /**
  * In elementary geometry, a polyhedron is a solid in three dimensions with
  * flat polygonal faces, straight edges and sharp corners or vertices.
- *
- * Intentionally undocumented. Improve flexibility and consolidate code.
- *
- * class PolyhedronBuilder
- * extends SimplexPrimitivesBuilder
  */
 export default class PolyhedronBuilder extends SimplexPrimitivesBuilder {
 

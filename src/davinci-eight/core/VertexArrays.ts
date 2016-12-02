@@ -2,9 +2,9 @@ import BeginMode from './BeginMode';
 import VertexAttribPointer from './VertexAttribPointer';
 
 /**
- *
+ * Geometry data that has been interleaved for efficiency.
  */
-interface VertexArrays {
+export interface VertexArrays {
 
     /**
      *
@@ -17,7 +17,7 @@ interface VertexArrays {
     indices?: number[];
 
     /**
-     *
+     * The interleaved attribute data.
      */
     attributes: number[];
 
@@ -27,7 +27,7 @@ interface VertexArrays {
     stride: number;
 
     /**
-     *
+     * A description of the interleaved attribute data.
      */
     pointers: VertexAttribPointer[];
 }

@@ -4087,6 +4087,7 @@ declare module EIGHT {
      */
     interface CylinderOptions {
         axis?: VectorE3;
+        color?: Color;
         length?: number;
         openBase?: boolean;
         openCap?: boolean;

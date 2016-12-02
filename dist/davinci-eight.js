@@ -551,9 +551,9 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
     var Eight = (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-11-30';
+            this.LAST_MODIFIED = '2016-12-02';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '4.0.10';
+            this.VERSION = '4.0.11';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -13676,7 +13676,7 @@ define('davinci-eight/geometries/ArrowGeometry',["require", "exports", "./arrowP
     exports.default = ArrowGeometry;
 });
 
-define('davinci-eight/geometries/PrimitivesBuilder',["require", "exports", "../math/Spinor3", "../math/Vector3", "../core/vertexArraysFromPrimitive"], function (require, exports, Spinor3_1, Vector3_1, vertexArraysFromPrimitive_1) {
+define('davinci-eight/geometries/PrimitivesBuilder',["require", "exports", "../math/Spinor3", "../math/Vector3"], function (require, exports, Spinor3_1, Vector3_1) {
     "use strict";
     var PrimitivesBuilder = (function () {
         function PrimitivesBuilder() {
@@ -13693,15 +13693,6 @@ define('davinci-eight/geometries/PrimitivesBuilder',["require", "exports", "../m
             for (var t = 0; t < tLen; t++) {
                 this.transforms[t].exec(vertex, i, j, iLength, jLength);
             }
-        };
-        PrimitivesBuilder.prototype.toVertexArrays = function () {
-            var arrays = [];
-            var ps = this.toPrimitives();
-            var iLen = ps.length;
-            for (var i = 0; i < iLen; i++) {
-                arrays.push(vertexArraysFromPrimitive_1.default(ps[i]));
-            }
-            return arrays;
         };
         PrimitivesBuilder.prototype.toPrimitives = function () {
             console.warn("toPrimitives() must be implemented by derived classes.");
@@ -20488,13 +20479,14 @@ define('davinci-eight/diagram/Diagram3D',["require", "exports", "../math/dotVect
     }
 });
 
-define('davinci-eight/loaders/TextureLoader',["require", "exports", "../core/ImageTexture", "../checks/mustBeString", "../checks/mustBeFunction", "../core/TextureTarget"], function (require, exports, ImageTexture_1, mustBeString_1, mustBeFunction_1, TextureTarget_1) {
+define('davinci-eight/loaders/TextureLoader',["require", "exports", "../core/ImageTexture", "../checks/isFunction", "../checks/mustBeString", "../checks/mustBeFunction", "../checks/mustBeNonNullObject", "../core/TextureTarget"], function (require, exports, ImageTexture_1, isFunction_1, mustBeString_1, mustBeFunction_1, mustBeNonNullObject_1, TextureTarget_1) {
     "use strict";
     var TextureLoader = (function () {
         function TextureLoader(contextManager) {
             this.contextManager = contextManager;
+            mustBeNonNullObject_1.default('contextManager', contextManager);
         }
-        TextureLoader.prototype.loadImageTexture = function (url, onLoad) {
+        TextureLoader.prototype.loadImageTexture = function (url, onLoad, onError) {
             var _this = this;
             mustBeString_1.default('url', url);
             mustBeFunction_1.default('onLoad', onLoad);
@@ -20505,6 +20497,11 @@ define('davinci-eight/loaders/TextureLoader',["require", "exports", "../core/Ima
                 texture.upload();
                 texture.unbind();
                 onLoad(texture);
+            };
+            image.onerror = function () {
+                if (isFunction_1.default(onError)) {
+                    onError();
+                }
             };
             image.src = url;
         };
