@@ -418,7 +418,7 @@ declare module EIGHT {
         /**
          * Specifies color values used by the clear method to clear the color buffer.
          * The values are clamped between 0 and 1.
-         * The default value is 0.
+         * The default value for red, green, and blue is 0. The default value for alpha is 1.
          */
         clearColor(red: number, green: number, blue: number, alpha: number): Engine;
 
@@ -441,12 +441,12 @@ declare module EIGHT {
         depthFunc(func: DepthFunction): Engine;
 
         /**
-         * Turns off specific WebGL capabilities for this context.
+         * Turns off the specified WebGL capability for this context.
          */
         disable(capability: Capability): Engine;
 
         /**
-         * Turns on specific WebGL capabilities for this context.
+         * Turns on the specified WebGL capability for this context.
          */
         enable(capability: Capability): Engine;
 
@@ -3734,8 +3734,8 @@ declare module EIGHT {
         color: Color;
         /**
          * Constructs a DirectionalLight.
-         * [direction = -e3] The initial direction.
-         * [color = white] The initial color.
+         * The initial direction defaults to -e3 (out of the screen).
+         * The initial color defaults to white.
          */
         constructor(direction?: VectorE3, color?: Color);
         /**
@@ -4078,6 +4078,9 @@ declare module EIGHT {
         width: number;
         height: number;
         depth: number;
+        /**
+         * Constructs a Box.
+         */
         constructor(engine: Engine, options?: BoxOptions);
         protected destructor(levelUp: number): void;
     }
@@ -4104,6 +4107,9 @@ declare module EIGHT {
          * The symmetry axis of the Cylinder.
          */
         public axis: Geometric3;
+        /**
+         * Constructs a Cylinder.
+         */
         constructor(engine: Engine, options?: CylinderOptions);
         protected destructor(levelUp: number): void;
     }
@@ -4121,6 +4127,9 @@ declare module EIGHT {
     }
 
     class Curve extends Mesh<Geometry, Material> {
+        /**
+         * Constructs a Curve.
+         */
         constructor(engine: Engine, options?: CurveOptions);
         protected destructor(levelUp: number): void;
     }
@@ -4197,6 +4206,17 @@ declare module EIGHT {
     }
 
     class GridYZ extends Grid {
+        /**
+         * Constructs a grid in the yz-plane with the following defaults:
+         * 
+         * yMin: -1
+         * yMax: +1
+         * ySegments: 10
+         * zMin: -1
+         * zMax: +1
+         * zSegments: 10
+         * x: (y: number, z: number) => 0
+         */
         constructor(engine: Engine, options?: GridYZOptions);
         protected destructor(levelUp: number): void;
     }
@@ -4216,6 +4236,17 @@ declare module EIGHT {
     }
 
     class GridZX extends Grid {
+        /**
+         * Constructs a grid in the zx-plane with the following defaults:
+         * 
+         * zMin: -1
+         * zMax: +1
+         * zSegments: 10
+         * xMin: -1
+         * xMax: +1
+         * xSegments: 10
+         * y: (z: number, x: number) => 0
+         */
         constructor(engine: Engine, options?: GridZXOptions);
         protected destructor(levelUp: number): void;
     }
@@ -4260,7 +4291,7 @@ declare module EIGHT {
          */
         constructor();
         /**
-         * 
+         * Constructs a Group.
          */
         protected destructor(levelUp: number): void;
         /**
@@ -4281,6 +4312,10 @@ declare module EIGHT {
      * Options for the creation of a new HollowCylinder.
      */
     interface HollowCylinderOptions {
+        /**
+         * The uniform color of the HollowCylinder.
+         */
+        color?: Color;
         /**
          * The symmetry axis and the height of the cylinder.
          */
@@ -4310,6 +4345,9 @@ declare module EIGHT {
          * The symmetry axis of the Hollow Cylinder.
          */
         public axis: Geometric3;
+        /**
+         * Constructs a HollowCylinder.
+         */
         constructor(engine: Engine, options?: HollowCylinderOptions);
         protected destructor(levelUp: number): void;
     }
@@ -4341,6 +4379,9 @@ declare module EIGHT {
          * back   - 5
          */
         public colors: Color[];
+        /**
+         * Constructs a Parallelepiped.
+         */
         constructor(engine: Engine);
         protected destructor(levelUp: number): void;
         render(ambients: Facet[]): void;
@@ -4398,12 +4439,18 @@ declare module EIGHT {
     }
 
     class Sphere extends RigidBody {
+        /**
+         * Radius (scalar).
+         */
         radius: number;
         /**
          * Axis (vector).
          * The symmetry axis of the Sphere.
          */
         public axis: Geometric3;
+        /**
+         * Constructs a Sphere.
+         */
         constructor(engine: Engine, options?: SphereOptions);
         protected destructor(levelUp: number): void;
     }
@@ -4417,6 +4464,9 @@ declare module EIGHT {
 
     class Tetrahedron extends RigidBody {
         radius: number;
+        /**
+         * Constructs a Tetrahedron.
+         */
         constructor(engine: Engine, options?: TetrahedronOptions);
         protected destructor(levelUp: number): void;
     }
@@ -4492,7 +4542,7 @@ declare module EIGHT {
          */
         config: TrailConfig
         /**
-         * Constructs a trail for the specified mesh.
+         * Constructs a Trail for the specified Mesh.
          */
         constructor(mesh: Mesh<Geometry, Material>);
         protected destructor(levelUp: number): void;
@@ -4518,12 +4568,15 @@ declare module EIGHT {
      * Options for the creation of a new Turtle.
      */
     interface TurtleOptions {
-
+        color?: Color;
     }
 
     class Turtle extends RigidBody {
         height: number;
         width: number;
+        /**
+         * Constructs a Turtle.
+         */
         constructor(engine: Engine, options?: TurtleOptions);
         protected destructor(levelUp: number): void;
     }
