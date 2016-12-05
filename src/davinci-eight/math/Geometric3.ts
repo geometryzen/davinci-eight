@@ -15,6 +15,7 @@ import mulE3 from './mulE3';
 import mulG3 from './mulG3';
 import mustBeNonNullObject from '../checks/mustBeNonNullObject';
 import mustBeNumber from '../checks/mustBeNumber';
+import mustSatisfy from '../checks/mustSatisfy';
 import randomRange from './randomRange';
 import readOnly from '../i18n/readOnly';
 import rcoG3 from './rcoG3';
@@ -977,7 +978,7 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
     /**
      * Sets this multivector to the identity element for multiplication, <b>1</b>.
      *
-     * @returns
+     * @returns this
      */
     one() {
         this.a = 1;
@@ -1110,12 +1111,19 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * @param θ The rotation angle in radians when the rotor is applied on both sides as R * M * ~R
      */
     rotorFromAxisAngle(axis: VectorE3, θ: number) {
-        mustBeNonNullObject('axis', axis);
-        mustBeNumber('θ', θ);
+        const contextBuilder = () => { return `rotorFromAxisAngle`; };
+        mustBeNonNullObject('axis', axis, contextBuilder);
+        mustBeNumber('θ', θ, contextBuilder);
         // Compute the dual of the axis to obtain the corresponding bivector.
-        const yz = mustBeNumber('axis.x', axis.x);
-        const zx = mustBeNumber('axis.y', axis.y);
-        const xy = mustBeNumber('axis.z', axis.z);
+        const x = mustBeNumber('axis.x', axis.x, contextBuilder);
+        const y = mustBeNumber('axis.y', axis.y, contextBuilder);
+        const z = mustBeNumber('axis.z', axis.z, contextBuilder);
+        const squaredNorm = x * x + y * y + z * z;
+        mustSatisfy("axis", squaredNorm !== 0, () => { return "|axis| > 0"; }, contextBuilder);
+        const norm = Math.sqrt(squaredNorm);
+        const yz = x / norm;
+        const zx = y / norm;
+        const xy = z / norm;
         return this.rotorFromGeneratorAngle({ yz, zx, xy }, θ);
     }
 
@@ -1151,6 +1159,9 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
         return this.copy(R2).mul(R1);
     }
 
+    /**
+     * 
+     */
     rotorFromFrameToFrame(es: VectorE3[], fs: VectorE3[]) {
         // There is instability when the rotation angle is near 180 degrees.
         // So we don't use the lovely formula based upon reciprocal frames.
@@ -1158,7 +1169,7 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
         // This allows for the possibility that the other two vectors may become anti-aligned.
         // Observe that all three vectors can't be anti-aligned because that would be a reflection!
         // We then compute the rotor R1 that maps this first vector to its image.
-        // Allowing then for the possibility that the renaining vectors may have ambiguous rotors,
+        // Allowing then for the possibility that the remaining vectors may have ambiguous rotors,
         // we compute the dual of this image vector as the default rotation plane for one of the
         // other vectors. We only need to calculate the rotor R2 for one more vector because our
         // frames are orthogonal and so R1 and R2 determine R.
@@ -1179,7 +1190,7 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
     /**
      * Sets this multivector to a rotor that rotates through angle θ in the oriented plane defined by B.
      *
-     * this = ⟼ exp(- B * θ / 2) = cos(|B| * θ / 2) - B * sin(|B| * θ / 2) / |B|
+     * this ⟼ exp(- B * θ / 2) = cos(|B| * θ / 2) - B * sin(|B| * θ / 2) / |B|
      *
      * @param B The (unit) bivector generating the rotation.
      * @param θ The rotation angle in radians when the rotor is applied on both sides as R * M * ~R

@@ -236,10 +236,10 @@ describe("Geometric3", function () {
                 expect(R.b).toBe(0);
             });
         });
-        describe("(2 * e3, PI/2)", function () {
+        describe("(2 * e3, PI)", function () {
             const axis: VectorE3 = e3.clone().scale(2);
             const R = Geometric3.random();
-            R.rotorFromAxisAngle(axis, Math.PI / 2);
+            R.rotorFromAxisAngle(axis, Math.PI);
             R.approx(12);
             it("should equal e2 ^ e1", function () {
                 expect(R.equals(e2.clone().ext(e1))).toBeTruthy();

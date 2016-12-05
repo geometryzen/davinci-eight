@@ -21335,7 +21335,7 @@ System.register("davinci-eight/math/stringFromCoordinates.js", ["../checks/isDef
         execute: function () {}
     };
 });
-System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "./dotVectorE3", "../utils/EventEmitter", "./extG3", "./gauss", "../checks/isDefined", "./isScalarG3", "./lcoG3", "./maskG3", "./mulE3", "./mulG3", "../checks/mustBeNonNullObject", "../checks/mustBeNumber", "./randomRange", "../i18n/readOnly", "./rcoG3", "./rotorFromDirectionsE3", "./scpG3", "./squaredNormG3", "./stringFromCoordinates", "./wedgeXY", "./wedgeYZ", "./wedgeZX"], function (exports_1, context_1) {
+System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "./dotVectorE3", "../utils/EventEmitter", "./extG3", "./gauss", "../checks/isDefined", "./isScalarG3", "./lcoG3", "./maskG3", "./mulE3", "./mulG3", "../checks/mustBeNonNullObject", "../checks/mustBeNumber", "../checks/mustSatisfy", "./randomRange", "../i18n/readOnly", "./rcoG3", "./rotorFromDirectionsE3", "./scpG3", "./squaredNormG3", "./stringFromCoordinates", "./wedgeXY", "./wedgeYZ", "./wedgeZX"], function (exports_1, context_1) {
     "use strict";
 
     var __extends = this && this.__extends || function (d, b) {
@@ -21358,7 +21358,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
     function cosVectorVector(a, b) {
         return scp(a, b) / (norm(a) * norm(b));
     }
-    var Coords_1, arraysEQ_1, dotVectorE3_1, EventEmitter_1, extG3_1, gauss_1, isDefined_1, isScalarG3_1, lcoG3_1, maskG3_1, mulE3_1, mulG3_1, mustBeNonNullObject_1, mustBeNumber_1, randomRange_1, readOnly_1, rcoG3_1, rotorFromDirectionsE3_1, scpG3_1, squaredNormG3_1, stringFromCoordinates_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1, COORD_SCALAR, COORD_X, COORD_Y, COORD_Z, COORD_XY, COORD_YZ, COORD_ZX, COORD_PSEUDO, BASIS_LABELS, EVENT_NAME_CHANGE, atan2, exp, cos, log, sin, sqrt, cosines, Geometric3;
+    var Coords_1, arraysEQ_1, dotVectorE3_1, EventEmitter_1, extG3_1, gauss_1, isDefined_1, isScalarG3_1, lcoG3_1, maskG3_1, mulE3_1, mulG3_1, mustBeNonNullObject_1, mustBeNumber_1, mustSatisfy_1, randomRange_1, readOnly_1, rcoG3_1, rotorFromDirectionsE3_1, scpG3_1, squaredNormG3_1, stringFromCoordinates_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1, COORD_SCALAR, COORD_X, COORD_Y, COORD_Z, COORD_XY, COORD_YZ, COORD_ZX, COORD_PSEUDO, BASIS_LABELS, EVENT_NAME_CHANGE, atan2, exp, cos, log, sin, sqrt, cosines, Geometric3;
     return {
         setters: [function (Coords_1_1) {
             Coords_1 = Coords_1_1;
@@ -21388,6 +21388,8 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
             mustBeNonNullObject_1 = mustBeNonNullObject_1_1;
         }, function (mustBeNumber_1_1) {
             mustBeNumber_1 = mustBeNumber_1_1;
+        }, function (mustSatisfy_1_1) {
+            mustSatisfy_1 = mustSatisfy_1_1;
         }, function (randomRange_1_1) {
             randomRange_1 = randomRange_1_1;
         }, function (readOnly_1_1) {
@@ -22002,11 +22004,22 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     return this;
                 };
                 Geometric3.prototype.rotorFromAxisAngle = function (axis, θ) {
-                    mustBeNonNullObject_1.default('axis', axis);
-                    mustBeNumber_1.default('θ', θ);
-                    var yz = mustBeNumber_1.default('axis.x', axis.x);
-                    var zx = mustBeNumber_1.default('axis.y', axis.y);
-                    var xy = mustBeNumber_1.default('axis.z', axis.z);
+                    var contextBuilder = function () {
+                        return "rotorFromAxisAngle";
+                    };
+                    mustBeNonNullObject_1.default('axis', axis, contextBuilder);
+                    mustBeNumber_1.default('θ', θ, contextBuilder);
+                    var x = mustBeNumber_1.default('axis.x', axis.x, contextBuilder);
+                    var y = mustBeNumber_1.default('axis.y', axis.y, contextBuilder);
+                    var z = mustBeNumber_1.default('axis.z', axis.z, contextBuilder);
+                    var squaredNorm = x * x + y * y + z * z;
+                    mustSatisfy_1.default("axis", squaredNorm !== 0, function () {
+                        return "|axis| > 0";
+                    }, contextBuilder);
+                    var norm = Math.sqrt(squaredNorm);
+                    var yz = x / norm;
+                    var zx = y / norm;
+                    var xy = z / norm;
                     return this.rotorFromGeneratorAngle({ yz: yz, zx: zx, xy: xy }, θ);
                 };
                 Geometric3.prototype.rotorFromDirections = function (a, b) {
@@ -23142,9 +23155,9 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
             Eight = function () {
                 function Eight() {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-                    this.LAST_MODIFIED = '2016-12-03';
+                    this.LAST_MODIFIED = '2016-12-04';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '4.0.12';
+                    this.VERSION = '4.0.13';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];
