@@ -3008,9 +3008,9 @@ declare module EIGHT {
          * Traverses the collection of AbstractDrawable objects, calling render(ambients) on each one.
          * The rendering takes place in two stages.
          * In the first stage, non-transparent objects are drawn.
-         * In the second state, transparent objects are drawn.
+         * In the second stage, transparent objects are drawn.
          *
-         * ambients: Provide GLSL uniform values all Materials. 
+         * ambients: Provide GLSL uniform values for all objects. 
          */
         render(ambients: Facet[]): void;
     }
@@ -3725,7 +3725,7 @@ declare module EIGHT {
      */
     class DirectionalLight implements Facet {
         /**
-         * The direction (unit vector) in which the light is travelling.
+         * The direction (unit vector) in which the light is traveling.
          */
         direction: Geometric3;
         /**

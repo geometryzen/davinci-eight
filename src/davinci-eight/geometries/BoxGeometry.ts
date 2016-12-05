@@ -22,8 +22,17 @@ import Vector1 from '../math/Vector1';
 import Vector3 from '../math/Vector3';
 import VectorE3 from '../math/VectorE3';
 
+/**
+ * e1
+ */
 const DEFAULT_A = R3(1, 0, 0);
+/**
+ * e2
+ */
 const DEFAULT_B = R3(0, 1, 0);
+/**
+ * e3
+ */
 const DEFAULT_C = R3(0, 0, 1);
 
 class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
@@ -252,13 +261,17 @@ class CuboidPrimitivesBuilder extends PrimitivesBuilder {
 
 function boxPrimitive(options: BoxGeometryOptions = {}): Primitive {
 
+    const width = isDefined(options.width) ? mustBeNumber('width', options.width) : 1;
+    const height = isDefined(options.height) ? mustBeNumber('height', options.height) : 1;
+    const depth = isDefined(options.depth) ? mustBeNumber('depth', options.depth) : 1;
+
     const k = isDefined(options.k) ? options.k : 2;
     switch (k) {
         case 0:
         case 1: {
-            const a = DEFAULT_A;
-            const b = DEFAULT_B;
-            const c = DEFAULT_C;
+            const a = DEFAULT_A.scale(width);
+            const b = DEFAULT_B.scale(height);
+            const c = DEFAULT_C.scale(depth);
             const builder = new CuboidSimplexPrimitivesBuilder(a, b, c, k);
             if (options.stress) {
                 builder.stress.copy(options.stress);
@@ -273,9 +286,9 @@ function boxPrimitive(options: BoxGeometryOptions = {}): Primitive {
         }
         default: {
             const builder = new CuboidPrimitivesBuilder();
-            builder.width = isDefined(options.width) ? mustBeNumber('width', options.width) : 1;
-            builder.height = isDefined(options.height) ? mustBeNumber('height', options.height) : 1;
-            builder.depth = isDefined(options.depth) ? mustBeNumber('depth', options.depth) : 1;
+            builder.width = width;
+            builder.height = height;
+            builder.depth = depth;
 
             if (isDefined(options.openBack)) {
                 builder.openBack = mustBeBoolean('openBack', options.openBack);

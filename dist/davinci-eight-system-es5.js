@@ -3839,14 +3839,17 @@ System.register("davinci-eight/geometries/BoxGeometry.js", ["../core/GeometryEle
         if (options === void 0) {
             options = {};
         }
+        var width = isDefined_1.default(options.width) ? mustBeNumber_1.default('width', options.width) : 1;
+        var height = isDefined_1.default(options.height) ? mustBeNumber_1.default('height', options.height) : 1;
+        var depth = isDefined_1.default(options.depth) ? mustBeNumber_1.default('depth', options.depth) : 1;
         var k = isDefined_1.default(options.k) ? options.k : 2;
         switch (k) {
             case 0:
             case 1:
                 {
-                    var a = DEFAULT_A;
-                    var b = DEFAULT_B;
-                    var c = DEFAULT_C;
+                    var a = DEFAULT_A.scale(width);
+                    var b = DEFAULT_B.scale(height);
+                    var c = DEFAULT_C.scale(depth);
                     var builder = new CuboidSimplexPrimitivesBuilder(a, b, c, k);
                     if (options.stress) {
                         builder.stress.copy(options.stress);
@@ -3862,9 +3865,9 @@ System.register("davinci-eight/geometries/BoxGeometry.js", ["../core/GeometryEle
             default:
                 {
                     var builder = new CuboidPrimitivesBuilder();
-                    builder.width = isDefined_1.default(options.width) ? mustBeNumber_1.default('width', options.width) : 1;
-                    builder.height = isDefined_1.default(options.height) ? mustBeNumber_1.default('height', options.height) : 1;
-                    builder.depth = isDefined_1.default(options.depth) ? mustBeNumber_1.default('depth', options.depth) : 1;
+                    builder.width = width;
+                    builder.height = height;
+                    builder.depth = depth;
                     if (isDefined_1.default(options.openBack)) {
                         builder.openBack = mustBeBoolean_1.default('openBack', options.openBack);
                     }
@@ -23155,9 +23158,9 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
             Eight = function () {
                 function Eight() {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-                    this.LAST_MODIFIED = '2016-12-04';
+                    this.LAST_MODIFIED = '2016-12-05';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '4.0.13';
+                    this.VERSION = '4.0.14';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];
