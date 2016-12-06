@@ -3295,19 +3295,25 @@ declare module EIGHT {
      */
     interface CylinderGeometryOptions extends GeometryOptions {
         /**
-         *
+         * 
          */
-        openBase?: boolean
-
+        length?: number;
         /**
          *
          */
-        openCap?: boolean
-
+        openBase?: boolean;
         /**
          *
          */
-        openWall?: boolean
+        openCap?: boolean;
+        /**
+         *
+         */
+        openWall?: boolean;
+        /**
+         * 
+         */
+        radius?: number;
     }
 
     /**

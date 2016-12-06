@@ -5,6 +5,7 @@ import notSupported from '../i18n/notSupported';
 import GeometryElements from '../core/GeometryElements';
 import isDefined from '../checks/isDefined';
 import mustBeBoolean from '../checks/mustBeBoolean';
+import mustBeNumber from '../checks/mustBeNumber';
 import Primitive from '../core/Primitive';
 import reduce from '../atoms/reduce';
 import arc3 from '../geometries/arc3';
@@ -16,16 +17,19 @@ import Vector3 from '../math/Vector3';
 import VectorE3 from '../math/VectorE3';
 
 /**
- *
+ * @param height The vector in the height direction. The length also gives the cylinder length.
+ * @param radius The vector in the radius direction. The length also gives the cylinder radius.
  */
-function computeWallVertices(e: VectorE3, cutLine: VectorE3, clockwise: boolean, stress: VectorE3, tilt: SpinorE3, offset: VectorE3, angle: number, generator: SpinorE3, heightSegments: number, thetaSegments: number, points: Vector3[], tangents: Spinor3[], vertices: number[][], uvs: Vector2[][]) {
-
-    const halfHeight = Vector3.copy(e).scale(0.5);
+function computeWallVertices(height: VectorE3, radius: VectorE3, clockwise: boolean, stress: VectorE3, tilt: SpinorE3, offset: VectorE3, angle: number, generator: SpinorE3, heightSegments: number, thetaSegments: number, points: Vector3[], tangents: Spinor3[], vertices: number[][], uvs: Vector2[][]) {
+    /**
+     * 
+     */
+    const halfHeight = Vector3.copy(height).scale(0.5);
 
     /**
      * A displacement in the direction of axis that we must move for each height step.
      */
-    const stepH = Vector3.copy(e).scale(1 / heightSegments);
+    const stepH = Vector3.copy(height).scale(1 / heightSegments);
 
     const iLength = heightSegments + 1;
     for (let i = 0; i < iLength; i++) {
@@ -46,7 +50,7 @@ function computeWallVertices(e: VectorE3, cutLine: VectorE3, clockwise: boolean,
         /**
          * arcPoints.length => thetaSegments + 1
          */
-        const arcPoints = arc3(cutLine, angle, generator, thetaSegments);
+        const arcPoints = arc3(radius, angle, generator, thetaSegments);
 
         /**
          * j < arcPoints.length => j <= thetaSegments
@@ -92,7 +96,7 @@ class CylinderBuilder extends SimplexPrimitivesBuilder {
     /**
      * The symmetry axis of the cylinder.
      */
-    private e: VectorE3;
+    private height: VectorE3;
 
     /**
      *
@@ -110,10 +114,10 @@ class CylinderBuilder extends SimplexPrimitivesBuilder {
     public openCap = false;
     public openWall = false;
 
-    constructor(e: VectorE3, cutLine: VectorE3, clockwise: boolean) {
+    constructor(height: VectorE3, cutLine: VectorE3, clockwise: boolean) {
         super();
-        this.e = Vector3.copy(e).normalize();
-        this.cutLine = Vector3.copy(cutLine).normalize();
+        this.height = Vector3.copy(height);
+        this.cutLine = Vector3.copy(cutLine);
         this.clockwise = clockwise;
         this.setModified(true);
     }
@@ -122,7 +126,7 @@ class CylinderBuilder extends SimplexPrimitivesBuilder {
         this.data = [];
         const heightSegments = this.flatSegments;
         const thetaSegments = this.curvedSegments;
-        const generator: SpinorE3 = Spinor3.dual(this.e, false);
+        const generator: SpinorE3 = Spinor3.dual(Vector3.copy(this.height).normalize(), false);
 
         const heightHalf = 1 / 2;
 
@@ -134,7 +138,7 @@ class CylinderBuilder extends SimplexPrimitivesBuilder {
         const vertices: number[][] = [];
         const uvs: Vector2[][] = [];
 
-        computeWallVertices(this.e, this.cutLine, this.clockwise, this.stress, this.tilt, this.offset, this.sliceAngle, generator, heightSegments, thetaSegments, points, tangents, vertices, uvs);
+        computeWallVertices(this.height, this.cutLine, this.clockwise, this.stress, this.tilt, this.offset, this.sliceAngle, generator, heightSegments, thetaSegments, points, tangents, vertices, uvs);
 
         if (!this.openWall) {
             for (let j = 0; j < thetaSegments; j++) {
@@ -173,8 +177,8 @@ class CylinderBuilder extends SimplexPrimitivesBuilder {
 
         if (!this.openCap) {
             // Push an extra point for the center of the cap.
-            const top = Vector3.copy(this.e).scale(heightHalf).add(this.offset);
-            const tangent = Spinor3.dual(this.e, false).stress(this.stress).rotate(this.tilt);
+            const top = Vector3.copy(this.height).scale(heightHalf).add(this.offset);
+            const tangent = Spinor3.dual(Vector3.copy(this.height).normalize(), false).stress(this.stress).rotate(this.tilt);
             const normal = Vector3.dual(tangent, true);
             points.push(top);
             for (let j = 0; j < thetaSegments; j++) {
@@ -190,8 +194,8 @@ class CylinderBuilder extends SimplexPrimitivesBuilder {
 
         if (!this.openBase) {
             // Push an extra point for the center of the base.
-            const bottom = Vector3.copy(this.e).scale(-heightHalf).add(this.offset);
-            const tangent = Spinor3.dual(this.e, false).neg().stress(this.stress).rotate(this.tilt);
+            const bottom = Vector3.copy(this.height).scale(-heightHalf).add(this.offset);
+            const tangent = Spinor3.dual(Vector3.copy(this.height).normalize(), false).neg().stress(this.stress).rotate(this.tilt);
             const normal = Vector3.dual(tangent, true);
             points.push(bottom);
             for (let j = 0; j < thetaSegments; j++) {
@@ -218,8 +222,17 @@ function tilt(v: VectorE3, options: CylinderGeometryOptions = {}): VectorE3 {
 
 function cylinderPrimitive(options: CylinderGeometryOptions = {}): Primitive {
 
-    const axis = tilt(Vector3.vector(0, 1, 0), options);
-    const cutLine = tilt(Vector3.vector(0, 0, 1), options);
+    const radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : 1;
+    const length = isDefined(options.length) ? mustBeNumber('length', options.length) : 1;
+
+    /**
+     * The canonical axis is in the e2 direction.
+     */
+    const axis = tilt(Vector3.vector(0, length, 0), options);
+    /**
+     * The canonical cutLine is in the e3 direction.
+     */
+    const cutLine = tilt(Vector3.vector(0, 0, radius), options);
 
     const builder = new CylinderBuilder(axis, cutLine, false);
 

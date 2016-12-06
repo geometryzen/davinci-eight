@@ -553,7 +553,7 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-12-05';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '4.0.15';
+            this.VERSION = '4.0.16';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -14618,18 +14618,18 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/CylinderGeometry',["require", "exports", "../i18n/notSupported", "../core/GeometryElements", "../checks/isDefined", "../checks/mustBeBoolean", "../atoms/reduce", "../geometries/arc3", "../geometries/SimplexPrimitivesBuilder", "../math/Spinor3", "../math/Vector2", "../math/Vector3"], function (require, exports, notSupported_1, GeometryElements_1, isDefined_1, mustBeBoolean_1, reduce_1, arc3_1, SimplexPrimitivesBuilder_1, Spinor3_1, Vector2_1, Vector3_1) {
+define('davinci-eight/geometries/CylinderGeometry',["require", "exports", "../i18n/notSupported", "../core/GeometryElements", "../checks/isDefined", "../checks/mustBeBoolean", "../checks/mustBeNumber", "../atoms/reduce", "../geometries/arc3", "../geometries/SimplexPrimitivesBuilder", "../math/Spinor3", "../math/Vector2", "../math/Vector3"], function (require, exports, notSupported_1, GeometryElements_1, isDefined_1, mustBeBoolean_1, mustBeNumber_1, reduce_1, arc3_1, SimplexPrimitivesBuilder_1, Spinor3_1, Vector2_1, Vector3_1) {
     "use strict";
-    function computeWallVertices(e, cutLine, clockwise, stress, tilt, offset, angle, generator, heightSegments, thetaSegments, points, tangents, vertices, uvs) {
-        var halfHeight = Vector3_1.default.copy(e).scale(0.5);
-        var stepH = Vector3_1.default.copy(e).scale(1 / heightSegments);
+    function computeWallVertices(height, radius, clockwise, stress, tilt, offset, angle, generator, heightSegments, thetaSegments, points, tangents, vertices, uvs) {
+        var halfHeight = Vector3_1.default.copy(height).scale(0.5);
+        var stepH = Vector3_1.default.copy(height).scale(1 / heightSegments);
         var iLength = heightSegments + 1;
         for (var i = 0; i < iLength; i++) {
             var dispH = Vector3_1.default.copy(stepH).scale(i).sub(halfHeight);
             var verticesRow = [];
             var uvsRow = [];
             var v = (heightSegments - i) / heightSegments;
-            var arcPoints = arc3_1.default(cutLine, angle, generator, thetaSegments);
+            var arcPoints = arc3_1.default(radius, angle, generator, thetaSegments);
             var jLength = arcPoints.length;
             for (var j = 0; j < jLength; j++) {
                 var point = arcPoints[j];
@@ -14652,14 +14652,14 @@ define('davinci-eight/geometries/CylinderGeometry',["require", "exports", "../i1
     }
     var CylinderBuilder = (function (_super) {
         __extends(CylinderBuilder, _super);
-        function CylinderBuilder(e, cutLine, clockwise) {
+        function CylinderBuilder(height, cutLine, clockwise) {
             var _this = _super.call(this) || this;
             _this.sliceAngle = 2 * Math.PI;
             _this.openBase = false;
             _this.openCap = false;
             _this.openWall = false;
-            _this.e = Vector3_1.default.copy(e).normalize();
-            _this.cutLine = Vector3_1.default.copy(cutLine).normalize();
+            _this.height = Vector3_1.default.copy(height);
+            _this.cutLine = Vector3_1.default.copy(cutLine);
             _this.clockwise = clockwise;
             _this.setModified(true);
             return _this;
@@ -14668,13 +14668,13 @@ define('davinci-eight/geometries/CylinderGeometry',["require", "exports", "../i1
             this.data = [];
             var heightSegments = this.flatSegments;
             var thetaSegments = this.curvedSegments;
-            var generator = Spinor3_1.default.dual(this.e, false);
+            var generator = Spinor3_1.default.dual(Vector3_1.default.copy(this.height).normalize(), false);
             var heightHalf = 1 / 2;
             var points = [];
             var tangents = [];
             var vertices = [];
             var uvs = [];
-            computeWallVertices(this.e, this.cutLine, this.clockwise, this.stress, this.tilt, this.offset, this.sliceAngle, generator, heightSegments, thetaSegments, points, tangents, vertices, uvs);
+            computeWallVertices(this.height, this.cutLine, this.clockwise, this.stress, this.tilt, this.offset, this.sliceAngle, generator, heightSegments, thetaSegments, points, tangents, vertices, uvs);
             if (!this.openWall) {
                 for (var j = 0; j < thetaSegments; j++) {
                     for (var i = 0; i < heightSegments; i++) {
@@ -14696,8 +14696,8 @@ define('davinci-eight/geometries/CylinderGeometry',["require", "exports", "../i1
                 }
             }
             if (!this.openCap) {
-                var top_1 = Vector3_1.default.copy(this.e).scale(heightHalf).add(this.offset);
-                var tangent = Spinor3_1.default.dual(this.e, false).stress(this.stress).rotate(this.tilt);
+                var top_1 = Vector3_1.default.copy(this.height).scale(heightHalf).add(this.offset);
+                var tangent = Spinor3_1.default.dual(Vector3_1.default.copy(this.height).normalize(), false).stress(this.stress).rotate(this.tilt);
                 var normal = Vector3_1.default.dual(tangent, true);
                 points.push(top_1);
                 for (var j = 0; j < thetaSegments; j++) {
@@ -14711,8 +14711,8 @@ define('davinci-eight/geometries/CylinderGeometry',["require", "exports", "../i1
                 }
             }
             if (!this.openBase) {
-                var bottom = Vector3_1.default.copy(this.e).scale(-heightHalf).add(this.offset);
-                var tangent = Spinor3_1.default.dual(this.e, false).neg().stress(this.stress).rotate(this.tilt);
+                var bottom = Vector3_1.default.copy(this.height).scale(-heightHalf).add(this.offset);
+                var tangent = Spinor3_1.default.dual(Vector3_1.default.copy(this.height).normalize(), false).neg().stress(this.stress).rotate(this.tilt);
                 var normal = Vector3_1.default.dual(tangent, true);
                 points.push(bottom);
                 for (var j = 0; j < thetaSegments; j++) {
@@ -14739,8 +14739,10 @@ define('davinci-eight/geometries/CylinderGeometry',["require", "exports", "../i1
     }
     function cylinderPrimitive(options) {
         if (options === void 0) { options = {}; }
-        var axis = tilt(Vector3_1.default.vector(0, 1, 0), options);
-        var cutLine = tilt(Vector3_1.default.vector(0, 0, 1), options);
+        var radius = isDefined_1.default(options.radius) ? mustBeNumber_1.default('radius', options.radius) : 1;
+        var length = isDefined_1.default(options.length) ? mustBeNumber_1.default('length', options.length) : 1;
+        var axis = tilt(Vector3_1.default.vector(0, length, 0), options);
+        var cutLine = tilt(Vector3_1.default.vector(0, 0, radius), options);
         var builder = new CylinderBuilder(axis, cutLine, false);
         if (isDefined_1.default(options.openBase)) {
             builder.openBase = mustBeBoolean_1.default('openBase', options.openBase);
