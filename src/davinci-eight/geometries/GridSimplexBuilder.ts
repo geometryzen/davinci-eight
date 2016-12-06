@@ -1,5 +1,6 @@
 import VectorE3 from '../math/VectorE3';
 import Simplex from './Simplex';
+import SimplexMode from './SimplexMode';
 import SimplexPrimitivesBuilder from './SimplexPrimitivesBuilder';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import { Vector2 } from '../math/Vector2';
@@ -57,7 +58,7 @@ export default class GridSimplexBuilder extends SimplexPrimitivesBuilder {
                 uvc = new Vector2([(j + 1) / uSegments, (i + 1) / vSegments]);
                 uvd = new Vector2([j / uSegments, (i + 1) / vSegments]);
 
-                let simplex = new Simplex(Simplex.TRIANGLE);
+                let simplex = new Simplex(SimplexMode.TRIANGLE);
                 simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[a];
                 simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS] = uva;
                 simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[b];
@@ -66,7 +67,7 @@ export default class GridSimplexBuilder extends SimplexPrimitivesBuilder {
                 simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS] = uvd;
                 this.data.push(simplex);
 
-                simplex = new Simplex(Simplex.TRIANGLE);
+                simplex = new Simplex(SimplexMode.TRIANGLE);
                 simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[b];
                 simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS] = uvb;
                 simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[c];

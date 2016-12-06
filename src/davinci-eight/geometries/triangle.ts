@@ -1,16 +1,17 @@
 import computeFaceNormals from '../geometries/computeFaceNormals';
 import expectArg from '../checks/expectArg';
 import Simplex from '../geometries/Simplex';
+import SimplexMode from '../geometries/SimplexMode';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-import {VectorN} from '../math/VectorN';
+import { VectorN } from '../math/VectorN';
 
 export default function triangle(a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, attributes: { [name: string]: VectorN<number>[] } = {}, triangles: Simplex[] = []): Simplex[] {
 
     expectArg('a', a).toSatisfy(a instanceof VectorN, "a must be a VectorN");
-    expectArg('b', b).toSatisfy(a instanceof VectorN, "a must be a VectorN");
-    expectArg('b', c).toSatisfy(a instanceof VectorN, "a must be a VectorN");
+    expectArg('b', b).toSatisfy(b instanceof VectorN, "b must be a VectorN");
+    expectArg('c', c).toSatisfy(c instanceof VectorN, "c must be a VectorN");
 
-    const simplex = new Simplex(Simplex.TRIANGLE);
+    const simplex = new Simplex(SimplexMode.TRIANGLE);
 
     simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = a;
     // simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = Vector3.e1

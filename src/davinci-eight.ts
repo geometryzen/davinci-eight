@@ -91,6 +91,7 @@ import Primitive from './davinci-eight/core/Primitive';
 import Simplex from './davinci-eight/geometries/Simplex';
 import simplicesToGeometryMeta from './davinci-eight/geometries/simplicesToGeometryMeta';
 import GeometryMeta from './davinci-eight/geometries/GeometryMeta';
+import GeometryMode from './davinci-eight/geometries/GeometryMode';
 import computeFaceNormals from './davinci-eight/geometries/computeFaceNormals';
 import cube from './davinci-eight/geometries/cube';
 import quadrilateral from './davinci-eight/geometries/quadrilateral';
@@ -288,6 +289,7 @@ const eight = {
     get CylindricalShellBuilder() { return CylindricalShellBuilder },
     get CurveGeometry() { return CurveGeometry },
     get CurveMode() { return CurveMode },
+    get GeometryMode() { return GeometryMode },
     get GridGeometry() { return GridGeometry },
     get RingBuilder() { return RingBuilder },
     get SphereGeometry() { return SphereGeometry },

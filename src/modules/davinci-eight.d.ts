@@ -3223,6 +3223,24 @@ declare module EIGHT {
         toPrimitive(): Primitive;
     }
 
+    /**
+     * Determines how a Geometry will be rendered.
+     */
+    export enum GeometryMode {
+        /**
+         * 
+         */
+        POINT = 0,
+        /**
+         * 
+         */
+        WIRE = 1,
+        /**
+         * 
+         */
+        MESH = 2
+    }
+
     interface GeometryOptions {
 
         /**
@@ -3441,6 +3459,7 @@ declare module EIGHT {
         elevationSegments?: number;
         elevationStart?: number;
         elevationLength?: number;
+        mode?: GeometryMode;
         radius?: number;
     }
 

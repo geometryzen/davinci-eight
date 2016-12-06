@@ -15,7 +15,6 @@ import reduce from '../atoms/reduce';
 import R3 from '../math/R3';
 import SphereGeometryOptions from './SphereGeometryOptions';
 import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
-import Simplex from '../geometries/Simplex';
 import SimplexMode from './SimplexMode';
 import Spinor3 from '../math/Spinor3';
 import SpinorE3 from '../math/SpinorE3';
@@ -275,19 +274,19 @@ class SphereBuilder extends SimplexPrimitivesBuilder {
             points, uvs);
 
         switch (this.k) {
-            case Simplex.EMPTY: {
+            case SimplexMode.EMPTY: {
                 makeTriangles(points, uvs, this.radius, this.elevationSegments, this.azimuthSegments, this);
                 break;
             }
-            case Simplex.POINT: {
+            case SimplexMode.POINT: {
                 makePoints(points, uvs, this.radius, this.elevationSegments, this.azimuthSegments, this);
                 break;
             }
-            case Simplex.LINE: {
+            case SimplexMode.LINE: {
                 makeLineSegments(points, uvs, this.radius, this.elevationSegments, this.azimuthSegments, this);
                 break;
             }
-            case Simplex.TRIANGLE: {
+            case SimplexMode.TRIANGLE: {
                 makeTriangles(points, uvs, this.radius, this.elevationSegments, this.azimuthSegments, this);
                 break;
             }
@@ -319,12 +318,18 @@ function spherePrimitive(options: SphereGeometryOptions = {}): Primitive {
         switch (options.mode) {
             case GeometryMode.POINT: {
                 builder.k = SimplexMode.POINT;
+                break;
             }
             case GeometryMode.WIRE: {
                 builder.k = SimplexMode.LINE;
+                break;
             }
             case GeometryMode.MESH: {
                 builder.k = SimplexMode.TRIANGLE;
+                break;
+            }
+            default: {
+                throw new Error(`options.mode must be POINT=${GeometryMode.POINT} or WIRE=${GeometryMode.WIRE} or MESH=${GeometryMode.MESH}.`);
             }
         }
     }

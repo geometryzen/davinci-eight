@@ -1,6 +1,7 @@
 import VectorE3 from '../math/VectorE3';
 import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import Simplex from '../geometries/Simplex';
+import SimplexMode from '../geometries/SimplexMode';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import { Vector2 } from '../math/Vector2';
 import Vector3 from '../math/Vector3';
@@ -92,7 +93,7 @@ export default class PolyhedronBuilder extends SimplexPrimitivesBuilder {
 
             const n = normal(v1, v2, v3);
 
-            const simplex = new Simplex(Simplex.TRIANGLE);
+            const simplex = new Simplex(SimplexMode.TRIANGLE);
             simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = v1;
             simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = Vector3.copy(n);
             simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = v2;
@@ -163,7 +164,7 @@ export default class PolyhedronBuilder extends SimplexPrimitivesBuilder {
 
             const n = normal(v1, v2, v3);
 
-            const simplex = new Simplex(Simplex.TRIANGLE);
+            const simplex = new Simplex(SimplexMode.TRIANGLE);
             simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = Vector3.copy(v1);
             simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = Vector3.copy(n);
             simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS] = uv1;

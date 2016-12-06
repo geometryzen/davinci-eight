@@ -19,6 +19,7 @@ import R3 from '../math/R3';
 import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import quad from '../geometries/quadrilateral';
 import Simplex from '../geometries/Simplex';
+import SimplexMode from '../geometries/SimplexMode';
 import Vector1 from '../math/Vector1';
 import Vector3 from '../math/Vector3';
 import VectorE3 from '../math/VectorE3';
@@ -41,7 +42,7 @@ class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
     private _b: VectorE3;
     private _c: VectorE3;
     private _isModified: boolean = true;
-    constructor(a: VectorE3, b: VectorE3, c: VectorE3, k = Simplex.TRIANGLE, subdivide = 0, boundary = 0) {
+    constructor(a: VectorE3, b: VectorE3, c: VectorE3, k = SimplexMode.TRIANGLE, subdivide = 0, boundary = 0) {
         super();
         this._a = Vector3.copy(a);
         this._b = Vector3.copy(b);
@@ -110,17 +111,17 @@ class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
             return simplex;
         }
         switch (this.k) {
-            case 0: {
+            case SimplexMode.POINT: {
                 const points = [[0], [1], [2], [3], [4], [5], [6], [7]];
                 this.data = points.map(function (point) { return simplex(point); });
                 break;
             }
-            case 1: {
+            case SimplexMode.LINE: {
                 const lines = [[0, 1], [1, 2], [2, 3], [3, 0], [0, 7], [1, 6], [2, 5], [3, 4], [4, 5], [5, 6], [6, 7], [7, 4]];
                 this.data = lines.map(function (line) { return simplex(line); });
                 break;
             }
-            case 2: {
+            case SimplexMode.TRIANGLE: {
                 const faces: Simplex[][] = [0, 1, 2, 3, 4, 5].map(function (index) { return void 0; });
                 faces[0] = quad(pos[0], pos[1], pos[2], pos[3]);
                 faces[1] = quad(pos[1], pos[6], pos[5], pos[2]);
@@ -272,7 +273,7 @@ function boxPrimitive(options: BoxGeometryOptions = {}): Primitive {
             const a = DEFAULT_A.scale(width);
             const b = DEFAULT_B.scale(height);
             const c = DEFAULT_C.scale(depth);
-            const builder = new CuboidSimplexPrimitivesBuilder(a, b, c, 0);
+            const builder = new CuboidSimplexPrimitivesBuilder(a, b, c, SimplexMode.POINT);
             if (options.stress) {
                 builder.stress.copy(options.stress);
             }
@@ -288,7 +289,7 @@ function boxPrimitive(options: BoxGeometryOptions = {}): Primitive {
             const a = DEFAULT_A.scale(width);
             const b = DEFAULT_B.scale(height);
             const c = DEFAULT_C.scale(depth);
-            const builder = new CuboidSimplexPrimitivesBuilder(a, b, c, 1);
+            const builder = new CuboidSimplexPrimitivesBuilder(a, b, c, SimplexMode.LINE);
             if (options.stress) {
                 builder.stress.copy(options.stress);
             }

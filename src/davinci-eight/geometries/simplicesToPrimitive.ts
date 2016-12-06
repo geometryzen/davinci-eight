@@ -11,6 +11,7 @@ import expectArg from '../checks/expectArg';
 import GeometryMeta from './GeometryMeta';
 import Primitive from '../core/Primitive';
 import Simplex from './Simplex';
+import SimplexMode from './SimplexMode';
 import { VectorN } from '../math/VectorN';
 import Vertex from '../atoms/Vertex';
 
@@ -117,16 +118,16 @@ export default function (simplices: Simplex[], geometryMeta?: GeometryMeta): Pri
         attributes[output.name] = new DrawAttribute(data, output.dimensions, DataType.FLOAT);
     }
     switch (geometryMeta.k) {
-        case Simplex.TRIANGLE: {
+        case SimplexMode.TRIANGLE: {
             return new DrawPrimitive(BeginMode.TRIANGLES, indices, attributes);
         }
-        case Simplex.LINE: {
+        case SimplexMode.LINE: {
             return new DrawPrimitive(BeginMode.LINES, indices, attributes);
         }
-        case Simplex.POINT: {
+        case SimplexMode.POINT: {
             return new DrawPrimitive(BeginMode.POINTS, indices, attributes);
         }
-        case Simplex.EMPTY: {
+        case SimplexMode.EMPTY: {
             // It should be possible to no-op an EMPTY simplex.
             return new DrawPrimitive(BeginMode.POINTS, indices, attributes);
         }

@@ -5,15 +5,15 @@ export enum GeometryMode {
     /**
      * 
      */
-    POINT,
+    POINT = 0,
     /**
      * 
      */
-    WIRE,
+    WIRE = 1,
     /**
      * 
      */
-    MESH
+    MESH = 2
 }
 
 export default GeometryMode;

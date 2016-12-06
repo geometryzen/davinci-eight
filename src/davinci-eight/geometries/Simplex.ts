@@ -2,6 +2,7 @@ import mustBeEQ from '../checks/mustBeEQ';
 import mustBeGE from '../checks/mustBeGE';
 import mustBeLE from '../checks/mustBeLE';
 import mustBeInteger from '../checks/mustBeInteger';
+import SimplexMode from './SimplexMode';
 import Vertex from '../atoms/Vertex';
 import VertexAttributeMap from '../atoms/VertexAttributeMap';
 import { VectorN } from '../math/VectorN';
@@ -51,7 +52,7 @@ function lerpVectorN(a: VectorN<number>, b: VectorN<number>, alpha: number): Vec
 
 export default class Simplex {
     public vertices: Vertex[] = [];
-    constructor(k: number) {
+    constructor(k: SimplexMode) {
         mustBeInteger('k', k);
         const numVertices: number = k + 1;
         const numCoordinates = 0;
@@ -59,24 +60,26 @@ export default class Simplex {
             this.vertices.push(new Vertex(numCoordinates));
         }
     }
-    get k(): number {
+    get k(): SimplexMode {
         return this.vertices.length - 1;
     }
     // These symbolic constants represent the correct k values for various low-dimesional simplices. 
     // The number of vertices in a k-simplex is k + 1.
-    public static EMPTY = -1;
-    public static POINT = 0;
-    public static LINE = 1;
-    public static TRIANGLE = 2;
-    public static TETRAHEDRON = 3;
-    public static FIVE_CELL = 4;
+    /*
+    public static EMPTY = SimplexMode.EMPTY;
+    public static POINT = SimplexMode.POINT;
+    public static LINE = SimplexMode.LINE;
+    public static TRIANGLE = SimplexMode.TRIANGLE;
+    public static TETRAHEDRON = SimplexMode.TETRAHEDRON;
+    public static FIVE_CELL = SimplexMode.FIVE_CELL;
+    */
     public static indices(simplex: Simplex): number[] {
         return simplex.vertices.map(function (vertex) { return vertex.index; });
     }
     private static boundaryMap(simplex: Simplex): Simplex[] {
         const vertices = simplex.vertices;
         const k = simplex.k;
-        if (k === Simplex.TRIANGLE) {
+        if (k === SimplexMode.TRIANGLE) {
             var line01 = new Simplex(k - 1);
             line01.vertices[0].attributes = vertices[0].attributes;
             line01.vertices[1].attributes = vertices[1].attributes;
@@ -90,7 +93,7 @@ export default class Simplex {
             line20.vertices[1].attributes = vertices[0].attributes;
             return [line01, line12, line20];
         }
-        else if (k === Simplex.LINE) {
+        else if (k === SimplexMode.LINE) {
             var point0 = new Simplex(k - 1);
             point0.vertices[0].attributes = simplex.vertices[0].attributes;
 
@@ -98,11 +101,11 @@ export default class Simplex {
             point1.vertices[0].attributes = simplex.vertices[1].attributes;
             return [point0, point1];
         }
-        else if (k === Simplex.POINT) {
+        else if (k === SimplexMode.POINT) {
             // For consistency, we get one empty simplex rather than an empty list.
             return [new Simplex(k - 1)];
         }
-        else if (k === Simplex.EMPTY) {
+        else if (k === SimplexMode.EMPTY) {
             return [];
         }
         else {
@@ -114,7 +117,7 @@ export default class Simplex {
         let divs: Simplex[] = [];
         let vertices = simplex.vertices;
         let k = simplex.k;
-        if (k === Simplex.TRIANGLE) {
+        if (k === SimplexMode.TRIANGLE) {
             let a = vertices[0].attributes;
             let b = vertices[1].attributes;
             let c = vertices[2].attributes;
@@ -145,7 +148,7 @@ export default class Simplex {
             divs.push(face3);
             divs.push(face4);
         }
-        else if (k === Simplex.LINE) {
+        else if (k === SimplexMode.LINE) {
             let a = vertices[0].attributes;
             let b = vertices[1].attributes;
 
@@ -161,10 +164,10 @@ export default class Simplex {
             divs.push(line1);
             divs.push(line2);
         }
-        else if (k === Simplex.POINT) {
+        else if (k === SimplexMode.POINT) {
             divs.push(simplex);
         }
-        else if (k === Simplex.EMPTY) {
+        else if (k === SimplexMode.EMPTY) {
             // Ignore, don't push is the generalization.
         }
         else {
@@ -175,14 +178,14 @@ export default class Simplex {
     }
     public static boundary(simplices: Simplex[], count = 1): Simplex[] {
         checkCountArg(count);
-        for (var i = 0; i < count; i++) {
+        for (let i = 0; i < count; i++) {
             simplices = simplices.map(Simplex.boundaryMap).reduce(concatReduce, []);
         }
         return simplices;
     }
     public static subdivide(simplices: Simplex[], count = 1): Simplex[] {
         checkCountArg(count);
-        for (var i = 0; i < count; i++) {
+        for (let i = 0; i < count; i++) {
             simplices = simplices.map(Simplex.subdivideMap).reduce(concatReduce, []);
         }
         return simplices;

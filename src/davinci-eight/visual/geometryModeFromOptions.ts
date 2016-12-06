@@ -12,7 +12,7 @@ export default function modeFromOptions(options?: { wireFrame?: boolean; k?: num
             return mustBeInteger('mode', options.mode);
         }
         else if (isDefined(options.wireFrame)) {
-            return mustBeBoolean('wireFrame', options.wireFrame) ? GeometryMode.WIRE : GeometryMode.MESH;
+            return mustBeBoolean('wireFrame', options.wireFrame) ? GeometryMode.WIRE : fallback;
         }
         else if (isDefined(options.k)) {
             const k = mustBeInteger('k', options.k);

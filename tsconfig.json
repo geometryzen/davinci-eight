@@ -77,6 +77,7 @@
         "src/davinci-eight/visual/Box.spec.ts",
         "src/davinci-eight/visual/Curve.spec.ts",
         "src/davinci-eight/visual/Cylinder.spec.ts",
+        "src/davinci-eight/visual/geometryModeFromOptions.spec.ts",
         "src/davinci-eight/visual/Grid.spec.ts",
         "src/davinci-eight/visual/Group.spec.ts",
         "src/davinci-eight/visual/HollowCylinder.spec.ts",

@@ -1,6 +1,7 @@
 import arc3 from '../geometries/arc3';
 import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import Simplex from '../geometries/Simplex';
+import SimplexMode from '../geometries/SimplexMode';
 import SliceSimplexPrimitivesBuilder from '../geometries/SliceSimplexPrimitivesBuilder';
 import Spinor3 from '../math/Spinor3';
 import SpinorE3 from '../math/SpinorE3';
@@ -73,25 +74,25 @@ function makeTriangles(vertices: Vector3[], uvs: Vector2[], axis: VectorE3, radi
 function makeLineSegments(vertices: Vector3[], radialSegments: number, thetaSegments: number, data: Simplex[]) {
     for (let i = 0; i < radialSegments; i++) {
         for (let j = 0; j < thetaSegments; j++) {
-            let simplex = new Simplex(Simplex.LINE);
+            let simplex = new Simplex(SimplexMode.LINE);
             simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j, thetaSegments)];
             simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j + 1, thetaSegments)];
             data.push(simplex);
 
-            simplex = new Simplex(Simplex.LINE);
+            simplex = new Simplex(SimplexMode.LINE);
             simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j, thetaSegments)];
             simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(i + 1, j, thetaSegments)];
             data.push(simplex);
         }
         // TODO: We probably don't need these lines when the thing is closed 
-        const simplex = new Simplex(Simplex.LINE);
+        const simplex = new Simplex(SimplexMode.LINE);
         simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, thetaSegments, thetaSegments)];
         simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(i + 1, thetaSegments, thetaSegments)];
         data.push(simplex);
     }
     // Lines for the outermost circle.
     for (let j = 0; j < thetaSegments; j++) {
-        var simplex = new Simplex(Simplex.LINE);
+        const simplex = new Simplex(SimplexMode.LINE);
         simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(radialSegments, j, thetaSegments)];
         simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(radialSegments, j + 1, thetaSegments)];
         data.push(simplex);
@@ -101,7 +102,7 @@ function makeLineSegments(vertices: Vector3[], radialSegments: number, thetaSegm
 function makePoints(vertices: Vector3[], radialSegments: number, thetaSegments: number, data: Simplex[]) {
     for (let i = 0; i <= radialSegments; i++) {
         for (let j = 0; j <= thetaSegments; j++) {
-            var simplex = new Simplex(Simplex.POINT);
+            const simplex = new Simplex(SimplexMode.POINT);
             simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j, thetaSegments)];
             data.push(simplex);
         }
@@ -111,7 +112,7 @@ function makePoints(vertices: Vector3[], radialSegments: number, thetaSegments: 
 function makeEmpty(vertices: Vector3[], radialSegments: number, thetaSegments: number, data: Simplex[]) {
     for (let i = 0; i <= radialSegments; i++) {
         for (let j = 0; j <= thetaSegments; j++) {
-            var simplex = new Simplex(Simplex.EMPTY);
+            const simplex = new Simplex(SimplexMode.EMPTY);
             data.push(simplex);
         }
     }
@@ -143,19 +144,19 @@ export default class RingSimplexGeometry extends SliceSimplexPrimitivesBuilder {
 
         computeVertices(this.a, this.b, this.e, this.cutLine, this.sliceAngle, generator, radialSegments, thetaSegments, vertices, uvs);
         switch (this.k) {
-            case Simplex.EMPTY: {
+            case SimplexMode.EMPTY: {
                 makeEmpty(vertices, radialSegments, thetaSegments, this.data);
                 break;
             }
-            case Simplex.POINT: {
+            case SimplexMode.POINT: {
                 makePoints(vertices, radialSegments, thetaSegments, this.data);
                 break;
             }
-            case Simplex.LINE: {
+            case SimplexMode.LINE: {
                 makeLineSegments(vertices, radialSegments, thetaSegments, this.data);
                 break;
             }
-            case Simplex.TRIANGLE: {
+            case SimplexMode.TRIANGLE: {
                 makeTriangles(vertices, uvs, this.e, radialSegments, thetaSegments, this);
                 break;
             }
