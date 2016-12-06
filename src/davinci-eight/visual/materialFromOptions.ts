@@ -6,14 +6,15 @@ import { MeshMaterial } from '../materials/MeshMaterial';
 import MeshMaterialOptions from '../materials/MeshMaterialOptions';
 import PointMaterialOptions from '../materials/PointMaterialOptions';
 import { PointMaterial } from '../materials/PointMaterial';
+import SimplexMode from '../geometries/SimplexMode';
 
-export default function materialFromOptions(contextManager: ContextManager, k: number, options: {}): Material {
-    switch (k) {
-        case 0: {
+export default function materialFromOptions(contextManager: ContextManager, simplexMode: SimplexMode, options: {}): Material {
+    switch (simplexMode) {
+        case SimplexMode.POINT: {
             const matOptions: PointMaterialOptions = void 0;
             return new PointMaterial(contextManager, matOptions);
         }
-        case 1: {
+        case SimplexMode.LINE: {
             const matOptions: LineMaterialOptions = void 0;
             return new LineMaterial(contextManager, matOptions);
         }

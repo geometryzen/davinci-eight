@@ -3,14 +3,16 @@ import BoxGeometry from '../geometries/BoxGeometry';
 import BoxGeometryOptions from '../geometries/BoxGeometryOptions';
 import { Color } from '../core/Color';
 import { Engine } from '../core/Engine';
+import GeometryMode from '../geometries/GeometryMode';
 import isDefined from '../checks/isDefined';
-import kFromOptions from './kFromOptions';
+import geometryModeFromOptions from './geometryModeFromOptions';
 import materialFromOptions from './materialFromOptions';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeEngine from './mustBeEngine';
 import { RigidBody } from './RigidBody';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
+import simplexModeFromOptions from './simplexModeFromOptions';
 
 export class Box extends RigidBody {
 
@@ -18,14 +20,14 @@ export class Box extends RigidBody {
         super(mustBeEngine(engine, 'Box'), 1);
 
         this.setLoggingName('Box');
-        const k = kFromOptions(options);
+        const geoMode: GeometryMode = geometryModeFromOptions(options);
 
         // The shape is created un-stressed and then parameters drive the scaling.
         // The scaling matrix takes into account the initial tilt from the standard configuration.
         // const stress = Vector3.vector(1, 1, 1)
 
         const geoOptions: BoxGeometryOptions = {};
-        geoOptions.k = k;
+        geoOptions.mode = geoMode;
         geoOptions.tilt = options.tilt;
         geoOptions.openBack = options.openBack;
         geoOptions.openBase = options.openBase;
@@ -38,7 +40,7 @@ export class Box extends RigidBody {
         this.geometry = geometry;
         geometry.release();
 
-        const material = materialFromOptions(engine, k, options);
+        const material = materialFromOptions(engine, simplexModeFromOptions(options), options);
         this.material = material;
         material.release();
 

@@ -3,7 +3,7 @@ import direction from './direction';
 import { Engine } from '../core/Engine';
 import { Geometric3 } from '../math/Geometric3';
 import isDefined from '../checks/isDefined';
-import kFromOptions from './kFromOptions';
+import geometryModeFromOptions from './geometryModeFromOptions';
 import materialFromOptions from './materialFromOptions';
 import mustBeEngine from './mustBeEngine';
 import mustBeNumber from '../checks/mustBeNumber';
@@ -11,6 +11,7 @@ import mustBeObject from '../checks/mustBeObject';
 import { RigidBody } from './RigidBody';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
+import simplexModeFromOptions from './simplexModeFromOptions';
 import SphereOptions from './SphereOptions';
 import SphereGeometry from '../geometries/SphereGeometry';
 import SphereGeometryOptions from '../geometries/SphereGeometryOptions';
@@ -38,11 +39,11 @@ export class Sphere extends RigidBody {
         super(mustBeEngine(engine, 'Sphere'), levelUp + 1);
         this.setLoggingName('Sphere');
         this.initialAxis = direction(options, canonicalAxis);
-        const k = kFromOptions(options);
+        const geoMode = geometryModeFromOptions(options);
 
         const geoOptions: SphereGeometryOptions = {};
 
-        geoOptions.k = k;
+        geoOptions.mode = geoMode;
         geoOptions.azimuthSegments = options.azimuthSegments;
         geoOptions.azimuthStart = options.azimuthStart;
         geoOptions.azimuthLength = options.azimuthLength;
@@ -57,7 +58,7 @@ export class Sphere extends RigidBody {
         this.geometry = geometry;
         geometry.release();
 
-        const material = materialFromOptions(engine, k, options);
+        const material = materialFromOptions(engine, simplexModeFromOptions(options), options);
         this.material = material;
         material.release();
 

@@ -2,6 +2,7 @@ import arc3 from '../geometries/arc3';
 import ContextManager from '../core/ContextManager';
 import { Geometric3 } from '../math/Geometric3';
 import GeometryElements from '../core/GeometryElements';
+import GeometryMode from './GeometryMode';
 import isInteger from '../checks/isInteger';
 import isNumber from '../checks/isNumber';
 import isUndefined from '../checks/isUndefined';
@@ -15,6 +16,7 @@ import R3 from '../math/R3';
 import SphereGeometryOptions from './SphereGeometryOptions';
 import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import Simplex from '../geometries/Simplex';
+import SimplexMode from './SimplexMode';
 import Spinor3 from '../math/Spinor3';
 import SpinorE3 from '../math/SpinorE3';
 import { Vector2 } from '../math/Vector2';
@@ -313,14 +315,24 @@ function spherePrimitive(options: SphereGeometryOptions = {}): Primitive {
         mustBeNumber('radius', options.radius);
     }
 
-    if (isInteger(options.k)) {
-        builder.k = options.k;
+    if (isInteger(options.mode)) {
+        switch (options.mode) {
+            case GeometryMode.POINT: {
+                builder.k = SimplexMode.POINT;
+            }
+            case GeometryMode.WIRE: {
+                builder.k = SimplexMode.LINE;
+            }
+            case GeometryMode.MESH: {
+                builder.k = SimplexMode.TRIANGLE;
+            }
+        }
     }
-    else if (isUndefined(options.k)) {
-        builder.k = 2;
+    else if (isUndefined(options.mode)) {
+        builder.k = SimplexMode.TRIANGLE;
     }
     else {
-        mustBeInteger('k', options.k);
+        mustBeInteger('mode', options.mode);
     }
 
     // Azimuth Start

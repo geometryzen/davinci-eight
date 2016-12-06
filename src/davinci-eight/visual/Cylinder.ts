@@ -6,7 +6,6 @@ import CylinderOptions from './CylinderOptions';
 import { Engine } from '../core/Engine';
 import { Geometric3 } from '../math/Geometric3';
 import isDefined from '../checks/isDefined';
-import kFromOptions from './kFromOptions';
 import { MeshMaterial } from '../materials/MeshMaterial';
 import MeshMaterialOptions from '../materials/MeshMaterialOptions';
 import mustBeEngine from './mustBeEngine';
@@ -36,13 +35,11 @@ export class Cylinder extends RigidBody {
         super(mustBeEngine(engine, 'Cylinder'), levelUp + 1);
         this.setLoggingName('Cylinder');
         this.initialAxis = direction(options, canonicalAxis);
-        const k = kFromOptions(options);
         // The shape is created un-stressed and then parameters drive the scaling.
         // The scaling matrix takes into account the initial tilt from the standard configuration.
         // const stress = Vector3.vector(1, 1, 1)
 
         const geoOptions: CylinderGeometryOptions = {};
-        geoOptions.k = k;
         geoOptions.tilt = tiltFromOptions(options, canonicalAxis);
         geoOptions.offset = zero;
         geoOptions.openCap = options.openCap;

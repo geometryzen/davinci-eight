@@ -19,15 +19,6 @@ interface GeometryOptions {
      * This is the second operation applied to canonical vertex data.
      */
     tilt?: SpinorE3;
-
-    /**
-     * Determines whether the Geometry will be constructed as points, lines, or triangles.
-     *
-     * 0: points
-     * 1: lines
-     * 2: triangles
-     */
-    k?: number;
 }
 
 export default GeometryOptions;

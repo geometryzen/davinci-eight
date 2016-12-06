@@ -3,6 +3,7 @@ import mustBeBoolean from '../checks/mustBeBoolean';
 import mustBeInteger from '../checks/mustBeInteger';
 import PrimitivesBuilder from '../geometries/PrimitivesBuilder';
 import Simplex from '../geometries/Simplex';
+import SimplexMode from '../geometries/SimplexMode';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import simplicesToPrimitive from '../geometries/simplicesToPrimitive';
 import simplicesToGeometryMeta from '../geometries/simplicesToGeometryMeta';
@@ -28,10 +29,10 @@ export default class SimplexPrimitivesBuilder extends PrimitivesBuilder {
         this._k.modified = true;
     }
 
-    public get k(): number {
+    public get k(): SimplexMode {
         return this._k.x;
     }
-    public set k(k: number) {
+    public set k(k: SimplexMode) {
         this._k.x = mustBeInteger('k', k);
     }
 

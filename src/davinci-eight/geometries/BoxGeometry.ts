@@ -7,6 +7,7 @@ import mustBeBoolean from '../checks/mustBeBoolean';
 import mustBeNumber from '../checks/mustBeNumber';
 import Primitive from '../core/Primitive';
 import reduce from '../atoms/reduce';
+import GeometryMode from './GeometryMode';
 import GridTriangleStrip from '../atoms/GridTriangleStrip';
 import PrimitivesBuilder from './PrimitivesBuilder';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
@@ -265,14 +266,29 @@ function boxPrimitive(options: BoxGeometryOptions = {}): Primitive {
     const height = isDefined(options.height) ? mustBeNumber('height', options.height) : 1;
     const depth = isDefined(options.depth) ? mustBeNumber('depth', options.depth) : 1;
 
-    const k = isDefined(options.k) ? options.k : 2;
-    switch (k) {
-        case 0:
-        case 1: {
+    const mode: GeometryMode = isDefined(options.mode) ? options.mode : GeometryMode.MESH;
+    switch (mode) {
+        case GeometryMode.POINT: {
             const a = DEFAULT_A.scale(width);
             const b = DEFAULT_B.scale(height);
             const c = DEFAULT_C.scale(depth);
-            const builder = new CuboidSimplexPrimitivesBuilder(a, b, c, k);
+            const builder = new CuboidSimplexPrimitivesBuilder(a, b, c, 0);
+            if (options.stress) {
+                builder.stress.copy(options.stress);
+            }
+            if (options.tilt) {
+                builder.tilt.copySpinor(options.tilt);
+            }
+            if (options.offset) {
+                builder.offset.copy(options.offset);
+            }
+            return reduce(builder.toPrimitives());
+        }
+        case GeometryMode.WIRE: {
+            const a = DEFAULT_A.scale(width);
+            const b = DEFAULT_B.scale(height);
+            const c = DEFAULT_C.scale(depth);
+            const builder = new CuboidSimplexPrimitivesBuilder(a, b, c, 1);
             if (options.stress) {
                 builder.stress.copy(options.stress);
             }

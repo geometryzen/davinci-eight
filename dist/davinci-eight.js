@@ -13680,6 +13680,18 @@ define('davinci-eight/geometries/ArrowGeometry',["require", "exports", "./arrowP
     exports.default = ArrowGeometry;
 });
 
+define('davinci-eight/geometries/GeometryMode',["require", "exports"], function (require, exports) {
+    "use strict";
+    (function (GeometryMode) {
+        GeometryMode[GeometryMode["POINT"] = 0] = "POINT";
+        GeometryMode[GeometryMode["WIRE"] = 1] = "WIRE";
+        GeometryMode[GeometryMode["MESH"] = 2] = "MESH";
+    })(exports.GeometryMode || (exports.GeometryMode = {}));
+    var GeometryMode = exports.GeometryMode;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = GeometryMode;
+});
+
 define('davinci-eight/geometries/PrimitivesBuilder',["require", "exports", "../math/Spinor3", "../math/Vector3"], function (require, exports, Spinor3_1, Vector3_1) {
     "use strict";
     var PrimitivesBuilder = (function () {
@@ -14208,7 +14220,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/BoxGeometry',["require", "exports", "../core/GeometryElements", "../i18n/notSupported", "../checks/isDefined", "../checks/mustBeBoolean", "../checks/mustBeNumber", "../atoms/reduce", "../atoms/GridTriangleStrip", "./PrimitivesBuilder", "../core/GraphicsProgramSymbols", "../math/Spinor3", "../math/Vector2", "../geometries/computeFaceNormals", "../math/R3", "../geometries/SimplexPrimitivesBuilder", "../geometries/quadrilateral", "../geometries/Simplex", "../math/Vector1", "../math/Vector3"], function (require, exports, GeometryElements_1, notSupported_1, isDefined_1, mustBeBoolean_1, mustBeNumber_1, reduce_1, GridTriangleStrip_1, PrimitivesBuilder_1, GraphicsProgramSymbols_1, Spinor3_1, Vector2_1, computeFaceNormals_1, R3_1, SimplexPrimitivesBuilder_1, quadrilateral_1, Simplex_1, Vector1_1, Vector3_1) {
+define('davinci-eight/geometries/BoxGeometry',["require", "exports", "../core/GeometryElements", "../i18n/notSupported", "../checks/isDefined", "../checks/mustBeBoolean", "../checks/mustBeNumber", "../atoms/reduce", "./GeometryMode", "../atoms/GridTriangleStrip", "./PrimitivesBuilder", "../core/GraphicsProgramSymbols", "../math/Spinor3", "../math/Vector2", "../geometries/computeFaceNormals", "../math/R3", "../geometries/SimplexPrimitivesBuilder", "../geometries/quadrilateral", "../geometries/Simplex", "../math/Vector1", "../math/Vector3"], function (require, exports, GeometryElements_1, notSupported_1, isDefined_1, mustBeBoolean_1, mustBeNumber_1, reduce_1, GeometryMode_1, GridTriangleStrip_1, PrimitivesBuilder_1, GraphicsProgramSymbols_1, Spinor3_1, Vector2_1, computeFaceNormals_1, R3_1, SimplexPrimitivesBuilder_1, quadrilateral_1, Simplex_1, Vector1_1, Vector3_1) {
     "use strict";
     var DEFAULT_A = R3_1.default(1, 0, 0);
     var DEFAULT_B = R3_1.default(0, 1, 0);
@@ -14439,14 +14451,29 @@ define('davinci-eight/geometries/BoxGeometry',["require", "exports", "../core/Ge
         var width = isDefined_1.default(options.width) ? mustBeNumber_1.default('width', options.width) : 1;
         var height = isDefined_1.default(options.height) ? mustBeNumber_1.default('height', options.height) : 1;
         var depth = isDefined_1.default(options.depth) ? mustBeNumber_1.default('depth', options.depth) : 1;
-        var k = isDefined_1.default(options.k) ? options.k : 2;
-        switch (k) {
-            case 0:
-            case 1: {
+        var mode = isDefined_1.default(options.mode) ? options.mode : GeometryMode_1.default.MESH;
+        switch (mode) {
+            case GeometryMode_1.default.POINT: {
                 var a = DEFAULT_A.scale(width);
                 var b = DEFAULT_B.scale(height);
                 var c = DEFAULT_C.scale(depth);
-                var builder = new CuboidSimplexPrimitivesBuilder(a, b, c, k);
+                var builder = new CuboidSimplexPrimitivesBuilder(a, b, c, 0);
+                if (options.stress) {
+                    builder.stress.copy(options.stress);
+                }
+                if (options.tilt) {
+                    builder.tilt.copySpinor(options.tilt);
+                }
+                if (options.offset) {
+                    builder.offset.copy(options.offset);
+                }
+                return reduce_1.default(builder.toPrimitives());
+            }
+            case GeometryMode_1.default.WIRE: {
+                var a = DEFAULT_A.scale(width);
+                var b = DEFAULT_B.scale(height);
+                var c = DEFAULT_C.scale(depth);
+                var builder = new CuboidSimplexPrimitivesBuilder(a, b, c, 1);
                 if (options.stress) {
                     builder.stress.copy(options.stress);
                 }
@@ -15319,12 +15346,27 @@ define('davinci-eight/geometries/GridGeometry',["require", "exports", "../core/G
     exports.default = GridGeometry;
 });
 
+define('davinci-eight/geometries/SimplexMode',["require", "exports"], function (require, exports) {
+    "use strict";
+    (function (SimplexMode) {
+        SimplexMode[SimplexMode["EMPTY"] = -1] = "EMPTY";
+        SimplexMode[SimplexMode["POINT"] = 0] = "POINT";
+        SimplexMode[SimplexMode["LINE"] = 1] = "LINE";
+        SimplexMode[SimplexMode["TRIANGLE"] = 2] = "TRIANGLE";
+        SimplexMode[SimplexMode["TETRAHEDRON"] = 3] = "TETRAHEDRON";
+        SimplexMode[SimplexMode["FIVE_CELL"] = 4] = "FIVE_CELL";
+    })(exports.SimplexMode || (exports.SimplexMode = {}));
+    var SimplexMode = exports.SimplexMode;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = SimplexMode;
+});
+
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/SphereGeometry',["require", "exports", "../geometries/arc3", "../math/Geometric3", "../core/GeometryElements", "../checks/isInteger", "../checks/isNumber", "../checks/isUndefined", "../checks/mustBeGE", "../checks/mustBeInteger", "../checks/mustBeNumber", "../i18n/notSupported", "../atoms/reduce", "../math/R3", "../geometries/SimplexPrimitivesBuilder", "../geometries/Simplex", "../math/Spinor3", "../math/Vector2", "../math/Vector3"], function (require, exports, arc3_1, Geometric3_1, GeometryElements_1, isInteger_1, isNumber_1, isUndefined_1, mustBeGE_1, mustBeInteger_1, mustBeNumber_1, notSupported_1, reduce_1, R3_1, SimplexPrimitivesBuilder_1, Simplex_1, Spinor3_1, Vector2_1, Vector3_1) {
+define('davinci-eight/geometries/SphereGeometry',["require", "exports", "../geometries/arc3", "../math/Geometric3", "../core/GeometryElements", "./GeometryMode", "../checks/isInteger", "../checks/isNumber", "../checks/isUndefined", "../checks/mustBeGE", "../checks/mustBeInteger", "../checks/mustBeNumber", "../i18n/notSupported", "../atoms/reduce", "../math/R3", "../geometries/SimplexPrimitivesBuilder", "../geometries/Simplex", "./SimplexMode", "../math/Spinor3", "../math/Vector2", "../math/Vector3"], function (require, exports, arc3_1, Geometric3_1, GeometryElements_1, GeometryMode_1, isInteger_1, isNumber_1, isUndefined_1, mustBeGE_1, mustBeInteger_1, mustBeNumber_1, notSupported_1, reduce_1, R3_1, SimplexPrimitivesBuilder_1, Simplex_1, SimplexMode_1, Spinor3_1, Vector2_1, Vector3_1) {
     "use strict";
     var DEFAULT_MERIDIAN = R3_1.default(0, 0, 1);
     var DEFAULT_ZENITH = R3_1.default(0, 1, 0);
@@ -15512,14 +15554,24 @@ define('davinci-eight/geometries/SphereGeometry',["require", "exports", "../geom
         else {
             mustBeNumber_1.default('radius', options.radius);
         }
-        if (isInteger_1.default(options.k)) {
-            builder.k = options.k;
+        if (isInteger_1.default(options.mode)) {
+            switch (options.mode) {
+                case GeometryMode_1.default.POINT: {
+                    builder.k = SimplexMode_1.default.POINT;
+                }
+                case GeometryMode_1.default.WIRE: {
+                    builder.k = SimplexMode_1.default.LINE;
+                }
+                case GeometryMode_1.default.MESH: {
+                    builder.k = SimplexMode_1.default.TRIANGLE;
+                }
+            }
         }
-        else if (isUndefined_1.default(options.k)) {
-            builder.k = 2;
+        else if (isUndefined_1.default(options.mode)) {
+            builder.k = SimplexMode_1.default.TRIANGLE;
         }
         else {
-            mustBeInteger_1.default('k', options.k);
+            mustBeInteger_1.default('mode', options.mode);
         }
         if (isNumber_1.default(options.azimuthStart)) {
             builder.azimuthStart = options.azimuthStart;
@@ -17887,39 +17939,49 @@ define('davinci-eight/visual/Basis',["require", "exports", "../core/BeginMode", 
     exports.default = Basis;
 });
 
-define('davinci-eight/visual/kFromOptions',["require", "exports", "../checks/isDefined", "../checks/mustBeBoolean", "../checks/mustBeInteger"], function (require, exports, isDefined_1, mustBeBoolean_1, mustBeInteger_1) {
+define('davinci-eight/visual/geometryModeFromOptions',["require", "exports", "../checks/isDefined", "../checks/mustBeBoolean", "../checks/mustBeInteger", "../geometries/GeometryMode"], function (require, exports, isDefined_1, mustBeBoolean_1, mustBeInteger_1, GeometryMode_1) {
     "use strict";
-    var LINE = 1;
-    var TRIANGLE = 2;
-    function kFromOptions(options) {
+    function modeFromOptions(options, fallback) {
+        if (fallback === void 0) { fallback = GeometryMode_1.default.MESH; }
         if (isDefined_1.default(options)) {
-            if (isDefined_1.default(options.wireFrame)) {
-                return mustBeBoolean_1.default('wireFrame', options.wireFrame) ? LINE : TRIANGLE;
+            if (isDefined_1.default(options.mode)) {
+                return mustBeInteger_1.default('mode', options.mode);
+            }
+            else if (isDefined_1.default(options.wireFrame)) {
+                return mustBeBoolean_1.default('wireFrame', options.wireFrame) ? GeometryMode_1.default.WIRE : GeometryMode_1.default.MESH;
             }
             else if (isDefined_1.default(options.k)) {
-                return mustBeInteger_1.default('k', options.k);
+                var k = mustBeInteger_1.default('k', options.k);
+                switch (k) {
+                    case 0: return GeometryMode_1.default.POINT;
+                    case 1: return GeometryMode_1.default.WIRE;
+                    case 2: return GeometryMode_1.default.MESH;
+                    default: {
+                        throw new Error("k must be 0, 1, or 2");
+                    }
+                }
             }
             else {
-                return TRIANGLE;
+                return fallback;
             }
         }
         else {
-            return TRIANGLE;
+            return fallback;
         }
     }
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = kFromOptions;
+    exports.default = modeFromOptions;
 });
 
-define('davinci-eight/visual/materialFromOptions',["require", "exports", "../materials/LineMaterial", "../materials/MeshMaterial", "../materials/PointMaterial"], function (require, exports, LineMaterial_1, MeshMaterial_1, PointMaterial_1) {
+define('davinci-eight/visual/materialFromOptions',["require", "exports", "../materials/LineMaterial", "../materials/MeshMaterial", "../materials/PointMaterial", "../geometries/SimplexMode"], function (require, exports, LineMaterial_1, MeshMaterial_1, PointMaterial_1, SimplexMode_1) {
     "use strict";
-    function materialFromOptions(contextManager, k, options) {
-        switch (k) {
-            case 0: {
+    function materialFromOptions(contextManager, simplexMode, options) {
+        switch (simplexMode) {
+            case SimplexMode_1.default.POINT: {
                 var matOptions = void 0;
                 return new PointMaterial_1.PointMaterial(contextManager, matOptions);
             }
-            case 1: {
+            case SimplexMode_1.default.LINE: {
                 var matOptions = void 0;
                 return new LineMaterial_1.LineMaterial(contextManager, matOptions);
             }
@@ -17933,12 +17995,47 @@ define('davinci-eight/visual/materialFromOptions',["require", "exports", "../mat
     exports.default = materialFromOptions;
 });
 
+define('davinci-eight/visual/simplexModeFromOptions',["require", "exports", "../checks/isDefined", "../checks/mustBeBoolean", "../checks/mustBeInteger", "../geometries/SimplexMode"], function (require, exports, isDefined_1, mustBeBoolean_1, mustBeInteger_1, SimplexMode_1) {
+    "use strict";
+    function simplexFromOptions(options, fallback) {
+        if (fallback === void 0) { fallback = SimplexMode_1.default.TRIANGLE; }
+        if (isDefined_1.default(options)) {
+            if (isDefined_1.default(options.mode)) {
+                return mustBeInteger_1.default('mode', options.mode);
+            }
+            else if (isDefined_1.default(options.wireFrame)) {
+                return mustBeBoolean_1.default('wireFrame', options.wireFrame) ? SimplexMode_1.default.LINE : fallback;
+            }
+            else if (isDefined_1.default(options.k)) {
+                var k = mustBeInteger_1.default('k', options.k);
+                switch (k) {
+                    case -1: return SimplexMode_1.default.EMPTY;
+                    case 0: return SimplexMode_1.default.POINT;
+                    case 1: return SimplexMode_1.default.LINE;
+                    case 2: return SimplexMode_1.default.TRIANGLE;
+                    default: {
+                        throw new Error("k must be -1, 0, 1, or 2");
+                    }
+                }
+            }
+            else {
+                return fallback;
+            }
+        }
+        else {
+            return fallback;
+        }
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = simplexFromOptions;
+});
+
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/visual/Sphere',["require", "exports", "../core/Color", "./direction", "../math/Geometric3", "../checks/isDefined", "./kFromOptions", "./materialFromOptions", "./mustBeEngine", "../checks/mustBeNumber", "../checks/mustBeObject", "./RigidBody", "./setColorOption", "./setDeprecatedOptions", "../geometries/SphereGeometry", "./tiltFromOptions", "../math/R3"], function (require, exports, Color_1, direction_1, Geometric3_1, isDefined_1, kFromOptions_1, materialFromOptions_1, mustBeEngine_1, mustBeNumber_1, mustBeObject_1, RigidBody_1, setColorOption_1, setDeprecatedOptions_1, SphereGeometry_1, tiltFromOptions_1, R3_1) {
+define('davinci-eight/visual/Sphere',["require", "exports", "../core/Color", "./direction", "../math/Geometric3", "../checks/isDefined", "./geometryModeFromOptions", "./materialFromOptions", "./mustBeEngine", "../checks/mustBeNumber", "../checks/mustBeObject", "./RigidBody", "./setColorOption", "./setDeprecatedOptions", "./simplexModeFromOptions", "../geometries/SphereGeometry", "./tiltFromOptions", "../math/R3"], function (require, exports, Color_1, direction_1, Geometric3_1, isDefined_1, geometryModeFromOptions_1, materialFromOptions_1, mustBeEngine_1, mustBeNumber_1, mustBeObject_1, RigidBody_1, setColorOption_1, setDeprecatedOptions_1, simplexModeFromOptions_1, SphereGeometry_1, tiltFromOptions_1, R3_1) {
     "use strict";
     var RADIUS_NAME = 'radius';
     var RADIUS_DEFAULT = 1;
@@ -17952,9 +18049,9 @@ define('davinci-eight/visual/Sphere',["require", "exports", "../core/Color", "./
             var _this = _super.call(this, mustBeEngine_1.default(engine, 'Sphere'), levelUp + 1) || this;
             _this.setLoggingName('Sphere');
             _this.initialAxis = direction_1.default(options, canonicalAxis);
-            var k = kFromOptions_1.default(options);
+            var geoMode = geometryModeFromOptions_1.default(options);
             var geoOptions = {};
-            geoOptions.k = k;
+            geoOptions.mode = geoMode;
             geoOptions.azimuthSegments = options.azimuthSegments;
             geoOptions.azimuthStart = options.azimuthStart;
             geoOptions.azimuthLength = options.azimuthLength;
@@ -17967,7 +18064,7 @@ define('davinci-eight/visual/Sphere',["require", "exports", "../core/Color", "./
             var geometry = new SphereGeometry_1.default(engine, geoOptions);
             _this.geometry = geometry;
             geometry.release();
-            var material = materialFromOptions_1.default(engine, k, options);
+            var material = materialFromOptions_1.default(engine, simplexModeFromOptions_1.default(options), options);
             _this.material = material;
             material.release();
             setColorOption_1.default(_this, options, Color_1.Color.gray);
@@ -18017,7 +18114,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/visual/Box',["require", "exports", "../geometries/BoxGeometry", "../core/Color", "../checks/isDefined", "./kFromOptions", "./materialFromOptions", "../checks/mustBeNumber", "./mustBeEngine", "./RigidBody", "./setColorOption", "./setDeprecatedOptions"], function (require, exports, BoxGeometry_1, Color_1, isDefined_1, kFromOptions_1, materialFromOptions_1, mustBeNumber_1, mustBeEngine_1, RigidBody_1, setColorOption_1, setDeprecatedOptions_1) {
+define('davinci-eight/visual/Box',["require", "exports", "../geometries/BoxGeometry", "../core/Color", "../checks/isDefined", "./geometryModeFromOptions", "./materialFromOptions", "../checks/mustBeNumber", "./mustBeEngine", "./RigidBody", "./setColorOption", "./setDeprecatedOptions", "./simplexModeFromOptions"], function (require, exports, BoxGeometry_1, Color_1, isDefined_1, geometryModeFromOptions_1, materialFromOptions_1, mustBeNumber_1, mustBeEngine_1, RigidBody_1, setColorOption_1, setDeprecatedOptions_1, simplexModeFromOptions_1) {
     "use strict";
     var Box = (function (_super) {
         __extends(Box, _super);
@@ -18025,9 +18122,9 @@ define('davinci-eight/visual/Box',["require", "exports", "../geometries/BoxGeome
             if (options === void 0) { options = {}; }
             var _this = _super.call(this, mustBeEngine_1.default(engine, 'Box'), 1) || this;
             _this.setLoggingName('Box');
-            var k = kFromOptions_1.default(options);
+            var geoMode = geometryModeFromOptions_1.default(options);
             var geoOptions = {};
-            geoOptions.k = k;
+            geoOptions.mode = geoMode;
             geoOptions.tilt = options.tilt;
             geoOptions.openBack = options.openBack;
             geoOptions.openBase = options.openBase;
@@ -18038,7 +18135,7 @@ define('davinci-eight/visual/Box',["require", "exports", "../geometries/BoxGeome
             var geometry = new BoxGeometry_1.default(engine, geoOptions);
             _this.geometry = geometry;
             geometry.release();
-            var material = materialFromOptions_1.default(engine, k, options);
+            var material = materialFromOptions_1.default(engine, simplexModeFromOptions_1.default(options), options);
             _this.material = material;
             material.release();
             if (options.color) {
@@ -18096,7 +18193,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/visual/Cylinder',["require", "exports", "./direction", "../core/Color", "../geometries/CylinderGeometry", "../math/Geometric3", "../checks/isDefined", "./kFromOptions", "../materials/MeshMaterial", "./mustBeEngine", "../checks/mustBeNumber", "../checks/mustBeObject", "./RigidBody", "./setColorOption", "./setDeprecatedOptions", "./tiltFromOptions", "../math/R3"], function (require, exports, direction_1, Color_1, CylinderGeometry_1, Geometric3_1, isDefined_1, kFromOptions_1, MeshMaterial_1, mustBeEngine_1, mustBeNumber_1, mustBeObject_1, RigidBody_1, setColorOption_1, setDeprecatedOptions_1, tiltFromOptions_1, R3_1) {
+define('davinci-eight/visual/Cylinder',["require", "exports", "./direction", "../core/Color", "../geometries/CylinderGeometry", "../math/Geometric3", "../checks/isDefined", "../materials/MeshMaterial", "./mustBeEngine", "../checks/mustBeNumber", "../checks/mustBeObject", "./RigidBody", "./setColorOption", "./setDeprecatedOptions", "./tiltFromOptions", "../math/R3"], function (require, exports, direction_1, Color_1, CylinderGeometry_1, Geometric3_1, isDefined_1, MeshMaterial_1, mustBeEngine_1, mustBeNumber_1, mustBeObject_1, RigidBody_1, setColorOption_1, setDeprecatedOptions_1, tiltFromOptions_1, R3_1) {
     "use strict";
     var canonicalAxis = R3_1.default(0, 1, 0);
     var zero = R3_1.default(0, 0, 0);
@@ -18108,9 +18205,7 @@ define('davinci-eight/visual/Cylinder',["require", "exports", "./direction", "..
             var _this = _super.call(this, mustBeEngine_1.default(engine, 'Cylinder'), levelUp + 1) || this;
             _this.setLoggingName('Cylinder');
             _this.initialAxis = direction_1.default(options, canonicalAxis);
-            var k = kFromOptions_1.default(options);
             var geoOptions = {};
-            geoOptions.k = k;
             geoOptions.tilt = tiltFromOptions_1.default(options, canonicalAxis);
             geoOptions.offset = zero;
             geoOptions.openCap = options.openCap;
