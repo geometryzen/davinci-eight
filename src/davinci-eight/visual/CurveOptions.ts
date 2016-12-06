@@ -1,4 +1,4 @@
-import BeginMode from '../core/BeginMode';
+import CurveMode from '../geometries/CurveMode';
 import VectorE3 from '../math/VectorE3';
 
 /**
@@ -34,7 +34,7 @@ export interface CurveOptions {
      *
      * @default LINES
      */
-    mode?: BeginMode;
+    mode?: CurveMode;
 
     /**
      *

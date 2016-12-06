@@ -3326,6 +3326,56 @@ declare module EIGHT {
     }
 
     /**
+     * Determines how a Curve will be rendered.
+     */
+    export enum CurveMode {
+        /**
+         * 
+         */
+        POINTS = 0x0000,
+        /**
+         * 
+         */
+        LINES = 0x0001
+    }
+
+    interface CurveGeometryOptions extends GeometryOptions {
+        /**
+         * A parametric function determining the positions of points on the curve.
+         *
+         * 0 <= u <= 1
+         *
+         * @default () => (u, 0)
+         */
+        aPosition?: (u: number) => VectorE3;
+        /**
+         *
+         */
+        aColor?: (u: number) => { r: number; g: number; b: number };
+        /**
+         * @default LINES
+         */
+        mode?: CurveMode;
+        /**
+         * @default 0
+         */
+        uMin?: number;
+        /**
+         * @default 1
+         */
+        uMax?: number;
+        /**
+         * @default 1
+         */
+        uSegments?: number;
+    }
+
+    class CurveGeometry extends GeometryElements {
+        constructor(contextManager: ContextManager, options?: CurveGeometryOptions, levelUp?: number);
+        protected destructor(levelUp: number): void;
+    }
+
+    /**
      * 
      */
     interface GridGeometryOptions extends GeometryOptions {
@@ -4109,7 +4159,7 @@ declare module EIGHT {
     interface CurveOptions {
         aColor?: (u: number) => Color;
         aPosition?: (u: number) => VectorE3;
-        mode?: BeginMode;
+        mode?: CurveMode;
         uMax?: number;
         uMin?: number;
         uSegments?: number;

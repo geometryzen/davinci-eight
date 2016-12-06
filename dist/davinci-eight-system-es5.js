@@ -4951,7 +4951,7 @@ System.register("davinci-eight/atoms/numVerticesForCurve.js", ["../checks/mustBe
         execute: function () {}
     };
 });
-System.register("davinci-eight/atoms/CurvePrimitive.js", ["./GeometryPrimitive", "../checks/mustBeGE", "../checks/mustBeLT", "../checks/mustBeBoolean", "../checks/mustBeInteger", "./numPostsForFence", "./numVerticesForCurve", "../i18n/readOnly"], function (exports_1, context_1) {
+System.register("davinci-eight/atoms/CurvePrimitive.js", ["../checks/mustBeGE", "../checks/mustBeLT", "../checks/mustBeBoolean", "../checks/mustBeInteger", "./numPostsForFence", "./numVerticesForCurve", "../i18n/readOnly", "./VertexPrimitive"], function (exports_1, context_1) {
     "use strict";
 
     var __extends = this && this.__extends || function (d, b) {
@@ -4962,11 +4962,9 @@ System.register("davinci-eight/atoms/CurvePrimitive.js", ["./GeometryPrimitive",
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
     var __moduleName = context_1 && context_1.id;
-    var GeometryPrimitive_1, mustBeGE_1, mustBeLT_1, mustBeBoolean_1, mustBeInteger_1, numPostsForFence_1, numVerticesForCurve_1, readOnly_1, CurvePrimitive;
+    var mustBeGE_1, mustBeLT_1, mustBeBoolean_1, mustBeInteger_1, numPostsForFence_1, numVerticesForCurve_1, readOnly_1, VertexPrimitive_1, CurvePrimitive;
     return {
-        setters: [function (GeometryPrimitive_1_1) {
-            GeometryPrimitive_1 = GeometryPrimitive_1_1;
-        }, function (mustBeGE_1_1) {
+        setters: [function (mustBeGE_1_1) {
             mustBeGE_1 = mustBeGE_1_1;
         }, function (mustBeLT_1_1) {
             mustBeLT_1 = mustBeLT_1_1;
@@ -4980,6 +4978,8 @@ System.register("davinci-eight/atoms/CurvePrimitive.js", ["./GeometryPrimitive",
             numVerticesForCurve_1 = numVerticesForCurve_1_1;
         }, function (readOnly_1_1) {
             readOnly_1 = readOnly_1_1;
+        }, function (VertexPrimitive_1_1) {
+            VertexPrimitive_1 = VertexPrimitive_1_1;
         }],
         execute: function () {
             CurvePrimitive = function (_super) {
@@ -5033,7 +5033,7 @@ System.register("davinci-eight/atoms/CurvePrimitive.js", ["./GeometryPrimitive",
                     return this.vertices[uIndex];
                 };
                 return CurvePrimitive;
-            }(GeometryPrimitive_1.default);
+            }(VertexPrimitive_1.default);
             exports_1("default", CurvePrimitive);
         }
     };
@@ -5143,7 +5143,7 @@ System.register("davinci-eight/atoms/LinePoints.js", ["./CurvePrimitive", "../co
         }
     };
 });
-System.register("davinci-eight/geometries/curvePrimitive.js", ["../core/Color", "../core/BeginMode", "../core/GraphicsProgramSymbols", "../atoms/LineStrip", "../atoms/LinePoints", "../checks/isDefined", "../checks/isFunction", "../checks/mustBeNumber", "../math/Vector3"], function (exports_1, context_1) {
+System.register("davinci-eight/geometries/curvePrimitive.js", ["../core/Color", "../core/GraphicsProgramSymbols", "../atoms/LineStrip", "./CurveMode", "../atoms/LinePoints", "../checks/isDefined", "../checks/isFunction", "../checks/mustBeNumber", "../math/Vector3"], function (exports_1, context_1) {
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
@@ -5152,17 +5152,17 @@ System.register("davinci-eight/geometries/curvePrimitive.js", ["../core/Color", 
     }
     function topology(mode, uSegments, uClosed) {
         switch (mode) {
-            case BeginMode_1.default.POINTS:
+            case CurveMode_1.default.POINTS:
                 {
                     return new LinePoints_1.default(uSegments);
                 }
-            case BeginMode_1.default.LINES:
+            case CurveMode_1.default.LINES:
                 {
                     return new LineStrip_1.default(uSegments);
                 }
             default:
                 {
-                    throw new Error("mode must be POINTS, LINES");
+                    throw new Error("mode must be POINTS or LINES");
                 }
         }
     }
@@ -5180,7 +5180,7 @@ System.register("davinci-eight/geometries/curvePrimitive.js", ["../core/Color", 
         var uMin = isDefined_1.default(options.uMin) ? mustBeNumber_1.default('uMin', options.uMin) : 0;
         var uMax = isDefined_1.default(options.uMax) ? mustBeNumber_1.default('uMax', options.uMax) : 1;
         var uSegments = isDefined_1.default(options.uSegments) ? options.uSegments : 1;
-        var mode = isDefined_1.default(options.mode) ? options.mode : BeginMode_1.default.LINES;
+        var mode = isDefined_1.default(options.mode) ? options.mode : CurveMode_1.default.LINES;
         var curve = topology(mode, uSegments, false);
         var iLen = curve.uLength;
         if (uSegments > 0) {
@@ -5196,17 +5196,17 @@ System.register("davinci-eight/geometries/curvePrimitive.js", ["../core/Color", 
         }
         return curve.toPrimitive();
     }
-    var Color_1, BeginMode_1, GraphicsProgramSymbols_1, LineStrip_1, LinePoints_1, isDefined_1, isFunction_1, mustBeNumber_1, Vector3_1;
+    var Color_1, GraphicsProgramSymbols_1, LineStrip_1, CurveMode_1, LinePoints_1, isDefined_1, isFunction_1, mustBeNumber_1, Vector3_1;
     exports_1("default", curvePrimitive);
     return {
         setters: [function (Color_1_1) {
             Color_1 = Color_1_1;
-        }, function (BeginMode_1_1) {
-            BeginMode_1 = BeginMode_1_1;
         }, function (GraphicsProgramSymbols_1_1) {
             GraphicsProgramSymbols_1 = GraphicsProgramSymbols_1_1;
         }, function (LineStrip_1_1) {
             LineStrip_1 = LineStrip_1_1;
+        }, function (CurveMode_1_1) {
+            CurveMode_1 = CurveMode_1_1;
         }, function (LinePoints_1_1) {
             LinePoints_1 = LinePoints_1_1;
         }, function (isDefined_1_1) {
@@ -5268,7 +5268,24 @@ System.register("davinci-eight/geometries/CurveGeometry.js", ["../core/GeometryE
         }
     };
 });
-System.register("davinci-eight/visual/Curve.js", ["../core/BeginMode", "../core/GraphicsProgramSymbols", "../core/Color", "../geometries/CurveGeometry", "../checks/isDefined", "../checks/isFunction", "../checks/isNull", "../checks/isUndefined", "../materials/LineMaterial", "../core/Mesh", "./mustBeEngine", "../checks/mustBeGE", "../checks/mustBeNumber", "../materials/PointMaterial", "./setColorOption", "./setDeprecatedOptions", "../math/Vector3"], function (exports_1, context_1) {
+System.register("davinci-eight/geometries/CurveMode.js", [], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    var CurveMode;
+    return {
+        setters: [],
+        execute: function () {
+            (function (CurveMode) {
+                CurveMode[CurveMode["POINTS"] = 0] = "POINTS";
+                CurveMode[CurveMode["LINES"] = 1] = "LINES";
+            })(CurveMode || (CurveMode = {}));
+            exports_1("CurveMode", CurveMode);
+            exports_1("default", CurveMode);
+        }
+    };
+});
+System.register("davinci-eight/visual/Curve.js", ["../core/GraphicsProgramSymbols", "../core/Color", "../geometries/CurveGeometry", "../geometries/CurveMode", "../checks/isDefined", "../checks/isFunction", "../checks/isNull", "../checks/isUndefined", "../materials/LineMaterial", "../core/Mesh", "./mustBeEngine", "../checks/mustBeGE", "../checks/mustBeNumber", "../materials/PointMaterial", "./setColorOption", "./setDeprecatedOptions", "../math/Vector3"], function (exports_1, context_1) {
     "use strict";
 
     var __extends = this && this.__extends || function (d, b) {
@@ -5320,7 +5337,7 @@ System.register("davinci-eight/visual/Curve.js", ["../core/BeginMode", "../core/
     function configPoints(contextManager, options, curve) {
         var geoOptions = {};
         transferGeometryOptions(options, geoOptions);
-        geoOptions.mode = BeginMode_1.default.POINTS;
+        geoOptions.mode = CurveMode_1.default.POINTS;
         var geometry = new CurveGeometry_1.default(contextManager, geoOptions);
         curve.geometry = geometry;
         geometry.release();
@@ -5351,7 +5368,7 @@ System.register("davinci-eight/visual/Curve.js", ["../core/BeginMode", "../core/
     function configLines(contextManager, options, curve) {
         var geoOptions = {};
         transferGeometryOptions(options, geoOptions);
-        geoOptions.mode = BeginMode_1.default.LINES;
+        geoOptions.mode = CurveMode_1.default.LINES;
         var geometry = new CurveGeometry_1.default(contextManager, geoOptions);
         curve.geometry = geometry;
         geometry.release();
@@ -5373,16 +5390,16 @@ System.register("davinci-eight/visual/Curve.js", ["../core/BeginMode", "../core/
         curve.material = material;
         material.release();
     }
-    var BeginMode_1, GraphicsProgramSymbols_1, Color_1, CurveGeometry_1, isDefined_1, isFunction_1, isNull_1, isUndefined_1, LineMaterial_1, Mesh_1, mustBeEngine_1, mustBeGE_1, mustBeNumber_1, PointMaterial_1, setColorOption_1, setDeprecatedOptions_1, Vector3_1, Curve;
+    var GraphicsProgramSymbols_1, Color_1, CurveGeometry_1, CurveMode_1, isDefined_1, isFunction_1, isNull_1, isUndefined_1, LineMaterial_1, Mesh_1, mustBeEngine_1, mustBeGE_1, mustBeNumber_1, PointMaterial_1, setColorOption_1, setDeprecatedOptions_1, Vector3_1, Curve;
     return {
-        setters: [function (BeginMode_1_1) {
-            BeginMode_1 = BeginMode_1_1;
-        }, function (GraphicsProgramSymbols_1_1) {
+        setters: [function (GraphicsProgramSymbols_1_1) {
             GraphicsProgramSymbols_1 = GraphicsProgramSymbols_1_1;
         }, function (Color_1_1) {
             Color_1 = Color_1_1;
         }, function (CurveGeometry_1_1) {
             CurveGeometry_1 = CurveGeometry_1_1;
+        }, function (CurveMode_1_1) {
+            CurveMode_1 = CurveMode_1_1;
         }, function (isDefined_1_1) {
             isDefined_1 = isDefined_1_1;
         }, function (isFunction_1_1) {
@@ -5422,15 +5439,14 @@ System.register("davinci-eight/visual/Curve.js", ["../core/BeginMode", "../core/
                     }
                     var _this = _super.call(this, void 0, void 0, mustBeEngine_1.default(engine, 'Curve'), levelUp + 1) || this;
                     _this.setLoggingName('Curve');
-                    var mode = isDefined_1.default(options.mode) ? options.mode : BeginMode_1.default.LINES;
+                    var mode = isDefined_1.default(options.mode) ? options.mode : CurveMode_1.default.LINES;
                     switch (mode) {
-                        case BeginMode_1.default.POINTS:
+                        case CurveMode_1.default.POINTS:
                             {
                                 configPoints(engine, options, _this);
                                 break;
                             }
-                        case BeginMode_1.default.LINES:
-                        case BeginMode_1.default.LINE_STRIP:
+                        case CurveMode_1.default.LINES:
                             {
                                 configLines(engine, options, _this);
                                 break;
@@ -7225,7 +7241,25 @@ System.register("davinci-eight/transforms/Duality.js", ["../checks/mustBeBoolean
         }
     };
 });
-System.register("davinci-eight/atoms/GeometryPrimitive.js", ["../core/DataType", "./DrawAttribute", "./DrawPrimitive", "../checks/mustBeArray", "../checks/mustBeGE", "../checks/mustBeInteger", "../i18n/notSupported", "../core/vertexArraysFromPrimitive", "./Vertex", "../geometries/dataFromVectorN"], function (exports_1, context_1) {
+System.register("davinci-eight/atoms/numVerticesForGrid.js", ["../checks/mustBeInteger"], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    function default_1(uSegments, vSegments) {
+        mustBeInteger_1.default('uSegments', uSegments);
+        mustBeInteger_1.default('vSegments', vSegments);
+        return (uSegments + 1) * (vSegments + 1);
+    }
+    var mustBeInteger_1;
+    exports_1("default", default_1);
+    return {
+        setters: [function (mustBeInteger_1_1) {
+            mustBeInteger_1 = mustBeInteger_1_1;
+        }],
+        execute: function () {}
+    };
+});
+System.register("davinci-eight/atoms/VertexPrimitive.js", ["../core/DataType", "./DrawAttribute", "./DrawPrimitive", "../checks/mustBeArray", "../checks/mustBeGE", "../checks/mustBeInteger", "../i18n/notSupported", "./Vertex", "../geometries/dataFromVectorN"], function (exports_1, context_1) {
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
@@ -7251,7 +7285,7 @@ System.register("davinci-eight/atoms/GeometryPrimitive.js", ["../core/DataType",
         }
         return attribs;
     }
-    var DataType_1, DrawAttribute_1, DrawPrimitive_1, mustBeArray_1, mustBeGE_1, mustBeInteger_1, notSupported_1, vertexArraysFromPrimitive_1, Vertex_1, dataFromVectorN_1, GeometryPrimitive;
+    var DataType_1, DrawAttribute_1, DrawPrimitive_1, mustBeArray_1, mustBeGE_1, mustBeInteger_1, notSupported_1, Vertex_1, dataFromVectorN_1, VertexPrimitive;
     return {
         setters: [function (DataType_1_1) {
             DataType_1 = DataType_1_1;
@@ -7267,16 +7301,14 @@ System.register("davinci-eight/atoms/GeometryPrimitive.js", ["../core/DataType",
             mustBeInteger_1 = mustBeInteger_1_1;
         }, function (notSupported_1_1) {
             notSupported_1 = notSupported_1_1;
-        }, function (vertexArraysFromPrimitive_1_1) {
-            vertexArraysFromPrimitive_1 = vertexArraysFromPrimitive_1_1;
         }, function (Vertex_1_1) {
             Vertex_1 = Vertex_1_1;
         }, function (dataFromVectorN_1_1) {
             dataFromVectorN_1 = dataFromVectorN_1_1;
         }],
         execute: function () {
-            GeometryPrimitive = function () {
-                function GeometryPrimitive(mode, numVertices, numCoordinates) {
+            VertexPrimitive = function () {
+                function VertexPrimitive(mode, numVertices, numCoordinates) {
                     this.mode = mustBeInteger_1.default('mode', mode);
                     mustBeInteger_1.default('numVertices', numVertices);
                     mustBeGE_1.default('numVertices', numVertices, 0);
@@ -7287,44 +7319,23 @@ System.register("davinci-eight/atoms/GeometryPrimitive.js", ["../core/DataType",
                         this.vertices.push(new Vertex_1.default(numCoordinates));
                     }
                 }
-                GeometryPrimitive.prototype.vertexTransform = function (transform) {
+                VertexPrimitive.prototype.vertexTransform = function (transform) {
                     throw new Error(notSupported_1.default('vertexTransform').message);
                 };
-                GeometryPrimitive.prototype.toPrimitive = function () {
+                VertexPrimitive.prototype.toPrimitive = function () {
                     var context = function () {
                         return 'toPrimitive';
                     };
                     mustBeArray_1.default('elements', this.elements, context);
                     return new DrawPrimitive_1.default(this.mode, this.elements, attributes(this.elements, this.vertices));
                 };
-                GeometryPrimitive.prototype.toVertexArrays = function (names) {
-                    return vertexArraysFromPrimitive_1.default(this.toPrimitive(), names);
-                };
-                return GeometryPrimitive;
+                return VertexPrimitive;
             }();
-            exports_1("default", GeometryPrimitive);
+            exports_1("default", VertexPrimitive);
         }
     };
 });
-System.register("davinci-eight/atoms/numVerticesForGrid.js", ["../checks/mustBeInteger"], function (exports_1, context_1) {
-    "use strict";
-
-    var __moduleName = context_1 && context_1.id;
-    function default_1(uSegments, vSegments) {
-        mustBeInteger_1.default('uSegments', uSegments);
-        mustBeInteger_1.default('vSegments', vSegments);
-        return (uSegments + 1) * (vSegments + 1);
-    }
-    var mustBeInteger_1;
-    exports_1("default", default_1);
-    return {
-        setters: [function (mustBeInteger_1_1) {
-            mustBeInteger_1 = mustBeInteger_1_1;
-        }],
-        execute: function () {}
-    };
-});
-System.register("davinci-eight/atoms/GridPrimitive.js", ["./GeometryPrimitive", "./numPostsForFence", "./numVerticesForGrid", "../i18n/notSupported", "../i18n/readOnly"], function (exports_1, context_1) {
+System.register("davinci-eight/atoms/GridPrimitive.js", ["./numPostsForFence", "./numVerticesForGrid", "../i18n/notSupported", "../i18n/readOnly", "./VertexPrimitive"], function (exports_1, context_1) {
     "use strict";
 
     var __extends = this && this.__extends || function (d, b) {
@@ -7335,11 +7346,9 @@ System.register("davinci-eight/atoms/GridPrimitive.js", ["./GeometryPrimitive", 
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
     var __moduleName = context_1 && context_1.id;
-    var GeometryPrimitive_1, numPostsForFence_1, numVerticesForGrid_1, notSupported_1, readOnly_1, GridPrimitive;
+    var numPostsForFence_1, numVerticesForGrid_1, notSupported_1, readOnly_1, VertexPrimitive_1, GridPrimitive;
     return {
-        setters: [function (GeometryPrimitive_1_1) {
-            GeometryPrimitive_1 = GeometryPrimitive_1_1;
-        }, function (numPostsForFence_1_1) {
+        setters: [function (numPostsForFence_1_1) {
             numPostsForFence_1 = numPostsForFence_1_1;
         }, function (numVerticesForGrid_1_1) {
             numVerticesForGrid_1 = numVerticesForGrid_1_1;
@@ -7347,6 +7356,8 @@ System.register("davinci-eight/atoms/GridPrimitive.js", ["./GeometryPrimitive", 
             notSupported_1 = notSupported_1_1;
         }, function (readOnly_1_1) {
             readOnly_1 = readOnly_1_1;
+        }, function (VertexPrimitive_1_1) {
+            VertexPrimitive_1 = VertexPrimitive_1_1;
         }],
         execute: function () {
             GridPrimitive = function (_super) {
@@ -7412,7 +7423,7 @@ System.register("davinci-eight/atoms/GridPrimitive.js", ["./GeometryPrimitive", 
                     throw new Error(notSupported_1.default('vertex').message);
                 };
                 return GridPrimitive;
-            }(GeometryPrimitive_1.default);
+            }(VertexPrimitive_1.default);
             exports_1("default", GridPrimitive);
         }
     };
@@ -23170,9 +23181,9 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
             Eight = function () {
                 function Eight() {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-                    this.LAST_MODIFIED = '2016-12-05';
+                    this.LAST_MODIFIED = '2016-12-06';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '4.0.16';
+                    this.VERSION = '4.0.17';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];
@@ -24106,11 +24117,11 @@ System.register("davinci-eight/loaders/TextureLoader.js", ["../core/ImageTexture
         }
     };
 });
-System.register("davinci-eight.js", ["./davinci-eight/commands/WebGLBlendFunc", "./davinci-eight/commands/WebGLClearColor", "./davinci-eight/commands/WebGLDisable", "./davinci-eight/commands/WebGLEnable", "./davinci-eight/controls/OrbitControls", "./davinci-eight/controls/TrackballControls", "./davinci-eight/core/Attrib", "./davinci-eight/core/BeginMode", "./davinci-eight/core/BlendingFactorDest", "./davinci-eight/core/BlendingFactorSrc", "./davinci-eight/core/Capability", "./davinci-eight/core/ClearBufferMask", "./davinci-eight/core/Color", "./davinci-eight/config", "./davinci-eight/core/DataType", "./davinci-eight/core/Drawable", "./davinci-eight/core/DepthFunction", "./davinci-eight/core/GeometryArrays", "./davinci-eight/core/GeometryElements", "./davinci-eight/core/GraphicsProgramSymbols", "./davinci-eight/core/ImageTexture", "./davinci-eight/core/Mesh", "./davinci-eight/core/PixelFormat", "./davinci-eight/core/PixelType", "./davinci-eight/core/Scene", "./davinci-eight/core/Shader", "./davinci-eight/core/Texture", "./davinci-eight/core/TextureMagFilter", "./davinci-eight/core/TextureMinFilter", "./davinci-eight/core/TextureParameterName", "./davinci-eight/core/TextureTarget", "./davinci-eight/core/TextureWrapMode", "./davinci-eight/core/Uniform", "./davinci-eight/core/Usage", "./davinci-eight/core/Engine", "./davinci-eight/core/VertexBuffer", "./davinci-eight/core/IndexBuffer", "./davinci-eight/core/vertexArraysFromPrimitive", "./davinci-eight/facets/AmbientLight", "./davinci-eight/facets/ColorFacet", "./davinci-eight/facets/DirectionalLight", "./davinci-eight/facets/ModelFacet", "./davinci-eight/facets/PointSizeFacet", "./davinci-eight/facets/ReflectionFacetE2", "./davinci-eight/facets/ReflectionFacetE3", "./davinci-eight/facets/Vector3Facet", "./davinci-eight/facets/frustumMatrix", "./davinci-eight/facets/PerspectiveCamera", "./davinci-eight/facets/perspectiveMatrix", "./davinci-eight/facets/viewMatrixFromEyeLookUp", "./davinci-eight/facets/ModelE2", "./davinci-eight/facets/ModelE3", "./davinci-eight/atoms/DrawAttribute", "./davinci-eight/atoms/DrawPrimitive", "./davinci-eight/atoms/reduce", "./davinci-eight/atoms/Vertex", "./davinci-eight/shapes/ArrowBuilder", "./davinci-eight/shapes/ConicalShellBuilder", "./davinci-eight/shapes/CylindricalShellBuilder", "./davinci-eight/shapes/RingBuilder", "./davinci-eight/geometries/Simplex", "./davinci-eight/geometries/ArrowGeometry", "./davinci-eight/geometries/BoxGeometry", "./davinci-eight/geometries/CylinderGeometry", "./davinci-eight/geometries/GridGeometry", "./davinci-eight/geometries/SphereGeometry", "./davinci-eight/geometries/TetrahedronGeometry", "./davinci-eight/materials/HTMLScriptsMaterial", "./davinci-eight/materials/LineMaterial", "./davinci-eight/materials/ShaderMaterial", "./davinci-eight/materials/MeshMaterial", "./davinci-eight/materials/PointMaterial", "./davinci-eight/materials/GraphicsProgramBuilder", "./davinci-eight/math/mathcore", "./davinci-eight/math/Vector1", "./davinci-eight/math/Matrix2", "./davinci-eight/math/Matrix3", "./davinci-eight/math/Matrix4", "./davinci-eight/math/Geometric2", "./davinci-eight/math/Geometric3", "./davinci-eight/math/Spinor2", "./davinci-eight/math/Spinor3", "./davinci-eight/math/Vector2", "./davinci-eight/math/Vector3", "./davinci-eight/math/Vector4", "./davinci-eight/math/VectorN", "./davinci-eight/utils/getCanvasElementById", "./davinci-eight/collections/ShareableArray", "./davinci-eight/collections/NumberShareableMap", "./davinci-eight/core/refChange", "./davinci-eight/core/ShareableBase", "./davinci-eight/collections/StringShareableMap", "./davinci-eight/utils/animation", "./davinci-eight/visual/Arrow", "./davinci-eight/visual/Basis", "./davinci-eight/visual/Sphere", "./davinci-eight/visual/Box", "./davinci-eight/visual/Cylinder", "./davinci-eight/visual/Curve", "./davinci-eight/visual/Grid", "./davinci-eight/visual/GridXY", "./davinci-eight/visual/GridYZ", "./davinci-eight/visual/GridZX", "./davinci-eight/visual/Group", "./davinci-eight/visual/HollowCylinder", "./davinci-eight/visual/Minecraft", "./davinci-eight/visual/MinecraftFigure", "./davinci-eight/visual/Parallelepiped", "./davinci-eight/visual/RigidBody", "./davinci-eight/visual/Tetrahedron", "./davinci-eight/visual/Track", "./davinci-eight/visual/Trail", "./davinci-eight/visual/Turtle", "./davinci-eight/diagram/Diagram3D", "./davinci-eight/loaders/TextureLoader"], function (exports_1, context_1) {
+System.register("davinci-eight.js", ["./davinci-eight/commands/WebGLBlendFunc", "./davinci-eight/commands/WebGLClearColor", "./davinci-eight/commands/WebGLDisable", "./davinci-eight/commands/WebGLEnable", "./davinci-eight/controls/OrbitControls", "./davinci-eight/controls/TrackballControls", "./davinci-eight/core/Attrib", "./davinci-eight/core/BeginMode", "./davinci-eight/core/BlendingFactorDest", "./davinci-eight/core/BlendingFactorSrc", "./davinci-eight/core/Capability", "./davinci-eight/core/ClearBufferMask", "./davinci-eight/core/Color", "./davinci-eight/config", "./davinci-eight/core/DataType", "./davinci-eight/core/Drawable", "./davinci-eight/core/DepthFunction", "./davinci-eight/core/GeometryArrays", "./davinci-eight/core/GeometryElements", "./davinci-eight/core/GraphicsProgramSymbols", "./davinci-eight/core/ImageTexture", "./davinci-eight/core/Mesh", "./davinci-eight/core/PixelFormat", "./davinci-eight/core/PixelType", "./davinci-eight/core/Scene", "./davinci-eight/core/Shader", "./davinci-eight/core/Texture", "./davinci-eight/core/TextureMagFilter", "./davinci-eight/core/TextureMinFilter", "./davinci-eight/core/TextureParameterName", "./davinci-eight/core/TextureTarget", "./davinci-eight/core/TextureWrapMode", "./davinci-eight/core/Uniform", "./davinci-eight/core/Usage", "./davinci-eight/core/Engine", "./davinci-eight/core/VertexBuffer", "./davinci-eight/core/IndexBuffer", "./davinci-eight/core/vertexArraysFromPrimitive", "./davinci-eight/facets/AmbientLight", "./davinci-eight/facets/ColorFacet", "./davinci-eight/facets/DirectionalLight", "./davinci-eight/facets/ModelFacet", "./davinci-eight/facets/PointSizeFacet", "./davinci-eight/facets/ReflectionFacetE2", "./davinci-eight/facets/ReflectionFacetE3", "./davinci-eight/facets/Vector3Facet", "./davinci-eight/facets/frustumMatrix", "./davinci-eight/facets/PerspectiveCamera", "./davinci-eight/facets/perspectiveMatrix", "./davinci-eight/facets/viewMatrixFromEyeLookUp", "./davinci-eight/facets/ModelE2", "./davinci-eight/facets/ModelE3", "./davinci-eight/atoms/DrawAttribute", "./davinci-eight/atoms/DrawPrimitive", "./davinci-eight/atoms/reduce", "./davinci-eight/atoms/Vertex", "./davinci-eight/shapes/ArrowBuilder", "./davinci-eight/shapes/ConicalShellBuilder", "./davinci-eight/shapes/CylindricalShellBuilder", "./davinci-eight/shapes/RingBuilder", "./davinci-eight/geometries/Simplex", "./davinci-eight/geometries/ArrowGeometry", "./davinci-eight/geometries/BoxGeometry", "./davinci-eight/geometries/CylinderGeometry", "./davinci-eight/geometries/CurveGeometry", "./davinci-eight/geometries/CurveMode", "./davinci-eight/geometries/GridGeometry", "./davinci-eight/geometries/SphereGeometry", "./davinci-eight/geometries/TetrahedronGeometry", "./davinci-eight/materials/HTMLScriptsMaterial", "./davinci-eight/materials/LineMaterial", "./davinci-eight/materials/ShaderMaterial", "./davinci-eight/materials/MeshMaterial", "./davinci-eight/materials/PointMaterial", "./davinci-eight/materials/GraphicsProgramBuilder", "./davinci-eight/math/mathcore", "./davinci-eight/math/Vector1", "./davinci-eight/math/Matrix2", "./davinci-eight/math/Matrix3", "./davinci-eight/math/Matrix4", "./davinci-eight/math/Geometric2", "./davinci-eight/math/Geometric3", "./davinci-eight/math/Spinor2", "./davinci-eight/math/Spinor3", "./davinci-eight/math/Vector2", "./davinci-eight/math/Vector3", "./davinci-eight/math/Vector4", "./davinci-eight/math/VectorN", "./davinci-eight/utils/getCanvasElementById", "./davinci-eight/collections/ShareableArray", "./davinci-eight/collections/NumberShareableMap", "./davinci-eight/core/refChange", "./davinci-eight/core/ShareableBase", "./davinci-eight/collections/StringShareableMap", "./davinci-eight/utils/animation", "./davinci-eight/visual/Arrow", "./davinci-eight/visual/Basis", "./davinci-eight/visual/Sphere", "./davinci-eight/visual/Box", "./davinci-eight/visual/Cylinder", "./davinci-eight/visual/Curve", "./davinci-eight/visual/Grid", "./davinci-eight/visual/GridXY", "./davinci-eight/visual/GridYZ", "./davinci-eight/visual/GridZX", "./davinci-eight/visual/Group", "./davinci-eight/visual/HollowCylinder", "./davinci-eight/visual/Minecraft", "./davinci-eight/visual/MinecraftFigure", "./davinci-eight/visual/Parallelepiped", "./davinci-eight/visual/RigidBody", "./davinci-eight/visual/Tetrahedron", "./davinci-eight/visual/Track", "./davinci-eight/visual/Trail", "./davinci-eight/visual/Turtle", "./davinci-eight/diagram/Diagram3D", "./davinci-eight/loaders/TextureLoader"], function (exports_1, context_1) {
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
-    var WebGLBlendFunc_1, WebGLClearColor_1, WebGLDisable_1, WebGLEnable_1, OrbitControls_1, TrackballControls_1, Attrib_1, BeginMode_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, ClearBufferMask_1, Color_1, config_1, DataType_1, Drawable_1, DepthFunction_1, GeometryArrays_1, GeometryElements_1, GraphicsProgramSymbols_1, ImageTexture_1, Mesh_1, PixelFormat_1, PixelType_1, Scene_1, Shader_1, Texture_1, TextureMagFilter_1, TextureMinFilter_1, TextureParameterName_1, TextureTarget_1, TextureWrapMode_1, Uniform_1, Usage_1, Engine_1, VertexBuffer_1, IndexBuffer_1, vertexArraysFromPrimitive_1, AmbientLight_1, ColorFacet_1, DirectionalLight_1, ModelFacet_1, PointSizeFacet_1, ReflectionFacetE2_1, ReflectionFacetE3_1, Vector3Facet_1, frustumMatrix_1, PerspectiveCamera_1, perspectiveMatrix_1, viewMatrixFromEyeLookUp_1, ModelE2_1, ModelE3_1, DrawAttribute_1, DrawPrimitive_1, reduce_1, Vertex_1, ArrowBuilder_1, ConicalShellBuilder_1, CylindricalShellBuilder_1, RingBuilder_1, Simplex_1, ArrowGeometry_1, BoxGeometry_1, CylinderGeometry_1, GridGeometry_1, SphereGeometry_1, TetrahedronGeometry_1, HTMLScriptsMaterial_1, LineMaterial_1, ShaderMaterial_1, MeshMaterial_1, PointMaterial_1, GraphicsProgramBuilder_1, mathcore_1, Vector1_1, Matrix2_1, Matrix3_1, Matrix4_1, Geometric2_1, Geometric3_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1, Vector4_1, VectorN_1, getCanvasElementById_1, ShareableArray_1, NumberShareableMap_1, refChange_1, ShareableBase_1, StringShareableMap_1, animation_1, Arrow_1, Basis_1, Sphere_1, Box_1, Cylinder_1, Curve_1, Grid_1, GridXY_1, GridYZ_1, GridZX_1, Group_1, HollowCylinder_1, Minecraft_1, MinecraftFigure_1, Parallelepiped_1, RigidBody_1, Tetrahedron_1, Track_1, Trail_1, Turtle_1, Diagram3D_1, TextureLoader_1, eight;
+    var WebGLBlendFunc_1, WebGLClearColor_1, WebGLDisable_1, WebGLEnable_1, OrbitControls_1, TrackballControls_1, Attrib_1, BeginMode_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, ClearBufferMask_1, Color_1, config_1, DataType_1, Drawable_1, DepthFunction_1, GeometryArrays_1, GeometryElements_1, GraphicsProgramSymbols_1, ImageTexture_1, Mesh_1, PixelFormat_1, PixelType_1, Scene_1, Shader_1, Texture_1, TextureMagFilter_1, TextureMinFilter_1, TextureParameterName_1, TextureTarget_1, TextureWrapMode_1, Uniform_1, Usage_1, Engine_1, VertexBuffer_1, IndexBuffer_1, vertexArraysFromPrimitive_1, AmbientLight_1, ColorFacet_1, DirectionalLight_1, ModelFacet_1, PointSizeFacet_1, ReflectionFacetE2_1, ReflectionFacetE3_1, Vector3Facet_1, frustumMatrix_1, PerspectiveCamera_1, perspectiveMatrix_1, viewMatrixFromEyeLookUp_1, ModelE2_1, ModelE3_1, DrawAttribute_1, DrawPrimitive_1, reduce_1, Vertex_1, ArrowBuilder_1, ConicalShellBuilder_1, CylindricalShellBuilder_1, RingBuilder_1, Simplex_1, ArrowGeometry_1, BoxGeometry_1, CylinderGeometry_1, CurveGeometry_1, CurveMode_1, GridGeometry_1, SphereGeometry_1, TetrahedronGeometry_1, HTMLScriptsMaterial_1, LineMaterial_1, ShaderMaterial_1, MeshMaterial_1, PointMaterial_1, GraphicsProgramBuilder_1, mathcore_1, Vector1_1, Matrix2_1, Matrix3_1, Matrix4_1, Geometric2_1, Geometric3_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1, Vector4_1, VectorN_1, getCanvasElementById_1, ShareableArray_1, NumberShareableMap_1, refChange_1, ShareableBase_1, StringShareableMap_1, animation_1, Arrow_1, Basis_1, Sphere_1, Box_1, Cylinder_1, Curve_1, Grid_1, GridXY_1, GridYZ_1, GridZX_1, Group_1, HollowCylinder_1, Minecraft_1, MinecraftFigure_1, Parallelepiped_1, RigidBody_1, Tetrahedron_1, Track_1, Trail_1, Turtle_1, Diagram3D_1, TextureLoader_1, eight;
     return {
         setters: [function (WebGLBlendFunc_1_1) {
             WebGLBlendFunc_1 = WebGLBlendFunc_1_1;
@@ -24240,6 +24251,10 @@ System.register("davinci-eight.js", ["./davinci-eight/commands/WebGLBlendFunc", 
             BoxGeometry_1 = BoxGeometry_1_1;
         }, function (CylinderGeometry_1_1) {
             CylinderGeometry_1 = CylinderGeometry_1_1;
+        }, function (CurveGeometry_1_1) {
+            CurveGeometry_1 = CurveGeometry_1_1;
+        }, function (CurveMode_1_1) {
+            CurveMode_1 = CurveMode_1_1;
         }, function (GridGeometry_1_1) {
             GridGeometry_1 = GridGeometry_1_1;
         }, function (SphereGeometry_1_1) {
@@ -24545,6 +24560,12 @@ System.register("davinci-eight.js", ["./davinci-eight/commands/WebGLBlendFunc", 
                 },
                 get CylindricalShellBuilder() {
                     return CylindricalShellBuilder_1.default;
+                },
+                get CurveGeometry() {
+                    return CurveGeometry_1.default;
+                },
+                get CurveMode() {
+                    return CurveMode_1.default;
                 },
                 get GridGeometry() {
                     return GridGeometry_1.default;

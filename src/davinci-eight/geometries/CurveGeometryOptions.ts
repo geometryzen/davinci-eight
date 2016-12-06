@@ -1,4 +1,4 @@
-import BeginMode from '../core/BeginMode';
+import CurveMode from './CurveMode';
 import GeometryOptions from './GeometryOptions';
 import VectorE3 from '../math/VectorE3';
 
@@ -9,9 +9,6 @@ interface CurveGeometryOptions extends GeometryOptions {
      *
      * 0 <= u <= 1
      *
-     * @attribute aPosition
-     * @type (u: number) => VectorE3
-     * @optional
      * @default () => (u, 0)
      */
     aPosition?: (u: number) => VectorE3;
@@ -24,28 +21,19 @@ interface CurveGeometryOptions extends GeometryOptions {
     /**
      * @default LINES
      */
-    mode?: BeginMode;
+    mode?: CurveMode;
 
     /**
-     * @attribute uMin
-     * @type number
-     * @optional
      * @default 0
      */
     uMin?: number;
 
     /**
-     * @attribute uMax
-     * @type number
-     * @optional
      * @default 1
      */
     uMax?: number;
 
     /**
-     * @attribute uSegments
-     * @type number
-     * @optional
      * @default 1
      */
     uSegments?: number;

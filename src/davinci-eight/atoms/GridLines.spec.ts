@@ -1,5 +1,6 @@
 import BeginMode from '../core/BeginMode';
 import GridLines from './GridLines';
+import vertexArraysFromPrimitive from '../core/vertexArraysFromPrimitive';
 
 describe("GridLines", function () {
 
@@ -43,7 +44,7 @@ describe("GridLines", function () {
             expect(gridLines.vertex(1, 1).coords.getComponent(1)).toBe(1);
         });
 
-        const vas = gridLines.toVertexArrays();
+        const vas = vertexArraysFromPrimitive(gridLines.toPrimitive());
         it("mode should be LINES", function () {
             expect(vas.mode).toBe(BeginMode.LINES);
             expect(vas.indices.length).toBe(8);

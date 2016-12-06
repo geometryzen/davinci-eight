@@ -1,5 +1,4 @@
 import BeginMode from '../core/BeginMode';
-import GeometryPrimitive from './GeometryPrimitive';
 import mustBeGE from '../checks/mustBeGE';
 import mustBeLT from '../checks/mustBeLT';
 import mustBeBoolean from '../checks/mustBeBoolean';
@@ -9,11 +8,12 @@ import numVerticesForCurve from './numVerticesForCurve';
 import readOnly from '../i18n/readOnly';
 import Transform from './Transform';
 import Vertex from './Vertex';
+import VertexPrimitive from './VertexPrimitive';
 
 /**
  *
  */
-export default class CurvePrimitive extends GeometryPrimitive {
+export default class CurvePrimitive extends VertexPrimitive {
 
     private _uSegments: number;
 

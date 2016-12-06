@@ -1,9 +1,9 @@
-import BeginMode from '../core/BeginMode';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import { Color } from '../core/Color';
 import ContextManager from '../core/ContextManager';
 import CurveGeometry from '../geometries/CurveGeometry';
 import CurveGeometryOptions from '../geometries/CurveGeometryOptions';
+import CurveMode from '../geometries/CurveMode';
 import CurveOptions from './CurveOptions';
 import { Engine } from '../core/Engine';
 import isDefined from '../checks/isDefined';
@@ -83,7 +83,7 @@ function transferGeometryOptions(options: CurveOptions, geoOptions: CurveGeometr
 function configPoints(contextManager: ContextManager, options: CurveOptions, curve: Curve) {
     const geoOptions: CurveGeometryOptions = {};
     transferGeometryOptions(options, geoOptions);
-    geoOptions.mode = BeginMode.POINTS;
+    geoOptions.mode = CurveMode.POINTS;
     const geometry = new CurveGeometry(contextManager, geoOptions);
     curve.geometry = geometry;
     geometry.release();
@@ -127,7 +127,7 @@ function configPoints(contextManager: ContextManager, options: CurveOptions, cur
 function configLines(contextManager: ContextManager, options: CurveOptions, curve: Curve) {
     const geoOptions: CurveGeometryOptions = {};
     transferGeometryOptions(options, geoOptions);
-    geoOptions.mode = BeginMode.LINES;
+    geoOptions.mode = CurveMode.LINES;
     const geometry = new CurveGeometry(contextManager, geoOptions);
     curve.geometry = geometry;
     geometry.release();
@@ -169,14 +169,13 @@ export class Curve extends Mesh<CurveGeometry, Material> {
         super(void 0, void 0, mustBeEngine(engine, 'Curve'), levelUp + 1);
         this.setLoggingName('Curve');
 
-        const mode: BeginMode = isDefined(options.mode) ? options.mode : BeginMode.LINES;
+        const mode: CurveMode = isDefined(options.mode) ? options.mode : CurveMode.LINES;
         switch (mode) {
-            case BeginMode.POINTS: {
+            case CurveMode.POINTS: {
                 configPoints(engine, options, this);
                 break;
             }
-            case BeginMode.LINES:
-            case BeginMode.LINE_STRIP: {
+            case CurveMode.LINES: {
                 configLines(engine, options, this);
                 break;
             }

@@ -1,8 +1,8 @@
 import { Color } from '../core/Color';
-import BeginMode from '../core/BeginMode';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import LineStrip from '../atoms/LineStrip';
 import CurveGeometryOptions from './CurveGeometryOptions';
+import CurveMode from './CurveMode';
 import LinePoints from '../atoms/LinePoints';
 import CurvePrimitive from '../atoms/CurvePrimitive';
 import isDefined from '../checks/isDefined';
@@ -17,16 +17,16 @@ function aPositionDefault(u: number): VectorE3 {
     return Vector3.vector(u, 0, 0);
 }
 
-function topology(mode: BeginMode, uSegments: number, uClosed: boolean): CurvePrimitive {
+function topology(mode: CurveMode, uSegments: number, uClosed: boolean): CurvePrimitive {
     switch (mode) {
-        case BeginMode.POINTS: {
+        case CurveMode.POINTS: {
             return new LinePoints(uSegments);
         }
-        case BeginMode.LINES: {
+        case CurveMode.LINES: {
             return new LineStrip(uSegments);
         }
         default: {
-            throw new Error(`mode must be POINTS, LINES`);
+            throw new Error(`mode must be POINTS or LINES`);
         }
     }
 }
@@ -50,7 +50,7 @@ export default function curvePrimitive(options: CurveGeometryOptions): Primitive
     const uMax: number = isDefined(options.uMax) ? mustBeNumber('uMax', options.uMax) : 1;
     const uSegments = isDefined(options.uSegments) ? options.uSegments : 1;
 
-    const mode = isDefined(options.mode) ? options.mode : BeginMode.LINES;
+    const mode: CurveMode = isDefined(options.mode) ? options.mode : CurveMode.LINES;
     // Working on the assumption that the grid is open in both directions.
     const curve: CurvePrimitive = topology(mode, uSegments, false);
 

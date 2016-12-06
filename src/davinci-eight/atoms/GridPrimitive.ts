@@ -1,11 +1,11 @@
 import BeginMode from '../core/BeginMode';
-import GeometryPrimitive from './GeometryPrimitive';
 import numPostsForFence from './numPostsForFence';
 import numVerticesForGrid from './numVerticesForGrid';
 import notSupported from '../i18n/notSupported';
 import readOnly from '../i18n/readOnly';
 import Transform from './Transform';
 import Vertex from './Vertex';
+import VertexPrimitive from './VertexPrimitive';
 
 /**
  * Used for creating TRIANGLE_STRIP primitives.
@@ -13,7 +13,7 @@ import Vertex from './Vertex';
  * counter-clockwise orientation when increasing u is the first direction and
  * increasing v the second direction.
  */
-export default class GridPrimitive extends GeometryPrimitive {
+export default class GridPrimitive extends VertexPrimitive {
 
     private _uSegments: number;
     private _uClosed = false;

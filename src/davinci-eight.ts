@@ -99,6 +99,8 @@ import triangle from './davinci-eight/geometries/triangle';
 import ArrowGeometry from './davinci-eight/geometries/ArrowGeometry';
 import BoxGeometry from './davinci-eight/geometries/BoxGeometry';
 import CylinderGeometry from './davinci-eight/geometries/CylinderGeometry';
+import CurveGeometry from './davinci-eight/geometries/CurveGeometry';
+import CurveMode from './davinci-eight/geometries/CurveMode';
 import GridGeometry from './davinci-eight/geometries/GridGeometry';
 import SphereGeometry from './davinci-eight/geometries/SphereGeometry';
 import TetrahedronGeometry from './davinci-eight/geometries/TetrahedronGeometry';
@@ -284,6 +286,8 @@ const eight = {
     get ConicalShellBuilder() { return ConicalShellBuilder },
     get CylinderGeometry() { return CylinderGeometry },
     get CylindricalShellBuilder() { return CylindricalShellBuilder },
+    get CurveGeometry() { return CurveGeometry },
+    get CurveMode() { return CurveMode },
     get GridGeometry() { return GridGeometry },
     get RingBuilder() { return RingBuilder },
     get SphereGeometry() { return SphereGeometry },

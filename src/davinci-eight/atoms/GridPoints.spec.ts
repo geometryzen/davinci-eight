@@ -1,5 +1,6 @@
 import BeginMode from '../core/BeginMode';
 import GridPoints from './GridPoints';
+import vertexArraysFromPrimitive from '../core/vertexArraysFromPrimitive';
 
 describe("GridPoints", function () {
     //
@@ -18,7 +19,7 @@ describe("GridPoints", function () {
             expect(gridLines.vertex(0, 0).coords.getComponent(0)).toBe(0);
             expect(gridLines.vertex(0, 0).coords.getComponent(1)).toBe(0);
         });
-        const vas = gridLines.toVertexArrays();
+        const vas = vertexArraysFromPrimitive(gridLines.toPrimitive());
         it("mode should be POINTS", function () {
             expect(vas.mode).toBe(BeginMode.POINTS);
         });
@@ -70,7 +71,7 @@ describe("GridPoints", function () {
             expect(gridLines.vertex(1, 1).coords.getComponent(1)).toBe(1);
         });
 
-        const vas = gridLines.toVertexArrays();
+        const vas = vertexArraysFromPrimitive(gridLines.toPrimitive());
         it("mode should be POINTS", function () {
             expect(vas.mode).toBe(BeginMode.POINTS);
         });

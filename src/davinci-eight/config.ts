@@ -18,9 +18,9 @@ class Eight {
 
     constructor() {
         this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-        this.LAST_MODIFIED = '2016-12-05';
+        this.LAST_MODIFIED = '2016-12-06';
         this.NAMESPACE = 'EIGHT';
-        this.VERSION = '4.0.16';
+        this.VERSION = '4.0.17';
     }
 
     log(message?: any, ...optionalParams: any[]): void {

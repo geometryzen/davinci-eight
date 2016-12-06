@@ -1,12 +1,13 @@
 import BeginMode from '../core/BeginMode';
 import LineStrip from './LineStrip';
 import CoordsTransform1D from '../transforms/CoordsTransform1D';
+import vertexArraysFromPrimitive from '../core/vertexArraysFromPrimitive';
 
 describe("LineStrip", function () {
     // TODO: Should we support -1 like simplices as an empty LINE STRIP?
     describe("(0)", function () {
         const curve = new LineStrip(0);
-        const vas = curve.toVertexArrays();
+        const vas = vertexArraysFromPrimitive(curve.toPrimitive());
         it("uSegments should be 0", function () {
             expect(curve.uSegments).toBe(0);
         });
@@ -22,7 +23,7 @@ describe("LineStrip", function () {
     describe("(1)", function () {
         const curve = new LineStrip(1);
         curve.vertexTransform(new CoordsTransform1D(false));
-        const vas = curve.toVertexArrays();
+        const vas = vertexArraysFromPrimitive(curve.toPrimitive());
         it("uSegments should be 1", function () {
             expect(curve.uSegments).toBe(1);
         });
@@ -38,7 +39,7 @@ describe("LineStrip", function () {
     describe("(3)", function () {
         const curve = new LineStrip(4);
         curve.vertexTransform(new CoordsTransform1D(false));
-        const vas = curve.toVertexArrays();
+        const vas = vertexArraysFromPrimitive(curve.toPrimitive());
         it("uSegments should be 4", function () {
             expect(curve.uSegments).toBe(4);
         });
