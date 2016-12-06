@@ -553,7 +553,7 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-12-05';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '4.0.14';
+            this.VERSION = '4.0.15';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -15082,6 +15082,7 @@ define('davinci-eight/geometries/SphereGeometry',["require", "exports", "../geom
     var DEFAULT_ELEVATION_START = 0;
     var DEFAULT_ELEVATION_LENGTH = Math.PI;
     var DEFAULT_ELEVATION_SEGMENTS = 10;
+    var DEFAULT_RADIUS = 1;
     function computeVertices(stress, tilt, offset, azimuthStart, azimuthLength, azimuthSegments, elevationStart, elevationLength, elevationSegments, points, uvs) {
         var generator = Spinor3_1.default.dual(DEFAULT_ZENITH, false);
         var iLength = elevationSegments + 1;
@@ -15250,6 +15251,15 @@ define('davinci-eight/geometries/SphereGeometry',["require", "exports", "../geom
     function spherePrimitive(options) {
         if (options === void 0) { options = {}; }
         var builder = new SphereBuilder();
+        if (isNumber_1.default(options.radius)) {
+            builder.radius = options.radius;
+        }
+        else if (isUndefined_1.default(options.radius)) {
+            builder.radius = DEFAULT_RADIUS;
+        }
+        else {
+            mustBeNumber_1.default('radius', options.radius);
+        }
         if (isInteger_1.default(options.k)) {
             builder.k = options.k;
         }

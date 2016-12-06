@@ -29,6 +29,7 @@ const DEFAULT_AZIMUTH_SEGMENTS = 20;
 const DEFAULT_ELEVATION_START = 0;
 const DEFAULT_ELEVATION_LENGTH = Math.PI;
 const DEFAULT_ELEVATION_SEGMENTS = 10;
+const DEFAULT_RADIUS = 1;
 
 function computeVertices(
     stress: VectorE3,
@@ -298,7 +299,20 @@ class SphereBuilder extends SimplexPrimitivesBuilder {
 }
 
 function spherePrimitive(options: SphereGeometryOptions = {}): Primitive {
+
     const builder = new SphereBuilder();
+
+    // Radius
+    if (isNumber(options.radius)) {
+        builder.radius = options.radius;
+    }
+    else if (isUndefined(options.radius)) {
+        builder.radius = DEFAULT_RADIUS;
+    }
+    else {
+        mustBeNumber('radius', options.radius);
+    }
+
     if (isInteger(options.k)) {
         builder.k = options.k;
     }

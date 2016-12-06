@@ -3350,50 +3350,32 @@ declare module EIGHT {
         mode?: BeginMode
 
         /**
-         * @attribute uMin
-         * @type number
-         * @optional
-         * @default 0
+         * The start value of the u parameter. Default is 0.
          */
         uMin?: number
 
         /**
-         * @attribute uMax
-         * @type number
-         * @optional
-         * @default 1
+         * The finish value of the u parameter. Default is 1.
          */
         uMax?: number
 
         /**
-         * @attribute uSegments
-         * @type number
-         * @optional
-         * @default 1
+         * The number of u parameter segments. Default is 1.
          */
         uSegments?: number
 
         /**
-         * @attribute vMin
-         * @type number
-         * @optional
-         * @default 0
+         * The start value of the v parameter. Default is 0.
          */
         vMin?: number
 
         /**
-         * @attribute uMax
-         * @type number
-         * @optional
-         * @default 1
+         * The finish value of the v parameter. Default is 1.
          */
         vMax?: number
 
         /**
-         * @attribute vSegments
-         * @type number
-         * @optional
-         * @default 1
+         * The number of v parameter segments. Default is 1.
          */
         vSegments?: number
     }
@@ -3412,6 +3394,7 @@ declare module EIGHT {
         elevationSegments?: number;
         elevationStart?: number;
         elevationLength?: number;
+        radius?: number;
     }
 
     class SphereGeometry extends GeometryElements {

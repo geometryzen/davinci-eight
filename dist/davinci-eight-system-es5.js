@@ -3291,6 +3291,13 @@ System.register("davinci-eight/geometries/SphereGeometry.js", ["../geometries/ar
             options = {};
         }
         var builder = new SphereBuilder();
+        if (isNumber_1.default(options.radius)) {
+            builder.radius = options.radius;
+        } else if (isUndefined_1.default(options.radius)) {
+            builder.radius = DEFAULT_RADIUS;
+        } else {
+            mustBeNumber_1.default('radius', options.radius);
+        }
         if (isInteger_1.default(options.k)) {
             builder.k = options.k;
         } else if (isUndefined_1.default(options.k)) {
@@ -3351,7 +3358,7 @@ System.register("davinci-eight/geometries/SphereGeometry.js", ["../geometries/ar
         }
         return reduce_1.default(builder.toPrimitives());
     }
-    var arc3_1, Geometric3_1, GeometryElements_1, isInteger_1, isNumber_1, isUndefined_1, mustBeGE_1, mustBeInteger_1, mustBeNumber_1, notSupported_1, reduce_1, R3_1, SimplexPrimitivesBuilder_1, Simplex_1, Spinor3_1, Vector2_1, Vector3_1, DEFAULT_MERIDIAN, DEFAULT_ZENITH, DEFAULT_AZIMUTH_START, DEFAULT_AZIMUTH_LENGTH, DEFAULT_AZIMUTH_SEGMENTS, DEFAULT_ELEVATION_START, DEFAULT_ELEVATION_LENGTH, DEFAULT_ELEVATION_SEGMENTS, SphereBuilder, SphereGeometry;
+    var arc3_1, Geometric3_1, GeometryElements_1, isInteger_1, isNumber_1, isUndefined_1, mustBeGE_1, mustBeInteger_1, mustBeNumber_1, notSupported_1, reduce_1, R3_1, SimplexPrimitivesBuilder_1, Simplex_1, Spinor3_1, Vector2_1, Vector3_1, DEFAULT_MERIDIAN, DEFAULT_ZENITH, DEFAULT_AZIMUTH_START, DEFAULT_AZIMUTH_LENGTH, DEFAULT_AZIMUTH_SEGMENTS, DEFAULT_ELEVATION_START, DEFAULT_ELEVATION_LENGTH, DEFAULT_ELEVATION_SEGMENTS, DEFAULT_RADIUS, SphereBuilder, SphereGeometry;
     return {
         setters: [function (arc3_1_1) {
             arc3_1 = arc3_1_1;
@@ -3397,6 +3404,7 @@ System.register("davinci-eight/geometries/SphereGeometry.js", ["../geometries/ar
             DEFAULT_ELEVATION_START = 0;
             DEFAULT_ELEVATION_LENGTH = Math.PI;
             DEFAULT_ELEVATION_SEGMENTS = 10;
+            DEFAULT_RADIUS = 1;
             SphereBuilder = function (_super) {
                 __extends(SphereBuilder, _super);
                 function SphereBuilder() {
@@ -23160,7 +23168,7 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
                     this.LAST_MODIFIED = '2016-12-05';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '4.0.14';
+                    this.VERSION = '4.0.15';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];

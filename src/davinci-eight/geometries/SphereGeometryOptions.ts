@@ -7,6 +7,7 @@ interface SphereGeometryOptions extends GeometryOptions {
     elevationSegments?: number;
     elevationStart?: number;
     elevationLength?: number;
+    radius?: number;
 }
 
 export default SphereGeometryOptions;
