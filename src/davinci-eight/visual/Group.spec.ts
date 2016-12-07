@@ -12,6 +12,7 @@ describe("Group", function() {
         refChange('stop');
         const outstanding = refChange('dump');
         expect(outstanding).toBe(0);
+        refChange('quiet');
         refChange('reset');
     });
 });

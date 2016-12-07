@@ -10,21 +10,6 @@ import { Renderable } from '../core/Renderable';
 import { ShareableBase } from '../core/ShareableBase';
 import { TrailConfig } from './TrailConfig';
 
-//
-// Scratch variables used to save and restore mesh properties during the draw method.
-// This technique avoids allocating temporary objects which give the garbage collector extra work.
-//
-
-/**
- * The saved mesh position.
- */
-const savedX: Vector3 = Vector3.zero();
-
-/**
- * The saved mesh attitute.
- */
-const savedR: Spinor3 = Spinor3.zero();
-
 /**
  * <p>
  * Records the position and attitude history of a <code>Mesh</code> allowing the
@@ -124,8 +109,15 @@ export class Trail extends ShareableBase implements Renderable {
             const mesh = this.mesh;
             const X = mesh.X;
             const R = mesh.R;
-            savedX.copy(X);
-            savedR.copy(R);
+            // Save the position as efficiently as possible.
+            const x = X.x;
+            const y = X.y;
+            const z = X.z;
+            // Save the attitude as efficiently as possible.
+            const a = R.a;
+            const yz = R.yz;
+            const zx = R.zx;
+            const xy = R.xy;
             // Work at the Geometry and Material level for efficiency.
             const geometry = mesh.geometry;
             const material = mesh.material;
@@ -143,10 +135,10 @@ export class Trail extends ShareableBase implements Renderable {
             const iLength: number = this.modulo.size;
             for (let i = 0; i < iLength; i++) {
                 if (Xs[i]) {
-                    X.copyVector(Xs[i]);
+                    X.copyVectorNoChecks(Xs[i]);
                 }
                 if (Rs[i]) {
-                    R.copySpinor(Rs[i]);
+                    R.copySpinorNoChecks(Rs[i]);
                 }
                 mesh.setUniforms();
                 geometry.draw();
@@ -155,8 +147,13 @@ export class Trail extends ShareableBase implements Renderable {
             geometry.release();
             material.release();
             // Restore the mesh position and attitude.
-            X.copyVector(savedX);
-            R.copySpinor(savedR);
+            X.x = x;
+            X.y = y;
+            X.z = z;
+            R.a = a;
+            R.yz = yz;
+            R.zx = zx;
+            R.xy = xy;
         }
     }
 

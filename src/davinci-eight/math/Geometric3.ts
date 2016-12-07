@@ -493,22 +493,33 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * Copies the spinor argument value into this multivector.
      * The non-spinor components are set to zero.
      *
-     * this ⟼ copySpinor(spinor)
-     *
      * @param spinor The spinor to be copied.
      */
     copySpinor(spinor: SpinorE3): Geometric3 {
         const contextBuilder = () => 'copySpinor';
         mustBeNonNullObject('spinor', spinor, contextBuilder);
-        const a = mustBeNumber('spinor.a', spinor.a, contextBuilder);
-        const yz = mustBeNumber('spinor.yz', spinor.yz, contextBuilder);
-        const zx = mustBeNumber('spinor.zx', spinor.zx, contextBuilder);
-        const xy = mustBeNumber('spinor.xy', spinor.xy, contextBuilder);
-        this.zero();
-        this.a = a;
-        this.yz = yz;
-        this.zx = zx;
-        this.xy = xy;
+        mustBeNumber('spinor.a', spinor.a, contextBuilder);
+        mustBeNumber('spinor.yz', spinor.yz, contextBuilder);
+        mustBeNumber('spinor.zx', spinor.zx, contextBuilder);
+        mustBeNumber('spinor.xy', spinor.xy, contextBuilder);
+        return this.copySpinorNoChecks(spinor);
+    }
+
+    /**
+     * Copies the spinor argument value into this multivector.
+     * The non-spinor components are set to zero.
+     *
+     * @param spinor The spinor to be copied.
+     */
+    copySpinorNoChecks(spinor: SpinorE3): Geometric3 {
+        this.setCoordinate(COORD_SCALAR, spinor.a, 'a');
+        this.setCoordinate(COORD_X, 0, 'x');
+        this.setCoordinate(COORD_Y, 0, 'y');
+        this.setCoordinate(COORD_Z, 0, 'z');
+        this.setCoordinate(COORD_YZ, spinor.yz, 'yz');
+        this.setCoordinate(COORD_ZX, spinor.zx, 'zx');
+        this.setCoordinate(COORD_XY, spinor.xy, 'xy');
+        this.setCoordinate(COORD_PSEUDO, 0, 'b');
         return this;
     }
 
@@ -516,20 +527,32 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * Copies the vector argument value into this multivector.
      * The non-vector components are set to zero.
      *
-     * this ⟼ copyVector(vector)
-     *
      * @param vector The vector to be copied.
      */
     copyVector(vector: VectorE3): Geometric3 {
         const contextBuilder = () => 'copyVector';
         mustBeNonNullObject('vector', vector, contextBuilder);
-        const x = mustBeNumber('vector.x', vector.x, contextBuilder);
-        const y = mustBeNumber('vector.y', vector.y, contextBuilder);
-        const z = mustBeNumber('vector.z', vector.z, contextBuilder);
-        this.zero();
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        mustBeNumber('vector.x', vector.x, contextBuilder);
+        mustBeNumber('vector.y', vector.y, contextBuilder);
+        mustBeNumber('vector.z', vector.z, contextBuilder);
+        return this.copyVectorNoChecks(vector);
+    }
+
+    /**
+     * Copies the vector argument value into this multivector.
+     * The non-vector components are set to zero.
+     *
+     * @param vector The vector to be copied.
+     */
+    copyVectorNoChecks(vector: VectorE3): this {
+        this.setCoordinate(COORD_SCALAR, 0, 'a');
+        this.setCoordinate(COORD_X, vector.x, 'x');
+        this.setCoordinate(COORD_Y, vector.y, 'y');
+        this.setCoordinate(COORD_Z, vector.z, 'z');
+        this.setCoordinate(COORD_YZ, 0, 'yz');
+        this.setCoordinate(COORD_ZX, 0, 'zx');
+        this.setCoordinate(COORD_XY, 0, 'xy');
+        this.setCoordinate(COORD_PSEUDO, 0, 'b');
         return this;
     }
 

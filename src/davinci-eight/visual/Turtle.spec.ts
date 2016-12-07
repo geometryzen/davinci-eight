@@ -4,6 +4,7 @@ import Turtle from './Turtle';
 
 describe("Turtle", function () {
     it("new-release", function () {
+        refChange('quiet');
         refChange('reset');
         refChange('quiet');
         refChange('start');
@@ -16,5 +17,7 @@ describe("Turtle", function () {
         refChange('stop');
         const outstanding = refChange('dump');
         expect(outstanding).toBe(0);
+        refChange('quiet');
+        refChange('reset');
     });
 });
