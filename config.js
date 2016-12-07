@@ -18,7 +18,7 @@ System.config({
     "babel-runtime": "npm:babel-runtime@5.8.38",
     "core-js": "npm:core-js@1.2.7",
     "ts": "github:frankwallis/plugin-typescript@2.6.0",
-    "typescript": "npm:typescript@2.1.1",
+    "typescript": "npm:typescript@2.1.4",
     "github:frankwallis/plugin-typescript@2.6.0": {
       "typescript": "npm:typescript@1.7.5"
     },
@@ -335,7 +335,7 @@ System.config({
     "npm:timers-browserify@1.4.2": {
       "process": "npm:process@0.11.9"
     },
-    "npm:typescript@2.1.1": {
+    "npm:typescript@2.1.4": {
       "crypto": "github:jspm/nodelibs-crypto@0.1.0",
       "net": "github:jspm/nodelibs-net@0.1.2",
       "os": "github:jspm/nodelibs-os@0.1.0",

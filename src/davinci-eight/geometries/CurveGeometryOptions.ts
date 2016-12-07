@@ -7,8 +7,6 @@ interface CurveGeometryOptions extends GeometryOptions {
     /**
      * A parametric function determining the positions of points on the curve.
      *
-     * 0 <= u <= 1
-     *
      * @default () => (u, 0)
      */
     aPosition?: (u: number) => VectorE3;

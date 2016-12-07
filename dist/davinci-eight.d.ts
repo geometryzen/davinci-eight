@@ -3374,20 +3374,24 @@ declare module EIGHT {
     interface CurveGeometryOptions extends GeometryOptions {
         /**
          * A parametric function determining the positions of points on the curve.
-         *
-         * 0 <= u <= 1
-         *
-         * @default () => (u, 0)
          */
         aPosition?: (u: number) => VectorE3;
         /**
-         *
+         * A parametric function determining the vertex colors.
          */
         aColor?: (u: number) => { r: number; g: number; b: number };
+        /**
+         * A parametric function determining the vertex coordinates.
+         */
+        aCoords?: (u: number) => { u: number; };
         /**
          * @default LINES
          */
         mode?: CurveMode;
+        /**
+         * 
+         */
+        uClosed?: boolean;
         /**
          * @default 0
          */
@@ -3411,61 +3415,58 @@ declare module EIGHT {
      * 
      */
     interface GridGeometryOptions extends GeometryOptions {
-
         /**
-         * A parametric function determining the positions of points in the grid.
-         *
-         * 0 <= u <= 1
-         * 0 <= v <= 1
-         *
-         * @attribute aPosition
-         * @type (u: number, v: number) => VectorE3
-         * @optional
-         * @default () => (u, v, 0)
+         * A parametric function determining the vertex positions.
          */
-        aPosition?: (u: number, v: number) => VectorE3
-
-        aNormal?: (u: number, v: number) => VectorE3
-
+        aPosition?: (u: number, v: number) => VectorE3;
         /**
-         *
+         * A parametric function determining the vertex normal vectors.
          */
-        aColor?: (u: number, v: number) => { r: number; g: number; b: number }
-
+        aNormal?: (u: number, v: number) => VectorE3;
         /**
-         * @default LINES
+         * A parametric function determining the vertex colors.
          */
-        mode?: BeginMode
-
+        aColor?: (u: number, v: number) => { r: number; g: number; b: number };
+        /**
+         * A parametric function determining the vertex coordinates.
+         */
+        aCoords?: (u: number, v: number) => { u: number; v: number };
+        /**
+         * @default WIRE
+         */
+        mode?: GeometryMode;
+        /**
+         * 
+         */
+        uClosed?: boolean;
         /**
          * The start value of the u parameter. Default is 0.
          */
-        uMin?: number
-
+        uMin?: number;
         /**
          * The finish value of the u parameter. Default is 1.
          */
-        uMax?: number
-
+        uMax?: number;
         /**
          * The number of u parameter segments. Default is 1.
          */
-        uSegments?: number
-
+        uSegments?: number;
+        /**
+         * 
+         */
+        vClosed?: boolean;
         /**
          * The start value of the v parameter. Default is 0.
          */
-        vMin?: number
-
+        vMin?: number;
         /**
          * The finish value of the v parameter. Default is 1.
          */
-        vMax?: number
-
+        vMax?: number;
         /**
          * The number of v parameter segments. Default is 1.
          */
-        vSegments?: number
+        vSegments?: number;
     }
 
     /**
@@ -4135,6 +4136,7 @@ declare module EIGHT {
         color?: Color;
         depth?: number;
         height?: number;
+        mode?: GeometryMode;
         openBack?: boolean;
         openBase?: boolean;
         openCap?: boolean;
@@ -4496,6 +4498,10 @@ declare module EIGHT {
          * 
          */
         elevationSegments?: number;
+        /**
+         * 
+         */
+        mode?: GeometryMode;
         /**
          * 
          */

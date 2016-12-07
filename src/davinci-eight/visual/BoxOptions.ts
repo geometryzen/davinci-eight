@@ -1,13 +1,10 @@
+import GeometryMode from '../geometries/GeometryMode';
 import SpinorE3 from '../math/SpinorE3';
 
 /**
  *
  */
 export interface BoxOptions {
-    /**
-     * Determines whether the Box is rendered with lines or triangles.
-     */
-    wireFrame?: boolean;
     /**
      * 
      */
@@ -20,6 +17,10 @@ export interface BoxOptions {
      * The extent of the box in the y-axis direction.
      */
     height?: number;
+    /**
+     * 
+     */
+    mode?: GeometryMode;
     /**
      *
      */
@@ -53,6 +54,10 @@ export interface BoxOptions {
      * This cannot be changed once the object has been created because it is burned-in to the vertex locations.
      */
     tilt?: SpinorE3;
+    /**
+     * Determines whether the Box is rendered with lines or triangles.
+     */
+    wireFrame?: boolean;
 }
 
 export default BoxOptions;

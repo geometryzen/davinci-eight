@@ -553,7 +553,7 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-12-07';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '4.0.21';
+            this.VERSION = '4.0.22';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -5405,6 +5405,8 @@ define('davinci-eight/math/Vector2',["require", "exports", "../math/Coords", "..
         return Vector2;
     }(Coords_1.Coords));
     exports.Vector2 = Vector2;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = Vector2;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -5904,6 +5906,7 @@ define('davinci-eight/core/Attrib',["require", "exports", "../i18n/readOnly"], f
 
 define('davinci-eight/core/BeginMode',["require", "exports"], function (require, exports) {
     "use strict";
+    var BeginMode;
     (function (BeginMode) {
         BeginMode[BeginMode["POINTS"] = 0] = "POINTS";
         BeginMode[BeginMode["LINES"] = 1] = "LINES";
@@ -5912,14 +5915,14 @@ define('davinci-eight/core/BeginMode',["require", "exports"], function (require,
         BeginMode[BeginMode["TRIANGLES"] = 4] = "TRIANGLES";
         BeginMode[BeginMode["TRIANGLE_STRIP"] = 5] = "TRIANGLE_STRIP";
         BeginMode[BeginMode["TRIANGLE_FAN"] = 6] = "TRIANGLE_FAN";
-    })(exports.BeginMode || (exports.BeginMode = {}));
-    var BeginMode = exports.BeginMode;
+    })(BeginMode = exports.BeginMode || (exports.BeginMode = {}));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = BeginMode;
 });
 
 define('davinci-eight/core/BlendingFactorDest',["require", "exports"], function (require, exports) {
     "use strict";
+    var BlendingFactorDest;
     (function (BlendingFactorDest) {
         BlendingFactorDest[BlendingFactorDest["ZERO"] = 0] = "ZERO";
         BlendingFactorDest[BlendingFactorDest["ONE"] = 1] = "ONE";
@@ -5929,14 +5932,14 @@ define('davinci-eight/core/BlendingFactorDest',["require", "exports"], function 
         BlendingFactorDest[BlendingFactorDest["ONE_MINUS_SRC_ALPHA"] = 771] = "ONE_MINUS_SRC_ALPHA";
         BlendingFactorDest[BlendingFactorDest["DST_ALPHA"] = 772] = "DST_ALPHA";
         BlendingFactorDest[BlendingFactorDest["ONE_MINUS_DST_ALPHA"] = 773] = "ONE_MINUS_DST_ALPHA";
-    })(exports.BlendingFactorDest || (exports.BlendingFactorDest = {}));
-    var BlendingFactorDest = exports.BlendingFactorDest;
+    })(BlendingFactorDest = exports.BlendingFactorDest || (exports.BlendingFactorDest = {}));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = BlendingFactorDest;
 });
 
 define('davinci-eight/core/BlendingFactorSrc',["require", "exports"], function (require, exports) {
     "use strict";
+    var BlendingFactorSrc;
     (function (BlendingFactorSrc) {
         BlendingFactorSrc[BlendingFactorSrc["ZERO"] = 0] = "ZERO";
         BlendingFactorSrc[BlendingFactorSrc["ONE"] = 1] = "ONE";
@@ -5947,14 +5950,14 @@ define('davinci-eight/core/BlendingFactorSrc',["require", "exports"], function (
         BlendingFactorSrc[BlendingFactorSrc["ONE_MINUS_SRC_ALPHA"] = 771] = "ONE_MINUS_SRC_ALPHA";
         BlendingFactorSrc[BlendingFactorSrc["DST_ALPHA"] = 772] = "DST_ALPHA";
         BlendingFactorSrc[BlendingFactorSrc["ONE_MINUS_DST_ALPHA"] = 773] = "ONE_MINUS_DST_ALPHA";
-    })(exports.BlendingFactorSrc || (exports.BlendingFactorSrc = {}));
-    var BlendingFactorSrc = exports.BlendingFactorSrc;
+    })(BlendingFactorSrc = exports.BlendingFactorSrc || (exports.BlendingFactorSrc = {}));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = BlendingFactorSrc;
 });
 
 define('davinci-eight/core/Capability',["require", "exports"], function (require, exports) {
     "use strict";
+    var Capability;
     (function (Capability) {
         Capability[Capability["CULL_FACE"] = 2884] = "CULL_FACE";
         Capability[Capability["BLEND"] = 3042] = "BLEND";
@@ -5965,20 +5968,19 @@ define('davinci-eight/core/Capability',["require", "exports"], function (require
         Capability[Capability["POLYGON_OFFSET_FILL"] = 32823] = "POLYGON_OFFSET_FILL";
         Capability[Capability["SAMPLE_ALPHA_TO_COVERAGE"] = 32926] = "SAMPLE_ALPHA_TO_COVERAGE";
         Capability[Capability["SAMPLE_COVERAGE"] = 32928] = "SAMPLE_COVERAGE";
-    })(exports.Capability || (exports.Capability = {}));
-    var Capability = exports.Capability;
+    })(Capability = exports.Capability || (exports.Capability = {}));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = Capability;
 });
 
 define('davinci-eight/core/ClearBufferMask',["require", "exports"], function (require, exports) {
     "use strict";
+    var ClearBufferMask;
     (function (ClearBufferMask) {
         ClearBufferMask[ClearBufferMask["DEPTH_BUFFER_BIT"] = 256] = "DEPTH_BUFFER_BIT";
         ClearBufferMask[ClearBufferMask["STENCIL_BUFFER_BIT"] = 1024] = "STENCIL_BUFFER_BIT";
         ClearBufferMask[ClearBufferMask["COLOR_BUFFER_BIT"] = 16384] = "COLOR_BUFFER_BIT";
-    })(exports.ClearBufferMask || (exports.ClearBufferMask = {}));
-    var ClearBufferMask = exports.ClearBufferMask;
+    })(ClearBufferMask = exports.ClearBufferMask || (exports.ClearBufferMask = {}));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = ClearBufferMask;
 });
@@ -6295,7 +6297,6 @@ define('davinci-eight/core/Color',["require", "exports", "../math/clamp", "../ma
         };
         return Color;
     }(Coords_1.Coords));
-    exports.Color = Color;
     Color.black = new Color(0, 0, 0);
     Color.blue = new Color(0, 0, 1);
     Color.green = new Color(0, 1, 0);
@@ -6305,6 +6306,7 @@ define('davinci-eight/core/Color',["require", "exports", "../math/clamp", "../ma
     Color.yellow = new Color(1, 1, 0);
     Color.white = new Color(1, 1, 1);
     Color.gray = new Color(0.5, 0.5, 0.5);
+    exports.Color = Color;
     var rgb255 = function (red, green, blue) {
         var UBYTEMAX = 255;
         return new Color(red / UBYTEMAX, green / UBYTEMAX, blue / UBYTEMAX);
@@ -6321,6 +6323,7 @@ define('davinci-eight/core/Color',["require", "exports", "../math/clamp", "../ma
 
 define('davinci-eight/core/DataType',["require", "exports"], function (require, exports) {
     "use strict";
+    var DataType;
     (function (DataType) {
         DataType[DataType["BYTE"] = 5120] = "BYTE";
         DataType[DataType["UNSIGNED_BYTE"] = 5121] = "UNSIGNED_BYTE";
@@ -6329,8 +6332,7 @@ define('davinci-eight/core/DataType',["require", "exports"], function (require, 
         DataType[DataType["INT"] = 5124] = "INT";
         DataType[DataType["UNSIGNED_INT"] = 5125] = "UNSIGNED_INT";
         DataType[DataType["FLOAT"] = 5126] = "FLOAT";
-    })(exports.DataType || (exports.DataType = {}));
-    var DataType = exports.DataType;
+    })(DataType = exports.DataType || (exports.DataType = {}));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = DataType;
 });
@@ -6362,8 +6364,6 @@ define('davinci-eight/core/GraphicsProgramSymbols',["require", "exports"], funct
         }
         return GraphicsProgramSymbols;
     }());
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = GraphicsProgramSymbols;
     GraphicsProgramSymbols.ATTRIBUTE_COLOR = 'aColor';
     GraphicsProgramSymbols.ATTRIBUTE_GEOMETRY_INDEX = 'aGeometryIndex';
     GraphicsProgramSymbols.ATTRIBUTE_NORMAL = 'aNormal';
@@ -6389,6 +6389,8 @@ define('davinci-eight/core/GraphicsProgramSymbols',["require", "exports"], funct
     GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX = 'uView';
     GraphicsProgramSymbols.VARYING_COLOR = 'vColor';
     GraphicsProgramSymbols.VARYING_LIGHT = 'vLight';
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = GraphicsProgramSymbols;
 });
 
 define('davinci-eight/checks/isBoolean',["require", "exports"], function (require, exports) {
@@ -6894,6 +6896,7 @@ define('davinci-eight/core/Drawable',["require", "exports", "../base/exchange", 
 
 define('davinci-eight/core/DepthFunction',["require", "exports"], function (require, exports) {
     "use strict";
+    var DepthFunction;
     (function (DepthFunction) {
         DepthFunction[DepthFunction["NEVER"] = 512] = "NEVER";
         DepthFunction[DepthFunction["LESS"] = 513] = "LESS";
@@ -6903,8 +6906,7 @@ define('davinci-eight/core/DepthFunction',["require", "exports"], function (requ
         DepthFunction[DepthFunction["NOTEQUAL"] = 517] = "NOTEQUAL";
         DepthFunction[DepthFunction["GEQUAL"] = 518] = "GEQUAL";
         DepthFunction[DepthFunction["ALWAYS"] = 519] = "ALWAYS";
-    })(exports.DepthFunction || (exports.DepthFunction = {}));
-    var DepthFunction = exports.DepthFunction;
+    })(DepthFunction = exports.DepthFunction || (exports.DepthFunction = {}));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = DepthFunction;
 });
@@ -7542,12 +7544,12 @@ define('davinci-eight/core/GeometryBase',["require", "exports", "../utils/EventE
 
 define('davinci-eight/core/Usage',["require", "exports"], function (require, exports) {
     "use strict";
+    var Usage;
     (function (Usage) {
         Usage[Usage["STREAM_DRAW"] = 35040] = "STREAM_DRAW";
         Usage[Usage["STATIC_DRAW"] = 35044] = "STATIC_DRAW";
         Usage[Usage["DYNAMIC_DRAW"] = 35048] = "DYNAMIC_DRAW";
-    })(exports.Usage || (exports.Usage = {}));
-    var Usage = exports.Usage;
+    })(Usage = exports.Usage || (exports.Usage = {}));
     function checkUsage(name, usage) {
         switch (usage) {
             case Usage.STREAM_DRAW:
@@ -8039,6 +8041,7 @@ define('davinci-eight/core/GeometryElements',["require", "exports", "./DataType"
 
 define('davinci-eight/core/PixelFormat',["require", "exports"], function (require, exports) {
     "use strict";
+    var PixelFormat;
     (function (PixelFormat) {
         PixelFormat[PixelFormat["DEPTH_COMPONENT"] = 6402] = "DEPTH_COMPONENT";
         PixelFormat[PixelFormat["ALPHA"] = 6406] = "ALPHA";
@@ -8046,21 +8049,20 @@ define('davinci-eight/core/PixelFormat',["require", "exports"], function (requir
         PixelFormat[PixelFormat["RGBA"] = 6408] = "RGBA";
         PixelFormat[PixelFormat["LUMINANCE"] = 6409] = "LUMINANCE";
         PixelFormat[PixelFormat["LUMINANCE_ALPHA"] = 6410] = "LUMINANCE_ALPHA";
-    })(exports.PixelFormat || (exports.PixelFormat = {}));
-    var PixelFormat = exports.PixelFormat;
+    })(PixelFormat = exports.PixelFormat || (exports.PixelFormat = {}));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = PixelFormat;
 });
 
 define('davinci-eight/core/TextureParameterName',["require", "exports"], function (require, exports) {
     "use strict";
+    var TextureParameterName;
     (function (TextureParameterName) {
         TextureParameterName[TextureParameterName["TEXTURE_MAG_FILTER"] = 10240] = "TEXTURE_MAG_FILTER";
         TextureParameterName[TextureParameterName["TEXTURE_MIN_FILTER"] = 10241] = "TEXTURE_MIN_FILTER";
         TextureParameterName[TextureParameterName["TEXTURE_WRAP_S"] = 10242] = "TEXTURE_WRAP_S";
         TextureParameterName[TextureParameterName["TEXTURE_WRAP_T"] = 10243] = "TEXTURE_WRAP_T";
-    })(exports.TextureParameterName || (exports.TextureParameterName = {}));
-    var TextureParameterName = exports.TextureParameterName;
+    })(TextureParameterName = exports.TextureParameterName || (exports.TextureParameterName = {}));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = TextureParameterName;
 });
@@ -8326,11 +8328,11 @@ define('davinci-eight/facets/ColorFacet',["require", "exports", "../core/Color",
         };
         return ColorFacet;
     }());
-    exports.ColorFacet = ColorFacet;
     ColorFacet.PROP_RGB = 'rgb';
     ColorFacet.PROP_RED = 'r';
     ColorFacet.PROP_GREEN = 'g';
     ColorFacet.PROP_BLUE = 'b';
+    exports.ColorFacet = ColorFacet;
 });
 
 define('davinci-eight/facets/ModelE3',["require", "exports", "../math/Geometric3"], function (require, exports, Geometric3_1) {
@@ -8364,10 +8366,10 @@ define('davinci-eight/facets/ModelE3',["require", "exports", "../math/Geometric3
         });
         return ModelE3;
     }());
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = ModelE3;
     ModelE3.PROP_ATTITUDE = 'R';
     ModelE3.PROP_POSITION = 'X';
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = ModelE3;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -8449,6 +8451,7 @@ define('davinci-eight/facets/ModelFacet',["require", "exports", "../math/Matrix3
 
 define('davinci-eight/core/TextureUnit',["require", "exports"], function (require, exports) {
     "use strict";
+    var TextureUnit;
     (function (TextureUnit) {
         TextureUnit[TextureUnit["TEXTURE0"] = 33984] = "TEXTURE0";
         TextureUnit[TextureUnit["TEXTURE1"] = 33985] = "TEXTURE1";
@@ -8483,8 +8486,7 @@ define('davinci-eight/core/TextureUnit',["require", "exports"], function (requir
         TextureUnit[TextureUnit["TEXTURE30"] = 34014] = "TEXTURE30";
         TextureUnit[TextureUnit["TEXTURE31"] = 34015] = "TEXTURE31";
         TextureUnit[TextureUnit["ACTIVE_TEXTURE"] = 34016] = "ACTIVE_TEXTURE";
-    })(exports.TextureUnit || (exports.TextureUnit = {}));
-    var TextureUnit = exports.TextureUnit;
+    })(TextureUnit = exports.TextureUnit || (exports.TextureUnit = {}));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = TextureUnit;
 });
@@ -8727,13 +8729,13 @@ define('davinci-eight/core/Mesh',["require", "exports", "../facets/ColorFacet", 
 
 define('davinci-eight/core/PixelType',["require", "exports"], function (require, exports) {
     "use strict";
+    var PixelType;
     (function (PixelType) {
         PixelType[PixelType["UNSIGNED_BYTE"] = 5121] = "UNSIGNED_BYTE";
         PixelType[PixelType["UNSIGNED_SHORT_4_4_4_4"] = 32819] = "UNSIGNED_SHORT_4_4_4_4";
         PixelType[PixelType["UNSIGNED_SHORT_5_5_5_1"] = 32820] = "UNSIGNED_SHORT_5_5_5_1";
         PixelType[PixelType["UNSIGNED_SHORT_5_6_5"] = 33635] = "UNSIGNED_SHORT_5_6_5";
-    })(exports.PixelType || (exports.PixelType = {}));
-    var PixelType = exports.PixelType;
+    })(PixelType = exports.PixelType || (exports.PixelType = {}));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = PixelType;
 });
@@ -9100,17 +9102,18 @@ define('davinci-eight/core/Shader',["require", "exports", "./makeWebGLShader", "
 
 define('davinci-eight/core/TextureMagFilter',["require", "exports"], function (require, exports) {
     "use strict";
+    var TextureMagFilter;
     (function (TextureMagFilter) {
         TextureMagFilter[TextureMagFilter["NEAREST"] = 9728] = "NEAREST";
         TextureMagFilter[TextureMagFilter["LINEAR"] = 9729] = "LINEAR";
-    })(exports.TextureMagFilter || (exports.TextureMagFilter = {}));
-    var TextureMagFilter = exports.TextureMagFilter;
+    })(TextureMagFilter = exports.TextureMagFilter || (exports.TextureMagFilter = {}));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = TextureMagFilter;
 });
 
 define('davinci-eight/core/TextureMinFilter',["require", "exports"], function (require, exports) {
     "use strict";
+    var TextureMinFilter;
     (function (TextureMinFilter) {
         TextureMinFilter[TextureMinFilter["NEAREST"] = 9728] = "NEAREST";
         TextureMinFilter[TextureMinFilter["LINEAR"] = 9729] = "LINEAR";
@@ -9118,19 +9121,18 @@ define('davinci-eight/core/TextureMinFilter',["require", "exports"], function (r
         TextureMinFilter[TextureMinFilter["LINEAR_MIPMAP_NEAREST"] = 9985] = "LINEAR_MIPMAP_NEAREST";
         TextureMinFilter[TextureMinFilter["NEAREST_MIPMAP_LINEAR"] = 9986] = "NEAREST_MIPMAP_LINEAR";
         TextureMinFilter[TextureMinFilter["LINEAR_MIPMAP_LINEAR"] = 9987] = "LINEAR_MIPMAP_LINEAR";
-    })(exports.TextureMinFilter || (exports.TextureMinFilter = {}));
-    var TextureMinFilter = exports.TextureMinFilter;
+    })(TextureMinFilter = exports.TextureMinFilter || (exports.TextureMinFilter = {}));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = TextureMinFilter;
 });
 
 define('davinci-eight/core/TextureTarget',["require", "exports"], function (require, exports) {
     "use strict";
+    var TextureTarget;
     (function (TextureTarget) {
         TextureTarget[TextureTarget["TEXTURE_2D"] = 3553] = "TEXTURE_2D";
         TextureTarget[TextureTarget["TEXTURE"] = 5890] = "TEXTURE";
-    })(exports.TextureTarget || (exports.TextureTarget = {}));
-    var TextureTarget = exports.TextureTarget;
+    })(TextureTarget = exports.TextureTarget || (exports.TextureTarget = {}));
     function checkTextureTarget(name, target) {
         switch (target) {
             case TextureTarget.TEXTURE_2D:
@@ -9149,12 +9151,12 @@ define('davinci-eight/core/TextureTarget',["require", "exports"], function (requ
 
 define('davinci-eight/core/TextureWrapMode',["require", "exports"], function (require, exports) {
     "use strict";
+    var TextureWrapMode;
     (function (TextureWrapMode) {
         TextureWrapMode[TextureWrapMode["REPEAT"] = 10497] = "REPEAT";
         TextureWrapMode[TextureWrapMode["CLAMP_TO_EDGE"] = 33071] = "CLAMP_TO_EDGE";
         TextureWrapMode[TextureWrapMode["MIRRORED_REPEAT"] = 33648] = "MIRRORED_REPEAT";
-    })(exports.TextureWrapMode || (exports.TextureWrapMode = {}));
-    var TextureWrapMode = exports.TextureWrapMode;
+    })(TextureWrapMode = exports.TextureWrapMode || (exports.TextureWrapMode = {}));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = TextureWrapMode;
 });
@@ -11956,11 +11958,11 @@ define('davinci-eight/math/Geometric2',["require", "exports", "./arraysEQ", "../
         };
         return Geometric2;
     }(Coords_1.Coords));
-    exports.Geometric2 = Geometric2;
     Geometric2.BASIS_LABELS = STANDARD_LABELS;
     Geometric2.BASIS_LABELS_COMPASS = COMPASS_LABELS;
     Geometric2.BASIS_LABELS_GEOMETRIC = ARROW_LABELS;
     Geometric2.BASIS_LABELS_STANDARD = STANDARD_LABELS;
+    exports.Geometric2 = Geometric2;
 });
 
 define('davinci-eight/facets/ModelE2',["require", "exports", "../math/Geometric2"], function (require, exports, Geometric2_1) {
@@ -11994,10 +11996,10 @@ define('davinci-eight/facets/ModelE2',["require", "exports", "../math/Geometric2
         });
         return ModelE2;
     }());
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = ModelE2;
     ModelE2.PROP_ATTITUDE = 'R';
     ModelE2.PROP_POSITION = 'X';
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = ModelE2;
 });
 
 define('davinci-eight/atoms/DrawAttribute',["require", "exports"], function (require, exports) {
@@ -13430,6 +13432,7 @@ define('davinci-eight/shapes/ArrowBuilder',["require", "exports", "./AxialShapeB
 
 define('davinci-eight/geometries/SimplexMode',["require", "exports"], function (require, exports) {
     "use strict";
+    var SimplexMode;
     (function (SimplexMode) {
         SimplexMode[SimplexMode["EMPTY"] = -1] = "EMPTY";
         SimplexMode[SimplexMode["POINT"] = 0] = "POINT";
@@ -13437,8 +13440,7 @@ define('davinci-eight/geometries/SimplexMode',["require", "exports"], function (
         SimplexMode[SimplexMode["TRIANGLE"] = 2] = "TRIANGLE";
         SimplexMode[SimplexMode["TETRAHEDRON"] = 3] = "TETRAHEDRON";
         SimplexMode[SimplexMode["FIVE_CELL"] = 4] = "FIVE_CELL";
-    })(exports.SimplexMode || (exports.SimplexMode = {}));
-    var SimplexMode = exports.SimplexMode;
+    })(SimplexMode = exports.SimplexMode || (exports.SimplexMode = {}));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = SimplexMode;
 });
@@ -13624,12 +13626,12 @@ define('davinci-eight/geometries/Simplex',["require", "exports", "../checks/must
 
 define('davinci-eight/geometries/GeometryMode',["require", "exports"], function (require, exports) {
     "use strict";
+    var GeometryMode;
     (function (GeometryMode) {
         GeometryMode[GeometryMode["POINT"] = 0] = "POINT";
         GeometryMode[GeometryMode["WIRE"] = 1] = "WIRE";
         GeometryMode[GeometryMode["MESH"] = 2] = "MESH";
-    })(exports.GeometryMode || (exports.GeometryMode = {}));
-    var GeometryMode = exports.GeometryMode;
+    })(GeometryMode = exports.GeometryMode || (exports.GeometryMode = {}));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = GeometryMode;
 });
@@ -15042,11 +15044,11 @@ define('davinci-eight/atoms/LineStrip',["require", "exports", "./CurvePrimitive"
 
 define('davinci-eight/geometries/CurveMode',["require", "exports"], function (require, exports) {
     "use strict";
+    var CurveMode;
     (function (CurveMode) {
         CurveMode[CurveMode["POINTS"] = 0] = "POINTS";
         CurveMode[CurveMode["LINES"] = 1] = "LINES";
-    })(exports.CurveMode || (exports.CurveMode = {}));
-    var CurveMode = exports.CurveMode;
+    })(CurveMode = exports.CurveMode || (exports.CurveMode = {}));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = CurveMode;
 });
@@ -15273,34 +15275,33 @@ define('davinci-eight/atoms/GridPoints',["require", "exports", "../core/BeginMod
     exports.default = GridPoints;
 });
 
-define('davinci-eight/geometries/gridPrimitive',["require", "exports", "../core/BeginMode", "../core/Color", "../core/GraphicsProgramSymbols", "../atoms/GridLines", "../atoms/GridPoints", "../atoms/GridTriangleStrip", "../checks/isDefined", "../checks/isFunction", "../checks/mustBeNumber", "../math/Vector3"], function (require, exports, BeginMode_1, Color_1, GraphicsProgramSymbols_1, GridLines_1, GridPoints_1, GridTriangleStrip_1, isDefined_1, isFunction_1, mustBeNumber_1, Vector3_1) {
+define('davinci-eight/geometries/gridPrimitive',["require", "exports", "../core/Color", "./GeometryMode", "../core/GraphicsProgramSymbols", "../atoms/GridLines", "../atoms/GridPoints", "../atoms/GridTriangleStrip", "../checks/isDefined", "../checks/isFunction", "../checks/mustBeBoolean", "../checks/mustBeNumber", "../math/Vector2", "../math/Vector3"], function (require, exports, Color_1, GeometryMode_1, GraphicsProgramSymbols_1, GridLines_1, GridPoints_1, GridTriangleStrip_1, isDefined_1, isFunction_1, mustBeBoolean_1, mustBeNumber_1, Vector2_1, Vector3_1) {
     "use strict";
-    function aPositionDefault(u, v) {
-        return Vector3_1.default.vector(u, v, 0);
-    }
-    function aNormalDefault(u, v) {
-        return Vector3_1.default.vector(0, 0, 1);
-    }
     function topology(mode, uSegments, uClosed, vSegments, vClosed) {
         switch (mode) {
-            case BeginMode_1.default.POINTS: {
+            case GeometryMode_1.default.POINT: {
                 return new GridPoints_1.default(uSegments, uClosed, vSegments, vClosed);
             }
-            case BeginMode_1.default.LINES: {
+            case GeometryMode_1.default.WIRE: {
                 return new GridLines_1.default(uSegments, uClosed, vSegments, vClosed);
             }
-            case BeginMode_1.default.TRIANGLE_STRIP: {
+            case GeometryMode_1.default.MESH: {
                 return new GridTriangleStrip_1.default(uSegments, vSegments);
             }
             default: {
-                throw new Error("mode must be POINTS, LINES or TRIANGLE_STRIP");
+                throw new Error("mode must be POINT = " + GeometryMode_1.default.POINT + ", WIRE = " + GeometryMode_1.default.WIRE + " or MESH = " + GeometryMode_1.default.MESH);
             }
         }
     }
     function transformVertex(vertex, u, v, options) {
-        var aPosition = isDefined_1.default(options.aPosition) ? options.aPosition : aPositionDefault;
-        var aNormal = isDefined_1.default(options.aNormal) ? options.aNormal : aNormalDefault;
+        var aPosition = isDefined_1.default(options.aPosition) ? options.aPosition : void 0;
+        var aNormal = isDefined_1.default(options.aNormal) ? options.aNormal : void 0;
         var aColor = isDefined_1.default(options.aColor) ? options.aColor : void 0;
+        var aCoords = isDefined_1.default(options.aCoords) ? options.aCoords : void 0;
+        if (isFunction_1.default(aCoords)) {
+            var coords = aCoords(u, v);
+            vertex.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_COORDS] = Vector2_1.default.vector(coords.u, coords.v);
+        }
         if (isFunction_1.default(aPosition)) {
             vertex.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = Vector3_1.default.copy(aPosition(u, v));
         }
@@ -15314,12 +15315,14 @@ define('davinci-eight/geometries/gridPrimitive',["require", "exports", "../core/
     function gridPrimitive(options) {
         var uMin = isDefined_1.default(options.uMin) ? mustBeNumber_1.default('uMin', options.uMin) : 0;
         var uMax = isDefined_1.default(options.uMax) ? mustBeNumber_1.default('uMax', options.uMax) : 1;
-        var uSegments = isDefined_1.default(options.uSegments) ? options.uSegments : 1;
+        var uSegments = isDefined_1.default(options.uSegments) ? mustBeNumber_1.default('uSegments', options.uSegments) : 1;
+        var uClosed = isDefined_1.default(options.uClosed) ? mustBeBoolean_1.default('uClosed', options.uClosed) : false;
         var vMin = isDefined_1.default(options.vMin) ? mustBeNumber_1.default('vMin', options.vMin) : 0;
         var vMax = isDefined_1.default(options.vMax) ? mustBeNumber_1.default('vMax', options.vMax) : 1;
-        var vSegments = isDefined_1.default(options.vSegments) ? options.vSegments : 1;
-        var mode = isDefined_1.default(options.mode) ? options.mode : BeginMode_1.default.LINES;
-        var grid = topology(mode, uSegments, false, vSegments, false);
+        var vSegments = isDefined_1.default(options.vSegments) ? mustBeNumber_1.default('vSegments', options.vSegments) : 1;
+        var vClosed = isDefined_1.default(options.vClosed) ? mustBeBoolean_1.default('vClosed', options.vClosed) : false;
+        var mode = isDefined_1.default(options.mode) ? options.mode : GeometryMode_1.default.WIRE;
+        var grid = topology(mode, uSegments, uClosed, vSegments, vClosed);
         var iLen = grid.uLength;
         var jLen = grid.vLength;
         if (uSegments > 0) {
@@ -18525,7 +18528,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/visual/Grid',["require", "exports", "../core/BeginMode", "../core/Color", "../checks/expectOptions", "../core/GraphicsProgramSymbols", "../geometries/GridGeometry", "../checks/isDefined", "../checks/isFunction", "../checks/isNull", "../checks/isUndefined", "../materials/LineMaterial", "../core/Mesh", "../materials/MeshMaterial", "./mustBeEngine", "../checks/mustBeGE", "../checks/mustBeFunction", "../checks/mustBeInteger", "../checks/mustBeNumber", "../checks/mustBeObject", "../materials/PointMaterial", "../math/R3", "./setColorOption", "./setDeprecatedOptions", "../checks/validate"], function (require, exports, BeginMode_1, Color_1, expectOptions_1, GraphicsProgramSymbols_1, GridGeometry_1, isDefined_1, isFunction_1, isNull_1, isUndefined_1, LineMaterial_1, Mesh_1, MeshMaterial_1, mustBeEngine_1, mustBeGE_1, mustBeFunction_1, mustBeInteger_1, mustBeNumber_1, mustBeObject_1, PointMaterial_1, R3_1, setColorOption_1, setDeprecatedOptions_1, validate_1) {
+define('davinci-eight/visual/Grid',["require", "exports", "../core/Color", "../checks/expectOptions", "../geometries/GeometryMode", "../core/GraphicsProgramSymbols", "../geometries/GridGeometry", "../checks/isDefined", "../checks/isFunction", "../checks/isNull", "../checks/isUndefined", "../materials/LineMaterial", "../core/Mesh", "../materials/MeshMaterial", "./mustBeEngine", "../checks/mustBeGE", "../checks/mustBeFunction", "../checks/mustBeInteger", "../checks/mustBeNumber", "../checks/mustBeObject", "../materials/PointMaterial", "../math/R3", "./setColorOption", "./setDeprecatedOptions", "../checks/validate"], function (require, exports, Color_1, expectOptions_1, GeometryMode_1, GraphicsProgramSymbols_1, GridGeometry_1, isDefined_1, isFunction_1, isNull_1, isUndefined_1, LineMaterial_1, Mesh_1, MeshMaterial_1, mustBeEngine_1, mustBeGE_1, mustBeFunction_1, mustBeInteger_1, mustBeNumber_1, mustBeObject_1, PointMaterial_1, R3_1, setColorOption_1, setDeprecatedOptions_1, validate_1) {
     "use strict";
     var COORD_MIN_DEFAULT = -1;
     var COORD_MAX_DEFAULT = +1;
@@ -18617,7 +18620,7 @@ define('davinci-eight/visual/Grid',["require", "exports", "../core/BeginMode", "
     function configPoints(contextManager, options, grid) {
         var geoOptions = {};
         transferGeometryOptions(options, geoOptions);
-        geoOptions.mode = BeginMode_1.default.POINTS;
+        geoOptions.mode = GeometryMode_1.default.POINT;
         var geometry = new GridGeometry_1.default(contextManager, geoOptions);
         grid.geometry = geometry;
         geometry.release();
@@ -18647,7 +18650,7 @@ define('davinci-eight/visual/Grid',["require", "exports", "../core/BeginMode", "
     function configLines(contextManager, options, grid) {
         var geoOptions = {};
         transferGeometryOptions(options, geoOptions);
-        geoOptions.mode = BeginMode_1.default.LINES;
+        geoOptions.mode = GeometryMode_1.default.WIRE;
         var geometry = new GridGeometry_1.default(contextManager, geoOptions);
         grid.geometry = geometry;
         geometry.release();
@@ -18679,7 +18682,7 @@ define('davinci-eight/visual/Grid',["require", "exports", "../core/BeginMode", "
     function configMesh(contextManager, options, grid) {
         var geoOptions = {};
         transferGeometryOptions(options, geoOptions);
-        geoOptions.mode = BeginMode_1.default.TRIANGLE_STRIP;
+        geoOptions.mode = GeometryMode_1.default.MESH;
         var geometry = new GridGeometry_1.default(contextManager, geoOptions);
         grid.geometry = geometry;
         geometry.release();

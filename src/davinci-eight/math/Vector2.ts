@@ -1,4 +1,4 @@
-import {Coords} from '../math/Coords';
+import { Coords } from '../math/Coords';
 import b2 from '../geometries/b2';
 import b3 from '../geometries/b3';
 import Matrix2 from '../math/Matrix2';
@@ -381,7 +381,7 @@ export class Vector2 extends Coords {
      * @return {string}
      */
     toExponential(fractionDigits?: number): string {
-        const coordToString = function(coord: number): string { return coord.toExponential(fractionDigits); };
+        const coordToString = function (coord: number): string { return coord.toExponential(fractionDigits); };
         return stringFromCoordinates(this.coords, coordToString, ['e1', 'e2']);
     }
 
@@ -391,7 +391,7 @@ export class Vector2 extends Coords {
      * @return {string}
      */
     toFixed(fractionDigits?: number): string {
-        const coordToString = function(coord: number): string { return coord.toFixed(fractionDigits); };
+        const coordToString = function (coord: number): string { return coord.toFixed(fractionDigits); };
         return stringFromCoordinates(this.coords, coordToString, ['e1', 'e2']);
     }
 
@@ -401,7 +401,7 @@ export class Vector2 extends Coords {
      * @return {string}
      */
     toPrecision(precision?: number): string {
-        const coordToString = function(coord: number): string { return coord.toPrecision(precision); };
+        const coordToString = function (coord: number): string { return coord.toPrecision(precision); };
         return stringFromCoordinates(this.coords, coordToString, ['e1', 'e2']);
     }
 
@@ -411,7 +411,7 @@ export class Vector2 extends Coords {
      * @return {string}
      */
     toString(radix?: number): string {
-        const coordToString = function(coord: number): string { return coord.toString(radix); };
+        const coordToString = function (coord: number): string { return coord.toString(radix); };
         return stringFromCoordinates(this.coords, coordToString, ['e1', 'e2']);
     }
 
@@ -502,3 +502,5 @@ export class Vector2 extends Coords {
         return Vector2.vector(0, 0);
     }
 }
+
+export default Vector2;

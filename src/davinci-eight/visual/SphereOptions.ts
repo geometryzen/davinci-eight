@@ -1,21 +1,10 @@
+import GeometryMode from '../geometries/GeometryMode';
 import SpinorE3 from '../math/SpinorE3';
 
 /**
  * The options for creating a Sphere.
  */
 export interface SphereOptions {
-    /**
-     * 
-     */
-    wireFrame?: boolean;
-    /**
-     * 
-     */
-    radius?: number;
-    /**
-     * 
-     */
-    tilt?: SpinorE3;
     /**
      * 
      */
@@ -40,6 +29,22 @@ export interface SphereOptions {
      * 
      */
     elevationLength?: number;
+    /**
+     * 
+     */
+    mode?: GeometryMode;
+    /**
+     * 
+     */
+    radius?: number;
+    /**
+     * 
+     */
+    tilt?: SpinorE3;
+    /**
+     * 
+     */
+    wireFrame?: boolean;
 }
 
 export default SphereOptions;

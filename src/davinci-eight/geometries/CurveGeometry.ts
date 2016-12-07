@@ -3,6 +3,9 @@ import GeometryElements from '../core/GeometryElements';
 import CurveGeometryOptions from './CurveGeometryOptions';
 import curvePrimitive from './curvePrimitive';
 
+/**
+ * A Geometry for representing functions of one scalar parameter.
+ */
 export default class CurveGeometry extends GeometryElements {
 
     constructor(contextManager: ContextManager, options: CurveGeometryOptions = {}, levelUp = 0) {

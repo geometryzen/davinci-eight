@@ -55,8 +55,8 @@ System.register("davinci-eight/facets/getViewAttitude.js", ["../math/Geometric3"
         R.one().add(u.mul(e1)).add(v.mul(e2)).add(n.mul(e3));
         R.normalize();
     }
-    var Geometric3_1, u, v, n, e1, e2, e3;
     exports_1("default", getViewAttitude);
+    var Geometric3_1, u, v, n, e1, e2, e3;
     return {
         setters: [function (Geometric3_1_1) {
             Geometric3_1 = Geometric3_1_1;
@@ -1105,8 +1105,8 @@ System.register("davinci-eight/facets/createView.js", ["../math/Geometric3", "..
         };
         return self;
     }
-    var Geometric3_1, Matrix4_1, GraphicsProgramSymbols_1, isUndefined_1, viewMatrixFromEyeLookUp_1;
     exports_1("default", createView);
+    var Geometric3_1, Matrix4_1, GraphicsProgramSymbols_1, isUndefined_1, viewMatrixFromEyeLookUp_1;
     return {
         setters: [function (Geometric3_1_1) {
             Geometric3_1 = Geometric3_1_1;
@@ -1246,8 +1246,8 @@ System.register("davinci-eight/facets/createPerspective.js", ["./createView", ".
         };
         return self;
     }
-    var createView_1, Matrix4_1, GraphicsProgramSymbols_1, Vector1_1, isUndefined_1, mustBeNumber_1, perspectiveMatrix_1;
     exports_1("default", createPerspective);
+    var createView_1, Matrix4_1, GraphicsProgramSymbols_1, Vector1_1, isUndefined_1, mustBeNumber_1, perspectiveMatrix_1;
     return {
         setters: [function (createView_1_1) {
             createView_1 = createView_1_1;
@@ -1398,8 +1398,8 @@ System.register("davinci-eight/facets/perspectiveMatrix.js", ["../checks/isDefin
         perspectiveArray_1.default(fov, aspect, near, far, m.elements);
         return m;
     }
-    var isDefined_1, Matrix4_1, perspectiveArray_1;
     exports_1("default", perspectiveMatrix);
+    var isDefined_1, Matrix4_1, perspectiveArray_1;
     return {
         setters: [function (isDefined_1_1) {
             isDefined_1 = isDefined_1_1;
@@ -1447,8 +1447,8 @@ System.register("davinci-eight/facets/viewArrayFromEyeLookUp.js", ["../math/Vect
         m[0xF] = 1;
         return m;
     }
-    var Vector3_1, mustSatisfy_1, isDefined_1, n, u, v;
     exports_1("default", viewArray);
+    var Vector3_1, mustSatisfy_1, isDefined_1, n, u, v;
     return {
         setters: [function (Vector3_1_1) {
             Vector3_1 = Vector3_1_1;
@@ -1473,8 +1473,8 @@ System.register("davinci-eight/facets/viewMatrixFromEyeLookUp.js", ["../checks/i
         viewArrayFromEyeLookUp_1.default(eye, look, up, m.elements);
         return m;
     }
-    var isDefined_1, Matrix4_1, viewArrayFromEyeLookUp_1;
     exports_1("default", default_1);
+    var isDefined_1, Matrix4_1, viewArrayFromEyeLookUp_1;
     return {
         setters: [function (isDefined_1_1) {
             isDefined_1 = isDefined_1_1;
@@ -1525,9 +1525,9 @@ System.register("davinci-eight/facets/ModelE2.js", ["../math/Geometric2"], funct
                 });
                 return ModelE2;
             }();
-            exports_1("default", ModelE2);
             ModelE2.PROP_ATTITUDE = 'R';
             ModelE2.PROP_POSITION = 'X';
+            exports_1("default", ModelE2);
         }
     };
 });
@@ -2219,8 +2219,8 @@ System.register("davinci-eight/utils/getCanvasElementById.js", ["../checks/mustB
             throw new Error(elementId + " is not an HTMLCanvasElement.");
         }
     }
-    var mustBeString_1, mustBeObject_1;
     exports_1("default", getCanvasElementById);
+    var mustBeString_1, mustBeObject_1;
     return {
         setters: [function (mustBeString_1_1) {
             mustBeString_1 = mustBeString_1_1;
@@ -2424,8 +2424,8 @@ System.register("davinci-eight/utils/animation.js", ["../checks/expectArg"], fun
         };
         return publicAPI;
     }
-    var expectArg_1;
     exports_1("default", animation);
+    var expectArg_1;
     return {
         setters: [function (expectArg_1_1) {
             expectArg_1 = expectArg_1_1;
@@ -2699,8 +2699,8 @@ System.register("davinci-eight/geometries/arrowPrimitive.js", ["../shapes/ArrowB
         builder.offset.copy(isDefined_1.default(options.offset) ? options.offset : Vector3_1.default.zero());
         return builder.toPrimitive();
     }
-    var ArrowBuilder_1, isDefined_1, mustBeObject_1, mustBeNumber_1, Vector3_1, Spinor3_1;
     exports_1("default", arrowPrimitive);
+    var ArrowBuilder_1, isDefined_1, mustBeObject_1, mustBeNumber_1, Vector3_1, Spinor3_1;
     return {
         setters: [function (ArrowBuilder_1_1) {
             ArrowBuilder_1 = ArrowBuilder_1_1;
@@ -3724,8 +3724,8 @@ System.register("davinci-eight/geometries/computeFaceNormals.js", ["../core/Grap
         vertex1[normalName] = normal;
         vertex2[normalName] = normal;
     }
-    var GraphicsProgramSymbols_1, Vector3_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1;
     exports_1("default", computeFaceNormals);
+    var GraphicsProgramSymbols_1, Vector3_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1;
     return {
         setters: [function (GraphicsProgramSymbols_1_1) {
             GraphicsProgramSymbols_1 = GraphicsProgramSymbols_1_1;
@@ -3764,8 +3764,8 @@ System.register("davinci-eight/geometries/triangle.js", ["../geometries/computeF
         triangles.push(simplex);
         return triangles;
     }
-    var computeFaceNormals_1, expectArg_1, Simplex_1, SimplexMode_1, GraphicsProgramSymbols_1, VectorN_1;
     exports_1("default", triangle);
+    var computeFaceNormals_1, expectArg_1, Simplex_1, SimplexMode_1, GraphicsProgramSymbols_1, VectorN_1;
     return {
         setters: [function (computeFaceNormals_1_1) {
             computeFaceNormals_1 = computeFaceNormals_1_1;
@@ -3819,8 +3819,8 @@ System.register("davinci-eight/geometries/quadrilateral.js", ["../checks/expectA
         triangle_1.default(d, a, c, triatts, triangles);
         return triangles;
     }
-    var expectArg_1, triangle_1, VectorN_1;
     exports_1("default", quadrilateral);
+    var expectArg_1, triangle_1, VectorN_1;
     return {
         setters: [function (expectArg_1_1) {
             expectArg_1 = expectArg_1_1;
@@ -4319,24 +4319,6 @@ System.register("davinci-eight/geometries/BoxGeometry.js", ["../core/GeometryEle
         }
     };
 });
-System.register("davinci-eight/geometries/GeometryMode.js", [], function (exports_1, context_1) {
-    "use strict";
-
-    var __moduleName = context_1 && context_1.id;
-    var GeometryMode;
-    return {
-        setters: [],
-        execute: function () {
-            (function (GeometryMode) {
-                GeometryMode[GeometryMode["POINT"] = 0] = "POINT";
-                GeometryMode[GeometryMode["WIRE"] = 1] = "WIRE";
-                GeometryMode[GeometryMode["MESH"] = 2] = "MESH";
-            })(GeometryMode || (GeometryMode = {}));
-            exports_1("GeometryMode", GeometryMode);
-            exports_1("default", GeometryMode);
-        }
-    };
-});
 System.register("davinci-eight/visual/geometryModeFromOptions.js", ["../checks/isDefined", "../checks/mustBeBoolean", "../checks/mustBeInteger", "../geometries/GeometryMode"], function (exports_1, context_1) {
     "use strict";
 
@@ -4371,8 +4353,8 @@ System.register("davinci-eight/visual/geometryModeFromOptions.js", ["../checks/i
             return fallback;
         }
     }
-    var isDefined_1, mustBeBoolean_1, mustBeInteger_1, GeometryMode_1;
     exports_1("default", modeFromOptions);
+    var isDefined_1, mustBeBoolean_1, mustBeInteger_1, GeometryMode_1;
     return {
         setters: [function (isDefined_1_1) {
             isDefined_1 = isDefined_1_1;
@@ -4409,8 +4391,8 @@ System.register("davinci-eight/visual/materialFromOptions.js", ["../materials/Li
                 }
         }
     }
-    var LineMaterial_1, MeshMaterial_1, PointMaterial_1, SimplexMode_1;
     exports_1("default", materialFromOptions);
+    var LineMaterial_1, MeshMaterial_1, PointMaterial_1, SimplexMode_1;
     return {
         setters: [function (LineMaterial_1_1) {
             LineMaterial_1 = LineMaterial_1_1;
@@ -4460,8 +4442,8 @@ System.register("davinci-eight/visual/simplexModeFromOptions.js", ["../checks/is
             return fallback;
         }
     }
-    var isDefined_1, mustBeBoolean_1, mustBeInteger_1, SimplexMode_1;
     exports_1("default", simplexFromOptions);
+    var isDefined_1, mustBeBoolean_1, mustBeInteger_1, SimplexMode_1;
     return {
         setters: [function (isDefined_1_1) {
             isDefined_1 = isDefined_1_1;
@@ -4606,8 +4588,8 @@ System.register("davinci-eight/geometries/arc3.js", ["../checks/mustBeDefined", 
         }
         return points;
     }
-    var mustBeDefined_1, mustBeInteger_1, mustBeNumber_1, Spinor3_1, Vector3_1;
     exports_1("default", arc3);
+    var mustBeDefined_1, mustBeInteger_1, mustBeNumber_1, Spinor3_1, Vector3_1;
     return {
         setters: [function (mustBeDefined_1_1) {
             mustBeDefined_1 = mustBeDefined_1_1;
@@ -5073,8 +5055,8 @@ System.register("davinci-eight/atoms/numVerticesForCurve.js", ["../checks/mustBe
         mustBeInteger_1.default('uSegments', uSegments);
         return uSegments + 1;
     }
-    var mustBeInteger_1;
     exports_1("default", default_1);
+    var mustBeInteger_1;
     return {
         setters: [function (mustBeInteger_1_1) {
             mustBeInteger_1 = mustBeInteger_1_1;
@@ -5181,8 +5163,8 @@ System.register("davinci-eight/atoms/elementsForCurve.js", ["../checks/isDefined
         }
         return elements;
     }
-    var isDefined_1, mustBeArray_1, numPostsForFence_1;
     exports_1("default", elementsForCurve);
+    var isDefined_1, mustBeArray_1, numPostsForFence_1;
     return {
         setters: [function (isDefined_1_1) {
             isDefined_1 = isDefined_1_1;
@@ -5217,8 +5199,8 @@ System.register("davinci-eight/checks/mustBeLT.js", ["../checks/mustSatisfy", ".
         }, contextBuilder);
         return value;
     }
-    var mustSatisfy_1, isLT_1;
     exports_1("default", default_1);
+    var mustSatisfy_1, isLT_1;
     return {
         setters: [function (mustSatisfy_1_1) {
             mustSatisfy_1 = mustSatisfy_1_1;
@@ -5327,8 +5309,8 @@ System.register("davinci-eight/geometries/curvePrimitive.js", ["../core/Color", 
         }
         return curve.toPrimitive();
     }
-    var Color_1, GraphicsProgramSymbols_1, LineStrip_1, CurveMode_1, LinePoints_1, isDefined_1, isFunction_1, mustBeNumber_1, Vector3_1;
     exports_1("default", curvePrimitive);
+    var Color_1, GraphicsProgramSymbols_1, LineStrip_1, CurveMode_1, LinePoints_1, isDefined_1, isFunction_1, mustBeNumber_1, Vector3_1;
     return {
         setters: [function (Color_1_1) {
             Color_1 = Color_1_1;
@@ -5805,13 +5787,31 @@ System.register("davinci-eight/checks/expectOptions.js", ["./mustBeArray"], func
             }
         }
     }
-    var mustBeArray_1;
     exports_1("default", expectOptions);
+    var mustBeArray_1;
     return {
         setters: [function (mustBeArray_1_1) {
             mustBeArray_1 = mustBeArray_1_1;
         }],
         execute: function () {}
+    };
+});
+System.register("davinci-eight/geometries/GeometryMode.js", [], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    var GeometryMode;
+    return {
+        setters: [],
+        execute: function () {
+            (function (GeometryMode) {
+                GeometryMode[GeometryMode["POINT"] = 0] = "POINT";
+                GeometryMode[GeometryMode["WIRE"] = 1] = "WIRE";
+                GeometryMode[GeometryMode["MESH"] = 2] = "MESH";
+            })(GeometryMode || (GeometryMode = {}));
+            exports_1("GeometryMode", GeometryMode);
+            exports_1("default", GeometryMode);
+        }
     };
 });
 System.register("davinci-eight/atoms/GridLines.js", ["../core/BeginMode", "./GridPrimitive", "../checks/mustBeInteger", "./numPostsForFence"], function (exports_1, context_1) {
@@ -5949,40 +5949,39 @@ System.register("davinci-eight/atoms/GridPoints.js", ["../core/BeginMode", "./Gr
         }
     };
 });
-System.register("davinci-eight/geometries/gridPrimitive.js", ["../core/BeginMode", "../core/Color", "../core/GraphicsProgramSymbols", "../atoms/GridLines", "../atoms/GridPoints", "../atoms/GridTriangleStrip", "../checks/isDefined", "../checks/isFunction", "../checks/mustBeNumber", "../math/Vector3"], function (exports_1, context_1) {
+System.register("davinci-eight/geometries/gridPrimitive.js", ["../core/Color", "./GeometryMode", "../core/GraphicsProgramSymbols", "../atoms/GridLines", "../atoms/GridPoints", "../atoms/GridTriangleStrip", "../checks/isDefined", "../checks/isFunction", "../checks/mustBeBoolean", "../checks/mustBeNumber", "../math/Vector2", "../math/Vector3"], function (exports_1, context_1) {
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
-    function aPositionDefault(u, v) {
-        return Vector3_1.default.vector(u, v, 0);
-    }
-    function aNormalDefault(u, v) {
-        return Vector3_1.default.vector(0, 0, 1);
-    }
     function topology(mode, uSegments, uClosed, vSegments, vClosed) {
         switch (mode) {
-            case BeginMode_1.default.POINTS:
+            case GeometryMode_1.default.POINT:
                 {
                     return new GridPoints_1.default(uSegments, uClosed, vSegments, vClosed);
                 }
-            case BeginMode_1.default.LINES:
+            case GeometryMode_1.default.WIRE:
                 {
                     return new GridLines_1.default(uSegments, uClosed, vSegments, vClosed);
                 }
-            case BeginMode_1.default.TRIANGLE_STRIP:
+            case GeometryMode_1.default.MESH:
                 {
                     return new GridTriangleStrip_1.default(uSegments, vSegments);
                 }
             default:
                 {
-                    throw new Error("mode must be POINTS, LINES or TRIANGLE_STRIP");
+                    throw new Error("mode must be POINT = " + GeometryMode_1.default.POINT + ", WIRE = " + GeometryMode_1.default.WIRE + " or MESH = " + GeometryMode_1.default.MESH);
                 }
         }
     }
     function transformVertex(vertex, u, v, options) {
-        var aPosition = isDefined_1.default(options.aPosition) ? options.aPosition : aPositionDefault;
-        var aNormal = isDefined_1.default(options.aNormal) ? options.aNormal : aNormalDefault;
+        var aPosition = isDefined_1.default(options.aPosition) ? options.aPosition : void 0;
+        var aNormal = isDefined_1.default(options.aNormal) ? options.aNormal : void 0;
         var aColor = isDefined_1.default(options.aColor) ? options.aColor : void 0;
+        var aCoords = isDefined_1.default(options.aCoords) ? options.aCoords : void 0;
+        if (isFunction_1.default(aCoords)) {
+            var coords = aCoords(u, v);
+            vertex.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_COORDS] = Vector2_1.default.vector(coords.u, coords.v);
+        }
         if (isFunction_1.default(aPosition)) {
             vertex.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = Vector3_1.default.copy(aPosition(u, v));
         }
@@ -5996,12 +5995,14 @@ System.register("davinci-eight/geometries/gridPrimitive.js", ["../core/BeginMode
     function gridPrimitive(options) {
         var uMin = isDefined_1.default(options.uMin) ? mustBeNumber_1.default('uMin', options.uMin) : 0;
         var uMax = isDefined_1.default(options.uMax) ? mustBeNumber_1.default('uMax', options.uMax) : 1;
-        var uSegments = isDefined_1.default(options.uSegments) ? options.uSegments : 1;
+        var uSegments = isDefined_1.default(options.uSegments) ? mustBeNumber_1.default('uSegments', options.uSegments) : 1;
+        var uClosed = isDefined_1.default(options.uClosed) ? mustBeBoolean_1.default('uClosed', options.uClosed) : false;
         var vMin = isDefined_1.default(options.vMin) ? mustBeNumber_1.default('vMin', options.vMin) : 0;
         var vMax = isDefined_1.default(options.vMax) ? mustBeNumber_1.default('vMax', options.vMax) : 1;
-        var vSegments = isDefined_1.default(options.vSegments) ? options.vSegments : 1;
-        var mode = isDefined_1.default(options.mode) ? options.mode : BeginMode_1.default.LINES;
-        var grid = topology(mode, uSegments, false, vSegments, false);
+        var vSegments = isDefined_1.default(options.vSegments) ? mustBeNumber_1.default('vSegments', options.vSegments) : 1;
+        var vClosed = isDefined_1.default(options.vClosed) ? mustBeBoolean_1.default('vClosed', options.vClosed) : false;
+        var mode = isDefined_1.default(options.mode) ? options.mode : GeometryMode_1.default.WIRE;
+        var grid = topology(mode, uSegments, uClosed, vSegments, vClosed);
         var iLen = grid.uLength;
         var jLen = grid.vLength;
         if (uSegments > 0) {
@@ -6039,13 +6040,13 @@ System.register("davinci-eight/geometries/gridPrimitive.js", ["../core/BeginMode
         }
         return grid.toPrimitive();
     }
-    var BeginMode_1, Color_1, GraphicsProgramSymbols_1, GridLines_1, GridPoints_1, GridTriangleStrip_1, isDefined_1, isFunction_1, mustBeNumber_1, Vector3_1;
     exports_1("default", gridPrimitive);
+    var Color_1, GeometryMode_1, GraphicsProgramSymbols_1, GridLines_1, GridPoints_1, GridTriangleStrip_1, isDefined_1, isFunction_1, mustBeBoolean_1, mustBeNumber_1, Vector2_1, Vector3_1;
     return {
-        setters: [function (BeginMode_1_1) {
-            BeginMode_1 = BeginMode_1_1;
-        }, function (Color_1_1) {
+        setters: [function (Color_1_1) {
             Color_1 = Color_1_1;
+        }, function (GeometryMode_1_1) {
+            GeometryMode_1 = GeometryMode_1_1;
         }, function (GraphicsProgramSymbols_1_1) {
             GraphicsProgramSymbols_1 = GraphicsProgramSymbols_1_1;
         }, function (GridLines_1_1) {
@@ -6058,8 +6059,12 @@ System.register("davinci-eight/geometries/gridPrimitive.js", ["../core/BeginMode
             isDefined_1 = isDefined_1_1;
         }, function (isFunction_1_1) {
             isFunction_1 = isFunction_1_1;
+        }, function (mustBeBoolean_1_1) {
+            mustBeBoolean_1 = mustBeBoolean_1_1;
         }, function (mustBeNumber_1_1) {
             mustBeNumber_1 = mustBeNumber_1_1;
+        }, function (Vector2_1_1) {
+            Vector2_1 = Vector2_1_1;
         }, function (Vector3_1_1) {
             Vector3_1 = Vector3_1_1;
         }],
@@ -6203,7 +6208,7 @@ System.register("davinci-eight/materials/PointMaterial.js", ["../materials/Graph
         }
     };
 });
-System.register("davinci-eight/visual/Grid.js", ["../core/BeginMode", "../core/Color", "../checks/expectOptions", "../core/GraphicsProgramSymbols", "../geometries/GridGeometry", "../checks/isDefined", "../checks/isFunction", "../checks/isNull", "../checks/isUndefined", "../materials/LineMaterial", "../core/Mesh", "../materials/MeshMaterial", "./mustBeEngine", "../checks/mustBeGE", "../checks/mustBeFunction", "../checks/mustBeInteger", "../checks/mustBeNumber", "../checks/mustBeObject", "../materials/PointMaterial", "../math/R3", "./setColorOption", "./setDeprecatedOptions", "../checks/validate"], function (exports_1, context_1) {
+System.register("davinci-eight/visual/Grid.js", ["../core/Color", "../checks/expectOptions", "../geometries/GeometryMode", "../core/GraphicsProgramSymbols", "../geometries/GridGeometry", "../checks/isDefined", "../checks/isFunction", "../checks/isNull", "../checks/isUndefined", "../materials/LineMaterial", "../core/Mesh", "../materials/MeshMaterial", "./mustBeEngine", "../checks/mustBeGE", "../checks/mustBeFunction", "../checks/mustBeInteger", "../checks/mustBeNumber", "../checks/mustBeObject", "../materials/PointMaterial", "../math/R3", "./setColorOption", "./setDeprecatedOptions", "../checks/validate"], function (exports_1, context_1) {
     "use strict";
 
     var __extends = this && this.__extends || function (d, b) {
@@ -6258,7 +6263,7 @@ System.register("davinci-eight/visual/Grid.js", ["../core/BeginMode", "../core/C
     function configPoints(contextManager, options, grid) {
         var geoOptions = {};
         transferGeometryOptions(options, geoOptions);
-        geoOptions.mode = BeginMode_1.default.POINTS;
+        geoOptions.mode = GeometryMode_1.default.POINT;
         var geometry = new GridGeometry_1.default(contextManager, geoOptions);
         grid.geometry = geometry;
         geometry.release();
@@ -6284,7 +6289,7 @@ System.register("davinci-eight/visual/Grid.js", ["../core/BeginMode", "../core/C
     function configLines(contextManager, options, grid) {
         var geoOptions = {};
         transferGeometryOptions(options, geoOptions);
-        geoOptions.mode = BeginMode_1.default.LINES;
+        geoOptions.mode = GeometryMode_1.default.WIRE;
         var geometry = new GridGeometry_1.default(contextManager, geoOptions);
         grid.geometry = geometry;
         geometry.release();
@@ -6312,7 +6317,7 @@ System.register("davinci-eight/visual/Grid.js", ["../core/BeginMode", "../core/C
     function configMesh(contextManager, options, grid) {
         var geoOptions = {};
         transferGeometryOptions(options, geoOptions);
-        geoOptions.mode = BeginMode_1.default.TRIANGLE_STRIP;
+        geoOptions.mode = GeometryMode_1.default.MESH;
         var geometry = new GridGeometry_1.default(contextManager, geoOptions);
         grid.geometry = geometry;
         geometry.release();
@@ -6347,14 +6352,14 @@ System.register("davinci-eight/visual/Grid.js", ["../core/BeginMode", "../core/C
         grid.material = material;
         material.release();
     }
-    var BeginMode_1, Color_1, expectOptions_1, GraphicsProgramSymbols_1, GridGeometry_1, isDefined_1, isFunction_1, isNull_1, isUndefined_1, LineMaterial_1, Mesh_1, MeshMaterial_1, mustBeEngine_1, mustBeGE_1, mustBeFunction_1, mustBeInteger_1, mustBeNumber_1, mustBeObject_1, PointMaterial_1, R3_1, setColorOption_1, setDeprecatedOptions_1, validate_1, COORD_MIN_DEFAULT, COORD_MAX_DEFAULT, GRID_SEGMENTS_DEFAULT, GRID_K_DEFAULT, OPTION_CONTEXT_MANAGER, OPTION_ENGINE, OPTION_OFFSET, OPTION_TILT, OPTION_STRESS, OPTION_COLOR, OPTION_POSITION_FUNCTION, OPTION_NORMAL_FUNCTION, OPTION_COLOR_FUNCTION, OPTION_UMIN, OPTION_UMAX, OPTION_USEGMENTS, OPTION_VMIN, OPTION_VMAX, OPTION_VSEGMENTS, OPTION_K, OPTIONS, OPTION_NAMES, Grid;
+    var Color_1, expectOptions_1, GeometryMode_1, GraphicsProgramSymbols_1, GridGeometry_1, isDefined_1, isFunction_1, isNull_1, isUndefined_1, LineMaterial_1, Mesh_1, MeshMaterial_1, mustBeEngine_1, mustBeGE_1, mustBeFunction_1, mustBeInteger_1, mustBeNumber_1, mustBeObject_1, PointMaterial_1, R3_1, setColorOption_1, setDeprecatedOptions_1, validate_1, COORD_MIN_DEFAULT, COORD_MAX_DEFAULT, GRID_SEGMENTS_DEFAULT, GRID_K_DEFAULT, OPTION_CONTEXT_MANAGER, OPTION_ENGINE, OPTION_OFFSET, OPTION_TILT, OPTION_STRESS, OPTION_COLOR, OPTION_POSITION_FUNCTION, OPTION_NORMAL_FUNCTION, OPTION_COLOR_FUNCTION, OPTION_UMIN, OPTION_UMAX, OPTION_USEGMENTS, OPTION_VMIN, OPTION_VMAX, OPTION_VSEGMENTS, OPTION_K, OPTIONS, OPTION_NAMES, Grid;
     return {
-        setters: [function (BeginMode_1_1) {
-            BeginMode_1 = BeginMode_1_1;
-        }, function (Color_1_1) {
+        setters: [function (Color_1_1) {
             Color_1 = Color_1_1;
         }, function (expectOptions_1_1) {
             expectOptions_1 = expectOptions_1_1;
+        }, function (GeometryMode_1_1) {
+            GeometryMode_1 = GeometryMode_1_1;
         }, function (GraphicsProgramSymbols_1_1) {
             GraphicsProgramSymbols_1 = GraphicsProgramSymbols_1_1;
         }, function (GridGeometry_1_1) {
@@ -6485,8 +6490,8 @@ System.register("davinci-eight/checks/validate.js", ["./isDefined"], function (e
             return defaultValue;
         }
     }
-    var isDefined_1;
     exports_1("default", validate);
+    var isDefined_1;
     return {
         setters: [function (isDefined_1_1) {
             isDefined_1 = isDefined_1_1;
@@ -6598,8 +6603,8 @@ System.register("davinci-eight/visual/direction.js", ["../math/R3"], function (e
             return R3_1.default(canonical.x, canonical.y, canonical.z);
         }
     }
-    var R3_1;
     exports_1("default", default_1);
+    var R3_1;
     return {
         setters: [function (R3_1_1) {
             R3_1 = R3_1_1;
@@ -6861,8 +6866,8 @@ System.register("davinci-eight/math/quadSpinorE2.js", ["../checks/isDefined", ".
             return void 0;
         }
     }
-    var isDefined_1, isNumber_1;
     exports_1("default", quadSpinorE2);
+    var isDefined_1, isNumber_1;
     return {
         setters: [function (isDefined_1_1) {
             isDefined_1 = isDefined_1_1;
@@ -7381,8 +7386,8 @@ System.register("davinci-eight/atoms/numVerticesForGrid.js", ["../checks/mustBeI
         mustBeInteger_1.default('vSegments', vSegments);
         return (uSegments + 1) * (vSegments + 1);
     }
-    var mustBeInteger_1;
     exports_1("default", default_1);
+    var mustBeInteger_1;
     return {
         setters: [function (mustBeInteger_1_1) {
             mustBeInteger_1 = mustBeInteger_1_1;
@@ -7569,8 +7574,8 @@ System.register("davinci-eight/atoms/numPostsForFence.js", ["../checks/mustBeBoo
         mustBeBoolean_1.default('closed', closed);
         return closed ? segmentCount : segmentCount + 1;
     }
-    var mustBeBoolean_1, mustBeGE_1, mustBeInteger_1;
     exports_1("default", default_1);
+    var mustBeBoolean_1, mustBeGE_1, mustBeInteger_1;
     return {
         setters: [function (mustBeBoolean_1_1) {
             mustBeBoolean_1 = mustBeBoolean_1_1;
@@ -9381,8 +9386,8 @@ System.register("davinci-eight/visual/setDeprecatedOptions.js", ["../checks/isDe
             mesh.R.copySpinor(options[ATTITUDE_NAME]);
         }
     }
-    var isDefined_1, ATTITUDE_NAME, POSITION_NAME;
     exports_1("default", setDeprecatedOptions);
+    var isDefined_1, ATTITUDE_NAME, POSITION_NAME;
     return {
         setters: [function (isDefined_1_1) {
             isDefined_1 = isDefined_1_1;
@@ -9714,8 +9719,8 @@ System.register("davinci-eight/geometries/dataFromVectorN.js", ["../math/Geometr
             return source.coords;
         }
     }
-    var Geometric2_1, Geometric3_1, Vector2_1, Vector3_1;
     exports_1("default", dataFromVectorN);
+    var Geometric2_1, Geometric3_1, Vector2_1, Vector3_1;
     return {
         setters: [function (Geometric2_1_1) {
             Geometric2_1 = Geometric2_1_1;
@@ -9938,8 +9943,8 @@ System.register("davinci-eight/geometries/simplicesToPrimitive.js", ["../collect
                 }
         }
     }
-    var copyToArray_1, dataFromVectorN_1, DataType_1, DrawAttribute_1, BeginMode_1, DrawPrimitive_1, simplicesToGeometryMeta_1, computeUniqueVertices_1, expectArg_1, Simplex_1, SimplexMode_1, VectorN_1;
     exports_1("default", default_1);
+    var copyToArray_1, dataFromVectorN_1, DataType_1, DrawAttribute_1, BeginMode_1, DrawPrimitive_1, simplicesToGeometryMeta_1, computeUniqueVertices_1, expectArg_1, Simplex_1, SimplexMode_1, VectorN_1;
     return {
         setters: [function (copyToArray_1_1) {
             copyToArray_1 = copyToArray_1_1;
@@ -10176,8 +10181,8 @@ System.register("davinci-eight/math/dotVectorE2.js", ["../checks/isDefined"], fu
             return void 0;
         }
     }
-    var isDefined_1;
     exports_1("default", dotVectorE2);
+    var isDefined_1;
     return {
         setters: [function (isDefined_1_1) {
             isDefined_1 = isDefined_1_1;
@@ -10215,8 +10220,8 @@ System.register("davinci-eight/math/quadVectorE2.js", ["../math/dotVectorCartesi
             return void 0;
         }
     }
-    var dotVectorCartesianE2_1, isDefined_1, isNumber_1;
     exports_1("default", quadVectorE2);
+    var dotVectorCartesianE2_1, isDefined_1, isNumber_1;
     return {
         setters: [function (dotVectorCartesianE2_1_1) {
             dotVectorCartesianE2_1 = dotVectorCartesianE2_1_1;
@@ -10248,8 +10253,8 @@ System.register("davinci-eight/math/rotorFromDirectionsE2.js", ["./dotVectorE2",
             return void 0;
         }
     }
-    var dotVectorE2_1, quadVectorE2_1, sqrt;
     exports_1("default", default_1);
+    var dotVectorE2_1, quadVectorE2_1, sqrt;
     return {
         setters: [function (dotVectorE2_1_1) {
             dotVectorE2_1 = dotVectorE2_1_1;
@@ -11217,11 +11222,11 @@ System.register("davinci-eight/math/Geometric2.js", ["./arraysEQ", "../geometrie
                 };
                 return Geometric2;
             }(Coords_1.Coords);
-            exports_1("Geometric2", Geometric2);
             Geometric2.BASIS_LABELS = STANDARD_LABELS;
             Geometric2.BASIS_LABELS_COMPASS = COMPASS_LABELS;
             Geometric2.BASIS_LABELS_GEOMETRIC = ARROW_LABELS;
             Geometric2.BASIS_LABELS_STANDARD = STANDARD_LABELS;
+            exports_1("Geometric2", Geometric2);
         }
     };
 });
@@ -11254,8 +11259,8 @@ System.register("davinci-eight/geometries/dataLength.js", ["../math/Geometric2",
             return source.length;
         }
     }
-    var Geometric2_1, Geometric3_1, Vector2_1, Vector3_1;
     exports_1("default", dataLength);
+    var Geometric2_1, Geometric3_1, Vector2_1, Vector3_1;
     return {
         setters: [function (Geometric2_1_1) {
             Geometric2_1 = Geometric2_1_1;
@@ -11330,8 +11335,8 @@ System.register("davinci-eight/geometries/simplicesToGeometryMeta.js", ["./dataL
             return void 0;
         }
     }
-    var dataLength_1, expectArg_1, isDefined_1, Simplex_1;
     exports_1("default", simplicesToGeometryMeta);
+    var dataLength_1, expectArg_1, isDefined_1, Simplex_1;
     return {
         setters: [function (dataLength_1_1) {
             dataLength_1 = dataLength_1_1;
@@ -12393,6 +12398,7 @@ System.register("davinci-eight/math/Vector2.js", ["../math/Coords", "../geometri
                 return Vector2;
             }(Coords_1.Coords);
             exports_1("Vector2", Vector2);
+            exports_1("default", Vector2);
         }
     };
 });
@@ -12615,8 +12621,8 @@ System.register("davinci-eight/atoms/reduce.js", ["../core/BeginMode"], function
             };
         });
     }
-    var BeginMode_1;
     exports_1("default", reduce);
+    var BeginMode_1;
     return {
         setters: [function (BeginMode_1_1) {
             BeginMode_1 = BeginMode_1_1;
@@ -12636,8 +12642,8 @@ System.register("davinci-eight/geometries/tetrahedronPrimitive.js", ["../checks/
         var builder = new PolyhedronBuilder_1.default(vertices, indices, radius);
         return reduce_1.default(builder.toPrimitives());
     }
-    var isDefined_1, mustBeNumber_1, PolyhedronBuilder_1, reduce_1, vertices, indices;
     exports_1("default", tetrahedronPrimitive);
+    var isDefined_1, mustBeNumber_1, PolyhedronBuilder_1, reduce_1, vertices, indices;
     return {
         setters: [function (isDefined_1_1) {
             isDefined_1 = isDefined_1_1;
@@ -13624,8 +13630,8 @@ System.register("davinci-eight/i18n/notImplemented.js", ["../checks/mustBeString
         };
         return message;
     }
-    var mustBeString_1;
     exports_1("default", default_1);
+    var mustBeString_1;
     return {
         setters: [function (mustBeString_1_1) {
             mustBeString_1 = mustBeString_1_1;
@@ -13704,8 +13710,8 @@ System.register("davinci-eight/math/quadSpinorE3.js", ["../checks/isDefined", ".
             return void 0;
         }
     }
-    var isDefined_1, isNumber_1;
     exports_1("default", quadSpinorE3);
+    var isDefined_1, isNumber_1;
     return {
         setters: [function (isDefined_1_1) {
             isDefined_1 = isDefined_1_1;
@@ -13723,8 +13729,8 @@ System.register("davinci-eight/math/toStringCustom.js", ["../math/stringFromCoor
         var quantityString = stringFromCoordinates_1.default(coordinates, coordToString, labels);
         return quantityString;
     }
-    var stringFromCoordinates_1;
     exports_1("default", toStringCustom);
+    var stringFromCoordinates_1;
     return {
         setters: [function (stringFromCoordinates_1_1) {
             stringFromCoordinates_1 = stringFromCoordinates_1_1;
@@ -14537,8 +14543,8 @@ System.register("davinci-eight/core/computeCount.js", ["../checks/mustBeInteger"
         }
         return 0;
     }
-    var mustBeInteger_1;
     exports_1("default", default_1);
+    var mustBeInteger_1;
     return {
         setters: [function (mustBeInteger_1_1) {
             mustBeInteger_1 = mustBeInteger_1_1;
@@ -14566,8 +14572,8 @@ System.register("davinci-eight/core/computeAttributes.js", ["./computeCount"], f
         }
         return values;
     }
-    var computeCount_1;
     exports_1("default", computeAttributes);
+    var computeCount_1;
     return {
         setters: [function (computeCount_1_1) {
             computeCount_1 = computeCount_1_1;
@@ -14636,8 +14642,8 @@ System.register("davinci-eight/core/vertexArraysFromPrimitive.js", ["./computeAt
             return void 0;
         }
     }
-    var computeAttributes_1, computePointers_1, computeStride_1;
     exports_1("default", vertexArraysFromPrimitive);
+    var computeAttributes_1, computePointers_1, computeStride_1;
     return {
         setters: [function (computeAttributes_1_1) {
             computeAttributes_1 = computeAttributes_1_1;
@@ -14889,8 +14895,8 @@ System.register("davinci-eight/materials/glslAttribType.js", ["../core/GraphicsP
                 }
         }
     }
-    var GraphicsProgramSymbols_1, mustBeInteger_1, mustBeString_1;
     exports_1("default", glslAttribType);
+    var GraphicsProgramSymbols_1, mustBeInteger_1, mustBeString_1;
     return {
         setters: [function (GraphicsProgramSymbols_1_1) {
             GraphicsProgramSymbols_1 = GraphicsProgramSymbols_1_1;
@@ -14955,8 +14961,8 @@ System.register("davinci-eight/materials/vColorRequired.js", ["../core/GraphicsP
     function vColorRequired(attributes, uniforms) {
         return !!attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_COLOR] || !!uniforms[GraphicsProgramSymbols_1.default.UNIFORM_COLOR];
     }
-    var GraphicsProgramSymbols_1;
     exports_1("default", vColorRequired);
+    var GraphicsProgramSymbols_1;
     return {
         setters: [function (GraphicsProgramSymbols_1_1) {
             GraphicsProgramSymbols_1 = GraphicsProgramSymbols_1_1;
@@ -14973,8 +14979,8 @@ System.register("davinci-eight/materials/vCoordsRequired.js", ["../checks/mustBe
         mustBeDefined_1.default('uniforms', uniforms);
         return !!attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_COORDS];
     }
-    var mustBeDefined_1, GraphicsProgramSymbols_1;
     exports_1("default", vCoordsRequired);
+    var mustBeDefined_1, GraphicsProgramSymbols_1;
     return {
         setters: [function (mustBeDefined_1_1) {
             mustBeDefined_1 = mustBeDefined_1_1;
@@ -14993,8 +14999,8 @@ System.register("davinci-eight/materials/vLightRequired.js", ["../checks/mustBeD
         mustBeDefined_1.default('uniforms', uniforms);
         return !!uniforms[GraphicsProgramSymbols_1.default.UNIFORM_AMBIENT_LIGHT] || !!uniforms[GraphicsProgramSymbols_1.default.UNIFORM_DIRECTIONAL_LIGHT_COLOR] && !!uniforms[GraphicsProgramSymbols_1.default.UNIFORM_DIRECTIONAL_LIGHT_COLOR];
     }
-    var mustBeDefined_1, GraphicsProgramSymbols_1;
     exports_1("default", vLightRequired);
+    var mustBeDefined_1, GraphicsProgramSymbols_1;
     return {
         setters: [function (mustBeDefined_1_1) {
             mustBeDefined_1 = mustBeDefined_1_1;
@@ -15081,8 +15087,8 @@ System.register("davinci-eight/materials/fragmentShaderSrc.js", ["../config", ".
         var code = lines.join("\n");
         return code;
     }
-    var config_1, getUniformVarName_1, GraphicsProgramSymbols_1, mustBeBoolean_1, mustBeDefined_1, emitFragmentPrecision, SPACE, UNIFORM, SEMICOLON;
     exports_1("default", default_1);
+    var config_1, getUniformVarName_1, GraphicsProgramSymbols_1, mustBeBoolean_1, mustBeDefined_1, emitFragmentPrecision, SPACE, UNIFORM, SEMICOLON;
     return {
         setters: [function (config_1_1) {
             config_1 = config_1_1;
@@ -15112,8 +15118,8 @@ System.register("davinci-eight/core/getAttribVarName.js", ["../checks/isDefined"
         mustBeString_1.default('varName', varName);
         return isDefined_1.default(attribute.name) ? mustBeString_1.default('attribute.name', attribute.name) : varName;
     }
-    var isDefined_1, mustBeObject_1, mustBeString_1;
     exports_1("default", getAttribVarName);
+    var isDefined_1, mustBeObject_1, mustBeString_1;
     return {
         setters: [function (isDefined_1_1) {
             isDefined_1 = isDefined_1_1;
@@ -15134,8 +15140,8 @@ System.register("davinci-eight/core/getUniformVarName.js", ["../checks/isDefined
         expectArg_1.default('varName', varName).toBeString();
         return isDefined_1.default(uniform.name) ? expectArg_1.default('uniform.name', uniform.name).toBeString().value : varName;
     }
-    var isDefined_1, expectArg_1;
     exports_1("default", getUniformVarName);
+    var isDefined_1, expectArg_1;
     return {
         setters: [function (isDefined_1_1) {
             isDefined_1 = isDefined_1_1;
@@ -15341,8 +15347,8 @@ System.register("davinci-eight/materials/vertexShaderSrc.js", ["../config", "../
         var code = lines.join("\n");
         return code;
     }
-    var config_1, getAttribVarName_1, getUniformVarName_1, mustBeBoolean_1, mustBeDefined_1, GraphicsProgramSymbols_1, SPACE, ATTRIBUTE, UNIFORM, COMMA, SEMICOLON, LPAREN, RPAREN, TIMES, ASSIGN, DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME;
     exports_1("default", vertexShaderSrc);
+    var config_1, getAttribVarName_1, getUniformVarName_1, mustBeBoolean_1, mustBeDefined_1, GraphicsProgramSymbols_1, SPACE, ATTRIBUTE, UNIFORM, COMMA, SEMICOLON, LPAREN, RPAREN, TIMES, ASSIGN, DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME;
     return {
         setters: [function (config_1_1) {
             config_1 = config_1_1;
@@ -15591,8 +15597,8 @@ System.register("davinci-eight/core/makeWebGLProgram.js", ["./makeWebGLShader"],
             throw new Error("Error linking program: " + message);
         }
     }
-    var makeWebGLShader_1;
     exports_1("default", makeWebGLProgram);
+    var makeWebGLShader_1;
     return {
         setters: [function (makeWebGLShader_1_1) {
             makeWebGLShader_1 = makeWebGLShader_1_1;
@@ -16384,8 +16390,8 @@ System.register("davinci-eight/core/Usage.js", [], function (exports_1, context_
                 }
         }
     }
-    var Usage;
     exports_1("checkUsage", checkUsage);
+    var Usage;
     return {
         setters: [],
         execute: function () {
@@ -16462,8 +16468,8 @@ System.register("davinci-eight/core/checkEnums.js", ["./BeginMode", "./BlendingF
         mustBeEQ_1.default('STATIC_DRAW', Usage_1.default.STATIC_DRAW, gl.STATIC_DRAW);
         mustBeEQ_1.default('DYNAMIC_DRAW', Usage_1.default.DYNAMIC_DRAW, gl.DYNAMIC_DRAW);
     }
-    var BeginMode_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, ClearBufferMask_1, DepthFunction_1, PixelFormat_1, PixelType_1, Usage_1, mustBeEQ_1;
     exports_1("default", checkEnums);
+    var BeginMode_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, ClearBufferMask_1, DepthFunction_1, PixelFormat_1, PixelType_1, Usage_1, mustBeEQ_1;
     return {
         setters: [function (BeginMode_1_1) {
             BeginMode_1 = BeginMode_1_1;
@@ -16567,8 +16573,8 @@ System.register("davinci-eight/core/initWebGL.js", ["../checks/isDefined"], func
             return void 0;
         }
     }
-    var isDefined_1;
     exports_1("default", initWebGL);
+    var isDefined_1;
     return {
         setters: [function (isDefined_1_1) {
             isDefined_1 = isDefined_1_1;
@@ -17260,8 +17266,8 @@ System.register("davinci-eight/visual/mustBeEngine.js", ["../core/Engine"], func
             throw new Error("Expecting Engine in constructor for class " + className + ".");
         }
     }
-    var Engine_1;
     exports_1("default", mustBeEngine);
+    var Engine_1;
     return {
         setters: [function (Engine_1_1) {
             Engine_1 = Engine_1_1;
@@ -17279,8 +17285,8 @@ System.register("davinci-eight/math/clamp.js", ["../checks/mustBeNumber"], funct
         mustBeNumber_1.default('max', max);
         return x < min ? min : x > max ? max : x;
     }
-    var mustBeNumber_1;
     exports_1("default", clamp);
+    var mustBeNumber_1;
     return {
         setters: [function (mustBeNumber_1_1) {
             mustBeNumber_1 = mustBeNumber_1_1;
@@ -17568,7 +17574,6 @@ System.register("davinci-eight/core/Color.js", ["../math/clamp", "../math/Coords
                 };
                 return Color;
             }(Coords_1.Coords);
-            exports_1("Color", Color);
             Color.black = new Color(0, 0, 0);
             Color.blue = new Color(0, 0, 1);
             Color.green = new Color(0, 1, 0);
@@ -17578,6 +17583,7 @@ System.register("davinci-eight/core/Color.js", ["../math/clamp", "../math/Coords
             Color.yellow = new Color(1, 1, 0);
             Color.white = new Color(1, 1, 1);
             Color.gray = new Color(0.5, 0.5, 0.5);
+            exports_1("Color", Color);
             rgb255 = function (red, green, blue) {
                 var UBYTEMAX = 255;
                 return new Color(red / UBYTEMAX, green / UBYTEMAX, blue / UBYTEMAX);
@@ -17669,11 +17675,11 @@ System.register("davinci-eight/facets/ColorFacet.js", ["../core/Color", "../chec
                 };
                 return ColorFacet;
             }();
-            exports_1("ColorFacet", ColorFacet);
             ColorFacet.PROP_RGB = 'rgb';
             ColorFacet.PROP_RED = 'r';
             ColorFacet.PROP_GREEN = 'g';
             ColorFacet.PROP_BLUE = 'b';
+            exports_1("ColorFacet", ColorFacet);
         }
     };
 });
@@ -17701,8 +17707,8 @@ System.register("davinci-eight/checks/mustBeBoolean.js", ["../checks/mustSatisfy
         mustSatisfy_1.default(name, isBoolean_1.default(value), beBoolean, contextBuilder);
         return value;
     }
-    var mustSatisfy_1, isBoolean_1;
     exports_1("default", mustBeBoolean);
+    var mustSatisfy_1, isBoolean_1;
     return {
         setters: [function (mustSatisfy_1_1) {
             mustSatisfy_1 = mustSatisfy_1_1;
@@ -17735,8 +17741,8 @@ System.register("davinci-eight/checks/mustBeGE.js", ["../checks/mustSatisfy", ".
         }, contextBuilder);
         return value;
     }
-    var mustSatisfy_1, isGE_1;
     exports_1("default", default_1);
+    var mustSatisfy_1, isGE_1;
     return {
         setters: [function (mustSatisfy_1_1) {
             mustSatisfy_1 = mustSatisfy_1_1;
@@ -17769,8 +17775,8 @@ System.register("davinci-eight/checks/mustBeLE.js", ["../checks/mustSatisfy", ".
         }, contextBuilder);
         return value;
     }
-    var mustSatisfy_1, isLE_1;
     exports_1("default", default_1);
+    var mustSatisfy_1, isLE_1;
     return {
         setters: [function (mustSatisfy_1_1) {
             mustSatisfy_1 = mustSatisfy_1_1;
@@ -18292,8 +18298,8 @@ System.register("davinci-eight/math/inv3x3.js", ["../math/det3x3"], function (ex
         te[0x5] = o32 * α;
         te[0x8] = o33 * α;
     }
-    var det3x3_1;
     exports_1("default", inv3x3);
+    var det3x3_1;
     return {
         setters: [function (det3x3_1_1) {
             det3x3_1 = det3x3_1_1;
@@ -18717,8 +18723,8 @@ System.register("davinci-eight/checks/mustBeDefined.js", ["../checks/mustSatisfy
         mustSatisfy_1.default(name, isDefined_1.default(value), beDefined, contextBuilder);
         return value;
     }
-    var mustSatisfy_1, isDefined_1;
     exports_1("default", mustBeDefined);
+    var mustSatisfy_1, isDefined_1;
     return {
         setters: [function (mustSatisfy_1_1) {
             mustSatisfy_1 = mustSatisfy_1_1;
@@ -18827,8 +18833,8 @@ System.register("davinci-eight/checks/expectArg.js", ["../checks/isUndefined", "
         };
         return arg;
     }
-    var isUndefined_1, mustBeNumber_1;
     exports_1("default", expectArg);
+    var isUndefined_1, mustBeNumber_1;
     return {
         setters: [function (isUndefined_1_1) {
             isUndefined_1 = isUndefined_1_1;
@@ -19116,8 +19122,8 @@ System.register("davinci-eight/facets/frustumMatrix.js", ["../checks/mustBeNumbe
         m[0xF] = 0;
         return m;
     }
-    var mustBeNumber_1, isDefined_1;
     exports_1("default", frustumMatrix);
+    var mustBeNumber_1, isDefined_1;
     return {
         setters: [function (mustBeNumber_1_1) {
             mustBeNumber_1 = mustBeNumber_1_1;
@@ -19142,8 +19148,8 @@ System.register("davinci-eight/facets/perspectiveArray.js", ["./frustumMatrix", 
         var xmax = ymax * aspect;
         return frustumMatrix_1.default(xmin, xmax, ymin, ymax, near, far, matrix);
     }
-    var frustumMatrix_1, mustBeNumber_1;
     exports_1("default", perspectiveArray);
+    var frustumMatrix_1, mustBeNumber_1;
     return {
         setters: [function (frustumMatrix_1_1) {
             frustumMatrix_1 = frustumMatrix_1_1;
@@ -19549,9 +19555,9 @@ System.register("davinci-eight/facets/ModelE3.js", ["../math/Geometric3"], funct
                 });
                 return ModelE3;
             }();
-            exports_1("default", ModelE3);
             ModelE3.PROP_ATTITUDE = 'R';
             ModelE3.PROP_POSITION = 'X';
+            exports_1("default", ModelE3);
         }
     };
 });
@@ -19665,8 +19671,8 @@ System.register("davinci-eight/i18n/notSupported.js", ["../checks/mustBeString"]
         };
         return message;
     }
-    var mustBeString_1;
     exports_1("default", notSupported);
+    var mustBeString_1;
     return {
         setters: [function (mustBeString_1_1) {
             mustBeString_1 = mustBeString_1_1;
@@ -19697,7 +19703,7 @@ System.register("davinci-eight/base/exchange.js", [], function (exports_1, conte
         execute: function () {}
     };
 });
-System.register("davinci-eight/core/GraphicsProgramSymbols.js", [], function (exports_1, context_1) {
+System.register('davinci-eight/core/GraphicsProgramSymbols.js', [], function (exports_1, context_1) {
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
@@ -19709,7 +19715,6 @@ System.register("davinci-eight/core/GraphicsProgramSymbols.js", [], function (ex
                 function GraphicsProgramSymbols() {}
                 return GraphicsProgramSymbols;
             }();
-            exports_1("default", GraphicsProgramSymbols);
             GraphicsProgramSymbols.ATTRIBUTE_COLOR = 'aColor';
             GraphicsProgramSymbols.ATTRIBUTE_GEOMETRY_INDEX = 'aGeometryIndex';
             GraphicsProgramSymbols.ATTRIBUTE_NORMAL = 'aNormal';
@@ -19735,6 +19740,7 @@ System.register("davinci-eight/core/GraphicsProgramSymbols.js", [], function (ex
             GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX = 'uView';
             GraphicsProgramSymbols.VARYING_COLOR = 'vColor';
             GraphicsProgramSymbols.VARYING_LIGHT = 'vLight';
+            exports_1("default", GraphicsProgramSymbols);
         }
     };
 });
@@ -20119,8 +20125,8 @@ System.register("davinci-eight/checks/mustBeObject.js", ["../checks/mustSatisfy"
         mustSatisfy_1.default(name, isObject_1.default(value), beObject, contextBuilder);
         return value;
     }
-    var mustSatisfy_1, isObject_1;
     exports_1("default", mustBeObject);
+    var mustSatisfy_1, isObject_1;
     return {
         setters: [function (mustSatisfy_1_1) {
             mustSatisfy_1 = mustSatisfy_1_1;
@@ -20191,8 +20197,8 @@ System.register("davinci-eight/visual/setColorOption.js", ["../checks/isDefined"
             mesh.color.copy(defaultColor);
         }
     }
-    var isDefined_1;
     exports_1("default", setColorOption);
+    var isDefined_1;
     return {
         setters: [function (isDefined_1_1) {
             isDefined_1 = isDefined_1_1;
@@ -20410,8 +20416,8 @@ System.register("davinci-eight/math/arraysEQ.js", ["../checks/isDefined", "../ch
             return isUndefined_1.default(b);
         }
     }
-    var isDefined_1, isNull_1, isUndefined_1;
     exports_1("default", default_1);
+    var isDefined_1, isNull_1, isUndefined_1;
     return {
         setters: [function (isDefined_1_1) {
             isDefined_1 = isDefined_1_1;
@@ -20577,8 +20583,8 @@ System.register("davinci-eight/math/extG3.js", ["../math/compG3Get", "../math/ex
         }
         return out;
     }
-    var compG3Get_1, extE3_1, compG3Set_1;
     exports_1("default", extG3);
+    var compG3Get_1, extE3_1, compG3Set_1;
     return {
         setters: [function (compG3Get_1_1) {
             compG3Get_1 = compG3Get_1_1;
@@ -20655,8 +20661,8 @@ System.register("davinci-eight/math/gauss.js", [], function (exports_1, context_
         }
         return solve(A, N);
     }
-    var abs;
     exports_1("default", gauss);
+    var abs;
     return {
         setters: [],
         execute: function () {
@@ -20780,8 +20786,8 @@ System.register("davinci-eight/math/lcoG3.js", ["../math/compG3Get", "../math/lc
         }
         return out;
     }
-    var compG3Get_1, lcoE3_1, compG3Set_1;
     exports_1("default", lcoG3);
+    var compG3Get_1, lcoE3_1, compG3Set_1;
     return {
         setters: [function (compG3Get_1_1) {
             compG3Get_1 = compG3Get_1_1;
@@ -20844,8 +20850,8 @@ System.register("davinci-eight/math/maskG3.js", ["../checks/isNumber", "../check
             return void 0;
         }
     }
-    var isNumber_1, isObject_1, scratch;
     exports_1("default", default_1);
+    var isNumber_1, isObject_1, scratch;
     return {
         setters: [function (isNumber_1_1) {
             isNumber_1 = isNumber_1_1;
@@ -20883,8 +20889,8 @@ System.register("davinci-eight/math/mulG3.js", ["../math/compG3Get", "../math/mu
             out[i] = mulE3_1.default(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, i);
         }
     }
-    var compG3Get_1, mulE3_1;
     exports_1("default", mulG3);
+    var compG3Get_1, mulE3_1;
     return {
         setters: [function (compG3Get_1_1) {
             compG3Get_1 = compG3Get_1_1;
@@ -20905,8 +20911,8 @@ System.register("davinci-eight/checks/mustBeNumber.js", ["../checks/mustSatisfy"
         mustSatisfy_1.default(name, isNumber_1.default(value), beANumber, contextBuilder);
         return value;
     }
-    var mustSatisfy_1, isNumber_1;
     exports_1("default", default_1);
+    var mustSatisfy_1, isNumber_1;
     return {
         setters: [function (mustSatisfy_1_1) {
             mustSatisfy_1 = mustSatisfy_1_1;
@@ -21032,8 +21038,8 @@ System.register("davinci-eight/math/rcoG3.js", ["../math/compG3Get", "../math/rc
         }
         return out;
     }
-    var compG3Get_1, rcoE3_1, compG3Set_1;
     exports_1("default", rcoG3);
+    var compG3Get_1, rcoE3_1, compG3Set_1;
     return {
         setters: [function (compG3Get_1_1) {
             compG3Get_1 = compG3Get_1_1;
@@ -21063,8 +21069,8 @@ System.register("davinci-eight/math/quadVectorE3.js", ["../math/dotVectorCartesi
             return void 0;
         }
     }
-    var dotVectorCartesianE3_1, isDefined_1, isNumber_1;
     exports_1("default", quadVectorE3);
+    var dotVectorCartesianE3_1, isDefined_1, isNumber_1;
     return {
         setters: [function (dotVectorCartesianE3_1_1) {
             dotVectorCartesianE3_1 = dotVectorCartesianE3_1_1;
@@ -21108,8 +21114,8 @@ System.register("davinci-eight/math/rotorFromDirectionsE3.js", ["./dotVectorE3",
             }
         }
     }
-    var dotVectorE3_1, quadVectorE3_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1, sqrt;
     exports_1("default", default_1);
+    var dotVectorE3_1, quadVectorE3_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1, sqrt;
     return {
         setters: [function (dotVectorE3_1_1) {
             dotVectorE3_1 = dotVectorE3_1_1;
@@ -21171,8 +21177,8 @@ System.register("davinci-eight/math/compG3Get.js", [], function (exports_1, cont
                 }
         }
     }
-    var COORD_W, COORD_X, COORD_Y, COORD_Z, COORD_XY, COORD_YZ, COORD_ZX, COORD_XYZ;
     exports_1("default", gcompE3);
+    var COORD_W, COORD_X, COORD_Y, COORD_Z, COORD_XY, COORD_YZ, COORD_ZX, COORD_XYZ;
     return {
         setters: [],
         execute: function () {
@@ -21314,8 +21320,8 @@ System.register("davinci-eight/math/compG3Set.js", [], function (exports_1, cont
                 throw new Error("index => " + index);
         }
     }
-    var COORD_W, COORD_X, COORD_Y, COORD_Z, COORD_XY, COORD_YZ, COORD_ZX, COORD_XYZ;
     exports_1("default", compG3Set);
+    var COORD_W, COORD_X, COORD_Y, COORD_Z, COORD_XY, COORD_YZ, COORD_ZX, COORD_XYZ;
     return {
         setters: [],
         execute: function () {
@@ -21361,8 +21367,8 @@ System.register("davinci-eight/math/scpG3.js", ["../math/compG3Get", "../math/mu
         compG3Set_1.default(out, 7, 0);
         return out;
     }
-    var compG3Get_1, mulE3_1, compG3Set_1;
     exports_1("default", scpG3);
+    var compG3Get_1, mulE3_1, compG3Set_1;
     return {
         setters: [function (compG3Get_1_1) {
             compG3Get_1 = compG3Get_1_1;
@@ -21419,8 +21425,8 @@ System.register("davinci-eight/checks/mustBeArray.js", ["../checks/mustSatisfy",
         mustSatisfy_1.default(name, isArray_1.default(value), beAnArray, contextBuilder);
         return value;
     }
-    var mustSatisfy_1, isArray_1;
     exports_1("default", default_1);
+    var mustSatisfy_1, isArray_1;
     return {
         setters: [function (mustSatisfy_1_1) {
             mustSatisfy_1 = mustSatisfy_1_1;
@@ -21512,8 +21518,8 @@ System.register("davinci-eight/math/stringFromCoordinates.js", ["../checks/isDef
         }
         return sb.length > 0 ? sb.join("") : "0";
     }
-    var isDefined_1, mustBeArray_1;
     exports_1("default", stringFromCoordinates);
+    var isDefined_1, mustBeArray_1;
     return {
         setters: [function (isDefined_1_1) {
             isDefined_1 = isDefined_1_1;
@@ -22753,8 +22759,8 @@ System.register("davinci-eight/visual/tiltFromOptions.js", ["../math/Geometric3"
             return Geometric3_1.Geometric3.one();
         }
     }
-    var Geometric3_1;
     exports_1("default", tiltFromOptions);
+    var Geometric3_1;
     return {
         setters: [function (Geometric3_1_1) {
             Geometric3_1 = Geometric3_1_1;
@@ -22984,8 +22990,8 @@ System.register("davinci-eight/math/dotVectorE3.js", ["../math/dotVectorCartesia
             return void 0;
         }
     }
-    var dotVectorCartesianE3_1, isDefined_1;
     exports_1("default", dotVectorE3);
+    var dotVectorCartesianE3_1, isDefined_1;
     return {
         setters: [function (dotVectorCartesianE3_1_1) {
             dotVectorCartesianE3_1 = dotVectorCartesianE3_1_1;
@@ -23073,8 +23079,8 @@ System.register("davinci-eight/math/R3.js", ["./wedgeXY", "./wedgeYZ", "./wedgeZ
         };
         return that;
     }
-    var wedgeXY_1, wedgeYZ_1, wedgeZX_1;
     exports_1("default", vec);
+    var wedgeXY_1, wedgeYZ_1, wedgeZX_1;
     return {
         setters: [function (wedgeXY_1_1) {
             wedgeXY_1 = wedgeXY_1_1;
@@ -23241,8 +23247,8 @@ System.register("davinci-eight/checks/mustBeUndefined.js", ["../checks/mustSatis
         mustSatisfy_1.default(name, isUndefined_1.default(value), beUndefined, contextBuilder);
         return value;
     }
-    var mustSatisfy_1, isUndefined_1;
     exports_1("default", default_1);
+    var mustSatisfy_1, isUndefined_1;
     return {
         setters: [function (mustSatisfy_1_1) {
             mustSatisfy_1 = mustSatisfy_1_1;
@@ -23288,8 +23294,8 @@ System.register("davinci-eight/checks/mustBeEQ.js", ["../checks/mustSatisfy", ".
         }, contextBuilder);
         return value;
     }
-    var mustSatisfy_1, isEQ_1;
     exports_1("default", mustBeEQ);
+    var mustSatisfy_1, isEQ_1;
     return {
         setters: [function (mustSatisfy_1_1) {
             mustSatisfy_1 = mustSatisfy_1_1;
@@ -23319,8 +23325,8 @@ System.register("davinci-eight/checks/isInteger.js", ["../checks/isNumber"], fun
     function isInteger(x) {
         return isNumber_1.default(x) && x % 1 === 0;
     }
-    var isNumber_1;
     exports_1("default", isInteger);
+    var isNumber_1;
     return {
         setters: [function (isNumber_1_1) {
             isNumber_1 = isNumber_1_1;
@@ -23339,8 +23345,8 @@ System.register("davinci-eight/checks/mustBeInteger.js", ["../checks/mustSatisfy
         mustSatisfy_1.default(name, isInteger_1.default(value), beAnInteger, contextBuilder);
         return value;
     }
-    var mustSatisfy_1, isInteger_1;
     exports_1("default", mustBeInteger);
+    var mustSatisfy_1, isInteger_1;
     return {
         setters: [function (mustSatisfy_1_1) {
             mustSatisfy_1 = mustSatisfy_1_1;
@@ -23363,8 +23369,8 @@ System.register("davinci-eight/i18n/readOnly.js", ["../checks/mustBeString"], fu
         };
         return message;
     }
-    var mustBeString_1;
     exports_1("default", readOnly);
+    var mustBeString_1;
     return {
         setters: [function (mustBeString_1_1) {
             mustBeString_1 = mustBeString_1_1;
@@ -23385,7 +23391,7 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
                     this.LAST_MODIFIED = '2016-12-07';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '4.0.21';
+                    this.VERSION = '4.0.22';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];
@@ -23581,8 +23587,8 @@ System.register("davinci-eight/core/refChange.js", ["../config", "../checks/isDe
         }
         return void 0;
     }
-    var config_1, isDefined_1, statistics, chatty, skip, trace, traceName, LOGGING_NAME_REF_CHANGE;
     exports_1("default", default_1);
+    var config_1, isDefined_1, statistics, chatty, skip, trace, traceName, LOGGING_NAME_REF_CHANGE;
     return {
         setters: [function (config_1_1) {
             config_1 = config_1_1;
@@ -24125,8 +24131,8 @@ System.register("davinci-eight/checks/mustBeString.js", ["../checks/mustSatisfy"
         mustSatisfy_1.default(name, isString_1.default(value), beAString, contextBuilder);
         return value;
     }
-    var mustSatisfy_1, isString_1;
     exports_1("default", default_1);
+    var mustSatisfy_1, isString_1;
     return {
         setters: [function (mustSatisfy_1_1) {
             mustSatisfy_1 = mustSatisfy_1_1;
@@ -24160,8 +24166,8 @@ System.register("davinci-eight/checks/mustBeFunction.js", ["../checks/mustSatisf
         mustSatisfy_1.default(name, isFunction_1.default(value), beFunction, contextBuilder);
         return value;
     }
-    var mustSatisfy_1, isFunction_1;
     exports_1("default", mustBeFunction);
+    var mustSatisfy_1, isFunction_1;
     return {
         setters: [function (mustSatisfy_1_1) {
             mustSatisfy_1 = mustSatisfy_1_1;
@@ -24225,8 +24231,8 @@ System.register("davinci-eight/checks/mustBeNonNullObject.js", ["../checks/mustS
         mustSatisfy_1.default(name, isObject_1.default(value) && !isNull_1.default(value), beObject, contextBuilder);
         return value;
     }
-    var mustSatisfy_1, isNull_1, isObject_1;
     exports_1("default", mustBeObject);
+    var mustSatisfy_1, isNull_1, isObject_1;
     return {
         setters: [function (mustSatisfy_1_1) {
             mustSatisfy_1 = mustSatisfy_1_1;
@@ -24255,8 +24261,8 @@ System.register("davinci-eight/core/TextureTarget.js", [], function (exports_1, 
                 }
         }
     }
-    var TextureTarget;
     exports_1("checkTextureTarget", checkTextureTarget);
+    var TextureTarget;
     return {
         setters: [],
         execute: function () {

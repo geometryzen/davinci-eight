@@ -1,8 +1,8 @@
-import BeginMode from '../core/BeginMode';
 import { Color } from '../core/Color';
 import ContextManager from '../core/ContextManager';
 import { Engine } from '../core/Engine';
 import expectOptions from '../checks/expectOptions';
+import GeometryMode from '../geometries/GeometryMode';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import GridGeometry from '../geometries/GridGeometry';
 import GridGeometryOptions from '../geometries/GridGeometryOptions';
@@ -136,7 +136,7 @@ function transferGeometryOptions(source: GridOptions, target: GridGeometryOption
 function configPoints(contextManager: ContextManager, options: GridOptions, grid: Grid) {
     const geoOptions: GridGeometryOptions = {};
     transferGeometryOptions(options, geoOptions);
-    geoOptions.mode = BeginMode.POINTS;
+    geoOptions.mode = GeometryMode.POINT;
     const geometry = new GridGeometry(contextManager, geoOptions);
     grid.geometry = geometry;
     geometry.release();
@@ -173,7 +173,7 @@ function configPoints(contextManager: ContextManager, options: GridOptions, grid
 function configLines(contextManager: ContextManager, options: GridOptions, grid: Grid) {
     const geoOptions: GridGeometryOptions = {};
     transferGeometryOptions(options, geoOptions);
-    geoOptions.mode = BeginMode.LINES;
+    geoOptions.mode = GeometryMode.WIRE;
     const geometry = new GridGeometry(contextManager, geoOptions);
     grid.geometry = geometry;
     geometry.release();
@@ -212,7 +212,7 @@ function configLines(contextManager: ContextManager, options: GridOptions, grid:
 function configMesh(contextManager: ContextManager, options: GridOptions, grid: Grid) {
     const geoOptions: GridGeometryOptions = {};
     transferGeometryOptions(options, geoOptions);
-    geoOptions.mode = BeginMode.TRIANGLE_STRIP;
+    geoOptions.mode = GeometryMode.MESH;
     const geometry = new GridGeometry(contextManager, geoOptions);
     grid.geometry = geometry;
     geometry.release();

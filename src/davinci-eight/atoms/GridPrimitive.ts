@@ -8,7 +8,7 @@ import Vertex from './Vertex';
 import VertexPrimitive from './VertexPrimitive';
 
 /**
- * Used for creating TRIANGLE_STRIP primitives.
+ * Used for creating a VertexPrimitive for a surface.
  * The vertices generated have coordinates (u, v) and the traversal creates
  * counter-clockwise orientation when increasing u is the first direction and
  * increasing v the second direction.

@@ -3,6 +3,9 @@ import GeometryElements from '../core/GeometryElements';
 import GridGeometryOptions from './GridGeometryOptions';
 import gridPrimitive from './gridPrimitive';
 
+/**
+ * A Geometry for representing functions of two scalar parameters.
+ */
 export default class GridGeometry extends GeometryElements {
 
     constructor(contextManager: ContextManager, options: GridGeometryOptions = {}, levelUp = 0) {
