@@ -1049,23 +1049,51 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
     }
 
     /**
+     * Sets thsi multivector to its reflection in the plane orthogonal to vector n.
+     *
      * Mathematically,
-     * <p>
-     * <code>this ⟼ - n * this * n</code>
-     * </p>
+     *
+     * this ⟼ - n * this * n
+     *
      * Geometrically,
-     * <p>
+     *
      * Reflects this multivector in the plane orthogonal to the unit vector, n.
-     * </p>
+     *
+     * If n is not a unit vector then the result is scaled by n squared.
      *
      * @param n The unit vector that defines the reflection plane.
-     * @returns <code>this</code>
      */
-    reflect(n: VectorE3) {
-        // TODO: Optimize.
-        const N = Geometric3.fromVector(n);
-        const R = N.clone().mul(this).mul(N).scale(-1);
-        this.copy(R);
+    reflect(n: VectorE3): this {
+        const n1 = n.x;
+        const n2 = n.y;
+        const n3 = n.z;
+        const n11 = n1 * n1;
+        const n22 = n2 * n2;
+        const n33 = n3 * n3;
+        const nn = n11 + n22 + n33;
+        const f1 = 2 * n2 * n3;
+        const f2 = 2 * n3 * n1;
+        const f3 = 2 * n1 * n2;
+        const t1 = n22 + n33 - n11;
+        const t2 = n33 + n11 - n22;
+        const t3 = n11 + n22 - n33;
+        const cs = this.coords;
+        const a = cs[COORD_SCALAR];
+        const x1 = cs[COORD_X];
+        const x2 = cs[COORD_Y];
+        const x3 = cs[COORD_Z];
+        const B3 = cs[COORD_XY];
+        const B1 = cs[COORD_YZ];
+        const B2 = cs[COORD_ZX];
+        const b = cs[COORD_PSEUDO];
+        this.setCoordinate(COORD_SCALAR, -nn * a, 'a');
+        this.setCoordinate(COORD_X, x1 * t1 - x2 * f3 - x3 * f2, 'x');
+        this.setCoordinate(COORD_Y, x2 * t2 - x3 * f1 - x1 * f3, 'y');
+        this.setCoordinate(COORD_Z, x3 * t3 - x1 * f2 - x2 * f1, 'z');
+        this.setCoordinate(COORD_XY, B3 * t3 - B1 * f2 - B2 * f1, 'xy');
+        this.setCoordinate(COORD_YZ, B1 * t1 - B2 * f3 - B3 * f2, 'yz');
+        this.setCoordinate(COORD_ZX, B2 * t2 - B3 * f1 - B1 * f3, 'zx');
+        this.setCoordinate(COORD_PSEUDO, -nn * b, 'b');
         return this;
     }
 
@@ -1369,9 +1397,8 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      *
      * @param v
      * @param α
-     * @returns <code>this</code>
      */
-    subVector(v: VectorE3, α = 1) {
+    subVector(v: VectorE3, α = 1): this {
         this.x -= v.x * α;
         this.y -= v.y * α;
         this.z -= v.z * α;
@@ -1385,9 +1412,8 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      *
      * @param a
      * @param b
-     * @returns <code>this</code>
      */
-    sub2(a: GeometricE3, b: GeometricE3) {
+    sub2(a: GeometricE3, b: GeometricE3): this {
         this.a = a.a - b.a;
         this.x = a.x - b.x;
         this.y = a.y - b.y;

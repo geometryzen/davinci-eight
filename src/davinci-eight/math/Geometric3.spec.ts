@@ -8,7 +8,43 @@ const one = Geometric3.one();
 const e1 = Geometric3.vector(1, 0, 0);
 const e2 = Geometric3.vector(0, 1, 0);
 const e3 = Geometric3.vector(0, 0, 1);
+const e23 = e2.clone().mul(e3);
+const e31 = e3.clone().mul(e1);
+const e12 = e1.clone().mul(e2);
 const I = e1.clone().mul(e2).mul(e3);
+
+function reflectSpec(M: Geometric3, n: VectorE3) {
+    const spec = function () {
+        /**
+         * We want to verify that coefficients are carried through.
+         */
+        const S = M.clone().scale(2);
+        /**
+         * We want the reflect method to work even when n is not a unit vector.
+         */
+        const N = Geometric3.fromVector(n).scale(3);
+        /**
+         * The 'Test' result using the specialized method.
+         */
+        const T = S.clone().reflect(N);
+        /**
+         * The 'Control' value computed explicitly as C = -n * S * n
+         */
+        const C = N.clone().mul(S).mul(N).scale(-1);
+
+        it("should be -n * M * n", function () {
+            expect(T.a).toBe(C.a);
+            expect(T.x).toBe(C.x);
+            expect(T.y).toBe(C.y);
+            expect(T.z).toBe(C.z);
+            expect(T.yz).toBe(C.yz);
+            expect(T.zx).toBe(C.zx);
+            expect(T.xy).toBe(C.xy);
+            expect(T.b).toBe(C.b);
+        });
+    };
+    return spec;
+}
 
 /**
  * The decimal place up to which the numbers should agree.
@@ -304,6 +340,37 @@ describe("Geometric3", function () {
                 expect(T.b).toBeCloseTo(C.b, PRECISION);
             });
         });
+        describe("one reflected in e1", reflectSpec(one, e1));
+        describe("one reflected in e2", reflectSpec(one, e2));
+        describe("one reflected in e3", reflectSpec(one, e3));
+
+        describe("e1 reflected in e1", reflectSpec(e1, e1));
+        describe("e1 reflected in e2", reflectSpec(e1, e2));
+        describe("e1 reflected in e3", reflectSpec(e1, e3));
+
+        describe("e2 reflected in e1", reflectSpec(e2, e1));
+        describe("e2 reflected in e2", reflectSpec(e2, e2));
+        describe("e2 reflected in e3", reflectSpec(e2, e3));
+
+        describe("e3 reflected in e1", reflectSpec(e3, e1));
+        describe("e3 reflected in e2", reflectSpec(e3, e2));
+        describe("e3 reflected in e3", reflectSpec(e3, e3));
+
+        describe("e12 reflected in e1", reflectSpec(e12, e1));
+        describe("e12 reflected in e2", reflectSpec(e12, e2));
+        describe("e12 reflected in e3", reflectSpec(e12, e3));
+
+        describe("e23 reflected in e1", reflectSpec(e23, e1));
+        describe("e23 reflected in e2", reflectSpec(e23, e2));
+        describe("e23 reflected in e3", reflectSpec(e23, e3));
+
+        describe("e31 reflected in e1", reflectSpec(e31, e1));
+        describe("e31 reflected in e2", reflectSpec(e31, e2));
+        describe("e31 reflected in e3", reflectSpec(e31, e3));
+
+        describe("I reflected in e1", reflectSpec(I, e1));
+        describe("I reflected in e2", reflectSpec(I, e2));
+        describe("I reflected in e3", reflectSpec(I, e3));
     });
 
     describe("stress", function () {

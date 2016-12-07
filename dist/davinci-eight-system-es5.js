@@ -22168,9 +22168,36 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     return squaredNormG3_1.default(this);
                 };
                 Geometric3.prototype.reflect = function (n) {
-                    var N = Geometric3.fromVector(n);
-                    var R = N.clone().mul(this).mul(N).scale(-1);
-                    this.copy(R);
+                    var n1 = n.x;
+                    var n2 = n.y;
+                    var n3 = n.z;
+                    var n11 = n1 * n1;
+                    var n22 = n2 * n2;
+                    var n33 = n3 * n3;
+                    var nn = n11 + n22 + n33;
+                    var f1 = 2 * n2 * n3;
+                    var f2 = 2 * n3 * n1;
+                    var f3 = 2 * n1 * n2;
+                    var t1 = n22 + n33 - n11;
+                    var t2 = n33 + n11 - n22;
+                    var t3 = n11 + n22 - n33;
+                    var cs = this.coords;
+                    var a = cs[COORD_SCALAR];
+                    var x1 = cs[COORD_X];
+                    var x2 = cs[COORD_Y];
+                    var x3 = cs[COORD_Z];
+                    var B3 = cs[COORD_XY];
+                    var B1 = cs[COORD_YZ];
+                    var B2 = cs[COORD_ZX];
+                    var b = cs[COORD_PSEUDO];
+                    this.setCoordinate(COORD_SCALAR, -nn * a, 'a');
+                    this.setCoordinate(COORD_X, x1 * t1 - x2 * f3 - x3 * f2, 'x');
+                    this.setCoordinate(COORD_Y, x2 * t2 - x3 * f1 - x1 * f3, 'y');
+                    this.setCoordinate(COORD_Z, x3 * t3 - x1 * f2 - x2 * f1, 'z');
+                    this.setCoordinate(COORD_XY, B3 * t3 - B1 * f2 - B2 * f1, 'xy');
+                    this.setCoordinate(COORD_YZ, B1 * t1 - B2 * f3 - B3 * f2, 'yz');
+                    this.setCoordinate(COORD_ZX, B2 * t2 - B3 * f1 - B1 * f3, 'zx');
+                    this.setCoordinate(COORD_PSEUDO, -nn * b, 'b');
                     return this;
                 };
                 Geometric3.prototype.rev = function () {
@@ -23358,7 +23385,7 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
                     this.LAST_MODIFIED = '2016-12-07';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '4.0.20';
+                    this.VERSION = '4.0.21';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];
