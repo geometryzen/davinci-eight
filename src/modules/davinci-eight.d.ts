@@ -3270,23 +3270,46 @@ declare module EIGHT {
     }
 
     interface BoxGeometryOptions extends GeometryOptions {
-        depth?: number;
-        height?: number;
-        openBack?: boolean;
-        openBase?: boolean;
-        openFront?: boolean;
-        openLeft?: boolean;
-        openRight?: boolean;
-        openCap?: boolean;
-        width?: number;
         /**
-         * Determines whether the Geometry will be constructed as points, lines, or triangles.
-         *
-         * 0: points
-         * 1: lines
-         * 2: triangles
+         * 
          */
-        k?: number;
+        depth?: number;
+        /**
+         * 
+         */
+        height?: number;
+        /**
+         * 
+         */
+        mode?: GeometryMode;
+        /**
+         * 
+         */
+        openBack?: boolean;
+        /**
+         * 
+         */
+        openBase?: boolean;
+        /**
+         * 
+         */
+        openFront?: boolean;
+        /**
+         * 
+         */
+        openLeft?: boolean;
+        /**
+         * 
+         */
+        openRight?: boolean;
+        /**
+         * 
+         */
+        openCap?: boolean;
+        /**
+         * 
+         */
+        width?: number;
     }
 
     /**

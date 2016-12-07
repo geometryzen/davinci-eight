@@ -6,10 +6,6 @@ import GeometryOptions from './GeometryOptions';
  */
 interface BoxGeometryOptions extends GeometryOptions {
     /**
-     * 
-     */
-    mode?: GeometryMode;
-    /**
      *
      */
     depth?: number;
@@ -17,6 +13,10 @@ interface BoxGeometryOptions extends GeometryOptions {
      *
      */
     height?: number;
+    /**
+     * 
+     */
+    mode?: GeometryMode;
     /**
      *
      */
