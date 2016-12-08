@@ -2,26 +2,41 @@ import isDefined from '../checks/isDefined';
 import mustBeBoolean from '../checks/mustBeBoolean';
 import mustBeInteger from '../checks/mustBeInteger';
 import GeometryMode from '../geometries/GeometryMode';
+import SimplexMode from '../geometries/SimplexMode';
 
 /**
  * Converts from a mode, k, or wireFrame option specification to a GeometryMode.
  */
-export default function modeFromOptions(options?: { wireFrame?: boolean; k?: number; mode?: GeometryMode }, fallback: GeometryMode = GeometryMode.MESH): GeometryMode {
+export default function geometryModeFromOptions(options?: { wireFrame?: boolean; k?: SimplexMode; mode?: GeometryMode }, fallback: GeometryMode = GeometryMode.MESH, suppressWarnings = false): GeometryMode {
     if (isDefined(options)) {
         if (isDefined(options.mode)) {
-            return mustBeInteger('mode', options.mode);
+            const mode: GeometryMode = mustBeInteger('mode', options.mode);
+            switch (mode) {
+                case GeometryMode.POINT: return mode;
+                case GeometryMode.WIRE: return mode;
+                case GeometryMode.MESH: return mode;
+                default: {
+                    throw new Error(`mode must be POINT = ${GeometryMode.POINT}, WIRE = ${GeometryMode.WIRE}, or MESH = ${GeometryMode.MESH}`);
+                }
+            }
         }
         else if (isDefined(options.wireFrame)) {
+            if (!suppressWarnings) {
+                console.warn("wireFrame: boolean is deprecated. Please use mode: GeometryMode instead.");
+            }
             return mustBeBoolean('wireFrame', options.wireFrame) ? GeometryMode.WIRE : fallback;
         }
         else if (isDefined(options.k)) {
-            const k = mustBeInteger('k', options.k);
+            if (!suppressWarnings) {
+                console.warn("k: SimplexMode is deprecated. Please use mode: GeometryMode instead.");
+            }
+            const k: SimplexMode = mustBeInteger('k', options.k);
             switch (k) {
-                case 0: return GeometryMode.POINT;
-                case 1: return GeometryMode.WIRE;
-                case 2: return GeometryMode.MESH;
+                case SimplexMode.POINT: return GeometryMode.POINT;
+                case SimplexMode.LINE: return GeometryMode.WIRE;
+                case SimplexMode.TRIANGLE: return GeometryMode.MESH;
                 default: {
-                    throw new Error("k must be 0, 1, or 2");
+                    throw new Error(`k must be POINT = ${SimplexMode.POINT}, LINE = ${SimplexMode.LINE}, or TRIANGLE = ${SimplexMode.TRIANGLE}`);
                 }
             }
         }

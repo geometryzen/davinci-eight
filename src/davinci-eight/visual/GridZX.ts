@@ -1,5 +1,6 @@
 import expectOptions from '../checks/expectOptions';
 import { Engine } from '../core/Engine';
+import GeometryMode from '../geometries/GeometryMode';
 import { Grid } from './Grid';
 import GridOptions from './GridOptions';
 import isDefined from '../checks/isDefined';
@@ -19,22 +20,22 @@ export interface GridZXOptions {
     xMax?: number;
     xSegments?: number;
     y?: (z: number, x: number) => number;
-    k?: number;
+    mode?: GeometryMode;
 }
 
-const ALLOWED_OPTIONS = ['zMin', 'zMax', 'zSegments', 'xMin', 'xMax', 'xSegments', 'y', 'contextManager', 'engine', 'tilt', 'offset', 'k'];
+const ALLOWED_OPTIONS = ['zMin', 'zMax', 'zSegments', 'xMin', 'xMax', 'xSegments', 'y', 'contextManager', 'engine', 'tilt', 'offset', 'mode'];
 
 function mapOptions(options: GridZXOptions): GridOptions {
     expectOptions(ALLOWED_OPTIONS, Object.keys(options));
     let aPosition: (u: number, v: number) => VectorE3;
     if (isDefined(options.y)) {
         mustBeFunction('y', options.y);
-        aPosition = function (z: number, x: number): VectorE3 {
+        aPosition = function(z: number, x: number): VectorE3 {
             return R3(x, options.y(z, x), z);
         };
     }
     else {
-        aPosition = function (z: number, x: number): VectorE3 {
+        aPosition = function(z: number, x: number): VectorE3 {
             return R3(x, 0, z);
         };
     }
@@ -44,6 +45,7 @@ function mapOptions(options: GridZXOptions): GridOptions {
     const vMin = validate('xMin', options.xMin, -1, mustBeNumber);
     const vMax = validate('xMax', options.xMax, +1, mustBeNumber);
     const vSegments = validate('xSegments', options.xSegments, 10, mustBeInteger);
+    const mode: GeometryMode = validate('mode', options.mode, GeometryMode.WIRE, mustBeInteger);
     return {
         uMin,
         uMax,
@@ -52,7 +54,7 @@ function mapOptions(options: GridZXOptions): GridOptions {
         vMax,
         vSegments,
         aPosition,
-        k: options.k
+        mode
     };
 }
 

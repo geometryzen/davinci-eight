@@ -3,11 +3,11 @@ import ContextManager from '../core/ContextManager';
 import { Engine } from '../core/Engine';
 import expectOptions from '../checks/expectOptions';
 import GeometryMode from '../geometries/GeometryMode';
+import geometryModeFromOptions from './geometryModeFromOptions';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import GridGeometry from '../geometries/GridGeometry';
 import GridGeometryOptions from '../geometries/GridGeometryOptions';
 import GridOptions from './GridOptions';
-import isDefined from '../checks/isDefined';
 import isFunction from '../checks/isFunction';
 import isNull from '../checks/isNull';
 import isUndefined from '../checks/isUndefined';
@@ -34,10 +34,7 @@ import VectorE3 from '../math/VectorE3';
 const COORD_MIN_DEFAULT = -1;
 const COORD_MAX_DEFAULT = +1;
 const GRID_SEGMENTS_DEFAULT = 10;
-const GRID_K_DEFAULT = 1;
 
-const OPTION_CONTEXT_MANAGER = { name: 'contextManager' };
-const OPTION_ENGINE = { name: 'engine' };
 const OPTION_OFFSET = { name: 'offset' };
 const OPTION_TILT = { name: 'tilt' };
 const OPTION_STRESS = { name: 'stress' };
@@ -52,11 +49,9 @@ const OPTION_USEGMENTS = { name: 'uSegments', defaultValue: GRID_SEGMENTS_DEFAUL
 const OPTION_VMIN = { name: 'vMin', defaultValue: COORD_MIN_DEFAULT, assertFn: mustBeNumber };
 const OPTION_VMAX = { name: 'vMax', defaultValue: COORD_MAX_DEFAULT, assertFn: mustBeNumber };
 const OPTION_VSEGMENTS = { name: 'vSegments', defaultValue: GRID_SEGMENTS_DEFAULT, assertFn: mustBeInteger };
-const OPTION_K = { name: 'k', defaultValue: 1, assertFn: mustBeInteger };
+const OPTION_MODE = { name: 'mode', defaultValue: GeometryMode.WIRE, assertFn: mustBeInteger };
 
 const OPTIONS = [
-    OPTION_CONTEXT_MANAGER,
-    OPTION_ENGINE,
     OPTION_OFFSET,
     OPTION_TILT,
     OPTION_STRESS,
@@ -70,7 +65,7 @@ const OPTIONS = [
     OPTION_VMIN,
     OPTION_VMAX,
     OPTION_VSEGMENTS,
-    OPTION_K
+    OPTION_MODE
 ];
 const OPTION_NAMES = OPTIONS.map((option) => option.name);
 
@@ -277,22 +272,22 @@ export class Grid extends Mesh<GridGeometry, Material> {
         this.setLoggingName('Grid');
         expectOptions(OPTION_NAMES, Object.keys(options));
 
-        const k: number = isDefined(options.k) ? options.k : GRID_K_DEFAULT;
-        switch (k) {
-            case 0: {
+        const mode = geometryModeFromOptions(options, GeometryMode.WIRE);
+        switch (mode) {
+            case GeometryMode.POINT: {
                 configPoints(engine, options, this);
                 break;
             }
-            case 1: {
+            case GeometryMode.WIRE: {
                 configLines(engine, options, this);
                 break;
             }
-            case 2: {
+            case GeometryMode.MESH: {
                 configMesh(engine, options, this);
                 break;
             }
             default: {
-                throw new Error(`'${k}' is not a valid option for k.`);
+                throw new Error(`'${mode}' is not a valid option for mode.`);
             }
         }
 

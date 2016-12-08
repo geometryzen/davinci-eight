@@ -1,5 +1,6 @@
 import expectOptions from '../checks/expectOptions';
 import { Engine } from '../core/Engine';
+import GeometryMode from '../geometries/GeometryMode';
 import { Grid } from './Grid';
 import GridOptions from './GridOptions';
 import isDefined from '../checks/isDefined';
@@ -19,31 +20,32 @@ export interface GridXYOptions {
     yMax?: number;
     ySegments?: number;
     z?: (x: number, y: number) => number;
-    k?: number;
+    mode?: GeometryMode;
 }
 
-const ALLOWED_OPTIONS = ['xMin', 'xMax', 'xSegments', 'yMin', 'yMax', 'ySegments', 'z', 'contextManager', 'engine', 'tilt', 'offset', 'k'];
+const ALLOWED_OPTIONS = ['xMin', 'xMax', 'xSegments', 'yMin', 'yMax', 'ySegments', 'z', 'contextManager', 'engine', 'tilt', 'offset', 'mode'];
 
 function mapOptions(options: GridXYOptions): GridOptions {
     expectOptions(ALLOWED_OPTIONS, Object.keys(options));
     let aPosition: (u: number, v: number) => VectorE3;
     if (isDefined(options.z)) {
         mustBeFunction('z', options.z);
-        aPosition = function (x: number, y: number): VectorE3 {
+        aPosition = function(x: number, y: number): VectorE3 {
             return R3(x, y, options.z(x, y));
         };
     }
     else {
-        aPosition = function (x: number, y: number): VectorE3 {
+        aPosition = function(x: number, y: number): VectorE3 {
             return R3(x, y, 0);
         };
     }
-    const uMin = validate('xMin', options.xMin, undefined, mustBeNumber);
-    const uMax = validate('xMax', options.xMax, undefined, mustBeNumber);
-    const uSegments = validate('xSegments', options.xSegments, undefined, mustBeInteger);
-    const vMin = validate('yMin', options.yMin, undefined, mustBeNumber);
-    const vMax = validate('yMax', options.yMax, undefined, mustBeNumber);
-    const vSegments = validate('ySegments', options.ySegments, undefined, mustBeInteger);
+    const uMin = validate('xMin', options.xMin, -1, mustBeNumber);
+    const uMax = validate('xMax', options.xMax, +1, mustBeNumber);
+    const uSegments = validate('xSegments', options.xSegments, 10, mustBeInteger);
+    const vMin = validate('yMin', options.yMin, -1, mustBeNumber);
+    const vMax = validate('yMax', options.yMax, +1, mustBeNumber);
+    const vSegments = validate('ySegments', options.ySegments, 10, mustBeInteger);
+    const mode: GeometryMode = validate('mode', options.mode, GeometryMode.WIRE, mustBeInteger);
     return {
         uMin,
         uMax,
@@ -52,7 +54,7 @@ function mapOptions(options: GridXYOptions): GridOptions {
         vMax,
         vSegments,
         aPosition,
-        k: options.k
+        mode
     };
 }
 

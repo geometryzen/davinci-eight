@@ -553,7 +553,7 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-12-07';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '4.0.22';
+            this.VERSION = '4.0.23';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -17982,25 +17982,40 @@ define('davinci-eight/visual/Basis',["require", "exports", "../core/BeginMode", 
     exports.default = Basis;
 });
 
-define('davinci-eight/visual/geometryModeFromOptions',["require", "exports", "../checks/isDefined", "../checks/mustBeBoolean", "../checks/mustBeInteger", "../geometries/GeometryMode"], function (require, exports, isDefined_1, mustBeBoolean_1, mustBeInteger_1, GeometryMode_1) {
+define('davinci-eight/visual/geometryModeFromOptions',["require", "exports", "../checks/isDefined", "../checks/mustBeBoolean", "../checks/mustBeInteger", "../geometries/GeometryMode", "../geometries/SimplexMode"], function (require, exports, isDefined_1, mustBeBoolean_1, mustBeInteger_1, GeometryMode_1, SimplexMode_1) {
     "use strict";
-    function modeFromOptions(options, fallback) {
+    function geometryModeFromOptions(options, fallback, suppressWarnings) {
         if (fallback === void 0) { fallback = GeometryMode_1.default.MESH; }
+        if (suppressWarnings === void 0) { suppressWarnings = false; }
         if (isDefined_1.default(options)) {
             if (isDefined_1.default(options.mode)) {
-                return mustBeInteger_1.default('mode', options.mode);
+                var mode = mustBeInteger_1.default('mode', options.mode);
+                switch (mode) {
+                    case GeometryMode_1.default.POINT: return mode;
+                    case GeometryMode_1.default.WIRE: return mode;
+                    case GeometryMode_1.default.MESH: return mode;
+                    default: {
+                        throw new Error("mode must be POINT = " + GeometryMode_1.default.POINT + ", WIRE = " + GeometryMode_1.default.WIRE + ", or MESH = " + GeometryMode_1.default.MESH);
+                    }
+                }
             }
             else if (isDefined_1.default(options.wireFrame)) {
+                if (!suppressWarnings) {
+                    console.warn("wireFrame: boolean is deprecated. Please use mode: GeometryMode instead.");
+                }
                 return mustBeBoolean_1.default('wireFrame', options.wireFrame) ? GeometryMode_1.default.WIRE : fallback;
             }
             else if (isDefined_1.default(options.k)) {
+                if (!suppressWarnings) {
+                    console.warn("k: SimplexMode is deprecated. Please use mode: GeometryMode instead.");
+                }
                 var k = mustBeInteger_1.default('k', options.k);
                 switch (k) {
-                    case 0: return GeometryMode_1.default.POINT;
-                    case 1: return GeometryMode_1.default.WIRE;
-                    case 2: return GeometryMode_1.default.MESH;
+                    case SimplexMode_1.default.POINT: return GeometryMode_1.default.POINT;
+                    case SimplexMode_1.default.LINE: return GeometryMode_1.default.WIRE;
+                    case SimplexMode_1.default.TRIANGLE: return GeometryMode_1.default.MESH;
                     default: {
-                        throw new Error("k must be 0, 1, or 2");
+                        throw new Error("k must be POINT = " + SimplexMode_1.default.POINT + ", LINE = " + SimplexMode_1.default.LINE + ", or TRIANGLE = " + SimplexMode_1.default.TRIANGLE);
                     }
                 }
             }
@@ -18013,7 +18028,7 @@ define('davinci-eight/visual/geometryModeFromOptions',["require", "exports", "..
         }
     }
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = modeFromOptions;
+    exports.default = geometryModeFromOptions;
 });
 
 define('davinci-eight/visual/materialFromOptions',["require", "exports", "../materials/LineMaterial", "../materials/MeshMaterial", "../materials/PointMaterial", "../geometries/SimplexMode"], function (require, exports, LineMaterial_1, MeshMaterial_1, PointMaterial_1, SimplexMode_1) {
@@ -18528,14 +18543,11 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/visual/Grid',["require", "exports", "../core/Color", "../checks/expectOptions", "../geometries/GeometryMode", "../core/GraphicsProgramSymbols", "../geometries/GridGeometry", "../checks/isDefined", "../checks/isFunction", "../checks/isNull", "../checks/isUndefined", "../materials/LineMaterial", "../core/Mesh", "../materials/MeshMaterial", "./mustBeEngine", "../checks/mustBeGE", "../checks/mustBeFunction", "../checks/mustBeInteger", "../checks/mustBeNumber", "../checks/mustBeObject", "../materials/PointMaterial", "../math/R3", "./setColorOption", "./setDeprecatedOptions", "../checks/validate"], function (require, exports, Color_1, expectOptions_1, GeometryMode_1, GraphicsProgramSymbols_1, GridGeometry_1, isDefined_1, isFunction_1, isNull_1, isUndefined_1, LineMaterial_1, Mesh_1, MeshMaterial_1, mustBeEngine_1, mustBeGE_1, mustBeFunction_1, mustBeInteger_1, mustBeNumber_1, mustBeObject_1, PointMaterial_1, R3_1, setColorOption_1, setDeprecatedOptions_1, validate_1) {
+define('davinci-eight/visual/Grid',["require", "exports", "../core/Color", "../checks/expectOptions", "../geometries/GeometryMode", "./geometryModeFromOptions", "../core/GraphicsProgramSymbols", "../geometries/GridGeometry", "../checks/isFunction", "../checks/isNull", "../checks/isUndefined", "../materials/LineMaterial", "../core/Mesh", "../materials/MeshMaterial", "./mustBeEngine", "../checks/mustBeGE", "../checks/mustBeFunction", "../checks/mustBeInteger", "../checks/mustBeNumber", "../checks/mustBeObject", "../materials/PointMaterial", "../math/R3", "./setColorOption", "./setDeprecatedOptions", "../checks/validate"], function (require, exports, Color_1, expectOptions_1, GeometryMode_1, geometryModeFromOptions_1, GraphicsProgramSymbols_1, GridGeometry_1, isFunction_1, isNull_1, isUndefined_1, LineMaterial_1, Mesh_1, MeshMaterial_1, mustBeEngine_1, mustBeGE_1, mustBeFunction_1, mustBeInteger_1, mustBeNumber_1, mustBeObject_1, PointMaterial_1, R3_1, setColorOption_1, setDeprecatedOptions_1, validate_1) {
     "use strict";
     var COORD_MIN_DEFAULT = -1;
     var COORD_MAX_DEFAULT = +1;
     var GRID_SEGMENTS_DEFAULT = 10;
-    var GRID_K_DEFAULT = 1;
-    var OPTION_CONTEXT_MANAGER = { name: 'contextManager' };
-    var OPTION_ENGINE = { name: 'engine' };
     var OPTION_OFFSET = { name: 'offset' };
     var OPTION_TILT = { name: 'tilt' };
     var OPTION_STRESS = { name: 'stress' };
@@ -18549,10 +18561,8 @@ define('davinci-eight/visual/Grid',["require", "exports", "../core/Color", "../c
     var OPTION_VMIN = { name: 'vMin', defaultValue: COORD_MIN_DEFAULT, assertFn: mustBeNumber_1.default };
     var OPTION_VMAX = { name: 'vMax', defaultValue: COORD_MAX_DEFAULT, assertFn: mustBeNumber_1.default };
     var OPTION_VSEGMENTS = { name: 'vSegments', defaultValue: GRID_SEGMENTS_DEFAULT, assertFn: mustBeInteger_1.default };
-    var OPTION_K = { name: 'k', defaultValue: 1, assertFn: mustBeInteger_1.default };
+    var OPTION_MODE = { name: 'mode', defaultValue: GeometryMode_1.default.WIRE, assertFn: mustBeInteger_1.default };
     var OPTIONS = [
-        OPTION_CONTEXT_MANAGER,
-        OPTION_ENGINE,
         OPTION_OFFSET,
         OPTION_TILT,
         OPTION_STRESS,
@@ -18566,7 +18576,7 @@ define('davinci-eight/visual/Grid',["require", "exports", "../core/Color", "../c
         OPTION_VMIN,
         OPTION_VMAX,
         OPTION_VSEGMENTS,
-        OPTION_K
+        OPTION_MODE
     ];
     var OPTION_NAMES = OPTIONS.map(function (option) { return option.name; });
     function aPositionDefault(u, v) {
@@ -18734,22 +18744,22 @@ define('davinci-eight/visual/Grid',["require", "exports", "../core/Color", "../c
             var _this = _super.call(this, void 0, void 0, mustBeEngine_1.default(engine, 'Grid'), levelUp + 1) || this;
             _this.setLoggingName('Grid');
             expectOptions_1.default(OPTION_NAMES, Object.keys(options));
-            var k = isDefined_1.default(options.k) ? options.k : GRID_K_DEFAULT;
-            switch (k) {
-                case 0: {
+            var mode = geometryModeFromOptions_1.default(options, GeometryMode_1.default.WIRE);
+            switch (mode) {
+                case GeometryMode_1.default.POINT: {
                     configPoints(engine, options, _this);
                     break;
                 }
-                case 1: {
+                case GeometryMode_1.default.WIRE: {
                     configLines(engine, options, _this);
                     break;
                 }
-                case 2: {
+                case GeometryMode_1.default.MESH: {
                     configMesh(engine, options, _this);
                     break;
                 }
                 default: {
-                    throw new Error("'" + k + "' is not a valid option for k.");
+                    throw new Error("'" + mode + "' is not a valid option for mode.");
                 }
             }
             setColorOption_1.default(_this, options, Color_1.Color.gray);
@@ -18775,9 +18785,9 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/visual/GridXY',["require", "exports", "../checks/expectOptions", "./Grid", "../checks/isDefined", "./mustBeEngine", "../checks/mustBeFunction", "../checks/mustBeInteger", "../checks/mustBeNumber", "../checks/validate", "../math/R3"], function (require, exports, expectOptions_1, Grid_1, isDefined_1, mustBeEngine_1, mustBeFunction_1, mustBeInteger_1, mustBeNumber_1, validate_1, R3_1) {
+define('davinci-eight/visual/GridXY',["require", "exports", "../checks/expectOptions", "../geometries/GeometryMode", "./Grid", "../checks/isDefined", "./mustBeEngine", "../checks/mustBeFunction", "../checks/mustBeInteger", "../checks/mustBeNumber", "../checks/validate", "../math/R3"], function (require, exports, expectOptions_1, GeometryMode_1, Grid_1, isDefined_1, mustBeEngine_1, mustBeFunction_1, mustBeInteger_1, mustBeNumber_1, validate_1, R3_1) {
     "use strict";
-    var ALLOWED_OPTIONS = ['xMin', 'xMax', 'xSegments', 'yMin', 'yMax', 'ySegments', 'z', 'contextManager', 'engine', 'tilt', 'offset', 'k'];
+    var ALLOWED_OPTIONS = ['xMin', 'xMax', 'xSegments', 'yMin', 'yMax', 'ySegments', 'z', 'contextManager', 'engine', 'tilt', 'offset', 'mode'];
     function mapOptions(options) {
         expectOptions_1.default(ALLOWED_OPTIONS, Object.keys(options));
         var aPosition;
@@ -18792,12 +18802,13 @@ define('davinci-eight/visual/GridXY',["require", "exports", "../checks/expectOpt
                 return R3_1.default(x, y, 0);
             };
         }
-        var uMin = validate_1.default('xMin', options.xMin, undefined, mustBeNumber_1.default);
-        var uMax = validate_1.default('xMax', options.xMax, undefined, mustBeNumber_1.default);
-        var uSegments = validate_1.default('xSegments', options.xSegments, undefined, mustBeInteger_1.default);
-        var vMin = validate_1.default('yMin', options.yMin, undefined, mustBeNumber_1.default);
-        var vMax = validate_1.default('yMax', options.yMax, undefined, mustBeNumber_1.default);
-        var vSegments = validate_1.default('ySegments', options.ySegments, undefined, mustBeInteger_1.default);
+        var uMin = validate_1.default('xMin', options.xMin, -1, mustBeNumber_1.default);
+        var uMax = validate_1.default('xMax', options.xMax, +1, mustBeNumber_1.default);
+        var uSegments = validate_1.default('xSegments', options.xSegments, 10, mustBeInteger_1.default);
+        var vMin = validate_1.default('yMin', options.yMin, -1, mustBeNumber_1.default);
+        var vMax = validate_1.default('yMax', options.yMax, +1, mustBeNumber_1.default);
+        var vSegments = validate_1.default('ySegments', options.ySegments, 10, mustBeInteger_1.default);
+        var mode = validate_1.default('mode', options.mode, GeometryMode_1.default.WIRE, mustBeInteger_1.default);
         return {
             uMin: uMin,
             uMax: uMax,
@@ -18806,7 +18817,7 @@ define('davinci-eight/visual/GridXY',["require", "exports", "../checks/expectOpt
             vMax: vMax,
             vSegments: vSegments,
             aPosition: aPosition,
-            k: options.k
+            mode: mode
         };
     }
     var GridXY = (function (_super) {
@@ -18838,9 +18849,9 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/visual/GridYZ',["require", "exports", "../checks/expectOptions", "./Grid", "../checks/isDefined", "./mustBeEngine", "../checks/mustBeFunction", "../checks/mustBeInteger", "../checks/mustBeNumber", "../math/R3", "../checks/validate"], function (require, exports, expectOptions_1, Grid_1, isDefined_1, mustBeEngine_1, mustBeFunction_1, mustBeInteger_1, mustBeNumber_1, R3_1, validate_1) {
+define('davinci-eight/visual/GridYZ',["require", "exports", "../checks/expectOptions", "../geometries/GeometryMode", "./Grid", "../checks/isDefined", "./mustBeEngine", "../checks/mustBeFunction", "../checks/mustBeInteger", "../checks/mustBeNumber", "../math/R3", "../checks/validate"], function (require, exports, expectOptions_1, GeometryMode_1, Grid_1, isDefined_1, mustBeEngine_1, mustBeFunction_1, mustBeInteger_1, mustBeNumber_1, R3_1, validate_1) {
     "use strict";
-    var ALLOWED_OPTIONS = ['yMin', 'yMax', 'ySegments', 'zMin', 'zMax', 'zSegments', 'x', 'contextManager', 'engine', 'tilt', 'offset', 'k'];
+    var ALLOWED_OPTIONS = ['yMin', 'yMax', 'ySegments', 'zMin', 'zMax', 'zSegments', 'x', 'contextManager', 'engine', 'tilt', 'offset', 'mode'];
     function mapOptions(options) {
         expectOptions_1.default(ALLOWED_OPTIONS, Object.keys(options));
         var aPosition;
@@ -18861,6 +18872,7 @@ define('davinci-eight/visual/GridYZ',["require", "exports", "../checks/expectOpt
         var vMin = validate_1.default('zMin', options.zMin, -1, mustBeNumber_1.default);
         var vMax = validate_1.default('zMax', options.zMax, +1, mustBeNumber_1.default);
         var vSegments = validate_1.default('zSegments', options.zSegments, 10, mustBeInteger_1.default);
+        var mode = validate_1.default('mode', options.mode, GeometryMode_1.default.WIRE, mustBeInteger_1.default);
         return {
             uMin: uMin,
             uMax: uMax,
@@ -18869,7 +18881,7 @@ define('davinci-eight/visual/GridYZ',["require", "exports", "../checks/expectOpt
             vMax: vMax,
             vSegments: vSegments,
             aPosition: aPosition,
-            k: options.k
+            mode: mode
         };
     }
     var GridYZ = (function (_super) {
@@ -18901,9 +18913,9 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/visual/GridZX',["require", "exports", "../checks/expectOptions", "./Grid", "../checks/isDefined", "./mustBeEngine", "../checks/mustBeFunction", "../checks/mustBeInteger", "../checks/mustBeNumber", "../math/R3", "../checks/validate"], function (require, exports, expectOptions_1, Grid_1, isDefined_1, mustBeEngine_1, mustBeFunction_1, mustBeInteger_1, mustBeNumber_1, R3_1, validate_1) {
+define('davinci-eight/visual/GridZX',["require", "exports", "../checks/expectOptions", "../geometries/GeometryMode", "./Grid", "../checks/isDefined", "./mustBeEngine", "../checks/mustBeFunction", "../checks/mustBeInteger", "../checks/mustBeNumber", "../math/R3", "../checks/validate"], function (require, exports, expectOptions_1, GeometryMode_1, Grid_1, isDefined_1, mustBeEngine_1, mustBeFunction_1, mustBeInteger_1, mustBeNumber_1, R3_1, validate_1) {
     "use strict";
-    var ALLOWED_OPTIONS = ['zMin', 'zMax', 'zSegments', 'xMin', 'xMax', 'xSegments', 'y', 'contextManager', 'engine', 'tilt', 'offset', 'k'];
+    var ALLOWED_OPTIONS = ['zMin', 'zMax', 'zSegments', 'xMin', 'xMax', 'xSegments', 'y', 'contextManager', 'engine', 'tilt', 'offset', 'mode'];
     function mapOptions(options) {
         expectOptions_1.default(ALLOWED_OPTIONS, Object.keys(options));
         var aPosition;
@@ -18924,6 +18936,7 @@ define('davinci-eight/visual/GridZX',["require", "exports", "../checks/expectOpt
         var vMin = validate_1.default('xMin', options.xMin, -1, mustBeNumber_1.default);
         var vMax = validate_1.default('xMax', options.xMax, +1, mustBeNumber_1.default);
         var vSegments = validate_1.default('xSegments', options.xSegments, 10, mustBeInteger_1.default);
+        var mode = validate_1.default('mode', options.mode, GeometryMode_1.default.WIRE, mustBeInteger_1.default);
         return {
             uMin: uMin,
             uMax: uMax,
@@ -18932,7 +18945,7 @@ define('davinci-eight/visual/GridZX',["require", "exports", "../checks/expectOpt
             vMax: vMax,
             vSegments: vSegments,
             aPosition: aPosition,
-            k: options.k
+            mode: mode
         };
     }
     var GridZX = (function (_super) {
