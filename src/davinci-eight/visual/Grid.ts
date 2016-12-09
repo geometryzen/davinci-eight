@@ -1,5 +1,4 @@
 import { Color } from '../core/Color';
-import ContextManager from '../core/ContextManager';
 import { Engine } from '../core/Engine';
 import expectOptions from '../checks/expectOptions';
 import GeometryMode from '../geometries/GeometryMode';
@@ -128,15 +127,36 @@ function transferGeometryOptions(source: GridOptions, target: GridGeometryOption
     mustBeGE('vSegments', target.vSegments, 0);
 }
 
-function configPoints(contextManager: ContextManager, options: GridOptions, grid: Grid) {
-    const geoOptions: GridGeometryOptions = {};
-    transferGeometryOptions(options, geoOptions);
-    geoOptions.mode = GeometryMode.POINT;
-    const geometry = new GridGeometry(contextManager, geoOptions);
+/**
+ * 
+ */
+function configGeometry(engine: Engine, geoOptions: GridGeometryOptions, grid: Grid): void {
+    // Don't use the Geometry cache until we can better differentiate the options.
+    const geometry = new GridGeometry(engine, geoOptions);
     grid.geometry = geometry;
     geometry.release();
+    /*
+    const cachedGeometry = engine.getCacheGeometry(geoOptions);
+    if (cachedGeometry && cachedGeometry instanceof GridGeometry) {
+        grid.geometry = cachedGeometry;
+        cachedGeometry.release();
+    }
+    else {
+        const geometry = new GridGeometry(engine, geoOptions);
+        grid.geometry = geometry;
+        geometry.release();
+        engine.putCacheGeometry(geoOptions, geometry);
+    }
+    */
+}
 
-    const matOptions: PointMaterialOptions = { attributes: {}, uniforms: {} };
+function configPoints(engine: Engine, options: GridOptions, grid: Grid) {
+    const geoOptions: GridGeometryOptions = { kind: 'GridGeometry' };
+    transferGeometryOptions(options, geoOptions);
+    geoOptions.mode = GeometryMode.POINT;
+    configGeometry(engine, geoOptions, grid);
+
+    const matOptions: PointMaterialOptions = { kind: 'PointMaterial', attributes: {}, uniforms: {} };
 
     if (isFunctionOrUndefined(options.aPosition)) {
         matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
@@ -153,6 +173,7 @@ function configPoints(contextManager: ContextManager, options: GridOptions, grid
     }
     else {
         matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_COLOR] = 'vec3';
+        matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_OPACITY] = 'float';
     }
 
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX] = 'mat4';
@@ -160,20 +181,26 @@ function configPoints(contextManager: ContextManager, options: GridOptions, grid
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_POINT_SIZE] = 'float';
 
-    const material = new PointMaterial(contextManager, matOptions);
-    grid.material = material;
-    material.release();
+    const cachedMaterial = engine.getCacheMaterial(matOptions);
+    if (cachedMaterial && cachedMaterial instanceof PointMaterial) {
+        grid.material = cachedMaterial;
+        cachedMaterial.release();
+    }
+    else {
+        const material = new PointMaterial(engine, matOptions);
+        grid.material = material;
+        material.release();
+        engine.putCacheMaterial(matOptions, material);
+    }
 }
 
-function configLines(contextManager: ContextManager, options: GridOptions, grid: Grid) {
-    const geoOptions: GridGeometryOptions = {};
+function configLines(engine: Engine, options: GridOptions, grid: Grid) {
+    const geoOptions: GridGeometryOptions = { kind: 'GridGeometry' };
     transferGeometryOptions(options, geoOptions);
     geoOptions.mode = GeometryMode.WIRE;
-    const geometry = new GridGeometry(contextManager, geoOptions);
-    grid.geometry = geometry;
-    geometry.release();
+    configGeometry(engine, geoOptions, grid);
 
-    const matOptions: LineMaterialOptions = { attributes: {}, uniforms: {} };
+    const matOptions: LineMaterialOptions = { kind: 'LineMaterial', attributes: {}, uniforms: {} };
 
     if (isFunctionOrUndefined(options.aPosition)) {
         matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
@@ -185,34 +212,48 @@ function configLines(contextManager: ContextManager, options: GridOptions, grid:
         throw new Error();
     }
 
+    /*
     if (isFunction(options.aNormal)) {
         matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = 3;
     }
+    */
+
     if (isFunction(options.aColor)) {
         matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = 3;
     }
     else {
         matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_COLOR] = 'vec3';
+        matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_OPACITY] = 'float';
     }
 
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX] = 'mat4';
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4';
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
 
-    const material = new LineMaterial(contextManager, matOptions);
-    grid.material = material;
-    material.release();
+    const cachedMaterial = engine.getCacheMaterial(matOptions);
+    if (cachedMaterial && cachedMaterial instanceof LineMaterial) {
+        grid.material = cachedMaterial;
+        cachedMaterial.release();
+    }
+    else {
+        const material = new LineMaterial(engine, matOptions);
+        grid.material = material;
+        material.release();
+        engine.putCacheMaterial(matOptions, material);
+    }
 }
 
-function configMesh(contextManager: ContextManager, options: GridOptions, grid: Grid) {
-    const geoOptions: GridGeometryOptions = {};
+function configMesh(engine: Engine, options: GridOptions, grid: Grid) {
+    const geoOptions: GridGeometryOptions = { kind: 'GridGeometry' };
     transferGeometryOptions(options, geoOptions);
     geoOptions.mode = GeometryMode.MESH;
-    const geometry = new GridGeometry(contextManager, geoOptions);
+    configGeometry(engine, geoOptions, grid);
+
+    const geometry = new GridGeometry(engine, geoOptions);
     grid.geometry = geometry;
     geometry.release();
 
-    const matOptions: MeshMaterialOptions = { attributes: {}, uniforms: {} };
+    const matOptions: MeshMaterialOptions = { kind: 'MeshMaterial', attributes: {}, uniforms: {} };
 
     if (isFunctionOrUndefined(options.aPosition)) {
         matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
@@ -257,9 +298,17 @@ function configMesh(contextManager: ContextManager, options: GridOptions, grid: 
 
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT] = 'vec3';
 
-    const material = new MeshMaterial(contextManager, matOptions);
-    grid.material = material;
-    material.release();
+    const cachedMaterial = engine.getCacheMaterial(matOptions);
+    if (cachedMaterial && cachedMaterial instanceof MeshMaterial) {
+        grid.material = cachedMaterial;
+        cachedMaterial.release();
+    }
+    else {
+        const material = new MeshMaterial(engine, matOptions);
+        grid.material = material;
+        material.release();
+        engine.putCacheMaterial(matOptions, material);
+    }
 }
 
 /**

@@ -24,12 +24,14 @@ export default class ContextAttributesLogger extends ShareableBase {
     contextGain(): void {
         const gl = this.contextManager.gl;
         const attributes: WebGLContextAttributes = gl.getContextAttributes();
-        console.log("alpha                 => " + attributes.alpha);
-        console.log("antialias             => " + attributes.antialias);
-        console.log("depth                 => " + attributes.depth);
-        console.log("premultipliedAlpha    => " + attributes.premultipliedAlpha);
-        console.log("preserveDrawingBuffer => " + attributes.preserveDrawingBuffer);
-        console.log("stencil               => " + attributes.stencil);
+        console.log("alpha                        => " + attributes.alpha);
+        console.log("antialias                    => " + attributes.antialias);
+        console.log("depth                        => " + attributes.depth);
+        console.log("failIfMajorPerformanceCaveat => " + attributes.failIfMajorPerformanceCaveat);
+        // TODO: preferLowPowerToHighPerformance?
+        console.log("premultipliedAlpha           => " + attributes.premultipliedAlpha);
+        console.log("preserveDrawingBuffer        => " + attributes.preserveDrawingBuffer);
+        console.log("stencil                      => " + attributes.stencil);
     }
 
     contextLost(): void {

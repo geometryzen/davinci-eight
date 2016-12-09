@@ -7,7 +7,7 @@ import isArray from '../checks/isArray';
 import isNull from '../checks/isNull';
 import isUndefined from '../checks/isUndefined';
 import mustBeArray from '../checks/mustBeArray';
-import mustBeObject from '../checks/mustBeObject';
+import mustBeNonNullObject from '../checks/mustBeNonNullObject';
 import Primitive from './Primitive';
 import SpinorE3 from '../math/SpinorE3';
 import vertexArraysFromPrimitive from './vertexArraysFromPrimitive';
@@ -17,7 +17,7 @@ import Usage from './Usage';
 /**
  * A Geometry that supports interleaved vertex buffers.
  */
-export default class GeometryElements extends GeometryBase {
+export class GeometryElements extends GeometryBase {
 
     private _attributes: number[];
     private count: number;
@@ -31,15 +31,14 @@ export default class GeometryElements extends GeometryBase {
     private ibo: IndexBuffer;
     private vbo: VertexBuffer;
 
+    /**
+     * 
+     */
     constructor(contextManager: ContextManager, primitive: Primitive, options: { order?: string[]; tilt?: SpinorE3 } = {}, levelUp = 0) {
         super(options.tilt, contextManager, levelUp + 1);
-
-        mustBeObject('primitive', primitive);
-        mustBeObject('contextManager', contextManager);
-
         this.setLoggingName('GeometryElements');
 
-
+        mustBeNonNullObject('primitive', primitive);
         const vertexArrays = vertexArraysFromPrimitive(primitive, options.order);
         this._mode = vertexArrays.mode;
         this.count = vertexArrays.indices.length;
@@ -64,14 +63,28 @@ export default class GeometryElements extends GeometryBase {
         }
     }
 
+    /**
+     * 
+     */
+    protected resurrector(levelUp: number): void {
+        super.resurrector(levelUp + 1);
+        this.setLoggingName('GeometryElements');
+        this.ibo.addRef();
+        this.vbo.addRef();
+        if (levelUp === 0) {
+            this.synchUp();
+        }
+    }
+
+    /**
+     * 
+     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();
         }
         this.ibo.release();
-        this.ibo = void 0;
         this.vbo.release();
-        this.vbo = void 0;
         super.destructor(levelUp + 1);
     }
 
@@ -137,3 +150,5 @@ export default class GeometryElements extends GeometryBase {
         return this;
     }
 }
+
+export default GeometryElements;

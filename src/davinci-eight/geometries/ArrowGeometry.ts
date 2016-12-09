@@ -2,6 +2,7 @@ import ArrowGeometryOptions from './ArrowGeometryOptions';
 import arrowPrimitive from './arrowPrimitive';
 import ContextManager from '../core/ContextManager';
 import GeometryElements from '../core/GeometryElements';
+import isDefined from '../checks/isDefined';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeNonNullObject from '../checks/mustBeNonNullObject';
 import notSupported from '../i18n/notSupported';
@@ -32,9 +33,14 @@ export default class ArrowGeometry extends GeometryElements {
      */
     private _radiusCone: number;
 
-    constructor(contextManager: ContextManager, options: ArrowGeometryOptions = {}, levelUp = 0) {
+    constructor(contextManager: ContextManager, options: ArrowGeometryOptions = { kind: 'ArrowGeometry' }, levelUp = 0) {
         super(mustBeNonNullObject('contextManager', contextManager), arrowPrimitive(options), options, levelUp + 1);
-        this._radiusCone = mustBeNumber("options.radiusCone", options.radiusCone);
+        if (isDefined(options.radiusCone)) {
+            this._radiusCone = mustBeNumber("options.radiusCone", options.radiusCone);
+        }
+        else {
+            this._radiusCone = 0.08;
+        }
         this._radius = this._radiusCone;
         this.setLoggingName('ArrowGeometry');
         if (levelUp === 0) {

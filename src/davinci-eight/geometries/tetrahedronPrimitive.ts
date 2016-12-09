@@ -29,7 +29,7 @@ const indices: number[] = [
     2, 1, 0, 0, 3, 2, 1, 3, 0, 2, 3, 1
 ];
 
-export default function tetrahedronPrimitive(options: TetrahedronGeometryOptions = {}): Primitive {
+export default function tetrahedronPrimitive(options: TetrahedronGeometryOptions = { kind: 'TetrahedronGeometry' }): Primitive {
     const radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : 1.0;
     const builder = new PolyhedronBuilder(vertices, indices, radius);
     return reduce(builder.toPrimitives());

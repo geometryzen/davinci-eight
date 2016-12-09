@@ -1,6 +1,6 @@
 import ContextManager from '../core/ContextManager';
-import { Geometric3 } from '../math/Geometric3';
-import { Material } from '../core/Material';
+import Geometric3 from '../math/Geometric3';
+import Material from '../core/Material';
 import { PrincipalScaleGeometry } from './PrincipalScaleMesh';
 import PrincipalScaleMesh from './PrincipalScaleMesh';
 import mustBeObject from '../checks/mustBeObject';
@@ -72,3 +72,5 @@ export class RigidBody extends PrincipalScaleMesh<PrincipalScaleGeometry, Materi
         super.destructor(levelUp + 1);
     }
 }
+
+export default RigidBody;

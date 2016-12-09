@@ -10,7 +10,7 @@ import PointMaterialOptions from './PointMaterialOptions';
 
 function builder(options: PointMaterialOptions) {
     if (isNull(options) || isUndefined(options)) {
-        options = { attributes: {}, uniforms: {} };
+        options = { kind: 'PointMaterial', attributes: {}, uniforms: {} };
 
         options.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
 
@@ -61,6 +61,9 @@ function fragmentShaderSrc(options?: PointMaterialOptions): string {
  */
 export class PointMaterial extends ShaderMaterial {
 
+    /**
+     * 
+     */
     constructor(contextManager: ContextManager, options: PointMaterialOptions, levelUp = 0) {
         super(vertexShaderSrc(options), fragmentShaderSrc(options), [], contextManager, levelUp + 1);
         this.setLoggingName('PointMaterial');
@@ -69,6 +72,20 @@ export class PointMaterial extends ShaderMaterial {
         }
     }
 
+    /**
+     * 
+     */
+    protected resurrector(levelUp: number): void {
+        super.resurrector(levelUp + 1);
+        this.setLoggingName('PointMaterial');
+        if (levelUp === 0) {
+            this.synchUp();
+        }
+    }
+
+    /**
+     * 
+     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();
@@ -76,3 +93,5 @@ export class PointMaterial extends ShaderMaterial {
         super.destructor(levelUp + 1);
     }
 }
+
+export default PointMaterial;

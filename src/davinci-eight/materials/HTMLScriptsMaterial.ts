@@ -90,6 +90,20 @@ export default class HTMLScriptsMaterial extends ShaderMaterial {
         }
     }
 
+    /**
+     * 
+     */
+    protected resurrector(levelUp: number): void {
+        super.resurrector(levelUp + 1);
+        this.setLoggingName('HTMLScriptsMaterial');
+        if (levelUp === 0) {
+            this.synchUp();
+        }
+    }
+
+    /**
+     * 
+     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();

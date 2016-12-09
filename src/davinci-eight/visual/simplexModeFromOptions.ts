@@ -7,7 +7,7 @@ import SimplexMode from '../geometries/SimplexMode';
 /**
  * Converts from a mode, k, or wireFrame option specification to a SimplexMode.
  */
-export default function simplexFromOptions(options?: { wireFrame?: boolean; k?: number; mode?: GeometryMode }, fallback: SimplexMode = SimplexMode.TRIANGLE): SimplexMode {
+export default function simplexFromOptions(options: { wireFrame?: boolean; k?: number; mode?: GeometryMode } = {}, fallback: SimplexMode): SimplexMode {
     if (isDefined(options)) {
         if (isDefined(options.mode)) {
             return mustBeInteger('mode', options.mode);
@@ -16,14 +16,14 @@ export default function simplexFromOptions(options?: { wireFrame?: boolean; k?: 
             return mustBeBoolean('wireFrame', options.wireFrame) ? SimplexMode.LINE : fallback;
         }
         else if (isDefined(options.k)) {
-            const k = mustBeInteger('k', options.k);
+            const k: SimplexMode = mustBeInteger('k', options.k);
             switch (k) {
-                case -1: return SimplexMode.EMPTY;
-                case 0: return SimplexMode.POINT;
-                case 1: return SimplexMode.LINE;
-                case 2: return SimplexMode.TRIANGLE;
+                case SimplexMode.EMPTY: return SimplexMode.EMPTY;
+                case SimplexMode.POINT: return SimplexMode.POINT;
+                case SimplexMode.LINE: return SimplexMode.LINE;
+                case SimplexMode.TRIANGLE: return SimplexMode.TRIANGLE;
                 default: {
-                    throw new Error("k must be -1, 0, 1, or 2");
+                    throw new Error("k: SimplexMode must be -1, 0, 1, or 2");
                 }
             }
         }

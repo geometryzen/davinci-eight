@@ -1,9 +1,12 @@
+import GeometryKey from '../core/GeometryKey';
+import GeometryOptions from './GeometryOptions';
+import HollowCylinderGeometry from './HollowCylinderGeometry';
 import VectorE3 from '../math/VectorE3';
 
 /**
- * Options for creating a HollowCylinder.
+ * Options for creating a HollowCylinderGeometry.
  */
-interface HollowCylinderOptions {
+interface HollowCylinderGeometryOptions extends GeometryOptions, GeometryKey<HollowCylinderGeometry> {
     /**
      * The symmetry axis and the height of the cylinder.
      */
@@ -27,4 +30,4 @@ interface HollowCylinderOptions {
     sliceAngle?: number;
 }
 
-export default HollowCylinderOptions;
+export default HollowCylinderGeometryOptions;

@@ -1,15 +1,19 @@
 import BeginMode from '../core/BeginMode';
-import { Color } from '../core/Color';
+import Color from '../core/Color';
 import ContextManager from '../core/ContextManager';
 import DataType from '../core/DataType';
-import { Engine } from '../core/Engine';
-import { Geometric3 } from '../math/Geometric3';
+import Engine from '../core/Engine';
+import Geometric3 from '../math/Geometric3';
 import GeometryArrays from '../core/GeometryArrays';
-import { LineMaterial } from '../materials/LineMaterial';
+import GeometryKey from '../core/GeometryKey';
+import materialFromOptions from './materialFromOptions';
 import mustBeEngine from './mustBeEngine';
+import offsetFromOptions from './offsetFromOptions';
 import Primitive from '../core/Primitive';
-import { RigidBody } from './RigidBody';
+import RigidBody from './RigidBody';
 import setColorOption from './setColorOption';
+import SimplexMode from '../geometries/SimplexMode';
+import simplexModeFromOptions from './simplexModeFromOptions';
 import SpinorE3 from '../math/SpinorE3';
 import tiltFromOptions from './tiltFromOptions';
 import vec from '../math/R3';
@@ -23,7 +27,6 @@ const CENTER = [0, 0, 0];
 const LEFT = [-0.5, 0, 0];
 
 const canonicalAxis = vec(0, 0, 1);
-const zero = vec(0, 0, 0);
 
 function concat<T>(a: T[], b: T[]) { return a.concat(b); }
 
@@ -67,7 +70,7 @@ function primitive(options: { tilt?: SpinorE3, offset?: VectorE3 }): Primitive {
     return result;
 }
 
-interface TurtleGeometryOptions {
+interface TurtleGeometryOptions extends GeometryKey<TurtleGeometry> {
     tilt?: SpinorE3;
     offset?: VectorE3;
 }
@@ -80,7 +83,7 @@ class TurtleGeometry extends GeometryArrays {
     private w = 1;
     private h = 1;
     private d = 1;
-    constructor(contextManager: ContextManager, options: TurtleGeometryOptions = {}) {
+    constructor(contextManager: ContextManager, options: TurtleGeometryOptions = { kind: 'TurtleGeometry' }) {
         super(contextManager, primitive(options), options);
     }
 
@@ -132,15 +135,26 @@ export default class Turtle extends RigidBody {
     constructor(engine: Engine, options: TurtleOptions = {}, levelUp = 0) {
         super(mustBeEngine(engine, 'Turtle'), levelUp + 1);
         this.setLoggingName('Turtle');
-        const geoOptions: TurtleGeometryOptions = {};
+        const geoOptions: TurtleGeometryOptions = { kind: 'TurtleGeometry' };
         geoOptions.tilt = tiltFromOptions(options, canonicalAxis);
-        geoOptions.offset = zero;
-        const geometry = new TurtleGeometry(engine, geoOptions);
-        this.geometry = geometry;
-        geometry.release();
-        const material = new LineMaterial(engine);
+        geoOptions.offset = offsetFromOptions(options);
+
+        const cachedGeometry = engine.getCacheGeometry(geoOptions);
+        if (cachedGeometry && cachedGeometry instanceof TurtleGeometry) {
+            this.geometry = cachedGeometry;
+            cachedGeometry.release();
+        }
+        else {
+            const geometry = new TurtleGeometry(engine, geoOptions);
+            this.geometry = geometry;
+            geometry.release();
+            engine.putCacheGeometry(geoOptions, geometry);
+        }
+
+        const material = materialFromOptions(engine, simplexModeFromOptions(options, SimplexMode.LINE), options);
         this.material = material;
         material.release();
+
         this.height = 0.1;
         this.width = 0.0618;
 

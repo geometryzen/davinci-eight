@@ -10,12 +10,10 @@ export interface Primitive {
      * The mode used to draw the attribute data.
      */
     mode: BeginMode;
-
     /**
      * Optional indices for the attribute data.
      */
     indices?: number[];
-
     /**
      * A mapping from attribute name to attribute data.
      */

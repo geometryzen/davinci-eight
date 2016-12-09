@@ -1,8 +1,11 @@
+import MaterialKey from '../core/MaterialKey';
 import MaterialOptions from './MaterialOptions';
+import PointMaterial from './PointMaterial';
 
-interface PointMaterialOptions extends MaterialOptions {
-  attributes?: { [name: string]: number };
-  uniforms?: { [name: string]: string };
+/**
+ * 
+ */
+export interface PointMaterialOptions extends MaterialOptions, MaterialKey<PointMaterial> {
 }
 
 export default PointMaterialOptions;

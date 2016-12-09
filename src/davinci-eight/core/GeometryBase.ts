@@ -5,7 +5,6 @@ import { FacetVisitor } from './FacetVisitor';
 import { Material } from './Material';
 import { Geometry } from './Geometry';
 import Matrix4 from '../math/Matrix4';
-import mustBeObject from '../checks/mustBeObject';
 import notImplemented from '../i18n/notImplemented';
 import notSupported from '../i18n/notSupported';
 import { ShareableContextConsumer } from './ShareableContextConsumer';
@@ -67,9 +66,11 @@ export default class GeometryBase extends ShareableContextConsumer implements Ge
      */
     private Kidentity = true;
 
-    constructor(tilt: SpinorE3, contextManager: ContextManager, levelUp: number) {
+    /**
+     * 
+     */
+    constructor(private tilt: SpinorE3, contextManager: ContextManager, levelUp: number) {
         super(contextManager);
-        mustBeObject('contextManager', contextManager);
         this.setLoggingName("GeometryBase");
         if (tilt && !Spinor3.isOne(tilt)) {
             this.Kidentity = false;
@@ -81,6 +82,25 @@ export default class GeometryBase extends ShareableContextConsumer implements Ge
         }
     }
 
+    /**
+     * 
+     */
+    protected resurrector(levelUp: number): void {
+        super.resurrector(levelUp + 1);
+        this.setLoggingName("GeometryBase");
+        if (this.tilt && !Spinor3.isOne(this.tilt)) {
+            this.Kidentity = false;
+            this.K.rotation(this.tilt);
+            this.Kinv.copy(this.K).inv();
+        }
+        if (levelUp === 0) {
+            this.synchUp();
+        }
+    }
+
+    /**
+     * 
+     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();

@@ -11,7 +11,7 @@ import mustBeObject from '../checks/mustBeObject';
 
 function builder(options?: MeshMaterialOptions) {
     if (isUndefined(options) || isNull(options)) {
-        options = { attributes: {}, uniforms: {} };
+        options = { kind: 'MeshMaterial', attributes: {}, uniforms: {} };
 
         options.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
         // FIXME: The default should probably be no aNormal.
@@ -62,8 +62,13 @@ function fragmentShaderSrc(options?: MeshMaterialOptions): string {
     return builder(options).fragmentShaderSrc();
 }
 
+/**
+ * 
+ */
 export class MeshMaterial extends ShaderMaterial {
-
+    /**
+     * 
+     */
     constructor(contextManager: ContextManager, options: MeshMaterialOptions, levelUp = 0) {
         super(vertexShaderSrc(options), fragmentShaderSrc(options), [], mustBeNonNullObject('contextManager', contextManager), levelUp + 1);
         this.setLoggingName('MeshMaterial');
@@ -72,6 +77,20 @@ export class MeshMaterial extends ShaderMaterial {
         }
     }
 
+    /**
+     * 
+     */
+    protected resurrector(levelUp: number): void {
+        super.resurrector(levelUp + 1);
+        this.setLoggingName('MeshMaterial');
+        if (levelUp === 0) {
+            this.synchUp();
+        }
+    }
+
+    /**
+     * 
+     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();
@@ -79,3 +98,5 @@ export class MeshMaterial extends ShaderMaterial {
         super.destructor(levelUp + 1);
     }
 }
+
+export default MeshMaterial;

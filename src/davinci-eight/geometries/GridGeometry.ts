@@ -6,9 +6,11 @@ import gridPrimitive from './gridPrimitive';
 /**
  * A Geometry for representing functions of two scalar parameters.
  */
-export default class GridGeometry extends GeometryElements {
-
-    constructor(contextManager: ContextManager, options: GridGeometryOptions = {}, levelUp = 0) {
+export class GridGeometry extends GeometryElements {
+    /**
+     * 
+     */
+    constructor(contextManager: ContextManager, options: GridGeometryOptions = { kind: 'GridGeometry' }, levelUp = 0) {
         super(contextManager, gridPrimitive(options), options, levelUp + 1);
         this.setLoggingName('GridGeometry');
         if (levelUp === 0) {
@@ -16,6 +18,20 @@ export default class GridGeometry extends GeometryElements {
         }
     }
 
+    /**
+     * 
+     */
+    protected resurrector(levelUp: number): void {
+        super.resurrector(levelUp + 1);
+        this.setLoggingName('GridGeometry');
+        if (levelUp === 0) {
+            this.synchUp();
+        }
+    }
+
+    /**
+     * 
+     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();
@@ -23,3 +39,5 @@ export default class GridGeometry extends GeometryElements {
         super.destructor(levelUp + 1);
     }
 }
+
+export default GridGeometry;

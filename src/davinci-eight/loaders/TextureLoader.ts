@@ -1,9 +1,11 @@
 import ContextManager from '../core/ContextManager';
 import ImageTexture from '../core/ImageTexture';
 import isFunction from '../checks/isFunction';
+import isDefined from '../checks/isDefined';
 import mustBeString from '../checks/mustBeString';
 import mustBeFunction from '../checks/mustBeFunction';
 import mustBeNonNullObject from '../checks/mustBeNonNullObject';
+import TextureLoaderOptions from './TextureLoaderOptions';
 import TextureTarget from '../core/TextureTarget';
 
 /**
@@ -35,7 +37,7 @@ export default class TextureLoader {
      * @param onLoad
      * @param onError
      */
-    loadImageTexture(url: string, onLoad: (texture: ImageTexture) => any, onError?: () => any): void {
+    loadImageTexture(url: string, onLoad: (texture: ImageTexture) => any, onError?: () => any, options: TextureLoaderOptions = {}): void {
         mustBeString('url', url);
         mustBeFunction('onLoad', onLoad);
         const image = new Image();
@@ -51,6 +53,11 @@ export default class TextureLoader {
                 onError();
             }
         };
+        // How to issue a CORS request for an image coming from another domain.
+        // The image is fetched from the server without any credentials, i.e., cookies.
+        if (isDefined(options.crossOrigin)) {
+            image.crossOrigin = mustBeString('crossOrigin', options.crossOrigin);
+        }
         image.src = url;
     }
 }

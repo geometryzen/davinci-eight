@@ -7,9 +7,15 @@ import DepthFunction from './DepthFunction';
 import EIGHTLogger from '../commands/EIGHTLogger';
 import { ContextConsumer } from './ContextConsumer';
 import ContextManager from './ContextManager';
+import Geometry from './Geometry';
+import GeometryKey from './GeometryKey';
 import initWebGL from './initWebGL';
 import isDefined from '../checks/isDefined';
-import mustBeObject from '../checks/mustBeObject';
+import Material from './Material';
+import MaterialKey from './MaterialKey';
+import mustBeNonNullObject from '../checks/mustBeNonNullObject';
+import mustBeNumber from '../checks/mustBeNumber';
+import mustBeString from '../checks/mustBeString';
 import PixelFormat from './PixelFormat';
 import PixelType from './PixelType';
 import ShareableArray from '../collections/ShareableArray';
@@ -69,24 +75,38 @@ import { WebGLDisable } from '../commands/WebGLDisable';
  *     requestAnimationFrame(animate)
  */
 export class Engine extends ShareableBase implements ContextManager {
-
     /**
      * 
      */
     private _gl: WebGLRenderingContext;
-
+    /**
+     * 
+     */
     private _attributes: WebGLContextAttributes;
-
     // Remark: We only hold weak references to users so that the lifetime of resource
     // objects is not affected by the fact that they are listening for gl events.
     // Users should automatically add themselves upon construction and remove upon release.
     private _users: ContextConsumer[] = [];
-
+    /**
+     * 
+     */
     private _webGLContextLost: (event: Event) => any;
+    /**
+     * 
+     */
     private _webGLContextRestored: (event: Event) => any;
-
+    /**
+     * Actions that are executed when a WebGLRenderingContext is gained.
+     */
     private _commands = new ShareableArray<ContextConsumer>([]);
-
+    /**
+     * The cache of Geometry.
+     */
+    private geometries: { [name: string]: Geometry } = {};
+    /**
+     * The cache of Material.
+     */
+    private materials: { [name: string]: Material } = {};
     /**
      * @param canvas 
      * @param attributes Allows the context to be configured.
@@ -127,6 +147,15 @@ export class Engine extends ShareableBase implements ContextManager {
     }
 
     /**
+     * 
+     */
+    protected resurrector(levelUp: number): void {
+        super.resurrector(levelUp + 1);
+        this.setLoggingName('Engine');
+        this._commands = new ShareableArray<ContextConsumer>([]);
+    }
+
+    /**
      *
      */
     protected destructor(levelUp: number): void {
@@ -142,7 +171,7 @@ export class Engine extends ShareableBase implements ContextManager {
      *
      */
     addContextListener(user: ContextConsumer): void {
-        mustBeObject('user', user);
+        mustBeNonNullObject('user', user);
         const index = this._users.indexOf(user);
         if (index < 0) {
             this._users.push(user);
@@ -182,7 +211,7 @@ export class Engine extends ShareableBase implements ContextManager {
         }
     }
 
-    blendFunc(sfactor: BlendingFactorSrc, dfactor: BlendingFactorDest): Engine {
+    blendFunc(sfactor: BlendingFactorSrc, dfactor: BlendingFactorDest): this {
         const gl = this._gl;
         if (gl) {
             gl.blendFunc(sfactor, dfactor);
@@ -195,7 +224,7 @@ export class Engine extends ShareableBase implements ContextManager {
      * Sets the graphics buffers to values preselected by clearColor, clearDepth or clearStencil.
      * </p>
      */
-    clear(mask = ClearBufferMask.COLOR_BUFFER_BIT | ClearBufferMask.DEPTH_BUFFER_BIT): Engine {
+    clear(mask = ClearBufferMask.COLOR_BUFFER_BIT | ClearBufferMask.DEPTH_BUFFER_BIT): this {
         const gl = this._gl;
         if (gl) {
             gl.clear(mask);
@@ -206,7 +235,7 @@ export class Engine extends ShareableBase implements ContextManager {
     /**
      * Specifies color values to use by the <code>clear</code> method to clear the color buffer.
      */
-    clearColor(red: number, green: number, blue: number, alpha: number): Engine {
+    clearColor(red: number, green: number, blue: number, alpha: number): this {
         this._commands.pushWeakRef(new WebGLClearColor(this, red, green, blue, alpha));
         const gl = this._gl;
         if (gl) {
@@ -223,7 +252,7 @@ export class Engine extends ShareableBase implements ContextManager {
      * @param depth Specifies the depth value used when the depth buffer is cleared.
      * The default value is 1.
      */
-    clearDepth(depth: number): Engine {
+    clearDepth(depth: number): this {
         const gl = this._gl;
         if (gl) {
             gl.clearDepth(depth);
@@ -235,7 +264,7 @@ export class Engine extends ShareableBase implements ContextManager {
      * @param s Specifies the index used when the stencil buffer is cleared.
      * The default value is 0.
      */
-    clearStencil(s: number): Engine {
+    clearStencil(s: number): this {
         const gl = this._gl;
         if (gl) {
             gl.clearStencil(s);
@@ -243,7 +272,7 @@ export class Engine extends ShareableBase implements ContextManager {
         return this;
     }
 
-    depthFunc(func: DepthFunction): Engine {
+    depthFunc(func: DepthFunction): this {
         const gl = this._gl;
         if (gl) {
             gl.depthFunc(func);
@@ -251,7 +280,7 @@ export class Engine extends ShareableBase implements ContextManager {
         return this;
     }
 
-    depthMask(flag: boolean): Engine {
+    depthMask(flag: boolean): this {
         const gl = this._gl;
         if (gl) {
             gl.depthMask(flag);
@@ -262,7 +291,7 @@ export class Engine extends ShareableBase implements ContextManager {
     /**
      * Disables the specified WebGL capability.
      */
-    disable(capability: Capability): Engine {
+    disable(capability: Capability): this {
         this._commands.pushWeakRef(new WebGLDisable(this, capability));
         if (this._gl) {
             this._gl.disable(capability);
@@ -273,7 +302,7 @@ export class Engine extends ShareableBase implements ContextManager {
     /**
      * Enables the specified WebGL capability.
      */
-    enable(capability: Capability): Engine {
+    enable(capability: Capability): this {
         this._commands.pushWeakRef(new WebGLEnable(this, capability));
         if (this._gl) {
             this._gl.enable(capability);
@@ -306,7 +335,7 @@ export class Engine extends ShareableBase implements ContextManager {
      * @param user
      */
     removeContextListener(user: ContextConsumer): void {
-        mustBeObject('user', user);
+        mustBeNonNullObject('user', user);
         const index = this._users.indexOf(user);
         if (index >= 0) {
             this._users.splice(index, 1);
@@ -317,9 +346,9 @@ export class Engine extends ShareableBase implements ContextManager {
      * A convenience method for setting the width and height properties of the
      * underlying canvas and for setting the viewport to the drawing buffer height and width.
      */
-    size(width: number, height: number): Engine {
-        this.canvas.width = width;
-        this.canvas.height = height;
+    size(width: number, height: number): this {
+        this.canvas.width = mustBeNumber('width', width);
+        this.canvas.height = mustBeNumber('height', height);
         return this.viewport(0, 0, this.gl.drawingBufferWidth, this.gl.drawingBufferHeight);
     }
 
@@ -362,7 +391,7 @@ export class Engine extends ShareableBase implements ContextManager {
      * @param width
      * @param height
      */
-    viewport(x: number, y: number, width: number, height: number): Engine {
+    viewport(x: number, y: number, width: number, height: number): this {
         const gl = this._gl;
         if (gl) {
             gl.viewport(x, y, width, height);
@@ -376,7 +405,7 @@ export class Engine extends ShareableBase implements ContextManager {
      * @param canvas The HTML canvas element or canvas element identifier.
      * @param doc The document object model that contains the canvas identifier.
      */
-    start(canvas: string | HTMLCanvasElement | WebGLRenderingContext, doc = window.document): Engine {
+    start(canvas: string | HTMLCanvasElement | WebGLRenderingContext, doc = window.document): this {
         if (typeof canvas === 'string') {
             const canvasElement = <HTMLCanvasElement>doc.getElementById(canvas);
             if (canvasElement) {
@@ -394,8 +423,7 @@ export class Engine extends ShareableBase implements ContextManager {
                 return this;
             }
             else {
-                this._gl = initWebGL(canvas, this._attributes);
-                checkEnums(this._gl);
+                this._gl = checkEnums(initWebGL(canvas, this._attributes));
                 this.emitStartEvent();
                 canvas.addEventListener('webglcontextlost', this._webGLContextLost, false);
                 canvas.addEventListener('webglcontextrestored', this._webGLContextRestored, false);
@@ -403,9 +431,9 @@ export class Engine extends ShareableBase implements ContextManager {
             return this;
         }
         else {
-            // TODO: How to check that this is a WebGLRenderingContext?
-            this._gl = canvas;
-            // console.warn("canvas must be an HTMLCanvasElement to start the context.");
+            if (isDefined(canvas)) {
+                this._gl = checkEnums(canvas);
+            }
             return this;
         }
     }
@@ -413,7 +441,7 @@ export class Engine extends ShareableBase implements ContextManager {
     /**
      *
      */
-    stop(): Engine {
+    stop(): this {
         if (isDefined(this._gl)) {
             this._gl.canvas.removeEventListener('webglcontextrestored', this._webGLContextRestored, false);
             this._gl.canvas.removeEventListener('webglcontextlost', this._webGLContextLost, false);
@@ -464,7 +492,7 @@ export class Engine extends ShareableBase implements ContextManager {
     /**
      * @param consumer
      */
-    synchronize(consumer: ContextConsumer): Engine {
+    synchronize(consumer: ContextConsumer): this {
         if (this._gl) {
             this.emitContextGain(consumer);
         }
@@ -473,4 +501,60 @@ export class Engine extends ShareableBase implements ContextManager {
         }
         return this;
     }
+
+    /**
+     * 
+     */
+    getCacheGeometry<G extends Geometry>(geometryKey: GeometryKey<G>): G {
+        mustBeNonNullObject('geometryKey', geometryKey);
+        mustBeString('geometryKey.kind', geometryKey.kind);
+        const key = JSON.stringify(geometryKey);
+        const geometry = this.geometries[key];
+        if (geometry && geometry.addRef) {
+            // console.lg(`REUSED Geometry(key = ${key})`);
+            geometry.addRef();
+        }
+        return <G>geometry;
+    }
+
+    /**
+     * 
+     */
+    putCacheGeometry<G extends Geometry>(geometryKey: GeometryKey<G>, geometry: G): void {
+        mustBeNonNullObject('geometryKey', geometryKey);
+        mustBeNonNullObject('geometry', geometry);
+        mustBeString('geometryKey.kind', geometryKey.kind);
+        const key = JSON.stringify(geometryKey);
+        // console.lg(`CREATE Geometry(key = ${key})`);
+        this.geometries[key] = geometry;
+    }
+
+    /**
+     * 
+     */
+    getCacheMaterial<M extends Material>(materialKey: MaterialKey<M>): M {
+        mustBeNonNullObject('materialKey', materialKey);
+        mustBeString('materialKey.kind', materialKey.kind);
+        const key = JSON.stringify(materialKey);
+        const material = this.materials[key];
+        if (material && material.addRef) {
+            // console.lg(`REUSED Material(key = ${key})`);
+            material.addRef();
+        }
+        return <M>material;
+    }
+
+    /**
+     * 
+     */
+    putCacheMaterial<M extends Material>(materialKey: MaterialKey<M>, material: M): void {
+        mustBeNonNullObject('materialKey', materialKey);
+        mustBeNonNullObject('material', material);
+        mustBeString('materialKey.kind', materialKey.kind);
+        const key = JSON.stringify(materialKey);
+        // console.lg(`CREATE Material(key = ${key})`);
+        this.materials[key] = material;
+    }
 }
+
+export default Engine;

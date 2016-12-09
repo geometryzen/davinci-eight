@@ -212,7 +212,7 @@ class CylinderBuilder extends SimplexPrimitivesBuilder {
     }
 }
 
-function tilt(v: VectorE3, options: CylinderGeometryOptions = {}): VectorE3 {
+function tilt(v: VectorE3, options: CylinderGeometryOptions = { kind: 'CylinderGeometry' }): VectorE3 {
     const vector = Vector3.copy(v);
     if (options.tilt) {
         vector.rotate(options.tilt);
@@ -220,7 +220,10 @@ function tilt(v: VectorE3, options: CylinderGeometryOptions = {}): VectorE3 {
     return vector;
 }
 
-function cylinderPrimitive(options: CylinderGeometryOptions = {}): Primitive {
+/**
+ * TODO: Support GeometryMode.
+ */
+function cylinderPrimitive(options: CylinderGeometryOptions = { kind: 'CylinderGeometry' }): Primitive {
 
     const radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : 1;
     const length = isDefined(options.length) ? mustBeNumber('length', options.length) : 1;
@@ -261,7 +264,7 @@ export default class CylinderGeometry extends GeometryElements {
     private _length = 1;
     private _radius = 1;
 
-    constructor(contextManager: ContextManager, options: CylinderGeometryOptions = {}, levelUp = 0) {
+    constructor(contextManager: ContextManager, options: CylinderGeometryOptions = { kind: 'CylinderGeometry' }, levelUp = 0) {
         super(contextManager, cylinderPrimitive(options), options, levelUp + 1);
         this.setLoggingName('CylinderGeometry');
         if (levelUp === 0) {

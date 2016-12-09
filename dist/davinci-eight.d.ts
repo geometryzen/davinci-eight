@@ -236,37 +236,34 @@ declare module EIGHT {
      * Convenience base class for classes requiring reference counting.
      */
     class ShareableBase implements Shareable {
-
         /**
          *
          */
         constructor();
-
         /**
          * Notifies this instance that something is referencing it.
          */
         addRef(): number;
-
         /**
          *
          */
         protected destructor(levelUp: number): void;
-
         /**
          *
          */
         getLoggingName(): string;
-
         /**
          *
          */
         isZombie(): boolean;
-
         /**
          * Notifies this instance that something is dereferencing it.
          */
         release(): number;
-
+        /**
+         *
+         */
+        protected resurrector(levelUp: number): void;
         /**
          *
          */
@@ -545,9 +542,7 @@ declare module EIGHT {
         contextFree(): void;
         contextGain(): void;
         contextLost(): void;
-        subscribe(contextManager: ContextManager, synchUp: boolean): void;
         synchUp(): void;
-        unsubscribe(): void;
     }
 
     /**
@@ -769,9 +764,13 @@ declare module EIGHT {
         upload(): void;
     }
 
+    interface TextureLoaderOptions {
+        crossOrigin?: string;
+    }
+
     class TextureLoader {
         constructor(contextManager: ContextManager);
-        loadImageTexture(url: string, onLoad: (texture: ImageTexture) => any): void;
+        loadImageTexture(url: string, onLoad: (texture: ImageTexture) => any, onError?: () => any, options?: TextureLoaderOptions): void;
     }
 
     /**
@@ -4133,19 +4132,54 @@ declare module EIGHT {
      * Options for the creation of a new Box.
      */
     interface BoxOptions {
+        /**
+         * 
+         */
         color?: Color;
+        /**
+         * 
+         */
         depth?: number;
+        /**
+         * 
+         */
         height?: number;
+        /**
+         * 
+         */
         mode?: GeometryMode;
+        /**
+         * 
+         */
         openBack?: boolean;
+        /**
+         * 
+         */
         openBase?: boolean;
+        /**
+         * 
+         */
         openCap?: boolean;
+        /**
+         * 
+         */
         openFront?: boolean;
+        /**
+         * 
+         */
         openLeft?: boolean;
+        /**
+         * 
+         */
         openRight?: boolean;
+        /**
+         * 
+         */
         tilt?: SpinorE3;
+        /**
+         * 
+         */
         width?: number;
-        wireFrame?: boolean;
     }
 
     class Box extends RigidBody {
@@ -4510,10 +4544,6 @@ declare module EIGHT {
          * 
          */
         tilt?: SpinorE3;
-        /**
-         * 
-         */
-        wireFrame?: boolean;
     }
 
     class Sphere extends RigidBody {
@@ -4591,7 +4621,7 @@ declare module EIGHT {
     }
 
     /**
-     *
+     * The configuration properties for a Trail.
      */
     interface TrailConfig {
         /**
@@ -4776,7 +4806,13 @@ declare module EIGHT {
         handleResize(): void;
         move(x: number, y: number): void;
         reset(): void;
+        /**
+         * 
+         */
         subscribe(domElement: HTMLElement): void;
+        /**
+         * 
+         */
         unsubscribe(): void;
         /**
          * Allows the context menu to be displayed.

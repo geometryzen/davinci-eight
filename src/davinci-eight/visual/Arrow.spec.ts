@@ -2,6 +2,7 @@ import { Engine } from '../core/Engine';
 import { Arrow } from './Arrow';
 import ArrowOptions from './ArrowOptions';
 import { Geometric3 } from '../math/Geometric3';
+import refChange from '../core/refChange';
 
 const e1: Geometric3 = Geometric3.e1();
 const e2: Geometric3 = Geometric3.e2();
@@ -9,12 +10,21 @@ const e2: Geometric3 = Geometric3.e2();
 
 describe("Arrow", function () {
     it("new-release", function () {
+        refChange('quiet');
+        refChange('reset');
+        refChange('quiet');
+        refChange('start');
         const engine = new Engine();
         const arrow = new Arrow(engine);
         expect(arrow.isZombie()).toBe(false);
         arrow.release();
         engine.release();
         expect(arrow.isZombie()).toBe(true);
+        refChange('stop');
+        const outstanding = refChange('dump');
+        expect(outstanding).toBe(0);
+        refChange('quiet');
+        refChange('reset');
     });
     describe("position", function () {
         it("should be initialized to zero", function () {

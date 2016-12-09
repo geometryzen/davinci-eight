@@ -1,16 +1,18 @@
-import { Color } from '../core/Color';
+import Color from '../core/Color';
 import direction from './direction';
-import { Engine } from '../core/Engine';
-import { Geometric3 } from '../math/Geometric3';
+import Engine from '../core/Engine';
+import Geometric3 from '../math/Geometric3';
 import isDefined from '../checks/isDefined';
 import geometryModeFromOptions from './geometryModeFromOptions';
 import materialFromOptions from './materialFromOptions';
 import mustBeEngine from './mustBeEngine';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeObject from '../checks/mustBeObject';
-import { RigidBody } from './RigidBody';
+import offsetFromOptions from './offsetFromOptions';
+import RigidBody from './RigidBody';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
+import SimplexMode from '../geometries/SimplexMode';
 import simplexModeFromOptions from './simplexModeFromOptions';
 import SphereOptions from './SphereOptions';
 import SphereGeometry from '../geometries/SphereGeometry';
@@ -22,7 +24,6 @@ import vec from '../math/R3';
 const RADIUS_NAME = 'radius';
 const RADIUS_DEFAULT = 1;
 const canonicalAxis = vec(0, 1, 0);
-const zero = vec(0, 0, 0);
 
 /**
  *
@@ -41,7 +42,7 @@ export class Sphere extends RigidBody {
         this.initialAxis = direction(options, canonicalAxis);
         const geoMode = geometryModeFromOptions(options);
 
-        const geoOptions: SphereGeometryOptions = {};
+        const geoOptions: SphereGeometryOptions = { kind: 'SphereGeometry' };
 
         geoOptions.mode = geoMode;
         geoOptions.azimuthSegments = options.azimuthSegments;
@@ -50,15 +51,23 @@ export class Sphere extends RigidBody {
         geoOptions.elevationLength = options.elevationLength;
         geoOptions.elevationSegments = options.elevationSegments;
         geoOptions.elevationStart = options.elevationStart;
-        geoOptions.offset = zero;
+        geoOptions.offset = offsetFromOptions(options);
         geoOptions.stress = void 0;
         geoOptions.tilt = tiltFromOptions(options, canonicalAxis);
 
-        const geometry = new SphereGeometry(engine, geoOptions);
-        this.geometry = geometry;
-        geometry.release();
+        const cachedGeometry = engine.getCacheGeometry(geoOptions);
+        if (cachedGeometry && cachedGeometry instanceof SphereGeometry) {
+            this.geometry = cachedGeometry;
+            cachedGeometry.release();
+        }
+        else {
+            const geometry = new SphereGeometry(engine, geoOptions);
+            this.geometry = geometry;
+            geometry.release();
+            engine.putCacheGeometry(geoOptions, geometry);
+        }
 
-        const material = materialFromOptions(engine, simplexModeFromOptions(options), options);
+        const material = materialFromOptions(engine, simplexModeFromOptions(options, SimplexMode.TRIANGLE), options);
         this.material = material;
         material.release();
 
@@ -74,6 +83,9 @@ export class Sphere extends RigidBody {
         }
     }
 
+    /**
+     * 
+     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();

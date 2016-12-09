@@ -31,3 +31,5 @@ export interface Geometry extends Facet, ContextConsumer {
      */
     draw(): void;
 }
+
+export default Geometry;

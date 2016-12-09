@@ -1,30 +1,31 @@
 import ArrowOptions from './ArrowOptions';
 import ArrowGeometry from '../geometries/ArrowGeometry';
 import ArrowGeometryOptions from '../geometries/ArrowGeometryOptions';
-import { Color } from '../core/Color';
+import Color from '../core/Color';
 import direction from './direction';
-import { Engine } from '../core/Engine';
-import { Geometric3 } from '../math/Geometric3';
-import { MeshMaterial } from '../materials/MeshMaterial';
-import MeshMaterialOptions from '../materials/MeshMaterialOptions';
+import Engine from '../core/Engine';
+import Geometric3 from '../math/Geometric3';
+import Material from '../core/Material';
+import materialFromOptions from './materialFromOptions';
+import offsetFromOptions from './offsetFromOptions';
 import PrincipalScaleMesh from './PrincipalScaleMesh';
 import isGE from '../checks/isGE';
 import mustBeEngine from './mustBeEngine';
 import quadVectorE3 from '../math/quadVectorE3';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
+import SimplexMode from '../geometries/SimplexMode';
+import simplexModeFromOptions from './simplexModeFromOptions';
 import tiltFromOptions from './tiltFromOptions';
 import vec from '../math/R3';
 import VectorE3 from '../math/VectorE3';
 
 const canonicalAxis = vec(0, 1, 0);
-const zero = vec(0, 0, 0);
 
 /**
  * A Mesh in the form of an arrow that may be used to represent a vector quantity.
  */
-export class Arrow extends PrincipalScaleMesh<ArrowGeometry, MeshMaterial> {
-
+export class Arrow extends PrincipalScaleMesh<ArrowGeometry, Material> {
     /**
      * We know what the initial direction the arrow geometry takes.
      * Since our state variable is the attitude, we must remember the
@@ -39,8 +40,13 @@ export class Arrow extends PrincipalScaleMesh<ArrowGeometry, MeshMaterial> {
      * becomes mutation of the attitude and length.
      */
     private _vector: Geometric3;
-
+    /**
+     * 
+     */
     private vectorChangeHandler: (eventName: string, key: string, value: number, source: Geometric3) => void;
+    /**
+     * 
+     */
     private attitudeChangeHandler: (eventName: string, key: string, value: number, source: Geometric3) => void;
 
     constructor(engine: Engine, options: ArrowOptions = {}, levelUp = 0) {
@@ -50,18 +56,25 @@ export class Arrow extends PrincipalScaleMesh<ArrowGeometry, MeshMaterial> {
         this.direction0 = direction(options, canonicalAxis);
         this._vector = Geometric3.fromVector(this.direction0);
 
-        const geoOptions: ArrowGeometryOptions = {};
-        geoOptions.offset = zero;
+        const geoOptions: ArrowGeometryOptions = { kind: 'ArrowGeometry' };
+        geoOptions.offset = offsetFromOptions(options);
         geoOptions.tilt = tiltFromOptions(options, canonicalAxis);
-        const geometry = new ArrowGeometry(engine, geoOptions);
+        geoOptions.radiusCone = 0.08;
 
-        const matOptions: MeshMaterialOptions = void 0;
-        const material = new MeshMaterial(engine, matOptions);
+        const cachedGeometry = engine.getCacheGeometry(geoOptions);
+        if (cachedGeometry && cachedGeometry instanceof ArrowGeometry) {
+            this.geometry = cachedGeometry;
+            cachedGeometry.release();
+        }
+        else {
+            const geometry = new ArrowGeometry(engine, geoOptions);
+            this.geometry = geometry;
+            geometry.release();
+            engine.putCacheGeometry(geoOptions, geometry);
+        }
 
-        this.geometry = geometry;
+        const material = materialFromOptions(engine, simplexModeFromOptions(options, SimplexMode.TRIANGLE), options);
         this.material = material;
-
-        geometry.release();
         material.release();
 
         if (options.color) {

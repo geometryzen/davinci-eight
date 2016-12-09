@@ -1,6 +1,7 @@
 import BeginMode from './BeginMode';
 import BlendingFactorDest from './BlendingFactorDest';
-import BlendingFactorSrc from  './BlendingFactorSrc';
+import BlendingFactorSrc from './BlendingFactorSrc';
+import BufferObjects from './BufferObjects';
 import Capability from './Capability';
 import ClearBufferMask from './ClearBufferMask';
 import DepthFunction from './DepthFunction';
@@ -12,7 +13,7 @@ import mustBeEQ from '../checks/mustBeEQ';
 /**
  * Verify that the enums match the values in the WebGL rendering context.
  */
-export default function checkEnums(gl: WebGLRenderingContext): void {
+export default function checkEnums(gl: WebGLRenderingContext): WebGLRenderingContext {
 
     // BeginMode
     mustBeEQ('LINE_LOOP', BeginMode.LINE_LOOP, gl.LINE_LOOP);
@@ -43,6 +44,12 @@ export default function checkEnums(gl: WebGLRenderingContext): void {
     mustBeEQ('ONE_MINUS_SRC_ALPHA', BlendingFactorSrc.ONE_MINUS_SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
     mustBeEQ('DST_ALPHA', BlendingFactorSrc.DST_ALPHA, gl.DST_ALPHA);
     mustBeEQ('ONE_MINUS_DST_ALPHA', BlendingFactorSrc.ONE_MINUS_DST_ALPHA, gl.ONE_MINUS_DST_ALPHA);
+
+    // BufferObjects
+    mustBeEQ('ARRAY_BUFFER', BufferObjects.ARRAY_BUFFER, gl.ARRAY_BUFFER);
+    mustBeEQ('ARRAY_BUFFER_BINDING', BufferObjects.ARRAY_BUFFER_BINDING, gl.ARRAY_BUFFER_BINDING);
+    mustBeEQ('ELEMENT_ARRAY_BUFFER', BufferObjects.ELEMENT_ARRAY_BUFFER, gl.ELEMENT_ARRAY_BUFFER);
+    mustBeEQ('ELEMENT_ARRAY_BUFFER_BINDING', BufferObjects.ELEMENT_ARRAY_BUFFER_BINDING, gl.ELEMENT_ARRAY_BUFFER_BINDING);
 
     // Capability
     mustBeEQ('CULL_FACE', Capability.CULL_FACE, gl.CULL_FACE);
@@ -88,4 +95,6 @@ export default function checkEnums(gl: WebGLRenderingContext): void {
     mustBeEQ('STREAM_DRAW', Usage.STREAM_DRAW, gl.STREAM_DRAW);
     mustBeEQ('STATIC_DRAW', Usage.STATIC_DRAW, gl.STATIC_DRAW);
     mustBeEQ('DYNAMIC_DRAW', Usage.DYNAMIC_DRAW, gl.DYNAMIC_DRAW);
+
+    return gl;
 }

@@ -81,14 +81,14 @@ function transferGeometryOptions(options: CurveOptions, geoOptions: CurveGeometr
 }
 
 function configPoints(contextManager: ContextManager, options: CurveOptions, curve: Curve) {
-    const geoOptions: CurveGeometryOptions = {};
+    const geoOptions: CurveGeometryOptions = { kind: 'CurveGeometry' };
     transferGeometryOptions(options, geoOptions);
     geoOptions.mode = CurveMode.POINTS;
     const geometry = new CurveGeometry(contextManager, geoOptions);
     curve.geometry = geometry;
     geometry.release();
 
-    const matOptions: PointMaterialOptions = { attributes: {}, uniforms: {} };
+    const matOptions: PointMaterialOptions = { kind: 'PointMaterial', attributes: {}, uniforms: {} };
 
     if (isFunctionOrUndefined(options.aPosition)) {
         matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
@@ -112,6 +112,7 @@ function configPoints(contextManager: ContextManager, options: CurveOptions, cur
     }
     else {
         matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_OPACITY] = 'float';
+        matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_OPACITY] = 'float';
     }
 
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX] = 'mat4';
@@ -125,14 +126,14 @@ function configPoints(contextManager: ContextManager, options: CurveOptions, cur
 }
 
 function configLines(contextManager: ContextManager, options: CurveOptions, curve: Curve) {
-    const geoOptions: CurveGeometryOptions = {};
+    const geoOptions: CurveGeometryOptions = { kind: 'CurveGeometry' };
     transferGeometryOptions(options, geoOptions);
     geoOptions.mode = CurveMode.LINES;
     const geometry = new CurveGeometry(contextManager, geoOptions);
     curve.geometry = geometry;
     geometry.release();
 
-    const matOptions: LineMaterialOptions = { attributes: {}, uniforms: {} };
+    const matOptions: LineMaterialOptions = { kind: 'LineMaterial', attributes: {}, uniforms: {} };
 
     if (isFunctionOrUndefined(options.aPosition)) {
         matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
@@ -149,6 +150,7 @@ function configLines(contextManager: ContextManager, options: CurveOptions, curv
     }
     else {
         matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_COLOR] = 'vec3';
+        matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_OPACITY] = 'float';
     }
 
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX] = 'mat4';

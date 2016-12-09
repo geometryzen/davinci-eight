@@ -8,7 +8,7 @@ import curvePrimitive from './curvePrimitive';
  */
 export default class CurveGeometry extends GeometryElements {
 
-    constructor(contextManager: ContextManager, options: CurveGeometryOptions = {}, levelUp = 0) {
+    constructor(contextManager: ContextManager, options: CurveGeometryOptions = { kind: 'CurveGeometry' }, levelUp = 0) {
         super(contextManager, curvePrimitive(options), options, levelUp + 1);
         this.setLoggingName('CurveGeometry');
         if (levelUp === 0) {

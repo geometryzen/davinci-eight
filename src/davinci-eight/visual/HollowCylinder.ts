@@ -3,7 +3,8 @@ import direction from './direction';
 import { Engine } from '../core/Engine';
 import { Geometric3 } from '../math/Geometric3';
 import HollowCylinderGeometry from '../geometries/HollowCylinderGeometry';
-import HollowCylinderOptions from '../geometries/HollowCylinderOptions';
+import HollowCylinderGeometryOptions from '../geometries/HollowCylinderGeometryOptions';
+import HollowCylinderOptions from './HollowCylinderOptions';
 import { MeshMaterial } from '../materials/MeshMaterial';
 import MeshMaterialOptions from '../materials/MeshMaterialOptions';
 import mustBeEngine from './mustBeEngine';
@@ -12,6 +13,7 @@ import { RigidBody } from './RigidBody';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
 import { R3 } from '../math/R3';
+import vectorE3Object from './vectorE3Object';
 
 /**
  * 
@@ -29,11 +31,26 @@ export default class HollowCylinder extends RigidBody {
 
         this.initialAxis = direction(options, { x: 0, y: 1, z: 0 });
 
-        const geometry = new HollowCylinderGeometry(engine, options);
-        this.geometry = geometry;
-        geometry.release();
+        const geoOptions: HollowCylinderGeometryOptions = { kind: 'HollowCylinderGeometry' };
+        geoOptions.cutLine = vectorE3Object(options.cutLine);
+        geoOptions.height = vectorE3Object(options.height);
+        geoOptions.innerRadius = options.innerRadius;
+        geoOptions.outerRadius = options.outerRadius;
+        geoOptions.sliceAngle = options.sliceAngle;
 
-        const mmo: MeshMaterialOptions = { attributes: {}, uniforms: {} };
+        const cachedGeometry = engine.getCacheGeometry(geoOptions);
+        if (cachedGeometry && cachedGeometry instanceof HollowCylinderGeometry) {
+            this.geometry = cachedGeometry;
+            cachedGeometry.release();
+        }
+        else {
+            const geometry = new HollowCylinderGeometry(engine, geoOptions);
+            this.geometry = geometry;
+            geometry.release();
+            engine.putCacheGeometry(geoOptions, geometry);
+        }
+
+        const mmo: MeshMaterialOptions = { kind: 'MeshMaterial', attributes: {}, uniforms: {} };
 
         mmo.attributes['aPosition'] = 3;
         mmo.attributes['aNormal'] = 3;
@@ -48,9 +65,17 @@ export default class HollowCylinder extends RigidBody {
         mmo.uniforms['uDirectionalLightColor'] = 'vec3';
         mmo.uniforms['uDirectionalLightDirection'] = 'vec3';
 
-        const material = new MeshMaterial(engine, mmo);
-        this.material = material;
-        material.release();
+        const cachedMaterial = engine.getCacheMaterial(mmo);
+        if (cachedMaterial && cachedMaterial instanceof MeshMaterial) {
+            this.material = cachedMaterial;
+            cachedMaterial.release();
+        }
+        else {
+            const material = new MeshMaterial(engine, mmo);
+            this.material = material;
+            material.release();
+            engine.putCacheMaterial(mmo, material);
+        }
 
         setColorOption(this, options, Color.gray);
         setDeprecatedOptions(this, options);

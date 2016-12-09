@@ -11,7 +11,7 @@ import mustBeObject from '../checks/mustBeObject';
 function builder(options?: LineMaterialOptions) {
 
     if (isNull(options) || isUndefined(options)) {
-        options = { attributes: {}, uniforms: {} };
+        options = { kind: 'LineMaterial', attributes: {}, uniforms: {} };
 
         options.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
 
@@ -66,6 +66,9 @@ function fragmentShaderSrc(options?: LineMaterialOptions): string {
  */
 export class LineMaterial extends ShaderMaterial {
 
+    /**
+     * 
+     */
     constructor(contextManager: ContextManager, options?: LineMaterialOptions, levelUp = 0) {
         super(vertexShaderSrc(options), fragmentShaderSrc(options), [], contextManager, levelUp + 1);
         this.setLoggingName('LineMaterial');
@@ -74,6 +77,20 @@ export class LineMaterial extends ShaderMaterial {
         }
     }
 
+    /**
+     * 
+     */
+    protected resurrector(levelUp: number): void {
+        super.resurrector(levelUp + 1);
+        this.setLoggingName('LineMaterial');
+        if (levelUp === 0) {
+            this.synchUp();
+        }
+    }
+
+    /**
+     * 
+     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();
@@ -81,3 +98,5 @@ export class LineMaterial extends ShaderMaterial {
         super.destructor(levelUp + 1);
     }
 }
+
+export default LineMaterial;

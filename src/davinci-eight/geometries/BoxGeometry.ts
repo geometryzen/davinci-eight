@@ -261,7 +261,7 @@ class CuboidPrimitivesBuilder extends PrimitivesBuilder {
     }
 }
 
-function boxPrimitive(options: BoxGeometryOptions = {}): Primitive {
+function boxPrimitive(options: BoxGeometryOptions = { kind: 'BoxGeometry' }): Primitive {
 
     const width = isDefined(options.width) ? mustBeNumber('width', options.width) : 1;
     const height = isDefined(options.height) ? mustBeNumber('height', options.height) : 1;
@@ -347,7 +347,10 @@ export default class BoxGeometry extends GeometryElements {
     private h = 1;
     private d = 1;
 
-    constructor(contextManager: ContextManager, options: BoxGeometryOptions = {}, levelUp = 0) {
+    /**
+     * 
+     */
+    constructor(contextManager: ContextManager, options: BoxGeometryOptions = { kind: 'BoxGeometry' }, levelUp = 0) {
         super(contextManager, boxPrimitive(options), options, levelUp + 1);
         this.setLoggingName('BoxGeometry');
         if (levelUp === 0) {
@@ -355,6 +358,20 @@ export default class BoxGeometry extends GeometryElements {
         }
     }
 
+    /**
+     * 
+     */
+    protected resurrector(levelUp: number): void {
+        super.resurrector(levelUp + 1);
+        this.setLoggingName('BoxGeometry');
+        if (levelUp === 0) {
+            this.synchUp();
+        }
+    }
+
+    /**
+     * 
+     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();

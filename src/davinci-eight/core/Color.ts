@@ -401,6 +401,8 @@ export class Color extends Coords {
     }
 }
 
+export default Color;
+
 const rgb255 = function (red: number, green: number, blue: number): Color {
     const UBYTEMAX = 255;
     return new Color(red / UBYTEMAX, green / UBYTEMAX, blue / UBYTEMAX);

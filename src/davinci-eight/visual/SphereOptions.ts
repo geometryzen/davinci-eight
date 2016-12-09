@@ -41,10 +41,6 @@ export interface SphereOptions {
      * 
      */
     tilt?: SpinorE3;
-    /**
-     * 
-     */
-    wireFrame?: boolean;
 }
 
 export default SphereOptions;

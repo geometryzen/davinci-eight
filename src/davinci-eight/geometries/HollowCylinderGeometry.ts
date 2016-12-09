@@ -1,7 +1,7 @@
 import ContextManager from '../core/ContextManager';
 import CylindricalShellBuilder from '../shapes/CylindricalShellBuilder';
 import GeometryElements from '../core/GeometryElements';
-import HollowCylinderOptions from './HollowCylinderOptions';
+import HollowCylinderGeometryOptions from './HollowCylinderGeometryOptions';
 import Primitive from '../core/Primitive';
 import RingBuilder from '../shapes/RingBuilder';
 import reduce from '../atoms/reduce';
@@ -13,7 +13,7 @@ const e3 = Vector3.vector(0, 0, 1);
 /**
  * Generates a Primitive from the specified options.
  */
-function hollowCylinderPrimitive(options: HollowCylinderOptions = {}): Primitive {
+function hollowCylinderPrimitive(options: HollowCylinderGeometryOptions = { kind: 'HollowCylinderGeometry' }): Primitive {
     const height = (typeof options.height === 'object') ? Vector3.copy(options.height) : e2;
     const cutLine = (typeof options.cutLine === 'object') ? Vector3.copy(options.cutLine).normalize() : e3;
     const outerRadius = (typeof options.outerRadius === 'number') ? options.outerRadius : 1.0;
@@ -60,7 +60,7 @@ function hollowCylinderPrimitive(options: HollowCylinderOptions = {}): Primitive
 }
 
 export default class HollowCylinderGeometry extends GeometryElements {
-    constructor(contextManager: ContextManager, options: HollowCylinderOptions = {}, levelUp = 0) {
+    constructor(contextManager: ContextManager, options: HollowCylinderGeometryOptions = { kind: 'HollowCylinderGeometry' }, levelUp = 0) {
         super(contextManager, hollowCylinderPrimitive(options), levelUp + 1);
         this.setLoggingName('HollowCylinderGeometry');
         if (levelUp === 0) {

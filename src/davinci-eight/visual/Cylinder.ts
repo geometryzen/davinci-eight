@@ -1,25 +1,27 @@
 import direction from './direction';
-import { Color } from '../core/Color';
+import Color from '../core/Color';
 import CylinderGeometry from '../geometries/CylinderGeometry';
 import CylinderGeometryOptions from '../geometries/CylinderGeometryOptions';
 import CylinderOptions from './CylinderOptions';
-import { Engine } from '../core/Engine';
-import { Geometric3 } from '../math/Geometric3';
+import Engine from '../core/Engine';
+import Geometric3 from '../math/Geometric3';
+// import geometryModeFromOptions from './geometryModeFromOptions';
 import isDefined from '../checks/isDefined';
-import { MeshMaterial } from '../materials/MeshMaterial';
-import MeshMaterialOptions from '../materials/MeshMaterialOptions';
+import materialFromOptions from './materialFromOptions';
 import mustBeEngine from './mustBeEngine';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeObject from '../checks/mustBeObject';
-import { RigidBody } from './RigidBody';
+import offsetFromOptions from './offsetFromOptions';
+import RigidBody from './RigidBody';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
+import SimplexMode from '../geometries/SimplexMode';
+import simplexModeFromOptions from './simplexModeFromOptions';
 import tiltFromOptions from './tiltFromOptions';
 import { R3 } from '../math/R3';
 import vec from '../math/R3';
 
 const canonicalAxis = vec(0, 1, 0);
-const zero = vec(0, 0, 0);
 
 /**
  *
@@ -35,22 +37,32 @@ export class Cylinder extends RigidBody {
         super(mustBeEngine(engine, 'Cylinder'), levelUp + 1);
         this.setLoggingName('Cylinder');
         this.initialAxis = direction(options, canonicalAxis);
+        // const geoMode = geometryModeFromOptions(options);
         // The shape is created un-stressed and then parameters drive the scaling.
         // The scaling matrix takes into account the initial tilt from the standard configuration.
         // const stress = Vector3.vector(1, 1, 1)
 
-        const geoOptions: CylinderGeometryOptions = {};
+        const geoOptions: CylinderGeometryOptions = { kind: 'CylinderGeometry' };
+        // geoOptions.mode = geoMode;
+        geoOptions.offset = offsetFromOptions(options);
         geoOptions.tilt = tiltFromOptions(options, canonicalAxis);
-        geoOptions.offset = zero;
         geoOptions.openCap = options.openCap;
         geoOptions.openBase = options.openBase;
         geoOptions.openWall = options.openWall;
-        const geometry = new CylinderGeometry(engine, geoOptions);
-        this.geometry = geometry;
-        geometry.release();
 
-        const matOptions: MeshMaterialOptions = null;
-        const material = new MeshMaterial(engine, matOptions);
+        const cachedGeometry = engine.getCacheGeometry(geoOptions);
+        if (cachedGeometry && cachedGeometry instanceof CylinderGeometry) {
+            this.geometry = cachedGeometry;
+            cachedGeometry.release();
+        }
+        else {
+            const geometry = new CylinderGeometry(engine, geoOptions);
+            this.geometry = geometry;
+            geometry.release();
+            engine.putCacheGeometry(geoOptions, geometry);
+        }
+
+        const material = materialFromOptions(engine, simplexModeFromOptions(options, SimplexMode.TRIANGLE), options);
         this.material = material;
         material.release();
 

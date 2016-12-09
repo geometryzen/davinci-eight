@@ -1,3 +1,4 @@
+import BufferObjects from './BufferObjects';
 import ContextManager from './ContextManager';
 import mustBeUndefined from '../checks/mustBeUndefined';
 import { ShareableContextConsumer } from './ShareableContextConsumer';
@@ -10,6 +11,9 @@ export default class IndexBuffer extends ShareableContextConsumer {
 
     private webGLBuffer: WebGLBuffer;
 
+    /**
+     * 
+     */
     constructor(contextManager: ContextManager, private data: Uint16Array, private usage: Usage, levelUp = 0) {
         super(contextManager);
         this.setLoggingName('IndexBuffer');
@@ -18,6 +22,20 @@ export default class IndexBuffer extends ShareableContextConsumer {
         }
     }
 
+    /**
+     * 
+     */
+    protected resurrector(levelUp: number): void {
+        super.resurrector(levelUp + 1);
+        this.setLoggingName('IndexBuffer');
+        if (levelUp === 0) {
+            this.synchUp();
+        }
+    }
+
+    /**
+     * 
+     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();
@@ -31,7 +49,7 @@ export default class IndexBuffer extends ShareableContextConsumer {
         if (gl) {
             if (this.webGLBuffer) {
                 if (this.data) {
-                    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, this.data, this.usage);
+                    gl.bufferData(BufferObjects.ELEMENT_ARRAY_BUFFER, this.data, this.usage);
                 }
             }
         }
@@ -76,14 +94,14 @@ export default class IndexBuffer extends ShareableContextConsumer {
     bind(): void {
         const gl = this.gl;
         if (gl) {
-            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.webGLBuffer);
+            gl.bindBuffer(BufferObjects.ELEMENT_ARRAY_BUFFER, this.webGLBuffer);
         }
     }
 
     unbind(): void {
         const gl = this.gl;
         if (gl) {
-            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
+            gl.bindBuffer(BufferObjects.ELEMENT_ARRAY_BUFFER, null);
         }
     }
 }

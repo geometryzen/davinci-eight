@@ -2033,3 +2033,5 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
         return Geometric3.spinor(yz, zx, xy, 0);
     }
 }
+
+export default Geometric3;

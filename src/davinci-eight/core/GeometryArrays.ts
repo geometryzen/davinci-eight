@@ -2,7 +2,7 @@ import { Material } from './Material';
 import Attribute from './Attribute';
 import ContextManager from './ContextManager';
 import GeometryBase from './GeometryBase';
-import mustBeObject from '../checks/mustBeObject';
+import mustBeNonNullObject from '../checks/mustBeNonNullObject';
 import Primitive from './Primitive';
 import SpinorE3 from '../math/SpinorE3';
 import Usage from './Usage';
@@ -28,10 +28,12 @@ export default class GeometryArrays extends GeometryBase {
     private attributes: { [name: string]: Attribute };
     private vbo: VertexBuffer;
 
+    /**
+     * 
+     */
     constructor(contextManager: ContextManager, primitive: Primitive, options: { order?: string[]; tilt?: SpinorE3 } = {}, levelUp = 0) {
         super(options.tilt, contextManager, levelUp + 1);
-        mustBeObject('contextManager', contextManager);
-        mustBeObject('primitive', primitive);
+        mustBeNonNullObject('primitive', primitive);
         this.setLoggingName('GeometryArrays');
         this.attributes = {};
         // FIXME: order as an option
@@ -48,12 +50,25 @@ export default class GeometryArrays extends GeometryBase {
         }
     }
 
+    /**
+     * 
+     */
+    protected resurrector(levelUp: number): void {
+        super.resurrector(levelUp + 1);
+        this.setLoggingName('GeometryArrays');
+        this.vbo.addRef();
+        if (levelUp === 0) {
+            this.synchUp();
+        }
+    }
+    /**
+     * 
+     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();
         }
         this.vbo.release();
-        this.vbo = void 0;
         super.destructor(levelUp + 1);
     }
 

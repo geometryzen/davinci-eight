@@ -36,35 +36,43 @@ import uuid4 from './uuid4';
  *
  */
 export class ShareableBase implements Shareable {
-
     /**
      *
      */
-    private _refCount: number = 1;
-
+    private _refCount: number;
     /**
      *
      */
     private _type: string;
-
     /**
      * The unique identifier used for reference count monitoring.
      */
     private _uuid: string = uuid4().generate();
-
     /**
-     * <p>
      * Keeps track of the level in the hierarchy of classes.
-     * </p>
      */
-    private _levelUp: number = -1;
-
+    private _levelUp: number;
     /**
      *
      */
     constructor() {
         this._type = 'ShareableBase';
-        this._levelUp += 1;
+        this._levelUp = 0;
+        this._refCount = 1;
+        refChange(this._uuid, this._type, +1);
+    }
+
+    /**
+     * Experimental
+     * 
+     * restore (a zombie) to life.
+     */
+    protected resurrector(levelUp: number, grumble = false): void {
+        if (grumble) {
+            throw new Error("`protected resurrector(levelUp: number): void` method should be implemented by `" + this._type + "`.");
+        }
+        this._levelUp = 0;
+        this._refCount = 1;
         refChange(this._uuid, this._type, +1);
     }
 
@@ -119,9 +127,15 @@ export class ShareableBase implements Shareable {
      * @returns The new value of the reference count.
      */
     public addRef(): number {
-        this._refCount++;
-        refChange(this._uuid, this._type, +1);
-        return this._refCount;
+        if (this.isZombie()) {
+            this.resurrector(0, true);
+            return this._refCount;
+        }
+        else {
+            this._refCount++;
+            refChange(this._uuid, this._type, +1);
+            return this._refCount;
+        }
     }
 
     /**

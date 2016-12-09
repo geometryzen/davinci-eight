@@ -74,7 +74,19 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
             this.synchUp();
         }
     }
-
+    /**
+     * 
+     */
+    protected resurrector(levelUp: number): void {
+        super.resurrector(levelUp + 1);
+        this.setLoggingName('ShaderMaterial');
+        if (levelUp === 0) {
+            this.synchUp();
+        }
+    }
+    /**
+     * 
+     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();
@@ -97,7 +109,7 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
             const aLen: number = gl.getProgramParameter(this._program, gl.ACTIVE_ATTRIBUTES);
             for (let a = 0; a < aLen; a++) {
                 const attribInfo: WebGLActiveInfo = gl.getActiveAttrib(this._program, a);
-                const attrib = new Attrib(attribInfo);
+                const attrib = new Attrib(this.contextManager, attribInfo);
                 this._attributesByName[attribInfo.name] = attrib;
                 this._attributesByIndex.push(attrib);
             }
@@ -202,7 +214,7 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
             return void 0;
         }
     }
-    set attributeNames(unused) {
+    set attributeNames(unused: string[]) {
         throw new Error(readOnly('attributeNames').message);
     }
 

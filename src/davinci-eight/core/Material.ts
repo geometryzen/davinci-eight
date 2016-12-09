@@ -64,3 +64,5 @@ export interface Material extends Facet, FacetVisitor, ContextConsumer {
 
     use(): Material;
 }
+
+export default Material;

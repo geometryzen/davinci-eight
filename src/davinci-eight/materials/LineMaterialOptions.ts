@@ -1,19 +1,11 @@
+import MaterialKey from '../core/MaterialKey';
 import MaterialOptions from './MaterialOptions';
+import LineMaterial from './LineMaterial';
 
 /**
  *
  */
-interface LineMaterialOptions extends MaterialOptions {
-
-  /**
-   *
-   */
-  attributes?: { [name: string]: number };
-
-  /**
-   *
-   */
-  uniforms?: { [name: string]: string };
+export interface LineMaterialOptions extends MaterialOptions, MaterialKey<LineMaterial> {
 }
 
 export default LineMaterialOptions;

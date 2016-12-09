@@ -1,3 +1,4 @@
+import BufferObjects from './BufferObjects';
 import ContextManager from './ContextManager';
 import mustBeUndefined from '../checks/mustBeUndefined';
 import { ShareableContextConsumer } from './ShareableContextConsumer';
@@ -6,10 +7,15 @@ import Usage from './Usage';
 /**
  * A wrapper around a WebGLBuffer with binding to ARRAY_BUFFER.
  */
-export default class VertexBuffer extends ShareableContextConsumer {
-
+export class VertexBuffer extends ShareableContextConsumer {
+    /**
+     * The underlying WebGL buffer resource.
+     */
     private webGLBuffer: WebGLBuffer;
 
+    /**
+     * 
+     */
     constructor(contextManager: ContextManager, private data: Float32Array, private usage: Usage, levelUp = 0) {
         super(contextManager);
         this.setLoggingName('VertexBuffer');
@@ -18,6 +24,20 @@ export default class VertexBuffer extends ShareableContextConsumer {
         }
     }
 
+    /**
+     * 
+     */
+    protected resurrector(levelUp: number): void {
+        super.resurrector(levelUp + 1);
+        this.setLoggingName('VertexBuffer');
+        if (levelUp === 0) {
+            this.synchUp();
+        }
+    }
+
+    /**
+     * 
+     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();
@@ -31,7 +51,7 @@ export default class VertexBuffer extends ShareableContextConsumer {
         if (gl) {
             if (this.webGLBuffer) {
                 if (this.data) {
-                    gl.bufferData(gl.ARRAY_BUFFER, this.data, this.usage);
+                    gl.bufferData(BufferObjects.ARRAY_BUFFER, this.data, this.usage);
                 }
             }
         }
@@ -76,14 +96,16 @@ export default class VertexBuffer extends ShareableContextConsumer {
     bind(): void {
         const gl = this.gl;
         if (gl) {
-            gl.bindBuffer(gl.ARRAY_BUFFER, this.webGLBuffer);
+            gl.bindBuffer(BufferObjects.ARRAY_BUFFER, this.webGLBuffer);
         }
     }
 
     unbind() {
         const gl = this.gl;
         if (gl) {
-            gl.bindBuffer(gl.ARRAY_BUFFER, null);
+            gl.bindBuffer(BufferObjects.ARRAY_BUFFER, null);
         }
     }
 }
+
+export default VertexBuffer;

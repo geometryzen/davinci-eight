@@ -3,12 +3,53 @@ import BoxGeometry from './BoxGeometry';
 import BoxGeometryOptions from './BoxGeometryOptions';
 import Vector3 from '../math/Vector3';
 import Spinor3 from '../math/Spinor3';
+import refChange from '../core/refChange';
 
 const e1 = Vector3.vector(1, 0, 0);
 const e2 = Vector3.vector(0, 1, 0);
 const e3 = Vector3.vector(0, 0, 1);
 
 describe("BoxGeometry", function () {
+    it("constructor-destructor", function () {
+        refChange('quiet');
+        refChange('reset');
+        refChange('quiet');
+        refChange('start');
+        const engine = new Engine();
+        const options: BoxGeometryOptions = {};
+        const geometry = new BoxGeometry(engine, options);
+        expect(geometry.scaling.isOne()).toBe(true);
+        geometry.release();
+        engine.release();
+        expect(geometry.isZombie()).toBe(true);
+        refChange('stop');
+        refChange('dump');
+    });
+
+    it("resurrector-destructor", function () {
+        refChange('quiet');
+        refChange('reset');
+        refChange('quiet');
+        refChange('start');
+        const engine = new Engine();
+        const options: BoxGeometryOptions = {};
+        const geometry = new BoxGeometry(engine, options);
+        expect(geometry.scaling.isOne()).toBe(true);
+        geometry.release();
+        engine.release();
+        refChange('stop');
+        refChange('dump');
+        refChange('reset');
+        refChange('quiet');
+        refChange('start');
+        expect(geometry.isZombie()).toBe(true);
+        geometry.addRef();
+        geometry.release();
+        refChange('stop');
+        refChange('dump');
+        refChange('reset');
+    });
+
     describe("scaling", function () {
         it("scaling should be 1 when no tilt supplied", function () {
             const engine = new Engine();

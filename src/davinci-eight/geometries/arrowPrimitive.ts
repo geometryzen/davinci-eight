@@ -8,21 +8,15 @@ import Vector3 from '../math/Vector3';
 import Spinor3 from '../math/Spinor3';
 
 /**
- * Computes the VertexArrays for the specified options.
- * A side effect is to modify the options according to the defaults used.
- * This is important in order to support scaling.
+ * 
  */
-export default function arrowPrimitive(options: ArrowGeometryOptions = {}): Primitive {
+export default function arrowPrimitive(options: ArrowGeometryOptions = { kind: 'ArrowGeometry' }): Primitive {
     mustBeObject('options', options);
 
     const builder = new ArrowBuilder(Vector3.vector(0, 1, 0), Vector3.vector(0, 0, 1), false);
 
-    // builder.heightCone;
     if (isDefined(options.radiusCone)) {
         builder.radiusCone = mustBeNumber("options.radiusCone", options.radiusCone);
-    }
-    else {
-        options.radiusCone = builder.radiusCone;
     }
 
     builder.stress.copy(isDefined(options.stress) ? options.stress : Vector3.vector(1, 1, 1));

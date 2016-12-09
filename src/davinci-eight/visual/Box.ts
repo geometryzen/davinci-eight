@@ -12,6 +12,7 @@ import mustBeEngine from './mustBeEngine';
 import { RigidBody } from './RigidBody';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
+import SimplexMode from '../geometries/SimplexMode';
 import simplexModeFromOptions from './simplexModeFromOptions';
 
 export class Box extends RigidBody {
@@ -26,7 +27,7 @@ export class Box extends RigidBody {
         // The scaling matrix takes into account the initial tilt from the standard configuration.
         // const stress = Vector3.vector(1, 1, 1)
 
-        const geoOptions: BoxGeometryOptions = {};
+        const geoOptions: BoxGeometryOptions = { kind: 'BoxGeometry' };
         geoOptions.mode = geoMode;
         geoOptions.tilt = options.tilt;
         geoOptions.openBack = options.openBack;
@@ -36,11 +37,19 @@ export class Box extends RigidBody {
         geoOptions.openRight = options.openRight;
         geoOptions.openCap = options.openCap;
 
-        const geometry = new BoxGeometry(engine, geoOptions);
-        this.geometry = geometry;
-        geometry.release();
+        const cachedGeometry = engine.getCacheGeometry(geoOptions);
+        if (cachedGeometry && cachedGeometry instanceof BoxGeometry) {
+            this.geometry = cachedGeometry;
+            cachedGeometry.release();
+        }
+        else {
+            const geometry = new BoxGeometry(engine, geoOptions);
+            this.geometry = geometry;
+            geometry.release();
+            engine.putCacheGeometry(geoOptions, geometry);
+        }
 
-        const material = materialFromOptions(engine, simplexModeFromOptions(options), options);
+        const material = materialFromOptions(engine, simplexModeFromOptions(options, SimplexMode.TRIANGLE), options);
         this.material = material;
         material.release();
 
@@ -58,6 +67,9 @@ export class Box extends RigidBody {
         this.synchUp();
     }
 
+    /**
+     * 
+     */
     protected destructor(levelUp: number): void {
         this.cleanUp();
         super.destructor(levelUp + 1);

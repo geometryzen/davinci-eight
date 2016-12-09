@@ -299,7 +299,7 @@ class SphereBuilder extends SimplexPrimitivesBuilder {
     }
 }
 
-function spherePrimitive(options: SphereGeometryOptions = {}): Primitive {
+function spherePrimitive(options: SphereGeometryOptions = { kind: 'SphereGeometry' }): Primitive {
 
     const builder = new SphereBuilder();
 
@@ -417,7 +417,7 @@ function spherePrimitive(options: SphereGeometryOptions = {}): Primitive {
  */
 export default class SphereGeometry extends GeometryElements {
 
-    constructor(contextManager: ContextManager, options: SphereGeometryOptions = {}, levelUp = 0) {
+    constructor(contextManager: ContextManager, options: SphereGeometryOptions = { kind: 'SphereGeometry' }, levelUp = 0) {
         super(contextManager, spherePrimitive(options), options, levelUp + 1);
         this.setLoggingName('SphereGeometry');
         if (levelUp === 0) {

@@ -19,15 +19,24 @@ export default class Tetrahedron extends RigidBody {
         super(mustBeEngine(engine, 'Tetrahedron'), levelUp + 1);
         this.setLoggingName('Tetrahedron');
 
-        const geoOptions: TetrahedronGeometryOptions = {};
-        const geometry = new TetrahedronGeometry(engine, geoOptions);
+        const geoOptions: TetrahedronGeometryOptions = { kind: 'TetrahedronGeometry' };
+
+        const cachedGeometry = engine.getCacheGeometry(geoOptions);
+        if (cachedGeometry && cachedGeometry instanceof TetrahedronGeometry) {
+            this.geometry = cachedGeometry;
+            cachedGeometry.release();
+        }
+        else {
+            const geometry = new TetrahedronGeometry(engine, geoOptions);
+            this.geometry = geometry;
+            geometry.release();
+            engine.putCacheGeometry(geoOptions, geometry);
+        }
 
         const matOptions: MeshMaterialOptions = null;
         const material = new MeshMaterial(engine, matOptions);
 
-        this.geometry = geometry;
         this.material = material;
-        geometry.release();
         material.release();
 
         if (options.color) {
