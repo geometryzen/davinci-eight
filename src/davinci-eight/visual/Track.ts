@@ -1,15 +1,12 @@
 import BeginMode from '../core/BeginMode';
-import { Color } from '../core/Color';
+import Color from '../core/Color';
 import ContextManager from '../core/ContextManager';
 import DataType from '../core/DataType';
-import { Engine } from '../core/Engine';
-import { FacetVisitor } from '../core/FacetVisitor';
-import { Geometry } from '../core/Geometry';
-import { LineMaterial } from '../materials/LineMaterial';
-import { Material } from '../core/Material';
+import Geometry from '../core/Geometry';
+import LineMaterial from '../materials/LineMaterial';
+import Material from '../core/Material';
 import Matrix4 from '../math/Matrix4';
-import { Mesh } from '../core/Mesh';
-import mustBeEngine from './mustBeEngine';
+import Mesh from '../core/Mesh';
 import setColorOption from './setColorOption';
 import Usage from '../core/Usage';
 import VectorE3 from '../math/VectorE3';
@@ -90,9 +87,10 @@ class TrackGeometry implements Geometry {
         }
         return this.refCount;
     }
-    setUniforms(visitor: FacetVisitor): void {
-        // Does nothing.
-    }
+
+    /**
+     * 
+     */
     addPoint(x: number, y: number, z: number): void {
         if (this.count === this.N) {
             this.N = this.N * 2;
@@ -109,6 +107,10 @@ class TrackGeometry implements Geometry {
         this.count++;
         this.dirty = true;
     }
+
+    /**
+     * 
+     */
     erase(): void {
         this.count = 0;
     }
@@ -118,15 +120,20 @@ interface TrackOptions {
     color?: { r: 0; g: 0; b: 0 };
 }
 
+/**
+ * 
+ */
 export class Track extends Mesh<TrackGeometry, LineMaterial> {
-    constructor(engine: Engine, options: TrackOptions = {}, levelUp = 0) {
-        super(new TrackGeometry(engine), new LineMaterial(engine), mustBeEngine(engine, 'Track'), levelUp + 1);
+    constructor(contextManager: ContextManager, options: TrackOptions = {}, levelUp = 0) {
+        // The TrackGeometry cannot be cached because it is dynamic.
+        // The LineMaterial can be cached.
+        super(new TrackGeometry(contextManager), new LineMaterial(contextManager), contextManager, levelUp + 1);
         this.setLoggingName('Track');
-
+        // Adjust geometry reference count resulting from construction.
         const geometry = this.geometry;
         geometry.release();
         geometry.release();
-
+        // Adjust material reference count resulting from construction.
         const material = this.material;
         material.release();
         material.release();
@@ -137,12 +144,20 @@ export class Track extends Mesh<TrackGeometry, LineMaterial> {
             this.synchUp();
         }
     }
+
+    /**
+     * 
+     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();
         }
         super.destructor(levelUp + 1);
     }
+
+    /**
+     * 
+     */
     addPoint(point: VectorE3): void {
         if (point) {
             const geometry = this.geometry;
@@ -150,6 +165,10 @@ export class Track extends Mesh<TrackGeometry, LineMaterial> {
             geometry.release();
         }
     }
+
+    /**
+     * 
+     */
     clear(): void {
         const geometry = this.geometry;
         geometry.erase();

@@ -8,7 +8,6 @@ import { Material } from './Material';
 import AbstractMesh from '../core/AbstractMesh';
 import Matrix4 from '../math/Matrix4';
 import { ModelFacet } from '../facets/ModelFacet';
-import mustBeObject from '../checks/mustBeObject';
 import notSupported from '../i18n/notSupported';
 import Texture from './Texture';
 import TextureFacet from '../facets/TextureFacet';
@@ -18,12 +17,19 @@ const TEXTURE_FACET_NAME = 'image';
 const MODEL_FACET_NAME = 'model';
 
 /**
- *
+ * The standard pairing of a Geometry and a Material.
  */
 export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M> implements AbstractMesh<G, M> {
-
+    /**
+     * Initializes this Mesh with a ColorFacet ('color'), a TextureFacet ('image'), and a ModelFacet ('model').
+     * 
+     * @param geometry An optional Geometry, which may be supplied later.
+     * @param material An optional Material, which may be supplied later.
+     * @param contextManager
+     * @param levelUp The zero-based level of this instance in an inheritance hierarchy. 
+     */
     constructor(geometry: G, material: M, contextManager: ContextManager, levelUp = 0) {
-        super(geometry, material, mustBeObject('contextManager', contextManager), levelUp + 1);
+        super(geometry, material, contextManager, levelUp + 1);
         this.setLoggingName('Mesh');
 
         this.setFacet(COLOR_FACET_NAME, new ColorFacet());
@@ -111,6 +117,9 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
         }
     }
 
+    /**
+     * Texture (image).
+     */
     get texture(): Texture {
         const facet = <TextureFacet>this.getFacet(TEXTURE_FACET_NAME);
         if (facet) {
@@ -199,3 +208,5 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
         }
     }
 }
+
+export default Mesh;

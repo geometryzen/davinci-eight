@@ -15,7 +15,8 @@ export class Coords extends VectorN<number> {
   }
 
   /**
-   * @param n
+   * Sets any coordinate whose absolute value is less than pow(10, -n) times the absolute value of the largest coordinate.
+   * @param n The exponent in the power.
    */
   approx(n: number): void {
     let max = 0;

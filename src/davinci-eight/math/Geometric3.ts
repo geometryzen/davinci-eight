@@ -9,13 +9,10 @@ import gauss from './gauss';
 import GeometricE3 from './GeometricE3';
 import isDefined from '../checks/isDefined';
 import isScalarG3 from './isScalarG3';
+import isVectorG3 from './isVectorG3';
 import lcoG3 from './lcoG3';
 import maskG3 from './maskG3';
 import mulE3 from './mulE3';
-import mulG3 from './mulG3';
-import mustBeNonNullObject from '../checks/mustBeNonNullObject';
-import mustBeNumber from '../checks/mustBeNumber';
-import mustSatisfy from '../checks/mustSatisfy';
 import randomRange from './randomRange';
 import readOnly from '../i18n/readOnly';
 import rcoG3 from './rcoG3';
@@ -287,9 +284,8 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      *
      * @param v
      * @param α
-     * @returns <code>this</code>
      */
-    addVector(v: VectorE3, α = 1): Geometric3 {
+    addVector(v: VectorE3, α = 1): this {
         this.x += v.x * α;
         this.y += v.y * α;
         this.z += v.z * α;
@@ -303,9 +299,8 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      *
      * @param a
      * @param b
-     * @returns <code>this</code>
      */
-    add2(a: GeometricE3, b: GeometricE3) {
+    add2(a: GeometricE3, b: GeometricE3): this {
         this.a = a.a + b.a;
         this.x = a.x + b.x;
         this.y = a.y + b.y;
@@ -317,23 +312,23 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
         return this;
     }
 
-    adj() {
+    adj(): this {
         // TODO
         return this;
     }
 
     /**
-     *
+     * Sets this multivector to the angle, defined as the bivector part of the logarithm.
      */
-    angle() {
+    angle(): this {
         return this.log().grade(2);
     }
 
     /**
+     * Sets any coordinate whose absolute value is less than pow(10, -n) times the absolute value of the largest coordinate.
      * @param n
-     * @returns
      */
-    approx(n: number) {
+    approx(n: number): this {
         super.approx(n);
         return this;
     }
@@ -341,7 +336,7 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
     /**
      * @returns <code>copy(this)</code>
      */
-    clone() {
+    clone(): Geometric3 {
         return Geometric3.copy(this);
     }
 
@@ -349,10 +344,8 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * <p>
      * <code>this ⟼ conjugate(this)</code>
      * </p>
-     *
-     * @returns <code>this</code>
      */
-    conj() {
+    conj(): this {
         // FIXME: This is only the bivector part.
         // Also need to think about various involutions.
         this.yz = -this.yz;
@@ -364,10 +357,9 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
     /**
      * Copies the coordinate values into this <code>Geometric3</code>.
      *
-     * @param coordinates
-     * @returns <code>this</code>
+     * @param coordinates The coordinates in order a, x, y, z, yz, zx, xy, b.
      */
-    copyCoordinates(coordinates: number[]) {
+    copyCoordinates(coordinates: number[]): this {
         // Copy using the setters so that the modified flag is updated.
         this.a = coordinates[COORD_SCALAR];
         this.x = coordinates[COORD_X];
@@ -382,7 +374,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
 
     /**
      * @param point
-     * @returns
      */
     distanceTo(point: VectorE3): number {
         if (isDefined(point)) {
@@ -415,9 +406,8 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * </p>
      *
      * @param m
-     * @returns <code>this</code>
      */
-    lco(m: GeometricE3) {
+    lco(m: GeometricE3): this {
         return this.lco2(this, m);
     }
 
@@ -428,9 +418,8 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      *
      * @param a
      * @param b
-     * @return <code>this</code>
      */
-    lco2(a: GeometricE3, b: GeometricE3) {
+    lco2(a: GeometricE3, b: GeometricE3): this {
         return lcoG3(a, b, this);
     }
 
@@ -440,9 +429,8 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * </p>
      *
      * @param m
-     * @return <code>this</code>
      */
-    rco(m: GeometricE3) {
+    rco(m: GeometricE3): this {
         return this.rco2(this, m);
     }
 
@@ -453,9 +441,8 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      *
      * @param a
      * @param b
-     * @returns <code>this</code>
      */
-    rco2(a: GeometricE3, b: GeometricE3) {
+    rco2(a: GeometricE3, b: GeometricE3): this {
         return rcoG3(a, b, this);
     }
 
@@ -464,10 +451,9 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * <code>this ⟼ copy(v)</code>
      * </p>
      *
-     * @param M
-     * @returns <code>this</code>
+     * @param M The multivector to be copied.
      */
-    copy(M: GeometricE3) {
+    copy(M: GeometricE3): this {
         this.a = M.a;
         this.x = M.x;
         this.y = M.y;
@@ -482,11 +468,20 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
 
     /**
      * Sets this multivector to the value of the scalar, α.
+     * The non-scalar components are set to zero.
      *
-     * @param α
+     * @param α The scalar to be copied.
      */
-    copyScalar(α: number) {
-        return this.zero().addScalar(α);
+    copyScalar(α: number): this {
+        this.setCoordinate(COORD_SCALAR, α, 'a');
+        this.setCoordinate(COORD_X, 0, 'x');
+        this.setCoordinate(COORD_Y, 0, 'y');
+        this.setCoordinate(COORD_Z, 0, 'z');
+        this.setCoordinate(COORD_YZ, 0, 'yz');
+        this.setCoordinate(COORD_ZX, 0, 'zx');
+        this.setCoordinate(COORD_XY, 0, 'xy');
+        this.setCoordinate(COORD_PSEUDO, 0, 'b');
+        return this;
     }
 
     /**
@@ -495,23 +490,7 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      *
      * @param spinor The spinor to be copied.
      */
-    copySpinor(spinor: SpinorE3): Geometric3 {
-        const contextBuilder = () => 'copySpinor';
-        mustBeNonNullObject('spinor', spinor, contextBuilder);
-        mustBeNumber('spinor.a', spinor.a, contextBuilder);
-        mustBeNumber('spinor.yz', spinor.yz, contextBuilder);
-        mustBeNumber('spinor.zx', spinor.zx, contextBuilder);
-        mustBeNumber('spinor.xy', spinor.xy, contextBuilder);
-        return this.copySpinorNoChecks(spinor);
-    }
-
-    /**
-     * Copies the spinor argument value into this multivector.
-     * The non-spinor components are set to zero.
-     *
-     * @param spinor The spinor to be copied.
-     */
-    copySpinorNoChecks(spinor: SpinorE3): Geometric3 {
+    copySpinor(spinor: SpinorE3): this {
         this.setCoordinate(COORD_SCALAR, spinor.a, 'a');
         this.setCoordinate(COORD_X, 0, 'x');
         this.setCoordinate(COORD_Y, 0, 'y');
@@ -529,22 +508,7 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      *
      * @param vector The vector to be copied.
      */
-    copyVector(vector: VectorE3): Geometric3 {
-        const contextBuilder = () => 'copyVector';
-        mustBeNonNullObject('vector', vector, contextBuilder);
-        mustBeNumber('vector.x', vector.x, contextBuilder);
-        mustBeNumber('vector.y', vector.y, contextBuilder);
-        mustBeNumber('vector.z', vector.z, contextBuilder);
-        return this.copyVectorNoChecks(vector);
-    }
-
-    /**
-     * Copies the vector argument value into this multivector.
-     * The non-vector components are set to zero.
-     *
-     * @param vector The vector to be copied.
-     */
-    copyVectorNoChecks(vector: VectorE3): this {
+    copyVector(vector: VectorE3): this {
         this.setCoordinate(COORD_SCALAR, 0, 'a');
         this.setCoordinate(COORD_X, vector.x, 'x');
         this.setCoordinate(COORD_Y, vector.y, 'y');
@@ -562,7 +526,7 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * <code>this ⟼ -I * (this ^ m)</code>
      * </p>
      */
-    cross(m: GeometricE3): Geometric3 {
+    cross(m: GeometricE3): this {
         this.ext(m);
         this.dual(this).neg();
         return this;
@@ -573,12 +537,15 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * <code>this ⟼ this / m</code>
      * </p>
      *
-     * @param m
-     * @returns <code>this</code>
+     * @param m The multivector dividend.
      */
-    div(m: GeometricE3) {
+    div(m: GeometricE3): this {
+        // TODO: Optimize vector division too
         if (isScalarG3(m)) {
             return this.divByScalar(m.a);
+        }
+        else if (isVectorG3(m)) {
+            return this.divByVector(m);
         }
         else {
             const α = m.a;
@@ -649,10 +616,9 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * <code>this ⟼ this / α</code>
      * </p>
      *
-     * @param α
-     * @returns <code>this</code>
+     * @param α The scalar dividend.
      */
-    divByScalar(α: number) {
+    divByScalar(α: number): this {
         this.a /= α;
         this.x /= α;
         this.y /= α;
@@ -664,25 +630,32 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
         return this;
     }
 
+    divByVector(vector: VectorE3): this {
+        const x = vector.x;
+        const y = vector.y;
+        const z = vector.z;
+        const squaredNorm = x * x + y * y + z * z;
+        return this.mulByVector(vector).divByScalar(squaredNorm);
+    }
+
     /**
      * <p>
      * <code>this ⟼ a / b</code>
      * </p>
      *
-     * @param a
-     * @param b
-     * @returns <code>this</code>
+     * @param a The numerator.
+     * @param b The denominator.
      */
-    div2(a: SpinorE3, b: SpinorE3) {
+    div2(a: SpinorE3, b: SpinorE3): this {
         // FIXME: Generalize
-        let a0 = a.a;
-        let a1 = a.yz;
-        let a2 = a.zx;
-        let a3 = a.xy;
-        let b0 = b.a;
-        let b1 = b.yz;
-        let b2 = b.zx;
-        let b3 = b.xy;
+        const a0 = a.a;
+        const a1 = a.yz;
+        const a2 = a.zx;
+        const a3 = a.xy;
+        const b0 = b.a;
+        const b1 = b.yz;
+        const b2 = b.zx;
+        const b3 = b.xy;
         // Compare this to the product for Quaternions
         // It would be interesting to DRY this out.
         this.a = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
@@ -699,9 +672,8 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * </p>
      *
      * @param m
-     * @returns <code>this</code>
      */
-    dual(m: GeometricE3) {
+    dual(m: GeometricE3): this {
         const w = -m.b;
         const x = -m.yz;
         const y = -m.zx;
@@ -742,7 +714,7 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * <code>this ⟼ e<sup>this</sup></code>
      * </p>
      */
-    exp() {
+    exp(): this {
         // It's always the case that the scalar commutes with every other
         // grade of the multivector, so we can pull it out the front.
         const expW = exp(this.a);
@@ -778,7 +750,7 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * Computes the inverse of this multivector. 
      * </p>
      */
-    inv() {
+    inv(): this {
         const α = this.a;
         const x = this.x;
         const y = this.y;
@@ -838,9 +810,8 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      *
      * @param target
      * @param α
-     * @returns <code>this</code>
      */
-    lerp(target: GeometricE3, α: number) {
+    lerp(target: GeometricE3, α: number): this {
         this.a += (target.a - this.a) * α;
         this.x += (target.x - this.x) * α;
         this.y += (target.y - this.y) * α;
@@ -860,9 +831,8 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * @param a
      * @param b
      * @param α
-     * @returns <code>this</code>
      */
-    lerp2(a: GeometricE3, b: GeometricE3, α: number) {
+    lerp2(a: GeometricE3, b: GeometricE3, α: number): this {
         this.copy(a).lerp(b, α);
         return this;
     }
@@ -871,10 +841,8 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * <p>
      * <code>this ⟼ log(this)</code>
      * </p>
-     *
-     * @returns <code>this</code>
      */
-    log() {
+    log(): this {
         const α = this.a;
         const x = this.yz;
         const y = this.zx;
@@ -893,8 +861,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * <p>
      * Computes the <em>square root</em> of the <em>squared norm</em>.
      * </p>
-     *
-     * @returns
      */
     magnitude(): number {
         return sqrt(this.squaredNormSansUnits());
@@ -913,10 +879,41 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * </p>
      *
      * @param m
-     * @returns <code>this</code>
      */
-    mul(m: GeometricE3) {
+    mul(m: GeometricE3): this {
         return this.mul2(this, m);
+    }
+
+    private mulByVector(vector: VectorE3): this {
+        const a0 = this.a;
+        const a1 = this.x;
+        const a2 = this.y;
+        const a3 = this.z;
+        const a4 = this.xy;
+        const a5 = this.yz;
+        const a6 = this.zx;
+        const a7 = this.b;
+
+        const b0 = 0;
+        const b1 = vector.x;
+        const b2 = vector.y;
+        const b3 = vector.z;
+        const b4 = 0;
+        const b5 = 0;
+        const b6 = 0;
+        const b7 = 0;
+
+        // TODO: substitute a cheaper multiplication function.
+        this.a = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 0);
+        this.x = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 1);
+        this.y = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 2);
+        this.z = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 3);
+        this.xy = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 4);
+        this.yz = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 5);
+        this.zx = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 6);
+        this.b = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 7);
+
+        return this;
     }
 
     /**
@@ -926,10 +923,35 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      *
      * @param a
      * @param b
-     * @returns <code>this</code>
      */
-    mul2(a: GeometricE3, b: GeometricE3): Geometric3 {
-        mulG3(a, b, this._coords);
+    mul2(a: GeometricE3, b: GeometricE3): this {
+        const a0 = a.a;
+        const a1 = a.x;
+        const a2 = a.y;
+        const a3 = a.z;
+        const a4 = a.xy;
+        const a5 = a.yz;
+        const a6 = a.zx;
+        const a7 = a.b;
+
+        const b0 = b.a;
+        const b1 = b.x;
+        const b2 = b.y;
+        const b3 = b.z;
+        const b4 = b.xy;
+        const b5 = b.yz;
+        const b6 = b.zx;
+        const b7 = b.b;
+
+        this.a = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 0);
+        this.x = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 1);
+        this.y = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 2);
+        this.z = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 3);
+        this.xy = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 4);
+        this.yz = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 5);
+        this.zx = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 6);
+        this.b = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 7);
+
         return this;
     }
 
@@ -937,10 +959,8 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * <p>
      * <code>this ⟼ -1 * this</code>
      * </p>
-     *
-     * @returns <code>this</code>
      */
-    neg() {
+    neg(): this {
         this.a = -this.a;
         this.x = -this.x;
         this.y = -this.y;
@@ -956,10 +976,8 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * <p>
      * <code>this ⟼ sqrt(this * conj(this))</code>
      * </p>
-     *
-     * @returns <code>this</code>
      */
-    norm(): Geometric3 {
+    norm(): this {
         this.a = this.magnitudeSansUnits();
         this.x = 0;
         this.y = 0;
@@ -980,10 +998,8 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * Since the metric is Euclidean, this will only happen if the multivector is also the
      * <em>zero</em> multivector.
      * </p>
-     *
-     * @returns <code>this</code>
      */
-    normalize(): Geometric3 {
+    normalize(): this {
         const norm: number = this.magnitude();
         if (norm !== 0) {
             this.a = this.a / norm;
@@ -1000,10 +1016,8 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
 
     /**
      * Sets this multivector to the identity element for multiplication, <b>1</b>.
-     *
-     * @returns this
      */
-    one() {
+    one(): this {
         this.a = 1;
         this.x = 0;
         this.y = 0;
@@ -1019,10 +1033,8 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * <p>
      * <code>this ⟼ scp(this, rev(this)) = this | ~this</code>
      * </p>
-     *
-     * @returns <code>this</code>
      */
-    quad(): Geometric3 {
+    quad(): this {
         this.a = this.squaredNormSansUnits();
         this.yz = 0;
         this.zx = 0;
@@ -1101,10 +1113,8 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * <p>
      * <code>this ⟼ rev(this)</code>
      * </p>
-     *
-     * @returns <code>this</code>
      */
-    rev() {
+    rev(): this {
         // reverse has a ++-- structure on the grades.
         this.a = +this.a;
         this.x = +this.x;
@@ -1118,7 +1128,7 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
     }
 
     /**
-     * @returns
+     *
      */
     __tilde__() {
         return Geometric3.copy(this).rev();
@@ -1129,10 +1139,9 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * <code>this ⟼ R * this * rev(R)</code>
      * </p>
      *
-     * @param R
-     * @returns <code>this</code>
+     * @param R the spinor that rotates this multivector.
      */
-    rotate(R: SpinorE3) {
+    rotate(R: SpinorE3): this {
         // FIXME: This only rotates the vector components.
         let x = this.x;
         let y = this.y;
@@ -1161,21 +1170,22 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * @param axis The (unit) vector defining the rotation direction.
      * @param θ The rotation angle in radians when the rotor is applied on both sides as R * M * ~R
      */
-    rotorFromAxisAngle(axis: VectorE3, θ: number) {
-        const contextBuilder = () => { return `rotorFromAxisAngle`; };
-        mustBeNonNullObject('axis', axis, contextBuilder);
-        mustBeNumber('θ', θ, contextBuilder);
+    rotorFromAxisAngle(axis: VectorE3, θ: number): this {
         // Compute the dual of the axis to obtain the corresponding bivector.
-        const x = mustBeNumber('axis.x', axis.x, contextBuilder);
-        const y = mustBeNumber('axis.y', axis.y, contextBuilder);
-        const z = mustBeNumber('axis.z', axis.z, contextBuilder);
+        const x = axis.x;
+        const y = axis.y;
+        const z = axis.z;
         const squaredNorm = x * x + y * y + z * z;
-        mustSatisfy("axis", squaredNorm !== 0, () => { return "|axis| > 0"; }, contextBuilder);
-        const norm = Math.sqrt(squaredNorm);
-        const yz = x / norm;
-        const zx = y / norm;
-        const xy = z / norm;
-        return this.rotorFromGeneratorAngle({ yz, zx, xy }, θ);
+        if (squaredNorm === 1) {
+            return this.rotorFromGeneratorAngle({ yz: x, zx: y, xy: z }, θ);
+        }
+        else {
+            const norm = Math.sqrt(squaredNorm);
+            const yz = x / norm;
+            const zx = y / norm;
+            const xy = z / norm;
+            return this.rotorFromGeneratorAngle({ yz, zx, xy }, θ);
+        }
     }
 
     /**
@@ -1186,16 +1196,16 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      *
      * @param a The starting unit vector
      * @param b The ending unit vector
-     * @returns <code>this</code> The rotor representing a rotation from a to b.
+     * @returns The rotor representing a rotation from a to b.
      */
-    rotorFromDirections(a: VectorE3, b: VectorE3) {
+    rotorFromDirections(a: VectorE3, b: VectorE3): this {
         return this.rotorFromVectorToVector(a, b, void 0);
     }
 
     /**
      * Helper function for rotorFromFrameToFrame.
      */
-    private rotorFromTwoVectors(e1: VectorE3, f1: VectorE3, e2: VectorE3, f2: VectorE3) {
+    private rotorFromTwoVectors(e1: VectorE3, f1: VectorE3, e2: VectorE3, f2: VectorE3): this {
         // FIXME: This creates a lot of temporary objects.
         // Compute the rotor that takes e1 to f1.
         // There is no concern that the two vectors are anti-parallel.
@@ -1213,7 +1223,7 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
     /**
      * 
      */
-    rotorFromFrameToFrame(es: VectorE3[], fs: VectorE3[]) {
+    rotorFromFrameToFrame(es: VectorE3[], fs: VectorE3[]): this {
         // There is instability when the rotation angle is near 180 degrees.
         // So we don't use the lovely formula based upon reciprocal frames.
         // Our algorithm is to first pick the vector that stays most aligned with itself.
@@ -1246,9 +1256,7 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * @param B The (unit) bivector generating the rotation.
      * @param θ The rotation angle in radians when the rotor is applied on both sides as R * M * ~R
      */
-    rotorFromGeneratorAngle(B: BivectorE3, θ: number) {
-        mustBeNonNullObject('B', B);
-        mustBeNumber('θ', θ);
+    rotorFromGeneratorAngle(B: BivectorE3, θ: number): this {
         const φ = θ / 2;
         const yz = B.yz;
         const zx = B.zx;
@@ -1267,33 +1275,31 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
         return this;
     }
 
-    rotorFromVectorToVector(a: VectorE3, b: VectorE3, B: BivectorE3) {
+    rotorFromVectorToVector(a: VectorE3, b: VectorE3, B: BivectorE3): this {
         rotorFromDirections(a, b, B, this);
         return this;
     }
 
     /**
      * <p>
-     * <code>this ⟼ scp(this, m)</code>
+     * <code>this ⟼ scp(this, m) = this | m</code>
      * </p>
      *
      * @param m
-     * @returns <code>this</code>
      */
-    scp(m: GeometricE3) {
+    scp(m: GeometricE3): this {
         return this.scp2(this, m);
     }
 
     /**
      * <p>
-     * <code>this ⟼ scp(a, b)</code>
+     * <code>this ⟼ scp(a, b) = a | b</code>
      * </p>
      *
      * @param a
      * @param b
-     * @returns <code>this</code>
      */
-    scp2(a: GeometricE3, b: GeometricE3) {
+    scp2(a: GeometricE3, b: GeometricE3): this {
         return scpG3(a, b, this);
     }
 
@@ -1304,7 +1310,7 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      *
      * @param α
      */
-    scale(α: number) {
+    scale(α: number): this {
         this.a *= α;
         this.x *= α;
         this.y *= α;
@@ -1321,9 +1327,8 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      *
      * @param target
      * @param α
-     * @returns
      */
-    slerp(target: GeometricE3, α: number) {
+    slerp(target: GeometricE3, α: number): this {
         // TODO
         return this;
     }
@@ -1332,9 +1337,8 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * Applies the diagonal elements of a scaling matrix to this multivector.
      *
      * @param σ
-     * @returns
      */
-    stress(σ: VectorE3) {
+    stress(σ: VectorE3): this {
         this.x *= σ.x;
         this.y *= σ.y;
         this.z *= σ.z;
@@ -1350,9 +1354,8 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      *
      * @param a
      * @param b
-     * @returns <code>this</code>
      */
-    versor(a: VectorE3, b: VectorE3) {
+    versor(a: VectorE3, b: VectorE3): this {
         const ax = a.x;
         const ay = a.y;
         const az = a.z;
@@ -1376,9 +1379,8 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      *
      * @param M
      * @param α
-     * @returns <code>this</code>
      */
-    sub(M: GeometricE3, α = 1) {
+    sub(M: GeometricE3, α = 1): this {
         this.a -= M.a * α;
         this.x -= M.x * α;
         this.y -= M.y * α;
@@ -1468,10 +1470,11 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
     }
 
     /**
-     * @param grade
-     * @returns
+     * Sets this multivector to the result of keeping only the specified grade.
+     * 
+     * @param grade the grade to be retained.
      */
-    grade(grade: number): Geometric3 {
+    grade(grade: number): this {
         switch (grade) {
             case 0: {
                 this.x = 0;
@@ -1529,9 +1532,8 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * </p>
      *
      * @param m
-     * @returns <code>this</code>
      */
-    ext(m: GeometricE3) {
+    ext(m: GeometricE3): this {
         return this.ext2(this, m);
     }
 
@@ -1542,16 +1544,15 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      *
      * @param a
      * @param b
-     * @returns <code>this</code>
      */
-    ext2(a: GeometricE3, b: GeometricE3) {
+    ext2(a: GeometricE3, b: GeometricE3): this {
         return extG3(a, b, this);
     }
 
     /**
      * Sets this multivector to the identity element for addition, 0.
      */
-    zero() {
+    zero(): this {
         this.a = 0;
         this.x = 0;
         this.y = 0;
@@ -1567,7 +1568,7 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * @param rhs
      * @returns
      */
-    __add__(rhs: number | CartesianG3) {
+    __add__(rhs: number | CartesianG3): Geometric3 {
         const duckR = maskG3(rhs);
         if (duckR) {
             return this.clone().add(duckR);

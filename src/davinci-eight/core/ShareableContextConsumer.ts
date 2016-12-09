@@ -114,3 +114,5 @@ export class ShareableContextConsumer extends ShareableBase implements ContextCo
         return this.contextManager.gl;
     }
 }
+
+export default ShareableContextConsumer;

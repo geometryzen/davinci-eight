@@ -135,10 +135,10 @@ export class Trail extends ShareableBase implements Renderable {
             const iLength: number = this.modulo.size;
             for (let i = 0; i < iLength; i++) {
                 if (Xs[i]) {
-                    X.copyVectorNoChecks(Xs[i]);
+                    X.copyVector(Xs[i]);
                 }
                 if (Rs[i]) {
-                    R.copySpinorNoChecks(Rs[i]);
+                    R.copySpinor(Rs[i]);
                 }
                 mesh.setUniforms();
                 geometry.draw();

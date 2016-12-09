@@ -124,11 +124,9 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
     }
 
     /**
-     * Sets the Material uniforms from the Facets of this composite object,
-     * and from Facets stored by the Geometry and Material.
+     * Sets the Material uniforms from the Facets of this composite object.
      */
     setUniforms(): Drawable<G, M> {
-        const geometry = this._geometry;
         const material = this._material;
         const keys = this.facetMap.keys;
         const keysLength = keys.length;
@@ -137,8 +135,6 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
             const facet = this.facetMap.getWeakRef(key);
             facet.setUniforms(material);
         }
-        geometry.setUniforms(material);
-        material.setUniforms(material);
         return this;
     }
 

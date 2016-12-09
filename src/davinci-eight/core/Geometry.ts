@@ -1,31 +1,18 @@
 import { ContextConsumer } from './ContextConsumer';
-import { Facet } from './Facet';
 import { Material } from './Material';
 
 /**
- *
+ * Encapsulates one or more buffers and a call to drawArrays or drawElements.
  */
-export interface Geometry extends Facet, ContextConsumer {
+export interface Geometry extends ContextConsumer {
     /**
-     * 
-     */
-    on?(eventName: string, callback: (eventName: string, key: string, value: any, source: Geometry) => void): void;
-
-    /**
-     * 
-     */
-    off?(eventName: string, callback: (eventName: string, key: string, value: any, source: Geometry) => void): void;
-
-    /**
-     * 
+     * Binds the attributes of the material to the buffers in this Geometry.
      */
     bind(material: Material): void;
-
     /**
-     * 
+     * Unbinds the attributes of the material from the buffers in this Geometry.
      */
     unbind(material: Material): void;
-
     /**
      * A call to drawArrays or drawElements.
      */

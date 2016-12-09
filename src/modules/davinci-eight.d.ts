@@ -3097,18 +3097,15 @@ declare module EIGHT {
     /**
      * Encapsulates one or more buffers and a call to drawArrays or drawElements.
      */
-    interface Geometry extends Facet, ContextConsumer {
-
+    interface Geometry extends ContextConsumer {
         /**
          * Binds the attributes of the material to the buffers in this Geometry.
          */
         bind(material: Material): void;
-
         /**
          * Unbinds the attributes of the material from the buffers in this Geometry.
          */
         unbind(material: Material): void;
-
         /**
          * Invokes the appropriate drawArrays or drawElements call to send data to the Graphics Pipeline.
          */
@@ -3129,7 +3126,6 @@ declare module EIGHT {
         hasPrincipalScale(name: string): boolean;
         setPrincipalScale(name: string, value: number): void;
         protected setScale(x: number, y: number, z: number): void;
-        setUniforms(visitor: FacetVisitor): void;
     }
 
     /**
@@ -3146,7 +3142,6 @@ declare module EIGHT {
         hasPrincipalScale(name: string): boolean;
         setPrincipalScale(name: string, value: number): void;
         protected setScale(x: number, y: number, z: number): void;
-        setUniforms(visitor: FacetVisitor): void;
     }
 
     /**

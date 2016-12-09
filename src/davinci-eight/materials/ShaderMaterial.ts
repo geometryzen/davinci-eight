@@ -2,18 +2,16 @@ import Attrib from '../core/Attrib';
 import BeginMode from '../core/BeginMode';
 import ContextManager from '../core/ContextManager';
 import DataType from '../core/DataType';
-import { FacetVisitor } from '../core/FacetVisitor';
 import isDefined from '../checks/isDefined';
 import isString from '../checks/isString';
 import isNull from '../checks/isNull';
 import makeWebGLProgram from '../core/makeWebGLProgram';
-import { Material } from '../core/Material';
+import Material from '../core/Material';
 import mustBeArray from '../checks/mustBeArray';
-import mustBeNonNullObject from '../checks/mustBeNonNullObject';
 import mustBeString from '../checks/mustBeString';
 import mustBeUndefined from '../checks/mustBeUndefined';
 import readOnly from '../i18n/readOnly';
-import { ShareableContextConsumer } from '../core/ShareableContextConsumer';
+import ShareableContextConsumer from '../core/ShareableContextConsumer';
 import TextureUnit from '../core/TextureUnit';
 import Uniform from '../core/Uniform';
 import VertexBuffer from '../core/VertexBuffer';
@@ -61,7 +59,7 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
      * @param engine The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
      */
     constructor(vertexShaderSrc: string, fragmentShaderSrc: string, attribs: string[], contextManager: ContextManager, levelUp = 0) {
-        super(mustBeNonNullObject('contextManager', contextManager));
+        super(contextManager);
         this.setLoggingName('ShaderMaterial');
         if (isDefined(vertexShaderSrc) && !isNull(vertexShaderSrc)) {
             this._vertexShaderSrc = mustBeString('vertexShaderSrc', vertexShaderSrc);
@@ -74,6 +72,7 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
             this.synchUp();
         }
     }
+
     /**
      * 
      */
@@ -84,6 +83,7 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
             this.synchUp();
         }
     }
+
     /**
      * 
      */
@@ -417,13 +417,6 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
             }
         }
         return this;
-    }
-
-    /**
-     * Override in derived Material.
-     */
-    setUniforms(visitor: FacetVisitor): void {
-        // Does nothing.
     }
 
     /**

@@ -12674,7 +12674,7 @@ System.register("davinci-eight/visual/Tetrahedron.js", ["../core/Color", "../mat
         }
     };
 });
-System.register("davinci-eight/visual/Track.js", ["../core/BeginMode", "../core/Color", "../core/DataType", "../materials/LineMaterial", "../math/Matrix4", "../core/Mesh", "./mustBeEngine", "./setColorOption", "../core/Usage", "../core/VertexBuffer"], function (exports_1, context_1) {
+System.register("davinci-eight/visual/Track.js", ["../core/BeginMode", "../core/Color", "../core/DataType", "../materials/LineMaterial", "../math/Matrix4", "../core/Mesh", "./setColorOption", "../core/Usage", "../core/VertexBuffer"], function (exports_1, context_1) {
     "use strict";
 
     var __extends = this && this.__extends || function (d, b) {
@@ -12685,7 +12685,7 @@ System.register("davinci-eight/visual/Track.js", ["../core/BeginMode", "../core/
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
     var __moduleName = context_1 && context_1.id;
-    var BeginMode_1, Color_1, DataType_1, LineMaterial_1, Matrix4_1, Mesh_1, mustBeEngine_1, setColorOption_1, Usage_1, VertexBuffer_1, FLOATS_PER_VERTEX, BYTES_PER_FLOAT, STRIDE, TrackGeometry, Track;
+    var BeginMode_1, Color_1, DataType_1, LineMaterial_1, Matrix4_1, Mesh_1, setColorOption_1, Usage_1, VertexBuffer_1, FLOATS_PER_VERTEX, BYTES_PER_FLOAT, STRIDE, TrackGeometry, Track;
     return {
         setters: [function (BeginMode_1_1) {
             BeginMode_1 = BeginMode_1_1;
@@ -12699,8 +12699,6 @@ System.register("davinci-eight/visual/Track.js", ["../core/BeginMode", "../core/
             Matrix4_1 = Matrix4_1_1;
         }, function (Mesh_1_1) {
             Mesh_1 = Mesh_1_1;
-        }, function (mustBeEngine_1_1) {
-            mustBeEngine_1 = mustBeEngine_1_1;
         }, function (setColorOption_1_1) {
             setColorOption_1 = setColorOption_1_1;
         }, function (Usage_1_1) {
@@ -12779,7 +12777,6 @@ System.register("davinci-eight/visual/Track.js", ["../core/BeginMode", "../core/
                     }
                     return this.refCount;
                 };
-                TrackGeometry.prototype.setUniforms = function (visitor) {};
                 TrackGeometry.prototype.addPoint = function (x, y, z) {
                     if (this.count === this.N) {
                         this.N = this.N * 2;
@@ -12803,14 +12800,14 @@ System.register("davinci-eight/visual/Track.js", ["../core/BeginMode", "../core/
             }();
             Track = function (_super) {
                 __extends(Track, _super);
-                function Track(engine, options, levelUp) {
+                function Track(contextManager, options, levelUp) {
                     if (options === void 0) {
                         options = {};
                     }
                     if (levelUp === void 0) {
                         levelUp = 0;
                     }
-                    var _this = _super.call(this, new TrackGeometry(engine), new LineMaterial_1.LineMaterial(engine), mustBeEngine_1.default(engine, 'Track'), levelUp + 1) || this;
+                    var _this = _super.call(this, new TrackGeometry(contextManager), new LineMaterial_1.default(contextManager), contextManager, levelUp + 1) || this;
                     _this.setLoggingName('Track');
                     var geometry = _this.geometry;
                     geometry.release();
@@ -12818,7 +12815,7 @@ System.register("davinci-eight/visual/Track.js", ["../core/BeginMode", "../core/
                     var material = _this.material;
                     material.release();
                     material.release();
-                    setColorOption_1.default(_this, options, Color_1.Color.gray);
+                    setColorOption_1.default(_this, options, Color_1.default.gray);
                     if (levelUp === 0) {
                         _this.synchUp();
                     }
@@ -12843,7 +12840,7 @@ System.register("davinci-eight/visual/Track.js", ["../core/BeginMode", "../core/
                     geometry.release();
                 };
                 return Track;
-            }(Mesh_1.Mesh);
+            }(Mesh_1.default);
             exports_1("Track", Track);
         }
     };
@@ -13458,10 +13455,10 @@ System.register("davinci-eight/visual/Trail.js", ["../math/Modulo", "../math/Spi
                         var iLength = this.modulo.size;
                         for (var i = 0; i < iLength; i++) {
                             if (Xs[i]) {
-                                X.copyVectorNoChecks(Xs[i]);
+                                X.copyVector(Xs[i]);
                             }
                             if (Rs[i]) {
-                                R.copySpinorNoChecks(Rs[i]);
+                                R.copySpinor(Rs[i]);
                             }
                             mesh.setUniforms();
                             geometry.draw();
@@ -14337,7 +14334,6 @@ System.register("davinci-eight/core/GeometryBase.js", ["../utils/EventEmitter", 
                 GeometryBase.prototype.draw = function () {
                     throw new Error(notSupported_1.default('draw()').message);
                 };
-                GeometryBase.prototype.setUniforms = function (visitor) {};
                 GeometryBase.prototype.hasPrincipalScale = function (name) {
                     throw new Error(notImplemented_1.default("hasPrincipalScale(" + name + ")").message);
                 };
@@ -14420,7 +14416,7 @@ System.register("davinci-eight/core/GeometryBase.js", ["../utils/EventEmitter", 
                     }
                 };
                 return GeometryBase;
-            }(ShareableContextConsumer_1.ShareableContextConsumer);
+            }(ShareableContextConsumer_1.default);
             exports_1("default", GeometryBase);
         }
     };
@@ -15883,7 +15879,7 @@ System.register("davinci-eight/core/Uniform.js", ["../checks/isNull", "../checks
         }
     };
 });
-System.register("davinci-eight/materials/ShaderMaterial.js", ["../core/Attrib", "../core/DataType", "../checks/isDefined", "../checks/isString", "../checks/isNull", "../core/makeWebGLProgram", "../checks/mustBeArray", "../checks/mustBeNonNullObject", "../checks/mustBeString", "../checks/mustBeUndefined", "../i18n/readOnly", "../core/ShareableContextConsumer", "../core/Uniform"], function (exports_1, context_1) {
+System.register("davinci-eight/materials/ShaderMaterial.js", ["../core/Attrib", "../core/DataType", "../checks/isDefined", "../checks/isString", "../checks/isNull", "../core/makeWebGLProgram", "../checks/mustBeArray", "../checks/mustBeString", "../checks/mustBeUndefined", "../i18n/readOnly", "../core/ShareableContextConsumer", "../core/Uniform"], function (exports_1, context_1) {
     "use strict";
 
     var __extends = this && this.__extends || function (d, b) {
@@ -15894,7 +15890,7 @@ System.register("davinci-eight/materials/ShaderMaterial.js", ["../core/Attrib", 
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
     var __moduleName = context_1 && context_1.id;
-    var Attrib_1, DataType_1, isDefined_1, isString_1, isNull_1, makeWebGLProgram_1, mustBeArray_1, mustBeNonNullObject_1, mustBeString_1, mustBeUndefined_1, readOnly_1, ShareableContextConsumer_1, Uniform_1, ShaderMaterial;
+    var Attrib_1, DataType_1, isDefined_1, isString_1, isNull_1, makeWebGLProgram_1, mustBeArray_1, mustBeString_1, mustBeUndefined_1, readOnly_1, ShareableContextConsumer_1, Uniform_1, ShaderMaterial;
     return {
         setters: [function (Attrib_1_1) {
             Attrib_1 = Attrib_1_1;
@@ -15910,8 +15906,6 @@ System.register("davinci-eight/materials/ShaderMaterial.js", ["../core/Attrib", 
             makeWebGLProgram_1 = makeWebGLProgram_1_1;
         }, function (mustBeArray_1_1) {
             mustBeArray_1 = mustBeArray_1_1;
-        }, function (mustBeNonNullObject_1_1) {
-            mustBeNonNullObject_1 = mustBeNonNullObject_1_1;
         }, function (mustBeString_1_1) {
             mustBeString_1 = mustBeString_1_1;
         }, function (mustBeUndefined_1_1) {
@@ -15930,7 +15924,7 @@ System.register("davinci-eight/materials/ShaderMaterial.js", ["../core/Attrib", 
                     if (levelUp === void 0) {
                         levelUp = 0;
                     }
-                    var _this = _super.call(this, mustBeNonNullObject_1.default('contextManager', contextManager)) || this;
+                    var _this = _super.call(this, contextManager) || this;
                     _this._attributesByName = {};
                     _this._attributesByIndex = [];
                     _this._uniforms = {};
@@ -16220,7 +16214,6 @@ System.register("davinci-eight/materials/ShaderMaterial.js", ["../core/Attrib", 
                     }
                     return this;
                 };
-                ShaderMaterial.prototype.setUniforms = function (visitor) {};
                 ShaderMaterial.prototype.use = function () {
                     var gl = this.gl;
                     if (gl) {
@@ -16293,7 +16286,7 @@ System.register("davinci-eight/materials/ShaderMaterial.js", ["../core/Attrib", 
                     return this;
                 };
                 return ShaderMaterial;
-            }(ShareableContextConsumer_1.ShareableContextConsumer);
+            }(ShareableContextConsumer_1.default);
             exports_1("ShaderMaterial", ShaderMaterial);
         }
     };
@@ -18426,7 +18419,6 @@ System.register("davinci-eight/core/Drawable.js", ["../base/exchange", "./Graphi
                     return this;
                 };
                 Drawable.prototype.setUniforms = function () {
-                    var geometry = this._geometry;
                     var material = this._material;
                     var keys = this.facetMap.keys;
                     var keysLength = keys.length;
@@ -18435,8 +18427,6 @@ System.register("davinci-eight/core/Drawable.js", ["../base/exchange", "./Graphi
                         var facet = this.facetMap.getWeakRef(key);
                         facet.setUniforms(material);
                     }
-                    geometry.setUniforms(material);
-                    material.setUniforms(material);
                     return this;
                 };
                 Drawable.prototype.draw = function () {
@@ -19459,6 +19449,28 @@ System.register("davinci-eight/facets/frustumMatrix.js", ["../checks/mustBeNumbe
         execute: function () {}
     };
 });
+System.register("davinci-eight/checks/mustBeNumber.js", ["../checks/mustSatisfy", "../checks/isNumber"], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    function beANumber() {
+        return "be a `number`";
+    }
+    function default_1(name, value, contextBuilder) {
+        mustSatisfy_1.default(name, isNumber_1.default(value), beANumber, contextBuilder);
+        return value;
+    }
+    exports_1("default", default_1);
+    var mustSatisfy_1, isNumber_1;
+    return {
+        setters: [function (mustSatisfy_1_1) {
+            mustSatisfy_1 = mustSatisfy_1_1;
+        }, function (isNumber_1_1) {
+            isNumber_1 = isNumber_1_1;
+        }],
+        execute: function () {}
+    };
+});
 System.register("davinci-eight/facets/perspectiveArray.js", ["./frustumMatrix", "../checks/mustBeNumber"], function (exports_1, context_1) {
     "use strict";
 
@@ -20176,7 +20188,7 @@ System.register("davinci-eight/facets/TextureFacet.js", ["../base/exchange", "..
         }
     };
 });
-System.register("davinci-eight/core/Mesh.js", ["../facets/ColorFacet", "./Drawable", "../facets/ModelFacet", "../checks/mustBeObject", "../i18n/notSupported", "../facets/TextureFacet"], function (exports_1, context_1) {
+System.register("davinci-eight/core/Mesh.js", ["../facets/ColorFacet", "./Drawable", "../facets/ModelFacet", "../i18n/notSupported", "../facets/TextureFacet"], function (exports_1, context_1) {
     "use strict";
 
     var __extends = this && this.__extends || function (d, b) {
@@ -20187,7 +20199,7 @@ System.register("davinci-eight/core/Mesh.js", ["../facets/ColorFacet", "./Drawab
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
     var __moduleName = context_1 && context_1.id;
-    var ColorFacet_1, Drawable_1, ModelFacet_1, mustBeObject_1, notSupported_1, TextureFacet_1, COLOR_FACET_NAME, TEXTURE_FACET_NAME, MODEL_FACET_NAME, Mesh;
+    var ColorFacet_1, Drawable_1, ModelFacet_1, notSupported_1, TextureFacet_1, COLOR_FACET_NAME, TEXTURE_FACET_NAME, MODEL_FACET_NAME, Mesh;
     return {
         setters: [function (ColorFacet_1_1) {
             ColorFacet_1 = ColorFacet_1_1;
@@ -20195,8 +20207,6 @@ System.register("davinci-eight/core/Mesh.js", ["../facets/ColorFacet", "./Drawab
             Drawable_1 = Drawable_1_1;
         }, function (ModelFacet_1_1) {
             ModelFacet_1 = ModelFacet_1_1;
-        }, function (mustBeObject_1_1) {
-            mustBeObject_1 = mustBeObject_1_1;
         }, function (notSupported_1_1) {
             notSupported_1 = notSupported_1_1;
         }, function (TextureFacet_1_1) {
@@ -20212,7 +20222,7 @@ System.register("davinci-eight/core/Mesh.js", ["../facets/ColorFacet", "./Drawab
                     if (levelUp === void 0) {
                         levelUp = 0;
                     }
-                    var _this = _super.call(this, geometry, material, mustBeObject_1.default('contextManager', contextManager), levelUp + 1) || this;
+                    var _this = _super.call(this, geometry, material, contextManager, levelUp + 1) || this;
                     _this.setLoggingName('Mesh');
                     _this.setFacet(COLOR_FACET_NAME, new ColorFacet_1.ColorFacet());
                     var textureFacet = new TextureFacet_1.default();
@@ -20376,6 +20386,7 @@ System.register("davinci-eight/core/Mesh.js", ["../facets/ColorFacet", "./Drawab
                 return Mesh;
             }(Drawable_1.Drawable);
             exports_1("Mesh", Mesh);
+            exports_1("default", Mesh);
         }
     };
 });
@@ -21117,6 +21128,19 @@ System.register("davinci-eight/math/isScalarG3.js", [], function (exports_1, con
         execute: function () {}
     };
 });
+System.register("davinci-eight/math/isVectorG3.js", [], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    function isVectorG3(m) {
+        return m.a === 0 && m.xy === 0 && m.yz === 0 && m.zx === 0 && m.b === 0;
+    }
+    exports_1("default", isVectorG3);
+    return {
+        setters: [],
+        execute: function () {}
+    };
+});
 System.register("davinci-eight/math/lcoE3.js", [], function (exports_1, context_1) {
     "use strict";
 
@@ -21295,65 +21319,6 @@ System.register("davinci-eight/math/maskG3.js", ["../checks/isNumber", "../check
         execute: function () {
             scratch = { a: 0, x: 0, y: 0, z: 0, yz: 0, zx: 0, xy: 0, b: 0 };
         }
-    };
-});
-System.register("davinci-eight/math/mulG3.js", ["../math/compG3Get", "../math/mulE3"], function (exports_1, context_1) {
-    "use strict";
-
-    var __moduleName = context_1 && context_1.id;
-    function mulG3(a, b, out) {
-        var a0 = a.a;
-        var a1 = a.x;
-        var a2 = a.y;
-        var a3 = a.z;
-        var a4 = a.xy;
-        var a5 = a.yz;
-        var a6 = a.zx;
-        var a7 = a.b;
-        var b0 = compG3Get_1.default(b, 0);
-        var b1 = compG3Get_1.default(b, 1);
-        var b2 = compG3Get_1.default(b, 2);
-        var b3 = compG3Get_1.default(b, 3);
-        var b4 = compG3Get_1.default(b, 4);
-        var b5 = compG3Get_1.default(b, 5);
-        var b6 = compG3Get_1.default(b, 6);
-        var b7 = compG3Get_1.default(b, 7);
-        var iLen = out.length;
-        for (var i = 0; i < iLen; i++) {
-            out[i] = mulE3_1.default(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, i);
-        }
-    }
-    exports_1("default", mulG3);
-    var compG3Get_1, mulE3_1;
-    return {
-        setters: [function (compG3Get_1_1) {
-            compG3Get_1 = compG3Get_1_1;
-        }, function (mulE3_1_1) {
-            mulE3_1 = mulE3_1_1;
-        }],
-        execute: function () {}
-    };
-});
-System.register("davinci-eight/checks/mustBeNumber.js", ["../checks/mustSatisfy", "../checks/isNumber"], function (exports_1, context_1) {
-    "use strict";
-
-    var __moduleName = context_1 && context_1.id;
-    function beANumber() {
-        return "be a `number`";
-    }
-    function default_1(name, value, contextBuilder) {
-        mustSatisfy_1.default(name, isNumber_1.default(value), beANumber, contextBuilder);
-        return value;
-    }
-    exports_1("default", default_1);
-    var mustSatisfy_1, isNumber_1;
-    return {
-        setters: [function (mustSatisfy_1_1) {
-            mustSatisfy_1 = mustSatisfy_1_1;
-        }, function (isNumber_1_1) {
-            isNumber_1 = isNumber_1_1;
-        }],
-        execute: function () {}
     };
 });
 System.register("davinci-eight/math/randomRange.js", [], function (exports_1, context_1) {
@@ -21632,71 +21597,44 @@ System.register("davinci-eight/math/mulE3.js", [], function (exports_1, context_
 
     var __moduleName = context_1 && context_1.id;
     function mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
-        a0 = +a0;
-        a1 = +a1;
-        a2 = +a2;
-        a3 = +a3;
-        a4 = +a4;
-        a5 = +a5;
-        a6 = +a6;
-        a7 = +a7;
-        b0 = +b0;
-        b1 = +b1;
-        b2 = +b2;
-        b3 = +b3;
-        b4 = +b4;
-        b5 = +b5;
-        b6 = +b6;
-        b7 = +b7;
-        index = index | 0;
-        var x = 0.0;
-        switch (~~index) {
+        switch (index) {
             case 0:
                 {
-                    x = +(a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7);
+                    return a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7;
                 }
-                break;
             case 1:
                 {
-                    x = +(a0 * b1 + a1 * b0 - a2 * b4 + a3 * b6 + a4 * b2 - a5 * b7 - a6 * b3 - a7 * b5);
+                    return a0 * b1 + a1 * b0 - a2 * b4 + a3 * b6 + a4 * b2 - a5 * b7 - a6 * b3 - a7 * b5;
                 }
-                break;
             case 2:
                 {
-                    x = +(a0 * b2 + a1 * b4 + a2 * b0 - a3 * b5 - a4 * b1 + a5 * b3 - a6 * b7 - a7 * b6);
+                    return a0 * b2 + a1 * b4 + a2 * b0 - a3 * b5 - a4 * b1 + a5 * b3 - a6 * b7 - a7 * b6;
                 }
-                break;
             case 3:
                 {
-                    x = +(a0 * b3 - a1 * b6 + a2 * b5 + a3 * b0 - a4 * b7 - a5 * b2 + a6 * b1 - a7 * b4);
+                    return a0 * b3 - a1 * b6 + a2 * b5 + a3 * b0 - a4 * b7 - a5 * b2 + a6 * b1 - a7 * b4;
                 }
-                break;
             case 4:
                 {
-                    x = +(a0 * b4 + a1 * b2 - a2 * b1 + a3 * b7 + a4 * b0 - a5 * b6 + a6 * b5 + a7 * b3);
+                    return a0 * b4 + a1 * b2 - a2 * b1 + a3 * b7 + a4 * b0 - a5 * b6 + a6 * b5 + a7 * b3;
                 }
-                break;
             case 5:
                 {
-                    x = +(a0 * b5 + a1 * b7 + a2 * b3 - a3 * b2 + a4 * b6 + a5 * b0 - a6 * b4 + a7 * b1);
+                    return a0 * b5 + a1 * b7 + a2 * b3 - a3 * b2 + a4 * b6 + a5 * b0 - a6 * b4 + a7 * b1;
                 }
-                break;
             case 6:
                 {
-                    x = +(a0 * b6 - a1 * b3 + a2 * b7 + a3 * b1 - a4 * b5 + a5 * b4 + a6 * b0 + a7 * b2);
+                    return a0 * b6 - a1 * b3 + a2 * b7 + a3 * b1 - a4 * b5 + a5 * b4 + a6 * b0 + a7 * b2;
                 }
-                break;
             case 7:
                 {
-                    x = +(a0 * b7 + a1 * b5 + a2 * b6 + a3 * b4 + a4 * b3 + a5 * b1 + a6 * b2 + a7 * b0);
+                    return a0 * b7 + a1 * b5 + a2 * b6 + a3 * b4 + a4 * b3 + a5 * b1 + a6 * b2 + a7 * b0;
                 }
-                break;
             default:
                 {
                     throw new Error("index must be in the range [0..7]");
                 }
         }
-        return +x;
     }
     exports_1("default", mulE3);
     return {
@@ -21963,7 +21901,7 @@ System.register("davinci-eight/math/stringFromCoordinates.js", ["../checks/isDef
         execute: function () {}
     };
 });
-System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "./dotVectorE3", "../utils/EventEmitter", "./extG3", "./gauss", "../checks/isDefined", "./isScalarG3", "./lcoG3", "./maskG3", "./mulE3", "./mulG3", "../checks/mustBeNonNullObject", "../checks/mustBeNumber", "../checks/mustSatisfy", "./randomRange", "../i18n/readOnly", "./rcoG3", "./rotorFromDirectionsE3", "./scpG3", "./squaredNormG3", "./stringFromCoordinates", "./wedgeXY", "./wedgeYZ", "./wedgeZX"], function (exports_1, context_1) {
+System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "./dotVectorE3", "../utils/EventEmitter", "./extG3", "./gauss", "../checks/isDefined", "./isScalarG3", "./isVectorG3", "./lcoG3", "./maskG3", "./mulE3", "./randomRange", "../i18n/readOnly", "./rcoG3", "./rotorFromDirectionsE3", "./scpG3", "./squaredNormG3", "./stringFromCoordinates", "./wedgeXY", "./wedgeYZ", "./wedgeZX"], function (exports_1, context_1) {
     "use strict";
 
     var __extends = this && this.__extends || function (d, b) {
@@ -21986,7 +21924,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
     function cosVectorVector(a, b) {
         return scp(a, b) / (norm(a) * norm(b));
     }
-    var Coords_1, arraysEQ_1, dotVectorE3_1, EventEmitter_1, extG3_1, gauss_1, isDefined_1, isScalarG3_1, lcoG3_1, maskG3_1, mulE3_1, mulG3_1, mustBeNonNullObject_1, mustBeNumber_1, mustSatisfy_1, randomRange_1, readOnly_1, rcoG3_1, rotorFromDirectionsE3_1, scpG3_1, squaredNormG3_1, stringFromCoordinates_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1, COORD_SCALAR, COORD_X, COORD_Y, COORD_Z, COORD_XY, COORD_YZ, COORD_ZX, COORD_PSEUDO, BASIS_LABELS, EVENT_NAME_CHANGE, atan2, exp, cos, log, sin, sqrt, cosines, Geometric3;
+    var Coords_1, arraysEQ_1, dotVectorE3_1, EventEmitter_1, extG3_1, gauss_1, isDefined_1, isScalarG3_1, isVectorG3_1, lcoG3_1, maskG3_1, mulE3_1, randomRange_1, readOnly_1, rcoG3_1, rotorFromDirectionsE3_1, scpG3_1, squaredNormG3_1, stringFromCoordinates_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1, COORD_SCALAR, COORD_X, COORD_Y, COORD_Z, COORD_XY, COORD_YZ, COORD_ZX, COORD_PSEUDO, BASIS_LABELS, EVENT_NAME_CHANGE, atan2, exp, cos, log, sin, sqrt, cosines, Geometric3;
     return {
         setters: [function (Coords_1_1) {
             Coords_1 = Coords_1_1;
@@ -22004,20 +21942,14 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
             isDefined_1 = isDefined_1_1;
         }, function (isScalarG3_1_1) {
             isScalarG3_1 = isScalarG3_1_1;
+        }, function (isVectorG3_1_1) {
+            isVectorG3_1 = isVectorG3_1_1;
         }, function (lcoG3_1_1) {
             lcoG3_1 = lcoG3_1_1;
         }, function (maskG3_1_1) {
             maskG3_1 = maskG3_1_1;
         }, function (mulE3_1_1) {
             mulE3_1 = mulE3_1_1;
-        }, function (mulG3_1_1) {
-            mulG3_1 = mulG3_1_1;
-        }, function (mustBeNonNullObject_1_1) {
-            mustBeNonNullObject_1 = mustBeNonNullObject_1_1;
-        }, function (mustBeNumber_1_1) {
-            mustBeNumber_1 = mustBeNumber_1_1;
-        }, function (mustSatisfy_1_1) {
-            mustSatisfy_1 = mustSatisfy_1_1;
         }, function (randomRange_1_1) {
             randomRange_1 = randomRange_1_1;
         }, function (readOnly_1_1) {
@@ -22310,20 +22242,17 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     return this;
                 };
                 Geometric3.prototype.copyScalar = function (α) {
-                    return this.zero().addScalar(α);
+                    this.setCoordinate(COORD_SCALAR, α, 'a');
+                    this.setCoordinate(COORD_X, 0, 'x');
+                    this.setCoordinate(COORD_Y, 0, 'y');
+                    this.setCoordinate(COORD_Z, 0, 'z');
+                    this.setCoordinate(COORD_YZ, 0, 'yz');
+                    this.setCoordinate(COORD_ZX, 0, 'zx');
+                    this.setCoordinate(COORD_XY, 0, 'xy');
+                    this.setCoordinate(COORD_PSEUDO, 0, 'b');
+                    return this;
                 };
                 Geometric3.prototype.copySpinor = function (spinor) {
-                    var contextBuilder = function () {
-                        return 'copySpinor';
-                    };
-                    mustBeNonNullObject_1.default('spinor', spinor, contextBuilder);
-                    mustBeNumber_1.default('spinor.a', spinor.a, contextBuilder);
-                    mustBeNumber_1.default('spinor.yz', spinor.yz, contextBuilder);
-                    mustBeNumber_1.default('spinor.zx', spinor.zx, contextBuilder);
-                    mustBeNumber_1.default('spinor.xy', spinor.xy, contextBuilder);
-                    return this.copySpinorNoChecks(spinor);
-                };
-                Geometric3.prototype.copySpinorNoChecks = function (spinor) {
                     this.setCoordinate(COORD_SCALAR, spinor.a, 'a');
                     this.setCoordinate(COORD_X, 0, 'x');
                     this.setCoordinate(COORD_Y, 0, 'y');
@@ -22335,16 +22264,6 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     return this;
                 };
                 Geometric3.prototype.copyVector = function (vector) {
-                    var contextBuilder = function () {
-                        return 'copyVector';
-                    };
-                    mustBeNonNullObject_1.default('vector', vector, contextBuilder);
-                    mustBeNumber_1.default('vector.x', vector.x, contextBuilder);
-                    mustBeNumber_1.default('vector.y', vector.y, contextBuilder);
-                    mustBeNumber_1.default('vector.z', vector.z, contextBuilder);
-                    return this.copyVectorNoChecks(vector);
-                };
-                Geometric3.prototype.copyVectorNoChecks = function (vector) {
                     this.setCoordinate(COORD_SCALAR, 0, 'a');
                     this.setCoordinate(COORD_X, vector.x, 'x');
                     this.setCoordinate(COORD_Y, vector.y, 'y');
@@ -22363,6 +22282,8 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                 Geometric3.prototype.div = function (m) {
                     if (isScalarG3_1.default(m)) {
                         return this.divByScalar(m.a);
+                    } else if (isVectorG3_1.default(m)) {
+                        return this.divByVector(m);
                     } else {
                         var α = m.a;
                         var x = m.x;
@@ -22420,6 +22341,13 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     this.xy /= α;
                     this.b /= α;
                     return this;
+                };
+                Geometric3.prototype.divByVector = function (vector) {
+                    var x = vector.x;
+                    var y = vector.y;
+                    var z = vector.z;
+                    var squaredNorm = x * x + y * y + z * z;
+                    return this.mulByVector(vector).divByScalar(squaredNorm);
                 };
                 Geometric3.prototype.div2 = function (a, b) {
                     var a0 = a.a;
@@ -22543,8 +22471,58 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                 Geometric3.prototype.mul = function (m) {
                     return this.mul2(this, m);
                 };
+                Geometric3.prototype.mulByVector = function (vector) {
+                    var a0 = this.a;
+                    var a1 = this.x;
+                    var a2 = this.y;
+                    var a3 = this.z;
+                    var a4 = this.xy;
+                    var a5 = this.yz;
+                    var a6 = this.zx;
+                    var a7 = this.b;
+                    var b0 = 0;
+                    var b1 = vector.x;
+                    var b2 = vector.y;
+                    var b3 = vector.z;
+                    var b4 = 0;
+                    var b5 = 0;
+                    var b6 = 0;
+                    var b7 = 0;
+                    this.a = mulE3_1.default(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 0);
+                    this.x = mulE3_1.default(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 1);
+                    this.y = mulE3_1.default(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 2);
+                    this.z = mulE3_1.default(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 3);
+                    this.xy = mulE3_1.default(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 4);
+                    this.yz = mulE3_1.default(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 5);
+                    this.zx = mulE3_1.default(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 6);
+                    this.b = mulE3_1.default(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 7);
+                    return this;
+                };
                 Geometric3.prototype.mul2 = function (a, b) {
-                    mulG3_1.default(a, b, this._coords);
+                    var a0 = a.a;
+                    var a1 = a.x;
+                    var a2 = a.y;
+                    var a3 = a.z;
+                    var a4 = a.xy;
+                    var a5 = a.yz;
+                    var a6 = a.zx;
+                    var a7 = a.b;
+                    var b0 = b.a;
+                    var b1 = b.x;
+                    var b2 = b.y;
+                    var b3 = b.z;
+                    var b4 = b.xy;
+                    var b5 = b.yz;
+                    var b6 = b.zx;
+                    var b7 = b.b;
+                    this.a = mulE3_1.default(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 0);
+                    this.x = mulE3_1.default(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 1);
+                    this.y = mulE3_1.default(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 2);
+                    this.z = mulE3_1.default(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 3);
+                    this.xy = mulE3_1.default(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 4);
+                    this.yz = mulE3_1.default(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 5);
+                    this.zx = mulE3_1.default(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 6);
+                    this.b = mulE3_1.default(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 7);
                     return this;
                 };
                 Geometric3.prototype.neg = function () {
@@ -22672,23 +22650,19 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     return this;
                 };
                 Geometric3.prototype.rotorFromAxisAngle = function (axis, θ) {
-                    var contextBuilder = function () {
-                        return "rotorFromAxisAngle";
-                    };
-                    mustBeNonNullObject_1.default('axis', axis, contextBuilder);
-                    mustBeNumber_1.default('θ', θ, contextBuilder);
-                    var x = mustBeNumber_1.default('axis.x', axis.x, contextBuilder);
-                    var y = mustBeNumber_1.default('axis.y', axis.y, contextBuilder);
-                    var z = mustBeNumber_1.default('axis.z', axis.z, contextBuilder);
+                    var x = axis.x;
+                    var y = axis.y;
+                    var z = axis.z;
                     var squaredNorm = x * x + y * y + z * z;
-                    mustSatisfy_1.default("axis", squaredNorm !== 0, function () {
-                        return "|axis| > 0";
-                    }, contextBuilder);
-                    var norm = Math.sqrt(squaredNorm);
-                    var yz = x / norm;
-                    var zx = y / norm;
-                    var xy = z / norm;
-                    return this.rotorFromGeneratorAngle({ yz: yz, zx: zx, xy: xy }, θ);
+                    if (squaredNorm === 1) {
+                        return this.rotorFromGeneratorAngle({ yz: x, zx: y, xy: z }, θ);
+                    } else {
+                        var norm_1 = Math.sqrt(squaredNorm);
+                        var yz = x / norm_1;
+                        var zx = y / norm_1;
+                        var xy = z / norm_1;
+                        return this.rotorFromGeneratorAngle({ yz: yz, zx: zx, xy: xy }, θ);
+                    }
                 };
                 Geometric3.prototype.rotorFromDirections = function (a, b) {
                     return this.rotorFromVectorToVector(a, b, void 0);
@@ -22714,8 +22688,6 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     return this.rotorFromTwoVectors(es[firstVector], fs[firstVector], es[secondVector], fs[secondVector]);
                 };
                 Geometric3.prototype.rotorFromGeneratorAngle = function (B, θ) {
-                    mustBeNonNullObject_1.default('B', B);
-                    mustBeNumber_1.default('θ', θ);
                     var φ = θ / 2;
                     var yz = B.yz;
                     var zx = B.zx;
@@ -23843,9 +23815,9 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
             Eight = function () {
                 function Eight() {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-                    this.LAST_MODIFIED = '2016-12-08';
+                    this.LAST_MODIFIED = '2016-12-09';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '5.0.0';
+                    this.VERSION = '5.0.1';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];
@@ -24306,6 +24278,7 @@ System.register("davinci-eight/core/ShareableContextConsumer.js", ["../checks/mu
                 return ShareableContextConsumer;
             }(ShareableBase_1.ShareableBase);
             exports_1("ShareableContextConsumer", ShareableContextConsumer);
+            exports_1("default", ShareableContextConsumer);
         }
     };
 });
