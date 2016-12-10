@@ -1,8 +1,8 @@
-import { Color } from '../core/Color';
+import Color from '../core/Color';
 import mustBeNumber from '../checks/mustBeNumber';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-import { Facet } from '../core/Facet';
-import { FacetVisitor } from '../core/FacetVisitor';
+import Facet from '../core/Facet';
+import FacetVisitor from '../core/FacetVisitor';
 
 /**
  *
@@ -98,3 +98,5 @@ export class ColorFacet implements Facet {
         }
     }
 }
+
+export default ColorFacet;

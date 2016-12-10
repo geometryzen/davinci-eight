@@ -162,3 +162,5 @@ export class VectorN<T> {
         return this.coords.toString();
     }
 }
+
+export default VectorN;

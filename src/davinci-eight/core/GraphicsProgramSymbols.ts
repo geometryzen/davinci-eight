@@ -125,6 +125,11 @@ export default class GraphicsProgramSymbols {
     public static VARYING_COLOR: string = 'vColor';
 
     /**
+     * 'vCoords'
+     */
+    public static VARYING_COORDS: string = 'vCoords';
+
+    /**
      * 'vLight'
      */
     public static VARYING_LIGHT: string = 'vLight';

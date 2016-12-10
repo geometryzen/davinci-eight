@@ -1,4 +1,5 @@
 import Attribute from '../core/Attribute';
+import AttributeSizeType from '../core/AttributeSizeType';
 import BeginMode from '../core/BeginMode';
 import DataType from '../core/DataType';
 import DrawAttribute from './DrawAttribute';
@@ -12,6 +13,24 @@ import Transform from './Transform';
 import Vertex from './Vertex';
 // FIXME: Move into this folder.
 import dataFromVectorN from '../geometries/dataFromVectorN';
+
+function checkSize(length: number): AttributeSizeType {
+    if (length === 1) {
+        return 1;
+    }
+    else if (length === 2) {
+        return 2;
+    }
+    else if (length === 3) {
+        return 3;
+    }
+    else if (length === 4) {
+        return 4;
+    }
+    else {
+        throw new Error("length must be 1, 2, 3, or 4");
+    }
+}
 
 /**
  * This helper function converts Vertex (VectorN) attributes into the Primitive (number[]) format.
@@ -32,7 +51,7 @@ function attributes(unused: number[], vertices: Vertex[]): { [name: string]: Att
         for (let j = 0; j < jLen; j++) {
             const name: string = names[j];
             const data: number[] = dataFromVectorN(vertex.attributes[name]);
-            const size = data.length;
+            const size = checkSize(data.length);
             let attrib = attribs[name];
             if (!attrib) {
                 attrib = attribs[name] = new DrawAttribute([], size, DataType.FLOAT);

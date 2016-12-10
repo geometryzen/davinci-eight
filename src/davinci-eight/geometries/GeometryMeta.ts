@@ -1,3 +1,4 @@
+import AttributeSizeType from '../core/AttributeSizeType';
 import SimplexMode from './SimplexMode';
 
 /**
@@ -5,7 +6,7 @@ import SimplexMode from './SimplexMode';
  */
 interface GeometryMeta {
     k: SimplexMode;
-    attributes: { [key: string]: { size: number; name?: string } };
+    attributes: { [key: string]: { size: AttributeSizeType; name?: string } };
 }
 
 export default GeometryMeta;

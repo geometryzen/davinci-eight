@@ -8,3 +8,5 @@ import { Shareable } from './Shareable';
 export interface Facet extends Shareable {
     setUniforms(visitor: FacetVisitor): void;
 }
+
+export default Facet;

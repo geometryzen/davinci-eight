@@ -1,3 +1,4 @@
+import AttributeSizeType from '../core/AttributeSizeType';
 import dataLength from './dataLength';
 import expectArg from '../checks/expectArg';
 import isDefined from '../checks/isDefined';
@@ -26,7 +27,7 @@ function stringify(thing: any, space: any): string {
  */
 export default function simplicesToGeometryMeta(geometry: Simplex[]): GeometryMeta {
     let kValueOfSimplex: number = void 0;
-    let knowns: { [key: string]: { size: number } } = {};
+    let knowns: { [key: string]: { size: AttributeSizeType } } = {};
     let geometryLen = geometry.length;
     for (var i = 0; i < geometryLen; i++) {
         let simplex: Simplex = geometry[i];

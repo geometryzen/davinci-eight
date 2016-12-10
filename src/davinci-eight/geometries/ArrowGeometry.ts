@@ -4,7 +4,6 @@ import ContextManager from '../core/ContextManager';
 import GeometryElements from '../core/GeometryElements';
 import isDefined from '../checks/isDefined';
 import mustBeNumber from '../checks/mustBeNumber';
-import mustBeNonNullObject from '../checks/mustBeNonNullObject';
 import notSupported from '../i18n/notSupported';
 
 /**
@@ -34,7 +33,7 @@ export default class ArrowGeometry extends GeometryElements {
     private _radiusCone: number;
 
     constructor(contextManager: ContextManager, options: ArrowGeometryOptions = { kind: 'ArrowGeometry' }, levelUp = 0) {
-        super(mustBeNonNullObject('contextManager', contextManager), arrowPrimitive(options), options, levelUp + 1);
+        super(contextManager, arrowPrimitive(options), options, levelUp + 1);
         if (isDefined(options.radiusCone)) {
             this._radiusCone = mustBeNumber("options.radiusCone", options.radiusCone);
         }

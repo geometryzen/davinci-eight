@@ -2,6 +2,7 @@ import { Color } from '../core/Color';
 import direction from './direction';
 import { Engine } from '../core/Engine';
 import { Geometric3 } from '../math/Geometric3';
+import GPS from '../core/GraphicsProgramSymbols';
 import HollowCylinderGeometry from '../geometries/HollowCylinderGeometry';
 import HollowCylinderGeometryOptions from '../geometries/HollowCylinderGeometryOptions';
 import HollowCylinderOptions from './HollowCylinderOptions';
@@ -52,18 +53,18 @@ export default class HollowCylinder extends RigidBody {
 
         const mmo: MeshMaterialOptions = { kind: 'MeshMaterial', attributes: {}, uniforms: {} };
 
-        mmo.attributes['aPosition'] = 3;
-        mmo.attributes['aNormal'] = 3;
+        mmo.attributes[GPS.ATTRIBUTE_POSITION] = 3;
+        mmo.attributes[GPS.ATTRIBUTE_NORMAL] = 3;
 
-        mmo.uniforms['uColor'] = 'vec3';
-        mmo.uniforms['uOpacity'] = 'float';
-        mmo.uniforms['uModel'] = 'mat4';
-        mmo.uniforms['uNormal'] = 'mat3';
-        mmo.uniforms['uProjection'] = 'mat4';
-        mmo.uniforms['uView'] = 'mat4';
-        mmo.uniforms['uAmbientLight'] = 'vec3';
-        mmo.uniforms['uDirectionalLightColor'] = 'vec3';
-        mmo.uniforms['uDirectionalLightDirection'] = 'vec3';
+        mmo.uniforms[GPS.UNIFORM_COLOR] = 'vec3';
+        mmo.uniforms[GPS.UNIFORM_OPACITY] = 'float';
+        mmo.uniforms[GPS.UNIFORM_MODEL_MATRIX] = 'mat4';
+        mmo.uniforms[GPS.UNIFORM_NORMAL_MATRIX] = 'mat3';
+        mmo.uniforms[GPS.UNIFORM_PROJECTION_MATRIX] = 'mat4';
+        mmo.uniforms[GPS.UNIFORM_VIEW_MATRIX] = 'mat4';
+        mmo.uniforms[GPS.UNIFORM_AMBIENT_LIGHT] = 'vec3';
+        mmo.uniforms[GPS.UNIFORM_DIRECTIONAL_LIGHT_COLOR] = 'vec3';
+        mmo.uniforms[GPS.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION] = 'vec3';
 
         const cachedMaterial = engine.getCacheMaterial(mmo);
         if (cachedMaterial && cachedMaterial instanceof MeshMaterial) {

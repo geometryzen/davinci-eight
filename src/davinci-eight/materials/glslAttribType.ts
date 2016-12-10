@@ -2,7 +2,7 @@ import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeString from '../checks/mustBeString';
 
-function sizeType(size: number): string {
+function sizeType(size: 1 | 2 | 3 | 4): 'float' | 'vec2' | 'vec3' | 'vec4' {
   mustBeInteger('size', size);
   switch (size) {
     case 1: {
@@ -23,7 +23,7 @@ function sizeType(size: number): string {
   }
 }
 
-export default function glslAttribType(key: string, size: number): string {
+export default function glslAttribType(key: string, size: 1 | 2 | 3 | 4): 'float' | 'vec2' | 'vec3' | 'vec4' {
   mustBeString('key', key);
   mustBeInteger('size', size);
   switch (key) {

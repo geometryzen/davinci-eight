@@ -1,5 +1,7 @@
+import AttributeGlslType from './AttributeGlslType';
+
 interface AttribMetaInfo {
-    glslType: string;
+    glslType: AttributeGlslType;
 }
 
 export default AttribMetaInfo;

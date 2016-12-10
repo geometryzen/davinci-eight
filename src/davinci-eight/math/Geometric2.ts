@@ -1975,3 +1975,5 @@ export class Geometric2 extends Coords implements GeometricE2 {
         return Geometric2.scalar(0);
     }
 }
+
+export default Geometric2;

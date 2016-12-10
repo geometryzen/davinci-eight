@@ -2506,7 +2506,7 @@ System.register("davinci-eight/shapes/ConicalShellBuilder.js", ["../transforms/A
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
     var __moduleName = context_1 && context_1.id;
-    var Approximation_1, Direction_1, Duality_1, GraphicsProgramSymbols_1, GridTriangleStrip_1, AxialShapeBuilder_1, ConeTransform_1, Rotation_1, Scaling_1, Translation_1, CoordsTransform2D_1, Vector3_1, aPosition, aTangent, aNormal, ConicalShellBuilder;
+    var Approximation_1, Direction_1, Duality_1, GraphicsProgramSymbols_1, GridTriangleStrip_1, AxialShapeBuilder_1, ConeTransform_1, Rotation_1, Scaling_1, Translation_1, CoordsTransform2D_1, Vector3_1, ConicalShellBuilder;
     return {
         setters: [function (Approximation_1_1) {
             Approximation_1 = Approximation_1_1;
@@ -2534,9 +2534,6 @@ System.register("davinci-eight/shapes/ConicalShellBuilder.js", ["../transforms/A
             Vector3_1 = Vector3_1_1;
         }],
         execute: function () {
-            aPosition = GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION;
-            aTangent = GraphicsProgramSymbols_1.default.ATTRIBUTE_TANGENT;
-            aNormal = GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL;
             ConicalShellBuilder = function (_super) {
                 __extends(ConicalShellBuilder, _super);
                 function ConicalShellBuilder() {
@@ -2549,6 +2546,9 @@ System.register("davinci-eight/shapes/ConicalShellBuilder.js", ["../transforms/A
                     return _this;
                 }
                 ConicalShellBuilder.prototype.toPrimitive = function () {
+                    var aPosition = GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION;
+                    var aTangent = GraphicsProgramSymbols_1.default.ATTRIBUTE_TANGENT;
+                    var aNormal = GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL;
                     var coneTransform = new ConeTransform_1.default(this.clockwise, this.sliceAngle, aPosition, aTangent);
                     coneTransform.h.copy(this.height);
                     coneTransform.a.copy(this.cutLine);
@@ -2723,7 +2723,7 @@ System.register("davinci-eight/geometries/arrowPrimitive.js", ["../shapes/ArrowB
         execute: function () {}
     };
 });
-System.register("davinci-eight/geometries/ArrowGeometry.js", ["./arrowPrimitive", "../core/GeometryElements", "../checks/isDefined", "../checks/mustBeNumber", "../checks/mustBeNonNullObject", "../i18n/notSupported"], function (exports_1, context_1) {
+System.register("davinci-eight/geometries/ArrowGeometry.js", ["./arrowPrimitive", "../core/GeometryElements", "../checks/isDefined", "../checks/mustBeNumber", "../i18n/notSupported"], function (exports_1, context_1) {
     "use strict";
 
     var __extends = this && this.__extends || function (d, b) {
@@ -2734,7 +2734,7 @@ System.register("davinci-eight/geometries/ArrowGeometry.js", ["./arrowPrimitive"
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
     var __moduleName = context_1 && context_1.id;
-    var arrowPrimitive_1, GeometryElements_1, isDefined_1, mustBeNumber_1, mustBeNonNullObject_1, notSupported_1, ArrowGeometry;
+    var arrowPrimitive_1, GeometryElements_1, isDefined_1, mustBeNumber_1, notSupported_1, ArrowGeometry;
     return {
         setters: [function (arrowPrimitive_1_1) {
             arrowPrimitive_1 = arrowPrimitive_1_1;
@@ -2744,8 +2744,6 @@ System.register("davinci-eight/geometries/ArrowGeometry.js", ["./arrowPrimitive"
             isDefined_1 = isDefined_1_1;
         }, function (mustBeNumber_1_1) {
             mustBeNumber_1 = mustBeNumber_1_1;
-        }, function (mustBeNonNullObject_1_1) {
-            mustBeNonNullObject_1 = mustBeNonNullObject_1_1;
         }, function (notSupported_1_1) {
             notSupported_1 = notSupported_1_1;
         }],
@@ -2759,7 +2757,7 @@ System.register("davinci-eight/geometries/ArrowGeometry.js", ["./arrowPrimitive"
                     if (levelUp === void 0) {
                         levelUp = 0;
                     }
-                    var _this = _super.call(this, mustBeNonNullObject_1.default('contextManager', contextManager), arrowPrimitive_1.default(options), options, levelUp + 1) || this;
+                    var _this = _super.call(this, contextManager, arrowPrimitive_1.default(options), options, levelUp + 1) || this;
                     _this._length = 1.0;
                     if (isDefined_1.default(options.radiusCone)) {
                         _this._radiusCone = mustBeNumber_1.default("options.radiusCone", options.radiusCone);
@@ -3044,7 +3042,7 @@ System.register("davinci-eight/facets/Vector3Facet.js", ["../checks/mustBeString
         }
     };
 });
-System.register("davinci-eight/visual/Basis.js", ["../core/BeginMode", "../core/Color", "../facets/ColorFacet", "../core/DataType", "../core/GeometryArrays", "./mustBeEngine", "./RigidBody", "./setColorOption", "./setDeprecatedOptions", "../materials/ShaderMaterial", "../math/Vector3", "../facets/Vector3Facet"], function (exports_1, context_1) {
+System.register("davinci-eight/visual/Basis.js", ["../core/BeginMode", "../core/Color", "../facets/ColorFacet", "../core/DataType", "../core/GeometryArrays", "../core/GraphicsProgramSymbols", "./RigidBody", "./setColorOption", "./setDeprecatedOptions", "../materials/ShaderMaterial", "../math/Vector3", "../facets/Vector3Facet"], function (exports_1, context_1) {
     "use strict";
 
     var __extends = this && this.__extends || function (d, b) {
@@ -3055,7 +3053,7 @@ System.register("davinci-eight/visual/Basis.js", ["../core/BeginMode", "../core/
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
     var __moduleName = context_1 && context_1.id;
-    var BeginMode_1, Color_1, ColorFacet_1, DataType_1, GeometryArrays_1, mustBeEngine_1, RigidBody_1, setColorOption_1, setDeprecatedOptions_1, ShaderMaterial_1, Vector3_1, Vector3Facet_1, uPointA, uPointB, uPointC, uColorA, uColorB, uColorC, vs, fs, Basis;
+    var BeginMode_1, Color_1, ColorFacet_1, DataType_1, GeometryArrays_1, GraphicsProgramSymbols_1, RigidBody_1, setColorOption_1, setDeprecatedOptions_1, ShaderMaterial_1, Vector3_1, Vector3Facet_1, uPointA, uPointB, uPointC, uColorA, uColorB, uColorC, vertexShaderSrc, fragmentShaderSrc, Basis;
     return {
         setters: [function (BeginMode_1_1) {
             BeginMode_1 = BeginMode_1_1;
@@ -3067,8 +3065,8 @@ System.register("davinci-eight/visual/Basis.js", ["../core/BeginMode", "../core/
             DataType_1 = DataType_1_1;
         }, function (GeometryArrays_1_1) {
             GeometryArrays_1 = GeometryArrays_1_1;
-        }, function (mustBeEngine_1_1) {
-            mustBeEngine_1 = mustBeEngine_1_1;
+        }, function (GraphicsProgramSymbols_1_1) {
+            GraphicsProgramSymbols_1 = GraphicsProgramSymbols_1_1;
         }, function (RigidBody_1_1) {
             RigidBody_1 = RigidBody_1_1;
         }, function (setColorOption_1_1) {
@@ -3089,31 +3087,37 @@ System.register("davinci-eight/visual/Basis.js", ["../core/BeginMode", "../core/
             uColorA = 'uColorA';
             uColorB = 'uColorB';
             uColorC = 'uColorC';
-            vs = ["attribute float aPointIndex;", "attribute float aColorIndex;", "uniform vec3 " + uPointA + ";", "uniform vec3 " + uPointB + ";", "uniform vec3 " + uPointC + ";", "uniform vec3 " + uColorA + ";", "uniform vec3 " + uColorB + ";", "uniform vec3 " + uColorC + ";", "uniform mat4 uModel;", "uniform mat4 uProjection;", "uniform mat4 uView;", "varying highp vec4 vColor;", "", "void main(void) {", "  vec3 aPosition;", "  vec3 aColor;", "  if (aPointIndex == 0.0) {", "    aPosition = vec3(0.0, 0.0, 0.0);", "  }", "  if (aPointIndex == 1.0) {", "    aPosition = " + uPointA + ";", "  }", "  if (aPointIndex == 2.0) {", "    aPosition = " + uPointB + ";", "  }", "  if (aPointIndex == 3.0) {", "    aPosition = " + uPointC + ";", "  }", "  if (aColorIndex == 1.0) {", "    aColor = " + uColorA + ";", "  }", "  if (aColorIndex == 2.0) {", "    aColor = " + uColorB + ";", "  }", "  if (aColorIndex == 3.0) {", "    aColor = " + uColorC + ";", "  }", "  gl_Position = uProjection * uView * uModel * vec4(aPosition, 1.0);", "  vColor = vec4(aColor, 1.0);", "}"].join('\n');
-            fs = ["precision mediump float;", "varying highp vec4 vColor;", "", "void main(void) {", "  gl_FragColor = vColor;", "}"].join('\n');
+            vertexShaderSrc = function () {
+                var vs = ["attribute float aPointIndex;", "attribute float aColorIndex;", "uniform vec3 " + uPointA + ";", "uniform vec3 " + uPointB + ";", "uniform vec3 " + uPointC + ";", "uniform vec3 " + uColorA + ";", "uniform vec3 " + uColorB + ";", "uniform vec3 " + uColorC + ";", "uniform mat4 " + GraphicsProgramSymbols_1.default.UNIFORM_MODEL_MATRIX + ";", "uniform mat4 " + GraphicsProgramSymbols_1.default.UNIFORM_PROJECTION_MATRIX + ";", "uniform mat4 " + GraphicsProgramSymbols_1.default.UNIFORM_VIEW_MATRIX + ";", "varying highp vec4 " + GraphicsProgramSymbols_1.default.VARYING_COLOR + ";", "", "void main(void) {", "  vec3 " + GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION + ";", "  vec3 " + GraphicsProgramSymbols_1.default.ATTRIBUTE_COLOR + ";", "  if (aPointIndex == 0.0) {", "    " + GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION + " = vec3(0.0, 0.0, 0.0);", "  }", "  if (aPointIndex == 1.0) {", "    " + GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION + " = " + uPointA + ";", "  }", "  if (aPointIndex == 2.0) {", "    " + GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION + " = " + uPointB + ";", "  }", "  if (aPointIndex == 3.0) {", "    " + GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION + " = " + uPointC + ";", "  }", "  if (aColorIndex == 1.0) {", "    " + GraphicsProgramSymbols_1.default.ATTRIBUTE_COLOR + " = " + uColorA + ";", "  }", "  if (aColorIndex == 2.0) {", "    " + GraphicsProgramSymbols_1.default.ATTRIBUTE_COLOR + " = " + uColorB + ";", "  }", "  if (aColorIndex == 3.0) {", "    " + GraphicsProgramSymbols_1.default.ATTRIBUTE_COLOR + " = " + uColorC + ";", "  }", "  gl_Position = " + GraphicsProgramSymbols_1.default.UNIFORM_PROJECTION_MATRIX + " * " + GraphicsProgramSymbols_1.default.UNIFORM_VIEW_MATRIX + " * " + GraphicsProgramSymbols_1.default.UNIFORM_MODEL_MATRIX + " * vec4(" + GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION + ", 1.0);", "  " + GraphicsProgramSymbols_1.default.VARYING_COLOR + " = vec4(" + GraphicsProgramSymbols_1.default.ATTRIBUTE_COLOR + ", 1.0);", "}"].join('\n');
+                return vs;
+            };
+            fragmentShaderSrc = function () {
+                var fs = ["precision mediump float;", "varying highp vec4 " + GraphicsProgramSymbols_1.default.VARYING_COLOR + ";", "", "void main(void) {", "  gl_FragColor = " + GraphicsProgramSymbols_1.default.VARYING_COLOR + ";", "}"].join('\n');
+                return fs;
+            };
             Basis = function (_super) {
                 __extends(Basis, _super);
-                function Basis(engine, options, levelUp) {
+                function Basis(contextManager, options, levelUp) {
                     if (options === void 0) {
                         options = {};
                     }
                     if (levelUp === void 0) {
                         levelUp = 0;
                     }
-                    var _this = _super.call(this, mustBeEngine_1.default(engine, 'Basis'), levelUp + 1) || this;
+                    var _this = _super.call(this, contextManager, levelUp + 1) || this;
                     _this.uPointA = new Vector3Facet_1.default(uPointA);
                     _this.uPointB = new Vector3Facet_1.default(uPointB);
                     _this.uPointC = new Vector3Facet_1.default(uPointC);
-                    _this.uColorA = new ColorFacet_1.ColorFacet(uColorA);
-                    _this.uColorB = new ColorFacet_1.ColorFacet(uColorB);
-                    _this.uColorC = new ColorFacet_1.ColorFacet(uColorC);
+                    _this.uColorA = new ColorFacet_1.default(uColorA);
+                    _this.uColorB = new ColorFacet_1.default(uColorB);
+                    _this.uColorC = new ColorFacet_1.default(uColorC);
                     _this.setLoggingName("Basis");
                     _this.uPointA.vector = Vector3_1.default.vector(1, 0, 0);
-                    _this.colorA.copy(Color_1.Color.red);
+                    _this.colorA.copy(Color_1.default.red);
                     _this.uPointB.vector = Vector3_1.default.vector(0, 1, 0);
-                    _this.colorB.copy(Color_1.Color.green);
+                    _this.colorB.copy(Color_1.default.green);
                     _this.uPointC.vector = Vector3_1.default.vector(0, 0, 1);
-                    _this.colorC.copy(Color_1.Color.blue);
+                    _this.colorC.copy(Color_1.default.blue);
                     var primitive = {
                         mode: BeginMode_1.default.LINES,
                         attributes: {
@@ -3121,10 +3125,10 @@ System.register("davinci-eight/visual/Basis.js", ["../core/BeginMode", "../core/
                             aColorIndex: { values: [1, 1, 2, 2, 3, 3], size: 1, type: DataType_1.default.FLOAT }
                         }
                     };
-                    var geometry = new GeometryArrays_1.default(engine, primitive);
+                    var geometry = new GeometryArrays_1.default(contextManager, primitive);
                     _this.geometry = geometry;
                     geometry.release();
-                    var material = new ShaderMaterial_1.ShaderMaterial(vs, fs, [], engine);
+                    var material = new ShaderMaterial_1.ShaderMaterial(vertexShaderSrc(), fragmentShaderSrc(), [], contextManager);
                     _this.material = material;
                     material.release();
                     _this.setFacet("Basis-" + uPointA, _this.uPointA);
@@ -3189,7 +3193,7 @@ System.register("davinci-eight/visual/Basis.js", ["../core/BeginMode", "../core/
                     configurable: true
                 });
                 return Basis;
-            }(RigidBody_1.RigidBody);
+            }(RigidBody_1.default);
             exports_1("default", Basis);
         }
     };
@@ -6607,7 +6611,7 @@ System.register("davinci-eight/shapes/CylindricalShellBuilder.js", ["../transfor
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
     var __moduleName = context_1 && context_1.id;
-    var Approximation_1, Direction_1, Duality_1, GraphicsProgramSymbols_1, GridTriangleStrip_1, AxialShapeBuilder_1, CylinderTransform_1, Rotation_1, Scaling_1, Translation_1, CoordsTransform2D_1, Vector3_1, aPosition, aTangent, aNormal, CylindricalShellBuilder;
+    var Approximation_1, Direction_1, Duality_1, GraphicsProgramSymbols_1, GridTriangleStrip_1, AxialShapeBuilder_1, CylinderTransform_1, Rotation_1, Scaling_1, Translation_1, CoordsTransform2D_1, Vector3_1, CylindricalShellBuilder;
     return {
         setters: [function (Approximation_1_1) {
             Approximation_1 = Approximation_1_1;
@@ -6635,9 +6639,6 @@ System.register("davinci-eight/shapes/CylindricalShellBuilder.js", ["../transfor
             Vector3_1 = Vector3_1_1;
         }],
         execute: function () {
-            aPosition = GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION;
-            aTangent = GraphicsProgramSymbols_1.default.ATTRIBUTE_TANGENT;
-            aNormal = GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL;
             CylindricalShellBuilder = function (_super) {
                 __extends(CylindricalShellBuilder, _super);
                 function CylindricalShellBuilder() {
@@ -6651,6 +6652,9 @@ System.register("davinci-eight/shapes/CylindricalShellBuilder.js", ["../transfor
                     return _this;
                 }
                 CylindricalShellBuilder.prototype.toPrimitive = function () {
+                    var aPosition = GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION;
+                    var aTangent = GraphicsProgramSymbols_1.default.ATTRIBUTE_TANGENT;
+                    var aNormal = GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL;
                     var orientation = this.convex ? +1 : -1;
                     this.transforms.push(new CylinderTransform_1.default(this.height, this.cutLine, this.clockwise, this.sliceAngle, orientation, aPosition, aTangent));
                     this.transforms.push(new Scaling_1.default(this.stress, [aPosition, aTangent]));
@@ -7341,6 +7345,19 @@ System.register("davinci-eight/atoms/VertexPrimitive.js", ["../core/DataType", "
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
+    function checkSize(length) {
+        if (length === 1) {
+            return 1;
+        } else if (length === 2) {
+            return 2;
+        } else if (length === 3) {
+            return 3;
+        } else if (length === 4) {
+            return 4;
+        } else {
+            throw new Error("length must be 1, 2, 3, or 4");
+        }
+    }
     function attributes(unused, vertices) {
         var attribs = {};
         var iLen = vertices.length;
@@ -7351,7 +7368,7 @@ System.register("davinci-eight/atoms/VertexPrimitive.js", ["../core/DataType", "
             for (var j = 0; j < jLen; j++) {
                 var name_1 = names[j];
                 var data = dataFromVectorN_1.default(vertex.attributes[name_1]);
-                var size = data.length;
+                var size = checkSize(data.length);
                 var attrib = attribs[name_1];
                 if (!attrib) {
                     attrib = attribs[name_1] = new DrawAttribute_1.default([], size, DataType_1.default.FLOAT);
@@ -7875,7 +7892,7 @@ System.register("davinci-eight/shapes/RingBuilder.js", ["../transforms/Approxima
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
     var __moduleName = context_1 && context_1.id;
-    var Approximation_1, Direction_1, Duality_1, GraphicsProgramSymbols_1, GridTriangleStrip_1, AxialShapeBuilder_1, RingTransform_1, Rotation_1, Scaling_1, Translation_1, CoordsTransform2D_1, Vector3_1, aPosition, aTangent, aNormal, RingBuilder;
+    var Approximation_1, Direction_1, Duality_1, GraphicsProgramSymbols_1, GridTriangleStrip_1, AxialShapeBuilder_1, RingTransform_1, Rotation_1, Scaling_1, Translation_1, CoordsTransform2D_1, Vector3_1, RingBuilder;
     return {
         setters: [function (Approximation_1_1) {
             Approximation_1 = Approximation_1_1;
@@ -7903,9 +7920,6 @@ System.register("davinci-eight/shapes/RingBuilder.js", ["../transforms/Approxima
             Vector3_1 = Vector3_1_1;
         }],
         execute: function () {
-            aPosition = GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION;
-            aTangent = GraphicsProgramSymbols_1.default.ATTRIBUTE_TANGENT;
-            aNormal = GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL;
             RingBuilder = function (_super) {
                 __extends(RingBuilder, _super);
                 function RingBuilder() {
@@ -7920,6 +7934,9 @@ System.register("davinci-eight/shapes/RingBuilder.js", ["../transforms/Approxima
                     return _this;
                 }
                 RingBuilder.prototype.toPrimitive = function () {
+                    var aPosition = GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION;
+                    var aTangent = GraphicsProgramSymbols_1.default.ATTRIBUTE_TANGENT;
+                    var aNormal = GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL;
                     this.transforms.push(new RingTransform_1.default(this.e, this.cutLine, this.clockwise, this.outerRadius, this.innerRadius, this.sliceAngle, aPosition, aTangent));
                     this.transforms.push(new Scaling_1.default(this.stress, [aPosition, aTangent]));
                     this.transforms.push(new Rotation_1.default(this.tilt, [aPosition, aTangent]));
@@ -8052,7 +8069,7 @@ System.register("davinci-eight/visual/vectorE3Object.js", [], function (exports_
         execute: function () {}
     };
 });
-System.register("davinci-eight/visual/HollowCylinder.js", ["../core/Color", "./direction", "../math/Geometric3", "../geometries/HollowCylinderGeometry", "../materials/MeshMaterial", "./mustBeEngine", "../checks/mustBeObject", "./RigidBody", "./setColorOption", "./setDeprecatedOptions", "./vectorE3Object"], function (exports_1, context_1) {
+System.register("davinci-eight/visual/HollowCylinder.js", ["../core/Color", "./direction", "../math/Geometric3", "../core/GraphicsProgramSymbols", "../geometries/HollowCylinderGeometry", "../materials/MeshMaterial", "./mustBeEngine", "../checks/mustBeObject", "./RigidBody", "./setColorOption", "./setDeprecatedOptions", "./vectorE3Object"], function (exports_1, context_1) {
     "use strict";
 
     var __extends = this && this.__extends || function (d, b) {
@@ -8063,7 +8080,7 @@ System.register("davinci-eight/visual/HollowCylinder.js", ["../core/Color", "./d
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
     var __moduleName = context_1 && context_1.id;
-    var Color_1, direction_1, Geometric3_1, HollowCylinderGeometry_1, MeshMaterial_1, mustBeEngine_1, mustBeObject_1, RigidBody_1, setColorOption_1, setDeprecatedOptions_1, vectorE3Object_1, HollowCylinder;
+    var Color_1, direction_1, Geometric3_1, GraphicsProgramSymbols_1, HollowCylinderGeometry_1, MeshMaterial_1, mustBeEngine_1, mustBeObject_1, RigidBody_1, setColorOption_1, setDeprecatedOptions_1, vectorE3Object_1, HollowCylinder;
     return {
         setters: [function (Color_1_1) {
             Color_1 = Color_1_1;
@@ -8071,6 +8088,8 @@ System.register("davinci-eight/visual/HollowCylinder.js", ["../core/Color", "./d
             direction_1 = direction_1_1;
         }, function (Geometric3_1_1) {
             Geometric3_1 = Geometric3_1_1;
+        }, function (GraphicsProgramSymbols_1_1) {
+            GraphicsProgramSymbols_1 = GraphicsProgramSymbols_1_1;
         }, function (HollowCylinderGeometry_1_1) {
             HollowCylinderGeometry_1 = HollowCylinderGeometry_1_1;
         }, function (MeshMaterial_1_1) {
@@ -8115,17 +8134,17 @@ System.register("davinci-eight/visual/HollowCylinder.js", ["../core/Color", "./d
                         engine.putCacheGeometry(geoOptions, geometry);
                     }
                     var mmo = { kind: 'MeshMaterial', attributes: {}, uniforms: {} };
-                    mmo.attributes['aPosition'] = 3;
-                    mmo.attributes['aNormal'] = 3;
-                    mmo.uniforms['uColor'] = 'vec3';
-                    mmo.uniforms['uOpacity'] = 'float';
-                    mmo.uniforms['uModel'] = 'mat4';
-                    mmo.uniforms['uNormal'] = 'mat3';
-                    mmo.uniforms['uProjection'] = 'mat4';
-                    mmo.uniforms['uView'] = 'mat4';
-                    mmo.uniforms['uAmbientLight'] = 'vec3';
-                    mmo.uniforms['uDirectionalLightColor'] = 'vec3';
-                    mmo.uniforms['uDirectionalLightDirection'] = 'vec3';
+                    mmo.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = 3;
+                    mmo.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL] = 3;
+                    mmo.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_COLOR] = 'vec3';
+                    mmo.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_OPACITY] = 'float';
+                    mmo.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_MODEL_MATRIX] = 'mat4';
+                    mmo.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_NORMAL_MATRIX] = 'mat3';
+                    mmo.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_PROJECTION_MATRIX] = 'mat4';
+                    mmo.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_VIEW_MATRIX] = 'mat4';
+                    mmo.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_AMBIENT_LIGHT] = 'vec3';
+                    mmo.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_DIRECTIONAL_LIGHT_COLOR] = 'vec3';
+                    mmo.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION] = 'vec3';
                     var cachedMaterial = engine.getCacheMaterial(mmo);
                     if (cachedMaterial && cachedMaterial instanceof MeshMaterial_1.MeshMaterial) {
                         _this.material = cachedMaterial;
@@ -11128,6 +11147,7 @@ System.register("davinci-eight/math/Geometric2.js", ["./arraysEQ", "../geometrie
             Geometric2.BASIS_LABELS_GEOMETRIC = ARROW_LABELS;
             Geometric2.BASIS_LABELS_STANDARD = STANDARD_LABELS;
             exports_1("Geometric2", Geometric2);
+            exports_1("default", Geometric2);
         }
     };
 });
@@ -11136,28 +11156,38 @@ System.register("davinci-eight/geometries/dataLength.js", ["../math/Geometric2",
 
     var __moduleName = context_1 && context_1.id;
     function dataLength(source) {
-        if (source instanceof Geometric3_1.Geometric3) {
+        if (source instanceof Geometric3_1.default) {
             if (source.length !== 8) {
-                throw new Error("source.length is expected to be 8");
+                throw new Error("source.length (" + source.length + ") is expected to be 8");
             }
             return 3;
-        } else if (source instanceof Geometric2_1.Geometric2) {
+        } else if (source instanceof Geometric2_1.default) {
             if (source.length !== 4) {
-                throw new Error("source.length is expected to be 4");
+                throw new Error("source.length (" + source.length + ") is expected to be 4");
             }
             return 2;
         } else if (source instanceof Vector3_1.default) {
             if (source.length !== 3) {
-                throw new Error("source.length is expected to be 3");
+                throw new Error("source.length (" + source.length + ") is expected to be 3");
             }
             return 3;
         } else if (source instanceof Vector2_1.Vector2) {
             if (source.length !== 2) {
-                throw new Error("source.length is expected to be 2");
+                throw new Error("source.length (" + source.length + ") is expected to be 2");
             }
             return 2;
         } else {
-            return source.length;
+            if (source.length === 1) {
+                return 1;
+            } else if (source.length === 2) {
+                return 2;
+            } else if (source.length === 3) {
+                return 3;
+            } else if (source.length === 4) {
+                return 4;
+            } else {
+                throw new Error("dataLength(source: VectorN<number>): 1 | 2 | 3 | 4, source.length => " + source.length);
+            }
         }
     }
     exports_1("default", dataLength);
@@ -12674,7 +12704,7 @@ System.register("davinci-eight/visual/Tetrahedron.js", ["../core/Color", "../mat
         }
     };
 });
-System.register("davinci-eight/visual/Track.js", ["../core/BeginMode", "../core/Color", "../core/DataType", "../materials/LineMaterial", "../math/Matrix4", "../core/Mesh", "./setColorOption", "../core/Usage", "../core/VertexBuffer"], function (exports_1, context_1) {
+System.register("davinci-eight/visual/Track.js", ["../core/BeginMode", "../core/Color", "../core/DataType", "../core/GraphicsProgramSymbols", "../materials/LineMaterial", "../math/Matrix4", "../core/Mesh", "./setColorOption", "../core/Usage", "../core/VertexBuffer"], function (exports_1, context_1) {
     "use strict";
 
     var __extends = this && this.__extends || function (d, b) {
@@ -12685,7 +12715,7 @@ System.register("davinci-eight/visual/Track.js", ["../core/BeginMode", "../core/
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
     var __moduleName = context_1 && context_1.id;
-    var BeginMode_1, Color_1, DataType_1, LineMaterial_1, Matrix4_1, Mesh_1, setColorOption_1, Usage_1, VertexBuffer_1, FLOATS_PER_VERTEX, BYTES_PER_FLOAT, STRIDE, TrackGeometry, Track;
+    var BeginMode_1, Color_1, DataType_1, GraphicsProgramSymbols_1, LineMaterial_1, Matrix4_1, Mesh_1, setColorOption_1, Usage_1, VertexBuffer_1, FLOATS_PER_VERTEX, BYTES_PER_FLOAT, STRIDE, TrackGeometry, Track;
     return {
         setters: [function (BeginMode_1_1) {
             BeginMode_1 = BeginMode_1_1;
@@ -12693,6 +12723,8 @@ System.register("davinci-eight/visual/Track.js", ["../core/BeginMode", "../core/
             Color_1 = Color_1_1;
         }, function (DataType_1_1) {
             DataType_1 = DataType_1_1;
+        }, function (GraphicsProgramSymbols_1_1) {
+            GraphicsProgramSymbols_1 = GraphicsProgramSymbols_1_1;
         }, function (LineMaterial_1_1) {
             LineMaterial_1 = LineMaterial_1_1;
         }, function (Matrix4_1_1) {
@@ -12733,13 +12765,13 @@ System.register("davinci-eight/visual/Track.js", ["../core/BeginMode", "../core/
                         this.dirty = false;
                     }
                     this.vbo.bind();
-                    var aPosition = material.getAttrib('aPosition');
+                    var aPosition = material.getAttrib(GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION);
                     aPosition.config(FLOATS_PER_VERTEX, DataType_1.default.FLOAT, true, STRIDE, 0);
                     aPosition.enable();
                     return this;
                 };
                 TrackGeometry.prototype.unbind = function (material) {
-                    var aPosition = material.getAttrib('aPosition');
+                    var aPosition = material.getAttrib(GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION);
                     aPosition.disable();
                     this.vbo.unbind();
                     return this;
@@ -15130,9 +15162,9 @@ System.register("davinci-eight/materials/fragmentShaderSrc.js", ["../config", ".
     function default_1(attributes, uniforms, vColor, vCoords, vLight) {
         mustBeDefined_1.default('attributes', attributes);
         mustBeDefined_1.default('uniforms', uniforms);
-        mustBeBoolean_1.default('vColor', vColor);
-        mustBeBoolean_1.default('vCoords', vCoords);
-        mustBeBoolean_1.default('vLight', vLight);
+        mustBeBoolean_1.default(GraphicsProgramSymbols_1.default.VARYING_COLOR, vColor);
+        mustBeBoolean_1.default(GraphicsProgramSymbols_1.default.VARYING_COORDS, vCoords);
+        mustBeBoolean_1.default(GraphicsProgramSymbols_1.default.VARYING_LIGHT, vLight);
         var lines = [];
         lines.push("// fragment shader generated by " + config_1.default.NAMESPACE + " " + config_1.default.VERSION);
         if (emitFragmentPrecision) {
@@ -15145,13 +15177,13 @@ System.register("davinci-eight/materials/fragmentShaderSrc.js", ["../config", ".
             lines.push("#endif");
         }
         if (vColor) {
-            lines.push("varying highp vec4 vColor;");
+            lines.push("varying highp vec4 " + GraphicsProgramSymbols_1.default.VARYING_COLOR + ";");
         }
         if (vCoords) {
-            lines.push("varying highp vec2 vCoords;");
+            lines.push("varying highp vec2 " + GraphicsProgramSymbols_1.default.VARYING_COORDS + ";");
         }
         if (vLight) {
-            lines.push("varying highp vec3 vLight;");
+            lines.push("varying highp vec3 " + GraphicsProgramSymbols_1.default.VARYING_LIGHT + ";");
         }
         for (var uName in uniforms) {
             if (uniforms.hasOwnProperty(uName)) {
@@ -15170,23 +15202,23 @@ System.register("davinci-eight/materials/fragmentShaderSrc.js", ["../config", ".
         if (vLight) {
             if (vColor) {
                 if (vCoords && uniforms[GraphicsProgramSymbols_1.default.UNIFORM_IMAGE]) {
-                    lines.push("  gl_FragColor = texture2D(" + GraphicsProgramSymbols_1.default.UNIFORM_IMAGE + ", vCoords) * vec4(vColor.xyz * vLight, vColor.a);");
+                    lines.push("  gl_FragColor = texture2D(" + GraphicsProgramSymbols_1.default.UNIFORM_IMAGE + ", " + GraphicsProgramSymbols_1.default.VARYING_COORDS + ") * vec4(" + GraphicsProgramSymbols_1.default.VARYING_COLOR + ".xyz * " + GraphicsProgramSymbols_1.default.VARYING_LIGHT + ", " + GraphicsProgramSymbols_1.default.VARYING_COLOR + ".a);");
                 } else {
-                    lines.push("  gl_FragColor = vec4(vColor.xyz * vLight, vColor.a);");
+                    lines.push("  gl_FragColor = vec4(" + GraphicsProgramSymbols_1.default.VARYING_COLOR + ".xyz * " + GraphicsProgramSymbols_1.default.VARYING_LIGHT + ", " + GraphicsProgramSymbols_1.default.VARYING_COLOR + ".a);");
                 }
             } else {
-                lines.push("  gl_FragColor = vec4(vLight, 1.0);");
+                lines.push("  gl_FragColor = vec4(" + GraphicsProgramSymbols_1.default.VARYING_LIGHT + ", 1.0);");
             }
         } else {
             if (vColor) {
                 if (vCoords && uniforms[GraphicsProgramSymbols_1.default.UNIFORM_IMAGE]) {
-                    lines.push("  gl_FragColor = texture2D(" + GraphicsProgramSymbols_1.default.UNIFORM_IMAGE + ", vCoords) * vColor;");
+                    lines.push("  gl_FragColor = texture2D(" + GraphicsProgramSymbols_1.default.UNIFORM_IMAGE + ", " + GraphicsProgramSymbols_1.default.VARYING_COORDS + ") * " + GraphicsProgramSymbols_1.default.VARYING_COLOR + ";");
                 } else {
-                    lines.push("  gl_FragColor = vColor;");
+                    lines.push("  gl_FragColor = " + GraphicsProgramSymbols_1.default.VARYING_COLOR + ";");
                 }
             } else {
                 if (vCoords && uniforms[GraphicsProgramSymbols_1.default.UNIFORM_IMAGE]) {
-                    lines.push("  gl_FragColor = texture2D(" + GraphicsProgramSymbols_1.default.UNIFORM_IMAGE + ", vCoords);");
+                    lines.push("  gl_FragColor = texture2D(" + GraphicsProgramSymbols_1.default.UNIFORM_IMAGE + ", " + GraphicsProgramSymbols_1.default.VARYING_COORDS + ");");
                 } else {
                     lines.push("  gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);");
                 }
@@ -15271,9 +15303,9 @@ System.register("davinci-eight/materials/vertexShaderSrc.js", ["../config", "../
     function vertexShaderSrc(attributes, uniforms, vColor, vCoords, vLight) {
         mustBeDefined_1.default('attributes', attributes);
         mustBeDefined_1.default('uniforms', uniforms);
-        mustBeBoolean_1.default('vColor', vColor);
-        mustBeBoolean_1.default('vCoords', vCoords);
-        mustBeBoolean_1.default('vLight', vLight);
+        mustBeBoolean_1.default(GraphicsProgramSymbols_1.default.VARYING_COLOR, vColor);
+        mustBeBoolean_1.default(GraphicsProgramSymbols_1.default.VARYING_COORDS, vCoords);
+        mustBeBoolean_1.default(GraphicsProgramSymbols_1.default.VARYING_LIGHT, vLight);
         var lines = [];
         lines.push("// vertex shader generated by " + config_1.default.NAMESPACE + " " + config_1.default.VERSION);
         for (var aName in attributes) {
@@ -15296,13 +15328,13 @@ System.register("davinci-eight/materials/vertexShaderSrc.js", ["../config", "../
             }
         }
         if (vColor) {
-            lines.push("varying highp vec4 vColor;");
+            lines.push("varying highp vec4 " + GraphicsProgramSymbols_1.default.VARYING_COLOR + ";");
         }
         if (vCoords) {
-            lines.push("varying highp vec2 vCoords;");
+            lines.push("varying highp vec2 " + GraphicsProgramSymbols_1.default.VARYING_COORDS + ";");
         }
         if (vLight) {
-            lines.push("varying highp vec3 vLight;");
+            lines.push("varying highp vec3 " + GraphicsProgramSymbols_1.default.VARYING_LIGHT + ";");
         }
         lines.push("void main(void) {");
         var glPosition = [];
@@ -15387,15 +15419,15 @@ System.register("davinci-eight/materials/vertexShaderSrc.js", ["../config", "../
                 switch (attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_COLOR].glslType) {
                     case 'vec4':
                         {
-                            lines.push("  vColor = " + colorAttribVarName + SEMICOLON);
+                            lines.push("  " + GraphicsProgramSymbols_1.default.VARYING_COLOR + " = " + colorAttribVarName + SEMICOLON);
                             break;
                         }
                     case 'vec3':
                         {
                             if (uniforms[GraphicsProgramSymbols_1.default.UNIFORM_OPACITY]) {
-                                lines.push("  vColor = vec4(" + colorAttribVarName + ", " + getUniformCodeName(uniforms, GraphicsProgramSymbols_1.default.UNIFORM_OPACITY) + ");");
+                                lines.push("  " + GraphicsProgramSymbols_1.default.VARYING_COLOR + " = vec4(" + colorAttribVarName + ", " + getUniformCodeName(uniforms, GraphicsProgramSymbols_1.default.UNIFORM_OPACITY) + ");");
                             } else {
-                                lines.push("  vColor = vec4(" + colorAttribVarName + ", 1.0);");
+                                lines.push("  " + GraphicsProgramSymbols_1.default.VARYING_COLOR + " = vec4(" + colorAttribVarName + ", 1.0);");
                             }
                             break;
                         }
@@ -15415,9 +15447,9 @@ System.register("davinci-eight/materials/vertexShaderSrc.js", ["../config", "../
                     case 'vec3':
                         {
                             if (uniforms[GraphicsProgramSymbols_1.default.UNIFORM_OPACITY]) {
-                                lines.push("  vColor = vec4(" + colorUniformVarName + ", " + getUniformCodeName(uniforms, GraphicsProgramSymbols_1.default.UNIFORM_OPACITY) + ");");
+                                lines.push("  " + GraphicsProgramSymbols_1.default.VARYING_COLOR + " = vec4(" + colorUniformVarName + ", " + getUniformCodeName(uniforms, GraphicsProgramSymbols_1.default.UNIFORM_OPACITY) + ");");
                             } else {
-                                lines.push("  vColor = vec4(" + colorUniformVarName + ", 1.0);");
+                                lines.push("  " + GraphicsProgramSymbols_1.default.VARYING_COLOR + " = vec4(" + colorUniformVarName + ", 1.0);");
                             }
                             break;
                         }
@@ -15427,11 +15459,11 @@ System.register("davinci-eight/materials/vertexShaderSrc.js", ["../config", "../
                         }
                 }
             } else {
-                lines.push("  vColor = vec4(1.0, 1.0, 1.0, 1.0);");
+                lines.push("  " + GraphicsProgramSymbols_1.default.VARYING_COLOR + " = vec4(1.0, 1.0, 1.0, 1.0);");
             }
         }
         if (vCoords) {
-            lines.push("  vCoords = aCoords;");
+            lines.push("  " + GraphicsProgramSymbols_1.default.VARYING_COORDS + " = " + GraphicsProgramSymbols_1.default.ATTRIBUTE_COORDS + ";");
         }
         if (vLight) {
             if (uniforms[GraphicsProgramSymbols_1.default.UNIFORM_DIRECTIONAL_LIGHT_COLOR] && uniforms[GraphicsProgramSymbols_1.default.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION] && uniforms[GraphicsProgramSymbols_1.default.UNIFORM_NORMAL_MATRIX] && attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL]) {
@@ -15440,15 +15472,15 @@ System.register("davinci-eight/materials/vertexShaderSrc.js", ["../config", "../
                 lines.push("  // The minus sign arises because L is the light direction, so we need dot(N, -L) = -dot(N, L)");
                 lines.push("  float " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " = max(-dot(N, L), 0.0);");
                 if (uniforms[GraphicsProgramSymbols_1.default.UNIFORM_AMBIENT_LIGHT]) {
-                    lines.push("  vLight = " + getUniformCodeName(uniforms, GraphicsProgramSymbols_1.default.UNIFORM_AMBIENT_LIGHT) + " + " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " * " + getUniformCodeName(uniforms, GraphicsProgramSymbols_1.default.UNIFORM_DIRECTIONAL_LIGHT_COLOR) + ";");
+                    lines.push("  " + GraphicsProgramSymbols_1.default.VARYING_LIGHT + " = " + getUniformCodeName(uniforms, GraphicsProgramSymbols_1.default.UNIFORM_AMBIENT_LIGHT) + " + " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " * " + getUniformCodeName(uniforms, GraphicsProgramSymbols_1.default.UNIFORM_DIRECTIONAL_LIGHT_COLOR) + ";");
                 } else {
-                    lines.push("  vLight = " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " * " + getUniformCodeName(uniforms, GraphicsProgramSymbols_1.default.UNIFORM_DIRECTIONAL_LIGHT_COLOR) + ";");
+                    lines.push("  " + GraphicsProgramSymbols_1.default.VARYING_LIGHT + " = " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " * " + getUniformCodeName(uniforms, GraphicsProgramSymbols_1.default.UNIFORM_DIRECTIONAL_LIGHT_COLOR) + ";");
                 }
             } else {
                 if (uniforms[GraphicsProgramSymbols_1.default.UNIFORM_AMBIENT_LIGHT]) {
-                    lines.push("  vLight = " + getUniformCodeName(uniforms, GraphicsProgramSymbols_1.default.UNIFORM_AMBIENT_LIGHT) + ";");
+                    lines.push("  " + GraphicsProgramSymbols_1.default.VARYING_LIGHT + " = " + getUniformCodeName(uniforms, GraphicsProgramSymbols_1.default.UNIFORM_AMBIENT_LIGHT) + ";");
                 } else {
-                    lines.push("  vLight = vec3(1.0, 1.0, 1.0);");
+                    lines.push("  " + GraphicsProgramSymbols_1.default.VARYING_LIGHT + " = vec3(1.0, 1.0, 1.0);");
                 }
             }
         }
@@ -15498,9 +15530,9 @@ System.register("davinci-eight/materials/GraphicsProgramBuilder.js", ["../core/g
         for (var i = 0; i < keysLength; i++) {
             var key = keys[i];
             var attribute = values[key];
-            var size = mustBeInteger_1.default('size', attribute.size);
+            mustBeInteger_1.default('size', attribute.size);
             var varName = getAttribVarName_1.default(attribute, key);
-            result[varName] = { glslType: glslAttribType_1.default(key, size) };
+            result[varName] = { glslType: glslAttribType_1.default(key, attribute.size) };
         }
         return result;
     }
@@ -16288,6 +16320,7 @@ System.register("davinci-eight/materials/ShaderMaterial.js", ["../core/Attrib", 
                 return ShaderMaterial;
             }(ShareableContextConsumer_1.default);
             exports_1("ShaderMaterial", ShaderMaterial);
+            exports_1("default", ShaderMaterial);
         }
     };
 });
@@ -17973,7 +18006,7 @@ System.register("davinci-eight/facets/ColorFacet.js", ["../core/Color", "../chec
                         uColorName = GraphicsProgramSymbols_1.default.UNIFORM_COLOR;
                     }
                     this.uColorName = uColorName;
-                    this.color = Color_1.Color.fromRGB(1, 1, 1);
+                    this.color = Color_1.default.fromRGB(1, 1, 1);
                 }
                 Object.defineProperty(ColorFacet.prototype, "r", {
                     get: function () {
@@ -18034,6 +18067,7 @@ System.register("davinci-eight/facets/ColorFacet.js", ["../core/Color", "../chec
             ColorFacet.PROP_GREEN = 'g';
             ColorFacet.PROP_BLUE = 'b';
             exports_1("ColorFacet", ColorFacet);
+            exports_1("default", ColorFacet);
         }
     };
 });
@@ -20077,6 +20111,7 @@ System.register('davinci-eight/core/GraphicsProgramSymbols.js', [], function (ex
             GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX = 'uNormal';
             GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX = 'uView';
             GraphicsProgramSymbols.VARYING_COLOR = 'vColor';
+            GraphicsProgramSymbols.VARYING_COORDS = 'vCoords';
             GraphicsProgramSymbols.VARYING_LIGHT = 'vLight';
             exports_1("default", GraphicsProgramSymbols);
         }
@@ -20770,6 +20805,7 @@ System.register("davinci-eight/math/VectorN.js", ["../checks/isDefined", "../che
                 return VectorN;
             }();
             exports_1("VectorN", VectorN);
+            exports_1("default", VectorN);
         }
     };
 });
@@ -23182,7 +23218,7 @@ System.register("davinci-eight/visual/tiltFromOptions.js", ["../math/Geometric3"
         execute: function () {}
     };
 });
-System.register("davinci-eight/visual/Turtle.js", ["../core/BeginMode", "../core/Color", "../core/DataType", "../math/Geometric3", "../core/GeometryArrays", "./materialFromOptions", "./mustBeEngine", "./offsetFromOptions", "./RigidBody", "./setColorOption", "../geometries/SimplexMode", "./simplexModeFromOptions", "./tiltFromOptions", "../math/R3"], function (exports_1, context_1) {
+System.register("davinci-eight/visual/Turtle.js", ["../core/BeginMode", "../core/Color", "../core/DataType", "../math/Geometric3", "../core/GeometryArrays", "../core/GraphicsProgramSymbols", "./materialFromOptions", "./mustBeEngine", "./offsetFromOptions", "./RigidBody", "./setColorOption", "../geometries/SimplexMode", "./simplexModeFromOptions", "./tiltFromOptions", "../math/R3"], function (exports_1, context_1) {
     "use strict";
 
     var __extends = this && this.__extends || function (d, b) {
@@ -23222,13 +23258,12 @@ System.register("davinci-eight/visual/Turtle.js", ["../core/BeginMode", "../core
         var values = transform([CENTER, LEFT, CENTER, TAIL, NOSE, LLEG, NOSE, RLEG, LLEG, RLEG], options).reduce(concat);
         var result = {
             mode: BeginMode_1.default.LINES,
-            attributes: {
-                'aPosition': { values: values, size: CENTER.length, type: DataType_1.default.FLOAT }
-            }
+            attributes: {}
         };
+        result.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = { values: values, size: 3, type: DataType_1.default.FLOAT };
         return result;
     }
-    var BeginMode_1, Color_1, DataType_1, Geometric3_1, GeometryArrays_1, materialFromOptions_1, mustBeEngine_1, offsetFromOptions_1, RigidBody_1, setColorOption_1, SimplexMode_1, simplexModeFromOptions_1, tiltFromOptions_1, R3_1, NOSE, LLEG, RLEG, TAIL, CENTER, LEFT, canonicalAxis, TurtleGeometry, Turtle;
+    var BeginMode_1, Color_1, DataType_1, Geometric3_1, GeometryArrays_1, GraphicsProgramSymbols_1, materialFromOptions_1, mustBeEngine_1, offsetFromOptions_1, RigidBody_1, setColorOption_1, SimplexMode_1, simplexModeFromOptions_1, tiltFromOptions_1, R3_1, NOSE, LLEG, RLEG, TAIL, CENTER, LEFT, canonicalAxis, TurtleGeometry, Turtle;
     return {
         setters: [function (BeginMode_1_1) {
             BeginMode_1 = BeginMode_1_1;
@@ -23240,6 +23275,8 @@ System.register("davinci-eight/visual/Turtle.js", ["../core/BeginMode", "../core
             Geometric3_1 = Geometric3_1_1;
         }, function (GeometryArrays_1_1) {
             GeometryArrays_1 = GeometryArrays_1_1;
+        }, function (GraphicsProgramSymbols_1_1) {
+            GraphicsProgramSymbols_1 = GraphicsProgramSymbols_1_1;
         }, function (materialFromOptions_1_1) {
             materialFromOptions_1 = materialFromOptions_1_1;
         }, function (mustBeEngine_1_1) {
@@ -23817,7 +23854,7 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
                     this.LAST_MODIFIED = '2016-12-09';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '5.0.1';
+                    this.VERSION = '5.0.2';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];

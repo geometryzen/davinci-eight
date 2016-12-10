@@ -3,6 +3,7 @@ import Color from '../core/Color';
 import ContextManager from '../core/ContextManager';
 import DataType from '../core/DataType';
 import Geometry from '../core/Geometry';
+import GPS from '../core/GraphicsProgramSymbols';
 import LineMaterial from '../materials/LineMaterial';
 import Material from '../core/Material';
 import Matrix4 from '../math/Matrix4';
@@ -43,13 +44,13 @@ class TrackGeometry implements Geometry {
             this.dirty = false;
         }
         this.vbo.bind();
-        const aPosition = material.getAttrib('aPosition');
+        const aPosition = material.getAttrib(GPS.ATTRIBUTE_POSITION);
         aPosition.config(FLOATS_PER_VERTEX, DataType.FLOAT, true, STRIDE, 0);
         aPosition.enable();
         return this;
     }
     unbind(material: Material): TrackGeometry {
-        const aPosition = material.getAttrib('aPosition');
+        const aPosition = material.getAttrib(GPS.ATTRIBUTE_POSITION);
         aPosition.disable();
         this.vbo.unbind();
         return this;

@@ -91,6 +91,9 @@ export default class IndexBuffer extends ShareableContextConsumer {
         super.contextLost();
     }
 
+    /**
+     * Binds the underlying WebGLBuffer to the ELEMENT_ARRAY_BUFFER target.
+     */
     bind(): void {
         const gl = this.gl;
         if (gl) {

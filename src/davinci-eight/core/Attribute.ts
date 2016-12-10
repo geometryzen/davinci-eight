@@ -1,3 +1,4 @@
+import AttributeSizeType from './AttributeSizeType';
 import DataType from './DataType';
 
 /**
@@ -13,7 +14,7 @@ interface Attribute {
     /**
      * The number of values that are associated with a given vertex.
      */
-    size: number;
+    size: AttributeSizeType;
 
     /**
      * The type of the attribute.

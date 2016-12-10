@@ -14,3 +14,5 @@ export interface FacetVisitor {
     vector3fv(name: string, vec3: Float32Array): void;
     vector4fv(name: string, vec4: Float32Array): void;
 }
+
+export default FacetVisitor;

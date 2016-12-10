@@ -1,4 +1,5 @@
 import Attribute from '../core/Attribute';
+import AttributeSizeType from '../core/AttributeSizeType';
 import copyToArray from '../collections/copyToArray';
 import dataFromVectorN from './dataFromVectorN';
 import DataType from '../core/DataType';
@@ -34,7 +35,7 @@ function attribName(name: string, attribMap?: { [name: string]: { name?: string 
     }
 }
 
-function attribSize(key: string, attribMap?: { [key: string]: { size: number } }): number {
+function attribSize(key: string, attribMap?: { [key: string]: { size: AttributeSizeType } }): AttributeSizeType {
     expectArg('key', key).toBeString();
     expectArg('attribMap', attribMap).toBeObject();
     let meta = attribMap[key];
@@ -82,7 +83,7 @@ export default function (simplices: Simplex[], geometryMeta?: GeometryMeta): Pri
 
     // Create intermediate data structures for output and to cache dimensions and name.
     // For performance an array will be used whose index is the key index.
-    const outputs: { data: number[]; dimensions: number; name: string }[] = [];
+    const outputs: { data: number[]; dimensions: AttributeSizeType; name: string }[] = [];
     for (k = 0; k < keysLen; k++) {
         const key = keys[k];
         const dims = attribSize(key, attribMap);

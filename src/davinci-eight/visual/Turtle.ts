@@ -6,6 +6,7 @@ import Engine from '../core/Engine';
 import Geometric3 from '../math/Geometric3';
 import GeometryArrays from '../core/GeometryArrays';
 import GeometryKey from '../core/GeometryKey';
+import GPS from '../core/GraphicsProgramSymbols';
 import materialFromOptions from './materialFromOptions';
 import mustBeEngine from './mustBeEngine';
 import offsetFromOptions from './offsetFromOptions';
@@ -63,10 +64,9 @@ function primitive(options: { tilt?: SpinorE3, offset?: VectorE3 }): Primitive {
     const values = transform([CENTER, LEFT, CENTER, TAIL, NOSE, LLEG, NOSE, RLEG, LLEG, RLEG], options).reduce(concat);
     const result: Primitive = {
         mode: BeginMode.LINES,
-        attributes: {
-            'aPosition': { values, size: CENTER.length, type: DataType.FLOAT }
-        }
+        attributes: {}
     };
+    result.attributes[GPS.ATTRIBUTE_POSITION] = { values, size: 3, type: DataType.FLOAT };
     return result;
 }
 

@@ -1,7 +1,8 @@
+import Attribute from '../core/Attribute';
+import AttributeSizeType from '../core/AttributeSizeType';
 import BeginMode from '../core/BeginMode';
 import DataType from '../core/DataType';
 import Primitive from '../core/Primitive';
-import Attribute from '../core/Attribute';
 
 function copyIndices(src: Primitive, dest: number[], delta: number): void {
     if (src.indices) {
@@ -29,7 +30,7 @@ function joinIndices(previous: Primitive, current: Primitive, dest: number[]): v
     }
 }
 
-function ensureAttribute(attributes: { [name: string]: Attribute }, name: string, size: number, type: DataType): Attribute {
+function ensureAttribute(attributes: { [name: string]: Attribute }, name: string, size: AttributeSizeType, type: DataType): Attribute {
     if (!attributes[name]) {
         attributes[name] = { values: [], size, type };
     }

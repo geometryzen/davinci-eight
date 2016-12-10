@@ -1,15 +1,17 @@
+import AttributeGlslType from '../core/AttributeGlslType';
 import ContextManager from '../core/ContextManager';
 import fShaderSrc from './fragmentShaderSrc';
 import { ShaderMaterial } from './ShaderMaterial';
 import vShaderSrc from './vertexShaderSrc';
+import UniformGlslType from '../core/UniformGlslType';
 
 /**
  * A Material that is generated based upon knowledge of parameters and some hints.
  */
 export class SmartGraphicsProgram extends ShaderMaterial {
     constructor(
-        aParams: { [name: string]: { glslType: string } },
-        uParams: { [name: string]: { glslType: string } },
+        aParams: { [name: string]: { glslType: AttributeGlslType } },
+        uParams: { [name: string]: { glslType: UniformGlslType } },
         vColor: boolean,
         vCoords: boolean,
         vLight: boolean,

@@ -1,3 +1,4 @@
+import AttributeSizeType from '../core/AttributeSizeType';
 import ContextManager from '../core/ContextManager';
 import GraphicsProgramBuilder from '../materials/GraphicsProgramBuilder';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
@@ -8,6 +9,7 @@ import { ShaderMaterial } from './ShaderMaterial';
 import MeshMaterialOptions from './MeshMaterialOptions';
 import mustBeNonNullObject from '../checks/mustBeNonNullObject';
 import mustBeObject from '../checks/mustBeObject';
+import UniformGlslType from '../core/UniformGlslType';
 
 function builder(options?: MeshMaterialOptions) {
     if (isUndefined(options) || isNull(options)) {
@@ -32,22 +34,22 @@ function builder(options?: MeshMaterialOptions) {
         mustBeObject('options', options);
     }
 
-    const attributes: { [name: string]: number } = isDefined(options.attributes) ? options.attributes : {};
-    const uniforms: { [name: string]: string } = isDefined(options.uniforms) ? options.uniforms : {};
+    const attributes: { [name: string]: AttributeSizeType } = isDefined(options.attributes) ? options.attributes : {};
+    const uniforms: { [name: string]: UniformGlslType } = isDefined(options.uniforms) ? options.uniforms : {};
 
     const gpb = new GraphicsProgramBuilder();
 
     const aNames = Object.keys(attributes);
     for (let a = 0; a < aNames.length; a++) {
         const aName = aNames[a];
-        const size: number = attributes[aName];
+        const size = attributes[aName];
         gpb.attribute(aName, size);
     }
 
     const uNames = Object.keys(uniforms);
     for (let u = 0; u < uNames.length; u++) {
         const uName = uNames[u];
-        const type: string = uniforms[uName];
+        const type = uniforms[uName];
         gpb.uniform(uName, type);
     }
 

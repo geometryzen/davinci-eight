@@ -12,10 +12,6 @@ import Translation from '../transforms/Translation';
 import CoordsTransform2D from '../transforms/CoordsTransform2D';
 import Vector3 from '../math/Vector3';
 
-const aPosition = GraphicsProgramSymbols.ATTRIBUTE_POSITION;
-const aTangent = GraphicsProgramSymbols.ATTRIBUTE_TANGENT;
-const aNormal = GraphicsProgramSymbols.ATTRIBUTE_NORMAL;
-
 /**
  * This implementation only builds the walls of the cylinder (by wrapping a grid)
  */
@@ -38,6 +34,11 @@ export default class CylindricalShellBuilder extends AxialShapeBuilder {
      *
      */
     toPrimitive(): Primitive {
+        // Define local constants so that names in shader programs will reflect the current program symbols.
+        const aPosition = GraphicsProgramSymbols.ATTRIBUTE_POSITION;
+        const aTangent = GraphicsProgramSymbols.ATTRIBUTE_TANGENT;
+        const aNormal = GraphicsProgramSymbols.ATTRIBUTE_NORMAL;
+
         const orientation = this.convex ? +1 : -1;
         this.transforms.push(new CylinderTransform(this.height, this.cutLine, this.clockwise, this.sliceAngle, orientation, aPosition, aTangent));
 

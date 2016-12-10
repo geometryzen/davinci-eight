@@ -1,13 +1,13 @@
 import BasisOptions from './BasisOptions';
 import BeginMode from '../core/BeginMode';
-import { Color } from '../core/Color';
-import { ColorFacet } from '../facets/ColorFacet';
+import Color from '../core/Color';
+import ColorFacet from '../facets/ColorFacet';
+import ContextManager from '../core/ContextManager';
 import DataType from '../core/DataType';
-import { Engine } from '../core/Engine';
 import GeometryArrays from '../core/GeometryArrays';
-import mustBeEngine from './mustBeEngine';
+import GPS from '../core/GraphicsProgramSymbols';
 import Primitive from '../core/Primitive';
-import { RigidBody } from './RigidBody';
+import RigidBody from './RigidBody';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
 import { ShaderMaterial } from '../materials/ShaderMaterial';
@@ -22,58 +22,64 @@ const uColorA = 'uColorA';
 const uColorB = 'uColorB';
 const uColorC = 'uColorC';
 
-const vs: string = [
-    "attribute float aPointIndex;",
-    "attribute float aColorIndex;",
-    `uniform vec3 ${uPointA};`,
-    `uniform vec3 ${uPointB};`,
-    `uniform vec3 ${uPointC};`,
-    `uniform vec3 ${uColorA};`,
-    `uniform vec3 ${uColorB};`,
-    `uniform vec3 ${uColorC};`,
-    "uniform mat4 uModel;",
-    "uniform mat4 uProjection;",
-    "uniform mat4 uView;",
-    "varying highp vec4 vColor;",
-    "",
-    "void main(void) {",
-    "  vec3 aPosition;",
-    "  vec3 aColor;",
-    "  if (aPointIndex == 0.0) {",
-    "    aPosition = vec3(0.0, 0.0, 0.0);",
-    "  }",
-    "  if (aPointIndex == 1.0) {",
-    `    aPosition = ${uPointA};`,
-    "  }",
-    "  if (aPointIndex == 2.0) {",
-    `    aPosition = ${uPointB};`,
-    "  }",
-    "  if (aPointIndex == 3.0) {",
-    `    aPosition = ${uPointC};`,
-    "  }",
-    "  if (aColorIndex == 1.0) {",
-    `    aColor = ${uColorA};`,
-    "  }",
-    "  if (aColorIndex == 2.0) {",
-    `    aColor = ${uColorB};`,
-    "  }",
-    "  if (aColorIndex == 3.0) {",
-    `    aColor = ${uColorC};`,
-    "  }",
-    "  gl_Position = uProjection * uView * uModel * vec4(aPosition, 1.0);",
-    "  vColor = vec4(aColor, 1.0);",
-    "}"
-].join('\n');
+const vertexShaderSrc = function (): string {
+    const vs: string = [
+        "attribute float aPointIndex;",
+        "attribute float aColorIndex;",
+        `uniform vec3 ${uPointA};`,
+        `uniform vec3 ${uPointB};`,
+        `uniform vec3 ${uPointC};`,
+        `uniform vec3 ${uColorA};`,
+        `uniform vec3 ${uColorB};`,
+        `uniform vec3 ${uColorC};`,
+        `uniform mat4 ${GPS.UNIFORM_MODEL_MATRIX};`,
+        `uniform mat4 ${GPS.UNIFORM_PROJECTION_MATRIX};`,
+        `uniform mat4 ${GPS.UNIFORM_VIEW_MATRIX};`,
+        `varying highp vec4 ${GPS.VARYING_COLOR};`,
+        "",
+        "void main(void) {",
+        `  vec3 ${GPS.ATTRIBUTE_POSITION};`,
+        `  vec3 ${GPS.ATTRIBUTE_COLOR};`,
+        "  if (aPointIndex == 0.0) {",
+        `    ${GPS.ATTRIBUTE_POSITION} = vec3(0.0, 0.0, 0.0);`,
+        "  }",
+        "  if (aPointIndex == 1.0) {",
+        `    ${GPS.ATTRIBUTE_POSITION} = ${uPointA};`,
+        "  }",
+        "  if (aPointIndex == 2.0) {",
+        `    ${GPS.ATTRIBUTE_POSITION} = ${uPointB};`,
+        "  }",
+        "  if (aPointIndex == 3.0) {",
+        `    ${GPS.ATTRIBUTE_POSITION} = ${uPointC};`,
+        "  }",
+        "  if (aColorIndex == 1.0) {",
+        `    ${GPS.ATTRIBUTE_COLOR} = ${uColorA};`,
+        "  }",
+        "  if (aColorIndex == 2.0) {",
+        `    ${GPS.ATTRIBUTE_COLOR} = ${uColorB};`,
+        "  }",
+        "  if (aColorIndex == 3.0) {",
+        `    ${GPS.ATTRIBUTE_COLOR} = ${uColorC};`,
+        "  }",
+        `  gl_Position = ${GPS.UNIFORM_PROJECTION_MATRIX} * ${GPS.UNIFORM_VIEW_MATRIX} * ${GPS.UNIFORM_MODEL_MATRIX} * vec4(${GPS.ATTRIBUTE_POSITION}, 1.0);`,
+        `  ${GPS.VARYING_COLOR} = vec4(${GPS.ATTRIBUTE_COLOR}, 1.0);`,
+        "}"
+    ].join('\n');
+    return vs;
+};
 
-const fs: string = [
-    "precision mediump float;",
-    "varying highp vec4 vColor;",
-    "",
-    "void main(void) {",
-    "  gl_FragColor = vColor;",
-    "}"
+const fragmentShaderSrc = function (): string {
+    const fs: string = [
+        "precision mediump float;",
+        `varying highp vec4 ${GPS.VARYING_COLOR};`,
+        "",
+        "void main(void) {",
+        `  gl_FragColor = ${GPS.VARYING_COLOR};`,
+        "}"
 
-].join('\n');
+    ].join('\n');
+    return fs;
+};
 
 /**
  * A visual representation of a reference frame or basis vectors.
@@ -85,8 +91,8 @@ export default class Basis extends RigidBody {
     private uColorA = new ColorFacet(uColorA);
     private uColorB = new ColorFacet(uColorB);
     private uColorC = new ColorFacet(uColorC);
-    constructor(engine: Engine, options: BasisOptions = {}, levelUp = 0) {
-        super(mustBeEngine(engine, 'Basis'), levelUp + 1);
+    constructor(contextManager: ContextManager, options: BasisOptions = {}, levelUp = 0) {
+        super(contextManager, levelUp + 1);
         this.setLoggingName("Basis");
 
         // FIXME: This should be initialized to a random orthonormal basis.
@@ -106,11 +112,11 @@ export default class Basis extends RigidBody {
                 aColorIndex: { values: [1, 1, 2, 2, 3, 3], size: 1, type: DataType.FLOAT }
             }
         };
-        const geometry = new GeometryArrays(engine, primitive);
+        const geometry = new GeometryArrays(contextManager, primitive);
         this.geometry = geometry;
         geometry.release();
 
-        const material = new ShaderMaterial(vs, fs, [], engine);
+        const material = new ShaderMaterial(vertexShaderSrc(), fragmentShaderSrc(), [], contextManager);
         this.material = material;
         material.release();
 

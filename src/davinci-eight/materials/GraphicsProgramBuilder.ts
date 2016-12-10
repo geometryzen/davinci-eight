@@ -1,6 +1,8 @@
 import ContextManager from '../core/ContextManager';
 import getAttribVarName from '../core/getAttribVarName';
 import glslAttribType from './glslAttribType';
+import AttributeGlslType from '../core/AttributeGlslType';
+import UniformGlslType from '../core/UniformGlslType';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeString from '../checks/mustBeString';
 import Primitive from '../core/Primitive';
@@ -11,25 +13,25 @@ import vLightRequired from './vLightRequired';
 import fragmentShaderSrc from './fragmentShaderSrc';
 import vertexShaderSrc from './vertexShaderSrc';
 
-function computeAttribParams(values: { [key: string]: { size: number, name?: string } }) {
-    const result: { [key: string]: { glslType: string, name?: string } } = {};
+function computeAttribParams(values: { [key: string]: { size: 1 | 2 | 3 | 4, name?: string } }) {
+    const result: { [key: string]: { glslType: AttributeGlslType, name?: string } } = {};
     const keys = Object.keys(values);
     const keysLength = keys.length;
     for (let i = 0; i < keysLength; i++) {
         const key = keys[i];
         const attribute = values[key];
-        const size = mustBeInteger('size', attribute.size);
+        mustBeInteger('size', attribute.size);
         const varName = getAttribVarName(attribute, key);
-        result[varName] = { glslType: glslAttribType(key, size) };
+        result[varName] = { glslType: glslAttribType(key, attribute.size) };
     }
     return result;
 }
 
 export default class GraphicsProgramBuilder {
 
-    private aMeta: { [key: string]: { size: number; } } = {};
+    private aMeta: { [key: string]: { size: 1 | 2 | 3 | 4; } } = {};
 
-    private uParams: { [key: string]: { glslType: string; name?: string } } = {};
+    private uParams: { [key: string]: { glslType: UniformGlslType; name?: string } } = {};
 
     constructor(primitive?: Primitive) {
         if (primitive) {
@@ -43,14 +45,14 @@ export default class GraphicsProgramBuilder {
         }
     }
 
-    public attribute(name: string, size: number): GraphicsProgramBuilder {
+    public attribute(name: string, size: 1 | 2 | 3 | 4): GraphicsProgramBuilder {
         mustBeString('name', name);
         mustBeInteger('size', size);
         this.aMeta[name] = { size: size };
         return this;
     }
 
-    public uniform(name: string, type: string): GraphicsProgramBuilder {
+    public uniform(name: string, type: UniformGlslType): GraphicsProgramBuilder {
         mustBeString('name', name);
         mustBeString('type', type);
         this.uParams[name] = { glslType: type };

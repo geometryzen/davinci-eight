@@ -505,3 +505,5 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
         return this;
     }
 }
+
+export default ShaderMaterial;

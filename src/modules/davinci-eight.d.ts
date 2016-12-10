@@ -2947,8 +2947,17 @@ declare module EIGHT {
         static UNIFORM_MODEL_MATRIX: string;
         static UNIFORM_NORMAL_MATRIX: string;
         static UNIFORM_VIEW_MATRIX: string;
-
+        /**
+         * 'vColor'
+         */
         static VARYING_COLOR: string;
+        /**
+         * 'vCoords'
+         */
+        static VARYING_COORDS: string;
+        /**
+         * 'vLight'
+         */
         static VARYING_LIGHT: string;
     }
 

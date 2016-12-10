@@ -12,10 +12,6 @@ import Translation from '../transforms/Translation';
 import CoordsTransform2D from '../transforms/CoordsTransform2D';
 import Vector3 from '../math/Vector3';
 
-const aPosition = GraphicsProgramSymbols.ATTRIBUTE_POSITION;
-const aTangent = GraphicsProgramSymbols.ATTRIBUTE_TANGENT;
-const aNormal = GraphicsProgramSymbols.ATTRIBUTE_NORMAL;
-
 /**
  *
  */
@@ -46,6 +42,11 @@ export default class ConicalShellBuilder extends AxialShapeBuilder {
      *
      */
     public toPrimitive(): Primitive {
+        // Define local constants so that names in shader programs will reflect the current program symbols.
+        const aPosition = GraphicsProgramSymbols.ATTRIBUTE_POSITION;
+        const aTangent = GraphicsProgramSymbols.ATTRIBUTE_TANGENT;
+        const aNormal = GraphicsProgramSymbols.ATTRIBUTE_NORMAL;
+
         const coneTransform = new ConeTransform(this.clockwise, this.sliceAngle, aPosition, aTangent);
         coneTransform.h.copy(this.height);
         coneTransform.a.copy(this.cutLine);

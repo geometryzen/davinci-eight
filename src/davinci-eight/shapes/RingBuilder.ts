@@ -12,10 +12,6 @@ import Translation from '../transforms/Translation';
 import CoordsTransform2D from '../transforms/CoordsTransform2D';
 import Vector3 from '../math/Vector3';
 
-const aPosition = GraphicsProgramSymbols.ATTRIBUTE_POSITION;
-const aTangent = GraphicsProgramSymbols.ATTRIBUTE_TANGENT;
-const aNormal = GraphicsProgramSymbols.ATTRIBUTE_NORMAL;
-
 /**
  * Constructs a one-sided ring using a TRIANGLE_STRIP.
  */
@@ -60,6 +56,11 @@ export default class RingBuilder extends AxialShapeBuilder {
      *
      */
     toPrimitive(): Primitive {
+        // Define local constants so that names in shader programs will reflect the current program symbols.
+        const aPosition = GraphicsProgramSymbols.ATTRIBUTE_POSITION;
+        const aTangent = GraphicsProgramSymbols.ATTRIBUTE_TANGENT;
+        const aNormal = GraphicsProgramSymbols.ATTRIBUTE_NORMAL;
+
         this.transforms.push(new RingTransform(this.e, this.cutLine, this.clockwise, this.outerRadius, this.innerRadius, this.sliceAngle, aPosition, aTangent));
 
         this.transforms.push(new Scaling(this.stress, [aPosition, aTangent]));
