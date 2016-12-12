@@ -403,9 +403,6 @@ function spherePrimitive(options: SphereGeometryOptions = { kind: 'SphereGeometr
     if (options.stress) {
         builder.stress.copy(options.stress);
     }
-    if (options.tilt) {
-        builder.tilt.copy(options.tilt);
-    }
     if (options.offset) {
         builder.offset.copy(options.offset);
     }

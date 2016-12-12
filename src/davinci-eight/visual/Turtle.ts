@@ -2,6 +2,7 @@ import BeginMode from '../core/BeginMode';
 import Color from '../core/Color';
 import ContextManager from '../core/ContextManager';
 import DataType from '../core/DataType';
+import { ds } from './Defaults';
 import Engine from '../core/Engine';
 import Geometric3 from '../math/Geometric3';
 import GeometryArrays from '../core/GeometryArrays';
@@ -133,7 +134,7 @@ export interface TurtleOptions {
 
 export default class Turtle extends RigidBody {
     constructor(engine: Engine, options: TurtleOptions = {}, levelUp = 0) {
-        super(mustBeEngine(engine, 'Turtle'), levelUp + 1);
+        super(mustBeEngine(engine, 'Turtle'), ds.axis, ds.meridian, levelUp + 1);
         this.setLoggingName('Turtle');
         const geoOptions: TurtleGeometryOptions = { kind: 'TurtleGeometry' };
         geoOptions.tilt = tiltFromOptions(options, canonicalAxis);

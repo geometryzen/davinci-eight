@@ -1,4 +1,5 @@
 import { Color } from '../core/Color';
+import { ds } from './Defaults';
 import { Engine } from '../core/Engine';
 import { MeshMaterial } from '../materials/MeshMaterial';
 import MeshMaterialOptions from '../materials/MeshMaterialOptions';
@@ -16,7 +17,7 @@ import TetrahedronGeometry from '../geometries/TetrahedronGeometry';
 export default class Tetrahedron extends RigidBody {
 
     constructor(engine: Engine, options: TetrahedronOptions = {}, levelUp = 0) {
-        super(mustBeEngine(engine, 'Tetrahedron'), levelUp + 1);
+        super(mustBeEngine(engine, 'Tetrahedron'), ds.axis, ds.meridian, levelUp + 1);
         this.setLoggingName('Tetrahedron');
 
         const geoOptions: TetrahedronGeometryOptions = { kind: 'TetrahedronGeometry' };

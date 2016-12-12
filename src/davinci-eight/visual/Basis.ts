@@ -4,6 +4,7 @@ import Color from '../core/Color';
 import ColorFacet from '../facets/ColorFacet';
 import ContextManager from '../core/ContextManager';
 import DataType from '../core/DataType';
+import { ds } from './Defaults';
 import GeometryArrays from '../core/GeometryArrays';
 import GPS from '../core/GraphicsProgramSymbols';
 import Primitive from '../core/Primitive';
@@ -92,10 +93,9 @@ export default class Basis extends RigidBody {
     private uColorB = new ColorFacet(uColorB);
     private uColorC = new ColorFacet(uColorC);
     constructor(contextManager: ContextManager, options: BasisOptions = {}, levelUp = 0) {
-        super(contextManager, levelUp + 1);
+        super(contextManager, ds.axis, ds.meridian, levelUp + 1);
         this.setLoggingName("Basis");
 
-        // FIXME: This should be initialized to a random orthonormal basis.
         this.uPointA.vector = Vector3.vector(1, 0, 0);
         this.colorA.copy(Color.red);
 

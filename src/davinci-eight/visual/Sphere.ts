@@ -1,13 +1,12 @@
 import Color from '../core/Color';
-import direction from './direction';
-import Engine from '../core/Engine';
-import Geometric3 from '../math/Geometric3';
+import ContextManager from '../core/ContextManager';
+import { ds } from './Defaults';
+import initialAxis from './initialAxis';
+import initialMeridian from './initialMeridian';
 import isDefined from '../checks/isDefined';
 import geometryModeFromOptions from './geometryModeFromOptions';
 import materialFromOptions from './materialFromOptions';
-import mustBeEngine from './mustBeEngine';
 import mustBeNumber from '../checks/mustBeNumber';
-import mustBeObject from '../checks/mustBeObject';
 import offsetFromOptions from './offsetFromOptions';
 import RigidBody from './RigidBody';
 import setColorOption from './setColorOption';
@@ -17,29 +16,21 @@ import simplexModeFromOptions from './simplexModeFromOptions';
 import SphereOptions from './SphereOptions';
 import SphereGeometry from '../geometries/SphereGeometry';
 import SphereGeometryOptions from '../geometries/SphereGeometryOptions';
-import tiltFromOptions from './tiltFromOptions';
-import { R3 } from '../math/R3';
-import vec from '../math/R3';
+import vectorE3Object from './vectorE3Object';
 
 const RADIUS_NAME = 'radius';
-const RADIUS_DEFAULT = 1;
-const canonicalAxis = vec(0, 1, 0);
 
 /**
  *
  */
 export class Sphere extends RigidBody {
-
     /**
-     * Cache the initial axis value so that we can compute the axis at any
-     * time by rotating the initial axis using the Mesh attitude.
+     * 
      */
-    private initialAxis: R3;
-
-    constructor(engine: Engine, options: SphereOptions = {}, levelUp = 0) {
-        super(mustBeEngine(engine, 'Sphere'), levelUp + 1);
+    constructor(contextManager: ContextManager, options: SphereOptions = {}, levelUp = 0) {
+        super(contextManager, initialAxis(options, ds.axis), initialMeridian(options, ds.meridian), levelUp + 1);
         this.setLoggingName('Sphere');
-        this.initialAxis = direction(options, canonicalAxis);
+
         const geoMode = geometryModeFromOptions(options);
 
         const geoOptions: SphereGeometryOptions = { kind: 'SphereGeometry' };
@@ -53,30 +44,29 @@ export class Sphere extends RigidBody {
         geoOptions.elevationStart = options.elevationStart;
         geoOptions.offset = offsetFromOptions(options);
         geoOptions.stress = void 0;
-        geoOptions.tilt = tiltFromOptions(options, canonicalAxis);
+        geoOptions.axis = vectorE3Object(this.initialAxis);
+        geoOptions.meridian = vectorE3Object(this.initialMeridian);
 
-        const cachedGeometry = engine.getCacheGeometry(geoOptions);
+        const cachedGeometry = contextManager.getCacheGeometry(geoOptions);
         if (cachedGeometry && cachedGeometry instanceof SphereGeometry) {
             this.geometry = cachedGeometry;
             cachedGeometry.release();
         }
         else {
-            const geometry = new SphereGeometry(engine, geoOptions);
+            const geometry = new SphereGeometry(contextManager, geoOptions);
             this.geometry = geometry;
             geometry.release();
-            engine.putCacheGeometry(geoOptions, geometry);
+            contextManager.putCacheGeometry(geoOptions, geometry);
         }
 
-        const material = materialFromOptions(engine, simplexModeFromOptions(options, SimplexMode.TRIANGLE), options);
+        const material = materialFromOptions(contextManager, simplexModeFromOptions(options, SimplexMode.TRIANGLE), options);
         this.material = material;
         material.release();
 
         setColorOption(this, options, Color.gray);
         setDeprecatedOptions(this, options);
 
-        if (isDefined(options.radius)) {
-            this.radius = isDefined(options.radius) ? mustBeNumber(RADIUS_NAME, options.radius) : RADIUS_DEFAULT;
-        }
+        this.radius = isDefined(options.radius) ? mustBeNumber(RADIUS_NAME, options.radius) : ds.radius;
 
         if (levelUp === 0) {
             this.synchUp();
@@ -99,28 +89,5 @@ export class Sphere extends RigidBody {
     }
     set radius(radius: number) {
         this.setPrincipalScale(RADIUS_NAME, mustBeNumber(RADIUS_NAME, radius));
-        /*
-        if (radius instanceof Geometric3) {
-            this.setPrincipalScale(RADIUS_NAME, radius.a);
-        }
-        else if (typeof radius === 'number') {
-            this.setPrincipalScale(RADIUS_NAME, mustBeNumber(RADIUS_NAME, <any>radius));
-            console.warn("radius: number is deprecated. radius is a Geometric3.");
-        }
-        else {
-            throw new Error("radius must be a Geometric3 (scalar)");
-        }
-        */
-    }
-
-    /**
-     * Axis (vector)
-     */
-    get axis(): Geometric3 {
-        return Geometric3.fromVector(this.initialAxis).rotate(this.R);
-    }
-    set axis(axis: Geometric3) {
-        mustBeObject('axis', axis);
-        this.R.rotorFromDirections(this.initialAxis, axis);
     }
 }

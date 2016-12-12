@@ -1,3 +1,4 @@
+import { ds } from './Defaults';
 import { Engine } from '../core/Engine';
 import { Sphere } from './Sphere';
 import refChange from '../core/refChange';
@@ -20,10 +21,10 @@ describe('Sphere', function () {
         refChange('quiet');
         refChange('reset');
     });
-    it("radius should default to 1", function () {
+    it("radius should default correctly", function () {
         const engine = new Engine();
         const sphere = new Sphere(engine);
-        expect(sphere.radius).toBe(1);
+        expect(sphere.radius).toBe(ds.radius);
         sphere.release();
         engine.release();
     });

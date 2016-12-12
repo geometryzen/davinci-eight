@@ -1,7 +1,8 @@
 import BoxOptions from './BoxOptions';
 import BoxGeometry from '../geometries/BoxGeometry';
 import BoxGeometryOptions from '../geometries/BoxGeometryOptions';
-import { Color } from '../core/Color';
+import Color from '../core/Color';
+import { ds } from './Defaults';
 import { Engine } from '../core/Engine';
 import GeometryMode from '../geometries/GeometryMode';
 import isDefined from '../checks/isDefined';
@@ -14,11 +15,12 @@ import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
 import SimplexMode from '../geometries/SimplexMode';
 import simplexModeFromOptions from './simplexModeFromOptions';
+import vectorE3Object from './vectorE3Object';
 
 export class Box extends RigidBody {
 
-    constructor(engine: Engine, options: BoxOptions = {}) {
-        super(mustBeEngine(engine, 'Box'), 1);
+    constructor(engine: Engine, options: BoxOptions = {}, levelUp = 0) {
+        super(mustBeEngine(engine, 'Box'), ds.axis, ds.meridian, levelUp + 1);
 
         this.setLoggingName('Box');
         const geoMode: GeometryMode = geometryModeFromOptions(options);
@@ -29,7 +31,8 @@ export class Box extends RigidBody {
 
         const geoOptions: BoxGeometryOptions = { kind: 'BoxGeometry' };
         geoOptions.mode = geoMode;
-        geoOptions.tilt = options.tilt;
+        geoOptions.axis = vectorE3Object(this.initialAxis);
+        geoOptions.meridian = vectorE3Object(this.initialMeridian);
         geoOptions.openBack = options.openBack;
         geoOptions.openBase = options.openBase;
         geoOptions.openFront = options.openFront;
@@ -64,14 +67,18 @@ export class Box extends RigidBody {
         this.height = isDefined(options.height) ? mustBeNumber('height', options.height) : 1.0;
         this.depth = isDefined(options.depth) ? mustBeNumber('depth', options.depth) : 1.0;
 
-        this.synchUp();
+        if (levelUp === 0) {
+            this.synchUp();
+        }
     }
 
     /**
      * 
      */
     protected destructor(levelUp: number): void {
-        this.cleanUp();
+        if (levelUp === 0) {
+            this.cleanUp();
+        }
         super.destructor(levelUp + 1);
     }
 

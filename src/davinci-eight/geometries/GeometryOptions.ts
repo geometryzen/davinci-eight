@@ -1,7 +1,16 @@
-import SpinorE3 from '../math/SpinorE3';
 import VectorE3 from '../math/VectorE3';
 
 interface GeometryOptions {
+    /**
+     * 
+     */
+    axis?: VectorE3;
+
+    /**
+     * 
+     */
+    meridian?: VectorE3;
+
     /**
      * A translation from the canonical position.
      * This is the third and last operation applied to canonical vertex data.
@@ -13,12 +22,6 @@ interface GeometryOptions {
      * This is the first operation applied to canonical vertex data.
      */
     stress?: VectorE3;
-
-    /**
-     * A rotation from the canonical attitude.
-     * This is the second operation applied to canonical vertex data.
-     */
-    tilt?: SpinorE3;
 }
 
 export default GeometryOptions;

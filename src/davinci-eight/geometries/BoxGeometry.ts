@@ -277,9 +277,6 @@ function boxPrimitive(options: BoxGeometryOptions = { kind: 'BoxGeometry' }): Pr
             if (options.stress) {
                 builder.stress.copy(options.stress);
             }
-            if (options.tilt) {
-                builder.tilt.copySpinor(options.tilt);
-            }
             if (options.offset) {
                 builder.offset.copy(options.offset);
             }
@@ -292,9 +289,6 @@ function boxPrimitive(options: BoxGeometryOptions = { kind: 'BoxGeometry' }): Pr
             const builder = new CuboidSimplexPrimitivesBuilder(a, b, c, SimplexMode.LINE);
             if (options.stress) {
                 builder.stress.copy(options.stress);
-            }
-            if (options.tilt) {
-                builder.tilt.copySpinor(options.tilt);
             }
             if (options.offset) {
                 builder.offset.copy(options.offset);
@@ -327,9 +321,6 @@ function boxPrimitive(options: BoxGeometryOptions = { kind: 'BoxGeometry' }): Pr
             }
             if (options.stress) {
                 builder.stress.copy(options.stress);
-            }
-            if (options.tilt) {
-                builder.tilt.copySpinor(options.tilt);
             }
             if (options.offset) {
                 builder.offset.copy(options.offset);

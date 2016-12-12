@@ -10,12 +10,12 @@ interface HollowCylinderGeometryOptions extends GeometryOptions, GeometryKey<Hol
     /**
      * The symmetry axis and the height of the cylinder.
      */
-    height?: VectorE3;
+    axis?: VectorE3;
     /**
      * The starting direction for the slice.
      * A unit vector orthogonal to the height vector.
      */
-    cutLine?: VectorE3;
+    meridian?: VectorE3;
     /**
      * The outer radius of the cylinder.
      */

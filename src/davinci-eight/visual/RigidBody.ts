@@ -1,14 +1,14 @@
+import AxialMesh from './AxialMesh';
 import ContextManager from '../core/ContextManager';
 import Geometric3 from '../math/Geometric3';
 import Material from '../core/Material';
-import { PrincipalScaleGeometry } from './PrincipalScaleMesh';
-import PrincipalScaleMesh from './PrincipalScaleMesh';
-import mustBeObject from '../checks/mustBeObject';
+import { PrincipalScaleGeometry } from './AxialMesh';
+import { R3 } from '../math/R3';
 
 /**
  * Decorates the Mesh by adding properties for physical modeling.
  */
-export class RigidBody extends PrincipalScaleMesh<PrincipalScaleGeometry, Material> {
+export class RigidBody extends AxialMesh<PrincipalScaleGeometry, Material> {
 
     /**
      * <p>
@@ -51,20 +51,19 @@ export class RigidBody extends PrincipalScaleMesh<PrincipalScaleGeometry, Materi
     public Q = Geometric3.zero();
 
     /**
-     * Cache the initial axis value so that we can compute the axis at any
-     * time by rotating the initial axis using the Mesh attitude.
+     * 
      */
-    // public initialAxis: VectorE3;
-
-    constructor(contextManager: ContextManager, levelUp = 0) {
-        super(mustBeObject('contextManager', contextManager), levelUp + 1);
+    constructor(contextManager: ContextManager, initialAxis: R3, initialMeridian: R3, levelUp = 0) {
+        super(contextManager, initialAxis, initialMeridian, levelUp + 1);
         this.setLoggingName('RigidBody');
-        // this.initialAxis = Vector3.copy(initialAxis);
         if (levelUp === 0) {
             this.synchUp();
         }
     }
 
+    /**
+     * 
+     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();

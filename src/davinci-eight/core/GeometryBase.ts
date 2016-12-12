@@ -106,14 +106,16 @@ export default class GeometryBase extends ShareableContextConsumer implements Ge
         }
         super.destructor(levelUp + 1);
     }
-
+    /*
     private ensureBus(): EventEmitter<Geometry, number> {
         if (!this._eventBus) {
             this._eventBus = new EventEmitter<Geometry, number>(this);
         }
         return this._eventBus;
     }
+    */
 
+    /*
     on(eventName: string, callback: (eventName: string, key: string, value: any, source: Geometry) => void) {
         this.ensureBus().addEventListener(eventName, callback);
     }
@@ -121,6 +123,7 @@ export default class GeometryBase extends ShareableContextConsumer implements Ge
     off(eventName: string, callback: (eventName: string, key: string, value: any, source: Geometry) => void) {
         this.ensureBus().removeEventListener(eventName, callback);
     }
+    */
 
     bind(material: Material): GeometryBase {
         throw new Error(notSupported('bind(material: Material)').message);

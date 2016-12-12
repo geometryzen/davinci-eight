@@ -1,6 +1,7 @@
 import { Engine } from '../core/Engine';
 import { Arrow } from './Arrow';
 import ArrowOptions from './ArrowOptions';
+import { ds } from './Defaults';
 import { Geometric3 } from '../math/Geometric3';
 import refChange from '../core/refChange';
 
@@ -45,11 +46,12 @@ describe("Arrow", function () {
         });
     });
     describe("h", function () {
-        it("should default to e2", function () {
+        it("should default to default axis", function () {
             const engine = new Engine();
             const arrow = new Arrow(engine);
-            expect(arrow.h.toString()).toBe('e2');
-            expect(arrow.h.equals(e2)).toBe(true);
+            expect(arrow.h.x).toBe(ds.axis.x);
+            expect(arrow.h.y).toBe(ds.axis.y);
+            expect(arrow.h.z).toBe(ds.axis.z);
             arrow.release();
             engine.release();
         });
@@ -119,7 +121,7 @@ describe("Arrow", function () {
                     const engine = new Engine();
                     const arrow = new Arrow(engine);
                     arrow.h = e1.clone().scale(2);
-                    expect(arrow.R.equals(Geometric3.rotorFromDirections(e2, e1))).toBe(true);
+                    expect(arrow.R.equals(Geometric3.rotorFromDirections(ds.axis, e1))).toBe(true);
                     arrow.release();
                     engine.release();
                 });
@@ -127,11 +129,12 @@ describe("Arrow", function () {
         });
     });
     describe("axis", function () {
-        it("should default to e2", function () {
+        it("should default to the default axis", function () {
             const engine = new Engine();
             const arrow = new Arrow(engine);
-            expect(arrow.axis.toString()).toBe('e2');
-            expect(arrow.axis.equals(e2)).toBe(true);
+            expect(arrow.axis.x).toBe(ds.axis.x);
+            expect(arrow.axis.y).toBe(ds.axis.y);
+            expect(arrow.axis.z).toBe(ds.axis.z);
             arrow.release();
             engine.release();
         });

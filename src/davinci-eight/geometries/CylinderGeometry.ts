@@ -1,7 +1,7 @@
 import ContextManager from '../core/ContextManager';
 import CylinderGeometryOptions from './CylinderGeometryOptions';
 import notSupported from '../i18n/notSupported';
-// import Geometric3 from '../math/Geometric3';
+import Geometric3 from '../math/Geometric3';
 import GeometryElements from '../core/GeometryElements';
 import isDefined from '../checks/isDefined';
 import mustBeBoolean from '../checks/mustBeBoolean';
@@ -15,6 +15,10 @@ import SpinorE3 from '../math/SpinorE3';
 import { Vector2 } from '../math/Vector2';
 import Vector3 from '../math/Vector3';
 import VectorE3 from '../math/VectorE3';
+import vec from '../math/R3';
+
+const canonicalAxis = vec(0, 1, 0);
+// const canonicalMeridian = vec(0, 0, 1);
 
 /**
  * @param height The vector in the height direction. The length also gives the cylinder length.
@@ -212,12 +216,28 @@ class CylinderBuilder extends SimplexPrimitivesBuilder {
     }
 }
 
-function tilt(v: VectorE3, options: CylinderGeometryOptions = { kind: 'CylinderGeometry' }): VectorE3 {
-    const vector = Vector3.copy(v);
-    if (options.tilt) {
-        vector.rotate(options.tilt);
+function getAxis(options: CylinderGeometryOptions = { kind: 'CylinderGeometry' }): VectorE3 {
+    if (isDefined(options.axis)) {
+        return options.axis;
     }
-    return vector;
+    else if (isDefined(options.length)) {
+        return vec(0, mustBeNumber('length', options.length), 0);
+    }
+    else {
+        return vec(0, 1, 0);
+    }
+}
+
+function getMeridian(options: CylinderGeometryOptions = { kind: 'CylinderGeometry' }): VectorE3 {
+    if (isDefined(options.meridian)) {
+        return options.meridian;
+    }
+    else if (isDefined(options.radius)) {
+        return vec(0, 0, mustBeNumber('radius', options.radius));
+    }
+    else {
+        return vec(0, 0, 1);
+    }
 }
 
 /**
@@ -225,19 +245,16 @@ function tilt(v: VectorE3, options: CylinderGeometryOptions = { kind: 'CylinderG
  */
 function cylinderPrimitive(options: CylinderGeometryOptions = { kind: 'CylinderGeometry' }): Primitive {
 
-    const radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : 1;
-    const length = isDefined(options.length) ? mustBeNumber('length', options.length) : 1;
-
     /**
      * The canonical axis is in the e2 direction.
      */
-    const axis = tilt(Vector3.vector(0, length, 0), options);
+    const height = getAxis(options);
     /**
      * The canonical cutLine is in the e3 direction.
      */
-    const cutLine = tilt(Vector3.vector(0, 0, radius), options);
+    const cutLine = getMeridian(options);
 
-    const builder = new CylinderBuilder(axis, cutLine, false);
+    const builder = new CylinderBuilder(height, cutLine, false);
 
     if (isDefined(options.openBase)) {
         builder.openBase = mustBeBoolean('openBase', options.openBase);
@@ -249,11 +266,16 @@ function cylinderPrimitive(options: CylinderGeometryOptions = { kind: 'CylinderG
         builder.openWall = mustBeBoolean('openWall', options.openWall);
     }
 
-    //        builder.stress.copy(stress)
     if (options.offset) {
         builder.offset.copy(options.offset);
     }
     return reduce(builder.toPrimitives());
+}
+
+function baseOptions(options: CylinderGeometryOptions): { tilt: SpinorE3 } {
+    const axis = getAxis(options);
+    const tilt = Geometric3.rotorFromDirections(canonicalAxis, axis);
+    return { tilt };
 }
 
 /**
@@ -265,7 +287,7 @@ export default class CylinderGeometry extends GeometryElements {
     private _radius = 1;
 
     constructor(contextManager: ContextManager, options: CylinderGeometryOptions = { kind: 'CylinderGeometry' }, levelUp = 0) {
-        super(contextManager, cylinderPrimitive(options), options, levelUp + 1);
+        super(contextManager, cylinderPrimitive(options), baseOptions(options), levelUp + 1);
         this.setLoggingName('CylinderGeometry');
         if (levelUp === 0) {
             this.synchUp();
