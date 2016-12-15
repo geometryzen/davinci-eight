@@ -4,8 +4,8 @@ import CylinderGeometry from '../geometries/CylinderGeometry';
 import CylinderGeometryOptions from '../geometries/CylinderGeometryOptions';
 import CylinderOptions from './CylinderOptions';
 import { ds } from './Defaults';
-import initialAxis from './initialAxis';
-import initialMeridian from './initialMeridian';
+import referenceAxis from './referenceAxis';
+import referenceMeridian from './referenceMeridian';
 import isDefined from '../checks/isDefined';
 import materialFromOptions from './materialFromOptions';
 import mustBeNumber from '../checks/mustBeNumber';
@@ -15,6 +15,7 @@ import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
 import SimplexMode from '../geometries/SimplexMode';
 import simplexModeFromOptions from './simplexModeFromOptions';
+import spinorE3Object from './spinorE3Object';
 import vectorE3Object from './vectorE3Object';
 
 /**
@@ -25,7 +26,7 @@ export class Cylinder extends RigidBody {
      * 
      */
     constructor(contextManager: ContextManager, options: CylinderOptions = {}, levelUp = 0) {
-        super(contextManager, initialAxis(options, ds.axis), initialMeridian(options, ds.meridian), levelUp + 1);
+        super(contextManager, referenceAxis(options, ds.axis), referenceMeridian(options, ds.meridian), levelUp + 1);
         this.setLoggingName('Cylinder');
         // const geoMode = geometryModeFromOptions(options);
         // The shape is created un-stressed and then parameters drive the scaling.
@@ -33,10 +34,12 @@ export class Cylinder extends RigidBody {
         // const stress = Vector3.vector(1, 1, 1)
 
         const geoOptions: CylinderGeometryOptions = { kind: 'CylinderGeometry' };
-        // geoOptions.mode = geoMode;
         geoOptions.offset = offsetFromOptions(options);
-        geoOptions.axis = vectorE3Object(this.initialAxis);
-        geoOptions.meridian = vectorE3Object(this.initialMeridian);
+
+        geoOptions.tilt = spinorE3Object(options.tilt);
+        geoOptions.axis = vectorE3Object(this.referenceAxis);
+        geoOptions.meridian = vectorE3Object(this.referenceMeridian);
+
         geoOptions.openCap = options.openCap;
         geoOptions.openBase = options.openBase;
         geoOptions.openWall = options.openWall;
@@ -82,11 +85,6 @@ export class Cylinder extends RigidBody {
         return this.getPrincipalScale('radius');
     }
     set radius(radius: number) {
-        if (typeof radius === 'number') {
-            this.setPrincipalScale('radius', radius);
-        }
-        else {
-            throw new Error("radius must be a number");
-        }
+        this.setPrincipalScale('radius', radius);
     }
 }

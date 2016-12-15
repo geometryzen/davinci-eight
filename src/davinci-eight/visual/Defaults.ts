@@ -1,9 +1,9 @@
 import { R3 } from '../math/R3';
-import vec from '../math/R3';
+import { canonicalAxis, canonicalMeridian } from '../core/tiltFromOptions';
 
-const INITIAL_AXIS = vec(1, 0, 0);
+const INITIAL_AXIS = canonicalAxis;
 const INITIAL_LENGTH = 1.0;
-const INITIAL_MERIDIAN = vec(0, 1, 0);
+const INITIAL_MERIDIAN = canonicalMeridian;
 const INITIAL_RADIUS = 0.5;
 const INITIAL_SLICE = 2 * Math.PI;
 
@@ -15,7 +15,7 @@ export interface ALR {
     sliceAngle: number;
 }
 
-function makeALR(axis: R3, length: number, meridian: R3, radius: number, sliceAngle: number): ALR {
+function make(axis: R3, length: number, meridian: R3, radius: number, sliceAngle: number): ALR {
     /*
     const that: ALR = {
         get axis(): R3 {
@@ -33,4 +33,4 @@ function makeALR(axis: R3, length: number, meridian: R3, radius: number, sliceAn
     return { axis, length, meridian, radius, sliceAngle };
 }
 
-export const ds = makeALR(INITIAL_AXIS, INITIAL_LENGTH, INITIAL_MERIDIAN, INITIAL_RADIUS, INITIAL_SLICE);
+export const ds = make(INITIAL_AXIS, INITIAL_LENGTH, INITIAL_MERIDIAN, INITIAL_RADIUS, INITIAL_SLICE);

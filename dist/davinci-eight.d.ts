@@ -4081,13 +4081,21 @@ declare module EIGHT {
      */
     interface ArrowOptions {
         /**
-         * 
+         * The reference axis (vector).
          */
         axis?: VectorE3;
         /**
          * Color
          */
         color?: Color;
+        /**
+         * The reference meridian (vector).
+         */
+        meridian?: VectorE3;
+        /**
+         * The spinor that rotates from the canonical frame to the reference frame.
+         */
+        tilt?: SpinorE3;
     }
 
     /**
@@ -4139,6 +4147,10 @@ declare module EIGHT {
         /**
          * 
          */
+        axis?: VectorE3;
+        /**
+         * 
+         */
         color?: Color;
         /**
          * 
@@ -4148,6 +4160,10 @@ declare module EIGHT {
          * 
          */
         height?: number;
+        /**
+         * 
+         */
+        meridian?: VectorE3;
         /**
          * 
          */
@@ -4425,18 +4441,18 @@ declare module EIGHT {
      */
     interface HollowCylinderOptions {
         /**
+         * The symmetry axis and the height of the cylinder.
+         */
+        axis?: VectorE3,
+        /**
          * The uniform color of the HollowCylinder.
          */
         color?: Color;
         /**
-         * The symmetry axis and the height of the cylinder.
-         */
-        height?: VectorE3,
-        /**
          * The starting direction for the slice.
          * A unit vector orthogonal to the height vector.
          */
-        cutLine?: VectorE3,
+        meridian?: VectorE3,
         /**
          * The outer radius of the cylinder.
          */
@@ -4449,6 +4465,10 @@ declare module EIGHT {
          * The angular size of the cylinder. Default is 2 * PI.
          */
         sliceAngle?: number;
+        /**
+         * 
+         */
+        tilt?: SpinorE3;
     }
 
     class HollowCylinder extends RigidBody {
@@ -4511,6 +4531,10 @@ declare module EIGHT {
         /**
          * 
          */
+        axis?: VectorE3;
+        /**
+         * 
+         */
         azimuthStart?: number;
         /**
          * 
@@ -4536,6 +4560,10 @@ declare module EIGHT {
          * 
          */
         elevationSegments?: number;
+        /**
+         * 
+         */
+        meridian?: VectorE3;
         /**
          * 
          */

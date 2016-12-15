@@ -1,4 +1,5 @@
 import VectorE3 from '../math/VectorE3';
+import SpinorE3 from '../math/SpinorE3';
 
 /**
  *
@@ -17,6 +18,10 @@ export interface CylinderOptions {
      */
     length?: number;
     /**
+     * 
+     */
+    meridian?: VectorE3;
+    /**
      * Defaults to false.
      */
     openBase?: boolean;
@@ -32,6 +37,10 @@ export interface CylinderOptions {
      * Defaults to 1.
      */
     radius?: number;
+    /**
+     * 
+     */
+    tilt?: SpinorE3;
 }
 
 export default CylinderOptions;

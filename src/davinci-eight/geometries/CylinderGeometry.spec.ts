@@ -1,12 +1,11 @@
 import { Engine } from '../core/Engine';
 import CylinderGeometry from './CylinderGeometry';
 import CylinderGeometryOptions from './CylinderGeometryOptions';
-import Vector3 from '../math/Vector3';
-import Spinor3 from '../math/Spinor3';
+import vec from '../math/R3';
 
-const e1 = Vector3.vector(1, 0, 0);
-const e2 = Vector3.vector(0, 1, 0);
-const e3 = Vector3.vector(0, 0, 1);
+const e1 = vec(1, 0, 0);
+const e2 = vec(0, 1, 0);
+const e3 = vec(0, 0, 1);
 
 describe("CylinderGeometry", function () {
     describe("constructor", function () {
@@ -87,13 +86,20 @@ describe("CylinderGeometry", function () {
                 const cylinder = new CylinderGeometry(engine);
                 const scaling = cylinder.scaling;
                 expect(scaling.getElement(0, 0)).toBe(1);
+                expect(scaling.getElement(0, 1)).toBe(0);
+                expect(scaling.getElement(0, 2)).toBe(0);
+                expect(scaling.getElement(1, 0)).toBe(0);
+                expect(scaling.getElement(1, 1)).toBe(1);
+                expect(scaling.getElement(1, 2)).toBe(0);
+                expect(scaling.getElement(2, 0)).toBe(0);
+                expect(scaling.getElement(2, 1)).toBe(0);
+                expect(scaling.getElement(2, 2)).toBe(1);
                 cylinder.release();
                 engine.release();
             });
             it("radius in x,z, length in y in canonical configuration", function () {
                 const engine = new Engine();
                 const options: CylinderGeometryOptions = {};
-                options.tilt = Spinor3.one();
                 const cylinder = new CylinderGeometry(engine, options);
                 cylinder.radius = 5;
                 cylinder.length = 7;
@@ -107,7 +113,8 @@ describe("CylinderGeometry", function () {
             it("radius in x,y, length in z after rotation from e2 to e3", function () {
                 const engine = new Engine();
                 const options: CylinderGeometryOptions = {};
-                options.tilt = Spinor3.rotorFromDirections(e2, e3);
+                options.axis = e3;
+                options.meridian = e2;
                 const cylinder = new CylinderGeometry(engine, options);
                 cylinder.radius = 5;
                 cylinder.length = 7;
@@ -121,7 +128,8 @@ describe("CylinderGeometry", function () {
             it("radius in z,y, length in x after rotation from e2 to e1", function () {
                 const engine = new Engine();
                 const options: CylinderGeometryOptions = {};
-                options.tilt = Spinor3.rotorFromDirections(e2, e1);
+                options.axis = e1;
+                options.meridian = e2;
                 const cylinder = new CylinderGeometry(engine, options);
                 cylinder.radius = 5;
                 cylinder.length = 7;

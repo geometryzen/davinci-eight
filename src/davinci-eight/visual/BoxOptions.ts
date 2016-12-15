@@ -1,10 +1,15 @@
 import GeometryMode from '../geometries/GeometryMode';
 import SpinorE3 from '../math/SpinorE3';
+import VectorE3 from '../math/VectorE3';
 
 /**
  *
  */
 export interface BoxOptions {
+    /**
+     * 
+     */
+    axis?: VectorE3;
     /**
      * 
      */
@@ -17,6 +22,10 @@ export interface BoxOptions {
      * The extent of the box in the y-axis direction.
      */
     height?: number;
+    /**
+     * 
+     */
+    meridian?: VectorE3;
     /**
      * 
      */

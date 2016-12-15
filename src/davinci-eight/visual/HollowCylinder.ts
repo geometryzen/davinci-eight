@@ -5,8 +5,8 @@ import GPS from '../core/GraphicsProgramSymbols';
 import HollowCylinderGeometry from '../geometries/HollowCylinderGeometry';
 import HollowCylinderGeometryOptions from '../geometries/HollowCylinderGeometryOptions';
 import HollowCylinderOptions from './HollowCylinderOptions';
-import initialAxis from './initialAxis';
-import initialMeridian from './initialMeridian';
+import referenceAxis from './referenceAxis';
+import referenceMeridian from './referenceMeridian';
 import isDefined from '../checks/isDefined';
 import MeshMaterial from '../materials/MeshMaterial';
 import MeshMaterialOptions from '../materials/MeshMaterialOptions';
@@ -14,6 +14,7 @@ import mustBeNumber from '../checks/mustBeNumber';
 import RigidBody from './RigidBody';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
+import spinorE3Object from './spinorE3Object';
 import vectorE3Object from './vectorE3Object';
 
 /**
@@ -24,12 +25,13 @@ export default class HollowCylinder extends RigidBody {
      * 
      */
     constructor(contextManager: ContextManager, options: HollowCylinderOptions = {}, levelUp = 0) {
-        super(contextManager, initialAxis(options, ds.axis), initialMeridian(options, ds.meridian), levelUp + 1);
+        super(contextManager, referenceAxis(options, ds.axis), referenceMeridian(options, ds.meridian), levelUp + 1);
         this.setLoggingName('HollowCylinder');
 
         const geoOptions: HollowCylinderGeometryOptions = { kind: 'HollowCylinderGeometry' };
-        geoOptions.axis = vectorE3Object(this.initialAxis);
-        geoOptions.meridian = vectorE3Object(this.initialMeridian);
+        geoOptions.tilt = spinorE3Object(options.tilt);
+        geoOptions.axis = vectorE3Object(this.referenceAxis);
+        geoOptions.meridian = vectorE3Object(this.referenceMeridian);
         geoOptions.outerRadius = isDefined(options.outerRadius) ? mustBeNumber('outerRadius', options.outerRadius) : ds.radius;
         geoOptions.innerRadius = isDefined(options.innerRadius) ? mustBeNumber('innerRadius', options.innerRadius) : 0.5 * geoOptions.outerRadius;
         geoOptions.sliceAngle = options.sliceAngle;

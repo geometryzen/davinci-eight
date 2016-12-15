@@ -15,6 +15,7 @@ import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
 import SimplexMode from '../geometries/SimplexMode';
 import simplexModeFromOptions from './simplexModeFromOptions';
+import spinorE3Object from './spinorE3Object';
 import vectorE3Object from './vectorE3Object';
 
 export class Box extends RigidBody {
@@ -31,8 +32,11 @@ export class Box extends RigidBody {
 
         const geoOptions: BoxGeometryOptions = { kind: 'BoxGeometry' };
         geoOptions.mode = geoMode;
-        geoOptions.axis = vectorE3Object(this.initialAxis);
-        geoOptions.meridian = vectorE3Object(this.initialMeridian);
+
+        geoOptions.tilt = spinorE3Object(options.tilt);
+        geoOptions.axis = vectorE3Object(this.referenceAxis);
+        geoOptions.meridian = vectorE3Object(this.referenceMeridian);
+
         geoOptions.openBack = options.openBack;
         geoOptions.openBase = options.openBase;
         geoOptions.openFront = options.openFront;

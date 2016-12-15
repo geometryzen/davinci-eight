@@ -6,6 +6,10 @@ import { Mesh } from '../core/Mesh';
 const ATTITUDE_NAME = 'attitude';
 const POSITION_NAME = 'position';
 
+/**
+ * Deprecated support for 'position' and 'attitude' in options.
+ * Implementations should use the corresponding properties instead.
+ */
 export default function setDeprecatedOptions(mesh: Mesh<Geometry, Material>, options: {}): void {
     if (isDefined(options[POSITION_NAME])) {
         console.warn(`options.${POSITION_NAME} is deprecated. Please use the X (position vector) property instead.`);

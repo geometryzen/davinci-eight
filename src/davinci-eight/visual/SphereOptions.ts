@@ -1,10 +1,15 @@
 import GeometryMode from '../geometries/GeometryMode';
+import VectorE3 from '../math/VectorE3';
 import SpinorE3 from '../math/SpinorE3';
 
 /**
  * The options for creating a Sphere.
  */
 export interface SphereOptions {
+    /**
+     * 
+     */
+    axis?: VectorE3;
     /**
      * 
      */
@@ -29,6 +34,10 @@ export interface SphereOptions {
      * 
      */
     elevationLength?: number;
+    /**
+     * 
+     */
+    meridian?: VectorE3;
     /**
      * 
      */

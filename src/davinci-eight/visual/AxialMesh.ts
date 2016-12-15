@@ -46,7 +46,7 @@ export default class AxialMesh<G extends PrincipalScaleGeometry, M extends Mater
     /**
      * 
      */
-    constructor(contextManager: ContextManager, protected initialAxis: R3, protected initialMeridian: R3, levelUp = 0) {
+    constructor(contextManager: ContextManager, protected referenceAxis: R3, protected referenceMeridian: R3, levelUp = 0) {
         // Mesh was not really designed to be extended.
         // When we start to define composites with a specific geometry and material through implementation inheritance,
         // we run into the problem that it is cumbersome to release the geometry and material.
@@ -55,8 +55,8 @@ export default class AxialMesh<G extends PrincipalScaleGeometry, M extends Mater
         super(void 0, void 0, contextManager, levelUp + 1);
         this.setLoggingName('AxialMesh');
 
-        this.currentAxis = Geometric3.fromVector(this.initialAxis);
-        this.currentMeridian = Geometric3.fromVector(this.initialMeridian);
+        this.currentAxis = Geometric3.fromVector(this.referenceAxis);
+        this.currentMeridian = Geometric3.fromVector(this.referenceMeridian);
 
         /**
          * cascade flag prevents infinite recursion.
@@ -65,7 +65,7 @@ export default class AxialMesh<G extends PrincipalScaleGeometry, M extends Mater
         this.axisChangeHandler = (eventName: string, key: string, value: number, axis: Geometric3) => {
             if (cascade) {
                 cascade = false;
-                this.R.rotorFromDirections(this.initialAxis, axis);
+                this.R.rotorFromDirections(this.referenceAxis, axis);
                 this.setPrincipalScale('length', Math.sqrt(quadVectorE3(axis)));
                 // this.length = Math.sqrt(quadVectorE3(vector))
                 cascade = true;
@@ -74,7 +74,7 @@ export default class AxialMesh<G extends PrincipalScaleGeometry, M extends Mater
         this.attitudeChangeHandler = (eventName: string, key: string, value: number, attitude: Geometric3) => {
             if (cascade) {
                 cascade = false;
-                this.currentAxis.copyVector(this.initialAxis).rotate(this.R).scale(this.length);
+                this.currentAxis.copyVector(this.referenceAxis).rotate(this.R).scale(this.length);
                 cascade = true;
             }
         };

@@ -47,6 +47,9 @@ export default function vec(x: number, y: number, z: number): R3 {
         scale,
         sub(rhs: VectorE3): R3 {
             return vec(x - rhs.x, y - rhs.y, z - rhs.z);
+        },
+        toString(): string {
+            return `[${x}, ${y}, ${z}]`;
         }
     };
     return that;

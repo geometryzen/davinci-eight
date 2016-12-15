@@ -1,8 +1,8 @@
 import Color from '../core/Color';
 import ContextManager from '../core/ContextManager';
 import { ds } from './Defaults';
-import initialAxis from './initialAxis';
-import initialMeridian from './initialMeridian';
+import referenceAxis from './referenceAxis';
+import referenceMeridian from './referenceMeridian';
 import isDefined from '../checks/isDefined';
 import geometryModeFromOptions from './geometryModeFromOptions';
 import materialFromOptions from './materialFromOptions';
@@ -16,6 +16,7 @@ import simplexModeFromOptions from './simplexModeFromOptions';
 import SphereOptions from './SphereOptions';
 import SphereGeometry from '../geometries/SphereGeometry';
 import SphereGeometryOptions from '../geometries/SphereGeometryOptions';
+import spinorE3Object from './spinorE3Object';
 import vectorE3Object from './vectorE3Object';
 
 const RADIUS_NAME = 'radius';
@@ -28,7 +29,7 @@ export class Sphere extends RigidBody {
      * 
      */
     constructor(contextManager: ContextManager, options: SphereOptions = {}, levelUp = 0) {
-        super(contextManager, initialAxis(options, ds.axis), initialMeridian(options, ds.meridian), levelUp + 1);
+        super(contextManager, referenceAxis(options, ds.axis), referenceMeridian(options, ds.meridian), levelUp + 1);
         this.setLoggingName('Sphere');
 
         const geoMode = geometryModeFromOptions(options);
@@ -44,8 +45,10 @@ export class Sphere extends RigidBody {
         geoOptions.elevationStart = options.elevationStart;
         geoOptions.offset = offsetFromOptions(options);
         geoOptions.stress = void 0;
-        geoOptions.axis = vectorE3Object(this.initialAxis);
-        geoOptions.meridian = vectorE3Object(this.initialMeridian);
+
+        geoOptions.tilt = spinorE3Object(options.tilt);
+        geoOptions.axis = vectorE3Object(this.referenceAxis);
+        geoOptions.meridian = vectorE3Object(this.referenceMeridian);
 
         const cachedGeometry = contextManager.getCacheGeometry(geoOptions);
         if (cachedGeometry && cachedGeometry instanceof SphereGeometry) {

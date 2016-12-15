@@ -1,11 +1,11 @@
 import ContextManager from '../core/ContextManager';
 import CylinderGeometryOptions from './CylinderGeometryOptions';
-import notSupported from '../i18n/notSupported';
 import Geometric3 from '../math/Geometric3';
 import GeometryElements from '../core/GeometryElements';
 import isDefined from '../checks/isDefined';
 import mustBeBoolean from '../checks/mustBeBoolean';
 import mustBeNumber from '../checks/mustBeNumber';
+import notSupported from '../i18n/notSupported';
 import Primitive from '../core/Primitive';
 import reduce from '../atoms/reduce';
 import arc3 from '../geometries/arc3';
@@ -282,10 +282,9 @@ function baseOptions(options: CylinderGeometryOptions): { tilt: SpinorE3 } {
  * A geometry for a Cylinder.
  */
 export default class CylinderGeometry extends GeometryElements {
-
-    private _length = 1;
-    private _radius = 1;
-
+    /**
+     * 
+     */
     constructor(contextManager: ContextManager, options: CylinderGeometryOptions = { kind: 'CylinderGeometry' }, levelUp = 0) {
         super(contextManager, cylinderPrimitive(options), baseOptions(options), levelUp + 1);
         this.setLoggingName('CylinderGeometry');
@@ -293,7 +292,9 @@ export default class CylinderGeometry extends GeometryElements {
             this.synchUp();
         }
     }
-
+    /**
+     * 
+     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();
@@ -302,28 +303,26 @@ export default class CylinderGeometry extends GeometryElements {
     }
 
     get radius(): number {
-        return this._radius;
+        return this.getPrincipalScale('radius');
     }
     set radius(radius: number) {
-        this._radius = radius;
         this.setPrincipalScale('radius', radius);
     }
 
     get length(): number {
-        return this._length;
+        return this.getPrincipalScale('length');
     }
     set length(length: number) {
-        this._length = length;
         this.setPrincipalScale('length', length);
     }
 
     getPrincipalScale(name: string): number {
         switch (name) {
             case 'length': {
-                return this._length;
+                return this.getScaleY();
             }
             case 'radius': {
-                return this._radius;
+                return this.getScaleX();
             }
             default: {
                 throw new Error(notSupported(`getPrincipalScale('${name}')`).message);
@@ -334,17 +333,16 @@ export default class CylinderGeometry extends GeometryElements {
     setPrincipalScale(name: string, value: number): void {
         switch (name) {
             case 'length': {
-                this._length = value;
+                this.setScale(this.getScaleX(), value, this.getScaleZ());
                 break;
             }
             case 'radius': {
-                this._radius = value;
+                this.setScale(value, this.getScaleY(), value);
                 break;
             }
             default: {
                 throw new Error(notSupported(`getPrincipalScale('${name}')`).message);
             }
         }
-        this.setScale(this._radius, this._length, this._radius);
     }
 }

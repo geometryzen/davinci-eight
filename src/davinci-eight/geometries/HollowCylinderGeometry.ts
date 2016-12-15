@@ -2,6 +2,7 @@ import ContextManager from '../core/ContextManager';
 import CylindricalShellBuilder from '../shapes/CylindricalShellBuilder';
 import GeometryElements from '../core/GeometryElements';
 import HollowCylinderGeometryOptions from './HollowCylinderGeometryOptions';
+import notSupported from '../i18n/notSupported';
 import Primitive from '../core/Primitive';
 import RingBuilder from '../shapes/RingBuilder';
 import reduce from '../atoms/reduce';
@@ -59,7 +60,13 @@ function hollowCylinderPrimitive(options: HollowCylinderGeometryOptions = { kind
     return reduce([outerWalls, innerWalls, cap, base]);
 }
 
+/**
+ * 
+ */
 export default class HollowCylinderGeometry extends GeometryElements {
+    /**
+     * 
+     */
     constructor(contextManager: ContextManager, options: HollowCylinderGeometryOptions = { kind: 'HollowCylinderGeometry' }, levelUp = 0) {
         super(contextManager, hollowCylinderPrimitive(options), {}, levelUp + 1);
         this.setLoggingName('HollowCylinderGeometry');
@@ -68,6 +75,9 @@ export default class HollowCylinderGeometry extends GeometryElements {
         }
     }
 
+    /**
+     * 
+     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();
@@ -75,4 +85,47 @@ export default class HollowCylinderGeometry extends GeometryElements {
         super.destructor(levelUp + 1);
     }
 
+    get radius(): number {
+        return this.getPrincipalScale('radius');
+    }
+    set radius(radius: number) {
+        this.setPrincipalScale('radius', radius);
+    }
+
+    get length(): number {
+        return this.getPrincipalScale('length');
+    }
+    set length(length: number) {
+        this.setPrincipalScale('length', length);
+    }
+
+    getPrincipalScale(name: string): number {
+        switch (name) {
+            case 'length': {
+                return this.getScaleY();
+            }
+            case 'radius': {
+                return this.getScaleX();
+            }
+            default: {
+                throw new Error(notSupported(`getPrincipalScale('${name}')`).message);
+            }
+        }
+    }
+
+    setPrincipalScale(name: string, value: number): void {
+        switch (name) {
+            case 'length': {
+                this.setScale(this.getScaleX(), value, this.getScaleZ());
+                break;
+            }
+            case 'radius': {
+                this.setScale(value, this.getScaleY(), value);
+                break;
+            }
+            default: {
+                throw new Error(notSupported(`getPrincipalScale('${name}')`).message);
+            }
+        }
+    }
 }

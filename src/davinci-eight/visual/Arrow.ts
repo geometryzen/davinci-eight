@@ -4,8 +4,8 @@ import ArrowGeometryOptions from '../geometries/ArrowGeometryOptions';
 import Color from '../core/Color';
 import { ds } from './Defaults';
 import Engine from '../core/Engine';
-import initialAxis from './initialAxis';
-import initialMeridian from './initialMeridian';
+import referenceAxis from './referenceAxis';
+import referenceMeridian from './referenceMeridian';
 import Material from '../core/Material';
 import materialFromOptions from './materialFromOptions';
 import offsetFromOptions from './offsetFromOptions';
@@ -15,6 +15,7 @@ import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
 import SimplexMode from '../geometries/SimplexMode';
 import simplexModeFromOptions from './simplexModeFromOptions';
+import spinorE3Object from './spinorE3Object';
 import vectorE3Object from './vectorE3Object';
 
 /**
@@ -25,13 +26,14 @@ export class Arrow extends AxialMesh<ArrowGeometry, Material> {
      * 
      */
     constructor(engine: Engine, options: ArrowOptions = {}, levelUp = 0) {
-        super(mustBeEngine(engine, 'Arrow'), initialAxis(options, ds.axis), initialMeridian(options, ds.meridian), levelUp + 1);
+        super(mustBeEngine(engine, 'Arrow'), referenceAxis(options, ds.axis), referenceMeridian(options, ds.meridian), levelUp + 1);
         this.setLoggingName('Arrow');
 
         const geoOptions: ArrowGeometryOptions = { kind: 'ArrowGeometry' };
         geoOptions.offset = offsetFromOptions(options);
-        geoOptions.axis = vectorE3Object(this.initialAxis);
-        geoOptions.meridian = vectorE3Object(this.initialMeridian);
+        geoOptions.tilt = spinorE3Object(options.tilt);
+        geoOptions.axis = vectorE3Object(this.referenceAxis);
+        geoOptions.meridian = vectorE3Object(this.referenceMeridian);
         geoOptions.radiusCone = 0.08;
 
         const cachedGeometry = engine.getCacheGeometry(geoOptions);

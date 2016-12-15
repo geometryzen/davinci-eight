@@ -1,5 +1,3 @@
-import BeginMode from './BeginMode';
-import EventEmitter from '../utils/EventEmitter';
 import ContextManager from './ContextManager';
 import Material from './Material';
 import Geometry from './Geometry';
@@ -9,52 +7,24 @@ import notSupported from '../i18n/notSupported';
 import ShareableContextConsumer from './ShareableContextConsumer';
 import Spinor3 from '../math/Spinor3';
 import SpinorE3 from '../math/SpinorE3';
-import VertexAttribPointer from './VertexAttribPointer';
 
 /**
  * GeometryBase
  */
 export default class GeometryBase extends ShareableContextConsumer implements Geometry {
-
-    /**
-     * Lazily instantiated EventEmitter.
-     */
-    private _eventBus: EventEmitter<Geometry, any>;
-
-    /**
-     *
-     */
-    protected _mode: BeginMode;
-
-    /**
-     * The number of bytes for each element.
-     *
-     * This is used in the vertexAttribPointer method.
-     * Normally, we will use gl.FLOAT for each number which takes 4 bytes.
-     */
-    protected _stride: number;
-
-    /**
-     * 
-     */
-    protected _pointers: VertexAttribPointer[];
-
     /**
      * Defaults to diag(1, 1, 1, 1)
      */
     public scaling = Matrix4.one();
-
     /**
      * Scratch variable for intermediate calculation value.
      * This can probably be raised to a module level constant.
      */
     private canonicalScale = Matrix4.one();
-
     /**
      * The rotation matrix equivalent to the initial tilt spinor.
      */
     private K = Matrix4.one();
-
     /**
      * The (cached) inverse of K.
      */
@@ -64,7 +34,6 @@ export default class GeometryBase extends ShareableContextConsumer implements Ge
      * Cached value that tells you whether the K matrix is unity.
      */
     private Kidentity = true;
-
     /**
      * 
      */
@@ -106,24 +75,6 @@ export default class GeometryBase extends ShareableContextConsumer implements Ge
         }
         super.destructor(levelUp + 1);
     }
-    /*
-    private ensureBus(): EventEmitter<Geometry, number> {
-        if (!this._eventBus) {
-            this._eventBus = new EventEmitter<Geometry, number>(this);
-        }
-        return this._eventBus;
-    }
-    */
-
-    /*
-    on(eventName: string, callback: (eventName: string, key: string, value: any, source: Geometry) => void) {
-        this.ensureBus().addEventListener(eventName, callback);
-    }
-
-    off(eventName: string, callback: (eventName: string, key: string, value: any, source: Geometry) => void) {
-        this.ensureBus().removeEventListener(eventName, callback);
-    }
-    */
 
     bind(material: Material): GeometryBase {
         throw new Error(notSupported('bind(material: Material)').message);
@@ -185,21 +136,12 @@ export default class GeometryBase extends ShareableContextConsumer implements Ge
             const oldZ = sMatrix.getElement(2, 2);
             if (x !== oldX) {
                 sMatrix.setElement(0, 0, x);
-                if (this._eventBus) {
-                    this._eventBus.emit('change', 'scaling', sMatrix);
-                }
             }
             if (y !== oldY) {
                 sMatrix.setElement(1, 1, y);
-                if (this._eventBus) {
-                    this._eventBus.emit('change', 'scaling', sMatrix);
-                }
             }
             if (z !== oldZ) {
                 sMatrix.setElement(2, 2, z);
-                if (this._eventBus) {
-                    this._eventBus.emit('change', 'scaling', sMatrix);
-                }
             }
         }
         else {
@@ -224,9 +166,6 @@ export default class GeometryBase extends ShareableContextConsumer implements Ge
             }
             if (matrixChanged) {
                 sMatrix.copy(this.K).mul(cMatrix).mul(this.Kinv);
-                if (this._eventBus) {
-                    this._eventBus.emit('change', 'scaling', sMatrix);
-                }
             }
         }
     }

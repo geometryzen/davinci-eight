@@ -7,6 +7,7 @@ import mustBeBoolean from '../checks/mustBeBoolean';
 import mustBeNumber from '../checks/mustBeNumber';
 import Primitive from '../core/Primitive';
 import reduce from '../atoms/reduce';
+import Geometric3 from '../math/Geometric3';
 import GeometryMode from './GeometryMode';
 import GridTriangleStrip from '../atoms/GridTriangleStrip';
 import PrimitivesBuilder from './PrimitivesBuilder';
@@ -15,27 +16,30 @@ import SpinorE3 from '../math/SpinorE3';
 import Spinor3 from '../math/Spinor3';
 import { Vector2 } from '../math/Vector2';
 import computeFaceNormals from '../geometries/computeFaceNormals';
-import R3 from '../math/R3';
 import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import quad from '../geometries/quadrilateral';
 import Simplex from '../geometries/Simplex';
 import SimplexMode from '../geometries/SimplexMode';
+import vec from '../math/R3';
 import Vector1 from '../math/Vector1';
 import Vector3 from '../math/Vector3';
 import VectorE3 from '../math/VectorE3';
 
+const canonicalAxis = vec(0, 1, 0);
+const canonicalMeridian = vec(0, 0, 1);
+
 /**
  * e1
  */
-const DEFAULT_A = R3(1, 0, 0);
+const DEFAULT_A = vec(1, 0, 0);
 /**
  * e2
  */
-const DEFAULT_B = R3(0, 1, 0);
+const DEFAULT_B = vec(0, 1, 0);
 /**
  * e3
  */
-const DEFAULT_C = R3(0, 0, 1);
+const DEFAULT_C = vec(0, 0, 1);
 
 class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
     private _a: VectorE3;
@@ -267,6 +271,10 @@ function boxPrimitive(options: BoxGeometryOptions = { kind: 'BoxGeometry' }): Pr
     const height = isDefined(options.height) ? mustBeNumber('height', options.height) : 1;
     const depth = isDefined(options.depth) ? mustBeNumber('depth', options.depth) : 1;
 
+    const axis = isDefined(options.axis) ? vec(options.axis.x, options.axis.y, options.axis.z) : vec(0, 1, 0);
+    const meridian = isDefined(options.meridian) ? vec(options.meridian.x, options.meridian.y, options.meridian.z) : vec(0, 0, 1);
+    const tilt = Geometric3.rotorFromFrameToFrame([canonicalAxis, canonicalMeridian, canonicalAxis.cross(canonicalMeridian)], [axis, meridian, axis.cross(meridian)]);
+
     const mode: GeometryMode = isDefined(options.mode) ? options.mode : GeometryMode.MESH;
     switch (mode) {
         case GeometryMode.POINT: {
@@ -277,6 +285,7 @@ function boxPrimitive(options: BoxGeometryOptions = { kind: 'BoxGeometry' }): Pr
             if (options.stress) {
                 builder.stress.copy(options.stress);
             }
+            builder.tilt.copy(tilt);
             if (options.offset) {
                 builder.offset.copy(options.offset);
             }
@@ -290,6 +299,7 @@ function boxPrimitive(options: BoxGeometryOptions = { kind: 'BoxGeometry' }): Pr
             if (options.stress) {
                 builder.stress.copy(options.stress);
             }
+            builder.tilt.copy(tilt);
             if (options.offset) {
                 builder.offset.copy(options.offset);
             }
@@ -322,6 +332,7 @@ function boxPrimitive(options: BoxGeometryOptions = { kind: 'BoxGeometry' }): Pr
             if (options.stress) {
                 builder.stress.copy(options.stress);
             }
+            builder.tilt.copy(tilt);
             if (options.offset) {
                 builder.offset.copy(options.offset);
             }

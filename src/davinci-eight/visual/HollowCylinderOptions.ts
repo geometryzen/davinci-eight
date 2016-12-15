@@ -1,4 +1,5 @@
 import VectorE3 from '../math/VectorE3';
+import SpinorE3 from '../math/SpinorE3';
 
 export interface HollowCylinderOptions {
     /**
@@ -22,6 +23,10 @@ export interface HollowCylinderOptions {
      * The angular size of the cylinder. Default is 2 * PI.
      */
     sliceAngle?: number;
+    /**
+     * 
+     */
+    tilt?: SpinorE3;
 }
 
 export default HollowCylinderOptions;

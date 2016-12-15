@@ -1887,6 +1887,22 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
         return copy;
     }
 
+    static dualOfBivector(B: BivectorE3): Geometric3 {
+        const dual = new Geometric3();
+        dual.z = -B.xy;
+        dual.x = -B.yz;
+        dual.y = -B.zx;
+        return dual;
+    }
+
+    static dualOfVector(v: VectorE3): Geometric3 {
+        const dual = new Geometric3();
+        dual.xy = v.z;
+        dual.yz = v.x;
+        dual.zx = v.y;
+        return dual;
+    }
+
     static fromBivector(B: BivectorE3): Geometric3 {
         const copy = new Geometric3();
         copy.yz = B.yz;
@@ -1967,6 +1983,10 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      */
     static rotorFromDirections(a: VectorE3, b: VectorE3): Geometric3 {
         return new Geometric3().rotorFromDirections(a, b);
+    }
+
+    static rotorFromFrameToFrame(es: VectorE3[], fs: VectorE3[]): Geometric3 {
+        return new Geometric3().rotorFromFrameToFrame(es, fs);
     }
 
     static rotorFromVectorToVector(a: VectorE3, b: VectorE3, B: BivectorE3): Geometric3 {
