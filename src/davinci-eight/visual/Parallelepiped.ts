@@ -215,7 +215,7 @@ export default class Parallelepiped implements Renderable {
 
             const material = new ShaderMaterial(vertexShaderSrc, fragmentShaderSrc, [], this.contextManager);
 
-            this.mesh = new Mesh<GeometryArrays, ShaderMaterial>(geometry, material, this.contextManager);
+            this.mesh = new Mesh<GeometryArrays, ShaderMaterial>(geometry, material, this.contextManager, {}, 0);
 
             geometry.release();
             material.release();

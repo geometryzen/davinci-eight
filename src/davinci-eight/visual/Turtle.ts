@@ -81,49 +81,37 @@ interface TurtleGeometryOptions extends GeometryKey<TurtleGeometry> {
  * approach based upon GeometryArrays
  */
 class TurtleGeometry extends GeometryArrays {
-    private w = 1;
-    private h = 1;
-    private d = 1;
-    constructor(contextManager: ContextManager, options: TurtleGeometryOptions = { kind: 'TurtleGeometry' }) {
+    constructor(contextManager: ContextManager, options: TurtleGeometryOptions = { kind: 'TurtleGeometry' }, levelUp = 0) {
         super(contextManager, primitive(options), options);
-    }
-
-    getPrincipalScale(name: string): number {
-        switch (name) {
-            case 'width': {
-                return this.w;
-            }
-            case 'height': {
-                return this.h;
-            }
-            case 'depth': {
-                return this.d;
-            }
-            default: {
-                throw new Error(`getPrincipalScale(${name}): name is not a principal scale property.`);
-            }
+        this.setLoggingName('TurtleGeometry');
+        if (levelUp === 0) {
+            this.synchUp();
         }
     }
-
-    setPrincipalScale(name: string, value: number): void {
-        switch (name) {
-            case 'width': {
-                this.w = value;
-                break;
-            }
-            case 'height': {
-                this.h = value;
-                break;
-            }
-            case 'depth': {
-                this.d = value;
-                break;
-            }
-            default: {
-                throw new Error(`setPrinciplaScale(${name}): name is not a principal scale property.`);
-            }
+    /**
+     * 
+     */
+    protected resurrector(levelUp: number): void {
+        super.resurrector(levelUp + 1);
+        this.setLoggingName('TurtleGeometry');
+        if (levelUp === 0) {
+            this.synchUp();
         }
-        this.setScale(this.w, this.h, this.d);
+    }
+    /**
+     * 
+     */
+    protected destructor(levelUp: number): void {
+        if (levelUp === 0) {
+            this.cleanUp();
+        }
+        super.destructor(levelUp + 1);
+    }
+    /**
+     * 
+     */
+    public getScalingForAxis(): number {
+        return 2;
     }
 }
 
@@ -174,19 +162,23 @@ export default class Turtle extends RigidBody {
     }
 
     get width() {
-        return this.getPrincipalScale('width');
+        return this.getScaleX();
     }
     set width(width: number) {
-        this.setPrincipalScale('width', width);
+        const y = this.getScaleY();
+        const z = this.getScaleZ();
+        this.setScale(width, y, z);
     }
 
     /**
      *
      */
     get height() {
-        return this.getPrincipalScale('height');
+        return this.getScaleY();
     }
     set height(height: number) {
-        this.setPrincipalScale('height', height);
+        const x = this.getScaleX();
+        const z = this.getScaleZ();
+        this.setScale(x, height, z);
     }
 }

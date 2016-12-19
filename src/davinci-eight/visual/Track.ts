@@ -59,14 +59,8 @@ class TrackGeometry implements Geometry {
         this.contextManager.gl.drawArrays(BeginMode.LINE_STRIP, 0, this.count);
         return this;
     }
-    getPrincipalScale(name: string): number {
-        throw new Error("LineGeometry.getPrincipalScale");
-    }
-    hasPrincipalScale(name: string): boolean {
-        throw new Error("LineGeometry.hasPrincipalScale");
-    }
-    setPrincipalScale(name: string, value: number): void {
-        throw new Error("LineGeometry.setPrincipalScale");
+    getScalingForAxis(): number {
+        return 2;
     }
     contextFree(): void {
         this.vbo.contextFree();
@@ -128,7 +122,7 @@ export class Track extends Mesh<TrackGeometry, LineMaterial> {
     constructor(contextManager: ContextManager, options: TrackOptions = {}, levelUp = 0) {
         // The TrackGeometry cannot be cached because it is dynamic.
         // The LineMaterial can be cached.
-        super(new TrackGeometry(contextManager), new LineMaterial(contextManager), contextManager, levelUp + 1);
+        super(new TrackGeometry(contextManager), new LineMaterial(contextManager), contextManager, {}, levelUp + 1);
         this.setLoggingName('Track');
         // Adjust geometry reference count resulting from construction.
         const geometry = this.geometry;

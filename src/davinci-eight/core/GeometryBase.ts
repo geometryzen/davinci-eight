@@ -1,11 +1,8 @@
 import ContextManager from './ContextManager';
 import Material from './Material';
 import Geometry from './Geometry';
-import Matrix4 from '../math/Matrix4';
-import notImplemented from '../i18n/notImplemented';
 import notSupported from '../i18n/notSupported';
 import ShareableContextConsumer from './ShareableContextConsumer';
-import Spinor3 from '../math/Spinor3';
 import SpinorE3 from '../math/SpinorE3';
 
 /**
@@ -13,59 +10,25 @@ import SpinorE3 from '../math/SpinorE3';
  */
 export default class GeometryBase extends ShareableContextConsumer implements Geometry {
     /**
-     * Defaults to diag(1, 1, 1, 1)
-     */
-    public scaling = Matrix4.one();
-    /**
-     * Scratch variable for intermediate calculation value.
-     * This can probably be raised to a module level constant.
-     */
-    private canonicalScale = Matrix4.one();
-    /**
-     * The rotation matrix equivalent to the initial tilt spinor.
-     */
-    private K = Matrix4.one();
-    /**
-     * The (cached) inverse of K.
-     */
-    private Kinv = Matrix4.one();
-
-    /**
-     * Cached value that tells you whether the K matrix is unity.
-     */
-    private Kidentity = true;
-    /**
      * 
      */
     constructor(private tilt: SpinorE3, contextManager: ContextManager, levelUp: number) {
         super(contextManager);
         this.setLoggingName("GeometryBase");
-        if (tilt && !Spinor3.isOne(tilt)) {
-            this.Kidentity = false;
-            this.K.rotation(tilt);
-            this.Kinv.copy(this.K).inv();
-        }
         if (levelUp === 0) {
             this.synchUp();
         }
     }
-
     /**
      * 
      */
     protected resurrector(levelUp: number): void {
         super.resurrector(levelUp + 1);
         this.setLoggingName("GeometryBase");
-        if (this.tilt && !Spinor3.isOne(this.tilt)) {
-            this.Kidentity = false;
-            this.K.rotation(this.tilt);
-            this.Kinv.copy(this.K).inv();
-        }
         if (levelUp === 0) {
             this.synchUp();
         }
     }
-
     /**
      * 
      */
@@ -75,98 +38,28 @@ export default class GeometryBase extends ShareableContextConsumer implements Ge
         }
         super.destructor(levelUp + 1);
     }
-
+    /**
+     * 
+     */
+    getScalingForAxis(): number {
+        return 0;
+    }
+    /**
+     * 
+     */
     bind(material: Material): GeometryBase {
         throw new Error(notSupported('bind(material: Material)').message);
     }
-
+    /**
+     * 
+     */
     unbind(material: Material): GeometryBase {
         throw new Error(notSupported('unbind(material: Material)').message);
     }
-
+    /**
+     * 
+     */
     draw(): GeometryBase {
         throw new Error(notSupported('draw()').message);
-    }
-
-    hasPrincipalScale(name: string): boolean {
-        throw new Error(notImplemented(`hasPrincipalScale(${name})`).message);
-    }
-
-    public getPrincipalScale(name: string): number {
-        throw new Error(notImplemented('getPrincipalScale').message);
-    }
-
-    public setPrincipalScale(name: string, value: number): void {
-        throw new Error(notImplemented('setPrincipalScale').message);
-    }
-
-    private getScale(i: number, j: number): number {
-        if (this.Kidentity) {
-            const sMatrix = this.scaling;
-            return sMatrix.getElement(i, j);
-        }
-        else {
-            const sMatrix = this.scaling;
-            const cMatrix = this.canonicalScale;
-            cMatrix.copy(this.Kinv).mul(sMatrix).mul(this.K);
-            return cMatrix.getElement(i, j);
-        }
-    }
-
-    protected getScaleX(): number {
-        return this.getScale(0, 0);
-    }
-
-    protected getScaleY(): number {
-        return this.getScale(1, 1);
-    }
-
-    protected getScaleZ(): number {
-        return this.getScale(2, 2);
-    }
-
-    /**
-     * Implementations of setPrincipalScale are expected to call this method.
-     */
-    protected setScale(x: number, y: number, z: number): void {
-        if (this.Kidentity) {
-            const sMatrix = this.scaling;
-            const oldX = sMatrix.getElement(0, 0);
-            const oldY = sMatrix.getElement(1, 1);
-            const oldZ = sMatrix.getElement(2, 2);
-            if (x !== oldX) {
-                sMatrix.setElement(0, 0, x);
-            }
-            if (y !== oldY) {
-                sMatrix.setElement(1, 1, y);
-            }
-            if (z !== oldZ) {
-                sMatrix.setElement(2, 2, z);
-            }
-        }
-        else {
-            const sMatrix = this.scaling;
-            const cMatrix = this.canonicalScale;
-            cMatrix.copy(this.Kinv).mul(sMatrix).mul(this.K);
-            const oldX = cMatrix.getElement(0, 0);
-            const oldY = cMatrix.getElement(1, 1);
-            const oldZ = cMatrix.getElement(2, 2);
-            let matrixChanged = false;
-            if (x !== oldX) {
-                cMatrix.setElement(0, 0, x);
-                matrixChanged = true;
-            }
-            if (y !== oldY) {
-                cMatrix.setElement(1, 1, y);
-                matrixChanged = true;
-            }
-            if (z !== oldZ) {
-                cMatrix.setElement(2, 2, z);
-                matrixChanged = true;
-            }
-            if (matrixChanged) {
-                sMatrix.copy(this.K).mul(cMatrix).mul(this.Kinv);
-            }
-        }
     }
 }

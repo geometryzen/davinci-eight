@@ -17,7 +17,6 @@ export class GridGeometry extends GeometryElements {
             this.synchUp();
         }
     }
-
     /**
      * 
      */
@@ -28,7 +27,6 @@ export class GridGeometry extends GeometryElements {
             this.synchUp();
         }
     }
-
     /**
      * 
      */
@@ -37,6 +35,12 @@ export class GridGeometry extends GeometryElements {
             this.cleanUp();
         }
         super.destructor(levelUp + 1);
+    }
+    /**
+     * 
+     */
+    public getScalingForAxis(): number {
+        return 0;
     }
 }
 

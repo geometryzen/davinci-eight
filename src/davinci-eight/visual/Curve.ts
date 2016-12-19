@@ -168,7 +168,7 @@ function configLines(contextManager: ContextManager, options: CurveOptions, curv
 export class Curve extends Mesh<CurveGeometry, Material> {
 
     constructor(engine: Engine, options: CurveOptions = {}, levelUp = 0) {
-        super(void 0, void 0, mustBeEngine(engine, 'Curve'), levelUp + 1);
+        super(void 0, void 0, mustBeEngine(engine, 'Curve'), {}, levelUp + 1);
         this.setLoggingName('Curve');
 
         const mode: CurveMode = isDefined(options.mode) ? options.mode : CurveMode.LINES;

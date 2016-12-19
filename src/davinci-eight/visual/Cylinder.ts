@@ -37,8 +37,8 @@ export class Cylinder extends RigidBody {
         geoOptions.offset = offsetFromOptions(options);
 
         geoOptions.tilt = spinorE3Object(options.tilt);
-        geoOptions.axis = vectorE3Object(this.referenceAxis);
-        geoOptions.meridian = vectorE3Object(this.referenceMeridian);
+        geoOptions.axis = vectorE3Object(referenceAxis(options, ds.axis));
+        geoOptions.meridian = vectorE3Object(referenceMeridian(options, ds.meridian));
 
         geoOptions.openCap = options.openCap;
         geoOptions.openBase = options.openBase;
@@ -79,12 +79,25 @@ export class Cylinder extends RigidBody {
     }
 
     /**
+     * The length of the cylinder, a scalar. Defaults to 1.
+     */
+    get length(): number {
+        return this.getScaleY();
+    }
+    set length(length: number) {
+        const x = this.getScaleX();
+        const z = this.getScaleZ();
+        this.setScale(x, length, z);
+    }
+
+    /**
      * The radius of the cylinder, a scalar. Defaults to 1.
      */
     get radius(): number {
-        return this.getPrincipalScale('radius');
+        return this.getScaleX();
     }
     set radius(radius: number) {
-        this.setPrincipalScale('radius', radius);
+        const y = this.getScaleY();
+        this.setScale(radius, y, radius);
     }
 }

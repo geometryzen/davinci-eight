@@ -59,10 +59,13 @@ export default class Tetrahedron extends RigidBody {
         super.destructor(levelUp + 1);
     }
 
+    /**
+     * 
+     */
     get radius(): number {
-        return this.getPrincipalScale('radius');
+        return this.getScaleX();
     }
     set radius(radius: number) {
-        this.setPrincipalScale('radius', radius);
+        this.setScale(radius, radius, radius);
     }
 }

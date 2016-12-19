@@ -47,8 +47,8 @@ export class Sphere extends RigidBody {
         geoOptions.stress = void 0;
 
         geoOptions.tilt = spinorE3Object(options.tilt);
-        geoOptions.axis = vectorE3Object(this.referenceAxis);
-        geoOptions.meridian = vectorE3Object(this.referenceMeridian);
+        geoOptions.axis = vectorE3Object(referenceAxis(options, ds.axis));
+        geoOptions.meridian = vectorE3Object(referenceMeridian(options, ds.meridian));
 
         const cachedGeometry = contextManager.getCacheGeometry(geoOptions);
         if (cachedGeometry && cachedGeometry instanceof SphereGeometry) {
@@ -87,10 +87,9 @@ export class Sphere extends RigidBody {
     }
 
     get radius() {
-        return this.getPrincipalScale(RADIUS_NAME);
-        // return Geometric3.scalar(r);
+        return this.getScaleX();
     }
     set radius(radius: number) {
-        this.setPrincipalScale(RADIUS_NAME, mustBeNumber(RADIUS_NAME, radius));
+        this.setScale(radius, radius, radius);
     }
 }

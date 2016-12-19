@@ -34,8 +34,8 @@ export class Box extends RigidBody {
         geoOptions.mode = geoMode;
 
         geoOptions.tilt = spinorE3Object(options.tilt);
-        geoOptions.axis = vectorE3Object(this.referenceAxis);
-        geoOptions.meridian = vectorE3Object(this.referenceMeridian);
+        geoOptions.axis = vectorE3Object(ds.axis);
+        geoOptions.meridian = vectorE3Object(ds.meridian);
 
         geoOptions.openBack = options.openBack;
         geoOptions.openBase = options.openBase;
@@ -90,29 +90,35 @@ export class Box extends RigidBody {
      * @default 1
      */
     get width() {
-        return this.getPrincipalScale('width');
+        return this.getScaleX();
     }
     set width(width: number) {
-        this.setPrincipalScale('width', width);
+        const y = this.getScaleY();
+        const z = this.getScaleZ();
+        this.setScale(width, y, z);
     }
 
     /**
      *
      */
     get height() {
-        return this.getPrincipalScale('height');
+        return this.getScaleY();
     }
     set height(height: number) {
-        this.setPrincipalScale('height', height);
+        const x = this.getScaleX();
+        const z = this.getScaleZ();
+        this.setScale(x, height, z);
     }
 
     /**
      *
      */
     get depth() {
-        return this.getPrincipalScale('depth');
+        return this.getScaleZ();
     }
     set depth(depth: number) {
-        this.setPrincipalScale('depth', depth);
+        const x = this.getScaleX();
+        const y = this.getScaleY();
+        this.setScale(x, y, depth);
     }
 }

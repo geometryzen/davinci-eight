@@ -4006,17 +4006,29 @@ declare module EIGHT {
 
     class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M> implements AbstractMesh<G, M> {
         /**
+         * Attitude (spinor). This is an alias for the R property.
+         */
+        attitude: Geometric3;
+        /**
+         * Axis (vector). Alternative (with meridian) to attitude.
+         */
+        axis: Geometric3;
+        /**
          * Color
          */
         color: Color;
+        /**
+         * Meridian (vector). Alternative (with axis) to attitude.
+         */
+        meridian: Geometric3;
         /**
          * Opacity
          */
         opacity: number;
         /**
-         * Attitude (spinor). This is an alias for the R property.
+         * Position (vector). This is an alias for the position property.
          */
-        attitude: Geometric3;
+        position: Geometric3;
         /**
          * Attitude (spinor). This is an alias for the attitude property.
          */
@@ -4029,10 +4041,6 @@ declare module EIGHT {
          * Texture
          */
         texture: Texture;
-        /**
-         * Position (vector). This is an alias for the position property.
-         */
-        position: Geometric3;
         /**
          * Position (vector). This is an alias for the position property.
          */

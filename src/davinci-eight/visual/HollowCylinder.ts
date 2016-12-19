@@ -30,8 +30,8 @@ export default class HollowCylinder extends RigidBody {
 
         const geoOptions: HollowCylinderGeometryOptions = { kind: 'HollowCylinderGeometry' };
         geoOptions.tilt = spinorE3Object(options.tilt);
-        geoOptions.axis = vectorE3Object(this.referenceAxis);
-        geoOptions.meridian = vectorE3Object(this.referenceMeridian);
+        geoOptions.axis = vectorE3Object(referenceAxis(options, ds.axis));
+        geoOptions.meridian = vectorE3Object(referenceMeridian(options, ds.meridian));
         geoOptions.outerRadius = isDefined(options.outerRadius) ? mustBeNumber('outerRadius', options.outerRadius) : ds.radius;
         geoOptions.innerRadius = isDefined(options.innerRadius) ? mustBeNumber('innerRadius', options.innerRadius) : 0.5 * geoOptions.outerRadius;
         geoOptions.sliceAngle = options.sliceAngle;

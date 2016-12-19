@@ -317,7 +317,7 @@ function configMesh(engine: Engine, options: GridOptions, grid: Grid) {
 export class Grid extends Mesh<GridGeometry, Material> {
 
     constructor(engine: Engine, options: GridOptions = {}, levelUp = 0) {
-        super(void 0, void 0, mustBeEngine(engine, 'Grid'), levelUp + 1);
+        super(void 0, void 0, mustBeEngine(engine, 'Grid'), {}, levelUp + 1);
         this.setLoggingName('Grid');
         expectOptions(OPTION_NAMES, Object.keys(options));
 

@@ -8,7 +8,6 @@ import { ShareableBase } from '../core/ShareableBase';
 interface GroupMember extends Renderable {
     X: Geometric3;
     R: Geometric3;
-    stress: Matrix4;
     visible: boolean;
 }
 

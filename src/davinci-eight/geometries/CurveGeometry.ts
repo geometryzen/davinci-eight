@@ -15,11 +15,29 @@ export default class CurveGeometry extends GeometryElements {
             this.synchUp();
         }
     }
-
+    /**
+     * 
+     */
+    protected resurrector(levelUp: number): void {
+        super.resurrector(levelUp + 1);
+        this.setLoggingName('CurveGeometry');
+        if (levelUp === 0) {
+            this.synchUp();
+        }
+    }
+    /**
+     * 
+     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();
         }
         super.destructor(levelUp + 1);
+    }
+    /**
+     * 
+     */
+    getScalingForAxis(): number {
+        return 0;
     }
 }

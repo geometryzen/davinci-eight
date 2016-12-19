@@ -1,14 +1,14 @@
-import AxialMesh from './AxialMesh';
 import ContextManager from '../core/ContextManager';
 import Geometric3 from '../math/Geometric3';
+import Geometry from '../core/Geometry';
 import Material from '../core/Material';
-import { PrincipalScaleGeometry } from './AxialMesh';
+import Mesh from '../core/Mesh';
 import { R3 } from '../math/R3';
 
 /**
  * Decorates the Mesh by adding properties for physical modeling.
  */
-export class RigidBody extends AxialMesh<PrincipalScaleGeometry, Material> {
+export class RigidBody extends Mesh<Geometry, Material> {
 
     /**
      * <p>
@@ -54,7 +54,7 @@ export class RigidBody extends AxialMesh<PrincipalScaleGeometry, Material> {
      * 
      */
     constructor(contextManager: ContextManager, initialAxis: R3, initialMeridian: R3, levelUp = 0) {
-        super(contextManager, initialAxis, initialMeridian, levelUp + 1);
+        super(void 0, void 0, contextManager, { axis: initialAxis, meridian: initialMeridian }, levelUp + 1);
         this.setLoggingName('RigidBody');
         if (levelUp === 0) {
             this.synchUp();

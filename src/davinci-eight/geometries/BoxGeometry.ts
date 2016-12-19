@@ -1,7 +1,6 @@
 import BoxGeometryOptions from './BoxGeometryOptions';
 import ContextManager from '../core/ContextManager';
 import GeometryElements from '../core/GeometryElements';
-import notSupported from '../i18n/notSupported';
 import isDefined from '../checks/isDefined';
 import mustBeBoolean from '../checks/mustBeBoolean';
 import mustBeNumber from '../checks/mustBeNumber';
@@ -345,10 +344,6 @@ function boxPrimitive(options: BoxGeometryOptions = { kind: 'BoxGeometry' }): Pr
  * A convenience class for creating a BoxGeometry.
  */
 export default class BoxGeometry extends GeometryElements {
-    private w = 1;
-    private h = 1;
-    private d = 1;
-
     /**
      * 
      */
@@ -359,7 +354,6 @@ export default class BoxGeometry extends GeometryElements {
             this.synchUp();
         }
     }
-
     /**
      * 
      */
@@ -370,7 +364,6 @@ export default class BoxGeometry extends GeometryElements {
             this.synchUp();
         }
     }
-
     /**
      * 
      */
@@ -380,71 +373,10 @@ export default class BoxGeometry extends GeometryElements {
         }
         super.destructor(levelUp + 1);
     }
-
-    get width() {
-        return this.w;
-    }
-    set width(value: number) {
-        this.w = value;
-        this.setScale(this.w, this.h, this.d);
-    }
-
-    get height() {
-        return this.h;
-    }
-    set height(value: number) {
-        this.h = value;
-        this.setScale(this.w, this.h, this.d);
-    }
-
-    get depth() {
-        return this.d;
-    }
-    set depth(value: number) {
-        this.d = value;
-        this.setScale(this.w, this.h, this.d);
-    }
-
     /**
-     *
+     * 
      */
-    getPrincipalScale(name: 'width' | 'height' | 'depth'): number {
-        switch (name) {
-            case 'width': {
-                return this.width;
-            }
-            case 'height': {
-                return this.height;
-            }
-            case 'depth': {
-                return this.depth;
-            }
-            default: {
-                throw new Error(notSupported(`getPrincipalScale('${name}')`).message);
-            }
-        }
-    }
-
-    /**
-     *
-     */
-    setPrincipalScale(name: 'width' | 'depth' | 'height', value: number): void {
-        switch (name) {
-            case 'width': {
-                this.width = value;
-                break;
-            }
-            case 'height': {
-                this.height = value;
-                break;
-            }
-            case 'depth': {
-                this.depth = value;
-                break;
-            }
-            default: {
-                throw new Error(notSupported(`setPrincipalScale('${name}')`).message);
-            }
-        }
+    public getScalingForAxis(): number {
+        return 2;
     }
 }

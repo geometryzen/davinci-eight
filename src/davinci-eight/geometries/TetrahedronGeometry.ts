@@ -7,7 +7,9 @@ import tetrahedronPrimitive from './tetrahedronPrimitive';
  * A convenience class for creating a tetrahedron geometry.
  */
 export default class TetrahedronGeometry extends GeometryElements {
-
+    /**
+     * 
+     */
     constructor(contextManager: ContextManager, options: TetrahedronGeometryOptions = { kind: 'TetrahedronGeometry' }, levelUp = 0) {
         super(contextManager, tetrahedronPrimitive(options), options, levelUp + 1);
         this.setLoggingName('TetrahedronGeometry');
@@ -15,11 +17,29 @@ export default class TetrahedronGeometry extends GeometryElements {
             this.synchUp();
         }
     }
-
+    /**
+     * 
+     */
+    protected resurrector(levelUp: number): void {
+        super.resurrector(levelUp + 1);
+        this.setLoggingName('TetrahedronGeometry');
+        if (levelUp === 0) {
+            this.synchUp();
+        }
+    }
+    /**
+     * 
+     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();
         }
         super.destructor(levelUp + 1);
+    }
+    /**
+     * 
+     */
+    public getScalingForAxis(): number {
+        return 2;
     }
 }

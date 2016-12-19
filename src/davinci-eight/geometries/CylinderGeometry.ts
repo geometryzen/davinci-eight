@@ -5,7 +5,6 @@ import GeometryElements from '../core/GeometryElements';
 import isDefined from '../checks/isDefined';
 import mustBeBoolean from '../checks/mustBeBoolean';
 import mustBeNumber from '../checks/mustBeNumber';
-import notSupported from '../i18n/notSupported';
 import Primitive from '../core/Primitive';
 import reduce from '../atoms/reduce';
 import arc3 from '../geometries/arc3';
@@ -295,54 +294,26 @@ export default class CylinderGeometry extends GeometryElements {
     /**
      * 
      */
+    protected resurrector(levelUp: number): void {
+        super.resurrector(levelUp + 1);
+        this.setLoggingName('CylinderGeometry');
+        if (levelUp === 0) {
+            this.synchUp();
+        }
+    }
+    /**
+     * 
+     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();
         }
         super.destructor(levelUp + 1);
     }
-
-    get radius(): number {
-        return this.getPrincipalScale('radius');
-    }
-    set radius(radius: number) {
-        this.setPrincipalScale('radius', radius);
-    }
-
-    get length(): number {
-        return this.getPrincipalScale('length');
-    }
-    set length(length: number) {
-        this.setPrincipalScale('length', length);
-    }
-
-    getPrincipalScale(name: string): number {
-        switch (name) {
-            case 'length': {
-                return this.getScaleY();
-            }
-            case 'radius': {
-                return this.getScaleX();
-            }
-            default: {
-                throw new Error(notSupported(`getPrincipalScale('${name}')`).message);
-            }
-        }
-    }
-
-    setPrincipalScale(name: string, value: number): void {
-        switch (name) {
-            case 'length': {
-                this.setScale(this.getScaleX(), value, this.getScaleZ());
-                break;
-            }
-            case 'radius': {
-                this.setScale(value, this.getScaleY(), value);
-                break;
-            }
-            default: {
-                throw new Error(notSupported(`getPrincipalScale('${name}')`).message);
-            }
-        }
+    /**
+     * 
+     */
+    public getScalingForAxis(): number {
+        return 2;
     }
 }

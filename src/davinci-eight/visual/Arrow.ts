@@ -9,7 +9,7 @@ import referenceMeridian from './referenceMeridian';
 import Material from '../core/Material';
 import materialFromOptions from './materialFromOptions';
 import offsetFromOptions from './offsetFromOptions';
-import AxialMesh from './AxialMesh';
+import Mesh from '../core/Mesh';
 import mustBeEngine from './mustBeEngine';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
@@ -21,19 +21,19 @@ import vectorE3Object from './vectorE3Object';
 /**
  * A Mesh in the form of an arrow that may be used to represent a vector quantity.
  */
-export class Arrow extends AxialMesh<ArrowGeometry, Material> {
+export class Arrow extends Mesh<ArrowGeometry, Material> {
     /**
      * 
      */
     constructor(engine: Engine, options: ArrowOptions = {}, levelUp = 0) {
-        super(mustBeEngine(engine, 'Arrow'), referenceAxis(options, ds.axis), referenceMeridian(options, ds.meridian), levelUp + 1);
+        super(void 0, void 0, mustBeEngine(engine, 'Arrow'), { axis: referenceAxis(options, ds.axis), meridian: referenceMeridian(options, ds.meridian) }, levelUp + 1);
         this.setLoggingName('Arrow');
 
         const geoOptions: ArrowGeometryOptions = { kind: 'ArrowGeometry' };
         geoOptions.offset = offsetFromOptions(options);
         geoOptions.tilt = spinorE3Object(options.tilt);
-        geoOptions.axis = vectorE3Object(this.referenceAxis);
-        geoOptions.meridian = vectorE3Object(this.referenceMeridian);
+        geoOptions.axis = vectorE3Object(referenceAxis(options, ds.axis));
+        geoOptions.meridian = vectorE3Object(referenceMeridian(options, ds.meridian));
         geoOptions.radiusCone = 0.08;
 
         const cachedGeometry = engine.getCacheGeometry(geoOptions);

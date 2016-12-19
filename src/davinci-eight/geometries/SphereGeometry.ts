@@ -9,7 +9,6 @@ import isUndefined from '../checks/isUndefined';
 import mustBeGE from '../checks/mustBeGE';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeNumber from '../checks/mustBeNumber';
-import notSupported from '../i18n/notSupported';
 import Primitive from '../core/Primitive';
 import reduce from '../atoms/reduce';
 import R3 from '../math/R3';
@@ -413,7 +412,9 @@ function spherePrimitive(options: SphereGeometryOptions = { kind: 'SphereGeometr
  * A convenience class for creating a sphere.
  */
 export default class SphereGeometry extends GeometryElements {
-
+    /**
+     * 
+     */
     constructor(contextManager: ContextManager, options: SphereGeometryOptions = { kind: 'SphereGeometry' }, levelUp = 0) {
         super(contextManager, spherePrimitive(options), options, levelUp + 1);
         this.setLoggingName('SphereGeometry');
@@ -421,42 +422,29 @@ export default class SphereGeometry extends GeometryElements {
             this.synchUp();
         }
     }
-
+    /**
+     * 
+     */
+    protected resurrector(levelUp: number): void {
+        super.resurrector(levelUp + 1);
+        this.setLoggingName('SphereGeometry');
+        if (levelUp === 0) {
+            this.synchUp();
+        }
+    }
+    /**
+     * 
+     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();
         }
         super.destructor(levelUp + 1);
     }
-
-    get radius(): number {
-        return this.getScaleX();
-    }
-
-    set radius(radius: number) {
-        this.setScale(radius, radius, radius);
-    }
-
-    getPrincipalScale(name: string): number {
-        switch (name) {
-            case 'radius': {
-                return this.getScaleX();
-            }
-            default: {
-                throw new Error(notSupported(`getPrincipalScale('${name}')`).message);
-            }
-        }
-    }
-
-    setPrincipalScale(name: string, value: number): void {
-        switch (name) {
-            case 'radius': {
-                break;
-            }
-            default: {
-                throw new Error(notSupported(`setPrincipalScale('${name}')`).message);
-            }
-        }
-        this.setScale(value, value, value);
+    /**
+     * 
+     */
+    getScalingForAxis(): number {
+        return 2;
     }
 }

@@ -94,3 +94,5 @@ export interface AbstractDrawable<G extends Geometry, M extends Material> extend
      */
     use(): AbstractDrawable<G, M>;
 }
+
+export default AbstractDrawable;

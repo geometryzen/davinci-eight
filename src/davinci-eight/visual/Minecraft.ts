@@ -558,8 +558,8 @@ const makeMaterial = function makeMaterial(graphics: Engine, options: MinecraftI
  * 
  */
 class MinecraftBodyPart extends Mesh<Geometry, Material> {
-    constructor(engine: Engine, texture: ImageTexture, options: MinecraftInternalBodyPartOptions) {
-        super(void 0, void 0, engine);
+    constructor(engine: Engine, texture: ImageTexture, options: MinecraftInternalBodyPartOptions, levelUp = 0) {
+        super(void 0, void 0, engine, {}, levelUp + 1);
         this.setLoggingName('MinecraftBodyPart');
         const geometry = makeGeometry(engine, texture, options);
         this.geometry = geometry;
