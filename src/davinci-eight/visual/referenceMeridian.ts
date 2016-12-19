@@ -5,10 +5,33 @@ import SpinorE3 from '../math/SpinorE3';
 import vec from '../math/R3';
 import VectorE3 from '../math/VectorE3';
 
+interface MeridianOptions {
+    /**
+     * 
+     */
+    axis?: VectorE3;
+    /**
+     * Deprecated. Use axis instead.
+     */
+    height?: VectorE3;
+    /**
+     * 
+     */
+    meridian?: VectorE3;
+    /**
+     * Deprecated. Use meridian instead,
+     */
+    cutLine?: VectorE3;
+    /**
+     * 
+     */
+    tilt?: SpinorE3;
+};
+
 /**
  * This function computes the reference meridian of an object.
  */
-export default function referenceMeridian(options: { axis?: VectorE3; meridian?: VectorE3, tilt?: SpinorE3 }, fallback: VectorE3): R3 {
+export default function referenceMeridian(options: MeridianOptions, fallback: VectorE3): R3 {
     if (options.tilt) {
         const meridian = Geometric3.fromVector(canonicalMeridian).rotate(options.tilt);
         return vec(meridian.x, meridian.y, meridian.z);
@@ -17,9 +40,22 @@ export default function referenceMeridian(options: { axis?: VectorE3; meridian?:
         const meridian = options.meridian;
         return vec(meridian.x, meridian.y, meridian.z).direction();
     }
+    else if (options.cutLine) {
+        console.warn("cutLine is deprecated. Please use meridian instead.");
+        const meridian = options.cutLine;
+        return vec(meridian.x, meridian.y, meridian.z).direction();
+    }
     else if (options.axis) {
         const B = Geometric3.dualOfVector(canonicalMeridian);
         const tilt = Geometric3.rotorFromVectorToVector(canonicalAxis, options.axis, B);
+        const meridian = Geometric3.fromVector(canonicalMeridian).rotate(tilt);
+        return vec(meridian.x, meridian.y, meridian.z).direction();
+    }
+    else if (options.height) {
+        console.warn("height is deprecated. Please use axis instead.");
+        const axis = options.height;
+        const B = Geometric3.dualOfVector(canonicalMeridian);
+        const tilt = Geometric3.rotorFromVectorToVector(canonicalAxis, axis, B);
         const meridian = Geometric3.fromVector(canonicalMeridian).rotate(tilt);
         return vec(meridian.x, meridian.y, meridian.z).direction();
     }

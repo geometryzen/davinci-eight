@@ -5,10 +5,33 @@ import { canonicalAxis, canonicalMeridian } from '../core/tiltFromOptions';
 import SpinorE3 from '../math/SpinorE3';
 import VectorE3 from '../math/VectorE3';
 
+interface AxisOptions {
+    /**
+     * 
+     */
+    axis?: VectorE3;
+    /**
+     * Deprecated. Use axis instead.
+     */
+    height?: VectorE3;
+    /**
+     * 
+     */
+    meridian?: VectorE3;
+    /**
+     * Deprecated. Use meridian instead,
+     */
+    cutLine?: VectorE3;
+    /**
+     * 
+     */
+    tilt?: SpinorE3;
+};
+
 /**
  * This function computes the reference axis of an object.
  */
-export default function referenceAxis(options: { axis?: VectorE3; meridian?: VectorE3; tilt?: SpinorE3 }, fallback: VectorE3): R3 {
+export default function referenceAxis(options: AxisOptions, fallback: VectorE3): R3 {
     if (options.tilt) {
         const axis = Geometric3.fromVector(canonicalAxis).rotate(options.tilt);
         return vec(axis.x, axis.y, axis.z);
@@ -17,9 +40,21 @@ export default function referenceAxis(options: { axis?: VectorE3; meridian?: Vec
         const axis = options.axis;
         return vec(axis.x, axis.y, axis.z).direction();
     }
+    else if (options.height) {
+        console.warn("height is deprecated. Please use axis instead.");
+        const axis = options.height;
+        return vec(axis.x, axis.y, axis.z).direction();
+    }
     else if (options.meridian) {
         const B = Geometric3.dualOfVector(canonicalAxis);
         const tilt = Geometric3.rotorFromVectorToVector(canonicalMeridian, options.meridian, B);
+        const axis = Geometric3.fromVector(canonicalAxis).rotate(tilt);
+        return vec(axis.x, axis.y, axis.z).direction();
+    }
+    else if (options.cutLine) {
+        console.warn("cutLine is deprecated. Please use meridian instead.");
+        const B = Geometric3.dualOfVector(canonicalAxis);
+        const tilt = Geometric3.rotorFromVectorToVector(canonicalMeridian, options.cutLine, B);
         const axis = Geometric3.fromVector(canonicalAxis).rotate(tilt);
         return vec(axis.x, axis.y, axis.z).direction();
     }

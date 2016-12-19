@@ -4018,6 +4018,18 @@ declare module EIGHT {
          */
         color: Color;
         /**
+         * The red coordinate of the color property.
+         */
+        red: number;
+        /**
+         * The green coordinate of the color property.
+         */
+        green: number;
+        /**
+         * The blue coordinate of the color property.
+         */
+        blue: number;
+        /**
          * Meridian (vector). Alternative (with axis) to attitude.
          */
         meridian: Geometric3;
@@ -4045,6 +4057,18 @@ declare module EIGHT {
          * Position (vector). This is an alias for the position property.
          */
         X: Geometric3;
+        /**
+         * The x-coordinate of the position (vector).
+         */
+        x: number;
+        /**
+         * The y-coordinate of the position (vector).
+         */
+        y: number;
+        /**
+         * The z-coordinate of the position (vector).
+         */
+        z: number;
         /**
          *
          */

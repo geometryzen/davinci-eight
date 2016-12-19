@@ -7816,9 +7816,19 @@ System.register("davinci-eight/visual/referenceAxis.js", ["../math/Geometric3", 
         } else if (options.axis) {
             var axis = options.axis;
             return R3_1.default(axis.x, axis.y, axis.z).direction();
+        } else if (options.height) {
+            console.warn("height is deprecated. Please use axis instead.");
+            var axis = options.height;
+            return R3_1.default(axis.x, axis.y, axis.z).direction();
         } else if (options.meridian) {
             var B = Geometric3_1.default.dualOfVector(tiltFromOptions_1.canonicalAxis);
             var tilt = Geometric3_1.default.rotorFromVectorToVector(tiltFromOptions_1.canonicalMeridian, options.meridian, B);
+            var axis = Geometric3_1.default.fromVector(tiltFromOptions_1.canonicalAxis).rotate(tilt);
+            return R3_1.default(axis.x, axis.y, axis.z).direction();
+        } else if (options.cutLine) {
+            console.warn("cutLine is deprecated. Please use meridian instead.");
+            var B = Geometric3_1.default.dualOfVector(tiltFromOptions_1.canonicalAxis);
+            var tilt = Geometric3_1.default.rotorFromVectorToVector(tiltFromOptions_1.canonicalMeridian, options.cutLine, B);
             var axis = Geometric3_1.default.fromVector(tiltFromOptions_1.canonicalAxis).rotate(tilt);
             return R3_1.default(axis.x, axis.y, axis.z).direction();
         } else {
@@ -7835,7 +7845,9 @@ System.register("davinci-eight/visual/referenceAxis.js", ["../math/Geometric3", 
         }, function (tiltFromOptions_1_1) {
             tiltFromOptions_1 = tiltFromOptions_1_1;
         }],
-        execute: function () {}
+        execute: function () {
+            ;
+        }
     };
 });
 System.register("davinci-eight/visual/referenceMeridian.js", ["../core/tiltFromOptions", "../math/Geometric3", "../math/R3"], function (exports_1, context_1) {
@@ -7849,9 +7861,20 @@ System.register("davinci-eight/visual/referenceMeridian.js", ["../core/tiltFromO
         } else if (options.meridian) {
             var meridian = options.meridian;
             return R3_1.default(meridian.x, meridian.y, meridian.z).direction();
+        } else if (options.cutLine) {
+            console.warn("cutLine is deprecated. Please use meridian instead.");
+            var meridian = options.cutLine;
+            return R3_1.default(meridian.x, meridian.y, meridian.z).direction();
         } else if (options.axis) {
             var B = Geometric3_1.default.dualOfVector(tiltFromOptions_1.canonicalMeridian);
             var tilt = Geometric3_1.default.rotorFromVectorToVector(tiltFromOptions_1.canonicalAxis, options.axis, B);
+            var meridian = Geometric3_1.default.fromVector(tiltFromOptions_1.canonicalMeridian).rotate(tilt);
+            return R3_1.default(meridian.x, meridian.y, meridian.z).direction();
+        } else if (options.height) {
+            console.warn("height is deprecated. Please use axis instead.");
+            var axis = options.height;
+            var B = Geometric3_1.default.dualOfVector(tiltFromOptions_1.canonicalMeridian);
+            var tilt = Geometric3_1.default.rotorFromVectorToVector(tiltFromOptions_1.canonicalAxis, axis, B);
             var meridian = Geometric3_1.default.fromVector(tiltFromOptions_1.canonicalMeridian).rotate(tilt);
             return R3_1.default(meridian.x, meridian.y, meridian.z).direction();
         } else {
@@ -7868,7 +7891,9 @@ System.register("davinci-eight/visual/referenceMeridian.js", ["../core/tiltFromO
         }, function (R3_1_1) {
             R3_1 = R3_1_1;
         }],
-        execute: function () {}
+        execute: function () {
+            ;
+        }
     };
 });
 System.register("davinci-eight/visual/spinorE3Object.js", [], function (exports_1, context_1) {
@@ -20256,6 +20281,36 @@ System.register("davinci-eight/core/Mesh.js", ["../core/tiltFromOptions", "../fa
                     enumerable: true,
                     configurable: true
                 });
+                Object.defineProperty(Mesh.prototype, "red", {
+                    get: function () {
+                        return this.color.red;
+                    },
+                    set: function (red) {
+                        this.color.red = red;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(Mesh.prototype, "green", {
+                    get: function () {
+                        return this.color.green;
+                    },
+                    set: function (green) {
+                        this.color.green = green;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(Mesh.prototype, "blue", {
+                    get: function () {
+                        return this.color.red;
+                    },
+                    set: function (blue) {
+                        this.color.blue = blue;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
                 Object.defineProperty(Mesh.prototype, "texture", {
                     get: function () {
                         var facet = this.getFacet(TEXTURE_FACET_NAME);
@@ -20295,6 +20350,36 @@ System.register("davinci-eight/core/Mesh.js", ["../core/tiltFromOptions", "../fa
                         } else {
                             throw new Error(notSupported_1.default(MODEL_FACET_NAME).message);
                         }
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(Mesh.prototype, "x", {
+                    get: function () {
+                        return this.position.x;
+                    },
+                    set: function (x) {
+                        this.position.x = x;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(Mesh.prototype, "y", {
+                    get: function () {
+                        return this.position.y;
+                    },
+                    set: function (y) {
+                        this.position.y = y;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(Mesh.prototype, "z", {
+                    get: function () {
+                        return this.position.z;
+                    },
+                    set: function (z) {
+                        this.position.z = z;
                     },
                     enumerable: true,
                     configurable: true
@@ -23750,9 +23835,9 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
             Eight = function () {
                 function Eight() {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-                    this.LAST_MODIFIED = '2016-12-09';
+                    this.LAST_MODIFIED = '2016-12-19';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '5.0.2';
+                    this.VERSION = '5.0.3';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];

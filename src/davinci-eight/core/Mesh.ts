@@ -274,6 +274,36 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
     }
 
     /**
+     * The red coordinate of the color property.
+     */
+    get red(): number {
+        return this.color.red;
+    }
+    set red(red: number) {
+        this.color.red = red;
+    }
+
+    /**
+     * The green coordinate of the color property.
+     */
+    get green(): number {
+        return this.color.green;
+    }
+    set green(green: number) {
+        this.color.green = green;
+    }
+
+    /**
+     * The blue coordinate of the color property.
+     */
+    get blue(): number {
+        return this.color.red;
+    }
+    set blue(blue: number) {
+        this.color.blue = blue;
+    }
+
+    /**
      * Texture (image).
      */
     get texture(): Texture {
@@ -318,6 +348,36 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
         else {
             throw new Error(notSupported(MODEL_FACET_NAME).message);
         }
+    }
+
+    /**
+     * The x-coordinate of the position.
+     */
+    get x(): number {
+        return this.position.x;
+    }
+    set x(x: number) {
+        this.position.x = x;
+    }
+
+    /**
+     * The y-coordinate of the position.
+     */
+    get y(): number {
+        return this.position.y;
+    }
+    set y(y: number) {
+        this.position.y = y;
+    }
+
+    /**
+     * The z-coordinate of the position.
+     */
+    get z(): number {
+        return this.position.z;
+    }
+    set z(z: number) {
+        this.position.z = z;
     }
 
     /**

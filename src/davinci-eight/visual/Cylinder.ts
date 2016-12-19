@@ -34,8 +34,8 @@ export class Cylinder extends RigidBody {
         // const stress = Vector3.vector(1, 1, 1)
 
         const geoOptions: CylinderGeometryOptions = { kind: 'CylinderGeometry' };
-        geoOptions.offset = offsetFromOptions(options);
 
+        geoOptions.offset = offsetFromOptions(options);
         geoOptions.tilt = spinorE3Object(options.tilt);
         geoOptions.axis = vectorE3Object(referenceAxis(options, ds.axis));
         geoOptions.meridian = vectorE3Object(referenceMeridian(options, ds.meridian));
