@@ -9,6 +9,7 @@ import isDefined from '../checks/isDefined';
 import geometryModeFromOptions from './geometryModeFromOptions';
 import materialFromOptions from './materialFromOptions';
 import mustBeNumber from '../checks/mustBeNumber';
+import quadVectorE3 from '../math/quadVectorE3';
 import referenceAxis from './referenceAxis';
 import referenceMeridian from './referenceMeridian';
 import RigidBody from './RigidBody';
@@ -74,9 +75,15 @@ export class Box extends RigidBody {
         if (isDefined(options.height)) {
             this.height = mustBeNumber('height', options.height);
         }
+        else if (isDefined(options.axis)) {
+            this.height = Math.sqrt(quadVectorE3(options.axis));
+        }
 
         if (isDefined(options.depth)) {
             this.depth = mustBeNumber('depth', options.depth);
+        }
+        else if (isDefined(options.meridian)) {
+            this.depth = Math.sqrt(quadVectorE3(options.meridian));
         }
 
         if (levelUp === 0) {

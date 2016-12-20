@@ -1,13 +1,8 @@
-import { Engine } from '../core/Engine';
-import { Arrow } from './Arrow';
+import Arrow from './Arrow';
 import ArrowOptions from './ArrowOptions';
 import { ds } from './Defaults';
-import { Geometric3 } from '../math/Geometric3';
+import Engine from '../core/Engine';
 import refChange from '../core/refChange';
-
-const e1: Geometric3 = Geometric3.e1();
-// const e2: Geometric3 = Geometric3.e2();
-// const e3: Geometric3 = Geometric3.e3()
 
 describe("Arrow", function () {
     it("new-release", function () {
@@ -27,7 +22,7 @@ describe("Arrow", function () {
         refChange('quiet');
         refChange('reset');
     });
-    describe("position", function () {
+    describe("X", function () {
         it("should be initialized to zero", function () {
             const engine = new Engine();
             const arrow = new Arrow(engine);
@@ -36,7 +31,16 @@ describe("Arrow", function () {
             engine.release();
         });
     });
-    describe("attitude", function () {
+    describe("position", function () {
+        it("should be initialized to zero", function () {
+            const engine = new Engine();
+            const arrow = new Arrow(engine);
+            expect(arrow.position.isZero()).toBe(true);
+            arrow.release();
+            engine.release();
+        });
+    });
+    describe("R", function () {
         it("should be initialized to unity", function () {
             const engine = new Engine();
             const arrow = new Arrow(engine);
@@ -45,69 +49,13 @@ describe("Arrow", function () {
             engine.release();
         });
     });
-    describe("h", function () {
-        it("should default to default axis", function () {
+    describe("attitude", function () {
+        it("should be initialized to unity", function () {
             const engine = new Engine();
             const arrow = new Arrow(engine);
-            expect(arrow.h.x).toBe(ds.axis.x);
-            expect(arrow.h.y).toBe(ds.axis.y);
-            expect(arrow.h.z).toBe(ds.axis.z);
+            expect(arrow.attitude.isOne()).toBe(true);
             arrow.release();
             engine.release();
-        });
-        it("should be an alias for axis", function () {
-            const engine = new Engine();
-            const arrow = new Arrow(engine);
-            arrow.axis = { x: Math.random(), y: Math.random(), z: Math.random() };
-            expect(arrow.h.x).toBe(arrow.axis.x);
-            expect(arrow.h.y).toBe(arrow.axis.y);
-            expect(arrow.h.z).toBe(arrow.axis.z);
-            arrow.release();
-            engine.release();
-        });
-
-        // The length property has been made private.
-        // Updates are expected to happen through the 
-        describe("changing the length property", function () {
-            describe("from the default", function () {
-                xit("should update the length property", function () {
-                    const engine = new Engine();
-                    const arrow = new Arrow(engine);
-                    // arrow.length = 2
-                    // expect(arrow.length).toBe(2)
-                    arrow.release();
-                    engine.release();
-                });
-                xit("should NOT update the attitude property", function () {
-                    const engine = new Engine();
-                    const arrow = new Arrow(engine);
-                    // arrow.length = 2
-                    expect(arrow.R.isOne()).toBe(true);
-                    arrow.release();
-                    engine.release();
-                });
-            });
-        });
-
-        describe("changing the h property", function () {
-            describe("from the default", function () {
-                xit("should update the length property", function () {
-                    const engine = new Engine();
-                    const arrow = new Arrow(engine);
-                    arrow.h = e1.clone().scale(2);
-                    expect(arrow.h).toBe(2);
-                    arrow.release();
-                    engine.release();
-                });
-                it("should update the attitude property", function () {
-                    const engine = new Engine();
-                    const arrow = new Arrow(engine);
-                    arrow.h = e1.clone().scale(2);
-                    expect(arrow.R.equals(Geometric3.rotorFromDirections(ds.axis, e1))).toBe(true);
-                    arrow.release();
-                    engine.release();
-                });
-            });
         });
     });
     describe("axis", function () {
@@ -117,16 +65,6 @@ describe("Arrow", function () {
             expect(arrow.axis.x).toBe(ds.axis.x);
             expect(arrow.axis.y).toBe(ds.axis.y);
             expect(arrow.axis.z).toBe(ds.axis.z);
-            arrow.release();
-            engine.release();
-        });
-        it("should be an alias for h", function () {
-            const engine = new Engine();
-            const arrow = new Arrow(engine);
-            arrow.h = { x: Math.random(), y: Math.random(), z: Math.random() };
-            expect(arrow.axis.x).toBe(arrow.h.x);
-            expect(arrow.axis.y).toBe(arrow.h.y);
-            expect(arrow.axis.z).toBe(arrow.h.z);
             arrow.release();
             engine.release();
         });

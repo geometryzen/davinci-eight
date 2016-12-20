@@ -16,6 +16,10 @@ export interface ArrowOptions {
     /**
      * 
      */
+    length?: number;
+    /**
+     * 
+     */
     meridian?: VectorE3;
     /**
      * 

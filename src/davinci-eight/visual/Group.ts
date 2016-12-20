@@ -5,6 +5,9 @@ import { Renderable } from '../core/Renderable';
 import ShareableArray from '../collections/ShareableArray';
 import { ShareableBase } from '../core/ShareableBase';
 
+/**
+ * 
+ */
 interface GroupMember extends Renderable {
     X: Geometric3;
     R: Geometric3;
@@ -27,6 +30,9 @@ export default class Group extends ShareableBase implements GroupMember {
      * Attitude (spinor). This is a short alias for the attitude property.
      */
     public R = Geometric3.one();
+    /**
+     * 
+     */
     public stress = Matrix4.one();
     /**
      * Determines whether this group will be rendered.

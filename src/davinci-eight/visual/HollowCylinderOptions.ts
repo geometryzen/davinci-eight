@@ -7,6 +7,10 @@ export interface HollowCylinderOptions {
      */
     axis?: VectorE3;
     /**
+     * 
+     */
+    length?: number;
+    /**
      * The starting direction for the slice.
      * A unit vector orthogonal to the height vector.
      */

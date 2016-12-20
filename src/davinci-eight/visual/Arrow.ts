@@ -2,16 +2,17 @@ import ArrowOptions from './ArrowOptions';
 import ArrowGeometry from '../geometries/ArrowGeometry';
 import ArrowGeometryOptions from '../geometries/ArrowGeometryOptions';
 import Color from '../core/Color';
+import ContextManager from '../core/ContextManager';
 import { ds } from './Defaults';
-import Engine from '../core/Engine';
 import Geometric3 from '../math/Geometric3';
 import referenceAxis from './referenceAxis';
 import referenceMeridian from './referenceMeridian';
+import isDefined from '../checks/isDefined';
 import Material from '../core/Material';
 import materialFromOptions from './materialFromOptions';
-import offsetFromOptions from './offsetFromOptions';
+import mustBeNumber from '../checks/mustBeNumber';
 import Mesh from '../core/Mesh';
-import mustBeEngine from './mustBeEngine';
+import offsetFromOptions from './offsetFromOptions';
 import quadVectorE3 from '../math/quadVectorE3';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
@@ -29,32 +30,32 @@ export class Arrow extends Mesh<ArrowGeometry, Material> {
     /**
      * 
      */
-    constructor(engine: Engine, options: ArrowOptions = {}, levelUp = 0) {
-        super(void 0, void 0, mustBeEngine(engine, 'Arrow'), { axis: referenceAxis(options, ds.axis), meridian: referenceMeridian(options, ds.meridian) }, levelUp + 1);
+    constructor(contextManager: ContextManager, options: ArrowOptions = {}, levelUp = 0) {
+        super(void 0, void 0, contextManager, { axis: referenceAxis(options, ds.axis).direction(), meridian: referenceMeridian(options, ds.meridian).direction() }, levelUp + 1);
         this.setLoggingName('Arrow');
 
         const geoOptions: ArrowGeometryOptions = { kind: 'ArrowGeometry' };
 
         geoOptions.offset = offsetFromOptions(options);
         geoOptions.tilt = spinorE3Object(options.tilt);
-        geoOptions.axis = vectorE3Object(referenceAxis(options, ds.axis));
-        geoOptions.meridian = vectorE3Object(referenceMeridian(options, ds.meridian));
+        geoOptions.axis = vectorE3Object(referenceAxis(options, ds.axis).direction());
+        geoOptions.meridian = vectorE3Object(referenceMeridian(options, ds.meridian).direction());
 
         geoOptions.radiusCone = 0.08;
 
-        const cachedGeometry = engine.getCacheGeometry(geoOptions);
+        const cachedGeometry = contextManager.getCacheGeometry(geoOptions);
         if (cachedGeometry && cachedGeometry instanceof ArrowGeometry) {
             this.geometry = cachedGeometry;
             cachedGeometry.release();
         }
         else {
-            const geometry = new ArrowGeometry(engine, geoOptions);
+            const geometry = new ArrowGeometry(contextManager, geoOptions);
             this.geometry = geometry;
             geometry.release();
-            engine.putCacheGeometry(geoOptions, geometry);
+            contextManager.putCacheGeometry(geoOptions, geometry);
         }
 
-        const material = materialFromOptions(engine, simplexModeFromOptions(options, SimplexMode.TRIANGLE), options);
+        const material = materialFromOptions(contextManager, simplexModeFromOptions(options, SimplexMode.TRIANGLE), options);
         this.material = material;
         material.release();
 
@@ -64,6 +65,13 @@ export class Arrow extends Mesh<ArrowGeometry, Material> {
 
         setColorOption(this, options, Color.gray);
         setDeprecatedOptions(this, options);
+
+        if (isDefined(options.length)) {
+            this.length = mustBeNumber('length', options.length);
+        }
+        else if (isDefined(options.axis)) {
+            this.axis = options.axis;
+        }
 
         if (levelUp === 0) {
             this.synchUp();
@@ -98,15 +106,6 @@ export class Arrow extends Mesh<ArrowGeometry, Material> {
         this.length = L;
     }
 
-    get h(): VectorE3 {
-        console.warn("The Arrow h property is deprecated. Please use the axis property instead.");
-        return this.axis;
-    }
-    set h(h: VectorE3) {
-        console.warn("The Arrow h property is deprecated. Please use the axis property instead.");
-        this.axis = h;
-    }
-
     /**
      * The length of the Arrow.
      * This property determines the scaling of the Arrow in all directions.
@@ -118,3 +117,5 @@ export class Arrow extends Mesh<ArrowGeometry, Material> {
         this.setScale(length, length, length);
     }
 }
+
+export default Arrow;

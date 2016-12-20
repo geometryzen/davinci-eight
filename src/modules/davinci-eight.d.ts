@@ -3131,9 +3131,6 @@ declare module EIGHT {
         bind(material: Material): GeometryArrays;
         unbind(material: Material): GeometryArrays;
         draw(): GeometryArrays;
-        getPrincipalScale(name: string): number;
-        hasPrincipalScale(name: string): boolean;
-        setPrincipalScale(name: string, value: number): void;
         protected setScale(x: number, y: number, z: number): void;
     }
 
@@ -3147,9 +3144,6 @@ declare module EIGHT {
         bind(material: Material): GeometryElements;
         unbind(material: Material): GeometryElements;
         draw(): GeometryElements;
-        getPrincipalScale(name: string): number;
-        hasPrincipalScale(name: string): boolean;
-        setPrincipalScale(name: string, value: number): void;
         protected setScale(x: number, y: number, z: number): void;
     }
 
@@ -3169,6 +3163,9 @@ declare module EIGHT {
         sliceAngle: number;
         stress: Vector3;
         thetaSegments: number;
+        /**
+         * The spinor that rotates from the canonical frame to the reference frame.
+         */
         tilt: Spinor3;
         useNormal: boolean;
         usePosition: boolean;
@@ -3198,6 +3195,9 @@ declare module EIGHT {
         sliceAngle: number;
         stress: Vector3;
         thetaSegments: number;
+        /**
+         * The spinor that rotates from the canonical frame to the reference frame.
+         */
         tilt: Spinor3;
         useNormal: boolean;
         usePosition: boolean;
@@ -3219,6 +3219,9 @@ declare module EIGHT {
         sliceAngle: number;
         stress: Vector3;
         thetaSegments: number;
+        /**
+         * The spinor that rotates from the canonical frame to the reference frame.
+         */
         tilt: Spinor3;
         useNormal: boolean;
         usePosition: boolean;
@@ -3245,22 +3248,18 @@ declare module EIGHT {
     }
 
     interface GeometryOptions {
-
         /**
          * A translation from the canonical position.
          * This is the third and last operation applied to canonical vertex data.
          */
         offset?: VectorE3;
-
         /**
          * A scaling along the standard basis directions from the canonical unit scaling.
          * This is the first operation applied to canonical vertex data.
          */
         stress?: VectorE3;
-
         /**
-         * A rotation from the canonical attitude.
-         * This is the second operation applied to canonical vertex data.
+         * The spinor that rotates from the canonical frame to the reference frame.
          */
         tilt?: SpinorE3;
     }
@@ -4078,6 +4077,7 @@ declare module EIGHT {
          */
         protected destructor(levelUp: number): void;
     }
+
     ///////////////////////////////////////////////////////////////////////////////
     /**
      * Decorates the Mesh by adding properties for physical modeling.
@@ -4103,19 +4103,32 @@ declare module EIGHT {
          *
          */
         constructor(contextManager: ContextManager, initialAxis: VectorE3, levelUp?: number);
+        /**
+         * 
+         */
         protected destructor(levelUp: number): void;
-        getPrincipalScale(name: string): number;
-        protected setPrincipalScale(name: string, value: number): void;
     }
 
     /**
-     * Options for the creation of a new Arrow.
+     * Options for the creation of an Arrow.
      */
     interface ArrowOptions {
+        /**
+         * The reference axis.
+         */
+        axis?: VectorE3;
         /**
          * Color
          */
         color?: Color;
+        /**
+         * The initial length of the Arrow.
+         */
+        length?: number;
+        /**
+         * The reference meridian.
+         */
+        meridian?: VectorE3;
         /**
          * The spinor that rotates from the canonical frame to the reference frame.
          */
@@ -4127,17 +4140,22 @@ declare module EIGHT {
      */
     class Arrow extends Mesh<Geometry, MeshMaterial> {
         /**
-         * 
+         * The axis of the Arrow.
+         * This property determines both the direction and length of the Arrow.
          */
         axis: VectorE3;
         /**
-         * 
+         * The length of the Arrow.
+         * This property determines the scaling of the Arrow in all directions.
          */
         length: number;
         /**
          * Constructs an Arrow.
          */
         constructor(engine: Engine, options?: ArrowOptions);
+        /**
+         * 
+         */
         protected destructor(levelUp: number): void;
     }
 
@@ -4166,6 +4184,10 @@ declare module EIGHT {
      */
     interface BoxOptions {
         /**
+         * The reference axis.
+         */
+        axis?: VectorE3;
+        /**
          * 
          */
         color?: Color;
@@ -4177,6 +4199,10 @@ declare module EIGHT {
          * 
          */
         height?: number;
+        /**
+         * The reference meridian.
+         */
+        meridian?: VectorE3;
         /**
          * 
          */
@@ -4206,7 +4232,7 @@ declare module EIGHT {
          */
         openRight?: boolean;
         /**
-         * 
+         * The spinor that rotates from the canonical frame to the reference frame.
          */
         tilt?: SpinorE3;
         /**
@@ -4215,14 +4241,29 @@ declare module EIGHT {
         width?: number;
     }
 
+    /**
+     * 
+     */
     class Box extends RigidBody {
+        /**
+         * 
+         */
         width: number;
+        /**
+         * 
+         */
         height: number;
+        /**
+         * 
+         */
         depth: number;
         /**
          * Constructs a Box.
          */
         constructor(engine: Engine, options?: BoxOptions);
+        /**
+         * 
+         */
         protected destructor(levelUp: number): void;
     }
 
@@ -4230,28 +4271,70 @@ declare module EIGHT {
      * Options for the creation of a new Cylinder.
      */
     interface CylinderOptions {
-        color?: Color;
-        length?: number;
-        openBase?: boolean;
-        openCap?: boolean;
-        openWall?: boolean;
-        radius?: number;
-        tilt?: SpinorE3;
-    }
-
-    class Cylinder extends RigidBody {
+        /**
+         * The reference axis.
+         */
+        axis?: VectorE3;
         /**
          * 
          */
-        length: number;
+        color?: Color;
         /**
          * 
+         */
+        length?: number;
+        /**
+         * The reference meridian.
+         */
+        meridian?: VectorE3;
+        /**
+         * 
+         */
+        openBase?: boolean;
+        /**
+         * 
+         */
+        openCap?: boolean;
+        /**
+         * 
+         */
+        openWall?: boolean;
+        /**
+         * 
+         */
+        radius?: number;
+        /**
+         * The spinor that rotates from the canonical frame to the reference frame.
+         */
+        tilt?: SpinorE3;
+    }
+
+    /**
+     * 
+     */
+    class Cylinder extends RigidBody {
+        /**
+         * The axis of the Cylinder.
+         * This property determines both the direction and length of the Cylinder.
+         */
+        axis: VectorE3;
+        /**
+         * The length of the Cylinder.
+         * This property determines the scaling of the Cylinder in the axis direction only.
+         */
+        length: number;
+        /**
+         * The radius of the Cylinder.
+         * This property determines the scaling of the Cylinder in the radial direction only.
          */
         radius: number;
         /**
          * Constructs a Cylinder.
          */
         constructor(engine: Engine, options?: CylinderOptions);
+        /**
+         * 
+         */
         protected destructor(levelUp: number): void;
     }
 
@@ -4267,11 +4350,17 @@ declare module EIGHT {
         uSegments?: number;
     }
 
+    /**
+     * A discrete parameterized line.
+     */
     class Curve extends Mesh<Geometry, Material> {
         /**
          * Constructs a Curve.
          */
         constructor(engine: Engine, options?: CurveOptions);
+        /**
+         * 
+         */
         protected destructor(levelUp: number): void;
     }
 
@@ -4291,8 +4380,17 @@ declare module EIGHT {
         vSegments?: number;
     }
 
+    /**
+     * A discrete parameterized surface.
+     */
     class Grid extends Mesh<Geometry, Material> {
+        /**
+         * 
+         */
         constructor(engine: Engine, options?: GridOptions);
+        /**
+         * 
+         */
         protected destructor(levelUp: number): void;
     }
 
@@ -4329,6 +4427,9 @@ declare module EIGHT {
          * z: (x: number, y: number) => 0
          */
         constructor(engine: Engine, options?: GridXYOptions);
+        /**
+         * 
+         */
         protected destructor(levelUp: number): void;
     }
 
@@ -4346,6 +4447,9 @@ declare module EIGHT {
         mode?: GeometryMode;
     }
 
+    /**
+     * A Grid in the yz-plane.
+     */
     class GridYZ extends Grid {
         /**
          * Constructs a grid in the yz-plane with the following defaults:
@@ -4359,6 +4463,9 @@ declare module EIGHT {
          * x: (y: number, z: number) => 0
          */
         constructor(engine: Engine, options?: GridYZOptions);
+        /**
+         * 
+         */
         protected destructor(levelUp: number): void;
     }
 
@@ -4376,6 +4483,9 @@ declare module EIGHT {
         mode?: GeometryMode;
     }
 
+    /**
+     * A Grid in the zx-plane.
+     */
     class GridZX extends Grid {
         /**
          * Constructs a grid in the zx-plane with the following defaults:
@@ -4389,9 +4499,15 @@ declare module EIGHT {
          * y: (z: number, x: number) => 0
          */
         constructor(engine: Engine, options?: GridZXOptions);
+        /**
+         * 
+         */
         protected destructor(levelUp: number): void;
     }
 
+    /**
+     * 
+     */
     interface GroupMember extends Renderable {
         X: Geometric3;
         R: Geometric3;
@@ -4454,9 +4570,17 @@ declare module EIGHT {
      */
     interface HollowCylinderOptions {
         /**
+         * The reference axis.
+         */
+        axis?: VectorE3;
+        /**
          * The uniform color of the HollowCylinder.
          */
         color?: Color;
+        /**
+         * The reference meridian.
+         */
+        meridian?: VectorE3;
         /**
          * The outer radius of the cylinder.
          */
@@ -4470,16 +4594,32 @@ declare module EIGHT {
          */
         sliceAngle?: number;
         /**
-         * 
+         * The spinor that rotates from the canonical frame to the reference frame.
          */
         tilt?: SpinorE3;
     }
 
+    /**
+     * 
+     */
     class HollowCylinder extends RigidBody {
+        /**
+         * The axis of the HollowCylinder.
+         * This property determines both the direction and length of the HollowCylinder.
+         */
+        axis: VectorE3;
+        /**
+         * The length of the HollowCylinder.
+         * This property determines the scaling of the HollowCylinder in the axis direction only.
+         */
+        length: number;
         /**
          * Constructs a HollowCylinder.
          */
         constructor(engine: Engine, options?: HollowCylinderOptions);
+        /**
+         * 
+         */
         protected destructor(levelUp: number): void;
     }
 
@@ -4514,6 +4654,9 @@ declare module EIGHT {
          * Constructs a Parallelepiped.
          */
         constructor(engine: Engine);
+        /**
+         * 
+         */
         protected destructor(levelUp: number): void;
         render(ambients: Facet[]): void;
         addRef(): number;
@@ -4527,6 +4670,10 @@ declare module EIGHT {
      * Options for the creation of a new Sphere.
      */
     interface SphereOptions {
+        /**
+         * The reference axis.
+         */
+        axis?: VectorE3;
         /**
          * 
          */
@@ -4556,6 +4703,10 @@ declare module EIGHT {
          */
         elevationSegments?: number;
         /**
+         * The reference meridian.
+         */
+        meridian?: VectorE3;
+        /**
          * 
          */
         mode?: GeometryMode;
@@ -4564,7 +4715,7 @@ declare module EIGHT {
          */
         radius?: number;
         /**
-         * 
+         * The spinor that rotates from the canonical frame to the reference frame.
          */
         tilt?: SpinorE3;
     }
@@ -4578,6 +4729,9 @@ declare module EIGHT {
          * Constructs a Sphere.
          */
         constructor(engine: Engine, options?: SphereOptions);
+        /**
+         * 
+         */
         protected destructor(levelUp: number): void;
     }
 
@@ -4589,11 +4743,17 @@ declare module EIGHT {
     }
 
     class Tetrahedron extends RigidBody {
+        /**
+         * 
+         */
         radius: number;
         /**
          * Constructs a Tetrahedron.
          */
         constructor(engine: Engine, options?: TetrahedronOptions);
+        /**
+         * 
+         */
         protected destructor(levelUp: number): void;
     }
 
@@ -4671,6 +4831,9 @@ declare module EIGHT {
          * Constructs a Trail for the specified Mesh.
          */
         constructor(mesh: Mesh<Geometry, Material>);
+        /**
+         * 
+         */
         protected destructor(levelUp: number): void;
         /**
          * @deprecated. Use the render method instead.
@@ -4697,8 +4860,17 @@ declare module EIGHT {
         color?: Color;
     }
 
+    /**
+     * 
+     */
     class Turtle extends RigidBody {
+        /**
+         * 
+         */
         height: number;
+        /**
+         * 
+         */
         width: number;
         /**
          * Constructs a Turtle.
