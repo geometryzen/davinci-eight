@@ -11,11 +11,13 @@ import Matrix4 from '../math/Matrix4';
 import MeshOptions from './MeshOptions';
 import { ModelFacet } from '../facets/ModelFacet';
 import notSupported from '../i18n/notSupported';
+import quadVectorE3 from '../math/quadVectorE3';
 import { R3 } from '../math/R3';
 import Spinor3 from '../math/Spinor3';
 import Texture from './Texture';
 import TextureFacet from '../facets/TextureFacet';
 import vec from '../math/R3';
+import VectorE3 from '../math/VectorE3';
 
 const COLOR_FACET_NAME = 'color';
 const TEXTURE_FACET_NAME = 'image';
@@ -387,6 +389,49 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
             }
         }
     }
+
+    protected getAxis(): R3 {
+        const axis = Geometric3.fromVector(this.referenceAxis);
+        axis.rotate(this.attitude);
+        return vec(axis.x, axis.y, axis.z);
+    }
+
+    /**
+     * The current axis (unit vector) of the mesh.
+     */
+    get axis(): VectorE3 {
+        return this.getAxis();
+    }
+    set axis(axis: VectorE3) {
+        const L = Math.sqrt(quadVectorE3(axis));
+        const x = axis.x / L;
+        const y = axis.y / L;
+        const z = axis.z / L;
+        this.attitude.rotorFromDirections(this.referenceAxis, { x, y, z });
+    }
+
+    protected getMeridian(): R3 {
+        const meridian = Geometric3.fromVector(this.referenceMeridian);
+        meridian.rotate(this.attitude);
+        return vec(meridian.x, meridian.y, meridian.z);
+    }
+
+    /**
+     * The current meridian (unit vector) of the mesh.
+     */
+    get meridian(): VectorE3 {
+        return this.getMeridian();
+    }
+    set meridian(meridian: VectorE3) {
+        const L = Math.sqrt(quadVectorE3(meridian));
+        const x = meridian.x / L;
+        const y = meridian.y / L;
+        const z = meridian.z / L;
+        const B = Geometric3.dualOfVector(this.axis);
+        const R = Geometric3.rotorFromVectorToVector(this.meridian, { x, y, z }, B);
+        this.attitude.mul2(R, this.attitude);
+    }
+
 }
 
 export default Mesh;

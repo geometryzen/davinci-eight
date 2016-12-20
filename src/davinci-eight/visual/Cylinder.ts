@@ -4,23 +4,20 @@ import CylinderGeometry from '../geometries/CylinderGeometry';
 import CylinderGeometryOptions from '../geometries/CylinderGeometryOptions';
 import CylinderOptions from './CylinderOptions';
 import { ds } from './Defaults';
-import Geometric3 from '../math/Geometric3';
 import referenceAxis from './referenceAxis';
 import referenceMeridian from './referenceMeridian';
 import isDefined from '../checks/isDefined';
 import materialFromOptions from './materialFromOptions';
 import mustBeNumber from '../checks/mustBeNumber';
 import offsetFromOptions from './offsetFromOptions';
-import quadVectorE3 from '../math/quadVectorE3';
 import RigidBody from './RigidBody';
+import setAxisAndMeridian from './setAxisAndMeridian';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
 import SimplexMode from '../geometries/SimplexMode';
 import simplexModeFromOptions from './simplexModeFromOptions';
 import spinorE3Object from './spinorE3Object';
-import vec from '../math/R3';
 import vectorE3Object from './vectorE3Object';
-import VectorE3 from '../math/VectorE3';
 
 /**
  *
@@ -60,6 +57,7 @@ export class Cylinder extends RigidBody {
         this.material = material;
         material.release();
 
+        setAxisAndMeridian(this, options);
         setColorOption(this, options, Color.gray);
         setDeprecatedOptions(this, options);
 
@@ -68,10 +66,6 @@ export class Cylinder extends RigidBody {
         if (isDefined(options.length)) {
             this.length = mustBeNumber('length', options.length);
         }
-        else if (isDefined(options.axis)) {
-            this.axis = options.axis;
-        }
-
 
         if (levelUp === 0) {
             this.synchUp();
@@ -86,24 +80,6 @@ export class Cylinder extends RigidBody {
             this.cleanUp();
         }
         super.destructor(levelUp + 1);
-    }
-
-    /**
-     * The axis of the Cylinder.
-     * This property determines both the direction and length of the Cylinder.
-     */
-    get axis(): VectorE3 {
-        const axis = Geometric3.fromVector(this.referenceAxis);
-        axis.rotate(this.attitude).scale(this.length);
-        return vec(axis.x, axis.y, axis.z);
-    }
-    set axis(axis: VectorE3) {
-        const L = Math.sqrt(quadVectorE3(axis));
-        const x = axis.x / L;
-        const y = axis.y / L;
-        const z = axis.z / L;
-        this.attitude.rotorFromDirections(this.referenceAxis, { x, y, z });
-        this.length = L;
     }
 
     /**

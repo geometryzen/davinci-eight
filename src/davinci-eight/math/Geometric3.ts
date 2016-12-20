@@ -54,6 +54,9 @@ function norm(v: VectorE3): number {
     return Math.sqrt(scp(v, v));
 }
 
+/**
+ * cos(a, b) = (a | b) / |a||b|
+ */
 function cosVectorVector(a: VectorE3, b: VectorE3): number {
     return scp(a, b) / (norm(a) * norm(b));
 }
@@ -1173,14 +1176,17 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * Helper function for rotorFromFrameToFrame.
      */
     private rotorFromTwoVectors(e1: VectorE3, f1: VectorE3, e2: VectorE3, f2: VectorE3): this {
+        // console.log(`rotorFromTwoVectors(${e1}, ${f1}, ${e2}, ${f2})`);
         // FIXME: This creates a lot of temporary objects.
         // Compute the rotor that takes e1 to f1.
         // There is no concern that the two vectors are anti-parallel.
         const R1 = Geometric3.rotorFromDirections(e1, f1);
         // Compute the image of e2 under the first rotation in order to calculate R2.
         const f = Geometric3.fromVector(e2).rotate(R1);
+        // console.log(`f => ${f}`);
+        // console.log(`f2 => ${f2}`);
         // In case of rotation for antipodal vectors, define the fallback rotation bivector.
-        const B = Geometric3.zero().dual(f);
+        const B = Geometric3.dualOfVector(f1);
         // Compute R2
         const R2 = Geometric3.rotorFromVectorToVector(f, f2, B);
         // The total rotor, R, is the composition of R1 followed by R2.

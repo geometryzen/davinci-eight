@@ -4,7 +4,6 @@ import ArrowGeometryOptions from '../geometries/ArrowGeometryOptions';
 import Color from '../core/Color';
 import ContextManager from '../core/ContextManager';
 import { ds } from './Defaults';
-import Geometric3 from '../math/Geometric3';
 import referenceAxis from './referenceAxis';
 import referenceMeridian from './referenceMeridian';
 import isDefined from '../checks/isDefined';
@@ -14,12 +13,12 @@ import mustBeNumber from '../checks/mustBeNumber';
 import Mesh from '../core/Mesh';
 import offsetFromOptions from './offsetFromOptions';
 import quadVectorE3 from '../math/quadVectorE3';
+import setAxisAndMeridian from './setAxisAndMeridian';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
 import SimplexMode from '../geometries/SimplexMode';
 import simplexModeFromOptions from './simplexModeFromOptions';
 import spinorE3Object from './spinorE3Object';
-import vec from '../math/R3';
 import vectorE3Object from './vectorE3Object';
 import VectorE3 from '../math/VectorE3';
 
@@ -59,18 +58,12 @@ export class Arrow extends Mesh<ArrowGeometry, Material> {
         this.material = material;
         material.release();
 
-        if (options.color) {
-            this.color.copy(options.color);
-        }
-
+        setAxisAndMeridian(this, options);
         setColorOption(this, options, Color.gray);
         setDeprecatedOptions(this, options);
 
         if (isDefined(options.length)) {
             this.length = mustBeNumber('length', options.length);
-        }
-        else if (isDefined(options.axis)) {
-            this.axis = options.axis;
         }
 
         if (levelUp === 0) {
@@ -89,20 +82,18 @@ export class Arrow extends Mesh<ArrowGeometry, Material> {
     }
 
     /**
-     * The axis of the Arrow.
+     * The vector that is represented by the Arrow.
      * This property determines both the direction and length of the Arrow.
      */
-    get axis(): VectorE3 {
-        const axis = Geometric3.fromVector(this.referenceAxis);
-        axis.rotate(this.attitude).scale(this.length);
-        return vec(axis.x, axis.y, axis.z);
+    get vector(): VectorE3 {
+        return this.getAxis().scale(this.length);
     }
-    set axis(axis: VectorE3) {
+    set vector(axis: VectorE3) {
         const L = Math.sqrt(quadVectorE3(axis));
         const x = axis.x / L;
         const y = axis.y / L;
         const z = axis.z / L;
-        this.attitude.rotorFromDirections(this.referenceAxis, { x, y, z });
+        this.axis = { x, y, z };
         this.length = L;
     }
 

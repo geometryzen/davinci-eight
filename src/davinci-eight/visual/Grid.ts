@@ -25,6 +25,7 @@ import mustBeObject from '../checks/mustBeObject';
 import { PointMaterial } from '../materials/PointMaterial';
 import PointMaterialOptions from '../materials/PointMaterialOptions';
 import R3 from '../math/R3';
+import setAxisAndMeridian from './setAxisAndMeridian';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
 import validate from '../checks/validate';
@@ -340,6 +341,7 @@ export class Grid extends Mesh<GridGeometry, Material> {
             }
         }
 
+        setAxisAndMeridian(this, options);
         setColorOption(this, options, Color.gray);
         setDeprecatedOptions(this, options);
 

@@ -13,6 +13,7 @@ import mustBeEngine from './mustBeEngine';
 import offsetFromOptions from './offsetFromOptions';
 import Primitive from '../core/Primitive';
 import RigidBody from './RigidBody';
+import setAxisAndMeridian from './setAxisAndMeridian';
 import setColorOption from './setColorOption';
 import SimplexMode from '../geometries/SimplexMode';
 import simplexModeFromOptions from './simplexModeFromOptions';
@@ -141,6 +142,7 @@ export default class Turtle extends RigidBody {
         this.height = 0.1;
         this.width = 0.0618;
 
+        setAxisAndMeridian(this, options);
         setColorOption(this, options, Color.gray);
 
         if (levelUp === 0) {

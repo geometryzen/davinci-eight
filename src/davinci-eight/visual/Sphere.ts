@@ -9,6 +9,7 @@ import materialFromOptions from './materialFromOptions';
 import mustBeNumber from '../checks/mustBeNumber';
 import offsetFromOptions from './offsetFromOptions';
 import RigidBody from './RigidBody';
+import setAxisAndMeridian from './setAxisAndMeridian';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
 import SimplexMode from '../geometries/SimplexMode';
@@ -29,7 +30,7 @@ export class Sphere extends RigidBody {
      * 
      */
     constructor(contextManager: ContextManager, options: SphereOptions = {}, levelUp = 0) {
-        super(contextManager, referenceAxis(options, ds.axis), referenceMeridian(options, ds.meridian), levelUp + 1);
+        super(contextManager, referenceAxis(options, ds.axis).direction(), referenceMeridian(options, ds.meridian).direction(), levelUp + 1);
         this.setLoggingName('Sphere');
 
         const geoMode = geometryModeFromOptions(options);
@@ -47,8 +48,8 @@ export class Sphere extends RigidBody {
         geoOptions.stress = void 0;
 
         geoOptions.tilt = spinorE3Object(options.tilt);
-        geoOptions.axis = vectorE3Object(referenceAxis(options, ds.axis));
-        geoOptions.meridian = vectorE3Object(referenceMeridian(options, ds.meridian));
+        geoOptions.axis = vectorE3Object(referenceAxis(options, ds.axis).direction());
+        geoOptions.meridian = vectorE3Object(referenceMeridian(options, ds.meridian).direction());
 
         const cachedGeometry = contextManager.getCacheGeometry(geoOptions);
         if (cachedGeometry && cachedGeometry instanceof SphereGeometry) {
@@ -66,6 +67,7 @@ export class Sphere extends RigidBody {
         this.material = material;
         material.release();
 
+        setAxisAndMeridian(this, options);
         setColorOption(this, options, Color.gray);
         setDeprecatedOptions(this, options);
 

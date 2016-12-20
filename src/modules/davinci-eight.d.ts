@@ -1117,7 +1117,7 @@ declare module EIGHT {
         /**
          *
          */
-        rotationAxis(axis: VectorE3, angle: number): Matrix4;
+        rotationAxis(n: VectorE3, angle: number): Matrix4;
 
         /**
          *
@@ -2189,12 +2189,12 @@ declare module EIGHT {
         rotate(R: SpinorE3): Geometric3;
 
         /**
-         * Sets this multivector to a rotor that rotates through angle θ around the specified axis.
+         * Sets this multivector to a rotor that rotates through angle θ around the specified direction.
          *
-         * @param axis The (unit) vector defining the rotation direction.
+         * @param n The (unit) vector defining the rotation direction.
          * @param θ The rotation angle in radians when the rotor is applied on both sides as R * M * ~R
          */
-        rotorFromAxisAngle(axis: VectorE3, θ: number): Geometric3;
+        rotorFromAxisAngle(n: VectorE3, θ: number): Geometric3;
 
         /**
          * Sets this multivector to a rotor representing a rotation from a to b.
@@ -4009,6 +4009,10 @@ declare module EIGHT {
          */
         attitude: Geometric3;
         /**
+         * 
+         */
+        axis: VectorE3;
+        /**
          * Color
          */
         color: Color;
@@ -4024,6 +4028,10 @@ declare module EIGHT {
          * The blue coordinate of the color property.
          */
         blue: number;
+        /**
+         * 
+         */
+        meridian: VectorE3;
         /**
          * Opacity
          */
@@ -4140,15 +4148,14 @@ declare module EIGHT {
      */
     class Arrow extends Mesh<Geometry, MeshMaterial> {
         /**
-         * The axis of the Arrow.
-         * This property determines both the direction and length of the Arrow.
-         */
-        axis: VectorE3;
-        /**
          * The length of the Arrow.
          * This property determines the scaling of the Arrow in all directions.
          */
         length: number;
+        /**
+         * The vector that is represented by the Arrow.
+         */
+        vector: VectorE3;
         /**
          * Constructs an Arrow.
          */
@@ -4314,13 +4321,8 @@ declare module EIGHT {
      */
     class Cylinder extends RigidBody {
         /**
-         * The axis of the Cylinder.
-         * This property determines both the direction and length of the Cylinder.
-         */
-        axis: VectorE3;
-        /**
          * The length of the Cylinder.
-         * This property determines the scaling of the Cylinder in the axis direction only.
+         * This property determines the scaling of the Cylinder in the axial direction only.
          */
         length: number;
         /**
@@ -4604,13 +4606,8 @@ declare module EIGHT {
      */
     class HollowCylinder extends RigidBody {
         /**
-         * The axis of the HollowCylinder.
-         * This property determines both the direction and length of the HollowCylinder.
-         */
-        axis: VectorE3;
-        /**
          * The length of the HollowCylinder.
-         * This property determines the scaling of the HollowCylinder in the axis direction only.
+         * This property determines the scaling of the HollowCylinder in the axial direction only.
          */
         length: number;
         /**

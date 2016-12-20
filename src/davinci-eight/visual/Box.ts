@@ -9,10 +9,10 @@ import isDefined from '../checks/isDefined';
 import geometryModeFromOptions from './geometryModeFromOptions';
 import materialFromOptions from './materialFromOptions';
 import mustBeNumber from '../checks/mustBeNumber';
-import quadVectorE3 from '../math/quadVectorE3';
 import referenceAxis from './referenceAxis';
 import referenceMeridian from './referenceMeridian';
 import RigidBody from './RigidBody';
+import setAxisAndMeridian from './setAxisAndMeridian';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
 import SimplexMode from '../geometries/SimplexMode';
@@ -67,23 +67,18 @@ export class Box extends RigidBody {
             this.color.copy(options.color);
         }
 
+        setAxisAndMeridian(this, options);
         setColorOption(this, options, Color.gray);
         setDeprecatedOptions(this, options);
 
-        this.width = isDefined(options.width) ? mustBeNumber('width', options.width) : 1.0;
-
+        if (isDefined(options.width)) {
+            this.width = mustBeNumber('width', options.width);
+        }
         if (isDefined(options.height)) {
             this.height = mustBeNumber('height', options.height);
         }
-        else if (isDefined(options.axis)) {
-            this.height = Math.sqrt(quadVectorE3(options.axis));
-        }
-
         if (isDefined(options.depth)) {
             this.depth = mustBeNumber('depth', options.depth);
-        }
-        else if (isDefined(options.meridian)) {
-            this.depth = Math.sqrt(quadVectorE3(options.meridian));
         }
 
         if (levelUp === 0) {

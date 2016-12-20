@@ -1,13 +1,11 @@
 import Color from '../core/Color';
 import { ds } from './Defaults';
 import ContextManager from '../core/ContextManager';
-import Geometric3 from '../math/Geometric3';
 import GPS from '../core/GraphicsProgramSymbols';
 import HollowCylinderGeometry from '../geometries/HollowCylinderGeometry';
 import HollowCylinderGeometryOptions from '../geometries/HollowCylinderGeometryOptions';
 import HollowCylinderOptions from './HollowCylinderOptions';
 import offsetFromOptions from './offsetFromOptions';
-import quadVectorE3 from '../math/quadVectorE3';
 import referenceAxis from './referenceAxis';
 import referenceMeridian from './referenceMeridian';
 import isDefined from '../checks/isDefined';
@@ -15,12 +13,11 @@ import MeshMaterial from '../materials/MeshMaterial';
 import MeshMaterialOptions from '../materials/MeshMaterialOptions';
 import mustBeNumber from '../checks/mustBeNumber';
 import RigidBody from './RigidBody';
+import setAxisAndMeridian from './setAxisAndMeridian';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
 import spinorE3Object from './spinorE3Object';
-import vec from '../math/R3';
 import vectorE3Object from './vectorE3Object';
-import VectorE3 from '../math/VectorE3';
 
 /**
  * 
@@ -83,14 +80,12 @@ export default class HollowCylinder extends RigidBody {
             contextManager.putCacheMaterial(mmo, material);
         }
 
+        setAxisAndMeridian(this, options);
         setColorOption(this, options, Color.gray);
         setDeprecatedOptions(this, options);
 
         if (isDefined(options.length)) {
             this.length = mustBeNumber('length', options.length);
-        }
-        else if (isDefined(options.axis)) {
-            this.axis = options.axis;
         }
 
         if (levelUp === 0) {
@@ -106,24 +101,6 @@ export default class HollowCylinder extends RigidBody {
             this.cleanUp();
         }
         super.destructor(levelUp + 1);
-    }
-
-    /**
-     * The axis of the Cylinder.
-     * This property determines both the direction and length of the Cylinder.
-     */
-    get axis(): VectorE3 {
-        const axis = Geometric3.fromVector(this.referenceAxis);
-        axis.rotate(this.attitude).scale(this.length);
-        return vec(axis.x, axis.y, axis.z);
-    }
-    set axis(axis: VectorE3) {
-        const L = Math.sqrt(quadVectorE3(axis));
-        const x = axis.x / L;
-        const y = axis.y / L;
-        const z = axis.z / L;
-        this.attitude.rotorFromDirections(this.referenceAxis, { x, y, z });
-        this.length = L;
     }
 
     /**
