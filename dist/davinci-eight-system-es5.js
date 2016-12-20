@@ -20181,8 +20181,8 @@ System.register("davinci-eight/core/Mesh.js", ["../core/tiltFromOptions", "../fa
                     _this.setFacet(TEXTURE_FACET_NAME, textureFacet);
                     textureFacet.release();
                     _this.setFacet(MODEL_FACET_NAME, new ModelFacet_1.ModelFacet());
-                    _this.referenceAxis = options.axis ? R3_1.default(options.axis.x, options.axis.y, options.axis.z) : tiltFromOptions_1.canonicalAxis;
-                    _this.referenceMeridian = options.meridian ? R3_1.default(options.meridian.x, options.meridian.y, options.meridian.z) : tiltFromOptions_1.canonicalAxis;
+                    _this.referenceAxis = options.axis ? R3_1.default(options.axis.x, options.axis.y, options.axis.z).direction() : tiltFromOptions_1.canonicalAxis;
+                    _this.referenceMeridian = options.meridian ? R3_1.default(options.meridian.x, options.meridian.y, options.meridian.z).direction() : tiltFromOptions_1.canonicalMeridian;
                     var tilt = Geometric3_1.Geometric3.rotorFromFrameToFrame([tiltFromOptions_1.canonicalAxis, tiltFromOptions_1.canonicalMeridian, tiltFromOptions_1.canonicalAxis.cross(tiltFromOptions_1.canonicalMeridian)], [_this.referenceAxis, _this.referenceMeridian, _this.referenceAxis.cross(_this.referenceMeridian)]);
                     if (tilt && !Spinor3_1.default.isOne(tilt)) {
                         _this.Kidentity = false;
@@ -23806,7 +23806,7 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
                     this.LAST_MODIFIED = '2016-12-20';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '5.0.6';
+                    this.VERSION = '5.0.7';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];

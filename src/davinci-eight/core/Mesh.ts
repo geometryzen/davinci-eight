@@ -74,8 +74,8 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
 
         this.setFacet(MODEL_FACET_NAME, new ModelFacet());
 
-        this.referenceAxis = options.axis ? vec(options.axis.x, options.axis.y, options.axis.z) : canonicalAxis;
-        this.referenceMeridian = options.meridian ? vec(options.meridian.x, options.meridian.y, options.meridian.z) : canonicalAxis;
+        this.referenceAxis = options.axis ? vec(options.axis.x, options.axis.y, options.axis.z).direction() : canonicalAxis;
+        this.referenceMeridian = options.meridian ? vec(options.meridian.x, options.meridian.y, options.meridian.z).direction() : canonicalMeridian;
 
         const tilt = Geometric3.rotorFromFrameToFrame([canonicalAxis, canonicalMeridian, canonicalAxis.cross(canonicalMeridian)], [this.referenceAxis, this.referenceMeridian, this.referenceAxis.cross(this.referenceMeridian)]);
         if (tilt && !Spinor3.isOne(tilt)) {
