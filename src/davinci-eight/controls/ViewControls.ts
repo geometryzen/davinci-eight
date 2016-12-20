@@ -46,7 +46,7 @@ export class ViewControls extends MouseControls implements ViewController {
      * The view that is being controlled.
      * We work only with coordinates to minimize requirements for interoperability.
      */
-    private view: { eye: VectorE3, look: VectorE3, up: VectorE3 };
+    private view: { eye: { x: number; y: number; z: number }, look: { x: number; y: number; z: number }, up: { x: number; y: number; z: number } };
 
     /**
      *

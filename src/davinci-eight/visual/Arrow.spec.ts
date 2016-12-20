@@ -6,7 +6,7 @@ import { Geometric3 } from '../math/Geometric3';
 import refChange from '../core/refChange';
 
 const e1: Geometric3 = Geometric3.e1();
-const e2: Geometric3 = Geometric3.e2();
+// const e2: Geometric3 = Geometric3.e2();
 // const e3: Geometric3 = Geometric3.e3()
 
 describe("Arrow", function () {
@@ -58,9 +58,7 @@ describe("Arrow", function () {
         it("should be an alias for axis", function () {
             const engine = new Engine();
             const arrow = new Arrow(engine);
-            arrow.axis.x = Math.random();
-            arrow.axis.y = Math.random();
-            arrow.axis.z = Math.random();
+            arrow.axis = { x: Math.random(), y: Math.random(), z: Math.random() };
             expect(arrow.h.x).toBe(arrow.axis.x);
             expect(arrow.h.y).toBe(arrow.axis.y);
             expect(arrow.h.z).toBe(arrow.axis.z);
@@ -72,14 +70,6 @@ describe("Arrow", function () {
         // Updates are expected to happen through the 
         describe("changing the length property", function () {
             describe("from the default", function () {
-                xit("should update the h property", function () {
-                    const engine = new Engine();
-                    const arrow = new Arrow(engine);
-                    // arrow.length = 2
-                    expect(arrow.h.equals(e2.clone().scale(2))).toBe(true);
-                    arrow.release();
-                    engine.release();
-                });
                 xit("should update the length property", function () {
                     const engine = new Engine();
                     const arrow = new Arrow(engine);
@@ -101,14 +91,6 @@ describe("Arrow", function () {
 
         describe("changing the h property", function () {
             describe("from the default", function () {
-                it("should update the h property", function () {
-                    const engine = new Engine();
-                    const arrow = new Arrow(engine);
-                    arrow.h = e1.clone().scale(2);
-                    expect(arrow.h.equals(e1.clone().scale(2))).toBe(true);
-                    arrow.release();
-                    engine.release();
-                });
                 xit("should update the length property", function () {
                     const engine = new Engine();
                     const arrow = new Arrow(engine);
@@ -141,9 +123,7 @@ describe("Arrow", function () {
         it("should be an alias for h", function () {
             const engine = new Engine();
             const arrow = new Arrow(engine);
-            arrow.h.x = Math.random();
-            arrow.h.y = Math.random();
-            arrow.h.z = Math.random();
+            arrow.h = { x: Math.random(), y: Math.random(), z: Math.random() };
             expect(arrow.axis.x).toBe(arrow.h.x);
             expect(arrow.axis.y).toBe(arrow.h.y);
             expect(arrow.axis.z).toBe(arrow.h.z);

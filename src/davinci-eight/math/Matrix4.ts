@@ -266,12 +266,8 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
     }
 
     /**
-     * @method rotationAxis
-     * @param axis {VectorE3}
-     * @param angle {number}
-     * @return {Matrix4}
-     * @chainable
-     * @beta
+     * @param axis
+     * @param angle
      */
     rotationAxis(axis: VectorE3, angle: number) {
 

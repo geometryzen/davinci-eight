@@ -44,11 +44,4 @@ export default class ArrowGeometry extends GeometryElements {
         }
         super.destructor(levelUp + 1);
     }
-    /**
-     * 
-     */
-    public getScalingForAxis(): number {
-        // 001 | 010 | 100
-        return 7;
-    }
 }

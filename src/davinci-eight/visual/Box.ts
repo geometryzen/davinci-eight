@@ -2,15 +2,16 @@ import BoxOptions from './BoxOptions';
 import BoxGeometry from '../geometries/BoxGeometry';
 import BoxGeometryOptions from '../geometries/BoxGeometryOptions';
 import Color from '../core/Color';
+import ContextManager from '../core/ContextManager';
 import { ds } from './Defaults';
-import { Engine } from '../core/Engine';
 import GeometryMode from '../geometries/GeometryMode';
 import isDefined from '../checks/isDefined';
 import geometryModeFromOptions from './geometryModeFromOptions';
 import materialFromOptions from './materialFromOptions';
 import mustBeNumber from '../checks/mustBeNumber';
-import mustBeEngine from './mustBeEngine';
-import { RigidBody } from './RigidBody';
+import referenceAxis from './referenceAxis';
+import referenceMeridian from './referenceMeridian';
+import RigidBody from './RigidBody';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
 import SimplexMode from '../geometries/SimplexMode';
@@ -18,24 +19,25 @@ import simplexModeFromOptions from './simplexModeFromOptions';
 import spinorE3Object from './spinorE3Object';
 import vectorE3Object from './vectorE3Object';
 
+/**
+ * 
+ */
 export class Box extends RigidBody {
-
-    constructor(engine: Engine, options: BoxOptions = {}, levelUp = 0) {
-        super(mustBeEngine(engine, 'Box'), ds.axis, ds.meridian, levelUp + 1);
+    /**
+     * 
+     */
+    constructor(contextManager: ContextManager, options: BoxOptions = {}, levelUp = 0) {
+        super(contextManager, referenceAxis(options, ds.axis).direction(), referenceMeridian(options, ds.meridian).direction(), levelUp + 1);
 
         this.setLoggingName('Box');
         const geoMode: GeometryMode = geometryModeFromOptions(options);
-
-        // The shape is created un-stressed and then parameters drive the scaling.
-        // The scaling matrix takes into account the initial tilt from the standard configuration.
-        // const stress = Vector3.vector(1, 1, 1)
 
         const geoOptions: BoxGeometryOptions = { kind: 'BoxGeometry' };
         geoOptions.mode = geoMode;
 
         geoOptions.tilt = spinorE3Object(options.tilt);
-        geoOptions.axis = vectorE3Object(ds.axis);
-        geoOptions.meridian = vectorE3Object(ds.meridian);
+        geoOptions.axis = vectorE3Object(referenceAxis(options, ds.axis).direction());
+        geoOptions.meridian = vectorE3Object(referenceMeridian(options, ds.meridian).direction());
 
         geoOptions.openBack = options.openBack;
         geoOptions.openBase = options.openBase;
@@ -44,19 +46,19 @@ export class Box extends RigidBody {
         geoOptions.openRight = options.openRight;
         geoOptions.openCap = options.openCap;
 
-        const cachedGeometry = engine.getCacheGeometry(geoOptions);
+        const cachedGeometry = contextManager.getCacheGeometry(geoOptions);
         if (cachedGeometry && cachedGeometry instanceof BoxGeometry) {
             this.geometry = cachedGeometry;
             cachedGeometry.release();
         }
         else {
-            const geometry = new BoxGeometry(engine, geoOptions);
+            const geometry = new BoxGeometry(contextManager, geoOptions);
             this.geometry = geometry;
             geometry.release();
-            engine.putCacheGeometry(geoOptions, geometry);
+            contextManager.putCacheGeometry(geoOptions, geometry);
         }
 
-        const material = materialFromOptions(engine, simplexModeFromOptions(options, SimplexMode.TRIANGLE), options);
+        const material = materialFromOptions(contextManager, simplexModeFromOptions(options, SimplexMode.TRIANGLE), options);
         this.material = material;
         material.release();
 
@@ -68,8 +70,14 @@ export class Box extends RigidBody {
         setDeprecatedOptions(this, options);
 
         this.width = isDefined(options.width) ? mustBeNumber('width', options.width) : 1.0;
-        this.height = isDefined(options.height) ? mustBeNumber('height', options.height) : 1.0;
-        this.depth = isDefined(options.depth) ? mustBeNumber('depth', options.depth) : 1.0;
+
+        if (isDefined(options.height)) {
+            this.height = mustBeNumber('height', options.height);
+        }
+
+        if (isDefined(options.depth)) {
+            this.depth = mustBeNumber('depth', options.depth);
+        }
 
         if (levelUp === 0) {
             this.synchUp();

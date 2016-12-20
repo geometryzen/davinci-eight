@@ -441,10 +441,4 @@ export default class SphereGeometry extends GeometryElements {
         }
         super.destructor(levelUp + 1);
     }
-    /**
-     * 
-     */
-    getScalingForAxis(): number {
-        return 2;
-    }
 }

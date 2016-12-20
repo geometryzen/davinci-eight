@@ -107,12 +107,6 @@ class TurtleGeometry extends GeometryArrays {
         }
         super.destructor(levelUp + 1);
     }
-    /**
-     * 
-     */
-    public getScalingForAxis(): number {
-        return 2;
-    }
 }
 
 export interface TurtleOptions {

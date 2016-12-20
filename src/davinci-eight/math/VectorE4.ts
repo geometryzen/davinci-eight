@@ -1,34 +1,26 @@
 /**
- * @class VectorE4
+ *
  */
 interface VectorE4 {
     /**
      * The Cartesian x-coordinate.
-     * @property x
-     * @type number
      */
-    x: number;
+    readonly x: number;
 
     /**
      * The Cartesian y-coordinate.
-     * @property y
-     * @type number
      */
-    y: number;
+    readonly y: number;
 
     /**
      * The Cartesian z-coordinate.
-     * @property z
-     * @type number
      */
-    z: number;
+    readonly z: number;
 
     /**
      * The Cartesian w-coordinate.
-     * @property w
-     * @type number
      */
-    w: number;
+    readonly w: number;
 }
 
 export default VectorE4;

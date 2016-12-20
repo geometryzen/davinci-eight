@@ -1,5 +1,5 @@
 /**
- * @class VectorE0
+ *
  */
 interface VectorE0 {
 }

@@ -59,9 +59,6 @@ class TrackGeometry implements Geometry {
         this.contextManager.gl.drawArrays(BeginMode.LINE_STRIP, 0, this.count);
         return this;
     }
-    getScalingForAxis(): number {
-        return 2;
-    }
     contextFree(): void {
         this.vbo.contextFree();
     }

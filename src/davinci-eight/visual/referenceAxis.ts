@@ -13,7 +13,7 @@ interface AxisOptions {
     /**
      * Deprecated. Use axis instead.
      */
-    height?: VectorE3;
+    height?: VectorE3 | number;
     /**
      * 
      */
@@ -40,7 +40,7 @@ export default function referenceAxis(options: AxisOptions, fallback: VectorE3):
         const axis = options.axis;
         return vec(axis.x, axis.y, axis.z).direction();
     }
-    else if (options.height) {
+    else if (typeof options.height === 'object') {
         console.warn("height is deprecated. Please use axis instead.");
         const axis = options.height;
         return vec(axis.x, axis.y, axis.z).direction();

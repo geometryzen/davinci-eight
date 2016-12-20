@@ -92,10 +92,4 @@ export default class HollowCylinderGeometry extends GeometryElements {
         }
         super.destructor(levelUp + 1);
     }
-    /**
-     * 
-     */
-    public getScalingForAxis(): number {
-        return 2;
-    }
 }

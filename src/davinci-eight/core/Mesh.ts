@@ -11,7 +11,6 @@ import Matrix4 from '../math/Matrix4';
 import MeshOptions from './MeshOptions';
 import { ModelFacet } from '../facets/ModelFacet';
 import notSupported from '../i18n/notSupported';
-import quadVectorE3 from '../math/quadVectorE3';
 import { R3 } from '../math/R3';
 import Spinor3 from '../math/Spinor3';
 import Texture from './Texture';
@@ -27,51 +26,31 @@ const MODEL_FACET_NAME = 'model';
  */
 export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M> implements AbstractMesh<G, M> {
     /**
-     * 
+     * The reference frame axis.
      */
-    private currentAxis: Geometric3;
+    public readonly referenceAxis: R3;
     /**
-     * 
+     * The reference frame meridian.
      */
-    private currentMeridian: Geometric3;
-    /**
-     * 
-     */
-    private referenceAxis: R3;
-    /**
-     * 
-     */
-    private referenceMeridian: R3;
-    /**
-     * 
-     */
-    private axisChangeHandler: (eventName: string, key: string, value: number, source: Geometric3) => void;
-    /**
-     * 
-     */
-    private meridianChangeHandler: (eventName: string, key: string, value: number, source: Geometric3) => void;
-    /**
-     * 
-     */
-    private attitudeChangeHandler: (eventName: string, key: string, value: number, source: Geometric3) => void;
+    public readonly referenceMeridian: R3;
     /**
      * Scratch variable for intermediate calculation value.
      * This can probably be raised to a module level constant.
      */
-    private canonicalScale = Matrix4.one();
+    private readonly canonicalScale = Matrix4.one();
     /**
      * The rotation matrix equivalent to the initial tilt spinor.
      */
-    private K = Matrix4.one();
+    private readonly K: Matrix4;
     /**
      * The (cached) inverse of K.
      */
-    private Kinv = Matrix4.one();
+    private readonly Kinv: Matrix4;
 
     /**
      * Cached value that tells you whether the K matrix is unity.
      */
-    private Kidentity = true;
+    private readonly Kidentity: boolean;
     /**
      * Initializes this Mesh with a ColorFacet ('color'), a TextureFacet ('image'), and a ModelFacet ('model').
      * 
@@ -99,66 +78,14 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
         const tilt = Geometric3.rotorFromFrameToFrame([canonicalAxis, canonicalMeridian, canonicalAxis.cross(canonicalMeridian)], [this.referenceAxis, this.referenceMeridian, this.referenceAxis.cross(this.referenceMeridian)]);
         if (tilt && !Spinor3.isOne(tilt)) {
             this.Kidentity = false;
+            this.K = Matrix4.one();
             this.K.rotation(tilt);
+            this.Kinv = Matrix4.one();
             this.Kinv.copy(this.K).inv();
         }
-
-        this.currentAxis = Geometric3.fromVector(this.referenceAxis);
-        this.currentMeridian = Geometric3.fromVector(this.referenceMeridian);
-
-        /**
-         * cascade flag prevents infinite recursion.
-         */
-        let cascade = true;
-        this.axisChangeHandler = (eventName: string, key: string, value: number, axis: Geometric3) => {
-            if (cascade) {
-                cascade = false;
-
-                this.R.rotorFromFrameToFrame([this.referenceAxis, this.referenceMeridian, this.referenceAxis.cross(this.referenceMeridian)], [this.currentAxis, this.currentMeridian, this.currentAxis.clone().cross(this.currentMeridian)]);
-                this.currentMeridian.copyVector(this.referenceMeridian).rotate(this.R);
-
-                const length = Math.sqrt(quadVectorE3(axis));
-                const geometry = this.geometry;
-                const mask = (typeof geometry.getScalingForAxis === 'function') ? geometry.getScalingForAxis() : 0;
-                const x = (mask & 1) ? length : this.getScaleX();
-                const y = (mask & 2) ? length : this.getScaleY();
-                const z = (mask & 4) ? length : this.getScaleZ();
-                this.setScale(x, y, z);
-                geometry.release();
-
-                cascade = true;
-            }
-        };
-        this.meridianChangeHandler = (eventName: string, key: string, value: number, meridian: Geometric3) => {
-            if (cascade) {
-                cascade = false;
-
-                this.R.rotorFromFrameToFrame([this.referenceAxis, this.referenceMeridian, this.referenceAxis.cross(this.referenceMeridian)], [this.currentAxis, this.currentMeridian, this.currentAxis.clone().cross(this.currentMeridian)]);
-                this.currentAxis.copyVector(this.referenceAxis).rotate(this.R);
-
-                const length = Math.sqrt(quadVectorE3(meridian));
-                const geometry = this.geometry;
-                const mask = (typeof geometry.getScalingForAxis === 'function') ? geometry.getScalingForAxis() : 0;
-                const x = (mask & 1) ? length : this.getScaleX();
-                const y = (mask & 2) ? length : this.getScaleY();
-                const z = (mask & 4) ? length : this.getScaleZ();
-                this.setScale(x, y, z);
-                geometry.release();
-                cascade = true;
-            }
-        };
-        this.attitudeChangeHandler = (eventName: string, key: string, value: number, attitude: Geometric3) => {
-            if (cascade) {
-                cascade = false;
-                this.currentAxis.copyVector(this.referenceAxis).rotate(this.R);
-                this.currentMeridian.copyVector(this.referenceMeridian).rotate(this.R);
-                cascade = true;
-            }
-        };
-
-        this.currentAxis.on('change', this.axisChangeHandler);
-        this.currentMeridian.on('change', this.meridianChangeHandler);
-        this.R.on('change', this.attitudeChangeHandler);
+        else {
+            this.Kidentity = true;
+        }
 
         if (levelUp === 0) {
             this.synchUp();
@@ -171,30 +98,7 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
         if (levelUp === 0) {
             this.cleanUp();
         }
-        this.currentAxis.off('change', this.axisChangeHandler);
-        this.currentMeridian.off('change', this.meridianChangeHandler);
-        this.R.off('change', this.attitudeChangeHandler);
         super.destructor(levelUp + 1);
-    }
-
-    /**
-     * Deprecated. Please use the axis property instead.
-     */
-    get h() {
-        return this.currentAxis;
-    }
-    set h(axis: Geometric3) {
-        this.currentAxis.copyVector(axis);
-    }
-
-    /**
-     *
-     */
-    get axis() {
-        return this.currentAxis;
-    }
-    set axis(axis: Geometric3) {
-        this.currentAxis.copyVector(axis);
     }
 
     /**
@@ -217,16 +121,6 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
         else {
             throw new Error(notSupported(MODEL_FACET_NAME).message);
         }
-    }
-
-    /**
-     *
-     */
-    get meridian() {
-        return this.currentMeridian;
-    }
-    set meridian(meridian: Geometric3) {
-        this.currentMeridian.copyVector(meridian);
     }
 
     /**

@@ -1659,12 +1659,12 @@ declare module EIGHT {
         static zero(): Geometric2;
 
         /**
-         * Constructs the standard basis vector pointing along the x axis.
+         * Constructs the standard basis vector corresponding to the x coordinate.
          */
         static e1(): Geometric2;
 
         /**
-         * Basis vector corresponding to the y coordinate.
+         * constructs the standard basis vector corresponding to the y coordinate.
          */
         static e2(): Geometric2;
 
@@ -1998,17 +1998,17 @@ declare module EIGHT {
         dual(m: VectorE3): Geometric3;
 
         /**
-         * Sets this multivector to the standard basis unit vector pointing along the x axis.
+         * Constructs the standard basis unit vector corresponding to the x coordinate.
          */
         e1(): Geometric3;
 
         /**
-         * Sets this multivector to the standard basis unit vector pointing along the x axis.
+         * Constructs the standard basis unit vector corresponding to the y coordinate.
          */
         e2(): Geometric3;
 
         /**
-         * Sets this multivector to the standard basis unit vector pointing along the x axis.
+         * Constructs the standard basis unit vector corresponding to the z coordinate.
          */
         e3(): Geometric3;
 
@@ -4010,10 +4010,6 @@ declare module EIGHT {
          */
         attitude: Geometric3;
         /**
-         * Axis (vector). Alternative (with meridian) to attitude.
-         */
-        axis: Geometric3;
-        /**
          * Color
          */
         color: Color;
@@ -4030,10 +4026,6 @@ declare module EIGHT {
          */
         blue: number;
         /**
-         * Meridian (vector). Alternative (with axis) to attitude.
-         */
-        meridian: Geometric3;
-        /**
          * Opacity
          */
         opacity: number;
@@ -4045,6 +4037,14 @@ declare module EIGHT {
          * Attitude (spinor). This is an alias for the attitude property.
          */
         R: Geometric3;
+        /**
+         * The reference frame axis.
+         */
+        referenceAxis: VectorE3;
+        /**
+         * The reference frame meridian.
+         */
+        referenceMeridian: VectorE3;
         /**
          * Stress (tensor)
          */
@@ -4113,17 +4113,9 @@ declare module EIGHT {
      */
     interface ArrowOptions {
         /**
-         * The reference axis (vector).
-         */
-        axis?: VectorE3;
-        /**
          * Color
          */
         color?: Color;
-        /**
-         * The reference meridian (vector).
-         */
-        meridian?: VectorE3;
         /**
          * The spinor that rotates from the canonical frame to the reference frame.
          */
@@ -4131,20 +4123,17 @@ declare module EIGHT {
     }
 
     /**
-     * A solid arrow Mesh.
-     * May be used to visualize a vector.
+     *
      */
     class Arrow extends Mesh<Geometry, MeshMaterial> {
         /**
-         * The vector from the tail of the Arrow to the head of the Arrow.
-         * A long alias for the 'h' property.
+         * 
          */
-        axis: Geometric3;
+        axis: VectorE3;
         /**
-         * The vector from the tail of the Arrow to the head of the Arrow.
-         * A short alias for the 'axis' property.
+         * 
          */
-        h: Geometric3;
+        length: number;
         /**
          * Constructs an Arrow.
          */
@@ -4179,10 +4168,6 @@ declare module EIGHT {
         /**
          * 
          */
-        axis?: VectorE3;
-        /**
-         * 
-         */
         color?: Color;
         /**
          * 
@@ -4192,10 +4177,6 @@ declare module EIGHT {
          * 
          */
         height?: number;
-        /**
-         * 
-         */
-        meridian?: VectorE3;
         /**
          * 
          */
@@ -4249,7 +4230,6 @@ declare module EIGHT {
      * Options for the creation of a new Cylinder.
      */
     interface CylinderOptions {
-        axis?: VectorE3;
         color?: Color;
         length?: number;
         openBase?: boolean;
@@ -4260,13 +4240,14 @@ declare module EIGHT {
     }
 
     class Cylinder extends RigidBody {
-        length: number;
-        radius: number;
         /**
-         * Axis (vector).
-         * The symmetry axis of the Cylinder.
+         * 
          */
-        public axis: Geometric3;
+        length: number;
+        /**
+         * 
+         */
+        radius: number;
         /**
          * Constructs a Cylinder.
          */
@@ -4473,18 +4454,9 @@ declare module EIGHT {
      */
     interface HollowCylinderOptions {
         /**
-         * The symmetry axis and the height of the cylinder.
-         */
-        axis?: VectorE3,
-        /**
          * The uniform color of the HollowCylinder.
          */
         color?: Color;
-        /**
-         * The starting direction for the slice.
-         * A unit vector orthogonal to the height vector.
-         */
-        meridian?: VectorE3,
         /**
          * The outer radius of the cylinder.
          */
@@ -4504,11 +4476,6 @@ declare module EIGHT {
     }
 
     class HollowCylinder extends RigidBody {
-        /**
-         * Axis (vector).
-         * The symmetry axis of the Hollow Cylinder.
-         */
-        public axis: Geometric3;
         /**
          * Constructs a HollowCylinder.
          */
@@ -4563,10 +4530,6 @@ declare module EIGHT {
         /**
          * 
          */
-        axis?: VectorE3;
-        /**
-         * 
-         */
         azimuthStart?: number;
         /**
          * 
@@ -4595,10 +4558,6 @@ declare module EIGHT {
         /**
          * 
          */
-        meridian?: VectorE3;
-        /**
-         * 
-         */
         mode?: GeometryMode;
         /**
          * 
@@ -4615,11 +4574,6 @@ declare module EIGHT {
          * Radius (scalar).
          */
         radius: number;
-        /**
-         * Axis (vector).
-         * The symmetry axis of the Sphere.
-         */
-        public axis: Geometric3;
         /**
          * Constructs a Sphere.
          */

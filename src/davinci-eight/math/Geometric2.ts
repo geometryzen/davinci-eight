@@ -103,9 +103,6 @@ function duckCopy(value: any): Geometric2 {
  *     // The constructor creates the zero multivector, a quantity with all components equal to zero.
  *     const M = new EIGHT.Geometric2()
  *
- * @class Geometric2
- * @extends Coords
- * @beta
  */
 export class Geometric2 extends Coords implements GeometricE2 {
 

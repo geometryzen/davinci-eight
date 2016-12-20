@@ -13,7 +13,7 @@ interface MeridianOptions {
     /**
      * Deprecated. Use axis instead.
      */
-    height?: VectorE3;
+    height?: VectorE3 | number;
     /**
      * 
      */
@@ -51,7 +51,7 @@ export default function referenceMeridian(options: MeridianOptions, fallback: Ve
         const meridian = Geometric3.fromVector(canonicalMeridian).rotate(tilt);
         return vec(meridian.x, meridian.y, meridian.z).direction();
     }
-    else if (options.height) {
+    else if (typeof options.height === 'object') {
         console.warn("height is deprecated. Please use axis instead.");
         const axis = options.height;
         const B = Geometric3.dualOfVector(canonicalMeridian);

@@ -3,7 +3,6 @@ import CartesianG3 from './CartesianG3';
 import { Coords } from './Coords';
 import arraysEQ from './arraysEQ';
 import dotVector from './dotVectorE3';
-import EventEmitter from '../utils/EventEmitter';
 import extG3 from './extG3';
 import gauss from './gauss';
 import GeometricE3 from './GeometricE3';
@@ -47,15 +46,6 @@ function coordinates(m: GeometricE3): number[] {
     return [m.a, m.x, m.y, m.z, m.xy, m.yz, m.zx, m.b];
 }
 
-const EVENT_NAME_CHANGE = 'change';
-
-const atan2 = Math.atan2;
-const exp = Math.exp;
-const cos = Math.cos;
-const log = Math.log;
-const sin = Math.sin;
-const sqrt = Math.sqrt;
-
 function scp(a: VectorE3, b: VectorE3): number {
     return a.x * b.x + a.y * b.y + a.z * b.z;
 }
@@ -79,31 +69,11 @@ const cosines: number[] = [];
 export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
 
     /**
-     * Lazily instantiated EventEmitter.
-     */
-    private _eventBus: EventEmitter<Geometric3, number>;
-
-    /**
      * Constructs a <code>Geometric3</code>.
      * The multivector is initialized to zero.
      */
     constructor() {
         super([0, 0, 0, 0, 0, 0, 0, 0], false, 8);
-    }
-
-    private ensureBus(): EventEmitter<Geometric3, number> {
-        if (!this._eventBus) {
-            this._eventBus = new EventEmitter<Geometric3, number>(this);
-        }
-        return this._eventBus;
-    }
-
-    on(eventName: string, callback: (eventName: string, key: string, value: number, source: Geometric3) => void) {
-        this.ensureBus().addEventListener(eventName, callback);
-    }
-
-    off(eventName: string, callback: (eventName: string, key: string, value: number, source: Geometric3) => void) {
-        this.ensureBus().removeEventListener(eventName, callback);
     }
 
     /**
@@ -115,9 +85,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
         if (newValue !== previous) {
             coords[index] = newValue;
             this.modified = true;
-            if (this._eventBus) {
-                this._eventBus.emit(EVENT_NAME_CHANGE, name, newValue);
-            }
         }
     }
 
@@ -377,7 +344,7 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      */
     distanceTo(point: VectorE3): number {
         if (isDefined(point)) {
-            return sqrt(this.quadranceTo(point));
+            return Math.sqrt(this.quadranceTo(point));
         }
         else {
             return void 0;
@@ -717,7 +684,7 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
     exp(): this {
         // It's always the case that the scalar commutes with every other
         // grade of the multivector, so we can pull it out the front.
-        const expW = exp(this.a);
+        const expW = Math.exp(this.a);
 
         // In Geometric3 we have the special case that the pseudoscalar also commutes.
         // And since it squares to -1, we get a exp(Iβ) = cos(β) + I * sin(β) factor.
@@ -732,9 +699,9 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
         const xy = this.xy;
         // φ is actually the absolute value of one half the rotation angle.
         // The orientation of the rotation gets carried in the bivector components.
-        const φ = sqrt(yz * yz + zx * zx + xy * xy);
-        const s = φ !== 0 ? sin(φ) / φ : 1;
-        const cosφ = cos(φ);
+        const φ = Math.sqrt(yz * yz + zx * zx + xy * xy);
+        const s = φ !== 0 ? Math.sin(φ) / φ : 1;
+        const cosφ = Math.cos(φ);
 
         // For a vector a, we use exp(a) = cosh(a) + n * sinh(a)
         // The mixture of vector and bivector parts is more complex!
@@ -848,9 +815,9 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
         const y = this.zx;
         const z = this.xy;
         const BB = x * x + y * y + z * z;
-        const B = sqrt(BB);
-        const f = atan2(B, α) / B;
-        this.a = log(sqrt(α * α + BB));
+        const B = Math.sqrt(BB);
+        const f = Math.atan2(B, α) / B;
+        this.a = Math.log(Math.sqrt(α * α + BB));
         this.yz = x * f;
         this.zx = y * f;
         this.xy = z * f;
@@ -863,14 +830,14 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * </p>
      */
     magnitude(): number {
-        return sqrt(this.squaredNormSansUnits());
+        return Math.sqrt(this.squaredNormSansUnits());
     }
 
     /**
      * Intentionally undocumented.
      */
     magnitudeSansUnits(): number {
-        return sqrt(this.squaredNormSansUnits());
+        return Math.sqrt(this.squaredNormSansUnits());
     }
 
     /**
@@ -1261,16 +1228,17 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
         const yz = B.yz;
         const zx = B.zx;
         const xy = B.xy;
-        const quad = yz * yz + zx * zx + xy * xy;
-        const m = Math.sqrt(quad);
-        const s = sin(m * φ);
-        this.a = cos(m * φ);
+        const absB = Math.sqrt(yz * yz + zx * zx + xy * xy);
+        const mφ = absB * φ;
+        const sinDivAbsB = Math.sin(mφ) / absB;
+
+        this.a = Math.cos(mφ);
         this.x = 0;
         this.y = 0;
         this.z = 0;
-        this.yz = -yz * s / m;
-        this.zx = -zx * s / m;
-        this.xy = -xy * s / m;
+        this.yz = -yz * sinDivAbsB;
+        this.zx = -zx * sinDivAbsB;
+        this.xy = -xy * sinDivAbsB;
         this.b = 0;
         return this;
     }

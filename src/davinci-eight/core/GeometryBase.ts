@@ -41,12 +41,6 @@ export default class GeometryBase extends ShareableContextConsumer implements Ge
     /**
      * 
      */
-    getScalingForAxis(): number {
-        return 0;
-    }
-    /**
-     * 
-     */
     bind(material: Material): GeometryBase {
         throw new Error(notSupported('bind(material: Material)').message);
     }

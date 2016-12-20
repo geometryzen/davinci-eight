@@ -34,10 +34,4 @@ export default class CurveGeometry extends GeometryElements {
         }
         super.destructor(levelUp + 1);
     }
-    /**
-     * 
-     */
-    getScalingForAxis(): number {
-        return 0;
-    }
 }

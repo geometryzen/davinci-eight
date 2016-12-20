@@ -65,46 +65,6 @@ describe("Geometric3", function () {
         });
     });
 
-    describe('events', function () {
-        let eventName: string;
-        let key: string;
-        let value: number;
-        let source: Geometric3;
-        function callback(n: string, k: string, v: number, s: Geometric3) {
-            eventName = n;
-            key = k;
-            value = v;
-            source = s;
-        }
-        it("should fire the callback function appropriately", function () {
-            const M: Geometric3 = Geometric3.zero();
-
-            M.on('change', callback);
-
-            expect(eventName).toBeUndefined();
-            expect(key).toBeUndefined();
-            expect(value).toBeUndefined();
-            expect(source).toBeUndefined();
-
-            M.addScalar(1);
-            expect(eventName).toBe('change');
-            expect(key).toBe('a');
-            expect(value).toBe(1);
-            expect(source).toEqual(M);
-
-            eventName = void 0;
-            key = void 0;
-            value = void 0;
-            source = void 0;
-
-            M.scale(1);
-            expect(eventName).toBeUndefined();
-            expect(key).toBeUndefined();
-            expect(value).toBeUndefined();
-            expect(source).toBeUndefined();
-        });
-    });
-
     describe("div", function () {
         it("1 / 1 should be 1", function () {
             const numer: Geometric3 = one.clone();
