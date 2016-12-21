@@ -12,7 +12,9 @@ import MeshOptions from './MeshOptions';
 import { ModelFacet } from '../facets/ModelFacet';
 import notSupported from '../i18n/notSupported';
 import quadVectorE3 from '../math/quadVectorE3';
-import { R3 } from '../math/R3';
+import { R3, vectorCopy } from '../math/R3';
+import referenceAxis from './referenceAxis';
+import referenceMeridian from './referenceMeridian';
 import Spinor3 from '../math/Spinor3';
 import Texture from './Texture';
 import TextureFacet from '../facets/TextureFacet';
@@ -74,8 +76,8 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
 
         this.setFacet(MODEL_FACET_NAME, new ModelFacet());
 
-        this.referenceAxis = options.axis ? vec(options.axis.x, options.axis.y, options.axis.z).direction() : canonicalAxis;
-        this.referenceMeridian = options.meridian ? vec(options.meridian.x, options.meridian.y, options.meridian.z).direction() : canonicalMeridian;
+        this.referenceAxis = referenceAxis(options, canonicalAxis).direction();
+        this.referenceMeridian = referenceMeridian(options, canonicalMeridian).direction();
 
         const tilt = Geometric3.rotorFromFrameToFrame([canonicalAxis, canonicalMeridian, canonicalAxis.cross(canonicalMeridian)], [this.referenceAxis, this.referenceMeridian, this.referenceAxis.cross(this.referenceMeridian)]);
         if (tilt && !Spinor3.isOne(tilt)) {
@@ -93,6 +95,7 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
             this.synchUp();
         }
     }
+
     /**
      * 
      */
@@ -422,13 +425,10 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
     get meridian(): VectorE3 {
         return this.getMeridian();
     }
-    set meridian(meridian: VectorE3) {
-        const L = Math.sqrt(quadVectorE3(meridian));
-        const x = meridian.x / L;
-        const y = meridian.y / L;
-        const z = meridian.z / L;
+    set meridian(value: VectorE3) {
+        const meridian = vectorCopy(value).rejectionFrom(this.axis).direction();
         const B = Geometric3.dualOfVector(this.axis);
-        const R = Geometric3.rotorFromVectorToVector(this.meridian, { x, y, z }, B);
+        const R = Geometric3.rotorFromVectorToVector(this.meridian, meridian, B);
         this.attitude.mul2(R, this.attitude);
     }
 

@@ -1,8 +1,8 @@
 import Color from '../core/Color';
 import ContextManager from '../core/ContextManager';
 import { ds } from './Defaults';
-import referenceAxis from './referenceAxis';
-import referenceMeridian from './referenceMeridian';
+import referenceAxis from '../core/referenceAxis';
+import referenceMeridian from '../core/referenceMeridian';
 import isDefined from '../checks/isDefined';
 import geometryModeFromOptions from './geometryModeFromOptions';
 import materialFromOptions from './materialFromOptions';

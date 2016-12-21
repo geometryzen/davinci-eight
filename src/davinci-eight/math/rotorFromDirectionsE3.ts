@@ -25,7 +25,7 @@ interface Output extends Spinor {
  * the bivector B will be used if specified.
  * Otherwise, returns a random bivector if the vectors are anti-parallel.
  */
-export default function(a: Vector, b: Vector, B: Bivector, m: Output): void {
+export default function rotorFromDirectionsE3(a: Vector, b: Vector, B: Bivector, m: Output): void {
     const quadA = quad(a);
     const absA = sqrt(quadA);
     const quadB = quad(b);

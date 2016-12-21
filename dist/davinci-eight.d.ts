@@ -4079,7 +4079,7 @@ declare module EIGHT {
         /**
          *
          */
-        constructor(geometry: G, material: M, contextManager: ContextManager, levelUp?: number);
+        constructor(geometry: G, material: M, contextManager: ContextManager, options?: { axis?: VectorE3; meridian?: VectorE3 }, levelUp?: number);
         /**
          *
          */

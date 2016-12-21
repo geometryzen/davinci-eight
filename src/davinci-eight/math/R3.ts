@@ -13,12 +13,43 @@ export interface R3 extends VectorE3 {
     add(rhs: VectorE3): R3;
     cross(rhs: VectorE3): R3;
     direction(): R3;
+    projectionOnto(direction: VectorE3): R3;
+    rejectionFrom(direction: VectorE3): R3;
     scale(α: number): R3;
     sub(rhs: VectorE3): R3;
 }
 
+/**
+ * 
+ */
+export function vectorCopy(vector: VectorE3): R3 {
+    return vec(vector.x, vector.y, vector.z);
+}
+
+export function vectorFromCoords(x: number, y: number, z: number): R3 {
+    return vec(x, y, z);
+}
+
 export default function vec(x: number, y: number, z: number): R3 {
-    const scale = function (α: number): R3 {
+    const projectionOnto = function projectionOnto(b: VectorE3): R3 {
+        const bx = b.x;
+        const by = b.y;
+        const bz = b.z;
+        const scp = x * bx + y * by + z * bz;
+        const quad = bx * bx + by * by + bz * bz;
+        const k = scp / quad;
+        return vec(k * bx, k * by, k * bz);
+    };
+    const rejectionFrom = function rejectionFrom(b: VectorE3): R3 {
+        const bx = b.x;
+        const by = b.y;
+        const bz = b.z;
+        const scp = x * bx + y * by + z * bz;
+        const quad = bx * bx + by * by + bz * bz;
+        const k = scp / quad;
+        return vec(x - k * bx, y - k * by, z - k * bz);
+    };
+    const scale = function scale(α: number): R3 {
         return vec(α * x, α * y, α * z);
     };
     const that: R3 = {
@@ -44,6 +75,8 @@ export default function vec(x: number, y: number, z: number): R3 {
             const magnitude = Math.sqrt(x * x + y * y + z * z);
             return vec(x / magnitude, y / magnitude, z / magnitude);
         },
+        projectionOnto,
+        rejectionFrom,
         scale,
         sub(rhs: VectorE3): R3 {
             return vec(x - rhs.x, y - rhs.y, z - rhs.z);
