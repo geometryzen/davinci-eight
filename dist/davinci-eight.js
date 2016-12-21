@@ -553,7 +553,7 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-12-21';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '5.0.9';
+            this.VERSION = '5.0.10';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -6970,6 +6970,9 @@ define('davinci-eight/math/R3',["require", "exports", "./wedgeXY", "./wedgeYZ", 
     }
     exports.vectorFromCoords = vectorFromCoords;
     function vec(x, y, z) {
+        var magnitude = function () {
+            return Math.sqrt(x * x + y * y + z * z);
+        };
         var projectionOnto = function projectionOnto(b) {
             var bx = b.x;
             var by = b.y;
@@ -7014,6 +7017,7 @@ define('davinci-eight/math/R3',["require", "exports", "./wedgeXY", "./wedgeYZ", 
                 var magnitude = Math.sqrt(x * x + y * y + z * z);
                 return vec(x / magnitude, y / magnitude, z / magnitude);
             },
+            magnitude: magnitude,
             projectionOnto: projectionOnto,
             rejectionFrom: rejectionFrom,
             scale: scale,
@@ -8643,7 +8647,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/Mesh',["require", "exports", "../core/tiltFromOptions", "../facets/ColorFacet", "./Drawable", "../math/Geometric3", "../math/Matrix4", "../facets/ModelFacet", "../i18n/notSupported", "../math/quadVectorE3", "../math/R3", "./referenceAxis", "./referenceMeridian", "../math/Spinor3", "../facets/TextureFacet", "../math/R3"], function (require, exports, tiltFromOptions_1, ColorFacet_1, Drawable_1, Geometric3_1, Matrix4_1, ModelFacet_1, notSupported_1, quadVectorE3_1, R3_1, referenceAxis_1, referenceMeridian_1, Spinor3_1, TextureFacet_1, R3_2) {
+define('davinci-eight/core/Mesh',["require", "exports", "../core/tiltFromOptions", "../facets/ColorFacet", "./Drawable", "../math/Geometric3", "../math/Matrix4", "../facets/ModelFacet", "../i18n/notSupported", "../math/R3", "./referenceAxis", "./referenceMeridian", "../math/Spinor3", "../facets/TextureFacet", "../math/R3"], function (require, exports, tiltFromOptions_1, ColorFacet_1, Drawable_1, Geometric3_1, Matrix4_1, ModelFacet_1, notSupported_1, R3_1, referenceAxis_1, referenceMeridian_1, Spinor3_1, TextureFacet_1, R3_2) {
     "use strict";
     var COLOR_FACET_NAME = 'color';
     var TEXTURE_FACET_NAME = 'image';
@@ -8969,16 +8973,16 @@ define('davinci-eight/core/Mesh',["require", "exports", "../core/tiltFromOptions
             axis.rotate(this.attitude);
             return R3_2.default(axis.x, axis.y, axis.z);
         };
+        Mesh.prototype.setAxis = function (axis) {
+            var currentAxis = R3_1.vectorCopy(axis).direction();
+            this.attitude.rotorFromDirections(this.referenceAxis, currentAxis);
+        };
         Object.defineProperty(Mesh.prototype, "axis", {
             get: function () {
                 return this.getAxis();
             },
             set: function (axis) {
-                var L = Math.sqrt(quadVectorE3_1.default(axis));
-                var x = axis.x / L;
-                var y = axis.y / L;
-                var z = axis.z / L;
-                this.attitude.rotorFromDirections(this.referenceAxis, { x: x, y: y, z: z });
+                this.setAxis(axis);
             },
             enumerable: true,
             configurable: true
@@ -18071,14 +18075,11 @@ define('davinci-eight/visual/Arrow',["require", "exports", "../geometries/ArrowG
         };
         Object.defineProperty(Arrow.prototype, "vector", {
             get: function () {
-                return this.getAxis().scale(this.length);
+                return _super.prototype.getAxis.call(this).scale(this.length);
             },
             set: function (axis) {
                 var L = Math.sqrt(quadVectorE3_1.default(axis));
-                var x = axis.x / L;
-                var y = axis.y / L;
-                var z = axis.z / L;
-                this.axis = { x: x, y: y, z: z };
+                this.setAxis(axis);
                 this.length = L;
             },
             enumerable: true,

@@ -13,6 +13,7 @@ import mustBeNumber from '../checks/mustBeNumber';
 import Mesh from '../core/Mesh';
 import offsetFromOptions from './offsetFromOptions';
 import quadVectorE3 from '../math/quadVectorE3';
+// import { vectorCopy, vectorFromCoords } from '../math/R3';
 import setAxisAndMeridian from './setAxisAndMeridian';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
@@ -83,17 +84,17 @@ export class Arrow extends Mesh<ArrowGeometry, Material> {
 
     /**
      * The vector that is represented by the Arrow.
-     * This property determines both the direction and length of the Arrow.
+     * 
+     * magnitude(Arrow.vector) = Arrow.length
+     * direction(Arrow.vector) = Arrow.axis
+     * Arrow.vector = Arrow.length * Arrow.axis
      */
     get vector(): VectorE3 {
-        return this.getAxis().scale(this.length);
+        return super.getAxis().scale(this.length);
     }
     set vector(axis: VectorE3) {
         const L = Math.sqrt(quadVectorE3(axis));
-        const x = axis.x / L;
-        const y = axis.y / L;
-        const z = axis.z / L;
-        this.axis = { x, y, z };
+        this.setAxis(axis);
         this.length = L;
     }
 

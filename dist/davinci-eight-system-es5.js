@@ -2893,14 +2893,11 @@ System.register("davinci-eight/visual/Arrow.js", ["../geometries/ArrowGeometry",
                 };
                 Object.defineProperty(Arrow.prototype, "vector", {
                     get: function () {
-                        return this.getAxis().scale(this.length);
+                        return _super.prototype.getAxis.call(this).scale(this.length);
                     },
                     set: function (axis) {
                         var L = Math.sqrt(quadVectorE3_1.default(axis));
-                        var x = axis.x / L;
-                        var y = axis.y / L;
-                        var z = axis.z / L;
-                        this.axis = { x: x, y: y, z: z };
+                        this.setAxis(axis);
                         this.length = L;
                     },
                     enumerable: true,
@@ -20124,7 +20121,7 @@ System.register("davinci-eight/facets/TextureFacet.js", ["../base/exchange", "..
         }
     };
 });
-System.register("davinci-eight/core/Mesh.js", ["../core/tiltFromOptions", "../facets/ColorFacet", "./Drawable", "../math/Geometric3", "../math/Matrix4", "../facets/ModelFacet", "../i18n/notSupported", "../math/quadVectorE3", "../math/R3", "./referenceAxis", "./referenceMeridian", "../math/Spinor3", "../facets/TextureFacet"], function (exports_1, context_1) {
+System.register("davinci-eight/core/Mesh.js", ["../core/tiltFromOptions", "../facets/ColorFacet", "./Drawable", "../math/Geometric3", "../math/Matrix4", "../facets/ModelFacet", "../i18n/notSupported", "../math/R3", "./referenceAxis", "./referenceMeridian", "../math/Spinor3", "../facets/TextureFacet"], function (exports_1, context_1) {
     "use strict";
 
     var __extends = this && this.__extends || function (d, b) {
@@ -20135,7 +20132,7 @@ System.register("davinci-eight/core/Mesh.js", ["../core/tiltFromOptions", "../fa
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
     var __moduleName = context_1 && context_1.id;
-    var tiltFromOptions_1, ColorFacet_1, Drawable_1, Geometric3_1, Matrix4_1, ModelFacet_1, notSupported_1, quadVectorE3_1, R3_1, referenceAxis_1, referenceMeridian_1, Spinor3_1, TextureFacet_1, R3_2, COLOR_FACET_NAME, TEXTURE_FACET_NAME, MODEL_FACET_NAME, Mesh;
+    var tiltFromOptions_1, ColorFacet_1, Drawable_1, Geometric3_1, Matrix4_1, ModelFacet_1, notSupported_1, R3_1, referenceAxis_1, referenceMeridian_1, Spinor3_1, TextureFacet_1, R3_2, COLOR_FACET_NAME, TEXTURE_FACET_NAME, MODEL_FACET_NAME, Mesh;
     return {
         setters: [function (tiltFromOptions_1_1) {
             tiltFromOptions_1 = tiltFromOptions_1_1;
@@ -20151,8 +20148,6 @@ System.register("davinci-eight/core/Mesh.js", ["../core/tiltFromOptions", "../fa
             ModelFacet_1 = ModelFacet_1_1;
         }, function (notSupported_1_1) {
             notSupported_1 = notSupported_1_1;
-        }, function (quadVectorE3_1_1) {
-            quadVectorE3_1 = quadVectorE3_1_1;
         }, function (R3_1_1) {
             R3_1 = R3_1_1;
             R3_2 = R3_1_1;
@@ -20477,16 +20472,16 @@ System.register("davinci-eight/core/Mesh.js", ["../core/tiltFromOptions", "../fa
                     axis.rotate(this.attitude);
                     return R3_2.default(axis.x, axis.y, axis.z);
                 };
+                Mesh.prototype.setAxis = function (axis) {
+                    var currentAxis = R3_1.vectorCopy(axis).direction();
+                    this.attitude.rotorFromDirections(this.referenceAxis, currentAxis);
+                };
                 Object.defineProperty(Mesh.prototype, "axis", {
                     get: function () {
                         return this.getAxis();
                     },
                     set: function (axis) {
-                        var L = Math.sqrt(quadVectorE3_1.default(axis));
-                        var x = axis.x / L;
-                        var y = axis.y / L;
-                        var z = axis.z / L;
-                        this.attitude.rotorFromDirections(this.referenceAxis, { x: x, y: y, z: z });
+                        this.setAxis(axis);
                     },
                     enumerable: true,
                     configurable: true
@@ -23468,6 +23463,9 @@ System.register("davinci-eight/math/R3.js", ["./wedgeXY", "./wedgeYZ", "./wedgeZ
     }
     exports_1("vectorFromCoords", vectorFromCoords);
     function vec(x, y, z) {
+        var magnitude = function () {
+            return Math.sqrt(x * x + y * y + z * z);
+        };
         var projectionOnto = function projectionOnto(b) {
             var bx = b.x;
             var by = b.y;
@@ -23512,6 +23510,7 @@ System.register("davinci-eight/math/R3.js", ["./wedgeXY", "./wedgeYZ", "./wedgeZ
                 var magnitude = Math.sqrt(x * x + y * y + z * z);
                 return vec(x / magnitude, y / magnitude, z / magnitude);
             },
+            magnitude: magnitude,
             projectionOnto: projectionOnto,
             rejectionFrom: rejectionFrom,
             scale: scale,
@@ -23836,7 +23835,7 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
                     this.LAST_MODIFIED = '2016-12-21';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '5.0.9';
+                    this.VERSION = '5.0.10';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];

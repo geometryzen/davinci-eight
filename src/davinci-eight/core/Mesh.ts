@@ -11,7 +11,6 @@ import Matrix4 from '../math/Matrix4';
 import MeshOptions from './MeshOptions';
 import { ModelFacet } from '../facets/ModelFacet';
 import notSupported from '../i18n/notSupported';
-import quadVectorE3 from '../math/quadVectorE3';
 import { R3, vectorCopy } from '../math/R3';
 import referenceAxis from './referenceAxis';
 import referenceMeridian from './referenceMeridian';
@@ -393,24 +392,34 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
         }
     }
 
+    /**
+     * Implementation of the axis (get) property.
+     * Derived classes may overide to perform scaling.
+     */
     protected getAxis(): R3 {
+        // TODO: R# to have a rotate method.
         const axis = Geometric3.fromVector(this.referenceAxis);
         axis.rotate(this.attitude);
         return vec(axis.x, axis.y, axis.z);
     }
 
     /**
+     * Implementation of the axis (set) property.
+     * Derived classes may overide to perform scaling.
+     */
+    protected setAxis(axis: VectorE3): void {
+        const currentAxis = vectorCopy(axis).direction();
+        this.attitude.rotorFromDirections(this.referenceAxis, currentAxis);
+    }
+
+    /**
      * The current axis (unit vector) of the mesh.
      */
-    get axis(): VectorE3 {
+    public get axis(): VectorE3 {
         return this.getAxis();
     }
-    set axis(axis: VectorE3) {
-        const L = Math.sqrt(quadVectorE3(axis));
-        const x = axis.x / L;
-        const y = axis.y / L;
-        const z = axis.z / L;
-        this.attitude.rotorFromDirections(this.referenceAxis, { x, y, z });
+    public set axis(axis: VectorE3) {
+        this.setAxis(axis);
     }
 
     protected getMeridian(): R3 {
