@@ -11,9 +11,8 @@ import Material from '../core/Material';
 import materialFromOptions from './materialFromOptions';
 import mustBeNumber from '../checks/mustBeNumber';
 import Mesh from '../core/Mesh';
+import normVectorE3 from '../math/normVectorE3';
 import offsetFromOptions from './offsetFromOptions';
-import quadVectorE3 from '../math/quadVectorE3';
-// import { vectorCopy, vectorFromCoords } from '../math/R3';
 import setAxisAndMeridian from './setAxisAndMeridian';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
@@ -93,9 +92,8 @@ export class Arrow extends Mesh<ArrowGeometry, Material> {
         return super.getAxis().scale(this.length);
     }
     set vector(axis: VectorE3) {
-        const L = Math.sqrt(quadVectorE3(axis));
         this.setAxis(axis);
-        this.length = L;
+        this.length = normVectorE3(axis);
     }
 
     /**

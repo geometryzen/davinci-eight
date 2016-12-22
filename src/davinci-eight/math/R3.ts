@@ -1,4 +1,5 @@
 import VectorE3 from './VectorE3';
+import SpinorE3 from './SpinorE3';
 import wedgeXY from './wedgeXY';
 import wedgeYZ from './wedgeYZ';
 import wedgeZX from './wedgeZX';
@@ -16,6 +17,7 @@ export interface R3 extends VectorE3 {
     magnitude(): number;
     projectionOnto(direction: VectorE3): R3;
     rejectionFrom(direction: VectorE3): R3;
+    rotate(R: SpinorE3): R3;
     scale(α: number): R3;
     sub(rhs: VectorE3): R3;
 }
@@ -53,6 +55,22 @@ export default function vec(x: number, y: number, z: number): R3 {
         const k = scp / quad;
         return vec(x - k * bx, y - k * by, z - k * bz);
     };
+    const rotate = function rotate(R: SpinorE3): R3 {
+        const a = R.xy;
+        const b = R.yz;
+        const c = R.zx;
+        const α = R.a;
+
+        const ix = α * x - c * z + a * y;
+        const iy = α * y - a * x + b * z;
+        const iz = α * z - b * y + c * x;
+        const iα = b * x + c * y + a * z;
+
+        return vec(
+            ix * α + iα * b + iy * a - iz * c,
+            iy * α + iα * c + iz * b - ix * a,
+            iz * α + iα * a + ix * c - iy * b);
+    };
     const scale = function scale(α: number): R3 {
         return vec(α * x, α * y, α * z);
     };
@@ -82,6 +100,7 @@ export default function vec(x: number, y: number, z: number): R3 {
         magnitude,
         projectionOnto,
         rejectionFrom,
+        rotate,
         scale,
         sub(rhs: VectorE3): R3 {
             return vec(x - rhs.x, y - rhs.y, z - rhs.z);

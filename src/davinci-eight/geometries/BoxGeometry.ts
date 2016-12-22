@@ -20,6 +20,7 @@ import quad from '../geometries/quadrilateral';
 import Simplex from '../geometries/Simplex';
 import SimplexMode from '../geometries/SimplexMode';
 import vec from '../math/R3';
+import { vectorCopy } from '../math/R3';
 import Vector1 from '../math/Vector1';
 import Vector3 from '../math/Vector3';
 import VectorE3 from '../math/VectorE3';
@@ -270,8 +271,8 @@ function boxPrimitive(options: BoxGeometryOptions = { kind: 'BoxGeometry' }): Pr
     const height = isDefined(options.height) ? mustBeNumber('height', options.height) : 1;
     const depth = isDefined(options.depth) ? mustBeNumber('depth', options.depth) : 1;
 
-    const axis = isDefined(options.axis) ? vec(options.axis.x, options.axis.y, options.axis.z) : vec(0, 1, 0);
-    const meridian = isDefined(options.meridian) ? vec(options.meridian.x, options.meridian.y, options.meridian.z) : vec(0, 0, 1);
+    const axis = isDefined(options.axis) ? vectorCopy(options.axis).direction() : vec(0, 1, 0);
+    const meridian = (isDefined(options.meridian) ? vectorCopy(options.meridian) : vec(0, 0, 1)).rejectionFrom(axis).direction();
     const tilt = Geometric3.rotorFromFrameToFrame([canonicalAxis, canonicalMeridian, canonicalAxis.cross(canonicalMeridian)], [axis, meridian, axis.cross(meridian)]);
 
     const mode: GeometryMode = isDefined(options.mode) ? options.mode : GeometryMode.MESH;

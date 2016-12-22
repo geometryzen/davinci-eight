@@ -3997,10 +3997,6 @@ declare module EIGHT {
          * Position (vector)
          */
         X: Geometric3;
-        /**
-         * Stress (tensor)
-         */
-        stress: Matrix4;
     }
 
     class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M> implements AbstractMesh<G, M> {
@@ -4016,18 +4012,6 @@ declare module EIGHT {
          * Color
          */
         color: Color;
-        /**
-         * The red coordinate of the color property.
-         */
-        red: number;
-        /**
-         * The green coordinate of the color property.
-         */
-        green: number;
-        /**
-         * The blue coordinate of the color property.
-         */
-        blue: number;
         /**
          * 
          */
@@ -4053,10 +4037,6 @@ declare module EIGHT {
          */
         referenceMeridian: VectorE3;
         /**
-         * Stress (tensor)
-         */
-        stress: Matrix4;
-        /**
          * Texture
          */
         texture: Texture;
@@ -4064,18 +4044,6 @@ declare module EIGHT {
          * Position (vector). This is an alias for the position property.
          */
         X: Geometric3;
-        /**
-         * The x-coordinate of the position (vector).
-         */
-        x: number;
-        /**
-         * The y-coordinate of the position (vector).
-         */
-        y: number;
-        /**
-         * The z-coordinate of the position (vector).
-         */
-        z: number;
         /**
          *
          */

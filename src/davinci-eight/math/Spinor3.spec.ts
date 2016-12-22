@@ -1,3 +1,4 @@
+import Geometric3 from './Geometric3';
 import Spinor3 from './Spinor3';
 import Vector3 from './Vector3';
 
@@ -172,19 +173,17 @@ describe("Spinor3", function () {
             expect(s.coords[3]).toBe(6580);
             expect(s.modified).toBe(true);
         });
-        /* FIXME
-        xit("should agree with R * M * rev(R) using G3", function() {
+        it("should agree with R * M * rev(R) using G3", function() {
 
-            const R = G3.fromSpinor(r)
-            const M = G3.fromSpinor(m)
-            const S = R.mul(M).mul(R.rev())
+            const R = Geometric3.fromSpinor(r);
+            const M = Geometric3.fromSpinor(m);
+            const S = R.clone().mul(M).mul(R.clone().rev());
 
-            expect(s.a).toBe(S.a)
-            expect(s.yz).toBe(S.yz)
-            expect(s.zx).toBe(S.zx)
-            expect(s.xy).toBe(S.xy)
-        })
-        */
+            expect(s.a).toBe(S.a);
+            expect(s.yz).toBe(S.yz);
+            expect(s.zx).toBe(S.zx);
+            expect(s.xy).toBe(S.xy);
+        });
     });
 
     describe("scale", function () {

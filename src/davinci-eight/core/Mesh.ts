@@ -17,7 +17,6 @@ import referenceMeridian from './referenceMeridian';
 import Spinor3 from '../math/Spinor3';
 import Texture from './Texture';
 import TextureFacet from '../facets/TextureFacet';
-import vec from '../math/R3';
 import VectorE3 from '../math/VectorE3';
 
 const COLOR_FACET_NAME = 'color';
@@ -76,7 +75,7 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
         this.setFacet(MODEL_FACET_NAME, new ModelFacet());
 
         this.referenceAxis = referenceAxis(options, canonicalAxis).direction();
-        this.referenceMeridian = referenceMeridian(options, canonicalMeridian).direction();
+        this.referenceMeridian = referenceMeridian(options, canonicalMeridian).rejectionFrom(this.referenceAxis).direction();
 
         const tilt = Geometric3.rotorFromFrameToFrame([canonicalAxis, canonicalMeridian, canonicalAxis.cross(canonicalMeridian)], [this.referenceAxis, this.referenceMeridian, this.referenceAxis.cross(this.referenceMeridian)]);
         if (tilt && !Spinor3.isOne(tilt)) {
@@ -172,36 +171,6 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
     }
 
     /**
-     * The red coordinate of the color property.
-     */
-    get red(): number {
-        return this.color.red;
-    }
-    set red(red: number) {
-        this.color.red = red;
-    }
-
-    /**
-     * The green coordinate of the color property.
-     */
-    get green(): number {
-        return this.color.green;
-    }
-    set green(green: number) {
-        this.color.green = green;
-    }
-
-    /**
-     * The blue coordinate of the color property.
-     */
-    get blue(): number {
-        return this.color.red;
-    }
-    set blue(blue: number) {
-        this.color.blue = blue;
-    }
-
-    /**
      * Texture (image).
      */
     get texture(): Texture {
@@ -246,36 +215,6 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
         else {
             throw new Error(notSupported(MODEL_FACET_NAME).message);
         }
-    }
-
-    /**
-     * The x-coordinate of the position.
-     */
-    get x(): number {
-        return this.position.x;
-    }
-    set x(x: number) {
-        this.position.x = x;
-    }
-
-    /**
-     * The y-coordinate of the position.
-     */
-    get y(): number {
-        return this.position.y;
-    }
-    set y(y: number) {
-        this.position.y = y;
-    }
-
-    /**
-     * The z-coordinate of the position.
-     */
-    get z(): number {
-        return this.position.z;
-    }
-    set z(z: number) {
-        this.position.z = z;
     }
 
     /**
@@ -397,10 +336,7 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
      * Derived classes may overide to perform scaling.
      */
     protected getAxis(): R3 {
-        // TODO: R# to have a rotate method.
-        const axis = Geometric3.fromVector(this.referenceAxis);
-        axis.rotate(this.attitude);
-        return vec(axis.x, axis.y, axis.z);
+        return this.referenceAxis.rotate(this.attitude);
     }
 
     /**
@@ -423,9 +359,7 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
     }
 
     protected getMeridian(): R3 {
-        const meridian = Geometric3.fromVector(this.referenceMeridian);
-        meridian.rotate(this.attitude);
-        return vec(meridian.x, meridian.y, meridian.z);
+        return this.referenceMeridian.rotate(this.attitude);
     }
 
     /**
