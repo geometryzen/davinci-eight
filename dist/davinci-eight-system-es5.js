@@ -4243,6 +4243,7 @@ System.register("davinci-eight/visual/Box.js", ["../geometries/BoxGeometry", "..
                     var geoMode = geometryModeFromOptions_1.default(options);
                     var geoOptions = { kind: 'BoxGeometry' };
                     geoOptions.mode = geoMode;
+                    geoOptions.offset = vectorE3Object_1.default(options.offset);
                     geoOptions.tilt = spinorE3Object_1.default(options.tilt);
                     geoOptions.axis = vectorE3Object_1.default(referenceAxis_1.default(options, Defaults_1.ds.axis).direction());
                     geoOptions.meridian = vectorE3Object_1.default(referenceMeridian_1.default(options, Defaults_1.ds.meridian).direction());
@@ -23772,9 +23773,9 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
             Eight = function () {
                 function Eight() {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-                    this.LAST_MODIFIED = '2016-12-21';
+                    this.LAST_MODIFIED = '2016-12-23';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '5.0.11';
+                    this.VERSION = '5.0.12';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];

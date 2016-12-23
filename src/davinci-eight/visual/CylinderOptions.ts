@@ -22,6 +22,10 @@ export interface CylinderOptions {
      */
     meridian?: VectorE3;
     /**
+     * 
+     */
+    offset?: VectorE3;
+    /**
      * Defaults to false.
      */
     openBase?: boolean;

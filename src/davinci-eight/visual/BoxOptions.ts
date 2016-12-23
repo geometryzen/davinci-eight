@@ -31,6 +31,10 @@ export interface BoxOptions {
      */
     mode?: GeometryMode;
     /**
+     * 
+     */
+    offset?: VectorE3;
+    /**
      *
      */
     openBack?: boolean;

@@ -36,6 +36,7 @@ export class Box extends RigidBody {
         const geoOptions: BoxGeometryOptions = { kind: 'BoxGeometry' };
         geoOptions.mode = geoMode;
 
+        geoOptions.offset = vectorE3Object(options.offset);
         geoOptions.tilt = spinorE3Object(options.tilt);
         geoOptions.axis = vectorE3Object(referenceAxis(options, ds.axis).direction());
         geoOptions.meridian = vectorE3Object(referenceMeridian(options, ds.meridian).direction());

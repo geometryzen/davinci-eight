@@ -4185,6 +4185,10 @@ declare module EIGHT {
         /**
          * 
          */
+        offset?: VectorE3;
+        /**
+         * 
+         */
         openBack?: boolean;
         /**
          * 
@@ -4262,6 +4266,10 @@ declare module EIGHT {
          * The reference meridian.
          */
         meridian?: VectorE3;
+        /**
+         * 
+         */
+        offset?: VectorE3;
         /**
          * 
          */

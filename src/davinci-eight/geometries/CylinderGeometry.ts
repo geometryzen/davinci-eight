@@ -67,7 +67,7 @@ function computeWallVertices(height: VectorE3, radius: VectorE3, clockwise: bool
             // Add the displacement up the wall to get the point to the correct height.
             point.add(dispH);
 
-            // Subject the point ot the stress, tilt, offset transformations.
+            // Subject the point to the stress, tilt, offset transformations.
             point.stress(stress);
             point.rotate(tilt);
             point.add(offset);
