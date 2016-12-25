@@ -1,15 +1,28 @@
-import VectorE3 from '../math/VectorE3';
 import dotVectorE3 from '../math/dotVectorE3';
-import vec from '../math/R3';
+import isDefined from '../checks/isDefined';
+import { R3 } from '../math/R3';
+import { vectorFromCoords, vectorCopy } from '../math/R3';
+import VectorE3 from '../math/VectorE3';
 
+/**
+ * 
+ */
 export default class Diagram3D {
+    /**
+     * 
+     */
     public ctx: CanvasRenderingContext2D;
-    constructor(canvas: string, private camera: { eye: VectorE3; look: VectorE3; up: VectorE3; near: number, far: number, fov: number, aspect: number }) {
-        const canvasElement = <HTMLCanvasElement>document.getElementById('canvas2D');
-        this.ctx = canvasElement.getContext('2d');
-        this.ctx.strokeStyle = "#FFFFFF";
-        this.ctx.fillStyle = '#ffffff';
-        this.ctx.font = '24px Helvetica';
+    /**
+     * 
+     */
+    constructor(canvasId: string, private camera: { eye: VectorE3; look: VectorE3; up: VectorE3; near: number, far: number, fov: number, aspect: number }) {
+        if (isDefined(canvasId)) {
+            const canvasElement = <HTMLCanvasElement>document.getElementById(canvasId);
+            this.ctx = canvasElement.getContext('2d');
+            this.ctx.strokeStyle = "#FFFFFF";
+            this.ctx.fillStyle = '#ffffff';
+            this.ctx.font = '24px Helvetica';
+        }
     }
     get canvas(): HTMLCanvasElement {
         return this.ctx.canvas;
@@ -27,47 +40,66 @@ export default class Diagram3D {
         this.ctx.fill(fillRule);
     }
     fillText(text: string, X: VectorE3, maxWidth?: number): void {
-        const coords = this.canvasCoords(X);
+        const coords = canvasCoords(X, this.camera, this.ctx.canvas.width, this.ctx.canvas.height);
         this.ctx.fillText(text, coords.x, coords.y, maxWidth);
     }
     moveTo(X: VectorE3): void {
-        const coords = this.canvasCoords(X);
+        const coords = canvasCoords(X, this.camera, this.ctx.canvas.width, this.ctx.canvas.height);
         this.ctx.moveTo(coords.x, coords.y);
     }
     lineTo(X: VectorE3): void {
-        const coords = this.canvasCoords(X);
+        const coords = canvasCoords(X, this.camera, this.ctx.canvas.width, this.ctx.canvas.height);
         this.ctx.lineTo(coords.x, coords.y);
     }
     stroke(): void {
         this.ctx.stroke();
     }
     strokeText(text: string, X: VectorE3, maxWidth?: number): void {
-        const coords = this.canvasCoords(X);
+        const coords = canvasCoords(X, this.camera, this.ctx.canvas.width, this.ctx.canvas.height);
         this.ctx.strokeText(text, coords.x, coords.y, maxWidth);
-    }
-    private canvasCoords(X: VectorE3): { x: number; y: number } {
-        const camera = this.camera;
-        const cameraCoords = view(X, camera.eye, camera.look, camera.up);
-        const N = camera.near;
-        const F = camera.far;
-        const θ = camera.fov;
-        const aspect = camera.aspect;
-        const canonCoords = perspective(cameraCoords, N, F, θ, aspect);
-        const x = (canonCoords.x + 1) * this.ctx.canvas.width / 2;
-        const y = (1 - canonCoords.y) * this.ctx.canvas.height / 2;
-        return { x, y };
     }
 }
 
 /**
- * View transformation converts world coordinates to camera frame coordinates.
+ * 
  */
-function view(X: VectorE3, eye: VectorE3, look: VectorE3, up: VectorE3) {
+export function canvasCoords(X: VectorE3, camera: { eye: VectorE3; look: VectorE3; up: VectorE3; near: number, far: number, fov: number, aspect: number }, width: number, height: number): { x: number; y: number } {
+    const cameraCoords = view(X, camera.eye, camera.look, camera.up);
+    const N = camera.near;
+    const F = camera.far;
+    const θ = camera.fov;
+    const aspect = camera.aspect;
+    const imageCoords = perspective(cameraCoords, N, F, θ, aspect);
+    // Convert image coordinates to screen/device coordinates.
+    const x = (imageCoords.x + 1) * width / 2;
+    const y = (1 - imageCoords.y) * height / 2;
+    return { x, y };
+}
 
-    const e = vec(eye.x, eye.y, eye.z);
-    const l = vec(look.x, look.y, look.z);
-    const n = e.sub(l).direction();
-    const u = vec(up.x, up.y, up.z).cross(n).direction();
+/**
+ * View transformation converts world coordinates to camera frame coordinates.
+ * We first compute the camera frame (u, v, w, eye), then solve the equation
+ * X = x * u + y * v * z * n + eye
+ * 
+ * @param X The world vector.
+ * @param eye The position of the camera.
+ * @param look The point that the camera is aimed at.
+ * @param up The approximate up direction.
+ * @returns The coordinates in the camera (u, v, w) basis.
+ */
+export function view(X: VectorE3, eye: VectorE3, look: VectorE3, up: VectorE3): R3 {
+    /**
+     * Unit vector towards the camera holder (similar to e3).
+     * Some texts call this the w-vector, so that (u, v, w) is a right-handed frame.
+     */
+    const n = vectorCopy(eye).sub(look).direction();
+    /**
+     * Unit vector to the right (similar to e1).
+     */
+    const u = vectorCopy(up).cross(n).direction();
+    /**
+     * Unit vector upwards (similar to e2).
+     */
     const v = n.cross(u);
 
     const du = - dotVectorE3(eye, u);
@@ -78,20 +110,34 @@ function view(X: VectorE3, eye: VectorE3, look: VectorE3, up: VectorE3) {
     const y = dotVectorE3(X, v) + dv;
     const z = dotVectorE3(X, n) + dn;
 
-    return { x, y, z };
+    return vectorFromCoords(x, y, z);
 }
 
 /**
- * Perspective transformation projects camera coordinates onto the near plane.
+ * Perspective transformation projects camera coordinates onto the image space.
+ * The near plane corresponds to -1. The far plane corresponds to +1.
+ * 
+ * @param X The coordinates in the camera frame.
+ * @param n The distance from the camera eye to the near plane onto which X is projected.
+ * @param f The distance to the far plane.
+ * @param α The angle subtended at the apex of the pyramid in the vw-plane.
+ * @param aspect The ratio of the width to the height (width divided by height).
  */
-function perspective(X: VectorE3, N: number, F: number, fov: number, aspect: number) {
-    const t = N * Math.tan(fov / 2);
-    const b = -t;
-    const r = aspect * t;
-    const l = -r;
-    // x simplifies because l = -r;
-    const x = N * X.x / (X.z * l);
-    const y = ((2 * N) * X.y + (t + b) * X.z) / (X.z * (b - t));
-    const z = ((F + N) * X.z + 2 * F * N) / (X.z * (F - N));
-    return { x, y, z };
+export function perspective(X: VectorE3, n: number, f: number, α: number, aspect: number): R3 {
+    /**
+     * The camera coordinates (u, v, w).
+     */
+    const u = X.x, v = X.y, w = X.z;
+
+    /**
+     * tangent of one half the field of view angle.
+     */
+    const t = Math.tan(α / 2);
+    const negW = -w;
+
+    const x = u / (negW * aspect * t);
+    const y = v / (negW * t);
+    const z = ((f + n) * w + 2 * f * n) / (w * (f - n));
+
+    return vectorFromCoords(x, y, z);
 }

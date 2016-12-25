@@ -14,6 +14,7 @@ export interface R3 extends VectorE3 {
     add(rhs: VectorE3): R3;
     cross(rhs: VectorE3): R3;
     direction(): R3;
+    dot(rhs: VectorE3): number;
     magnitude(): number;
     projectionOnto(direction: VectorE3): R3;
     rejectionFrom(direction: VectorE3): R3;
@@ -34,6 +35,9 @@ export function vectorFromCoords(x: number, y: number, z: number): R3 {
 }
 
 export default function vec(x: number, y: number, z: number): R3 {
+    const dot = function dot(rhs: VectorE3) {
+        return x * rhs.x + y * rhs.y + z * rhs.z;
+    };
     const magnitude = function (): number {
         return Math.sqrt(x * x + y * y + z * z);
     };
@@ -97,6 +101,7 @@ export default function vec(x: number, y: number, z: number): R3 {
             const magnitude = Math.sqrt(x * x + y * y + z * z);
             return vec(x / magnitude, y / magnitude, z / magnitude);
         },
+        dot,
         magnitude,
         projectionOnto,
         rejectionFrom,

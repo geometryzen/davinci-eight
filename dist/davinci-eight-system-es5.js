@@ -23391,6 +23391,9 @@ System.register("davinci-eight/math/R3.js", ["./wedgeXY", "./wedgeYZ", "./wedgeZ
     }
     exports_1("vectorFromCoords", vectorFromCoords);
     function vec(x, y, z) {
+        var dot = function dot(rhs) {
+            return x * rhs.x + y * rhs.y + z * rhs.z;
+        };
         var magnitude = function () {
             return Math.sqrt(x * x + y * y + z * z);
         };
@@ -23449,6 +23452,7 @@ System.register("davinci-eight/math/R3.js", ["./wedgeXY", "./wedgeYZ", "./wedgeZ
                 var magnitude = Math.sqrt(x * x + y * y + z * z);
                 return vec(x / magnitude, y / magnitude, z / magnitude);
             },
+            dot: dot,
             magnitude: magnitude,
             projectionOnto: projectionOnto,
             rejectionFrom: rejectionFrom,
@@ -23476,15 +23480,25 @@ System.register("davinci-eight/math/R3.js", ["./wedgeXY", "./wedgeYZ", "./wedgeZ
         execute: function () {}
     };
 });
-System.register("davinci-eight/diagram/Diagram3D.js", ["../math/dotVectorE3", "../math/R3"], function (exports_1, context_1) {
+System.register("davinci-eight/diagram/Diagram3D.js", ["../math/dotVectorE3", "../checks/isDefined", "../math/R3"], function (exports_1, context_1) {
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
+    function canvasCoords(X, camera, width, height) {
+        var cameraCoords = view(X, camera.eye, camera.look, camera.up);
+        var N = camera.near;
+        var F = camera.far;
+        var θ = camera.fov;
+        var aspect = camera.aspect;
+        var imageCoords = perspective(cameraCoords, N, F, θ, aspect);
+        var x = (imageCoords.x + 1) * width / 2;
+        var y = (1 - imageCoords.y) * height / 2;
+        return { x: x, y: y };
+    }
+    exports_1("canvasCoords", canvasCoords);
     function view(X, eye, look, up) {
-        var e = R3_1.default(eye.x, eye.y, eye.z);
-        var l = R3_1.default(look.x, look.y, look.z);
-        var n = e.sub(l).direction();
-        var u = R3_1.default(up.x, up.y, up.z).cross(n).direction();
+        var n = R3_1.vectorCopy(eye).sub(look).direction();
+        var u = R3_1.vectorCopy(up).cross(n).direction();
         var v = n.cross(u);
         var du = -dotVectorE3_1.default(eye, u);
         var dv = -dotVectorE3_1.default(eye, v);
@@ -23492,34 +23506,41 @@ System.register("davinci-eight/diagram/Diagram3D.js", ["../math/dotVectorE3", ".
         var x = dotVectorE3_1.default(X, u) + du;
         var y = dotVectorE3_1.default(X, v) + dv;
         var z = dotVectorE3_1.default(X, n) + dn;
-        return { x: x, y: y, z: z };
+        return R3_1.vectorFromCoords(x, y, z);
     }
-    function perspective(X, N, F, fov, aspect) {
-        var t = N * Math.tan(fov / 2);
-        var b = -t;
-        var r = aspect * t;
-        var l = -r;
-        var x = N * X.x / (X.z * l);
-        var y = (2 * N * X.y + (t + b) * X.z) / (X.z * (b - t));
-        var z = ((F + N) * X.z + 2 * F * N) / (X.z * (F - N));
-        return { x: x, y: y, z: z };
+    exports_1("view", view);
+    function perspective(X, n, f, α, aspect) {
+        var u = X.x,
+            v = X.y,
+            w = X.z;
+        var t = Math.tan(α / 2);
+        var negW = -w;
+        var x = u / (negW * aspect * t);
+        var y = v / (negW * t);
+        var z = ((f + n) * w + 2 * f * n) / (w * (f - n));
+        return R3_1.vectorFromCoords(x, y, z);
     }
-    var dotVectorE3_1, R3_1, Diagram3D;
+    exports_1("perspective", perspective);
+    var dotVectorE3_1, isDefined_1, R3_1, Diagram3D;
     return {
         setters: [function (dotVectorE3_1_1) {
             dotVectorE3_1 = dotVectorE3_1_1;
+        }, function (isDefined_1_1) {
+            isDefined_1 = isDefined_1_1;
         }, function (R3_1_1) {
             R3_1 = R3_1_1;
         }],
         execute: function () {
             Diagram3D = function () {
-                function Diagram3D(canvas, camera) {
+                function Diagram3D(canvasId, camera) {
                     this.camera = camera;
-                    var canvasElement = document.getElementById('canvas2D');
-                    this.ctx = canvasElement.getContext('2d');
-                    this.ctx.strokeStyle = "#FFFFFF";
-                    this.ctx.fillStyle = '#ffffff';
-                    this.ctx.font = '24px Helvetica';
+                    if (isDefined_1.default(canvasId)) {
+                        var canvasElement = document.getElementById(canvasId);
+                        this.ctx = canvasElement.getContext('2d');
+                        this.ctx.strokeStyle = "#FFFFFF";
+                        this.ctx.fillStyle = '#ffffff';
+                        this.ctx.font = '24px Helvetica';
+                    }
                 }
                 Object.defineProperty(Diagram3D.prototype, "canvas", {
                     get: function () {
@@ -23541,35 +23562,23 @@ System.register("davinci-eight/diagram/Diagram3D.js", ["../math/dotVectorE3", ".
                     this.ctx.fill(fillRule);
                 };
                 Diagram3D.prototype.fillText = function (text, X, maxWidth) {
-                    var coords = this.canvasCoords(X);
+                    var coords = canvasCoords(X, this.camera, this.ctx.canvas.width, this.ctx.canvas.height);
                     this.ctx.fillText(text, coords.x, coords.y, maxWidth);
                 };
                 Diagram3D.prototype.moveTo = function (X) {
-                    var coords = this.canvasCoords(X);
+                    var coords = canvasCoords(X, this.camera, this.ctx.canvas.width, this.ctx.canvas.height);
                     this.ctx.moveTo(coords.x, coords.y);
                 };
                 Diagram3D.prototype.lineTo = function (X) {
-                    var coords = this.canvasCoords(X);
+                    var coords = canvasCoords(X, this.camera, this.ctx.canvas.width, this.ctx.canvas.height);
                     this.ctx.lineTo(coords.x, coords.y);
                 };
                 Diagram3D.prototype.stroke = function () {
                     this.ctx.stroke();
                 };
                 Diagram3D.prototype.strokeText = function (text, X, maxWidth) {
-                    var coords = this.canvasCoords(X);
+                    var coords = canvasCoords(X, this.camera, this.ctx.canvas.width, this.ctx.canvas.height);
                     this.ctx.strokeText(text, coords.x, coords.y, maxWidth);
-                };
-                Diagram3D.prototype.canvasCoords = function (X) {
-                    var camera = this.camera;
-                    var cameraCoords = view(X, camera.eye, camera.look, camera.up);
-                    var N = camera.near;
-                    var F = camera.far;
-                    var θ = camera.fov;
-                    var aspect = camera.aspect;
-                    var canonCoords = perspective(cameraCoords, N, F, θ, aspect);
-                    var x = (canonCoords.x + 1) * this.ctx.canvas.width / 2;
-                    var y = (1 - canonCoords.y) * this.ctx.canvas.height / 2;
-                    return { x: x, y: y };
                 };
                 return Diagram3D;
             }();

@@ -260,6 +260,11 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
         return this;
     }
 
+    /**
+     * Sets this matrix to the viewing transformation.
+     * This is the matrix that may be applied to points in the truncated viewing pyramid.
+     * The resulting points then lie in the image space (cube).
+     */
     perspective(fov: number, aspect: number, near: number, far: number): Matrix4 {
         perspectiveArray(fov, aspect, near, far, this.elements);
         return this;
