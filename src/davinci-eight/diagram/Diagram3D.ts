@@ -11,17 +11,35 @@ export default class Diagram3D {
     /**
      * 
      */
+    private camera: { eye: VectorE3; look: VectorE3; up: VectorE3 };
+    /**
+     * 
+     */
+    private prism: { near: number, far: number, fov: number, aspect: number };
+    /**
+     * 
+     */
     public ctx: CanvasRenderingContext2D;
     /**
      * 
      */
-    constructor(canvasId: string, private camera: { eye: VectorE3; look: VectorE3; up: VectorE3; near: number, far: number, fov: number, aspect: number }) {
+    constructor(canvasId: string, camera: { eye: VectorE3; look: VectorE3; up: VectorE3; near: number, far: number, fov: number, aspect: number }, prism?: { near: number, far: number, fov: number, aspect: number }) {
         if (isDefined(canvasId)) {
             const canvasElement = <HTMLCanvasElement>document.getElementById(canvasId);
             this.ctx = canvasElement.getContext('2d');
             this.ctx.strokeStyle = "#FFFFFF";
             this.ctx.fillStyle = '#ffffff';
             this.ctx.font = '24px Helvetica';
+        }
+        if (isDefined(camera)) {
+            if (isDefined(prism)) {
+                this.camera = camera;
+                this.prism = prism;
+            }
+            else {
+                this.camera = camera;
+                this.prism = camera;
+            }
         }
     }
     get canvas(): HTMLCanvasElement {
@@ -40,22 +58,22 @@ export default class Diagram3D {
         this.ctx.fill(fillRule);
     }
     fillText(text: string, X: VectorE3, maxWidth?: number): void {
-        const coords = canvasCoords(X, this.camera, this.ctx.canvas.width, this.ctx.canvas.height);
+        const coords = canvasCoords(X, this.camera, this.prism, this.ctx.canvas.width, this.ctx.canvas.height);
         this.ctx.fillText(text, coords.x, coords.y, maxWidth);
     }
     moveTo(X: VectorE3): void {
-        const coords = canvasCoords(X, this.camera, this.ctx.canvas.width, this.ctx.canvas.height);
+        const coords = canvasCoords(X, this.camera, this.prism, this.ctx.canvas.width, this.ctx.canvas.height);
         this.ctx.moveTo(coords.x, coords.y);
     }
     lineTo(X: VectorE3): void {
-        const coords = canvasCoords(X, this.camera, this.ctx.canvas.width, this.ctx.canvas.height);
+        const coords = canvasCoords(X, this.camera, this.prism, this.ctx.canvas.width, this.ctx.canvas.height);
         this.ctx.lineTo(coords.x, coords.y);
     }
     stroke(): void {
         this.ctx.stroke();
     }
     strokeText(text: string, X: VectorE3, maxWidth?: number): void {
-        const coords = canvasCoords(X, this.camera, this.ctx.canvas.width, this.ctx.canvas.height);
+        const coords = canvasCoords(X, this.camera, this.prism, this.ctx.canvas.width, this.ctx.canvas.height);
         this.ctx.strokeText(text, coords.x, coords.y, maxWidth);
     }
 }
@@ -63,13 +81,13 @@ export default class Diagram3D {
 /**
  * 
  */
-export function canvasCoords(X: VectorE3, camera: { eye: VectorE3; look: VectorE3; up: VectorE3; near: number, far: number, fov: number, aspect: number }, width: number, height: number): { x: number; y: number } {
+export function canvasCoords(X: VectorE3, camera: { eye: VectorE3; look: VectorE3; up: VectorE3 }, prism: { near: number, far: number, fov: number, aspect: number }, width: number, height: number): { x: number; y: number } {
     const cameraCoords = view(X, camera.eye, camera.look, camera.up);
-    const N = camera.near;
-    const F = camera.far;
-    const θ = camera.fov;
-    const aspect = camera.aspect;
-    const imageCoords = perspective(cameraCoords, N, F, θ, aspect);
+    const near = prism.near;
+    const far = prism.far;
+    const fov = prism.fov;
+    const aspect = prism.aspect;
+    const imageCoords = perspective(cameraCoords, near, far, fov, aspect);
     // Convert image coordinates to screen/device coordinates.
     const x = (imageCoords.x + 1) * width / 2;
     const y = (1 - imageCoords.y) * height / 2;
@@ -127,7 +145,9 @@ export function perspective(X: VectorE3, n: number, f: number, α: number, aspec
     /**
      * The camera coordinates (u, v, w).
      */
-    const u = X.x, v = X.y, w = X.z;
+    const u = X.x;
+    const v = X.y;
+    const w = X.z;
 
     /**
      * tangent of one half the field of view angle.

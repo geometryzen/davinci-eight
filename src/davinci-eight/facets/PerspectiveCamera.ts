@@ -1,11 +1,8 @@
-import createPerspective from './createPerspective';
-import {Geometric3} from '../math/Geometric3';
-import mustBeGE from '../checks/mustBeGE';
-import mustBeLE from '../checks/mustBeLE';
-import mustBeNumber from '../checks/mustBeNumber';
-import Perspective from './Perspective';
-import {Facet} from '../core/Facet';
-import {FacetVisitor} from '../core/FacetVisitor';
+import Geometric3 from '../math/Geometric3';
+import PerspectiveTransform from './PerspectiveTransform';
+import Facet from '../core/Facet';
+import FacetVisitor from '../core/FacetVisitor';
+import ViewTransform from './ViewTransform';
 
 /**
  * <p>
@@ -33,7 +30,11 @@ export class PerspectiveCamera implements Facet {
     /**
      *
      */
-    private inner: Perspective;
+    private P: PerspectiveTransform;
+    /**
+     * 
+     */
+    private V: ViewTransform;
 
     /**
      *
@@ -43,51 +44,44 @@ export class PerspectiveCamera implements Facet {
      * @param far The distance of the far plane from the camera. 
      */
     constructor(fov = 45 * Math.PI / 180, aspect = 1, near = 0.1, far = 1000) {
+        this.P = new PerspectiveTransform(fov, aspect, near, far);
+        this.V = new ViewTransform();
+    }
 
-        mustBeNumber('fov', fov);
-        mustBeGE('fov', fov, 0);
-        mustBeLE('fov', fov, Math.PI);
-
-        mustBeNumber('aspect', aspect);
-        mustBeGE('aspect', aspect, 0);
-
-        mustBeNumber('near', near);
-        mustBeGE('near', near, 0);
-
-        mustBeNumber('far', far);
-        mustBeGE('far', far, 0);
-
-        this.inner = createPerspective({ fov, aspect, near, far });
+    /**
+     * 
+     */
+    imageToWorldCoords(x: number, y: number, z: number): Geometric3 {
+        const cameraCoords = this.P.imageToCameraCoords(x, y, z);
+        return Geometric3.fromVector(this.V.cameraToWorldCoords(cameraCoords));
     }
 
     /**
      *
      */
     setUniforms(visitor: FacetVisitor): void {
-        // Synchronize the near and far properties before delegating.
-        this.inner.setNear(this.near);
-        this.inner.setFar(this.far);
-        this.inner.setUniforms(visitor);
+        this.V.setUniforms(visitor);
+        this.P.setUniforms(visitor);
     }
 
     /**
      * The aspect ratio (width / height) of the camera viewport.
      */
     get aspect(): number {
-        return this.inner.aspect;
+        return this.P.aspect;
     }
     set aspect(aspect: number) {
-        this.inner.aspect = aspect;
+        this.P.aspect = aspect;
     }
 
     /**
      * The position of the camera, a vector.
      */
     get eye(): Geometric3 {
-        return this.inner.eye;
+        return this.V.eye;
     }
     set eye(eye: Geometric3) {
-        this.inner.eye.copyVector(eye);
+        this.V.eye.copyVector(eye);
     }
 
     /**
@@ -95,49 +89,49 @@ export class PerspectiveCamera implements Facet {
      * Measured in radians.
      */
     get fov(): number {
-        return this.inner.fov;
+        return this.P.fov;
     }
     set fov(value: number) {
-        this.inner.fov = value;
+        this.P.fov = value;
     }
 
     /**
      * The point that is being looked at.
      */
     get look(): Geometric3 {
-        return this.inner.look;
+        return this.V.look;
     }
     set look(look: Geometric3) {
-        this.inner.look.copyVector(look);
+        this.V.look.copyVector(look);
     }
 
     /**
      * The distance to the near plane.
      */
     get near(): number {
-        return this.inner.near;
+        return this.P.near;
     }
     set near(near: number) {
-        this.inner.near = near;
+        this.P.near = near;
     }
 
     /**
      * The distance to the far plane.
      */
     get far(): number {
-        return this.inner.far;
+        return this.P.far;
     }
     set far(far: number) {
-        this.inner.far = far;
+        this.P.far = far;
     }
 
     /**
      * The approximate up direction.
      */
     get up(): Geometric3 {
-        return this.inner.up;
+        return this.V.up;
     }
     set up(up: Geometric3) {
-        this.inner.up.copyVector(up);
+        this.V.up.copyVector(up);
     }
 }

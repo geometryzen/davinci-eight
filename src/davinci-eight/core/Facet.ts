@@ -1,4 +1,4 @@
-import { FacetVisitor } from './FacetVisitor';
+import FacetVisitor from './FacetVisitor';
 import { Shareable } from './Shareable';
 
 /**

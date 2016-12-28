@@ -1038,249 +1038,102 @@ System.register("davinci-eight/facets/ReflectionFacetE3.js", ["../checks/mustBeS
         }
     };
 });
-System.register("davinci-eight/facets/createView.js", ["../math/Geometric3", "../math/Matrix4", "../core/GraphicsProgramSymbols", "../checks/isUndefined", "./viewMatrixFromEyeLookUp"], function (exports_1, context_1) {
+System.register("davinci-eight/facets/ViewTransform.js", ["../math/Geometric3", "../core/GraphicsProgramSymbols", "../math/Matrix4", "../math/Vector3", "./viewMatrixFromEyeLookUp"], function (exports_1, context_1) {
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
-    function createView(options) {
-        if (options === void 0) {
-            options = {};
-        }
-        var eye = Geometric3_1.Geometric3.vector(0, 0, 1);
-        var look = Geometric3_1.Geometric3.vector(0, 0, 0);
-        var up = Geometric3_1.Geometric3.vector(0, 1, 0);
-        var viewMatrix = Matrix4_1.default.one();
-        var viewMatrixName = isUndefined_1.default(options.viewMatrixName) ? GraphicsProgramSymbols_1.default.UNIFORM_VIEW_MATRIX : options.viewMatrixName;
-        eye.modified = true;
-        look.modified = true;
-        up.modified = true;
-        var self = {
-            get eye() {
-                return eye;
-            },
-            set eye(newEye) {
-                self.setEye(newEye);
-            },
-            setEye: function (newEye) {
-                eye.copyVector(newEye);
-                return self;
-            },
-            get look() {
-                return look;
-            },
-            set look(newLook) {
-                self.setLook(newLook);
-            },
-            setLook: function (newLook) {
-                look.copyVector(newLook);
-                return self;
-            },
-            get up() {
-                return up;
-            },
-            set up(newUp) {
-                self.setUp(newUp);
-            },
-            setUp: function (newUp) {
-                up.copyVector(newUp);
-                up.normalize();
-                return self;
-            },
-            setUniforms: function (visitor) {
-                self.updateViewMatrix();
-                visitor.matrix4fv(viewMatrixName, viewMatrix.elements, false);
-            },
-            updateViewMatrix: function () {
-                if (eye.modified || look.modified || up.modified) {
-                    viewMatrixFromEyeLookUp_1.default(eye, look, up, viewMatrix);
-                    eye.modified = false;
-                    look.modified = false;
-                    up.modified = false;
-                }
-            },
-            get viewMatrix() {
-                self.updateViewMatrix();
-                return viewMatrix;
-            }
-        };
-        return self;
-    }
-    exports_1("default", createView);
-    var Geometric3_1, Matrix4_1, GraphicsProgramSymbols_1, isUndefined_1, viewMatrixFromEyeLookUp_1;
+    var Geometric3_1, GraphicsProgramSymbols_1, Matrix4_1, Vector3_1, viewMatrixFromEyeLookUp_1, ViewTransform;
     return {
         setters: [function (Geometric3_1_1) {
             Geometric3_1 = Geometric3_1_1;
-        }, function (Matrix4_1_1) {
-            Matrix4_1 = Matrix4_1_1;
         }, function (GraphicsProgramSymbols_1_1) {
             GraphicsProgramSymbols_1 = GraphicsProgramSymbols_1_1;
-        }, function (isUndefined_1_1) {
-            isUndefined_1 = isUndefined_1_1;
+        }, function (Matrix4_1_1) {
+            Matrix4_1 = Matrix4_1_1;
+        }, function (Vector3_1_1) {
+            Vector3_1 = Vector3_1_1;
         }, function (viewMatrixFromEyeLookUp_1_1) {
             viewMatrixFromEyeLookUp_1 = viewMatrixFromEyeLookUp_1_1;
         }],
-        execute: function () {}
-    };
-});
-System.register("davinci-eight/facets/createPerspective.js", ["./createView", "../math/Matrix4", "../core/GraphicsProgramSymbols", "../math/Vector1", "../checks/isUndefined", "../checks/mustBeNumber", "./perspectiveMatrix"], function (exports_1, context_1) {
-    "use strict";
-
-    var __moduleName = context_1 && context_1.id;
-    function createPerspective(options) {
-        if (options === void 0) {
-            options = {};
+        execute: function () {
+            ViewTransform = function () {
+                function ViewTransform() {
+                    this._eye = Geometric3_1.default.vector(0, 0, 1);
+                    this._look = Geometric3_1.default.vector(0, 0, 0);
+                    this._up = Geometric3_1.default.vector(0, 1, 0);
+                    this.matrix = Matrix4_1.default.one();
+                    this.matrixName = GraphicsProgramSymbols_1.default.UNIFORM_VIEW_MATRIX;
+                    this._eye.modified = true;
+                    this._look.modified = true;
+                    this._up.modified = true;
+                }
+                ViewTransform.prototype.cameraToWorldCoords = function (cameraCoords) {
+                    var n = Vector3_1.default.copy(this.eye).sub(this.look).normalize();
+                    var u = Vector3_1.default.copy(this.up).cross(n).normalize();
+                    var v = Vector3_1.default.copy(n).cross(u).normalize();
+                    var u0 = cameraCoords[0];
+                    var u1 = cameraCoords[1];
+                    var u2 = cameraCoords[2];
+                    return this.eye.clone().addVector(u, u0).addVector(v, u1).addVector(n, u2);
+                };
+                ViewTransform.prototype.setUniforms = function (visitor) {
+                    if (this._eye.modified || this._look.modified || this._up.modified) {
+                        viewMatrixFromEyeLookUp_1.default(this._eye, this._look, this._up, this.matrix);
+                        this._eye.modified = false;
+                        this._look.modified = false;
+                        this._up.modified = false;
+                    }
+                    visitor.matrix4fv(this.matrixName, this.matrix.elements, false);
+                };
+                Object.defineProperty(ViewTransform.prototype, "eye", {
+                    get: function () {
+                        return this._eye;
+                    },
+                    set: function (eye) {
+                        this._eye.copyVector(eye);
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(ViewTransform.prototype, "look", {
+                    get: function () {
+                        return this._look;
+                    },
+                    set: function (look) {
+                        this._look.copyVector(look);
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(ViewTransform.prototype, "up", {
+                    get: function () {
+                        return this._up;
+                    },
+                    set: function (up) {
+                        this._up.copyVector(up);
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                return ViewTransform;
+            }();
+            exports_1("ViewTransform", ViewTransform);
+            exports_1("default", ViewTransform);
         }
-        var fov = new Vector1_1.default([isUndefined_1.default(options.fov) ? 75 * Math.PI / 180 : options.fov]);
-        var aspect = new Vector1_1.default([isUndefined_1.default(options.aspect) ? 1 : options.aspect]);
-        var near = new Vector1_1.default([isUndefined_1.default(options.near) ? 0.1 : options.near]);
-        var far = new Vector1_1.default([mustBeNumber_1.default('options.far', isUndefined_1.default(options.far) ? 2000 : options.far)]);
-        var projectionMatrixName = isUndefined_1.default(options.projectionMatrixName) ? GraphicsProgramSymbols_1.default.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
-        var base = createView_1.default(options);
-        var projectionMatrix = Matrix4_1.default.one();
-        var matrixNeedsUpdate = true;
-        var self = {
-            get eye() {
-                return base.eye;
-            },
-            set eye(value) {
-                base.eye = value;
-            },
-            setEye: function (eye) {
-                base.setEye(eye);
-                return self;
-            },
-            get look() {
-                return base.look;
-            },
-            set look(value) {
-                base.look = value;
-            },
-            setLook: function (look) {
-                base.setLook(look);
-                return self;
-            },
-            get up() {
-                return base.up;
-            },
-            set up(value) {
-                base.up = value;
-            },
-            setUp: function (up) {
-                base.setUp(up);
-                return self;
-            },
-            get fov() {
-                return fov.x;
-            },
-            set fov(value) {
-                self.setFov(value);
-            },
-            setFov: function (value) {
-                mustBeNumber_1.default('fov', value);
-                matrixNeedsUpdate = matrixNeedsUpdate || fov.x !== value;
-                fov.x = value;
-                return self;
-            },
-            get aspect() {
-                return aspect.x;
-            },
-            set aspect(value) {
-                self.setAspect(value);
-            },
-            setAspect: function (value) {
-                mustBeNumber_1.default('aspect', value);
-                matrixNeedsUpdate = matrixNeedsUpdate || aspect.x !== value;
-                aspect.x = value;
-                return self;
-            },
-            get near() {
-                return near.x;
-            },
-            set near(value) {
-                self.setNear(value);
-            },
-            setNear: function (value) {
-                if (value !== near.x) {
-                    near.x = value;
-                    matrixNeedsUpdate = true;
-                }
-                return self;
-            },
-            get far() {
-                return far.x;
-            },
-            set far(value) {
-                self.setFar(value);
-            },
-            setFar: function (value) {
-                if (value !== far.x) {
-                    far.x = value;
-                    matrixNeedsUpdate = true;
-                }
-                return self;
-            },
-            setUniforms: function (visitor) {
-                self.updateProjectionMatrix();
-                visitor.matrix4fv(projectionMatrixName, projectionMatrix.elements, false);
-                base.setUniforms(visitor);
-            },
-            get projectionMatrix() {
-                self.updateProjectionMatrix();
-                return projectionMatrix;
-            },
-            updateProjectionMatrix: function () {
-                if (matrixNeedsUpdate) {
-                    perspectiveMatrix_1.default(fov.x, aspect.x, near.x, far.x, projectionMatrix);
-                    matrixNeedsUpdate = false;
-                }
-            },
-            updateViewMatrix: function () {
-                base.updateViewMatrix();
-            },
-            get viewMatrix() {
-                return base.viewMatrix;
-            },
-            set viewMatrix(value) {
-                base.viewMatrix = value;
-            }
-        };
-        return self;
-    }
-    exports_1("default", createPerspective);
-    var createView_1, Matrix4_1, GraphicsProgramSymbols_1, Vector1_1, isUndefined_1, mustBeNumber_1, perspectiveMatrix_1;
-    return {
-        setters: [function (createView_1_1) {
-            createView_1 = createView_1_1;
-        }, function (Matrix4_1_1) {
-            Matrix4_1 = Matrix4_1_1;
-        }, function (GraphicsProgramSymbols_1_1) {
-            GraphicsProgramSymbols_1 = GraphicsProgramSymbols_1_1;
-        }, function (Vector1_1_1) {
-            Vector1_1 = Vector1_1_1;
-        }, function (isUndefined_1_1) {
-            isUndefined_1 = isUndefined_1_1;
-        }, function (mustBeNumber_1_1) {
-            mustBeNumber_1 = mustBeNumber_1_1;
-        }, function (perspectiveMatrix_1_1) {
-            perspectiveMatrix_1 = perspectiveMatrix_1_1;
-        }],
-        execute: function () {}
     };
 });
-System.register("davinci-eight/facets/PerspectiveCamera.js", ["./createPerspective", "../checks/mustBeGE", "../checks/mustBeLE", "../checks/mustBeNumber"], function (exports_1, context_1) {
+System.register("davinci-eight/facets/PerspectiveCamera.js", ["../math/Geometric3", "./PerspectiveTransform", "./ViewTransform"], function (exports_1, context_1) {
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
-    var createPerspective_1, mustBeGE_1, mustBeLE_1, mustBeNumber_1, PerspectiveCamera;
+    var Geometric3_1, PerspectiveTransform_1, ViewTransform_1, PerspectiveCamera;
     return {
-        setters: [function (createPerspective_1_1) {
-            createPerspective_1 = createPerspective_1_1;
-        }, function (mustBeGE_1_1) {
-            mustBeGE_1 = mustBeGE_1_1;
-        }, function (mustBeLE_1_1) {
-            mustBeLE_1 = mustBeLE_1_1;
-        }, function (mustBeNumber_1_1) {
-            mustBeNumber_1 = mustBeNumber_1_1;
+        setters: [function (Geometric3_1_1) {
+            Geometric3_1 = Geometric3_1_1;
+        }, function (PerspectiveTransform_1_1) {
+            PerspectiveTransform_1 = PerspectiveTransform_1_1;
+        }, function (ViewTransform_1_1) {
+            ViewTransform_1 = ViewTransform_1_1;
         }],
         execute: function () {
             PerspectiveCamera = function () {
@@ -1297,88 +1150,83 @@ System.register("davinci-eight/facets/PerspectiveCamera.js", ["./createPerspecti
                     if (far === void 0) {
                         far = 1000;
                     }
-                    mustBeNumber_1.default('fov', fov);
-                    mustBeGE_1.default('fov', fov, 0);
-                    mustBeLE_1.default('fov', fov, Math.PI);
-                    mustBeNumber_1.default('aspect', aspect);
-                    mustBeGE_1.default('aspect', aspect, 0);
-                    mustBeNumber_1.default('near', near);
-                    mustBeGE_1.default('near', near, 0);
-                    mustBeNumber_1.default('far', far);
-                    mustBeGE_1.default('far', far, 0);
-                    this.inner = createPerspective_1.default({ fov: fov, aspect: aspect, near: near, far: far });
+                    this.P = new PerspectiveTransform_1.default(fov, aspect, near, far);
+                    this.V = new ViewTransform_1.default();
                 }
+                PerspectiveCamera.prototype.imageToWorldCoords = function (x, y, z) {
+                    var cameraCoords = this.P.imageToCameraCoords(x, y, z);
+                    return Geometric3_1.default.fromVector(this.V.cameraToWorldCoords(cameraCoords));
+                };
                 PerspectiveCamera.prototype.setUniforms = function (visitor) {
-                    this.inner.setNear(this.near);
-                    this.inner.setFar(this.far);
-                    this.inner.setUniforms(visitor);
+                    this.V.setUniforms(visitor);
+                    this.P.setUniforms(visitor);
                 };
                 Object.defineProperty(PerspectiveCamera.prototype, "aspect", {
                     get: function () {
-                        return this.inner.aspect;
+                        return this.P.aspect;
                     },
                     set: function (aspect) {
-                        this.inner.aspect = aspect;
+                        this.P.aspect = aspect;
                     },
                     enumerable: true,
                     configurable: true
                 });
                 Object.defineProperty(PerspectiveCamera.prototype, "eye", {
                     get: function () {
-                        return this.inner.eye;
+                        return this.V.eye;
                     },
                     set: function (eye) {
-                        this.inner.eye.copyVector(eye);
+                        this.V.eye.copyVector(eye);
                     },
                     enumerable: true,
                     configurable: true
                 });
                 Object.defineProperty(PerspectiveCamera.prototype, "fov", {
                     get: function () {
-                        return this.inner.fov;
+                        return this.P.fov;
                     },
                     set: function (value) {
-                        this.inner.fov = value;
+                        this.P.fov = value;
                     },
                     enumerable: true,
                     configurable: true
                 });
                 Object.defineProperty(PerspectiveCamera.prototype, "look", {
                     get: function () {
-                        return this.inner.look;
+                        return this.V.look;
                     },
                     set: function (look) {
-                        this.inner.look.copyVector(look);
+                        this.V.look.copyVector(look);
                     },
                     enumerable: true,
                     configurable: true
                 });
                 Object.defineProperty(PerspectiveCamera.prototype, "near", {
                     get: function () {
-                        return this.inner.near;
+                        return this.P.near;
                     },
                     set: function (near) {
-                        this.inner.near = near;
+                        this.P.near = near;
                     },
                     enumerable: true,
                     configurable: true
                 });
                 Object.defineProperty(PerspectiveCamera.prototype, "far", {
                     get: function () {
-                        return this.inner.far;
+                        return this.P.far;
                     },
                     set: function (far) {
-                        this.inner.far = far;
+                        this.P.far = far;
                     },
                     enumerable: true,
                     configurable: true
                 });
                 Object.defineProperty(PerspectiveCamera.prototype, "up", {
                     get: function () {
-                        return this.inner.up;
+                        return this.V.up;
                     },
                     set: function (up) {
-                        this.inner.up.copyVector(up);
+                        this.V.up.copyVector(up);
                     },
                     enumerable: true,
                     configurable: true
@@ -1386,6 +1234,133 @@ System.register("davinci-eight/facets/PerspectiveCamera.js", ["./createPerspecti
                 return PerspectiveCamera;
             }();
             exports_1("PerspectiveCamera", PerspectiveCamera);
+        }
+    };
+});
+System.register("davinci-eight/facets/PerspectiveTransform.js", ["../core/GraphicsProgramSymbols", "../math/Matrix4", "../checks/mustBeGE", "../checks/mustBeLE", "../checks/mustBeNumber"], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    var GraphicsProgramSymbols_1, Matrix4_1, mustBeGE_1, mustBeLE_1, mustBeNumber_1, PerspectiveTransform;
+    return {
+        setters: [function (GraphicsProgramSymbols_1_1) {
+            GraphicsProgramSymbols_1 = GraphicsProgramSymbols_1_1;
+        }, function (Matrix4_1_1) {
+            Matrix4_1 = Matrix4_1_1;
+        }, function (mustBeGE_1_1) {
+            mustBeGE_1 = mustBeGE_1_1;
+        }, function (mustBeLE_1_1) {
+            mustBeLE_1 = mustBeLE_1_1;
+        }, function (mustBeNumber_1_1) {
+            mustBeNumber_1 = mustBeNumber_1_1;
+        }],
+        execute: function () {
+            PerspectiveTransform = function () {
+                function PerspectiveTransform(fov, aspect, near, far) {
+                    if (fov === void 0) {
+                        fov = 45 * Math.PI / 180;
+                    }
+                    if (aspect === void 0) {
+                        aspect = 1;
+                    }
+                    if (near === void 0) {
+                        near = 0.1;
+                    }
+                    if (far === void 0) {
+                        far = 1000;
+                    }
+                    this.matrix = Matrix4_1.default.one();
+                    this.matrixName = GraphicsProgramSymbols_1.default.UNIFORM_PROJECTION_MATRIX;
+                    this.matrixNeedsUpdate = true;
+                    this.fov = fov;
+                    this.aspect = aspect;
+                    this.near = near;
+                    this.far = far;
+                }
+                Object.defineProperty(PerspectiveTransform.prototype, "aspect", {
+                    get: function () {
+                        return this._aspect;
+                    },
+                    set: function (aspect) {
+                        if (this._aspect !== aspect) {
+                            mustBeNumber_1.default('aspect', aspect);
+                            mustBeGE_1.default('aspect', aspect, 0);
+                            this._aspect = aspect;
+                            this.matrixNeedsUpdate = true;
+                        }
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(PerspectiveTransform.prototype, "fov", {
+                    get: function () {
+                        return this._fov;
+                    },
+                    set: function (fov) {
+                        if (this._fov !== fov) {
+                            mustBeNumber_1.default('fov', fov);
+                            mustBeGE_1.default('fov', fov, 0);
+                            mustBeLE_1.default('fov', fov, Math.PI);
+                            this._fov = fov;
+                            this.matrixNeedsUpdate = true;
+                        }
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(PerspectiveTransform.prototype, "near", {
+                    get: function () {
+                        return this._near;
+                    },
+                    set: function (near) {
+                        if (this._near !== near) {
+                            mustBeNumber_1.default('near', near);
+                            mustBeGE_1.default('near', near, 0);
+                            this._near = near;
+                            this.matrixNeedsUpdate = true;
+                        }
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(PerspectiveTransform.prototype, "far", {
+                    get: function () {
+                        return this._far;
+                    },
+                    set: function (far) {
+                        if (this._far !== far) {
+                            mustBeNumber_1.default('far', far);
+                            mustBeGE_1.default('far', far, 0);
+                            this._far = far;
+                            this.matrixNeedsUpdate = true;
+                        }
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                PerspectiveTransform.prototype.setUniforms = function (visitor) {
+                    if (this.matrixNeedsUpdate) {
+                        this.matrix.perspective(this._fov, this._aspect, this._near, this._far);
+                        this.matrixNeedsUpdate = false;
+                    }
+                    visitor.matrix4fv(this.matrixName, this.matrix.elements, false);
+                };
+                PerspectiveTransform.prototype.imageToCameraCoords = function (x, y, z) {
+                    var n = this.near;
+                    var f = this.far;
+                    var d = f - n;
+                    var s = f + n;
+                    var weight = (s - d * z) / (2 * f * n);
+                    var t = Math.tan(this.fov / 2);
+                    var u = this.aspect * t * x / weight;
+                    var v = t * y / weight;
+                    var w = -1 / weight;
+                    return [u, v, w];
+                };
+                return PerspectiveTransform;
+            }();
+            exports_1("PerspectiveTransform", PerspectiveTransform);
+            exports_1("default", PerspectiveTransform);
         }
     };
 });
@@ -1468,12 +1443,12 @@ System.register("davinci-eight/facets/viewMatrixFromEyeLookUp.js", ["../checks/i
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
-    function default_1(eye, look, up, matrix) {
+    function viewNatrixFromEyeLookUp(eye, look, up, matrix) {
         var m = isDefined_1.default(matrix) ? matrix : Matrix4_1.default.one();
         viewArrayFromEyeLookUp_1.default(eye, look, up, m.elements);
         return m;
     }
-    exports_1("default", default_1);
+    exports_1("default", viewNatrixFromEyeLookUp);
     var isDefined_1, Matrix4_1, viewArrayFromEyeLookUp_1;
     return {
         setters: [function (isDefined_1_1) {
@@ -16282,7 +16257,7 @@ System.register("davinci-eight/commands/WebGLDisable.js", ["../checks/mustBeNumb
         }
     };
 });
-System.register("davinci-eight/core/Engine.js", ["./checkEnums", "./ClearBufferMask", "../commands/EIGHTLogger", "./initWebGL", "../checks/isDefined", "../checks/mustBeNonNullObject", "../checks/mustBeNumber", "../checks/mustBeString", "../collections/ShareableArray", "./ShareableBase", "../commands/VersionLogger", "../commands/WebGLClearColor", "../commands/WebGLEnable", "../commands/WebGLDisable"], function (exports_1, context_1) {
+System.register("davinci-eight/core/Engine.js", ["./checkEnums", "./ClearBufferMask", "../commands/EIGHTLogger", "./initWebGL", "../checks/isDefined", "../checks/mustBeNonNullObject", "../checks/mustBeNumber", "../checks/mustBeString", "../math/R3", "../collections/ShareableArray", "./ShareableBase", "../commands/VersionLogger", "../commands/WebGLClearColor", "../commands/WebGLEnable", "../commands/WebGLDisable"], function (exports_1, context_1) {
     "use strict";
 
     var __extends = this && this.__extends || function (d, b) {
@@ -16293,7 +16268,7 @@ System.register("davinci-eight/core/Engine.js", ["./checkEnums", "./ClearBufferM
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
     var __moduleName = context_1 && context_1.id;
-    var checkEnums_1, ClearBufferMask_1, EIGHTLogger_1, initWebGL_1, isDefined_1, mustBeNonNullObject_1, mustBeNumber_1, mustBeString_1, ShareableArray_1, ShareableBase_1, VersionLogger_1, WebGLClearColor_1, WebGLEnable_1, WebGLDisable_1, Engine;
+    var checkEnums_1, ClearBufferMask_1, EIGHTLogger_1, initWebGL_1, isDefined_1, mustBeNonNullObject_1, mustBeNumber_1, mustBeString_1, R3_1, ShareableArray_1, ShareableBase_1, VersionLogger_1, WebGLClearColor_1, WebGLEnable_1, WebGLDisable_1, Engine;
     return {
         setters: [function (checkEnums_1_1) {
             checkEnums_1 = checkEnums_1_1;
@@ -16311,6 +16286,8 @@ System.register("davinci-eight/core/Engine.js", ["./checkEnums", "./ClearBufferM
             mustBeNumber_1 = mustBeNumber_1_1;
         }, function (mustBeString_1_1) {
             mustBeString_1 = mustBeString_1_1;
+        }, function (R3_1_1) {
+            R3_1 = R3_1_1;
         }, function (ShareableArray_1_1) {
             ShareableArray_1 = ShareableArray_1_1;
         }, function (ShareableBase_1_1) {
@@ -16647,6 +16624,11 @@ System.register("davinci-eight/core/Engine.js", ["./checkEnums", "./ClearBufferM
                     mustBeString_1.default('materialKey.kind', materialKey.kind);
                     var key = JSON.stringify(materialKey);
                     this.materials[key] = material;
+                };
+                Engine.prototype.deviceToImageCoords = function (deviceCoords) {
+                    var imageX = 2 * deviceCoords.x / this.canvas.width - 1;
+                    var imageY = 1 - 2 * deviceCoords.y / this.canvas.height;
+                    return R3_1.vectorFromCoords(imageX, imageY, 0);
                 };
                 return Engine;
             }(ShareableBase_1.ShareableBase);
@@ -23484,13 +23466,13 @@ System.register("davinci-eight/diagram/Diagram3D.js", ["../math/dotVectorE3", ".
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
-    function canvasCoords(X, camera, width, height) {
+    function canvasCoords(X, camera, prism, width, height) {
         var cameraCoords = view(X, camera.eye, camera.look, camera.up);
-        var N = camera.near;
-        var F = camera.far;
-        var θ = camera.fov;
-        var aspect = camera.aspect;
-        var imageCoords = perspective(cameraCoords, N, F, θ, aspect);
+        var near = prism.near;
+        var far = prism.far;
+        var fov = prism.fov;
+        var aspect = prism.aspect;
+        var imageCoords = perspective(cameraCoords, near, far, fov, aspect);
         var x = (imageCoords.x + 1) * width / 2;
         var y = (1 - imageCoords.y) * height / 2;
         return { x: x, y: y };
@@ -23510,9 +23492,9 @@ System.register("davinci-eight/diagram/Diagram3D.js", ["../math/dotVectorE3", ".
     }
     exports_1("view", view);
     function perspective(X, n, f, α, aspect) {
-        var u = X.x,
-            v = X.y,
-            w = X.z;
+        var u = X.x;
+        var v = X.y;
+        var w = X.z;
         var t = Math.tan(α / 2);
         var negW = -w;
         var x = u / (negW * aspect * t);
@@ -23532,14 +23514,22 @@ System.register("davinci-eight/diagram/Diagram3D.js", ["../math/dotVectorE3", ".
         }],
         execute: function () {
             Diagram3D = function () {
-                function Diagram3D(canvasId, camera) {
-                    this.camera = camera;
+                function Diagram3D(canvasId, camera, prism) {
                     if (isDefined_1.default(canvasId)) {
                         var canvasElement = document.getElementById(canvasId);
                         this.ctx = canvasElement.getContext('2d');
                         this.ctx.strokeStyle = "#FFFFFF";
                         this.ctx.fillStyle = '#ffffff';
                         this.ctx.font = '24px Helvetica';
+                    }
+                    if (isDefined_1.default(camera)) {
+                        if (isDefined_1.default(prism)) {
+                            this.camera = camera;
+                            this.prism = prism;
+                        } else {
+                            this.camera = camera;
+                            this.prism = camera;
+                        }
                     }
                 }
                 Object.defineProperty(Diagram3D.prototype, "canvas", {
@@ -23562,22 +23552,22 @@ System.register("davinci-eight/diagram/Diagram3D.js", ["../math/dotVectorE3", ".
                     this.ctx.fill(fillRule);
                 };
                 Diagram3D.prototype.fillText = function (text, X, maxWidth) {
-                    var coords = canvasCoords(X, this.camera, this.ctx.canvas.width, this.ctx.canvas.height);
+                    var coords = canvasCoords(X, this.camera, this.prism, this.ctx.canvas.width, this.ctx.canvas.height);
                     this.ctx.fillText(text, coords.x, coords.y, maxWidth);
                 };
                 Diagram3D.prototype.moveTo = function (X) {
-                    var coords = canvasCoords(X, this.camera, this.ctx.canvas.width, this.ctx.canvas.height);
+                    var coords = canvasCoords(X, this.camera, this.prism, this.ctx.canvas.width, this.ctx.canvas.height);
                     this.ctx.moveTo(coords.x, coords.y);
                 };
                 Diagram3D.prototype.lineTo = function (X) {
-                    var coords = canvasCoords(X, this.camera, this.ctx.canvas.width, this.ctx.canvas.height);
+                    var coords = canvasCoords(X, this.camera, this.prism, this.ctx.canvas.width, this.ctx.canvas.height);
                     this.ctx.lineTo(coords.x, coords.y);
                 };
                 Diagram3D.prototype.stroke = function () {
                     this.ctx.stroke();
                 };
                 Diagram3D.prototype.strokeText = function (text, X, maxWidth) {
-                    var coords = canvasCoords(X, this.camera, this.ctx.canvas.width, this.ctx.canvas.height);
+                    var coords = canvasCoords(X, this.camera, this.prism, this.ctx.canvas.width, this.ctx.canvas.height);
                     this.ctx.strokeText(text, coords.x, coords.y, maxWidth);
                 };
                 return Diagram3D;
@@ -23782,9 +23772,9 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
             Eight = function () {
                 function Eight() {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-                    this.LAST_MODIFIED = '2016-12-23';
+                    this.LAST_MODIFIED = '2016-12-27';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '5.0.12';
+                    this.VERSION = '5.0.13';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];
@@ -24729,11 +24719,11 @@ System.register("davinci-eight/loaders/TextureLoader.js", ["../core/ImageTexture
         }
     };
 });
-System.register("davinci-eight.js", ["./davinci-eight/commands/WebGLBlendFunc", "./davinci-eight/commands/WebGLClearColor", "./davinci-eight/commands/WebGLDisable", "./davinci-eight/commands/WebGLEnable", "./davinci-eight/controls/OrbitControls", "./davinci-eight/controls/TrackballControls", "./davinci-eight/core/Attrib", "./davinci-eight/core/BeginMode", "./davinci-eight/core/BlendingFactorDest", "./davinci-eight/core/BlendingFactorSrc", "./davinci-eight/core/Capability", "./davinci-eight/core/ClearBufferMask", "./davinci-eight/core/Color", "./davinci-eight/config", "./davinci-eight/core/DataType", "./davinci-eight/core/Drawable", "./davinci-eight/core/DepthFunction", "./davinci-eight/core/GeometryArrays", "./davinci-eight/core/GeometryElements", "./davinci-eight/core/GraphicsProgramSymbols", "./davinci-eight/core/ImageTexture", "./davinci-eight/core/Mesh", "./davinci-eight/core/PixelFormat", "./davinci-eight/core/PixelType", "./davinci-eight/core/Scene", "./davinci-eight/core/Shader", "./davinci-eight/core/Texture", "./davinci-eight/core/TextureMagFilter", "./davinci-eight/core/TextureMinFilter", "./davinci-eight/core/TextureParameterName", "./davinci-eight/core/TextureTarget", "./davinci-eight/core/TextureWrapMode", "./davinci-eight/core/Uniform", "./davinci-eight/core/Usage", "./davinci-eight/core/Engine", "./davinci-eight/core/VertexBuffer", "./davinci-eight/core/IndexBuffer", "./davinci-eight/core/vertexArraysFromPrimitive", "./davinci-eight/facets/AmbientLight", "./davinci-eight/facets/ColorFacet", "./davinci-eight/facets/DirectionalLight", "./davinci-eight/facets/ModelFacet", "./davinci-eight/facets/PointSizeFacet", "./davinci-eight/facets/ReflectionFacetE2", "./davinci-eight/facets/ReflectionFacetE3", "./davinci-eight/facets/Vector3Facet", "./davinci-eight/facets/frustumMatrix", "./davinci-eight/facets/PerspectiveCamera", "./davinci-eight/facets/perspectiveMatrix", "./davinci-eight/facets/viewMatrixFromEyeLookUp", "./davinci-eight/facets/ModelE2", "./davinci-eight/facets/ModelE3", "./davinci-eight/atoms/DrawAttribute", "./davinci-eight/atoms/DrawPrimitive", "./davinci-eight/atoms/reduce", "./davinci-eight/atoms/Vertex", "./davinci-eight/shapes/ArrowBuilder", "./davinci-eight/shapes/ConicalShellBuilder", "./davinci-eight/shapes/CylindricalShellBuilder", "./davinci-eight/shapes/RingBuilder", "./davinci-eight/geometries/Simplex", "./davinci-eight/geometries/GeometryMode", "./davinci-eight/geometries/ArrowGeometry", "./davinci-eight/geometries/BoxGeometry", "./davinci-eight/geometries/CylinderGeometry", "./davinci-eight/geometries/CurveGeometry", "./davinci-eight/geometries/CurveMode", "./davinci-eight/geometries/GridGeometry", "./davinci-eight/geometries/SphereGeometry", "./davinci-eight/geometries/TetrahedronGeometry", "./davinci-eight/materials/HTMLScriptsMaterial", "./davinci-eight/materials/LineMaterial", "./davinci-eight/materials/ShaderMaterial", "./davinci-eight/materials/MeshMaterial", "./davinci-eight/materials/PointMaterial", "./davinci-eight/materials/GraphicsProgramBuilder", "./davinci-eight/math/mathcore", "./davinci-eight/math/Vector1", "./davinci-eight/math/Matrix2", "./davinci-eight/math/Matrix3", "./davinci-eight/math/Matrix4", "./davinci-eight/math/Geometric2", "./davinci-eight/math/Geometric3", "./davinci-eight/math/Spinor2", "./davinci-eight/math/Spinor3", "./davinci-eight/math/Vector2", "./davinci-eight/math/Vector3", "./davinci-eight/math/Vector4", "./davinci-eight/math/VectorN", "./davinci-eight/utils/getCanvasElementById", "./davinci-eight/collections/ShareableArray", "./davinci-eight/collections/NumberShareableMap", "./davinci-eight/core/refChange", "./davinci-eight/core/ShareableBase", "./davinci-eight/collections/StringShareableMap", "./davinci-eight/utils/animation", "./davinci-eight/visual/Arrow", "./davinci-eight/visual/Basis", "./davinci-eight/visual/Sphere", "./davinci-eight/visual/Box", "./davinci-eight/visual/Cylinder", "./davinci-eight/visual/Curve", "./davinci-eight/visual/Grid", "./davinci-eight/visual/GridXY", "./davinci-eight/visual/GridYZ", "./davinci-eight/visual/GridZX", "./davinci-eight/visual/Group", "./davinci-eight/visual/HollowCylinder", "./davinci-eight/visual/Minecraft", "./davinci-eight/visual/MinecraftFigure", "./davinci-eight/visual/Parallelepiped", "./davinci-eight/visual/RigidBody", "./davinci-eight/visual/Tetrahedron", "./davinci-eight/visual/Track", "./davinci-eight/visual/Trail", "./davinci-eight/visual/Turtle", "./davinci-eight/diagram/Diagram3D", "./davinci-eight/loaders/TextureLoader"], function (exports_1, context_1) {
+System.register("davinci-eight.js", ["./davinci-eight/commands/WebGLBlendFunc", "./davinci-eight/commands/WebGLClearColor", "./davinci-eight/commands/WebGLDisable", "./davinci-eight/commands/WebGLEnable", "./davinci-eight/controls/OrbitControls", "./davinci-eight/controls/TrackballControls", "./davinci-eight/core/Attrib", "./davinci-eight/core/BeginMode", "./davinci-eight/core/BlendingFactorDest", "./davinci-eight/core/BlendingFactorSrc", "./davinci-eight/core/Capability", "./davinci-eight/core/ClearBufferMask", "./davinci-eight/core/Color", "./davinci-eight/config", "./davinci-eight/core/DataType", "./davinci-eight/core/Drawable", "./davinci-eight/core/DepthFunction", "./davinci-eight/core/GeometryArrays", "./davinci-eight/core/GeometryElements", "./davinci-eight/core/GraphicsProgramSymbols", "./davinci-eight/core/ImageTexture", "./davinci-eight/core/Mesh", "./davinci-eight/core/PixelFormat", "./davinci-eight/core/PixelType", "./davinci-eight/core/Scene", "./davinci-eight/core/Shader", "./davinci-eight/core/Texture", "./davinci-eight/core/TextureMagFilter", "./davinci-eight/core/TextureMinFilter", "./davinci-eight/core/TextureParameterName", "./davinci-eight/core/TextureTarget", "./davinci-eight/core/TextureWrapMode", "./davinci-eight/core/Uniform", "./davinci-eight/core/Usage", "./davinci-eight/core/Engine", "./davinci-eight/core/VertexBuffer", "./davinci-eight/core/IndexBuffer", "./davinci-eight/core/vertexArraysFromPrimitive", "./davinci-eight/facets/AmbientLight", "./davinci-eight/facets/ColorFacet", "./davinci-eight/facets/DirectionalLight", "./davinci-eight/facets/ModelFacet", "./davinci-eight/facets/PointSizeFacet", "./davinci-eight/facets/ReflectionFacetE2", "./davinci-eight/facets/ReflectionFacetE3", "./davinci-eight/facets/Vector3Facet", "./davinci-eight/facets/ViewTransform", "./davinci-eight/facets/frustumMatrix", "./davinci-eight/facets/PerspectiveCamera", "./davinci-eight/facets/PerspectiveTransform", "./davinci-eight/facets/perspectiveMatrix", "./davinci-eight/facets/viewMatrixFromEyeLookUp", "./davinci-eight/facets/ModelE2", "./davinci-eight/facets/ModelE3", "./davinci-eight/atoms/DrawAttribute", "./davinci-eight/atoms/DrawPrimitive", "./davinci-eight/atoms/reduce", "./davinci-eight/atoms/Vertex", "./davinci-eight/shapes/ArrowBuilder", "./davinci-eight/shapes/ConicalShellBuilder", "./davinci-eight/shapes/CylindricalShellBuilder", "./davinci-eight/shapes/RingBuilder", "./davinci-eight/geometries/Simplex", "./davinci-eight/geometries/GeometryMode", "./davinci-eight/geometries/ArrowGeometry", "./davinci-eight/geometries/BoxGeometry", "./davinci-eight/geometries/CylinderGeometry", "./davinci-eight/geometries/CurveGeometry", "./davinci-eight/geometries/CurveMode", "./davinci-eight/geometries/GridGeometry", "./davinci-eight/geometries/SphereGeometry", "./davinci-eight/geometries/TetrahedronGeometry", "./davinci-eight/materials/HTMLScriptsMaterial", "./davinci-eight/materials/LineMaterial", "./davinci-eight/materials/ShaderMaterial", "./davinci-eight/materials/MeshMaterial", "./davinci-eight/materials/PointMaterial", "./davinci-eight/materials/GraphicsProgramBuilder", "./davinci-eight/math/mathcore", "./davinci-eight/math/Vector1", "./davinci-eight/math/Matrix2", "./davinci-eight/math/Matrix3", "./davinci-eight/math/Matrix4", "./davinci-eight/math/Geometric2", "./davinci-eight/math/Geometric3", "./davinci-eight/math/Spinor2", "./davinci-eight/math/Spinor3", "./davinci-eight/math/Vector2", "./davinci-eight/math/Vector3", "./davinci-eight/math/Vector4", "./davinci-eight/math/VectorN", "./davinci-eight/utils/getCanvasElementById", "./davinci-eight/collections/ShareableArray", "./davinci-eight/collections/NumberShareableMap", "./davinci-eight/core/refChange", "./davinci-eight/core/ShareableBase", "./davinci-eight/collections/StringShareableMap", "./davinci-eight/utils/animation", "./davinci-eight/visual/Arrow", "./davinci-eight/visual/Basis", "./davinci-eight/visual/Sphere", "./davinci-eight/visual/Box", "./davinci-eight/visual/Cylinder", "./davinci-eight/visual/Curve", "./davinci-eight/visual/Grid", "./davinci-eight/visual/GridXY", "./davinci-eight/visual/GridYZ", "./davinci-eight/visual/GridZX", "./davinci-eight/visual/Group", "./davinci-eight/visual/HollowCylinder", "./davinci-eight/visual/Minecraft", "./davinci-eight/visual/MinecraftFigure", "./davinci-eight/visual/Parallelepiped", "./davinci-eight/visual/RigidBody", "./davinci-eight/visual/Tetrahedron", "./davinci-eight/visual/Track", "./davinci-eight/visual/Trail", "./davinci-eight/visual/Turtle", "./davinci-eight/diagram/Diagram3D", "./davinci-eight/loaders/TextureLoader"], function (exports_1, context_1) {
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
-    var WebGLBlendFunc_1, WebGLClearColor_1, WebGLDisable_1, WebGLEnable_1, OrbitControls_1, TrackballControls_1, Attrib_1, BeginMode_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, ClearBufferMask_1, Color_1, config_1, DataType_1, Drawable_1, DepthFunction_1, GeometryArrays_1, GeometryElements_1, GraphicsProgramSymbols_1, ImageTexture_1, Mesh_1, PixelFormat_1, PixelType_1, Scene_1, Shader_1, Texture_1, TextureMagFilter_1, TextureMinFilter_1, TextureParameterName_1, TextureTarget_1, TextureWrapMode_1, Uniform_1, Usage_1, Engine_1, VertexBuffer_1, IndexBuffer_1, vertexArraysFromPrimitive_1, AmbientLight_1, ColorFacet_1, DirectionalLight_1, ModelFacet_1, PointSizeFacet_1, ReflectionFacetE2_1, ReflectionFacetE3_1, Vector3Facet_1, frustumMatrix_1, PerspectiveCamera_1, perspectiveMatrix_1, viewMatrixFromEyeLookUp_1, ModelE2_1, ModelE3_1, DrawAttribute_1, DrawPrimitive_1, reduce_1, Vertex_1, ArrowBuilder_1, ConicalShellBuilder_1, CylindricalShellBuilder_1, RingBuilder_1, Simplex_1, GeometryMode_1, ArrowGeometry_1, BoxGeometry_1, CylinderGeometry_1, CurveGeometry_1, CurveMode_1, GridGeometry_1, SphereGeometry_1, TetrahedronGeometry_1, HTMLScriptsMaterial_1, LineMaterial_1, ShaderMaterial_1, MeshMaterial_1, PointMaterial_1, GraphicsProgramBuilder_1, mathcore_1, Vector1_1, Matrix2_1, Matrix3_1, Matrix4_1, Geometric2_1, Geometric3_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1, Vector4_1, VectorN_1, getCanvasElementById_1, ShareableArray_1, NumberShareableMap_1, refChange_1, ShareableBase_1, StringShareableMap_1, animation_1, Arrow_1, Basis_1, Sphere_1, Box_1, Cylinder_1, Curve_1, Grid_1, GridXY_1, GridYZ_1, GridZX_1, Group_1, HollowCylinder_1, Minecraft_1, MinecraftFigure_1, Parallelepiped_1, RigidBody_1, Tetrahedron_1, Track_1, Trail_1, Turtle_1, Diagram3D_1, TextureLoader_1, eight;
+    var WebGLBlendFunc_1, WebGLClearColor_1, WebGLDisable_1, WebGLEnable_1, OrbitControls_1, TrackballControls_1, Attrib_1, BeginMode_1, BlendingFactorDest_1, BlendingFactorSrc_1, Capability_1, ClearBufferMask_1, Color_1, config_1, DataType_1, Drawable_1, DepthFunction_1, GeometryArrays_1, GeometryElements_1, GraphicsProgramSymbols_1, ImageTexture_1, Mesh_1, PixelFormat_1, PixelType_1, Scene_1, Shader_1, Texture_1, TextureMagFilter_1, TextureMinFilter_1, TextureParameterName_1, TextureTarget_1, TextureWrapMode_1, Uniform_1, Usage_1, Engine_1, VertexBuffer_1, IndexBuffer_1, vertexArraysFromPrimitive_1, AmbientLight_1, ColorFacet_1, DirectionalLight_1, ModelFacet_1, PointSizeFacet_1, ReflectionFacetE2_1, ReflectionFacetE3_1, Vector3Facet_1, ViewTransform_1, frustumMatrix_1, PerspectiveCamera_1, PerspectiveTransform_1, perspectiveMatrix_1, viewMatrixFromEyeLookUp_1, ModelE2_1, ModelE3_1, DrawAttribute_1, DrawPrimitive_1, reduce_1, Vertex_1, ArrowBuilder_1, ConicalShellBuilder_1, CylindricalShellBuilder_1, RingBuilder_1, Simplex_1, GeometryMode_1, ArrowGeometry_1, BoxGeometry_1, CylinderGeometry_1, CurveGeometry_1, CurveMode_1, GridGeometry_1, SphereGeometry_1, TetrahedronGeometry_1, HTMLScriptsMaterial_1, LineMaterial_1, ShaderMaterial_1, MeshMaterial_1, PointMaterial_1, GraphicsProgramBuilder_1, mathcore_1, Vector1_1, Matrix2_1, Matrix3_1, Matrix4_1, Geometric2_1, Geometric3_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1, Vector4_1, VectorN_1, getCanvasElementById_1, ShareableArray_1, NumberShareableMap_1, refChange_1, ShareableBase_1, StringShareableMap_1, animation_1, Arrow_1, Basis_1, Sphere_1, Box_1, Cylinder_1, Curve_1, Grid_1, GridXY_1, GridYZ_1, GridZX_1, Group_1, HollowCylinder_1, Minecraft_1, MinecraftFigure_1, Parallelepiped_1, RigidBody_1, Tetrahedron_1, Track_1, Trail_1, Turtle_1, Diagram3D_1, TextureLoader_1, eight;
     return {
         setters: [function (WebGLBlendFunc_1_1) {
             WebGLBlendFunc_1 = WebGLBlendFunc_1_1;
@@ -24827,10 +24817,14 @@ System.register("davinci-eight.js", ["./davinci-eight/commands/WebGLBlendFunc", 
             ReflectionFacetE3_1 = ReflectionFacetE3_1_1;
         }, function (Vector3Facet_1_1) {
             Vector3Facet_1 = Vector3Facet_1_1;
+        }, function (ViewTransform_1_1) {
+            ViewTransform_1 = ViewTransform_1_1;
         }, function (frustumMatrix_1_1) {
             frustumMatrix_1 = frustumMatrix_1_1;
         }, function (PerspectiveCamera_1_1) {
             PerspectiveCamera_1 = PerspectiveCamera_1_1;
+        }, function (PerspectiveTransform_1_1) {
+            PerspectiveTransform_1 = PerspectiveTransform_1_1;
         }, function (perspectiveMatrix_1_1) {
             perspectiveMatrix_1 = perspectiveMatrix_1_1;
         }, function (viewMatrixFromEyeLookUp_1_1) {
@@ -25060,6 +25054,12 @@ System.register("davinci-eight.js", ["./davinci-eight/commands/WebGLBlendFunc", 
                 },
                 get PerspectiveCamera() {
                     return PerspectiveCamera_1.PerspectiveCamera;
+                },
+                get ViewTransform() {
+                    return ViewTransform_1.default;
+                },
+                get PerspectiveTransform() {
+                    return PerspectiveTransform_1.default;
                 },
                 get getCanvasElementById() {
                     return getCanvasElementById_1.default;

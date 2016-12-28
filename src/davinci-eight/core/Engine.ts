@@ -18,8 +18,11 @@ import mustBeNumber from '../checks/mustBeNumber';
 import mustBeString from '../checks/mustBeString';
 import PixelFormat from './PixelFormat';
 import PixelType from './PixelType';
+import { vectorFromCoords } from '../math/R3';
 import ShareableArray from '../collections/ShareableArray';
 import { ShareableBase } from './ShareableBase';
+import VectorE2 from '../math/VectorE2';
+import VectorE3 from '../math/VectorE3';
 import VersionLogger from '../commands/VersionLogger';
 import { WebGLClearColor } from '../commands/WebGLClearColor';
 import { WebGLEnable } from '../commands/WebGLEnable';
@@ -554,6 +557,15 @@ export class Engine extends ShareableBase implements ContextManager {
         const key = JSON.stringify(materialKey);
         // console.lg(`CREATE Material(key = ${key})`);
         this.materials[key] = material;
+    }
+
+    /**
+     * 
+     */
+    deviceToImageCoords(deviceCoords: VectorE2): VectorE3 {
+        const imageX = ((2 * deviceCoords.x) / this.canvas.width) - 1;
+        const imageY = 1 - (2 * deviceCoords.y) / this.canvas.height;
+        return vectorFromCoords(imageX, imageY, 0);
     }
 }
 

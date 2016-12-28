@@ -61,6 +61,7 @@ import { PointSizeFacet } from './davinci-eight/facets/PointSizeFacet';
 import ReflectionFacetE2 from './davinci-eight/facets/ReflectionFacetE2';
 import ReflectionFacetE3 from './davinci-eight/facets/ReflectionFacetE3';
 import Vector3Facet from './davinci-eight/facets/Vector3Facet';
+import ViewTransform from './davinci-eight/facets/ViewTransform';
 import createFrustum from './davinci-eight/facets/createFrustum';
 import createPerspective from './davinci-eight/facets/createPerspective';
 import createView from './davinci-eight/facets/createView';
@@ -68,6 +69,7 @@ import Frustum from './davinci-eight/facets/Frustum';
 import Perspective from './davinci-eight/facets/Perspective';
 import frustumMatrix from './davinci-eight/facets/frustumMatrix';
 import { PerspectiveCamera } from './davinci-eight/facets/PerspectiveCamera';
+import PerspectiveTransform from './davinci-eight/facets/PerspectiveTransform';
 import perspectiveMatrix from './davinci-eight/facets/perspectiveMatrix';
 import viewMatrix from './davinci-eight/facets/viewMatrixFromEyeLookUp';
 import ModelE2 from './davinci-eight/facets/ModelE2';
@@ -244,6 +246,8 @@ const eight = {
     get Shader() { return Shader },
     get Drawable() { return Drawable },
     get PerspectiveCamera() { return PerspectiveCamera },
+    get ViewTransform() { return ViewTransform },
+    get PerspectiveTransform() { return PerspectiveTransform },
     get getCanvasElementById() { return getCanvasElementById },
     get Engine() { return Engine },
     get animation() { return animation },

@@ -438,6 +438,12 @@ declare module EIGHT {
         depthFunc(func: DepthFunction): Engine;
 
         /**
+         * Converts from device (canvas) coordinates to image cube coordinates (-1 <= x, y, z <= +1).
+         * The z-coordinate is set to zero.
+         */
+        deviceToImageCoords(deviceCoords: VectorE2): VectorE3;
+
+        /**
          * Turns off the specified WebGL capability for this context.
          */
         disable(capability: Capability): Engine;
@@ -3027,43 +3033,35 @@ declare module EIGHT {
      *
      */
     class PerspectiveCamera implements Facet {
-
         /**
          * The aspect ratio of the viewport, i.e., width / height.
          */
         aspect: number;
-
         /**
          * The position of the camera, a position vector.
          */
         eye: Geometric3;
-
         /**
          * The distance to the far plane of the viewport.
          */
         far: number;
-
         /**
          * The field of view is the angle in the camera horizontal plane that the viewport subtends at the camera.
          * The field of view is measured in radians.
          */
         fov: number;
-
         /**
          * The point (position vector) that the camera looks at.
          */
         look: Geometric3;
-
         /**
          *The distance to the near plane of the viewport.
          */
         near: number;
-
         /**
          * The direction that is used to orient the camera. 
          */
         up: Geometric3;
-
         /**
          * Constructs a PerspectiveCamera from optional parameters.
          * 
@@ -3072,7 +3070,81 @@ declare module EIGHT {
          * near: The distance to the near plane from the camera.
          * far: The distance to the far plane from the camera. 
          */
-        constructor(fov?: number, aspect?: number, near?: number, far?: number)
+        constructor(fov?: number, aspect?: number, near?: number, far?: number);
+        /**
+         * 
+         */
+        imageToWorldCoords(x: number, y: number, z: number): Geometric3;
+        /**
+         * 
+         */
+        setUniforms(visitor: FacetVisitor): void;
+    }
+
+    /**
+     * 
+     */
+    class PerspectiveTransform implements Facet {
+        /**
+         * The field of view is the angle in the camera horizontal plane that the viewport subtends at the camera.
+         * The field of view is measured in radians.
+         */
+        fov: number;
+        /**
+         * The aspect ratio of the viewport, i.e., width / height.
+         */
+        aspect: number;
+        /**
+         *The distance to the near plane of the viewport.
+         */
+        near: number;
+        /**
+         * The distance to the far plane of the viewport.
+         */
+        far: number;
+        /**
+         * 
+         */
+        constructor(fov?: number, aspect?: number, near?: number, far?: number);
+
+        /**
+         * 
+         */
+        imageToCameraCoords(x: number, y: number, z: number): number[];
+
+        /**
+         * 
+         */
+        setUniforms(visitor: FacetVisitor): void;
+    }
+
+    /**
+     * 
+     */
+    class ViewTransform implements Facet {
+        /**
+         * The position of the camera, a position vector.
+         */
+        eye: Geometric3;
+        /**
+         * The point (position vector) that the camera looks at.
+         */
+        look: Geometric3;
+        /**
+         * The direction that is used to orient the camera. 
+         */
+        up: Geometric3;
+        /**
+         * 
+         */
+        constructor();
+        /**
+         * 
+         */
+        cameraToWorldCoords(cameraCoords: number[]): Geometric3;
+        /**
+         * 
+         */
         setUniforms(visitor: FacetVisitor): void;
     }
 
@@ -5091,7 +5163,7 @@ declare module EIGHT {
     class Diagram3D {
         ctx: CanvasRenderingContext2D;
         canvas: HTMLCanvasElement;
-        constructor(canvas: string, camera: { eye: VectorE3; look: VectorE3; up: VectorE3; near: number, far: number, fov: number, aspect: number });
+        constructor(canvasId: string, camera: { eye: VectorE3; look: VectorE3; up: VectorE3; near?: number, far?: number, fov?: number, aspect?: number }, prism?: { near: number, far: number, fov: number, aspect: number });
         beginPath(): void;
         clear(): void;
         closePath(): void;
