@@ -572,7 +572,7 @@ export class Engine extends ShareableBase implements ContextManager {
         mustBeGE('imageZ', imageZ, -1);
         mustBeLE('imageZ', imageZ, +1);
         const imageX = ((2 * deviceX) / this.canvas.width) - 1;
-        const imageY = 1 - (2 * deviceX) / this.canvas.height;
+        const imageY = 1 - (2 * deviceY) / this.canvas.height;
         return vectorFromCoords(imageX, imageY, imageZ);
     }
 }

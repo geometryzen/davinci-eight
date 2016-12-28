@@ -553,7 +553,7 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-12-28';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '5.0.14';
+            this.VERSION = '5.0.15';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -10013,7 +10013,7 @@ define('davinci-eight/core/Engine',["require", "exports", "./checkEnums", "./Cle
             mustBeGE_1.default('imageZ', imageZ, -1);
             mustBeLE_1.default('imageZ', imageZ, +1);
             var imageX = ((2 * deviceX) / this.canvas.width) - 1;
-            var imageY = 1 - (2 * deviceX) / this.canvas.height;
+            var imageY = 1 - (2 * deviceY) / this.canvas.height;
             return R3_1.vectorFromCoords(imageX, imageY, imageZ);
         };
         return Engine;
