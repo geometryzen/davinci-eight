@@ -16257,7 +16257,7 @@ System.register("davinci-eight/commands/WebGLDisable.js", ["../checks/mustBeNumb
         }
     };
 });
-System.register("davinci-eight/core/Engine.js", ["./checkEnums", "./ClearBufferMask", "../commands/EIGHTLogger", "./initWebGL", "../checks/isDefined", "../checks/mustBeNonNullObject", "../checks/mustBeNumber", "../checks/mustBeString", "../math/R3", "../collections/ShareableArray", "./ShareableBase", "../commands/VersionLogger", "../commands/WebGLClearColor", "../commands/WebGLEnable", "../commands/WebGLDisable"], function (exports_1, context_1) {
+System.register("davinci-eight/core/Engine.js", ["./checkEnums", "./ClearBufferMask", "../commands/EIGHTLogger", "./initWebGL", "../checks/isDefined", "../checks/mustBeGE", "../checks/mustBeLE", "../checks/mustBeNonNullObject", "../checks/mustBeNumber", "../checks/mustBeString", "../math/R3", "../collections/ShareableArray", "./ShareableBase", "../commands/VersionLogger", "../commands/WebGLClearColor", "../commands/WebGLEnable", "../commands/WebGLDisable"], function (exports_1, context_1) {
     "use strict";
 
     var __extends = this && this.__extends || function (d, b) {
@@ -16268,7 +16268,7 @@ System.register("davinci-eight/core/Engine.js", ["./checkEnums", "./ClearBufferM
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
     var __moduleName = context_1 && context_1.id;
-    var checkEnums_1, ClearBufferMask_1, EIGHTLogger_1, initWebGL_1, isDefined_1, mustBeNonNullObject_1, mustBeNumber_1, mustBeString_1, R3_1, ShareableArray_1, ShareableBase_1, VersionLogger_1, WebGLClearColor_1, WebGLEnable_1, WebGLDisable_1, Engine;
+    var checkEnums_1, ClearBufferMask_1, EIGHTLogger_1, initWebGL_1, isDefined_1, mustBeGE_1, mustBeLE_1, mustBeNonNullObject_1, mustBeNumber_1, mustBeString_1, R3_1, ShareableArray_1, ShareableBase_1, VersionLogger_1, WebGLClearColor_1, WebGLEnable_1, WebGLDisable_1, Engine;
     return {
         setters: [function (checkEnums_1_1) {
             checkEnums_1 = checkEnums_1_1;
@@ -16280,6 +16280,10 @@ System.register("davinci-eight/core/Engine.js", ["./checkEnums", "./ClearBufferM
             initWebGL_1 = initWebGL_1_1;
         }, function (isDefined_1_1) {
             isDefined_1 = isDefined_1_1;
+        }, function (mustBeGE_1_1) {
+            mustBeGE_1 = mustBeGE_1_1;
+        }, function (mustBeLE_1_1) {
+            mustBeLE_1 = mustBeLE_1_1;
         }, function (mustBeNonNullObject_1_1) {
             mustBeNonNullObject_1 = mustBeNonNullObject_1_1;
         }, function (mustBeNumber_1_1) {
@@ -16625,10 +16629,18 @@ System.register("davinci-eight/core/Engine.js", ["./checkEnums", "./ClearBufferM
                     var key = JSON.stringify(materialKey);
                     this.materials[key] = material;
                 };
-                Engine.prototype.deviceToImageCoords = function (deviceCoords) {
-                    var imageX = 2 * deviceCoords.x / this.canvas.width - 1;
-                    var imageY = 1 - 2 * deviceCoords.y / this.canvas.height;
-                    return R3_1.vectorFromCoords(imageX, imageY, 0);
+                Engine.prototype.deviceToImageCoords = function (deviceX, deviceY, imageZ) {
+                    if (imageZ === void 0) {
+                        imageZ = 0;
+                    }
+                    mustBeNumber_1.default('deviceX', deviceX);
+                    mustBeNumber_1.default('deviceY', deviceY);
+                    mustBeNumber_1.default('imageZ', imageZ);
+                    mustBeGE_1.default('imageZ', imageZ, -1);
+                    mustBeLE_1.default('imageZ', imageZ, +1);
+                    var imageX = 2 * deviceX / this.canvas.width - 1;
+                    var imageY = 1 - 2 * deviceX / this.canvas.height;
+                    return R3_1.vectorFromCoords(imageX, imageY, imageZ);
                 };
                 return Engine;
             }(ShareableBase_1.ShareableBase);
@@ -23772,9 +23784,9 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
             Eight = function () {
                 function Eight() {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-                    this.LAST_MODIFIED = '2016-12-27';
+                    this.LAST_MODIFIED = '2016-12-28';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '5.0.13';
+                    this.VERSION = '5.0.14';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];

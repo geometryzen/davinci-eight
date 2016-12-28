@@ -13,6 +13,8 @@ import initWebGL from './initWebGL';
 import isDefined from '../checks/isDefined';
 import Material from './Material';
 import MaterialKey from './MaterialKey';
+import mustBeGE from '../checks/mustBeGE';
+import mustBeLE from '../checks/mustBeLE';
 import mustBeNonNullObject from '../checks/mustBeNonNullObject';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeString from '../checks/mustBeString';
@@ -21,7 +23,6 @@ import PixelType from './PixelType';
 import { vectorFromCoords } from '../math/R3';
 import ShareableArray from '../collections/ShareableArray';
 import { ShareableBase } from './ShareableBase';
-import VectorE2 from '../math/VectorE2';
 import VectorE3 from '../math/VectorE3';
 import VersionLogger from '../commands/VersionLogger';
 import { WebGLClearColor } from '../commands/WebGLClearColor';
@@ -555,17 +556,24 @@ export class Engine extends ShareableBase implements ContextManager {
         mustBeNonNullObject('material', material);
         mustBeString('materialKey.kind', materialKey.kind);
         const key = JSON.stringify(materialKey);
-        // console.lg(`CREATE Material(key = ${key})`);
         this.materials[key] = material;
     }
 
     /**
-     * 
+     * Computes the coordinates of a point in the image cube corresponding to device coordinates.
+     * @param deviceX The x-coordinate of the device event.
+     * @param deviceY The y-coordinate of the device event.
+     * @param imageZ The optional value to use as the resulting depth coordinate.
      */
-    deviceToImageCoords(deviceCoords: VectorE2): VectorE3 {
-        const imageX = ((2 * deviceCoords.x) / this.canvas.width) - 1;
-        const imageY = 1 - (2 * deviceCoords.y) / this.canvas.height;
-        return vectorFromCoords(imageX, imageY, 0);
+    deviceToImageCoords(deviceX: number, deviceY: number, imageZ = 0): VectorE3 {
+        mustBeNumber('deviceX', deviceX);
+        mustBeNumber('deviceY', deviceY);
+        mustBeNumber('imageZ', imageZ);
+        mustBeGE('imageZ', imageZ, -1);
+        mustBeLE('imageZ', imageZ, +1);
+        const imageX = ((2 * deviceX) / this.canvas.width) - 1;
+        const imageY = 1 - (2 * deviceX) / this.canvas.height;
+        return vectorFromCoords(imageX, imageY, imageZ);
     }
 }
 

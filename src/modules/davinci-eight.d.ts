@@ -439,9 +439,11 @@ declare module EIGHT {
 
         /**
          * Converts from device (canvas) coordinates to image cube coordinates (-1 <= x, y, z <= +1).
-         * The z-coordinate is set to zero.
+         * @param deviceX The x-coordinate of the device event.
+         * @param deviceY The y-coordinate of the device event.
+         * @param imageZ The optional value to use as the resulting depth coordinate.
          */
-        deviceToImageCoords(deviceCoords: VectorE2): VectorE3;
+        deviceToImageCoords(deviceX: number, deviceY: number, imageZ?: number): VectorE3;
 
         /**
          * Turns off the specified WebGL capability for this context.
