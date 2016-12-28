@@ -439,9 +439,9 @@ declare module EIGHT {
 
         /**
          * Converts from device (canvas) coordinates to image cube coordinates (-1 <= x, y, z <= +1).
-         * @param deviceX The x-coordinate of the device event.
-         * @param deviceY The y-coordinate of the device event.
-         * @param imageZ The optional value to use as the resulting depth coordinate.
+         * deviceX: The x-coordinate of the device event.
+         * deviceY: The y-coordinate of the device event.
+         * imageZ: The optional value to use as the resulting depth coordinate.
          */
         deviceToImageCoords(deviceX: number, deviceY: number, imageZ?: number): VectorE3;
 
@@ -2199,8 +2199,8 @@ declare module EIGHT {
         /**
          * Sets this multivector to a rotor that rotates through angle θ around the specified direction.
          *
-         * @param n The (unit) vector defining the rotation direction.
-         * @param θ The rotation angle in radians when the rotor is applied on both sides as R * M * ~R
+         * n: The (unit) vector defining the rotation direction.
+         * θ: The rotation angle in radians when the rotor is applied on both sides as R * M * ~R
          */
         rotorFromAxisAngle(n: VectorE3, θ: number): Geometric3;
 
@@ -3074,9 +3074,12 @@ declare module EIGHT {
          */
         constructor(fov?: number, aspect?: number, near?: number, far?: number);
         /**
-         * 
+         * Converts from image cube coordinates to world coordinates.
+         * imageX: The x-coordinate in the image cube. -1 <= x <= +1.
+         * imageY: The y-coordinate in the image cube. -1 <= y <= +1.
+         * imageZ: The z-coordinate in the image cube. -1 <= z <= +1.
          */
-        imageToWorldCoords(x: number, y: number, z: number): Geometric3;
+        imageToWorldCoords(imageX: number, imageY: number, imageZ: number): Geometric3;
         /**
          * 
          */

@@ -553,7 +553,7 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-12-28';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '5.0.15';
+            this.VERSION = '5.0.16';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -10681,8 +10681,8 @@ define('davinci-eight/facets/PerspectiveCamera',["require", "exports", "../math/
             this.P = new PerspectiveTransform_1.default(fov, aspect, near, far);
             this.V = new ViewTransform_1.default();
         }
-        PerspectiveCamera.prototype.imageToWorldCoords = function (x, y, z) {
-            var cameraCoords = this.P.imageToCameraCoords(x, y, z);
+        PerspectiveCamera.prototype.imageToWorldCoords = function (imageX, imageY, imageZ) {
+            var cameraCoords = this.P.imageToCameraCoords(imageX, imageY, imageZ);
             return Geometric3_1.default.fromVector(this.V.cameraToWorldCoords(cameraCoords));
         };
         PerspectiveCamera.prototype.setUniforms = function (visitor) {

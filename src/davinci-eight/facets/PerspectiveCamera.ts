@@ -49,10 +49,13 @@ export class PerspectiveCamera implements Facet {
     }
 
     /**
-     * 
+     * Converts from image cube coordinates to world coordinates.
+     * @param imageX The x-coordinate in the image cube. -1 <= x <= +1.
+     * @param imageY The y-coordinate in the image cube. -1 <= y <= +1.
+     * @param imageZ The z-coordinate in the image cube. -1 <= z <= +1.
      */
-    imageToWorldCoords(x: number, y: number, z: number): Geometric3 {
-        const cameraCoords = this.P.imageToCameraCoords(x, y, z);
+    imageToWorldCoords(imageX: number, imageY: number, imageZ: number): Geometric3 {
+        const cameraCoords = this.P.imageToCameraCoords(imageX, imageY, imageZ);
         return Geometric3.fromVector(this.V.cameraToWorldCoords(cameraCoords));
     }
 
