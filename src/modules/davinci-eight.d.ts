@@ -4876,7 +4876,7 @@ declare module EIGHT {
         /**
          *
          */
-        config: TrailConfig
+        config: TrailConfig;
         /**
          * Constructs a Trail for the specified Mesh.
          */
@@ -4894,13 +4894,18 @@ declare module EIGHT {
          */
         erase(): void;
         /**
+         * 
+         */
+        forEach(callback: (alpha: number, X: Vector3, R: Spinor3) => any): void;
+        /**
          * Renders the mesh in its historical positions and attitudes.
          */
         render(ambients: Facet[]): void;
         /**
          * Records the graphics model variables.
+         * alpha: The value that parametrizes the trail. e.g. the time.
          */
-        snapshot(): void;
+        snapshot(alpha?: number): void;
     }
 
     /**

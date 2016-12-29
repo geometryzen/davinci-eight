@@ -18,3 +18,5 @@ export class TrailConfig {
      */
     public retain = 10;
 }
+
+export default TrailConfig;

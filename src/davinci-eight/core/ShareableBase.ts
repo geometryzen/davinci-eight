@@ -198,3 +198,5 @@ export class ShareableBase implements Shareable {
         return this._uuid;
     }
 }
+
+export default ShareableBase;

@@ -1,14 +1,15 @@
-import { Facet } from '../core/Facet';
-import { Geometry } from '../core/Geometry';
-import { Material } from '../core/Material';
+import Facet from '../core/Facet';
+import Geometry from '../core/Geometry';
+import Material from '../core/Material';
 import Modulo from '../math/Modulo';
 import Spinor3 from '../math/Spinor3';
 import Vector3 from '../math/Vector3';
-import { Mesh } from '../core/Mesh';
+import Mesh from '../core/Mesh';
 import mustBeNonNullObject from '../checks/mustBeNonNullObject';
-import { Renderable } from '../core/Renderable';
-import { ShareableBase } from '../core/ShareableBase';
-import { TrailConfig } from './TrailConfig';
+import mustBeNumber from '../checks/mustBeNumber';
+import Renderable from '../core/Renderable';
+import ShareableBase from '../core/ShareableBase';
+import TrailConfig from './TrailConfig';
 
 /**
  * <p>
@@ -56,6 +57,11 @@ export class Trail extends ShareableBase implements Renderable {
     private Rs: Spinor3[] = [];
 
     /**
+     * The parameter history.
+     */
+    private Ns: number[] = [];
+
+    /**
      * The configuration that determines how the history is recorded.
      */
     public config: TrailConfig = new TrailConfig();
@@ -96,8 +102,23 @@ export class Trail extends ShareableBase implements Renderable {
      * Erases the trail history.
      */
     erase(): void {
+        this.Ns = [];
         this.Xs = [];
         this.Rs = [];
+    }
+
+    forEach(callback: (alpha: number, X: Vector3, R: Spinor3) => any): void {
+        if (this.config.enabled) {
+            const Ns = this.Ns;
+            const Xs = this.Xs;
+            const Rs = this.Rs;
+            const iLength: number = this.modulo.size;
+            for (let i = 0; i < iLength; i++) {
+                if (Xs[i] && Rs[i]) {
+                    callback(Ns[i], Xs[i], Rs[i]);
+                }
+            }
+        }
     }
 
     /**
@@ -160,28 +181,31 @@ export class Trail extends ShareableBase implements Renderable {
     /**
      * Records the Mesh variables according to the interval property.
      */
-    snapshot(): void {
-        if (this.config.enabled) {
-            if (this.modulo.size !== this.config.retain) {
-                this.modulo.size = this.config.retain;
-                this.modulo.value = 0;
-            }
-
-            if (this.counter % this.config.interval === 0) {
-                const index = this.modulo.value;
-                if (this.Xs[index]) {
-                    // When populating an occupied slot, don't create new objects.
-                    this.Xs[index].copy(this.mesh.X);
-                    this.Rs[index].copy(this.mesh.R);
-                }
-                else {
-                    // When populating an empty slot, allocate a new object and make a copy.
-                    this.Xs[index] = Vector3.copy(this.mesh.X);
-                    this.Rs[index] = Spinor3.copy(this.mesh.R);
-                }
-                this.modulo.inc();
-            }
-            this.counter++;
+    snapshot(alpha = 0): void {
+        mustBeNumber('alpha', alpha);
+        if (!this.config.enabled) {
+            return;
         }
+        if (this.modulo.size !== this.config.retain) {
+            this.modulo.size = this.config.retain;
+            this.modulo.value = 0;
+        }
+
+        if (this.counter % this.config.interval === 0) {
+            const index = this.modulo.value;
+            this.Ns[index] = alpha;
+            if (this.Xs[index]) {
+                // When populating an occupied slot, don't create new objects.
+                this.Xs[index].copy(this.mesh.X);
+                this.Rs[index].copy(this.mesh.R);
+            }
+            else {
+                // When populating an empty slot, allocate a new object and make a copy.
+                this.Xs[index] = Vector3.copy(this.mesh.X);
+                this.Rs[index] = Spinor3.copy(this.mesh.R);
+            }
+            this.modulo.inc();
+        }
+        this.counter++;
     }
 }

@@ -22,3 +22,5 @@ export interface Renderable extends ContextConsumer {
      */
     render(ambients: Facet[]): void;
 }
+
+export default Renderable;
