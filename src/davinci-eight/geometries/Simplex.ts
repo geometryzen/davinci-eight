@@ -63,16 +63,6 @@ export default class Simplex {
     get k(): SimplexMode {
         return this.vertices.length - 1;
     }
-    // These symbolic constants represent the correct k values for various low-dimesional simplices. 
-    // The number of vertices in a k-simplex is k + 1.
-    /*
-    public static EMPTY = SimplexMode.EMPTY;
-    public static POINT = SimplexMode.POINT;
-    public static LINE = SimplexMode.LINE;
-    public static TRIANGLE = SimplexMode.TRIANGLE;
-    public static TETRAHEDRON = SimplexMode.TETRAHEDRON;
-    public static FIVE_CELL = SimplexMode.FIVE_CELL;
-    */
     public static indices(simplex: Simplex): number[] {
         return simplex.vertices.map(function (vertex) { return vertex.index; });
     }

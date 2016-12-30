@@ -3408,7 +3408,15 @@ declare module EIGHT {
         /**
          * 
          */
+        heightSegments?: number;
+        /**
+         * 
+         */
         length?: number;
+        /**
+         * 
+         */
+        mode?: GeometryMode;
         /**
          *
          */
@@ -3425,6 +3433,10 @@ declare module EIGHT {
          * 
          */
         radius?: number;
+        /**
+         * 
+         */
+        thetaSegments?: number;
     }
 
     /**
@@ -4338,11 +4350,19 @@ declare module EIGHT {
         /**
          * 
          */
+        heightSegments?: number;
+        /**
+         * 
+         */
         length?: number;
         /**
          * The reference meridian.
          */
         meridian?: VectorE3;
+        /**
+         * 
+         */
+        mode?: 'mesh' | 'wire' | 'point' | GeometryMode;
         /**
          * 
          */
@@ -4363,6 +4383,10 @@ declare module EIGHT {
          * 
          */
         radius?: number;
+        /**
+         * 
+         */
+        thetaSegments?: number;
         /**
          * The spinor that rotates from the canonical frame to the reference frame.
          */

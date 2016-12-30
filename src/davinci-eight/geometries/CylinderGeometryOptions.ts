@@ -1,4 +1,5 @@
 import GeometryKey from '../core/GeometryKey';
+import GeometryMode from './GeometryMode';
 import GeometryOptions from './GeometryOptions';
 import CylinderGeometry from './CylinderGeometry';
 
@@ -9,7 +10,15 @@ interface CylinderGeometryOptions extends GeometryOptions, GeometryKey<CylinderG
     /**
      * 
      */
+    heightSegments?: number;
+    /**
+     * 
+     */
     length?: number;
+    /**
+     * 
+     */
+    mode?: GeometryMode;
     /**
      *
      */
@@ -26,6 +35,10 @@ interface CylinderGeometryOptions extends GeometryOptions, GeometryKey<CylinderG
      * 
      */
     radius?: number;
+    /**
+     * 
+     */
+    thetaSegments?: number;
 }
 
 export default CylinderGeometryOptions;

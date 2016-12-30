@@ -2,7 +2,6 @@ import isDefined from '../checks/isDefined';
 import mustBeNumber from '../checks/mustBeNumber';
 import PolyhedronBuilder from '../geometries/PolyhedronBuilder';
 import Primitive from '../core/Primitive';
-import reduce from '../atoms/reduce';
 import TetrahedronGeometryOptions from './TetrahedronGeometryOptions';
 
 //
@@ -32,5 +31,11 @@ const indices: number[] = [
 export default function tetrahedronPrimitive(options: TetrahedronGeometryOptions = { kind: 'TetrahedronGeometry' }): Primitive {
     const radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : 1.0;
     const builder = new PolyhedronBuilder(vertices, indices, radius);
-    return reduce(builder.toPrimitives());
+    const primitives = builder.toPrimitives();
+    if (primitives.length === 1) {
+        return primitives[0];
+    }
+    else {
+        throw new Error("Expecting PolyhedronBuilder to return one Primitive.");
+    }
 }

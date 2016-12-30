@@ -10,7 +10,6 @@ import mustBeGE from '../checks/mustBeGE';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeNumber from '../checks/mustBeNumber';
 import Primitive from '../core/Primitive';
-import reduce from '../atoms/reduce';
 import R3 from '../math/R3';
 import SphereGeometryOptions from './SphereGeometryOptions';
 import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
@@ -227,7 +226,7 @@ function makePoints(points: Vector3[], uvs: Vector2[], radius: number, heightSeg
     }
 }
 
-class SphereBuilder extends SimplexPrimitivesBuilder {
+class SphereSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
     public tilt = Spinor3.one();
     public azimuthStart = DEFAULT_AZIMUTH_START;
     public azimuthLength = DEFAULT_AZIMUTH_LENGTH;
@@ -254,7 +253,7 @@ class SphereBuilder extends SimplexPrimitivesBuilder {
     public isModified(): boolean {
         return super.isModified();
     }
-    public setModified(modified: boolean): SphereBuilder {
+    public setModified(modified: boolean): this {
         super.setModified(modified);
         return this;
     }
@@ -300,7 +299,7 @@ class SphereBuilder extends SimplexPrimitivesBuilder {
 
 function spherePrimitive(options: SphereGeometryOptions = { kind: 'SphereGeometry' }): Primitive {
 
-    const builder = new SphereBuilder();
+    const builder = new SphereSimplexPrimitivesBuilder();
 
     // Radius
     if (isNumber(options.radius)) {
@@ -405,7 +404,13 @@ function spherePrimitive(options: SphereGeometryOptions = { kind: 'SphereGeometr
     if (options.offset) {
         builder.offset.copy(options.offset);
     }
-    return reduce(builder.toPrimitives());
+    const primitives = builder.toPrimitives();
+    if (primitives.length === 1) {
+        return primitives[0];
+    }
+    else {
+        throw new Error("Expecting SphereSimplexPrimitivesBuilder to return one Primitive.");
+    }
 }
 
 /**

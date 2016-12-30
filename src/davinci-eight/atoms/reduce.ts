@@ -52,7 +52,16 @@ function copyAttributes(primitive: Primitive, attributes: { [name: string]: Attr
     }
 }
 
+/**
+ * reduces multiple TRIANGLE_STRIP Primitives to a single TRAINGLE_STRIP Primitive.
+ */
 export default function reduce(primitives: Primitive[]): Primitive {
+    for (let i = 0; i < primitives.length; i++) {
+        const primitive = primitives[i];
+        if (primitive.mode !== BeginMode.TRIANGLE_STRIP) {
+            throw new Error(`mode (${primitive.mode}) must be TRIANGLE_STRIP`);
+        }
+    }
     return primitives.reduce(function (previous: Primitive, current: Primitive) {
         const indices: number[] = [];
 

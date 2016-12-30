@@ -18,16 +18,16 @@ import Vertex from '../atoms/Vertex';
 
 function numberList(size: number, value: number): number[] {
     const data: number[] = [];
-    for (var i = 0; i < size; i++) { data.push(value); }
+    for (let i = 0; i < size; i++) { data.push(value); }
     return data;
 }
 
 function attribName(name: string, attribMap?: { [name: string]: { name?: string } }): string {
     expectArg('name', name).toBeString();
     expectArg('attribMap', attribMap).toBeObject();
-    let meta = attribMap[name];
+    const meta = attribMap[name];
     if (meta) {
-        let alias = meta.name;
+        const alias = meta.name;
         return alias ? alias : name;
     }
     else {
@@ -38,9 +38,9 @@ function attribName(name: string, attribMap?: { [name: string]: { name?: string 
 function attribSize(key: string, attribMap?: { [key: string]: { size: AttributeSizeType } }): AttributeSizeType {
     expectArg('key', key).toBeString();
     expectArg('attribMap', attribMap).toBeObject();
-    let meta = attribMap[key];
+    const meta = attribMap[key];
     if (meta) {
-        let size = meta.size;
+        const size = meta.size;
         // TODO: Override the message...
         expectArg('size', size).toBeNumber();
         return meta.size;
@@ -54,7 +54,7 @@ function concat(a: number[], b: number[]): number[] {
     return a.concat(b);
 }
 
-export default function (simplices: Simplex[], geometryMeta?: GeometryMeta): Primitive {
+export default function simplicesToPrimitive(simplices: Simplex[], geometryMeta?: GeometryMeta): Primitive {
     expectArg('simplices', simplices).toBeObject();
 
     const actuals: GeometryMeta = simplicesToGeometryMeta(simplices);
@@ -71,12 +71,10 @@ export default function (simplices: Simplex[], geometryMeta?: GeometryMeta): Pri
     // Cache the keys and keys.length of the specified attributes and declare a loop index.
     const keys = Object.keys(attribMap);
     const keysLen = keys.length;
-    let k: number;
 
     // Side effect is to set the index property, but it will be be the same as the array index. 
     const vertices: Vertex[] = computeUniqueVertices(simplices);
     const vsLength = vertices.length;
-    let i: number;
     // Each simplex produces as many indices as vertices.
     // This is why we need the Vertex to have an temporary index property.
     const indices: number[] = simplices.map(Simplex.indices).reduce(concat, []);
@@ -84,7 +82,7 @@ export default function (simplices: Simplex[], geometryMeta?: GeometryMeta): Pri
     // Create intermediate data structures for output and to cache dimensions and name.
     // For performance an array will be used whose index is the key index.
     const outputs: { data: number[]; dimensions: AttributeSizeType; name: string }[] = [];
-    for (k = 0; k < keysLen; k++) {
+    for (let k = 0; k < keysLen; k++) {
         const key = keys[k];
         const dims = attribSize(key, attribMap);
         const data = numberList(vsLength * dims, void 0);
@@ -92,13 +90,13 @@ export default function (simplices: Simplex[], geometryMeta?: GeometryMeta): Pri
     }
 
     // Accumulate attribute data in intermediate data structures.
-    for (i = 0; i < vsLength; i++) {
+    for (let i = 0; i < vsLength; i++) {
         const vertex = vertices[i];
         const vertexAttribs = vertex.attributes;
         if (vertex.index !== i) {
             expectArg('vertex.index', i).toSatisfy(false, "vertex.index must equal loop index, i");
         }
-        for (k = 0; k < keysLen; k++) {
+        for (let k = 0; k < keysLen; k++) {
             const output = outputs[k];
             const size = output.dimensions;
             let value: VectorN<number> = vertexAttribs[keys[k]];
@@ -113,7 +111,7 @@ export default function (simplices: Simplex[], geometryMeta?: GeometryMeta): Pri
 
     // Copy accumulated attribute arrays to output data structure.
     const attributes: { [name: string]: Attribute } = {};
-    for (k = 0; k < keysLen; k++) {
+    for (let k = 0; k < keysLen; k++) {
         const output = outputs[k];
         const data = output.data;
         attributes[output.name] = new DrawAttribute(data, output.dimensions, DataType.FLOAT);

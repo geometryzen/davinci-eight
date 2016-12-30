@@ -1,3 +1,4 @@
+import GeometryMode from '../geometries/GeometryMode';
 import VectorE3 from '../math/VectorE3';
 import SpinorE3 from '../math/SpinorE3';
 
@@ -14,6 +15,10 @@ export interface CylinderOptions {
      */
     color?: { r: number; g: number; b: number };
     /**
+     * 
+     */
+    heightSegments?: number;
+    /**
      * Defaults to 1.
      */
     length?: number;
@@ -21,6 +26,10 @@ export interface CylinderOptions {
      * 
      */
     meridian?: VectorE3;
+    /**
+     * 
+     */
+    mode?: GeometryMode;
     /**
      * 
      */
@@ -41,6 +50,10 @@ export interface CylinderOptions {
      * Defaults to 1.
      */
     radius?: number;
+    /**
+     * 
+     */
+    thetaSegments?: number;
     /**
      * 
      */

@@ -2,16 +2,17 @@ import ContextManager from '../core/ContextManager';
 import CylinderGeometryOptions from './CylinderGeometryOptions';
 import Geometric3 from '../math/Geometric3';
 import GeometryElements from '../core/GeometryElements';
+import GeometryMode from './GeometryMode';
 import isDefined from '../checks/isDefined';
 import mustBeBoolean from '../checks/mustBeBoolean';
+import mustBeInteger from '../checks/mustBeInteger';
 import mustBeNumber from '../checks/mustBeNumber';
 import Primitive from '../core/Primitive';
-import reduce from '../atoms/reduce';
 import arc3 from '../geometries/arc3';
 import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import Spinor3 from '../math/Spinor3';
 import SpinorE3 from '../math/SpinorE3';
-import { Vector2 } from '../math/Vector2';
+import Vector2 from '../math/Vector2';
 import Vector3 from '../math/Vector3';
 import VectorE3 from '../math/VectorE3';
 import vec from '../math/R3';
@@ -95,7 +96,7 @@ function computeWallVertices(height: VectorE3, radius: VectorE3, clockwise: bool
 /**
  *
  */
-class CylinderBuilder extends SimplexPrimitivesBuilder {
+class CylinderSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
     /**
      * The symmetry axis of the cylinder.
      */
@@ -117,7 +118,7 @@ class CylinderBuilder extends SimplexPrimitivesBuilder {
     public openCap = false;
     public openWall = false;
 
-    constructor(height: VectorE3, cutLine: VectorE3, clockwise: boolean) {
+    constructor(height: VectorE3, cutLine: VectorE3, clockwise: boolean, private mode: GeometryMode) {
         super();
         this.height = Vector3.copy(height);
         this.cutLine = Vector3.copy(cutLine);
@@ -171,9 +172,27 @@ class CylinderBuilder extends SimplexPrimitivesBuilder {
                     const uv2 = uvs[i + 1][j].clone();
                     const uv3 = uvs[i + 1][j + 1].clone();
                     const uv4 = uvs[i][j + 1].clone();
-
-                    this.triangle([points[v2], points[v1], points[v3]], [n2, n1, n3], [uv2, uv1, uv3]);
-                    this.triangle([points[v4], points[v3], points[v1]], [n4, n3.clone(), n1.clone()], [uv4, uv3.clone(), uv1.clone()]);
+                    switch (this.mode) {
+                        case GeometryMode.MESH: {
+                            this.triangle([points[v2], points[v1], points[v3]], [n2, n1, n3], [uv2, uv1, uv3]);
+                            this.triangle([points[v4], points[v3], points[v1]], [n4, n3.clone(), n1.clone()], [uv4, uv3.clone(), uv1.clone()]);
+                            break;
+                        }
+                        case GeometryMode.WIRE: {
+                            this.lineSegment([points[v1], points[v2]], [n1, n2], [uv1, uv2]);
+                            this.lineSegment([points[v2], points[v3]], [n2, n3], [uv2, uv3]);
+                            this.lineSegment([points[v3], points[v3]], [n3, n4], [uv3, uv4]);
+                            this.lineSegment([points[v4], points[v1]], [n4, n1], [uv4, uv1]);
+                            break;
+                        }
+                        case GeometryMode.POINT: {
+                            this.point([points[v1]], [n1], [uv1]);
+                            this.point([points[v2]], [n2], [uv2]);
+                            this.point([points[v3]], [n3], [uv3]);
+                            this.point([points[v4]], [n4], [uv4]);
+                            break;
+                        }
+                    }
                 }
             }
         }
@@ -191,7 +210,24 @@ class CylinderBuilder extends SimplexPrimitivesBuilder {
                 const uv1: Vector2 = uvs[heightSegments][j + 1].clone();
                 const uv2: Vector2 = new Vector2([uv1.x, 1]);
                 const uv3: Vector2 = uvs[heightSegments][j].clone();
-                this.triangle([points[v1], points[v2], points[v3]], [normal, normal, normal], [uv1, uv2, uv3]);
+                switch (this.mode) {
+                    case GeometryMode.MESH: {
+                        this.triangle([points[v1], points[v2], points[v3]], [normal, normal, normal], [uv1, uv2, uv3]);
+                        break;
+                    }
+                    case GeometryMode.WIRE: {
+                        this.lineSegment([points[v1], points[v2]], [normal, normal], [uv1, uv2]);
+                        this.lineSegment([points[v2], points[v3]], [normal, normal], [uv2, uv3]);
+                        this.lineSegment([points[v3], points[v1]], [normal, normal], [uv3, uv1]);
+                        break;
+                    }
+                    case GeometryMode.POINT: {
+                        this.point([points[v1]], [normal], [uv1]);
+                        this.point([points[v2]], [normal], [uv2]);
+                        this.point([points[v3]], [normal], [uv3]);
+                        break;
+                    }
+                }
             }
         }
 
@@ -208,7 +244,24 @@ class CylinderBuilder extends SimplexPrimitivesBuilder {
                 const uv1: Vector2 = uvs[0][j].clone();
                 const uv2: Vector2 = new Vector2([uv1.x, 1]);
                 const uv3: Vector2 = uvs[0][j + 1].clone();
-                this.triangle([points[v1], points[v2], points[v3]], [normal, normal, normal], [uv1, uv2, uv3]);
+                switch (this.mode) {
+                    case GeometryMode.MESH: {
+                        this.triangle([points[v1], points[v2], points[v3]], [normal, normal, normal], [uv1, uv2, uv3]);
+                        break;
+                    }
+                    case GeometryMode.WIRE: {
+                        this.lineSegment([points[v1], points[v2]], [normal, normal], [uv1, uv2]);
+                        this.lineSegment([points[v2], points[v3]], [normal, normal], [uv2, uv3]);
+                        this.lineSegment([points[v3], points[v1]], [normal, normal], [uv3, uv1]);
+                        break;
+                    }
+                    case GeometryMode.POINT: {
+                        this.point([points[v1]], [normal], [uv1]);
+                        this.point([points[v2]], [normal], [uv2]);
+                        this.point([points[v3]], [normal], [uv3]);
+                        break;
+                    }
+                }
             }
         }
         this.setModified(false);
@@ -252,8 +305,8 @@ function cylinderPrimitive(options: CylinderGeometryOptions = { kind: 'CylinderG
      * The canonical cutLine is in the e3 direction.
      */
     const cutLine = getMeridian(options);
-
-    const builder = new CylinderBuilder(height, cutLine, false);
+    const mode: GeometryMode = isDefined(options.mode) ? options.mode : GeometryMode.MESH;
+    const builder = new CylinderSimplexPrimitivesBuilder(height, cutLine, false, mode);
 
     if (isDefined(options.openBase)) {
         builder.openBase = mustBeBoolean('openBase', options.openBase);
@@ -264,11 +317,23 @@ function cylinderPrimitive(options: CylinderGeometryOptions = { kind: 'CylinderG
     if (isDefined(options.openWall)) {
         builder.openWall = mustBeBoolean('openWall', options.openWall);
     }
+    if (isDefined(options.heightSegments)) {
+        builder.flatSegments = mustBeInteger("heightSegments", options.heightSegments);
+    }
+    if (isDefined(options.thetaSegments)) {
+        builder.curvedSegments = mustBeInteger("thetaSegments", options.thetaSegments);
+    }
 
     if (options.offset) {
         builder.offset.copy(options.offset);
     }
-    return reduce(builder.toPrimitives());
+    const primitives = builder.toPrimitives();
+    if (primitives.length === 1) {
+        return primitives[0];
+    }
+    else {
+        throw new Error("Expecting CylinderSimplexPrimitivesBuilder to return one Primitive.");
+    }
 }
 
 function baseOptions(options: CylinderGeometryOptions): { tilt: SpinorE3 } {

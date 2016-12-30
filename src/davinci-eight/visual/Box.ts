@@ -4,7 +4,6 @@ import BoxGeometryOptions from '../geometries/BoxGeometryOptions';
 import Color from '../core/Color';
 import ContextManager from '../core/ContextManager';
 import { ds } from './Defaults';
-import GeometryMode from '../geometries/GeometryMode';
 import isDefined from '../checks/isDefined';
 import geometryModeFromOptions from './geometryModeFromOptions';
 import materialFromOptions from './materialFromOptions';
@@ -31,10 +30,9 @@ export class Box extends RigidBody {
         super(contextManager, referenceAxis(options, ds.axis).direction(), referenceMeridian(options, ds.meridian).direction(), levelUp + 1);
 
         this.setLoggingName('Box');
-        const geoMode: GeometryMode = geometryModeFromOptions(options);
 
         const geoOptions: BoxGeometryOptions = { kind: 'BoxGeometry' };
-        geoOptions.mode = geoMode;
+        geoOptions.mode = geometryModeFromOptions(options);
 
         geoOptions.offset = vectorE3Object(options.offset);
         geoOptions.tilt = spinorE3Object(options.tilt);

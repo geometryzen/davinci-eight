@@ -4,12 +4,13 @@ import CylinderGeometry from '../geometries/CylinderGeometry';
 import CylinderGeometryOptions from '../geometries/CylinderGeometryOptions';
 import CylinderOptions from './CylinderOptions';
 import { ds } from './Defaults';
-import referenceAxis from '../core/referenceAxis';
-import referenceMeridian from '../core/referenceMeridian';
+import geometryModeFromOptions from './geometryModeFromOptions';
 import isDefined from '../checks/isDefined';
 import materialFromOptions from './materialFromOptions';
 import mustBeNumber from '../checks/mustBeNumber';
 import offsetFromOptions from './offsetFromOptions';
+import referenceAxis from '../core/referenceAxis';
+import referenceMeridian from '../core/referenceMeridian';
 import RigidBody from './RigidBody';
 import setAxisAndMeridian from './setAxisAndMeridian';
 import setColorOption from './setColorOption';
@@ -31,6 +32,7 @@ export class Cylinder extends RigidBody {
         this.setLoggingName('Cylinder');
 
         const geoOptions: CylinderGeometryOptions = { kind: 'CylinderGeometry' };
+        geoOptions.mode = geometryModeFromOptions(options);
 
         geoOptions.offset = offsetFromOptions(options);
         geoOptions.tilt = spinorE3Object(options.tilt);
@@ -40,6 +42,9 @@ export class Cylinder extends RigidBody {
         geoOptions.openCap = options.openCap;
         geoOptions.openBase = options.openBase;
         geoOptions.openWall = options.openWall;
+
+        geoOptions.heightSegments = options.heightSegments;
+        geoOptions.thetaSegments = options.thetaSegments;
 
         const cachedGeometry = contextManager.getCacheGeometry(geoOptions);
         if (cachedGeometry && cachedGeometry instanceof CylinderGeometry) {
