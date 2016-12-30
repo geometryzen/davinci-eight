@@ -553,7 +553,7 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-12-29';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '5.0.19';
+            this.VERSION = '5.0.20';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -14743,7 +14743,13 @@ define('davinci-eight/geometries/BoxGeometry',["require", "exports", "../core/Ge
                 if (options.offset) {
                     builder.offset.copy(options.offset);
                 }
-                return reduce_1.default(builder.toPrimitives());
+                var primitives = builder.toPrimitives();
+                if (primitives.length === 1) {
+                    return primitives[0];
+                }
+                else {
+                    throw new Error("Expecting CuboidSimplexPrimitivesBuilder to return one Primitive.");
+                }
             }
             case GeometryMode_1.default.WIRE: {
                 var a = DEFAULT_A.scale(width);
@@ -14795,13 +14801,7 @@ define('davinci-eight/geometries/BoxGeometry',["require", "exports", "../core/Ge
                 if (options.offset) {
                     builder.offset.copy(options.offset);
                 }
-                var primitives = builder.toPrimitives();
-                if (primitives.length === 1) {
-                    return primitives[0];
-                }
-                else {
-                    throw new Error("Expecting CuboidSimplexPrimitivesBuilder to return one Primitive.");
-                }
+                return reduce_1.default(builder.toPrimitives());
             }
         }
     }
