@@ -41,7 +41,7 @@ export interface SphereOptions {
     /**
      * 
      */
-    mode?: GeometryMode;
+    mode?: 'mesh' | 'wire' | 'point' | GeometryMode;
     /**
      * 
      */

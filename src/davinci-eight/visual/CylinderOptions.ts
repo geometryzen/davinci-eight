@@ -29,7 +29,7 @@ export interface CylinderOptions {
     /**
      * 
      */
-    mode?: GeometryMode;
+    mode?: 'mesh' | 'wire' | 'point' | GeometryMode;
     /**
      * 
      */

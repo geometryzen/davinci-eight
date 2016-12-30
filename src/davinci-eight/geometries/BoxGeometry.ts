@@ -303,7 +303,13 @@ function boxPrimitive(options: BoxGeometryOptions = { kind: 'BoxGeometry' }): Pr
             if (options.offset) {
                 builder.offset.copy(options.offset);
             }
-            return reduce(builder.toPrimitives());
+            const primitives = builder.toPrimitives();
+            if (primitives.length === 1) {
+                return primitives[0];
+            }
+            else {
+                throw new Error("Expecting CuboidSimplexPrimitivesBuilder to return one Primitive.");
+            }
         }
         default: {
             const builder = new CuboidPrimitivesBuilder();
@@ -336,7 +342,13 @@ function boxPrimitive(options: BoxGeometryOptions = { kind: 'BoxGeometry' }): Pr
             if (options.offset) {
                 builder.offset.copy(options.offset);
             }
-            return reduce(builder.toPrimitives());
+            const primitives = builder.toPrimitives();
+            if (primitives.length === 1) {
+                return primitives[0];
+            }
+            else {
+                throw new Error("Expecting CuboidSimplexPrimitivesBuilder to return one Primitive.");
+            }
         }
     }
 }

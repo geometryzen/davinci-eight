@@ -4270,7 +4270,7 @@ declare module EIGHT {
         /**
          * 
          */
-        mode?: GeometryMode;
+        mode?: 'mesh' | 'wire' | 'point' | GeometryMode;
         /**
          * 
          */
@@ -4783,7 +4783,7 @@ declare module EIGHT {
         /**
          * 
          */
-        mode?: GeometryMode;
+        mode?: 'mesh' | 'wire' | 'point' | GeometryMode;
         /**
          * 
          */
