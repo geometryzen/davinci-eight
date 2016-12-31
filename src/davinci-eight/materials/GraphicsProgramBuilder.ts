@@ -1,19 +1,18 @@
-import ContextManager from '../core/ContextManager';
 import getAttribVarName from '../core/getAttribVarName';
 import glslAttribType from './glslAttribType';
 import AttributeGlslType from '../core/AttributeGlslType';
+import AttributeSizeType from '../core/AttributeSizeType';
 import UniformGlslType from '../core/UniformGlslType';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeString from '../checks/mustBeString';
 import Primitive from '../core/Primitive';
-import { SmartGraphicsProgram } from '../materials/SmartGraphicsProgram';
 import vColorRequired from './vColorRequired';
 import vCoordsRequired from './vCoordsRequired';
 import vLightRequired from './vLightRequired';
 import fragmentShaderSrc from './fragmentShaderSrc';
 import vertexShaderSrc from './vertexShaderSrc';
 
-function computeAttribParams(values: { [key: string]: { size: 1 | 2 | 3 | 4, name?: string } }) {
+function computeAttribParams(values: { [key: string]: { size: AttributeSizeType, name?: string } }) {
     const result: { [key: string]: { glslType: AttributeGlslType, name?: string } } = {};
     const keys = Object.keys(values);
     const keysLength = keys.length;
@@ -27,12 +26,18 @@ function computeAttribParams(values: { [key: string]: { size: 1 | 2 | 3 | 4, nam
     return result;
 }
 
+/**
+ * GraphicsProgramBuilder is the builder pattern for generating vertex and fragment shader source code.
+ */
 export default class GraphicsProgramBuilder {
 
-    private aMeta: { [key: string]: { size: 1 | 2 | 3 | 4; } } = {};
+    private aMeta: { [key: string]: { size: AttributeSizeType; } } = {};
 
     private uParams: { [key: string]: { glslType: UniformGlslType; name?: string } } = {};
 
+    /**
+     * @param primitive
+     */
     constructor(primitive?: Primitive) {
         if (primitive) {
             const attributes = primitive.attributes;
@@ -45,36 +50,22 @@ export default class GraphicsProgramBuilder {
         }
     }
 
-    public attribute(name: string, size: 1 | 2 | 3 | 4): GraphicsProgramBuilder {
+    public attribute(name: string, size: AttributeSizeType): this {
         mustBeString('name', name);
         mustBeInteger('size', size);
-        this.aMeta[name] = { size: size };
+        this.aMeta[name] = { size };
         return this;
     }
 
-    public uniform(name: string, type: UniformGlslType): GraphicsProgramBuilder {
+    public uniform(name: string, glslType: UniformGlslType): this {
         mustBeString('name', name);
-        mustBeString('type', type);
-        this.uParams[name] = { glslType: type };
+        mustBeString('glslType', glslType);
+        this.uParams[name] = { glslType };
         return this;
     }
 
     /**
-     * Returns a Material consistent with the state of this builder.
-     */
-    public build(contextManager: ContextManager): SmartGraphicsProgram {
-        // FIXME: Push this calculation down into the functions.
-        // Then the data structures are based on size.
-        // uniforms based on numeric type?
-        const aParams = computeAttribParams(this.aMeta);
-        const vColor = vColorRequired(aParams, this.uParams);
-        const vCoords = vCoordsRequired(aParams, this.uParams);
-        const vLight = vLightRequired(aParams, this.uParams);
-        return new SmartGraphicsProgram(aParams, this.uParams, vColor, vCoords, vLight, contextManager);
-    }
-
-    /**
-     * Computes a vertex shader consistent with the state of this builder.
+     * Computes vertex shader source code consistent with the state of this builder.
      */
     public vertexShaderSrc(): string {
         const aParams = computeAttribParams(this.aMeta);
@@ -85,7 +76,7 @@ export default class GraphicsProgramBuilder {
     }
 
     /**
-     * Computes a fragment shader consistent with the state of this builder.
+     * Computes fragment shader source code consistent with the state of this builder.
      */
     public fragmentShaderSrc(): string {
         const aParams = computeAttribParams(this.aMeta);

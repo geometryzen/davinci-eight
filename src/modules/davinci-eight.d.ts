@@ -629,6 +629,8 @@ declare module EIGHT {
     }
 
     interface Material extends Facet, FacetVisitor, ContextConsumer {
+        vertexShaderSrc: string;
+        fragmentShaderSrc: string;
         attrib(name: string, value: VertexBuffer, size: number, normalized?: boolean, stride?: number, offset?: number): Material;
         getAttrib(indexOrName: number | string): Attrib;
         getAttribLocation(name: string): number;
@@ -4258,6 +4260,10 @@ declare module EIGHT {
         /**
          * 
          */
+        colored?: boolean;
+        /**
+         * 
+         */
         depth?: number;
         /**
          * 
@@ -4300,9 +4306,17 @@ declare module EIGHT {
          */
         openRight?: boolean;
         /**
+         * 
+         */
+        textured?: boolean;
+        /**
          * The spinor that rotates from the canonical frame to the reference frame.
          */
         tilt?: SpinorE3;
+        /**
+         * 
+         */
+        transparent?: boolean;
         /**
          * 
          */
@@ -4350,6 +4364,10 @@ declare module EIGHT {
         /**
          * 
          */
+        colored?: boolean;
+        /**
+         * 
+         */
         heightSegments?: number;
         /**
          * 
@@ -4386,11 +4404,19 @@ declare module EIGHT {
         /**
          * 
          */
+        textured?: boolean;
+        /**
+         * 
+         */
         thetaSegments?: number;
         /**
          * The spinor that rotates from the canonical frame to the reference frame.
          */
         tilt?: SpinorE3;
+        /**
+         * 
+         */
+        transparent?: boolean;
     }
 
     /**
@@ -4767,6 +4793,10 @@ declare module EIGHT {
         /**
          * 
          */
+        colored?: boolean;
+        /**
+         * 
+         */
         elevationStart?: number;
         /**
          * 
@@ -4789,9 +4819,17 @@ declare module EIGHT {
          */
         radius?: number;
         /**
+         * 
+         */
+        textured?: boolean;
+        /**
          * The spinor that rotates from the canonical frame to the reference frame.
          */
         tilt?: SpinorE3;
+        /**
+         * 
+         */
+        transparent?: boolean;
     }
 
     class Sphere extends RigidBody {

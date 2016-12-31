@@ -178,7 +178,7 @@ function side(tilt: SpinorE3, offset: Vector3, basis: Vector3[], uSegments: numb
 
             vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = position;
             vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normal;
-            vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS] = new Vector2([u, v]);
+            vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS] = new Vector2([u, 1 - v]);
         }
     }
     return side;
@@ -197,8 +197,17 @@ class CuboidPrimitivesBuilder extends PrimitivesBuilder {
     public openRight = false;
     public openCap = false;
 
+    /**
+     * The "width" direction. The default value is e1.
+     */
     private _a: Vector3 = Vector3.vector(1, 0, 0);
+    /**
+     * The "height" direction. The default value is e2.
+     */
     private _b: Vector3 = Vector3.vector(0, 1, 0);
+    /**
+     * The "depth" direction. The default value is e3.
+     */
     private _c: Vector3 = Vector3.vector(0, 0, 1);
 
     private sides: GridTriangleStrip[];

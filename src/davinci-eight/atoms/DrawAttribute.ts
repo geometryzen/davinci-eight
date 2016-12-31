@@ -1,4 +1,5 @@
 import Attribute from '../core/Attribute';
+import AttributeSizeType from '../core/AttributeSizeType';
 import DataType from '../core/DataType';
 
 function isVectorN(values: number[]): boolean {
@@ -16,7 +17,7 @@ function isExactMultipleOf(numer: number, denom: number): boolean {
     return numer % denom === 0;
 }
 
-function checkSize(size: 1 | 2 | 3 | 4, values: number[]): 1 | 2 | 3 | 4 {
+function checkSize(size: AttributeSizeType, values: number[]): AttributeSizeType {
     if (typeof size === 'number') {
         if (!isExactMultipleOf(values.length, size)) {
             throw new Error("values.length must be an exact multiple of size");
@@ -32,10 +33,10 @@ function checkSize(size: 1 | 2 | 3 | 4, values: number[]): 1 | 2 | 3 | 4 {
  * A convenience class for implementing the Attribute interface.
  */
 export default class DrawAttribute implements Attribute {
-    public values: number[];
-    public size: 1 | 2 | 3 | 4;
-    public type: DataType;
-    constructor(values: number[], size: 1 | 2 | 3 | 4, type: DataType) {
+    public readonly values: number[];
+    public readonly size: AttributeSizeType;
+    public readonly type: DataType;
+    constructor(values: number[], size: AttributeSizeType, type: DataType) {
         // mustBeArray('values', values)
         // mustBeInteger('size', size)
         this.values = checkValues(values);

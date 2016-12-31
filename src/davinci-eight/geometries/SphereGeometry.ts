@@ -1,6 +1,6 @@
 import arc3 from '../geometries/arc3';
 import ContextManager from '../core/ContextManager';
-import { Geometric3 } from '../math/Geometric3';
+import Geometric3 from '../math/Geometric3';
 import GeometryElements from '../core/GeometryElements';
 import GeometryMode from './GeometryMode';
 import isInteger from '../checks/isInteger';
@@ -16,7 +16,7 @@ import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import SimplexMode from './SimplexMode';
 import Spinor3 from '../math/Spinor3';
 import SpinorE3 from '../math/SpinorE3';
-import { Vector2 } from '../math/Vector2';
+import Vector2 from '../math/Vector2';
 import Vector3 from '../math/Vector3';
 import VectorE3 from '../math/VectorE3';
 
@@ -68,7 +68,7 @@ function computeVertices(
             const point = arcPoints[j].add(DEFAULT_ZENITH, displacement).stress(stress).rotate(tilt).add(offset);
             points.push(point);
             const u = j / azimuthSegments;
-            uvs.push(new Vector2([u, 1 - v]));
+            uvs.push(new Vector2([u, v]));
         }
     }
 }

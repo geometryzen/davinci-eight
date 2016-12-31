@@ -23,6 +23,18 @@ const canonicalAxis = vec(0, 1, 0);
 /**
  * @param height The vector in the height direction. The length also gives the cylinder length.
  * @param radius The vector in the radius direction. The length also gives the cylinder radius.
+ * @param clockwise
+ * @param stress
+ * @param tilt
+ * @param offset
+ * @param angle
+ * @param generator
+ * @param heightSegments
+ * @param thetaSegments
+ * @param points
+ * @param tangents
+ * @param vertices
+ * @param uvs
  */
 function computeWallVertices(height: VectorE3, radius: VectorE3, clockwise: boolean, stress: VectorE3, tilt: SpinorE3, offset: VectorE3, angle: number, generator: SpinorE3, heightSegments: number, thetaSegments: number, points: Vector3[], tangents: Spinor3[], vertices: number[][], uvs: Vector2[][]) {
     /**
@@ -46,8 +58,7 @@ function computeWallVertices(height: VectorE3, radius: VectorE3, clockwise: bool
         const uvsRow: Vector2[] = [];
 
         /**
-         * Interesting that the v coordinate is 1 at the base and 0 at the top!
-         * This is because i originally went from top to bottom.
+         * The texture coordinate in the north-south direction.
          */
         const v = (heightSegments - i) / heightSegments;
 
@@ -73,7 +84,7 @@ function computeWallVertices(height: VectorE3, radius: VectorE3, clockwise: bool
             point.rotate(tilt);
             point.add(offset);
 
-            // Subject the tangent bivector to the stress and tilt (no need for offset)
+            // Subject the tangent bivector to the stress and tilt (no need for offset).
             tangent.stress(stress);
             tangent.rotate(tilt);
 
@@ -207,9 +218,13 @@ class CylinderSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
                 const v1: number = vertices[heightSegments][j + 1];
                 const v2: number = points.length - 1;
                 const v3: number = vertices[heightSegments][j];
+                // We probably should devise a way to either disable texturing or use a different texture.
                 const uv1: Vector2 = uvs[heightSegments][j + 1].clone();
-                const uv2: Vector2 = new Vector2([uv1.x, 1]);
                 const uv3: Vector2 = uvs[heightSegments][j].clone();
+                // The texturing on the end is a funky continuation of the sides.
+                // const uv2: Vector2 = new Vector2([(uv1.x + uv3.x) / 2, 1]);
+                // The texturing on the end is a uniform continuation of the sides.
+                const uv2: Vector2 = new Vector2([(uv1.x + uv3.x) / 2, (uv1.y + uv3.y) / 2]);
                 switch (this.mode) {
                     case GeometryMode.MESH: {
                         this.triangle([points[v1], points[v2], points[v3]], [normal, normal, normal], [uv1, uv2, uv3]);
@@ -241,9 +256,13 @@ class CylinderSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
                 const v1: number = vertices[0][j];
                 const v2: number = points.length - 1;
                 const v3: number = vertices[0][j + 1];
+                // We probably should devise a way to either disable texturing or use a different texture.
                 const uv1: Vector2 = uvs[0][j].clone();
-                const uv2: Vector2 = new Vector2([uv1.x, 1]);
                 const uv3: Vector2 = uvs[0][j + 1].clone();
+                // The texturing on the end is a funky continuation of the sides.
+                // const uv2: Vector2 = new Vector2([(uv1.x + uv3.x) / 2, 0]);
+                // The texturing on the end is a uniform continuation of the sides.
+                const uv2: Vector2 = new Vector2([(uv1.x + uv3.x) / 2, (uv1.y + uv3.y) / 2]);
                 switch (this.mode) {
                     case GeometryMode.MESH: {
                         this.triangle([points[v1], points[v2], points[v3]], [normal, normal, normal], [uv1, uv2, uv3]);

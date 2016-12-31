@@ -5,9 +5,8 @@ import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import isDefined from '../checks/isDefined';
 import isNull from '../checks/isNull';
 import isUndefined from '../checks/isUndefined';
-import { ShaderMaterial } from './ShaderMaterial';
+import ShaderMaterial from './ShaderMaterial';
 import MeshMaterialOptions from './MeshMaterialOptions';
-import mustBeNonNullObject from '../checks/mustBeNonNullObject';
 import mustBeObject from '../checks/mustBeObject';
 import UniformGlslType from '../core/UniformGlslType';
 
@@ -16,8 +15,8 @@ function builder(options?: MeshMaterialOptions) {
         options = { kind: 'MeshMaterial', attributes: {}, uniforms: {} };
 
         options.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
-        // FIXME: The default should probably be no aNormal.
         options.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = 3;
+        options.attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS] = 2;
 
         options.uniforms[GraphicsProgramSymbols.UNIFORM_COLOR] = 'vec3';
         options.uniforms[GraphicsProgramSymbols.UNIFORM_OPACITY] = 'float';
@@ -64,6 +63,8 @@ function fragmentShaderSrc(options?: MeshMaterialOptions): string {
     return builder(options).fragmentShaderSrc();
 }
 
+const LOGGING_NAME_MESH_MATERIAL = 'MeshMaterial';
+
 /**
  * 
  */
@@ -72,8 +73,8 @@ export class MeshMaterial extends ShaderMaterial {
      * 
      */
     constructor(contextManager: ContextManager, options: MeshMaterialOptions, levelUp = 0) {
-        super(vertexShaderSrc(options), fragmentShaderSrc(options), [], mustBeNonNullObject('contextManager', contextManager), levelUp + 1);
-        this.setLoggingName('MeshMaterial');
+        super(vertexShaderSrc(options), fragmentShaderSrc(options), [], contextManager, levelUp + 1);
+        this.setLoggingName(LOGGING_NAME_MESH_MATERIAL);
         if (levelUp === 0) {
             this.synchUp();
         }
@@ -84,7 +85,7 @@ export class MeshMaterial extends ShaderMaterial {
      */
     protected resurrector(levelUp: number): void {
         super.resurrector(levelUp + 1);
-        this.setLoggingName('MeshMaterial');
+        this.setLoggingName(LOGGING_NAME_MESH_MATERIAL);
         if (levelUp === 0) {
             this.synchUp();
         }

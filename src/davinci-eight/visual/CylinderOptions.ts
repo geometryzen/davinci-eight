@@ -17,6 +17,10 @@ export interface CylinderOptions {
     /**
      * 
      */
+    colored?: boolean;
+    /**
+     * 
+     */
     heightSegments?: number;
     /**
      * Defaults to 1.
@@ -53,11 +57,19 @@ export interface CylinderOptions {
     /**
      * 
      */
+    textured?: boolean;
+    /**
+     * 
+     */
     thetaSegments?: number;
     /**
      * 
      */
     tilt?: SpinorE3;
+    /**
+     * 
+     */
+    transparent?: boolean;
 }
 
 export default CylinderOptions;

@@ -1,8 +1,10 @@
+import AttributeGlslType from '../core/AttributeGlslType';
+import AttributeSizeType from '../core/AttributeSizeType';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeString from '../checks/mustBeString';
 
-function sizeType(size: 1 | 2 | 3 | 4): 'float' | 'vec2' | 'vec3' | 'vec4' {
+function sizeType(size: AttributeSizeType): AttributeGlslType {
   mustBeInteger('size', size);
   switch (size) {
     case 1: {
@@ -23,7 +25,7 @@ function sizeType(size: 1 | 2 | 3 | 4): 'float' | 'vec2' | 'vec3' | 'vec4' {
   }
 }
 
-export default function glslAttribType(key: string, size: 1 | 2 | 3 | 4): 'float' | 'vec2' | 'vec3' | 'vec4' {
+export default function glslAttribType(key: string, size: AttributeSizeType): AttributeGlslType {
   mustBeString('key', key);
   mustBeInteger('size', size);
   switch (key) {

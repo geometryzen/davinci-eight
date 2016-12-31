@@ -1,5 +1,6 @@
 import ContextManager from '../core/ContextManager';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
+import isDefined from '../checks/isDefined';
 import LineMaterial from '../materials/LineMaterial';
 import LineMaterialOptions from '../materials/LineMaterialOptions';
 import Material from '../core/Material';
@@ -39,14 +40,26 @@ function lineMaterialOptions(): LineMaterialOptions {
     return options;
 }
 
-function meshMaterialOptions(): MeshMaterialOptions {
+function meshMaterialOptions(behaviors: MaterialBehaviors): MeshMaterialOptions {
     const options: MeshMaterialOptions = { kind: 'MeshMaterial', attributes: {}, uniforms: {} };
+
+    behaviors.colored = isDefined(behaviors.colored) ? behaviors.colored : true;
+    behaviors.reflective = isDefined(behaviors.reflective) ? behaviors.reflective : true;
+    behaviors.textured = isDefined(behaviors.textured) ? behaviors.textured : false;
+    behaviors.transparent = isDefined(behaviors.transparent) ? behaviors.transparent : true;
 
     options.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
     options.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = 3;
+    if (behaviors.textured) {
+        options.attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS] = 2;
+    }
 
-    options.uniforms[GraphicsProgramSymbols.UNIFORM_COLOR] = 'vec3';
-    options.uniforms[GraphicsProgramSymbols.UNIFORM_OPACITY] = 'float';
+    if (behaviors.colored) {
+        options.uniforms[GraphicsProgramSymbols.UNIFORM_COLOR] = 'vec3';
+    }
+    if (behaviors.transparent) {
+        options.uniforms[GraphicsProgramSymbols.UNIFORM_OPACITY] = 'float';
+    }
 
     options.uniforms[GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX] = 'mat4';
     options.uniforms[GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX] = 'mat3';
@@ -56,13 +69,28 @@ function meshMaterialOptions(): MeshMaterialOptions {
     options.uniforms[GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT] = 'vec3';
     options.uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR] = 'vec3';
     options.uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION] = 'vec3';
+    if (behaviors.textured) {
+        options.uniforms[GraphicsProgramSymbols.UNIFORM_IMAGE] = 'sampler2D';
+    }
     return options;
+}
+
+/**
+ * Behaviors are what the end-user cares about.
+ * These must be translated into implementation details.
+ */
+export interface MaterialBehaviors {
+    textured?: boolean;
+    transparent?: boolean;
+    emissive?: boolean;
+    colored?: boolean;
+    reflective?: boolean;
 }
 
 /**
  * 
  */
-export default function materialFromOptions(contextManager: ContextManager, simplexMode: SimplexMode, options: {}): Material {
+export default function materialFromOptions(contextManager: ContextManager, simplexMode: SimplexMode, behaviors: MaterialBehaviors): Material {
     switch (simplexMode) {
         case SimplexMode.POINT: {
             const matOptions: PointMaterialOptions = pointMaterialOptions();
@@ -89,7 +117,7 @@ export default function materialFromOptions(contextManager: ContextManager, simp
             }
         }
         case SimplexMode.TRIANGLE: {
-            const matOptions: MeshMaterialOptions = meshMaterialOptions();
+            const matOptions: MeshMaterialOptions = meshMaterialOptions(behaviors);
             const cachedMaterial = contextManager.getCacheMaterial(matOptions);
             if (cachedMaterial && cachedMaterial instanceof MeshMaterial) {
                 return cachedMaterial;

@@ -25,6 +25,10 @@ export interface SphereOptions {
     /**
      * 
      */
+    colored?: boolean;
+    /**
+     * 
+     */
     elevationSegments?: number;
     /**
      * 
@@ -49,7 +53,15 @@ export interface SphereOptions {
     /**
      * 
      */
+    textured?: boolean;
+    /**
+     * 
+     */
     tilt?: SpinorE3;
+    /**
+     * 
+     */
+    transparent?: boolean;
 }
 
 export default SphereOptions;

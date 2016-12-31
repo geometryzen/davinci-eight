@@ -63,12 +63,13 @@ export class Sphere extends RigidBody {
             contextManager.putCacheGeometry(geoOptions, geometry);
         }
 
+
         const material = materialFromOptions(contextManager, simplexModeFromOptions(options, SimplexMode.TRIANGLE), options);
         this.material = material;
         material.release();
 
         setAxisAndMeridian(this, options);
-        setColorOption(this, options, Color.gray);
+        setColorOption(this, options, options.textured ? Color.white : Color.gray);
         setDeprecatedOptions(this, options);
 
         this.radius = isDefined(options.radius) ? mustBeNumber(RADIUS_NAME, options.radius) : ds.radius;

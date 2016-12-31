@@ -74,7 +74,12 @@ export default function (attributes: { [name: string]: AttribMetaInfo }, uniform
       }
     }
     else {
-      lines.push(`  gl_FragColor = vec4(${GPS.VARYING_LIGHT}, 1.0);`);
+      if (vCoords && uniforms[GPS.UNIFORM_IMAGE]) {
+        lines.push(`  gl_FragColor = texture2D(${GPS.UNIFORM_IMAGE}, ${GPS.VARYING_COORDS}) * vec4(${GPS.VARYING_LIGHT}, 1.0);`);
+      }
+      else {
+        lines.push(`  gl_FragColor = vec4(${GPS.VARYING_LIGHT}, 1.0);`);
+      }
     }
   }
   else {

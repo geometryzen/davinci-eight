@@ -62,12 +62,8 @@ export class Box extends RigidBody {
         this.material = material;
         material.release();
 
-        if (options.color) {
-            this.color.copy(options.color);
-        }
-
         setAxisAndMeridian(this, options);
-        setColorOption(this, options, Color.gray);
+        setColorOption(this, options, options.textured ? Color.white : Color.gray);
         setDeprecatedOptions(this, options);
 
         if (isDefined(options.width)) {

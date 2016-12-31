@@ -48,7 +48,7 @@ export default function dataLength(source: VectorN<number>): AttributeSizeType {
             return 4;
         }
         else {
-            throw new Error(`dataLength(source: VectorN<number>): 1 | 2 | 3 | 4, source.length => ${source.length}`);
+            throw new Error(`dataLength(source: VectorN<number>): AttributeSizeType, source.length => ${source.length}`);
         }
     }
 }

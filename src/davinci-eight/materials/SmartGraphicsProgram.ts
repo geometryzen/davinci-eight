@@ -9,6 +9,9 @@ import UniformGlslType from '../core/UniformGlslType';
  * A Material that is generated based upon knowledge of parameters and some hints.
  */
 export class SmartGraphicsProgram extends ShaderMaterial {
+    /**
+     * 
+     */
     constructor(
         aParams: { [name: string]: { glslType: AttributeGlslType } },
         uParams: { [name: string]: { glslType: UniformGlslType } },
@@ -30,6 +33,21 @@ export class SmartGraphicsProgram extends ShaderMaterial {
             this.synchUp();
         }
     }
+
+    /**
+     * 
+     */
+    protected resurrector(levelUp: number): void {
+        super.resurrector(levelUp + 1);
+        this.setLoggingName('SmartGraphicsProgram');
+        if (levelUp === 0) {
+            this.synchUp();
+        }
+    }
+
+    /**
+     * 
+     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();
@@ -37,3 +55,5 @@ export class SmartGraphicsProgram extends ShaderMaterial {
         super.destructor(levelUp + 1);
     }
 }
+
+export default SmartGraphicsProgram;
