@@ -1,4 +1,4 @@
-import { Geometric3 } from '../math/Geometric3';
+import Geometric3 from '../math/Geometric3';
 import Vector3 from '../math/Vector3';
 import setViewAttitude from './setViewAttitude';
 import Spinor3 from '../math/Spinor3';

@@ -1,8 +1,8 @@
 import exchange from '../base/exchange';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-import { Facet } from '../core/Facet';
-import { FacetVisitor } from '../core/FacetVisitor';
-import { ShareableBase } from '../core/ShareableBase';
+import Facet from '../core/Facet';
+import FacetVisitor from '../core/FacetVisitor';
+import ShareableBase from '../core/ShareableBase';
 import Texture from '../core/Texture';
 import TextureUnit from '../core/TextureUnit';
 

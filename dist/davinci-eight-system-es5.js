@@ -62,12 +62,12 @@ System.register("davinci-eight/facets/getViewAttitude.js", ["../math/Geometric3"
             Geometric3_1 = Geometric3_1_1;
         }],
         execute: function () {
-            u = Geometric3_1.Geometric3.zero();
-            v = Geometric3_1.Geometric3.zero();
-            n = Geometric3_1.Geometric3.zero();
-            e1 = Geometric3_1.Geometric3.vector(1, 0, 0);
-            e2 = Geometric3_1.Geometric3.vector(0, 1, 0);
-            e3 = Geometric3_1.Geometric3.vector(0, 0, 1);
+            u = Geometric3_1.default.zero();
+            v = Geometric3_1.default.zero();
+            n = Geometric3_1.default.zero();
+            e1 = Geometric3_1.default.vector(1, 0, 0);
+            e2 = Geometric3_1.default.vector(0, 1, 0);
+            e3 = Geometric3_1.default.vector(0, 0, 1);
         }
     };
 });
@@ -728,7 +728,7 @@ System.register("davinci-eight/core/Scene.js", ["../checks/mustBeNonNullObject",
                     _super.prototype.contextLost.call(this);
                 };
                 return Scene;
-            }(ShareableContextConsumer_1.ShareableContextConsumer);
+            }(ShareableContextConsumer_1.default);
             exports_1("Scene", Scene);
         }
     };
@@ -787,7 +787,7 @@ System.register("davinci-eight/core/Shader.js", ["./makeWebGLShader", "../checks
                     _super.prototype.contextLost.call(this);
                 };
                 return Shader;
-            }(ShareableContextConsumer_1.ShareableContextConsumer);
+            }(ShareableContextConsumer_1.default);
             exports_1("default", Shader);
         }
     };
@@ -867,7 +867,7 @@ System.register("davinci-eight/facets/AmbientLight.js", ["../core/Color", "../ch
             AmbientLight = function () {
                 function AmbientLight(color) {
                     mustBeObject_1.default('color', color);
-                    this.color = Color_1.Color.white.clone();
+                    this.color = Color_1.default.white.clone();
                     this.color.r = mustBeNumber_1.default('color.r', color.r);
                     this.color.g = mustBeNumber_1.default('color.g', color.g);
                     this.color.b = mustBeNumber_1.default('color.b', color.b);
@@ -906,19 +906,19 @@ System.register("davinci-eight/facets/DirectionalLight.js", ["../core/Color", ".
                         direction = Vector3_1.default.vector(0, 0, 1).neg();
                     }
                     if (color === void 0) {
-                        color = Color_1.Color.white;
+                        color = Color_1.default.white;
                     }
                     mustBeObject_1.default('direction', direction);
                     mustBeObject_1.default('color', color);
-                    this._direction = Geometric3_1.Geometric3.fromVector(direction).normalize();
-                    this._color = Color_1.Color.copy(color);
+                    this._direction = Geometric3_1.default.fromVector(direction).normalize();
+                    this._color = Color_1.default.copy(color);
                 }
                 Object.defineProperty(DirectionalLight.prototype, "color", {
                     get: function () {
                         return this._color;
                     },
                     set: function (color) {
-                        this._color.copy(Color_1.Color.mustBe('color', color));
+                        this._color.copy(Color_1.default.mustBe('color', color));
                     },
                     enumerable: true,
                     configurable: true
@@ -943,6 +943,7 @@ System.register("davinci-eight/facets/DirectionalLight.js", ["../core/Color", ".
                 return DirectionalLight;
             }();
             exports_1("DirectionalLight", DirectionalLight);
+            exports_1("default", DirectionalLight);
         }
     };
 });
@@ -966,7 +967,7 @@ System.register("davinci-eight/facets/ReflectionFacetE2.js", ["../checks/mustBeS
                 function ReflectionFacetE2(name) {
                     this.matrix = Matrix2_1.default.one();
                     this.name = mustBeString_1.default('name', name);
-                    this._normal = new Vector2_1.Vector2().zero();
+                    this._normal = new Vector2_1.default().zero();
                     this._normal.modified = true;
                 }
                 Object.defineProperty(ReflectionFacetE2.prototype, "normal", {
@@ -1012,7 +1013,7 @@ System.register("davinci-eight/facets/ReflectionFacetE3.js", ["../checks/mustBeS
                 function ReflectionFacetE3(name) {
                     this.matrix = Matrix4_1.default.one();
                     this.name = mustBeString_1.default('name', name);
-                    this._normal = Geometric3_1.Geometric3.zero();
+                    this._normal = Geometric3_1.default.zero();
                     this._normal.modified = true;
                 }
                 Object.defineProperty(ReflectionFacetE3.prototype, "normal", {
@@ -1234,6 +1235,7 @@ System.register("davinci-eight/facets/PerspectiveCamera.js", ["../math/Geometric
                 return PerspectiveCamera;
             }();
             exports_1("PerspectiveCamera", PerspectiveCamera);
+            exports_1("default", PerspectiveCamera);
         }
     };
 });
@@ -1473,8 +1475,8 @@ System.register("davinci-eight/facets/ModelE2.js", ["../math/Geometric2"], funct
         execute: function () {
             ModelE2 = function () {
                 function ModelE2() {
-                    this._position = new Geometric2_1.Geometric2().zero();
-                    this._attitude = new Geometric2_1.Geometric2().zero().addScalar(1);
+                    this._position = new Geometric2_1.default().zero();
+                    this._attitude = new Geometric2_1.default().zero().addScalar(1);
                     this._position.modified = true;
                     this._attitude.modified = true;
                 }
@@ -9340,7 +9342,7 @@ System.register("davinci-eight/core/IndexBuffer.js", ["./BufferObjects", "../che
                     }
                 };
                 return IndexBuffer;
-            }(ShareableContextConsumer_1.ShareableContextConsumer);
+            }(ShareableContextConsumer_1.default);
             exports_1("default", IndexBuffer);
         }
     };
@@ -13803,7 +13805,7 @@ System.register("davinci-eight/core/VertexBuffer.js", ["./BufferObjects", "../ch
                     }
                 };
                 return VertexBuffer;
-            }(ShareableContextConsumer_1.ShareableContextConsumer);
+            }(ShareableContextConsumer_1.default);
             exports_1("VertexBuffer", VertexBuffer);
             exports_1("default", VertexBuffer);
         }
@@ -16242,6 +16244,7 @@ System.register("davinci-eight/commands/WebGLClearColor.js", ["../checks/mustBeN
                 return WebGLClearColor;
             }(ShareableBase_1.ShareableBase);
             exports_1("WebGLClearColor", WebGLClearColor);
+            exports_1("default", WebGLClearColor);
         }
     };
 });
@@ -16285,6 +16288,7 @@ System.register("davinci-eight/commands/WebGLEnable.js", ["../checks/mustBeNumbe
                 return WebGLEnable;
             }(ShareableBase_1.ShareableBase);
             exports_1("WebGLEnable", WebGLEnable);
+            exports_1("default", WebGLEnable);
         }
     };
 });
@@ -16328,6 +16332,7 @@ System.register("davinci-eight/commands/WebGLDisable.js", ["../checks/mustBeNumb
                 return WebGLDisable;
             }(ShareableBase_1.ShareableBase);
             exports_1("WebGLDisable", WebGLDisable);
+            exports_1("default", WebGLDisable);
         }
     };
 });
@@ -16491,7 +16496,7 @@ System.register("davinci-eight/core/Engine.js", ["./checkEnums", "./ClearBufferM
                     return this;
                 };
                 Engine.prototype.clearColor = function (red, green, blue, alpha) {
-                    this._commands.pushWeakRef(new WebGLClearColor_1.WebGLClearColor(this, red, green, blue, alpha));
+                    this._commands.pushWeakRef(new WebGLClearColor_1.default(this, red, green, blue, alpha));
                     var gl = this._gl;
                     if (gl) {
                         gl.clearColor(red, green, blue, alpha);
@@ -16527,14 +16532,14 @@ System.register("davinci-eight/core/Engine.js", ["./checkEnums", "./ClearBufferM
                     return this;
                 };
                 Engine.prototype.disable = function (capability) {
-                    this._commands.pushWeakRef(new WebGLDisable_1.WebGLDisable(this, capability));
+                    this._commands.pushWeakRef(new WebGLDisable_1.default(this, capability));
                     if (this._gl) {
                         this._gl.disable(capability);
                     }
                     return this;
                 };
                 Engine.prototype.enable = function (capability) {
-                    this._commands.pushWeakRef(new WebGLEnable_1.WebGLEnable(this, capability));
+                    this._commands.pushWeakRef(new WebGLEnable_1.default(this, capability));
                     if (this._gl) {
                         this._gl.enable(capability);
                     }
@@ -16717,7 +16722,7 @@ System.register("davinci-eight/core/Engine.js", ["./checkEnums", "./ClearBufferM
                     return R3_1.vectorFromCoords(imageX, imageY, imageZ);
                 };
                 return Engine;
-            }(ShareableBase_1.ShareableBase);
+            }(ShareableBase_1.default);
             exports_1("Engine", Engine);
             exports_1("default", Engine);
         }
@@ -17280,6 +17285,7 @@ System.register("davinci-eight/facets/OpacityFacet.js", ["../checks/mustBeGE", "
                 return OpacityFacet;
             }();
             exports_1("OpacityFacet", OpacityFacet);
+            exports_1("default", OpacityFacet);
         }
     };
 });
@@ -17308,6 +17314,7 @@ System.register("davinci-eight/facets/PointSizeFacet.js", ["../checks/mustBeInte
                 return PointSizeFacet;
             }();
             exports_1("PointSizeFacet", PointSizeFacet);
+            exports_1("default", PointSizeFacet);
         }
     };
 });
@@ -17444,7 +17451,7 @@ System.register("davinci-eight/core/Drawable.js", ["../base/exchange", "./Graphi
             }
         }
     }
-    var exchange_1, GraphicsProgramSymbols_1, isObject_1, isNull_1, isNumber_1, isUndefined_1, mustBeBoolean_1, mustBeNonNullObject_1, OpacityFacet_1, PointSizeFacet_1, ShareableContextConsumer_1, StringShareableMap_1, OPACITY_FACET_NAME, POINTSIZE_FACET_NAME, Drawable;
+    var exchange_1, GraphicsProgramSymbols_1, isObject_1, isNull_1, isNumber_1, isUndefined_1, mustBeBoolean_1, mustBeNonNullObject_1, OpacityFacet_1, PointSizeFacet_1, ShareableContextConsumer_1, StringShareableMap_1, OPACITY_FACET_NAME, POINTSIZE_FACET_NAME, DRAWABLE_LOGGING_NAME, Drawable;
     return {
         setters: [function (exchange_1_1) {
             exchange_1 = exchange_1_1;
@@ -17474,6 +17481,7 @@ System.register("davinci-eight/core/Drawable.js", ["../base/exchange", "./Graphi
         execute: function () {
             OPACITY_FACET_NAME = 'opacity';
             POINTSIZE_FACET_NAME = 'pointSize';
+            DRAWABLE_LOGGING_NAME = 'Drawable';
             Drawable = function (_super) {
                 __extends(Drawable, _super);
                 function Drawable(geometry, material, contextManager, levelUp) {
@@ -17484,7 +17492,7 @@ System.register("davinci-eight/core/Drawable.js", ["../base/exchange", "./Graphi
                     _this._visible = true;
                     _this._transparent = false;
                     _this.facetMap = new StringShareableMap_1.default();
-                    _this.setLoggingName('Drawable');
+                    _this.setLoggingName(DRAWABLE_LOGGING_NAME);
                     if (isObject_1.default(geometry)) {
                         _this.geometry = geometry;
                     }
@@ -17496,6 +17504,13 @@ System.register("davinci-eight/core/Drawable.js", ["../base/exchange", "./Graphi
                     }
                     return _this;
                 }
+                Drawable.prototype.resurrector = function (levelUp) {
+                    _super.prototype.resurrector.call(this, levelUp + 1);
+                    this.setLoggingName(DRAWABLE_LOGGING_NAME);
+                    if (levelUp === 0) {
+                        this.synchUp();
+                    }
+                };
                 Drawable.prototype.destructor = function (levelUp) {
                     this.facetMap.release();
                     if (levelUp === 0) {
@@ -17520,7 +17535,7 @@ System.register("davinci-eight/core/Drawable.js", ["../base/exchange", "./Graphi
                             if (facet) {
                                 facet.opacity = newOpacity;
                             } else {
-                                this.setFacet(OPACITY_FACET_NAME, new OpacityFacet_1.OpacityFacet(newOpacity));
+                                this.setFacet(OPACITY_FACET_NAME, new OpacityFacet_1.default(newOpacity));
                             }
                         } else if (isUndefined_1.default(newOpacity) || isNull_1.default(newOpacity)) {
                             this.removeFacet(OPACITY_FACET_NAME);
@@ -17546,7 +17561,7 @@ System.register("davinci-eight/core/Drawable.js", ["../base/exchange", "./Graphi
                             if (facet) {
                                 facet.pointSize = newPointSize;
                             } else {
-                                this.setFacet(POINTSIZE_FACET_NAME, new PointSizeFacet_1.PointSizeFacet(newPointSize));
+                                this.setFacet(POINTSIZE_FACET_NAME, new PointSizeFacet_1.default(newPointSize));
                             }
                         } else if (isUndefined_1.default(newPointSize) || isNull_1.default(newPointSize)) {
                             this.removeFacet(POINTSIZE_FACET_NAME);
@@ -17695,8 +17710,9 @@ System.register("davinci-eight/core/Drawable.js", ["../base/exchange", "./Graphi
                     configurable: true
                 });
                 return Drawable;
-            }(ShareableContextConsumer_1.ShareableContextConsumer);
+            }(ShareableContextConsumer_1.default);
             exports_1("Drawable", Drawable);
+            exports_1("default", Drawable);
         }
     };
 });
@@ -18987,8 +19003,8 @@ System.register("davinci-eight/facets/ModelE3.js", ["../math/Geometric3"], funct
         execute: function () {
             ModelE3 = function () {
                 function ModelE3() {
-                    this._position = Geometric3_1.Geometric3.zero();
-                    this._attitude = Geometric3_1.Geometric3.one();
+                    this._position = Geometric3_1.default.zero();
+                    this._attitude = Geometric3_1.default.one();
                     this._position.modified = true;
                     this._attitude.modified = true;
                 }
@@ -19114,6 +19130,7 @@ System.register("davinci-eight/facets/ModelFacet.js", ["../math/Matrix3", "../ma
                 return ModelFacet;
             }(ModelE3_1.default);
             exports_1("ModelFacet", ModelFacet);
+            exports_1("default", ModelFacet);
         }
     };
 });
@@ -20214,7 +20231,7 @@ System.register("davinci-eight/facets/TextureFacet.js", ["../base/exchange", "..
                     }
                 };
                 return TextureFacet;
-            }(ShareableBase_1.ShareableBase);
+            }(ShareableBase_1.default);
             exports_1("default", TextureFacet);
         }
     };
@@ -20273,14 +20290,14 @@ System.register("davinci-eight/core/Mesh.js", ["../core/tiltFromOptions", "../fa
                     var _this = _super.call(this, geometry, material, contextManager, levelUp + 1) || this;
                     _this.canonicalScale = Matrix4_1.default.one();
                     _this.setLoggingName('Mesh');
-                    _this.setFacet(COLOR_FACET_NAME, new ColorFacet_1.ColorFacet());
+                    _this.setFacet(COLOR_FACET_NAME, new ColorFacet_1.default());
                     var textureFacet = new TextureFacet_1.default();
                     _this.setFacet(TEXTURE_FACET_NAME, textureFacet);
                     textureFacet.release();
-                    _this.setFacet(MODEL_FACET_NAME, new ModelFacet_1.ModelFacet());
+                    _this.setFacet(MODEL_FACET_NAME, new ModelFacet_1.default());
                     _this.referenceAxis = referenceAxis_1.default(options, tiltFromOptions_1.canonicalAxis).direction();
                     _this.referenceMeridian = referenceMeridian_1.default(options, tiltFromOptions_1.canonicalMeridian).rejectionFrom(_this.referenceAxis).direction();
-                    var tilt = Geometric3_1.Geometric3.rotorFromFrameToFrame([tiltFromOptions_1.canonicalAxis, tiltFromOptions_1.canonicalMeridian, tiltFromOptions_1.canonicalAxis.cross(tiltFromOptions_1.canonicalMeridian)], [_this.referenceAxis, _this.referenceMeridian, _this.referenceAxis.cross(_this.referenceMeridian)]);
+                    var tilt = Geometric3_1.default.rotorFromFrameToFrame([tiltFromOptions_1.canonicalAxis, tiltFromOptions_1.canonicalMeridian, tiltFromOptions_1.canonicalAxis.cross(tiltFromOptions_1.canonicalMeridian)], [_this.referenceAxis, _this.referenceMeridian, _this.referenceAxis.cross(_this.referenceMeridian)]);
                     if (tilt && !Spinor3_1.default.isOne(tilt)) {
                         _this.Kidentity = false;
                         _this.K = Matrix4_1.default.one();
@@ -20530,15 +20547,15 @@ System.register("davinci-eight/core/Mesh.js", ["../core/tiltFromOptions", "../fa
                     },
                     set: function (value) {
                         var meridian = R3_1.vectorCopy(value).rejectionFrom(this.axis).direction();
-                        var B = Geometric3_1.Geometric3.dualOfVector(this.axis);
-                        var R = Geometric3_1.Geometric3.rotorFromVectorToVector(this.meridian, meridian, B);
+                        var B = Geometric3_1.default.dualOfVector(this.axis);
+                        var R = Geometric3_1.default.rotorFromVectorToVector(this.meridian, meridian, B);
                         this.attitude.mul2(R, this.attitude);
                     },
                     enumerable: true,
                     configurable: true
                 });
                 return Mesh;
-            }(Drawable_1.Drawable);
+            }(Drawable_1.default);
             exports_1("Mesh", Mesh);
             exports_1("default", Mesh);
         }
@@ -24357,7 +24374,7 @@ System.register("davinci-eight/core/ShareableContextConsumer.js", ["../checks/mu
                     configurable: true
                 });
                 return ShareableContextConsumer;
-            }(ShareableBase_1.ShareableBase);
+            }(ShareableBase_1.default);
             exports_1("ShareableContextConsumer", ShareableContextConsumer);
             exports_1("default", ShareableContextConsumer);
         }
@@ -24523,7 +24540,7 @@ System.register("davinci-eight/core/Texture.js", ["../checks/mustBeUndefined", "
                     throw new Error(this.getLoggingName() + ".upload() must be implemented.");
                 };
                 return Texture;
-            }(ShareableContextConsumer_1.ShareableContextConsumer);
+            }(ShareableContextConsumer_1.default);
             exports_1("default", Texture);
         }
     };

@@ -1,4 +1,4 @@
-import { PerspectiveCamera } from './PerspectiveCamera';
+import PerspectiveCamera from './PerspectiveCamera';
 import Vector3 from '../math/Vector3';
 
 const zero = Vector3.vector(0, 0, 0);

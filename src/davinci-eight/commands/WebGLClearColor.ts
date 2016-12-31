@@ -44,3 +44,5 @@ export class WebGLClearColor extends ShareableBase {
         // Do nothing;
     }
 }
+
+export default WebGLClearColor;

@@ -1,5 +1,5 @@
-import { Engine } from './Engine';
-import { Mesh } from './Mesh';
+import Engine from './Engine';
+import Mesh from './Mesh';
 import refChange from './refChange';
 
 describe("Mesh", function () {

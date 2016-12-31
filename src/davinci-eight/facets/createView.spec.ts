@@ -1,5 +1,5 @@
 import createView from './createView';
-import { Geometric3 } from '../math/Geometric3';
+import Geometric3 from '../math/Geometric3';
 import Vector3 from '../math/Vector3';
 
 describe("createView", function () {

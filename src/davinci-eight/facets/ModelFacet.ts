@@ -1,5 +1,5 @@
-import { Facet } from '../core/Facet';
-import { FacetVisitor } from '../core/FacetVisitor';
+import Facet from '../core/Facet';
+import FacetVisitor from '../core/FacetVisitor';
 import Matrix3 from '../math/Matrix3';
 import Matrix4 from '../math/Matrix4';
 import ModelE3 from './ModelE3';
@@ -107,3 +107,5 @@ export class ModelFacet extends ModelE3 implements Facet {
         }
     }
 }
+
+export default ModelFacet;

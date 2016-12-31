@@ -1,7 +1,7 @@
-import { Color } from '../core/Color';
-import { Facet } from '../core/Facet';
-import { FacetVisitor } from '../core/FacetVisitor';
-import { Geometric3 } from '../math/Geometric3';
+import Color from '../core/Color';
+import Facet from '../core/Facet';
+import FacetVisitor from '../core/FacetVisitor';
+import Geometric3 from '../math/Geometric3';
 import mustBeObject from '../checks/mustBeObject';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import VectorE3 from '../math/VectorE3';
@@ -44,3 +44,5 @@ export class DirectionalLight implements Facet {
         visitor.uniform3f(GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR, color.r, color.g, color.b);
     }
 }
+
+export default DirectionalLight;

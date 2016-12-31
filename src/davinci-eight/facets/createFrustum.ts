@@ -1,6 +1,6 @@
-import { FacetVisitor } from '../core/FacetVisitor';
+import FacetVisitor from '../core/FacetVisitor';
 import Frustum from './Frustum';
-import { Geometric3 } from '../math/Geometric3';
+import Geometric3 from '../math/Geometric3';
 import createView from './createView';
 import Matrix4 from '../math/Matrix4';
 import VectorE3 from '../math/VectorE3';

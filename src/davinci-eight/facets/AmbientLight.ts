@@ -1,6 +1,6 @@
-import { Color } from '../core/Color';
-import { Facet } from '../core/Facet';
-import { FacetVisitor } from '../core/FacetVisitor';
+import Color from '../core/Color';
+import Facet from '../core/Facet';
+import FacetVisitor from '../core/FacetVisitor';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeObject from '../checks/mustBeObject';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';

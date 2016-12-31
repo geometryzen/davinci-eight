@@ -1,5 +1,5 @@
-import { Facet } from '../core/Facet';
-import { FacetVisitor } from '../core/FacetVisitor';
+import Facet from '../core/Facet';
+import FacetVisitor from '../core/FacetVisitor';
 import mustBeInteger from '../checks/mustBeInteger';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 
@@ -11,12 +11,14 @@ export class PointSizeFacet implements Facet {
      *
      */
     public pointSize: number;
+
     /**
      *
      */
     constructor(pointSize = 2) {
         this.pointSize = mustBeInteger('pointSize', pointSize);
     }
+
     /**
      * 
      */
@@ -24,3 +26,5 @@ export class PointSizeFacet implements Facet {
         visitor.uniform1f(GraphicsProgramSymbols.UNIFORM_POINT_SIZE, this.pointSize);
     }
 }
+
+export default PointSizeFacet;

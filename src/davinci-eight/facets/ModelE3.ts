@@ -1,4 +1,4 @@
-import { Geometric3 } from '../math/Geometric3';
+import Geometric3 from '../math/Geometric3';
 
 /**
  *

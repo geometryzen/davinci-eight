@@ -4,7 +4,7 @@ import mustBeInteger from '../checks/mustBeInteger';
 import mustBeString from '../checks/mustBeString';
 import readOnly from '../i18n/readOnly';
 import refChange from './refChange';
-import { Shareable } from '../core/Shareable';
+import Shareable from '../core/Shareable';
 import uuid4 from './uuid4';
 
 /**

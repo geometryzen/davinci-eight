@@ -1,7 +1,7 @@
-import { Facet } from './Facet';
-import { Geometry } from './Geometry';
-import { Renderable } from './Renderable';
-import { Material } from './Material';
+import Facet from './Facet';
+import Geometry from './Geometry';
+import Renderable from './Renderable';
+import Material from './Material';
 
 /**
  *

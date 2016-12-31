@@ -1,5 +1,5 @@
-import {Facet} from '../core/Facet';
-import {FacetVisitor} from '../core/FacetVisitor';
+import Facet from '../core/Facet';
+import FacetVisitor from '../core/FacetVisitor';
 import mustBeGE from '../checks/mustBeGE';
 import mustBeLE from '../checks/mustBeLE';
 import mustBeNumber from '../checks/mustBeNumber';
@@ -25,7 +25,12 @@ export class OpacityFacet implements Facet {
         this.opacity = opacity;
     }
 
+    /**
+     * 
+     */
     setUniforms(visitor: FacetVisitor): void {
         visitor.uniform1f(GraphicsProgramSymbols.UNIFORM_OPACITY, this.opacity);
     }
 }
+
+export default OpacityFacet;

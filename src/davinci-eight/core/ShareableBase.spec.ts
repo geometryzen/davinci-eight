@@ -1,4 +1,4 @@
-import { ShareableBase } from './ShareableBase';
+import ShareableBase from './ShareableBase';
 import refChange from '../core/refChange';
 
 // Example of using ShareableBase as a base class in order to implement reference counting.

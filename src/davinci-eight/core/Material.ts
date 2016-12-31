@@ -1,8 +1,8 @@
 import Attrib from './Attrib';
 import BeginMode from './BeginMode';
 import DataType from './DataType';
-import { FacetVisitor } from './FacetVisitor';
-import { ContextConsumer } from './ContextConsumer';
+import FacetVisitor from './FacetVisitor';
+import ContextConsumer from './ContextConsumer';
 import Uniform from './Uniform';
 import VertexBuffer from './VertexBuffer';
 

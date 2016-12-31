@@ -1,8 +1,8 @@
-import { AbstractDrawable } from './AbstractDrawable';
+import AbstractDrawable from './AbstractDrawable';
 import ContextManager from '../core/ContextManager';
 import exchange from '../base/exchange';
-import { Facet } from '../core/Facet';
-import { Geometry } from './Geometry';
+import Facet from '../core/Facet';
+import Geometry from './Geometry';
 import GraphicsProgramSymbols from './GraphicsProgramSymbols';
 import isObject from '../checks/isObject';
 import isNull from '../checks/isNull';
@@ -10,14 +10,16 @@ import isNumber from '../checks/isNumber';
 import isUndefined from '../checks/isUndefined';
 import mustBeBoolean from '../checks/mustBeBoolean';
 import mustBeNonNullObject from '../checks/mustBeNonNullObject';
-import { Material } from './Material';
-import { OpacityFacet } from '../facets/OpacityFacet';
-import { PointSizeFacet } from '../facets/PointSizeFacet';
-import { ShareableContextConsumer } from '../core/ShareableContextConsumer';
+import Material from './Material';
+import OpacityFacet from '../facets/OpacityFacet';
+import PointSizeFacet from '../facets/PointSizeFacet';
+import ShareableContextConsumer from '../core/ShareableContextConsumer';
 import StringShareableMap from '../collections/StringShareableMap';
 
 const OPACITY_FACET_NAME = 'opacity';
 const POINTSIZE_FACET_NAME = 'pointSize';
+
+const DRAWABLE_LOGGING_NAME = 'Drawable';
 
 /**
  * This class may be used as either a base class or standalone. 
@@ -32,9 +34,12 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
     private _transparent = false;
     private facetMap = new StringShareableMap<Facet>();
 
+    /**
+     * 
+     */
     constructor(geometry: G, material: M, contextManager: ContextManager, levelUp = 0) {
         super(mustBeNonNullObject('contextManager', contextManager));
-        this.setLoggingName('Drawable');
+        this.setLoggingName(DRAWABLE_LOGGING_NAME);
         if (isObject(geometry)) {
             // The assignment takes care of the addRef.
             this.geometry = geometry;
@@ -49,6 +54,20 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
         }
     }
 
+    /**
+     * 
+     */
+    protected resurrector(levelUp: number): void {
+        super.resurrector(levelUp + 1);
+        this.setLoggingName(DRAWABLE_LOGGING_NAME);
+        if (levelUp === 0) {
+            this.synchUp();
+        }
+    }
+
+    /**
+     * 
+     */
     protected destructor(levelUp: number): void {
         this.facetMap.release();
 
@@ -203,7 +222,7 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
      * setUniforms()
      * draw()
      * unbind()
-     * In particle simulations it may be useful to call the underlying method directly.
+     * In particle simulations it may be useful to call the underlying methods directly.
      */
     render(ambients: Facet[]): Drawable<G, M> {
         if (this._visible) {
@@ -254,11 +273,6 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
     }
     set geometry(geometry: G) {
         this._geometry = exchange(this._geometry, geometry);
-        /*
-        if (this._geometry && this._geometry.contextGain && this.contextProvider) {
-            this._geometry.contextGain(this.contextProvider);
-        }
-        */
     }
 
     /**
@@ -269,13 +283,6 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
     }
     set material(material: M) {
         this._material = exchange(this._material, material);
-        /*
-        if (this._material) {
-            if (this.contextProvider) {
-                this._material.contextGain(this.contextProvider);
-            }
-        }
-        */
         synchFacets(this._material, this);
     }
 
@@ -328,3 +335,5 @@ function synchFacets<G extends Geometry, M extends Material>(material: M, drawab
         }
     }
 }
+
+export default Drawable;

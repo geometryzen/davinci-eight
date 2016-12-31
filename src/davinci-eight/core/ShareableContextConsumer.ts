@@ -1,7 +1,7 @@
-import { ContextConsumer } from './ContextConsumer';
+import ContextConsumer from './ContextConsumer';
 import ContextManager from './ContextManager';
 import mustBeNonNullObject from '../checks/mustBeNonNullObject';
-import { ShareableBase } from './ShareableBase';
+import ShareableBase from './ShareableBase';
 
 /**
  * 

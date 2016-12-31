@@ -1,7 +1,7 @@
-import {Facet} from '../core/Facet';
-import {FacetVisitor} from '../core/FacetVisitor';
+import Facet from '../core/Facet';
+import FacetVisitor from '../core/FacetVisitor';
 import mustBeString from '../checks/mustBeString';
-import {Geometric3} from '../math/Geometric3';
+import Geometric3 from '../math/Geometric3';
 import Matrix4 from '../math/Matrix4';
 import readOnly from '../i18n/readOnly';
 

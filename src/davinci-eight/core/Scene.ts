@@ -1,9 +1,9 @@
-import { Facet } from '../core/Facet';
+import Facet from '../core/Facet';
 import ContextManager from '../core/ContextManager';
 import mustBeNonNullObject from '../checks/mustBeNonNullObject';
-import { Renderable } from '../core/Renderable';
+import Renderable from '../core/Renderable';
 import ShareableArray from '../collections/ShareableArray';
-import { ShareableContextConsumer } from '../core/ShareableContextConsumer';
+import ShareableContextConsumer from '../core/ShareableContextConsumer';
 
 /**
  * A collection of Renderable objects.
@@ -123,11 +123,11 @@ export class Scene extends ShareableContextConsumer implements Renderable {
     }
 
     findOneByName(name: string): Renderable {
-        return this.findOne(function(drawable) { return drawable.name === name; });
+        return this.findOne(function (drawable) { return drawable.name === name; });
     }
 
     findByName(name: string): ShareableArray<Renderable> {
-        return this.find(function(drawable) { return drawable.name === name; });
+        return this.find(function (drawable) { return drawable.name === name; });
     }
 
     remove(drawable: Renderable): void {

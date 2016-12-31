@@ -32,3 +32,5 @@ export class WebGLEnable extends ShareableBase {
         // do nothing
     }
 }
+
+export default WebGLEnable;

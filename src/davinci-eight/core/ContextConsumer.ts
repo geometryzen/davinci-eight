@@ -1,4 +1,4 @@
-import { Shareable } from './Shareable';
+import Shareable from './Shareable';
 
 /**
  * This interface standardizes the concept of an implementation being dependent upon
@@ -32,3 +32,5 @@ export interface ContextConsumer extends Shareable {
      */
     contextLost?(): void;
 }
+
+export default ContextConsumer;

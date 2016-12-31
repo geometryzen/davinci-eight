@@ -19,3 +19,5 @@ export interface Shareable {
      */
     release?(): number;
 }
+
+export default Shareable;

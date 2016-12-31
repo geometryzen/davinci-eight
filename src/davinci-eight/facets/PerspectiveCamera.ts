@@ -138,3 +138,5 @@ export class PerspectiveCamera implements Facet {
         this.V.up.copyVector(up);
     }
 }
+
+export default PerspectiveCamera;

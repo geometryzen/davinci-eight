@@ -5,7 +5,7 @@ import checkEnums from './checkEnums';
 import ClearBufferMask from './ClearBufferMask';
 import DepthFunction from './DepthFunction';
 import EIGHTLogger from '../commands/EIGHTLogger';
-import { ContextConsumer } from './ContextConsumer';
+import ContextConsumer from './ContextConsumer';
 import ContextManager from './ContextManager';
 import Geometry from './Geometry';
 import GeometryKey from './GeometryKey';
@@ -22,12 +22,12 @@ import PixelFormat from './PixelFormat';
 import PixelType from './PixelType';
 import { vectorFromCoords } from '../math/R3';
 import ShareableArray from '../collections/ShareableArray';
-import { ShareableBase } from './ShareableBase';
+import ShareableBase from './ShareableBase';
 import VectorE3 from '../math/VectorE3';
 import VersionLogger from '../commands/VersionLogger';
-import { WebGLClearColor } from '../commands/WebGLClearColor';
-import { WebGLEnable } from '../commands/WebGLEnable';
-import { WebGLDisable } from '../commands/WebGLDisable';
+import WebGLClearColor from '../commands/WebGLClearColor';
+import WebGLEnable from '../commands/WebGLEnable';
+import WebGLDisable from '../commands/WebGLDisable';
 
 /**
  * A wrapper around an HTMLCanvasElement providing access to the WebGLRenderingContext
@@ -501,7 +501,7 @@ export class Engine extends ShareableBase implements ContextManager {
             this.emitContextGain(consumer);
         }
         else {
-            // FIXME: Broken symmetry.
+            // FIXME: Broken symmetry?
         }
         return this;
     }
@@ -515,7 +515,6 @@ export class Engine extends ShareableBase implements ContextManager {
         const key = JSON.stringify(geometryKey);
         const geometry = this.geometries[key];
         if (geometry && geometry.addRef) {
-            // console.lg(`REUSED Geometry(key = ${key})`);
             geometry.addRef();
         }
         return <G>geometry;
@@ -529,7 +528,6 @@ export class Engine extends ShareableBase implements ContextManager {
         mustBeNonNullObject('geometry', geometry);
         mustBeString('geometryKey.kind', geometryKey.kind);
         const key = JSON.stringify(geometryKey);
-        // console.lg(`CREATE Geometry(key = ${key})`);
         this.geometries[key] = geometry;
     }
 
@@ -542,7 +540,6 @@ export class Engine extends ShareableBase implements ContextManager {
         const key = JSON.stringify(materialKey);
         const material = this.materials[key];
         if (material && material.addRef) {
-            // console.lg(`REUSED Material(key = ${key})`);
             material.addRef();
         }
         return <M>material;

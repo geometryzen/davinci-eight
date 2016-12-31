@@ -1,5 +1,5 @@
-import { ContextConsumer } from './ContextConsumer';
-import { Shareable } from './Shareable';
+import ContextConsumer from './ContextConsumer';
+import Shareable from './Shareable';
 import Geometry from './Geometry';
 import GeometryKey from './GeometryKey';
 import Material from './Material';

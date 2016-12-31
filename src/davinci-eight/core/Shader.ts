@@ -1,9 +1,9 @@
-import { Engine } from './Engine';
+import Engine from './Engine';
 import makeWebGLShader from './makeWebGLShader';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeString from '../checks/mustBeString';
 import mustBeUndefined from '../checks/mustBeUndefined';
-import { ShareableContextConsumer } from './ShareableContextConsumer';
+import ShareableContextConsumer from './ShareableContextConsumer';
 
 /**
  *

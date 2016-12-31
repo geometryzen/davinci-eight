@@ -32,3 +32,5 @@ export class WebGLDisable extends ShareableBase {
         // do nothing
     }
 }
+
+export default WebGLDisable;

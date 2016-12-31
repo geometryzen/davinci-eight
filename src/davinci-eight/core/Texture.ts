@@ -1,6 +1,6 @@
 import ContextManager from './ContextManager';
 import mustBeUndefined from '../checks/mustBeUndefined';
-import { ShareableContextConsumer } from './ShareableContextConsumer';
+import ShareableContextConsumer from './ShareableContextConsumer';
 import TextureMagFilter from './TextureMagFilter';
 import TextureMinFilter from './TextureMinFilter';
 import TextureParameterName from './TextureParameterName';
