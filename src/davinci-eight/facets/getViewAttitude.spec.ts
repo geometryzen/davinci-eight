@@ -23,7 +23,11 @@ describe("getViewAttitude", function () {
         const R = Spinor3.zero();
         getViewAttitude(eye, look, up, R);
         it("should be rotorFromDirections(e3, e1)", function () {
-            expect(R.toString()).toBe(Spinor3.rotorFromDirections(e3, e1).toString());
+            const rotor = Spinor3.rotorFromDirections(e3, e1);
+            expect(R.a).toBeCloseTo(rotor.a, 15);
+            expect(R.xy).toBeCloseTo(rotor.xy, 15);
+            expect(R.yz).toBeCloseTo(rotor.yz, 15);
+            expect(R.zx).toBeCloseTo(rotor.zx, 15);
         });
     });
 });

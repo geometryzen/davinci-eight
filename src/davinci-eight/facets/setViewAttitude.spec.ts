@@ -41,7 +41,9 @@ describe("setViewAttitude", function () {
 
         it("should set eye to e1", function () {
             expect(eye.distanceTo(e1)).toBeCloseTo(0, 15);
-            expect(eye.normalize().toString()).toBe(e1.toString());
+            expect(eye.x).toBeCloseTo(e1.x, 15);
+            expect(eye.y).toBeCloseTo(e1.y, 15);
+            expect(eye.z).toBeCloseTo(e1.z, 15);
         });
         it("should leave look unchanged", function () {
             expect(look.toString()).toBe(lookOriginal.toString());

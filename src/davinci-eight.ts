@@ -341,11 +341,9 @@ const eight = {
     // diagram
     get Diagram3D() { return Diagram3D; },
 
-    // gui
-    //    get GUI() { return GUI; },
-    //    get DemoGUI() { return DemoGUI; }
     // loaders
     get TextureLoader() { return TextureLoader },
+
     // visual
     get Arrow() { return Arrow; },
     get Basis() { return Basis; },

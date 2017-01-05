@@ -97,7 +97,6 @@ export default class VectorE3Controller extends Picker<VectorE3> {
     }
 
     protected updateDisplay(): void {
-        // console.log(`width, height => ${this.width}, ${this.height}`);
         this.ctx.clearRect(0, 0, this.width, this.height);
 
         for (let s = 0; s < this.shapes.length; s++) {
@@ -223,7 +222,6 @@ export default class VectorE3Controller extends Picker<VectorE3> {
      * If we are over the point, we move that, otherwise rotate the camera.
      */
     protected onMouseMove(event: MouseEvent) {
-        // console.log(`onMouseMove`);
         const x = event.offsetX;
         const y = event.offsetY;
 

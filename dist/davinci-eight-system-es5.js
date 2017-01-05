@@ -21565,6 +21565,126 @@ System.register("davinci-eight/math/rotorFromDirectionsE3.js", ["./dotVectorE3",
 
     var __moduleName = context_1 && context_1.id;
     function rotorFromDirectionsE3(a, b, B, m) {
+        if (a.x === b.x && a.y === b.y && a.z === b.z) {
+            m.one();
+            return;
+        }
+        if (a.x === 1 && a.y === 0 && a.z === 0 && b.x === 0 && b.y === 1 && b.z === 0) {
+            m.zero();
+            m.a = cosPIdiv4;
+            m.xy = -sinPIdiv4;
+            return;
+        }
+        if (a.x === 1 && a.y === 0 && a.z === 0 && b.x === 0 && b.y === 0 && b.z === 1) {
+            m.zero();
+            m.a = cosPIdiv4;
+            m.zx = sinPIdiv4;
+            return;
+        }
+        if (a.x === 0 && a.y === 1 && a.z === 0 && b.x === 1 && b.y === 0 && b.z === 0) {
+            m.zero();
+            m.a = cosPIdiv4;
+            m.xy = sinPIdiv4;
+            return;
+        }
+        if (a.x === 0 && a.y === 1 && a.z === 0 && b.x === 0 && b.y === 0 && b.z === 1) {
+            m.zero();
+            m.a = cosPIdiv4;
+            m.yz = -sinPIdiv4;
+            return;
+        }
+        if (a.x === 0 && a.y === 0 && a.z === 1 && b.x === 1 && b.y === 0 && b.z === 0) {
+            m.zero();
+            m.a = cosPIdiv4;
+            m.zx = -sinPIdiv4;
+            return;
+        }
+        if (a.x === 0 && a.y === 0 && a.z === 1 && b.x === 0 && b.y === 1 && b.z === 0) {
+            m.zero();
+            m.a = cosPIdiv4;
+            m.yz = sinPIdiv4;
+            return;
+        }
+        if (a.x === 1 && a.y === 0 && a.z === 0 && b.x === 0 && b.y === -1 && b.z === 0) {
+            m.zero();
+            m.a = cosPIdiv4;
+            m.xy = sinPIdiv4;
+            return;
+        }
+        if (a.x === 1 && a.y === 0 && a.z === 0 && b.x === 0 && b.y === 0 && b.z === -1) {
+            m.zero();
+            m.a = cosPIdiv4;
+            m.zx = -sinPIdiv4;
+            return;
+        }
+        if (a.x === 0 && a.y === 1 && a.z === 0 && b.x === -1 && b.y === 0 && b.z === 0) {
+            m.zero();
+            m.a = cosPIdiv4;
+            m.xy = -sinPIdiv4;
+            return;
+        }
+        if (a.x === 0 && a.y === 1 && a.z === 0 && b.x === 0 && b.y === 0 && b.z === -1) {
+            m.zero();
+            m.a = cosPIdiv4;
+            m.yz = sinPIdiv4;
+            return;
+        }
+        if (a.x === 0 && a.y === 0 && a.z === 1 && b.x === -1 && b.y === 0 && b.z === 0) {
+            m.zero();
+            m.a = cosPIdiv4;
+            m.zx = sinPIdiv4;
+            return;
+        }
+        if (a.x === 0 && a.y === 0 && a.z === 1 && b.x === 0 && b.y === -1 && b.z === 0) {
+            m.zero();
+            m.a = cosPIdiv4;
+            m.yz = -sinPIdiv4;
+            return;
+        }
+        if (a.x === -1 && a.y === 0 && a.z === 0 && b.x === 0 && b.y === 1 && b.z === 0) {
+            m.zero();
+            m.a = cosPIdiv4;
+            m.xy = sinPIdiv4;
+            return;
+        }
+        if (a.x === -1 && a.y === 0 && a.z === 0 && b.x === 0 && b.y === 0 && b.z === 1) {
+            m.zero();
+            m.a = cosPIdiv4;
+            m.zx = -sinPIdiv4;
+            return;
+        }
+        if (typeof B === 'undefined') {
+            if (a.x === 1 && a.y === 0 && a.z === 0 && b.x === -1 && b.y === 0 && b.z === 0) {
+                m.zero();
+                m.xy = -1;
+                return;
+            }
+            if (a.x === -1 && a.y === 0 && a.z === 0 && b.x === 1 && b.y === 0 && b.z === 0) {
+                m.zero();
+                m.xy = -1;
+                return;
+            }
+            if (a.x === 0 && a.y === 1 && a.z === 0 && b.x === 0 && b.y === -1 && b.z === 0) {
+                m.zero();
+                m.xy = -1;
+                return;
+            }
+            if (a.x === 0 && a.y === -1 && a.z === 0 && b.x === 0 && b.y === +1 && b.z === 0) {
+                m.zero();
+                m.xy = -1;
+                return;
+            }
+            if (a.x === 0 && a.y === 0 && a.z === 1 && b.x === 0 && b.y === 0 && b.z === -1) {
+                m.zero();
+                m.zx = -1;
+                return;
+            }
+            if (a.x === 0 && a.y === 0 && a.z === -1 && b.x === 0 && b.y === 0 && b.z === +1) {
+                m.zero();
+                m.zx = -1;
+                return;
+            }
+        }
         var quadA = quadVectorE3_1.default(a);
         var absA = sqrt(quadA);
         var quadB = quadVectorE3_1.default(b);
@@ -21593,7 +21713,7 @@ System.register("davinci-eight/math/rotorFromDirectionsE3.js", ["./dotVectorE3",
         }
     }
     exports_1("default", rotorFromDirectionsE3);
-    var dotVectorE3_1, quadVectorE3_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1, sqrt;
+    var dotVectorE3_1, quadVectorE3_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1, sqrt, cosPIdiv4, sinPIdiv4;
     return {
         setters: [function (dotVectorE3_1_1) {
             dotVectorE3_1 = dotVectorE3_1_1;
@@ -21608,6 +21728,8 @@ System.register("davinci-eight/math/rotorFromDirectionsE3.js", ["./dotVectorE3",
         }],
         execute: function () {
             sqrt = Math.sqrt;
+            cosPIdiv4 = Math.cos(Math.PI / 4);
+            sinPIdiv4 = Math.sin(Math.PI / 4);
         }
     };
 });
@@ -22720,7 +22842,8 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     }
                 };
                 Geometric3.prototype.rotorFromDirections = function (a, b) {
-                    return this.rotorFromVectorToVector(a, b, void 0);
+                    var B = void 0;
+                    return this.rotorFromVectorToVector(a, b, B);
                 };
                 Geometric3.prototype.rotorFromTwoVectors = function (e1, f1, e2, f2) {
                     var R1 = Geometric3.rotorFromDirections(e1, f1);
@@ -23912,9 +24035,9 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
             Eight = function () {
                 function Eight() {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-                    this.LAST_MODIFIED = '2016-12-31';
+                    this.LAST_MODIFIED = '2017-01-04';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '5.0.21';
+                    this.VERSION = '5.0.22';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];

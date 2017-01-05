@@ -8,12 +8,15 @@ import wedgeYZ from './wedgeYZ';
 import wedgeZX from './wedgeZX';
 
 const sqrt = Math.sqrt;
+const cosPIdiv4 = Math.cos(Math.PI / 4);
+const sinPIdiv4 = Math.sin(Math.PI / 4);
 
 interface Output extends Spinor {
     versor(a: Vector, b: Vector): Output;
     addScalar(α: number): Output;
-    normalize(): Output;
     divByScalar(α: number): Output;
+    normalize(): Output;
+    one(): Output;
     rotorFromGeneratorAngle(B: Bivector, θ: number): Output;
     zero(): Output;
 }
@@ -26,6 +29,150 @@ interface Output extends Spinor {
  * Otherwise, returns a random bivector if the vectors are anti-parallel.
  */
 export default function rotorFromDirectionsE3(a: Vector, b: Vector, B: Bivector, m: Output): void {
+    // Optimization for equal vectors.
+    if (a.x === b.x && a.y === b.y && a.z === b.z) {
+        // An easy optimization is simply to compare the vectors for equality.
+        m.one();
+        return;
+    }
+    // Optimizations for cardinal directions.
+    if (a.x === 1 && a.y === 0 && a.z === 0 && b.x === 0 && b.y === 1 && b.z === 0) {
+        // e1 to e2
+        m.zero();
+        m.a = cosPIdiv4;
+        m.xy = -sinPIdiv4;
+        return;
+    }
+    if (a.x === 1 && a.y === 0 && a.z === 0 && b.x === 0 && b.y === 0 && b.z === 1) {
+        // e1 to e3
+        m.zero();
+        m.a = cosPIdiv4;
+        m.zx = sinPIdiv4;
+        return;
+    }
+    if (a.x === 0 && a.y === 1 && a.z === 0 && b.x === 1 && b.y === 0 && b.z === 0) {
+        // e2 to e1
+        m.zero();
+        m.a = cosPIdiv4;
+        m.xy = sinPIdiv4;
+        return;
+    }
+    if (a.x === 0 && a.y === 1 && a.z === 0 && b.x === 0 && b.y === 0 && b.z === 1) {
+        // e2 to e3
+        m.zero();
+        m.a = cosPIdiv4;
+        m.yz = -sinPIdiv4;
+        return;
+    }
+    if (a.x === 0 && a.y === 0 && a.z === 1 && b.x === 1 && b.y === 0 && b.z === 0) {
+        // e3 to e1
+        m.zero();
+        m.a = cosPIdiv4;
+        m.zx = -sinPIdiv4;
+        return;
+    }
+    if (a.x === 0 && a.y === 0 && a.z === 1 && b.x === 0 && b.y === 1 && b.z === 0) {
+        // e3 to e2
+        m.zero();
+        m.a = cosPIdiv4;
+        m.yz = sinPIdiv4;
+        return;
+    }
+    if (a.x === 1 && a.y === 0 && a.z === 0 && b.x === 0 && b.y === -1 && b.z === 0) {
+        // e1 to -e2
+        m.zero();
+        m.a = cosPIdiv4;
+        m.xy = sinPIdiv4;
+        return;
+    }
+    if (a.x === 1 && a.y === 0 && a.z === 0 && b.x === 0 && b.y === 0 && b.z === -1) {
+        // e1 to -e3
+        m.zero();
+        m.a = cosPIdiv4;
+        m.zx = -sinPIdiv4;
+        return;
+    }
+    if (a.x === 0 && a.y === 1 && a.z === 0 && b.x === -1 && b.y === 0 && b.z === 0) {
+        // e2 to -e1
+        m.zero();
+        m.a = cosPIdiv4;
+        m.xy = -sinPIdiv4;
+        return;
+    }
+    if (a.x === 0 && a.y === 1 && a.z === 0 && b.x === 0 && b.y === 0 && b.z === -1) {
+        // e2 to -e3
+        m.zero();
+        m.a = cosPIdiv4;
+        m.yz = sinPIdiv4;
+        return;
+    }
+    if (a.x === 0 && a.y === 0 && a.z === 1 && b.x === -1 && b.y === 0 && b.z === 0) {
+        // e3 to -e1
+        m.zero();
+        m.a = cosPIdiv4;
+        m.zx = sinPIdiv4;
+        return;
+    }
+    if (a.x === 0 && a.y === 0 && a.z === 1 && b.x === 0 && b.y === -1 && b.z === 0) {
+        // e3 to -e2
+        m.zero();
+        m.a = cosPIdiv4;
+        m.yz = -sinPIdiv4;
+        return;
+    }
+    if (a.x === -1 && a.y === 0 && a.z === 0 && b.x === 0 && b.y === 1 && b.z === 0) {
+        // -e1 to +e2
+        m.zero();
+        m.a = cosPIdiv4;
+        m.xy = sinPIdiv4;
+        return;
+    }
+    if (a.x === -1 && a.y === 0 && a.z === 0 && b.x === 0 && b.y === 0 && b.z === 1) {
+        // -e1 to +e3
+        m.zero();
+        m.a = cosPIdiv4;
+        m.zx = -sinPIdiv4;
+        return;
+    }
+    // Optimizations when the plane of rotation is ambiguous and a default bivector is not defined.
+    if (typeof B === 'undefined') {
+        if (a.x === 1 && a.y === 0 && a.z === 0 && b.x === -1 && b.y === 0 && b.z === 0) {
+            // +e1 to -e1.
+            m.zero();
+            m.xy = -1;
+            return;
+        }
+        if (a.x === -1 && a.y === 0 && a.z === 0 && b.x === 1 && b.y === 0 && b.z === 0) {
+            // -e1 to +e1.
+            m.zero();
+            m.xy = -1;
+            return;
+        }
+        if (a.x === 0 && a.y === 1 && a.z === 0 && b.x === 0 && b.y === -1 && b.z === 0) {
+            // +e2 to -e2.
+            m.zero();
+            m.xy = -1;
+            return;
+        }
+        if (a.x === 0 && a.y === -1 && a.z === 0 && b.x === 0 && b.y === +1 && b.z === 0) {
+            // -e2 to +e2.
+            m.zero();
+            m.xy = -1;
+            return;
+        }
+        if (a.x === 0 && a.y === 0 && a.z === 1 && b.x === 0 && b.y === 0 && b.z === -1) {
+            // +e3 to -e3.
+            m.zero();
+            m.zx = -1;
+            return;
+        }
+        if (a.x === 0 && a.y === 0 && a.z === -1 && b.x === 0 && b.y === 0 && b.z === +1) {
+            // -e3 to +e3.
+            m.zero();
+            m.zx = -1;
+            return;
+        }
+    }
     const quadA = quad(a);
     const absA = sqrt(quadA);
     const quadB = quad(b);

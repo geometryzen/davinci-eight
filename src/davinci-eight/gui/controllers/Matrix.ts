@@ -52,8 +52,7 @@ export default class Matrix {
     getMult(v: number[]): Vector {
         let x = <any>v;
         if (v[0][0] || (x.value && x.value[0][0])) {
-            // TODO: what If v is a matrix
-            console.log('TODO: what If v is a matrix');
+            // TODO: what If v is a matrix?
         }
         else {
             // If v is a vector

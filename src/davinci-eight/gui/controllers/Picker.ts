@@ -51,7 +51,6 @@ export default class Picker<T> extends Controller<T> {
             frame: null,
 
             drawFrame: () => {
-                // console.log("drawFrame called");
                 if (!this.__selector) {
                     return;
                 }
@@ -134,9 +133,7 @@ export default class Picker<T> extends Controller<T> {
         this.__selector.appendChild(this.canvas);
         this.ctx = this.canvas.getContext('2d');
 
-        // console.log(`width, height => ${this.width}, ${this.height}`);
         const ratio = getDevicePixelRatio(this.ctx);
-        // console.log(`ratio => ${ratio}`);
         this.canvas.width = this.width * ratio;
         this.canvas.height = this.height * ratio;
         this.ctx.scale(ratio, ratio);

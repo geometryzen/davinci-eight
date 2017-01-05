@@ -1169,22 +1169,20 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
      * @returns The rotor representing a rotation from a to b.
      */
     rotorFromDirections(a: VectorE3, b: VectorE3): this {
-        return this.rotorFromVectorToVector(a, b, void 0);
+        const B: BivectorE3 = void 0;
+        return this.rotorFromVectorToVector(a, b, B);
     }
 
     /**
      * Helper function for rotorFromFrameToFrame.
      */
     private rotorFromTwoVectors(e1: VectorE3, f1: VectorE3, e2: VectorE3, f2: VectorE3): this {
-        // console.log(`rotorFromTwoVectors(${e1}, ${f1}, ${e2}, ${f2})`);
         // FIXME: This creates a lot of temporary objects.
         // Compute the rotor that takes e1 to f1.
         // There is no concern that the two vectors are anti-parallel.
         const R1 = Geometric3.rotorFromDirections(e1, f1);
         // Compute the image of e2 under the first rotation in order to calculate R2.
         const f = Geometric3.fromVector(e2).rotate(R1);
-        // console.log(`f => ${f}`);
-        // console.log(`f2 => ${f2}`);
         // In case of rotation for antipodal vectors, define the fallback rotation bivector.
         const B = Geometric3.dualOfVector(f1);
         // Compute R2

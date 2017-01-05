@@ -23,6 +23,6 @@ export default class DemoGUI extends GUI {
         // more.add(this, 'message');
     }
     doIt() {
-        console.log("Yay!!!");
+        // Do nothing
     }
 }

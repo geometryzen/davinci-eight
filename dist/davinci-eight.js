@@ -551,9 +551,9 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
     var Eight = (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-12-31';
+            this.LAST_MODIFIED = '2017-01-04';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '5.0.21';
+            this.VERSION = '5.0.22';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -1942,7 +1942,129 @@ define('davinci-eight/math/wedgeZX',["require", "exports"], function (require, e
 define('davinci-eight/math/rotorFromDirectionsE3',["require", "exports", "./dotVectorE3", "./quadVectorE3", "./wedgeXY", "./wedgeYZ", "./wedgeZX"], function (require, exports, dotVectorE3_1, quadVectorE3_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1) {
     "use strict";
     var sqrt = Math.sqrt;
+    var cosPIdiv4 = Math.cos(Math.PI / 4);
+    var sinPIdiv4 = Math.sin(Math.PI / 4);
     function rotorFromDirectionsE3(a, b, B, m) {
+        if (a.x === b.x && a.y === b.y && a.z === b.z) {
+            m.one();
+            return;
+        }
+        if (a.x === 1 && a.y === 0 && a.z === 0 && b.x === 0 && b.y === 1 && b.z === 0) {
+            m.zero();
+            m.a = cosPIdiv4;
+            m.xy = -sinPIdiv4;
+            return;
+        }
+        if (a.x === 1 && a.y === 0 && a.z === 0 && b.x === 0 && b.y === 0 && b.z === 1) {
+            m.zero();
+            m.a = cosPIdiv4;
+            m.zx = sinPIdiv4;
+            return;
+        }
+        if (a.x === 0 && a.y === 1 && a.z === 0 && b.x === 1 && b.y === 0 && b.z === 0) {
+            m.zero();
+            m.a = cosPIdiv4;
+            m.xy = sinPIdiv4;
+            return;
+        }
+        if (a.x === 0 && a.y === 1 && a.z === 0 && b.x === 0 && b.y === 0 && b.z === 1) {
+            m.zero();
+            m.a = cosPIdiv4;
+            m.yz = -sinPIdiv4;
+            return;
+        }
+        if (a.x === 0 && a.y === 0 && a.z === 1 && b.x === 1 && b.y === 0 && b.z === 0) {
+            m.zero();
+            m.a = cosPIdiv4;
+            m.zx = -sinPIdiv4;
+            return;
+        }
+        if (a.x === 0 && a.y === 0 && a.z === 1 && b.x === 0 && b.y === 1 && b.z === 0) {
+            m.zero();
+            m.a = cosPIdiv4;
+            m.yz = sinPIdiv4;
+            return;
+        }
+        if (a.x === 1 && a.y === 0 && a.z === 0 && b.x === 0 && b.y === -1 && b.z === 0) {
+            m.zero();
+            m.a = cosPIdiv4;
+            m.xy = sinPIdiv4;
+            return;
+        }
+        if (a.x === 1 && a.y === 0 && a.z === 0 && b.x === 0 && b.y === 0 && b.z === -1) {
+            m.zero();
+            m.a = cosPIdiv4;
+            m.zx = -sinPIdiv4;
+            return;
+        }
+        if (a.x === 0 && a.y === 1 && a.z === 0 && b.x === -1 && b.y === 0 && b.z === 0) {
+            m.zero();
+            m.a = cosPIdiv4;
+            m.xy = -sinPIdiv4;
+            return;
+        }
+        if (a.x === 0 && a.y === 1 && a.z === 0 && b.x === 0 && b.y === 0 && b.z === -1) {
+            m.zero();
+            m.a = cosPIdiv4;
+            m.yz = sinPIdiv4;
+            return;
+        }
+        if (a.x === 0 && a.y === 0 && a.z === 1 && b.x === -1 && b.y === 0 && b.z === 0) {
+            m.zero();
+            m.a = cosPIdiv4;
+            m.zx = sinPIdiv4;
+            return;
+        }
+        if (a.x === 0 && a.y === 0 && a.z === 1 && b.x === 0 && b.y === -1 && b.z === 0) {
+            m.zero();
+            m.a = cosPIdiv4;
+            m.yz = -sinPIdiv4;
+            return;
+        }
+        if (a.x === -1 && a.y === 0 && a.z === 0 && b.x === 0 && b.y === 1 && b.z === 0) {
+            m.zero();
+            m.a = cosPIdiv4;
+            m.xy = sinPIdiv4;
+            return;
+        }
+        if (a.x === -1 && a.y === 0 && a.z === 0 && b.x === 0 && b.y === 0 && b.z === 1) {
+            m.zero();
+            m.a = cosPIdiv4;
+            m.zx = -sinPIdiv4;
+            return;
+        }
+        if (typeof B === 'undefined') {
+            if (a.x === 1 && a.y === 0 && a.z === 0 && b.x === -1 && b.y === 0 && b.z === 0) {
+                m.zero();
+                m.xy = -1;
+                return;
+            }
+            if (a.x === -1 && a.y === 0 && a.z === 0 && b.x === 1 && b.y === 0 && b.z === 0) {
+                m.zero();
+                m.xy = -1;
+                return;
+            }
+            if (a.x === 0 && a.y === 1 && a.z === 0 && b.x === 0 && b.y === -1 && b.z === 0) {
+                m.zero();
+                m.xy = -1;
+                return;
+            }
+            if (a.x === 0 && a.y === -1 && a.z === 0 && b.x === 0 && b.y === +1 && b.z === 0) {
+                m.zero();
+                m.xy = -1;
+                return;
+            }
+            if (a.x === 0 && a.y === 0 && a.z === 1 && b.x === 0 && b.y === 0 && b.z === -1) {
+                m.zero();
+                m.zx = -1;
+                return;
+            }
+            if (a.x === 0 && a.y === 0 && a.z === -1 && b.x === 0 && b.y === 0 && b.z === +1) {
+                m.zero();
+                m.zx = -1;
+                return;
+            }
+        }
         var quadA = quadVectorE3_1.default(a);
         var absA = sqrt(quadA);
         var quadB = quadVectorE3_1.default(b);
@@ -2861,7 +2983,8 @@ define('davinci-eight/math/Geometric3',["require", "exports", "./Coords", "./arr
             }
         };
         Geometric3.prototype.rotorFromDirections = function (a, b) {
-            return this.rotorFromVectorToVector(a, b, void 0);
+            var B = void 0;
+            return this.rotorFromVectorToVector(a, b, B);
         };
         Geometric3.prototype.rotorFromTwoVectors = function (e1, f1, e2, f2) {
             var R1 = Geometric3.rotorFromDirections(e1, f1);
