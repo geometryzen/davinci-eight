@@ -19349,28 +19349,6 @@ System.register("davinci-eight/math/mulSpinorE3alpha.js", [], function (exports_
         execute: function () {}
     };
 });
-System.register("davinci-eight/checks/mustBeNumber.js", ["../checks/mustSatisfy", "../checks/isNumber"], function (exports_1, context_1) {
-    "use strict";
-
-    var __moduleName = context_1 && context_1.id;
-    function beANumber() {
-        return "be a `number`";
-    }
-    function default_1(name, value, contextBuilder) {
-        mustSatisfy_1.default(name, isNumber_1.default(value), beANumber, contextBuilder);
-        return value;
-    }
-    exports_1("default", default_1);
-    var mustSatisfy_1, isNumber_1;
-    return {
-        setters: [function (mustSatisfy_1_1) {
-            mustSatisfy_1 = mustSatisfy_1_1;
-        }, function (isNumber_1_1) {
-            isNumber_1 = isNumber_1_1;
-        }],
-        execute: function () {}
-    };
-});
 System.register("davinci-eight/checks/mustBeObject.js", ["../checks/mustSatisfy", "../checks/isObject"], function (exports_1, context_1) {
     "use strict";
 
@@ -23583,6 +23561,28 @@ System.register("davinci-eight/math/dotVectorE3.js", [], function (exports_1, co
         execute: function () {}
     };
 });
+System.register("davinci-eight/checks/mustBeNumber.js", ["../checks/mustSatisfy", "../checks/isNumber"], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    function beANumber() {
+        return "be a `number`";
+    }
+    function default_1(name, value, contextBuilder) {
+        mustSatisfy_1.default(name, isNumber_1.default(value), beANumber, contextBuilder);
+        return value;
+    }
+    exports_1("default", default_1);
+    var mustSatisfy_1, isNumber_1;
+    return {
+        setters: [function (mustSatisfy_1_1) {
+            mustSatisfy_1 = mustSatisfy_1_1;
+        }, function (isNumber_1_1) {
+            isNumber_1 = isNumber_1_1;
+        }],
+        execute: function () {}
+    };
+});
 System.register("davinci-eight/math/wedgeXY.js", [], function (exports_1, context_1) {
     "use strict";
 
@@ -23623,7 +23623,7 @@ System.register("davinci-eight/math/wedgeZX.js", [], function (exports_1, contex
         }
     };
 });
-System.register("davinci-eight/math/R3.js", ["./wedgeXY", "./wedgeYZ", "./wedgeZX"], function (exports_1, context_1) {
+System.register("davinci-eight/math/R3.js", ["../checks/mustBeNumber", "./wedgeXY", "./wedgeYZ", "./wedgeZX"], function (exports_1, context_1) {
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
@@ -23706,16 +23706,44 @@ System.register("davinci-eight/math/R3.js", ["./wedgeXY", "./wedgeYZ", "./wedgeZ
             sub: function (rhs) {
                 return vec(x - rhs.x, y - rhs.y, z - rhs.z);
             },
+            __add__: function (rhs) {
+                return vec(x + rhs.x, y + rhs.y, z + rhs.z);
+            },
+            __radd__: function (lhs) {
+                return vec(lhs.x + x, lhs.y + y, lhs.z + z);
+            },
+            __sub__: function (rhs) {
+                return vec(x - rhs.x, y - rhs.y, z - rhs.z);
+            },
+            __rsub__: function (lhs) {
+                return vec(lhs.x - x, lhs.y - y, lhs.z - z);
+            },
+            __mul__: function (rhs) {
+                mustBeNumber_1.default('rhs', rhs);
+                return vec(x * rhs, y * rhs, z * rhs);
+            },
+            __rmul__: function (lhs) {
+                mustBeNumber_1.default('lhs', lhs);
+                return vec(lhs * x, lhs * y, lhs * z);
+            },
+            __pos__: function () {
+                return that;
+            },
+            __neg__: function () {
+                return vec(-x, -y, -z);
+            },
             toString: function () {
                 return "[" + x + ", " + y + ", " + z + "]";
             }
         };
-        return that;
+        return Object.freeze(that);
     }
     exports_1("default", vec);
-    var wedgeXY_1, wedgeYZ_1, wedgeZX_1;
+    var mustBeNumber_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1;
     return {
-        setters: [function (wedgeXY_1_1) {
+        setters: [function (mustBeNumber_1_1) {
+            mustBeNumber_1 = mustBeNumber_1_1;
+        }, function (wedgeXY_1_1) {
             wedgeXY_1 = wedgeXY_1_1;
         }, function (wedgeYZ_1_1) {
             wedgeYZ_1 = wedgeYZ_1_1;
@@ -24035,9 +24063,9 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
             Eight = function () {
                 function Eight() {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-                    this.LAST_MODIFIED = '2017-01-04';
+                    this.LAST_MODIFIED = '2017-01-06';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '5.0.22';
+                    this.VERSION = '5.0.23';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];

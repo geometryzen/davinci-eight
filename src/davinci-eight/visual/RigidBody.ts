@@ -53,7 +53,7 @@ export class RigidBody extends Mesh<Geometry, Material> {
     /**
      * 
      */
-    constructor(contextManager: ContextManager, initialAxis: R3, initialMeridian: R3, levelUp = 0) {
+    constructor(contextManager: ContextManager, initialAxis: Readonly<R3>, initialMeridian: Readonly<R3>, levelUp = 0) {
         super(void 0, void 0, contextManager, { axis: initialAxis, meridian: initialMeridian }, levelUp + 1);
         this.setLoggingName('RigidBody');
         if (levelUp === 0) {

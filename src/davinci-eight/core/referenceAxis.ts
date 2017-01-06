@@ -31,7 +31,7 @@ interface AxisOptions {
 /**
  * This function computes the reference axis of an object.
  */
-export default function referenceAxis(options: AxisOptions, fallback: VectorE3): R3 {
+export default function referenceAxis(options: AxisOptions, fallback: VectorE3): Readonly<R3> {
     if (options.tilt) {
         const axis = Geometric3.fromVector(canonicalAxis).rotate(options.tilt);
         return vec(axis.x, axis.y, axis.z);

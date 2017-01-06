@@ -105,7 +105,7 @@ export function canvasCoords(X: VectorE3, camera: { eye: VectorE3; look: VectorE
  * @param up The approximate up direction.
  * @returns The coordinates in the camera (u, v, w) basis.
  */
-export function view(X: VectorE3, eye: VectorE3, look: VectorE3, up: VectorE3): R3 {
+export function view(X: VectorE3, eye: VectorE3, look: VectorE3, up: VectorE3): Readonly<R3> {
     /**
      * Unit vector towards the camera holder (similar to e3).
      * Some texts call this the w-vector, so that (u, v, w) is a right-handed frame.
@@ -141,7 +141,7 @@ export function view(X: VectorE3, eye: VectorE3, look: VectorE3, up: VectorE3): 
  * @param α The angle subtended at the apex of the pyramid in the vw-plane.
  * @param aspect The ratio of the width to the height (width divided by height).
  */
-export function perspective(X: VectorE3, n: number, f: number, α: number, aspect: number): R3 {
+export function perspective(X: VectorE3, n: number, f: number, α: number, aspect: number): Readonly<R3> {
     /**
      * The camera coordinates (u, v, w).
      */

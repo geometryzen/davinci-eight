@@ -31,7 +31,7 @@ interface MeridianOptions {
 /**
  * This function computes the reference meridian of an object.
  */
-export default function referenceMeridian(options: MeridianOptions, fallback: VectorE3): R3 {
+export default function referenceMeridian(options: MeridianOptions, fallback: VectorE3): Readonly<R3> {
     if (options.tilt) {
         const meridian = Geometric3.fromVector(canonicalMeridian).rotate(options.tilt);
         return vec(meridian.x, meridian.y, meridian.z);

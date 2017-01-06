@@ -551,9 +551,9 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
     var Eight = (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2017-01-04';
+            this.LAST_MODIFIED = '2017-01-06';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '5.0.22';
+            this.VERSION = '5.0.23';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -7089,7 +7089,7 @@ define('davinci-eight/core/GeometryBase',["require", "exports", "../i18n/notSupp
     exports.default = GeometryBase;
 });
 
-define('davinci-eight/math/R3',["require", "exports", "./wedgeXY", "./wedgeYZ", "./wedgeZX"], function (require, exports, wedgeXY_1, wedgeYZ_1, wedgeZX_1) {
+define('davinci-eight/math/R3',["require", "exports", "../checks/mustBeNumber", "./wedgeXY", "./wedgeYZ", "./wedgeZX"], function (require, exports, mustBeNumber_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1) {
     "use strict";
     function vectorCopy(vector) {
         return vec(vector.x, vector.y, vector.z);
@@ -7170,11 +7170,37 @@ define('davinci-eight/math/R3',["require", "exports", "./wedgeXY", "./wedgeYZ", 
             sub: function (rhs) {
                 return vec(x - rhs.x, y - rhs.y, z - rhs.z);
             },
+            __add__: function (rhs) {
+                return vec(x + rhs.x, y + rhs.y, z + rhs.z);
+            },
+            __radd__: function (lhs) {
+                return vec(lhs.x + x, lhs.y + y, lhs.z + z);
+            },
+            __sub__: function (rhs) {
+                return vec(x - rhs.x, y - rhs.y, z - rhs.z);
+            },
+            __rsub__: function (lhs) {
+                return vec(lhs.x - x, lhs.y - y, lhs.z - z);
+            },
+            __mul__: function (rhs) {
+                mustBeNumber_1.default('rhs', rhs);
+                return vec(x * rhs, y * rhs, z * rhs);
+            },
+            __rmul__: function (lhs) {
+                mustBeNumber_1.default('lhs', lhs);
+                return vec(lhs * x, lhs * y, lhs * z);
+            },
+            __pos__: function () {
+                return that;
+            },
+            __neg__: function () {
+                return vec(-x, -y, -z);
+            },
             toString: function () {
                 return "[" + x + ", " + y + ", " + z + "]";
             }
         };
-        return that;
+        return Object.freeze(that);
     }
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = vec;

@@ -30,11 +30,11 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
     /**
      * The reference frame axis.
      */
-    public readonly referenceAxis: R3;
+    public readonly referenceAxis: Readonly<R3>;
     /**
      * The reference frame meridian.
      */
-    public readonly referenceMeridian: R3;
+    public readonly referenceMeridian: Readonly<R3>;
     /**
      * Scratch variable for intermediate calculation value.
      * This can probably be raised to a module level constant.
@@ -335,7 +335,7 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
      * Implementation of the axis (get) property.
      * Derived classes may overide to perform scaling.
      */
-    protected getAxis(): R3 {
+    protected getAxis(): Readonly<R3> {
         return this.referenceAxis.rotate(this.attitude);
     }
 
@@ -358,7 +358,7 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
         this.setAxis(axis);
     }
 
-    protected getMeridian(): R3 {
+    protected getMeridian(): Readonly<R3> {
         return this.referenceMeridian.rotate(this.attitude);
     }
 

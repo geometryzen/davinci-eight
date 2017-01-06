@@ -8,14 +8,14 @@ const INITIAL_RADIUS = 0.5;
 const INITIAL_SLICE = 2 * Math.PI;
 
 export interface ALR {
-    axis: R3;
+    axis: Readonly<R3>;
     length: number;
-    meridian: R3;
+    meridian: Readonly<R3>;
     radius: number;
     sliceAngle: number;
 }
 
-function make(axis: R3, length: number, meridian: R3, radius: number, sliceAngle: number): ALR {
+function make(axis: Readonly<R3>, length: number, meridian: Readonly<R3>, radius: number, sliceAngle: number): ALR {
     /*
     const that: ALR = {
         get axis(): R3 {

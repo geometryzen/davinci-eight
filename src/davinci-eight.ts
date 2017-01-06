@@ -299,6 +299,7 @@ const eight = {
     get SphereGeometry() { return SphereGeometry },
     get TetrahedronGeometry() { return TetrahedronGeometry },
 
+    // math
     get Matrix2() { return Matrix2 },
     get Matrix3() { return Matrix3 },
     get Matrix4() { return Matrix4 },
