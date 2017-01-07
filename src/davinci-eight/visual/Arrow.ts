@@ -92,8 +92,11 @@ export class Arrow extends Mesh<ArrowGeometry, Material> {
         return super.getAxis().scale(this.length);
     }
     set vector(axis: VectorE3) {
-        this.setAxis(axis);
         this.length = normVectorE3(axis);
+        // Don't try to set the direction for the zero vector.
+        if (this.length !== 0) {
+            this.setAxis(axis);
+        }
     }
 
     /**

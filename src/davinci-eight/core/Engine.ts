@@ -20,10 +20,10 @@ import mustBeNumber from '../checks/mustBeNumber';
 import mustBeString from '../checks/mustBeString';
 import PixelFormat from './PixelFormat';
 import PixelType from './PixelType';
-import { vectorFromCoords } from '../math/R3';
+import { R3 } from '../math/R3';
 import ShareableArray from '../collections/ShareableArray';
 import ShareableBase from './ShareableBase';
-import VectorE3 from '../math/VectorE3';
+import { vectorFromCoords } from '../math/R3';
 import VersionLogger from '../commands/VersionLogger';
 import WebGLClearColor from '../commands/WebGLClearColor';
 import WebGLEnable from '../commands/WebGLEnable';
@@ -562,7 +562,7 @@ export class Engine extends ShareableBase implements ContextManager {
      * @param deviceY The y-coordinate of the device event.
      * @param imageZ The optional value to use as the resulting depth coordinate.
      */
-    deviceToImageCoords(deviceX: number, deviceY: number, imageZ = 0): VectorE3 {
+    deviceToImageCoords(deviceX: number, deviceY: number, imageZ = 0): Readonly<R3> {
         mustBeNumber('deviceX', deviceX);
         mustBeNumber('deviceY', deviceY);
         mustBeNumber('imageZ', imageZ);

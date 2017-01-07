@@ -551,9 +551,9 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
     var Eight = (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2017-01-06';
+            this.LAST_MODIFIED = '2017-01-07';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '5.0.23';
+            this.VERSION = '5.0.24';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -7159,7 +7159,12 @@ define('davinci-eight/math/R3',["require", "exports", "../checks/mustBeNumber", 
             },
             direction: function () {
                 var magnitude = Math.sqrt(x * x + y * y + z * z);
-                return vec(x / magnitude, y / magnitude, z / magnitude);
+                if (magnitude !== 0) {
+                    return vec(x / magnitude, y / magnitude, z / magnitude);
+                }
+                else {
+                    return void 0;
+                }
             },
             dot: dot,
             magnitude: magnitude,
@@ -9086,8 +9091,19 @@ define('davinci-eight/core/Mesh',["require", "exports", "../core/tiltFromOptions
             return this.referenceAxis.rotate(this.attitude);
         };
         Mesh.prototype.setAxis = function (axis) {
-            var currentAxis = R3_1.vectorCopy(axis).direction();
-            this.attitude.rotorFromDirections(this.referenceAxis, currentAxis);
+            var vector = R3_1.vectorCopy(axis);
+            if (vector.magnitude() > 0) {
+                var currentAxis = vector.direction();
+                if (currentAxis) {
+                    this.attitude.rotorFromDirections(this.referenceAxis, currentAxis);
+                }
+                else {
+                    this.attitude.one();
+                }
+            }
+            else {
+                this.attitude.one();
+            }
         };
         Object.defineProperty(Mesh.prototype, "axis", {
             get: function () {
@@ -9844,7 +9860,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/Engine',["require", "exports", "./checkEnums", "./ClearBufferMask", "../commands/EIGHTLogger", "./initWebGL", "../checks/isDefined", "../checks/mustBeGE", "../checks/mustBeLE", "../checks/mustBeNonNullObject", "../checks/mustBeNumber", "../checks/mustBeString", "../math/R3", "../collections/ShareableArray", "./ShareableBase", "../commands/VersionLogger", "../commands/WebGLClearColor", "../commands/WebGLEnable", "../commands/WebGLDisable"], function (require, exports, checkEnums_1, ClearBufferMask_1, EIGHTLogger_1, initWebGL_1, isDefined_1, mustBeGE_1, mustBeLE_1, mustBeNonNullObject_1, mustBeNumber_1, mustBeString_1, R3_1, ShareableArray_1, ShareableBase_1, VersionLogger_1, WebGLClearColor_1, WebGLEnable_1, WebGLDisable_1) {
+define('davinci-eight/core/Engine',["require", "exports", "./checkEnums", "./ClearBufferMask", "../commands/EIGHTLogger", "./initWebGL", "../checks/isDefined", "../checks/mustBeGE", "../checks/mustBeLE", "../checks/mustBeNonNullObject", "../checks/mustBeNumber", "../checks/mustBeString", "../collections/ShareableArray", "./ShareableBase", "../math/R3", "../commands/VersionLogger", "../commands/WebGLClearColor", "../commands/WebGLEnable", "../commands/WebGLDisable"], function (require, exports, checkEnums_1, ClearBufferMask_1, EIGHTLogger_1, initWebGL_1, isDefined_1, mustBeGE_1, mustBeLE_1, mustBeNonNullObject_1, mustBeNumber_1, mustBeString_1, ShareableArray_1, ShareableBase_1, R3_1, VersionLogger_1, WebGLClearColor_1, WebGLEnable_1, WebGLDisable_1) {
     "use strict";
     var Engine = (function (_super) {
         __extends(Engine, _super);
@@ -18280,8 +18296,10 @@ define('davinci-eight/visual/Arrow',["require", "exports", "../geometries/ArrowG
                 return _super.prototype.getAxis.call(this).scale(this.length);
             },
             set: function (axis) {
-                this.setAxis(axis);
                 this.length = normVectorE3_1.default(axis);
+                if (this.length !== 0) {
+                    this.setAxis(axis);
+                }
             },
             enumerable: true,
             configurable: true
@@ -18919,7 +18937,7 @@ define('davinci-eight/visual/Curve',["require", "exports", "../core/GraphicsProg
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_PROJECTION_MATRIX] = 'mat4';
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_VIEW_MATRIX] = 'mat4';
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_POINT_SIZE] = 'float';
-        var material = new PointMaterial_1.PointMaterial(contextManager, matOptions);
+        var material = new PointMaterial_1.default(contextManager, matOptions);
         curve.material = material;
         material.release();
     }
@@ -18949,7 +18967,7 @@ define('davinci-eight/visual/Curve',["require", "exports", "../core/GraphicsProg
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_MODEL_MATRIX] = 'mat4';
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_PROJECTION_MATRIX] = 'mat4';
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_VIEW_MATRIX] = 'mat4';
-        var material = new LineMaterial_1.LineMaterial(contextManager, matOptions);
+        var material = new LineMaterial_1.default(contextManager, matOptions);
         curve.material = material;
         material.release();
     }
@@ -18974,7 +18992,7 @@ define('davinci-eight/visual/Curve',["require", "exports", "../core/GraphicsProg
                     throw new Error("'" + mode + "' is not a valid option for mode.");
                 }
             }
-            setColorOption_1.default(_this, options, Color_1.Color.gray);
+            setColorOption_1.default(_this, options, Color_1.default.gray);
             setDeprecatedOptions_1.default(_this, options);
             if (levelUp === 0) {
                 _this.synchUp();
@@ -18988,7 +19006,7 @@ define('davinci-eight/visual/Curve',["require", "exports", "../core/GraphicsProg
             _super.prototype.destructor.call(this, levelUp + 1);
         };
         return Curve;
-    }(Mesh_1.Mesh));
+    }(Mesh_1.default));
     exports.Curve = Curve;
 });
 
@@ -19041,7 +19059,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/visual/Grid',["require", "exports", "../core/Color", "../checks/expectOptions", "../geometries/GeometryMode", "./geometryModeFromOptions", "../core/GraphicsProgramSymbols", "../geometries/GridGeometry", "../checks/isFunction", "../checks/isNull", "../checks/isUndefined", "../materials/LineMaterial", "../core/Mesh", "../materials/MeshMaterial", "./mustBeEngine", "../checks/mustBeGE", "../checks/mustBeFunction", "../checks/mustBeInteger", "../checks/mustBeNumber", "../checks/mustBeObject", "../materials/PointMaterial", "../math/R3", "./setAxisAndMeridian", "./setColorOption", "./setDeprecatedOptions", "../checks/validate"], function (require, exports, Color_1, expectOptions_1, GeometryMode_1, geometryModeFromOptions_1, GraphicsProgramSymbols_1, GridGeometry_1, isFunction_1, isNull_1, isUndefined_1, LineMaterial_1, Mesh_1, MeshMaterial_1, mustBeEngine_1, mustBeGE_1, mustBeFunction_1, mustBeInteger_1, mustBeNumber_1, mustBeObject_1, PointMaterial_1, R3_1, setAxisAndMeridian_1, setColorOption_1, setDeprecatedOptions_1, validate_1) {
+define('davinci-eight/visual/Grid',["require", "exports", "../core/Color", "../checks/expectOptions", "../geometries/GeometryMode", "./geometryModeFromOptions", "../core/GraphicsProgramSymbols", "../geometries/GridGeometry", "../checks/isFunction", "../checks/isNull", "../checks/isUndefined", "../materials/LineMaterial", "../core/Mesh", "../materials/MeshMaterial", "../checks/mustBeGE", "../checks/mustBeFunction", "../checks/mustBeInteger", "../checks/mustBeNumber", "../checks/mustBeObject", "../materials/PointMaterial", "../math/R3", "./setAxisAndMeridian", "./setColorOption", "./setDeprecatedOptions", "../checks/validate"], function (require, exports, Color_1, expectOptions_1, GeometryMode_1, geometryModeFromOptions_1, GraphicsProgramSymbols_1, GridGeometry_1, isFunction_1, isNull_1, isUndefined_1, LineMaterial_1, Mesh_1, MeshMaterial_1, mustBeGE_1, mustBeFunction_1, mustBeInteger_1, mustBeNumber_1, mustBeObject_1, PointMaterial_1, R3_1, setAxisAndMeridian_1, setColorOption_1, setDeprecatedOptions_1, validate_1) {
     "use strict";
     var COORD_MIN_DEFAULT = -1;
     var COORD_MAX_DEFAULT = +1;
@@ -19156,12 +19174,12 @@ define('davinci-eight/visual/Grid',["require", "exports", "../core/Color", "../c
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_VIEW_MATRIX] = 'mat4';
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_POINT_SIZE] = 'float';
         var cachedMaterial = engine.getCacheMaterial(matOptions);
-        if (cachedMaterial && cachedMaterial instanceof PointMaterial_1.PointMaterial) {
+        if (cachedMaterial && cachedMaterial instanceof PointMaterial_1.default) {
             grid.material = cachedMaterial;
             cachedMaterial.release();
         }
         else {
-            var material = new PointMaterial_1.PointMaterial(engine, matOptions);
+            var material = new PointMaterial_1.default(engine, matOptions);
             grid.material = material;
             material.release();
             engine.putCacheMaterial(matOptions, material);
@@ -19192,12 +19210,12 @@ define('davinci-eight/visual/Grid',["require", "exports", "../core/Color", "../c
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_PROJECTION_MATRIX] = 'mat4';
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_VIEW_MATRIX] = 'mat4';
         var cachedMaterial = engine.getCacheMaterial(matOptions);
-        if (cachedMaterial && cachedMaterial instanceof LineMaterial_1.LineMaterial) {
+        if (cachedMaterial && cachedMaterial instanceof LineMaterial_1.default) {
             grid.material = cachedMaterial;
             cachedMaterial.release();
         }
         else {
-            var material = new LineMaterial_1.LineMaterial(engine, matOptions);
+            var material = new LineMaterial_1.default(engine, matOptions);
             grid.material = material;
             material.release();
             engine.putCacheMaterial(matOptions, material);
@@ -19248,12 +19266,12 @@ define('davinci-eight/visual/Grid',["require", "exports", "../core/Color", "../c
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_VIEW_MATRIX] = 'mat4';
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_AMBIENT_LIGHT] = 'vec3';
         var cachedMaterial = engine.getCacheMaterial(matOptions);
-        if (cachedMaterial && cachedMaterial instanceof MeshMaterial_1.MeshMaterial) {
+        if (cachedMaterial && cachedMaterial instanceof MeshMaterial_1.default) {
             grid.material = cachedMaterial;
             cachedMaterial.release();
         }
         else {
-            var material = new MeshMaterial_1.MeshMaterial(engine, matOptions);
+            var material = new MeshMaterial_1.default(engine, matOptions);
             grid.material = material;
             material.release();
             engine.putCacheMaterial(matOptions, material);
@@ -19264,7 +19282,7 @@ define('davinci-eight/visual/Grid',["require", "exports", "../core/Color", "../c
         function Grid(engine, options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
-            var _this = _super.call(this, void 0, void 0, mustBeEngine_1.default(engine, 'Grid'), {}, levelUp + 1) || this;
+            var _this = _super.call(this, void 0, void 0, engine, {}, levelUp + 1) || this;
             _this.setLoggingName('Grid');
             expectOptions_1.default(OPTION_NAMES, Object.keys(options));
             var mode = geometryModeFromOptions_1.default(options, GeometryMode_1.default.WIRE);
@@ -19286,7 +19304,7 @@ define('davinci-eight/visual/Grid',["require", "exports", "../core/Color", "../c
                 }
             }
             setAxisAndMeridian_1.default(_this, options);
-            setColorOption_1.default(_this, options, Color_1.Color.gray);
+            setColorOption_1.default(_this, options, Color_1.default.gray);
             setDeprecatedOptions_1.default(_this, options);
             if (levelUp === 0) {
                 _this.synchUp();
@@ -19300,7 +19318,7 @@ define('davinci-eight/visual/Grid',["require", "exports", "../core/Color", "../c
             _super.prototype.destructor.call(this, levelUp + 1);
         };
         return Grid;
-    }(Mesh_1.Mesh));
+    }(Mesh_1.default));
     exports.Grid = Grid;
 });
 

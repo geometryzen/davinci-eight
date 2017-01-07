@@ -14,6 +14,10 @@ export interface R3 extends VectorE3 {
     readonly z: number;
     add(rhs: VectorE3): Readonly<R3>;
     cross(rhs: VectorE3): Readonly<R3>;
+    /**
+     * Returns the unit vector for this vector.
+     * Returns undefined if the magnitude is zero.
+     */
     direction(): Readonly<R3>;
     dot(rhs: VectorE3): number;
     magnitude(): number;
@@ -108,7 +112,13 @@ export default function vec(x: number, y: number, z: number): Readonly<R3> {
         },
         direction(): Readonly<R3> {
             const magnitude = Math.sqrt(x * x + y * y + z * z);
-            return vec(x / magnitude, y / magnitude, z / magnitude);
+            if (magnitude !== 0) {
+                return vec(x / magnitude, y / magnitude, z / magnitude);
+            }
+            else {
+                // direction is ambiguous (undefined) for the zero vector.
+                return void 0;
+            }
         },
         dot,
         magnitude,

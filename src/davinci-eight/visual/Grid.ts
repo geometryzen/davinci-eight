@@ -1,5 +1,5 @@
-import { Color } from '../core/Color';
-import { Engine } from '../core/Engine';
+import Color from '../core/Color';
+import ContextManager from '../core/ContextManager';
 import expectOptions from '../checks/expectOptions';
 import GeometryMode from '../geometries/GeometryMode';
 import geometryModeFromOptions from './geometryModeFromOptions';
@@ -10,19 +10,18 @@ import GridOptions from './GridOptions';
 import isFunction from '../checks/isFunction';
 import isNull from '../checks/isNull';
 import isUndefined from '../checks/isUndefined';
-import { LineMaterial } from '../materials/LineMaterial';
+import LineMaterial from '../materials/LineMaterial';
 import LineMaterialOptions from '../materials/LineMaterialOptions';
-import { Material } from '../core/Material';
-import { Mesh } from '../core/Mesh';
-import { MeshMaterial } from '../materials/MeshMaterial';
+import Material from '../core/Material';
+import Mesh from '../core/Mesh';
+import MeshMaterial from '../materials/MeshMaterial';
 import MeshMaterialOptions from '../materials/MeshMaterialOptions';
-import mustBeEngine from './mustBeEngine';
 import mustBeGE from '../checks/mustBeGE';
 import mustBeFunction from '../checks/mustBeFunction';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeObject from '../checks/mustBeObject';
-import { PointMaterial } from '../materials/PointMaterial';
+import PointMaterial from '../materials/PointMaterial';
 import PointMaterialOptions from '../materials/PointMaterialOptions';
 import R3 from '../math/R3';
 import setAxisAndMeridian from './setAxisAndMeridian';
@@ -131,7 +130,7 @@ function transferGeometryOptions(source: GridOptions, target: GridGeometryOption
 /**
  * 
  */
-function configGeometry(engine: Engine, geoOptions: GridGeometryOptions, grid: Grid): void {
+function configGeometry(engine: ContextManager, geoOptions: GridGeometryOptions, grid: Grid): void {
     // Don't use the Geometry cache until we can better differentiate the options.
     const geometry = new GridGeometry(engine, geoOptions);
     grid.geometry = geometry;
@@ -151,7 +150,7 @@ function configGeometry(engine: Engine, geoOptions: GridGeometryOptions, grid: G
     */
 }
 
-function configPoints(engine: Engine, options: GridOptions, grid: Grid) {
+function configPoints(engine: ContextManager, options: GridOptions, grid: Grid) {
     const geoOptions: GridGeometryOptions = { kind: 'GridGeometry' };
     transferGeometryOptions(options, geoOptions);
     geoOptions.mode = GeometryMode.POINT;
@@ -195,7 +194,7 @@ function configPoints(engine: Engine, options: GridOptions, grid: Grid) {
     }
 }
 
-function configLines(engine: Engine, options: GridOptions, grid: Grid) {
+function configLines(engine: ContextManager, options: GridOptions, grid: Grid) {
     const geoOptions: GridGeometryOptions = { kind: 'GridGeometry' };
     transferGeometryOptions(options, geoOptions);
     geoOptions.mode = GeometryMode.WIRE;
@@ -244,7 +243,7 @@ function configLines(engine: Engine, options: GridOptions, grid: Grid) {
     }
 }
 
-function configMesh(engine: Engine, options: GridOptions, grid: Grid) {
+function configMesh(engine: ContextManager, options: GridOptions, grid: Grid) {
     const geoOptions: GridGeometryOptions = { kind: 'GridGeometry' };
     transferGeometryOptions(options, geoOptions);
     geoOptions.mode = GeometryMode.MESH;
@@ -317,8 +316,8 @@ function configMesh(engine: Engine, options: GridOptions, grid: Grid) {
  */
 export class Grid extends Mesh<GridGeometry, Material> {
 
-    constructor(engine: Engine, options: GridOptions = {}, levelUp = 0) {
-        super(void 0, void 0, mustBeEngine(engine, 'Grid'), {}, levelUp + 1);
+    constructor(engine: ContextManager, options: GridOptions = {}, levelUp = 0) {
+        super(void 0, void 0, engine, {}, levelUp + 1);
         this.setLoggingName('Grid');
         expectOptions(OPTION_NAMES, Object.keys(options));
 

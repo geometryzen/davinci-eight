@@ -344,8 +344,20 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
      * Derived classes may overide to perform scaling.
      */
     protected setAxis(axis: VectorE3): void {
-        const currentAxis = vectorCopy(axis).direction();
-        this.attitude.rotorFromDirections(this.referenceAxis, currentAxis);
+        const vector = vectorCopy(axis);
+        if (vector.magnitude() > 0) {
+            const currentAxis = vector.direction();
+            if (currentAxis) {
+                this.attitude.rotorFromDirections(this.referenceAxis, currentAxis);
+            }
+            else {
+                this.attitude.one();
+            }
+        }
+        else {
+            // The axis direction is undefined.
+            this.attitude.one();
+        }
     }
 
     /**
