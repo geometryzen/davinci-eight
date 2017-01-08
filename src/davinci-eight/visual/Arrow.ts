@@ -6,6 +6,7 @@ import ContextManager from '../core/ContextManager';
 import { ds } from './Defaults';
 import referenceAxis from '../core/referenceAxis';
 import referenceMeridian from '../core/referenceMeridian';
+import Geometry from '../core/Geometry';
 import isDefined from '../checks/isDefined';
 import Material from '../core/Material';
 import materialFromOptions from './materialFromOptions';
@@ -25,7 +26,7 @@ import VectorE3 from '../math/VectorE3';
 /**
  * A Mesh in the form of an arrow that may be used to represent a vector quantity.
  */
-export class Arrow extends Mesh<ArrowGeometry, Material> {
+export class Arrow extends Mesh<Geometry, Material> {
     /**
      * 
      */

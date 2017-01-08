@@ -1,10 +1,9 @@
+import ContextManager from '../core/ContextManager';
 import expectOptions from '../checks/expectOptions';
-import { Engine } from '../core/Engine';
 import GeometryMode from '../geometries/GeometryMode';
-import { Grid } from './Grid';
+import Grid from './Grid';
 import GridOptions from './GridOptions';
 import isDefined from '../checks/isDefined';
-import mustBeEngine from './mustBeEngine';
 import mustBeFunction from '../checks/mustBeFunction';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeNumber from '../checks/mustBeNumber';
@@ -30,12 +29,12 @@ function mapOptions(options: GridZXOptions): GridOptions {
     let aPosition: (u: number, v: number) => VectorE3;
     if (isDefined(options.y)) {
         mustBeFunction('y', options.y);
-        aPosition = function(z: number, x: number): VectorE3 {
+        aPosition = function (z: number, x: number): VectorE3 {
             return R3(x, options.y(z, x), z);
         };
     }
     else {
-        aPosition = function(z: number, x: number): VectorE3 {
+        aPosition = function (z: number, x: number): VectorE3 {
             return R3(x, 0, z);
         };
     }
@@ -59,11 +58,11 @@ function mapOptions(options: GridZXOptions): GridOptions {
 }
 
 /**
- * A grid in the zx plane.
+ * A #d visual representation of a grid in the zx plane.
  */
 export default class GridZX extends Grid {
-    constructor(engine: Engine, options: GridZXOptions = {}, levelUp = 0) {
-        super(mustBeEngine(engine, 'GridZX'), mapOptions(options), levelUp + 1);
+    constructor(contextManager: ContextManager, options: GridZXOptions = {}, levelUp = 0) {
+        super(contextManager, mapOptions(options), levelUp + 1);
         this.setLoggingName('GridZX');
         if (levelUp === 0) {
             this.synchUp();

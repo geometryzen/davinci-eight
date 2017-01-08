@@ -5,7 +5,6 @@ import CurveGeometry from '../geometries/CurveGeometry';
 import CurveGeometryOptions from '../geometries/CurveGeometryOptions';
 import CurveMode from '../geometries/CurveMode';
 import CurveOptions from './CurveOptions';
-import { Engine } from '../core/Engine';
 import isDefined from '../checks/isDefined';
 import isFunction from '../checks/isFunction';
 import isNull from '../checks/isNull';
@@ -14,7 +13,6 @@ import LineMaterial from '../materials/LineMaterial';
 import LineMaterialOptions from '../materials/LineMaterialOptions';
 import Material from '../core/Material';
 import Mesh from '../core/Mesh';
-import mustBeEngine from './mustBeEngine';
 import mustBeGE from '../checks/mustBeGE';
 import mustBeNumber from '../checks/mustBeNumber';
 import PointMaterial from '../materials/PointMaterial';
@@ -163,22 +161,24 @@ function configLines(contextManager: ContextManager, options: CurveOptions, curv
 }
 
 /**
- *
+ * A 3D visual representation of a discrete parameterized line.
  */
 export class Curve extends Mesh<CurveGeometry, Material> {
-
-    constructor(engine: Engine, options: CurveOptions = {}, levelUp = 0) {
-        super(void 0, void 0, mustBeEngine(engine, 'Curve'), {}, levelUp + 1);
+    /**
+     * Constructs a Curve.
+     */
+    constructor(contextManager: ContextManager, options: CurveOptions = {}, levelUp = 0) {
+        super(void 0, void 0, contextManager, {}, levelUp + 1);
         this.setLoggingName('Curve');
 
         const mode: CurveMode = isDefined(options.mode) ? options.mode : CurveMode.LINES;
         switch (mode) {
             case CurveMode.POINTS: {
-                configPoints(engine, options, this);
+                configPoints(contextManager, options, this);
                 break;
             }
             case CurveMode.LINES: {
-                configLines(engine, options, this);
+                configLines(contextManager, options, this);
                 break;
             }
             default: {
@@ -194,6 +194,9 @@ export class Curve extends Mesh<CurveGeometry, Material> {
         }
     }
 
+    /**
+     * 
+     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();

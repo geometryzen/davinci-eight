@@ -1,18 +1,16 @@
 import BeginMode from '../core/BeginMode';
-import { Color } from '../core/Color';
+import Color from '../core/Color';
 import ContextManager from '../core/ContextManager';
 import DataType from '../core/DataType';
-import { Engine } from '../core/Engine';
 import exchange from '../base/exchange';
-import { Facet } from '../core/Facet';
-import { Geometric3 } from '../math/Geometric3';
+import Facet from '../core/Facet';
+import Geometric3 from '../math/Geometric3';
 import GeometryArrays from '../core/GeometryArrays';
-import { Mesh } from '../core/Mesh';
-import mustBeEngine from './mustBeEngine';
+import Mesh from '../core/Mesh';
 import Primitive from '../core/Primitive';
 import refChange from '../core/refChange';
-import { Renderable } from '../core/Renderable';
-import { ShaderMaterial } from '../materials/ShaderMaterial';
+import Renderable from '../core/Renderable';
+import ShaderMaterial from '../materials/ShaderMaterial';
 
 const vertexShaderSrc = [
     "attribute vec3 aCoords;",
@@ -136,8 +134,8 @@ export default class Parallelepiped implements Renderable {
     private contextManager: ContextManager;
     private refCount = 0;
     private mesh: Mesh<GeometryArrays, ShaderMaterial>;
-    constructor(engine: Engine, private levelUp = 0) {
-        this.contextManager = exchange(this.contextManager, mustBeEngine(engine, 'Parallelepiped'));
+    constructor(contextManager: ContextManager, private levelUp = 0) {
+        this.contextManager = exchange(this.contextManager, contextManager);
         this.addRef();
         this.colors[0] = Color.gray.clone();
         this.colors[1] = Color.gray.clone();
@@ -146,7 +144,7 @@ export default class Parallelepiped implements Renderable {
         this.colors[4] = Color.gray.clone();
         this.colors[5] = Color.gray.clone();
         if (levelUp === 0) {
-            engine.synchronize(this);
+            this.contextManager.synchronize(this);
         }
     }
     protected destructor(levelUp: number): void {

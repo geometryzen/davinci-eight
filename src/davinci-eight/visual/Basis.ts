@@ -5,10 +5,12 @@ import ColorFacet from '../facets/ColorFacet';
 import ContextManager from '../core/ContextManager';
 import DataType from '../core/DataType';
 import { ds } from './Defaults';
+import Geometry from '../core/Geometry';
 import GeometryArrays from '../core/GeometryArrays';
 import GPS from '../core/GraphicsProgramSymbols';
+import Material from '../core/Material';
+import Mesh from '../core/Mesh';
 import Primitive from '../core/Primitive';
-import RigidBody from './RigidBody';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
 import { ShaderMaterial } from '../materials/ShaderMaterial';
@@ -83,17 +85,20 @@ const fragmentShaderSrc = function (): string {
 };
 
 /**
- * A visual representation of a reference frame or basis vectors.
+ * A 3D visual representation of a reference frame or basis vectors.
  */
-export default class Basis extends RigidBody {
+export default class Basis extends Mesh<Geometry, Material> {
     private uPointA = new Vector3Facet(uPointA);
     private uPointB = new Vector3Facet(uPointB);
     private uPointC = new Vector3Facet(uPointC);
     private uColorA = new ColorFacet(uColorA);
     private uColorB = new ColorFacet(uColorB);
     private uColorC = new ColorFacet(uColorC);
+    /**
+     * 
+     */
     constructor(contextManager: ContextManager, options: BasisOptions = {}, levelUp = 0) {
-        super(contextManager, ds.axis, ds.meridian, levelUp + 1);
+        super(void 0, void 0, contextManager, { axis: ds.axis, meridian: ds.meridian }, levelUp + 1);
         this.setLoggingName("Basis");
 
         this.uPointA.vector = Vector3.vector(1, 0, 0);

@@ -1,6 +1,7 @@
 import Color from '../core/Color';
 import ContextManager from '../core/ContextManager';
 import expectOptions from '../checks/expectOptions';
+import Geometry from '../core/Geometry';
 import GeometryMode from '../geometries/GeometryMode';
 import geometryModeFromOptions from './geometryModeFromOptions';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
@@ -312,10 +313,12 @@ function configMesh(engine: ContextManager, options: GridOptions, grid: Grid) {
 }
 
 /**
- *
+ * A 3D visual representation of a a discrete parameterized surface.
  */
-export class Grid extends Mesh<GridGeometry, Material> {
-
+export class Grid extends Mesh<Geometry, Material> {
+    /**
+     * Constructs a Grid.
+     */
     constructor(engine: ContextManager, options: GridOptions = {}, levelUp = 0) {
         super(void 0, void 0, engine, {}, levelUp + 1);
         this.setLoggingName('Grid');
@@ -349,6 +352,9 @@ export class Grid extends Mesh<GridGeometry, Material> {
         }
     }
 
+    /**
+     * 
+     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();
@@ -356,3 +362,5 @@ export class Grid extends Mesh<GridGeometry, Material> {
         super.destructor(levelUp + 1);
     }
 }
+
+export default Grid;

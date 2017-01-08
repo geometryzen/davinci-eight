@@ -4146,35 +4146,6 @@ declare module EIGHT {
     }
 
     ///////////////////////////////////////////////////////////////////////////////
-    /**
-     * Decorates the Mesh by adding properties for physical modeling.
-     */
-    class RigidBody extends Mesh<Geometry, Material> {
-        /**
-         * Angular momentum (bivector)
-         */
-        public L: Geometric3;
-        /**
-         * Mass (scalar)
-         */
-        public m: number;
-        /**
-         * Momentum (vector)
-         */
-        public P: Geometric3;
-        /**
-         * Charge
-         */
-        public Q: Geometric3;
-        /**
-         *
-         */
-        constructor(contextManager: ContextManager, initialAxis: VectorE3, levelUp?: number);
-        /**
-         * 
-         */
-        protected destructor(levelUp: number): void;
-    }
 
     /**
      * Options for the creation of an Arrow.
@@ -4203,9 +4174,9 @@ declare module EIGHT {
     }
 
     /**
-     *
+     * A 3D visual representation of an arrow.
      */
-    class Arrow extends Mesh<Geometry, MeshMaterial> {
+    class Arrow extends Mesh<Geometry, Material> {
         /**
          * The length of the Arrow.
          * This property determines the scaling of the Arrow in all directions.
@@ -4218,7 +4189,7 @@ declare module EIGHT {
         /**
          * Constructs an Arrow.
          */
-        constructor(engine: Engine, options?: ArrowOptions);
+        constructor(contextManager: ContextManager, options?: ArrowOptions, levelUp?: number);
         /**
          * 
          */
@@ -4232,16 +4203,22 @@ declare module EIGHT {
     }
 
     /**
-     * A visual representation of a list of vectors, [a, b, c], called a basis.
+     * A 3D visual representation of a list of vectors, [a, b, c], called a basis.
      */
-    class Basis extends RigidBody {
+    class Basis extends Mesh<Geometry, Material> {
         a: Vector3;
         b: Vector3;
         c: Vector3;
         colorA: Color;
         colorB: Color;
         colorC: Color;
-        constructor(engine: Engine, options?: BasisOptions);
+        /**
+         * 
+         */
+        constructor(contextManager: ContextManager, options?: BasisOptions, levelUp?: number);
+        /**
+         * 
+         */
         protected destructor(levelUp: number): void;
     }
 
@@ -4324,9 +4301,9 @@ declare module EIGHT {
     }
 
     /**
-     * 
+     * A 3D visual representation of a box.
      */
-    class Box extends RigidBody {
+    class Box extends Mesh<Geometry, Material> {
         /**
          * 
          */
@@ -4342,7 +4319,7 @@ declare module EIGHT {
         /**
          * Constructs a Box.
          */
-        constructor(engine: Engine, options?: BoxOptions);
+        constructor(contextManager: ContextManager, options?: BoxOptions, levelUp?: number);
         /**
          * 
          */
@@ -4420,9 +4397,9 @@ declare module EIGHT {
     }
 
     /**
-     * 
+     * A 3D visual representation of a cylinder.
      */
-    class Cylinder extends RigidBody {
+    class Cylinder extends Mesh<Geometry, Material> {
         /**
          * The length of the Cylinder.
          * This property determines the scaling of the Cylinder in the axial direction only.
@@ -4436,7 +4413,7 @@ declare module EIGHT {
         /**
          * Constructs a Cylinder.
          */
-        constructor(engine: Engine, options?: CylinderOptions);
+        constructor(contextManager: ContextManager, options?: CylinderOptions, levelUp?: number);
         /**
          * 
          */
@@ -4456,13 +4433,13 @@ declare module EIGHT {
     }
 
     /**
-     * A discrete parameterized line.
+     * A 3D visual representation of a discrete parameterized line.
      */
     class Curve extends Mesh<Geometry, Material> {
         /**
          * Constructs a Curve.
          */
-        constructor(engine: Engine, options?: CurveOptions);
+        constructor(contextManager: ContextManager, options?: CurveOptions, levelUp?: number);
         /**
          * 
          */
@@ -4486,13 +4463,13 @@ declare module EIGHT {
     }
 
     /**
-     * A discrete parameterized surface.
+     * A 3D visual representation of a a discrete parameterized surface.
      */
     class Grid extends Mesh<Geometry, Material> {
         /**
          * 
          */
-        constructor(engine: Engine, options?: GridOptions);
+        constructor(contextManager: ContextManager, options?: GridOptions, levelUp?: number);
         /**
          * 
          */
@@ -4517,7 +4494,7 @@ declare module EIGHT {
     }
 
     /**
-     * A grid in the xy-plane. 
+     * A 3D visual representation of a grid in the xy-plane. 
      */
     class GridXY extends Grid {
         /**
@@ -4531,7 +4508,7 @@ declare module EIGHT {
          * ySegments: 10
          * z: (x: number, y: number) => 0
          */
-        constructor(engine: Engine, options?: GridXYOptions);
+        constructor(contextManager: ContextManager, options?: GridXYOptions, levelUp?: number);
         /**
          * 
          */
@@ -4553,7 +4530,7 @@ declare module EIGHT {
     }
 
     /**
-     * A Grid in the yz-plane.
+     * A 3D visual representation of a grid in the yz-plane.
      */
     class GridYZ extends Grid {
         /**
@@ -4567,7 +4544,7 @@ declare module EIGHT {
          * zSegments: 10
          * x: (y: number, z: number) => 0
          */
-        constructor(engine: Engine, options?: GridYZOptions);
+        constructor(contextManager: ContextManager, options?: GridYZOptions, levelUp?: number);
         /**
          * 
          */
@@ -4589,7 +4566,7 @@ declare module EIGHT {
     }
 
     /**
-     * A Grid in the zx-plane.
+     * A 3D visual representation of a grid in the zx-plane.
      */
     class GridZX extends Grid {
         /**
@@ -4603,7 +4580,7 @@ declare module EIGHT {
          * xSegments: 10
          * y: (z: number, x: number) => 0
          */
-        constructor(engine: Engine, options?: GridZXOptions);
+        constructor(contextManager: ContextManager, options?: GridZXOptions, levelUp?: number);
         /**
          * 
          */
@@ -4705,9 +4682,9 @@ declare module EIGHT {
     }
 
     /**
-     * 
+     * A 3D visual representation of a hollow cylinder.
      */
-    class HollowCylinder extends RigidBody {
+    class HollowCylinder extends Mesh<Geometry, Material> {
         /**
          * The length of the HollowCylinder.
          * This property determines the scaling of the HollowCylinder in the axial direction only.
@@ -4716,13 +4693,16 @@ declare module EIGHT {
         /**
          * Constructs a HollowCylinder.
          */
-        constructor(engine: Engine, options?: HollowCylinderOptions);
+        constructor(contextManager: ContextManager, options?: HollowCylinderOptions, levelUp?: number);
         /**
          * 
          */
         protected destructor(levelUp: number): void;
     }
 
+    /**
+     * A 3D visual representation of a parallelepiped.
+     */
     class Parallelepiped implements Renderable {
         public name: string;
         public opacity: number;
@@ -4753,7 +4733,7 @@ declare module EIGHT {
         /**
          * Constructs a Parallelepiped.
          */
-        constructor(engine: Engine);
+        constructor(contextManager: ContextManager);
         /**
          * 
          */
@@ -4832,7 +4812,10 @@ declare module EIGHT {
         transparent?: boolean;
     }
 
-    class Sphere extends RigidBody {
+    /**
+     * A 3D visual representation of a sphere.
+     */
+    class Sphere extends Mesh<Geometry, Material> {
         /**
          * Radius (scalar).
          */
@@ -4840,7 +4823,7 @@ declare module EIGHT {
         /**
          * Constructs a Sphere.
          */
-        constructor(engine: Engine, options?: SphereOptions);
+        constructor(contextManager: ContextManager, options?: SphereOptions, levelUp?: number);
         /**
          * 
          */
@@ -4854,7 +4837,10 @@ declare module EIGHT {
 
     }
 
-    class Tetrahedron extends RigidBody {
+    /**
+     * A 3D visual representation of a tetrahedron.
+     */
+    class Tetrahedron extends Mesh<Geometry, Material> {
         /**
          * 
          */
@@ -4862,7 +4848,7 @@ declare module EIGHT {
         /**
          * Constructs a Tetrahedron.
          */
-        constructor(engine: Engine, options?: TetrahedronOptions);
+        constructor(contextManager: ContextManager, options?: TetrahedronOptions, levelUp?: number);
         /**
          * 
          */
@@ -4978,9 +4964,9 @@ declare module EIGHT {
     }
 
     /**
-     * 
+     * A 3D visual representation of a turtle.
      */
-    class Turtle extends RigidBody {
+    class Turtle extends Mesh<Geometry, Material> {
         /**
          * 
          */
@@ -4992,7 +4978,10 @@ declare module EIGHT {
         /**
          * Constructs a Turtle.
          */
-        constructor(engine: Engine, options?: TurtleOptions);
+        constructor(contextManager: ContextManager, options?: TurtleOptions, levelUp?: number);
+        /**
+         * 
+         */
         protected destructor(levelUp: number): void;
     }
     ///////////////////////////////////////////////////////////////////////////////

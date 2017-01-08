@@ -5,12 +5,14 @@ import Color from '../core/Color';
 import ContextManager from '../core/ContextManager';
 import { ds } from './Defaults';
 import isDefined from '../checks/isDefined';
+import Geometry from '../core/Geometry';
 import geometryModeFromOptions from './geometryModeFromOptions';
+import Material from '../core/Material';
 import materialFromOptions from './materialFromOptions';
+import Mesh from '../core/Mesh';
 import mustBeNumber from '../checks/mustBeNumber';
 import referenceAxis from '../core/referenceAxis';
 import referenceMeridian from '../core/referenceMeridian';
-import RigidBody from './RigidBody';
 import setAxisAndMeridian from './setAxisAndMeridian';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
@@ -20,14 +22,14 @@ import spinorE3Object from './spinorE3Object';
 import vectorE3Object from './vectorE3Object';
 
 /**
- * 
+ * A 3D visual representation of a box.
  */
-export class Box extends RigidBody {
+export class Box extends Mesh<Geometry, Material> {
     /**
      * 
      */
     constructor(contextManager: ContextManager, options: BoxOptions = {}, levelUp = 0) {
-        super(contextManager, referenceAxis(options, ds.axis).direction(), referenceMeridian(options, ds.meridian).direction(), levelUp + 1);
+        super(void 0, void 0, contextManager, { axis: referenceAxis(options, ds.axis).direction(), meridian: referenceMeridian(options, ds.meridian).direction() }, levelUp + 1);
 
         this.setLoggingName('Box');
 

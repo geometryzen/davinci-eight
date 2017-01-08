@@ -183,7 +183,6 @@ import HollowCylinder from './davinci-eight/visual/HollowCylinder';
 import { MinecraftArmL, MinecraftArmR, MinecraftHead, MinecraftLegL, MinecraftLegR, MinecraftTorso } from './davinci-eight/visual/Minecraft';
 import MinecraftFigure from './davinci-eight/visual/MinecraftFigure';
 import Parallelepiped from './davinci-eight/visual/Parallelepiped';
-import { RigidBody } from './davinci-eight/visual/RigidBody';
 import Tetrahedron from './davinci-eight/visual/Tetrahedron';
 import { Track } from './davinci-eight/visual/Track';
 import { Trail } from './davinci-eight/visual/Trail';
@@ -367,7 +366,6 @@ const eight = {
     get MinecraftLegR() { return MinecraftLegR; },
     get MinecraftTorso() { return MinecraftTorso; },
     get Parallelepiped() { return Parallelepiped; },
-    get RigidBody() { return RigidBody; },
     get Tetrahedron() { return Tetrahedron; },
     get Track() { return Track; },
     get Trail() { return Trail; },

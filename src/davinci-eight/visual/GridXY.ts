@@ -1,10 +1,9 @@
+import ContextManager from '../core/ContextManager';
 import expectOptions from '../checks/expectOptions';
-import { Engine } from '../core/Engine';
 import GeometryMode from '../geometries/GeometryMode';
-import { Grid } from './Grid';
+import Grid from './Grid';
 import GridOptions from './GridOptions';
 import isDefined from '../checks/isDefined';
-import mustBeEngine from './mustBeEngine';
 import mustBeFunction from '../checks/mustBeFunction';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeNumber from '../checks/mustBeNumber';
@@ -30,12 +29,12 @@ function mapOptions(options: GridXYOptions): GridOptions {
     let aPosition: (u: number, v: number) => VectorE3;
     if (isDefined(options.z)) {
         mustBeFunction('z', options.z);
-        aPosition = function(x: number, y: number): VectorE3 {
+        aPosition = function (x: number, y: number): VectorE3 {
             return R3(x, y, options.z(x, y));
         };
     }
     else {
-        aPosition = function(x: number, y: number): VectorE3 {
+        aPosition = function (x: number, y: number): VectorE3 {
             return R3(x, y, 0);
         };
     }
@@ -62,13 +61,20 @@ function mapOptions(options: GridXYOptions): GridOptions {
  * A grid in the xy plane.
  */
 export default class GridXY extends Grid {
-    constructor(engine: Engine, options: GridXYOptions = {}, levelUp = 0) {
-        super(mustBeEngine(engine, 'GridXY'), mapOptions(options), levelUp + 1);
+    /**
+     * Constructs a GridXY
+     */
+    constructor(contextManager: ContextManager, options: GridXYOptions = {}, levelUp = 0) {
+        super(contextManager, mapOptions(options), levelUp + 1);
         this.setLoggingName('GridXY');
         if (levelUp === 0) {
             this.synchUp();
         }
     }
+
+    /**
+     * 
+     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();

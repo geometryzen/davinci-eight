@@ -1,6 +1,7 @@
 import Color from '../core/Color';
 import { ds } from './Defaults';
 import ContextManager from '../core/ContextManager';
+import Geometry from '../core/Geometry';
 import GPS from '../core/GraphicsProgramSymbols';
 import HollowCylinderGeometry from '../geometries/HollowCylinderGeometry';
 import HollowCylinderGeometryOptions from '../geometries/HollowCylinderGeometryOptions';
@@ -9,10 +10,11 @@ import offsetFromOptions from './offsetFromOptions';
 import referenceAxis from '../core/referenceAxis';
 import referenceMeridian from '../core/referenceMeridian';
 import isDefined from '../checks/isDefined';
+import Material from '../core/Material';
+import Mesh from '../core/Mesh';
 import MeshMaterial from '../materials/MeshMaterial';
 import MeshMaterialOptions from '../materials/MeshMaterialOptions';
 import mustBeNumber from '../checks/mustBeNumber';
-import RigidBody from './RigidBody';
 import setAxisAndMeridian from './setAxisAndMeridian';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
@@ -20,14 +22,14 @@ import spinorE3Object from './spinorE3Object';
 import vectorE3Object from './vectorE3Object';
 
 /**
- * 
+ * A 3D visual representation of a hollow cylinder.
  */
-export default class HollowCylinder extends RigidBody {
+export default class HollowCylinder extends Mesh<Geometry, Material> {
     /**
-     * 
+     * Constructs a HollowCylinder.
      */
     constructor(contextManager: ContextManager, options: HollowCylinderOptions = {}, levelUp = 0) {
-        super(contextManager, referenceAxis(options, ds.axis).direction(), referenceMeridian(options, ds.meridian).direction(), levelUp + 1);
+        super(void 0, void 0, contextManager, { axis: referenceAxis(options, ds.axis).direction(), meridian: referenceMeridian(options, ds.meridian).direction() }, levelUp + 1);
         this.setLoggingName('HollowCylinder');
 
         const geoOptions: HollowCylinderGeometryOptions = { kind: 'HollowCylinderGeometry' };

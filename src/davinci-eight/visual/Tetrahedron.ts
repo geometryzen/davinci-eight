@@ -1,11 +1,13 @@
-import { Color } from '../core/Color';
+import Color from '../core/Color';
 import { ds } from './Defaults';
 import ContextManager from '../core/ContextManager';
+import Geometry from '../core/Geometry';
+import Material from '../core/Material';
 import materialFromOptions from './materialFromOptions';
+import Mesh from '../core/Mesh';
 import offsetFromOptions from './offsetFromOptions';
 import referenceAxis from '../core/referenceAxis';
 import referenceMeridian from '../core/referenceMeridian';
-import { RigidBody } from './RigidBody';
 import setAxisAndMeridian from './setAxisAndMeridian';
 import setColorOption from './setColorOption';
 import setDeprecatedOptions from './setDeprecatedOptions';
@@ -18,12 +20,12 @@ import spinorE3Object from './spinorE3Object';
 import vectorE3Object from './vectorE3Object';
 
 /**
- *
+ * A 3D visual representation of a tetrahedron.
  */
-export default class Tetrahedron extends RigidBody {
+export default class Tetrahedron extends Mesh<Geometry, Material> {
 
     constructor(contextManager: ContextManager, options: TetrahedronOptions = {}, levelUp = 0) {
-        super(contextManager, referenceAxis(options, ds.axis).direction(), referenceMeridian(options, ds.meridian).direction(), levelUp + 1);
+        super(void 0, void 0, contextManager, { axis: referenceAxis(options, ds.axis).direction(), meridian: referenceMeridian(options, ds.meridian).direction() }, levelUp + 1);
         this.setLoggingName('Tetrahedron');
 
         const geoOptions: TetrahedronGeometryOptions = { kind: 'TetrahedronGeometry' };

@@ -3,16 +3,16 @@ import Color from '../core/Color';
 import ContextManager from '../core/ContextManager';
 import DataType from '../core/DataType';
 import { ds } from './Defaults';
-import Engine from '../core/Engine';
+import Geometry from '../core/Geometry';
 import Geometric3 from '../math/Geometric3';
 import GeometryArrays from '../core/GeometryArrays';
 import GeometryKey from '../core/GeometryKey';
 import GPS from '../core/GraphicsProgramSymbols';
+import Material from '../core/Material';
 import materialFromOptions from './materialFromOptions';
-import mustBeEngine from './mustBeEngine';
+import Mesh from '../core/Mesh';
 import offsetFromOptions from './offsetFromOptions';
 import Primitive from '../core/Primitive';
-import RigidBody from './RigidBody';
 import setAxisAndMeridian from './setAxisAndMeridian';
 import setColorOption from './setColorOption';
 import SimplexMode from '../geometries/SimplexMode';
@@ -82,6 +82,9 @@ interface TurtleGeometryOptions extends GeometryKey<TurtleGeometry> {
  * approach based upon GeometryArrays
  */
 class TurtleGeometry extends GeometryArrays {
+    /**
+     * 
+     */
     constructor(contextManager: ContextManager, options: TurtleGeometryOptions = { kind: 'TurtleGeometry' }, levelUp = 0) {
         super(contextManager, primitive(options), options);
         this.setLoggingName('TurtleGeometry');
@@ -115,27 +118,30 @@ export interface TurtleOptions {
     tilt?: SpinorE3;
 }
 
-export default class Turtle extends RigidBody {
-    constructor(engine: Engine, options: TurtleOptions = {}, levelUp = 0) {
-        super(mustBeEngine(engine, 'Turtle'), ds.axis, ds.meridian, levelUp + 1);
+/**
+ * A 3D visual representation of a turtle.
+ */
+export default class Turtle extends Mesh<Geometry, Material> {
+    constructor(contextManager: ContextManager, options: TurtleOptions = {}, levelUp = 0) {
+        super(void 0, void 0, contextManager, { axis: ds.axis, meridian: ds.meridian }, levelUp + 1);
         this.setLoggingName('Turtle');
         const geoOptions: TurtleGeometryOptions = { kind: 'TurtleGeometry' };
         geoOptions.tilt = tiltFromOptions(options, canonicalAxis);
         geoOptions.offset = offsetFromOptions(options);
 
-        const cachedGeometry = engine.getCacheGeometry(geoOptions);
+        const cachedGeometry = contextManager.getCacheGeometry(geoOptions);
         if (cachedGeometry && cachedGeometry instanceof TurtleGeometry) {
             this.geometry = cachedGeometry;
             cachedGeometry.release();
         }
         else {
-            const geometry = new TurtleGeometry(engine, geoOptions);
+            const geometry = new TurtleGeometry(contextManager, geoOptions);
             this.geometry = geometry;
             geometry.release();
-            engine.putCacheGeometry(geoOptions, geometry);
+            contextManager.putCacheGeometry(geoOptions, geometry);
         }
 
-        const material = materialFromOptions(engine, simplexModeFromOptions(options, SimplexMode.LINE), options);
+        const material = materialFromOptions(contextManager, simplexModeFromOptions(options, SimplexMode.LINE), options);
         this.material = material;
         material.release();
 
