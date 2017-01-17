@@ -1,6 +1,6 @@
 import BivectorE3 from './BivectorE3';
 import CartesianG3 from './CartesianG3';
-import {Coords} from './Coords';
+import { Coords } from './Coords';
 import dotVectorCartesianE3 from './dotVectorCartesianE3';
 import mulSpinorE3YZ from './mulSpinorE3YZ';
 import mulSpinorE3ZX from './mulSpinorE3ZX';
@@ -913,13 +913,10 @@ export default class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
      *
      * Sets this Spinor3 to the geometric product, a * b, of the vector arguments.
      *
-     * @method versor
-     * @param a {VectorE3}
-     * @param b {VectorE3}
-     * @return {Spinor3}
-     * @chainable
+     * @param a
+     * @param b
      */
-    versor(a: VectorE3, b: VectorE3): Spinor3 {
+    versor(a: VectorE3, b: VectorE3): this {
 
         const ax = a.x;
         const ay = a.y;

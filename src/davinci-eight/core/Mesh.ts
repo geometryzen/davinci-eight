@@ -11,6 +11,7 @@ import Matrix4 from '../math/Matrix4';
 import MeshOptions from './MeshOptions';
 import ModelFacet from '../facets/ModelFacet';
 import notSupported from '../i18n/notSupported';
+import quadVectorE3 from '../math/quadVectorE3';
 import { R3, vectorCopy } from '../math/R3';
 import referenceAxis from './referenceAxis';
 import referenceMeridian from './referenceMeridian';
@@ -344,15 +345,9 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
      * Derived classes may overide to perform scaling.
      */
     protected setAxis(axis: VectorE3): void {
-        const vector = vectorCopy(axis);
-        if (vector.magnitude() > 0) {
-            const currentAxis = vector.direction();
-            if (currentAxis) {
-                this.attitude.rotorFromDirections(this.referenceAxis, currentAxis);
-            }
-            else {
-                this.attitude.one();
-            }
+        const squaredNorm = quadVectorE3(axis);
+        if (squaredNorm > 0) {
+            this.attitude.rotorFromDirections(this.referenceAxis, axis);
         }
         else {
             // The axis direction is undefined.

@@ -11,24 +11,31 @@ const sqrt = Math.sqrt;
 const cosPIdiv4 = Math.cos(Math.PI / 4);
 const sinPIdiv4 = Math.sin(Math.PI / 4);
 
-interface Output extends Spinor {
-    versor(a: Vector, b: Vector): Output;
-    addScalar(α: number): Output;
-    divByScalar(α: number): Output;
-    normalize(): Output;
-    one(): Output;
-    rotorFromGeneratorAngle(B: Bivector, θ: number): Output;
-    zero(): Output;
+/**
+ * 
+ */
+interface MutableSpinor extends Spinor {
+    /**
+     * Sets this Spinor3 to the geometric product, a * b, of the vector arguments.
+     */
+    versor(a: Vector, b: Vector): MutableSpinor;
+    addScalar(α: number): MutableSpinor;
+    divByScalar(α: number): MutableSpinor;
+    normalize(): MutableSpinor;
+    one(): MutableSpinor;
+    rotorFromGeneratorAngle(B: Bivector, θ: number): MutableSpinor;
+    zero(): MutableSpinor;
 }
 
 /**
- * Sets this multivector to a rotor representing a rotation from a to b.
+ * Sets the output spinor to a rotor representing a rotation from a to b.
  * R = (|b||a| + b * a) / sqrt(2 * |b||a|(|b||a| + b << a))
  * If the vectors are anti-parallel, making the plane of rotation ambiguous,
  * the bivector B will be used if specified.
- * Otherwise, returns a random bivector if the vectors are anti-parallel.
+ * Otherwise, sets the output spinor to a random bivector if the vectors are anti-parallel.
+ * The result is independent of the magnitudes of a and b.
  */
-export default function rotorFromDirectionsE3(a: Vector, b: Vector, B: Bivector, m: Output): void {
+export default function rotorFromDirectionsE3(a: Vector, b: Vector, B: Bivector, m: MutableSpinor): void {
     // Optimization for equal vectors.
     if (a.x === b.x && a.y === b.y && a.z === b.z) {
         // An easy optimization is simply to compare the vectors for equality.

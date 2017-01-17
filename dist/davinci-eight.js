@@ -551,9 +551,9 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
     var Eight = (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2017-01-08';
+            this.LAST_MODIFIED = '2017-01-17';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '6.0.0';
+            this.VERSION = '6.0.1';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -8826,7 +8826,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/Mesh',["require", "exports", "../core/tiltFromOptions", "../facets/ColorFacet", "./Drawable", "../math/Geometric3", "../math/Matrix4", "../facets/ModelFacet", "../i18n/notSupported", "../math/R3", "./referenceAxis", "./referenceMeridian", "../math/Spinor3", "../facets/TextureFacet"], function (require, exports, tiltFromOptions_1, ColorFacet_1, Drawable_1, Geometric3_1, Matrix4_1, ModelFacet_1, notSupported_1, R3_1, referenceAxis_1, referenceMeridian_1, Spinor3_1, TextureFacet_1) {
+define('davinci-eight/core/Mesh',["require", "exports", "../core/tiltFromOptions", "../facets/ColorFacet", "./Drawable", "../math/Geometric3", "../math/Matrix4", "../facets/ModelFacet", "../i18n/notSupported", "../math/quadVectorE3", "../math/R3", "./referenceAxis", "./referenceMeridian", "../math/Spinor3", "../facets/TextureFacet"], function (require, exports, tiltFromOptions_1, ColorFacet_1, Drawable_1, Geometric3_1, Matrix4_1, ModelFacet_1, notSupported_1, quadVectorE3_1, R3_1, referenceAxis_1, referenceMeridian_1, Spinor3_1, TextureFacet_1) {
     "use strict";
     var COLOR_FACET_NAME = 'color';
     var TEXTURE_FACET_NAME = 'image';
@@ -9091,15 +9091,9 @@ define('davinci-eight/core/Mesh',["require", "exports", "../core/tiltFromOptions
             return this.referenceAxis.rotate(this.attitude);
         };
         Mesh.prototype.setAxis = function (axis) {
-            var vector = R3_1.vectorCopy(axis);
-            if (vector.magnitude() > 0) {
-                var currentAxis = vector.direction();
-                if (currentAxis) {
-                    this.attitude.rotorFromDirections(this.referenceAxis, currentAxis);
-                }
-                else {
-                    this.attitude.one();
-                }
+            var squaredNorm = quadVectorE3_1.default(axis);
+            if (squaredNorm > 0) {
+                this.attitude.rotorFromDirections(this.referenceAxis, axis);
             }
             else {
                 this.attitude.one();
@@ -13431,7 +13425,7 @@ define('davinci-eight/shapes/CylindricalShellBuilder',["require", "exports", "..
     var CylindricalShellBuilder = (function (_super) {
         __extends(CylindricalShellBuilder, _super);
         function CylindricalShellBuilder() {
-            var _this = _super.apply(this, arguments) || this;
+            var _this = _super !== null && _super.apply(this, arguments) || this;
             _this.radialSegments = 1;
             _this.thetaSegments = 32;
             _this.height = Vector3_1.default.vector(0, 1, 0);
@@ -13513,7 +13507,7 @@ define('davinci-eight/shapes/RingBuilder',["require", "exports", "../transforms/
     var RingBuilder = (function (_super) {
         __extends(RingBuilder, _super);
         function RingBuilder() {
-            var _this = _super.apply(this, arguments) || this;
+            var _this = _super !== null && _super.apply(this, arguments) || this;
             _this.innerRadius = 0;
             _this.outerRadius = 1;
             _this.radialSegments = 1;

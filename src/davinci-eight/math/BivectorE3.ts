@@ -1,4 +1,4 @@
-interface BivectorE3 {
+export interface BivectorE3 {
     yz: number;
     zx: number;
     xy: number;

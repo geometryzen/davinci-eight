@@ -125,12 +125,9 @@ export default class Vector3 extends Coords {
      * <code>this ⟼ σ * this<sup>T</sup></code>
      * </p>
      *
-     * @method applyMatrix
-     * @param σ {Matrix3}
-     * @return {Vector3} <code>this</code>
-     * @chainable
+     * @param σ
      */
-    applyMatrix(σ: Matrix3): Vector3 {
+    applyMatrix(σ: Matrix3): this {
         const x = this.x;
         const y = this.y;
         const z = this.z;

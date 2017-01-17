@@ -1,7 +1,7 @@
 // Karma configuration
 // Generated on Fri Jan 29 2016 10:38:22 GMT-0500 (EST)
 
-module.exports = function(config) {
+module.exports = function (config) {
     config.set({
 
         // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -20,6 +20,7 @@ module.exports = function(config) {
             config: {
                 paths: {
                     "typescript": "node_modules/typescript/lib/typescript.js",
+                    'phantomjs-polyfill': 'node_modules/phantomjs-polyfill/bind-polyfill.js',
                     "systemjs": "node_modules/systemjs/dist/system.js",
                     'system-polyfills': 'node_modules/systemjs/dist/system-polyfills.js',
                     'es6-module-loader': 'node_modules/es6-module-loader/dist/es6-module-loader.js'

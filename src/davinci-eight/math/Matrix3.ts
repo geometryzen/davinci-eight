@@ -58,14 +58,14 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
     /**
      *
      */
-    add(rhs: Matrix3): Matrix3 {
+    add(rhs: Matrix3): this {
         return this.add2(this, rhs);
     }
 
     /**
      *
      */
-    add2(a: Matrix3, b: Matrix3): Matrix3 {
+    add2(a: Matrix3, b: Matrix3): this {
         add3x3(a.elements, b.elements, this.elements);
         return this;
     }
@@ -89,14 +89,10 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
      * Sets this matrix to the inverse of the upper-left 3x3 portion of a 4x4 matrix.
      * </p>
      *
-     * @method invertUpperLeft
-     * @param matrix {Matrix4}
-     * @param [throwOnSingular = false] {boolean}
-     * @return {Matrix3}
-     * @chainable
-     * @private
+     * @param matrix
+     * @param throwOnSingular
      */
-    private invertUpperLeft(matrix: Matrix4, throwOnSingular = false): Matrix3 {
+    private invertUpperLeft(matrix: Matrix4, throwOnSingular = false): this {
 
         const me = matrix.elements;
         const te = this.elements;
@@ -136,18 +132,15 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
     }
 
     /**
-     * @method inv
-     * @return {Matrix3}
-     * @chainable
+     *
      */
-    inv(): Matrix3 {
+    inv(): this {
         inv3x3(this.elements, this.elements);
         return this;
     }
 
     /**
-     * @method isOne
-     * @return {boolean}
+     *
      */
     isOne(): boolean {
         let te = this.elements;
@@ -158,8 +151,7 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
     }
 
     /**
-     * @method isZero
-     * @return {boolean}
+     *
      */
     isZero(): boolean {
         let te = this.elements;
@@ -170,44 +162,33 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
     }
 
     /**
-     * @method mul
-     * @param rhs {Matrix3}
-     * @return {Matrix3}
-     * @chainable
+     * @param rhs
      */
-    mul(rhs: Matrix3): Matrix3 {
+    mul(rhs: Matrix3): this {
         return this.mul2(this, rhs);
     }
 
     /**
-     * @method rmul
-     * @param lhs {Matrix3}
-     * @return {Matrix3}
-     * @chainable
+     * @param lhs
      */
-    rmul(lhs: Matrix3): Matrix3 {
+    rmul(lhs: Matrix3): this {
         mul3x3(lhs.elements, this.elements, this.elements);
         return this;
     }
 
     /**
-     * @method mul2
-     * @param a {Matrix3}
-     * @param b {Matrix3}
-     * @return {Matrix3}
-     * @chainable
+     * @param a
+     * @param b
      */
-    mul2(a: Matrix3, b: Matrix3): Matrix3 {
+    mul2(a: Matrix3, b: Matrix3): this {
         mul3x3(a.elements, b.elements, this.elements);
         return this;
     }
 
     /**
-     * @method neg
-     * @return {Matrix3}
-     * @chainable
+     *
      */
-    neg(): Matrix3 {
+    neg(): this {
         return this.scale(-1);
     }
 
@@ -217,21 +198,16 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
      * (pseudo or axial vectors) based upon the 4x4 matrix used to transform polar vectors.
      * </p>
      * 
-     * @method normalFromMatrix4
-     * @param m {Matrix4}
-     * @return {Matrix3}
-     * @chainable
+     * @param m
      */
-    normalFromMatrix4(m: Matrix4): Matrix3 {
+    normalFromMatrix4(m: Matrix4): this {
         return this.invertUpperLeft(m).transpose();
     }
 
     /**
-     * @method one
-     * @return {Matrix3}
-     * @chainable
+     *
      */
-    one(): Matrix3 {
+    one(): this {
         return this.set(1, 0, 0, 0, 1, 0, 0, 0, 1);
     }
 
@@ -243,12 +219,10 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
      * <p>
      * <code>this ⟼ reflection(n)</code>
      * </p>
-     * @method reflection
-     * @param n {VectorE2}
-     * @return {Matrix3}
-     * @chainable
+     *
+     * @param n
      */
-    reflection(n: VectorE2): Matrix3 {
+    reflection(n: VectorE2): this {
 
         const nx = mustBeNumber('n.x', n.x);
         const ny = mustBeNumber('n.y', n.y);
@@ -267,9 +241,7 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
     }
 
     /**
-     * @method row
-     * @param i {number} the zero-based index of the row.
-     * @return {number[]}
+     * @param i the zero-based index of the row.
      */
     row(i: number): number[] {
         const te = this.elements;
@@ -277,23 +249,17 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
     }
 
     /**
-     * @method rotate
-     * @param spinor {SpinorE2}
-     * @return {Matrix3}
-     * @chainable
+     * @param spinor
      */
-    rotate(spinor: SpinorE2): Matrix3 {
+    rotate(spinor: SpinorE2): this {
         // TODO: This is creating a temporary.
         return this.rmul(Matrix3.rotation(spinor));
     }
 
     /**
-     * @method rotation
-     * @param spinor {SpinorE2}
-     * @return {Matrix3}
-     * @chainable
+     * @param spinor
      */
-    rotation(spinor: SpinorE2): Matrix3 {
+    rotation(spinor: SpinorE2): this {
         const α = spinor.a;
         const β = spinor.b;
         const S = α * α - β * β;
@@ -303,12 +269,9 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
     }
 
     /**
-     * @method scale
-     * @param s {number}
-     * @return {Matrix3}
-     * @chainable
+     * @param s
      */
-    scale(s: number): Matrix3 {
+    scale(s: number): this {
         const m = this.elements;
         m[0] *= s; m[3] *= s; m[6] *= s;
         m[1] *= s; m[4] *= s; m[7] *= s;
@@ -327,22 +290,19 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
      * The parameters are named according to the 1-based row and column.
      * </p>
      *
-     * @method set
-     * @param n11 {number}
-     * @param n12 {number}
-     * @param n13 {number}
-     * @param n21 {number}
-     * @param n22 {number}
-     * @param n23 {number}
-     * @param n31 {number}
-     * @param n32 {number}
-     * @param n33 {number}
-     * @return {Matrix3}
-     * @chainable
+     * @param n11
+     * @param n12
+     * @param n13
+     * @param n21
+     * @param n22
+     * @param n23
+     * @param n31
+     * @param n32
+     * @param n33
      */
     set(n11: number, n12: number, n13: number,
         n21: number, n22: number, n23: number,
-        n31: number, n32: number, n33: number): Matrix3 {
+        n31: number, n32: number, n33: number): this {
 
         const te = this.elements;
 
@@ -354,12 +314,9 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
     }
 
     /**
-     * @method sub
-     * @param rhs {Matrix3}
-     * @return {Matrix3}
-     * @chainable
+     * @param rhs
      */
-    sub(rhs: Matrix3): Matrix3 {
+    sub(rhs: Matrix3): this {
         const te = this.elements;
         const t11 = te[0];
         const t21 = te[1];
@@ -395,9 +352,7 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
     }
 
     /**
-     * @method toExponential
-     * @param [fractionDigits] {number}
-     * @return {string}
+     * @param fractionDigits
      */
     toExponential(fractionDigits?: number): string {
         const text: string[] = [];
@@ -408,9 +363,7 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
     }
 
     /**
-     * @method toFixed
-     * @param [fractionDigits] {number}
-     * @return {string}
+     * @param fractionDigits
      */
     toFixed(fractionDigits?: number): string {
         const text: string[] = [];
@@ -421,9 +374,7 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
     }
 
     /**
-     * @method toPrecision
-     * @param [precision] {number}
-     * @return {string}
+     * @param precision
      */
     toPrecision(precision?: number): string {
         const text: string[] = [];
@@ -434,9 +385,7 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
     }
 
     /**
-     * @method toString
-     * @param [radix] {number}
-     * @return {string}
+     * @param radix
      */
     toString(radix?: number): string {
         const text: string[] = [];
@@ -450,12 +399,10 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
      * <p>
      * Computes the homogeneous translation matrix for a 2D translation.
      * </p>
-     * @method translation
-     * @param d {VectorE2}
-     * @return {Matrix3}
-     * @chainable
+     *
+     * @param d
      */
-    translation(d: VectorE2): Matrix3 {
+    translation(d: VectorE2): this {
         const x = d.x;
         const y = d.y;
         return this.set(
@@ -465,11 +412,9 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
     }
 
     /**
-     * @method transpose
-     * @return {Matrix3}
-     * @chainable
+     *
      */
-    transpose(): Matrix3 {
+    transpose(): this {
         let tmp: number;
         const m = this.elements;
 
@@ -482,11 +427,8 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
 
     /**
      * Sets this matrix to the identity element for addition, <b>0</b>.
-     * @method zero
-     * @return {Matrix3}
-     * @chainable
      */
-    zero(): Matrix3 {
+    zero(): this {
         return this.set(0, 0, 0, 0, 0, 0, 0, 0, 0);
     }
 
@@ -574,43 +516,27 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
      * <p>
      * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
      * </p>
-     * @method one
-     * @return {Matrix3}
-     * @static
-     * @chainable
      */
-    public static one() {
+    public static one(): Matrix3 {
         return new Matrix3(new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]));
     }
 
     /**
-     * @method reflection
-     * @param n {VectorE2}
-     * @return {Matrix3}
-     * @static
-     * @chainable
+     * @param n
      */
     public static reflection(n: VectorE2): Matrix3 {
         return Matrix3.zero().reflection(n);
     }
 
     /**
-     * @method rotation
-     * @param spinor {SpinorE2}
-     * @return {Matrix3}
-     * @static
-     * @chainable
+     * @param spinor
      */
     public static rotation(spinor: SpinorE2): Matrix3 {
         return Matrix3.zero().rotation(spinor);
     }
 
     /**
-     * @method translation
-     * @param d {VectorE2}
-     * @return {Matrix3}
-     * @static
-     * @chainable
+     * @param d
      */
     public static translation(d: VectorE2): Matrix3 {
         return Matrix3.zero().translation(d);
@@ -620,10 +546,6 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
      * <p>
      * Creates a new matrix with all elements zero.
      * </p>
-     * @method zero
-     * @return {Matrix3}
-     * @static
-     * @chainable
      */
     public static zero(): Matrix3 {
         return new Matrix3(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0]));

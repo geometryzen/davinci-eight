@@ -1161,11 +1161,13 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
     /**
      * <p>
      * Computes a rotor, R, from two unit vectors, where
-     * R = (1 + b * a) / sqrt(2 * (1 + b << a))
+     * R = (|b||a| + b * a) / sqrt(2 * |b||a|(|b||a| + b << a))
      * </p>
+     * 
+     * The result is independent of the magnitudes of a and b.
      *
-     * @param a The starting unit vector
-     * @param b The ending unit vector
+     * @param a The starting vector
+     * @param b The ending vector
      * @returns The rotor representing a rotation from a to b.
      */
     rotorFromDirections(a: VectorE3, b: VectorE3): this {
@@ -1247,6 +1249,11 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
         return this;
     }
 
+    /**
+     * R = (|b||a| + b * a) / sqrt(2 * |b||a|(|b||a| + b << a))
+     *
+     * The result is independent of the magnitudes of a and b. 
+     */
     rotorFromVectorToVector(a: VectorE3, b: VectorE3, B: BivectorE3): this {
         rotorFromDirections(a, b, B, this);
         return this;
