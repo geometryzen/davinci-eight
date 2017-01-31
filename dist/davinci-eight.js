@@ -551,9 +551,9 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
     var Eight = (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2017-01-17';
+            this.LAST_MODIFIED = '2017-01-31';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '6.0.1';
+            this.VERSION = '6.0.2';
         }
         Eight.prototype.log = function (message) {
             var optionalParams = [];
@@ -1576,6 +1576,29 @@ define('davinci-eight/math/isScalarG3',["require", "exports"], function (require
     exports.default = isScalarG3;
 });
 
+define('davinci-eight/checks/isObject',["require", "exports"], function (require, exports) {
+    "use strict";
+    function isObject(x) {
+        return (typeof x === 'object');
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = isObject;
+});
+
+define('davinci-eight/math/isVectorE3',["require", "exports", "../checks/isNull", "../checks/isNumber", "../checks/isObject"], function (require, exports, isNull_1, isNumber_1, isObject_1) {
+    "use strict";
+    function isVectorE3(v) {
+        if (isObject_1.default(v) && !isNull_1.default(v)) {
+            return isNumber_1.default(v.x) && isNumber_1.default(v.y) && isNumber_1.default(v.z);
+        }
+        else {
+            return false;
+        }
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = isVectorE3;
+});
+
 define('davinci-eight/math/isVectorG3',["require", "exports"], function (require, exports) {
     "use strict";
     function isVectorG3(m) {
@@ -1683,15 +1706,6 @@ define('davinci-eight/math/lcoG3',["require", "exports", "../math/compG3Get", ".
     }
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = lcoG3;
-});
-
-define('davinci-eight/checks/isObject',["require", "exports"], function (require, exports) {
-    "use strict";
-    function isObject(x) {
-        return (typeof x === 'object');
-    }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = isObject;
 });
 
 define('davinci-eight/math/maskG3',["require", "exports", "../checks/isNumber", "../checks/isObject"], function (require, exports, isNumber_1, isObject_1) {
@@ -2278,7 +2292,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/math/Geometric3',["require", "exports", "./Coords", "./arraysEQ", "./dotVectorE3", "./extG3", "./gauss", "../checks/isDefined", "./isScalarG3", "./isVectorG3", "./lcoG3", "./maskG3", "./mulE3", "./randomRange", "../i18n/readOnly", "./rcoG3", "./rotorFromDirectionsE3", "./scpG3", "./squaredNormG3", "./stringFromCoordinates", "./wedgeXY", "./wedgeYZ", "./wedgeZX"], function (require, exports, Coords_1, arraysEQ_1, dotVectorE3_1, extG3_1, gauss_1, isDefined_1, isScalarG3_1, isVectorG3_1, lcoG3_1, maskG3_1, mulE3_1, randomRange_1, readOnly_1, rcoG3_1, rotorFromDirectionsE3_1, scpG3_1, squaredNormG3_1, stringFromCoordinates_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1) {
+define('davinci-eight/math/Geometric3',["require", "exports", "./Coords", "./arraysEQ", "./dotVectorE3", "./extG3", "./gauss", "../checks/isDefined", "./isScalarG3", "./isVectorE3", "./isVectorG3", "./lcoG3", "./maskG3", "./mulE3", "./randomRange", "../i18n/readOnly", "./rcoG3", "./rotorFromDirectionsE3", "./scpG3", "./squaredNormG3", "./stringFromCoordinates", "./wedgeXY", "./wedgeYZ", "./wedgeZX"], function (require, exports, Coords_1, arraysEQ_1, dotVectorE3_1, extG3_1, gauss_1, isDefined_1, isScalarG3_1, isVectorE3_1, isVectorG3_1, lcoG3_1, maskG3_1, mulE3_1, randomRange_1, readOnly_1, rcoG3_1, rotorFromDirectionsE3_1, scpG3_1, squaredNormG3_1, stringFromCoordinates_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1) {
     "use strict";
     var COORD_SCALAR = 0;
     var COORD_X = 1;
@@ -3187,6 +3201,9 @@ define('davinci-eight/math/Geometric3',["require", "exports", "./Coords", "./arr
             if (duckR) {
                 return this.clone().add(duckR);
             }
+            else if (isVectorE3_1.default(rhs)) {
+                return this.clone().addVector(rhs);
+            }
             else {
                 return void 0;
             }
@@ -3237,6 +3254,9 @@ define('davinci-eight/math/Geometric3',["require", "exports", "./Coords", "./arr
             }
             else if (typeof lhs === 'number') {
                 return Geometric3.scalar(lhs).add(this);
+            }
+            else if (isVectorE3_1.default(lhs)) {
+                return Geometric3.fromVector(lhs).add(this);
             }
             else {
                 return void 0;

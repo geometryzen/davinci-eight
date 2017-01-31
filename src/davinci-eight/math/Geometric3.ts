@@ -8,6 +8,7 @@ import gauss from './gauss';
 import GeometricE3 from './GeometricE3';
 import isDefined from '../checks/isDefined';
 import isScalarG3 from './isScalarG3';
+import isVectorE3 from './isVectorE3';
 import isVectorG3 from './isVectorG3';
 import lcoG3 from './lcoG3';
 import maskG3 from './maskG3';
@@ -1552,6 +1553,9 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
         if (duckR) {
             return this.clone().add(duckR);
         }
+        else if (isVectorE3(rhs)) {
+            return this.clone().addVector(rhs);
+        }
         else {
             return void 0;
         }
@@ -1627,6 +1631,9 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3 {
         }
         else if (typeof lhs === 'number') {
             return Geometric3.scalar(lhs).add(this);
+        }
+        else if (isVectorE3(lhs)) {
+            return Geometric3.fromVector(lhs).add(this);
         }
         else {
             return void 0;
