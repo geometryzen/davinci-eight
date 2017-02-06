@@ -10,7 +10,7 @@ const e3 = Vector3.vector(0, 0, 1);
 
 describe("setViewAttitude", function () {
     describe("(1, eye=e3, look=0, up=e2)", function () {
-        const R = Spinor3.one();
+        const R = Spinor3.one.clone();
         const eye = Geometric3.fromVector(e3);
         const look = Geometric3.fromVector(zero);
         const lookOriginal = look.clone();

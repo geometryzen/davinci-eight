@@ -29,7 +29,7 @@ export class ViewTransform implements Facet {
     /**
      * 
      */
-    private matrix = Matrix4.one();
+    private matrix = Matrix4.one.clone();
 
     /**
      * 

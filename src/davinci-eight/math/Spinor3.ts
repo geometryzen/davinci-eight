@@ -2,6 +2,7 @@ import BivectorE3 from './BivectorE3';
 import CartesianG3 from './CartesianG3';
 import { Coords } from './Coords';
 import dotVectorCartesianE3 from './dotVectorCartesianE3';
+import { lock, TargetLockedError } from '../core/Lockable';
 import mulSpinorE3YZ from './mulSpinorE3YZ';
 import mulSpinorE3ZX from './mulSpinorE3ZX';
 import mulSpinorE3XY from './mulSpinorE3XY';
@@ -44,10 +45,9 @@ const magicCode = Math.random();
 /**
  * A <em>mutable</em> Geometric Number representing the even sub-algebra of G3.
  */
-export default class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
-
+export class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
     /**
-     * @param coordinates
+     * @param coordinates [yz, zx, xy, a]
      * @param code
      */
     constructor(coordinates: number[], code: number) {
@@ -61,55 +61,67 @@ export default class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
      * The coordinate corresponding to the <b>e</b><sub>23</sub> basis bivector.
      */
     get yz(): number {
-        return this._coords[COORD_YZ];
+        return this.coords[COORD_YZ];
     }
     set yz(yz: number) {
+        if (this.isLocked) {
+            throw new TargetLockedError('yz');
+        }
         mustBeNumber('yz', yz);
         this.modified = this.modified || this.yz !== yz;
-        this._coords[COORD_YZ] = yz;
+        this.coords[COORD_YZ] = yz;
     }
 
     /**
      * The coordinate corresponding to the <b>e</b><sub>31</sub> basis bivector.
      */
     get zx(): number {
-        return this._coords[COORD_ZX];
+        return this.coords[COORD_ZX];
     }
     set zx(zx: number) {
+        if (this.isLocked) {
+            throw new TargetLockedError('zx');
+        }
         mustBeNumber('zx', zx);
         this.modified = this.modified || this.zx !== zx;
-        this._coords[COORD_ZX] = zx;
+        this.coords[COORD_ZX] = zx;
     }
 
     /**
      * The coordinate corresponding to the <b>e</b><sub>12</sub> basis bivector.
      */
     get xy(): number {
-        return this._coords[COORD_XY];
+        return this.coords[COORD_XY];
     }
     set xy(xy: number) {
+        if (this.isLocked) {
+            throw new TargetLockedError('xy');
+        }
         mustBeNumber('xy', xy);
         this.modified = this.modified || this.xy !== xy;
-        this._coords[COORD_XY] = xy;
+        this.coords[COORD_XY] = xy;
     }
 
     /**
      * The coordinate corresponding to the <b>1</b> basis scalar.
      */
     get a(): number {
-        return this._coords[COORD_SCALAR];
+        return this.coords[COORD_SCALAR];
     }
     set a(α: number) {
+        if (this.isLocked) {
+            throw new TargetLockedError('a');
+        }
         mustBeNumber('α', α);
         this.modified = this.modified || this.a !== α;
-        this._coords[COORD_SCALAR] = α;
+        this.coords[COORD_SCALAR] = α;
     }
 
     /**
      *
      */
     get maskG3(): number {
-        const coords = this._coords;
+        const coords = this.coords;
         const α = coords[COORD_SCALAR];
         const yz = coords[COORD_YZ];
         const zx = coords[COORD_ZX];
@@ -135,7 +147,7 @@ export default class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
      * @param α
      * @return this
      */
-    add(spinor: SpinorE3, α = 1): Spinor3 {
+    add(spinor: SpinorE3, α = 1): this {
         mustBeObject('spinor', spinor);
         mustBeNumber('α', α);
         this.yz += spinor.yz * α;
@@ -183,22 +195,17 @@ export default class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
     }
 
     /**
-     * @method adj
-     * @return {Spinor3}
-     * @chainable
-     * @beta
+     * arg(A) = grade(log(A), 2)
+     * 
+     * @returns arg(this)
      */
-    adj(): Spinor3 {
-        throw new Error('TODO: Spinor3.adj');
-    }
-
-    /**
-     * @method angle
-     * @return {Spinor3}
-     * @chainable
-     */
-    angle(): Spinor3 {
-        return this.log().grade(2);
+    arg(): Spinor3 {
+        if (this.isLocked) {
+            return lock(this.clone().arg());
+        }
+        else {
+            return this.log().grade(2);
+        }
     }
 
     /**
@@ -207,28 +214,24 @@ export default class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
      * @return {Spinor3}
      * @chainable
      */
-    approx(n: number): Spinor3 {
+    approx(n: number): this {
         super.approx(n);
         return this;
     }
 
     /**
-     * @method clone
-     * @return {Spinor3} A copy of <code>this</code>.
-     * @chainable
+     * Returns an unlocked (mutable) copy of `this`.
      */
     clone(): Spinor3 {
-        return Spinor3.copy(this);
+        return Spinor3.spinor(this.yz, this.zx, this.xy, this.a);
     }
 
     /**
-     * <p>
-     * <code>this ⟼ (w, -B)</code>
-     * </p>
-     *
-     * @method conj
-     * @return {Spinor3} <code>this</code>
-     * @chainable
+     * The Clifford conjugate.
+     * The multiplier for the grade x is (-1) raised to the power x * (x + 1) / 2
+     * The pattern of grades is +--++--+
+     * 
+     * @returns conj(this)
      */
     conj() {
         this.yz = -this.yz;
@@ -390,25 +393,21 @@ export default class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
     }
 
     /**
-     * <p>
      * <code>this ⟼ e<sup>this</sup></code>
-     * </p>
      *
-     * @method exp
-     * @return {Spinor3} <code>this</code>
-     * @chainable
+     * @returns exp(this)
      */
     exp(): Spinor3 {
-        let w = this.a;
-        let x = this.yz;
-        let y = this.zx;
-        let z = this.xy;
-        let expW = exp(w);
+        const w = this.a;
+        const x = this.yz;
+        const y = this.zx;
+        const z = this.xy;
+        const expW = exp(w);
         // φ is actually the absolute value of one half the rotation angle.
         // The orientation of the rotation gets carried in the bivector components.
         // FIXME: DRY
-        let φ = sqrt(x * x + y * y + z * z);
-        let s = expW * (φ !== 0 ? sin(φ) / φ : 1);
+        const φ = sqrt(x * x + y * y + z * z);
+        const s = expW * (φ !== 0 ? sin(φ) / φ : 1);
         this.a = expW * cos(φ);
         this.yz = x * s;
         this.zx = y * s;
@@ -477,7 +476,6 @@ export default class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
      * @return {Spinor3} <code>this</code>
      * @chainable
      */
-    // FIXME: Should really be slerp?
     lerp(target: SpinorE3, α: number): Spinor3 {
         var Vector2 = Spinor3.copy(target);
         var Vector1 = this.clone();
@@ -507,15 +505,9 @@ export default class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
     }
 
     /**
-     * <p>
-     * <code>this ⟼ log(this)</code>
-     * </p>
-     *
-     * @method log
-     * @return {Spinor3} <code>this</code>
-     * @chainable
+     * this ⟼ log(this)
      */
-    log(): Spinor3 {
+    log(): this {
         // FIXME: Wrong
         let w = this.a;
         let x = this.yz;
@@ -855,17 +847,6 @@ export default class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
         return this;
     }
 
-    slerp(target: SpinorE3, α: number): Spinor3 {
-        var Vector2 = Spinor3.copy(target);
-        var Vector1 = this.clone();
-        var R = Vector2.mul(Vector1.inv());
-        R.log();
-        R.scale(α);
-        R.exp();
-        this.copy(R);
-        return this;
-    }
-
     /**
      * <p>
      * <code>this ⟼ this - s * α</code>
@@ -969,19 +950,19 @@ export default class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
      * @return {Spinor3}
      * @chainable
      */
-    grade(grade: number): Spinor3 {
+    grade(grade: number): this {
         mustBeInteger('grade', grade);
         switch (grade) {
             case 0: {
                 this.yz = 0;
                 this.zx = 0;
                 this.xy = 0;
-            }
                 break;
+            }
             case 2: {
                 this.a = 0;
-            }
                 break;
+            }
             default: {
                 this.a = 0;
                 this.yz = 0;
@@ -1064,7 +1045,7 @@ export default class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
      * @chainable
      */
     static copy(spinor: SpinorE3): Spinor3 {
-        const s = Spinor3.zero().copy(spinor);
+        const s = Spinor3.zero.clone().copy(spinor);
         s.modified = false;
         return s;
     }
@@ -1080,7 +1061,7 @@ export default class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
      * @chainable
      */
     static dual(v: VectorE3, changeSign: boolean): Spinor3 {
-        return Spinor3.zero().dual(v, changeSign);
+        return Spinor3.zero.clone().dual(v, changeSign);
     }
 
     static fromBivector(B: BivectorE3): Spinor3 {
@@ -1113,9 +1094,7 @@ export default class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
     /**
      *
      */
-    static one(): Spinor3 {
-        return Spinor3.spinor(0, 0, 0, 1);
-    }
+    static readonly one = Spinor3.spinor(0, 0, 0, 1);
 
     /**
      * <p>
@@ -1137,17 +1116,18 @@ export default class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
      * @param b The <em>to</em> vector.
      */
     static rotorFromDirections(a: VectorE3, b: VectorE3): Spinor3 {
-        return Spinor3.zero().rotorFromDirections(a, b);
+        return Spinor3.zero.clone().rotorFromDirections(a, b);
     }
 
     /**
-     * @param yz
-     * @param zx
-     * @param xy
-     * @param α
+     * Constructs a new Spinor3 from coordinates. 
+     * @param yz The coordinate corresponding to the e2e3 basis bivector.
+     * @param zx The coordinate corresponding to the e3e1 basis bivector.
+     * @param xy The coordinate corresponding to the e1e2 basis bivector.
+     * @param a The coordinate corresponding to the 1 basis scalar.
      */
-    static spinor(yz: number, zx: number, xy: number, α: number): Spinor3 {
-        return new Spinor3([yz, zx, xy, α], magicCode);
+    static spinor(yz: number, zx: number, xy: number, a: number): Spinor3 {
+        return new Spinor3([yz, zx, xy, a], magicCode);
     }
 
     /**
@@ -1173,7 +1153,11 @@ export default class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
     /**
      *
      */
-    static zero(): Spinor3 {
-        return Spinor3.spinor(0, 0, 0, 0);
-    }
+    static readonly zero = Spinor3.spinor(0, 0, 0, 0);
 }
+
+Spinor3.one.lock();
+Spinor3.zero.lock();
+
+export default Spinor3;
+

@@ -1,6 +1,7 @@
 import { Coords } from '../math/Coords';
 import b2 from '../geometries/b2';
 import b3 from '../geometries/b3';
+import { lock, TargetLockedError } from '../core/Lockable';
 import Matrix2 from '../math/Matrix2';
 
 import notImplemented from '../i18n/notImplemented';
@@ -19,11 +20,11 @@ const COORD_Y = 1;
  */
 export class Vector2 extends Coords {
     /**
-     * @param data
+     * @param coords The x coordinate and y coordinate.
      * @param modified
      */
-    constructor(data = [0, 0], modified = false) {
-        super(data, modified, 2);
+    constructor(coords = [0, 0], modified = false) {
+        super(coords, modified, 2);
     }
 
     /**
@@ -33,6 +34,9 @@ export class Vector2 extends Coords {
         return this.coords[COORD_X];
     }
     set x(value: number) {
+        if (this.isLocked) {
+            throw new TargetLockedError('set x');
+        }
         this.modified = this.modified || this.x !== value;
         this.coords[COORD_X] = value;
     }
@@ -45,6 +49,9 @@ export class Vector2 extends Coords {
     }
 
     set y(value: number) {
+        if (this.isLocked) {
+            throw new TargetLockedError('set y');
+        }
         this.modified = this.modified || this.y !== value;
         this.coords[COORD_Y] = value;
     }
@@ -371,10 +378,6 @@ export class Vector2 extends Coords {
         return this;
     }
 
-    slerp(v: VectorE2, α: number): Vector2 {
-        throw new Error(notImplemented('slerp').message);
-    }
-
     /**
      * @method toExponential
      * @param [fractionDigits] {number}
@@ -477,30 +480,11 @@ export class Vector2 extends Coords {
         return Vector2.vector(x, y).normalize();
     }
 
-    /**
-     * @method vector
-     * @param x {number}
-     * @param y {number}
-     * @return {Vector2}
-     * @static
-     * @chainable
-     */
     static vector(x: number, y: number): Vector2 {
         return new Vector2([x, y]);
     }
 
-    /**
-     * Creates a new zero vector, <em>0</em>.
-     * <em>0</em> us the additive identity.
-     * 
-     * @method zero
-     * @return {Vector2}
-     * @static
-     * @chainable
-     */
-    static zero(): Vector2 {
-        return Vector2.vector(0, 0);
-    }
+    static readonly zero = lock(Vector2.vector(0, 0));
 }
 
 export default Vector2;

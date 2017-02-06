@@ -7,11 +7,11 @@ import VectorE3 from '../math/VectorE3';
 import { ViewControls } from './ViewControls';
 
 // Scratch variables to aboid creating temporary objects.
-const a: Geometric3 = Geometric3.zero();
-const b: Geometric3 = Geometric3.zero();
-const d: Geometric3 = Geometric3.zero();
-const B: Spinor3 = Spinor3.one();
-const R: Spinor3 = Spinor3.one();
+const a: Geometric3 = new Geometric3();
+const b: Geometric3 = new Geometric3();
+const d: Geometric3 = new Geometric3();
+const B: Spinor3 = Spinor3.one.clone();
+const R: Spinor3 = Spinor3.one.clone();
 const X: Vector3 = Vector3.zero();
 
 /**

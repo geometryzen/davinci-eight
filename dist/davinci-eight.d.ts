@@ -1237,6 +1237,48 @@ declare module EIGHT {
     }
 
     /**
+     * 
+     */
+    interface Lockable {
+        /**
+         * Determines whether this `Lockable` is locked.
+         * If the `Lockable` is in the unlocked state then it is mutable.
+         * If the `Lockable` is in the locked state then it is immutable.
+         */
+        isLocked: boolean;
+        /**
+         * Locks this `Lockable` (preventing any further mutation),
+         * and returns a token that may be used to unlock it.
+         */
+        lock(): number;
+        /**
+         * Unlocks this `Lockable` (allowing mutation),
+         * using a token that was obtained from a preceding lock method call.
+         */
+        unlock(token: number): void;
+    }
+
+    /**
+     *
+     */
+    class VectorN<T> implements Lockable {
+        coords: T[];
+        isLocked: boolean;
+        modified: boolean;
+        constructor(coords: T[], modified?: boolean, size?: number);
+        clone(): VectorN<T>;
+        getComponent(index: number): T;
+        lock(): number;
+        pop(): T;
+        push(value: T): number;
+        setComponent(index: number, value: T): void;
+        toArray(array?: T[], offset?: number): T[];
+        toLocaleString(): string;
+        unlock(token: number): void;
+        toString(): string;
+    }
+
+    /**
      * The Geometric Algebra of the Euclidean plane
      */
     class Geometric2 extends VectorN<number> implements GeometricE2 {
@@ -1316,12 +1358,10 @@ declare module EIGHT {
          */
         addVector(v: VectorE2, α?: number): Geometric2;
 
-        adj(): Geometric2;
-
         /**
          * The bivector whose area (magnitude) is θ/2, where θ is the radian measure. 
          */
-        angle(): Geometric2;
+        arg(): Geometric2;
 
         approx(n: number): Geometric2;
 
@@ -1331,10 +1371,11 @@ declare module EIGHT {
         clone(): Geometric2;
 
         /**
-         * Sets this <em>multivector</em> to its <em>Clifford conjugate</em>.
+         * The Clifford conjugate.
+         * The multiplier for the grade x is (-1) raised to the power x * (x + 1) / 2
+         * The pattern of grades is +--++--+
          * 
-         * this ⟼ conj(this)
-         * 
+         * @returns conj(this)
          */
         conj(): Geometric2;
 
@@ -1605,8 +1646,6 @@ declare module EIGHT {
 
         sinh(): Geometric2;
 
-        slerp(target: GeometricE2, α: number): Geometric2;
-
         /**
          * Computes the squared norm, scp(A, rev(A)).
          */
@@ -1740,23 +1779,6 @@ declare module EIGHT {
     /**
      *
      */
-    class VectorN<T> {
-        coords: T[];
-        modified: boolean;
-        constructor(coords: T[], modified?: boolean, size?: number);
-        clone(): VectorN<T>;
-        getComponent(index: number): T;
-        pop(): T;
-        push(value: T): number;
-        setComponent(index: number, value: T): void;
-        toArray(array?: T[], offset?: number): T[];
-        toLocaleString(): string;
-        toString(): string;
-    }
-
-    /**
-     *
-     */
     class Vector1 extends VectorN<number> implements VectorE1 {
         x: number;
         constructor(coords?: number[], modified?: boolean);
@@ -1766,39 +1788,50 @@ declare module EIGHT {
      *
      */
     class Vector2 extends VectorN<number> implements VectorE2 {
-        x: number
-        y: number
-        constructor(coords?: number[], modified?: boolean)
-        add(v: VectorE2): Vector2
-        add2(a: VectorE2, b: VectorE2): Vector2
-        applyMatrix(σ: Matrix2): Vector2
-        clone(): Vector2
-        copy(v: VectorE2): Vector2
-        cubicBezier(t: number, controlBegin: VectorE2, endPoint: VectorE2): Vector2
-        distanceTo(point: VectorE2): number
-        lerp(v: VectorE2, α: number): Vector2
-        lerp2(a: VectorE2, b: VectorE2, α: number): Vector2
-        magnitude(): number
-        neg(): Vector2
-        quadraticBezier(t: number, controlPoint: VectorE2, endPoint: VectorE2): Vector2
-        rotate(spinor: SpinorE2): Vector2
-        scale(α: number): Vector2
-        squaredNorm(): number
-        set(x: number, y: number): Vector2
-        sub(v: VectorE2): Vector2
-        sub2(a: VectorE2, b: VectorE2): Vector2
-        toExponential(fractionDigits?: number): string
-        toFixed(fractionDigits?: number): string
-        toPrecision(precision?: number): string
-        toString(radix?: number): string
-        zero(): Vector2
-        static copy(v: VectorE2): Vector2
-        static lerp(a: VectorE2, b: VectorE2, α: number): Vector2
-        static random(): Vector2
-        static vector(x: number, y: number): Vector2
+        /**
+         * 
+         */
+        x: number;
+        /**
+         * 
+         */
+        y: number;
+        constructor(coords?: number[], modified?: boolean);
+        add(v: VectorE2): Vector2;
+        add2(a: VectorE2, b: VectorE2): Vector2;
+        applyMatrix(σ: Matrix2): Vector2;
+        clone(): Vector2;
+        copy(v: VectorE2): Vector2;
+        cubicBezier(t: number, controlBegin: VectorE2, endPoint: VectorE2): Vector2;
+        distanceTo(point: VectorE2): number;
+        lerp(v: VectorE2, α: number): Vector2;
+        lerp2(a: VectorE2, b: VectorE2, α: number): Vector2;
+        magnitude(): number;
+        neg(): Vector2;
+        quadraticBezier(t: number, controlPoint: VectorE2, endPoint: VectorE2): Vector2;
+        rotate(spinor: SpinorE2): Vector2;
+        scale(α: number): Vector2;
+        squaredNorm(): number;
+        set(x: number, y: number): Vector2;
+        sub(v: VectorE2): Vector2;
+        sub2(a: VectorE2, b: VectorE2): Vector2;
+        toExponential(fractionDigits?: number): string;
+        toFixed(fractionDigits?: number): string;
+        toPrecision(precision?: number): string;
+        toString(radix?: number): string;
+        zero(): Vector2;
+        static copy(v: VectorE2): Vector2;
+        static lerp(a: VectorE2, b: VectorE2, α: number): Vector2;
+        static random(): Vector2;
+        static vector(x: number, y: number): Vector2;
     }
 
-    class Spinor2 {
+    /**
+     * The even sub-algebra of Geometric2.
+     */
+    class Spinor2 extends VectorN<number> implements SpinorE2 {
+        a: number;
+        b: number;
     }
 
     interface Scalar {
@@ -1891,36 +1924,41 @@ declare module EIGHT {
          *
          * this ⟼ this + M * α
          */
-        add(M: GeometricE3, α?: number): Geometric3;
+        add(M: GeometricE3, α?: number): this;
 
         /**
          * Sets this multivector to the sum of a and b.
          *
          * this ⟼ a + b
          */
-        add2(a: GeometricE3, b: GeometricE3): Geometric3;
+        add2(a: GeometricE3, b: GeometricE3): this;
+
+        /**
+         * Adds the bivector B to this multivector.
+         */
+        addBivector(B: BivectorE3): this;
 
         /**
          * Adds the pseudoscalar coordinate to this multivector.
          */
-        addPseudo(β: number): Geometric3;
+        addPseudo(β: number): this;
 
         /**
          * Adds the scalar coordinate to this multivector.
          */
-        addScalar(α: number): Geometric3;
+        addScalar(α: number): this;
 
         /**
          * Adds v * α to this multivector where v is a vector and α is an optional scalar.
          *
          * this ⟼ this + v * α
          */
-        addVector(v: VectorE3, α?: number): Geometric3;
+        addVector(v: VectorE3, α?: number): this;
 
         /**
          * The bivector whose area (magnitude) is θ/2, where θ is the radian measure. 
          */
-        angle(): Geometric3;
+        arg(): Geometric3;
 
         /**
          *Returns a clone of this multivector.
@@ -1928,9 +1966,11 @@ declare module EIGHT {
         clone(): Geometric3;
 
         /**
-         * Sets this <em>multivector</em> to its <em>Clifford conjugate</em>.
+         * The Clifford conjugate.
+         * The multiplier for the grade x is (-1) raised to the power x * (x + 1) / 2
+         * The pattern of grades is +--++--+
          * 
-         * this ⟼ conj(this)
+         * @returns conj(this)
          */
         conj(): Geometric3;
 
@@ -1939,264 +1979,214 @@ declare module EIGHT {
          *
          * this ⟼ copy(M)
          */
-        copy(M: GeometricE3): Geometric3;
+        copy(M: GeometricE3): this;
 
         /**
          * Copies the scalar α into this multivector.
          *
          * this ⟼ copy(α)
          */
-        copyScalar(α: number): Geometric3;
+        copyScalar(α: number): this;
 
         /**
          * Copies the spinor into this multivector.
          *
          * this ⟼ copy(spinor)
          */
-        copySpinor(spinor: SpinorE3): Geometric3;
+        copySpinor(spinor: SpinorE3): this;
 
         /**
          * Copies the vector into this multivector.
          *
          * this ⟼ copyVector(vector)
          */
-        copyVector(vector: VectorE3): Geometric3;
+        copyVector(vector: VectorE3): this;
 
         /**
          * Sets this multivector to the vector cross product of this with m.
          * this ⟼ this x m
          */
-        cross(m: GeometricE3): Geometric3;
+        cross(m: GeometricE3): this;
 
         /**
-         * Normalizes this multivector by dividing it by its magnitude.
-         * this ⟼ this / magnitude(this)
+         * Computes the direction of this multivector.
          */
-        normalize(): Geometric3;
+        direction(): Geometric3;
+
+        /**
+         * Computes the distance from this point to the specified point.
+         */
+        distanceTo(point: VectorE3): number;
 
         /**
          * Sets this multivector to the result of division by another multivector.
          * 
          * this ⟼ this / m
-         * 
          */
-        div(m: GeometricE3): Geometric3;
+        div(m: GeometricE3): this;
 
         /**
-         * 
          * this ⟼ a / b
-         * 
-         * a
-         * b
          */
-        div2(a: SpinorE3, b: SpinorE3): Geometric3;
+        div2(a: SpinorE3, b: SpinorE3): this;
 
         /**
-         * 
          * this ⟼ this / α
-         * 
          */
-        divByScalar(α: number): Geometric3;
+        divByScalar(α: number): this;
 
         /**
-         * 
+         * this ⟼ this / v
+         */
+        divByVector(v: VectorE3): this;
+
+        /**
          * this ⟼ dual(m) = I * m
          * 
-         * Notice that the dual of a vector is related to the spinor by the right-hand rule.
+         * Notice that the dual of a vector is related to the bivector by the right-hand rule.
          * m The vector whose dual will be used to set this spinor.
          */
-        dual(m: VectorE3): Geometric3;
+        dual(m: VectorE3): this;
 
         /**
-         * Constructs the standard basis unit vector corresponding to the x coordinate.
+         * this ⟼ exp(this)
          */
-        e1(): Geometric3;
+        exp(): this;
 
         /**
-         * Constructs the standard basis unit vector corresponding to the y coordinate.
-         */
-        e2(): Geometric3;
-
-        /**
-         * Constructs the standard basis unit vector corresponding to the z coordinate.
-         */
-        e3(): Geometric3;
-
-        /**
-         * 
-         * this ⟼ e<sup>this</sup>
-         * 
-         */
-        exp(): Geometric3;
-
-        /**
-         * 
          * this ⟼ this ^ m
-         * 
-         * m
          */
-        ext(m: GeometricE3): Geometric3;
+        ext(m: GeometricE3): this;
 
         /**
-         * 
          * this ⟼ a ^ b
-         * 
-         * a
-         * b
          */
-        ext2(a: GeometricE3, b: GeometricE3): Geometric3;
-
-        grade(grade: number): Geometric3;
+        ext2(a: GeometricE3, b: GeometricE3): this;
 
         /**
-         * Sets this multivector to the unit pseudoscalar.
+         * this ⟼ grade(this, n)
          */
-        I(): Geometric3;
+        grade(n: number): this;
 
         /**
          * Sets this multivector to its inverse.
          * this ⟼ conj(this) / quad(this)
          */
-        inv(): Geometric3;
+        inv(): this;
 
+        /**
+         * Determins whether this multivector is exactly one.
+         */
         isOne(): boolean;
 
+        /**
+         * Determines whether this multivector is exactly zero.
+         */
         isZero(): boolean;
 
         /**
          * Sets this multivector to the left contraction with another multivector.
          * 
          * this ⟼ this << m
-         * 
-         * m
          */
-        lco(m: GeometricE3): Geometric3;
+        lco(m: GeometricE3): this;
 
         /**
          * Sets this multivector to the left contraction of two multivectors. 
          * 
          * this ⟼ a << b
-         * 
-         * a
-         * b
          */
-        lco2(a: GeometricE3, b: GeometricE3): Geometric3;
+        lco2(a: GeometricE3, b: GeometricE3): this;
 
         /**
-         * 
          * this ⟼ this + α * (target - this)
-         * 
-         * target
-         * α
          */
-        lerp(target: GeometricE3, α: number): Geometric3;
+        lerp(target: GeometricE3, α: number): this;
 
         /**
-         * 
          * this ⟼ a + α * (b - a)
-         * 
-         * a {GeometricE3}
-         * b {GeometricE3}
-         * α {number}
          */
-        lerp2(a: GeometricE3, b: GeometricE3, α: number): Geometric3;
+        lerp2(a: GeometricE3, b: GeometricE3, α: number): this;
 
         /**
-         * 
          * this ⟼ log(this)
-         * 
          */
-        log(): Geometric3;
+        log(): this;
 
         /**
-         * Computes the <em>square root</em> of the <em>squared norm</em>.
+         * magnitude(this) = sqrt(this | ~this)
          */
         magnitude(): number;
 
         /**
-         * 
-         * this ⟼ this * s
-         * 
-         * m {GeometricE3}
+         * this ⟼ this * m
          */
-        mul(m: GeometricE3): Geometric3;
+        mul(m: GeometricE3): this;
 
         /**
-         * 
          * this ⟼ a * b
-         * 
-         * a
-         * b
          */
-        mul2(a: GeometricE3, b: GeometricE3): Geometric3;
+        mul2(a: GeometricE3, b: GeometricE3): this;
 
         /**
-         * 
          * this ⟼ -1 * this
-         * 
          */
-        neg(): Geometric3;
+        neg(): this;
 
         /**
-         * 
-         * this ⟼ sqrt(this * conj(this))
-         * 
+         * this ⟼ magnitude(this) = sqrt(this * ~this)
          */
-        norm(): Geometric3;
+        norm(): this;
+
+        /**
+         * Normalizes this multivector by dividing it by its magnitude.
+         * this ⟼ this / magnitude(this)
+         */
+        normalize(): this;
 
         /**
          * Sets this multivector to the identity element for multiplication, 1.
          */
-        one(): Geometric3;
+        one(): this;
 
         /**
-         * 
-         * this ⟼ this | ~this = scp(this, rev(this))
-         * 
+         * Computes the square of the magnitude.
          */
-        quad(): Geometric3;
+        quaditude(): number;
+
+        /**
+         * Computes the distance from this point to the specified point.
+         */
+        quadranceTo(point: VectorE3): number;
 
         /**
          * Sets this multivector to the right contraction with another multivector.
          * 
          * this ⟼ this >> m
-         * 
-         * m
          */
-        rco(m: GeometricE3): Geometric3;
+        rco(m: GeometricE3): this;
 
         /**
          * Sets this multivector to the right contraction of two multivectors.
          * 
          * this ⟼ a >> b
-         * 
-         * a
-         * b
          */
-        rco2(a: GeometricE3, b: GeometricE3): Geometric3;
+        rco2(a: GeometricE3, b: GeometricE3): this;
 
         /**
-         * 
          * this ⟼ - n * this * n
-         * 
-         * n
          */
-        reflect(n: VectorE3): Geometric3;
+        reflect(n: VectorE3): this;
 
         /**
-         * 
          * this ⟼ rev(this)
-         * 
          */
-        rev(): Geometric3;
+        rev(): this;
 
         /**
-         * 
          * this ⟼ R * this * rev(R)
-         * 
-         * R
          */
-        rotate(R: SpinorE3): Geometric3;
+        rotate(R: SpinorE3): this;
 
         /**
          * Sets this multivector to a rotor that rotates through angle θ around the specified direction.
@@ -2204,7 +2194,7 @@ declare module EIGHT {
          * n: The (unit) vector defining the rotation direction.
          * θ: The rotation angle in radians when the rotor is applied on both sides as R * M * ~R
          */
-        rotorFromAxisAngle(n: VectorE3, θ: number): Geometric3;
+        rotorFromAxisAngle(n: VectorE3, θ: number): this;
 
         /**
          * Sets this multivector to a rotor representing a rotation from a to b.
@@ -2214,12 +2204,12 @@ declare module EIGHT {
          * a The <em>from</em> vector.
          * b The <em>to</em> vector.
          */
-        rotorFromDirections(a: VectorE3, b: VectorE3): Geometric3;
+        rotorFromDirections(a: VectorE3, b: VectorE3): this;
 
         /**
          * 
          */
-        rotorFromFrameToFrame(es: VectorE3[], fs: VectorE3[]): Geometric3;
+        rotorFromFrameToFrame(es: VectorE3[], fs: VectorE3[]): this;
 
         /**
          * Sets this multivector to a rotor represented by the plane B and angle θ.
@@ -2228,12 +2218,12 @@ declare module EIGHT {
          * B is the (unit) bivector generating the rotation, B * B = -1.
          * θ The rotation angle in radians.
          */
-        rotorFromGeneratorAngle(B: BivectorE3, θ: number): Geometric3;
+        rotorFromGeneratorAngle(B: BivectorE3, θ: number): this;
 
         /**
          * 
          */
-        rotorFromVectorToVector(a: VectorE3, b: VectorE3, B: BivectorE3): Geometric3;
+        rotorFromVectorToVector(a: VectorE3, b: VectorE3, B: BivectorE3): this;
 
         /**
          * 
@@ -2241,7 +2231,7 @@ declare module EIGHT {
          * 
          * α
          */
-        scale(α: number): Geometric3;
+        scale(α: number): this;
 
         /**
          * 
@@ -2249,7 +2239,7 @@ declare module EIGHT {
          * 
          * m
          */
-        scp(m: GeometricE3): Geometric3;
+        scp(m: GeometricE3): this;
 
         /**
          * 
@@ -2258,12 +2248,12 @@ declare module EIGHT {
          * a
          * b
          */
-        scp2(a: GeometricE3, b: GeometricE3): Geometric3;
+        scp2(a: GeometricE3, b: GeometricE3): this;
 
         /**
-         * Computes the <em>squared norm</em> of this multivector.
+         * this ⟼ (this | ~this) = scp(this, rev(this))
          */
-        squaredNorm(): Geometric3;
+        squaredNorm(): this;
 
         /**
          * 
@@ -2272,7 +2262,7 @@ declare module EIGHT {
          * M
          * α
          */
-        sub(M: GeometricE3, α?: number): Geometric3;
+        sub(M: GeometricE3, α?: number): this;
 
         /**
          * 
@@ -2281,14 +2271,14 @@ declare module EIGHT {
          * a
          * b
          */
-        sub2(a: GeometricE3, b: GeometricE3): Geometric3;
+        sub2(a: GeometricE3, b: GeometricE3): this;
 
         /**
          * Subtracts v * α from this multivector where v is a vector and α is an optional scalar.
          *
          * this ⟼ this - v * α
          */
-        subVector(v: VectorE3, α?: number): Geometric3;
+        subVector(v: VectorE3, α?: number): this;
 
         /**
          * Returns a string representing the number in exponential notation.
@@ -2316,53 +2306,51 @@ declare module EIGHT {
          * this ⟼ a * b
          * 
          * Sets this Geometric3 to the geometric product a * b of the vector arguments.
-         * a
-         * b
          */
-        versor(a: VectorE3, b: VectorE3): Geometric3;
-
-        wedge(m: GeometricE3): Geometric3;
+        versor(a: VectorE3, b: VectorE3): this;
 
         /**
          * Sets this multivector to the identity element for addition, 0.
          */
         zero(): Geometric3;
 
+        /**
+         * Constructs a mutable bivector with the coordinates yz, zx, and xy.
+         */
+        static bivector(yz: number, zx: number, xy: number): Geometric3;
+
+        /**
+         * Constructs a mutable multivector by copying a multivector.
+         */
         static copy(m: GeometricE3): Geometric3;
 
         /**
-         * The identity element for addition, 0.
-         * e.g.
-         * const origin = EIGHT.Geometric3.zero();
+         * Constructs a mutable multivector which is the dual of the bivector B.
          */
-        static zero(): Geometric3;
+        static dualOfBivector(B: BivectorE3): Geometric3;
 
         /**
-         * The identity element for multiplication, 1 (scalar).
-         * e.g.
-         * const one = EIGHT.Geometric3.one();
+         * Constructs a mutable multivector which is the dual of the vector v.
          */
-        static one(): Geometric3;
+        static dualOfVector(v: VectorE3): Geometric3;
 
         /**
-         * Standard Basis vector corresponding to the x coordinate.
+         * Constructs the basis vector e1 corresponding to the x coordinate.
+         * Locking the vector prevents mutation. 
          */
-        static e1(): Geometric3;
+        static e1(lock?: boolean): Geometric3;
 
         /**
-         * Basis vector corresponding to the y coordinate.
+         * Constructs the basis vector e2 corresponding to the y coordinate.
+         * Locking the vector prevents mutation. 
          */
-        static e2(): Geometric3;
+        static e2(lock?: boolean): Geometric3;
 
         /**
-         * Basis vector corresponding to the z coordinate.
+         * Constructs the basis vector e3 corresponding to the z coordinate.
+         * Locking the vector prevents mutation. 
          */
-        static e3(): Geometric3;
-
-        /**
-         * Basis vector corresponding to the β coordinate.
-         */
-        static I(): Geometric3;
+        static e3(lock?: boolean): Geometric3;
 
         /**
          * Creates a copy of a bivector.
@@ -2385,28 +2373,60 @@ declare module EIGHT {
         static fromVector(vector: VectorE3): Geometric3;
 
         /**
-         * Computes a random multivector.
+         * The identity element for multiplication, 1 (scalar).
+         * e.g.
+         * const one = EIGHT.Geometric3.one();
          */
-        static random(): Geometric3;
+        static one(lock?: boolean): Geometric3;
+
+        /**
+         * 
+         */
+        static pseudo(β: number): Geometric3;
+
+        /**
+         * Computes a multivector with random components in the range [lowerBound, upperBound].
+         */
+        static random(lowerBound?: number, upperBound?: number): Geometric3;
 
         /**
          * Computes the rotor that rotates vector a to vector b.
-         * a The <em>from</em> vector.
-         * b The <em>to</em> vector.
          */
         static rotorFromDirections(a: VectorE3, b: VectorE3): Geometric3;
 
+        /**
+         * Computes the rotor that rotates vector `a` to vector `b`.
+         * The bivector B provides the plane of rotation when `a` and `b` are anti-aligned.
+         * The result is independent of the magnitudes of `a` and `b`.
+         */
         static rotorFromVectorToVector(a: VectorE3, b: VectorE3, B: BivectorE3): Geometric3;
 
         /**
-         * Constructs a new scalar from a number
+         * Constructs a scalar from a number.
          */
         static scalar(α: number): Geometric3;
 
         /**
-         * Constructs a new vector from Cartesian coordinates
+         * Constructs a spinor from its bivector and scalar coordinates.
+         */
+        static spinor(yz: number, zx: number, xy: number, α: number): Geometric3;
+
+        /**
+         * Constructs a vector from Cartesian coordinates.
          */
         static vector(x: number, y: number, z: number): Geometric3;
+
+        /**
+         * Constructs a mutable bivector as the outer product of two vectors.
+         */
+        static wedge(a: VectorE3, b: VectorE3): Geometric3;
+
+        /**
+         * The identity element for addition, 0.
+         * e.g.
+         * const origin = EIGHT.Geometric3.zero(true);
+         */
+        static zero(lock?: boolean): Geometric3;
     }
 
     /**
@@ -2442,12 +2462,10 @@ declare module EIGHT {
 
         addScalar(α: number): Spinor3
 
-        adj(): Spinor3
-
         /**
          * The bivector whose area (magnitude) is θ/2, where θ is the radian measure. 
          */
-        angle(): Spinor3
+        arg(): Spinor3
 
         approx(n: number): Spinor3
 
@@ -2456,6 +2474,13 @@ declare module EIGHT {
          */
         clone(): Spinor3
 
+        /**
+         * The Clifford conjugate.
+         * The multiplier for the grade x is (-1) raised to the power x * (x + 1) / 2
+         * The pattern of grades is +--++--+
+         * 
+         * @returns conj(this)
+         */
         conj(): Spinor3
 
         /**
@@ -2721,7 +2746,7 @@ declare module EIGHT {
     /**
      *
      */
-    class Color {
+    class Color implements Lockable {
         /**
          * The red component of the Color. A short alias for the 'red' property.
          * The value is clamped to the range [0,1].
@@ -2755,6 +2780,11 @@ declare module EIGHT {
         blue: number;
 
         /**
+         * 
+         */
+        isLocked: boolean;
+
+        /**
          * Constructs a new Color from its red, green, and blue values.
          * Each value is clamped in the range [0,1].
          */
@@ -2763,8 +2793,10 @@ declare module EIGHT {
         clone(): Color;
         copy(color: Color): Color;
         lerp(target: Color, α: number): Color;
+        lock(): number;
         scale(α: number): Color;
         toString(): string;
+        unlock(token: number): void;
 
         static black: Color;
         static blue: Color;

@@ -1,6 +1,7 @@
 import AbstractMatrix from '../math/AbstractMatrix';
 import det2x2 from '../math/det2x2';
 import isDefined from '../checks/isDefined';
+import { lock, TargetLockedError } from '../core/Lockable';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeNumber from '../checks/mustBeNumber';
 import VectorE1 from '../math/VectorE1';
@@ -39,6 +40,9 @@ export default class Matrix2 extends AbstractMatrix<Matrix2> {
     }
 
     add(rhs: Matrix2): Matrix2 {
+        if (this.isLocked) {
+            throw new TargetLockedError('add');
+        }
         return this.add2(this, rhs);
     }
 
@@ -53,7 +57,7 @@ export default class Matrix2 extends AbstractMatrix<Matrix2> {
         const m21 = te[1];
         const m12 = te[2];
         const m22 = te[3];
-        return Matrix2.zero().set(m11, m12, m21, m22);
+        return new Matrix2(new Float32Array([0, 0, 0, 0])).set(m11, m12, m21, m22);
     }
 
     /**
@@ -299,7 +303,7 @@ export default class Matrix2 extends AbstractMatrix<Matrix2> {
 
     __add__(rhs: any): Matrix2 {
         if (rhs instanceof Matrix2) {
-            return this.clone().add(rhs);
+            return lock(this.clone().add(rhs));
         }
         // TODO: Interpret this as I * rhs?
         //        else if (typeof rhs === 'number') {
@@ -312,7 +316,7 @@ export default class Matrix2 extends AbstractMatrix<Matrix2> {
 
     __radd__(lhs: any): Matrix2 {
         if (lhs instanceof Matrix2) {
-            return lhs.clone().add(this);
+            return lock(lhs.clone().add(this));
         }
         // TODO: Interpret this as I * rhs?
         //        else if (typeof rhs === 'number') {
@@ -325,10 +329,10 @@ export default class Matrix2 extends AbstractMatrix<Matrix2> {
 
     __mul__(rhs: any): Matrix2 {
         if (rhs instanceof Matrix2) {
-            return this.clone().mul(rhs);
+            return lock(this.clone().mul(rhs));
         }
         else if (typeof rhs === 'number') {
-            return this.clone().scale(rhs);
+            return lock(this.clone().scale(rhs));
         }
         else {
             return void 0;
@@ -337,10 +341,10 @@ export default class Matrix2 extends AbstractMatrix<Matrix2> {
 
     __rmul__(lhs: any): Matrix2 {
         if (lhs instanceof Matrix2) {
-            return lhs.clone().mul(this);
+            return lock(lhs.clone().mul(this));
         }
         else if (typeof lhs === 'number') {
-            return this.clone().scale(lhs);
+            return lock(this.clone().scale(lhs));
         }
         else {
             return void 0;
@@ -348,16 +352,16 @@ export default class Matrix2 extends AbstractMatrix<Matrix2> {
     }
 
     __pos__(): Matrix2 {
-        return this.clone();
+        return lock(this.clone());
     }
 
     __neg__(): Matrix2 {
-        return this.clone().scale(-1);
+        return lock(this.clone().scale(-1));
     }
 
     __sub__(rhs: any): Matrix2 {
         if (rhs instanceof Matrix2) {
-            return this.clone().sub(rhs);
+            return lock(this.clone().sub(rhs));
         }
         // TODO: Interpret this as I * rhs?
         //        else if (typeof rhs === 'number') {
@@ -370,31 +374,21 @@ export default class Matrix2 extends AbstractMatrix<Matrix2> {
 
     __rsub__(lhs: any): Matrix2 {
         if (lhs instanceof Matrix2) {
-            return lhs.clone().sub(this);
+            return lock(lhs.clone().sub(this));
         }
         else {
             return void 0;
         }
     }
 
-    /**
-     * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
-     */
-    public static one(): Matrix2 {
-        return new Matrix2(new Float32Array([1, 0, 0, 1]));
-    }
+    static readonly one = lock(new Matrix2(new Float32Array([1, 0, 0, 1])));
 
     /**
      *
      */
     public static reflection(n: VectorE1): Matrix2 {
-        return Matrix2.zero().reflection(n);
+        return Matrix2.zero.clone().reflection(n);
     }
 
-    /**
-     * Creates a new matrix with all elements zero.
-     */
-    public static zero(): Matrix2 {
-        return new Matrix2(new Float32Array([0, 0, 0, 0]));
-    }
+    static readonly zero = lock(new Matrix2(new Float32Array([0, 0, 0, 0])));
 }

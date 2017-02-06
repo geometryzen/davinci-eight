@@ -8,15 +8,15 @@ export default class ModelE3 {
   /**
    * The name of the property that designates the attitude.
    */
-  public static PROP_ATTITUDE = 'R';
+  public static readonly PROP_ATTITUDE = 'R';
 
   /**
    * The name of the property that designates the position.
    */
-  public static PROP_POSITION = 'X';
+  public static readonly PROP_POSITION = 'X';
 
-  private _position = Geometric3.zero();
-  private _attitude = Geometric3.one();
+  private readonly _position = new Geometric3();
+  private readonly _attitude = new Geometric3().addScalar(1);
 
   /**
    * <p>

@@ -25,15 +25,15 @@ export default class Group extends ShareableBase implements GroupMember {
     /**
      * Position (vector). This is a short alias for the position property.
      */
-    public X = Geometric3.zero();
+    public X = new Geometric3();
     /**
      * Attitude (spinor). This is a short alias for the attitude property.
      */
-    public R = Geometric3.one();
+    public R = new Geometric3().addScalar(1);
     /**
      * 
      */
-    public stress = Matrix4.one();
+    public stress = Matrix4.one.clone();
     /**
      * Determines whether this group will be rendered.
      */

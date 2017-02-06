@@ -4,10 +4,10 @@ import Spinor3 from './Spinor3';
 import Vector3 from './Vector3';
 import VectorE3 from './VectorE3';
 
-const one = Geometric3.one();
-const e1 = Geometric3.vector(1, 0, 0);
-const e2 = Geometric3.vector(0, 1, 0);
-const e3 = Geometric3.vector(0, 0, 1);
+const one = Geometric3.ONE;
+const e1 = Geometric3.E1;
+const e2 = Geometric3.E2;
+const e3 = Geometric3.E3;
 const e23 = e2.clone().mul(e3);
 const e31 = e3.clone().mul(e1);
 const e12 = e1.clone().mul(e2);
@@ -56,12 +56,20 @@ describe("Geometric3", function () {
 
     describe("equals", function () {
         it("(M) should be eqial to M", function () {
-            const zero: Geometric3 = Geometric3.zero();
-            const one: Geometric3 = Geometric3.one();
+            const zero: Geometric3 = Geometric3.ZERO;
+            const one: Geometric3 = Geometric3.ONE;
             expect(zero.equals(zero)).toBe(true);
             expect(one.equals(one)).toBe(true);
             expect(zero.equals(one)).toBe(false);
             expect(one.equals(zero)).toBe(false);
+        });
+    });
+
+    describe("locking", function () {
+        const m = Geometric3.scalar(5);
+        m.lock();
+        it("", function () {
+            expect(m.isLocked).toBe(true);
         });
     });
 
@@ -106,7 +114,7 @@ describe("Geometric3", function () {
 
     describe("inv", function () {
         it("(1) should be 1", function () {
-            const one: Geometric3 = Geometric3.one();
+            const one: Geometric3 = Geometric3.ONE;
             const inv = one.clone().inv();
             expect(inv.equals(one)).toBe(true);
         });
@@ -117,51 +125,51 @@ describe("Geometric3", function () {
             expect(inv.equals(half)).toBe(true);
         });
         it("(e1) should be e1", function () {
-            const e1: Geometric3 = Geometric3.e1();
+            const e1: Geometric3 = Geometric3.E1;
             const inv = e1.clone().inv();
             expect(inv.equals(e1)).toBe(true);
         });
         it("(2 * e1) should be 0.5 * e1", function () {
-            const e1: Geometric3 = Geometric3.e1();
+            const e1: Geometric3 = Geometric3.E1;
             const inv = e1.clone().scale(2).inv();
             const halfE1 = e1.clone().scale(0.5);
             expect(inv.equals(halfE1)).toBe(true);
         });
         it("(e2) should be e2", function () {
-            const e2: Geometric3 = Geometric3.e2();
+            const e2: Geometric3 = Geometric3.E2;
             const inv = e2.clone().inv();
             expect(inv.equals(e2)).toBe(true);
         });
         it("(2 * e2) should be 0.5 * e2", function () {
-            const e2: Geometric3 = Geometric3.e2();
+            const e2: Geometric3 = Geometric3.E2;
             const inv = e2.clone().scale(2).inv();
             const halfE2 = e2.clone().scale(0.5);
             expect(inv.equals(halfE2)).toBe(true);
         });
         it("(e3) should be e3", function () {
-            const e3: Geometric3 = Geometric3.e3();
+            const e3: Geometric3 = Geometric3.E3;
             const inv = e3.clone().inv();
             expect(inv.equals(e3)).toBe(true);
         });
         it("(2 * e3) should be 0.5 * e3", function () {
-            const e3: Geometric3 = Geometric3.e3();
+            const e3: Geometric3 = Geometric3.E3;
             const inv = e3.clone().scale(2).inv();
             const halfE3 = e3.clone().scale(0.5);
             expect(inv.equals(halfE3)).toBe(true);
         });
         it("(I) should be -I", function () {
-            const e1: Geometric3 = Geometric3.e1();
-            const e2: Geometric3 = Geometric3.e2();
-            const e3: Geometric3 = Geometric3.e3();
+            const e1: Geometric3 = Geometric3.E1;
+            const e2: Geometric3 = Geometric3.E2;
+            const e3: Geometric3 = Geometric3.E3;
             const I = e1.clone().mul(e2).mul(e3);
             const inv = I.clone().inv();
             const minusI = I.clone().neg();
             expect(inv.equals(minusI)).toBe(true);
         });
         it("(2 * I) should be -0.5 * I", function () {
-            const e1: Geometric3 = Geometric3.e1();
-            const e2: Geometric3 = Geometric3.e2();
-            const e3: Geometric3 = Geometric3.e3();
+            const e1: Geometric3 = Geometric3.E1;
+            const e2: Geometric3 = Geometric3.E2;
+            const e3: Geometric3 = Geometric3.E3;
             const I = e1.clone().mul(e2).mul(e3);
             const inv = I.clone().scale(2).inv();
             const minusHalfI = I.clone().neg().scale(0.5);
@@ -171,10 +179,10 @@ describe("Geometric3", function () {
 
     describe("maskG3", function () {
         it("0 => 0x0", function () {
-            expect(Geometric3.zero().maskG3).toBe(0x0);
+            expect(Geometric3.ZERO.maskG3).toBe(0x0);
         });
         it("1 => 0x1", function () {
-            expect(Geometric3.one().maskG3).toBe(0x1);
+            expect(Geometric3.ONE.maskG3).toBe(0x1);
         });
         it("e1 => 0x2", function () {
             expect(e1.maskG3).toBe(0x2);
@@ -531,7 +539,7 @@ describe("Geometric3", function () {
         });
         describe("(2  e1 ^ e2, PI/2)", function () {
             const B = e1.clone().ext(e2).scale(2);
-            const R = Geometric3.one().addVector(e1).addVector(e2).addVector(e3).addPseudo(1).add(B);
+            const R = Geometric3.scalar(1).addVector(e1).addVector(e2).addVector(e3).addPseudo(1).add(B);
             R.rotorFromGeneratorAngle(B, Math.PI / 2);
             R.approx(12);
             it("shoud equal e2 ^ e1", function () {

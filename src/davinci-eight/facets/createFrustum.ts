@@ -16,7 +16,7 @@ export default function createFrustum(viewMatrixName: string, projectionMatrixNa
     const near: Vector1 = new Vector1();
     const far: Vector1 = new Vector1();
 
-    const projectionMatrix: Matrix4 = Matrix4.one();
+    const projectionMatrix: Matrix4 = Matrix4.one.clone();
 
     function updateProjectionMatrix() {
         projectionMatrix.frustum(left.x, right.x, bottom.x, top.x, near.x, far.x);

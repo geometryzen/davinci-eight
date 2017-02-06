@@ -21,7 +21,7 @@ export default class PrimitivesBuilder {
     /**
      * The rotation to apply to the geometry (after the stress has been applied).
      */
-    public tilt = Spinor3.one();
+    public tilt = Spinor3.one.clone();
 
     /**
      * The translation to apply to the geometry (after tilt has been applied).

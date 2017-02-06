@@ -2,7 +2,7 @@ import isDefined from '../checks/isDefined';
 import isNull from '../checks/isNull';
 import isUndefined from '../checks/isUndefined';
 
-export default function (a: any[], b: any[]): boolean {
+export default function arraysEQ<T>(a: T[], b: T[]): boolean {
   if (isDefined(a)) {
     if (isDefined(b)) {
       if (!isNull(a)) {

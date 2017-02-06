@@ -40,7 +40,7 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
      * Scratch variable for intermediate calculation value.
      * This can probably be raised to a module level constant.
      */
-    private readonly canonicalScale = Matrix4.one();
+    private readonly canonicalScale = Matrix4.one.clone();
     /**
      * The rotation matrix equivalent to the initial tilt spinor.
      */
@@ -81,9 +81,9 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
         const tilt = Geometric3.rotorFromFrameToFrame([canonicalAxis, canonicalMeridian, canonicalAxis.cross(canonicalMeridian)], [this.referenceAxis, this.referenceMeridian, this.referenceAxis.cross(this.referenceMeridian)]);
         if (tilt && !Spinor3.isOne(tilt)) {
             this.Kidentity = false;
-            this.K = Matrix4.one();
+            this.K = Matrix4.one.clone();
             this.K.rotation(tilt);
-            this.Kinv = Matrix4.one();
+            this.Kinv = Matrix4.one.clone();
             this.Kinv.copy(this.K).inv();
         }
         else {

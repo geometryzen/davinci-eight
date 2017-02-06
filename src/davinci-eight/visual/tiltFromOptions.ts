@@ -27,6 +27,6 @@ export default function tiltFromOptions(options: { axis?: VectorE3; tilt?: Spino
         return simplify(Geometric3.rotorFromDirections(canonical, axis));
     }
     else {
-        return simplify(Geometric3.one());
+        return simplify(Geometric3.ONE);
     }
 }

@@ -45,7 +45,7 @@ export default function createView(options: { viewMatrixName?: string } = {}): V
     /**
      *
      */
-    const viewMatrix: Matrix4 = Matrix4.one();
+    const viewMatrix: Matrix4 = Matrix4.one.clone();
     const viewMatrixName = isUndefined(options.viewMatrixName) ? GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX : options.viewMatrixName;
 
     // Force an update of the view matrix.

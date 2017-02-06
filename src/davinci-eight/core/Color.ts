@@ -1,6 +1,7 @@
 import clamp from '../math/clamp';
 import { Coords } from '../math/Coords';
 import isDefined from '../checks/isDefined';
+import { TargetLockedError } from '../core/Lockable';
 import Matrix3 from '../math/Matrix3';
 import mustBeArray from '../checks/mustBeArray';
 import mustBeGE from '../checks/mustBeGE';
@@ -29,47 +30,47 @@ export class Color extends Coords {
     /**
      *
      */
-    public static black = new Color(0, 0, 0);
+    static readonly black = new Color(0, 0, 0);
 
     /**
      *
      */
-    public static blue = new Color(0, 0, 1);
+    static readonly blue = new Color(0, 0, 1);
 
     /**
      *
      */
-    public static green = new Color(0, 1, 0);
+    static readonly green = new Color(0, 1, 0);
 
     /**
      *
      */
-    public static cyan = new Color(0, 1, 1);
+    static readonly cyan = new Color(0, 1, 1);
 
     /**
      *
      */
-    public static red = new Color(1, 0, 0);
+    static readonly red = new Color(1, 0, 0);
 
     /**
      *
      */
-    public static magenta = new Color(1, 0, 1);
+    static readonly magenta = new Color(1, 0, 1);
 
     /**
      *
      */
-    public static yellow = new Color(1, 1, 0);
+    static readonly yellow = new Color(1, 1, 0);
 
     /**
      *
      */
-    public static white = new Color(1, 1, 1);
+    static readonly white = new Color(1, 1, 1);
 
     /**
      *
      */
-    public static gray = new Color(0.5, 0.5, 0.5);
+    static readonly gray = new Color(0.5, 0.5, 0.5);
 
     public static blueviolet: Color;
     public static cobalt: Color;
@@ -100,12 +101,18 @@ export class Color extends Coords {
         return this.coords[COORD_R];
     }
     set r(r: number) {
+        if (this.isLocked) {
+            throw new TargetLockedError('r');
+        }
         this.coords[COORD_R] = clamp(r, 0, 1);
     }
     get red(): number {
         return this.coords[COORD_R];
     }
     set red(red: number) {
+        if (this.isLocked) {
+            throw new TargetLockedError('red');
+        }
         this.coords[COORD_R] = clamp(red, 0, 1);
     }
 
@@ -116,12 +123,18 @@ export class Color extends Coords {
         return this.coords[COORD_G];
     }
     set g(g: number) {
+        if (this.isLocked) {
+            throw new TargetLockedError('g');
+        }
         this.coords[COORD_G] = clamp(g, 0, 1);
     }
     get green(): number {
         return this.coords[COORD_G];
     }
     set green(green: number) {
+        if (this.isLocked) {
+            throw new TargetLockedError('green');
+        }
         this.coords[COORD_G] = clamp(green, 0, 1);
     }
 
@@ -132,12 +145,18 @@ export class Color extends Coords {
         return this.coords[COORD_B];
     }
     set b(b: number) {
+        if (this.isLocked) {
+            throw new TargetLockedError('b');
+        }
         this.coords[COORD_B] = clamp(b, 0, 1);
     }
     get blue(): number {
         return this.coords[COORD_B];
     }
     set blue(blue: number) {
+        if (this.isLocked) {
+            throw new TargetLockedError('blue');
+        }
         this.coords[COORD_B] = clamp(blue, 0, 1);
     }
 
@@ -228,10 +247,6 @@ export class Color extends Coords {
         this.r = this.r * α;
         this.g = this.g * α;
         this.b = this.b * α;
-        return this;
-    }
-
-    public slerp(target: { r: number; g: number; b: number }, α: number): Color {
         return this;
     }
 
@@ -400,6 +415,15 @@ export class Color extends Coords {
         return Color.fromRGB(Math.random(), Math.random(), Math.random());
     }
 }
+
+Color.black.lock();
+Color.blue.lock();
+Color.green.lock();
+Color.cyan.lock();
+Color.red.lock();
+Color.magenta.lock();
+Color.yellow.lock();
+Color.white.lock();
 
 export default Color;
 

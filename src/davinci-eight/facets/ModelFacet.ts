@@ -15,12 +15,12 @@ export class ModelFacet extends ModelE3 implements Facet {
     /**
      * @default diag(1, 1, 1, 1)
      */
-    private matS: Matrix4 = Matrix4.one();
+    private matS: Matrix4 = Matrix4.one.clone();
 
-    private _matM = Matrix4.one();
-    private _matN = Matrix3.one();
-    private matR = Matrix4.one();
-    private matT = Matrix4.one();
+    private _matM = Matrix4.one.clone();
+    private _matN = Matrix3.one.clone();
+    private matR = Matrix4.one.clone();
+    private matT = Matrix4.one.clone();
 
     /**
      * <p>

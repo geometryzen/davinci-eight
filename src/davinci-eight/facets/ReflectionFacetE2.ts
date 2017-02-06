@@ -16,7 +16,7 @@ export default class ReflectionFacetE2 implements Facet {
     /**
      * 
      */
-    private matrix = Matrix2.one();
+    private matrix = Matrix2.one.clone();
     private name: string;
 
     /**

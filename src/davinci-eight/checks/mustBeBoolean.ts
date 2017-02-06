@@ -1,7 +1,7 @@
 import mustSatisfy from '../checks/mustSatisfy';
 import isBoolean from '../checks/isBoolean';
 
-function beBoolean() {
+function beBoolean(): string {
     return "be `boolean`";
 }
 

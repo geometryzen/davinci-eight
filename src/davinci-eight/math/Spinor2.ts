@@ -1,5 +1,6 @@
 import { Coords } from '../math/Coords';
 import dotVectorCartesian from '../math/dotVectorCartesianE2';
+import { lock, TargetLockedError } from '../core/Lockable';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeObject from '../checks/mustBeObject';
@@ -48,6 +49,9 @@ export default class Spinor2 extends Coords implements SpinorE2 {
         return this.coords[COORD_PSEUDO];
     }
     set xy(xy: number) {
+        if (this.isLocked) {
+            throw new TargetLockedError('xy');
+        }
         mustBeNumber('xy', xy);
         this.modified = this.modified || this.xy !== xy;
         this.coords[COORD_PSEUDO] = xy;
@@ -60,6 +64,9 @@ export default class Spinor2 extends Coords implements SpinorE2 {
         return this.coords[COORD_SCALAR];
     }
     set a(α: number) {
+        if (this.isLocked) {
+            throw new TargetLockedError('a');
+        }
         mustBeNumber('α', α);
         this.modified = this.modified || this.a !== α;
         this.coords[COORD_SCALAR] = α;
@@ -72,6 +79,9 @@ export default class Spinor2 extends Coords implements SpinorE2 {
         return this.coords[COORD_PSEUDO];
     }
     set b(b: number) {
+        if (this.isLocked) {
+            throw new TargetLockedError('b');
+        }
         mustBeNumber('b', b);
         this.modified = this.modified || this.b !== b;
         this.coords[COORD_PSEUDO] = b;
@@ -128,16 +138,9 @@ export default class Spinor2 extends Coords implements SpinorE2 {
     }
 
     /**
-     *
+     * arg(A) = grade(log(A), 2)
      */
-    adj() {
-        throw new Error('TODO: Spinor2.adj');
-    }
-
-    /**
-     *
-     */
-    angle() {
+    arg(): Spinor2 {
         return this.log().grade(2);
     }
 
@@ -159,9 +162,11 @@ export default class Spinor2 extends Coords implements SpinorE2 {
     }
 
     /**
-     * this ⟼ (w, -B)
-     *
-     * @return this
+     * The Clifford conjugate.
+     * The multiplier for the grade x is (-1) raised to the power x * (x + 1) / 2
+     * The pattern of grades is +--++--+
+     * 
+     * @returns conj(this)
      */
     conj() {
         this.xy = -this.xy;
@@ -302,7 +307,7 @@ export default class Spinor2 extends Coords implements SpinorE2 {
      */
     inv() {
         this.conj();
-        this.divByScalar(this.squaredNormSansUnits());
+        this.divByScalar(this.quaditude());
         return this;
     }
 
@@ -342,7 +347,6 @@ export default class Spinor2 extends Coords implements SpinorE2 {
      * @return {Spinor2} <code>this</code>
      * @chainable
      */
-    // FIXME: Should really be slerp?
     lerp(target: SpinorE2, α: number) {
         var Vector2 = Spinor2.copy(target);
         var Vector1 = this.clone();
@@ -371,26 +375,28 @@ export default class Spinor2 extends Coords implements SpinorE2 {
     }
 
     /**
-     * <p>
-     * <code>this ⟼ log(this)</code>
-     * </p>
-     * @method log
-     * @return {Spinor2} <code>this</code>
-     * @chainable
+     * this ⟼ log(this)
+     * 
+     * @returns log(this)
      */
-    log() {
-        // FIXME: This is wrong see Geometric2.
-        const w = this.a;
-        const z = this.xy;
-        // FIXME: DRY
-        const bb = z * z;
-        const Vector2 = sqrt(bb);
-        const R0 = abs(w);
-        const R = sqrt(w * w + bb);
-        this.a = log(R);
-        const f = atan2(Vector2, R0) / Vector2;
-        this.xy = z * f;
-        return this;
+    log(): Spinor2 {
+        if (this.isLocked) {
+            return lock(this.clone().log());
+        }
+        else {
+            // FIXME: This is wrong see Geometric2.
+            const w = this.a;
+            const z = this.xy;
+            // FIXME: DRY
+            const bb = z * z;
+            const Vector2 = sqrt(bb);
+            const R0 = abs(w);
+            const R = sqrt(w * w + bb);
+            this.a = log(R);
+            const f = atan2(Vector2, R0) / Vector2;
+            this.xy = z * f;
+            return this;
+        }
     }
 
     /**
@@ -405,11 +411,7 @@ export default class Spinor2 extends Coords implements SpinorE2 {
      * @return {number}
      */
     magnitude(): number {
-        return sqrt(this.squaredNormSansUnits());
-    }
-
-    magnitudeSansUnits(): number {
-        return sqrt(this.squaredNormSansUnits());
+        return sqrt(this.quaditude());
     }
 
     /**
@@ -465,7 +467,7 @@ export default class Spinor2 extends Coords implements SpinorE2 {
      * @chainable
      */
     norm(): Spinor2 {
-        const norm = this.magnitudeSansUnits();
+        const norm = this.magnitude();
         return this.zero().addScalar(norm);
     }
 
@@ -478,7 +480,7 @@ export default class Spinor2 extends Coords implements SpinorE2 {
      * @chainable
      */
     normalize(): Spinor2 {
-        const modulus = this.magnitudeSansUnits();
+        const modulus = this.magnitude();
         this.xy = this.xy / modulus;
         this.a = this.a / modulus;
         return this;
@@ -500,16 +502,10 @@ export default class Spinor2 extends Coords implements SpinorE2 {
     }
 
     /**
-     * <p>
-     * <code>this ⟼ this * conj(this)</code>
-     * </p>
-     * @method quad
-     * @return {Spinor2} <code>this</code>
-     * @chainable
+     * @returns The square of the magnitude.
      */
-    quad(): Spinor2 {
-        const squaredNorm = this.squaredNormSansUnits();
-        return this.zero().addScalar(squaredNorm);
+    quaditude(): number {
+        return quadSpinor(this);
     }
 
     sin(): Spinor2 {
@@ -521,18 +517,16 @@ export default class Spinor2 extends Coords implements SpinorE2 {
     }
 
     /**
-     * @method squaredNorm
-     * @return {number}
+     * <p>
+     * <code>this ⟼ this * conj(this)</code>
+     * </p>
+     * @method quad
+     * @return {Spinor2} <code>this</code>
+     * @chainable
      */
-    squaredNorm(): number {
-        return this.squaredNormSansUnits();
-    }
-
-    /**
-     * Intentionally undocumented.
-     */
-    squaredNormSansUnits(): number {
-        return quadSpinor(this);
+    squaredNorm(): Spinor2 {
+        const squaredNorm = this.quaditude();
+        return this.zero().addScalar(squaredNorm);
     }
 
     rco(rhs: SpinorE2): Spinor2 {
@@ -626,6 +620,7 @@ export default class Spinor2 extends Coords implements SpinorE2 {
     scp(rhs: SpinorE2): Spinor2 {
         return this.scp2(this, rhs);
     }
+
     scp2(a: SpinorE2, b: SpinorE2): Spinor2 {
         // FIXME: How to leverage? Maybe break up? Don't want performance hit.
         // scpG2(a, b, this)
@@ -643,17 +638,6 @@ export default class Spinor2 extends Coords implements SpinorE2 {
         mustBeNumber('α', α);
         this.xy *= α;
         this.a *= α;
-        return this;
-    }
-
-    slerp(target: SpinorE2, α: number): Spinor2 {
-        const Vector2 = Spinor2.copy(target);
-        const Vector1 = this.clone();
-        const R = Vector2.mul(Vector1.inv());
-        R.log();
-        R.scale(α);
-        R.exp();
-        this.copy(R);
         return this;
     }
 
@@ -719,17 +703,20 @@ export default class Spinor2 extends Coords implements SpinorE2 {
         return this;
     }
 
-    grade(grade: number): Spinor2 {
-        mustBeInteger('grade', grade);
-        switch (grade) {
+    grade(i: number): Spinor2 {
+        if (this.isLocked) {
+            return lock(this.clone().grade(i));
+        }
+        mustBeInteger('i', i);
+        switch (i) {
             case 0: {
                 this.xy = 0;
-            }
                 break;
+            }
             case 2: {
                 this.a = 0;
-            }
                 break;
+            }
             default: {
                 this.a = 0;
                 this.xy = 0;

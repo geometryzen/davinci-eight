@@ -21,7 +21,7 @@ const STRIDE = BYTES_PER_FLOAT * FLOATS_PER_VERTEX;
  * 
  */
 class TrackGeometry implements Geometry {
-    scaling = Matrix4.one();
+    scaling = Matrix4.one.clone();
     private data: Float32Array;
     private count = 0;
     private N = 2;

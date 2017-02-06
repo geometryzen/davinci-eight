@@ -40,8 +40,8 @@ export class TrackballControls extends ViewControls {
   /**
    * The bivector for a rotation.
    */
-  private B = Spinor3.zero();
-  private rotor = Spinor3.one();
+  private B = Spinor3.zero.clone();
+  private rotor = Spinor3.one.clone();
   private mouseChange = new Vector2();
   private pan = new Vector3();
   private objectUp = new Vector3();

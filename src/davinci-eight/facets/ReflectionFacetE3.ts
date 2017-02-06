@@ -14,7 +14,7 @@ export default class ReflectionFacetE3 implements Facet {
      */
     public _normal: Geometric3;
 
-    private matrix = Matrix4.one();
+    private matrix = Matrix4.one.clone();
     private name: string;
 
     /**
@@ -23,7 +23,7 @@ export default class ReflectionFacetE3 implements Facet {
     constructor(name: string) {
         this.name = mustBeString('name', name);
         // The mathematics of the reflection causes a zero vector to be the identity transformation.
-        this._normal = Geometric3.zero();
+        this._normal = new Geometric3();
         this._normal.modified = true;
     }
 

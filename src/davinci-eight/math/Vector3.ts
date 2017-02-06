@@ -2,6 +2,7 @@ import BivectorE3 from './BivectorE3';
 import { Coords } from './Coords';
 import VectorE3 from './VectorE3';
 import dotVectorE3 from './dotVectorE3';
+import { lock, TargetLockedError } from '../core/Lockable';
 import Matrix3 from './Matrix3';
 import Matrix4 from './Matrix4';
 import isDefined from '../checks/isDefined';
@@ -34,66 +35,65 @@ function coordinates(m: VectorE3): number[] {
 export default class Vector3 extends Coords {
 
     /**
-     * @method dot
-     * @param a {VectorE3}
-     * @param b {VectorE3}
-     * @return {number}
-     * @static
+     * @param a
+     * @param b
      */
     public static dot(a: VectorE3, b: VectorE3): number {
         return a.x * b.x + a.y * b.y + a.z * b.z;
     }
 
     /**
-     * @class Vector3
-     * @constructor
-     * @param [data = [0, 0, 0]] {number[]}
-     * @param modified [boolean = false]
+     * @param coords
+     * @param modified
      */
-    constructor(data: number[] = [0, 0, 0], modified = false) {
-        super(data, modified, 3);
+    constructor(coords: number[] = [0, 0, 0], modified = false) {
+        super(coords, modified, 3);
     }
 
     /**
-     * @property x
-     * @type {number}
+     * The coordinate corresponding to the e1 basis vector.
      */
     get x(): number {
         return this.coords[COORD_X];
     }
     set x(value: number) {
+        if (this.isLocked) {
+            throw new TargetLockedError('set x');
+        }
         this.modified = this.modified || this.x !== value;
         this.coords[COORD_X] = value;
     }
 
     /**
-     * @property y
-     * @type Number
+     * The coordinate corresponding to the e2 basis vector.
      */
     get y(): number {
         return this.coords[COORD_Y];
     }
     set y(value: number) {
+        if (this.isLocked) {
+            throw new TargetLockedError('set y');
+        }
         this.modified = this.modified || this.y !== value;
         this.coords[COORD_Y] = value;
     }
 
     /**
-     * @property z
-     * @type Number
+     * The coordinate corresponding to the e3 basis vector.
      */
     get z(): number {
         return this.coords[COORD_Z];
     }
     set z(value: number) {
+        if (this.isLocked) {
+            throw new TargetLockedError('set z');
+        }
         this.modified = this.modified || this.z !== value;
         this.coords[COORD_Z] = value;
     }
 
     /**
-     * @property maskG3
-     * @type number
-     * @readOnly
+     *
      */
     get maskG3(): number {
         return this.isZero() ? 0x0 : 0x2;
@@ -549,15 +549,6 @@ export default class Vector3 extends Coords {
     }
 
     /**
-     * @method slerp
-     * @param target {VectorE3}
-     * @param α {number}
-     */
-    slerp(target: VectorE3, α: number) {
-        return this;
-    }
-
-    /**
      * Returns the (Euclidean) inner product of this vector with itself.
      *
      * @method squaredNorm
@@ -646,7 +637,7 @@ export default class Vector3 extends Coords {
 
     __add__(rhs: Vector3): Vector3 {
         if (rhs instanceof Vector3) {
-            return this.clone().add(rhs, 1.0);
+            return lock(this.clone().add(rhs, 1.0));
         }
         else {
             return void 0;
@@ -655,7 +646,7 @@ export default class Vector3 extends Coords {
 
     __radd__(lhs: Vector3): Vector3 {
         if (lhs instanceof Vector3) {
-            return lhs.clone().add(this, 1.0);
+            return lock(lhs.clone().add(this, 1.0));
         }
         else {
             return void 0;
@@ -664,7 +655,7 @@ export default class Vector3 extends Coords {
 
     __sub__(rhs: Vector3): Vector3 {
         if (rhs instanceof Vector3) {
-            return this.clone().sub(rhs);
+            return lock(this.clone().sub(rhs));
         }
         else {
             return void 0;
@@ -673,7 +664,7 @@ export default class Vector3 extends Coords {
 
     __rsub__(lhs: Vector3): Vector3 {
         if (lhs instanceof Vector3) {
-            return lhs.clone().sub(this, 1.0);
+            return lock(lhs.clone().sub(this, 1.0));
         }
         else {
             return void 0;
@@ -682,7 +673,7 @@ export default class Vector3 extends Coords {
 
     __mul__(rhs: number): Vector3 {
         if (isNumber(rhs)) {
-            return this.clone().scale(rhs);
+            return lock(this.clone().scale(rhs));
         }
         else {
             return void 0;
@@ -691,10 +682,10 @@ export default class Vector3 extends Coords {
 
     __rmul__(lhs: number | Matrix3): Vector3 {
         if (typeof lhs === 'number') {
-            return this.clone().scale(lhs);
+            return lock(this.clone().scale(lhs));
         }
         else if (lhs instanceof Matrix3) {
-            return this.clone().applyMatrix(lhs);
+            return lock(this.clone().applyMatrix(lhs));
         }
         else {
             return void 0;
@@ -703,7 +694,7 @@ export default class Vector3 extends Coords {
 
     __div__(rhs: number): Vector3 {
         if (isNumber(rhs)) {
-            return this.clone().divByScalar(rhs);
+            return lock(this.clone().divByScalar(rhs));
         }
         else {
             return void 0;
@@ -715,11 +706,11 @@ export default class Vector3 extends Coords {
     }
 
     __pos__(): Vector3 {
-        return Vector3.copy(this);
+        return lock(Vector3.copy(this));
     }
 
     __neg__(): Vector3 {
-        return Vector3.copy(this).neg();
+        return lock(Vector3.copy(this).neg());
     }
 
     /**

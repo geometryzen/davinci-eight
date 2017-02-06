@@ -1,6 +1,7 @@
 import AbstractMatrix from '../math/AbstractMatrix';
 import det4x4 from './det4x4';
 import inv4x4 from '../math/inv4x4';
+import { lock, TargetLockedError } from '../core/Lockable';
 import mul4x4 from '../math/mul4x4';
 import perspectiveArray from '../facets/perspectiveArray';
 import SpinorE3 from '../math/SpinorE3';
@@ -40,14 +41,11 @@ function add4x4(a: Float32Array, b: Float32Array, c: Float32Array): void {
 }
 
 /**
- * <p>
  * A 4x4 (square) matrix of numbers.
- * </p>
- * <p>
- * An adapter for a <code>Float32Array</code>.
- * </p>
+ *
+ * An adapter for a `Float32Array`.
  */
-export default class Matrix4 extends AbstractMatrix<Matrix4> {
+export class Matrix4 extends AbstractMatrix<Matrix4> {
 
     // The correspondence between the elements property index and the matrix entries is...
     //
@@ -63,71 +61,52 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
     }
 
     /**
-     * <p>
-     * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
-     * </p>
+     * The identity matrix for multiplication, 1.
+     * The matrix is locked (immutable), but may be cloned.
      */
-    public static one() {
-        return new Matrix4(new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]));
-    }
+    static readonly one = lock(new Matrix4(new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1])));
 
     /**
-     * <p>
-     * Creates a new matrix with all elements zero.
-     * </p>
+     * The identity matrix for addition, 0.
+     * The matrix is locked (immutable), but may be cloned.
      */
-    public static zero() {
-        return new Matrix4(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]));
-    }
+    static readonly zero = lock(new Matrix4(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])));
 
     /**
-     * @method scaling
-     * @param scale {VectorE3}
-     * @return {Matrix4}
-     * @chainable
-     * @static
+     * Constructs a 4x4 matrix that performs the scaling specified by the vector.
      */
     public static scaling(scale: VectorE3): Matrix4 {
-        return Matrix4.one().scaling(scale);
+        return Matrix4.one.clone().scaling(scale);
     }
 
     /**
-     * @method translation
-     * @param vector {VectorE3}
-     * @return {Matrix4}
-     * @chainable
-     * @static
+     * Constructs a 4x4 matrix that performs the translation specified by the vector.
      */
     public static translation(vector: VectorE3): Matrix4 {
-        return Matrix4.one().translation(vector);
+        return Matrix4.one.clone().translation(vector);
     }
 
     /**
-     * @method rotation
-     * @param spinor {SpinorE3}
-     * @return {Matrix4}
-     * @chainable
-     * @static
+     * Constructs a 4x4 matrix that performs the rotation specified by the spinor.
      */
     public static rotation(spinor: SpinorE3): Matrix4 {
-        return Matrix4.one().rotation(spinor);
+        return Matrix4.one.clone().rotation(spinor);
     }
 
     /**
-     * Sets this matrix to (this + rhs).
+     * Sets this matrix to `this + rhs`.
      */
-    add(rhs: Matrix4): Matrix4 {
+    add(rhs: Matrix4): this {
+        if (this.isLocked) {
+            throw new TargetLockedError('add');
+        }
         return this.add2(this, rhs);
     }
 
     /**
-     * @method add2
-     * @param a {Matrix4}
-     * @param b {Matrix4}
-     * @return {Matrix4}
-     * @chainable
+     * Sets this matrix to `a + b`.
      */
-    add2(a: Matrix4, b: Matrix4): Matrix4 {
+    add2(a: Matrix4, b: Matrix4): this {
         add4x4(a.elements, b.elements, this.elements);
         return this;
     }
@@ -136,74 +115,54 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
      * Returns a copy of this Matrix4 instance.
      */
     clone(): Matrix4 {
-        return Matrix4.zero().copy(this);
+        return new Matrix4(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])).copy(this);
     }
 
     /**
-     * @method compose
-     * @param scale {VectorE3}
-     * @param attitude {SpinorE3}
-     * @param position {VectorE3}
-     * @return {Matrix4}
-     * @chainable
+     * Sets this matrix to perform the specified scaling, rotation, and translation.
      */
-    compose(scale: VectorE3, attitude: SpinorE3, position: VectorE3): Matrix4 {
-        // We 
-        // this.one();
-        // this.scale(scale);
-        this.scaling(scale);
-        this.rotate(attitude);
-        this.translate(position);
+    compose(S: VectorE3, R: SpinorE3, T: VectorE3): this {
+        this.scaling(S);
+        this.rotate(R);
+        this.translate(T);
         return this;
     }
 
     /**
-     * @method copy
-     * @param m {Matrix4}
-     * @return {Matrix4}
-     * @chainable
+     * Copies the specified matrix into this matrix.
      */
-    copy(m: Matrix4): Matrix4 {
+    copy(m: Matrix4): this {
         this.elements.set(m.elements);
         return this;
     }
 
     /**
      * Computes the determinant.
-     * @method det
-     * @return {number}
      */
     det(): number {
         return det4x4(this.elements);
     }
 
     /**
-     * @method inv
-     * @return {Matrix4}
+     * Sets the elements of this matrix to that of its inverse.
      */
-    inv(): Matrix4 {
+    inv(): this {
         inv4x4(this.elements, this.elements);
         return this;
     }
 
     /**
      * Sets this matrix to the identity element for multiplication, <b>1</b>.
-     * @method one
-     * @return {Matrix4}
-     * @chainable
      */
-    one(): Matrix4 {
+    one(): this {
         return this.set(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
     }
 
     /**
-     * @method scale
-     * @param s {number}
-     * @return {Matrix4}
-     * @chainable
+     * Multiplies all elements of this matrix by the specified value.
      */
-    scale(s: number): Matrix4 {
-        let te = this.elements;
+    scale(s: number): this {
+        const te = this.elements;
         te[0] *= s; te[4] *= s; te[8] *= s; te[12] *= s;
         te[1] *= s; te[5] *= s; te[9] *= s; te[13] *= s;
         te[2] *= s; te[6] *= s; te[10] *= s; te[14] *= s;
@@ -212,13 +171,11 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
     }
 
     /**
-     * @method transpose
-     * @return {Matrix4}
-     * @chainable
+     * Sets this matrix to its transpose.
      */
-    transpose(): Matrix4 {
-        let te: Float32Array = this.elements;
-        var tmp: number;
+    transpose(): this {
+        const te: Float32Array = this.elements;
+        let tmp: number;
 
         tmp = te[1]; te[1] = te[4]; te[4] = tmp;
         tmp = te[2]; te[2] = te[8]; te[8] = tmp;
@@ -232,17 +189,14 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
     }
 
     /**
-     * @method frustum
-     * @param left {number}
-     * @param right {number}
-     * @param bottom {number}
-     * @param top {number}
-     * @param near {number}
-     * @param far {number}
-     * @return {Matrix4}
-     * @chainable
+     * @param left
+     * @param right
+     * @param bottom
+     * @param top
+     * @param near
+     * @param far
      */
-    frustum(left: number, right: number, bottom: number, top: number, near: number, far: number): Matrix4 {
+    frustum(left: number, right: number, bottom: number, top: number, near: number, far: number): this {
         let te = this.elements;
         let x = 2 * near / (right - left);
         let y = 2 * near / (top - bottom);
@@ -265,7 +219,7 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
      * This is the matrix that may be applied to points in the truncated viewing pyramid.
      * The resulting points then lie in the image space (cube).
      */
-    perspective(fov: number, aspect: number, near: number, far: number): Matrix4 {
+    perspective(fov: number, aspect: number, near: number, far: number): this {
         perspectiveArray(fov, aspect, near, far, this.elements);
         return this;
     }
@@ -274,15 +228,15 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
      * @param axis
      * @param angle
      */
-    rotationAxis(axis: VectorE3, angle: number) {
+    rotationAxis(axis: VectorE3, angle: number): this {
 
         // Based on http://www.gamedev.net/reference/articles/article1199.asp
 
-        let c = Math.cos(angle);
-        let s = Math.sin(angle);
-        let t = 1 - c;
-        let x = axis.x, y = axis.y, z = axis.z;
-        let tx = t * x, ty = t * y;
+        const c = Math.cos(angle);
+        const s = Math.sin(angle);
+        const t = 1 - c;
+        const x = axis.x, y = axis.y, z = axis.z;
+        const tx = t * x, ty = t * y;
 
         return this.set(
             tx * x + c, tx * y - s * z, tx * z + s * y, 0,
@@ -293,49 +247,36 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
     }
 
     /**
-     * @method mul
-     * @param rhs {Matrix4}
-     * @return {Matrix4}
-     * @chainable
+     *
      */
-    mul(rhs: Matrix4): Matrix4 {
+    mul(rhs: Matrix4): this {
         return this.mul2(this, rhs);
     }
 
     /**
-     * @method mul2
-     * @param a {Matrix4}
-     * @param b {Matrix4}
-     * @return {Matrix4}
-     * @chainable
+     *
      */
-    mul2(a: Matrix4, b: Matrix4): Matrix4 {
+    mul2(a: Matrix4, b: Matrix4): this {
         mul4x4(a.elements, b.elements, this.elements);
         return this;
     }
 
     /**
-     * @method rmul
-     * @param lhs {Matrix4}
-     * @return {Matrix4}
-     * @chainable
+     *
      */
-    rmul(lhs: Matrix4): Matrix4 {
+    rmul(lhs: Matrix4): this {
         return this.mul2(lhs, this);
     }
 
     /**
      * Sets this matrix to the transformation for a
      * reflection in the plane normal to the unit vector <code>n</code>.
-     * <p>
-     * <code>this ⟼ reflection(n)</code>
-     * </p>
-     * @method reflection
-     * @param n {VectorE3}
-     * @return {Matrix4}
-     * @chainable
+     *
+     * this ⟼ reflection(n)
+     *
+     * @param n
      */
-    reflection(n: VectorE3): Matrix4 {
+    reflection(n: VectorE3): this {
         const nx = n.x;
         const ny = n.y;
         const nz = n.z;
@@ -358,15 +299,11 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
     }
 
     /**
-     * <p>
-     * <code>this ⟼ rotation(spinor) * this</code>
-     * </p>
-     * @method rotate
-     * @param spinor {SpinorE3}
-     * @return {Matrix4}
-     * @chainable
+     * this ⟼ rotation(spinor) * this
+     *
+     * @param spinor
      */
-    rotate(spinor: SpinorE3): Matrix4 {
+    rotate(spinor: SpinorE3): this {
         return this.rmul(Matrix4.rotation(spinor));
     }
 
@@ -409,9 +346,7 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
     }
 
     /**
-     * @method row
-     * @param i {number} the zero-based index of the row.
-     * @return {Array<number>}
+     * @param i the zero-based index of the row.
      */
     row(i: number): Array<number> {
         let te = this.elements;
@@ -421,7 +356,7 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
     /**
      *
      */
-    scaleXYZ(scale: VectorE3): Matrix4 {
+    scaleXYZ(scale: VectorE3): this {
         // We treat the scale operation as pre-multiplication: 
         // |x 0 0 0|   |m[0] m[4] m[8] m[C]|   |x * m[0] x * m[4] x * m[8] x * m[C]|
         // |0 y 0 0| * |m[1] m[5] m[9] m[D]| = |y * m[1] y * m[5] y * m[9] y * m[D]|
@@ -439,7 +374,7 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
     /**
      *
      */
-    scaling(scale: VectorE3): Matrix4 {
+    scaling(scale: VectorE3): this {
         return this.set(scale.x, 0, 0, 0, 0, scale.y, 0, 0, 0, 0, scale.z, 0, 0, 0, 0, 1);
     }
 
@@ -462,7 +397,7 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
         n41: number,
         n42: number,
         n43: number,
-        n44: number): Matrix4 {
+        n44: number): this {
 
         const te = this.elements;
 
@@ -521,14 +456,14 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
     /**
      * this ⟼ translation(spinor) * this
      */
-    translate(d: VectorE3): Matrix4 {
+    translate(d: VectorE3): this {
         return this.rmul(Matrix4.translation(d));
     }
 
     /**
      * Sets this matrix to be equivalent to the displacement vector argument.
      */
-    translation(displacement: VectorE3): Matrix4 {
+    translation(displacement: VectorE3): this {
         const x = displacement.x;
         const y = displacement.y;
         const z = displacement.z;
@@ -542,16 +477,16 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
     /**
      * Sets this matrix to the identity element for addition, 0.
      */
-    zero(): Matrix4 {
+    zero(): this {
         return this.set(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     }
 
     public __mul__(rhs: Matrix4 | number): Matrix4 {
         if (rhs instanceof Matrix4) {
-            return Matrix4.one().mul2(this, rhs);
+            return lock(Matrix4.one.clone().mul2(this, rhs));
         }
         else if (typeof rhs === 'number') {
-            return this.clone().scale(rhs);
+            return lock(this.clone().scale(rhs));
         }
         else {
             return void 0;
@@ -560,13 +495,15 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> {
 
     public __rmul__(lhs: Matrix4 | number): Matrix4 {
         if (lhs instanceof Matrix4) {
-            return Matrix4.one().mul2(lhs, this);
+            return lock(Matrix4.one.clone().mul2(lhs, this));
         }
         else if (typeof lhs === 'number') {
-            return this.clone().scale(lhs);
+            return lock(this.clone().scale(lhs));
         }
         else {
             return void 0;
         }
     }
 }
+
+export default Matrix4;

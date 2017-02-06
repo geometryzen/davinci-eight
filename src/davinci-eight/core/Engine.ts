@@ -35,9 +35,9 @@ import WebGLDisable from '../commands/WebGLDisable';
  * be a required parameter for any consumer of WebGL resources.
  *
  *
- *     export const e1 = EIGHT.Geometric3.e1();
- *     export const e2 = EIGHT.Geometric3.e2();
- *     export const e3 = EIGHT.Geometric3.e3();
+ *     export const e1 = EIGHT.Geometric3.e1;
+ *     export const e2 = EIGHT.Geometric3.e2;
+ *     export const e3 = EIGHT.Geometric3.e3;
  *
  *     const engine = new EIGHT.Engine('canvas3D')
  *       .size(500, 500)

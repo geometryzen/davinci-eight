@@ -17,7 +17,7 @@ describe("Matrix3", function () {
   });
   describe("translation", function () {
     const a = Vector2.random();
-    const T = Matrix3.one().translation(a);
+    const T = Matrix3.one.clone().translation(a);
     it("should set the elements correctly", function () {
       // 1st row
       expect(T.getElement(0, 0)).toBe(1);
@@ -34,7 +34,7 @@ describe("Matrix3", function () {
     });
     it("should translate a position vector", function () {
       // Create a random point in 2D space.
-      const point = Vector2.zero();
+      const point = Vector2.random();
       // Create the equivalent homogeneous point.
       const x = Vector3.vector(point.x, point.y, 1);
 

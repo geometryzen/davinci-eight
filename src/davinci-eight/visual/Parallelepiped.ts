@@ -114,13 +114,13 @@ export default class Parallelepiped implements Renderable {
     public name: string;
     public opacity = 1;
     public transparent = false;
-    public X: Geometric3 = Geometric3.zero().clone();
+    public X: Geometric3 = Geometric3.vector(0, 0, 0);
     /**
      * 
      */
-    public a: Geometric3 = Geometric3.e1().clone();
-    public b: Geometric3 = Geometric3.e2().clone();
-    public c: Geometric3 = Geometric3.e3().clone();
+    public a: Geometric3 = Geometric3.vector(1, 0, 0);
+    public b: Geometric3 = Geometric3.vector(0, 1, 0);
+    public c: Geometric3 = Geometric3.vector(0, 0, 1);
     /**
      * Face colors
      * top    - 0

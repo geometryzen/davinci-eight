@@ -18,7 +18,7 @@ describe("Spinor3", function () {
             expect(m.modified).toBe(false);
         });
         it("no argument should create identity", function () {
-            var m = Spinor3.one();
+            const m = Spinor3.one;
             expect(m.coords[0]).toBe(0);
             expect(m.coords[1]).toBe(0);
             expect(m.coords[2]).toBe(0);
@@ -28,12 +28,12 @@ describe("Spinor3", function () {
     });
     describe("copy", function () {
         it("should preserve values and set modified flag", function () {
-            const source = Spinor3.one();
+            const source = Spinor3.one.clone();
             source.yz = 1;
             source.zx = 2;
             source.xy = 3;
             source.a = 4;
-            const m = Spinor3.zero().copy(source);
+            const m = Spinor3.zero.clone().copy(source);
             expect(m.coords[0]).toBe(1);
             expect(m.coords[1]).toBe(2);
             expect(m.coords[2]).toBe(3);
@@ -42,7 +42,7 @@ describe("Spinor3", function () {
         });
         it("should preserved modified flag when no change", function () {
             const source = Spinor3.spinor(0, 0, 0, 1);
-            const m = Spinor3.one().copy(source);
+            const m = Spinor3.one.clone().copy(source);
             expect(m.coords[0]).toBe(0);
             expect(m.coords[1]).toBe(0);
             expect(m.coords[2]).toBe(0);
@@ -53,28 +53,28 @@ describe("Spinor3", function () {
 
     describe("isOne", function () {
         it("1 => true", function () {
-            expect(Spinor3.one().isOne()).toBeTruthy();
+            expect(Spinor3.one.isOne()).toBeTruthy();
         });
         it("0 => false", function () {
-            expect(Spinor3.zero().isOne()).toBeFalsy();
+            expect(Spinor3.zero.isOne()).toBeFalsy();
         });
     });
 
     describe("isZero", function () {
         it("1 => false", function () {
-            expect(Spinor3.one().isZero()).toBeFalsy();
+            expect(Spinor3.one.isZero()).toBeFalsy();
         });
         it("0 => true", function () {
-            expect(Spinor3.zero().isZero()).toBeTruthy();
+            expect(Spinor3.zero.isZero()).toBeTruthy();
         });
     });
 
     describe("maskG3", function () {
         it("1 => 0x1", function () {
-            expect(Spinor3.one().maskG3).toBe(0x1);
+            expect(Spinor3.one.maskG3).toBe(0x1);
         });
         it("0 => 0x0", function () {
-            expect(Spinor3.zero().maskG3).toBe(0x0);
+            expect(Spinor3.zero.maskG3).toBe(0x0);
         });
         it("e1 ^ e2 => 0x4", function () {
             expect(Spinor3.wedge(e1, e2).maskG3).toBe(0x4);
@@ -173,7 +173,7 @@ describe("Spinor3", function () {
             expect(s.coords[3]).toBe(6580);
             expect(s.modified).toBe(true);
         });
-        it("should agree with R * M * rev(R) using G3", function() {
+        it("should agree with R * M * rev(R) using G3", function () {
 
             const R = Geometric3.fromSpinor(r);
             const M = Geometric3.fromSpinor(m);
@@ -218,46 +218,46 @@ describe("Spinor3", function () {
     });
 
     describe("toExponential", function () {
-        it("of Spinor3.zero() should be 0", function () {
-            const s = Spinor3.zero();
+        it("of Spinor3.zero should be 0", function () {
+            const s = Spinor3.zero;
             expect(s.toExponential()).toBe("0");
         });
-        it("of Spinor3.one().scale(5) should be 5e+0", function () {
-            const s = Spinor3.one().scale(5);
+        it("of Spinor3.one.clone().scale(5) should be 5e+0", function () {
+            const s = Spinor3.one.clone().scale(5);
             expect(s.toExponential()).toBe("5e+0");
         });
     });
 
     describe("toFixed", function () {
         describe("()", function () {
-            it("of Spinor3.zero() should be 0", function () {
-                const s = Spinor3.zero();
+            it("of Spinor3.zero should be 0", function () {
+                const s = Spinor3.zero;
                 expect(s.toFixed()).toBe("0");
             });
-            it("of Spinor3.one().scale(5) should be 5", function () {
-                const s = Spinor3.one().scale(5);
+            it("of Spinor3.one.clone().scale(5) should be 5", function () {
+                const s = Spinor3.one.clone().scale(5);
                 expect(s.toFixed()).toBe("5");
             });
         });
         describe("(4)", function () {
-            it("of Spinor3.zero() should be 0", function () {
-                const s = Spinor3.zero();
+            it("of Spinor3.zero should be 0", function () {
+                const s = Spinor3.zero;
                 expect(s.toFixed(4)).toBe("0");
             });
-            it("of Spinor3.one().scale(5) should be 5.0000", function () {
-                const s = Spinor3.one().scale(5);
+            it("of Spinor3.one.clone().scale(5) should be 5.0000", function () {
+                const s = Spinor3.one.clone().scale(5);
                 expect(s.toFixed(4)).toBe("5.0000");
             });
         });
     });
 
     describe("toString", function () {
-        it("of Spinor3.zero() should be 0", function () {
-            const s = Spinor3.zero();
+        it("of Spinor3.zero should be 0", function () {
+            const s = Spinor3.zero;
             expect(s.toString()).toBe("0");
         });
-        it("of Spinor3.one() should be 1", function () {
-            const s = Spinor3.one();
+        it("of Spinor3.one should be 1", function () {
+            const s = Spinor3.one;
             expect(s.toString()).toBe("1");
         });
         it("of Spinor3.spinor(0, 0, 0, 1) should be 1", function () {

@@ -227,7 +227,7 @@ function makePoints(points: Vector3[], uvs: Vector2[], radius: number, heightSeg
 }
 
 class SphereSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
-    public tilt = Spinor3.one();
+    public tilt = Spinor3.one.clone();
     public azimuthStart = DEFAULT_AZIMUTH_START;
     public azimuthLength = DEFAULT_AZIMUTH_LENGTH;
     public azimuthSegments = DEFAULT_AZIMUTH_SEGMENTS;

@@ -22,6 +22,6 @@ export default function offsetFromOptions(options: { offset?: VectorE3 }): Vecto
         return simplify(options.offset);
     }
     else {
-        return simplify(Geometric3.zero());
+        return simplify(Geometric3.ZERO);
     }
 }

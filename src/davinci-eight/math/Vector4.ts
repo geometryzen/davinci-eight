@@ -1,4 +1,4 @@
-import {Coords} from '../math/Coords';
+import { Coords } from '../math/Coords';
 import VectorE4 from '../math/VectorE4';
 import SpinorE4 from '../math/SpinorE4';
 import Matrix4 from '../math/Matrix4';
@@ -183,9 +183,6 @@ export default class Vector4 extends Coords {
         this.y *= σ.y;
         this.z *= σ.z;
         this.w *= σ.w;
-        return this;
-    }
-    slerp(target: VectorE4, α: number) {
         return this;
     }
     sub(v: VectorE4, α: number) {

@@ -1,6 +1,7 @@
 import AbstractMatrix from '../math/AbstractMatrix';
 import det3x3 from '../math/det3x3';
 import inv3x3 from '../math/inv3x3';
+import { lock, TargetLockedError } from '../core/Lockable';
 import Matrix4 from './Matrix4';
 import mul3x3 from '../math/mul3x3';
 import mustBeNumber from '../checks/mustBeNumber';
@@ -46,7 +47,7 @@ function add3x3(a: Float32Array, b: Float32Array, c: Float32Array): void {
  * </table>
  * </p>
  */
-export default class Matrix3 extends AbstractMatrix<Matrix3> {
+export class Matrix3 extends AbstractMatrix<Matrix3> {
 
     /**
      * @param elements
@@ -59,6 +60,9 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
      *
      */
     add(rhs: Matrix3): this {
+        if (this.isLocked) {
+            throw new TargetLockedError('add');
+        }
         return this.add2(this, rhs);
     }
 
@@ -74,7 +78,7 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
      * Returns a copy of this Matrix3 instance.
      */
     clone(): Matrix3 {
-        return Matrix3.zero().copy(this);
+        return new Matrix3(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0])).copy(this);
     }
 
     /**
@@ -513,41 +517,37 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> {
     }
 
     /**
-     * <p>
-     * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
-     * </p>
+     * The identity matrix for multiplication.
+     * The matrix is locked (immutable), but may be cloned.
      */
-    public static one(): Matrix3 {
-        return new Matrix3(new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]));
-    }
+    static readonly one = lock(new Matrix3(new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1])));
 
     /**
      * @param n
      */
     public static reflection(n: VectorE2): Matrix3 {
-        return Matrix3.zero().reflection(n);
+        return Matrix3.zero.clone().reflection(n);
     }
 
     /**
      * @param spinor
      */
     public static rotation(spinor: SpinorE2): Matrix3 {
-        return Matrix3.zero().rotation(spinor);
+        return Matrix3.zero.clone().rotation(spinor);
     }
 
     /**
      * @param d
      */
     public static translation(d: VectorE2): Matrix3 {
-        return Matrix3.zero().translation(d);
+        return Matrix3.zero.clone().translation(d);
     }
 
     /**
-     * <p>
-     * Creates a new matrix with all elements zero.
-     * </p>
+     * The identity matrix for addition.
+     * The matrix is locked (immutable), but may be cloned.
      */
-    public static zero(): Matrix3 {
-        return new Matrix3(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0]));
-    }
+    static readonly zero = lock(new Matrix3(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0])));
 }
+
+export default Matrix3;

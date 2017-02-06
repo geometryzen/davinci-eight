@@ -1,4 +1,4 @@
-import {Coords} from '../math/Coords';
+import { Coords } from '../math/Coords';
 import Matrix1 from '../math/Matrix1';
 import SpinorE1 from '../math/SpinorE1';
 import VectorE0 from '../math/VectorE0';
@@ -56,10 +56,6 @@ export default class Vector1 extends Coords implements VectorE1 {
         return this;
     }
 
-    adj(): Vector1 {
-        throw new Error('TODO: Vector1.adj');
-    }
-
     /**
      * <p>
      * <code>this ⟼ σ * this<sup>T</sup></code>
@@ -91,9 +87,17 @@ export default class Vector1 extends Coords implements VectorE1 {
         return this;
     }
 
+    /**
+     * The Clifford conjugate.
+     * The multiplier for the grade x is (-1) raised to the power x * (x + 1) / 2
+     * The pattern of grades is +--++--+
+     * 
+     * @returns conj(this)
+     */
     conj() {
         return this;
     }
+
     copy(v: VectorE1) {
         this.x = v.x;
         return this;
@@ -286,9 +290,6 @@ export default class Vector1 extends Coords implements VectorE1 {
     }
     fromArray(array: number[], offset = 0) {
         this.x = array[offset];
-        return this;
-    }
-    slerp(v: VectorE1, α: number) {
         return this;
     }
     toArray(array: number[] = [], offset = 0) {

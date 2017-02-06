@@ -12,7 +12,7 @@ describe("getViewAttitude", function () {
         const eye = e3;
         const look = zero;
         const up = e2;
-        const R = Spinor3.zero();
+        const R = Spinor3.zero.clone();
         getViewAttitude(eye, look, up, R);
         expect(R.isOne()).toBeTruthy();
     });
@@ -20,7 +20,7 @@ describe("getViewAttitude", function () {
         const eye = e1;
         const look = zero;
         const up = e2;
-        const R = Spinor3.zero();
+        const R = Spinor3.zero.clone();
         getViewAttitude(eye, look, up, R);
         it("should be rotorFromDirections(e3, e1)", function () {
             const rotor = Spinor3.rotorFromDirections(e3, e1);

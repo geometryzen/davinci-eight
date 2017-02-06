@@ -19,7 +19,7 @@ export default function createPerspective(options: { fov?: number; aspect?: numb
     const projectionMatrixName = isUndefined(options.projectionMatrixName) ? GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
 
     const base = createView(options);
-    const projectionMatrix: Matrix4 = Matrix4.one();
+    const projectionMatrix: Matrix4 = Matrix4.one.clone();
     let matrixNeedsUpdate = true;
 
     const self: Perspective = {

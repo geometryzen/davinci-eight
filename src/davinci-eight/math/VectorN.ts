@@ -1,5 +1,7 @@
+// import applyMixins from '../core/applyMixins';
 import isDefined from '../checks/isDefined';
 import isUndefined from '../checks/isUndefined';
+import { Lockable, makeLockable, TargetLockedError } from '../core/Lockable';
 import mustSatisfy from '../checks/mustSatisfy';
 
 function pushString(T: string): string {
@@ -25,21 +27,25 @@ function verbotenPop(): string {
 /**
  *
  */
-export class VectorN<T> {
+export class VectorN<T> implements Lockable {
+    /**
+     * 
+     */
+    private lock_ = makeLockable();
     /**
      *
      */
-    private _size: number;
+    private size_: number;
 
     /**
      *
      */
-    protected _coords: T[];
+    private data_: T[];
 
     /**
      *
      */
-    public modified: boolean;
+    private modified_: boolean;
 
     /**
      *
@@ -48,27 +54,49 @@ export class VectorN<T> {
      * @param size
      */
     constructor(data: T[], modified = false, size?: number) {
-        this.modified = modified;
+        this.modified_ = modified;
         if (isDefined(size)) {
-            this._size = size;
-            this._coords = data;
+            this.size_ = size;
+            this.data_ = data;
             mustSatisfy('data.length', data.length === size, () => { return `${size}`; });
         }
         else {
-            this._size = void 0;
-            this._coords = data;
+            this.size_ = void 0;
+            this.data_ = data;
         }
+    }
+
+    get isLocked(): boolean {
+        return this.lock_.isLocked;
+    }
+
+    lock(): number {
+        return this.lock_.lock();
+    }
+
+    unlock(token: number): void {
+        return this.lock_.unlock(token);
     }
 
     /**
      *
      */
     get coords(): T[] {
-        return this._coords;
+        return this.data_;
     }
     set coords(data: T[]) {
-        this._coords = data;
-        this.modified = true;
+        if (this.isLocked) {
+            throw new TargetLockedError('coords');
+        }
+        this.data_ = data;
+        this.modified_ = true;
+    }
+
+    get modified(): boolean {
+        return this.modified_;
+    }
+    set modified(modified: boolean) {
+        this.modified_ = modified;
     }
 
     /**
@@ -82,7 +110,7 @@ export class VectorN<T> {
      *
      */
     clone(): VectorN<T> {
-        return new VectorN<T>(this._coords, this.modified, this._size);
+        return new VectorN<T>(this.data_, this.modified_, this.size_);
     }
 
     /**
@@ -96,7 +124,10 @@ export class VectorN<T> {
      *
      */
     pop(): T {
-        if (isUndefined(this._size)) {
+        if (this.isLocked) {
+            throw new TargetLockedError('pop');
+        }
+        if (isUndefined(this.size_)) {
             return this.coords.pop();
         }
         else {
@@ -109,9 +140,12 @@ export class VectorN<T> {
      * @returns
      */
     push(value: T): number {
-        if (isUndefined(this._size)) {
-            let data = this.coords;
-            let newLength = data.push(value);
+        if (this.isLocked) {
+            throw new TargetLockedError('push');
+        }
+        if (isUndefined(this.size_)) {
+            const data = this.coords;
+            const newLength = data.push(value);
             this.coords = data;
             return newLength;
         }
@@ -125,12 +159,15 @@ export class VectorN<T> {
      * @param value
      */
     setComponent(index: number, value: T): void {
+        if (this.isLocked) {
+            throw new TargetLockedError('setComponent');
+        }
         const coords: T[] = this.coords;
         const previous = coords[index];
         if (value !== previous) {
             coords[index] = value;
             this.coords = coords;
-            this.modified = true;
+            this.modified_ = true;
         }
     }
 
@@ -140,9 +177,9 @@ export class VectorN<T> {
      * @returns
      */
     toArray(array: T[] = [], offset = 0): T[] {
-        let data = this.coords;
-        let length = data.length;
-        for (var i = 0; i < length; i++) {
+        const data = this.coords;
+        const length = data.length;
+        for (let i = 0; i < length; i++) {
             array[offset + i] = data[i];
         }
         return array;
