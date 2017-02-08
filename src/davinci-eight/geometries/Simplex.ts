@@ -5,7 +5,8 @@ import mustBeInteger from '../checks/mustBeInteger';
 import SimplexMode from './SimplexMode';
 import Vertex from '../atoms/Vertex';
 import VertexAttributeMap from '../atoms/VertexAttributeMap';
-import { VectorN } from '../math/VectorN';
+import VectorN from '../atoms/VectorN';
+import DefaultVectorN from '../math/VectorN';
 
 function checkIntegerArg(name: string, n: number, min: number, max: number): number {
     mustBeInteger(name, n);
@@ -47,7 +48,7 @@ function lerpVertexAttributeMap(a: VertexAttributeMap, b: VertexAttributeMap, al
 }
 
 function lerpVectorN(a: VectorN<number>, b: VectorN<number>, alpha: number): VectorN<number> {
-    return new VectorN<number>(lerp(a.coords, b.coords, alpha));
+    return new DefaultVectorN<number>(lerp(a.toArray(), b.toArray(), alpha));
 }
 
 export default class Simplex {

@@ -15,8 +15,8 @@ export default class ModelE3 {
    */
   public static readonly PROP_POSITION = 'X';
 
-  private readonly _position = new Geometric3();
-  private readonly _attitude = new Geometric3().addScalar(1);
+  private readonly _position = Geometric3.zero(false);
+  private readonly _attitude = Geometric3.one(false);
 
   /**
    * <p>

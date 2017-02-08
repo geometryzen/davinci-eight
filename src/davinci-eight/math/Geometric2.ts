@@ -1,7 +1,8 @@
+import applyMixins from '../utils/applyMixins';
+import approx from './approx';
 import arraysEQ from './arraysEQ';
 import b2 from '../geometries/b2';
 import b3 from '../geometries/b3';
-import { Coords } from './Coords';
 import dotVector from './dotVectorE2';
 import extE2 from './extE2';
 import gauss from './gauss';
@@ -10,8 +11,9 @@ import isDefined from '../checks/isDefined';
 import isNumber from '../checks/isNumber';
 import isObject from '../checks/isObject';
 import lcoE2 from './lcoE2';
-import { lock, TargetLockedError } from '../core/Lockable';
+import { lock, LockableMixin as Lockable, TargetLockedError } from '../core/Lockable';
 import mulE2 from './mulE2';
+import mustBeEQ from '../checks/mustBeEQ';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeObject from '../checks/mustBeObject';
@@ -24,6 +26,7 @@ import scpE2 from './scpE2';
 import SpinorE2 from './SpinorE2';
 import stringFromCoordinates from './stringFromCoordinates';
 import VectorE2 from './VectorE2';
+import VectorN from '../atoms/VectorN';
 import wedgeXY from './wedgeXY';
 
 // symbolic constants for the coordinate indices into the data array.
@@ -92,7 +95,21 @@ function duckCopy(value: any): Geometric2 {
 /**
  * 
  */
-export class Geometric2 extends Coords implements GeometricE2 {
+export class Geometric2 implements GeometricE2, Lockable, VectorN<number> {
+    // Lockable
+    isLocked: () => boolean;
+    lock: () => number;
+    unlock: (token: number) => void;
+
+    /**
+     * 
+     */
+    private coords_: number[];
+
+    /**
+     * 
+     */
+    private modified_: boolean;
 
     /**
      *
@@ -117,66 +134,91 @@ export class Geometric2 extends Coords implements GeometricE2 {
     /**
      *
      */
-    constructor() {
-        super([0, 0, 0, 0], false, 4);
+    constructor(coords = [0, 0, 0, 0], modified = false) {
+        mustBeEQ('coords.length', coords.length, 4);
+        this.coords_ = coords;
+        this.modified_ = modified;
+    }
+
+    get length(): number {
+        return 4;
+    }
+
+    get modified(): boolean {
+        return this.modified_;
+    }
+    set modified(modified: boolean) {
+        if (this.isLocked()) {
+            throw new TargetLockedError('set modified');
+        }
+        this.modified_ = modified;
+    }
+
+    getComponent(i: number): number {
+        return this.coords_[i];
     }
 
     get a(): number {
-        return this.coords[COORD_SCALAR];
+        return this.coords_[COORD_SCALAR];
     }
     set a(a: number) {
-        if (this.isLocked) {
-            throw new TargetLockedError('a');
+        if (this.isLocked()) {
+            throw new TargetLockedError('set a');
         }
-        this.modified = this.modified || this.coords[COORD_SCALAR] !== a;
-        this.coords[COORD_SCALAR] = a;
+        const coords = this.coords_;
+        this.modified_ = this.modified_ || coords[COORD_SCALAR] !== a;
+        coords[COORD_SCALAR] = a;
     }
 
     get x(): number {
-        return this.coords[COORD_X];
+        return this.coords_[COORD_X];
     }
     set x(x: number) {
-        if (this.isLocked) {
-            throw new TargetLockedError('x');
+        if (this.isLocked()) {
+            throw new TargetLockedError('set x');
         }
-        this.modified = this.modified || this.coords[COORD_X] !== x;
-        this.coords[COORD_X] = x;
+        const coords = this.coords_;
+        this.modified_ = this.modified_ || coords[COORD_X] !== x;
+        coords[COORD_X] = x;
     }
 
     get y(): number {
-        return this.coords[COORD_Y];
+        return this.coords_[COORD_Y];
     }
     set y(y: number) {
-        if (this.isLocked) {
-            throw new TargetLockedError('y');
+        if (this.isLocked()) {
+            throw new TargetLockedError('set y');
         }
-        this.modified = this.modified || this.coords[COORD_Y] !== y;
-        this.coords[COORD_Y] = y;
+        const coords = this.coords_;
+        this.modified_ = this.modified_ || coords[COORD_Y] !== y;
+        coords[COORD_Y] = y;
     }
 
     get b(): number {
-        return this.coords[COORD_PSEUDO];
+        return this.coords_[COORD_PSEUDO];
     }
     set b(b: number) {
-        if (this.isLocked) {
-            throw new TargetLockedError('b');
+        if (this.isLocked()) {
+            throw new TargetLockedError('set b');
         }
-        this.modified = this.modified || this.coords[COORD_PSEUDO] !== b;
-        this.coords[COORD_PSEUDO] = b;
+        const coords = this.coords_;
+        this.modified_ = this.modified_ || coords[COORD_PSEUDO] !== b;
+        coords[COORD_PSEUDO] = b;
     }
 
     /**
      *
      */
     private get xy(): number {
-        return this.coords[COORD_PSEUDO];
+        return this.coords_[COORD_PSEUDO];
     }
     private set xy(xy: number) {
-        if (this.isLocked) {
-            throw new TargetLockedError('xy');
+        if (this.isLocked()) {
+            throw new TargetLockedError('set xy');
         }
-        this.modified = this.modified || this.coords[COORD_PSEUDO] !== xy;
-        this.coords[COORD_PSEUDO] = xy;
+        const coords = this.coords_;
+        this.modified_ = this.modified_ || coords[COORD_PSEUDO] !== xy;
+        coords[COORD_PSEUDO] = xy;
     }
 
     /**
@@ -240,7 +282,7 @@ export class Geometric2 extends Coords implements GeometricE2 {
      * @returns The arg of <code>this</code> multivector.
      */
     arg(): Geometric2 {
-        if (this.isLocked) {
+        if (this.isLocked()) {
             return lock(this.clone().arg());
         }
         else {
@@ -252,7 +294,7 @@ export class Geometric2 extends Coords implements GeometricE2 {
      *
      */
     approx(n: number): this {
-        super.approx(n);
+        approx(this.coords_, n);
         return this;
     }
 
@@ -260,7 +302,7 @@ export class Geometric2 extends Coords implements GeometricE2 {
      * copy(this)
      */
     clone(): Geometric2 {
-        const m = new Geometric2();
+        const m = new Geometric2([0, 0, 0, 0]);
         m.copy(this);
         return m;
     }
@@ -366,7 +408,7 @@ export class Geometric2 extends Coords implements GeometricE2 {
      * this ⟼ this / magnitude(this)
      */
     normalize(): this {
-        if (this.isLocked) {
+        if (this.isLocked()) {
             throw new TargetLockedError('normalize');
         }
         const norm: number = this.magnitude();
@@ -440,7 +482,7 @@ export class Geometric2 extends Coords implements GeometricE2 {
     equals(other: any): boolean {
         if (other instanceof Geometric2) {
             const that: Geometric2 = other;
-            return arraysEQ(this.coords, that.coords);
+            return arraysEQ(this.coords_, that.coords_);
         }
         else {
             return false;
@@ -949,6 +991,13 @@ export class Geometric2 extends Coords implements GeometricE2 {
     }
 
     /**
+     * 
+     */
+    toArray(): number[] {
+        return coordinates(this);
+    }
+
+    /**
      * Returns a representation of this multivector in exponential notation.
      */
     toExponential(fractionDigits?: number): string {
@@ -988,7 +1037,7 @@ export class Geometric2 extends Coords implements GeometricE2 {
      * @param i The index of the grade to be extracted.
      */
     grade(i: number): Geometric2 {
-        if (this.isLocked) {
+        if (this.isLocked()) {
             return lock(this.clone().grade(i));
         }
         mustBeInteger('i', i);
@@ -1339,7 +1388,7 @@ export class Geometric2 extends Coords implements GeometricE2 {
      *
      */
     static copy(M: GeometricE2): Geometric2 {
-        const copy = new Geometric2();
+        const copy = new Geometric2([]);
         copy.a = M.a;
         copy.x = M.x;
         copy.y = M.y;
@@ -1364,13 +1413,8 @@ export class Geometric2 extends Coords implements GeometricE2 {
     /**
      *
      */
-    static fromCartesian(α: number, x: number, y: number, β: number): Geometric2 {
-        const m = new Geometric2();
-        m.a = α;
-        m.x = x;
-        m.y = y;
-        m.b = β;
-        return m;
+    static fromCartesian(a: number, x: number, y: number, b: number): Geometric2 {
+        return new Geometric2([a, x, y, b]);
     }
 
     static fromBivector(B: Pseudo): Geometric2 {
@@ -1381,15 +1425,15 @@ export class Geometric2 extends Coords implements GeometricE2 {
      *
      */
     static fromSpinor(spinor: SpinorE2): Geometric2 {
-        return new Geometric2().copySpinor(spinor);
+        return new Geometric2([spinor.a, 0, 0, spinor.b]);
     }
 
     /**
      *
      */
-    static fromVector(vector: VectorE2): Geometric2 {
-        if (isDefined(vector)) {
-            return new Geometric2().copyVector(vector);
+    static fromVector(v: VectorE2): Geometric2 {
+        if (isDefined(v)) {
+            return new Geometric2([0, v.x, v.y, 0]);
         }
         else {
             // We could also return an undefined value here!
@@ -1450,7 +1494,9 @@ export class Geometric2 extends Coords implements GeometricE2 {
     /**
      *
      */
-    public static readonly zero = lock(Geometric2.scalar(0));
+    public static readonly zero = new Geometric2();
 }
+applyMixins(Geometric2, [Lockable]);
+Geometric2.zero.lock();
 
 export default Geometric2;

@@ -55,7 +55,7 @@ const PRECISION = 14;
 describe("Geometric3", function () {
 
     describe("equals", function () {
-        it("(M) should be eqial to M", function () {
+        it("(M) should be equal to M", function () {
             const zero: Geometric3 = Geometric3.ZERO;
             const one: Geometric3 = Geometric3.ONE;
             expect(zero.equals(zero)).toBe(true);
@@ -69,7 +69,7 @@ describe("Geometric3", function () {
         const m = Geometric3.scalar(5);
         m.lock();
         it("", function () {
-            expect(m.isLocked).toBe(true);
+            expect(m.isLocked()).toBe(true);
         });
     });
 
@@ -209,7 +209,7 @@ describe("Geometric3", function () {
             expect(Geometric3.rotorFromDirections(e1, e2).maskG3).toBe(0x5);
         });
         it("pseudoscalar => 0x8", function () {
-            const I = new Geometric3().zero().addPseudo(1);
+            const I = Geometric3.pseudo(1);
             expect(I.maskG3).toBe(0x8);
         });
     });
@@ -633,7 +633,7 @@ describe("Geometric3", function () {
     });
 
     describe("__add__", function () {
-        describe("(Geometrc3, Geometric3)", function () {
+        describe("(Geometric3, Geometric3)", function () {
             const l = Geometric3.random();
             const lhG = l.clone();
             const r = Geometric3.random();

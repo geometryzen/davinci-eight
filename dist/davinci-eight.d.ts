@@ -1245,7 +1245,7 @@ declare module EIGHT {
          * If the `Lockable` is in the unlocked state then it is mutable.
          * If the `Lockable` is in the locked state then it is immutable.
          */
-        isLocked: boolean;
+        isLocked(): boolean;
         /**
          * Locks this `Lockable` (preventing any further mutation),
          * and returns a token that may be used to unlock it.
@@ -1263,11 +1263,11 @@ declare module EIGHT {
      */
     class VectorN<T> implements Lockable {
         coords: T[];
-        isLocked: boolean;
         modified: boolean;
         constructor(coords: T[], modified?: boolean, size?: number);
         clone(): VectorN<T>;
         getComponent(index: number): T;
+        isLocked(): boolean;
         lock(): number;
         pop(): T;
         push(value: T): number;
@@ -2780,11 +2780,6 @@ declare module EIGHT {
         blue: number;
 
         /**
-         * 
-         */
-        isLocked: boolean;
-
-        /**
          * Constructs a new Color from its red, green, and blue values.
          * Each value is clamped in the range [0,1].
          */
@@ -2792,6 +2787,7 @@ declare module EIGHT {
         approx(n: number): Color;
         clone(): Color;
         copy(color: Color): Color;
+        isLocked(): boolean;
         lerp(target: Color, α: number): Color;
         lock(): number;
         scale(α: number): Color;

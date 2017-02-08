@@ -2,9 +2,9 @@ import Geometric3 from '../math/Geometric3';
 import Vector3 from '../math/Vector3';
 import SpinorE3 from '../math/SpinorE3';
 
-const u: Geometric3 = new Geometric3();
-const v: Geometric3 = new Geometric3();
-const n: Geometric3 = new Geometric3();
+const u: Geometric3 = Geometric3.zero(false);
+const v: Geometric3 = Geometric3.zero(false);
+const n: Geometric3 = Geometric3.zero(false);
 
 const e1 = Vector3.vector(1, 0, 0);
 const e2 = Vector3.vector(0, 1, 0);

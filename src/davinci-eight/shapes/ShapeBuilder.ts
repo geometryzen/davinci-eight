@@ -17,7 +17,7 @@ export default class ShapeBuilder {
     /**
      * The rotor to apply to the geometry (after scale has been applied).
      */
-    public tilt: Geometric3 = new Geometric3().addScalar(1);
+    public tilt: Geometric3 = Geometric3.one(false);
 
     /**
      * The translation to apply to the geometry (after tilt has been applied).

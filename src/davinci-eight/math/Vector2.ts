@@ -1,14 +1,15 @@
-import { Coords } from '../math/Coords';
+import applyMixins from '../utils/applyMixins';
+import approx from './approx';
 import b2 from '../geometries/b2';
 import b3 from '../geometries/b3';
-import { lock, TargetLockedError } from '../core/Lockable';
+import { lock, LockableMixin as Lockable, TargetLockedError } from '../core/Lockable';
 import Matrix2 from '../math/Matrix2';
-
 import notImplemented from '../i18n/notImplemented';
 import randomRange from './randomRange';
 import SpinorE2 from '../math/SpinorE2';
 import stringFromCoordinates from '../math/stringFromCoordinates';
 import VectorE2 from '../math/VectorE2';
+import VectorN from '../atoms/VectorN';
 
 const sqrt = Math.sqrt;
 
@@ -16,44 +17,89 @@ const COORD_X = 0;
 const COORD_Y = 1;
 
 /**
+ * Coordinates corresponding to basis labels.
+ */
+function coordinates(m: VectorE2): number[] {
+    return [m.x, m.y];
+}
+
+/**
  *
  */
-export class Vector2 extends Coords {
+export class Vector2 implements VectorE2, Lockable, VectorN<number> {
+    // Lockable
+    isLocked: () => boolean;
+    lock: () => number;
+    unlock: (token: number) => void;
+
+    /**
+     * 
+     */
+    private coords_: number[];
+
+    /**
+     * 
+     */
+    private modified_: boolean;
+
     /**
      * @param coords The x coordinate and y coordinate.
      * @param modified
      */
     constructor(coords = [0, 0], modified = false) {
-        super(coords, modified, 2);
+        this.coords_ = coords;
+        this.modified_ = modified;
     }
+
+    get length(): number {
+        return 2;
+    }
+
+    get modified(): boolean {
+        return this.modified_;
+    }
+    set modified(modified: boolean) {
+        if (this.isLocked()) {
+            throw new TargetLockedError('set modified');
+        }
+        this.modified_ = modified;
+    }
+
+    getComponent(i: number): number {
+        return this.coords_[i];
+    }
+
+
 
     /**
      *
      */
     get x(): number {
-        return this.coords[COORD_X];
+        return this.coords_[COORD_X];
     }
     set x(value: number) {
-        if (this.isLocked) {
+        if (this.isLocked()) {
             throw new TargetLockedError('set x');
         }
-        this.modified = this.modified || this.x !== value;
-        this.coords[COORD_X] = value;
+        const coords = this.coords_;
+        this.modified_ = this.modified_ || coords[COORD_X] !== value;
+        coords[COORD_X] = value;
     }
 
     /**
      *
      */
     get y(): number {
-        return this.coords[COORD_Y];
+        return this.coords_[COORD_Y];
     }
 
     set y(value: number) {
-        if (this.isLocked) {
+        if (this.isLocked()) {
             throw new TargetLockedError('set y');
         }
-        this.modified = this.modified || this.y !== value;
-        this.coords[COORD_Y] = value;
+        const coords = this.coords_;
+        this.modified_ = this.modified_ || coords[COORD_Y] !== value;
+        coords[COORD_Y] = value;
     }
 
     /**
@@ -107,7 +153,7 @@ export class Vector2 extends Coords {
      * @chainable
      */
     approx(n: number): Vector2 {
-        super.approx(n);
+        approx(this.coords_, n);
         return this;
     }
 
@@ -379,13 +425,20 @@ export class Vector2 extends Coords {
     }
 
     /**
+     * 
+     */
+    toArray(): number[] {
+        return coordinates(this);
+    }
+
+    /**
      * @method toExponential
      * @param [fractionDigits] {number}
      * @return {string}
      */
     toExponential(fractionDigits?: number): string {
         const coordToString = function (coord: number): string { return coord.toExponential(fractionDigits); };
-        return stringFromCoordinates(this.coords, coordToString, ['e1', 'e2']);
+        return stringFromCoordinates(this.coords_, coordToString, ['e1', 'e2']);
     }
 
     /**
@@ -395,7 +448,7 @@ export class Vector2 extends Coords {
      */
     toFixed(fractionDigits?: number): string {
         const coordToString = function (coord: number): string { return coord.toFixed(fractionDigits); };
-        return stringFromCoordinates(this.coords, coordToString, ['e1', 'e2']);
+        return stringFromCoordinates(this.coords_, coordToString, ['e1', 'e2']);
     }
 
     /**
@@ -405,7 +458,7 @@ export class Vector2 extends Coords {
      */
     toPrecision(precision?: number): string {
         const coordToString = function (coord: number): string { return coord.toPrecision(precision); };
-        return stringFromCoordinates(this.coords, coordToString, ['e1', 'e2']);
+        return stringFromCoordinates(this.coords_, coordToString, ['e1', 'e2']);
     }
 
     /**
@@ -415,7 +468,7 @@ export class Vector2 extends Coords {
      */
     toString(radix?: number): string {
         const coordToString = function (coord: number): string { return coord.toString(radix); };
-        return stringFromCoordinates(this.coords, coordToString, ['e1', 'e2']);
+        return stringFromCoordinates(this.coords_, coordToString, ['e1', 'e2']);
     }
 
     fromArray(array: number[], offset = 0) {
@@ -433,15 +486,15 @@ export class Vector2 extends Coords {
 
     /**
      * Sets this vector to the identity element for addition, <b>0</b>.
-     *
-     * @method zero
-     * @return {Vector2}
-     * @chainable
      */
     zero(): Vector2 {
         this.x = 0;
         this.y = 0;
         return this;
+    }
+
+    __neg__(): Vector2 {
+        return lock(this.clone().neg());
     }
 
     /**
@@ -484,7 +537,9 @@ export class Vector2 extends Coords {
         return new Vector2([x, y]);
     }
 
-    static readonly zero = lock(Vector2.vector(0, 0));
+    static readonly zero = Vector2.vector(0, 0);
 }
+applyMixins(Vector2, [Lockable]);
+Vector2.zero.lock();
 
 export default Vector2;

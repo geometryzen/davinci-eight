@@ -1,7 +1,7 @@
 import { Coords } from '../math/Coords';
 import mustBeGE from '../checks/mustBeGE';
 import mustBeInteger from '../checks/mustBeInteger';
-import { VectorN } from '../math/VectorN';
+import VectorN from './VectorN';
 import VertexAttributeMap from './VertexAttributeMap';
 
 function stringVectorN(name: string, vector: VectorN<number>): string {
@@ -14,9 +14,9 @@ function stringVectorN(name: string, vector: VectorN<number>): string {
 }
 
 function stringifyVertex(vertex: Vertex): string {
-    let attributes: VertexAttributeMap = vertex.attributes;
-    let attribsKey = Object.keys(attributes).map(function (name: string) {
-        let vector: VectorN<number> = attributes[name];
+    const attributes: VertexAttributeMap = vertex.attributes;
+    const attribsKey = Object.keys(attributes).map(function (name: string) {
+        const vector: VectorN<number> = attributes[name];
         return stringVectorN(name, vector);
     }).join(' ');
     return attribsKey;

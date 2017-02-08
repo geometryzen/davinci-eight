@@ -1,8 +1,9 @@
+import applyMixins from '../utils/applyMixins';
+import approx from './approx';
 import BivectorE3 from './BivectorE3';
 import CartesianG3 from './CartesianG3';
-import { Coords } from './Coords';
 import dotVectorCartesianE3 from './dotVectorCartesianE3';
-import { lock, TargetLockedError } from '../core/Lockable';
+import { lock, LockableMixin as Lockable, TargetLockedError } from '../core/Lockable';
 import mulSpinorE3YZ from './mulSpinorE3YZ';
 import mulSpinorE3ZX from './mulSpinorE3ZX';
 import mulSpinorE3XY from './mulSpinorE3XY';
@@ -17,6 +18,7 @@ import rotorFromDirections from './rotorFromDirectionsE3';
 import SpinorE3 from '../math/SpinorE3';
 import toStringCustom from './toStringCustom';
 import VectorE3 from './VectorE3';
+import VectorN from '../atoms/VectorN';
 import wedgeXY from './wedgeXY';
 import wedgeYZ from './wedgeYZ';
 import wedgeZX from './wedgeZX';
@@ -43,85 +45,119 @@ const sqrt = Math.sqrt;
 const magicCode = Math.random();
 
 /**
- * A <em>mutable</em> Geometric Number representing the even sub-algebra of G3.
+ * A Geometric Number representing the even sub-algebra of G3.
  */
-export class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
+export class Spinor3 implements CartesianG3, SpinorE3, Lockable, VectorN<number> {
+    // Lockable
+    isLocked: () => boolean;
+    lock: () => number;
+    unlock: (token: number) => void;
+
     /**
-     * @param coordinates [yz, zx, xy, a]
+     * 
+     */
+    private coords_: number[];
+
+    /**
+     * 
+     */
+    private modified_: boolean;
+
+    /**
+     * @param coords [yz, zx, xy, a]
      * @param code
      */
-    constructor(coordinates: number[], code: number) {
-        super(coordinates, false, 4);
+    constructor(coords: number[], code: number) {
         if (code !== magicCode) {
             throw new Error("Use the static creation methods instead of the constructor");
         }
+        this.coords_ = coords;
+        this.modified_ = false;
+    }
+
+    get modified(): boolean {
+        return this.modified_;
+    }
+    set modified(modified: boolean) {
+        if (this.isLocked()) {
+            throw new TargetLockedError('set modified');
+        }
+        this.modified_ = modified;
     }
 
     /**
      * The coordinate corresponding to the <b>e</b><sub>23</sub> basis bivector.
      */
     get yz(): number {
-        return this.coords[COORD_YZ];
+        return this.coords_[COORD_YZ];
     }
     set yz(yz: number) {
-        if (this.isLocked) {
-            throw new TargetLockedError('yz');
+        if (this.isLocked()) {
+            throw new TargetLockedError('set yz');
         }
         mustBeNumber('yz', yz);
-        this.modified = this.modified || this.yz !== yz;
-        this.coords[COORD_YZ] = yz;
+        const coords = this.coords_;
+        this.modified_ = this.modified_ || coords[COORD_YZ] !== yz;
+        coords[COORD_YZ] = yz;
     }
 
     /**
      * The coordinate corresponding to the <b>e</b><sub>31</sub> basis bivector.
      */
     get zx(): number {
-        return this.coords[COORD_ZX];
+        return this.coords_[COORD_ZX];
     }
     set zx(zx: number) {
-        if (this.isLocked) {
+        if (this.isLocked()) {
             throw new TargetLockedError('zx');
         }
         mustBeNumber('zx', zx);
-        this.modified = this.modified || this.zx !== zx;
-        this.coords[COORD_ZX] = zx;
+        const coords = this.coords_;
+        this.modified_ = this.modified_ || coords[COORD_ZX] !== zx;
+        coords[COORD_ZX] = zx;
     }
 
     /**
      * The coordinate corresponding to the <b>e</b><sub>12</sub> basis bivector.
      */
     get xy(): number {
-        return this.coords[COORD_XY];
+        return this.coords_[COORD_XY];
     }
     set xy(xy: number) {
-        if (this.isLocked) {
+        if (this.isLocked()) {
             throw new TargetLockedError('xy');
         }
         mustBeNumber('xy', xy);
-        this.modified = this.modified || this.xy !== xy;
-        this.coords[COORD_XY] = xy;
+        const coords = this.coords_;
+        this.modified_ = this.modified_ || coords[COORD_XY] !== xy;
+        coords[COORD_XY] = xy;
     }
 
     /**
      * The coordinate corresponding to the <b>1</b> basis scalar.
      */
     get a(): number {
-        return this.coords[COORD_SCALAR];
+        return this.coords_[COORD_SCALAR];
     }
     set a(α: number) {
-        if (this.isLocked) {
+        if (this.isLocked()) {
             throw new TargetLockedError('a');
         }
         mustBeNumber('α', α);
-        this.modified = this.modified || this.a !== α;
-        this.coords[COORD_SCALAR] = α;
+        const coords = this.coords_;
+        this.modified_ = this.modified_ || coords[COORD_SCALAR] !== α;
+        coords[COORD_SCALAR] = α;
+    }
+
+    get length(): number {
+        return 4;
     }
 
     /**
      *
      */
     get maskG3(): number {
-        const coords = this.coords;
+        const coords = this.coords_;
         const α = coords[COORD_SCALAR];
         const yz = coords[COORD_YZ];
         const zx = coords[COORD_ZX];
@@ -145,7 +181,7 @@ export class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
      * </p>
      * @param spinor
      * @param α
-     * @return this
+     * @returns this + α * spinor
      */
     add(spinor: SpinorE3, α = 1): this {
         mustBeObject('spinor', spinor);
@@ -161,10 +197,10 @@ export class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
      * <p>
      * <code>this ⟼ a + b</code>
      * </p>
-     * @method add2
+     *
      * @param a
      * @param b
-     * @return this
+     * @returns a + b
      */
     add2(a: SpinorE3, b: SpinorE3): Spinor3 {
         this.a = a.a + b.a;
@@ -176,6 +212,7 @@ export class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
 
     /**
      * Intentionally undocumented.
+     * @return this + I * β
      */
     addPseudo(β: number): Spinor3 {
         mustBeNumber('β', β);
@@ -186,7 +223,7 @@ export class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
      * this ⟼ this + α
      *
      * @param α
-     * @return this
+     * @returns this + α 
      */
     addScalar(α: number): Spinor3 {
         mustBeNumber('α', α);
@@ -200,7 +237,7 @@ export class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
      * @returns arg(this)
      */
     arg(): Spinor3 {
-        if (this.isLocked) {
+        if (this.isLocked()) {
             return lock(this.clone().arg());
         }
         else {
@@ -209,13 +246,10 @@ export class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
     }
 
     /**
-     * @method approx
-     * @param n {number}
-     * @return {Spinor3}
-     * @chainable
+     *
      */
     approx(n: number): this {
-        super.approx(n);
+        approx(this.coords_, n);
         return this;
     }
 
@@ -413,6 +447,10 @@ export class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
         this.zx = y * s;
         this.xy = z * s;
         return this;
+    }
+
+    getComponent(index: number): number {
+        return this.coords_[index];
     }
 
     /**
@@ -974,6 +1012,13 @@ export class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
     }
 
     /**
+     * 
+     */
+    toArray(): number[] {
+        return coordinates(this);
+    }
+
+    /**
      * @method toExponential
      * @param [fractionDigits] {number}
      * @return {string}
@@ -1027,7 +1072,6 @@ export class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
      * Sets this spinor to the identity element for addition, <b>0</b>.
      *
      * @return {Spinor3} <code>this</code>
-     * @chainable
      */
     zero(): Spinor3 {
         this.a = 0;
@@ -1038,27 +1082,21 @@ export class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
     }
 
     /**
-     * @method copy
-     * @param spinor {SpinorE3}
-     * @return {Spinor3} A copy of the <code>spinor</code> argument.
-     * @static
-     * @chainable
+     * @param spinor The spinor to be copied.
+     * @returns A copy of the spinor argument.
      */
     static copy(spinor: SpinorE3): Spinor3 {
         const s = Spinor3.zero.clone().copy(spinor);
-        s.modified = false;
+        s.modified_ = false;
         return s;
     }
 
     /**
-     * Computes I * <code>v</code>, the dual of <code>v</code>.
-     *
-     * @method dual
-     * @param v {VectorE3}
-     * @param changeSign {boolean}
-     * @return {Spinor3}
-     * @static
-     * @chainable
+     * Computes I * v, the dual of v.
+     * 
+     * @param v
+     * @param changeSign
+     * @returns I * v
      */
     static dual(v: VectorE3, changeSign: boolean): Spinor3 {
         return Spinor3.zero.clone().dual(v, changeSign);
@@ -1069,23 +1107,17 @@ export class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
     }
 
     /**
-     * @method isOne
-     * @param spinor {SpinorE3}
-     * @return {boolean}
-     * @static
+     *
      */
     static isOne(spinor: SpinorE3): boolean {
         return spinor.a === 1 && spinor.yz === 0 && spinor.zx === 0 && spinor.xy === 0;
     }
 
     /**
-     * @method lerp
-     * @param a {SpinorE3}
-     * @param b {SpinorE3}
-     * @param α {number}
-     * @return {Spinor3} <code>a + α * (b - a)</code>
-     * @static
-     * @chainable
+     * @param a
+     * @param b
+     * @param α
+     * @returns a + α * (b - a)
      */
     static lerp(a: SpinorE3, b: SpinorE3, α: number): Spinor3 {
         return Spinor3.copy(a).lerp(b, α);
@@ -1155,6 +1187,7 @@ export class Spinor3 extends Coords implements CartesianG3, SpinorE3 {
      */
     static readonly zero = Spinor3.spinor(0, 0, 0, 0);
 }
+applyMixins(Spinor3, [Lockable]);
 
 Spinor3.one.lock();
 Spinor3.zero.lock();

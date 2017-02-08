@@ -97,7 +97,7 @@ export class Matrix4 extends AbstractMatrix<Matrix4> {
      * Sets this matrix to `this + rhs`.
      */
     add(rhs: Matrix4): this {
-        if (this.isLocked) {
+        if (this.isLocked()) {
             throw new TargetLockedError('add');
         }
         return this.add2(this, rhs);

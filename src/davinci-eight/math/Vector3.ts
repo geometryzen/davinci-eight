@@ -1,8 +1,10 @@
+import applyMixins from '../utils/applyMixins';
+import approx from './approx';
 import BivectorE3 from './BivectorE3';
-import { Coords } from './Coords';
+import CartesianG3 from './CartesianG3';
 import VectorE3 from './VectorE3';
 import dotVectorE3 from './dotVectorE3';
-import { lock, TargetLockedError } from '../core/Lockable';
+import { lock, LockableMixin as Lockable, TargetLockedError } from '../core/Lockable';
 import Matrix3 from './Matrix3';
 import Matrix4 from './Matrix4';
 import isDefined from '../checks/isDefined';
@@ -11,6 +13,7 @@ import randomRange from './randomRange';
 import readOnly from '../i18n/readOnly';
 import SpinorE3 from './SpinorE3';
 import toStringCustom from './toStringCustom';
+import VectorN from '../atoms/VectorN';
 import wedgeXY from './wedgeXY';
 import wedgeYZ from './wedgeYZ';
 import wedgeZX from './wedgeZX';
@@ -32,7 +35,21 @@ function coordinates(m: VectorE3): number[] {
 /**
  *
  */
-export default class Vector3 extends Coords {
+export default class Vector3 implements CartesianG3, VectorE3, Lockable, VectorN<number> {
+    // Lockable
+    isLocked: () => boolean;
+    lock: () => number;
+    unlock: (token: number) => void;
+
+    /**
+     * 
+     */
+    private coords_: number[];
+
+    /**
+     * 
+     */
+    private modified_: boolean;
 
     /**
      * @param a
@@ -47,49 +64,71 @@ export default class Vector3 extends Coords {
      * @param modified
      */
     constructor(coords: number[] = [0, 0, 0], modified = false) {
-        super(coords, modified, 3);
+        this.coords_ = coords;
+        this.modified_ = modified;
+    }
+
+    get length(): number {
+        return 3;
+    }
+
+    get modified(): boolean {
+        return this.modified_;
+    }
+    set modified(modified: boolean) {
+        if (this.isLocked()) {
+            throw new TargetLockedError('set modified');
+        }
+        this.modified_ = modified;
+    }
+
+    getComponent(i: number): number {
+        return this.coords_[i];
     }
 
     /**
      * The coordinate corresponding to the e1 basis vector.
      */
     get x(): number {
-        return this.coords[COORD_X];
+        return this.coords_[COORD_X];
     }
     set x(value: number) {
-        if (this.isLocked) {
+        if (this.isLocked()) {
             throw new TargetLockedError('set x');
         }
-        this.modified = this.modified || this.x !== value;
-        this.coords[COORD_X] = value;
+        const coords = this.coords_;
+        this.modified_ = this.modified_ || coords[COORD_X] !== value;
+        coords[COORD_X] = value;
     }
 
     /**
      * The coordinate corresponding to the e2 basis vector.
      */
     get y(): number {
-        return this.coords[COORD_Y];
+        return this.coords_[COORD_Y];
     }
     set y(value: number) {
-        if (this.isLocked) {
+        if (this.isLocked()) {
             throw new TargetLockedError('set y');
         }
-        this.modified = this.modified || this.y !== value;
-        this.coords[COORD_Y] = value;
+        const coords = this.coords_;
+        this.modified_ = this.modified_ || coords[COORD_Y] !== value;
+        coords[COORD_Y] = value;
     }
 
     /**
      * The coordinate corresponding to the e3 basis vector.
      */
     get z(): number {
-        return this.coords[COORD_Z];
+        return this.coords_[COORD_Z];
     }
     set z(value: number) {
-        if (this.isLocked) {
+        if (this.isLocked()) {
             throw new TargetLockedError('set z');
         }
-        this.modified = this.modified || this.z !== value;
-        this.coords[COORD_Z] = value;
+        const coords = this.coords_;
+        this.modified_ = this.modified_ || coords[COORD_Z] !== value;
+        coords[COORD_Z] = value;
     }
 
     /**
@@ -167,13 +206,10 @@ export default class Vector3 extends Coords {
     }
 
     /**
-     * @method approx
-     * @param n {number}
-     * @return {Vector3}
-     * @chainable
+     *
      */
     approx(n: number): Vector3 {
-        super.approx(n);
+        approx(this.coords_, n);
         return this;
     }
 
@@ -202,14 +238,8 @@ export default class Vector3 extends Coords {
     }
 
     /**
-     * <p>
-     * <code>this ⟼ R * this * rev(R)</code>
-     * </p>
-     *
-     * @method rotate
-     * @param R {SpinorE3}
-     * @return {Vector3} <code>this</code>
-     * @chainable
+     * @param R
+     * @returns R * this * reverse(R)
      */
     rotate(R: SpinorE3): Vector3 {
         const x = this.x;
@@ -237,21 +267,16 @@ export default class Vector3 extends Coords {
      * @method clone
      * @return {Vector3} <code>copy(this)</code>
      */
-    clone() {
-        return new Vector3([this.x, this.y, this.z], this.modified);
+    clone(): Vector3 {
+        return new Vector3([this.x, this.y, this.z], this.modified_);
     }
 
     /**
-     * <p>
-     * <code>this ⟼ copy(source)</code>
-     * </p>
+     * this ⟼ copy(source)
      *
-     * @method copy
-     * @param source {VectorE3}
-     * @return {Vector3} <code>this</code>
-     * @chainable
+     * @returns copy(this)
      */
-    copy(source: VectorE3): Vector3 {
+    copy(source: VectorE3): this {
         if (source) {
             this.x = source.x;
             this.y = source.y;
@@ -265,12 +290,11 @@ export default class Vector3 extends Coords {
 
     /**
      * Copies the coordinate values into this <code>Vector3</code>.
-     * @method copyCoordinates
+     *
      * @param coordinates {number[]}
-     * @return {Vector3} <code>this</code>
-     * @chainable
+     * @returns
      */
-    copyCoordinates(coordinates: number[]): Vector3 {
+    copyCoordinates(coordinates: number[]): this {
         // Copy using the setters so that the modified flag is updated.
         this.x = coordinates[COORD_X];
         this.y = coordinates[COORD_Y];
@@ -293,14 +317,11 @@ export default class Vector3 extends Coords {
     }
 
     /**
-     * <p>
      * <code>this ⟼ a ✕ b</code>
-     * </p>
-     * @method cross2
-     * @param a {VectorE3}
-     * @param b {VectorE3}
-     * @return {Vector3} <code>this</code>
-     * @chainable
+     *
+     * @param a
+     * @param b
+     * @returns a x b
      */
     cross2(a: VectorE3, b: VectorE3): Vector3 {
 
@@ -586,19 +607,24 @@ export default class Vector3 extends Coords {
     }
 
     /**
-     * @method toExponential
-     * @param [fractionDigits] {number}
-     * @return {string}
+     * 
+     */
+    toArray(): number[] {
+        return coordinates(this);
+    }
+
+    /**
+     * @param fractionDigits
+     * @returns
      */
     toExponential(fractionDigits?: number): string {
-        var coordToString = function (coord: number): string { return coord.toExponential(fractionDigits); };
+        const coordToString = function (coord: number): string { return coord.toExponential(fractionDigits); };
         return toStringCustom(coordinates(this), coordToString, BASIS_LABELS);
     }
 
     /**
-     * @method toFixed
-     * @param [fractionDigits] {number}
-     * @return {string}
+     * @param fractionDigits
+     * @returns
      */
     toFixed(fractionDigits?: number): string {
         const coordToString = function (coord: number): string { return coord.toFixed(fractionDigits); };
@@ -606,9 +632,8 @@ export default class Vector3 extends Coords {
     }
 
     /**
-     * @method toPrecision
-     * @param [precision] {number}
-     * @return {string}
+     * @param precision
+     * @returns
      */
     toPrecision(precision?: number): string {
         const coordToString = function (coord: number): string { return coord.toPrecision(precision); };
@@ -616,9 +641,8 @@ export default class Vector3 extends Coords {
     }
 
     /**
-     * @method toString
-     * @param [radix] {number}
-     * @return {string}
+     * @param radix
+     * @returns
      */
     toString(radix?: number): string {
         const coordToString = function (coord: number): string { return coord.toString(radix); };
@@ -810,3 +834,5 @@ export default class Vector3 extends Coords {
         return new Vector3([0, 0, 0]);
     }
 }
+applyMixins(Vector3, [Lockable]);
+

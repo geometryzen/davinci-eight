@@ -69,12 +69,12 @@ System.register("davinci-eight/facets/getViewAttitude.js", ["../math/Geometric3"
             Geometric3_1 = Geometric3_1_1;
         }],
         execute: function () {
-            u = new Geometric3_1.default();
-            v = new Geometric3_1.default();
-            n = new Geometric3_1.default();
-            e1 = Geometric3_1.default.vector(1, 0, 0);
-            e2 = Geometric3_1.default.vector(0, 1, 0);
-            e3 = Geometric3_1.default.vector(0, 0, 1);
+            u = Geometric3_1.default.zero(false);
+            v = Geometric3_1.default.zero(false);
+            n = Geometric3_1.default.zero(false);
+            e1 = Geometric3_1.default.E1;
+            e2 = Geometric3_1.default.E2;
+            e3 = Geometric3_1.default.E3;
         }
     };
 });
@@ -110,9 +110,9 @@ System.register("davinci-eight/controls/OrbitControls.js", ["../math/Geometric3"
             ViewControls_1 = ViewControls_1_1;
         }],
         execute: function () {
-            a = new Geometric3_1.Geometric3();
-            b = new Geometric3_1.Geometric3();
-            d = new Geometric3_1.Geometric3();
+            a = Geometric3_1.Geometric3.zero(false);
+            b = Geometric3_1.Geometric3.zero(false);
+            d = Geometric3_1.Geometric3.zero(false);
             B = Spinor3_1.default.one.clone();
             R = Spinor3_1.default.one.clone();
             X = Vector3_1.default.zero();
@@ -1884,34 +1884,34 @@ System.register("davinci-eight/facets/DirectionalLight.js", ["../core/Color", ".
                     }
                     mustBeObject_1.default('direction', direction);
                     mustBeObject_1.default('color', color);
-                    this._direction = Geometric3_1.default.fromVector(direction).normalize();
-                    this._color = Color_1.default.copy(color);
+                    this.direction_ = Geometric3_1.default.fromVector(direction).normalize();
+                    this.color_ = Color_1.default.copy(color);
                 }
                 Object.defineProperty(DirectionalLight.prototype, "color", {
                     get: function () {
-                        return this._color;
+                        return this.color_;
                     },
                     set: function (color) {
-                        this._color.copy(Color_1.default.mustBe('color', color));
+                        this.color_.copy(Color_1.default.mustBe('color', color));
                     },
                     enumerable: true,
                     configurable: true
                 });
                 Object.defineProperty(DirectionalLight.prototype, "direction", {
                     get: function () {
-                        return this._direction;
+                        return this.direction_;
                     },
                     set: function (direction) {
                         mustBeObject_1.default('direction', direction);
-                        this._direction.copy(direction);
+                        this.direction_.copy(direction);
                     },
                     enumerable: true,
                     configurable: true
                 });
                 DirectionalLight.prototype.setUniforms = function (visitor) {
-                    var direction = this._direction;
+                    var direction = this.direction_;
                     visitor.uniform3f(GraphicsProgramSymbols_1.default.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION, direction.x, direction.y, direction.z);
-                    var color = this.color;
+                    var color = this.color_;
                     visitor.uniform3f(GraphicsProgramSymbols_1.default.UNIFORM_DIRECTIONAL_LIGHT_COLOR, color.r, color.g, color.b);
                 };
                 return DirectionalLight;
@@ -1987,7 +1987,7 @@ System.register("davinci-eight/facets/ReflectionFacetE3.js", ["../checks/mustBeS
                 function ReflectionFacetE3(name) {
                     this.matrix = Matrix4_1.default.one.clone();
                     this.name = mustBeString_1.default('name', name);
-                    this._normal = new Geometric3_1.default();
+                    this._normal = Geometric3_1.default.zero(false);
                     this._normal.modified = true;
                 }
                 Object.defineProperty(ReflectionFacetE3.prototype, "normal", {
@@ -2738,7 +2738,7 @@ System.register("davinci-eight/math/Matrix2.js", ["../math/AbstractMatrix", "../
                     return _super.call(this, elements, 2) || this;
                 }
                 Matrix2.prototype.add = function (rhs) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         throw new Lockable_1.TargetLockedError('add');
                     }
                     return this.add2(this, rhs);
@@ -4705,7 +4705,7 @@ System.register("davinci-eight/geometries/computeFaceNormals.js", ["../core/Grap
         execute: function () {}
     };
 });
-System.register("davinci-eight/geometries/triangle.js", ["../geometries/computeFaceNormals", "../checks/expectArg", "../geometries/Simplex", "../geometries/SimplexMode", "../core/GraphicsProgramSymbols", "../math/VectorN"], function (exports_1, context_1) {
+System.register("davinci-eight/geometries/triangle.js", ["../geometries/computeFaceNormals", "../geometries/Simplex", "../geometries/SimplexMode", "../core/GraphicsProgramSymbols"], function (exports_1, context_1) {
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
@@ -4716,9 +4716,6 @@ System.register("davinci-eight/geometries/triangle.js", ["../geometries/computeF
         if (triangles === void 0) {
             triangles = [];
         }
-        expectArg_1.default('a', a).toSatisfy(a instanceof VectorN_1.VectorN, "a must be a VectorN");
-        expectArg_1.default('b', b).toSatisfy(b instanceof VectorN_1.VectorN, "b must be a VectorN");
-        expectArg_1.default('c', c).toSatisfy(c instanceof VectorN_1.VectorN, "c must be a VectorN");
         var simplex = new Simplex_1.default(SimplexMode_1.default.TRIANGLE);
         simplex.vertices[0].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = a;
         simplex.vertices[1].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = b;
@@ -4729,25 +4726,21 @@ System.register("davinci-eight/geometries/triangle.js", ["../geometries/computeF
         return triangles;
     }
     exports_1("default", triangle);
-    var computeFaceNormals_1, expectArg_1, Simplex_1, SimplexMode_1, GraphicsProgramSymbols_1, VectorN_1;
+    var computeFaceNormals_1, Simplex_1, SimplexMode_1, GraphicsProgramSymbols_1;
     return {
         setters: [function (computeFaceNormals_1_1) {
             computeFaceNormals_1 = computeFaceNormals_1_1;
-        }, function (expectArg_1_1) {
-            expectArg_1 = expectArg_1_1;
         }, function (Simplex_1_1) {
             Simplex_1 = Simplex_1_1;
         }, function (SimplexMode_1_1) {
             SimplexMode_1 = SimplexMode_1_1;
         }, function (GraphicsProgramSymbols_1_1) {
             GraphicsProgramSymbols_1 = GraphicsProgramSymbols_1_1;
-        }, function (VectorN_1_1) {
-            VectorN_1 = VectorN_1_1;
         }],
         execute: function () {}
     };
 });
-System.register("davinci-eight/geometries/quadrilateral.js", ["../checks/expectArg", "../geometries/triangle", "../math/VectorN"], function (exports_1, context_1) {
+System.register("davinci-eight/geometries/quadrilateral.js", ["../geometries/triangle"], function (exports_1, context_1) {
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
@@ -4772,10 +4765,6 @@ System.register("davinci-eight/geometries/quadrilateral.js", ["../checks/expectA
         if (triangles === void 0) {
             triangles = [];
         }
-        expectArg_1.default('a', a).toSatisfy(a instanceof VectorN_1.VectorN, "a must be a VectorN");
-        expectArg_1.default('b', b).toSatisfy(b instanceof VectorN_1.VectorN, "b must be a VectorN");
-        expectArg_1.default('c', c).toSatisfy(c instanceof VectorN_1.VectorN, "c must be a VectorN");
-        expectArg_1.default('d', d).toSatisfy(d instanceof VectorN_1.VectorN, "d must be a VectorN");
         var triatts = {};
         setAttributes([1, 2, 0], attributes, triatts);
         triangle_1.default(b, c, a, triatts, triangles);
@@ -4784,14 +4773,10 @@ System.register("davinci-eight/geometries/quadrilateral.js", ["../checks/expectA
         return triangles;
     }
     exports_1("default", quadrilateral);
-    var expectArg_1, triangle_1, VectorN_1;
+    var triangle_1;
     return {
-        setters: [function (expectArg_1_1) {
-            expectArg_1 = expectArg_1_1;
-        }, function (triangle_1_1) {
+        setters: [function (triangle_1_1) {
             triangle_1 = triangle_1_1;
-        }, function (VectorN_1_1) {
-            VectorN_1 = VectorN_1_1;
         }],
         execute: function () {}
     };
@@ -7833,34 +7818,25 @@ System.register("davinci-eight/math/quadSpinorE2.js", ["../checks/isDefined", ".
         execute: function () {}
     };
 });
-System.register("davinci-eight/math/Spinor2.js", ["../math/Coords", "../math/dotVectorCartesianE2", "../core/Lockable", "../checks/mustBeInteger", "../checks/mustBeNumber", "../checks/mustBeObject", "../i18n/notSupported", "../math/quadSpinorE2", "../math/rotorFromDirectionsE2", "../math/wedgeXY"], function (exports_1, context_1) {
+System.register("davinci-eight/math/Spinor2.js", ["../utils/applyMixins", "./approx", "../math/dotVectorCartesianE2", "../core/Lockable", "../checks/mustBeInteger", "../checks/mustBeNumber", "../checks/mustBeObject", "../i18n/notSupported", "../math/quadSpinorE2", "../math/rotorFromDirectionsE2", "../math/wedgeXY"], function (exports_1, context_1) {
     "use strict";
 
-    var __extends = this && this.__extends || function () {
-        var extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function (d, b) {
-            d.__proto__ = b;
-        } || function (d, b) {
-            for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-        };
-        return function (d, b) {
-            extendStatics(d, b);
-            function __() {
-                this.constructor = d;
-            }
-            d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-        };
-    }();
     var __moduleName = context_1 && context_1.id;
+    function coordinates(m) {
+        return [m.b, m.a];
+    }
     function one() {
         var coords = [0, 0];
         coords[COORD_SCALAR] = 1;
         coords[COORD_PSEUDO] = 0;
         return coords;
     }
-    var Coords_1, dotVectorCartesianE2_1, Lockable_1, mustBeInteger_1, mustBeNumber_1, mustBeObject_1, notSupported_1, quadSpinorE2_1, rotorFromDirectionsE2_1, wedgeXY_1, COORD_SCALAR, COORD_PSEUDO, abs, atan2, log, cos, sin, sqrt, Spinor2;
+    var applyMixins_1, approx_1, dotVectorCartesianE2_1, Lockable_1, mustBeInteger_1, mustBeNumber_1, mustBeObject_1, notSupported_1, quadSpinorE2_1, rotorFromDirectionsE2_1, wedgeXY_1, COORD_SCALAR, COORD_PSEUDO, abs, atan2, log, cos, sin, sqrt, Spinor2;
     return {
-        setters: [function (Coords_1_1) {
-            Coords_1 = Coords_1_1;
+        setters: [function (applyMixins_1_1) {
+            applyMixins_1 = applyMixins_1_1;
+        }, function (approx_1_1) {
+            approx_1 = approx_1_1;
         }, function (dotVectorCartesianE2_1_1) {
             dotVectorCartesianE2_1 = dotVectorCartesianE2_1_1;
         }, function (Lockable_1_1) {
@@ -7889,58 +7865,84 @@ System.register("davinci-eight/math/Spinor2.js", ["../math/Coords", "../math/dot
             cos = Math.cos;
             sin = Math.sin;
             sqrt = Math.sqrt;
-            Spinor2 = function (_super) {
-                __extends(Spinor2, _super);
-                function Spinor2(coordinates, modified) {
-                    if (coordinates === void 0) {
-                        coordinates = one();
+            Spinor2 = function () {
+                function Spinor2(coords, modified) {
+                    if (coords === void 0) {
+                        coords = one();
                     }
                     if (modified === void 0) {
                         modified = false;
                     }
-                    return _super.call(this, coordinates, modified, 2) || this;
+                    this.coords_ = coords;
+                    this.modified_ = modified;
                 }
+                Object.defineProperty(Spinor2.prototype, "length", {
+                    get: function () {
+                        return 2;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(Spinor2.prototype, "modified", {
+                    get: function () {
+                        return this.modified_;
+                    },
+                    set: function (modified) {
+                        if (this.isLocked()) {
+                            throw new Lockable_1.TargetLockedError('set modified');
+                        }
+                        this.modified_ = modified;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Spinor2.prototype.getComponent = function (i) {
+                    return this.coords_[i];
+                };
                 Object.defineProperty(Spinor2.prototype, "xy", {
                     get: function () {
-                        return this.coords[COORD_PSEUDO];
+                        return this.coords_[COORD_PSEUDO];
                     },
                     set: function (xy) {
-                        if (this.isLocked) {
+                        if (this.isLocked()) {
                             throw new Lockable_1.TargetLockedError('xy');
                         }
                         mustBeNumber_1.default('xy', xy);
-                        this.modified = this.modified || this.xy !== xy;
-                        this.coords[COORD_PSEUDO] = xy;
+                        var coords = this.coords_;
+                        this.modified_ = this.modified_ || coords[COORD_PSEUDO] !== xy;
+                        coords[COORD_PSEUDO] = xy;
                     },
                     enumerable: true,
                     configurable: true
                 });
                 Object.defineProperty(Spinor2.prototype, "a", {
                     get: function () {
-                        return this.coords[COORD_SCALAR];
+                        return this.coords_[COORD_SCALAR];
                     },
                     set: function (α) {
-                        if (this.isLocked) {
+                        if (this.isLocked()) {
                             throw new Lockable_1.TargetLockedError('a');
                         }
                         mustBeNumber_1.default('α', α);
-                        this.modified = this.modified || this.a !== α;
-                        this.coords[COORD_SCALAR] = α;
+                        var coords = this.coords_;
+                        this.modified_ = this.modified_ || coords[COORD_SCALAR] !== α;
+                        coords[COORD_SCALAR] = α;
                     },
                     enumerable: true,
                     configurable: true
                 });
                 Object.defineProperty(Spinor2.prototype, "b", {
                     get: function () {
-                        return this.coords[COORD_PSEUDO];
+                        return this.coords_[COORD_PSEUDO];
                     },
                     set: function (b) {
-                        if (this.isLocked) {
+                        if (this.isLocked()) {
                             throw new Lockable_1.TargetLockedError('b');
                         }
                         mustBeNumber_1.default('b', b);
-                        this.modified = this.modified || this.b !== b;
-                        this.coords[COORD_PSEUDO] = b;
+                        var coords = this.coords_;
+                        this.modified_ = this.modified_ || coords[COORD_PSEUDO] !== b;
+                        coords[COORD_PSEUDO] = b;
                     },
                     enumerable: true,
                     configurable: true
@@ -7973,12 +7975,12 @@ System.register("davinci-eight/math/Spinor2.js", ["../math/Coords", "../math/dot
                     return this.log().grade(2);
                 };
                 Spinor2.prototype.approx = function (n) {
-                    _super.prototype.approx.call(this, n);
+                    approx_1.default(this.coords_, n);
                     return this;
                 };
                 Spinor2.prototype.clone = function () {
                     var spinor = Spinor2.copy(this);
-                    spinor.modified = this.modified;
+                    spinor.modified_ = this.modified_;
                     return spinor;
                 };
                 Spinor2.prototype.conj = function () {
@@ -8066,7 +8068,7 @@ System.register("davinci-eight/math/Spinor2.js", ["../math/Coords", "../math/dot
                     return this;
                 };
                 Spinor2.prototype.log = function () {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return Lockable_1.lock(this.clone().log());
                     } else {
                         var w = this.a;
@@ -8211,7 +8213,7 @@ System.register("davinci-eight/math/Spinor2.js", ["../math/Coords", "../math/dot
                     return this;
                 };
                 Spinor2.prototype.grade = function (i) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return Lockable_1.lock(this.clone().grade(i));
                     }
                     mustBeInteger_1.default('i', i);
@@ -8233,6 +8235,9 @@ System.register("davinci-eight/math/Spinor2.js", ["../math/Coords", "../math/dot
                             }
                     }
                     return this;
+                };
+                Spinor2.prototype.toArray = function () {
+                    return coordinates(this);
                 };
                 Spinor2.prototype.toExponential = function (fractionDigits) {
                     return this.toString();
@@ -8276,8 +8281,9 @@ System.register("davinci-eight/math/Spinor2.js", ["../math/Coords", "../math/dot
                     return new Spinor2([0, 0], false);
                 };
                 return Spinor2;
-            }(Coords_1.Coords);
+            }();
             exports_1("default", Spinor2);
+            applyMixins_1.default(Spinor2, [Lockable_1.LockableMixin]);
         }
     };
 });
@@ -8656,7 +8662,7 @@ System.register("davinci-eight/shapes/ShapeBuilder.js", ["../math/Geometric3", "
             ShapeBuilder = function () {
                 function ShapeBuilder() {
                     this.stress = Vector3_1.default.vector(1, 1, 1);
-                    this.tilt = new Geometric3_1.Geometric3().addScalar(1);
+                    this.tilt = Geometric3_1.Geometric3.one(false);
                     this.offset = Vector3_1.default.zero();
                     this.transforms = [];
                     this.useNormal = true;
@@ -9525,8 +9531,8 @@ System.register("davinci-eight/visual/Group.js", ["../math/Geometric3", "../math
                 __extends(Group, _super);
                 function Group() {
                     var _this = _super.call(this) || this;
-                    _this.X = new Geometric3_1.Geometric3();
-                    _this.R = new Geometric3_1.Geometric3().addScalar(1);
+                    _this.X = Geometric3_1.Geometric3.zero(false);
+                    _this.R = Geometric3_1.Geometric3.one(false);
                     _this.stress = Matrix4_1.default.one.clone();
                     _this.visible = true;
                     _this.setLoggingName('Group');
@@ -10983,7 +10989,7 @@ System.register("davinci-eight/geometries/dataFromVectorN.js", ["../math/Geometr
             var v2 = source;
             return [v2.x, v2.y];
         } else {
-            return source.coords;
+            return source.toArray();
         }
     }
     exports_1("default", dataFromVectorN);
@@ -11104,7 +11110,7 @@ System.register("davinci-eight/geometries/computeUniqueVertices.js", [], functio
         execute: function () {}
     };
 });
-System.register("davinci-eight/geometries/simplicesToPrimitive.js", ["../collections/copyToArray", "./dataFromVectorN", "../core/DataType", "../atoms/DrawAttribute", "../core/BeginMode", "../atoms/DrawPrimitive", "./simplicesToGeometryMeta", "./computeUniqueVertices", "../checks/expectArg", "./Simplex", "./SimplexMode", "../math/VectorN"], function (exports_1, context_1) {
+System.register("davinci-eight/geometries/simplicesToPrimitive.js", ["../collections/copyToArray", "./dataFromVectorN", "../core/DataType", "../math/VectorN", "../atoms/DrawAttribute", "../core/BeginMode", "../atoms/DrawPrimitive", "./simplicesToGeometryMeta", "./computeUniqueVertices", "../checks/expectArg", "./Simplex", "./SimplexMode"], function (exports_1, context_1) {
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
@@ -11173,7 +11179,7 @@ System.register("davinci-eight/geometries/simplicesToPrimitive.js", ["../collect
                 var size = output.dimensions;
                 var value = vertexAttribs[keys[k]];
                 if (!value) {
-                    value = new VectorN_1.VectorN(numberList(size, 0), false, size);
+                    value = new VectorN_1.default(numberList(size, 0), false, size);
                 }
                 var data = dataFromVectorN_1.default(value);
                 copyToArray_1.default(data, output.data, i * output.dimensions);
@@ -11209,7 +11215,7 @@ System.register("davinci-eight/geometries/simplicesToPrimitive.js", ["../collect
         }
     }
     exports_1("default", simplicesToPrimitive);
-    var copyToArray_1, dataFromVectorN_1, DataType_1, DrawAttribute_1, BeginMode_1, DrawPrimitive_1, simplicesToGeometryMeta_1, computeUniqueVertices_1, expectArg_1, Simplex_1, SimplexMode_1, VectorN_1;
+    var copyToArray_1, dataFromVectorN_1, DataType_1, VectorN_1, DrawAttribute_1, BeginMode_1, DrawPrimitive_1, simplicesToGeometryMeta_1, computeUniqueVertices_1, expectArg_1, Simplex_1, SimplexMode_1;
     return {
         setters: [function (copyToArray_1_1) {
             copyToArray_1 = copyToArray_1_1;
@@ -11217,6 +11223,8 @@ System.register("davinci-eight/geometries/simplicesToPrimitive.js", ["../collect
             dataFromVectorN_1 = dataFromVectorN_1_1;
         }, function (DataType_1_1) {
             DataType_1 = DataType_1_1;
+        }, function (VectorN_1_1) {
+            VectorN_1 = VectorN_1_1;
         }, function (DrawAttribute_1_1) {
             DrawAttribute_1 = DrawAttribute_1_1;
         }, function (BeginMode_1_1) {
@@ -11233,8 +11241,6 @@ System.register("davinci-eight/geometries/simplicesToPrimitive.js", ["../collect
             Simplex_1 = Simplex_1_1;
         }, function (SimplexMode_1_1) {
             SimplexMode_1 = SimplexMode_1_1;
-        }, function (VectorN_1_1) {
-            VectorN_1 = VectorN_1_1;
         }],
         execute: function () {}
     };
@@ -11555,23 +11561,9 @@ System.register("davinci-eight/math/scpE2.js", [], function (exports_1, context_
         execute: function () {}
     };
 });
-System.register("davinci-eight/math/Geometric2.js", ["./arraysEQ", "../geometries/b2", "../geometries/b3", "./Coords", "./dotVectorE2", "./extE2", "./gauss", "../checks/isDefined", "../checks/isNumber", "../checks/isObject", "./lcoE2", "../core/Lockable", "./mulE2", "../checks/mustBeInteger", "../checks/mustBeNumber", "../checks/mustBeObject", "../i18n/notImplemented", "../i18n/notSupported", "./rcoE2", "./rotorFromDirectionsE2", "./scpE2", "./stringFromCoordinates", "./wedgeXY"], function (exports_1, context_1) {
+System.register("davinci-eight/math/Geometric2.js", ["../utils/applyMixins", "./approx", "./arraysEQ", "../geometries/b2", "../geometries/b3", "./dotVectorE2", "./extE2", "./gauss", "../checks/isDefined", "../checks/isNumber", "../checks/isObject", "./lcoE2", "../core/Lockable", "./mulE2", "../checks/mustBeEQ", "../checks/mustBeInteger", "../checks/mustBeNumber", "../checks/mustBeObject", "../i18n/notImplemented", "../i18n/notSupported", "./rcoE2", "./rotorFromDirectionsE2", "./scpE2", "./stringFromCoordinates", "./wedgeXY"], function (exports_1, context_1) {
     "use strict";
 
-    var __extends = this && this.__extends || function () {
-        var extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function (d, b) {
-            d.__proto__ = b;
-        } || function (d, b) {
-            for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-        };
-        return function (d, b) {
-            extendStatics(d, b);
-            function __() {
-                this.constructor = d;
-            }
-            d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-        };
-    }();
     var __moduleName = context_1 && context_1.id;
     function coordinates(m) {
         return [m.a, m.x, m.y, m.b];
@@ -11599,16 +11591,18 @@ System.register("davinci-eight/math/Geometric2.js", ["./arraysEQ", "../geometrie
             return void 0;
         }
     }
-    var arraysEQ_1, b2_1, b3_1, Coords_1, dotVectorE2_1, extE2_1, gauss_1, isDefined_1, isNumber_1, isObject_1, lcoE2_1, Lockable_1, mulE2_1, mustBeInteger_1, mustBeNumber_1, mustBeObject_1, notImplemented_1, notSupported_1, rcoE2_1, rotorFromDirectionsE2_1, scpE2_1, stringFromCoordinates_1, wedgeXY_1, COORD_SCALAR, COORD_X, COORD_Y, COORD_PSEUDO, abs, atan2, exp, log, cos, sin, sqrt, LEFTWARDS_ARROW, RIGHTWARDS_ARROW, UPWARDS_ARROW, DOWNWARDS_ARROW, CLOCKWISE_OPEN_CIRCLE_ARROW, ANTICLOCKWISE_OPEN_CIRCLE_ARROW, ARROW_LABELS, COMPASS_LABELS, STANDARD_LABELS, Geometric2;
+    var applyMixins_1, approx_1, arraysEQ_1, b2_1, b3_1, dotVectorE2_1, extE2_1, gauss_1, isDefined_1, isNumber_1, isObject_1, lcoE2_1, Lockable_1, mulE2_1, mustBeEQ_1, mustBeInteger_1, mustBeNumber_1, mustBeObject_1, notImplemented_1, notSupported_1, rcoE2_1, rotorFromDirectionsE2_1, scpE2_1, stringFromCoordinates_1, wedgeXY_1, COORD_SCALAR, COORD_X, COORD_Y, COORD_PSEUDO, abs, atan2, exp, log, cos, sin, sqrt, LEFTWARDS_ARROW, RIGHTWARDS_ARROW, UPWARDS_ARROW, DOWNWARDS_ARROW, CLOCKWISE_OPEN_CIRCLE_ARROW, ANTICLOCKWISE_OPEN_CIRCLE_ARROW, ARROW_LABELS, COMPASS_LABELS, STANDARD_LABELS, Geometric2;
     return {
-        setters: [function (arraysEQ_1_1) {
+        setters: [function (applyMixins_1_1) {
+            applyMixins_1 = applyMixins_1_1;
+        }, function (approx_1_1) {
+            approx_1 = approx_1_1;
+        }, function (arraysEQ_1_1) {
             arraysEQ_1 = arraysEQ_1_1;
         }, function (b2_1_1) {
             b2_1 = b2_1_1;
         }, function (b3_1_1) {
             b3_1 = b3_1_1;
-        }, function (Coords_1_1) {
-            Coords_1 = Coords_1_1;
         }, function (dotVectorE2_1_1) {
             dotVectorE2_1 = dotVectorE2_1_1;
         }, function (extE2_1_1) {
@@ -11627,6 +11621,8 @@ System.register("davinci-eight/math/Geometric2.js", ["./arraysEQ", "../geometrie
             Lockable_1 = Lockable_1_1;
         }, function (mulE2_1_1) {
             mulE2_1 = mulE2_1_1;
+        }, function (mustBeEQ_1_1) {
+            mustBeEQ_1 = mustBeEQ_1_1;
         }, function (mustBeInteger_1_1) {
             mustBeInteger_1 = mustBeInteger_1_1;
         }, function (mustBeNumber_1_1) {
@@ -11669,77 +11665,112 @@ System.register("davinci-eight/math/Geometric2.js", ["./arraysEQ", "../geometrie
             ARROW_LABELS = ["1", [LEFTWARDS_ARROW, RIGHTWARDS_ARROW], [DOWNWARDS_ARROW, UPWARDS_ARROW], [CLOCKWISE_OPEN_CIRCLE_ARROW, ANTICLOCKWISE_OPEN_CIRCLE_ARROW]];
             COMPASS_LABELS = ["1", ['W', 'E'], ['S', 'N'], [CLOCKWISE_OPEN_CIRCLE_ARROW, ANTICLOCKWISE_OPEN_CIRCLE_ARROW]];
             STANDARD_LABELS = ["1", "e1", "e2", "I"];
-            Geometric2 = function (_super) {
-                __extends(Geometric2, _super);
-                function Geometric2() {
-                    return _super.call(this, [0, 0, 0, 0], false, 4) || this;
+            Geometric2 = function () {
+                function Geometric2(coords, modified) {
+                    if (coords === void 0) {
+                        coords = [0, 0, 0, 0];
+                    }
+                    if (modified === void 0) {
+                        modified = false;
+                    }
+                    mustBeEQ_1.default('coords.length', coords.length, 4);
+                    this.coords_ = coords;
+                    this.modified_ = modified;
                 }
+                Object.defineProperty(Geometric2.prototype, "length", {
+                    get: function () {
+                        return 4;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(Geometric2.prototype, "modified", {
+                    get: function () {
+                        return this.modified_;
+                    },
+                    set: function (modified) {
+                        if (this.isLocked()) {
+                            throw new Lockable_1.TargetLockedError('set modified');
+                        }
+                        this.modified_ = modified;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Geometric2.prototype.getComponent = function (i) {
+                    return this.coords_[i];
+                };
                 Object.defineProperty(Geometric2.prototype, "a", {
                     get: function () {
-                        return this.coords[COORD_SCALAR];
+                        return this.coords_[COORD_SCALAR];
                     },
                     set: function (a) {
-                        if (this.isLocked) {
-                            throw new Lockable_1.TargetLockedError('a');
+                        if (this.isLocked()) {
+                            throw new Lockable_1.TargetLockedError('set a');
                         }
-                        this.modified = this.modified || this.coords[COORD_SCALAR] !== a;
-                        this.coords[COORD_SCALAR] = a;
+                        var coords = this.coords_;
+                        this.modified_ = this.modified_ || coords[COORD_SCALAR] !== a;
+                        coords[COORD_SCALAR] = a;
                     },
                     enumerable: true,
                     configurable: true
                 });
                 Object.defineProperty(Geometric2.prototype, "x", {
                     get: function () {
-                        return this.coords[COORD_X];
+                        return this.coords_[COORD_X];
                     },
                     set: function (x) {
-                        if (this.isLocked) {
-                            throw new Lockable_1.TargetLockedError('x');
+                        if (this.isLocked()) {
+                            throw new Lockable_1.TargetLockedError('set x');
                         }
-                        this.modified = this.modified || this.coords[COORD_X] !== x;
-                        this.coords[COORD_X] = x;
+                        var coords = this.coords_;
+                        this.modified_ = this.modified_ || coords[COORD_X] !== x;
+                        coords[COORD_X] = x;
                     },
                     enumerable: true,
                     configurable: true
                 });
                 Object.defineProperty(Geometric2.prototype, "y", {
                     get: function () {
-                        return this.coords[COORD_Y];
+                        return this.coords_[COORD_Y];
                     },
                     set: function (y) {
-                        if (this.isLocked) {
-                            throw new Lockable_1.TargetLockedError('y');
+                        if (this.isLocked()) {
+                            throw new Lockable_1.TargetLockedError('set y');
                         }
-                        this.modified = this.modified || this.coords[COORD_Y] !== y;
-                        this.coords[COORD_Y] = y;
+                        var coords = this.coords_;
+                        this.modified_ = this.modified_ || coords[COORD_Y] !== y;
+                        coords[COORD_Y] = y;
                     },
                     enumerable: true,
                     configurable: true
                 });
                 Object.defineProperty(Geometric2.prototype, "b", {
                     get: function () {
-                        return this.coords[COORD_PSEUDO];
+                        return this.coords_[COORD_PSEUDO];
                     },
                     set: function (b) {
-                        if (this.isLocked) {
-                            throw new Lockable_1.TargetLockedError('b');
+                        if (this.isLocked()) {
+                            throw new Lockable_1.TargetLockedError('set b');
                         }
-                        this.modified = this.modified || this.coords[COORD_PSEUDO] !== b;
-                        this.coords[COORD_PSEUDO] = b;
+                        var coords = this.coords_;
+                        this.modified_ = this.modified_ || coords[COORD_PSEUDO] !== b;
+                        coords[COORD_PSEUDO] = b;
                     },
                     enumerable: true,
                     configurable: true
                 });
                 Object.defineProperty(Geometric2.prototype, "xy", {
                     get: function () {
-                        return this.coords[COORD_PSEUDO];
+                        return this.coords_[COORD_PSEUDO];
                     },
                     set: function (xy) {
-                        if (this.isLocked) {
-                            throw new Lockable_1.TargetLockedError('xy');
+                        if (this.isLocked()) {
+                            throw new Lockable_1.TargetLockedError('set xy');
                         }
-                        this.modified = this.modified || this.coords[COORD_PSEUDO] !== xy;
-                        this.coords[COORD_PSEUDO] = xy;
+                        var coords = this.coords_;
+                        this.modified_ = this.modified_ || coords[COORD_PSEUDO] !== xy;
+                        coords[COORD_PSEUDO] = xy;
                     },
                     enumerable: true,
                     configurable: true
@@ -11786,18 +11817,18 @@ System.register("davinci-eight/math/Geometric2.js", ["./arraysEQ", "../geometrie
                     return this;
                 };
                 Geometric2.prototype.arg = function () {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return Lockable_1.lock(this.clone().arg());
                     } else {
                         return this.log().grade(2);
                     }
                 };
                 Geometric2.prototype.approx = function (n) {
-                    _super.prototype.approx.call(this, n);
+                    approx_1.default(this.coords_, n);
                     return this;
                 };
                 Geometric2.prototype.clone = function () {
-                    var m = new Geometric2();
+                    var m = new Geometric2([0, 0, 0, 0]);
                     m.copy(this);
                     return m;
                 };
@@ -11857,7 +11888,7 @@ System.register("davinci-eight/math/Geometric2.js", ["./arraysEQ", "../geometrie
                     return this;
                 };
                 Geometric2.prototype.normalize = function () {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         throw new Lockable_1.TargetLockedError('normalize');
                     }
                     var norm = this.magnitude();
@@ -11908,7 +11939,7 @@ System.register("davinci-eight/math/Geometric2.js", ["./arraysEQ", "../geometrie
                 Geometric2.prototype.equals = function (other) {
                     if (other instanceof Geometric2) {
                         var that = other;
-                        return arraysEQ_1.default(this.coords, that.coords);
+                        return arraysEQ_1.default(this.coords_, that.coords_);
                     } else {
                         return false;
                     }
@@ -12212,6 +12243,9 @@ System.register("davinci-eight/math/Geometric2.js", ["./arraysEQ", "../geometrie
                     this.b = a.b - b.b;
                     return this;
                 };
+                Geometric2.prototype.toArray = function () {
+                    return coordinates(this);
+                };
                 Geometric2.prototype.toExponential = function (fractionDigits) {
                     var coordToString = function (coord) {
                         return coord.toExponential(fractionDigits);
@@ -12237,7 +12271,7 @@ System.register("davinci-eight/math/Geometric2.js", ["./arraysEQ", "../geometrie
                     return stringFromCoordinates_1.default(coordinates(this), coordToString, Geometric2.BASIS_LABELS);
                 };
                 Geometric2.prototype.grade = function (i) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return Lockable_1.lock(this.clone().grade(i));
                     }
                     mustBeInteger_1.default('i', i);
@@ -12456,7 +12490,7 @@ System.register("davinci-eight/math/Geometric2.js", ["./arraysEQ", "../geometrie
                     return Lockable_1.lock(Geometric2.copy(this).neg());
                 };
                 Geometric2.copy = function (M) {
-                    var copy = new Geometric2();
+                    var copy = new Geometric2([]);
                     copy.a = M.a;
                     copy.x = M.x;
                     copy.y = M.y;
@@ -12469,23 +12503,18 @@ System.register("davinci-eight/math/Geometric2.js", ["./arraysEQ", "../geometrie
                 Geometric2.e2 = function () {
                     return Geometric2.vector(0, 1);
                 };
-                Geometric2.fromCartesian = function (α, x, y, β) {
-                    var m = new Geometric2();
-                    m.a = α;
-                    m.x = x;
-                    m.y = y;
-                    m.b = β;
-                    return m;
+                Geometric2.fromCartesian = function (a, x, y, b) {
+                    return new Geometric2([a, x, y, b]);
                 };
                 Geometric2.fromBivector = function (B) {
                     return Geometric2.fromCartesian(0, 0, 0, B.b);
                 };
                 Geometric2.fromSpinor = function (spinor) {
-                    return new Geometric2().copySpinor(spinor);
+                    return new Geometric2([spinor.a, 0, 0, spinor.b]);
                 };
-                Geometric2.fromVector = function (vector) {
-                    if (isDefined_1.default(vector)) {
-                        return new Geometric2().copyVector(vector);
+                Geometric2.fromVector = function (v) {
+                    if (isDefined_1.default(v)) {
+                        return new Geometric2([0, v.x, v.y, 0]);
                     } else {
                         return void 0;
                     }
@@ -12512,13 +12541,15 @@ System.register("davinci-eight/math/Geometric2.js", ["./arraysEQ", "../geometrie
                     return Geometric2.fromCartesian(0, x, y, 0);
                 };
                 return Geometric2;
-            }(Coords_1.Coords);
+            }();
             Geometric2.BASIS_LABELS = STANDARD_LABELS;
             Geometric2.BASIS_LABELS_COMPASS = COMPASS_LABELS;
             Geometric2.BASIS_LABELS_GEOMETRIC = ARROW_LABELS;
             Geometric2.BASIS_LABELS_STANDARD = STANDARD_LABELS;
-            Geometric2.zero = Lockable_1.lock(Geometric2.scalar(0));
+            Geometric2.zero = new Geometric2();
             exports_1("Geometric2", Geometric2);
+            applyMixins_1.default(Geometric2, [Lockable_1.LockableMixin]);
+            Geometric2.zero.lock();
             exports_1("default", Geometric2);
         }
     };
@@ -13186,7 +13217,7 @@ System.register("davinci-eight/geometries/Simplex.js", ["../checks/mustBeEQ", ".
         return attribMap;
     }
     function lerpVectorN(a, b, alpha) {
-        return new VectorN_1.VectorN(lerp(a.coords, b.coords, alpha));
+        return new VectorN_1.default(lerp(a.toArray(), b.toArray(), alpha));
     }
     var mustBeEQ_1, mustBeGE_1, mustBeLE_1, mustBeInteger_1, SimplexMode_1, Vertex_1, VectorN_1, Simplex;
     return {
@@ -13417,28 +13448,19 @@ System.register("davinci-eight/i18n/notImplemented.js", ["../checks/mustBeString
         execute: function () {}
     };
 });
-System.register("davinci-eight/math/Vector2.js", ["../math/Coords", "../geometries/b2", "../geometries/b3", "../core/Lockable", "../i18n/notImplemented", "./randomRange", "../math/stringFromCoordinates"], function (exports_1, context_1) {
+System.register("davinci-eight/math/Vector2.js", ["../utils/applyMixins", "./approx", "../geometries/b2", "../geometries/b3", "../core/Lockable", "../i18n/notImplemented", "./randomRange", "../math/stringFromCoordinates"], function (exports_1, context_1) {
     "use strict";
 
-    var __extends = this && this.__extends || function () {
-        var extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function (d, b) {
-            d.__proto__ = b;
-        } || function (d, b) {
-            for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-        };
-        return function (d, b) {
-            extendStatics(d, b);
-            function __() {
-                this.constructor = d;
-            }
-            d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-        };
-    }();
     var __moduleName = context_1 && context_1.id;
-    var Coords_1, b2_1, b3_1, Lockable_1, notImplemented_1, randomRange_1, stringFromCoordinates_1, sqrt, COORD_X, COORD_Y, Vector2;
+    function coordinates(m) {
+        return [m.x, m.y];
+    }
+    var applyMixins_1, approx_1, b2_1, b3_1, Lockable_1, notImplemented_1, randomRange_1, stringFromCoordinates_1, sqrt, COORD_X, COORD_Y, Vector2;
     return {
-        setters: [function (Coords_1_1) {
-            Coords_1 = Coords_1_1;
+        setters: [function (applyMixins_1_1) {
+            applyMixins_1 = applyMixins_1_1;
+        }, function (approx_1_1) {
+            approx_1 = approx_1_1;
         }, function (b2_1_1) {
             b2_1 = b2_1_1;
         }, function (b3_1_1) {
@@ -13456,8 +13478,7 @@ System.register("davinci-eight/math/Vector2.js", ["../math/Coords", "../geometri
             sqrt = Math.sqrt;
             COORD_X = 0;
             COORD_Y = 1;
-            Vector2 = function (_super) {
-                __extends(Vector2, _super);
+            Vector2 = function () {
                 function Vector2(coords, modified) {
                     if (coords === void 0) {
                         coords = [0, 0];
@@ -13465,32 +13486,58 @@ System.register("davinci-eight/math/Vector2.js", ["../math/Coords", "../geometri
                     if (modified === void 0) {
                         modified = false;
                     }
-                    return _super.call(this, coords, modified, 2) || this;
+                    this.coords_ = coords;
+                    this.modified_ = modified;
                 }
+                Object.defineProperty(Vector2.prototype, "length", {
+                    get: function () {
+                        return 2;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(Vector2.prototype, "modified", {
+                    get: function () {
+                        return this.modified_;
+                    },
+                    set: function (modified) {
+                        if (this.isLocked()) {
+                            throw new Lockable_1.TargetLockedError('set modified');
+                        }
+                        this.modified_ = modified;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Vector2.prototype.getComponent = function (i) {
+                    return this.coords_[i];
+                };
                 Object.defineProperty(Vector2.prototype, "x", {
                     get: function () {
-                        return this.coords[COORD_X];
+                        return this.coords_[COORD_X];
                     },
                     set: function (value) {
-                        if (this.isLocked) {
+                        if (this.isLocked()) {
                             throw new Lockable_1.TargetLockedError('set x');
                         }
-                        this.modified = this.modified || this.x !== value;
-                        this.coords[COORD_X] = value;
+                        var coords = this.coords_;
+                        this.modified_ = this.modified_ || coords[COORD_X] !== value;
+                        coords[COORD_X] = value;
                     },
                     enumerable: true,
                     configurable: true
                 });
                 Object.defineProperty(Vector2.prototype, "y", {
                     get: function () {
-                        return this.coords[COORD_Y];
+                        return this.coords_[COORD_Y];
                     },
                     set: function (value) {
-                        if (this.isLocked) {
+                        if (this.isLocked()) {
                             throw new Lockable_1.TargetLockedError('set y');
                         }
-                        this.modified = this.modified || this.y !== value;
-                        this.coords[COORD_Y] = value;
+                        var coords = this.coords_;
+                        this.modified_ = this.modified_ || coords[COORD_Y] !== value;
+                        coords[COORD_Y] = value;
                     },
                     enumerable: true,
                     configurable: true
@@ -13517,7 +13564,7 @@ System.register("davinci-eight/math/Vector2.js", ["../math/Coords", "../geometri
                     return this;
                 };
                 Vector2.prototype.approx = function (n) {
-                    _super.prototype.approx.call(this, n);
+                    approx_1.default(this.coords_, n);
                     return this;
                 };
                 Vector2.prototype.clone = function () {
@@ -13656,29 +13703,32 @@ System.register("davinci-eight/math/Vector2.js", ["../math/Coords", "../geometri
                     this.y *= σ.y;
                     return this;
                 };
+                Vector2.prototype.toArray = function () {
+                    return coordinates(this);
+                };
                 Vector2.prototype.toExponential = function (fractionDigits) {
                     var coordToString = function (coord) {
                         return coord.toExponential(fractionDigits);
                     };
-                    return stringFromCoordinates_1.default(this.coords, coordToString, ['e1', 'e2']);
+                    return stringFromCoordinates_1.default(this.coords_, coordToString, ['e1', 'e2']);
                 };
                 Vector2.prototype.toFixed = function (fractionDigits) {
                     var coordToString = function (coord) {
                         return coord.toFixed(fractionDigits);
                     };
-                    return stringFromCoordinates_1.default(this.coords, coordToString, ['e1', 'e2']);
+                    return stringFromCoordinates_1.default(this.coords_, coordToString, ['e1', 'e2']);
                 };
                 Vector2.prototype.toPrecision = function (precision) {
                     var coordToString = function (coord) {
                         return coord.toPrecision(precision);
                     };
-                    return stringFromCoordinates_1.default(this.coords, coordToString, ['e1', 'e2']);
+                    return stringFromCoordinates_1.default(this.coords_, coordToString, ['e1', 'e2']);
                 };
                 Vector2.prototype.toString = function (radix) {
                     var coordToString = function (coord) {
                         return coord.toString(radix);
                     };
-                    return stringFromCoordinates_1.default(this.coords, coordToString, ['e1', 'e2']);
+                    return stringFromCoordinates_1.default(this.coords_, coordToString, ['e1', 'e2']);
                 };
                 Vector2.prototype.fromArray = function (array, offset) {
                     if (offset === void 0) {
@@ -13702,6 +13752,9 @@ System.register("davinci-eight/math/Vector2.js", ["../math/Coords", "../geometri
                     this.y = 0;
                     return this;
                 };
+                Vector2.prototype.__neg__ = function () {
+                    return Lockable_1.lock(this.clone().neg());
+                };
                 Vector2.copy = function (vector) {
                     return Vector2.vector(vector.x, vector.y);
                 };
@@ -13717,9 +13770,11 @@ System.register("davinci-eight/math/Vector2.js", ["../math/Coords", "../geometri
                     return new Vector2([x, y]);
                 };
                 return Vector2;
-            }(Coords_1.Coords);
-            Vector2.zero = Lockable_1.lock(Vector2.vector(0, 0));
+            }();
+            Vector2.zero = Vector2.vector(0, 0);
             exports_1("Vector2", Vector2);
+            applyMixins_1.default(Vector2, [Lockable_1.LockableMixin]);
+            Vector2.zero.lock();
             exports_1("default", Vector2);
         }
     };
@@ -14350,31 +14405,19 @@ System.register("davinci-eight/math/Modulo.js", ["../checks/mustBeGE", "../check
         }
     };
 });
-System.register("davinci-eight/math/Vector3.js", ["./Coords", "./dotVectorE3", "../core/Lockable", "./Matrix3", "../checks/isDefined", "../checks/isNumber", "./randomRange", "../i18n/readOnly", "./toStringCustom", "./wedgeXY", "./wedgeYZ", "./wedgeZX"], function (exports_1, context_1) {
+System.register("davinci-eight/math/Vector3.js", ["../utils/applyMixins", "./approx", "./dotVectorE3", "../core/Lockable", "./Matrix3", "../checks/isDefined", "../checks/isNumber", "./randomRange", "../i18n/readOnly", "./toStringCustom", "./wedgeXY", "./wedgeYZ", "./wedgeZX"], function (exports_1, context_1) {
     "use strict";
 
-    var __extends = this && this.__extends || function () {
-        var extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function (d, b) {
-            d.__proto__ = b;
-        } || function (d, b) {
-            for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-        };
-        return function (d, b) {
-            extendStatics(d, b);
-            function __() {
-                this.constructor = d;
-            }
-            d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-        };
-    }();
     var __moduleName = context_1 && context_1.id;
     function coordinates(m) {
         return [m.x, m.y, m.z];
     }
-    var Coords_1, dotVectorE3_1, Lockable_1, Matrix3_1, isDefined_1, isNumber_1, randomRange_1, readOnly_1, toStringCustom_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1, sqrt, COORD_X, COORD_Y, COORD_Z, BASIS_LABELS, Vector3;
+    var applyMixins_1, approx_1, dotVectorE3_1, Lockable_1, Matrix3_1, isDefined_1, isNumber_1, randomRange_1, readOnly_1, toStringCustom_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1, sqrt, COORD_X, COORD_Y, COORD_Z, BASIS_LABELS, Vector3;
     return {
-        setters: [function (Coords_1_1) {
-            Coords_1 = Coords_1_1;
+        setters: [function (applyMixins_1_1) {
+            applyMixins_1 = applyMixins_1_1;
+        }, function (approx_1_1) {
+            approx_1 = approx_1_1;
         }, function (dotVectorE3_1_1) {
             dotVectorE3_1 = dotVectorE3_1_1;
         }, function (Lockable_1_1) {
@@ -14404,8 +14447,7 @@ System.register("davinci-eight/math/Vector3.js", ["./Coords", "./dotVectorE3", "
             COORD_Y = 1;
             COORD_Z = 2;
             BASIS_LABELS = ['e1', 'e2', 'e3'];
-            Vector3 = function (_super) {
-                __extends(Vector3, _super);
+            Vector3 = function () {
                 function Vector3(coords, modified) {
                     if (coords === void 0) {
                         coords = [0, 0, 0];
@@ -14413,49 +14455,76 @@ System.register("davinci-eight/math/Vector3.js", ["./Coords", "./dotVectorE3", "
                     if (modified === void 0) {
                         modified = false;
                     }
-                    return _super.call(this, coords, modified, 3) || this;
+                    this.coords_ = coords;
+                    this.modified_ = modified;
                 }
                 Vector3.dot = function (a, b) {
                     return a.x * b.x + a.y * b.y + a.z * b.z;
                 };
+                Object.defineProperty(Vector3.prototype, "length", {
+                    get: function () {
+                        return 3;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(Vector3.prototype, "modified", {
+                    get: function () {
+                        return this.modified_;
+                    },
+                    set: function (modified) {
+                        if (this.isLocked()) {
+                            throw new Lockable_1.TargetLockedError('set modified');
+                        }
+                        this.modified_ = modified;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Vector3.prototype.getComponent = function (i) {
+                    return this.coords_[i];
+                };
                 Object.defineProperty(Vector3.prototype, "x", {
                     get: function () {
-                        return this.coords[COORD_X];
+                        return this.coords_[COORD_X];
                     },
                     set: function (value) {
-                        if (this.isLocked) {
+                        if (this.isLocked()) {
                             throw new Lockable_1.TargetLockedError('set x');
                         }
-                        this.modified = this.modified || this.x !== value;
-                        this.coords[COORD_X] = value;
+                        var coords = this.coords_;
+                        this.modified_ = this.modified_ || coords[COORD_X] !== value;
+                        coords[COORD_X] = value;
                     },
                     enumerable: true,
                     configurable: true
                 });
                 Object.defineProperty(Vector3.prototype, "y", {
                     get: function () {
-                        return this.coords[COORD_Y];
+                        return this.coords_[COORD_Y];
                     },
                     set: function (value) {
-                        if (this.isLocked) {
+                        if (this.isLocked()) {
                             throw new Lockable_1.TargetLockedError('set y');
                         }
-                        this.modified = this.modified || this.y !== value;
-                        this.coords[COORD_Y] = value;
+                        var coords = this.coords_;
+                        this.modified_ = this.modified_ || coords[COORD_Y] !== value;
+                        coords[COORD_Y] = value;
                     },
                     enumerable: true,
                     configurable: true
                 });
                 Object.defineProperty(Vector3.prototype, "z", {
                     get: function () {
-                        return this.coords[COORD_Z];
+                        return this.coords_[COORD_Z];
                     },
                     set: function (value) {
-                        if (this.isLocked) {
+                        if (this.isLocked()) {
                             throw new Lockable_1.TargetLockedError('set z');
                         }
-                        this.modified = this.modified || this.z !== value;
-                        this.coords[COORD_Z] = value;
+                        var coords = this.coords_;
+                        this.modified_ = this.modified_ || coords[COORD_Z] !== value;
+                        coords[COORD_Z] = value;
                     },
                     enumerable: true,
                     configurable: true
@@ -14500,7 +14569,7 @@ System.register("davinci-eight/math/Vector3.js", ["./Coords", "./dotVectorE3", "
                     return this;
                 };
                 Vector3.prototype.approx = function (n) {
-                    _super.prototype.approx.call(this, n);
+                    approx_1.default(this.coords_, n);
                     return this;
                 };
                 Vector3.prototype.reflect = function (n) {
@@ -14534,7 +14603,7 @@ System.register("davinci-eight/math/Vector3.js", ["./Coords", "./dotVectorE3", "
                     return this;
                 };
                 Vector3.prototype.clone = function () {
-                    return new Vector3([this.x, this.y, this.z], this.modified);
+                    return new Vector3([this.x, this.y, this.z], this.modified_);
                 };
                 Vector3.prototype.copy = function (source) {
                     if (source) {
@@ -14685,6 +14754,9 @@ System.register("davinci-eight/math/Vector3.js", ["./Coords", "./dotVectorE3", "
                     this.z = a.z - b.z;
                     return this;
                 };
+                Vector3.prototype.toArray = function () {
+                    return coordinates(this);
+                };
                 Vector3.prototype.toExponential = function (fractionDigits) {
                     var coordToString = function (coord) {
                         return coord.toExponential(fractionDigits);
@@ -14816,8 +14888,9 @@ System.register("davinci-eight/math/Vector3.js", ["./Coords", "./dotVectorE3", "
                     return new Vector3([0, 0, 0]);
                 };
                 return Vector3;
-            }(Coords_1.Coords);
+            }();
             exports_1("default", Vector3);
+            applyMixins_1.default(Vector3, [Lockable_1.LockableMixin]);
         }
     };
 });
@@ -17257,6 +17330,226 @@ System.register("davinci-eight/math/clamp.js", ["../checks/mustBeNumber"], funct
         execute: function () {}
     };
 });
+System.register("davinci-eight/math/VectorN.js", ["../checks/isDefined", "../checks/isUndefined", "../core/Lockable", "../checks/mustSatisfy"], function (exports_1, context_1) {
+    "use strict";
+
+    var __moduleName = context_1 && context_1.id;
+    function pushString(T) {
+        return "push(value: " + T + "): number";
+    }
+    function popString(T) {
+        return "pop(): " + T;
+    }
+    function verboten(operation) {
+        return operation + " is not allowed for a fixed size vector";
+    }
+    function verbotenPush() {
+        return verboten(pushString('T'));
+    }
+    function verbotenPop() {
+        return verboten(popString('T'));
+    }
+    var isDefined_1, isUndefined_1, Lockable_1, mustSatisfy_1, VectorN;
+    return {
+        setters: [function (isDefined_1_1) {
+            isDefined_1 = isDefined_1_1;
+        }, function (isUndefined_1_1) {
+            isUndefined_1 = isUndefined_1_1;
+        }, function (Lockable_1_1) {
+            Lockable_1 = Lockable_1_1;
+        }, function (mustSatisfy_1_1) {
+            mustSatisfy_1 = mustSatisfy_1_1;
+        }],
+        execute: function () {
+            VectorN = function () {
+                function VectorN(data, modified, size) {
+                    if (modified === void 0) {
+                        modified = false;
+                    }
+                    this.lock_ = Lockable_1.lockable();
+                    this.modified_ = modified;
+                    if (isDefined_1.default(size)) {
+                        this.size_ = size;
+                        this.data_ = data;
+                        mustSatisfy_1.default('data.length', data.length === size, function () {
+                            return "" + size;
+                        });
+                    } else {
+                        this.size_ = void 0;
+                        this.data_ = data;
+                    }
+                }
+                VectorN.prototype.isLocked = function () {
+                    return this.lock_.isLocked();
+                };
+                VectorN.prototype.lock = function () {
+                    return this.lock_.lock();
+                };
+                VectorN.prototype.unlock = function (token) {
+                    return this.lock_.unlock(token);
+                };
+                Object.defineProperty(VectorN.prototype, "coords", {
+                    get: function () {
+                        return this.data_;
+                    },
+                    set: function (data) {
+                        if (this.isLocked()) {
+                            throw new Lockable_1.TargetLockedError('coords');
+                        }
+                        this.data_ = data;
+                        this.modified_ = true;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(VectorN.prototype, "modified", {
+                    get: function () {
+                        return this.modified_;
+                    },
+                    set: function (modified) {
+                        this.modified_ = modified;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(VectorN.prototype, "length", {
+                    get: function () {
+                        return this.coords.length;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                VectorN.prototype.clone = function () {
+                    return new VectorN(this.data_, this.modified_, this.size_);
+                };
+                VectorN.prototype.getComponent = function (index) {
+                    return this.coords[index];
+                };
+                VectorN.prototype.pop = function () {
+                    if (this.isLocked()) {
+                        throw new Lockable_1.TargetLockedError('pop');
+                    }
+                    if (isUndefined_1.default(this.size_)) {
+                        return this.coords.pop();
+                    } else {
+                        throw new Error(verbotenPop());
+                    }
+                };
+                VectorN.prototype.push = function (value) {
+                    if (this.isLocked()) {
+                        throw new Lockable_1.TargetLockedError('push');
+                    }
+                    if (isUndefined_1.default(this.size_)) {
+                        var data = this.coords;
+                        var newLength = data.push(value);
+                        this.coords = data;
+                        return newLength;
+                    } else {
+                        throw new Error(verbotenPush());
+                    }
+                };
+                VectorN.prototype.setComponent = function (index, value) {
+                    if (this.isLocked()) {
+                        throw new Lockable_1.TargetLockedError('setComponent');
+                    }
+                    var coords = this.coords;
+                    var previous = coords[index];
+                    if (value !== previous) {
+                        coords[index] = value;
+                        this.coords = coords;
+                        this.modified_ = true;
+                    }
+                };
+                VectorN.prototype.toArray = function (array, offset) {
+                    if (array === void 0) {
+                        array = [];
+                    }
+                    if (offset === void 0) {
+                        offset = 0;
+                    }
+                    var data = this.coords;
+                    var length = data.length;
+                    for (var i = 0; i < length; i++) {
+                        array[offset + i] = data[i];
+                    }
+                    return array;
+                };
+                VectorN.prototype.toLocaleString = function () {
+                    return this.coords.toLocaleString();
+                };
+                VectorN.prototype.toString = function () {
+                    return this.coords.toString();
+                };
+                return VectorN;
+            }();
+            exports_1("VectorN", VectorN);
+            exports_1("default", VectorN);
+        }
+    };
+});
+System.register("davinci-eight/math/Coords.js", ["./VectorN"], function (exports_1, context_1) {
+    "use strict";
+
+    var __extends = this && this.__extends || function () {
+        var extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function (d, b) {
+            d.__proto__ = b;
+        } || function (d, b) {
+            for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+        };
+        return function (d, b) {
+            extendStatics(d, b);
+            function __() {
+                this.constructor = d;
+            }
+            d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+        };
+    }();
+    var __moduleName = context_1 && context_1.id;
+    var VectorN_1, Coords;
+    return {
+        setters: [function (VectorN_1_1) {
+            VectorN_1 = VectorN_1_1;
+        }],
+        execute: function () {
+            Coords = function (_super) {
+                __extends(Coords, _super);
+                function Coords(coords, modified, size) {
+                    return _super.call(this, coords, modified, size) || this;
+                }
+                Coords.prototype.approx = function (n) {
+                    var max = 0;
+                    var coords = this.coords;
+                    var iLen = coords.length;
+                    for (var i = 0; i < iLen; i++) {
+                        max = Math.max(max, Math.abs(coords[i]));
+                    }
+                    var threshold = max * Math.pow(10, -n);
+                    for (var i = 0; i < iLen; i++) {
+                        if (Math.abs(coords[i]) < threshold) {
+                            coords[i] = 0;
+                        }
+                    }
+                };
+                Coords.prototype.equals = function (other) {
+                    if (other instanceof Coords) {
+                        var iLen = this.coords.length;
+                        for (var i = 0; i < iLen; i++) {
+                            if (this.coords[i] !== other.coords[i]) {
+                                return false;
+                            }
+                        }
+                        return true;
+                    } else {
+                        return false;
+                    }
+                };
+                return Coords;
+            }(VectorN_1.VectorN);
+            exports_1("Coords", Coords);
+            exports_1("default", Coords);
+        }
+    };
+});
 System.register("davinci-eight/core/principalAngle.js", [], function (exports_1, context_1) {
     "use strict";
 
@@ -17276,7 +17569,7 @@ System.register("davinci-eight/core/principalAngle.js", [], function (exports_1,
         execute: function () {}
     };
 });
-System.register("davinci-eight/core/Color.js", ["../math/clamp", "../math/Coords", "../checks/isDefined", "../core/Lockable", "../checks/mustBeArray", "../checks/mustBeGE", "../checks/mustBeLE", "../checks/mustBeNumber", "./principalAngle"], function (exports_1, context_1) {
+System.register("davinci-eight/core/Color.js", ["../math/clamp", "../math/Coords", "../checks/isDefined", "../core/Lockable", "../checks/mustBeGE", "../checks/mustBeLE", "../checks/mustBeNumber", "./principalAngle"], function (exports_1, context_1) {
     "use strict";
 
     var __extends = this && this.__extends || function () {
@@ -17294,7 +17587,7 @@ System.register("davinci-eight/core/Color.js", ["../math/clamp", "../math/Coords
         };
     }();
     var __moduleName = context_1 && context_1.id;
-    var clamp_1, Coords_1, isDefined_1, Lockable_1, mustBeArray_1, mustBeGE_1, mustBeLE_1, mustBeNumber_1, principalAngle_1, COORD_R, COORD_G, COORD_B, Color, rgb255;
+    var clamp_1, Coords_1, isDefined_1, Lockable_1, mustBeGE_1, mustBeLE_1, mustBeNumber_1, principalAngle_1, COORD_R, COORD_G, COORD_B, rgb255, Color;
     return {
         setters: [function (clamp_1_1) {
             clamp_1 = clamp_1_1;
@@ -17304,8 +17597,6 @@ System.register("davinci-eight/core/Color.js", ["../math/clamp", "../math/Coords
             isDefined_1 = isDefined_1_1;
         }, function (Lockable_1_1) {
             Lockable_1 = Lockable_1_1;
-        }, function (mustBeArray_1_1) {
-            mustBeArray_1 = mustBeArray_1_1;
         }, function (mustBeGE_1_1) {
             mustBeGE_1 = mustBeGE_1_1;
         }, function (mustBeLE_1_1) {
@@ -17319,6 +17610,10 @@ System.register("davinci-eight/core/Color.js", ["../math/clamp", "../math/Coords
             COORD_R = 0;
             COORD_G = 1;
             COORD_B = 2;
+            rgb255 = function (red, green, blue) {
+                var UBYTEMAX = 255;
+                return new Color(red / UBYTEMAX, green / UBYTEMAX, blue / UBYTEMAX);
+            };
             Color = function (_super) {
                 __extends(Color, _super);
                 function Color(r, g, b) {
@@ -17336,8 +17631,8 @@ System.register("davinci-eight/core/Color.js", ["../math/clamp", "../math/Coords
                         return this.coords[COORD_R];
                     },
                     set: function (r) {
-                        if (this.isLocked) {
-                            throw new Lockable_1.TargetLockedError('r');
+                        if (this.isLocked()) {
+                            throw new Lockable_1.TargetLockedError('set r');
                         }
                         this.coords[COORD_R] = clamp_1.default(r, 0, 1);
                     },
@@ -17349,8 +17644,8 @@ System.register("davinci-eight/core/Color.js", ["../math/clamp", "../math/Coords
                         return this.coords[COORD_R];
                     },
                     set: function (red) {
-                        if (this.isLocked) {
-                            throw new Lockable_1.TargetLockedError('red');
+                        if (this.isLocked()) {
+                            throw new Lockable_1.TargetLockedError('set red');
                         }
                         this.coords[COORD_R] = clamp_1.default(red, 0, 1);
                     },
@@ -17362,8 +17657,8 @@ System.register("davinci-eight/core/Color.js", ["../math/clamp", "../math/Coords
                         return this.coords[COORD_G];
                     },
                     set: function (g) {
-                        if (this.isLocked) {
-                            throw new Lockable_1.TargetLockedError('g');
+                        if (this.isLocked()) {
+                            throw new Lockable_1.TargetLockedError('set g');
                         }
                         this.coords[COORD_G] = clamp_1.default(g, 0, 1);
                     },
@@ -17375,8 +17670,8 @@ System.register("davinci-eight/core/Color.js", ["../math/clamp", "../math/Coords
                         return this.coords[COORD_G];
                     },
                     set: function (green) {
-                        if (this.isLocked) {
-                            throw new Lockable_1.TargetLockedError('green');
+                        if (this.isLocked()) {
+                            throw new Lockable_1.TargetLockedError('set green');
                         }
                         this.coords[COORD_G] = clamp_1.default(green, 0, 1);
                     },
@@ -17388,8 +17683,8 @@ System.register("davinci-eight/core/Color.js", ["../math/clamp", "../math/Coords
                         return this.coords[COORD_B];
                     },
                     set: function (b) {
-                        if (this.isLocked) {
-                            throw new Lockable_1.TargetLockedError('b');
+                        if (this.isLocked()) {
+                            throw new Lockable_1.TargetLockedError('set b');
                         }
                         this.coords[COORD_B] = clamp_1.default(b, 0, 1);
                     },
@@ -17401,31 +17696,29 @@ System.register("davinci-eight/core/Color.js", ["../math/clamp", "../math/Coords
                         return this.coords[COORD_B];
                     },
                     set: function (blue) {
-                        if (this.isLocked) {
-                            throw new Lockable_1.TargetLockedError('blue');
+                        if (this.isLocked()) {
+                            throw new Lockable_1.TargetLockedError('set blue');
                         }
                         this.coords[COORD_B] = clamp_1.default(blue, 0, 1);
                     },
                     enumerable: true,
                     configurable: true
                 });
-                Color.prototype.add = function (rhs) {
-                    return this;
-                };
-                Color.prototype.add2 = function (a, b) {
-                    return this;
-                };
-                Color.prototype.applyMatrix = function (σ) {
-                    return this;
-                };
                 Color.prototype.approx = function (n) {
-                    _super.prototype.approx.call(this, n);
-                    return this;
+                    if (this.isLocked()) {
+                        return Lockable_1.lock(this.clone().approx(n));
+                    } else {
+                        _super.prototype.approx.call(this, n);
+                        return this;
+                    }
                 };
                 Color.prototype.clone = function () {
                     return new Color(this.r, this.g, this.b);
                 };
                 Color.prototype.copy = function (color) {
+                    if (this.isLocked()) {
+                        throw new Lockable_1.TargetLockedError('copy');
+                    }
                     if (isDefined_1.default(color)) {
                         this.r = color.r;
                         this.g = color.g;
@@ -17437,14 +17730,15 @@ System.register("davinci-eight/core/Color.js", ["../math/clamp", "../math/Coords
                     }
                     return this;
                 };
-                Color.prototype.divByScalar = function (α) {
-                    return this;
-                };
                 Color.prototype.lerp = function (target, α) {
-                    this.r += (target.r - this.r) * α;
-                    this.g += (target.g - this.g) * α;
-                    this.b += (target.b - this.b) * α;
-                    return this;
+                    if (this.isLocked()) {
+                        return Lockable_1.lock(this.clone().lerp(target, α));
+                    } else {
+                        this.r += (target.r - this.r) * α;
+                        this.g += (target.g - this.g) * α;
+                        this.b += (target.b - this.b) * α;
+                        return this;
+                    }
                 };
                 Object.defineProperty(Color.prototype, "luminance", {
                     get: function () {
@@ -17453,29 +17747,15 @@ System.register("davinci-eight/core/Color.js", ["../math/clamp", "../math/Coords
                     enumerable: true,
                     configurable: true
                 });
-                Color.prototype.neg = function () {
-                    return this;
-                };
-                Color.prototype.reflect = function (n) {
-                    return this;
-                };
-                Color.prototype.rotate = function (R) {
-                    return this;
-                };
                 Color.prototype.scale = function (α) {
-                    this.r = this.r * α;
-                    this.g = this.g * α;
-                    this.b = this.b * α;
-                    return this;
-                };
-                Color.prototype.stress = function (σ) {
-                    return this;
-                };
-                Color.prototype.sub = function (rhs) {
-                    return this;
-                };
-                Color.prototype.sub2 = function (a, b) {
-                    return this;
+                    if (this.isLocked()) {
+                        return Lockable_1.lock(this.clone().scale(α));
+                    } else {
+                        this.r = this.r * α;
+                        this.g = this.g * α;
+                        this.b = this.b * α;
+                        return this;
+                    }
                 };
                 Color.prototype.toExponential = function (fractionDigits) {
                     return this.toString();
@@ -17486,11 +17766,8 @@ System.register("davinci-eight/core/Color.js", ["../math/clamp", "../math/Coords
                 Color.prototype.toPrecision = function (precision) {
                     return this.toString();
                 };
-                Color.prototype.toString = function () {
-                    return "Color(" + this.r + ", " + this.g + ", " + this.b + ")";
-                };
-                Color.prototype.zero = function () {
-                    return this;
+                Color.prototype.toString = function (radix) {
+                    return "Color(" + this.r.toString(radix) + ", " + this.g.toString(radix) + ", " + this.b.toString(radix) + ")";
                 };
                 Color.copy = function (color) {
                     return new Color(color.r, color.g, color.b);
@@ -17502,13 +17779,6 @@ System.register("davinci-eight/core/Color.js", ["../math/clamp", "../math/Coords
                     var pow = Math.pow;
                     var γ = 2.2;
                     return 0.2126 * pow(r, γ) + 0.7152 * pow(b, γ) + 0.0722 * pow(b, γ);
-                };
-                Color.fromCoords = function (coords) {
-                    mustBeArray_1.default('coords', coords);
-                    var r = mustBeNumber_1.default('r', coords[COORD_R]);
-                    var g = mustBeNumber_1.default('g', coords[COORD_G]);
-                    var b = mustBeNumber_1.default('b', coords[COORD_B]);
-                    return new Color(r, g, b);
                 };
                 Color.fromHSL = function (H, S, L) {
                     mustBeNumber_1.default('H', H);
@@ -17561,37 +17831,25 @@ System.register("davinci-eight/core/Color.js", ["../math/clamp", "../math/Coords
                 };
                 return Color;
             }(Coords_1.Coords);
-            Color.black = new Color(0, 0, 0);
-            Color.blue = new Color(0, 0, 1);
-            Color.green = new Color(0, 1, 0);
-            Color.cyan = new Color(0, 1, 1);
-            Color.red = new Color(1, 0, 0);
-            Color.magenta = new Color(1, 0, 1);
-            Color.yellow = new Color(1, 1, 0);
-            Color.white = new Color(1, 1, 1);
-            Color.gray = new Color(0.5, 0.5, 0.5);
+            Color.black = Lockable_1.lock(new Color(0, 0, 0));
+            Color.blue = Lockable_1.lock(new Color(0, 0, 1));
+            Color.green = Lockable_1.lock(new Color(0, 1, 0));
+            Color.cyan = Lockable_1.lock(new Color(0, 1, 1));
+            Color.red = Lockable_1.lock(new Color(1, 0, 0));
+            Color.magenta = Lockable_1.lock(new Color(1, 0, 1));
+            Color.yellow = Lockable_1.lock(new Color(1, 1, 0));
+            Color.white = Lockable_1.lock(new Color(1, 1, 1));
+            Color.gray = Lockable_1.lock(new Color(0.5, 0.5, 0.5));
+            Color.blueviolet = Lockable_1.lock(rgb255(138, 43, 226));
+            Color.chartreuse = Lockable_1.lock(rgb255(127, 255, 0));
+            Color.cobalt = Lockable_1.lock(rgb255(61, 89, 171));
+            Color.hotpink = Lockable_1.lock(rgb255(255, 105, 180));
+            Color.lime = Lockable_1.lock(rgb255(0, 255, 0));
+            Color.slateblue = Lockable_1.lock(rgb255(113, 113, 198));
+            Color.springgreen = Lockable_1.lock(rgb255(0, 255, 127));
+            Color.teal = Lockable_1.lock(rgb255(56, 142, 142));
             exports_1("Color", Color);
-            Color.black.lock();
-            Color.blue.lock();
-            Color.green.lock();
-            Color.cyan.lock();
-            Color.red.lock();
-            Color.magenta.lock();
-            Color.yellow.lock();
-            Color.white.lock();
             exports_1("default", Color);
-            rgb255 = function (red, green, blue) {
-                var UBYTEMAX = 255;
-                return new Color(red / UBYTEMAX, green / UBYTEMAX, blue / UBYTEMAX);
-            };
-            Color.blueviolet = rgb255(138, 43, 226);
-            Color.chartreuse = rgb255(127, 255, 0);
-            Color.cobalt = rgb255(61, 89, 171);
-            Color.hotpink = rgb255(255, 105, 180);
-            Color.lime = rgb255(0, 255, 0);
-            Color.slateblue = rgb255(113, 113, 198);
-            Color.springgreen = rgb255(0, 255, 127);
-            Color.teal = rgb255(56, 142, 142);
         }
     };
 });
@@ -18400,7 +18658,7 @@ System.register("davinci-eight/math/Matrix3.js", ["../math/AbstractMatrix", "../
                     return _super.call(this, elements, 3) || this;
                 }
                 Matrix3.prototype.add = function (rhs) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         throw new Lockable_1.TargetLockedError('add');
                     }
                     return this.add2(this, rhs);
@@ -18857,20 +19115,16 @@ System.register("davinci-eight/math/AbstractMatrix.js", ["../core/Lockable", "..
         execute: function () {
             AbstractMatrix = function () {
                 function AbstractMatrix(elements, dimensions) {
-                    this.lock_ = Lockable_1.makeLockable();
+                    this.lock_ = Lockable_1.lockable();
                     this.elements_ = mustBeDefined_1.default('elements', elements);
                     this.dimensions_ = mustBeInteger_1.default('dimensions', dimensions);
                     this.length_ = dimensions * dimensions;
                     expectArg_1.default('elements', elements).toSatisfy(elements.length === this.length_, 'elements must have length ' + this.length_);
                     this.modified = false;
                 }
-                Object.defineProperty(AbstractMatrix.prototype, "isLocked", {
-                    get: function () {
-                        return this.lock_.isLocked;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
+                AbstractMatrix.prototype.isLocked = function () {
+                    return this.lock_.isLocked();
+                };
                 AbstractMatrix.prototype.lock = function () {
                     return this.lock_.lock();
                 };
@@ -18892,7 +19146,7 @@ System.register("davinci-eight/math/AbstractMatrix.js", ["../core/Lockable", "..
                         return this.elements_;
                     },
                     set: function (elements) {
-                        if (this.isLocked) {
+                        if (this.isLocked()) {
                             throw new Lockable_1.TargetLockedError('elements');
                         }
                         expectArg_1.default('elements', elements).toSatisfy(elements.length === this.length_, "elements length must be " + this.length_);
@@ -18902,7 +19156,7 @@ System.register("davinci-eight/math/AbstractMatrix.js", ["../core/Lockable", "..
                     configurable: true
                 });
                 AbstractMatrix.prototype.copy = function (m) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         throw new Lockable_1.TargetLockedError('copy');
                     }
                     this.elements.set(m.elements);
@@ -18929,7 +19183,7 @@ System.register("davinci-eight/math/AbstractMatrix.js", ["../core/Lockable", "..
                     return true;
                 };
                 AbstractMatrix.prototype.setElement = function (row, column, value) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         throw new Lockable_1.TargetLockedError('setElement');
                     }
                     this.elements[row + column * this.dimensions_] = value;
@@ -19277,7 +19531,7 @@ System.register("davinci-eight/math/Matrix4.js", ["../math/AbstractMatrix", "./d
                     return Matrix4.one.clone().rotation(spinor);
                 };
                 Matrix4.prototype.add = function (rhs) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         throw new Lockable_1.TargetLockedError('add');
                     }
                     return this.add2(this, rhs);
@@ -19556,8 +19810,8 @@ System.register("davinci-eight/facets/ModelE3.js", ["../math/Geometric3"], funct
         execute: function () {
             ModelE3 = function () {
                 function ModelE3() {
-                    this._position = new Geometric3_1.default();
-                    this._attitude = new Geometric3_1.default().addScalar(1);
+                    this._position = Geometric3_1.default.zero(false);
+                    this._attitude = Geometric3_1.default.one(false);
                     this._position.modified = true;
                     this._attitude.modified = true;
                 }
@@ -19978,31 +20232,19 @@ System.register("davinci-eight/math/toStringCustom.js", ["../math/stringFromCoor
         execute: function () {}
     };
 });
-System.register("davinci-eight/math/Spinor3.js", ["./Coords", "./dotVectorCartesianE3", "../core/Lockable", "./mulSpinorE3YZ", "./mulSpinorE3ZX", "./mulSpinorE3XY", "./mulSpinorE3alpha", "../checks/mustBeInteger", "../checks/mustBeNumber", "../checks/mustBeObject", "./quadSpinorE3", "./randomRange", "../i18n/readOnly", "./rotorFromDirectionsE3", "./toStringCustom", "./wedgeXY", "./wedgeYZ", "./wedgeZX"], function (exports_1, context_1) {
+System.register("davinci-eight/math/Spinor3.js", ["../utils/applyMixins", "./approx", "./dotVectorCartesianE3", "../core/Lockable", "./mulSpinorE3YZ", "./mulSpinorE3ZX", "./mulSpinorE3XY", "./mulSpinorE3alpha", "../checks/mustBeInteger", "../checks/mustBeNumber", "../checks/mustBeObject", "./quadSpinorE3", "./randomRange", "../i18n/readOnly", "./rotorFromDirectionsE3", "./toStringCustom", "./wedgeXY", "./wedgeYZ", "./wedgeZX"], function (exports_1, context_1) {
     "use strict";
 
-    var __extends = this && this.__extends || function () {
-        var extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function (d, b) {
-            d.__proto__ = b;
-        } || function (d, b) {
-            for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-        };
-        return function (d, b) {
-            extendStatics(d, b);
-            function __() {
-                this.constructor = d;
-            }
-            d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-        };
-    }();
     var __moduleName = context_1 && context_1.id;
     function coordinates(m) {
         return [m.yz, m.zx, m.xy, m.a];
     }
-    var Coords_1, dotVectorCartesianE3_1, Lockable_1, mulSpinorE3YZ_1, mulSpinorE3ZX_1, mulSpinorE3XY_1, mulSpinorE3alpha_1, mustBeInteger_1, mustBeNumber_1, mustBeObject_1, quadSpinorE3_1, randomRange_1, readOnly_1, rotorFromDirectionsE3_1, toStringCustom_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1, COORD_YZ, COORD_ZX, COORD_XY, COORD_SCALAR, BASIS_LABELS, exp, cos, sin, sqrt, magicCode, Spinor3;
+    var applyMixins_1, approx_1, dotVectorCartesianE3_1, Lockable_1, mulSpinorE3YZ_1, mulSpinorE3ZX_1, mulSpinorE3XY_1, mulSpinorE3alpha_1, mustBeInteger_1, mustBeNumber_1, mustBeObject_1, quadSpinorE3_1, randomRange_1, readOnly_1, rotorFromDirectionsE3_1, toStringCustom_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1, COORD_YZ, COORD_ZX, COORD_XY, COORD_SCALAR, BASIS_LABELS, exp, cos, sin, sqrt, magicCode, Spinor3;
     return {
-        setters: [function (Coords_1_1) {
-            Coords_1 = Coords_1_1;
+        setters: [function (applyMixins_1_1) {
+            applyMixins_1 = applyMixins_1_1;
+        }, function (approx_1_1) {
+            approx_1 = approx_1_1;
         }, function (dotVectorCartesianE3_1_1) {
             dotVectorCartesianE3_1 = dotVectorCartesianE3_1_1;
         }, function (Lockable_1_1) {
@@ -20049,78 +20291,101 @@ System.register("davinci-eight/math/Spinor3.js", ["./Coords", "./dotVectorCartes
             sin = Math.sin;
             sqrt = Math.sqrt;
             magicCode = Math.random();
-            Spinor3 = function (_super) {
-                __extends(Spinor3, _super);
-                function Spinor3(coordinates, code) {
-                    var _this = _super.call(this, coordinates, false, 4) || this;
+            Spinor3 = function () {
+                function Spinor3(coords, code) {
                     if (code !== magicCode) {
                         throw new Error("Use the static creation methods instead of the constructor");
                     }
-                    return _this;
+                    this.coords_ = coords;
+                    this.modified_ = false;
                 }
+                Object.defineProperty(Spinor3.prototype, "modified", {
+                    get: function () {
+                        return this.modified_;
+                    },
+                    set: function (modified) {
+                        if (this.isLocked()) {
+                            throw new Lockable_1.TargetLockedError('set modified');
+                        }
+                        this.modified_ = modified;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
                 Object.defineProperty(Spinor3.prototype, "yz", {
                     get: function () {
-                        return this.coords[COORD_YZ];
+                        return this.coords_[COORD_YZ];
                     },
                     set: function (yz) {
-                        if (this.isLocked) {
-                            throw new Lockable_1.TargetLockedError('yz');
+                        if (this.isLocked()) {
+                            throw new Lockable_1.TargetLockedError('set yz');
                         }
                         mustBeNumber_1.default('yz', yz);
-                        this.modified = this.modified || this.yz !== yz;
-                        this.coords[COORD_YZ] = yz;
+                        var coords = this.coords_;
+                        this.modified_ = this.modified_ || coords[COORD_YZ] !== yz;
+                        coords[COORD_YZ] = yz;
                     },
                     enumerable: true,
                     configurable: true
                 });
                 Object.defineProperty(Spinor3.prototype, "zx", {
                     get: function () {
-                        return this.coords[COORD_ZX];
+                        return this.coords_[COORD_ZX];
                     },
                     set: function (zx) {
-                        if (this.isLocked) {
+                        if (this.isLocked()) {
                             throw new Lockable_1.TargetLockedError('zx');
                         }
                         mustBeNumber_1.default('zx', zx);
-                        this.modified = this.modified || this.zx !== zx;
-                        this.coords[COORD_ZX] = zx;
+                        var coords = this.coords_;
+                        this.modified_ = this.modified_ || coords[COORD_ZX] !== zx;
+                        coords[COORD_ZX] = zx;
                     },
                     enumerable: true,
                     configurable: true
                 });
                 Object.defineProperty(Spinor3.prototype, "xy", {
                     get: function () {
-                        return this.coords[COORD_XY];
+                        return this.coords_[COORD_XY];
                     },
                     set: function (xy) {
-                        if (this.isLocked) {
+                        if (this.isLocked()) {
                             throw new Lockable_1.TargetLockedError('xy');
                         }
                         mustBeNumber_1.default('xy', xy);
-                        this.modified = this.modified || this.xy !== xy;
-                        this.coords[COORD_XY] = xy;
+                        var coords = this.coords_;
+                        this.modified_ = this.modified_ || coords[COORD_XY] !== xy;
+                        coords[COORD_XY] = xy;
                     },
                     enumerable: true,
                     configurable: true
                 });
                 Object.defineProperty(Spinor3.prototype, "a", {
                     get: function () {
-                        return this.coords[COORD_SCALAR];
+                        return this.coords_[COORD_SCALAR];
                     },
                     set: function (α) {
-                        if (this.isLocked) {
+                        if (this.isLocked()) {
                             throw new Lockable_1.TargetLockedError('a');
                         }
                         mustBeNumber_1.default('α', α);
-                        this.modified = this.modified || this.a !== α;
-                        this.coords[COORD_SCALAR] = α;
+                        var coords = this.coords_;
+                        this.modified_ = this.modified_ || coords[COORD_SCALAR] !== α;
+                        coords[COORD_SCALAR] = α;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(Spinor3.prototype, "length", {
+                    get: function () {
+                        return 4;
                     },
                     enumerable: true,
                     configurable: true
                 });
                 Object.defineProperty(Spinor3.prototype, "maskG3", {
                     get: function () {
-                        var coords = this.coords;
+                        var coords = this.coords_;
                         var α = coords[COORD_SCALAR];
                         var yz = coords[COORD_YZ];
                         var zx = coords[COORD_ZX];
@@ -20169,14 +20434,14 @@ System.register("davinci-eight/math/Spinor3.js", ["./Coords", "./dotVectorCartes
                     return this;
                 };
                 Spinor3.prototype.arg = function () {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return Lockable_1.lock(this.clone().arg());
                     } else {
                         return this.log().grade(2);
                     }
                 };
                 Spinor3.prototype.approx = function (n) {
-                    _super.prototype.approx.call(this, n);
+                    approx_1.default(this.coords_, n);
                     return this;
                 };
                 Spinor3.prototype.clone = function () {
@@ -20271,6 +20536,9 @@ System.register("davinci-eight/math/Spinor3.js", ["./Coords", "./dotVectorCartes
                     this.zx = y * s;
                     this.xy = z * s;
                     return this;
+                };
+                Spinor3.prototype.getComponent = function (index) {
+                    return this.coords_[index];
                 };
                 Spinor3.prototype.inv = function () {
                     this.conj();
@@ -20524,6 +20792,9 @@ System.register("davinci-eight/math/Spinor3.js", ["./Coords", "./dotVectorCartes
                     }
                     return this;
                 };
+                Spinor3.prototype.toArray = function () {
+                    return coordinates(this);
+                };
                 Spinor3.prototype.toExponential = function (fractionDigits) {
                     var coordToString = function (coord) {
                         return coord.toExponential(fractionDigits);
@@ -20563,7 +20834,7 @@ System.register("davinci-eight/math/Spinor3.js", ["./Coords", "./dotVectorCartes
                 };
                 Spinor3.copy = function (spinor) {
                     var s = Spinor3.zero.clone().copy(spinor);
-                    s.modified = false;
+                    s.modified_ = false;
                     return s;
                 };
                 Spinor3.dual = function (v, changeSign) {
@@ -20604,10 +20875,11 @@ System.register("davinci-eight/math/Spinor3.js", ["./Coords", "./dotVectorCartes
                     return Spinor3.spinor(yz, zx, xy, 0);
                 };
                 return Spinor3;
-            }(Coords_1.Coords);
+            }();
             Spinor3.one = Spinor3.spinor(0, 0, 0, 1);
             Spinor3.zero = Spinor3.spinor(0, 0, 0, 0);
             exports_1("Spinor3", Spinor3);
+            applyMixins_1.default(Spinor3, [Lockable_1.LockableMixin]);
             Spinor3.one.lock();
             Spinor3.zero.lock();
             exports_1("default", Spinor3);
@@ -21342,228 +21614,44 @@ System.register("davinci-eight/visual/simplexModeFromOptions.js", ["../checks/is
         execute: function () {}
     };
 });
-System.register("davinci-eight/math/VectorN.js", ["../checks/isDefined", "../checks/isUndefined", "../core/Lockable", "../checks/mustSatisfy"], function (exports_1, context_1) {
+System.register("davinci-eight/utils/applyMixins.js", [], function (exports_1, context_1) {
     "use strict";
 
     var __moduleName = context_1 && context_1.id;
-    function pushString(T) {
-        return "push(value: " + T + "): number";
+    function applyMixins(derivedCtor, baseCtors) {
+        baseCtors.forEach(function (baseCtor) {
+            Object.getOwnPropertyNames(baseCtor.prototype).forEach(function (name) {
+                derivedCtor.prototype[name] = baseCtor.prototype[name];
+            });
+        });
     }
-    function popString(T) {
-        return "pop(): " + T;
-    }
-    function verboten(operation) {
-        return operation + " is not allowed for a fixed size vector";
-    }
-    function verbotenPush() {
-        return verboten(pushString('T'));
-    }
-    function verbotenPop() {
-        return verboten(popString('T'));
-    }
-    var isDefined_1, isUndefined_1, Lockable_1, mustSatisfy_1, VectorN;
+    exports_1("default", applyMixins);
     return {
-        setters: [function (isDefined_1_1) {
-            isDefined_1 = isDefined_1_1;
-        }, function (isUndefined_1_1) {
-            isUndefined_1 = isUndefined_1_1;
-        }, function (Lockable_1_1) {
-            Lockable_1 = Lockable_1_1;
-        }, function (mustSatisfy_1_1) {
-            mustSatisfy_1 = mustSatisfy_1_1;
-        }],
-        execute: function () {
-            VectorN = function () {
-                function VectorN(data, modified, size) {
-                    if (modified === void 0) {
-                        modified = false;
-                    }
-                    this.lock_ = Lockable_1.makeLockable();
-                    this.modified_ = modified;
-                    if (isDefined_1.default(size)) {
-                        this.size_ = size;
-                        this.data_ = data;
-                        mustSatisfy_1.default('data.length', data.length === size, function () {
-                            return "" + size;
-                        });
-                    } else {
-                        this.size_ = void 0;
-                        this.data_ = data;
-                    }
-                }
-                Object.defineProperty(VectorN.prototype, "isLocked", {
-                    get: function () {
-                        return this.lock_.isLocked;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                VectorN.prototype.lock = function () {
-                    return this.lock_.lock();
-                };
-                VectorN.prototype.unlock = function (token) {
-                    return this.lock_.unlock(token);
-                };
-                Object.defineProperty(VectorN.prototype, "coords", {
-                    get: function () {
-                        return this.data_;
-                    },
-                    set: function (data) {
-                        if (this.isLocked) {
-                            throw new Lockable_1.TargetLockedError('coords');
-                        }
-                        this.data_ = data;
-                        this.modified_ = true;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                Object.defineProperty(VectorN.prototype, "modified", {
-                    get: function () {
-                        return this.modified_;
-                    },
-                    set: function (modified) {
-                        this.modified_ = modified;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                Object.defineProperty(VectorN.prototype, "length", {
-                    get: function () {
-                        return this.coords.length;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                VectorN.prototype.clone = function () {
-                    return new VectorN(this.data_, this.modified_, this.size_);
-                };
-                VectorN.prototype.getComponent = function (index) {
-                    return this.coords[index];
-                };
-                VectorN.prototype.pop = function () {
-                    if (this.isLocked) {
-                        throw new Lockable_1.TargetLockedError('pop');
-                    }
-                    if (isUndefined_1.default(this.size_)) {
-                        return this.coords.pop();
-                    } else {
-                        throw new Error(verbotenPop());
-                    }
-                };
-                VectorN.prototype.push = function (value) {
-                    if (this.isLocked) {
-                        throw new Lockable_1.TargetLockedError('push');
-                    }
-                    if (isUndefined_1.default(this.size_)) {
-                        var data = this.coords;
-                        var newLength = data.push(value);
-                        this.coords = data;
-                        return newLength;
-                    } else {
-                        throw new Error(verbotenPush());
-                    }
-                };
-                VectorN.prototype.setComponent = function (index, value) {
-                    if (this.isLocked) {
-                        throw new Lockable_1.TargetLockedError('setComponent');
-                    }
-                    var coords = this.coords;
-                    var previous = coords[index];
-                    if (value !== previous) {
-                        coords[index] = value;
-                        this.coords = coords;
-                        this.modified_ = true;
-                    }
-                };
-                VectorN.prototype.toArray = function (array, offset) {
-                    if (array === void 0) {
-                        array = [];
-                    }
-                    if (offset === void 0) {
-                        offset = 0;
-                    }
-                    var data = this.coords;
-                    var length = data.length;
-                    for (var i = 0; i < length; i++) {
-                        array[offset + i] = data[i];
-                    }
-                    return array;
-                };
-                VectorN.prototype.toLocaleString = function () {
-                    return this.coords.toLocaleString();
-                };
-                VectorN.prototype.toString = function () {
-                    return this.coords.toString();
-                };
-                return VectorN;
-            }();
-            exports_1("VectorN", VectorN);
-            exports_1("default", VectorN);
-        }
+        setters: [],
+        execute: function () {}
     };
 });
-System.register("davinci-eight/math/Coords.js", ["./VectorN"], function (exports_1, context_1) {
+System.register("davinci-eight/math/approx.js", [], function (exports_1, context_1) {
     "use strict";
 
-    var __extends = this && this.__extends || function () {
-        var extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function (d, b) {
-            d.__proto__ = b;
-        } || function (d, b) {
-            for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-        };
-        return function (d, b) {
-            extendStatics(d, b);
-            function __() {
-                this.constructor = d;
-            }
-            d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-        };
-    }();
     var __moduleName = context_1 && context_1.id;
-    var VectorN_1, Coords;
-    return {
-        setters: [function (VectorN_1_1) {
-            VectorN_1 = VectorN_1_1;
-        }],
-        execute: function () {
-            Coords = function (_super) {
-                __extends(Coords, _super);
-                function Coords(coords, modified, size) {
-                    return _super.call(this, coords, modified, size) || this;
-                }
-                Coords.prototype.approx = function (n) {
-                    var max = 0;
-                    var coords = this.coords;
-                    var iLen = coords.length;
-                    for (var i = 0; i < iLen; i++) {
-                        max = Math.max(max, Math.abs(coords[i]));
-                    }
-                    var threshold = max * Math.pow(10, -n);
-                    for (var i = 0; i < iLen; i++) {
-                        if (Math.abs(coords[i]) < threshold) {
-                            coords[i] = 0;
-                        }
-                    }
-                };
-                Coords.prototype.equals = function (other) {
-                    if (other instanceof Coords) {
-                        var iLen = this.coords.length;
-                        for (var i = 0; i < iLen; i++) {
-                            if (this.coords[i] !== other.coords[i]) {
-                                return false;
-                            }
-                        }
-                        return true;
-                    } else {
-                        return false;
-                    }
-                };
-                return Coords;
-            }(VectorN_1.VectorN);
-            exports_1("Coords", Coords);
-            exports_1("default", Coords);
+    function approx(coords, n) {
+        var max = 0;
+        var iLen = coords.length;
+        for (var i = 0; i < iLen; i++) {
+            max = Math.max(max, Math.abs(coords[i]));
         }
+        var threshold = max * Math.pow(10, -n);
+        for (var i = 0; i < iLen; i++) {
+            if (Math.abs(coords[i]) < threshold) {
+                coords[i] = 0;
+            }
+        }
+    }
+    exports_1("default", approx);
+    return {
+        setters: [],
+        execute: function () {}
     };
 });
 System.register("davinci-eight/math/arraysEQ.js", ["../checks/isDefined", "../checks/isNull", "../checks/isUndefined"], function (exports_1, context_1) {
@@ -21992,14 +22080,14 @@ System.register("davinci-eight/core/Lockable.js", [], function (exports_1, conte
         return m;
     }
     exports_1("lock", lock);
-    function makeLockable() {
+    function lockable() {
         var lock_ = void 0;
         var that = {
-            get isLocked() {
+            isLocked: function () {
                 return typeof lock_ === 'number';
             },
             lock: function () {
-                if (that.isLocked) {
+                if (that.isLocked()) {
                     throw new Error("already locked");
                 } else {
                     lock_ = Math.random();
@@ -22010,7 +22098,7 @@ System.register("davinci-eight/core/Lockable.js", [], function (exports_1, conte
                 if (typeof token !== 'number') {
                     throw new Error("token must be a number.");
                 }
-                if (!that.isLocked) {
+                if (!that.isLocked()) {
                     throw new Error("not locked");
                 } else if (lock_ === token) {
                     lock_ = void 0;
@@ -22021,7 +22109,7 @@ System.register("davinci-eight/core/Lockable.js", [], function (exports_1, conte
         };
         return that;
     }
-    exports_1("makeLockable", makeLockable);
+    exports_1("lockable", lockable);
     var TargetLockedError, TargetUnlockedError, LockableMixin;
     return {
         setters: [],
@@ -22029,7 +22117,7 @@ System.register("davinci-eight/core/Lockable.js", [], function (exports_1, conte
             TargetLockedError = function (_super) {
                 __extends(TargetLockedError, _super);
                 function TargetLockedError(operationName) {
-                    return _super.call(this, "target of operation '" + operationName + "' must be mutable (unlocked).") || this;
+                    return _super.call(this, "target of operation '" + operationName + "' must be mutable.") || this;
                 }
                 return TargetLockedError;
             }(Error);
@@ -22037,7 +22125,7 @@ System.register("davinci-eight/core/Lockable.js", [], function (exports_1, conte
             TargetUnlockedError = function (_super) {
                 __extends(TargetUnlockedError, _super);
                 function TargetUnlockedError(operationName) {
-                    return _super.call(this, "target of operation '" + operationName + "' must be immutable (locked).") || this;
+                    return _super.call(this, "target of operation '" + operationName + "' must be immutable.") || this;
                 }
                 return TargetUnlockedError;
             }(Error);
@@ -22045,29 +22133,25 @@ System.register("davinci-eight/core/Lockable.js", [], function (exports_1, conte
             ;
             LockableMixin = function () {
                 function LockableMixin() {}
-                Object.defineProperty(LockableMixin.prototype, "isLocked", {
-                    get: function () {
-                        return typeof this.lock_ === 'number';
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
+                LockableMixin.prototype.isLocked = function () {
+                    return typeof this['lock_'] === 'number';
+                };
                 LockableMixin.prototype.lock = function () {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         throw new Error("already locked");
                     } else {
-                        this.lock_ = Math.random();
-                        return this.lock_;
+                        this['lock_'] = Math.random();
+                        return this['lock_'];
                     }
                 };
                 LockableMixin.prototype.unlock = function (token) {
                     if (typeof token !== 'number') {
                         throw new Error("token must be a number.");
                     }
-                    if (!this.isLocked) {
+                    if (!this.isLocked()) {
                         throw new Error("not locked");
-                    } else if (this.lock_ === token) {
-                        this.lock_ = void 0;
+                    } else if (this['lock_'] === token) {
+                        this['lock_'] = void 0;
                     } else {
                         throw new Error("unlock denied");
                     }
@@ -22829,40 +22913,37 @@ System.register("davinci-eight/math/stringFromCoordinates.js", ["../checks/isDef
         execute: function () {}
     };
 });
-System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "./dotVectorE3", "./extG3", "./gauss", "../checks/isDefined", "./isScalarG3", "./isVectorE3", "./isVectorG3", "./lcoG3", "../core/Lockable", "./maskG3", "./mulE3", "../checks/mustBeInteger", "./randomRange", "./rcoG3", "./rotorFromDirectionsE3", "./scpG3", "./squaredNormG3", "./stringFromCoordinates", "./wedgeXY", "./wedgeYZ", "./wedgeZX"], function (exports_1, context_1) {
+System.register("davinci-eight/math/Geometric3.js", ["../utils/applyMixins", "./approx", "./arraysEQ", "./dotVectorE3", "./extG3", "./gauss", "../checks/isDefined", "./isScalarG3", "./isVectorE3", "./isVectorG3", "./lcoG3", "../core/Lockable", "./maskG3", "./mulE3", "../checks/mustBeEQ", "../checks/mustBeInteger", "./randomRange", "./rcoG3", "./rotorFromDirectionsE3", "./scpG3", "./squaredNormG3", "./stringFromCoordinates", "./wedgeXY", "./wedgeYZ", "./wedgeZX"], function (exports_1, context_1) {
     "use strict";
 
-    var __extends = this && this.__extends || function () {
-        var extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function (d, b) {
-            d.__proto__ = b;
-        } || function (d, b) {
-            for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-        };
-        return function (d, b) {
-            extendStatics(d, b);
-            function __() {
-                this.constructor = d;
-            }
-            d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-        };
-    }();
     var __moduleName = context_1 && context_1.id;
     function coordinates(m) {
-        return [m.a, m.x, m.y, m.z, m.xy, m.yz, m.zx, m.b];
-    }
-    function scp(a, b) {
-        return a.x * b.x + a.y * b.y + a.z * b.z;
-    }
-    function norm(v) {
-        return Math.sqrt(scp(v, v));
+        var coords = zero();
+        coords[COORD_SCALAR] = m.a;
+        coords[COORD_X] = m.x;
+        coords[COORD_Y] = m.y;
+        coords[COORD_Z] = m.z;
+        coords[COORD_YZ] = m.yz;
+        coords[COORD_ZX] = m.zx;
+        coords[COORD_XY] = m.xy;
+        coords[COORD_PSEUDO] = m.b;
+        return coords;
     }
     function cosVectorVector(a, b) {
+        function scp(c, d) {
+            return c.x * d.x + c.y * d.y + c.z * d.z;
+        }
+        function norm(v) {
+            return Math.sqrt(scp(v, v));
+        }
         return scp(a, b) / (norm(a) * norm(b));
     }
-    var Coords_1, arraysEQ_1, dotVectorE3_1, extG3_1, gauss_1, isDefined_1, isScalarG3_1, isVectorE3_1, isVectorG3_1, lcoG3_1, Lockable_1, maskG3_1, mulE3_1, mustBeInteger_1, randomRange_1, rcoG3_1, rotorFromDirectionsE3_1, scpG3_1, squaredNormG3_1, stringFromCoordinates_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1, COORD_SCALAR, COORD_X, COORD_Y, COORD_Z, COORD_XY, COORD_YZ, COORD_ZX, COORD_PSEUDO, BASIS_LABELS, cosines, Geometric3;
+    var applyMixins_1, approx_1, arraysEQ_1, dotVectorE3_1, extG3_1, gauss_1, isDefined_1, isScalarG3_1, isVectorE3_1, isVectorG3_1, lcoG3_1, Lockable_1, maskG3_1, mulE3_1, mustBeEQ_1, mustBeInteger_1, randomRange_1, rcoG3_1, rotorFromDirectionsE3_1, scpG3_1, squaredNormG3_1, stringFromCoordinates_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1, COORD_SCALAR, COORD_X, COORD_Y, COORD_Z, COORD_XY, COORD_YZ, COORD_ZX, COORD_PSEUDO, BASIS_LABELS, zero, scalar, vector, bivector, spinor, multivector, pseudo, cosines, magicCode, Geometric3;
     return {
-        setters: [function (Coords_1_1) {
-            Coords_1 = Coords_1_1;
+        setters: [function (applyMixins_1_1) {
+            applyMixins_1 = applyMixins_1_1;
+        }, function (approx_1_1) {
+            approx_1 = approx_1_1;
         }, function (arraysEQ_1_1) {
             arraysEQ_1 = arraysEQ_1_1;
         }, function (dotVectorE3_1_1) {
@@ -22887,6 +22968,8 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
             maskG3_1 = maskG3_1_1;
         }, function (mulE3_1_1) {
             mulE3_1 = mulE3_1_1;
+        }, function (mustBeEQ_1_1) {
+            mustBeEQ_1 = mustBeEQ_1_1;
         }, function (mustBeInteger_1_1) {
             mustBeInteger_1 = mustBeInteger_1_1;
         }, function (randomRange_1_1) {
@@ -22918,26 +23001,105 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
             COORD_ZX = 6;
             COORD_PSEUDO = 7;
             BASIS_LABELS = ["1", "e1", "e2", "e3", "e12", "e23", "e31", "e123"];
+            zero = function zero() {
+                return [0, 0, 0, 0, 0, 0, 0, 0];
+            };
+            scalar = function scalar(a) {
+                var coords = zero();
+                coords[COORD_SCALAR] = a;
+                return coords;
+            };
+            vector = function vector(x, y, z) {
+                var coords = zero();
+                coords[COORD_X] = x;
+                coords[COORD_Y] = y;
+                coords[COORD_Z] = z;
+                return coords;
+            };
+            bivector = function bivector(yz, zx, xy) {
+                var coords = zero();
+                coords[COORD_YZ] = yz;
+                coords[COORD_ZX] = zx;
+                coords[COORD_XY] = xy;
+                return coords;
+            };
+            spinor = function spinor(a, yz, zx, xy) {
+                var coords = zero();
+                coords[COORD_SCALAR] = a;
+                coords[COORD_YZ] = yz;
+                coords[COORD_ZX] = zx;
+                coords[COORD_XY] = xy;
+                return coords;
+            };
+            multivector = function multivector(a, x, y, z, yz, zx, xy, b) {
+                var coords = zero();
+                coords[COORD_SCALAR] = a;
+                coords[COORD_X] = x;
+                coords[COORD_Y] = y;
+                coords[COORD_Z] = z;
+                coords[COORD_YZ] = yz;
+                coords[COORD_ZX] = zx;
+                coords[COORD_XY] = xy;
+                coords[COORD_PSEUDO] = b;
+                return coords;
+            };
+            pseudo = function pseudo(b) {
+                var coords = zero();
+                coords[COORD_PSEUDO] = b;
+                return coords;
+            };
+            ;
             cosines = [];
-            Geometric3 = function (_super) {
-                __extends(Geometric3, _super);
-                function Geometric3() {
-                    return _super.call(this, [0, 0, 0, 0, 0, 0, 0, 0], false, 8) || this;
+            magicCode = Math.random();
+            Geometric3 = function () {
+                function Geometric3(coords, code) {
+                    if (coords === void 0) {
+                        coords = [0, 0, 0, 0, 0, 0, 0, 0];
+                    }
+                    mustBeEQ_1.default('coords.length', coords.length, 8);
+                    if (code !== magicCode) {
+                        throw new Error("Use the static creation methods instead of the constructor");
+                    }
+                    this.coords_ = coords;
+                    this.modified_ = false;
                 }
+                Object.defineProperty(Geometric3.prototype, "length", {
+                    get: function () {
+                        return 8;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(Geometric3.prototype, "modified", {
+                    get: function () {
+                        return this.modified_;
+                    },
+                    set: function (modified) {
+                        if (this.isLocked()) {
+                            throw new Lockable_1.TargetLockedError('set modified');
+                        }
+                        this.modified_ = modified;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Geometric3.prototype.getComponent = function (i) {
+                    return this.coords_[i];
+                };
                 Geometric3.prototype.setCoordinate = function (index, newValue, name) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         throw new Lockable_1.TargetLockedError("set " + name);
                     }
-                    var coords = this.coords;
+                    var coords = this.coords_;
                     var oldValue = coords[index];
                     if (newValue !== oldValue) {
                         coords[index] = newValue;
-                        this.modified = true;
+                        this.modified_ = true;
                     }
                 };
                 Object.defineProperty(Geometric3.prototype, "a", {
                     get: function () {
-                        return this.coords[COORD_SCALAR];
+                        return this.coords_[COORD_SCALAR];
                     },
                     set: function (a) {
                         this.setCoordinate(COORD_SCALAR, a, 'a');
@@ -22947,7 +23109,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                 });
                 Object.defineProperty(Geometric3.prototype, "x", {
                     get: function () {
-                        return this.coords[COORD_X];
+                        return this.coords_[COORD_X];
                     },
                     set: function (x) {
                         this.setCoordinate(COORD_X, x, 'x');
@@ -22957,7 +23119,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                 });
                 Object.defineProperty(Geometric3.prototype, "y", {
                     get: function () {
-                        return this.coords[COORD_Y];
+                        return this.coords_[COORD_Y];
                     },
                     set: function (y) {
                         this.setCoordinate(COORD_Y, y, 'y');
@@ -22967,7 +23129,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                 });
                 Object.defineProperty(Geometric3.prototype, "z", {
                     get: function () {
-                        return this.coords[COORD_Z];
+                        return this.coords_[COORD_Z];
                     },
                     set: function (z) {
                         this.setCoordinate(COORD_Z, z, 'z');
@@ -22977,7 +23139,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                 });
                 Object.defineProperty(Geometric3.prototype, "yz", {
                     get: function () {
-                        return this.coords[COORD_YZ];
+                        return this.coords_[COORD_YZ];
                     },
                     set: function (yz) {
                         this.setCoordinate(COORD_YZ, yz, 'yz');
@@ -22987,7 +23149,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                 });
                 Object.defineProperty(Geometric3.prototype, "zx", {
                     get: function () {
-                        return this.coords[COORD_ZX];
+                        return this.coords_[COORD_ZX];
                     },
                     set: function (zx) {
                         this.setCoordinate(COORD_ZX, zx, 'zx');
@@ -22997,7 +23159,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                 });
                 Object.defineProperty(Geometric3.prototype, "xy", {
                     get: function () {
-                        return this.coords[COORD_XY];
+                        return this.coords_[COORD_XY];
                     },
                     set: function (xy) {
                         this.setCoordinate(COORD_XY, xy, 'xy');
@@ -23007,7 +23169,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                 });
                 Object.defineProperty(Geometric3.prototype, "b", {
                     get: function () {
-                        return this.coords[COORD_PSEUDO];
+                        return this.coords_[COORD_PSEUDO];
                     },
                     set: function (b) {
                         this.setCoordinate(COORD_PSEUDO, b, 'b');
@@ -23017,7 +23179,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                 });
                 Object.defineProperty(Geometric3.prototype, "maskG3", {
                     get: function () {
-                        var coords = this.coords;
+                        var coords = this.coords_;
                         var α = coords[COORD_SCALAR];
                         var x = coords[COORD_X];
                         var y = coords[COORD_Y];
@@ -23048,7 +23210,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     if (alpha === void 0) {
                         alpha = 1;
                     }
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return Lockable_1.lock(this.clone().add(M, alpha));
                     } else {
                         this.a += M.a * alpha;
@@ -23063,7 +23225,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     }
                 };
                 Geometric3.prototype.addBivector = function (B) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return Lockable_1.lock(this.clone().addBivector(B));
                     } else {
                         this.yz += B.yz;
@@ -23073,7 +23235,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     }
                 };
                 Geometric3.prototype.addPseudo = function (β) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return Lockable_1.lock(this.clone().addPseudo(β));
                     } else {
                         this.b += β;
@@ -23081,7 +23243,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     }
                 };
                 Geometric3.prototype.addScalar = function (alpha) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return Lockable_1.lock(this.clone().addScalar(alpha));
                     } else {
                         this.a += alpha;
@@ -23092,7 +23254,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     if (alpha === void 0) {
                         alpha = 1;
                     }
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return this.clone().addVector(v, alpha);
                     } else {
                         this.x += v.x * alpha;
@@ -23102,7 +23264,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     }
                 };
                 Geometric3.prototype.add2 = function (a, b) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         throw new Lockable_1.TargetLockedError('add2');
                     }
                     this.a = a.a + b.a;
@@ -23116,17 +23278,17 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     return this;
                 };
                 Geometric3.prototype.arg = function () {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return Lockable_1.lock(this.clone().arg());
                     } else {
                         return this.log().grade(2);
                     }
                 };
                 Geometric3.prototype.approx = function (n) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return Lockable_1.lock(this.clone().approx(n));
                     } else {
-                        _super.prototype.approx.call(this, n);
+                        approx_1.default(this.coords_, n);
                         return this;
                     }
                 };
@@ -23134,7 +23296,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     return Geometric3.copy(this);
                 };
                 Geometric3.prototype.conj = function () {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return Lockable_1.lock(this.clone().conj());
                     } else {
                         this.x = -this.x;
@@ -23147,7 +23309,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     }
                 };
                 Geometric3.prototype.copyCoordinates = function (coordinates) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         throw new Lockable_1.TargetLockedError('copyCoordinates');
                     }
                     this.a = coordinates[COORD_SCALAR];
@@ -23178,14 +23340,14 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     }
                 };
                 Geometric3.prototype.lco = function (m) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return Lockable_1.lock(this.clone().lco(m));
                     } else {
                         return this.lco2(this, m);
                     }
                 };
                 Geometric3.prototype.lco2 = function (a, b) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         throw new Lockable_1.TargetLockedError('lco2');
                     }
                     return lcoG3_1.default(a, b, this);
@@ -23194,13 +23356,13 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     return this.rco2(this, m);
                 };
                 Geometric3.prototype.rco2 = function (a, b) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         throw new Lockable_1.TargetLockedError('rco2');
                     }
                     return rcoG3_1.default(a, b, this);
                 };
                 Geometric3.prototype.copy = function (M) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         throw new Lockable_1.TargetLockedError('copy');
                     }
                     this.a = M.a;
@@ -23214,7 +23376,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     return this;
                 };
                 Geometric3.prototype.copyScalar = function (α) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         throw new Lockable_1.TargetLockedError('copyScalar');
                     }
                     this.setCoordinate(COORD_SCALAR, α, 'a');
@@ -23228,7 +23390,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     return this;
                 };
                 Geometric3.prototype.copySpinor = function (spinor) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         throw new Lockable_1.TargetLockedError('copySpinor');
                     }
                     this.setCoordinate(COORD_SCALAR, spinor.a, 'a');
@@ -23242,7 +23404,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     return this;
                 };
                 Geometric3.prototype.copyVector = function (vector) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         throw new Lockable_1.TargetLockedError('copyVector');
                     }
                     this.setCoordinate(COORD_SCALAR, 0, 'a');
@@ -23256,7 +23418,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     return this;
                 };
                 Geometric3.prototype.cross = function (m) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return Lockable_1.lock(this.clone().cross(m));
                     } else {
                         this.ext(m);
@@ -23270,7 +23432,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     } else if (isVectorG3_1.default(m)) {
                         return this.divByVector(m);
                     } else {
-                        if (this.isLocked) {
+                        if (this.isLocked()) {
                             return Lockable_1.lock(this.clone().div(m));
                         } else {
                             var α = m.a;
@@ -23321,7 +23483,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     }
                 };
                 Geometric3.prototype.divByScalar = function (alpha) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return Lockable_1.lock(this.clone().divByScalar(alpha));
                     } else {
                         this.a /= alpha;
@@ -23336,7 +23498,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     }
                 };
                 Geometric3.prototype.divByVector = function (v) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return this.clone().divByVector(v);
                     } else {
                         var x = v.x;
@@ -23347,7 +23509,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     }
                 };
                 Geometric3.prototype.div2 = function (a, b) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         throw new Lockable_1.TargetLockedError('div2');
                     } else {
                         var a0 = a.a;
@@ -23366,7 +23528,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     }
                 };
                 Geometric3.prototype.dual = function (m) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return this.clone().dual(m);
                     } else {
                         if (isDefined_1.default(m)) {
@@ -23395,13 +23557,13 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                 Geometric3.prototype.equals = function (other) {
                     if (other instanceof Geometric3) {
                         var that = other;
-                        return arraysEQ_1.default(this.coords, that.coords);
+                        return arraysEQ_1.default(this.coords_, that.coords_);
                     } else {
                         return false;
                     }
                 };
                 Geometric3.prototype.exp = function () {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return Lockable_1.lock(this.clone().exp());
                     } else {
                         var expW = Math.exp(this.a);
@@ -23419,7 +23581,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     }
                 };
                 Geometric3.prototype.inv = function () {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return Lockable_1.lock(this.clone().inv());
                     } else {
                         var α = this.a;
@@ -23451,7 +23613,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     return this.a === 0 && this.x === 0 && this.y === 0 && this.z === 0 && this.yz === 0 && this.zx === 0 && this.xy === 0 && this.b === 0;
                 };
                 Geometric3.prototype.lerp = function (target, α) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return Lockable_1.lock(this.clone().lerp(target, α));
                     } else {
                         this.a += (target.a - this.a) * α;
@@ -23466,14 +23628,14 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     }
                 };
                 Geometric3.prototype.lerp2 = function (a, b, α) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         throw new Lockable_1.TargetLockedError('lerp2');
                     }
                     this.copy(a).lerp(b, α);
                     return this;
                 };
                 Geometric3.prototype.log = function () {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return Lockable_1.lock(this.clone().log());
                     } else {
                         var α = this.a;
@@ -23494,7 +23656,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     return Math.sqrt(this.quaditude());
                 };
                 Geometric3.prototype.mul = function (m) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return Lockable_1.lock(this.clone().mul(m));
                     } else {
                         return this.mul2(this, m);
@@ -23528,7 +23690,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     return this;
                 };
                 Geometric3.prototype.mul2 = function (a, b) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         throw new Lockable_1.TargetLockedError('mul2');
                     }
                     var a0 = a.a;
@@ -23558,7 +23720,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     return this;
                 };
                 Geometric3.prototype.neg = function () {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return Lockable_1.lock(this.clone().neg());
                     } else {
                         this.a = -this.a;
@@ -23573,7 +23735,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     }
                 };
                 Geometric3.prototype.norm = function () {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return Lockable_1.lock(this.clone().norm());
                     } else {
                         this.a = this.magnitude();
@@ -23588,30 +23750,28 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     }
                 };
                 Geometric3.prototype.direction = function () {
-                    if (!this.isLocked) {
-                        throw new Lockable_1.TargetUnlockedError('direction');
-                    }
-                    return Lockable_1.lock(this.clone().normalize());
+                    return this.normalize();
                 };
                 Geometric3.prototype.normalize = function () {
-                    if (this.isLocked) {
-                        throw new Lockable_1.TargetLockedError('normalize');
+                    if (this.isLocked()) {
+                        return Lockable_1.lock(this.clone().normalize());
+                    } else {
+                        var norm = this.magnitude();
+                        if (norm !== 0) {
+                            this.a = this.a / norm;
+                            this.x = this.x / norm;
+                            this.y = this.y / norm;
+                            this.z = this.z / norm;
+                            this.yz = this.yz / norm;
+                            this.zx = this.zx / norm;
+                            this.xy = this.xy / norm;
+                            this.b = this.b / norm;
+                        }
+                        return this;
                     }
-                    var norm = this.magnitude();
-                    if (norm !== 0) {
-                        this.a = this.a / norm;
-                        this.x = this.x / norm;
-                        this.y = this.y / norm;
-                        this.z = this.z / norm;
-                        this.yz = this.yz / norm;
-                        this.zx = this.zx / norm;
-                        this.xy = this.xy / norm;
-                        this.b = this.b / norm;
-                    }
-                    return this;
                 };
                 Geometric3.prototype.one = function () {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         throw new Lockable_1.TargetLockedError('one');
                     }
                     this.a = 1;
@@ -23625,7 +23785,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     return this;
                 };
                 Geometric3.prototype.squaredNorm = function () {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return Lockable_1.lock(this.clone().squaredNorm());
                     } else {
                         this.a = squaredNormG3_1.default(this);
@@ -23643,7 +23803,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     return squaredNormG3_1.default(this);
                 };
                 Geometric3.prototype.reflect = function (n) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return Lockable_1.lock(this.clone().reflect(n));
                     } else {
                         var n1 = n.x;
@@ -23659,7 +23819,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                         var t1 = n22 + n33 - n11;
                         var t2 = n33 + n11 - n22;
                         var t3 = n11 + n22 - n33;
-                        var cs = this.coords;
+                        var cs = this.coords_;
                         var a = cs[COORD_SCALAR];
                         var x1 = cs[COORD_X];
                         var x2 = cs[COORD_Y];
@@ -23680,7 +23840,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     }
                 };
                 Geometric3.prototype.rev = function () {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return Lockable_1.lock(this.clone().rev());
                     } else {
                         this.a = +this.a;
@@ -23695,7 +23855,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     }
                 };
                 Geometric3.prototype.rotate = function (R) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return Lockable_1.lock(this.clone().rotate(R));
                     } else {
                         var x = this.x;
@@ -23716,7 +23876,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     }
                 };
                 Geometric3.prototype.rotorFromAxisAngle = function (axis, θ) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         throw new Lockable_1.TargetLockedError('rotorFromAxisAngle');
                     }
                     var x = axis.x;
@@ -23726,15 +23886,15 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     if (squaredNorm === 1) {
                         return this.rotorFromGeneratorAngle({ yz: x, zx: y, xy: z }, θ);
                     } else {
-                        var norm_1 = Math.sqrt(squaredNorm);
-                        var yz = x / norm_1;
-                        var zx = y / norm_1;
-                        var xy = z / norm_1;
+                        var norm = Math.sqrt(squaredNorm);
+                        var yz = x / norm;
+                        var zx = y / norm;
+                        var xy = z / norm;
                         return this.rotorFromGeneratorAngle({ yz: yz, zx: zx, xy: xy }, θ);
                     }
                 };
                 Geometric3.prototype.rotorFromDirections = function (a, b) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         throw new Lockable_1.TargetLockedError('rotorFromDirections');
                     }
                     var B = void 0;
@@ -23748,7 +23908,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     return this.mul2(R2, R1);
                 };
                 Geometric3.prototype.rotorFromFrameToFrame = function (es, fs) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         throw new Lockable_1.TargetLockedError('rotorFromFrameToFrame');
                     }
                     var biggestValue = -1;
@@ -23764,7 +23924,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     return this.rotorFromTwoVectors(es[firstVector], fs[firstVector], es[secondVector], fs[secondVector]);
                 };
                 Geometric3.prototype.rotorFromGeneratorAngle = function (B, θ) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         throw new Lockable_1.TargetLockedError('rotorFromGeneratorAngle');
                     }
                     var φ = θ / 2;
@@ -23785,27 +23945,27 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     return this;
                 };
                 Geometric3.prototype.rotorFromVectorToVector = function (a, b, B) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         throw new Lockable_1.TargetLockedError('rotorFromVectorToVector');
                     }
                     rotorFromDirectionsE3_1.default(a, b, B, this);
                     return this;
                 };
                 Geometric3.prototype.scp = function (rhs) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return Lockable_1.lock(this.clone().scp(rhs));
                     } else {
                         return this.scp2(this, rhs);
                     }
                 };
                 Geometric3.prototype.scp2 = function (a, b) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         throw new Lockable_1.TargetLockedError('scp2');
                     }
                     return scpG3_1.default(a, b, this);
                 };
                 Geometric3.prototype.scale = function (alpha) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return Lockable_1.lock(this.clone().scale(alpha));
                     } else {
                         this.a *= alpha;
@@ -23820,7 +23980,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     }
                 };
                 Geometric3.prototype.stress = function (σ) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return Lockable_1.lock(this.clone().stress(σ));
                     } else {
                         this.x *= σ.x;
@@ -23830,7 +23990,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     }
                 };
                 Geometric3.prototype.versor = function (a, b) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         throw new Lockable_1.TargetLockedError('versor');
                     }
                     var ax = a.x;
@@ -23850,7 +24010,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     if (α === void 0) {
                         α = 1;
                     }
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return Lockable_1.lock(this.clone().sub(M, α));
                     } else {
                         this.a -= M.a * α;
@@ -23868,7 +24028,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     if (α === void 0) {
                         α = 1;
                     }
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return Lockable_1.lock(this.clone().subVector(v, α));
                     } else {
                         this.x -= v.x * α;
@@ -23878,7 +24038,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     }
                 };
                 Geometric3.prototype.sub2 = function (a, b) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         throw new Lockable_1.TargetLockedError('sub2');
                     }
                     this.a = a.a - b.a;
@@ -23890,6 +24050,9 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     this.xy = a.xy - b.xy;
                     this.b = a.b - b.b;
                     return this;
+                };
+                Geometric3.prototype.toArray = function () {
+                    return coordinates(this);
                 };
                 Geometric3.prototype.toExponential = function (fractionDigits) {
                     var coordToString = function (coord) {
@@ -23916,7 +24079,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     return stringFromCoordinates_1.default(coordinates(this), coordToString, BASIS_LABELS);
                 };
                 Geometric3.prototype.grade = function (i) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return Lockable_1.lock(this.clone().grade(i));
                     }
                     mustBeInteger_1.default('i', i);
@@ -23976,20 +24139,20 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     return this;
                 };
                 Geometric3.prototype.ext = function (m) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         return Lockable_1.lock(this.clone().ext(m));
                     } else {
                         return this.ext2(this, m);
                     }
                 };
                 Geometric3.prototype.ext2 = function (a, b) {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         throw new Lockable_1.TargetLockedError('ext2');
                     }
                     return extG3_1.default(a, b, this);
                 };
                 Geometric3.prototype.zero = function () {
-                    if (this.isLocked) {
+                    if (this.isLocked()) {
                         throw new Lockable_1.TargetLockedError('zero');
                     }
                     this.a = 0;
@@ -24183,38 +24346,16 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     return lock ? Geometric3.E3 : Geometric3.vector(0, 0, 1);
                 };
                 Geometric3.bivector = function (yz, zx, xy) {
-                    var m = new Geometric3();
-                    m.yz = yz;
-                    m.zx = zx;
-                    m.xy = xy;
-                    m.modified = false;
-                    return m;
+                    return new Geometric3(bivector(yz, zx, xy), magicCode);
                 };
                 Geometric3.copy = function (M) {
-                    var copy = new Geometric3();
-                    copy.a = M.a;
-                    copy.x = M.x;
-                    copy.y = M.y;
-                    copy.z = M.z;
-                    copy.yz = M.yz;
-                    copy.zx = M.zx;
-                    copy.xy = M.xy;
-                    copy.b = M.b;
-                    return copy;
+                    return new Geometric3(coordinates(M), magicCode);
                 };
                 Geometric3.dualOfBivector = function (B) {
-                    var dual = new Geometric3();
-                    dual.z = -B.xy;
-                    dual.x = -B.yz;
-                    dual.y = -B.zx;
-                    return dual;
+                    return new Geometric3(vector(-B.yz, -B.zx, -B.xy), magicCode);
                 };
                 Geometric3.dualOfVector = function (v) {
-                    var dual = new Geometric3();
-                    dual.xy = v.z;
-                    dual.yz = v.x;
-                    dual.zx = v.y;
-                    return dual;
+                    return new Geometric3(bivector(v.x, v.y, v.z), magicCode);
                 };
                 Geometric3.fromBivector = function (B) {
                     return Geometric3.bivector(B.yz, B.zx, B.xy);
@@ -24232,10 +24373,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     return Geometric3.copy(A).lerp(B, α);
                 };
                 Geometric3.pseudo = function (β) {
-                    var m = new Geometric3();
-                    m.b = β;
-                    m.modified = false;
-                    return m;
+                    return new Geometric3(pseudo(β), magicCode);
                 };
                 Geometric3.random = function (lowerBound, upperBound) {
                     if (lowerBound === void 0) {
@@ -24244,48 +24382,33 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     if (upperBound === void 0) {
                         upperBound = +1;
                     }
-                    var g = new Geometric3();
-                    g.a = randomRange_1.default(lowerBound, upperBound);
-                    g.x = randomRange_1.default(lowerBound, upperBound);
-                    g.y = randomRange_1.default(lowerBound, upperBound);
-                    g.z = randomRange_1.default(lowerBound, upperBound);
-                    g.yz = randomRange_1.default(lowerBound, upperBound);
-                    g.zx = randomRange_1.default(lowerBound, upperBound);
-                    g.xy = randomRange_1.default(lowerBound, upperBound);
-                    g.b = randomRange_1.default(lowerBound, upperBound);
-                    return g;
+                    var a = randomRange_1.default(lowerBound, upperBound);
+                    var x = randomRange_1.default(lowerBound, upperBound);
+                    var y = randomRange_1.default(lowerBound, upperBound);
+                    var z = randomRange_1.default(lowerBound, upperBound);
+                    var yz = randomRange_1.default(lowerBound, upperBound);
+                    var zx = randomRange_1.default(lowerBound, upperBound);
+                    var xy = randomRange_1.default(lowerBound, upperBound);
+                    var b = randomRange_1.default(lowerBound, upperBound);
+                    return new Geometric3(multivector(a, x, y, z, yz, zx, xy, b), magicCode);
                 };
                 Geometric3.rotorFromDirections = function (a, b) {
-                    return new Geometric3().rotorFromDirections(a, b);
+                    return new Geometric3(zero(), magicCode).rotorFromDirections(a, b);
                 };
                 Geometric3.rotorFromFrameToFrame = function (es, fs) {
-                    return new Geometric3().rotorFromFrameToFrame(es, fs);
+                    return new Geometric3(zero(), magicCode).rotorFromFrameToFrame(es, fs);
                 };
                 Geometric3.rotorFromVectorToVector = function (a, b, B) {
-                    return new Geometric3().rotorFromVectorToVector(a, b, B);
+                    return new Geometric3(zero(), magicCode).rotorFromVectorToVector(a, b, B);
                 };
                 Geometric3.scalar = function (α) {
-                    var m = new Geometric3();
-                    m.a = α;
-                    m.modified = false;
-                    return m;
+                    return new Geometric3(scalar(α), magicCode);
                 };
                 Geometric3.spinor = function (yz, zx, xy, α) {
-                    var m = new Geometric3();
-                    m.yz = yz;
-                    m.zx = zx;
-                    m.xy = xy;
-                    m.a = α;
-                    m.modified = false;
-                    return m;
+                    return new Geometric3(spinor(α, yz, zx, xy), magicCode);
                 };
                 Geometric3.vector = function (x, y, z) {
-                    var v = new Geometric3();
-                    v.x = x;
-                    v.y = y;
-                    v.z = z;
-                    v.modified = false;
-                    return v;
+                    return new Geometric3(vector(x, y, z), magicCode);
                 };
                 Geometric3.wedge = function (a, b) {
                     var ax = a.x;
@@ -24303,17 +24426,24 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
                     if (lock === void 0) {
                         lock = false;
                     }
-                    return lock ? Geometric3.ZERO : Geometric3.scalar(0);
+                    return lock ? Geometric3.ZERO : new Geometric3(zero(), magicCode);
                 };
                 return Geometric3;
-            }(Coords_1.default);
-            Geometric3.ZERO = Lockable_1.lock(new Geometric3());
-            Geometric3.ONE = Lockable_1.lock(Geometric3.scalar(1));
-            Geometric3.E1 = Lockable_1.lock(Geometric3.vector(1, 0, 0));
-            Geometric3.E2 = Lockable_1.lock(Geometric3.vector(0, 1, 0));
-            Geometric3.E3 = Lockable_1.lock(Geometric3.vector(0, 0, 1));
-            Geometric3.I = Lockable_1.lock(Geometric3.pseudo(1));
+            }();
+            Geometric3.ZERO = new Geometric3(scalar(0), magicCode);
+            Geometric3.ONE = new Geometric3(scalar(1), magicCode);
+            Geometric3.E1 = new Geometric3(vector(1, 0, 0), magicCode);
+            Geometric3.E2 = new Geometric3(vector(0, 1, 0), magicCode);
+            Geometric3.E3 = new Geometric3(vector(0, 0, 1), magicCode);
+            Geometric3.I = new Geometric3(pseudo(1), magicCode);
             exports_1("Geometric3", Geometric3);
+            applyMixins_1.default(Geometric3, [Lockable_1.LockableMixin]);
+            Geometric3.E1.lock();
+            Geometric3.E2.lock();
+            Geometric3.E3.lock();
+            Geometric3.I.lock();
+            Geometric3.ONE.lock();
+            Geometric3.ZERO.lock();
             exports_1("default", Geometric3);
         }
     };
@@ -25065,9 +25195,9 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
             Eight = function () {
                 function Eight() {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-                    this.LAST_MODIFIED = '2017-02-06';
+                    this.LAST_MODIFIED = '2017-02-07';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '6.0.3';
+                    this.VERSION = '6.0.4';
                 }
                 Eight.prototype.log = function (message) {
                     var optionalParams = [];

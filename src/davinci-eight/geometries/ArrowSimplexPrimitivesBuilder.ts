@@ -44,15 +44,15 @@ export default class ArrowSimplexPrimitivesBuilder extends RevolutionSimplexPrim
     public radiusShaft: number = 0.01;
     public vector: Vector3 = Vector3.vector(1, 0, 0);
     public segments: number = 12;
+    private modified_ = true;
     constructor() {
         super();
-        this.setModified(true);
     }
     public isModified(): boolean {
-        return this.vector.modified;
+        return this.modified_;
     }
     public setModified(modified: boolean): ArrowSimplexPrimitivesBuilder {
-        this.vector.modified = modified;
+        this.modified_ = modified;
         return this;
     }
     protected regenerate(): void {

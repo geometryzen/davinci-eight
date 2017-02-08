@@ -1,7 +1,6 @@
-import expectArg from '../checks/expectArg';
 import Simplex from '../geometries/Simplex';
 import triangle from '../geometries/triangle';
-import {VectorN} from '../math/VectorN';
+import VectorN from '../atoms/VectorN';
 
 function setAttributes(which: number[], source: { [name: string]: VectorN<number>[] }, target: { [name: string]: VectorN<number>[] }) {
     let names: string[] = Object.keys(source);
@@ -12,7 +11,7 @@ function setAttributes(which: number[], source: { [name: string]: VectorN<number
     for (i = 0; i < namesLength; i++) {
         name = names[i];
         values = source[name];
-        target[name] = which.map(function(index: number) { return values[index]; });
+        target[name] = which.map(function (index: number) { return values[index]; });
     }
 }
 
@@ -30,12 +29,7 @@ function setAttributes(which: number[], source: { [name: string]: VectorN<number
  */
 export default function quadrilateral(a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, d: VectorN<number>, attributes: { [name: string]: VectorN<number>[] } = {}, triangles: Simplex[] = []): Simplex[] {
 
-    expectArg('a', a).toSatisfy(a instanceof VectorN, "a must be a VectorN");
-    expectArg('b', b).toSatisfy(b instanceof VectorN, "b must be a VectorN");
-    expectArg('c', c).toSatisfy(c instanceof VectorN, "c must be a VectorN");
-    expectArg('d', d).toSatisfy(d instanceof VectorN, "d must be a VectorN");
-
-    let triatts: { [name: string]: VectorN<number>[] } = {};
+    const triatts: { [name: string]: VectorN<number>[] } = {};
 
     setAttributes([1, 2, 0], attributes, triatts);
     triangle(b, c, a, triatts, triangles);

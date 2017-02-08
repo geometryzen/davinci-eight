@@ -1,7 +1,7 @@
 // import applyMixins from '../core/applyMixins';
 import isDefined from '../checks/isDefined';
 import isUndefined from '../checks/isUndefined';
-import { Lockable, makeLockable, TargetLockedError } from '../core/Lockable';
+import { Lockable, lockable, TargetLockedError } from '../core/Lockable';
 import mustSatisfy from '../checks/mustSatisfy';
 
 function pushString(T: string): string {
@@ -31,7 +31,7 @@ export class VectorN<T> implements Lockable {
     /**
      * 
      */
-    private lock_ = makeLockable();
+    private readonly lock_ = lockable();
     /**
      *
      */
@@ -66,8 +66,8 @@ export class VectorN<T> implements Lockable {
         }
     }
 
-    get isLocked(): boolean {
-        return this.lock_.isLocked;
+    isLocked(): boolean {
+        return this.lock_.isLocked();
     }
 
     lock(): number {
@@ -85,7 +85,7 @@ export class VectorN<T> implements Lockable {
         return this.data_;
     }
     set coords(data: T[]) {
-        if (this.isLocked) {
+        if (this.isLocked()) {
             throw new TargetLockedError('coords');
         }
         this.data_ = data;
@@ -124,7 +124,7 @@ export class VectorN<T> implements Lockable {
      *
      */
     pop(): T {
-        if (this.isLocked) {
+        if (this.isLocked()) {
             throw new TargetLockedError('pop');
         }
         if (isUndefined(this.size_)) {
@@ -140,7 +140,7 @@ export class VectorN<T> implements Lockable {
      * @returns
      */
     push(value: T): number {
-        if (this.isLocked) {
+        if (this.isLocked()) {
             throw new TargetLockedError('push');
         }
         if (isUndefined(this.size_)) {
@@ -159,7 +159,7 @@ export class VectorN<T> implements Lockable {
      * @param value
      */
     setComponent(index: number, value: T): void {
-        if (this.isLocked) {
+        if (this.isLocked()) {
             throw new TargetLockedError('setComponent');
         }
         const coords: T[] = this.coords;

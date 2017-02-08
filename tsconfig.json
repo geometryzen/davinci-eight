@@ -34,6 +34,7 @@
         "src/davinci-eight/core/GeometryArrays.spec.ts",
         "src/davinci-eight/core/GeometryElements.spec.ts",
         "src/davinci-eight/core/IndexBuffer.spec.ts",
+        "src/davinci-eight/core/Lockable.spec.ts",
         "src/davinci-eight/core/Mesh.spec.ts",
         "src/davinci-eight/core/ShareableBase.spec.ts",
         "src/davinci-eight/core/vertexArraysFromPrimitive.spec.ts",

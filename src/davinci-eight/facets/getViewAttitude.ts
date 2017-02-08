@@ -2,13 +2,13 @@ import Geometric3 from '../math/Geometric3';
 import Spinor3 from '../math/Spinor3';
 import VectorE3 from '../math/VectorE3';
 
-const u: Geometric3 = new Geometric3();
-const v: Geometric3 = new Geometric3();
-const n: Geometric3 = new Geometric3();
+const u: Geometric3 = Geometric3.zero(false);
+const v: Geometric3 = Geometric3.zero(false);
+const n: Geometric3 = Geometric3.zero(false);
 
-const e1: Geometric3 = Geometric3.vector(1, 0, 0);
-const e2: Geometric3 = Geometric3.vector(0, 1, 0);
-const e3: Geometric3 = Geometric3.vector(0, 0, 1);
+const e1: Geometric3 = Geometric3.E1;
+const e2: Geometric3 = Geometric3.E2;
+const e3: Geometric3 = Geometric3.E3;
 
 export default function getViewAttitude(eye: VectorE3, look: VectorE3, up: VectorE3, R: Spinor3): void {
     // The attitude is obtained by computing the rotor required to rotate

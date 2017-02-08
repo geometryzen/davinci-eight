@@ -31,15 +31,15 @@ export default class BarnSimplexPrimitivesBuilder extends SimplexPrimitivesBuild
         let points: Geometric3[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(function (index) { return void 0; });
 
         // Define the anchor points relative to the origin.
-        points[0] = new Geometric3().sub(this.a).sub(this.b).sub(this.c).divByScalar(2);
-        points[1] = new Geometric3().add(this.a).sub(this.b).sub(this.c).divByScalar(2);
-        points[6] = new Geometric3().add(this.a).sub(this.b).add(this.c).divByScalar(2);
-        points[5] = new Geometric3().sub(this.a).sub(this.b).add(this.c).divByScalar(2);
+        points[0] = Geometric3.zero(false).sub(this.a).sub(this.b).sub(this.c).divByScalar(2);
+        points[1] = Geometric3.zero(false).add(this.a).sub(this.b).sub(this.c).divByScalar(2);
+        points[6] = Geometric3.zero(false).add(this.a).sub(this.b).add(this.c).divByScalar(2);
+        points[5] = Geometric3.zero(false).sub(this.a).sub(this.b).add(this.c).divByScalar(2);
 
-        points[4] = new Geometric3().copy(points[0]).add(this.b);
-        points[2] = new Geometric3().copy(points[1]).add(this.b);
-        points[7] = new Geometric3().copy(points[6]).add(this.b);
-        points[9] = new Geometric3().copy(points[5]).add(this.b);
+        points[4] = Geometric3.zero(false).copy(points[0]).add(this.b);
+        points[2] = Geometric3.zero(false).copy(points[1]).add(this.b);
+        points[7] = Geometric3.zero(false).copy(points[6]).add(this.b);
+        points[9] = Geometric3.zero(false).copy(points[5]).add(this.b);
 
         points[3] = Geometric3.lerp(points[4], points[2], 0.5).scale(2).add(this.b).divByScalar(2);
         points[8] = Geometric3.lerp(points[7], points[9], 0.5).scale(2).add(this.b).divByScalar(2);

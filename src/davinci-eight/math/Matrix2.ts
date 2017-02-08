@@ -40,7 +40,7 @@ export default class Matrix2 extends AbstractMatrix<Matrix2> {
     }
 
     add(rhs: Matrix2): Matrix2 {
-        if (this.isLocked) {
+        if (this.isLocked()) {
             throw new TargetLockedError('add');
         }
         return this.add2(this, rhs);

@@ -60,7 +60,7 @@ export class Matrix3 extends AbstractMatrix<Matrix3> {
      *
      */
     add(rhs: Matrix3): this {
-        if (this.isLocked) {
+        if (this.isLocked()) {
             throw new TargetLockedError('add');
         }
         return this.add2(this, rhs);

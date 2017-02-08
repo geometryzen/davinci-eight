@@ -1,6 +1,7 @@
-import { Coords } from '../math/Coords';
+import applyMixins from '../utils/applyMixins';
+import approx from './approx';
 import dotVectorCartesian from '../math/dotVectorCartesianE2';
-import { lock, TargetLockedError } from '../core/Lockable';
+import { lock, LockableMixin as Lockable, TargetLockedError } from '../core/Lockable';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeObject from '../checks/mustBeObject';
@@ -10,11 +11,19 @@ import quadSpinor from '../math/quadSpinorE2';
 import rotorFromDirections from '../math/rotorFromDirectionsE2';
 import SpinorE2 from '../math/SpinorE2';
 import VectorE2 from '../math/VectorE2';
+import VectorN from '../atoms/VectorN';
 import wedgeXY from '../math/wedgeXY';
 
 // Symbolic constants for the coordinate indices into the coords array.
 const COORD_SCALAR = 1;
 const COORD_PSEUDO = 0;
+
+/**
+ * Coordinates corresponding to basis labels.
+ */
+function coordinates(m: SpinorE2): number[] {
+    return [m.b, m.a];
+}
 
 function one(): number[] {
     const coords = [0, 0];
@@ -33,58 +42,94 @@ const sqrt = Math.sqrt;
 /**
  *
  */
-export default class Spinor2 extends Coords implements SpinorE2 {
+export default class Spinor2 implements SpinorE2, Lockable, VectorN<number> {
+    // Lockable
+    isLocked: () => boolean;
+    lock: () => number;
+    unlock: (token: number) => void;
+
     /**
-     * Constructs a <code>Spinor2</code> from a <code>number[]</code>.
-     * For a <em>geometric</em> implementation, use the static methods.
+     * 
      */
-    constructor(coordinates: number[] = one(), modified = false) {
-        super(coordinates, modified, 2);
+    private coords_: number[];
+
+    /**
+     * 
+     */
+    private modified_: boolean;
+
+    /**
+     * 
+     */
+    constructor(coords: number[] = one(), modified = false) {
+        this.coords_ = coords;
+        this.modified_ = modified;
+    }
+
+    get length(): number {
+        return 2;
+    }
+
+    get modified(): boolean {
+        return this.modified_;
+    }
+    set modified(modified: boolean) {
+        if (this.isLocked()) {
+            throw new TargetLockedError('set modified');
+        }
+        this.modified_ = modified;
+    }
+
+    getComponent(i: number): number {
+        return this.coords_[i];
     }
 
     /**
      * The bivector part of this spinor as a number.
      */
     get xy(): number {
-        return this.coords[COORD_PSEUDO];
+        return this.coords_[COORD_PSEUDO];
     }
     set xy(xy: number) {
-        if (this.isLocked) {
+        if (this.isLocked()) {
             throw new TargetLockedError('xy');
         }
         mustBeNumber('xy', xy);
-        this.modified = this.modified || this.xy !== xy;
-        this.coords[COORD_PSEUDO] = xy;
+        const coords = this.coords_;
+        this.modified_ = this.modified_ || coords[COORD_PSEUDO] !== xy;
+        coords[COORD_PSEUDO] = xy;
     }
 
     /**
      * The scalar part of this spinor as a number.
      */
     get a(): number {
-        return this.coords[COORD_SCALAR];
+        return this.coords_[COORD_SCALAR];
     }
     set a(α: number) {
-        if (this.isLocked) {
+        if (this.isLocked()) {
             throw new TargetLockedError('a');
         }
         mustBeNumber('α', α);
-        this.modified = this.modified || this.a !== α;
-        this.coords[COORD_SCALAR] = α;
+        const coords = this.coords_;
+        this.modified_ = this.modified_ || coords[COORD_SCALAR] !== α;
+        coords[COORD_SCALAR] = α;
     }
 
     /**
      * The pseudoscalar part of this spinor as a number.
      */
     get b(): number {
-        return this.coords[COORD_PSEUDO];
+        return this.coords_[COORD_PSEUDO];
     }
     set b(b: number) {
-        if (this.isLocked) {
+        if (this.isLocked()) {
             throw new TargetLockedError('b');
         }
         mustBeNumber('b', b);
-        this.modified = this.modified || this.b !== b;
-        this.coords[COORD_PSEUDO] = b;
+        const coords = this.coords_;
+        this.modified_ = this.modified_ || coords[COORD_PSEUDO] !== b;
+        coords[COORD_PSEUDO] = b;
     }
 
     /**
@@ -148,7 +193,7 @@ export default class Spinor2 extends Coords implements SpinorE2 {
      *
      */
     approx(n: number) {
-        super.approx(n);
+        approx(this.coords_, n);
         return this;
     }
 
@@ -157,7 +202,7 @@ export default class Spinor2 extends Coords implements SpinorE2 {
      */
     clone() {
         const spinor = Spinor2.copy(this);
-        spinor.modified = this.modified;
+        spinor.modified_ = this.modified_;
         return spinor;
     }
 
@@ -380,7 +425,7 @@ export default class Spinor2 extends Coords implements SpinorE2 {
      * @returns log(this)
      */
     log(): Spinor2 {
-        if (this.isLocked) {
+        if (this.isLocked()) {
             return lock(this.clone().log());
         }
         else {
@@ -704,7 +749,7 @@ export default class Spinor2 extends Coords implements SpinorE2 {
     }
 
     grade(i: number): Spinor2 {
-        if (this.isLocked) {
+        if (this.isLocked()) {
             return lock(this.clone().grade(i));
         }
         mustBeInteger('i', i);
@@ -723,6 +768,13 @@ export default class Spinor2 extends Coords implements SpinorE2 {
             }
         }
         return this;
+    }
+
+    /**
+     * 
+     */
+    toArray(): number[] {
+        return coordinates(this);
     }
 
     toExponential(fractionDigits?: number): string {
@@ -803,3 +855,4 @@ export default class Spinor2 extends Coords implements SpinorE2 {
         return new Spinor2([0, 0], false);
     }
 }
+applyMixins(Spinor2, [Lockable]);

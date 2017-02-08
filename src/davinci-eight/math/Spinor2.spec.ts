@@ -6,9 +6,8 @@ describe("Spinor2", function () {
     it("coords argument should be preserved", function () {
       const coords = [2, 3];
       const m = new Spinor2(coords);
-      expect(m.coords).toBe(coords);
-      expect(m.coords[0]).toBe(coords[0]);
-      expect(m.coords[1]).toBe(coords[1]);
+      expect(m.getComponent(0)).toBe(coords[0]);
+      expect(m.getComponent(1)).toBe(coords[1]);
       expect(m.modified).toBe(false);
     });
 
@@ -109,8 +108,8 @@ describe("Spinor2", function () {
     describe("scale", function () {
       it("should multiply each coordinate by the scalar value", function () {
         const m = new Spinor2([2, 3]).scale(2);
-        expect(m.coords[0]).toBe(4);
-        expect(m.coords[1]).toBe(6);
+        expect(m.getComponent(0)).toBe(4);
+        expect(m.getComponent(1)).toBe(6);
         expect(m.modified).toBe(true);
       });
     });

@@ -12,35 +12,35 @@ import Vector3 from '../math/Vector3';
  */
 export class DirectionalLight implements Facet {
 
-    private _direction: Geometric3;
-    public _color: Color;
+    private readonly direction_: Geometric3;
+    private readonly color_: Color;
 
     constructor(direction: VectorE3 = Vector3.vector(0, 0, 1).neg(), color: { r: number; g: number; b: number } = Color.white) {
         mustBeObject('direction', direction);
         mustBeObject('color', color);
-        this._direction = Geometric3.fromVector(direction).normalize();
-        this._color = Color.copy(color);
+        this.direction_ = Geometric3.fromVector(direction).normalize();
+        this.color_ = Color.copy(color);
     }
 
     get color(): Color {
-        return this._color;
+        return this.color_;
     }
     set color(color: Color) {
-        this._color.copy(Color.mustBe('color', color));
+        this.color_.copy(Color.mustBe('color', color));
     }
 
     get direction(): Geometric3 {
-        return this._direction;
+        return this.direction_;
     }
     set direction(direction: Geometric3) {
         mustBeObject('direction', direction);
-        this._direction.copy(direction);
+        this.direction_.copy(direction);
     }
 
     setUniforms(visitor: FacetVisitor): void {
-        const direction = this._direction;
+        const direction = this.direction_;
         visitor.uniform3f(GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION, direction.x, direction.y, direction.z);
-        const color = this.color;
+        const color = this.color_;
         visitor.uniform3f(GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR, color.r, color.g, color.b);
     }
 }

@@ -11,7 +11,7 @@ export class TargetLockedError extends Error {
      * `operationName` is the name of the operation, without parentheses or parameters.
      */
     constructor(operationName: string) {
-        super(`target of operation '${operationName}' must be mutable (unlocked).`);
+        super(`target of operation '${operationName}' must be mutable.`);
     }
 }
 
@@ -20,7 +20,7 @@ export class TargetUnlockedError extends Error {
      * `operationName` is the name of the operation, without parentheses.
      */
     constructor(operationName: string) {
-        super(`target of operation '${operationName}' must be immutable (locked).`);
+        super(`target of operation '${operationName}' must be immutable.`);
     }
 }
 
@@ -30,7 +30,7 @@ export interface Lockable {
      * If the `Lockable` is in the unlocked state then it is mutable.
      * If the `Lockable` is in the locked state then it is immutable.
      */
-    isLocked: boolean;
+    isLocked(): boolean;
     /**
      * Locks this `Lockable` (preventing any further mutation),
      * and returns a token that may be used to unlock it.
@@ -43,14 +43,14 @@ export interface Lockable {
     unlock(token: number): void;
 }
 
-export function makeLockable(): Lockable {
+export function lockable(): Lockable {
     let lock_: number = void 0;
     const that: Lockable = {
-        get isLocked() {
+        isLocked() {
             return typeof lock_ === 'number';
         },
         lock(): number {
-            if (that.isLocked) {
+            if (that.isLocked()) {
                 throw new Error("already locked");
             }
             else {
@@ -63,7 +63,7 @@ export function makeLockable(): Lockable {
             if (typeof token !== 'number') {
                 throw new Error("token must be a number.");
             }
-            if (!that.isLocked) {
+            if (!that.isLocked()) {
                 throw new Error("not locked");
             }
             else if (lock_ === token) {
@@ -81,22 +81,18 @@ export function makeLockable(): Lockable {
  * Lockable Mixin
  */
 export class LockableMixin implements Lockable {
-    /**
-     * 
-     */
-    lock_: number;
 
-    public get isLocked(): boolean {
-        return typeof this.lock_ === 'number';
+    public isLocked(): boolean {
+        return typeof this['lock_'] === 'number';
     }
 
     public lock(): number {
-        if (this.isLocked) {
+        if (this.isLocked()) {
             throw new Error("already locked");
         }
         else {
-            this.lock_ = Math.random();
-            return this.lock_;
+            this['lock_'] = Math.random();
+            return this['lock_'];
         }
     }
 
@@ -104,11 +100,11 @@ export class LockableMixin implements Lockable {
         if (typeof token !== 'number') {
             throw new Error("token must be a number.");
         }
-        if (!this.isLocked) {
+        if (!this.isLocked()) {
             throw new Error("not locked");
         }
-        else if (this.lock_ === token) {
-            this.lock_ = void 0;
+        else if (this['lock_'] === token) {
+            this['lock_'] = void 0;
         }
         else {
             throw new Error("unlock denied");

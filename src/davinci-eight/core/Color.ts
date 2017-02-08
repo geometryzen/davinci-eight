@@ -1,85 +1,110 @@
 import clamp from '../math/clamp';
 import { Coords } from '../math/Coords';
 import isDefined from '../checks/isDefined';
-import { TargetLockedError } from '../core/Lockable';
-import Matrix3 from '../math/Matrix3';
-import mustBeArray from '../checks/mustBeArray';
+import { lock, TargetLockedError } from '../core/Lockable';
 import mustBeGE from '../checks/mustBeGE';
 import mustBeLE from '../checks/mustBeLE';
 import mustBeNumber from '../checks/mustBeNumber';
 import principalAngle from './principalAngle';
-import SpinorE3 from '../math/SpinorE3';
 
 const COORD_R = 0;
 const COORD_G = 1;
 const COORD_B = 2;
 
+const rgb255 = function (red: number, green: number, blue: number): Color {
+    const UBYTEMAX = 255;
+    return new Color(red / UBYTEMAX, green / UBYTEMAX, blue / UBYTEMAX);
+};
+
 /**
- * <p>
  * A mutable type representing a color through its RGB components.
- * </p>
- * <p>
- * WARNING: In many object-oriented designs, types representing values are completely immutable.
- * In a graphics library where data changes rapidly and garbage collection might become an issue,
- * it is common to use reference types, such as in this design. This mutability can lead to
- * difficult bugs because it is hard to reason about where a color may have changed. 
- * </p>
  */
 export class Color extends Coords {
 
     /**
      *
      */
-    static readonly black = new Color(0, 0, 0);
+    static readonly black = lock(new Color(0, 0, 0));
 
     /**
      *
      */
-    static readonly blue = new Color(0, 0, 1);
+    static readonly blue = lock(new Color(0, 0, 1));
 
     /**
      *
      */
-    static readonly green = new Color(0, 1, 0);
+    static readonly green = lock(new Color(0, 1, 0));
 
     /**
      *
      */
-    static readonly cyan = new Color(0, 1, 1);
+    static readonly cyan = lock(new Color(0, 1, 1));
 
     /**
      *
      */
-    static readonly red = new Color(1, 0, 0);
+    static readonly red = lock(new Color(1, 0, 0));
 
     /**
      *
      */
-    static readonly magenta = new Color(1, 0, 1);
+    static readonly magenta = lock(new Color(1, 0, 1));
 
     /**
      *
      */
-    static readonly yellow = new Color(1, 1, 0);
+    static readonly yellow = lock(new Color(1, 1, 0));
 
     /**
      *
      */
-    static readonly white = new Color(1, 1, 1);
+    static readonly white = lock(new Color(1, 1, 1));
 
     /**
      *
      */
-    static readonly gray = new Color(0.5, 0.5, 0.5);
+    static readonly gray = lock(new Color(0.5, 0.5, 0.5));
 
-    public static blueviolet: Color;
-    public static cobalt: Color;
-    public static chartreuse: Color;
-    public static hotpink: Color;
-    public static lime: Color;
-    public static slateblue: Color;
-    public static springgreen: Color;
-    public static teal: Color;
+    /**
+     * 
+     */
+    static readonly blueviolet = lock(rgb255(138, 43, 226));
+
+    /**
+     * 
+     */
+    static readonly chartreuse = lock(rgb255(127, 255, 0));
+
+    /**
+     * 
+     */
+    static readonly cobalt = lock(rgb255(61, 89, 171));
+
+    /**
+     * 
+     */
+    static readonly hotpink = lock(rgb255(255, 105, 180));
+
+    /**
+     * 
+     */
+    static readonly lime = lock(rgb255(0, 255, 0));
+
+    /**
+     * 
+     */
+    static readonly slateblue = lock(rgb255(113, 113, 198));
+
+    /**
+     * 
+     */
+    static readonly springgreen = lock(rgb255(0, 255, 127));
+
+    /**
+     * 
+     */
+    static readonly teal = lock(rgb255(56, 142, 142));
 
     constructor(r: number, g: number, b: number) {
         super([r, g, b], false, 3);
@@ -95,14 +120,14 @@ export class Color extends Coords {
     }
 
     /**
-     *
+     * The red coordinate (component) of this color.
      */
     get r(): number {
         return this.coords[COORD_R];
     }
     set r(r: number) {
-        if (this.isLocked) {
-            throw new TargetLockedError('r');
+        if (this.isLocked()) {
+            throw new TargetLockedError('set r');
         }
         this.coords[COORD_R] = clamp(r, 0, 1);
     }
@@ -110,21 +135,21 @@ export class Color extends Coords {
         return this.coords[COORD_R];
     }
     set red(red: number) {
-        if (this.isLocked) {
-            throw new TargetLockedError('red');
+        if (this.isLocked()) {
+            throw new TargetLockedError('set red');
         }
         this.coords[COORD_R] = clamp(red, 0, 1);
     }
 
     /**
-     *
+     * The green coordinate (component) of this color.
      */
     get g(): number {
         return this.coords[COORD_G];
     }
     set g(g: number) {
-        if (this.isLocked) {
-            throw new TargetLockedError('g');
+        if (this.isLocked()) {
+            throw new TargetLockedError('set g');
         }
         this.coords[COORD_G] = clamp(g, 0, 1);
     }
@@ -132,21 +157,21 @@ export class Color extends Coords {
         return this.coords[COORD_G];
     }
     set green(green: number) {
-        if (this.isLocked) {
-            throw new TargetLockedError('green');
+        if (this.isLocked()) {
+            throw new TargetLockedError('set green');
         }
         this.coords[COORD_G] = clamp(green, 0, 1);
     }
 
     /**
-     *
+     * The blue coordinate (component) of this color.
      */
     get b(): number {
         return this.coords[COORD_B];
     }
     set b(b: number) {
-        if (this.isLocked) {
-            throw new TargetLockedError('b');
+        if (this.isLocked()) {
+            throw new TargetLockedError('set b');
         }
         this.coords[COORD_B] = clamp(b, 0, 1);
     }
@@ -154,45 +179,43 @@ export class Color extends Coords {
         return this.coords[COORD_B];
     }
     set blue(blue: number) {
-        if (this.isLocked) {
-            throw new TargetLockedError('blue');
+        if (this.isLocked()) {
+            throw new TargetLockedError('set blue');
         }
         this.coords[COORD_B] = clamp(blue, 0, 1);
     }
 
-    public add(rhs: { r: number; g: number; b: number }): Color {
-        return this;
-    }
-
-    public add2(a: { r: number; g: number; b: number }, b: { r: number; g: number; b: number }): Color {
-        return this;
-    }
-
-    public applyMatrix(σ: Matrix3): Color {
-        return this;
-    }
-
     /**
-     * @param n
-     * @returns
+     * Returns a color in which any rgb component whose absolute value is less than pow(10, -n) times the absolute value of the largest coordinate is zero.
+     * @param n The exponent used to determine which components are set to zero.
+     * @returns approx(this)
      */
     public approx(n: number): Color {
-        super.approx(n);
-        return this;
+        if (this.isLocked()) {
+            return lock(this.clone().approx(n));
+        }
+        else {
+            super.approx(n);
+            return this;
+        }
     }
 
     /**
-     * @returns
+     * @returns a mutable instance of this color.
      */
     public clone(): Color {
         return new Color(this.r, this.g, this.b);
     }
 
     /**
-     * @param color
+     * Copies the specified color into this Color instance.
+     * @param color The color to be copied.
      * @returns
      */
-    public copy(color: { r: number; g: number; b: number }): Color {
+    public copy(color: { r: number; g: number; b: number }): this {
+        if (this.isLocked()) {
+            throw new TargetLockedError('copy');
+        }
         if (isDefined(color)) {
             this.r = color.r;
             this.g = color.g;
@@ -207,59 +230,44 @@ export class Color extends Coords {
         return this;
     }
 
-    public divByScalar(α: number): Color {
-        return this;
-    }
-
     /**
-     * @param target
-     * @param α
-     * @returns
+     * Linearly interpolates from this color to the specified color.
+     * @param target The color returned when α = 1.
+     * @param α The parameter that determines the composition of the color.
+     * @returns this + (target - this) * α
      */
     public lerp(target: { r: number; g: number; b: number }, α: number): Color {
-        this.r += (target.r - this.r) * α;
-        this.g += (target.g - this.g) * α;
-        this.b += (target.b - this.b) * α;
-        return this;
+        if (this.isLocked()) {
+            return lock(this.clone().lerp(target, α));
+        }
+        else {
+            this.r += (target.r - this.r) * α;
+            this.g += (target.g - this.g) * α;
+            this.b += (target.b - this.b) * α;
+            return this;
+        }
     }
 
     /**
-     *
-     * @readOnly
+     * Computes the luminance of this color.
      */
     get luminance(): number {
         return Color.luminance(this.r, this.g, this.b);
     }
 
-    public neg(): Color {
-        return this;
-    }
-
-    public reflect(n: { r: number; g: number; b: number }): Color {
-        return this;
-    }
-
-    public rotate(R: SpinorE3): Color {
-        return this;
-    }
-
+    /**
+     * 
+     */
     public scale(α: number): Color {
-        this.r = this.r * α;
-        this.g = this.g * α;
-        this.b = this.b * α;
-        return this;
-    }
-
-    public stress(σ: { r: number; g: number; b: number }): Color {
-        return this;
-    }
-
-    public sub(rhs: { r: number; g: number; b: number }): Color {
-        return this;
-    }
-
-    public sub2(a: { r: number; g: number; b: number }, b: { r: number; g: number; b: number }): Color {
-        return this;
+        if (this.isLocked()) {
+            return lock(this.clone().scale(α));
+        }
+        else {
+            this.r = this.r * α;
+            this.g = this.g * α;
+            this.b = this.b * α;
+            return this;
+        }
     }
 
     public toExponential(fractionDigits?: number): string {
@@ -275,20 +283,15 @@ export class Color extends Coords {
     }
 
     /**
-     * @returns
+     * @returns A string representation of this color.
      */
-    public toString(): string {
-        // FIXME: Use vector stuff
-        return "Color(" + this.r + ", " + this.g + ", " + this.b + ")";
-    }
-
-    public zero(): Color {
-        return this;
+    public toString(radix?: number): string {
+        return "Color(" + this.r.toString(radix) + ", " + this.g.toString(radix) + ", " + this.b.toString(radix) + ")";
     }
 
     /**
-     * @param color
-     * @returns
+     * @param color The color to be copied.
+     * @returns A mutable copy of the specified color.
      */
     public static copy(color: { r: number; g: number; b: number }): Color {
         return new Color(color.r, color.g, color.b);
@@ -313,6 +316,7 @@ export class Color extends Coords {
      * @param coords
      * @returns
      */
+    /*
     public static fromCoords(coords: number[]): Color {
         mustBeArray('coords', coords);
         const r = mustBeNumber('r', coords[COORD_R]);
@@ -320,6 +324,7 @@ export class Color extends Coords {
         const b = mustBeNumber('b', coords[COORD_B]);
         return new Color(r, g, b);
     }
+    */
 
     /**
      * Converts an angle, radius, height to a color on a color wheel.
@@ -368,11 +373,12 @@ export class Color extends Coords {
     }
 
     /**
-     *
-     * @param r
-     * @param g
-     * @param b
-     * @returns
+     * Constructs a new mutable instance of Color from the rgb components.
+     * The components are clamped to the range [0, 1].
+     * 
+     * @param r The red component.
+     * @param g The green component.
+     * @param b The blue component.
      */
     public static fromRGB(r: number, g: number, b: number): Color {
         mustBeNumber('r', r);
@@ -381,11 +387,7 @@ export class Color extends Coords {
         return new Color(clamp(r, 0, 1), clamp(g, 0, 1), clamp(b, 0, 1));
     }
 
-    /**
-     * @param x
-     * @returns
-     */
-    public static isInstance(x: any): boolean {
+    private static isInstance(x: any): x is Color {
         return x instanceof Color;
     }
 
@@ -416,27 +418,4 @@ export class Color extends Coords {
     }
 }
 
-Color.black.lock();
-Color.blue.lock();
-Color.green.lock();
-Color.cyan.lock();
-Color.red.lock();
-Color.magenta.lock();
-Color.yellow.lock();
-Color.white.lock();
-
 export default Color;
-
-const rgb255 = function (red: number, green: number, blue: number): Color {
-    const UBYTEMAX = 255;
-    return new Color(red / UBYTEMAX, green / UBYTEMAX, blue / UBYTEMAX);
-};
-
-Color.blueviolet = rgb255(138, 43, 226);
-Color.chartreuse = rgb255(127, 255, 0);
-Color.cobalt = rgb255(61, 89, 171);
-Color.hotpink = rgb255(255, 105, 180);
-Color.lime = rgb255(0, 255, 0);
-Color.slateblue = rgb255(113, 113, 198);
-Color.springgreen = rgb255(0, 255, 127);
-Color.teal = rgb255(56, 142, 142);

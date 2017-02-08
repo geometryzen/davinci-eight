@@ -3,6 +3,7 @@ import AttributeSizeType from '../core/AttributeSizeType';
 import copyToArray from '../collections/copyToArray';
 import dataFromVectorN from './dataFromVectorN';
 import DataType from '../core/DataType';
+import DefaultVectorN from '../math/VectorN';
 import DrawAttribute from '../atoms/DrawAttribute';
 import BeginMode from '../core/BeginMode';
 import DrawPrimitive from '../atoms/DrawPrimitive';
@@ -13,7 +14,7 @@ import GeometryMeta from './GeometryMeta';
 import Primitive from '../core/Primitive';
 import Simplex from './Simplex';
 import SimplexMode from './SimplexMode';
-import { VectorN } from '../math/VectorN';
+import VectorN from '../atoms/VectorN';
 import Vertex from '../atoms/Vertex';
 
 function numberList(size: number, value: number): number[] {
@@ -101,7 +102,7 @@ export default function simplicesToPrimitive(simplices: Simplex[], geometryMeta?
             const size = output.dimensions;
             let value: VectorN<number> = vertexAttribs[keys[k]];
             if (!value) {
-                value = new VectorN<number>(numberList(size, 0), false, size);
+                value = new DefaultVectorN<number>(numberList(size, 0), false, size);
             }
             // TODO: Merge functions to avoid creating temporary array.
             const data: number[] = dataFromVectorN(value);

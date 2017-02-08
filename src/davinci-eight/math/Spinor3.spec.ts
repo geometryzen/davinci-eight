@@ -11,18 +11,18 @@ describe("Spinor3", function () {
         it("coords argument should be preserved", function () {
             var coords = [1, 2, 3, 4];
             var m = Spinor3.spinor(1, 2, 3, 4);
-            expect(m.coords[0]).toBe(coords[0]);
-            expect(m.coords[1]).toBe(coords[1]);
-            expect(m.coords[2]).toBe(coords[2]);
-            expect(m.coords[3]).toBe(coords[3]);
+            expect(m.getComponent(0)).toBe(coords[0]);
+            expect(m.getComponent(1)).toBe(coords[1]);
+            expect(m.getComponent(2)).toBe(coords[2]);
+            expect(m.getComponent(3)).toBe(coords[3]);
             expect(m.modified).toBe(false);
         });
         it("no argument should create identity", function () {
             const m = Spinor3.one;
-            expect(m.coords[0]).toBe(0);
-            expect(m.coords[1]).toBe(0);
-            expect(m.coords[2]).toBe(0);
-            expect(m.coords[3]).toBe(1);
+            expect(m.getComponent(0)).toBe(0);
+            expect(m.getComponent(1)).toBe(0);
+            expect(m.getComponent(2)).toBe(0);
+            expect(m.getComponent(3)).toBe(1);
             expect(m.modified).toBe(false);
         });
     });
@@ -34,19 +34,19 @@ describe("Spinor3", function () {
             source.xy = 3;
             source.a = 4;
             const m = Spinor3.zero.clone().copy(source);
-            expect(m.coords[0]).toBe(1);
-            expect(m.coords[1]).toBe(2);
-            expect(m.coords[2]).toBe(3);
-            expect(m.coords[3]).toBe(4);
+            expect(m.getComponent(0)).toBe(1);
+            expect(m.getComponent(1)).toBe(2);
+            expect(m.getComponent(2)).toBe(3);
+            expect(m.getComponent(3)).toBe(4);
             expect(m.modified).toBe(true);
         });
         it("should preserved modified flag when no change", function () {
             const source = Spinor3.spinor(0, 0, 0, 1);
             const m = Spinor3.one.clone().copy(source);
-            expect(m.coords[0]).toBe(0);
-            expect(m.coords[1]).toBe(0);
-            expect(m.coords[2]).toBe(0);
-            expect(m.coords[3]).toBe(1);
+            expect(m.getComponent(0)).toBe(0);
+            expect(m.getComponent(1)).toBe(0);
+            expect(m.getComponent(2)).toBe(0);
+            expect(m.getComponent(3)).toBe(1);
             expect(m.modified).toBe(false);
         });
     });
@@ -100,10 +100,10 @@ describe("Spinor3", function () {
             expect(t.zx).toBe(127);
             expect(t.xy).toBe(221);
             expect(t.a).toBe(-13);
-            expect(t.coords[0]).toBe(129);
-            expect(t.coords[1]).toBe(127);
-            expect(t.coords[2]).toBe(221);
-            expect(t.coords[3]).toBe(-13);
+            expect(t.getComponent(0)).toBe(129);
+            expect(t.getComponent(1)).toBe(127);
+            expect(t.getComponent(2)).toBe(221);
+            expect(t.getComponent(3)).toBe(-13);
             expect(t.modified).toBe(true);
         });
 
@@ -141,10 +141,10 @@ describe("Spinor3", function () {
         it("should preserve the identity", function () {
             var m = Spinor3.spinor(0, 0, 0, 1);
             var r = m.exp();
-            expect(m.coords[0]).toBe(0);
-            expect(m.coords[1]).toBe(0);
-            expect(m.coords[2]).toBe(0);
-            expect(m.coords[3]).toBe(Math.exp(1));
+            expect(m.getComponent(0)).toBe(0);
+            expect(m.getComponent(1)).toBe(0);
+            expect(m.getComponent(2)).toBe(0);
+            expect(m.getComponent(3)).toBe(Math.exp(1));
             expect(m.modified).toBe(true);
             expect(r).toBe(m);
         });
@@ -152,9 +152,9 @@ describe("Spinor3", function () {
             var m = Spinor3.spinor(0, 0, 0, 3);
             var clone = m.clone();
             m.exp();
-            expect(m.coords[0]).toBe(0);
-            expect(m.coords[1]).toBe(0);
-            expect(m.coords[2]).toBe(0);
+            expect(m.getComponent(0)).toBe(0);
+            expect(m.getComponent(1)).toBe(0);
+            expect(m.getComponent(2)).toBe(0);
             expect(m.a).toBe(Math.exp(clone.a));
             expect(m.modified).toBe(true);
         });
@@ -167,10 +167,10 @@ describe("Spinor3", function () {
         const s = m.clone().rotate(r);
 
         it("should do the right thing", function () {
-            expect(s.coords[0]).toBe(2244);
-            expect(s.coords[1]).toBe(3940);
-            expect(s.coords[2]).toBe(3608);
-            expect(s.coords[3]).toBe(6580);
+            expect(s.getComponent(0)).toBe(2244);
+            expect(s.getComponent(1)).toBe(3940);
+            expect(s.getComponent(2)).toBe(3608);
+            expect(s.getComponent(3)).toBe(6580);
             expect(s.modified).toBe(true);
         });
         it("should agree with R * M * rev(R) using G3", function () {
@@ -189,10 +189,10 @@ describe("Spinor3", function () {
     describe("scale", function () {
         it("should multiply each coordinate by the scalar value", function () {
             const m = Spinor3.spinor(2, 3, 5, 7).scale(2);
-            expect(m.coords[0]).toBe(4);
-            expect(m.coords[1]).toBe(6);
-            expect(m.coords[2]).toBe(10);
-            expect(m.coords[3]).toBe(14);
+            expect(m.getComponent(0)).toBe(4);
+            expect(m.getComponent(1)).toBe(6);
+            expect(m.getComponent(2)).toBe(10);
+            expect(m.getComponent(3)).toBe(14);
             expect(m.modified).toBe(true);
         });
     });

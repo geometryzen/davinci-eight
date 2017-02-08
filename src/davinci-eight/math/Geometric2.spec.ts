@@ -1,4 +1,4 @@
-import { Geometric2 } from './Geometric2';
+import Geometric2 from './Geometric2';
 
 /**
  * The decimal place up to which the numbers should agree.
@@ -181,13 +181,7 @@ describe("Geometric2", function () {
         describe("(n) should be -n * M * n", function () {
             const S = Geometric2.fromCartesian(2, 3, 5, 7);
             const n = Geometric2.vector(1, 2).normalize();
-            /**
-             * The 'Test' result using the specialized method.
-             */
             const T = S.clone().reflect(n);
-            /**
-             * The 'Control' value computed explicitly as C = -n * S * n
-             */
             const C = n.clone().mul(S).mul(n).scale(-1);
 
             it("should be the number 1", function () {

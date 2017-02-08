@@ -1,4 +1,4 @@
-import { Lockable, makeLockable, TargetLockedError } from '../core/Lockable';
+import { Lockable, lockable, TargetLockedError } from '../core/Lockable';
 import mustBeDefined from '../checks/mustBeDefined';
 import mustBeInteger from '../checks/mustBeInteger';
 import expectArg from '../checks/expectArg';
@@ -10,7 +10,7 @@ import readOnly from '../i18n/readOnly';
  */
 export class AbstractMatrix<T extends { elements: Float32Array }> implements Lockable {
 
-    private lock_ = makeLockable();
+    private lock_ = lockable();
     private elements_: Float32Array;
     private length_: number;
     private dimensions_: number;
@@ -32,8 +32,8 @@ export class AbstractMatrix<T extends { elements: Float32Array }> implements Loc
         this.modified = false;
     }
 
-    get isLocked(): boolean {
-        return this.lock_.isLocked;
+    isLocked(): boolean {
+        return this.lock_.isLocked();
     }
 
     lock(): number {
@@ -55,7 +55,7 @@ export class AbstractMatrix<T extends { elements: Float32Array }> implements Loc
         return this.elements_;
     }
     set elements(elements: Float32Array) {
-        if (this.isLocked) {
+        if (this.isLocked()) {
             throw new TargetLockedError('elements');
         }
         expectArg('elements', elements).toSatisfy(elements.length === this.length_, "elements length must be " + this.length_);
@@ -63,7 +63,7 @@ export class AbstractMatrix<T extends { elements: Float32Array }> implements Loc
     }
 
     copy(m: T): T {
-        if (this.isLocked) {
+        if (this.isLocked()) {
             throw new TargetLockedError('copy');
         }
         this.elements.set(m.elements);
@@ -106,7 +106,7 @@ export class AbstractMatrix<T extends { elements: Float32Array }> implements Loc
      * @param value The value of the element.
      */
     setElement(row: number, column: number, value: number): void {
-        if (this.isLocked) {
+        if (this.isLocked()) {
             throw new TargetLockedError('setElement');
         }
         this.elements[row + column * this.dimensions_] = value;
