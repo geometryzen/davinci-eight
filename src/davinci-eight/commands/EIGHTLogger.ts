@@ -1,5 +1,4 @@
 import config from '../config';
-import ContextManager from '../core/ContextManager';
 import { ShareableBase } from '../core/ShareableBase';
 
 /**
@@ -7,7 +6,7 @@ import { ShareableBase } from '../core/ShareableBase';
  */
 export default class EIGHTLogger extends ShareableBase {
 
-  constructor(private contextManager: ContextManager) {
+  constructor() {
     super();
     this.setLoggingName('EIGHTLogger');
   }

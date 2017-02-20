@@ -11,7 +11,6 @@ import mustBeArray from '../checks/mustBeArray';
 import mustBeNonNullObject from '../checks/mustBeNonNullObject';
 import Primitive from './Primitive';
 import SpinorE3 from '../math/SpinorE3';
-import tiltFromOptions from './tiltFromOptions';
 import VectorE3 from '../math/VectorE3';
 import VertexAttribPointer from './VertexAttribPointer';
 import vertexArraysFromPrimitive from './vertexArraysFromPrimitive';
@@ -59,7 +58,7 @@ export class GeometryElements extends GeometryBase {
      * 
      */
     constructor(contextManager: ContextManager, primitive: Primitive, options: { axis?: VectorE3; meridian?: VectorE3; order?: string[]; tilt?: SpinorE3 } = {}, levelUp = 0) {
-        super(tiltFromOptions(options), contextManager, levelUp + 1);
+        super(contextManager, levelUp + 1);
         this.setLoggingName('GeometryElements');
 
         mustBeNonNullObject('primitive', primitive);
@@ -129,7 +128,7 @@ export class GeometryElements extends GeometryBase {
         super.contextLost();
     }
 
-    bind(material: Material): GeometryElements {
+    bind(material: Material): this {
         this.vbo.bind();
         const pointers = this.pointers;
         if (pointers) {
@@ -147,7 +146,7 @@ export class GeometryElements extends GeometryBase {
         return this;
     }
 
-    unbind(material: Material): GeometryElements {
+    unbind(material: Material): this {
         this.ibo.unbind();
         const pointers = this.pointers;
         if (pointers) {

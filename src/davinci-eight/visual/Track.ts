@@ -167,3 +167,5 @@ export class Track extends Mesh<TrackGeometry, LineMaterial> {
         geometry.release();
     }
 }
+
+export default Track;

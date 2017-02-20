@@ -98,3 +98,5 @@ export class Sphere extends Mesh<Geometry, Material> {
         this.setScale(radius, radius, radius);
     }
 }
+
+export default Sphere;

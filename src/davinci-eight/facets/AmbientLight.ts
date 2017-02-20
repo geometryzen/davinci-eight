@@ -34,3 +34,5 @@ export class AmbientLight implements Facet {
         visitor.uniform3f(GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT, color.r, color.g, color.b);
     }
 }
+
+export default AmbientLight;

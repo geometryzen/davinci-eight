@@ -168,3 +168,5 @@ export class Scene extends ShareableContextConsumer implements Renderable {
         super.contextLost();
     }
 }
+
+export default Scene;

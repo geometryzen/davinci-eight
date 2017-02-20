@@ -5,7 +5,6 @@ import Material from './Material';
 import mustBeNonNullObject from '../checks/mustBeNonNullObject';
 import Primitive from './Primitive';
 import SpinorE3 from '../math/SpinorE3';
-import tiltFromOptions from './tiltFromOptions';
 import Usage from './Usage';
 import VertexAttribPointer from './VertexAttribPointer';
 import vertexArraysFromPrimitive from './vertexArraysFromPrimitive';
@@ -23,7 +22,7 @@ export default class GeometryArrays extends GeometryBase {
      * The <code>first</code> parameter in the drawArrays call.
      * This is currently hard-code to zero because this class only supportes buffering one primitive.
      */
-    private first: number = 0;
+    private first = 0;
     /**
      * The <code>count</code> parameter in the drawArrays call.
      * This is currently maintained at this level because this class only supportes buffering one primitive.
@@ -48,7 +47,7 @@ export default class GeometryArrays extends GeometryBase {
      * 
      */
     constructor(contextManager: ContextManager, primitive: Primitive, options: { order?: string[]; tilt?: SpinorE3 } = {}, levelUp = 0) {
-        super(tiltFromOptions(options), contextManager, levelUp + 1);
+        super(contextManager, levelUp + 1);
         mustBeNonNullObject('primitive', primitive);
         this.setLoggingName('GeometryArrays');
         // FIXME: order as an option

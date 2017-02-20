@@ -1,9 +1,8 @@
 import GeometryKey from '../core/GeometryKey';
 import GeometryMode from './GeometryMode';
 import GeometryOptions from './GeometryOptions';
-import SphereGeometry from './SphereGeometry';
 
-interface SphereGeometryOptions extends GeometryOptions, GeometryKey<SphereGeometry> {
+interface SphereGeometryOptions extends GeometryOptions, GeometryKey {
     azimuthSegments?: number;
     azimuthStart?: number;
     azimuthLength?: number;

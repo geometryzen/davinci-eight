@@ -1,11 +1,10 @@
 import GeometryKey from '../core/GeometryKey';
 import GeometryOptions from './GeometryOptions';
-import TetrahedronGeometry from './TetrahedronGeometry';
 
 /**
  *
  */
-interface TetrahedronGeometryOptions extends GeometryOptions, GeometryKey<TetrahedronGeometry> {
+interface TetrahedronGeometryOptions extends GeometryOptions, GeometryKey {
     radius?: number;
 }
 

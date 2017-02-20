@@ -122,7 +122,7 @@ export class Engine extends ShareableBase implements ContextManager {
 
         this._attributes = attributes;
 
-        this._commands.pushWeakRef(new EIGHTLogger(this));
+        this._commands.pushWeakRef(new EIGHTLogger());
         this._commands.pushWeakRef(new VersionLogger(this));
 
         this._webGLContextLost = (event: Event) => {
@@ -509,7 +509,7 @@ export class Engine extends ShareableBase implements ContextManager {
     /**
      * 
      */
-    getCacheGeometry<G extends Geometry>(geometryKey: GeometryKey<G>): G {
+    getCacheGeometry<G extends Geometry>(geometryKey: GeometryKey): G {
         mustBeNonNullObject('geometryKey', geometryKey);
         mustBeString('geometryKey.kind', geometryKey.kind);
         const key = JSON.stringify(geometryKey);
@@ -523,7 +523,7 @@ export class Engine extends ShareableBase implements ContextManager {
     /**
      * 
      */
-    putCacheGeometry<G extends Geometry>(geometryKey: GeometryKey<G>, geometry: G): void {
+    putCacheGeometry<G extends Geometry>(geometryKey: GeometryKey, geometry: G): void {
         mustBeNonNullObject('geometryKey', geometryKey);
         mustBeNonNullObject('geometry', geometry);
         mustBeString('geometryKey.kind', geometryKey.kind);
@@ -534,7 +534,7 @@ export class Engine extends ShareableBase implements ContextManager {
     /**
      * 
      */
-    getCacheMaterial<M extends Material>(materialKey: MaterialKey<M>): M {
+    getCacheMaterial<M extends Material>(materialKey: MaterialKey): M {
         mustBeNonNullObject('materialKey', materialKey);
         mustBeString('materialKey.kind', materialKey.kind);
         const key = JSON.stringify(materialKey);
@@ -548,7 +548,7 @@ export class Engine extends ShareableBase implements ContextManager {
     /**
      * 
      */
-    putCacheMaterial<M extends Material>(materialKey: MaterialKey<M>, material: M): void {
+    putCacheMaterial<M extends Material>(materialKey: MaterialKey, material: M): void {
         mustBeNonNullObject('materialKey', materialKey);
         mustBeNonNullObject('material', material);
         mustBeString('materialKey.kind', materialKey.kind);

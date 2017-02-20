@@ -18,27 +18,27 @@ class Eight {
 
     constructor() {
         this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-        this.LAST_MODIFIED = '2017-02-07';
+        this.LAST_MODIFIED = '2017-02-19';
         this.NAMESPACE = 'EIGHT';
-        this.VERSION = '6.0.4';
+        this.VERSION = '6.0.5';
     }
 
-    log(message?: any, ...optionalParams: any[]): void {
+    log(message?: any): void {
         // This should allow us to unit test and run in environments without a console.
         console.log(message);
     }
 
-    info(message?: any, ...optionalParams: any[]): void {
+    info(message?: any): void {
         // This should allow us to unit test and run in environments without a console.
         console.log(message);
     }
 
-    warn(message?: any, ...optionalParams: any[]): void {
+    warn(message?: any): void {
         // This should allow us to unit test and run in environments without a console.
         console.warn(message);
     }
 
-    error(message?: any, ...optionalParams: any[]): void {
+    error(message?: any): void {
         // This should allow us to unit test and run in environments without a console.
         console.error(message);
     }

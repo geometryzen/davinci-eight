@@ -1,9 +1,7 @@
-import Geometry from './Geometry';
-
 /**
  * 
  */
-export interface GeometryKey<G extends Geometry> {
+export interface GeometryKey {
     kind?: 'ArrowGeometry' | 'BoxGeometry' | 'CurveGeometry' | 'CylinderGeometry' | 'GridGeometry' | 'HollowCylinderGeometry' | 'SphereGeometry' | 'TetrahedronGeometry' | 'TurtleGeometry';
 }
 

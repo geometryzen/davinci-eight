@@ -7,7 +7,6 @@ import dotVector from './dotVectorE3';
 import extG3 from './extG3';
 import gauss from './gauss';
 import GeometricE3 from './GeometricE3';
-import isDefined from '../checks/isDefined';
 import isScalarG3 from './isScalarG3';
 import isVectorE3 from './isVectorE3';
 import isVectorG3 from './isVectorG3';
@@ -44,17 +43,17 @@ const COORD_PSEUDO = 7;
 // FIXME: Change to Canonical ordering.
 const BASIS_LABELS = ["1", "e1", "e2", "e3", "e12", "e23", "e31", "e123"];
 
-const zero = function zero(): number[] {
+const zero = function zero(): [number, number, number, number, number, number, number, number] {
     return [0, 0, 0, 0, 0, 0, 0, 0];
 };
 
-const scalar = function scalar(a: number): number[] {
+const scalar = function scalar(a: number) {
     const coords = zero();
     coords[COORD_SCALAR] = a;
     return coords;
 };
 
-const vector = function vector(x: number, y: number, z: number): number[] {
+const vector = function vector(x: number, y: number, z: number) {
     const coords = zero();
     coords[COORD_X] = x;
     coords[COORD_Y] = y;
@@ -62,7 +61,7 @@ const vector = function vector(x: number, y: number, z: number): number[] {
     return coords;
 };
 
-const bivector = function bivector(yz: number, zx: number, xy: number): number[] {
+const bivector = function bivector(yz: number, zx: number, xy: number) {
     const coords = zero();
     coords[COORD_YZ] = yz;
     coords[COORD_ZX] = zx;
@@ -70,7 +69,7 @@ const bivector = function bivector(yz: number, zx: number, xy: number): number[]
     return coords;
 };
 
-const spinor = function spinor(a: number, yz: number, zx: number, xy: number): number[] {
+const spinor = function spinor(a: number, yz: number, zx: number, xy: number) {
     const coords = zero();
     coords[COORD_SCALAR] = a;
     coords[COORD_YZ] = yz;
@@ -79,7 +78,7 @@ const spinor = function spinor(a: number, yz: number, zx: number, xy: number): n
     return coords;
 };
 
-const multivector = function multivector(a: number, x: number, y: number, z: number, yz: number, zx: number, xy: number, b: number): number[] {
+const multivector = function multivector(a: number, x: number, y: number, z: number, yz: number, zx: number, xy: number, b: number) {
     const coords = zero();
     coords[COORD_SCALAR] = a;
     coords[COORD_X] = x;
@@ -92,13 +91,13 @@ const multivector = function multivector(a: number, x: number, y: number, z: num
     return coords;
 };
 
-const pseudo = function pseudo(b: number): number[] {
+const pseudo = function pseudo(b: number) {
     const coords = zero();
     coords[COORD_PSEUDO] = b;
     return coords;
 };
 
-function coordinates(m: GeometricE3): number[] {
+function coordinates(m: GeometricE3) {
     const coords = zero();
     coords[COORD_SCALAR] = m.a;
     coords[COORD_X] = m.x;
@@ -155,7 +154,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
      * The multivector is initialized to zero.
      * coords [a, x, y, z, xy, yz, zx, b]
      */
-    constructor(coords = [0, 0, 0, 0, 0, 0, 0, 0], code: number) {
+    constructor(coords: [number, number, number, number, number, number, number, number] = [0, 0, 0, 0, 0, 0, 0, 0], code: number) {
         mustBeEQ('coords.length', coords.length, 8);
         if (code !== magicCode) {
             throw new Error("Use the static creation methods instead of the constructor");
@@ -522,11 +521,11 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
      * @param point
      */
     distanceTo(point: VectorE3): number {
-        if (isDefined(point)) {
+        if (point) {
             return Math.sqrt(this.quadranceTo(point));
         }
         else {
-            return void 0;
+            throw new Error("point must be a VectorE3");
         }
     }
 
@@ -534,14 +533,14 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
      * Computes the quadrance from this position (vector) to the specified point.
      */
     quadranceTo(point: VectorE3): number {
-        if (isDefined(point)) {
+        if (point) {
             const dx = this.x - point.x;
             const dy = this.y - point.y;
             const dz = this.z - point.z;
             return dx * dx + dy * dy + dz * dz;
         }
         else {
-            return void 0;
+            throw new Error("point must be a VectorE3");
         }
     }
 
@@ -860,7 +859,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
             return this.clone().dual(m);
         }
         else {
-            if (isDefined(m)) {
+            if (m) {
                 const w = -m.b;
                 const x = -m.yz;
                 const y = -m.zx;
@@ -1430,7 +1429,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
         if (this.isLocked()) {
             throw new TargetLockedError('rotorFromDirections');
         }
-        const B: BivectorE3 = void 0;
+        const B: BivectorE3 | undefined = void 0;
         return this.rotorFromVectorToVector(a, b, B);
     }
 
@@ -1471,7 +1470,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
         // frames are orthogonal and so R1 and R2 determine R.
         //
         let biggestValue = -1;
-        let firstVector: number;
+        let firstVector: number | undefined = void 0;
         for (let i = 0; i < 3; i++) {
             cosines[i] = cosVectorVector(es[i], fs[i]);
             if (cosines[i] > biggestValue) {
@@ -1479,8 +1478,13 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
                 biggestValue = cosines[i];
             }
         }
-        const secondVector = (firstVector + 1) % 3;
-        return this.rotorFromTwoVectors(es[firstVector], fs[firstVector], es[secondVector], fs[secondVector]);
+        if (typeof firstVector === 'number') {
+            const secondVector = (firstVector + 1) % 3;
+            return this.rotorFromTwoVectors(es[firstVector], fs[firstVector], es[secondVector], fs[secondVector]);
+        }
+        else {
+            throw new Error("Unable to compute rotor.");
+        }
     }
 
     /**
@@ -1519,7 +1523,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
      *
      * The result is independent of the magnitudes of a and b. 
      */
-    rotorFromVectorToVector(a: VectorE3, b: VectorE3, B: BivectorE3): this {
+    rotorFromVectorToVector(a: VectorE3, b: VectorE3, B: BivectorE3 | undefined): this {
         if (this.isLocked()) {
             throw new TargetLockedError('rotorFromVectorToVector');
         }
@@ -1830,7 +1834,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
      * Implements `this + rhs` as addition.
      * The returned value is locked.
      */
-    __add__(rhs: number | CartesianG3): Geometric3 {
+    __add__(rhs: number | CartesianG3): Geometric3 | undefined {
         const duckR = maskG3(rhs);
         if (duckR) {
             return lock(this.clone().add(duckR));
@@ -1847,7 +1851,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
      * Implements `lhs + this` as addition.
      * The returned value is locked.
      */
-    __radd__(lhs: number | Geometric3): Geometric3 {
+    __radd__(lhs: number | Geometric3): Geometric3 | undefined {
         if (lhs instanceof Geometric3) {
             return lock(Geometric3.copy(lhs).add(this));
         }
@@ -1866,7 +1870,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
      * Implements `this / rhs` as division.
      * The returned value is locked.
      */
-    __div__(rhs: number | CartesianG3): Geometric3 {
+    __div__(rhs: number | CartesianG3): Geometric3 | undefined {
         const duckR = maskG3(rhs);
         if (duckR) {
             return lock(this.clone().div(duckR));
@@ -1880,7 +1884,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
      * Implements `lhs / this` as division.
      * The returned value is locked.
      */
-    __rdiv__(lhs: number | Geometric3): Geometric3 {
+    __rdiv__(lhs: number | Geometric3): Geometric3 | undefined {
         if (lhs instanceof Geometric3) {
             return lock(Geometric3.copy(lhs).div(this));
         }
@@ -1896,7 +1900,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
      * Implements `this * rhs` as the geometric product.
      * The returned value is locked.
      */
-    __mul__(rhs: number | CartesianG3): Geometric3 {
+    __mul__(rhs: number | CartesianG3): Geometric3 | undefined {
         const duckR = maskG3(rhs);
         if (duckR) {
             return lock(this.clone().mul(duckR));
@@ -1910,7 +1914,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
      * Implements `lhs * this` as the geometric product.
      * The returned value is locked.
      */
-    __rmul__(lhs: number | Geometric3): Geometric3 {
+    __rmul__(lhs: number | Geometric3): Geometric3 | undefined {
         if (lhs instanceof Geometric3) {
             return lock(Geometric3.copy(lhs).mul(this));
         }
@@ -1926,7 +1930,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
      * Implements `this - rhs` as subtraction.
      * The returned value is locked.
      */
-    __sub__(rhs: number | CartesianG3): Geometric3 {
+    __sub__(rhs: number | CartesianG3): Geometric3 | undefined {
         const duckR = maskG3(rhs);
         if (duckR) {
             return lock(this.clone().sub(duckR));
@@ -1940,7 +1944,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
      * Implements `lhs - this` as subtraction.
      * The returned value is locked.
      */
-    __rsub__(lhs: number | Geometric3): Geometric3 {
+    __rsub__(lhs: number | Geometric3): Geometric3 | undefined {
         if (lhs instanceof Geometric3) {
             return lock(Geometric3.copy(lhs).sub(this));
         }
@@ -1956,7 +1960,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
      * Implements `this ^ rhs` as the extension.
      * The returned value is locked.
      */
-    __wedge__(rhs: number | Geometric3): Geometric3 {
+    __wedge__(rhs: number | Geometric3): Geometric3 | undefined {
         if (rhs instanceof Geometric3) {
             return lock(Geometric3.copy(this).ext(rhs));
         }
@@ -1973,7 +1977,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
      * Implements `lhs ^ this` as the extension.
      * The returned value is locked.
      */
-    __rwedge__(lhs: number | Geometric3): Geometric3 {
+    __rwedge__(lhs: number | Geometric3): Geometric3 | undefined {
         if (lhs instanceof Geometric3) {
             return lock(Geometric3.copy(lhs).ext(this));
         }
@@ -1990,7 +1994,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
      * Implements `this << rhs` as the left contraction.
      * The returned value is locked.
      */
-    __lshift__(rhs: number | Geometric3): Geometric3 {
+    __lshift__(rhs: number | Geometric3): Geometric3 | undefined {
         if (rhs instanceof Geometric3) {
             return lock(Geometric3.copy(this).lco(rhs));
         }
@@ -2006,7 +2010,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
      * Implements `lhs << this` as the left contraction.
      * The returned value is locked.
      */
-    __rlshift__(lhs: number | Geometric3): Geometric3 {
+    __rlshift__(lhs: number | Geometric3): Geometric3 | undefined {
         if (lhs instanceof Geometric3) {
             return lock(Geometric3.copy(lhs).lco(this));
         }
@@ -2022,7 +2026,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
      * Implements `this >> rhs` as the right contraction.
      * The returned value is locked.
      */
-    __rshift__(rhs: number | Geometric3): Geometric3 {
+    __rshift__(rhs: number | Geometric3): Geometric3 | undefined {
         if (rhs instanceof Geometric3) {
             return lock(Geometric3.copy(this).rco(rhs));
         }
@@ -2038,7 +2042,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
      * Implements `lhs >> this` as the right contraction.
      * The returned value is locked.
      */
-    __rrshift__(lhs: number | Geometric3): Geometric3 {
+    __rrshift__(lhs: number | Geometric3): Geometric3 | undefined {
         if (lhs instanceof Geometric3) {
             return lock(Geometric3.copy(lhs).rco(this));
         }
@@ -2054,7 +2058,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
      * Implements `this | rhs` as the scalar product.
      * The returned value is locked.
      */
-    __vbar__(rhs: number | Geometric3): Geometric3 {
+    __vbar__(rhs: number | Geometric3): Geometric3 | undefined {
         if (rhs instanceof Geometric3) {
             return lock(Geometric3.copy(this).scp(rhs));
         }
@@ -2070,7 +2074,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
      * Implements `lhs | this` as the scalar product.
      * The returned value is locked.
      */
-    __rvbar__(lhs: number | Geometric3): Geometric3 {
+    __rvbar__(lhs: number | Geometric3): Geometric3 | undefined {
         if (lhs instanceof Geometric3) {
             return lock(Geometric3.copy(lhs).scp(this));
         }

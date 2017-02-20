@@ -112,3 +112,5 @@ export class Cylinder extends Mesh<Geometry, Material> {
         this.setScale(radius, y, radius);
     }
 }
+
+export default Cylinder;

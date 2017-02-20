@@ -132,9 +132,9 @@ export class Geometric2 implements GeometricE2, Lockable, VectorN<number> {
     static readonly BASIS_LABELS_STANDARD = STANDARD_LABELS;
 
     /**
-     *
+     * [scalar, x, y, pseudo]
      */
-    constructor(coords = [0, 0, 0, 0], modified = false) {
+    constructor(coords: [number, number, number, number] = [0, 0, 0, 0], modified = false) {
         mustBeEQ('coords.length', coords.length, 4);
         this.coords_ = coords;
         this.modified_ = modified;
@@ -1388,12 +1388,7 @@ export class Geometric2 implements GeometricE2, Lockable, VectorN<number> {
      *
      */
     static copy(M: GeometricE2): Geometric2 {
-        const copy = new Geometric2([]);
-        copy.a = M.a;
-        copy.x = M.x;
-        copy.y = M.y;
-        copy.b = M.b;
-        return copy;
+        return new Geometric2([M.a, M.x, M.y, M.b]);
     }
 
     /**

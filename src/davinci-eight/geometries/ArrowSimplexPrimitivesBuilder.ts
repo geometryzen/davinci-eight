@@ -39,11 +39,11 @@ function nearest(direction: Vector3): Vector3 {
 }
 
 export default class ArrowSimplexPrimitivesBuilder extends RevolutionSimplexPrimitivesBuilder {
-    public lengthCone: number = 0.20;
-    public radiusCone: number = 0.08;
-    public radiusShaft: number = 0.01;
+    public lengthCone = 0.20;
+    public radiusCone = 0.08;
+    public radiusShaft = 0.01;
     public vector: Vector3 = Vector3.vector(1, 0, 0);
-    public segments: number = 12;
+    public segments = 12;
     private modified_ = true;
     constructor() {
         super();

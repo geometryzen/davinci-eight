@@ -1,4 +1,3 @@
-import BoxGeometry from './BoxGeometry';
 import GeometryKey from '../core/GeometryKey';
 import GeometryMode from './GeometryMode';
 import GeometryOptions from './GeometryOptions';
@@ -6,7 +5,7 @@ import GeometryOptions from './GeometryOptions';
 /**
  * The options when creating a BoxGeometry.
  */
-interface BoxGeometryOptions extends GeometryOptions, GeometryKey<BoxGeometry> {
+interface BoxGeometryOptions extends GeometryOptions, GeometryKey {
     /**
      *
      */

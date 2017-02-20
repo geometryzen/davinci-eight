@@ -209,3 +209,5 @@ export class Trail extends ShareableBase implements Renderable {
         this.counter++;
     }
 }
+
+export default Trail;

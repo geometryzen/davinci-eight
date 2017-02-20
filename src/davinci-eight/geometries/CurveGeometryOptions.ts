@@ -1,10 +1,9 @@
-import CurveGeometry from './CurveGeometry';
 import CurveMode from './CurveMode';
 import GeometryKey from '../core/GeometryKey';
 import GeometryOptions from './GeometryOptions';
 import VectorE3 from '../math/VectorE3';
 
-interface CurveGeometryOptions extends GeometryOptions, GeometryKey<CurveGeometry> {
+interface CurveGeometryOptions extends GeometryOptions, GeometryKey {
 
     /**
      * A parametric function determining the positions of points on the curve.

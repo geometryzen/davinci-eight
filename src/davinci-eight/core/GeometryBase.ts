@@ -1,9 +1,9 @@
 import ContextManager from './ContextManager';
-import Material from './Material';
 import Geometry from './Geometry';
+import Material from './Material';
+import mustBeDefined from '../checks/mustBeDefined';
 import notSupported from '../i18n/notSupported';
 import ShareableContextConsumer from './ShareableContextConsumer';
-import SpinorE3 from '../math/SpinorE3';
 
 /**
  * GeometryBase
@@ -12,7 +12,7 @@ export default class GeometryBase extends ShareableContextConsumer implements Ge
     /**
      * 
      */
-    constructor(private tilt: SpinorE3, contextManager: ContextManager, levelUp: number) {
+    constructor(contextManager: ContextManager, levelUp: number) {
         super(contextManager);
         this.setLoggingName("GeometryBase");
         if (levelUp === 0) {
@@ -41,14 +41,16 @@ export default class GeometryBase extends ShareableContextConsumer implements Ge
     /**
      * 
      */
-    bind(material: Material): GeometryBase {
-        throw new Error(notSupported('bind(material: Material)').message);
+    bind(material: Material): this {
+        mustBeDefined('material', material);
+        throw new Error(notSupported(`bind(material: Material)`).message);
     }
     /**
      * 
      */
-    unbind(material: Material): GeometryBase {
-        throw new Error(notSupported('unbind(material: Material)').message);
+    unbind(material: Material): this {
+        mustBeDefined('material', material);
+        throw new Error(notSupported(`unbind(material: Material)`).message);
     }
     /**
      * 

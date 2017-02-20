@@ -28,19 +28,19 @@ export interface ContextManager extends Shareable {
     /**
      * 
      */
-    getCacheGeometry<G extends Geometry>(key: GeometryKey<G>): G;
+    getCacheGeometry<G extends Geometry>(key: GeometryKey): G;
     /**
      * 
      */
-    putCacheGeometry<G extends Geometry>(key: GeometryKey<G>, geometry: G): void;
+    putCacheGeometry<G extends Geometry>(key: GeometryKey, geometry: G): void;
     /**
      * 
      */
-    getCacheMaterial<M extends Material>(key: MaterialKey<M>): M;
+    getCacheMaterial<M extends Material>(key: MaterialKey): M;
     /**
      * 
      */
-    putCacheMaterial<M extends Material>(key: MaterialKey<M>, material: M): void;
+    putCacheMaterial<M extends Material>(key: MaterialKey, material: M): void;
 }
 
 export default ContextManager;

@@ -72,3 +72,5 @@ export class OrbitControls extends ViewControls {
     this.movePrev.copy(this.moveCurr);
   }
 }
+
+export default OrbitControls;

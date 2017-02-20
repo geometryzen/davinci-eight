@@ -1,3 +1,3 @@
-export default function isDefined(arg: any): boolean {
+export default function isDefined<T>(arg: T): arg is T {
     return (typeof arg !== 'undefined');
 }

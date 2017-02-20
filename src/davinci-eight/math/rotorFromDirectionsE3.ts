@@ -35,7 +35,7 @@ interface MutableSpinor extends Spinor {
  * Otherwise, sets the output spinor to a random bivector if the vectors are anti-parallel.
  * The result is independent of the magnitudes of a and b.
  */
-export default function rotorFromDirectionsE3(a: Vector, b: Vector, B: Bivector, m: MutableSpinor): void {
+export default function rotorFromDirectionsE3(a: Vector, b: Vector, B: Bivector | undefined, m: MutableSpinor): void {
     // Optimization for equal vectors.
     if (a.x === b.x && a.y === b.y && a.z === b.z) {
         // An easy optimization is simply to compare the vectors for equality.

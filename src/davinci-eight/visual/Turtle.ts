@@ -72,7 +72,7 @@ function primitive(options: { tilt?: SpinorE3, offset?: VectorE3 }): Primitive {
     return result;
 }
 
-interface TurtleGeometryOptions extends GeometryKey<TurtleGeometry> {
+interface TurtleGeometryOptions extends GeometryKey {
     tilt?: SpinorE3;
     offset?: VectorE3;
 }

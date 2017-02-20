@@ -45,7 +45,7 @@ class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
     private _a: VectorE3;
     private _b: VectorE3;
     private _c: VectorE3;
-    private _isModified: boolean = true;
+    private _isModified = true;
     constructor(a: VectorE3, b: VectorE3, c: VectorE3, k = SimplexMode.TRIANGLE, subdivide = 0, boundary = 0) {
         super();
         this._a = Vector3.copy(a);
@@ -89,7 +89,7 @@ class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
         this.setModified(false);
 
         // Define the anchor points relative to the origin.
-        const pos: Vector3[] = [0, 1, 2, 3, 4, 5, 6, 7].map(function (index) { return void 0; });
+        const pos: Vector3[] = [0, 1, 2, 3, 4, 5, 6, 7].map(function () { return void 0; });
         pos[0] = new Vector3().sub(this._a).sub(this._b).add(this._c).divByScalar(2);
         pos[1] = new Vector3().add(this._a).sub(this._b).add(this._c).divByScalar(2);
         pos[2] = new Vector3().add(this._a).add(this._b).add(this._c).divByScalar(2);
@@ -126,7 +126,7 @@ class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
                 break;
             }
             case SimplexMode.TRIANGLE: {
-                const faces: Simplex[][] = [0, 1, 2, 3, 4, 5].map(function (index) { return void 0; });
+                const faces: Simplex[][] = [0, 1, 2, 3, 4, 5].map(function () { return void 0; });
                 faces[0] = quad(pos[0], pos[1], pos[2], pos[3]);
                 faces[1] = quad(pos[1], pos[6], pos[5], pos[2]);
                 faces[2] = quad(pos[7], pos[0], pos[3], pos[4]);
@@ -186,9 +186,9 @@ function side(tilt: SpinorE3, offset: Vector3, basis: Vector3[], uSegments: numb
 
 class CuboidPrimitivesBuilder extends PrimitivesBuilder {
 
-    public iSegments: number = 1;
-    public jSegments: number = 1;
-    public kSegments: number = 1;
+    public iSegments = 1;
+    public jSegments = 1;
+    public kSegments = 1;
 
     public openBack = false;
     public openBase = false;

@@ -20,12 +20,12 @@ export default class RingBuilder extends AxialShapeBuilder {
     /**
      * The radius of the hole in the ring.
      */
-    public innerRadius: number = 0;
+    public innerRadius = 0;
 
     /**
      * The radius of the outer edge of the ring.
      */
-    public outerRadius: number = 1;
+    public outerRadius = 1;
 
     /**
      * The number of segments in the radial direction.

@@ -1,12 +1,11 @@
 import GeometryKey from '../core/GeometryKey';
 import GeometryMode from './GeometryMode';
 import GeometryOptions from './GeometryOptions';
-import CylinderGeometry from './CylinderGeometry';
 
 /**
  *
  */
-interface CylinderGeometryOptions extends GeometryOptions, GeometryKey<CylinderGeometry> {
+interface CylinderGeometryOptions extends GeometryOptions, GeometryKey {
     /**
      * 
      */

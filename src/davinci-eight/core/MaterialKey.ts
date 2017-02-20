@@ -1,9 +1,7 @@
-import Material from './Material';
-
 /**
  * 
  */
-export interface MaterialKey<M extends Material> {
+export interface MaterialKey {
     kind: 'PointMaterial' | 'LineMaterial' | 'MeshMaterial';
 }
 

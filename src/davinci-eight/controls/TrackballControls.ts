@@ -108,3 +108,5 @@ export class TrackballControls extends ViewControls {
     }
   }
 }
+
+export default TrackballControls;

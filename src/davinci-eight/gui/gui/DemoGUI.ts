@@ -1,9 +1,9 @@
 import GUI from './GUI';
 
 export default class DemoGUI extends GUI {
-    yesno: boolean = false;
-    answer: number = 42;
-    message: string = "Hello, World!";
+    yesno = false;
+    answer = 42;
+    message = "Hello, World!";
     color = "#4a65a4";
     vectorE1 = 5;
     vectorE2 = { x: 1, y: 0 };

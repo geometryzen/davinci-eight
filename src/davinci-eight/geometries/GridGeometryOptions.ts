@@ -1,10 +1,9 @@
 import GeometryKey from '../core/GeometryKey';
 import GeometryMode from './GeometryMode';
 import GeometryOptions from './GeometryOptions';
-import GridGeometry from './GridGeometry';
 import VectorE3 from '../math/VectorE3';
 
-interface GridGeometryOptions extends GeometryOptions, GeometryKey<GridGeometry> {
+export interface GridGeometryOptions extends GeometryOptions, GeometryKey {
     /**
      * A parametric function determining the vertex positions.
      */

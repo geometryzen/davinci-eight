@@ -204,3 +204,5 @@ export class Curve extends Mesh<CurveGeometry, Material> {
         super.destructor(levelUp + 1);
     }
 }
+
+export default Curve;

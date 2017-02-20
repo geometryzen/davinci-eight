@@ -17,11 +17,11 @@ export default class SimplexPrimitivesBuilder extends PrimitivesBuilder {
     public meta: GeometryMeta;
     private _k = new Vector1([SimplexMode.TRIANGLE]);
 
-    public curvedSegments: number = 16;
+    public curvedSegments = 16;
 
-    public flatSegments: number = 1;
+    public flatSegments = 1;
 
-    public orientationColors: boolean = false;
+    public orientationColors = false;
 
     constructor() {
         super();
@@ -72,7 +72,7 @@ export default class SimplexPrimitivesBuilder extends PrimitivesBuilder {
         this.check();
         return [simplicesToPrimitive(this.data, this.meta)];
     }
-    protected mergeVertices(precisionPoints = 4): void {
+    protected mergeVertices(/* precisionPoints = 4 */): void {
         // console.warn("SimplexPrimitivesBuilder.mergeVertices not yet implemented");
     }
     public triangle(positions: Vector3[], normals: Vector3[], uvs: Vector2[]): number {
@@ -121,8 +121,10 @@ export default class SimplexPrimitivesBuilder extends PrimitivesBuilder {
         }
         return this.data.push(simplex);
     }
+    /*
     public empty(positions: Vector3[], normals: Vector3[], uvs: Vector2[]): number {
         const simplex = new Simplex(SimplexMode.EMPTY);
         return this.data.push(simplex);
     }
+    */
 }

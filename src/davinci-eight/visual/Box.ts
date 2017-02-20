@@ -129,3 +129,5 @@ export class Box extends Mesh<Geometry, Material> {
         this.setScale(x, y, depth);
     }
 }
+
+export default Box;
