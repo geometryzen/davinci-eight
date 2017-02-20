@@ -551,9 +551,9 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
     var Eight = (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2017-02-19';
+            this.LAST_MODIFIED = '2017-02-20';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '6.0.5';
+            this.VERSION = '6.0.6';
         }
         Eight.prototype.log = function (message) {
             console.log(message);
@@ -2344,7 +2344,6 @@ define('davinci-eight/math/Geometric3',["require", "exports", "../utils/applyMix
         coords[COORD_PSEUDO] = m.b;
         return coords;
     }
-    ;
     function cosVectorVector(a, b) {
         function scp(c, d) {
             return c.x * d.x + c.y * d.y + c.z * d.z;
@@ -2355,14 +2354,10 @@ define('davinci-eight/math/Geometric3',["require", "exports", "../utils/applyMix
         return scp(a, b) / (norm(a) * norm(b));
     }
     var cosines = [];
-    var magicCode = Math.random();
     var Geometric3 = (function () {
-        function Geometric3(coords, code) {
+        function Geometric3(coords) {
             if (coords === void 0) { coords = [0, 0, 0, 0, 0, 0, 0, 0]; }
             mustBeEQ_1.default('coords.length', coords.length, 8);
-            if (code !== magicCode) {
-                throw new Error("Use the static creation methods instead of the constructor");
-            }
             this.coords_ = coords;
             this.modified_ = false;
         }
@@ -3712,17 +3707,21 @@ define('davinci-eight/math/Geometric3',["require", "exports", "../utils/applyMix
             if (lock === void 0) { lock = false; }
             return lock ? Geometric3.E3 : Geometric3.vector(0, 0, 1);
         };
+        Geometric3.I = function (lock) {
+            if (lock === void 0) { lock = false; }
+            return lock ? Geometric3.PSEUDO : Geometric3.pseudo(1);
+        };
         Geometric3.bivector = function (yz, zx, xy) {
-            return new Geometric3(bivector(yz, zx, xy), magicCode);
+            return new Geometric3(bivector(yz, zx, xy));
         };
         Geometric3.copy = function (M) {
-            return new Geometric3(coordinates(M), magicCode);
+            return new Geometric3(coordinates(M));
         };
         Geometric3.dualOfBivector = function (B) {
-            return new Geometric3(vector(-B.yz, -B.zx, -B.xy), magicCode);
+            return new Geometric3(vector(-B.yz, -B.zx, -B.xy));
         };
         Geometric3.dualOfVector = function (v) {
-            return new Geometric3(bivector(v.x, v.y, v.z), magicCode);
+            return new Geometric3(bivector(v.x, v.y, v.z));
         };
         Geometric3.fromBivector = function (B) {
             return Geometric3.bivector(B.yz, B.zx, B.xy);
@@ -3740,7 +3739,7 @@ define('davinci-eight/math/Geometric3',["require", "exports", "../utils/applyMix
             return Geometric3.copy(A).lerp(B, α);
         };
         Geometric3.pseudo = function (β) {
-            return new Geometric3(pseudo(β), magicCode);
+            return new Geometric3(pseudo(β));
         };
         Geometric3.random = function (lowerBound, upperBound) {
             if (lowerBound === void 0) { lowerBound = -1; }
@@ -3753,25 +3752,25 @@ define('davinci-eight/math/Geometric3',["require", "exports", "../utils/applyMix
             var zx = randomRange_1.default(lowerBound, upperBound);
             var xy = randomRange_1.default(lowerBound, upperBound);
             var b = randomRange_1.default(lowerBound, upperBound);
-            return new Geometric3(multivector(a, x, y, z, yz, zx, xy, b), magicCode);
+            return new Geometric3(multivector(a, x, y, z, yz, zx, xy, b));
         };
         Geometric3.rotorFromDirections = function (a, b) {
-            return new Geometric3(zero(), magicCode).rotorFromDirections(a, b);
+            return new Geometric3(zero()).rotorFromDirections(a, b);
         };
         Geometric3.rotorFromFrameToFrame = function (es, fs) {
-            return new Geometric3(zero(), magicCode).rotorFromFrameToFrame(es, fs);
+            return new Geometric3(zero()).rotorFromFrameToFrame(es, fs);
         };
         Geometric3.rotorFromVectorToVector = function (a, b, B) {
-            return new Geometric3(zero(), magicCode).rotorFromVectorToVector(a, b, B);
+            return new Geometric3(zero()).rotorFromVectorToVector(a, b, B);
         };
         Geometric3.scalar = function (α) {
-            return new Geometric3(scalar(α), magicCode);
+            return new Geometric3(scalar(α));
         };
         Geometric3.spinor = function (yz, zx, xy, α) {
-            return new Geometric3(spinor(α, yz, zx, xy), magicCode);
+            return new Geometric3(spinor(α, yz, zx, xy));
         };
         Geometric3.vector = function (x, y, z) {
-            return new Geometric3(vector(x, y, z), magicCode);
+            return new Geometric3(vector(x, y, z));
         };
         Geometric3.wedge = function (a, b) {
             var ax = a.x;
@@ -3787,22 +3786,22 @@ define('davinci-eight/math/Geometric3',["require", "exports", "../utils/applyMix
         };
         Geometric3.zero = function (lock) {
             if (lock === void 0) { lock = false; }
-            return lock ? Geometric3.ZERO : new Geometric3(zero(), magicCode);
+            return lock ? Geometric3.ZERO : new Geometric3(zero());
         };
         return Geometric3;
     }());
-    Geometric3.ZERO = new Geometric3(scalar(0), magicCode);
-    Geometric3.ONE = new Geometric3(scalar(1), magicCode);
-    Geometric3.E1 = new Geometric3(vector(1, 0, 0), magicCode);
-    Geometric3.E2 = new Geometric3(vector(0, 1, 0), magicCode);
-    Geometric3.E3 = new Geometric3(vector(0, 0, 1), magicCode);
-    Geometric3.I = new Geometric3(pseudo(1), magicCode);
+    Geometric3.ZERO = new Geometric3(scalar(0));
+    Geometric3.ONE = new Geometric3(scalar(1));
+    Geometric3.E1 = new Geometric3(vector(1, 0, 0));
+    Geometric3.E2 = new Geometric3(vector(0, 1, 0));
+    Geometric3.E3 = new Geometric3(vector(0, 0, 1));
+    Geometric3.PSEUDO = new Geometric3(pseudo(1));
     exports.Geometric3 = Geometric3;
     applyMixins_1.default(Geometric3, [Lockable_1.LockableMixin]);
     Geometric3.E1.lock();
     Geometric3.E2.lock();
     Geometric3.E3.lock();
-    Geometric3.I.lock();
+    Geometric3.PSEUDO.lock();
     Geometric3.ONE.lock();
     Geometric3.ZERO.lock();
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -12004,8 +12003,32 @@ define('davinci-eight/math/Geometric2',["require", "exports", "../utils/applyMix
     var ARROW_LABELS = ["1", [LEFTWARDS_ARROW, RIGHTWARDS_ARROW], [DOWNWARDS_ARROW, UPWARDS_ARROW], [CLOCKWISE_OPEN_CIRCLE_ARROW, ANTICLOCKWISE_OPEN_CIRCLE_ARROW]];
     var COMPASS_LABELS = ["1", ['W', 'E'], ['S', 'N'], [CLOCKWISE_OPEN_CIRCLE_ARROW, ANTICLOCKWISE_OPEN_CIRCLE_ARROW]];
     var STANDARD_LABELS = ["1", "e1", "e2", "I"];
+    var zero = function zero() {
+        return [0, 0, 0, 0];
+    };
+    var scalar = function scalar(a) {
+        var coords = zero();
+        coords[COORD_SCALAR] = a;
+        return coords;
+    };
+    var vector = function vector(x, y) {
+        var coords = zero();
+        coords[COORD_X] = x;
+        coords[COORD_Y] = y;
+        return coords;
+    };
+    var pseudo = function pseudo(b) {
+        var coords = zero();
+        coords[COORD_PSEUDO] = b;
+        return coords;
+    };
     function coordinates(m) {
-        return [m.a, m.x, m.y, m.b];
+        var coords = zero();
+        coords[COORD_SCALAR] = m.a;
+        coords[COORD_X] = m.x;
+        coords[COORD_Y] = m.y;
+        coords[COORD_PSEUDO] = m.b;
+        return coords;
     }
     function duckCopy(value) {
         if (isObject_1.default(value)) {
@@ -12446,6 +12469,7 @@ define('davinci-eight/math/Geometric2',["require", "exports", "../utils/applyMix
             return this;
         };
         Geometric2.prototype.pow = function (M) {
+            mustBeObject_1.default('M', M);
             throw new Error(notImplemented_1.default('pow').message);
         };
         Geometric2.prototype.quad = function () {
@@ -12563,6 +12587,7 @@ define('davinci-eight/math/Geometric2',["require", "exports", "../utils/applyMix
             return this;
         };
         Geometric2.prototype.stress = function (σ) {
+            mustBeObject_1.default('σ', σ);
             throw new Error(notSupported_1.default('stress').message);
         };
         Geometric2.prototype.versor = function (a, b) {
@@ -12882,11 +12907,13 @@ define('davinci-eight/math/Geometric2',["require", "exports", "../utils/applyMix
         Geometric2.copy = function (M) {
             return new Geometric2([M.a, M.x, M.y, M.b]);
         };
-        Geometric2.e1 = function () {
-            return Geometric2.vector(1, 0);
+        Geometric2.e1 = function (lock) {
+            if (lock === void 0) { lock = false; }
+            return lock ? Geometric2.E1 : Geometric2.vector(1, 0);
         };
-        Geometric2.e2 = function () {
-            return Geometric2.vector(0, 1);
+        Geometric2.e2 = function (lock) {
+            if (lock === void 0) { lock = false; }
+            return lock ? Geometric2.E2 : Geometric2.vector(0, 1);
         };
         Geometric2.fromCartesian = function (a, x, y, b) {
             return new Geometric2([a, x, y, b]);
@@ -12905,14 +12932,16 @@ define('davinci-eight/math/Geometric2',["require", "exports", "../utils/applyMix
                 return void 0;
             }
         };
-        Geometric2.I = function () {
-            return Geometric2.pseudo(1);
+        Geometric2.I = function (lock) {
+            if (lock === void 0) { lock = false; }
+            return lock ? Geometric2.PSEUDO : Geometric2.pseudo(1);
         };
         Geometric2.lerp = function (A, B, α) {
             return Geometric2.copy(A).lerp(B, α);
         };
-        Geometric2.one = function () {
-            return Geometric2.scalar(1);
+        Geometric2.one = function (lock) {
+            if (lock === void 0) { lock = false; }
+            return lock ? Geometric2.ONE : Geometric2.scalar(1);
         };
         Geometric2.rotorFromDirections = function (a, b) {
             return new Geometric2().rotorFromDirections(a, b);
@@ -12926,16 +12955,28 @@ define('davinci-eight/math/Geometric2',["require", "exports", "../utils/applyMix
         Geometric2.vector = function (x, y) {
             return Geometric2.fromCartesian(0, x, y, 0);
         };
+        Geometric2.zero = function (lock) {
+            if (lock === void 0) { lock = false; }
+            return lock ? Geometric2.ZERO : new Geometric2(zero());
+        };
         return Geometric2;
     }());
     Geometric2.BASIS_LABELS = STANDARD_LABELS;
     Geometric2.BASIS_LABELS_COMPASS = COMPASS_LABELS;
     Geometric2.BASIS_LABELS_GEOMETRIC = ARROW_LABELS;
     Geometric2.BASIS_LABELS_STANDARD = STANDARD_LABELS;
-    Geometric2.zero = new Geometric2();
+    Geometric2.E1 = new Geometric2(vector(1, 0));
+    Geometric2.E2 = new Geometric2(vector(0, 1));
+    Geometric2.PSEUDO = new Geometric2(pseudo(1));
+    Geometric2.ONE = new Geometric2(scalar(1));
+    Geometric2.ZERO = new Geometric2(scalar(0));
     exports.Geometric2 = Geometric2;
     applyMixins_1.default(Geometric2, [Lockable_1.LockableMixin]);
-    Geometric2.zero.lock();
+    Geometric2.E1.lock();
+    Geometric2.E2.lock();
+    Geometric2.ONE.lock();
+    Geometric2.PSEUDO.lock();
+    Geometric2.ZERO.lock();
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = Geometric2;
 });
@@ -12980,7 +13021,7 @@ define('davinci-eight/facets/ModelE2',["require", "exports", "../math/Geometric2
 define('davinci-eight/atoms/DrawAttribute',["require", "exports"], function (require, exports) {
     "use strict";
     function isVectorN(values) {
-        return true;
+        return Array.isArray(values);
     }
     function checkValues(values) {
         if (!isVectorN(values)) {
@@ -13816,7 +13857,7 @@ define('davinci-eight/geometries/dataFromVectorN',["require", "exports", "../mat
     exports.default = dataFromVectorN;
 });
 
-define('davinci-eight/atoms/VertexPrimitive',["require", "exports", "../core/DataType", "./DrawAttribute", "./DrawPrimitive", "../checks/mustBeArray", "../checks/mustBeGE", "../checks/mustBeInteger", "../i18n/notSupported", "./Vertex", "../geometries/dataFromVectorN"], function (require, exports, DataType_1, DrawAttribute_1, DrawPrimitive_1, mustBeArray_1, mustBeGE_1, mustBeInteger_1, notSupported_1, Vertex_1, dataFromVectorN_1) {
+define('davinci-eight/atoms/VertexPrimitive',["require", "exports", "../core/DataType", "./DrawAttribute", "./DrawPrimitive", "../checks/mustBeArray", "../checks/mustBeGE", "../checks/mustBeInteger", "../checks/mustBeNonNullObject", "../i18n/notSupported", "./Vertex", "../geometries/dataFromVectorN"], function (require, exports, DataType_1, DrawAttribute_1, DrawPrimitive_1, mustBeArray_1, mustBeGE_1, mustBeInteger_1, mustBeNonNullObject_1, notSupported_1, Vertex_1, dataFromVectorN_1) {
     "use strict";
     function checkSize(length) {
         if (length === 1) {
@@ -13835,7 +13876,8 @@ define('davinci-eight/atoms/VertexPrimitive',["require", "exports", "../core/Dat
             throw new Error("length must be 1, 2, 3, or 4");
         }
     }
-    function attributes(unused, vertices) {
+    function attributes(elements, vertices) {
+        mustBeArray_1.default('elements', elements);
         var attribs = {};
         var iLen = vertices.length;
         for (var i = 0; i < iLen; i++) {
@@ -13870,6 +13912,7 @@ define('davinci-eight/atoms/VertexPrimitive',["require", "exports", "../core/Dat
             }
         }
         VertexPrimitive.prototype.vertexTransform = function (transform) {
+            mustBeNonNullObject_1.default('transform', transform);
             throw new Error(notSupported_1.default('vertexTransform').message);
         };
         VertexPrimitive.prototype.toPrimitive = function () {
@@ -13893,7 +13936,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define('davinci-eight/atoms/GridPrimitive',["require", "exports", "./numPostsForFence", "./numVerticesForGrid", "../i18n/notSupported", "../i18n/readOnly", "./VertexPrimitive"], function (require, exports, numPostsForFence_1, numVerticesForGrid_1, notSupported_1, readOnly_1, VertexPrimitive_1) {
+define('davinci-eight/atoms/GridPrimitive',["require", "exports", "../checks/mustBeInteger", "./numPostsForFence", "./numVerticesForGrid", "../i18n/notSupported", "../i18n/readOnly", "./VertexPrimitive"], function (require, exports, mustBeInteger_1, numPostsForFence_1, numVerticesForGrid_1, notSupported_1, readOnly_1, VertexPrimitive_1) {
     "use strict";
     var GridPrimitive = (function (_super) {
         __extends(GridPrimitive, _super);
@@ -13909,7 +13952,8 @@ define('davinci-eight/atoms/GridPrimitive',["require", "exports", "./numPostsFor
             get: function () {
                 return this._uSegments;
             },
-            set: function (unused) {
+            set: function (uSegments) {
+                mustBeInteger_1.default('uSegments', uSegments);
                 throw new Error(readOnly_1.default('uSegments').message);
             },
             enumerable: true,
@@ -13919,7 +13963,8 @@ define('davinci-eight/atoms/GridPrimitive',["require", "exports", "./numPostsFor
             get: function () {
                 return numPostsForFence_1.default(this._uSegments, this._uClosed);
             },
-            set: function (unused) {
+            set: function (uLength) {
+                mustBeInteger_1.default('uLength', uLength);
                 throw new Error(readOnly_1.default('uLength').message);
             },
             enumerable: true,
@@ -13929,7 +13974,8 @@ define('davinci-eight/atoms/GridPrimitive',["require", "exports", "./numPostsFor
             get: function () {
                 return this._vSegments;
             },
-            set: function (unused) {
+            set: function (vSegments) {
+                mustBeInteger_1.default('vSegments', vSegments);
                 throw new Error(readOnly_1.default('vSegments').message);
             },
             enumerable: true,
@@ -13939,7 +13985,8 @@ define('davinci-eight/atoms/GridPrimitive',["require", "exports", "./numPostsFor
             get: function () {
                 return numPostsForFence_1.default(this._vSegments, this._vClosed);
             },
-            set: function (unused) {
+            set: function (vLength) {
+                mustBeInteger_1.default('vLength', vLength);
                 throw new Error(readOnly_1.default('vLength').message);
             },
             enumerable: true,
@@ -13955,6 +14002,8 @@ define('davinci-eight/atoms/GridPrimitive',["require", "exports", "./numPostsFor
             }
         };
         GridPrimitive.prototype.vertex = function (i, j) {
+            mustBeInteger_1.default('i', i);
+            mustBeInteger_1.default('j', j);
             throw new Error(notSupported_1.default('vertex').message);
         };
         return GridPrimitive;
@@ -16228,7 +16277,8 @@ define('davinci-eight/atoms/CurvePrimitive',["require", "exports", "../checks/mu
             get: function () {
                 return this._uSegments;
             },
-            set: function (unused) {
+            set: function (uSegments) {
+                mustBeInteger_1.default('uSegments', uSegments);
                 throw new Error(readOnly_1.default('uSegments').message);
             },
             enumerable: true,
@@ -16238,7 +16288,8 @@ define('davinci-eight/atoms/CurvePrimitive',["require", "exports", "../checks/mu
             get: function () {
                 return numPostsForFence_1.default(this._uSegments, this._uClosed);
             },
-            set: function (unused) {
+            set: function (uLength) {
+                mustBeInteger_1.default('uLength', uLength);
                 throw new Error(readOnly_1.default('uLength').message);
             },
             enumerable: true,
@@ -16469,6 +16520,8 @@ var __extends = (this && this.__extends) || (function () {
 define('davinci-eight/atoms/GridLines',["require", "exports", "../core/BeginMode", "./GridPrimitive", "../checks/mustBeInteger", "./numPostsForFence"], function (require, exports, BeginMode_1, GridPrimitive_1, mustBeInteger_1, numPostsForFence_1) {
     "use strict";
     function vertexIndex(i, j, iLength, jLength) {
+        mustBeInteger_1.default('iLength', iLength);
+        mustBeInteger_1.default('jLength', jLength);
         return j * iLength + i;
     }
     function linesForGrid(uSegments, uClosed, vSegments, vClosed) {
@@ -16529,6 +16582,8 @@ var __extends = (this && this.__extends) || (function () {
 define('davinci-eight/atoms/GridPoints',["require", "exports", "../core/BeginMode", "./GridPrimitive", "../checks/mustBeInteger", "./numPostsForFence"], function (require, exports, BeginMode_1, GridPrimitive_1, mustBeInteger_1, numPostsForFence_1) {
     "use strict";
     function vertexIndex(i, j, iLength, jLength) {
+        mustBeInteger_1.default('iLength', iLength);
+        mustBeInteger_1.default('jLength', jLength);
         return j * iLength + i;
     }
     function pointsForGrid(uSegments, uClosed, vSegments, vClosed) {
@@ -18802,7 +18857,7 @@ define('davinci-eight/collections/NumberShareableMap',["require", "exports", "..
     exports.default = NumberShareableMap;
 });
 
-define('davinci-eight/utils/animation',["require", "exports", "../checks/expectArg"], function (require, exports, expectArg_1) {
+define('davinci-eight/utils/animation',["require", "exports", "../checks/mustBeNumber", "../checks/expectArg"], function (require, exports, mustBeNumber_1, expectArg_1) {
     "use strict";
     function defaultSetUp() {
     }
@@ -18813,6 +18868,7 @@ define('davinci-eight/utils/animation',["require", "exports", "../checks/expectA
         }
     }
     function defaultTerminate(time) {
+        mustBeNumber_1.default('time', time);
         return false;
     }
     function animation(animate, options) {
@@ -19063,10 +19119,10 @@ define('davinci-eight/visual/setAxisAndMeridian',["require", "exports", "../chec
     "use strict";
     function setAxisAndMeridian(mesh, options) {
         if (isDefined_1.default(options.axis)) {
-            this.axis = options.axis;
+            mesh.axis = options.axis;
         }
         if (isDefined_1.default(options.meridian)) {
-            this.meridian = options.meridian;
+            mesh.meridian = options.meridian;
         }
     }
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -20031,6 +20087,8 @@ define('davinci-eight/visual/Grid',["require", "exports", "../core/Color", "../c
         return R3_1.default(u, v, 0);
     }
     function aNormalDefault(u, v) {
+        mustBeNumber_1.default('u', u);
+        mustBeNumber_1.default('v', v);
         return R3_1.default(0, 0, 1);
     }
     function isFunctionOrNull(x) {
@@ -21252,7 +21310,7 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
         '  gl_FragColor = texture2D(uImage, vec2(vCoords.s, vCoords.t));',
         '}'
     ].join('\n');
-    var makeMaterial = function makeMaterial(graphics, options) {
+    var makeMaterial = function makeMaterial(graphics) {
         return new ShaderMaterial_1.ShaderMaterial(vs, fs, [], graphics);
     };
     var MinecraftBodyPart = (function (_super) {
@@ -21264,7 +21322,7 @@ define('davinci-eight/visual/Minecraft',["require", "exports", "../core/BeginMod
             var geometry = makeGeometry(engine, texture, options);
             _this.geometry = geometry;
             geometry.release();
-            var material = makeMaterial(engine, options);
+            var material = makeMaterial(engine);
             _this.material = material;
             material.release();
             _this.texture = texture;

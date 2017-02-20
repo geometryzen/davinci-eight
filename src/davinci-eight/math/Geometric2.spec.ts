@@ -7,9 +7,9 @@ import Geometric2 from './Geometric2';
 const PRECISION = 14;
 
 describe("Geometric2", function () {
-    describe("()", function () {
-        const zero: Geometric2 = new Geometric2();
+    describe("constructor()", function () {
         it("should be the value 0", function () {
+            const zero: Geometric2 = new Geometric2();
             expect(zero.a).toBe(0);
             expect(zero.x).toBe(0);
             expect(zero.y).toBe(0);
@@ -17,28 +17,94 @@ describe("Geometric2", function () {
         });
     });
 
-    describe("static one()", function () {
-        const one: Geometric2 = Geometric2.one();
-        it("should be the scalar 1", function () {
+    describe("static e1", function () {
+        it("(true) should be the vector (1, 0)", function () {
+            const e1: Geometric2 = Geometric2.e1(true);
+            expect(e1.a).toBe(0);
+            expect(e1.x).toBe(1);
+            expect(e1.y).toBe(0);
+            expect(e1.b).toBe(0);
+            expect(e1.isLocked()).toBe(true);
+        });
+        it("(false) should be the vector (1, 0)", function () {
+            const e1: Geometric2 = Geometric2.e1(false);
+            expect(e1.a).toBe(0);
+            expect(e1.x).toBe(1);
+            expect(e1.y).toBe(0);
+            expect(e1.b).toBe(0);
+            expect(e1.isLocked()).toBe(false);
+        });
+    });
+
+    describe("static e2()", function () {
+        it("(true) should be the vector (0, 1)", function () {
+            const e2: Geometric2 = Geometric2.e2(true);
+            expect(e2.a).toBe(0);
+            expect(e2.x).toBe(0);
+            expect(e2.y).toBe(1);
+            expect(e2.b).toBe(0);
+            expect(e2.isLocked()).toBe(true);
+        });
+        it("(false) should be the vector (0, 1)", function () {
+            const e2: Geometric2 = Geometric2.e2(false);
+            expect(e2.a).toBe(0);
+            expect(e2.x).toBe(0);
+            expect(e2.y).toBe(1);
+            expect(e2.b).toBe(0);
+            expect(e2.isLocked()).toBe(false);
+        });
+    });
+
+    describe("static one", function () {
+        it("(true) should be the scalar 1", function () {
+            const one: Geometric2 = Geometric2.one(true);
             expect(one.a).toBe(1);
             expect(one.x).toBe(0);
             expect(one.y).toBe(0);
             expect(one.b).toBe(0);
+            expect(one.isLocked()).toBe(true);
+        });
+        it("(false) should be the scalar 1", function () {
+            const one: Geometric2 = Geometric2.one(false);
+            expect(one.a).toBe(1);
+            expect(one.x).toBe(0);
+            expect(one.y).toBe(0);
+            expect(one.b).toBe(0);
+            expect(one.isLocked()).toBe(false);
+        });
+    });
+
+    describe("static I", function () {
+        it("(true) should be the pseudoscalar 1", function () {
+            const I: Geometric2 = Geometric2.I(true);
+            expect(I.a).toBe(0);
+            expect(I.x).toBe(0);
+            expect(I.y).toBe(0);
+            expect(I.b).toBe(1);
+            expect(I.isLocked()).toBe(true);
+        });
+        it("(false) should be the pseudoscalar 1", function () {
+            const I: Geometric2 = Geometric2.I(false);
+            expect(I.a).toBe(0);
+            expect(I.x).toBe(0);
+            expect(I.y).toBe(0);
+            expect(I.b).toBe(1);
+            expect(I.isLocked()).toBe(false);
         });
     });
 
     describe("distanceTo", function () {
         it("(0, 0) should be zero", function () {
-            const zero: Geometric2 = Geometric2.zero;
+            const zero: Geometric2 = Geometric2.zero(true);
             expect(zero.clone().distanceTo(zero)).toBe(0);
         });
         it("(0, e1) should be 1", function () {
-            const zero: Geometric2 = Geometric2.zero;
+            const zero: Geometric2 = Geometric2.zero(true);
             const e1: Geometric2 = Geometric2.vector(1, 0);
             expect(zero.clone().distanceTo(e1)).toBe(1);
         });
         it("(0, e2) should be 1", function () {
-            const zero: Geometric2 = Geometric2.zero;
+            const zero: Geometric2 = Geometric2.zero(true);
             const e2: Geometric2 = Geometric2.vector(0, 1);
             expect(zero.clone().distanceTo(e2)).toBe(1);
         });

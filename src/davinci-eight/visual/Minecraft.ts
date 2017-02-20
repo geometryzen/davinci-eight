@@ -550,7 +550,7 @@ const fs = [
 
 ].join('\n');
 
-const makeMaterial = function makeMaterial(graphics: Engine, options: MinecraftInternalBodyPartOptions): Material {
+const makeMaterial = function makeMaterial(graphics: Engine): Material {
     return new ShaderMaterial(vs, fs, [], graphics);
 };
 
@@ -564,7 +564,7 @@ class MinecraftBodyPart extends Mesh<Geometry, Material> {
         const geometry = makeGeometry(engine, texture, options);
         this.geometry = geometry;
         geometry.release();
-        const material = makeMaterial(engine, options);
+        const material = makeMaterial(engine);
         this.material = material;
         material.release();
         this.texture = texture;

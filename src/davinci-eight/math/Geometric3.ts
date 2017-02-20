@@ -108,7 +108,7 @@ function coordinates(m: GeometricE3) {
     coords[COORD_XY] = m.xy;
     coords[COORD_PSEUDO] = m.b;
     return coords;
-};
+}
 
 /**
  * cos(a, b) = (a | b) / |a||b|
@@ -127,8 +127,6 @@ function cosVectorVector(a: VectorE3, b: VectorE3): number {
  * Scratch variable for holding cosines.
  */
 const cosines: number[] = [];
-
-const magicCode = Math.random();
 
 /**
  *
@@ -154,11 +152,8 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
      * The multivector is initialized to zero.
      * coords [a, x, y, z, xy, yz, zx, b]
      */
-    constructor(coords: [number, number, number, number, number, number, number, number] = [0, 0, 0, 0, 0, 0, 0, 0], code: number) {
+    constructor(coords: [number, number, number, number, number, number, number, number] = [0, 0, 0, 0, 0, 0, 0, 0]) {
         mustBeEQ('coords.length', coords.length, 8);
-        if (code !== magicCode) {
-            throw new Error("Use the static creation methods instead of the constructor");
-        }
         this.coords_ = coords;
         this.modified_ = false;
     }
@@ -2122,13 +2117,13 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
      * The identity element for addition, `0`.
      * The multivector is locked.
      */
-    public static readonly ZERO = new Geometric3(scalar(0), magicCode);
+    public static readonly ZERO = new Geometric3(scalar(0));
 
     /**
      * The identity element for multiplication, `1`.
      * The multivector is locked (immutable), but may be cloned.
      */
-    public static readonly ONE = new Geometric3(scalar(1), magicCode);
+    public static readonly ONE = new Geometric3(scalar(1));
 
     /**
      * 
@@ -2141,7 +2136,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
      * The basis element corresponding to the vector `x` coordinate.
      * The multivector is locked (immutable), but may be cloned.
      */
-    public static readonly E1 = new Geometric3(vector(1, 0, 0), magicCode);
+    public static readonly E1 = new Geometric3(vector(1, 0, 0));
 
     /**
      * Constructs the basis vector e1.
@@ -2155,7 +2150,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
      * The basis element corresponding to the vector `y` coordinate.
      * The multivector is locked (immutable), but may be cloned.
      */
-    public static readonly E2 = new Geometric3(vector(0, 1, 0), magicCode);
+    public static readonly E2 = new Geometric3(vector(0, 1, 0));
 
     /**
      * Constructs the basis vector e2.
@@ -2169,7 +2164,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
      * The basis element corresponding to the vector `z` coordinate.
      * The multivector is locked (immutable), but may be cloned.
      */
-    public static readonly E3 = new Geometric3(vector(0, 0, 1), magicCode);
+    public static readonly E3 = new Geometric3(vector(0, 0, 1));
 
     /**
      * Constructs the basis vector e3.
@@ -2183,34 +2178,41 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
      * The basis element corresponding to the pseudoscalar `b` coordinate.
      * The multivector is locked (immutable), but may be cloned.
      */
-    public static readonly I = new Geometric3(pseudo(1), magicCode);
+    public static readonly PSEUDO = new Geometric3(pseudo(1));
+
+    /**
+     *
+     */
+    public static I(lock = false): Geometric3 {
+        return lock ? Geometric3.PSEUDO : Geometric3.pseudo(1);
+    }
 
     /**
      * Constructs a mutable bivector with the coordinates `yz`, `zx`, and `xy`.
      */
     static bivector(yz: number, zx: number, xy: number): Geometric3 {
-        return new Geometric3(bivector(yz, zx, xy), magicCode);
+        return new Geometric3(bivector(yz, zx, xy));
     }
 
     /**
      * Constructs a mutable multivector by copying a multivector.
      */
     static copy(M: GeometricE3): Geometric3 {
-        return new Geometric3(coordinates(M), magicCode);
+        return new Geometric3(coordinates(M));
     }
 
     /**
      * Constructs a mutable multivector which is the dual of the bivector `B`.
      */
     static dualOfBivector(B: BivectorE3): Geometric3 {
-        return new Geometric3(vector(-B.yz, -B.zx, -B.xy), magicCode);
+        return new Geometric3(vector(-B.yz, -B.zx, -B.xy));
     }
 
     /**
      * Constructs a mutable multivector which is the dual of the vector `v`.
      */
     static dualOfVector(v: VectorE3): Geometric3 {
-        return new Geometric3(bivector(v.x, v.y, v.z), magicCode);
+        return new Geometric3(bivector(v.x, v.y, v.z));
     }
 
     /**
@@ -2252,7 +2254,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
      * Constructs a mutable pseudoscalar with the magnitude `β`.
      */
     static pseudo(β: number): Geometric3 {
-        return new Geometric3(pseudo(β), magicCode);
+        return new Geometric3(pseudo(β));
     }
 
     /**
@@ -2267,7 +2269,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
         const zx = randomRange(lowerBound, upperBound);
         const xy = randomRange(lowerBound, upperBound);
         const b = randomRange(lowerBound, upperBound);
-        return new Geometric3(multivector(a, x, y, z, yz, zx, xy, b), magicCode);
+        return new Geometric3(multivector(a, x, y, z, yz, zx, xy, b));
     }
 
     /**
@@ -2275,11 +2277,11 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
      * The result is independent of the magnitudes of `a` and `b`.
      */
     static rotorFromDirections(a: VectorE3, b: VectorE3): Geometric3 {
-        return new Geometric3(zero(), magicCode).rotorFromDirections(a, b);
+        return new Geometric3(zero()).rotorFromDirections(a, b);
     }
 
     static rotorFromFrameToFrame(es: VectorE3[], fs: VectorE3[]): Geometric3 {
-        return new Geometric3(zero(), magicCode).rotorFromFrameToFrame(es, fs);
+        return new Geometric3(zero()).rotorFromFrameToFrame(es, fs);
     }
 
     /**
@@ -2288,28 +2290,28 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
      * The result is independent of the magnitudes of `a` and `b`.
      */
     static rotorFromVectorToVector(a: VectorE3, b: VectorE3, B: BivectorE3): Geometric3 {
-        return new Geometric3(zero(), magicCode).rotorFromVectorToVector(a, b, B);
+        return new Geometric3(zero()).rotorFromVectorToVector(a, b, B);
     }
 
     /**
      * Constructs a mutable scalar with the magnitude `α`.
      */
     static scalar(α: number): Geometric3 {
-        return new Geometric3(scalar(α), magicCode);
+        return new Geometric3(scalar(α));
     }
 
     /**
      * Constructs a mutable scalar with the coordinates `yz`, `zx`, `xy`, and `α`.
      */
     static spinor(yz: number, zx: number, xy: number, α: number): Geometric3 {
-        return new Geometric3(spinor(α, yz, zx, xy), magicCode);
+        return new Geometric3(spinor(α, yz, zx, xy));
     }
 
     /**
      * Constructs a mutable vector with the coordinates `x`, `y`, and `z`.
      */
     static vector(x: number, y: number, z: number): Geometric3 {
-        return new Geometric3(vector(x, y, z), magicCode);
+        return new Geometric3(vector(x, y, z));
     }
 
     /**
@@ -2335,14 +2337,14 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
      * 
      */
     public static zero(lock = false): Geometric3 {
-        return lock ? Geometric3.ZERO : new Geometric3(zero(), magicCode);
+        return lock ? Geometric3.ZERO : new Geometric3(zero());
     }
 }
 applyMixins(Geometric3, [Lockable]);
 Geometric3.E1.lock();
 Geometric3.E2.lock();
 Geometric3.E3.lock();
-Geometric3.I.lock();
+Geometric3.PSEUDO.lock();
 Geometric3.ONE.lock();
 Geometric3.ZERO.lock();
 

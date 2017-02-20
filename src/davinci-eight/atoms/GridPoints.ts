@@ -9,6 +9,8 @@ import Vertex from './Vertex';
  * Both lengths are included for symmetry!
  */
 function vertexIndex(i: number, j: number, iLength: number, jLength: number): number {
+    mustBeInteger('iLength', iLength);
+    mustBeInteger('jLength', jLength);
     return j * iLength + i;
 }
 

@@ -8,7 +8,7 @@
     "noImplicitThis": true,
     "noLib": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "noUnusedParameters": false,
     "removeComments": true,
     "suppressImplicitAnyIndexErrors": true,
     "moduleResolution": "classic",

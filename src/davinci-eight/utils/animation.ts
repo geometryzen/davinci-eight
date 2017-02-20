@@ -1,4 +1,5 @@
 import BrowserWindow from '../base/BrowserWindow';
+import mustBeNumber from '../checks/mustBeNumber';
 import WindowAnimationOptions from './WindowAnimationOptions';
 import WindowAnimationRunner from '../utils/WindowAnimationRunner';
 import expectArg from '../checks/expectArg';
@@ -15,6 +16,7 @@ function defaultTearDown(animateException: any): void {
 }
 
 function defaultTerminate(time: number): boolean {
+  mustBeNumber('time', time);
   // Never ending, because whenever asked we say nee.
   return false;
 }

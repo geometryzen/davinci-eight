@@ -1705,17 +1705,17 @@ declare module EIGHT {
         /**
          * The identity element for addition, 0.
          */
-        static zero(): Geometric2;
+        static zero(lock?: boolean): Geometric2;
 
         /**
          * Constructs the standard basis vector corresponding to the x coordinate.
          */
-        static e1(): Geometric2;
+        static e1(lock?: boolean): Geometric2;
 
         /**
          * constructs the standard basis vector corresponding to the y coordinate.
          */
-        static e2(): Geometric2;
+        static e2(lock?: boolean): Geometric2;
 
         static fromCartesian(α: number, x: number, y: number, β: number): Geometric2;
 
@@ -1735,9 +1735,9 @@ declare module EIGHT {
         static fromVector(vector: VectorE2): Geometric2;
 
         /**
-         * Basis vector corresponding to the β coordinate.
+         * Multivector basis element corresponding to the pseudoscalar coordinate.
          */
-        static I(): Geometric2;
+        static I(lock?: boolean): Geometric2;
 
         /**
          * Linear interpolation of two multivectors.
@@ -1747,10 +1747,10 @@ declare module EIGHT {
         static lerp(A: GeometricE2, B: GeometricE2, α: number): Geometric2;
 
         /**
-         * The identity element for multiplication, 1.
-         * This method creates a new Geometric2 instance.
+         * Multivector basis element corresponding to the scalar coordinate.
+         * The identity element for multiplication, 1 (scalar).
          */
-        static one(): Geometric2;
+        static one(lock?: boolean): Geometric2;
 
         /**
          * Computes the rotor corresponding to a rotation from vector a to vector b.
@@ -2373,9 +2373,13 @@ declare module EIGHT {
         static fromVector(vector: VectorE3): Geometric3;
 
         /**
+         * Multivector basis element corresponding to the pseudoscalar coordinate.
+         */
+        static I(lock?: boolean): Geometric2;
+
+        /**
+         * Multivector basis element corresponding to the scalar coordinate.
          * The identity element for multiplication, 1 (scalar).
-         * e.g.
-         * const one = EIGHT.Geometric3.one();
          */
         static one(lock?: boolean): Geometric3;
 

@@ -1,4 +1,5 @@
 import BeginMode from '../core/BeginMode';
+import mustBeInteger from '../checks/mustBeInteger';
 import numPostsForFence from './numPostsForFence';
 import numVerticesForGrid from './numVerticesForGrid';
 import notSupported from '../i18n/notSupported';
@@ -29,7 +30,8 @@ export default class GridPrimitive extends VertexPrimitive {
     get uSegments(): number {
         return this._uSegments;
     }
-    set uSegments(unused: number) {
+    set uSegments(uSegments: number) {
+        mustBeInteger('uSegments', uSegments);
         throw new Error(readOnly('uSegments').message);
     }
 
@@ -39,14 +41,16 @@ export default class GridPrimitive extends VertexPrimitive {
     get uLength(): number {
         return numPostsForFence(this._uSegments, this._uClosed);
     }
-    set uLength(unused: number) {
+    set uLength(uLength: number) {
+        mustBeInteger('uLength', uLength);
         throw new Error(readOnly('uLength').message);
     }
 
     get vSegments(): number {
         return this._vSegments;
     }
-    set vSegments(unused: number) {
+    set vSegments(vSegments: number) {
+        mustBeInteger('vSegments', vSegments);
         throw new Error(readOnly('vSegments').message);
     }
 
@@ -56,7 +60,8 @@ export default class GridPrimitive extends VertexPrimitive {
     get vLength(): number {
         return numPostsForFence(this._vSegments, this._vClosed);
     }
-    set vLength(unused: number) {
+    set vLength(vLength: number) {
+        mustBeInteger('vLength', vLength);
         throw new Error(readOnly('vLength').message);
     }
 
@@ -74,6 +79,8 @@ export default class GridPrimitive extends VertexPrimitive {
      * Derived classes must override.
      */
     vertex(i: number, j: number): Vertex {
+        mustBeInteger('i', i);
+        mustBeInteger('j', j);
         throw new Error(notSupported('vertex').message);
     }
 }

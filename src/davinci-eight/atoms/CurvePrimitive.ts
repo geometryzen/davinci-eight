@@ -41,7 +41,8 @@ export default class CurvePrimitive extends VertexPrimitive {
     get uSegments(): number {
         return this._uSegments;
     }
-    set uSegments(unused: number) {
+    set uSegments(uSegments: number) {
+        mustBeInteger('uSegments', uSegments);
         throw new Error(readOnly('uSegments').message);
     }
 
@@ -51,7 +52,8 @@ export default class CurvePrimitive extends VertexPrimitive {
     get uLength(): number {
         return numPostsForFence(this._uSegments, this._uClosed);
     }
-    set uLength(unused: number) {
+    set uLength(uLength: number) {
+        mustBeInteger('uLength', uLength);
         throw new Error(readOnly('uLength').message);
     }
 

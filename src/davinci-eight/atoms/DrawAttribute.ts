@@ -3,7 +3,7 @@ import AttributeSizeType from '../core/AttributeSizeType';
 import DataType from '../core/DataType';
 
 function isVectorN(values: number[]): boolean {
-    return true;
+    return Array.isArray(values);
 }
 
 function checkValues(values: number[]): number[] {

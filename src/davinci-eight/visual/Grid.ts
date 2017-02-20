@@ -74,6 +74,8 @@ function aPositionDefault(u: number, v: number): VectorE3 {
 }
 
 function aNormalDefault(u: number, v: number): VectorE3 {
+    mustBeNumber('u', u);
+    mustBeNumber('v', v);
     return R3(0, 0, 1);
 }
 

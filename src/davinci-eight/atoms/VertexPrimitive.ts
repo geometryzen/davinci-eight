@@ -7,6 +7,7 @@ import DrawPrimitive from './DrawPrimitive';
 import mustBeArray from '../checks/mustBeArray';
 import mustBeGE from '../checks/mustBeGE';
 import mustBeInteger from '../checks/mustBeInteger';
+import mustBeNonNullObject from '../checks/mustBeNonNullObject';
 import notSupported from '../i18n/notSupported';
 import Primitive from '../core/Primitive';
 import Transform from './Transform';
@@ -38,7 +39,8 @@ function checkSize(length: number): AttributeSizeType {
  * to number[], but the basic rule is that the vector grade is extracted and used in a way that is
  * consistent with the linear dimension (2,3), so there should be no surprises.
  */
-function attributes(unused: number[], vertices: Vertex[]): { [name: string]: Attribute } {
+function attributes(elements: number[], vertices: Vertex[]): { [name: string]: Attribute } {
+    mustBeArray('elements', elements);
     const attribs: { [name: string]: Attribute } = {};
 
     const iLen = vertices.length;
@@ -108,6 +110,7 @@ export default class VertexPrimitive {
     }
 
     public vertexTransform(transform: Transform): void {
+        mustBeNonNullObject('transform', transform);
         // Derived classes must implement in order to supply correct ranges.
         throw new Error(notSupported('vertexTransform').message);
     }

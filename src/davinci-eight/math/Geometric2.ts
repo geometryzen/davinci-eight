@@ -54,11 +54,39 @@ const ARROW_LABELS = ["1", [LEFTWARDS_ARROW, RIGHTWARDS_ARROW], [DOWNWARDS_ARROW
 const COMPASS_LABELS = ["1", ['W', 'E'], ['S', 'N'], [CLOCKWISE_OPEN_CIRCLE_ARROW, ANTICLOCKWISE_OPEN_CIRCLE_ARROW]];
 const STANDARD_LABELS = ["1", "e1", "e2", "I"];
 
+const zero = function zero(): [number, number, number, number] {
+    return [0, 0, 0, 0];
+};
+
+const scalar = function scalar(a: number) {
+    const coords = zero();
+    coords[COORD_SCALAR] = a;
+    return coords;
+};
+
+const vector = function vector(x: number, y: number) {
+    const coords = zero();
+    coords[COORD_X] = x;
+    coords[COORD_Y] = y;
+    return coords;
+};
+
+const pseudo = function pseudo(b: number) {
+    const coords = zero();
+    coords[COORD_PSEUDO] = b;
+    return coords;
+};
+
 /**
  * Coordinates corresponding to basis labels.
  */
-function coordinates(m: GeometricE2): number[] {
-    return [m.a, m.x, m.y, m.b];
+function coordinates(m: GeometricE2) {
+    const coords = zero();
+    coords[COORD_SCALAR] = m.a;
+    coords[COORD_X] = m.x;
+    coords[COORD_Y] = m.y;
+    coords[COORD_PSEUDO] = m.b;
+    return coords;
 }
 
 /**
@@ -714,6 +742,7 @@ export class Geometric2 implements GeometricE2, Lockable, VectorN<number> {
      *
      */
     pow(M: GeometricE2): this {
+        mustBeObject('M', M);
         throw new Error(notImplemented('pow').message);
     }
 
@@ -920,6 +949,7 @@ export class Geometric2 implements GeometricE2, Lockable, VectorN<number> {
      *
      */
     stress(σ: VectorE2): this {
+        mustBeObject('σ', σ);
         throw new Error(notSupported('stress').message);
     }
 
@@ -1392,17 +1422,31 @@ export class Geometric2 implements GeometricE2, Lockable, VectorN<number> {
     }
 
     /**
-     *
+     * The basis element corresponding to the vector `x` coordinate.
+     * The multivector is locked (immutable), but may be cloned.
      */
-    static e1(): Geometric2 {
-        return Geometric2.vector(1, 0);
+    public static readonly E1 = new Geometric2(vector(1, 0));
+
+    /**
+     * Constructs the basis vector e1.
+     * Locking the vector prevents mutation. 
+     */
+    public static e1(lock = false): Geometric2 {
+        return lock ? Geometric2.E1 : Geometric2.vector(1, 0);
     }
 
     /**
-     *
+     * The basis element corresponding to the vector `y` coordinate.
+     * The multivector is locked (immutable), but may be cloned.
      */
-    static e2(): Geometric2 {
-        return Geometric2.vector(0, 1);
+    public static readonly E2 = new Geometric2(vector(0, 1));
+
+    /**
+     * Constructs the basis vector e2.
+     * Locking the vector prevents mutation. 
+     */
+    public static e2(lock = false): Geometric2 {
+        return lock ? Geometric2.E2 : Geometric2.vector(0, 1);
     }
 
     /**
@@ -1437,10 +1481,16 @@ export class Geometric2 implements GeometricE2, Lockable, VectorN<number> {
     }
 
     /**
+     * The identity element for addition, `0`.
+     * The multivector is locked.
+     */
+    public static readonly PSEUDO = new Geometric2(pseudo(1));
+
+    /**
      *
      */
-    static I(): Geometric2 {
-        return Geometric2.pseudo(1);
+    public static I(lock = false): Geometric2 {
+        return lock ? Geometric2.PSEUDO : Geometric2.pseudo(1);
     }
 
     /**
@@ -1452,10 +1502,16 @@ export class Geometric2 implements GeometricE2, Lockable, VectorN<number> {
     }
 
     /**
-     *
+     * The identity element for multiplication, `1`.
+     * The multivector is locked (immutable), but may be cloned.
      */
-    static one(): Geometric2 {
-        return Geometric2.scalar(1);
+    public static readonly ONE = new Geometric2(scalar(1));
+
+    /**
+     * 
+     */
+    public static one(lock = false): Geometric2 {
+        return lock ? Geometric2.ONE : Geometric2.scalar(1);
     }
 
     /**
@@ -1487,11 +1543,23 @@ export class Geometric2 implements GeometricE2, Lockable, VectorN<number> {
     }
 
     /**
-     *
+     * The identity element for addition, `0`.
+     * The multivector is locked.
      */
-    public static readonly zero = new Geometric2();
+    public static readonly ZERO = new Geometric2(scalar(0));
+
+    /**
+     * 
+     */
+    public static zero(lock = false): Geometric2 {
+        return lock ? Geometric2.ZERO : new Geometric2(zero());
+    }
 }
 applyMixins(Geometric2, [Lockable]);
-Geometric2.zero.lock();
+Geometric2.E1.lock();
+Geometric2.E2.lock();
+Geometric2.ONE.lock();
+Geometric2.PSEUDO.lock();
+Geometric2.ZERO.lock();
 
 export default Geometric2;
