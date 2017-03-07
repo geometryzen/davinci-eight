@@ -52,7 +52,7 @@ module.exports = function (grunt) {
             main: {
                 expand: true,
                 cwd: 'src/modules/',
-                src: ['davinci-eight.d.ts'],
+                src: ['index.d.ts'],
                 dest: 'dist/'
             },
             css: {

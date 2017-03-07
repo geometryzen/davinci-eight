@@ -1,13 +1,13 @@
 {
   "name": "davinci-eight",
-  "version": "6.0.6",
+  "version": "6.0.7",
   "description": "WebGL library for mathematical physics using Geometric Algebra",
   "author": {
-    "name": "David Holmes",
+    "name": "David Geo Holmes",
     "email": "david.geo.holmes@gmail.com"
   },
-  "main": "./dist/davinci-eight.min.js",
-  "typings": "./dist/davinci-eight.d.ts",
+  "main": "./dist/davinci-eight.js",
+  "types": "./dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git://github.com/geometryzen/davinci-eight.git"
@@ -43,7 +43,7 @@
     "grunt-jasmine-task": "0.2.3",
     "grunt-karma": "^2.0.0",
     "grunt-template-jasmine-requirejs": "^0.2.3",
-    "grunt-ts": "^6.0.0-beta.11",
+    "grunt-ts": "^6.0.0-beta.14",
     "grunt-tslint": "^4.0.1",
     "grunt-typedoc": "^0.2.4",
     "grunt-typescript": "^0.8.0",
@@ -62,9 +62,9 @@
     "servedir": "^1.0.0",
     "systemjs": "0.19.40",
     "systemjs-builder": "0.15.33",
-    "tslint": "^4.4.2",
+    "tslint": "^4.5.1",
     "typedoc": "^0.5.7",
-    "typescript": "^2.1.6"
+    "typescript": "^2.2.1"
   },
   "keywords": [],
   "jspm": {
@@ -75,7 +75,7 @@
       "babel": "npm:babel-core@^5.8.38",
       "babel-runtime": "npm:babel-runtime@^5.8.38",
       "core-js": "npm:core-js@^1.2.7",
-      "typescript": "npm:typescript@^2.1.1"
+      "typescript": "npm:typescript@^2.2.1"
     }
   }
 }

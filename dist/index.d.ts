@@ -1,14 +1,19 @@
-//
-// davinci-eight.d.ts
+// Type definitions for davinci-eight 6.0.7
+// Project: https://github.com/geometryzen/davinci-eight
+// Definitions by: David Geo Holmes david.geo.holmes@gmail.com https://www.stemcstudio.com
 //
 // This file was created manually in order to support the davinci-eight library.
 // These declarations are appropriate when using the library through the global
-// variable, 'EIGHT'.
+// variable, EIGHT.
 //
+
+export = EIGHT;
+export as namespace EIGHT;
+
 /**
  * WebGL library for mathematical physics using Geometric Algebra.
  */
-declare module EIGHT {
+declare namespace EIGHT {
 
     /**
      * The draw mode determines how the WebGL pipeline consumes and processes the vertices.
@@ -3343,7 +3348,7 @@ declare module EIGHT {
     /**
      * Determines how a Geometry will be rendered.
      */
-    export enum GeometryMode {
+    enum GeometryMode {
         /**
          * 
          */
@@ -3485,7 +3490,7 @@ declare module EIGHT {
     /**
      * Determines how a Curve will be rendered.
      */
-    export enum CurveMode {
+    enum CurveMode {
         /**
          * 
          */
@@ -5311,8 +5316,4 @@ declare module EIGHT {
      *
      */
     function sqrt<T>(x: T): T;
-}
-
-declare module 'eight' {
-    export = EIGHT;
 }

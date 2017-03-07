@@ -1124,11 +1124,6 @@ export class Spinor3 implements CartesianG3, SpinorE3, Lockable, VectorN<number>
     }
 
     /**
-     *
-     */
-    static readonly one = Spinor3.spinor(0, 0, 0, 1);
-
-    /**
      * <p>
      * Computes a unit spinor with a random direction.
      * </p>
@@ -1161,6 +1156,11 @@ export class Spinor3 implements CartesianG3, SpinorE3, Lockable, VectorN<number>
     static spinor(yz: number, zx: number, xy: number, a: number): Spinor3 {
         return new Spinor3([yz, zx, xy, a], magicCode);
     }
+
+    /**
+     *
+     */
+    static readonly one = Spinor3.spinor(0, 0, 0, 1);
 
     /**
      * @param a
