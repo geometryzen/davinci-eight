@@ -61,9 +61,9 @@ karma start
 The following files should be changed.
 
 ```
-src/davinci-eight/config.ts
 package.json
 bower.json
+src/davinci-eight/config.ts
 ```
 
 ## Git

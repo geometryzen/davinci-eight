@@ -1093,9 +1093,11 @@ declare namespace EIGHT {
         mul2(a: Matrix4, b: Matrix4): Matrix4;
 
         /**
-         * Generates a new identity matrix.
+         * Creates a new matrix with diagonal elements 1 and all other elements zero.
+         * The identity matrix for multiplication, 1.
+         * The matrix is locked (immutable), but may be cloned.
          */
-        static one(): Matrix4;
+        static one: Matrix4;
 
         /**
          * Sets this matrix to the identity element for multiplication, 1.
@@ -1201,8 +1203,10 @@ declare namespace EIGHT {
 
         /**
          * Creates a new matrix with all elements zero.
+         * The identity matrix for addition, 0.
+         * The matrix is locked (immutable), but may be cloned.
          */
-        static zero(): Matrix4;
+        static zero: Matrix4;
     }
 
     /**
