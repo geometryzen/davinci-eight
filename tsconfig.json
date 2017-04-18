@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "module": "system",
-        "target": "es5",
+        "target": "ES5",
         "outDir": "test/system",
         "noImplicitAny": true,
         "noImplicitReturns": true,
