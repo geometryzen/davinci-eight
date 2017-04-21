@@ -4,7 +4,7 @@ import { ShareableBase } from '../core/ShareableBase';
 /**
  * Displays details about EIGHT to the console.
  */
-export default class EIGHTLogger extends ShareableBase {
+export class EIGHTLogger extends ShareableBase {
 
   constructor() {
     super();

@@ -552,9 +552,9 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
     var Eight = (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2017-04-18';
+            this.LAST_MODIFIED = '2017-04-21';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '6.0.9';
+            this.VERSION = '6.0.10';
         }
         Eight.prototype.log = function (message) {
             console.log(message);
@@ -10531,7 +10531,7 @@ define('davinci-eight/commands/EIGHTLogger',["require", "exports", "../config", 
         };
         return EIGHTLogger;
     }(ShareableBase_1.ShareableBase));
-    exports.default = EIGHTLogger;
+    exports.EIGHTLogger = EIGHTLogger;
 });
 
 define('davinci-eight/core/initWebGL',["require", "exports", "../checks/isDefined"], function (require, exports, isDefined_1) {
@@ -10612,6 +10612,7 @@ define('davinci-eight/core/Engine',["require", "exports", "./checkEnums", "./Cle
     var Engine = (function (_super) {
         __extends(Engine, _super);
         function Engine(canvas, attributes, doc) {
+            if (attributes === void 0) { attributes = {}; }
             if (doc === void 0) { doc = window.document; }
             var _this = _super.call(this) || this;
             _this._users = [];
@@ -10620,8 +10621,12 @@ define('davinci-eight/core/Engine',["require", "exports", "./checkEnums", "./Cle
             _this.materials = {};
             _this.setLoggingName('Engine');
             _this._attributes = attributes;
-            _this._commands.pushWeakRef(new EIGHTLogger_1.default());
-            _this._commands.pushWeakRef(new VersionLogger_1.default(_this));
+            if (attributes.eightLogging) {
+                _this._commands.pushWeakRef(new EIGHTLogger_1.EIGHTLogger());
+            }
+            if (attributes.webglLogging) {
+                _this._commands.pushWeakRef(new VersionLogger_1.default(_this));
+            }
             _this._webGLContextLost = function (event) {
                 if (isDefined_1.default(_this._gl)) {
                     event.preventDefault();

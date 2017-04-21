@@ -1,5 +1,5 @@
 import { Engine } from '../core/Engine';
-import EIGHTLogger from './EIGHTLogger';
+import { EIGHTLogger } from './EIGHTLogger';
 import refChange from '../core/refChange';
 
 describe("EIGHTLogger", function () {
@@ -9,7 +9,7 @@ describe("EIGHTLogger", function () {
     refChange('quiet');
     refChange('start');
     const engine = new Engine();
-    const logger = new EIGHTLogger(engine);
+    const logger = new EIGHTLogger();
     logger.release();
     engine.release();
     refChange('quiet');

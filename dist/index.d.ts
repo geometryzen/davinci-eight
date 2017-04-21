@@ -363,6 +363,20 @@ declare namespace EIGHT {
     }
 
     /**
+     * 
+     */
+    interface EngineAttributes extends WebGLContextAttributes {
+        /**
+         * Determines whether the Engine logs the version of EIGHT to the console.
+         */
+        eightLogging?: boolean;
+        /**
+         * Determines whether the Engine logs the version of WebGL to the console.
+         */
+        webglLogging?: boolean;
+    }
+
+    /**
      * A wrapper around an HTMLCanvasElement that provides WebGLRenderingContext initialization
      * and context lost management. An instance of this class is provided to objects created
      * WebGL resources.
@@ -393,7 +407,7 @@ declare namespace EIGHT {
          * Constructs an Engine.
          * If the canvas argument is provided then the Engine will be started automatically.
          */
-        constructor(canvas?: string | HTMLCanvasElement | WebGLRenderingContext, attributes?: WebGLContextAttributes, doc?: Document);
+        constructor(canvas?: string | HTMLCanvasElement | WebGLRenderingContext, attributes?: EngineAttributes, doc?: Document);
 
         /**
          * Called when the last reference to this Engine has been released.

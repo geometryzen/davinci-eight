@@ -4,7 +4,7 @@ import Capability from './Capability';
 import checkEnums from './checkEnums';
 import ClearBufferMask from './ClearBufferMask';
 import DepthFunction from './DepthFunction';
-import EIGHTLogger from '../commands/EIGHTLogger';
+import { EIGHTLogger } from '../commands/EIGHTLogger';
 import ContextConsumer from './ContextConsumer';
 import ContextManager from './ContextManager';
 import Geometry from './Geometry';
@@ -28,6 +28,11 @@ import VersionLogger from '../commands/VersionLogger';
 import WebGLClearColor from '../commands/WebGLClearColor';
 import WebGLEnable from '../commands/WebGLEnable';
 import WebGLDisable from '../commands/WebGLDisable';
+
+export interface EngineAttributes extends WebGLContextAttributes {
+    eightLogging?: boolean;
+    webglLogging?: boolean;
+}
 
 /**
  * A wrapper around an HTMLCanvasElement providing access to the WebGLRenderingContext
@@ -116,14 +121,18 @@ export class Engine extends ShareableBase implements ContextManager {
      * @param attributes Allows the context to be configured.
      * @param doc The document object model that contains the canvas identifier.
      */
-    constructor(canvas?: string | HTMLCanvasElement | WebGLRenderingContext, attributes?: WebGLContextAttributes, doc = window.document) {
+    constructor(canvas?: string | HTMLCanvasElement | WebGLRenderingContext, attributes: EngineAttributes = {}, doc = window.document) {
         super();
         this.setLoggingName('Engine');
 
         this._attributes = attributes;
 
-        this._commands.pushWeakRef(new EIGHTLogger());
-        this._commands.pushWeakRef(new VersionLogger(this));
+        if (attributes.eightLogging) {
+            this._commands.pushWeakRef(new EIGHTLogger());
+        }
+        if (attributes.webglLogging) {
+            this._commands.pushWeakRef(new VersionLogger(this));
+        }
 
         this._webGLContextLost = (event: Event) => {
             if (isDefined(this._gl)) {

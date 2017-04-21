@@ -1171,7 +1171,7 @@ System.register("davinci-eight/commands/EIGHTLogger.js", ["../config", "../core/
                 EIGHTLogger.prototype.contextLost = function () {};
                 return EIGHTLogger;
             }(ShareableBase_1.ShareableBase);
-            exports_1("default", EIGHTLogger);
+            exports_1("EIGHTLogger", EIGHTLogger);
         }
     };
 });
@@ -1484,6 +1484,9 @@ System.register("davinci-eight/core/Engine.js", ["./checkEnums", "./ClearBufferM
             Engine = function (_super) {
                 __extends(Engine, _super);
                 function Engine(canvas, attributes, doc) {
+                    if (attributes === void 0) {
+                        attributes = {};
+                    }
                     if (doc === void 0) {
                         doc = window.document;
                     }
@@ -1494,8 +1497,12 @@ System.register("davinci-eight/core/Engine.js", ["./checkEnums", "./ClearBufferM
                     _this.materials = {};
                     _this.setLoggingName('Engine');
                     _this._attributes = attributes;
-                    _this._commands.pushWeakRef(new EIGHTLogger_1.default());
-                    _this._commands.pushWeakRef(new VersionLogger_1.default(_this));
+                    if (attributes.eightLogging) {
+                        _this._commands.pushWeakRef(new EIGHTLogger_1.EIGHTLogger());
+                    }
+                    if (attributes.webglLogging) {
+                        _this._commands.pushWeakRef(new VersionLogger_1.default(_this));
+                    }
                     _this._webGLContextLost = function (event) {
                         if (isDefined_1.default(_this._gl)) {
                             event.preventDefault();
@@ -25268,9 +25275,9 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
             Eight = function () {
                 function Eight() {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-                    this.LAST_MODIFIED = '2017-04-18';
+                    this.LAST_MODIFIED = '2017-04-21';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '6.0.9';
+                    this.VERSION = '6.0.10';
                 }
                 Eight.prototype.log = function (message) {
                     console.log(message);
