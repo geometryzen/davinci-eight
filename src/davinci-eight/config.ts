@@ -20,7 +20,7 @@ class Eight {
         this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
         this.LAST_MODIFIED = '2017-04-21';
         this.NAMESPACE = 'EIGHT';
-        this.VERSION = '6.0.10';
+        this.VERSION = '6.1.0';
     }
 
     log(message?: any): void {
