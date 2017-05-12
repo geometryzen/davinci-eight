@@ -26,7 +26,7 @@ interface AxisOptions {
      * 
      */
     tilt?: SpinorE3;
-};
+}
 
 /**
  * This function computes the reference axis of an object.

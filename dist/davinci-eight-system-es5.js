@@ -20087,9 +20087,7 @@ System.register("davinci-eight/core/referenceAxis.js", ["../math/Geometric3", ".
         }, function (tiltFromOptions_1_1) {
             tiltFromOptions_1 = tiltFromOptions_1_1;
         }],
-        execute: function () {
-            ;
-        }
+        execute: function () {}
     };
 });
 System.register("davinci-eight/core/tiltFromOptions.js", ["../math/Geometric3", "../checks/isDefined", "../math/R3"], function (exports_1, context_1) {
@@ -20170,9 +20168,7 @@ System.register("davinci-eight/core/referenceMeridian.js", ["../core/tiltFromOpt
         }, function (R3_1_1) {
             R3_1 = R3_1_1;
         }],
-        execute: function () {
-            ;
-        }
+        execute: function () {}
     };
 });
 System.register("davinci-eight/math/dotVectorCartesianE3.js", [], function (exports_1, context_1) {
@@ -22207,7 +22203,6 @@ System.register("davinci-eight/core/Lockable.js", [], function (exports_1, conte
                 return TargetUnlockedError;
             }(Error);
             exports_1("TargetUnlockedError", TargetUnlockedError);
-            ;
             LockableMixin = function () {
                 function LockableMixin() {}
                 LockableMixin.prototype.isLocked = function () {
@@ -25275,9 +25270,9 @@ System.register('davinci-eight/config.js', [], function (exports_1, context_1) {
             Eight = function () {
                 function Eight() {
                     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-                    this.LAST_MODIFIED = '2017-04-21';
+                    this.LAST_MODIFIED = '2017-05-12';
                     this.NAMESPACE = 'EIGHT';
-                    this.VERSION = '6.1.0';
+                    this.VERSION = '6.1.1';
                 }
                 Eight.prototype.log = function (message) {
                     console.log(message);

@@ -1,4 +1,4 @@
-// Type definitions for davinci-eight 6.0.7
+// Type definitions for davinci-eight 6.1.1
 // Project: https://github.com/geometryzen/davinci-eight
 // Definitions by: David Geo Holmes david.geo.holmes@gmail.com https://www.stemcstudio.com
 //
@@ -309,7 +309,7 @@ declare namespace EIGHT {
         getWeakRef(key: number): V
         put(key: number, value: V): void
         putWeakRef(key: number, value: V): void
-        forEach(callback: (key: number, value: V) => void)
+        forEach(callback: (key: number, value: V) => void): void
         remove(key: number): void
     }
 
@@ -317,7 +317,7 @@ declare namespace EIGHT {
         keys: string[];
         constructor()
         exists(key: string): boolean
-        forEach(callback: (key: string, value: V) => void)
+        forEach(callback: (key: string, value: V) => void): void
         get(key: string): V
         getWeakref(key: string): V
         put(key: string, value: V): void
@@ -887,7 +887,7 @@ declare namespace EIGHT {
         /**
          * Computes the row corresponding to the zero-based index, i.
          */
-        row(i: number): Array<number>;
+        row(i: number): number[];
 
         /**
          * Sets this matrix to the value of this * α.
@@ -1153,7 +1153,7 @@ declare namespace EIGHT {
         /**
          *
          */
-        row(i): Array<number>;
+        row(i: number): number[];
 
         /**
          *
@@ -1339,7 +1339,7 @@ declare namespace EIGHT {
         /**
          * The coordinate corresponding to the unit standard basis scalar.
          */
-        a: number
+        a: number;
 
         /**
          * The coordinate corresponding to the e1 standard basis vector.
@@ -1858,11 +1858,11 @@ declare namespace EIGHT {
     }
 
     interface Scalar {
-        a: number
+        a: number;
     }
 
     interface Pseudo {
-        b: number
+        b: number;
     }
 
     interface BivectorE3 {
@@ -1984,7 +1984,7 @@ declare namespace EIGHT {
         arg(): Geometric3;
 
         /**
-         *Returns a clone of this multivector.
+         * Returns a clone of this multivector.
          */
         clone(): Geometric3;
 
@@ -2753,10 +2753,10 @@ declare namespace EIGHT {
      *
      */
     class Vector4 extends VectorN<number> implements VectorE4 {
-        x: number
-        y: number
-        z: number
-        w: number
+        x: number;
+        y: number;
+        z: number;
+        w: number;
         constructor(coords?: number[], modified?: boolean)
         applyMatrix(σ: Matrix4): Vector4
         clone(): Vector4
@@ -2864,7 +2864,7 @@ declare namespace EIGHT {
         /**
          * The type keyword as it appears in the GLSL shader program.
          */
-        glslType: string,
+        glslType: string;
     }
 
     /**
@@ -3114,7 +3114,7 @@ declare namespace EIGHT {
          */
         look: Geometric3;
         /**
-         *The distance to the near plane of the viewport.
+         * The distance to the near plane of the viewport.
          */
         near: number;
         /**
@@ -3157,7 +3157,7 @@ declare namespace EIGHT {
          */
         aspect: number;
         /**
-         *The distance to the near plane of the viewport.
+         * The distance to the near plane of the viewport.
          */
         near: number;
         /**
@@ -3226,15 +3226,15 @@ declare namespace EIGHT {
         /**
          * The offset of the values in bytes.
          */
-        offset: number
+        offset: number;
     }
 
     interface VertexArrays {
-        mode: BeginMode
-        indices?: number[]
-        attributes: number[]
-        stride: number
-        pointers: VertexAttribPointer[]
+        mode: BeginMode;
+        indices?: number[];
+        attributes: number[];
+        stride: number;
+        pointers: VertexAttribPointer[];
     }
 
     /**
@@ -3523,15 +3523,15 @@ declare namespace EIGHT {
         /**
          * A parametric function determining the positions of points on the curve.
          */
-        aPosition?: (u: number) => VectorE3;
+        aPosition?(u: number): VectorE3;
         /**
          * A parametric function determining the vertex colors.
          */
-        aColor?: (u: number) => { r: number; g: number; b: number };
+        aColor?(u: number): { r: number; g: number; b: number };
         /**
          * A parametric function determining the vertex coordinates.
          */
-        aCoords?: (u: number) => { u: number; };
+        aCoords?(u: number): { u: number; };
         /**
          * @default LINES
          */
@@ -3566,19 +3566,19 @@ declare namespace EIGHT {
         /**
          * A parametric function determining the vertex positions.
          */
-        aPosition?: (u: number, v: number) => VectorE3;
+        aPosition?(u: number, v: number): VectorE3;
         /**
          * A parametric function determining the vertex normal vectors.
          */
-        aNormal?: (u: number, v: number) => VectorE3;
+        aNormal?(u: number, v: number): VectorE3;
         /**
          * A parametric function determining the vertex colors.
          */
-        aColor?: (u: number, v: number) => { r: number; g: number; b: number };
+        aColor?(u: number, v: number): { r: number; g: number; b: number };
         /**
          * A parametric function determining the vertex coordinates.
          */
-        aCoords?: (u: number, v: number) => { u: number; v: number };
+        aCoords?(u: number, v: number): { u: number; v: number };
         /**
          * @default WIRE
          */
@@ -3729,7 +3729,6 @@ declare namespace EIGHT {
         use(): AbstractDrawable<G, M>;
     }
 
-
     /**
      * A collection of primitives, a single graphics program, and some facets.
      * The primitives provide attribute arguments to the graphics program.
@@ -3858,12 +3857,12 @@ declare namespace EIGHT {
         /**
          *
          */
-        attributes?: { [name: string]: number }
+        attributes?: { [name: string]: number };
 
         /**
          *
          */
-        uniforms?: { [name: string]: string }
+        uniforms?: { [name: string]: string };
     }
 
     /**
@@ -3879,12 +3878,12 @@ declare namespace EIGHT {
         /**
          *
          */
-        attributes?: { [name: string]: number }
+        attributes?: { [name: string]: number };
 
         /**
          *
          */
-        uniforms?: { [name: string]: string }
+        uniforms?: { [name: string]: string };
     }
 
     /**
@@ -3900,12 +3899,12 @@ declare namespace EIGHT {
         /**
          *
          */
-        attributes?: { [name: string]: number }
+        attributes?: { [name: string]: number };
 
         /**
          *
          */
-        uniforms?: { [name: string]: string }
+        uniforms?: { [name: string]: string };
     }
 
     /**
@@ -3929,7 +3928,7 @@ declare namespace EIGHT {
         r: number;
         g: number;
         b: number;
-        α: number
+        α: number;
         constructor(name?: string);
         scaleRGB(α: number): ColorFacet;
         scaleRGBA(α: number): ColorFacet;
@@ -3965,9 +3964,8 @@ declare namespace EIGHT {
         setUniforms(visitor: FacetVisitor): void;
     }
 
-
     class PointSizeFacet implements Facet {
-        pointSize: number
+        pointSize: number;
         constructor(pointSize?: number);
         setUniforms(visitor: FacetVisitor): void;
     }
@@ -4479,8 +4477,8 @@ declare namespace EIGHT {
      * Options for the creation of a new Curve.
      */
     interface CurveOptions {
-        aColor?: (u: number) => Color;
-        aPosition?: (u: number) => VectorE3;
+        aColor?(u: number): Color;
+        aPosition?(u: number): VectorE3;
         mode?: CurveMode;
         uMax?: number;
         uMin?: number;
@@ -4505,9 +4503,9 @@ declare namespace EIGHT {
      * Options for the creation of a new Grid.
      */
     interface GridOptions {
-        aColor?: (u: number, v: number) => Color;
-        aNormal?: (u: number, v: number) => VectorE3;
-        aPosition?: (u: number, v: number) => VectorE3;
+        aColor?(u: number, v: number): Color;
+        aNormal?(u: number, v: number): VectorE3;
+        aPosition?(u: number, v: number): VectorE3;
         mode?: GeometryMode;
         uMax?: number;
         uMin?: number;
@@ -4544,7 +4542,7 @@ declare namespace EIGHT {
         /**
          * Returns the z-coordinate for the specified x and y coordinates.
          */
-        z?: (x: number, y: number) => number;
+        z?(x: number, y: number): number;
         mode?: GeometryMode;
     }
 
@@ -4580,7 +4578,7 @@ declare namespace EIGHT {
         zMin?: number;
         zMax?: number;
         zSegments?: number;
-        x?: (y: number, z: number) => number;
+        x?(y: number, z: number): number;
         mode?: GeometryMode;
     }
 
@@ -4616,7 +4614,7 @@ declare namespace EIGHT {
         xMin?: number;
         xMax?: number;
         xSegments?: number;
-        y?: (z: number, x: number) => number;
+        y?(z: number, x: number): number;
         mode?: GeometryMode;
     }
 

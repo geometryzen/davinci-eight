@@ -73,4 +73,5 @@ git add --all
 git commit -m '...'
 git tag -a 1.2.3 -m '...'
 git push origin master --tags
+npm publish
 ```

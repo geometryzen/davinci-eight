@@ -315,7 +315,7 @@ export default function interpret(args: any) {
     }
   }
   return false;
-};
+}
 
 interface ColorRep {
   space: string;

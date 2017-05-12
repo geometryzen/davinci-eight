@@ -552,9 +552,9 @@ define('davinci-eight/config',["require", "exports"], function (require, exports
     var Eight = (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2017-04-21';
+            this.LAST_MODIFIED = '2017-05-12';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '6.1.0';
+            this.VERSION = '6.1.1';
         }
         Eight.prototype.log = function (message) {
             console.log(message);
@@ -1661,7 +1661,6 @@ define('davinci-eight/core/Lockable',["require", "exports"], function (require, 
         return that;
     }
     exports.lockable = lockable;
-    ;
     var LockableMixin = (function () {
         function LockableMixin() {
         }
@@ -9374,7 +9373,6 @@ define('davinci-eight/facets/ModelFacet',["require", "exports", "../math/Matrix3
 define('davinci-eight/core/referenceAxis',["require", "exports", "../math/Geometric3", "../math/R3", "../core/tiltFromOptions"], function (require, exports, Geometric3_1, R3_1, tiltFromOptions_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    ;
     function referenceAxis(options, fallback) {
         if (options.tilt) {
             var axis = Geometric3_1.default.fromVector(tiltFromOptions_1.canonicalAxis).rotate(options.tilt);
@@ -9412,7 +9410,6 @@ define('davinci-eight/core/referenceAxis',["require", "exports", "../math/Geomet
 define('davinci-eight/core/referenceMeridian',["require", "exports", "../core/tiltFromOptions", "../math/Geometric3", "../math/R3"], function (require, exports, tiltFromOptions_1, Geometric3_1, R3_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    ;
     function referenceMeridian(options, fallback) {
         if (options.tilt) {
             var meridian = Geometric3_1.default.fromVector(tiltFromOptions_1.canonicalMeridian).rotate(options.tilt);

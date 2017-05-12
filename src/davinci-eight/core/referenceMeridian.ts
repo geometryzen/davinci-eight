@@ -26,7 +26,7 @@ interface MeridianOptions {
      * 
      */
     tilt?: SpinorE3;
-};
+}
 
 /**
  * This function computes the reference meridian of an object.

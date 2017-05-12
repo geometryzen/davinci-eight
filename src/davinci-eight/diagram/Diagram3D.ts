@@ -54,7 +54,7 @@ export default class Diagram3D {
     closePath(): void {
         this.ctx.closePath();
     }
-    fill(fillRule?: string): void {
+    fill(fillRule?: "nonzero" | "evenodd"/*CanvasFillRule*/): void {
         this.ctx.fill(fillRule);
     }
     fillText(text: string, X: VectorE3, maxWidth?: number): void {

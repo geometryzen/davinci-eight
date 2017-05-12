@@ -75,7 +75,7 @@ export function lockable(): Lockable {
         }
     };
     return that;
-};
+}
 
 /**
  * Lockable Mixin
