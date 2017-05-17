@@ -1,6 +1,6 @@
 {
   "name": "davinci-eight",
-  "version": "6.1.1",
+  "version": "6.1.2",
   "description": "WebGL library for mathematical physics using Geometric Algebra",
   "author": {
     "name": "David Geo Holmes",
@@ -13,8 +13,7 @@
     "url": "git://github.com/geometryzen/davinci-eight.git"
   },
   "engines": {
-    "node": "4.8.2",
-    "npm": "2.15.11"
+    "node": ">=4"
   },
   "bugs": {
     "url": "https://github.com/geometryzen/davinci-eight/issues"
@@ -26,48 +25,6 @@
       "url": "https://github.com/geometryzen/davinci-eight/blob/master/LICENSE"
     }
   ],
-  "scripts": {
-    "test": "grunt; grunt test"
-  },
-  "dependencies": {},
-  "devDependencies": {
-    "es6-module-loader": "^0.17.11",
-    "grunt": "^1.0.1",
-    "grunt-cli": "^1.2.0",
-    "grunt-contrib-clean": "^1.1.0",
-    "grunt-contrib-connect": "^1.0.2",
-    "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-jasmine": "^1.1.0",
-    "grunt-contrib-jshint": "^1.1.0",
-    "grunt-contrib-requirejs": "^1.0.0",
-    "grunt-contrib-uglify": "^1.0.2",
-    "grunt-contrib-watch": "^1.0.0",
-    "grunt-exec": "^2.0.0",
-    "grunt-jasmine-task": "0.2.3",
-    "grunt-karma": "^2.0.0",
-    "grunt-template-jasmine-requirejs": "^0.2.3",
-    "grunt-ts": "^6.0.0-beta.15",
-    "grunt-tslint": "^5.0.1",
-    "grunt-typedoc": "^0.2.4",
-    "jasmine-core": "^2.6.1",
-    "jspm": "0.16.47",
-    "karma": "0.13.22",
-    "karma-chrome-launcher": "0.1.12",
-    "karma-jasmine": "0.3.8",
-    "karma-jspm": "2.2.0",
-    "karma-phantomjs-launcher": "0.2.3",
-    "karma-systemjs": "0.8.2",
-    "phantomjs": "1.9.20",
-    "phantomjs-polyfill": "0.0.1",
-    "q": "1.4.1",
-    "requirejs": "~2.3.3",
-    "servedir": "^1.0.0",
-    "systemjs": "0.19.40",
-    "systemjs-builder": "0.15.33",
-    "tslint": "^5.2.0",
-    "typedoc": "^0.6.0",
-    "typescript": "^2.3.2"
-  },
   "keywords": [
     "WebGL",
     "STEMCstudio",
@@ -76,15 +33,78 @@
     "Physics",
     "Mathematics"
   ],
-  "jspm": {
-    "dependencies": {
-      "ts": "github:frankwallis/plugin-typescript@^2.6.0"
-    },
-    "devDependencies": {
-      "babel": "npm:babel-core@^5.8.38",
-      "babel-runtime": "npm:babel-runtime@^5.8.38",
-      "core-js": "npm:core-js@^1.2.7",
-      "typescript": "npm:typescript@^2.2.1"
-    }
+  "scripts": {
+    "info": "npm-scripts-info",
+    "build": "trash build && tsc -p tsconfig.main.json && tsc -p tsconfig.module.json && yarn build:browser",
+    "build:browser": "rollup --config rollup.config.js --format umd --name 'EIGHT' --output build/browser/index.js && sorcery -i build/browser/index.js && cp src/index.d.ts build/browser",
+    "lint": "tslint src/**/*.ts",
+    "unit": "trash test && tsc -p tsconfig.json && karma start",
+    "test": "yarn lint && yarn unit && nyc check-coverage --lines 40 --functions 30 --branches 20",
+    "watch": "concurrently -r --kill-others 'tsc -p tsconfig.json -w' 'sleepms 2000 && jasmine-node test --autotest --watch test'",
+    "coverage": "trash test && tsc -p tsconfig.json && nyc karma start && nyc report --reporter=html && opn coverage/index.html",
+    "docs": "yarn docs:typedoc && opn docs/index.html",
+    "docs:typedoc": "trash docs && typedoc src/index.ts --excludePrivate --excludeNotExported --mode file --theme minimal --out docs",
+    "pages": "yarn docs:typedoc && gh-pages -d docs",
+    "changelog": "standard-version"
+  },
+  "scripts-info": {
+    "info": "Display information about the scripts",
+    "build": "(Trash and re)build the library",
+    "lint": "Lint all typescript source files",
+    "unit": "Build the library and run unit tests",
+    "test": "Lint, build, and test the library",
+    "watch": "Watch source files, rebuild library on changes, rerun relevant tests",
+    "coverage": "Run tests, generate the HTML coverage report, and open it in a browser",
+    "docs": "Generate HTML API documentation and open it in a browser",
+    "pages": "Generate HTML API documentation and push it to GitHub Pages",
+    "changelog": "Bump package.json version, update CHANGELOG.md, tag a release"
+  },
+  "nyc": {
+    "exclude": [
+      "**/*.spec.js",
+      "build/browser/**"
+    ]
+  },
+  "devDependencies": {
+    "@types/jasmine": "^2.5.47",
+    "@types/node": "^7.0.18",
+    "browserify": "^14.3.0",
+    "codecov": "^2.2.0",
+    "concurrently": "^3.4.0",
+    "core-js": "^2.4.1",
+    "cpx": "^1.5.0",
+    "es6-module-loader": "^0.17.11",
+    "gh-pages": "^0.12.0",
+    "hash.js": "^1.0.3",
+    "jasmine-core": "^2.6.1",
+    "karma": "^1.7.0",
+    "karma-chrome-launcher": "^2.1.1",
+    "karma-cli": "^1.0.1",
+    "karma-jasmine": "^1.1.0",
+    "karma-jasmine-html-reporter": "^0.2.2",
+    "karma-phantomjs-launcher": "^1.0.4",
+    "karma-systemjs": "^0.16.0",
+    "mkdirp": "^0.5.1",
+    "npm-scripts-info": "^0.3.6",
+    "nyc": "^10.3.2",
+    "opn-cli": "^3.1.0",
+    "phantomjs-polyfill": "^0.0.2",
+    "rollup": "^0.41.6",
+    "rollup-plugin-alias": "^1.3.1",
+    "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-watch": "^3.2.2",
+    "sleep-ms": "^2.0.1",
+    "sorcery": "^0.10.0",
+    "standard-version": "^4.0.0",
+    "systemjs": "^0.19.41",
+    "trash-cli": "^1.4.0",
+    "tslint": "^5.2.0",
+    "tslint-config-standard": "^5.0.2",
+    "typedoc": "^0.7.0",
+    "typescript": "^2.3.2"
+  },
+  "dependencies": {
+    "tslib": "^1.7.1"
   }
 }
