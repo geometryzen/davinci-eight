@@ -1,0 +1,9 @@
+import { Scalar } from '../math/Scalar';
+
+/**
+ * The even sub-algebra of the <em>Euclidean algebra 𝓖(1, 0)</em>.
+ * @class SpinorE1
+ * @extends Scalar
+ */
+export interface SpinorE1 extends Scalar {
+}

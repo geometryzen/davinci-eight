@@ -6,8 +6,10 @@
     "name": "David Geo Holmes",
     "email": "david.geo.holmes@gmail.com"
   },
-  "main": "./dist/davinci-eight.js",
-  "types": "./dist/index.d.ts",
+  "browser": "./build/browser/index.js",
+  "main": "./build/main/index.js",
+  "module": "./build/module/index.js",
+  "types": "./build/browser/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git://github.com/geometryzen/davinci-eight.git"

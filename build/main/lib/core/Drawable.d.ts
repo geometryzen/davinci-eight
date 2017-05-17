@@ -1,0 +1,90 @@
+import { AbstractDrawable } from './AbstractDrawable';
+import { ContextManager } from '../core/ContextManager';
+import { Facet } from '../core/Facet';
+import { Geometry } from './Geometry';
+import { Material } from './Material';
+import { ShareableContextConsumer } from '../core/ShareableContextConsumer';
+/**
+ * This class may be used as either a base class or standalone.
+ */
+export declare class Drawable<G extends Geometry, M extends Material> extends ShareableContextConsumer implements AbstractDrawable<G, M> {
+    name: string;
+    private _geometry;
+    private _material;
+    private _visible;
+    private _transparent;
+    private facetMap;
+    /**
+     *
+     */
+    constructor(geometry: G, material: M, contextManager: ContextManager, levelUp?: number);
+    /**
+     *
+     */
+    protected resurrector(levelUp: number): void;
+    /**
+     *
+     */
+    protected destructor(levelUp: number): void;
+    opacity: number;
+    pointSize: number;
+    /**
+     * A convenience method for calling geometry.bind(material).
+     */
+    bind(): Drawable<G, M>;
+    /**
+     * Sets the Material uniforms from the Facets of this composite object.
+     */
+    setUniforms(): Drawable<G, M>;
+    /**
+     *
+     */
+    draw(): Drawable<G, M>;
+    contextFree(): void;
+    contextGain(): void;
+    contextLost(): void;
+    /**
+     * @param name The name of the Facet.
+     */
+    getFacet(name: string): Facet;
+    /**
+     * A convenience method for performing all of the methods required for rendering.
+     * The following methods are called in order.
+     * use()
+     * bind()
+     * setAmbients(ambients)
+     * setUniforms()
+     * draw()
+     * unbind()
+     * In particle simulations it may be useful to call the underlying methods directly.
+     */
+    render(ambients: Facet[]): Drawable<G, M>;
+    /**
+     * Updates the Material uniforms from the ambient Facets argument.
+     */
+    setAmbients(ambients: Facet[]): Drawable<G, M>;
+    removeFacet(name: string): Facet;
+    /**
+     * @param name The name of the Facet.
+     * @param facet The Facet.
+     */
+    setFacet(name: string, facet: Facet): void;
+    unbind(): Drawable<G, M>;
+    use(): Drawable<G, M>;
+    /**
+     * Provides a reference counted reference to the geometry property.
+     */
+    geometry: G;
+    /**
+     * Provides a reference counted reference to the material property.
+     */
+    material: M;
+    /**
+     * @default true
+     */
+    visible: boolean;
+    /**
+     * @default false
+     */
+    transparent: boolean;
+}
