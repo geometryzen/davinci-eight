@@ -1,9 +1,7 @@
 /**
  * Computes the determinant of a 4x4 (square) matrix where the elements are assumed to be in column-major order.
  */
-/**
- * Computes the determinant of a 4x4 (square) matrix where the elements are assumed to be in column-major order.
- */ export function det4x4(m) {
+export function det4x4(m) {
     var n11 = m[0x0], n12 = m[0x4], n13 = m[0x8], n14 = m[0xC];
     var n21 = m[0x1], n22 = m[0x5], n23 = m[0x9], n24 = m[0xD];
     var n31 = m[0x2], n32 = m[0x6], n33 = m[0xA], n34 = m[0xE];

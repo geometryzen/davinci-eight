@@ -52,14 +52,14 @@ var ModelE3 = (function () {
         enumerable: true,
         configurable: true
     });
+    /**
+     * The name of the property that designates the attitude.
+     */
+    ModelE3.PROP_ATTITUDE = 'R';
+    /**
+     * The name of the property that designates the position.
+     */
+    ModelE3.PROP_POSITION = 'X';
     return ModelE3;
 }());
-/**
- * The name of the property that designates the attitude.
- */
-ModelE3.PROP_ATTITUDE = 'R';
-/**
- * The name of the property that designates the position.
- */
-ModelE3.PROP_POSITION = 'X';
 exports.ModelE3 = ModelE3;

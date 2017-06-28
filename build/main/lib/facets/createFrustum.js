@@ -4,7 +4,7 @@ var createView_1 = require("./createView");
 var Matrix4_1 = require("../math/Matrix4");
 var Vector1_1 = require("../math/Vector1");
 function createFrustum(viewMatrixName, projectionMatrixName) {
-    var base = createView_1.createView(viewMatrixName);
+    var base = createView_1.createView({ viewMatrixName: viewMatrixName });
     var left = new Vector1_1.Vector1();
     var right = new Vector1_1.Vector1();
     var bottom = new Vector1_1.Vector1();

@@ -37,9 +37,7 @@ function isDefined(arg) {
 /**
  * throws name + " must " + message + [" in " + context] + "."
  */
-/**
- * throws name + " must " + message + [" in " + context] + "."
- */ function mustSatisfy(name, condition, messageBuilder, contextBuilder) {
+function mustSatisfy(name, condition, messageBuilder, contextBuilder) {
     if (!condition) {
         var message = messageBuilder ? messageBuilder() : "satisfy some condition";
         var context = contextBuilder ? " in " + contextBuilder() : "";
@@ -1113,9 +1111,7 @@ function lcoG3(a, b, out) {
 /**
  * Sets the lock on the argument and returns the same argument.
  */
-/**
- * Sets the lock on the argument and returns the same argument.
- */ function lock(m) {
+function lock(m) {
     m.lock();
     return m;
 }
@@ -1265,10 +1261,7 @@ function maskG3(arg) {
  * Multiplication of Geometric3.
  * This was originally written for asm.
  */
-/**
- * Multiplication of Geometric3.
- * This was originally written for asm.
- */ function mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
+function mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
     switch (index) {
         case 0: {
             return a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7;
@@ -1303,9 +1296,7 @@ function maskG3(arg) {
 /**
  * Computes a random number within the specified range.
  */
-/**
- * Computes a random number within the specified range.
- */ function randomRange(a, b) {
+function randomRange(a, b) {
     return (b - a) * Math.random() + a;
 }
 
@@ -1409,27 +1400,21 @@ function quadVectorE3(vector) {
 /**
  * Computes the z component of the cross-product of Cartesian vector components.
  */
-/**
- * Computes the z component of the cross-product of Cartesian vector components.
- */ function wedgeXY(ax, ay, az, bx, by, bz) {
+function wedgeXY(ax, ay, az, bx, by, bz) {
     return ax * by - ay * bx;
 }
 
 /**
  * Computes the x component of the cross-product of Cartesian vector components.
  */
-/**
- * Computes the x component of the cross-product of Cartesian vector components.
- */ function wedgeYZ(ax, ay, az, bx, by, bz) {
+function wedgeYZ(ax, ay, az, bx, by, bz) {
     return ay * bz - az * by;
 }
 
 /**
  * Computes the y component of the cross-product of Cartesian vector components.
  */
-/**
- * Computes the y component of the cross-product of Cartesian vector components.
- */ function wedgeZX(ax, ay, az, bx, by, bz) {
+function wedgeZX(ax, ay, az, bx, by, bz) {
     return az * bx - ax * bz;
 }
 
@@ -3924,38 +3909,38 @@ var Geometric3 = (function () {
         if (lock$$1 === void 0) { lock$$1 = false; }
         return lock$$1 ? Geometric3.ZERO : new Geometric3(zero());
     };
+    /**
+     * The identity element for addition, `0`.
+     * The multivector is locked.
+     */
+    Geometric3.ZERO = new Geometric3(scalar(0));
+    /**
+     * The identity element for multiplication, `1`.
+     * The multivector is locked (immutable), but may be cloned.
+     */
+    Geometric3.ONE = new Geometric3(scalar(1));
+    /**
+     * The basis element corresponding to the vector `x` coordinate.
+     * The multivector is locked (immutable), but may be cloned.
+     */
+    Geometric3.E1 = new Geometric3(vector(1, 0, 0));
+    /**
+     * The basis element corresponding to the vector `y` coordinate.
+     * The multivector is locked (immutable), but may be cloned.
+     */
+    Geometric3.E2 = new Geometric3(vector(0, 1, 0));
+    /**
+     * The basis element corresponding to the vector `z` coordinate.
+     * The multivector is locked (immutable), but may be cloned.
+     */
+    Geometric3.E3 = new Geometric3(vector(0, 0, 1));
+    /**
+     * The basis element corresponding to the pseudoscalar `b` coordinate.
+     * The multivector is locked (immutable), but may be cloned.
+     */
+    Geometric3.PSEUDO = new Geometric3(pseudo(1));
     return Geometric3;
 }());
-/**
- * The identity element for addition, `0`.
- * The multivector is locked.
- */
-Geometric3.ZERO = new Geometric3(scalar(0));
-/**
- * The identity element for multiplication, `1`.
- * The multivector is locked (immutable), but may be cloned.
- */
-Geometric3.ONE = new Geometric3(scalar(1));
-/**
- * The basis element corresponding to the vector `x` coordinate.
- * The multivector is locked (immutable), but may be cloned.
- */
-Geometric3.E1 = new Geometric3(vector(1, 0, 0));
-/**
- * The basis element corresponding to the vector `y` coordinate.
- * The multivector is locked (immutable), but may be cloned.
- */
-Geometric3.E2 = new Geometric3(vector(0, 1, 0));
-/**
- * The basis element corresponding to the vector `z` coordinate.
- * The multivector is locked (immutable), but may be cloned.
- */
-Geometric3.E3 = new Geometric3(vector(0, 0, 1));
-/**
- * The basis element corresponding to the pseudoscalar `b` coordinate.
- * The multivector is locked (immutable), but may be cloned.
- */
-Geometric3.PSEUDO = new Geometric3(pseudo(1));
 applyMixins(Geometric3, [LockableMixin]);
 Geometric3.E1.lock();
 Geometric3.E2.lock();
@@ -3993,9 +3978,7 @@ function getViewAttitude(eye, look, up, R) {
 /**
  * Computes the dot product of the Cartesian components in a Euclidean metric
  */
-/**
- * Computes the dot product of the Cartesian components in a Euclidean metric
- */ function dotVectorCartesianE3(ax, ay, az, bx, by, bz) {
+function dotVectorCartesianE3(ax, ay, az, bx, by, bz) {
     return ax * bx + ay * by + az * bz;
 }
 
@@ -5114,16 +5097,16 @@ var Spinor3 = (function () {
         var xy = wedgeXY(ax, ay, az, bx, by, bz);
         return Spinor3.spinor(yz, zx, xy, 0);
     };
+    /**
+     *
+     */
+    Spinor3.one = Spinor3.spinor(0, 0, 0, 1);
+    /**
+     *
+     */
+    Spinor3.zero = Spinor3.spinor(0, 0, 0, 0);
     return Spinor3;
 }());
-/**
- *
- */
-Spinor3.one = Spinor3.spinor(0, 0, 0, 1);
-/**
- *
- */
-Spinor3.zero = Spinor3.spinor(0, 0, 0, 0);
 applyMixins(Spinor3, [LockableMixin]);
 Spinor3.one.lock();
 Spinor3.zero.lock();
@@ -5337,9 +5320,7 @@ var AbstractMatrix = (function () {
 /**
  * Computes the determinant of a 3x3 (square) matrix where the elements are assumed to be in column-major order.
  */
-/**
- * Computes the determinant of a 3x3 (square) matrix where the elements are assumed to be in column-major order.
- */ function det3x3(m) {
+function det3x3(m) {
     var m00 = m[0x0], m01 = m[0x3], m02 = m[0x6];
     var m10 = m[0x1], m11 = m[0x4], m12 = m[0x7];
     var m20 = m[0x2], m21 = m[0x5], m22 = m[0x8];
@@ -5863,18 +5844,18 @@ var Matrix3 = (function (_super) {
     Matrix3.translation = function (d) {
         return Matrix3.zero.clone().translation(d);
     };
+    /**
+     * The identity matrix for multiplication.
+     * The matrix is locked (immutable), but may be cloned.
+     */
+    Matrix3.one = lock(new Matrix3(new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1])));
+    /**
+     * The identity matrix for addition.
+     * The matrix is locked (immutable), but may be cloned.
+     */
+    Matrix3.zero = lock(new Matrix3(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0])));
     return Matrix3;
 }(AbstractMatrix));
-/**
- * The identity matrix for multiplication.
- * The matrix is locked (immutable), but may be cloned.
- */
-Matrix3.one = lock(new Matrix3(new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1])));
-/**
- * The identity matrix for addition.
- * The matrix is locked (immutable), but may be cloned.
- */
-Matrix3.zero = lock(new Matrix3(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0])));
 
 var sqrt$2 = Math.sqrt;
 var COORD_X$3 = 0;
@@ -7150,9 +7131,9 @@ var Vector2 = (function () {
     Vector2.vector = function (x, y) {
         return new Vector2([x, y]);
     };
+    Vector2.zero = Vector2.vector(0, 0);
     return Vector2;
 }());
-Vector2.zero = Vector2.vector(0, 0);
 applyMixins(Vector2, [LockableMixin]);
 Vector2.zero.lock();
 
@@ -7975,11 +7956,7 @@ var Attrib = (function () {
  *
  * https://www.khronos.org/registry/webgl/specs/1.0/
  */
-/**
- * The enumerated modes of drawing WebGL primitives.
- *
- * https://www.khronos.org/registry/webgl/specs/1.0/
- */ 
+
 (function (BeginMode) {
     BeginMode[BeginMode["POINTS"] = 0] = "POINTS";
     BeginMode[BeginMode["LINES"] = 1] = "LINES";
@@ -8016,9 +7993,7 @@ var Attrib = (function () {
 /**
  * A capability that may be enabled or disabled for a WebGLRenderingContext.
  */
-/**
- * A capability that may be enabled or disabled for a WebGLRenderingContext.
- */ 
+
 (function (Capability) {
     /**
      * Let polygons be culled.
@@ -8320,9 +8295,7 @@ function mustBeLE(name, value, limit, contextBuilder) {
 /**
  * Converts the angle specified into one in the closed interval [0, Math.PI]
  */
-/**
- * Converts the angle specified into one in the closed interval [0, Math.PI]
- */ function principalAngle(angle) {
+function principalAngle(angle) {
     if (angle > 2 * Math.PI) {
         return principalAngle(angle - 2 * Math.PI);
     }
@@ -8337,7 +8310,7 @@ function mustBeLE(name, value, limit, contextBuilder) {
 var COORD_R = 0;
 var COORD_G = 1;
 var COORD_B = 2;
-var rgb255 = function (red, green, blue) {
+var rgb255 = function rgb255(red, green, blue) {
     var UBYTEMAX = 255;
     return new Color(red / UBYTEMAX, green / UBYTEMAX, blue / UBYTEMAX);
 };
@@ -8736,11 +8709,7 @@ Color.teal = lock(rgb255(56, 142, 142));
  *
  * https://www.khronos.org/registry/webgl/specs/1.0/
  */
-/**
- * DataType with values from WebGLRenderingContextBase.
- *
- * https://www.khronos.org/registry/webgl/specs/1.0/
- */ 
+
 (function (DataType) {
     DataType[DataType["BYTE"] = 5120] = "BYTE";
     DataType[DataType["UNSIGNED_BYTE"] = 5121] = "UNSIGNED_BYTE";
@@ -8777,112 +8746,112 @@ function exchange(mine, yours) {
 var GraphicsProgramSymbols = (function () {
     function GraphicsProgramSymbols() {
     }
+    /**
+     * 'aColor'
+     */
+    GraphicsProgramSymbols.ATTRIBUTE_COLOR = 'aColor';
+    /**
+     * 'aGeometryIndex'
+     */
+    GraphicsProgramSymbols.ATTRIBUTE_GEOMETRY_INDEX = 'aGeometryIndex';
+    /**
+     * 'aNormal'
+     */
+    GraphicsProgramSymbols.ATTRIBUTE_NORMAL = 'aNormal';
+    /**
+     * 'aOpacity'
+     */
+    GraphicsProgramSymbols.ATTRIBUTE_OPACITY = 'aOpacity';
+    /**
+     * 'aPosition'
+     */
+    GraphicsProgramSymbols.ATTRIBUTE_POSITION = 'aPosition';
+    /**
+     * 'aTangent'
+     */
+    GraphicsProgramSymbols.ATTRIBUTE_TANGENT = 'aTangent';
+    /**
+     * 'aCoords'
+     */
+    GraphicsProgramSymbols.ATTRIBUTE_COORDS = 'aCoords';
+    /**
+     * 'uAlpha'
+     */
+    GraphicsProgramSymbols.UNIFORM_ALPHA = 'uAlpha';
+    /**
+     * 'uAmbientLight'
+     */
+    GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT = 'uAmbientLight';
+    /**
+     * 'uColor'
+     */
+    GraphicsProgramSymbols.UNIFORM_COLOR = 'uColor';
+    /**
+     * 'uDirectionalLightColor'
+     */
+    GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR = 'uDirectionalLightColor';
+    /**
+     * 'uDirectionalLightDirection'
+     */
+    GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION = 'uDirectionalLightDirection';
+    /**
+     * 'uImage'
+     */
+    GraphicsProgramSymbols.UNIFORM_IMAGE = 'uImage';
+    /**
+     * 'uOpacity'
+     */
+    GraphicsProgramSymbols.UNIFORM_OPACITY = 'uOpacity';
+    /**
+     * 'uPointLightColor'
+     */
+    GraphicsProgramSymbols.UNIFORM_POINT_LIGHT_COLOR = 'uPointLightColor';
+    /**
+     * 'uPointLightPosition'
+     */
+    GraphicsProgramSymbols.UNIFORM_POINT_LIGHT_POSITION = 'uPointLightPosition';
+    /**
+     * 'uPointSize'
+     */
+    GraphicsProgramSymbols.UNIFORM_POINT_SIZE = 'uPointSize';
+    /**
+     * 'uProjection'
+     */
+    GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX = 'uProjection';
+    /**
+     * 'uReflectionOne'
+     */
+    GraphicsProgramSymbols.UNIFORM_REFLECTION_ONE_MATRIX = 'uReflectionOne';
+    /**
+     * 'uReflectionTwo'
+     */
+    GraphicsProgramSymbols.UNIFORM_REFLECTION_TWO_MATRIX = 'uReflectionTwo';
+    /**
+     * 'uModel'
+     */
+    GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX = 'uModel';
+    /**
+     * 'uNormal'
+     */
+    GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX = 'uNormal';
+    /**
+     * 'uView'
+     */
+    GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX = 'uView';
+    /**
+     * 'vColor'
+     */
+    GraphicsProgramSymbols.VARYING_COLOR = 'vColor';
+    /**
+     * 'vCoords'
+     */
+    GraphicsProgramSymbols.VARYING_COORDS = 'vCoords';
+    /**
+     * 'vLight'
+     */
+    GraphicsProgramSymbols.VARYING_LIGHT = 'vLight';
     return GraphicsProgramSymbols;
 }());
-/**
- * 'aColor'
- */
-GraphicsProgramSymbols.ATTRIBUTE_COLOR = 'aColor';
-/**
- * 'aGeometryIndex'
- */
-GraphicsProgramSymbols.ATTRIBUTE_GEOMETRY_INDEX = 'aGeometryIndex';
-/**
- * 'aNormal'
- */
-GraphicsProgramSymbols.ATTRIBUTE_NORMAL = 'aNormal';
-/**
- * 'aOpacity'
- */
-GraphicsProgramSymbols.ATTRIBUTE_OPACITY = 'aOpacity';
-/**
- * 'aPosition'
- */
-GraphicsProgramSymbols.ATTRIBUTE_POSITION = 'aPosition';
-/**
- * 'aTangent'
- */
-GraphicsProgramSymbols.ATTRIBUTE_TANGENT = 'aTangent';
-/**
- * 'aCoords'
- */
-GraphicsProgramSymbols.ATTRIBUTE_COORDS = 'aCoords';
-/**
- * 'uAlpha'
- */
-GraphicsProgramSymbols.UNIFORM_ALPHA = 'uAlpha';
-/**
- * 'uAmbientLight'
- */
-GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT = 'uAmbientLight';
-/**
- * 'uColor'
- */
-GraphicsProgramSymbols.UNIFORM_COLOR = 'uColor';
-/**
- * 'uDirectionalLightColor'
- */
-GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR = 'uDirectionalLightColor';
-/**
- * 'uDirectionalLightDirection'
- */
-GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION = 'uDirectionalLightDirection';
-/**
- * 'uImage'
- */
-GraphicsProgramSymbols.UNIFORM_IMAGE = 'uImage';
-/**
- * 'uOpacity'
- */
-GraphicsProgramSymbols.UNIFORM_OPACITY = 'uOpacity';
-/**
- * 'uPointLightColor'
- */
-GraphicsProgramSymbols.UNIFORM_POINT_LIGHT_COLOR = 'uPointLightColor';
-/**
- * 'uPointLightPosition'
- */
-GraphicsProgramSymbols.UNIFORM_POINT_LIGHT_POSITION = 'uPointLightPosition';
-/**
- * 'uPointSize'
- */
-GraphicsProgramSymbols.UNIFORM_POINT_SIZE = 'uPointSize';
-/**
- * 'uProjection'
- */
-GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX = 'uProjection';
-/**
- * 'uReflectionOne'
- */
-GraphicsProgramSymbols.UNIFORM_REFLECTION_ONE_MATRIX = 'uReflectionOne';
-/**
- * 'uReflectionTwo'
- */
-GraphicsProgramSymbols.UNIFORM_REFLECTION_TWO_MATRIX = 'uReflectionTwo';
-/**
- * 'uModel'
- */
-GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX = 'uModel';
-/**
- * 'uNormal'
- */
-GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX = 'uNormal';
-/**
- * 'uView'
- */
-GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX = 'uView';
-/**
- * 'vColor'
- */
-GraphicsProgramSymbols.VARYING_COLOR = 'vColor';
-/**
- * 'vCoords'
- */
-GraphicsProgramSymbols.VARYING_COORDS = 'vCoords';
-/**
- * 'vLight'
- */
-GraphicsProgramSymbols.VARYING_LIGHT = 'vLight';
 
 function isBoolean(x) {
     return (typeof x === 'boolean');
@@ -9472,10 +9441,7 @@ function synchFacets(material, drawable) {
  * An enumeration specifying the depth comparison function, which sets the conditions
  * under which the pixel will be drawn. The default value is LESS.
  */
-/**
- * An enumeration specifying the depth comparison function, which sets the conditions
- * under which the pixel will be drawn. The default value is LESS.
- */ 
+
 (function (DepthFunction) {
     /**
      * never pass
@@ -9582,9 +9548,7 @@ var GeometryBase = (function (_super) {
 /**
  * WebGLBuffer usage.
  */
-/**
- * WebGLBuffer usage.
- */ 
+
 (function (Usage) {
     /**
      * Contents of the buffer are likely to not be used often.
@@ -10139,9 +10103,7 @@ var GeometryElements = (function (_super) {
 /**
  *
  */
-/**
- *
- */ 
+
 (function (TextureParameterName) {
     TextureParameterName[TextureParameterName["TEXTURE_MAG_FILTER"] = 10240] = "TEXTURE_MAG_FILTER";
     TextureParameterName[TextureParameterName["TEXTURE_MIN_FILTER"] = 10241] = "TEXTURE_MIN_FILTER";
@@ -10541,31 +10503,29 @@ var ColorFacet = (function () {
             visitor.uniform3f(name, color.r, color.g, color.b);
         }
     };
+    /**
+     *
+     */
+    ColorFacet.PROP_RGB = 'rgb';
+    /**
+     *
+     */
+    ColorFacet.PROP_RED = 'r';
+    /**
+     *
+     */
+    ColorFacet.PROP_GREEN = 'g';
+    /**
+     *
+     */
+    ColorFacet.PROP_BLUE = 'b';
     return ColorFacet;
 }());
-/**
- *
- */
-ColorFacet.PROP_RGB = 'rgb';
-/**
- *
- */
-ColorFacet.PROP_RED = 'r';
-/**
- *
- */
-ColorFacet.PROP_GREEN = 'g';
-/**
- *
- */
-ColorFacet.PROP_BLUE = 'b';
 
 /**
  * Computes the determinant of a 4x4 (square) matrix where the elements are assumed to be in column-major order.
  */
-/**
- * Computes the determinant of a 4x4 (square) matrix where the elements are assumed to be in column-major order.
- */ function det4x4(m) {
+function det4x4(m) {
     var n11 = m[0x0], n12 = m[0x4], n13 = m[0x8], n14 = m[0xC];
     var n21 = m[0x1], n22 = m[0x5], n23 = m[0x9], n24 = m[0xD];
     var n31 = m[0x2], n32 = m[0x6], n33 = m[0xA], n34 = m[0xE];
@@ -10591,9 +10551,7 @@ ColorFacet.PROP_BLUE = 'b';
 /**
  * Computes the inverse of a 4x4 (square) matrix where the elements are assumed to be in column-major order.
  */
-/**
- * Computes the inverse of a 4x4 (square) matrix where the elements are assumed to be in column-major order.
- */ function inv4x4(src, dest) {
+function inv4x4(src, dest) {
     var n11 = src[0x0], n12 = src[0x4], n13 = src[0x8], n14 = src[0xC];
     var n21 = src[0x1], n22 = src[0x5], n23 = src[0x9], n24 = src[0xD];
     var n31 = src[0x2], n32 = src[0x6], n33 = src[0xA], n34 = src[0xE];
@@ -11158,18 +11116,18 @@ var Matrix4 = (function (_super) {
             return void 0;
         }
     };
+    /**
+     * The identity matrix for multiplication, 1.
+     * The matrix is locked (immutable), but may be cloned.
+     */
+    Matrix4.one = lock(new Matrix4(new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1])));
+    /**
+     * The identity matrix for addition, 0.
+     * The matrix is locked (immutable), but may be cloned.
+     */
+    Matrix4.zero = lock(new Matrix4(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])));
     return Matrix4;
 }(AbstractMatrix));
-/**
- * The identity matrix for multiplication, 1.
- * The matrix is locked (immutable), but may be cloned.
- */
-Matrix4.one = lock(new Matrix4(new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1])));
-/**
- * The identity matrix for addition, 0.
- * The matrix is locked (immutable), but may be cloned.
- */
-Matrix4.zero = lock(new Matrix4(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])));
 
 /**
  *
@@ -11222,16 +11180,16 @@ var ModelE3 = (function () {
         enumerable: true,
         configurable: true
     });
+    /**
+     * The name of the property that designates the attitude.
+     */
+    ModelE3.PROP_ATTITUDE = 'R';
+    /**
+     * The name of the property that designates the position.
+     */
+    ModelE3.PROP_POSITION = 'X';
     return ModelE3;
 }());
-/**
- * The name of the property that designates the attitude.
- */
-ModelE3.PROP_ATTITUDE = 'R';
-/**
- * The name of the property that designates the position.
- */
-ModelE3.PROP_POSITION = 'X';
 
 /**
  *
@@ -11410,9 +11368,7 @@ function referenceMeridian(options, fallback) {
 /**
  *
  */
-/**
- *
- */ var TextureUnit;
+var TextureUnit;
 (function (TextureUnit) {
     TextureUnit[TextureUnit["TEXTURE0"] = 33984] = "TEXTURE0";
     TextureUnit[TextureUnit["TEXTURE1"] = 33985] = "TEXTURE1";
@@ -12275,9 +12231,7 @@ var Shader = (function (_super) {
 /**
  *
  */
-/**
- *
- */ 
+
 (function (TextureMagFilter) {
     TextureMagFilter[TextureMagFilter["NEAREST"] = 9728] = "NEAREST";
     TextureMagFilter[TextureMagFilter["LINEAR"] = 9729] = "LINEAR";
@@ -12286,9 +12240,7 @@ var Shader = (function (_super) {
 /**
  *
  */
-/**
- *
- */ 
+
 (function (TextureMinFilter) {
     TextureMinFilter[TextureMinFilter["NEAREST"] = 9728] = "NEAREST";
     TextureMinFilter[TextureMinFilter["LINEAR"] = 9729] = "LINEAR";
@@ -12301,9 +12253,7 @@ var Shader = (function (_super) {
 /**
  *
  */
-/**
- *
- */ 
+
 (function (TextureTarget) {
     TextureTarget[TextureTarget["TEXTURE_2D"] = 3553] = "TEXTURE_2D";
     TextureTarget[TextureTarget["TEXTURE"] = 5890] = "TEXTURE";
@@ -12312,9 +12262,7 @@ var Shader = (function (_super) {
 /**
  *
  */
-/**
- *
- */ 
+
 (function (TextureWrapMode) {
     TextureWrapMode[TextureWrapMode["REPEAT"] = 10497] = "REPEAT";
     TextureWrapMode[TextureWrapMode["CLAMP_TO_EDGE"] = 33071] = "CLAMP_TO_EDGE";
@@ -13208,9 +13156,7 @@ var DirectionalLight = (function () {
 /**
  * Computes the determinant of a 2x2 (square) matrix where the elements are assumed to be in column-major order.
  */
-/**
- * Computes the determinant of a 2x2 (square) matrix where the elements are assumed to be in column-major order.
- */ function det2x2(m) {
+function det2x2(m) {
     var n11 = m[0x0];
     var n12 = m[0x2];
     var n21 = m[0x1];
@@ -13544,10 +13490,10 @@ var Matrix2 = (function (_super) {
     Matrix2.reflection = function (n) {
         return Matrix2.zero.clone().reflection(n);
     };
+    Matrix2.one = lock(new Matrix2(new Float32Array([1, 0, 0, 1])));
+    Matrix2.zero = lock(new Matrix2(new Float32Array([0, 0, 0, 0])));
     return Matrix2;
 }(AbstractMatrix));
-Matrix2.one = lock(new Matrix2(new Float32Array([1, 0, 0, 1])));
-Matrix2.zero = lock(new Matrix2(new Float32Array([0, 0, 0, 0])));
 
 /**
  *
@@ -14283,9 +14229,7 @@ function rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, index) {
 /**
  * Computes the dot product of the Cartesian components in a Euclidean metric
  */
-/**
- * Computes the dot product of the Cartesian components in a Euclidean metric
- */ function dotVectorCartesianE2(ax, ay, bx, by) {
+function dotVectorCartesianE2(ax, ay, bx, by) {
     return ax * bx + ay * by;
 }
 
@@ -15707,49 +15651,49 @@ var Geometric2 = (function () {
         if (lock$$1 === void 0) { lock$$1 = false; }
         return lock$$1 ? Geometric2.ZERO : new Geometric2(zero$1());
     };
+    /**
+     *
+     */
+    Geometric2.BASIS_LABELS = STANDARD_LABELS;
+    /**
+     *
+     */
+    Geometric2.BASIS_LABELS_COMPASS = COMPASS_LABELS;
+    /**
+     *
+     */
+    Geometric2.BASIS_LABELS_GEOMETRIC = ARROW_LABELS;
+    /**
+     *
+     */
+    Geometric2.BASIS_LABELS_STANDARD = STANDARD_LABELS;
+    /**
+     * The basis element corresponding to the vector `x` coordinate.
+     * The multivector is locked (immutable), but may be cloned.
+     */
+    Geometric2.E1 = new Geometric2(vector$1(1, 0));
+    /**
+     * The basis element corresponding to the vector `y` coordinate.
+     * The multivector is locked (immutable), but may be cloned.
+     */
+    Geometric2.E2 = new Geometric2(vector$1(0, 1));
+    /**
+     * The identity element for addition, `0`.
+     * The multivector is locked.
+     */
+    Geometric2.PSEUDO = new Geometric2(pseudo$1(1));
+    /**
+     * The identity element for multiplication, `1`.
+     * The multivector is locked (immutable), but may be cloned.
+     */
+    Geometric2.ONE = new Geometric2(scalar$1(1));
+    /**
+     * The identity element for addition, `0`.
+     * The multivector is locked.
+     */
+    Geometric2.ZERO = new Geometric2(scalar$1(0));
     return Geometric2;
 }());
-/**
- *
- */
-Geometric2.BASIS_LABELS = STANDARD_LABELS;
-/**
- *
- */
-Geometric2.BASIS_LABELS_COMPASS = COMPASS_LABELS;
-/**
- *
- */
-Geometric2.BASIS_LABELS_GEOMETRIC = ARROW_LABELS;
-/**
- *
- */
-Geometric2.BASIS_LABELS_STANDARD = STANDARD_LABELS;
-/**
- * The basis element corresponding to the vector `x` coordinate.
- * The multivector is locked (immutable), but may be cloned.
- */
-Geometric2.E1 = new Geometric2(vector$1(1, 0));
-/**
- * The basis element corresponding to the vector `y` coordinate.
- * The multivector is locked (immutable), but may be cloned.
- */
-Geometric2.E2 = new Geometric2(vector$1(0, 1));
-/**
- * The identity element for addition, `0`.
- * The multivector is locked.
- */
-Geometric2.PSEUDO = new Geometric2(pseudo$1(1));
-/**
- * The identity element for multiplication, `1`.
- * The multivector is locked (immutable), but may be cloned.
- */
-Geometric2.ONE = new Geometric2(scalar$1(1));
-/**
- * The identity element for addition, `0`.
- * The multivector is locked.
- */
-Geometric2.ZERO = new Geometric2(scalar$1(0));
 applyMixins(Geometric2, [LockableMixin]);
 Geometric2.E1.lock();
 Geometric2.E2.lock();
@@ -15810,16 +15754,16 @@ var ModelE2 = (function () {
         enumerable: true,
         configurable: true
     });
+    /**
+     * The name of the property that designates the attitude.
+     */
+    ModelE2.PROP_ATTITUDE = 'R';
+    /**
+     * The name of the property that designates the position.
+     */
+    ModelE2.PROP_POSITION = 'X';
     return ModelE2;
 }());
-/**
- * The name of the property that designates the attitude.
- */
-ModelE2.PROP_ATTITUDE = 'R';
-/**
- * The name of the property that designates the position.
- */
-ModelE2.PROP_POSITION = 'X';
 
 function isVectorN(values) {
     return Array.isArray(values);
@@ -17825,9 +17769,7 @@ var ArrowBuilder = (function (_super) {
 /**
  * The common low values for a Simplex.
  */
-/**
- * The common low values for a Simplex.
- */ var SimplexMode;
+var SimplexMode;
 (function (SimplexMode) {
     SimplexMode[SimplexMode["EMPTY"] = -1] = "EMPTY";
     SimplexMode[SimplexMode["POINT"] = 0] = "POINT";
@@ -18021,9 +17963,7 @@ var Simplex = (function () {
 /**
  * Determines how a Geometry will be rendered.
  */
-/**
- * Determines how a Geometry will be rendered.
- */ 
+
 (function (GeometryMode) {
     /**
      *

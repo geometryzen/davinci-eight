@@ -3,11 +3,7 @@
  *
  * https://www.khronos.org/registry/webgl/specs/1.0/
  */
-/**
- * DataType with values from WebGLRenderingContextBase.
- *
- * https://www.khronos.org/registry/webgl/specs/1.0/
- */ export var DataType;
+export var DataType;
 (function (DataType) {
     DataType[DataType["BYTE"] = 5120] = "BYTE";
     DataType[DataType["UNSIGNED_BYTE"] = 5121] = "UNSIGNED_BYTE";

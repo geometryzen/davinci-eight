@@ -28,6 +28,14 @@ export interface CurveOptions {
      */
     aOpacity?: (u: number) => number;
     /**
+     *
+     */
+    color?: {
+        r: number;
+        g: number;
+        b: number;
+    };
+    /**
      * Specifies the required Geometric Primitive Type.
      * Implementations may choose the nearest type.
      *

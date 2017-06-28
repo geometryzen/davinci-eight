@@ -331,8 +331,8 @@ var Matrix2 = (function (_super) {
     Matrix2.reflection = function (n) {
         return Matrix2.zero.clone().reflection(n);
     };
+    Matrix2.one = lock(new Matrix2(new Float32Array([1, 0, 0, 1])));
+    Matrix2.zero = lock(new Matrix2(new Float32Array([0, 0, 0, 0])));
     return Matrix2;
 }(AbstractMatrix));
 export { Matrix2 };
-Matrix2.one = lock(new Matrix2(new Float32Array([1, 0, 0, 1])));
-Matrix2.zero = lock(new Matrix2(new Float32Array([0, 0, 0, 0])));

@@ -2,10 +2,7 @@
  * An enumeration specifying the depth comparison function, which sets the conditions
  * under which the pixel will be drawn. The default value is LESS.
  */
-/**
- * An enumeration specifying the depth comparison function, which sets the conditions
- * under which the pixel will be drawn. The default value is LESS.
- */ export var DepthFunction;
+export var DepthFunction;
 (function (DepthFunction) {
     /**
      * never pass

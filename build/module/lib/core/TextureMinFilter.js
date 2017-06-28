@@ -1,9 +1,7 @@
 /**
  *
  */
-/**
- *
- */ export var TextureMinFilter;
+export var TextureMinFilter;
 (function (TextureMinFilter) {
     TextureMinFilter[TextureMinFilter["NEAREST"] = 9728] = "NEAREST";
     TextureMinFilter[TextureMinFilter["LINEAR"] = 9729] = "LINEAR";

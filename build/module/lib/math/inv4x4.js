@@ -1,9 +1,7 @@
 /**
  * Computes the inverse of a 4x4 (square) matrix where the elements are assumed to be in column-major order.
  */
-/**
- * Computes the inverse of a 4x4 (square) matrix where the elements are assumed to be in column-major order.
- */ export function inv4x4(src, dest) {
+export function inv4x4(src, dest) {
     var n11 = src[0x0], n12 = src[0x4], n13 = src[0x8], n14 = src[0xC];
     var n21 = src[0x1], n22 = src[0x5], n23 = src[0x9], n24 = src[0xD];
     var n31 = src[0x2], n32 = src[0x6], n33 = src[0xA], n34 = src[0xE];

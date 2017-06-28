@@ -11,7 +11,7 @@ const COORD_R = 0;
 const COORD_G = 1;
 const COORD_B = 2;
 
-const rgb255 = function (red: number, green: number, blue: number): Color {
+const rgb255 = function rgb255(red: number, green: number, blue: number): Color {
     const UBYTEMAX = 255;
     return new Color(red / UBYTEMAX, green / UBYTEMAX, blue / UBYTEMAX);
 };
@@ -24,87 +24,87 @@ export class Color extends Coords {
     /**
      *
      */
-    static readonly black = lock(new Color(0, 0, 0));
+    static black: Color;
 
     /**
      *
      */
-    static readonly blue = lock(new Color(0, 0, 1));
+    static blue: Color;
 
     /**
      *
      */
-    static readonly green = lock(new Color(0, 1, 0));
+    static green: Color;
 
     /**
      *
      */
-    static readonly cyan = lock(new Color(0, 1, 1));
+    static cyan: Color;
 
     /**
      *
      */
-    static readonly red = lock(new Color(1, 0, 0));
+    static red: Color;
 
     /**
      *
      */
-    static readonly magenta = lock(new Color(1, 0, 1));
+    static magenta: Color;
 
     /**
      *
      */
-    static readonly yellow = lock(new Color(1, 1, 0));
+    static yellow: Color;
 
     /**
      *
      */
-    static readonly white = lock(new Color(1, 1, 1));
+    static white: Color;
 
     /**
      *
      */
-    static readonly gray = lock(new Color(0.5, 0.5, 0.5));
+    static gray: Color;
 
     /**
      * 
      */
-    static readonly blueviolet = lock(rgb255(138, 43, 226));
+    static blueviolet: Color;
 
     /**
      * 
      */
-    static readonly chartreuse = lock(rgb255(127, 255, 0));
+    static chartreuse: Color;
 
     /**
      * 
      */
-    static readonly cobalt = lock(rgb255(61, 89, 171));
+    static cobalt: Color;
 
     /**
      * 
      */
-    static readonly hotpink = lock(rgb255(255, 105, 180));
+    static hotpink: Color;
 
     /**
      * 
      */
-    static readonly lime = lock(rgb255(0, 255, 0));
+    static lime: Color;
 
     /**
      * 
      */
-    static readonly slateblue = lock(rgb255(113, 113, 198));
+    static slateblue: Color;
 
     /**
      * 
      */
-    static readonly springgreen = lock(rgb255(0, 255, 127));
+    static springgreen: Color;
 
     /**
      * 
      */
-    static readonly teal = lock(rgb255(56, 142, 142));
+    static teal: Color;
 
     constructor(r: number, g: number, b: number) {
         super([r, g, b], false, 3);
@@ -417,3 +417,89 @@ export class Color extends Coords {
         return Color.fromRGB(Math.random(), Math.random(), Math.random());
     }
 }
+
+/**
+ *
+ */
+Color.black = lock(new Color(0, 0, 0));
+
+/**
+ *
+ */
+Color.blue = lock(new Color(0, 0, 1));
+
+/**
+ *
+ */
+Color.green = lock(new Color(0, 1, 0));
+
+/**
+ *
+ */
+Color.cyan = lock(new Color(0, 1, 1));
+
+/**
+ *
+ */
+Color.red = lock(new Color(1, 0, 0));
+
+/**
+ *
+ */
+Color.magenta = lock(new Color(1, 0, 1));
+
+/**
+ *
+ */
+Color.yellow = lock(new Color(1, 1, 0));
+
+/**
+ *
+ */
+Color.white = lock(new Color(1, 1, 1));
+
+/**
+ *
+ */
+Color.gray = lock(new Color(0.5, 0.5, 0.5));
+
+/**
+ * 
+ */
+Color.blueviolet = lock(rgb255(138, 43, 226));
+
+/**
+ * 
+ */
+Color.chartreuse = lock(rgb255(127, 255, 0));
+
+/**
+ * 
+ */
+Color.cobalt = lock(rgb255(61, 89, 171));
+
+/**
+ * 
+ */
+Color.hotpink = lock(rgb255(255, 105, 180));
+
+/**
+ * 
+ */
+Color.lime = lock(rgb255(0, 255, 0));
+
+/**
+ * 
+ */
+Color.slateblue = lock(rgb255(113, 113, 198));
+
+/**
+ * 
+ */
+Color.springgreen = lock(rgb255(0, 255, 127));
+
+/**
+ * 
+ */
+Color.teal = lock(rgb255(56, 142, 142));
+

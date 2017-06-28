@@ -1,9 +1,7 @@
 /**
  *
  */
-/**
- *
- */ export var TextureParameterName;
+export var TextureParameterName;
 (function (TextureParameterName) {
     TextureParameterName[TextureParameterName["TEXTURE_MAG_FILTER"] = 10240] = "TEXTURE_MAG_FILTER";
     TextureParameterName[TextureParameterName["TEXTURE_MIN_FILTER"] = 10241] = "TEXTURE_MIN_FILTER";

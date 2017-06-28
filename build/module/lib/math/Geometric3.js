@@ -2162,39 +2162,39 @@ var Geometric3 = (function () {
         if (lock === void 0) { lock = false; }
         return lock ? Geometric3.ZERO : new Geometric3(zero());
     };
+    /**
+     * The identity element for addition, `0`.
+     * The multivector is locked.
+     */
+    Geometric3.ZERO = new Geometric3(scalar(0));
+    /**
+     * The identity element for multiplication, `1`.
+     * The multivector is locked (immutable), but may be cloned.
+     */
+    Geometric3.ONE = new Geometric3(scalar(1));
+    /**
+     * The basis element corresponding to the vector `x` coordinate.
+     * The multivector is locked (immutable), but may be cloned.
+     */
+    Geometric3.E1 = new Geometric3(vector(1, 0, 0));
+    /**
+     * The basis element corresponding to the vector `y` coordinate.
+     * The multivector is locked (immutable), but may be cloned.
+     */
+    Geometric3.E2 = new Geometric3(vector(0, 1, 0));
+    /**
+     * The basis element corresponding to the vector `z` coordinate.
+     * The multivector is locked (immutable), but may be cloned.
+     */
+    Geometric3.E3 = new Geometric3(vector(0, 0, 1));
+    /**
+     * The basis element corresponding to the pseudoscalar `b` coordinate.
+     * The multivector is locked (immutable), but may be cloned.
+     */
+    Geometric3.PSEUDO = new Geometric3(pseudo(1));
     return Geometric3;
 }());
 export { Geometric3 };
-/**
- * The identity element for addition, `0`.
- * The multivector is locked.
- */
-Geometric3.ZERO = new Geometric3(scalar(0));
-/**
- * The identity element for multiplication, `1`.
- * The multivector is locked (immutable), but may be cloned.
- */
-Geometric3.ONE = new Geometric3(scalar(1));
-/**
- * The basis element corresponding to the vector `x` coordinate.
- * The multivector is locked (immutable), but may be cloned.
- */
-Geometric3.E1 = new Geometric3(vector(1, 0, 0));
-/**
- * The basis element corresponding to the vector `y` coordinate.
- * The multivector is locked (immutable), but may be cloned.
- */
-Geometric3.E2 = new Geometric3(vector(0, 1, 0));
-/**
- * The basis element corresponding to the vector `z` coordinate.
- * The multivector is locked (immutable), but may be cloned.
- */
-Geometric3.E3 = new Geometric3(vector(0, 0, 1));
-/**
- * The basis element corresponding to the pseudoscalar `b` coordinate.
- * The multivector is locked (immutable), but may be cloned.
- */
-Geometric3.PSEUDO = new Geometric3(pseudo(1));
 applyMixins(Geometric3, [Lockable]);
 Geometric3.E1.lock();
 Geometric3.E2.lock();

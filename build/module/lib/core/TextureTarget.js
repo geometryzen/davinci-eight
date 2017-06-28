@@ -1,9 +1,7 @@
 /**
  *
  */
-/**
- *
- */ export var TextureTarget;
+export var TextureTarget;
 (function (TextureTarget) {
     TextureTarget[TextureTarget["TEXTURE_2D"] = 3553] = "TEXTURE_2D";
     TextureTarget[TextureTarget["TEXTURE"] = 5890] = "TEXTURE";

@@ -12,7 +12,7 @@ var principalAngle_1 = require("./principalAngle");
 var COORD_R = 0;
 var COORD_G = 1;
 var COORD_B = 2;
-var rgb255 = function (red, green, blue) {
+var rgb255 = function rgb255(red, green, blue) {
     var UBYTEMAX = 255;
     return new Color(red / UBYTEMAX, green / UBYTEMAX, blue / UBYTEMAX);
 };
@@ -337,6 +337,7 @@ var Color = (function (_super) {
     };
     return Color;
 }(Coords_1.Coords));
+exports.Color = Color;
 /**
  *
  */
@@ -405,4 +406,3 @@ Color.springgreen = Lockable_1.lock(rgb255(0, 255, 127));
  *
  */
 Color.teal = Lockable_1.lock(rgb255(56, 142, 142));
-exports.Color = Color;

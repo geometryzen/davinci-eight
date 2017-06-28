@@ -27,5 +27,18 @@ export interface ArrowOptions {
     /**
      *
      */
+    mode?: 'mesh' | 'wire' | 'point';
+    /**
+     *
+     */
+    offset?: VectorE3;
+    /**
+     *
+     */
     tilt?: SpinorE3;
+    textured?: boolean;
+    transparent?: boolean;
+    emissive?: boolean;
+    colored?: boolean;
+    reflective?: boolean;
 }

@@ -80,22 +80,22 @@ var ColorFacet = (function () {
             visitor.uniform3f(name, color.r, color.g, color.b);
         }
     };
+    /**
+     *
+     */
+    ColorFacet.PROP_RGB = 'rgb';
+    /**
+     *
+     */
+    ColorFacet.PROP_RED = 'r';
+    /**
+     *
+     */
+    ColorFacet.PROP_GREEN = 'g';
+    /**
+     *
+     */
+    ColorFacet.PROP_BLUE = 'b';
     return ColorFacet;
 }());
 export { ColorFacet };
-/**
- *
- */
-ColorFacet.PROP_RGB = 'rgb';
-/**
- *
- */
-ColorFacet.PROP_RED = 'r';
-/**
- *
- */
-ColorFacet.PROP_GREEN = 'g';
-/**
- *
- */
-ColorFacet.PROP_BLUE = 'b';

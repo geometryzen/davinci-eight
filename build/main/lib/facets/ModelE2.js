@@ -54,14 +54,14 @@ var ModelE2 = (function () {
         enumerable: true,
         configurable: true
     });
+    /**
+     * The name of the property that designates the attitude.
+     */
+    ModelE2.PROP_ATTITUDE = 'R';
+    /**
+     * The name of the property that designates the position.
+     */
+    ModelE2.PROP_POSITION = 'X';
     return ModelE2;
 }());
-/**
- * The name of the property that designates the attitude.
- */
-ModelE2.PROP_ATTITUDE = 'R';
-/**
- * The name of the property that designates the position.
- */
-ModelE2.PROP_POSITION = 'X';
 exports.ModelE2 = ModelE2;

@@ -6,71 +6,71 @@ export declare class Color extends Coords {
     /**
      *
      */
-    static readonly black: Color;
+    static black: Color;
     /**
      *
      */
-    static readonly blue: Color;
+    static blue: Color;
     /**
      *
      */
-    static readonly green: Color;
+    static green: Color;
     /**
      *
      */
-    static readonly cyan: Color;
+    static cyan: Color;
     /**
      *
      */
-    static readonly red: Color;
+    static red: Color;
     /**
      *
      */
-    static readonly magenta: Color;
+    static magenta: Color;
     /**
      *
      */
-    static readonly yellow: Color;
+    static yellow: Color;
     /**
      *
      */
-    static readonly white: Color;
+    static white: Color;
     /**
      *
      */
-    static readonly gray: Color;
+    static gray: Color;
     /**
      *
      */
-    static readonly blueviolet: Color;
+    static blueviolet: Color;
     /**
      *
      */
-    static readonly chartreuse: Color;
+    static chartreuse: Color;
     /**
      *
      */
-    static readonly cobalt: Color;
+    static cobalt: Color;
     /**
      *
      */
-    static readonly hotpink: Color;
+    static hotpink: Color;
     /**
      *
      */
-    static readonly lime: Color;
+    static lime: Color;
     /**
      *
      */
-    static readonly slateblue: Color;
+    static slateblue: Color;
     /**
      *
      */
-    static readonly springgreen: Color;
+    static springgreen: Color;
     /**
      *
      */
-    static readonly teal: Color;
+    static teal: Color;
     constructor(r: number, g: number, b: number);
     /**
      * The red coordinate (component) of this color.

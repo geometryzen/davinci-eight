@@ -8,12 +8,24 @@ export interface HollowCylinderOptions {
     /**
      *
      */
+    color?: {
+        r: number;
+        g: number;
+        b: number;
+    };
+    /**
+     *
+     */
     length?: number;
     /**
      * The starting direction for the slice.
      * A unit vector orthogonal to the height vector.
      */
     meridian?: VectorE3;
+    /**
+     *
+     */
+    offset?: VectorE3;
     /**
      * The outer radius of the cylinder.
      */

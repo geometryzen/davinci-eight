@@ -1,9 +1,7 @@
 /**
  *
  */
-/**
- *
- */ export var TextureUnit;
+export var TextureUnit;
 (function (TextureUnit) {
     TextureUnit[TextureUnit["TEXTURE0"] = 33984] = "TEXTURE0";
     TextureUnit[TextureUnit["TEXTURE1"] = 33985] = "TEXTURE1";

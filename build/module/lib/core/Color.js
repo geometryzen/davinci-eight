@@ -10,7 +10,7 @@ import { principalAngle } from './principalAngle';
 var COORD_R = 0;
 var COORD_G = 1;
 var COORD_B = 2;
-var rgb255 = function (red, green, blue) {
+var rgb255 = function rgb255(red, green, blue) {
     var UBYTEMAX = 255;
     return new Color(red / UBYTEMAX, green / UBYTEMAX, blue / UBYTEMAX);
 };

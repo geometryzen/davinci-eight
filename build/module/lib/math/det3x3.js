@@ -1,9 +1,7 @@
 /**
  * Computes the determinant of a 3x3 (square) matrix where the elements are assumed to be in column-major order.
  */
-/**
- * Computes the determinant of a 3x3 (square) matrix where the elements are assumed to be in column-major order.
- */ export function det3x3(m) {
+export function det3x3(m) {
     var m00 = m[0x0], m01 = m[0x3], m02 = m[0x6];
     var m10 = m[0x1], m11 = m[0x4], m12 = m[0x7];
     var m20 = m[0x2], m21 = m[0x5], m22 = m[0x8];

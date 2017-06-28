@@ -1,9 +1,7 @@
 /**
  * The common low values for a Simplex.
  */
-/**
- * The common low values for a Simplex.
- */ export var SimplexMode;
+export var SimplexMode;
 (function (SimplexMode) {
     SimplexMode[SimplexMode["EMPTY"] = -1] = "EMPTY";
     SimplexMode[SimplexMode["POINT"] = 0] = "POINT";

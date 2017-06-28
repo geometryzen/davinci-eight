@@ -474,16 +474,16 @@ var Matrix3 = (function (_super) {
     Matrix3.translation = function (d) {
         return Matrix3.zero.clone().translation(d);
     };
+    /**
+     * The identity matrix for multiplication.
+     * The matrix is locked (immutable), but may be cloned.
+     */
+    Matrix3.one = Lockable_1.lock(new Matrix3(new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1])));
+    /**
+     * The identity matrix for addition.
+     * The matrix is locked (immutable), but may be cloned.
+     */
+    Matrix3.zero = Lockable_1.lock(new Matrix3(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0])));
     return Matrix3;
 }(AbstractMatrix_1.AbstractMatrix));
-/**
- * The identity matrix for multiplication.
- * The matrix is locked (immutable), but may be cloned.
- */
-Matrix3.one = Lockable_1.lock(new Matrix3(new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1])));
-/**
- * The identity matrix for addition.
- * The matrix is locked (immutable), but may be cloned.
- */
-Matrix3.zero = Lockable_1.lock(new Matrix3(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0])));
 exports.Matrix3 = Matrix3;

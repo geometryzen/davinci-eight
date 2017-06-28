@@ -1085,17 +1085,17 @@ var Spinor3 = (function () {
         var xy = wedgeXY(ax, ay, az, bx, by, bz);
         return Spinor3.spinor(yz, zx, xy, 0);
     };
+    /**
+     *
+     */
+    Spinor3.one = Spinor3.spinor(0, 0, 0, 1);
+    /**
+     *
+     */
+    Spinor3.zero = Spinor3.spinor(0, 0, 0, 0);
     return Spinor3;
 }());
 export { Spinor3 };
-/**
- *
- */
-Spinor3.one = Spinor3.spinor(0, 0, 0, 1);
-/**
- *
- */
-Spinor3.zero = Spinor3.spinor(0, 0, 0, 0);
 applyMixins(Spinor3, [Lockable]);
 Spinor3.one.lock();
 Spinor3.zero.lock();

@@ -1,9 +1,7 @@
 /**
  *
  */
-/**
- *
- */ export var TextureWrapMode;
+export var TextureWrapMode;
 (function (TextureWrapMode) {
     TextureWrapMode[TextureWrapMode["REPEAT"] = 10497] = "REPEAT";
     TextureWrapMode[TextureWrapMode["CLAMP_TO_EDGE"] = 33071] = "CLAMP_TO_EDGE";

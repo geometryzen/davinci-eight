@@ -2,7 +2,7 @@ import { createView } from './createView';
 import { Matrix4 } from '../math/Matrix4';
 import { Vector1 } from '../math/Vector1';
 export function createFrustum(viewMatrixName, projectionMatrixName) {
-    var base = createView(viewMatrixName);
+    var base = createView({ viewMatrixName: viewMatrixName });
     var left = new Vector1();
     var right = new Vector1();
     var bottom = new Vector1();

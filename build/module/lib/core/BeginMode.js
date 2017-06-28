@@ -3,11 +3,7 @@
  *
  * https://www.khronos.org/registry/webgl/specs/1.0/
  */
-/**
- * The enumerated modes of drawing WebGL primitives.
- *
- * https://www.khronos.org/registry/webgl/specs/1.0/
- */ export var BeginMode;
+export var BeginMode;
 (function (BeginMode) {
     BeginMode[BeginMode["POINTS"] = 0] = "POINTS";
     BeginMode[BeginMode["LINES"] = 1] = "LINES";

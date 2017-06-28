@@ -8,7 +8,7 @@ import { Vector1 } from '../math/Vector1';
 
 export function createFrustum(viewMatrixName: string, projectionMatrixName: string): Frustum {
 
-    const base = createView(viewMatrixName);
+    const base = createView({ viewMatrixName });
     const left: Vector1 = new Vector1();
     const right: Vector1 = new Vector1();
     const bottom: Vector1 = new Vector1();

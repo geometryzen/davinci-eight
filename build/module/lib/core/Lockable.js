@@ -2,9 +2,7 @@ import * as tslib_1 from "tslib";
 /**
  * Sets the lock on the argument and returns the same argument.
  */
-/**
- * Sets the lock on the argument and returns the same argument.
- */ export function lock(m) {
+export function lock(m) {
     m.lock();
     return m;
 }

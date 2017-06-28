@@ -1,9 +1,7 @@
 /**
  * Determines how a Geometry will be rendered.
  */
-/**
- * Determines how a Geometry will be rendered.
- */ export var GeometryMode;
+export var GeometryMode;
 (function (GeometryMode) {
     /**
      *

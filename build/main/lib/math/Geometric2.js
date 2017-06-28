@@ -1386,49 +1386,49 @@ var Geometric2 = (function () {
         if (lock === void 0) { lock = false; }
         return lock ? Geometric2.ZERO : new Geometric2(zero());
     };
+    /**
+     *
+     */
+    Geometric2.BASIS_LABELS = STANDARD_LABELS;
+    /**
+     *
+     */
+    Geometric2.BASIS_LABELS_COMPASS = COMPASS_LABELS;
+    /**
+     *
+     */
+    Geometric2.BASIS_LABELS_GEOMETRIC = ARROW_LABELS;
+    /**
+     *
+     */
+    Geometric2.BASIS_LABELS_STANDARD = STANDARD_LABELS;
+    /**
+     * The basis element corresponding to the vector `x` coordinate.
+     * The multivector is locked (immutable), but may be cloned.
+     */
+    Geometric2.E1 = new Geometric2(vector(1, 0));
+    /**
+     * The basis element corresponding to the vector `y` coordinate.
+     * The multivector is locked (immutable), but may be cloned.
+     */
+    Geometric2.E2 = new Geometric2(vector(0, 1));
+    /**
+     * The identity element for addition, `0`.
+     * The multivector is locked.
+     */
+    Geometric2.PSEUDO = new Geometric2(pseudo(1));
+    /**
+     * The identity element for multiplication, `1`.
+     * The multivector is locked (immutable), but may be cloned.
+     */
+    Geometric2.ONE = new Geometric2(scalar(1));
+    /**
+     * The identity element for addition, `0`.
+     * The multivector is locked.
+     */
+    Geometric2.ZERO = new Geometric2(scalar(0));
     return Geometric2;
 }());
-/**
- *
- */
-Geometric2.BASIS_LABELS = STANDARD_LABELS;
-/**
- *
- */
-Geometric2.BASIS_LABELS_COMPASS = COMPASS_LABELS;
-/**
- *
- */
-Geometric2.BASIS_LABELS_GEOMETRIC = ARROW_LABELS;
-/**
- *
- */
-Geometric2.BASIS_LABELS_STANDARD = STANDARD_LABELS;
-/**
- * The basis element corresponding to the vector `x` coordinate.
- * The multivector is locked (immutable), but may be cloned.
- */
-Geometric2.E1 = new Geometric2(vector(1, 0));
-/**
- * The basis element corresponding to the vector `y` coordinate.
- * The multivector is locked (immutable), but may be cloned.
- */
-Geometric2.E2 = new Geometric2(vector(0, 1));
-/**
- * The identity element for addition, `0`.
- * The multivector is locked.
- */
-Geometric2.PSEUDO = new Geometric2(pseudo(1));
-/**
- * The identity element for multiplication, `1`.
- * The multivector is locked (immutable), but may be cloned.
- */
-Geometric2.ONE = new Geometric2(scalar(1));
-/**
- * The identity element for addition, `0`.
- * The multivector is locked.
- */
-Geometric2.ZERO = new Geometric2(scalar(0));
 exports.Geometric2 = Geometric2;
 applyMixins_1.applyMixins(Geometric2, [Lockable_2.LockableMixin]);
 Geometric2.E1.lock();

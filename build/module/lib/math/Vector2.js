@@ -481,9 +481,9 @@ var Vector2 = (function () {
     Vector2.vector = function (x, y) {
         return new Vector2([x, y]);
     };
+    Vector2.zero = Vector2.vector(0, 0);
     return Vector2;
 }());
 export { Vector2 };
-Vector2.zero = Vector2.vector(0, 0);
 applyMixins(Vector2, [Lockable]);
 Vector2.zero.lock();

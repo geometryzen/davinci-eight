@@ -21,6 +21,7 @@ export interface R3 extends VectorE3 {
     rotate(R: SpinorE3): Readonly<R3>;
     scale(α: number): Readonly<R3>;
     sub(rhs: VectorE3): Readonly<R3>;
+    toString(): string;
     __add__(rhs: VectorE3): Readonly<R3>;
     __radd__(lhs: VectorE3): Readonly<R3>;
     __sub__(rhs: VectorE3): Readonly<R3>;

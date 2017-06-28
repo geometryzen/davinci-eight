@@ -1,9 +1,7 @@
 /**
  * WebGLBuffer usage.
  */
-/**
- * WebGLBuffer usage.
- */ export var Usage;
+export var Usage;
 (function (Usage) {
     /**
      * Contents of the buffer are likely to not be used often.

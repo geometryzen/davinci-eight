@@ -333,8 +333,8 @@ var Matrix2 = (function (_super) {
     Matrix2.reflection = function (n) {
         return Matrix2.zero.clone().reflection(n);
     };
+    Matrix2.one = Lockable_1.lock(new Matrix2(new Float32Array([1, 0, 0, 1])));
+    Matrix2.zero = Lockable_1.lock(new Matrix2(new Float32Array([0, 0, 0, 0])));
     return Matrix2;
 }(AbstractMatrix_1.AbstractMatrix));
-Matrix2.one = Lockable_1.lock(new Matrix2(new Float32Array([1, 0, 0, 1])));
-Matrix2.zero = Lockable_1.lock(new Matrix2(new Float32Array([0, 0, 0, 0])));
 exports.Matrix2 = Matrix2;

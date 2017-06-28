@@ -11,6 +11,14 @@ export interface BasisOptions {
     /**
      *
      */
+    color?: {
+        r: number;
+        g: number;
+        b: number;
+    };
+    /**
+     *
+     */
     meridian?: VectorE3;
     /**
      *

@@ -25,9 +25,17 @@ export interface GridOptions {
      */
     aNormal?: (u: number, v: number) => VectorE3;
     /**
+     * 
+     */
+    axis?: VectorE3;
+    /**
      *
      */
     aColor?: (u: number, v: number) => { r: number; g: number; b: number };
+    /**
+     * 
+     */
+    color?: { r: number; g: number; b: number };
     /**
      * 
      */

@@ -442,16 +442,16 @@ var Matrix4 = (function (_super) {
             return void 0;
         }
     };
+    /**
+     * The identity matrix for multiplication, 1.
+     * The matrix is locked (immutable), but may be cloned.
+     */
+    Matrix4.one = lock(new Matrix4(new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1])));
+    /**
+     * The identity matrix for addition, 0.
+     * The matrix is locked (immutable), but may be cloned.
+     */
+    Matrix4.zero = lock(new Matrix4(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])));
     return Matrix4;
 }(AbstractMatrix));
 export { Matrix4 };
-/**
- * The identity matrix for multiplication, 1.
- * The matrix is locked (immutable), but may be cloned.
- */
-Matrix4.one = lock(new Matrix4(new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1])));
-/**
- * The identity matrix for addition, 0.
- * The matrix is locked (immutable), but may be cloned.
- */
-Matrix4.zero = lock(new Matrix4(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])));

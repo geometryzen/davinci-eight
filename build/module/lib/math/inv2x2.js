@@ -1,9 +1,7 @@
 /**
  * Computes the inverse of a 2x2 (square) matrix where the elements are assumed to be in column-major order.
  */
-/**
- * Computes the inverse of a 2x2 (square) matrix where the elements are assumed to be in column-major order.
- */ export function inv2x2(me, te) {
+export function inv2x2(me, te) {
     var n11 = me[0x0], n12 = me[0x2];
     var n21 = me[0x1], n22 = me[0x3];
     // Row 1

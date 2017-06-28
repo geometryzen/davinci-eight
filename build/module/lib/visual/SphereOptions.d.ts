@@ -24,6 +24,14 @@ export interface SphereOptions {
     /**
      *
      */
+    color?: {
+        r: number;
+        g: number;
+        b: number;
+    };
+    /**
+     *
+     */
     colored?: boolean;
     /**
      *
@@ -45,6 +53,10 @@ export interface SphereOptions {
      *
      */
     mode?: 'mesh' | 'wire' | 'point' | GeometryMode;
+    /**
+     *
+     */
+    offset?: VectorE3;
     /**
      *
      */

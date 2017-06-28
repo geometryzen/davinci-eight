@@ -1,9 +1,7 @@
 /**
  * A capability that may be enabled or disabled for a WebGLRenderingContext.
  */
-/**
- * A capability that may be enabled or disabled for a WebGLRenderingContext.
- */ export var Capability;
+export var Capability;
 (function (Capability) {
     /**
      * Let polygons be culled.
