@@ -1,6 +1,5 @@
 import * as tslib_1 from "tslib";
 import { BeginMode } from '../core/BeginMode';
-import { DataType } from '../core/DataType';
 import { GeometryArrays } from '../core/GeometryArrays';
 import { ImageTexture } from '../core/ImageTexture';
 import { isBoolean } from '../checks/isBoolean';
@@ -496,8 +495,8 @@ function primitiveFromOptions(texture, options) {
     var primitive = {
         mode: BeginMode.TRIANGLES,
         attributes: {
-            aPosition: { values: positions, size: 3, type: DataType.FLOAT },
-            aCoords: { values: coords, size: 2, type: DataType.FLOAT }
+            aPosition: { values: positions, size: 3 },
+            aCoords: { values: coords, size: 2 }
         }
     };
     return primitive;

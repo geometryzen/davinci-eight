@@ -1,7 +1,6 @@
 import { BeginMode } from '../core/BeginMode';
 import { Color } from '../core/Color';
 import { ContextManager } from '../core/ContextManager';
-import { DataType } from '../core/DataType';
 import { exchange } from '../base/exchange';
 import { Facet } from '../core/Facet';
 import { Geometric3 } from '../math/Geometric3';
@@ -201,8 +200,8 @@ export class Parallelepiped implements Renderable {
             const primitive: Primitive = {
                 mode: BeginMode.TRIANGLES,
                 attributes: {
-                    aCoords: { values: aCoords, size: 3, type: DataType.FLOAT },
-                    aFace: { values: aFaces, size: 1, type: DataType.FLOAT }
+                    aCoords: { values: aCoords, size: 3 },
+                    aFace: { values: aFaces, size: 1 }
                 }
             };
             const geometry = new GeometryArrays(this.contextManager, primitive);

@@ -75,13 +75,13 @@ function detectShaderType(scriptIds: string[], dom: Document): string[] {
  */
 export class HTMLScriptsMaterial extends ShaderMaterial {
     /**
-     * @param scriptIds The element identifiers for the vertex and fragment shader respectively.
-     * @param dom The document object model that owns the script elements.
-     * @param attribs An array of strings containing the order of attributes.
      * @param contextManager
+     * @param scriptIds The element identifiers for the vertex and fragment shader respectively.
+     * @param attribs An array of strings containing the order of attributes.
+     * @param dom The document object model that owns the script elements.
      * @param levelUp
      */
-    constructor(scriptIds: string[], dom: Document, attribs: string[], contextManager: ContextManager, levelUp = 0) {
+    constructor(contextManager: ContextManager, scriptIds: string[], attribs: string[] = [], dom: Document = window.document, levelUp = 0) {
         super(vertexShaderSrc(detectShaderType(scriptIds, dom)[0], dom), fragmentShaderSrc(detectShaderType(scriptIds, dom)[1], dom), attribs, contextManager, levelUp + 1);
         this.setLoggingName('HTMLScriptsMaterial');
         if (levelUp === 0) {

@@ -1,5 +1,4 @@
 import { BeginMode } from '../core/BeginMode';
-import { DataType } from '../core/DataType';
 import { Engine } from '../core/Engine';
 import { Geometry } from '../core/Geometry';
 import { GeometryArrays } from '../core/GeometryArrays';
@@ -516,8 +515,8 @@ function primitiveFromOptions(texture: ImageTexture, options: MinecraftInternalB
     const primitive: Primitive = {
         mode: BeginMode.TRIANGLES,
         attributes: {
-            aPosition: { values: positions, size: 3, type: DataType.FLOAT },
-            aCoords: { values: coords, size: 2, type: DataType.FLOAT }
+            aPosition: { values: positions, size: 3 },
+            aCoords: { values: coords, size: 2 }
         }
     };
     return primitive;

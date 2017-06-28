@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = require("tslib");
 var BeginMode_1 = require("../core/BeginMode");
-var DataType_1 = require("../core/DataType");
 var GeometryArrays_1 = require("../core/GeometryArrays");
 var ImageTexture_1 = require("../core/ImageTexture");
 var isBoolean_1 = require("../checks/isBoolean");
@@ -498,8 +497,8 @@ function primitiveFromOptions(texture, options) {
     var primitive = {
         mode: BeginMode_1.BeginMode.TRIANGLES,
         attributes: {
-            aPosition: { values: positions, size: 3, type: DataType_1.DataType.FLOAT },
-            aCoords: { values: coords, size: 2, type: DataType_1.DataType.FLOAT }
+            aPosition: { values: positions, size: 3 },
+            aCoords: { values: coords, size: 2 }
         }
     };
     return primitive;

@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = require("tslib");
 var BeginMode_1 = require("../core/BeginMode");
 var Color_1 = require("../core/Color");
-var DataType_1 = require("../core/DataType");
 var Defaults_1 = require("./Defaults");
 var Geometric3_1 = require("../math/Geometric3");
 var GeometryArrays_1 = require("../core/GeometryArrays");
@@ -59,7 +58,7 @@ function primitive(options) {
         mode: BeginMode_1.BeginMode.LINES,
         attributes: {}
     };
-    result.attributes[GraphicsProgramSymbols_1.GraphicsProgramSymbols.ATTRIBUTE_POSITION] = { values: values, size: 3, type: DataType_1.DataType.FLOAT };
+    result.attributes[GraphicsProgramSymbols_1.GraphicsProgramSymbols.ATTRIBUTE_POSITION] = { values: values, size: 3 };
     return result;
 }
 /**

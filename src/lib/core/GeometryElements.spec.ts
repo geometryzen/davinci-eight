@@ -1,5 +1,4 @@
 import { BeginMode } from './BeginMode';
-import { DataType } from './DataType';
 import { Engine } from './Engine';
 import { GeometryElements } from './GeometryElements';
 import { Primitive } from './Primitive';
@@ -8,7 +7,7 @@ import { refChange } from './refChange';
 const primitive: Primitive = {
     mode: BeginMode.POINTS,
     attributes: {
-        aPosition: { values: [0, 0, 0], size: 3, type: DataType.FLOAT }
+        aPosition: { values: [0, 0, 0], size: 3 }
     },
     indices: [0]
 };

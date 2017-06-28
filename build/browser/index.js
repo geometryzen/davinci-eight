@@ -9616,8 +9616,8 @@ function computePointers(attributes, aNames) {
         var aName = aNames[a];
         var attrib = attributes[aName];
         // FIXME: It's a lot more complicated choosing these parameters than for the simple FLOAT case.
-        pointers.push({ name: aName, size: attrib.size, type: attrib.type, normalized: true, offset: offset });
-        offset += attrib.size * 4; // We're assuming that the data type is gl.FLOAT
+        pointers.push({ name: aName, size: attrib.size, type: exports.DataType.FLOAT, normalized: true, offset: offset });
+        offset += attrib.size * 4; // We're assuming that the data type is FLOAT
     }
     return pointers;
 }
@@ -15839,9 +15839,9 @@ function joinIndices(previous, current, dest) {
         }
     }
 }
-function ensureAttribute(attributes, name, size, type) {
+function ensureAttribute(attributes, name, size) {
     if (!attributes[name]) {
-        attributes[name] = { values: [], size: size, type: type };
+        attributes[name] = { values: [], size: size };
     }
     return attributes[name];
 }
@@ -15851,7 +15851,7 @@ function copyAttributes(primitive, attributes) {
     for (var k = 0; k < kLen; k++) {
         var key = keys[k];
         var srcAttrib = primitive.attributes[key];
-        var dstAttrib = ensureAttribute(attributes, key, srcAttrib.size, srcAttrib.type);
+        var dstAttrib = ensureAttribute(attributes, key, srcAttrib.size);
         var svalues = srcAttrib.values;
         var vLen = svalues.length;
         for (var v = 0; v < vLen; v++) {
@@ -21376,13 +21376,15 @@ function detectShaderType(scriptIds, dom) {
 var HTMLScriptsMaterial = (function (_super) {
     __extends(HTMLScriptsMaterial, _super);
     /**
-     * @param scriptIds The element identifiers for the vertex and fragment shader respectively.
-     * @param dom The document object model that owns the script elements.
-     * @param attribs An array of strings containing the order of attributes.
      * @param contextManager
+     * @param scriptIds The element identifiers for the vertex and fragment shader respectively.
+     * @param attribs An array of strings containing the order of attributes.
+     * @param dom The document object model that owns the script elements.
      * @param levelUp
      */
-    function HTMLScriptsMaterial(scriptIds, dom, attribs, contextManager, levelUp) {
+    function HTMLScriptsMaterial(contextManager, scriptIds, attribs, dom, levelUp) {
+        if (attribs === void 0) { attribs = []; }
+        if (dom === void 0) { dom = window.document; }
         if (levelUp === void 0) { levelUp = 0; }
         var _this = _super.call(this, vertexShaderSrc(detectShaderType(scriptIds, dom)[0], dom), fragmentShaderSrc(detectShaderType(scriptIds, dom)[1], dom), attribs, contextManager, levelUp + 1) || this;
         _this.setLoggingName('HTMLScriptsMaterial');
@@ -23020,8 +23022,8 @@ var Basis = (function (_super) {
         var primitive = {
             mode: exports.BeginMode.LINES,
             attributes: {
-                aPointIndex: { values: [0, 1, 0, 2, 0, 3], size: 1, type: exports.DataType.FLOAT },
-                aColorIndex: { values: [1, 1, 2, 2, 3, 3], size: 1, type: exports.DataType.FLOAT }
+                aPointIndex: { values: [0, 1, 0, 2, 0, 3], size: 1 },
+                aColorIndex: { values: [1, 1, 2, 2, 3, 3], size: 1 }
             }
         };
         var geometry = new GeometryArrays(contextManager, primitive);
@@ -24886,8 +24888,8 @@ function primitiveFromOptions(texture, options) {
     var primitive = {
         mode: exports.BeginMode.TRIANGLES,
         attributes: {
-            aPosition: { values: positions, size: 3, type: exports.DataType.FLOAT },
-            aCoords: { values: coords, size: 2, type: exports.DataType.FLOAT }
+            aPosition: { values: positions, size: 3 },
+            aCoords: { values: coords, size: 2 }
         }
     };
     return primitive;
@@ -25272,8 +25274,8 @@ var Parallelepiped = (function () {
             var primitive = {
                 mode: exports.BeginMode.TRIANGLES,
                 attributes: {
-                    aCoords: { values: aCoords$1, size: 3, type: exports.DataType.FLOAT },
-                    aFace: { values: aFaces, size: 1, type: exports.DataType.FLOAT }
+                    aCoords: { values: aCoords$1, size: 3 },
+                    aFace: { values: aFaces, size: 1 }
                 }
             };
             var geometry = new GeometryArrays(this.contextManager, primitive);
@@ -25816,7 +25818,7 @@ function primitive(options) {
         mode: exports.BeginMode.LINES,
         attributes: {}
     };
-    result.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = { values: values, size: 3, type: exports.DataType.FLOAT };
+    result.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = { values: values, size: 3 };
     return result;
 }
 /**
@@ -26080,7 +26082,7 @@ function perspective(X, n, f, α, aspect) {
  *     loader.loadImageTexture('img/textures/solar-system/2k_earth_daymap.jpg', function(texture) {
  *       texture.minFilter = EIGHT.TextureMinFilter.NEAREST;
  *       const geometry = new EIGHT.SphereGeometry(engine, {azimuthSegments: 64, elevationSegments: 32})
- *       const material = new EIGHT.HTMLScriptsMaterial(['vs', 'fs'], document, [], engine)
+ *       const material = new EIGHT.HTMLScriptsMaterial(engine, ['vs', 'fs'])
  *       sphere = new EIGHT.Mesh(geometry, material, engine)
  *       geometry.release()
  *       material.release()

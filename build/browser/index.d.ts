@@ -681,11 +681,6 @@ export interface Attribute {
      * The number of values that are associated with a given vertex.
      */
     size: number;
-
-    /**
-     * 
-     */
-    type: DataType;
 }
 
 /**
@@ -3837,7 +3832,11 @@ export class HTMLScriptsMaterial extends ShaderMaterial {
     /**
      *
      */
-    constructor(scriptIds: string[], dom: Document, attribs: string[], contextManager: ContextManager, levelUp?: number);
+    constructor(contextManager: ContextManager, scriptIds: string[], attribs?: string[], dom?: Document, levelUp?: number);
+    /**
+     *
+     * @param levelUp
+     */
     protected destructor(levelUp: number): void;
 }
 

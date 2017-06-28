@@ -1,6 +1,5 @@
 import { computeAttributes } from './computeAttributes';
 import { BeginMode } from './BeginMode';
-import { DataType } from './DataType';
 import { Primitive } from './Primitive';
 
 describe("computeAttributes", function () {
@@ -27,8 +26,7 @@ describe("computeAttributes", function () {
                     1,
                     0
                 ],
-                size: 3,
-                type: DataType.FLOAT
+                size: 3
             },
             "aNormal": {
                 values: [
@@ -45,8 +43,7 @@ describe("computeAttributes", function () {
                     0,
                     1
                 ],
-                size: 3,
-                type: DataType.FLOAT
+                size: 3
             }
         },
         mode: BeginMode.LINES,

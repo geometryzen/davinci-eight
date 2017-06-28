@@ -9,13 +9,13 @@ import { ShaderMaterial } from './ShaderMaterial';
  */
 export declare class HTMLScriptsMaterial extends ShaderMaterial {
     /**
-     * @param scriptIds The element identifiers for the vertex and fragment shader respectively.
-     * @param dom The document object model that owns the script elements.
-     * @param attribs An array of strings containing the order of attributes.
      * @param contextManager
+     * @param scriptIds The element identifiers for the vertex and fragment shader respectively.
+     * @param attribs An array of strings containing the order of attributes.
+     * @param dom The document object model that owns the script elements.
      * @param levelUp
      */
-    constructor(scriptIds: string[], dom: Document, attribs: string[], contextManager: ContextManager, levelUp?: number);
+    constructor(contextManager: ContextManager, scriptIds: string[], attribs?: string[], dom?: Document, levelUp?: number);
     /**
      *
      */

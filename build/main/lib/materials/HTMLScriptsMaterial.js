@@ -72,13 +72,15 @@ function detectShaderType(scriptIds, dom) {
 var HTMLScriptsMaterial = (function (_super) {
     tslib_1.__extends(HTMLScriptsMaterial, _super);
     /**
-     * @param scriptIds The element identifiers for the vertex and fragment shader respectively.
-     * @param dom The document object model that owns the script elements.
-     * @param attribs An array of strings containing the order of attributes.
      * @param contextManager
+     * @param scriptIds The element identifiers for the vertex and fragment shader respectively.
+     * @param attribs An array of strings containing the order of attributes.
+     * @param dom The document object model that owns the script elements.
      * @param levelUp
      */
-    function HTMLScriptsMaterial(scriptIds, dom, attribs, contextManager, levelUp) {
+    function HTMLScriptsMaterial(contextManager, scriptIds, attribs, dom, levelUp) {
+        if (attribs === void 0) { attribs = []; }
+        if (dom === void 0) { dom = window.document; }
         if (levelUp === void 0) { levelUp = 0; }
         var _this = _super.call(this, vertexShaderSrc(detectShaderType(scriptIds, dom)[0], dom), fragmentShaderSrc(detectShaderType(scriptIds, dom)[1], dom), attribs, contextManager, levelUp + 1) || this;
         _this.setLoggingName('HTMLScriptsMaterial');

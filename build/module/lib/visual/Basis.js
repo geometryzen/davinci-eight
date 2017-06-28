@@ -2,7 +2,6 @@ import * as tslib_1 from "tslib";
 import { BeginMode } from '../core/BeginMode';
 import { Color } from '../core/Color';
 import { ColorFacet } from '../facets/ColorFacet';
-import { DataType } from '../core/DataType';
 import { ds } from './Defaults';
 import { GeometryArrays } from '../core/GeometryArrays';
 import { GraphicsProgramSymbols as GPS } from '../core/GraphicsProgramSymbols';
@@ -102,8 +101,8 @@ var Basis = (function (_super) {
         var primitive = {
             mode: BeginMode.LINES,
             attributes: {
-                aPointIndex: { values: [0, 1, 0, 2, 0, 3], size: 1, type: DataType.FLOAT },
-                aColorIndex: { values: [1, 1, 2, 2, 3, 3], size: 1, type: DataType.FLOAT }
+                aPointIndex: { values: [0, 1, 0, 2, 0, 3], size: 1 },
+                aColorIndex: { values: [1, 1, 2, 2, 3, 3], size: 1 }
             }
         };
         var geometry = new GeometryArrays(contextManager, primitive);

@@ -12,7 +12,7 @@ import { TextureTarget } from '../core/TextureTarget';
  *     loader.loadImageTexture('img/textures/solar-system/2k_earth_daymap.jpg', function(texture) {
  *       texture.minFilter = EIGHT.TextureMinFilter.NEAREST;
  *       const geometry = new EIGHT.SphereGeometry(engine, {azimuthSegments: 64, elevationSegments: 32})
- *       const material = new EIGHT.HTMLScriptsMaterial(['vs', 'fs'], document, [], engine)
+ *       const material = new EIGHT.HTMLScriptsMaterial(engine, ['vs', 'fs'])
  *       sphere = new EIGHT.Mesh(geometry, material, engine)
  *       geometry.release()
  *       material.release()

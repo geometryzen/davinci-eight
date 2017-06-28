@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var BeginMode_1 = require("../core/BeginMode");
 var Color_1 = require("../core/Color");
-var DataType_1 = require("../core/DataType");
 var exchange_1 = require("../base/exchange");
 var Geometric3_1 = require("../math/Geometric3");
 var GeometryArrays_1 = require("../core/GeometryArrays");
@@ -189,8 +188,8 @@ var Parallelepiped = (function () {
             var primitive = {
                 mode: BeginMode_1.BeginMode.TRIANGLES,
                 attributes: {
-                    aCoords: { values: aCoords, size: 3, type: DataType_1.DataType.FLOAT },
-                    aFace: { values: aFaces, size: 1, type: DataType_1.DataType.FLOAT }
+                    aCoords: { values: aCoords, size: 3 },
+                    aFace: { values: aFaces, size: 1 }
                 }
             };
             var geometry = new GeometryArrays_1.GeometryArrays(this.contextManager, primitive);

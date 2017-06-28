@@ -4,7 +4,6 @@ var tslib_1 = require("tslib");
 var BeginMode_1 = require("../core/BeginMode");
 var Color_1 = require("../core/Color");
 var ColorFacet_1 = require("../facets/ColorFacet");
-var DataType_1 = require("../core/DataType");
 var Defaults_1 = require("./Defaults");
 var GeometryArrays_1 = require("../core/GeometryArrays");
 var GraphicsProgramSymbols_1 = require("../core/GraphicsProgramSymbols");
@@ -104,8 +103,8 @@ var Basis = (function (_super) {
         var primitive = {
             mode: BeginMode_1.BeginMode.LINES,
             attributes: {
-                aPointIndex: { values: [0, 1, 0, 2, 0, 3], size: 1, type: DataType_1.DataType.FLOAT },
-                aColorIndex: { values: [1, 1, 2, 2, 3, 3], size: 1, type: DataType_1.DataType.FLOAT }
+                aPointIndex: { values: [0, 1, 0, 2, 0, 3], size: 1 },
+                aColorIndex: { values: [1, 1, 2, 2, 3, 3], size: 1 }
             }
         };
         var geometry = new GeometryArrays_1.GeometryArrays(contextManager, primitive);

@@ -1,7 +1,6 @@
 import { BeginMode } from '../core/BeginMode';
 import { Color } from '../core/Color';
 import { ContextManager } from '../core/ContextManager';
-import { DataType } from '../core/DataType';
 import { ds } from './Defaults';
 import { Geometry } from '../core/Geometry';
 import { Geometric3 } from '../math/Geometric3';
@@ -68,7 +67,7 @@ function primitive(options: { tilt?: SpinorE3, offset?: VectorE3 }): Primitive {
         mode: BeginMode.LINES,
         attributes: {}
     };
-    result.attributes[GPS.ATTRIBUTE_POSITION] = { values, size: 3, type: DataType.FLOAT };
+    result.attributes[GPS.ATTRIBUTE_POSITION] = { values, size: 3 };
     return result;
 }
 

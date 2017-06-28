@@ -3,7 +3,7 @@ import { Vector3 } from './Vector3';
 export interface Raycastable {
     visible: boolean;
     distance: number;
-    raycast(raycaster: Raycaster, intersects: any): any;
+    raycast(raycaster: Raycaster, intersects: Raycastable[]): void;
     children: Raycastable[];
 }
 export declare class Raycaster {

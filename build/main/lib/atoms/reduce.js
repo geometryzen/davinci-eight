@@ -24,9 +24,9 @@ function joinIndices(previous, current, dest) {
         }
     }
 }
-function ensureAttribute(attributes, name, size, type) {
+function ensureAttribute(attributes, name, size) {
     if (!attributes[name]) {
-        attributes[name] = { values: [], size: size, type: type };
+        attributes[name] = { values: [], size: size };
     }
     return attributes[name];
 }
@@ -36,7 +36,7 @@ function copyAttributes(primitive, attributes) {
     for (var k = 0; k < kLen; k++) {
         var key = keys[k];
         var srcAttrib = primitive.attributes[key];
-        var dstAttrib = ensureAttribute(attributes, key, srcAttrib.size, srcAttrib.type);
+        var dstAttrib = ensureAttribute(attributes, key, srcAttrib.size);
         var svalues = srcAttrib.values;
         var vLen = svalues.length;
         for (var v = 0; v < vLen; v++) {

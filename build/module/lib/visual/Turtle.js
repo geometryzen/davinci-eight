@@ -1,7 +1,6 @@
 import * as tslib_1 from "tslib";
 import { BeginMode } from '../core/BeginMode';
 import { Color } from '../core/Color';
-import { DataType } from '../core/DataType';
 import { ds } from './Defaults';
 import { Geometric3 } from '../math/Geometric3';
 import { GeometryArrays } from '../core/GeometryArrays';
@@ -57,7 +56,7 @@ function primitive(options) {
         mode: BeginMode.LINES,
         attributes: {}
     };
-    result.attributes[GPS.ATTRIBUTE_POSITION] = { values: values, size: 3, type: DataType.FLOAT };
+    result.attributes[GPS.ATTRIBUTE_POSITION] = { values: values, size: 3 };
     return result;
 }
 /**

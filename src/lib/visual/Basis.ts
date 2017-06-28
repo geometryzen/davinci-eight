@@ -3,7 +3,6 @@ import { BeginMode } from '../core/BeginMode';
 import { Color } from '../core/Color';
 import { ColorFacet } from '../facets/ColorFacet';
 import { ContextManager } from '../core/ContextManager';
-import { DataType } from '../core/DataType';
 import { ds } from './Defaults';
 import { Geometry } from '../core/Geometry';
 import { GeometryArrays } from '../core/GeometryArrays';
@@ -113,8 +112,8 @@ export class Basis extends Mesh<Geometry, Material> {
         const primitive: Primitive = {
             mode: BeginMode.LINES,
             attributes: {
-                aPointIndex: { values: [0, 1, 0, 2, 0, 3], size: 1, type: DataType.FLOAT },
-                aColorIndex: { values: [1, 1, 2, 2, 3, 3], size: 1, type: DataType.FLOAT }
+                aPointIndex: { values: [0, 1, 0, 2, 0, 3], size: 1 },
+                aColorIndex: { values: [1, 1, 2, 2, 3, 3], size: 1 }
             }
         };
         const geometry = new GeometryArrays(contextManager, primitive);

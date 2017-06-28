@@ -1,5 +1,4 @@
 import { AttributeSizeType } from './AttributeSizeType';
-import { DataType } from './DataType';
 /**
  * An array of attribute values associated with meta data describing how to interpret the values.
  */
@@ -12,8 +11,4 @@ export interface Attribute {
      * The number of values that are associated with a given vertex.
      */
     size: AttributeSizeType;
-    /**
-     * The type of the attribute.
-     */
-    type: DataType;
 }

@@ -1,6 +1,5 @@
 import { BeginMode } from '../core/BeginMode';
 import { Color } from '../core/Color';
-import { DataType } from '../core/DataType';
 import { exchange } from '../base/exchange';
 import { Geometric3 } from '../math/Geometric3';
 import { GeometryArrays } from '../core/GeometryArrays';
@@ -187,8 +186,8 @@ var Parallelepiped = (function () {
             var primitive = {
                 mode: BeginMode.TRIANGLES,
                 attributes: {
-                    aCoords: { values: aCoords, size: 3, type: DataType.FLOAT },
-                    aFace: { values: aFaces, size: 1, type: DataType.FLOAT }
+                    aCoords: { values: aCoords, size: 3 },
+                    aFace: { values: aFaces, size: 1 }
                 }
             };
             var geometry = new GeometryArrays(this.contextManager, primitive);
