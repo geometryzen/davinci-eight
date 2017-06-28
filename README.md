@@ -44,5 +44,5 @@ In particular, you may see the word `default` frequently. This is because the EI
 Just click through the `default` links to get past them.
 
 ## License
-Copyright (c) 2014-2016 David Holmes
+Copyright (c) 2014-2017 David Holmes
 Licensed under the MIT license.

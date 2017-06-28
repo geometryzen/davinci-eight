@@ -1,5 +1,4 @@
 // Karma configuration
-// Generated on Fri Jan 29 2016 10:38:22 GMT-0500 (EST)
 
 module.exports = function (config) {
   config.set({
@@ -13,6 +12,7 @@ module.exports = function (config) {
 
     // Karma auto loads plugins unless you specify a plugins config.
     plugins: [
+      require('karma-coverage'),
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
       require('karma-phantomjs-launcher'),
@@ -27,7 +27,7 @@ module.exports = function (config) {
 
       // Include this with a <script> tag so that System is defined.
       'node_modules/systemjs/dist/system.src.js',
-      { pattern: 'node_modules/systemjs/dist/system.src.js.map', included: false, watched: false },
+      { pattern: 'node_modules/systemjs/dist/system.js.map', included: false, watched: false },
 
       //
       { pattern: 'systemjs.config.js', included: false, watched: false },
@@ -53,13 +53,14 @@ module.exports = function (config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+      'test/**/!(*spec).js': ['coverage']
     },
 
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress', 'kjhtml'],
+    reporters: ['progress', 'coverage', 'kjhtml'],
 
 
     // web server port
@@ -72,7 +73,7 @@ module.exports = function (config) {
 
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    logLevel: config.LOG_INFO,
+    logLevel: config.LOG_WARN,
 
 
     // enable / disable watching file and executing tests whenever any file changes
