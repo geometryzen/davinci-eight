@@ -16,33 +16,13 @@ cd davinci-eight
 
 Install NPM:
 ```
-npm install
-npm update
+yarn install
+yarn upgrade
 ```
 to install the tooling dependencies (For this you need to have [Node.js](http://nodejs.org) installed).
 
-Install Bower:
 ```
-bower install
-bower update
-```
-to install the software dependencies (For this you need to have [Bower](http://bower.io) installed).
-
-Install JSPM:
-```
-jspm install
-jspm update
-```
-to install JSPM, used for testing.
-
-Install TypeScript definitions:
-```
-tsd install
-```
-to install TypeScript definitions for Jasmine used in testing.
-
-```
-grunt
+yarn build
 ```
 to compile the source using the TypeScript compiler (For this you need to have [TypeScript](http://www.typescriptlang.org) installed) and to package the individual files into a single JavaScript file.
 
@@ -62,7 +42,6 @@ The following files should be changed.
 
 ```
 package.json
-bower.json
 src/davinci-eight/config.ts
 ```
 

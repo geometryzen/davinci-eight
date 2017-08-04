@@ -1,7 +1,7 @@
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
 	typeof define === 'function' && define.amd ? define(['exports'], factory) :
-	(factory((global.EIGHT = global.EIGHT || {})));
+	(factory((global.EIGHT = {})));
 }(this, (function (exports) { 'use strict';
 
 /*! *****************************************************************************
@@ -97,9 +97,9 @@ function readOnly(name) {
 var Eight = (function () {
     function Eight() {
         this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-        this.LAST_MODIFIED = '2017-05-12';
+        this.LAST_MODIFIED = '2017-08-04';
         this.NAMESPACE = 'EIGHT';
-        this.VERSION = '6.1.1';
+        this.VERSION = '7.0.3';
     }
     Eight.prototype.log = function (message) {
         // This should allow us to unit test and run in environments without a console.
@@ -139,7 +139,7 @@ function log(message) {
 function warn(message) {
     return config.warn(prefix(message));
 }
-function error$1(message) {
+function error(message) {
     return config.error(prefix(message));
 }
 function garbageCollect() {
@@ -228,11 +228,11 @@ function refChange(uuid, name, change) {
                 element.zombie = true;
             }
             else if (element.refCount < 0) {
-                error$1("refCount < 0 for " + name);
+                error("refCount < 0 for " + name);
             }
         }
         else {
-            error$1(change + " on " + uuid + " @ " + name);
+            error(change + " on " + uuid + " @ " + name);
         }
     }
     else if (change === 0) {
@@ -25940,14 +25940,20 @@ var Diagram3D = (function () {
     /**
      *
      */
-    function Diagram3D(canvasId, camera, prism) {
-        if (isDefined(canvasId)) {
-            var canvasElement = document.getElementById(canvasId);
+    function Diagram3D(canvas, camera, prism) {
+        if (typeof canvas === 'string') {
+            var canvasElement = document.getElementById(canvas);
             this.ctx = canvasElement.getContext('2d');
-            this.ctx.strokeStyle = "#FFFFFF";
-            this.ctx.fillStyle = '#ffffff';
-            this.ctx.font = '24px Helvetica';
         }
+        else if (canvas instanceof HTMLCanvasElement) {
+            this.ctx = canvas.getContext('2d');
+        }
+        else {
+            throw new Error("canvas must either be a canvas Id or an HTMLCanvasElement.");
+        }
+        this.ctx.strokeStyle = "#FFFFFF";
+        this.ctx.fillStyle = '#ffffff';
+        this.ctx.font = '24px Helvetica';
         if (isDefined(camera)) {
             if (isDefined(prism)) {
                 this.camera = camera;

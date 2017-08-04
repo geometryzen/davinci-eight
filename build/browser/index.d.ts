@@ -5259,7 +5259,7 @@ class GUI {
 export class Diagram3D {
     ctx: CanvasRenderingContext2D;
     canvas: HTMLCanvasElement;
-    constructor(canvasId: string, camera: { eye: VectorE3; look: VectorE3; up: VectorE3; near?: number, far?: number, fov?: number, aspect?: number }, prism?: { near: number, far: number, fov: number, aspect: number });
+    constructor(canvas: string | HTMLCanvasElement, camera: { eye: VectorE3; look: VectorE3; up: VectorE3; near?: number, far?: number, fov?: number, aspect?: number }, prism?: { near: number, far: number, fov: number, aspect: number });
     beginPath(): void;
     clear(): void;
     closePath(): void;

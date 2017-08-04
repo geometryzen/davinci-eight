@@ -19,7 +19,7 @@ export declare class Diagram3D {
     /**
      *
      */
-    constructor(canvasId: string, camera: {
+    constructor(canvas: string | HTMLCanvasElement, camera: {
         eye: VectorE3;
         look: VectorE3;
         up: VectorE3;

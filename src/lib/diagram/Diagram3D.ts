@@ -23,14 +23,20 @@ export class Diagram3D {
     /**
      * 
      */
-    constructor(canvasId: string, camera: { eye: VectorE3; look: VectorE3; up: VectorE3; near: number, far: number, fov: number, aspect: number }, prism?: { near: number, far: number, fov: number, aspect: number }) {
-        if (isDefined(canvasId)) {
-            const canvasElement = <HTMLCanvasElement>document.getElementById(canvasId);
+    constructor(canvas: string | HTMLCanvasElement, camera: { eye: VectorE3; look: VectorE3; up: VectorE3; near: number, far: number, fov: number, aspect: number }, prism?: { near: number, far: number, fov: number, aspect: number }) {
+        if (typeof canvas === 'string') {
+            const canvasElement = <HTMLCanvasElement>document.getElementById(canvas);
             this.ctx = canvasElement.getContext('2d');
-            this.ctx.strokeStyle = "#FFFFFF";
-            this.ctx.fillStyle = '#ffffff';
-            this.ctx.font = '24px Helvetica';
         }
+        else if (canvas instanceof HTMLCanvasElement) {
+            this.ctx = canvas.getContext('2d');
+        }
+        else {
+            throw new Error("canvas must either be a canvas Id or an HTMLCanvasElement.");
+        }
+        this.ctx.strokeStyle = "#FFFFFF";
+        this.ctx.fillStyle = '#ffffff';
+        this.ctx.font = '24px Helvetica';
         if (isDefined(camera)) {
             if (isDefined(prism)) {
                 this.camera = camera;
