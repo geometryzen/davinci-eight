@@ -933,7 +933,7 @@ img { max-width: 100%; }
 loader.loadImageTexture(<span class="hljs-string">'img/textures/solar-system/2k_earth_daymap.jpg'</span>, function(<span class="hljs-built_in">texture</span>) {
   <span class="hljs-built_in">texture</span>.minFilter = EIGHT.TextureMinFilter.NEAREST;
   <span class="hljs-keyword">const</span> geometry = <span class="hljs-keyword">new</span> EIGHT.SphereGeometry(engine, {azimuthSegments: <span class="hljs-number">64</span>, elevationSegments: <span class="hljs-number">32</span>})
-  <span class="hljs-keyword">const</span> material = <span class="hljs-keyword">new</span> EIGHT.HTMLScriptsMaterial([<span class="hljs-string">'vs'</span>, <span class="hljs-string">'fs'</span>], document, [], engine)
+  <span class="hljs-keyword">const</span> material = <span class="hljs-keyword">new</span> EIGHT.HTMLScriptsMaterial(engine, [<span class="hljs-string">'vs'</span>, <span class="hljs-string">'fs'</span>])
   <span class="hljs-built_in">sphere</span> = <span class="hljs-keyword">new</span> EIGHT.Mesh(geometry, material, engine)
   geometry.release()
   material.release()
@@ -983,7 +983,7 @@ loader.loadImageTexture(<span class="hljs-string">'img/textures/solar-system/2k_
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/3be4cfec3/src/lib/loaders/TextureLoader.ts#L27">lib/loaders/TextureLoader.ts:27</a></li>
+								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/53ed2cd53/src/lib/loaders/TextureLoader.ts#L27">lib/loaders/TextureLoader.ts:27</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1015,7 +1015,7 @@ loader.loadImageTexture(<span class="hljs-string">'img/textures/solar-system/2k_
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/3be4cfec3/src/lib/loaders/TextureLoader.ts#L40">lib/loaders/TextureLoader.ts:40</a></li>
+								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/53ed2cd53/src/lib/loaders/TextureLoader.ts#L40">lib/loaders/TextureLoader.ts:40</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
