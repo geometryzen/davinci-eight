@@ -7,7 +7,7 @@ var vertexShaderSrc_1 = require("./vertexShaderSrc");
 /**
  * A Material that is generated based upon knowledge of parameters and some hints.
  */
-var SmartGraphicsProgram = (function (_super) {
+var SmartGraphicsProgram = /** @class */ (function (_super) {
     tslib_1.__extends(SmartGraphicsProgram, _super);
     /**
      *

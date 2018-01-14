@@ -188,7 +188,7 @@ function makePoints(points, uvs, radius, heightSegments, widthSegments, geometry
         }
     }
 }
-var SphereSimplexPrimitivesBuilder = (function (_super) {
+var SphereSimplexPrimitivesBuilder = /** @class */ (function (_super) {
     tslib_1.__extends(SphereSimplexPrimitivesBuilder, _super);
     function SphereSimplexPrimitivesBuilder() {
         var _this = _super.call(this) || this;
@@ -369,7 +369,7 @@ function spherePrimitive(options) {
 /**
  * A convenience class for creating a sphere.
  */
-var SphereGeometry = (function (_super) {
+var SphereGeometry = /** @class */ (function (_super) {
     tslib_1.__extends(SphereGeometry, _super);
     /**
      *

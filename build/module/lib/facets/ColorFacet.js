@@ -4,7 +4,7 @@ import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 /**
  *
  */
-var ColorFacet = (function () {
+var ColorFacet = /** @class */ (function () {
     /**
      *
      */

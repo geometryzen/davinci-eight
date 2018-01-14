@@ -16,7 +16,7 @@ var Vector3_1 = require("../math/Vector3");
 /**
  *
  */
-var ConicalShellBuilder = (function (_super) {
+var ConicalShellBuilder = /** @class */ (function (_super) {
     tslib_1.__extends(ConicalShellBuilder, _super);
     function ConicalShellBuilder() {
         var _this = _super.call(this) || this;

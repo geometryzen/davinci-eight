@@ -5,7 +5,7 @@ var ShareableBase_1 = require("../core/ShareableBase");
 /**
  *
  */
-var StringShareableMap = (function (_super) {
+var StringShareableMap = /** @class */ (function (_super) {
     tslib_1.__extends(StringShareableMap, _super);
     /**
      * A map of string to V extends Shareable.

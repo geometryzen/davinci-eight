@@ -5,7 +5,7 @@ import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 /**
  *
  */
-var AmbientLight = (function () {
+var AmbientLight = /** @class */ (function () {
     /**
      *
      */

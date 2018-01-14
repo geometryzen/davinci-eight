@@ -7,7 +7,7 @@ import { ShareableContextConsumer } from './ShareableContextConsumer';
 /**
  *
  */
-var Shader = (function (_super) {
+var Shader = /** @class */ (function (_super) {
     tslib_1.__extends(Shader, _super);
     function Shader(source, type, engine) {
         var _this = _super.call(this, engine) || this;

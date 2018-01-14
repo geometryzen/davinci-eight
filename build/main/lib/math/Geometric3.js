@@ -113,7 +113,7 @@ var cosines = [];
 /**
  *
  */
-var Geometric3 = (function () {
+var Geometric3 = /** @class */ (function () {
     /**
      * Constructs a <code>Geometric3</code>.
      * The multivector is initialized to zero.

@@ -10,7 +10,7 @@ var keys = [65 /*A*/, 83 /*S*/, 68 /*D*/];
 /**
  *
  */
-var MouseControls = (function (_super) {
+var MouseControls = /** @class */ (function (_super) {
     tslib_1.__extends(MouseControls, _super);
     /**
      *
@@ -249,7 +249,7 @@ var MouseControls = (function (_super) {
         this.domElement.addEventListener('mousewheel', this.mousewheel, false);
         this.domElement.addEventListener('DOMMouseScroll', this.mousewheel, false); // Firefox
         this.wnd.addEventListener('keydown', this.keydown, false);
-        this.wnd.addEventListener('keyup', this.keydown, false);
+        this.wnd.addEventListener('keyup', this.keyup, false);
         this.handleResize();
     };
     /**
@@ -263,7 +263,7 @@ var MouseControls = (function (_super) {
             this.domElement.removeEventListener('DOMMouseScroll', this.mousewheel, false); // Firefox
             this.domElement = void 0;
             this.wnd.removeEventListener('keydown', this.keydown, false);
-            this.wnd.removeEventListener('keyup', this.keydown, false);
+            this.wnd.removeEventListener('keyup', this.keyup, false);
         }
     };
     MouseControls.prototype.disableContextMenu = function () {

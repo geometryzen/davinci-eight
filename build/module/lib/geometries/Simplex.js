@@ -42,7 +42,7 @@ function lerpVertexAttributeMap(a, b, alpha) {
 function lerpVectorN(a, b, alpha) {
     return new DefaultVectorN(lerp(a.toArray(), b.toArray(), alpha));
 }
-var Simplex = (function () {
+var Simplex = /** @class */ (function () {
     function Simplex(k) {
         this.vertices = [];
         mustBeInteger('k', k);

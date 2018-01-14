@@ -10,7 +10,7 @@ import { VertexPrimitive } from './VertexPrimitive';
 /**
  *
  */
-var CurvePrimitive = (function (_super) {
+var CurvePrimitive = /** @class */ (function (_super) {
     tslib_1.__extends(CurvePrimitive, _super);
     /**
      * @param mode

@@ -5,7 +5,7 @@ import { Vector3 } from '../math/Vector3';
 /**
  *
  */
-var CylinderTransform = (function () {
+var CylinderTransform = /** @class */ (function () {
     /**
      * @param sliceAngle
      * @param aPosition The name to use for the position attribute.

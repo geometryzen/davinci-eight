@@ -8,7 +8,7 @@ import { mustBeLT } from '../checks/mustBeLT';
 /**
  *
  */
-var LinePoints = (function (_super) {
+var LinePoints = /** @class */ (function (_super) {
     tslib_1.__extends(LinePoints, _super);
     /**
      * @param uSegments

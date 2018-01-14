@@ -3,7 +3,7 @@ import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 /**
  *
  */
-var PointSizeFacet = (function () {
+var PointSizeFacet = /** @class */ (function () {
     /**
      *
      */

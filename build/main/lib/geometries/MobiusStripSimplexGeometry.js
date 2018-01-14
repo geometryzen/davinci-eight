@@ -23,7 +23,7 @@ function mobius(u, v) {
     point.z = s * sin(t / 2);
     return point;
 }
-var MobiusStripSimplexGeometry = (function (_super) {
+var MobiusStripSimplexGeometry = /** @class */ (function (_super) {
     tslib_1.__extends(MobiusStripSimplexGeometry, _super);
     function MobiusStripSimplexGeometry(uSegments, vSegments) {
         return _super.call(this, mobius, uSegments, vSegments) || this;

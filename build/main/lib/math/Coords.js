@@ -5,7 +5,7 @@ var VectorN_1 = require("./VectorN");
 /**
  *
  */
-var Coords = (function (_super) {
+var Coords = /** @class */ (function (_super) {
     tslib_1.__extends(Coords, _super);
     /**
      *

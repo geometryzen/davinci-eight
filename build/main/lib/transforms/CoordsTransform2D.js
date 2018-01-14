@@ -6,7 +6,7 @@ var Vector2_1 = require("../math/Vector2");
 /**
  * Applies coordinates to a surface.
  */
-var CoordsTransform2D = (function () {
+var CoordsTransform2D = /** @class */ (function () {
     function CoordsTransform2D(flipU, flipV, exchangeUV) {
         this.flipU = mustBeBoolean_1.mustBeBoolean('flipU', flipU);
         this.flipV = mustBeBoolean_1.mustBeBoolean('flipV', flipV);

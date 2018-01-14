@@ -15,7 +15,7 @@ var Usage_1 = require("./Usage");
 /**
  * A Geometry that supports interleaved vertex buffers.
  */
-var GeometryElements = (function (_super) {
+var GeometryElements = /** @class */ (function (_super) {
     tslib_1.__extends(GeometryElements, _super);
     /**
      *

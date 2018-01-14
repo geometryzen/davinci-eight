@@ -39,6 +39,11 @@ export declare class TrackballControls extends ViewControls {
     private mouseChange;
     private pan;
     private objectUp;
+    /**
+     *
+     * @param view eye, look, and up vectors. The coordinates will be manipulated by this object.
+     * @param wnd The browser window. Used to add listeners for mouse and keyboard events.
+     */
     constructor(view: {
         eye: VectorE3;
         look: VectorE3;

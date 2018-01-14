@@ -1,4 +1,4 @@
-var Lattice2Geometry = (function () {
+var Lattice2Geometry = /** @class */ (function () {
     function Lattice2Geometry() {
     }
     return Lattice2Geometry;

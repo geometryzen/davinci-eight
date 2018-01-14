@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var FontFace = (function () {
+var FontFace = /** @class */ (function () {
     function FontFace() {
         // Do nothing.
     }

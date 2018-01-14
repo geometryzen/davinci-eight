@@ -293,7 +293,7 @@ export class MouseControls extends ShareableBase {
         this.domElement.addEventListener('mousewheel', this.mousewheel, false);
         this.domElement.addEventListener('DOMMouseScroll', this.mousewheel, false); // Firefox
         this.wnd.addEventListener('keydown', this.keydown, false);
-        this.wnd.addEventListener('keyup', this.keydown, false);
+        this.wnd.addEventListener('keyup', this.keyup, false);
 
         this.handleResize();
     }
@@ -309,7 +309,7 @@ export class MouseControls extends ShareableBase {
             this.domElement.removeEventListener('DOMMouseScroll', this.mousewheel, false); // Firefox
             this.domElement = void 0;
             this.wnd.removeEventListener('keydown', this.keydown, false);
-            this.wnd.removeEventListener('keyup', this.keydown, false);
+            this.wnd.removeEventListener('keyup', this.keyup, false);
         }
     }
 

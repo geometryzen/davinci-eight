@@ -1,7 +1,7 @@
 import * as tslib_1 from "tslib";
 import { mustBeNumber } from '../checks/mustBeNumber';
 import { ShareableBase } from '../core/ShareableBase';
-var WebGLClearColor = (function (_super) {
+var WebGLClearColor = /** @class */ (function (_super) {
     tslib_1.__extends(WebGLClearColor, _super);
     function WebGLClearColor(contextManager, r, g, b, a) {
         if (r === void 0) { r = 0; }

@@ -16,7 +16,7 @@ var Uniform_1 = require("../core/Uniform");
 /**
  *
  */
-var ShaderMaterial = (function (_super) {
+var ShaderMaterial = /** @class */ (function (_super) {
     tslib_1.__extends(ShaderMaterial, _super);
     /**
      * @param vertexShaderSrc The vertex shader source code.

@@ -18,7 +18,7 @@ function add2x2(a, b, c) {
 /**
  *
  */
-var Matrix2 = (function (_super) {
+var Matrix2 = /** @class */ (function (_super) {
     tslib_1.__extends(Matrix2, _super);
     /**
      * 2x2 (square) matrix of numbers.

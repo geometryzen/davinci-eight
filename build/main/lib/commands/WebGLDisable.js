@@ -6,7 +6,7 @@ var ShareableBase_1 = require("../core/ShareableBase");
 /**
  * disable(capability: Capability): void
  */
-var WebGLDisable = (function (_super) {
+var WebGLDisable = /** @class */ (function (_super) {
     tslib_1.__extends(WebGLDisable, _super);
     function WebGLDisable(contextManager, capability) {
         var _this = _super.call(this) || this;

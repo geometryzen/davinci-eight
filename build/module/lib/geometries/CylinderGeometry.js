@@ -89,7 +89,7 @@ function computeWallVertices(height, radius, clockwise, stress, tilt, offset, an
 /**
  *
  */
-var CylinderSimplexPrimitivesBuilder = (function (_super) {
+var CylinderSimplexPrimitivesBuilder = /** @class */ (function (_super) {
     tslib_1.__extends(CylinderSimplexPrimitivesBuilder, _super);
     function CylinderSimplexPrimitivesBuilder(height, cutLine, clockwise, mode) {
         var _this = _super.call(this) || this;
@@ -318,7 +318,7 @@ function baseOptions(options) {
 /**
  * A geometry for a Cylinder.
  */
-var CylinderGeometry = (function (_super) {
+var CylinderGeometry = /** @class */ (function (_super) {
     tslib_1.__extends(CylinderGeometry, _super);
     /**
      *

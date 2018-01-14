@@ -7,7 +7,7 @@ var Spinor2_1 = require("../math/Spinor2");
 var Spinor3_1 = require("../math/Spinor3");
 var Vector2_1 = require("../math/Vector2");
 var Vector3_1 = require("../math/Vector3");
-var Direction = (function () {
+var Direction = /** @class */ (function () {
     function Direction(sourceName) {
         this.sourceName = mustBeString_1.mustBeString('sourceName', sourceName);
     }

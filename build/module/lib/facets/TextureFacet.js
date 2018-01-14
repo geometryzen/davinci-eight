@@ -3,7 +3,7 @@ import { exchange } from '../base/exchange';
 import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { ShareableBase } from '../core/ShareableBase';
 import { TextureUnit } from '../core/TextureUnit';
-var TextureFacet = (function (_super) {
+var TextureFacet = /** @class */ (function (_super) {
     tslib_1.__extends(TextureFacet, _super);
     function TextureFacet() {
         var _this = _super.call(this) || this;

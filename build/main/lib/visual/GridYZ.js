@@ -46,7 +46,7 @@ function mapOptions(options) {
 /**
  * A grid in the yz plane.
  */
-var GridYZ = (function (_super) {
+var GridYZ = /** @class */ (function (_super) {
     tslib_1.__extends(GridYZ, _super);
     /**
      * Constructs a GridYZ.

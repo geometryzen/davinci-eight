@@ -16,13 +16,13 @@ cd davinci-eight
 
 Install NPM:
 ```
-yarn install
-yarn upgrade
+npm install
+npm update
 ```
 to install the tooling dependencies (For this you need to have [Node.js](http://nodejs.org) installed).
 
 ```
-yarn build
+npm run-script build
 ```
 to compile the source using the TypeScript compiler (For this you need to have [TypeScript](http://www.typescriptlang.org) installed) and to package the individual files into a single JavaScript file.
 
@@ -42,7 +42,7 @@ The following files should be changed.
 
 ```
 package.json
-src/davinci-eight/config.ts
+src/lib/config.ts
 ```
 
 ## Git

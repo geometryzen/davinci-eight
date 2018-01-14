@@ -3,7 +3,7 @@ import { ShareableBase } from '../core/ShareableBase';
 /**
  * Displays details about the WegGL version to the console.
  */
-var VersionLogger = (function (_super) {
+var VersionLogger = /** @class */ (function (_super) {
     tslib_1.__extends(VersionLogger, _super);
     function VersionLogger(contextManager) {
         var _this = _super.call(this) || this;

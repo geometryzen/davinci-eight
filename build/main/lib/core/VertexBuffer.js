@@ -7,7 +7,7 @@ var ShareableContextConsumer_1 = require("./ShareableContextConsumer");
 /**
  * A wrapper around a WebGLBuffer with binding to ARRAY_BUFFER.
  */
-var VertexBuffer = (function (_super) {
+var VertexBuffer = /** @class */ (function (_super) {
     tslib_1.__extends(VertexBuffer, _super);
     /**
      *

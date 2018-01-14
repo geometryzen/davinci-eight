@@ -4,7 +4,7 @@ var tslib_1 = require("tslib");
 var SliceSimplexPrimitivesBuilder_1 = require("../geometries/SliceSimplexPrimitivesBuilder");
 var Vector2_1 = require("../math/Vector2");
 var Vector3_1 = require("../math/Vector3");
-var ConeSimplexGeometry = (function (_super) {
+var ConeSimplexGeometry = /** @class */ (function (_super) {
     tslib_1.__extends(ConeSimplexGeometry, _super);
     function ConeSimplexGeometry(radius, height, axis, radiusTop, openCap, openBase, thetaStart) {
         if (radius === void 0) { radius = 0.5; }

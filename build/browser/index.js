@@ -94,12 +94,12 @@ function readOnly(name) {
     return message;
 }
 
-var Eight = (function () {
+var Eight = /** @class */ (function () {
     function Eight() {
         this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
         this.LAST_MODIFIED = '2017-08-04';
         this.NAMESPACE = 'EIGHT';
-        this.VERSION = '7.0.3';
+        this.VERSION = '7.1.0';
     }
     Eight.prototype.log = function (message) {
         // This should allow us to unit test and run in environments without a console.
@@ -385,7 +385,7 @@ function uuid4() {
  *     }
  *
  */
-var ShareableBase = (function () {
+var ShareableBase = /** @class */ (function () {
     /**
      *
      */
@@ -539,7 +539,7 @@ var ShareableBase = (function () {
     return ShareableBase;
 }());
 
-var WebGLBlendFunc = (function (_super) {
+var WebGLBlendFunc = /** @class */ (function (_super) {
     __extends(WebGLBlendFunc, _super);
     function WebGLBlendFunc(contextManager, sfactor, dfactor) {
         var _this = _super.call(this) || this;
@@ -577,7 +577,7 @@ function mustBeNumber(name, value, contextBuilder) {
     return value;
 }
 
-var WebGLClearColor = (function (_super) {
+var WebGLClearColor = /** @class */ (function (_super) {
     __extends(WebGLClearColor, _super);
     function WebGLClearColor(contextManager, r, g, b, a) {
         if (r === void 0) { r = 0; }
@@ -622,7 +622,7 @@ var WebGLClearColor = (function (_super) {
 /**
  * disable(capability: Capability): void
  */
-var WebGLDisable = (function (_super) {
+var WebGLDisable = /** @class */ (function (_super) {
     __extends(WebGLDisable, _super);
     function WebGLDisable(contextManager, capability) {
         var _this = _super.call(this) || this;
@@ -650,7 +650,7 @@ var WebGLDisable = (function (_super) {
 /**
  * enable(capability: Capability): void
  */
-var WebGLEnable = (function (_super) {
+var WebGLEnable = /** @class */ (function (_super) {
     __extends(WebGLEnable, _super);
     function WebGLEnable(contextManager, capability) {
         var _this = _super.call(this) || this;
@@ -1115,7 +1115,7 @@ function lock(m) {
     m.lock();
     return m;
 }
-var TargetLockedError = (function (_super) {
+var TargetLockedError = /** @class */ (function (_super) {
     __extends(TargetLockedError, _super);
     /**
      * `operationName` is the name of the operation, without parentheses or parameters.
@@ -1125,7 +1125,7 @@ var TargetLockedError = (function (_super) {
     }
     return TargetLockedError;
 }(Error));
-var TargetUnlockedError = (function (_super) {
+var TargetUnlockedError = /** @class */ (function (_super) {
     __extends(TargetUnlockedError, _super);
     /**
      * `operationName` is the name of the operation, without parentheses.
@@ -1170,7 +1170,7 @@ function lockable() {
 /**
  * Lockable Mixin
  */
-var LockableMixin = (function () {
+var LockableMixin = /** @class */ (function () {
     function LockableMixin() {
     }
     LockableMixin.prototype.isLocked = function () {
@@ -1858,7 +1858,7 @@ var cosines = [];
 /**
  *
  */
-var Geometric3 = (function () {
+var Geometric3 = /** @class */ (function () {
     /**
      * Constructs a <code>Geometric3</code>.
      * The multivector is initialized to zero.
@@ -4049,7 +4049,7 @@ var magicCode = Math.random();
 /**
  * A Geometric Number representing the even sub-algebra of G3.
  */
-var Spinor3 = (function () {
+var Spinor3 = /** @class */ (function () {
     /**
      * @param coords [yz, zx, xy, a]
      * @param code
@@ -5222,7 +5222,7 @@ function expectArg(name, value) {
  * Base class for matrices with the expectation that they will be used with WebGL.
  * The underlying data storage is a <code>Float32Array</code>.
  */
-var AbstractMatrix = (function () {
+var AbstractMatrix = /** @class */ (function () {
     /**
      * @param elements
      * @param dimensions
@@ -5411,7 +5411,7 @@ function add3x3(a, b, c) {
  * </table>
  * </p>
  */
-var Matrix3 = (function (_super) {
+var Matrix3 = /** @class */ (function (_super) {
     __extends(Matrix3, _super);
     /**
      * @param elements
@@ -5871,7 +5871,7 @@ function coordinates$2(m) {
 /**
  *
  */
-var Vector3 = (function () {
+var Vector3 = /** @class */ (function () {
     /**
      * @param coords
      * @param modified
@@ -6668,7 +6668,7 @@ function coordinates$3(m) {
 /**
  *
  */
-var Vector2 = (function () {
+var Vector2 = /** @class */ (function () {
     /**
      * @param coords The x coordinate and y coordinate.
      * @param modified
@@ -7145,7 +7145,7 @@ var keys = [65 /*A*/, 83 /*S*/, 68 /*D*/];
 /**
  *
  */
-var MouseControls = (function (_super) {
+var MouseControls = /** @class */ (function (_super) {
     __extends(MouseControls, _super);
     /**
      *
@@ -7384,7 +7384,7 @@ var MouseControls = (function (_super) {
         this.domElement.addEventListener('mousewheel', this.mousewheel, false);
         this.domElement.addEventListener('DOMMouseScroll', this.mousewheel, false); // Firefox
         this.wnd.addEventListener('keydown', this.keydown, false);
-        this.wnd.addEventListener('keyup', this.keydown, false);
+        this.wnd.addEventListener('keyup', this.keyup, false);
         this.handleResize();
     };
     /**
@@ -7398,7 +7398,7 @@ var MouseControls = (function (_super) {
             this.domElement.removeEventListener('DOMMouseScroll', this.mousewheel, false); // Firefox
             this.domElement = void 0;
             this.wnd.removeEventListener('keydown', this.keydown, false);
-            this.wnd.removeEventListener('keyup', this.keydown, false);
+            this.wnd.removeEventListener('keyup', this.keyup, false);
         }
     };
     MouseControls.prototype.disableContextMenu = function () {
@@ -7475,7 +7475,7 @@ var MouseControls = (function (_super) {
 /**
  *
  */
-var ViewControls = (function (_super) {
+var ViewControls = /** @class */ (function (_super) {
     __extends(ViewControls, _super);
     /**
      * @param view
@@ -7654,7 +7654,7 @@ var X = Vector3.zero();
  * new reference frame. This rotor may also be interpolated for animations.
  * </p>
  */
-var OrbitControls = (function (_super) {
+var OrbitControls = /** @class */ (function (_super) {
     __extends(OrbitControls, _super);
     /**
      * @param view
@@ -7732,8 +7732,13 @@ var OrbitControls = (function (_super) {
  *
  * You may decide to update directional lighting to synchronize with the camera.
  */
-var TrackballControls = (function (_super) {
+var TrackballControls = /** @class */ (function (_super) {
     __extends(TrackballControls, _super);
+    /**
+     *
+     * @param view eye, look, and up vectors. The coordinates will be manipulated by this object.
+     * @param wnd The browser window. Used to add listeners for mouse and keyboard events.
+     */
     function TrackballControls(view, wnd) {
         if (wnd === void 0) { wnd = window; }
         var _this = _super.call(this, view, wnd) || this;
@@ -7813,7 +7818,7 @@ var TrackballControls = (function (_super) {
 /**
  * An object-oriented representation of an <code>attribute</code> in a GLSL shader program.
  */
-var Attrib = (function () {
+var Attrib = /** @class */ (function () {
     /**
      *
      */
@@ -8064,7 +8069,7 @@ function verbotenPop() {
 /**
  *
  */
-var VectorN = (function () {
+var VectorN = /** @class */ (function () {
     /**
      *
      * @param data
@@ -8227,7 +8232,7 @@ var VectorN = (function () {
 /**
  *
  */
-var Coords = (function (_super) {
+var Coords = /** @class */ (function (_super) {
     __extends(Coords, _super);
     /**
      *
@@ -8317,7 +8322,7 @@ var rgb255 = function rgb255(red, green, blue) {
 /**
  * A mutable type representing a color through its RGB components.
  */
-var Color = (function (_super) {
+var Color = /** @class */ (function (_super) {
     __extends(Color, _super);
     function Color(r, g, b) {
         var _this = _super.call(this, [r, g, b], false, 3) || this;
@@ -8743,7 +8748,7 @@ function exchange(mine, yours) {
  * Canonical variable names, which also act as semantic identifiers for name overrides.
  * These names must be stable to avoid breaking custom vertex and fragment shaders.
  */
-var GraphicsProgramSymbols = (function () {
+var GraphicsProgramSymbols = /** @class */ (function () {
     function GraphicsProgramSymbols() {
     }
     /**
@@ -8876,7 +8881,7 @@ function mustBeNonNullObject(name, value, contextBuilder) {
 /**
  *
  */
-var OpacityFacet = (function () {
+var OpacityFacet = /** @class */ (function () {
     /**
      *
      */
@@ -8899,7 +8904,7 @@ var OpacityFacet = (function () {
 /**
  *
  */
-var PointSizeFacet = (function () {
+var PointSizeFacet = /** @class */ (function () {
     /**
      *
      */
@@ -8919,7 +8924,7 @@ var PointSizeFacet = (function () {
 /**
  *
  */
-var ShareableContextConsumer = (function (_super) {
+var ShareableContextConsumer = /** @class */ (function (_super) {
     __extends(ShareableContextConsumer, _super);
     /**
      *
@@ -9030,7 +9035,7 @@ var ShareableContextConsumer = (function (_super) {
 /**
  *
  */
-var StringShareableMap = (function (_super) {
+var StringShareableMap = /** @class */ (function (_super) {
     __extends(StringShareableMap, _super);
     /**
      * A map of string to V extends Shareable.
@@ -9127,7 +9132,7 @@ var DRAWABLE_LOGGING_NAME = 'Drawable';
 /**
  * This class may be used as either a base class or standalone.
  */
-var Drawable = (function (_super) {
+var Drawable = /** @class */ (function (_super) {
     __extends(Drawable, _super);
     /**
      *
@@ -9490,7 +9495,7 @@ function notSupported(name) {
 /**
  * GeometryBase
  */
-var GeometryBase = (function (_super) {
+var GeometryBase = /** @class */ (function (_super) {
     __extends(GeometryBase, _super);
     /**
      *
@@ -9680,7 +9685,7 @@ function mustBeUndefined(name, value, contextBuilder) {
 /**
  * A wrapper around a WebGLBuffer with binding to ARRAY_BUFFER.
  */
-var VertexBuffer = (function (_super) {
+var VertexBuffer = /** @class */ (function (_super) {
     __extends(VertexBuffer, _super);
     /**
      *
@@ -9777,7 +9782,7 @@ var VertexBuffer = (function (_super) {
 /**
  * A concrete Geometry for supporting drawArrays.
  */
-var GeometryArrays = (function (_super) {
+var GeometryArrays = /** @class */ (function (_super) {
     __extends(GeometryArrays, _super);
     /**
      *
@@ -9871,7 +9876,7 @@ var GeometryArrays = (function (_super) {
 /**
  * A wrapper around a WebGLBuffer with binding to ELEMENT_ARRAY_BUFFER.
  */
-var IndexBuffer = (function (_super) {
+var IndexBuffer = /** @class */ (function (_super) {
     __extends(IndexBuffer, _super);
     /**
      *
@@ -9971,7 +9976,7 @@ var IndexBuffer = (function (_super) {
 /**
  * A Geometry that supports interleaved vertex buffers.
  */
-var GeometryElements = (function (_super) {
+var GeometryElements = /** @class */ (function (_super) {
     __extends(GeometryElements, _super);
     /**
      *
@@ -10111,7 +10116,7 @@ var GeometryElements = (function (_super) {
     TextureParameterName[TextureParameterName["TEXTURE_WRAP_T"] = 10243] = "TEXTURE_WRAP_T";
 })(exports.TextureParameterName || (exports.TextureParameterName = {}));
 
-var Texture = (function (_super) {
+var Texture = /** @class */ (function (_super) {
     __extends(Texture, _super);
     function Texture(target, contextManager, levelUp) {
         if (levelUp === void 0) { levelUp = 0; }
@@ -10246,7 +10251,7 @@ var Texture = (function (_super) {
     return Texture;
 }(ShareableContextConsumer));
 
-var ImageTexture = (function (_super) {
+var ImageTexture = /** @class */ (function (_super) {
     __extends(ImageTexture, _super);
     function ImageTexture(image, target, contextManager, levelUp) {
         if (levelUp === void 0) { levelUp = 0; }
@@ -10427,7 +10432,7 @@ var canonicalMeridian = vec(0, 0, 1);
 /**
  *
  */
-var ColorFacet = (function () {
+var ColorFacet = /** @class */ (function () {
     /**
      *
      */
@@ -10710,7 +10715,7 @@ function add4x4(a, b, c) {
  *
  * An adapter for a `Float32Array`.
  */
-var Matrix4 = (function (_super) {
+var Matrix4 = /** @class */ (function (_super) {
     __extends(Matrix4, _super);
     // The correspondence between the elements property index and the matrix entries is...
     //
@@ -11132,7 +11137,7 @@ var Matrix4 = (function (_super) {
 /**
  *
  */
-var ModelE3 = (function () {
+var ModelE3 = /** @class */ (function () {
     /**
      * <p>
      * A collection of properties for Rigid Body Modeling.
@@ -11194,7 +11199,7 @@ var ModelE3 = (function () {
 /**
  *
  */
-var ModelFacet = (function (_super) {
+var ModelFacet = /** @class */ (function (_super) {
     __extends(ModelFacet, _super);
     /**
      * <p>
@@ -11405,7 +11410,7 @@ var TextureUnit;
     TextureUnit[TextureUnit["ACTIVE_TEXTURE"] = 34016] = "ACTIVE_TEXTURE";
 })(TextureUnit || (TextureUnit = {}));
 
-var TextureFacet = (function (_super) {
+var TextureFacet = /** @class */ (function (_super) {
     __extends(TextureFacet, _super);
     function TextureFacet() {
         var _this = _super.call(this) || this;
@@ -11444,7 +11449,7 @@ var MODEL_FACET_NAME = 'model';
 /**
  * The standard pairing of a Geometry and a Material.
  */
-var Mesh = (function (_super) {
+var Mesh = /** @class */ (function (_super) {
     __extends(Mesh, _super);
     /**
      * Initializes this Mesh with a ColorFacet ('color'), a TextureFacet ('image'), and a ModelFacet ('model').
@@ -11831,7 +11836,7 @@ function transferOwnership(data) {
  * Provides a safer way to maintain reference counts than a native array.
  * </p>
  */
-var ShareableArray = (function (_super) {
+var ShareableArray = /** @class */ (function (_super) {
     __extends(ShareableArray, _super);
     /**
      *
@@ -12011,7 +12016,7 @@ var ShareableArray = (function (_super) {
 /**
  * A collection of Renderable objects.
  */
-var Scene = (function (_super) {
+var Scene = /** @class */ (function (_super) {
     __extends(Scene, _super);
     function Scene(contextManager, levelUp) {
         if (levelUp === void 0) { levelUp = 0; }
@@ -12197,7 +12202,7 @@ function makeWebGLShader(gl, source, type) {
 /**
  *
  */
-var Shader = (function (_super) {
+var Shader = /** @class */ (function (_super) {
     __extends(Shader, _super);
     function Shader(source, type, engine) {
         var _this = _super.call(this, engine) || this;
@@ -12272,7 +12277,7 @@ var Shader = (function (_super) {
 /**
  * A wrapper around a <code>WebGLUniformLocation</code>.
  */
-var Uniform = (function () {
+var Uniform = /** @class */ (function () {
     function Uniform(info) {
         if (!isNull(info)) {
             mustBeObject('info', info);
@@ -12483,7 +12488,7 @@ function checkEnums(gl) {
 /**
  * Displays details about EIGHT to the console.
  */
-var EIGHTLogger = (function (_super) {
+var EIGHTLogger = /** @class */ (function (_super) {
     __extends(EIGHTLogger, _super);
     function EIGHTLogger() {
         var _this = _super.call(this) || this;
@@ -12542,7 +12547,7 @@ function initWebGL(canvas, attributes) {
 /**
  * Displays details about the WegGL version to the console.
  */
-var VersionLogger = (function (_super) {
+var VersionLogger = /** @class */ (function (_super) {
     __extends(VersionLogger, _super);
     function VersionLogger(contextManager) {
         var _this = _super.call(this) || this;
@@ -12615,7 +12620,7 @@ var VersionLogger = (function (_super) {
  *
  *     requestAnimationFrame(animate)
  */
-var Engine = (function (_super) {
+var Engine = /** @class */ (function (_super) {
     __extends(Engine, _super);
     /**
      * @param canvas
@@ -13089,7 +13094,7 @@ var Engine = (function (_super) {
 /**
  *
  */
-var AmbientLight = (function () {
+var AmbientLight = /** @class */ (function () {
     /**
      *
      */
@@ -13114,7 +13119,7 @@ var AmbientLight = (function () {
 /**
  *
  */
-var DirectionalLight = (function () {
+var DirectionalLight = /** @class */ (function () {
     function DirectionalLight(direction, color) {
         if (direction === void 0) { direction = Vector3.vector(0, 0, 1).neg(); }
         if (color === void 0) { color = Color.white; }
@@ -13177,7 +13182,7 @@ function add2x2(a, b, c) {
 /**
  *
  */
-var Matrix2 = (function (_super) {
+var Matrix2 = /** @class */ (function (_super) {
     __extends(Matrix2, _super);
     /**
      * 2x2 (square) matrix of numbers.
@@ -13498,7 +13503,7 @@ var Matrix2 = (function (_super) {
 /**
  *
  */
-var ReflectionFacetE2 = (function () {
+var ReflectionFacetE2 = /** @class */ (function () {
     /**
      * @param name The name of the uniform variable.
      */
@@ -13541,7 +13546,7 @@ var ReflectionFacetE2 = (function () {
 /**
  *
  */
-var ReflectionFacetE3 = (function () {
+var ReflectionFacetE3 = /** @class */ (function () {
     /**
      * @param name {string} The name of the uniform variable.
      */
@@ -13576,7 +13581,7 @@ var ReflectionFacetE3 = (function () {
  * Updates a uniform vec3 shader parameter from a VectorE3.
  * Using a VectorE3 makes assignment easier, which is the dominant use case.
  */
-var Vector3Facet = (function () {
+var Vector3Facet = /** @class */ (function () {
     function Vector3Facet(name) {
         /**
          * Intentionally provide access to the mutable property.
@@ -13661,7 +13666,7 @@ function viewMatrixFromEyeLookUp(eye, look, up, matrix) {
 /**
  *
  */
-var ViewTransform = (function () {
+var ViewTransform = /** @class */ (function () {
     /**
      *
      */
@@ -13681,7 +13686,7 @@ var ViewTransform = (function () {
         /**
          *
          */
-        this.matrix = Matrix4.one.clone();
+        this._matrix = Matrix4.one.clone();
         /**
          *
          */
@@ -13707,13 +13712,8 @@ var ViewTransform = (function () {
      *
      */
     ViewTransform.prototype.setUniforms = function (visitor) {
-        if (this._eye.modified || this._look.modified || this._up.modified) {
-            viewMatrixFromEyeLookUp(this._eye, this._look, this._up, this.matrix);
-            this._eye.modified = false;
-            this._look.modified = false;
-            this._up.modified = false;
-        }
-        visitor.matrix4fv(this.matrixName, this.matrix.elements, false);
+        this.refreshMatrix();
+        visitor.matrix4fv(this.matrixName, this._matrix.elements, false);
     };
     Object.defineProperty(ViewTransform.prototype, "eye", {
         /**
@@ -13724,6 +13724,7 @@ var ViewTransform = (function () {
         },
         set: function (eye) {
             this._eye.copyVector(eye);
+            this.refreshMatrix();
         },
         enumerable: true,
         configurable: true
@@ -13737,6 +13738,7 @@ var ViewTransform = (function () {
         },
         set: function (look) {
             this._look.copyVector(look);
+            this.refreshMatrix();
         },
         enumerable: true,
         configurable: true
@@ -13750,17 +13752,37 @@ var ViewTransform = (function () {
         },
         set: function (up) {
             this._up.copyVector(up);
+            this.refreshMatrix();
         },
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(ViewTransform.prototype, "matrix", {
+        get: function () {
+            // This is a bit of a hack because what we really need is for changes to the
+            // eye, look, and up vectors to fire events. This is because it is possible
+            // to mutate these vectors.
+            this.refreshMatrix();
+            return this._matrix;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    ViewTransform.prototype.refreshMatrix = function () {
+        if (this._eye.modified || this._look.modified || this._up.modified) {
+            viewMatrixFromEyeLookUp(this._eye, this._look, this._up, this._matrix);
+            this._eye.modified = false;
+            this._look.modified = false;
+            this._up.modified = false;
+        }
+    };
     return ViewTransform;
 }());
 
 /**
  *
  */
-var PerspectiveTransform = (function () {
+var PerspectiveTransform = /** @class */ (function () {
     /**
      *
      */
@@ -13777,15 +13799,11 @@ var PerspectiveTransform = (function () {
          *
          */
         this.matrixName = GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX;
-        /**
-         *
-         */
-        this.matrixNeedsUpdate = true;
-        // Initialize properties through setters in order to incorporate validation.
-        this.fov = fov;
-        this.aspect = aspect;
-        this.near = near;
-        this.far = far;
+        this._fov = fov;
+        this._aspect = aspect;
+        this._near = near;
+        this._far = far;
+        this.refreshMatrix();
     }
     Object.defineProperty(PerspectiveTransform.prototype, "aspect", {
         /**
@@ -13799,7 +13817,7 @@ var PerspectiveTransform = (function () {
                 mustBeNumber('aspect', aspect);
                 mustBeGE('aspect', aspect, 0);
                 this._aspect = aspect;
-                this.matrixNeedsUpdate = true;
+                this.refreshMatrix();
             }
         },
         enumerable: true,
@@ -13819,7 +13837,7 @@ var PerspectiveTransform = (function () {
                 mustBeGE('fov', fov, 0);
                 mustBeLE('fov', fov, Math.PI);
                 this._fov = fov;
-                this.matrixNeedsUpdate = true;
+                this.refreshMatrix();
             }
         },
         enumerable: true,
@@ -13837,7 +13855,7 @@ var PerspectiveTransform = (function () {
                 mustBeNumber('near', near);
                 mustBeGE('near', near, 0);
                 this._near = near;
-                this.matrixNeedsUpdate = true;
+                this.refreshMatrix();
             }
         },
         enumerable: true,
@@ -13855,7 +13873,7 @@ var PerspectiveTransform = (function () {
                 mustBeNumber('far', far);
                 mustBeGE('far', far, 0);
                 this._far = far;
-                this.matrixNeedsUpdate = true;
+                this.refreshMatrix();
             }
         },
         enumerable: true,
@@ -13865,10 +13883,6 @@ var PerspectiveTransform = (function () {
      *
      */
     PerspectiveTransform.prototype.setUniforms = function (visitor) {
-        if (this.matrixNeedsUpdate) {
-            this.matrix.perspective(this._fov, this._aspect, this._near, this._far);
-            this.matrixNeedsUpdate = false;
-        }
         visitor.matrix4fv(this.matrixName, this.matrix.elements, false);
     };
     /**
@@ -13902,6 +13916,12 @@ var PerspectiveTransform = (function () {
         var w = -1 / weight;
         return [u, v, w];
     };
+    /**
+     *
+     */
+    PerspectiveTransform.prototype.refreshMatrix = function () {
+        this.matrix.perspective(this._fov, this._aspect, this._near, this._far);
+    };
     return PerspectiveTransform;
 }());
 
@@ -13927,7 +13947,7 @@ var PerspectiveTransform = (function () {
  *
  * <p>The camera is initially positioned at <b>e</b><sub>3</sub>.</p>
  */
-var PerspectiveCamera = (function () {
+var PerspectiveCamera = /** @class */ (function () {
     /**
      *
      * @param fov The field of view.
@@ -14048,6 +14068,20 @@ var PerspectiveCamera = (function () {
         },
         set: function (up) {
             this.V.up.copyVector(up);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(PerspectiveCamera.prototype, "projectionMatrix", {
+        get: function () {
+            return this.P.matrix;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(PerspectiveCamera.prototype, "viewMatrix", {
+        get: function () {
+            return this.V.matrix;
         },
         enumerable: true,
         configurable: true
@@ -14376,7 +14410,7 @@ function duckCopy(value) {
 /**
  *
  */
-var Geometric2 = (function () {
+var Geometric2 = /** @class */ (function () {
     /**
      * [scalar, x, y, pseudo]
      */
@@ -15704,7 +15738,7 @@ Geometric2.ZERO.lock();
 /**
  *
  */
-var ModelE2 = (function () {
+var ModelE2 = /** @class */ (function () {
     /**
      * <p>
      * A collection of properties for Rigid Body Modeling.
@@ -15791,7 +15825,7 @@ function checkSize(size, values) {
 /**
  * A convenience class for implementing the Attribute interface.
  */
-var DrawAttribute = (function () {
+var DrawAttribute = /** @class */ (function () {
     function DrawAttribute(values, size, type) {
         // mustBeArray('values', values)
         // mustBeInteger('size', size)
@@ -15806,7 +15840,7 @@ var context = function () { return "DrawPrimitive constructor"; };
 /**
  * A convenience class for implementing the Primitive interface.
  */
-var DrawPrimitive = (function () {
+var DrawPrimitive = /** @class */ (function () {
     function DrawPrimitive(mode, indices, attributes) {
         this.attributes = {};
         this.mode = mustBeInteger('mode', mode, context);
@@ -15904,7 +15938,7 @@ function stringifyVertex(vertex) {
 /**
  * The data for a vertex in a normalized and uncompressed format that is easy to manipulate.
  */
-var Vertex = (function () {
+var Vertex = /** @class */ (function () {
     /**
      * @param numCoordinates The number of coordinates (dimensionality).
      */
@@ -15930,7 +15964,7 @@ var Vertex = (function () {
     return Vertex;
 }());
 
-var ShapeBuilder = (function () {
+var ShapeBuilder = /** @class */ (function () {
     /**
      *
      */
@@ -15981,7 +16015,7 @@ var ShapeBuilder = (function () {
 /**
  *
  */
-var AxialShapeBuilder = (function (_super) {
+var AxialShapeBuilder = /** @class */ (function (_super) {
     __extends(AxialShapeBuilder, _super);
     /**
      *
@@ -16039,7 +16073,7 @@ var sqrt$6 = Math.sqrt;
 /**
  *
  */
-var Spinor2 = (function () {
+var Spinor2 = /** @class */ (function () {
     /**
      *
      */
@@ -16790,7 +16824,7 @@ applyMixins(Spinor2, [LockableMixin]);
 /**
  * A `Transform` that calls the `approx` method on a `Vertex` attribute.
  */
-var Approximation = (function () {
+var Approximation = /** @class */ (function () {
     /**
      * @param n The value that will be passed to the `approx` method.
      * @param names The names of the attributes that are affected.
@@ -16833,7 +16867,7 @@ var Approximation = (function () {
     return Approximation;
 }());
 
-var Direction = (function () {
+var Direction = /** @class */ (function () {
     function Direction(sourceName) {
         this.sourceName = mustBeString('sourceName', sourceName);
     }
@@ -16873,7 +16907,7 @@ var Direction = (function () {
  * Applies a duality transformation to the specified attributes of a vertex, creating a new attribute.
  * The convention used is pre-multiplication by the pseudoscalar.
  */
-var Duality = (function () {
+var Duality = /** @class */ (function () {
     function Duality(sourceName, outputName, changeSign, removeSource) {
         this.sourceName = mustBeString('sourceName', sourceName);
         this.outputName = mustBeString('outputName', outputName);
@@ -17014,7 +17048,7 @@ function attributes(elements, vertices) {
  * in a more compact representation based upon number[]. An even more compact
  * representation is VertexArrays, which interleaves the vertex.
  */
-var VertexPrimitive = (function () {
+var VertexPrimitive = /** @class */ (function () {
     /**
      * Constructs a VertexPrimitive and initializes the vertices property with the required number of vertices.
      *
@@ -17056,7 +17090,7 @@ var VertexPrimitive = (function () {
  * counter-clockwise orientation when increasing u is the first direction and
  * increasing v the second direction.
  */
-var GridPrimitive = (function (_super) {
+var GridPrimitive = /** @class */ (function (_super) {
     __extends(GridPrimitive, _super);
     function GridPrimitive(mode, uSegments, vSegments) {
         var _this = _super.call(this, mode, numVerticesForGrid(uSegments, vSegments), 2) || this;
@@ -17187,7 +17221,7 @@ function triangleStripForGrid(uSegments, vSegments, elements) {
  * counter-clockwise orientation when increasing u is the first direction and
  * increasing v the second direction.
  */
-var GridTriangleStrip = (function (_super) {
+var GridTriangleStrip = /** @class */ (function (_super) {
     __extends(GridTriangleStrip, _super);
     /**
      * @param uSegments
@@ -17220,7 +17254,7 @@ function coneNormal(ρ, h, out) {
 /**
  *
  */
-var ConeTransform = (function () {
+var ConeTransform = /** @class */ (function () {
     /**
      * @param clockwise
      * @param sliceAngle
@@ -17287,7 +17321,7 @@ var ConeTransform = (function () {
     return ConeTransform;
 }());
 
-var Rotation = (function () {
+var Rotation = /** @class */ (function () {
     function Rotation(R, names) {
         this.R = Spinor3.copy(mustBeObject('R', R));
         this.names = names;
@@ -17315,7 +17349,7 @@ var Rotation = (function () {
     return Rotation;
 }());
 
-var Scaling = (function () {
+var Scaling = /** @class */ (function () {
     function Scaling(stress, names) {
         this.stress = Vector3.copy(mustBeObject('stress', stress));
         this.names = mustBeArray('names', names);
@@ -17351,7 +17385,7 @@ var Scaling = (function () {
 /**
  * Applies a translation to the specified attributes of a vertex.
  */
-var Translation = (function () {
+var Translation = /** @class */ (function () {
     function Translation(s, names) {
         this.s = Vector3.copy(mustBeObject('s', s));
         this.names = names;
@@ -17377,7 +17411,7 @@ var Translation = (function () {
 /**
  * Applies coordinates to a surface.
  */
-var CoordsTransform2D = (function () {
+var CoordsTransform2D = /** @class */ (function () {
     function CoordsTransform2D(flipU, flipV, exchangeUV) {
         this.flipU = mustBeBoolean('flipU', flipU);
         this.flipV = mustBeBoolean('flipV', flipV);
@@ -17402,7 +17436,7 @@ var CoordsTransform2D = (function () {
 /**
  *
  */
-var ConicalShellBuilder = (function (_super) {
+var ConicalShellBuilder = /** @class */ (function (_super) {
     __extends(ConicalShellBuilder, _super);
     function ConicalShellBuilder() {
         var _this = _super.call(this) || this;
@@ -17460,7 +17494,7 @@ var ConicalShellBuilder = (function (_super) {
 /**
  *
  */
-var CylinderTransform = (function () {
+var CylinderTransform = /** @class */ (function () {
     /**
      * @param sliceAngle
      * @param aPosition The name to use for the position attribute.
@@ -17494,7 +17528,7 @@ var CylinderTransform = (function () {
 /**
  * This implementation only builds the walls of the cylinder (by wrapping a grid)
  */
-var CylindricalShellBuilder = (function (_super) {
+var CylindricalShellBuilder = /** @class */ (function (_super) {
     __extends(CylindricalShellBuilder, _super);
     function CylindricalShellBuilder() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
@@ -17547,7 +17581,7 @@ var CylindricalShellBuilder = (function (_super) {
     return CylindricalShellBuilder;
 }(AxialShapeBuilder));
 
-var RingTransform = (function () {
+var RingTransform = /** @class */ (function () {
     /**
      * @param e The axis normal to the plane of the ring.
      * @param cutLine
@@ -17585,7 +17619,7 @@ var RingTransform = (function () {
 /**
  * Constructs a one-sided ring using a TRIANGLE_STRIP.
  */
-var RingBuilder = (function (_super) {
+var RingBuilder = /** @class */ (function (_super) {
     __extends(RingBuilder, _super);
     function RingBuilder() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
@@ -17661,7 +17695,7 @@ var RingBuilder = (function (_super) {
  * This class does not default the <b>cutLine</b>.
  * </p>
  */
-var ArrowBuilder = (function (_super) {
+var ArrowBuilder = /** @class */ (function (_super) {
     __extends(ArrowBuilder, _super);
     /**
      *
@@ -17816,7 +17850,7 @@ function lerpVertexAttributeMap(a, b, alpha) {
 function lerpVectorN(a, b, alpha) {
     return new VectorN(lerp(a.toArray(), b.toArray(), alpha));
 }
-var Simplex = (function () {
+var Simplex = /** @class */ (function () {
     function Simplex(k) {
         this.vertices = [];
         mustBeInteger('k', k);
@@ -18023,7 +18057,7 @@ function arrowPrimitive(options) {
  * The cutLine unit vector defaults to <b>e<b><sub>3</sub>
  * </p>
  */
-var ArrowGeometry = (function (_super) {
+var ArrowGeometry = /** @class */ (function (_super) {
     __extends(ArrowGeometry, _super);
     /**
      *
@@ -18063,7 +18097,7 @@ var ArrowGeometry = (function (_super) {
 /**
  * A framework, as a base class, for building primitives by applying transformations to vertices.
  */
-var PrimitivesBuilder = (function () {
+var PrimitivesBuilder = /** @class */ (function () {
     function PrimitivesBuilder() {
         /**
          * The scaling to apply to the geometry in the initial configuration.
@@ -18417,7 +18451,7 @@ var COORD_X$6 = 0;
 /**
  * @class Vector1
  */
-var Vector1 = (function (_super) {
+var Vector1 = /** @class */ (function (_super) {
     __extends(Vector1, _super);
     /**
      * @class Vector1
@@ -18753,7 +18787,7 @@ var Vector1 = (function (_super) {
     return Vector1;
 }(Coords));
 
-var SimplexPrimitivesBuilder = (function (_super) {
+var SimplexPrimitivesBuilder = /** @class */ (function (_super) {
     __extends(SimplexPrimitivesBuilder, _super);
     function SimplexPrimitivesBuilder() {
         var _this = _super.call(this) || this;
@@ -18923,7 +18957,7 @@ var DEFAULT_B = vec(0, 1, 0);
  * e3
  */
 var DEFAULT_C = vec(0, 0, 1);
-var CuboidSimplexPrimitivesBuilder = (function (_super) {
+var CuboidSimplexPrimitivesBuilder = /** @class */ (function (_super) {
     __extends(CuboidSimplexPrimitivesBuilder, _super);
     function CuboidSimplexPrimitivesBuilder(a, b, c, k, subdivide, boundary) {
         if (k === void 0) { k = SimplexMode.TRIANGLE; }
@@ -19071,7 +19105,7 @@ function side(tilt, offset, basis, uSegments, vSegments) {
     }
     return side;
 }
-var CuboidPrimitivesBuilder = (function (_super) {
+var CuboidPrimitivesBuilder = /** @class */ (function (_super) {
     __extends(CuboidPrimitivesBuilder, _super);
     function CuboidPrimitivesBuilder() {
         var _this = _super.call(this) || this;
@@ -19251,7 +19285,7 @@ function boxPrimitive(options) {
 /**
  * A convenience class for creating a BoxGeometry.
  */
-var BoxGeometry = (function (_super) {
+var BoxGeometry = /** @class */ (function (_super) {
     __extends(BoxGeometry, _super);
     /**
      *
@@ -19397,7 +19431,7 @@ function computeWallVertices(height, radius, clockwise, stress, tilt, offset, an
 /**
  *
  */
-var CylinderSimplexPrimitivesBuilder = (function (_super) {
+var CylinderSimplexPrimitivesBuilder = /** @class */ (function (_super) {
     __extends(CylinderSimplexPrimitivesBuilder, _super);
     function CylinderSimplexPrimitivesBuilder(height, cutLine, clockwise, mode) {
         var _this = _super.call(this) || this;
@@ -19626,7 +19660,7 @@ function baseOptions(options) {
 /**
  * A geometry for a Cylinder.
  */
-var CylinderGeometry = (function (_super) {
+var CylinderGeometry = /** @class */ (function (_super) {
     __extends(CylinderGeometry, _super);
     /**
      *
@@ -19683,7 +19717,7 @@ function numVerticesForCurve(uSegments) {
 /**
  *
  */
-var CurvePrimitive = (function (_super) {
+var CurvePrimitive = /** @class */ (function (_super) {
     __extends(CurvePrimitive, _super);
     /**
      * @param mode
@@ -19757,7 +19791,7 @@ function elementsForCurve(uSegments, uClosed, elements) {
     return elements;
 }
 
-var LineStrip = (function (_super) {
+var LineStrip = /** @class */ (function (_super) {
     __extends(LineStrip, _super);
     /**
      * @param uSegments
@@ -19799,7 +19833,7 @@ var LineStrip = (function (_super) {
 /**
  *
  */
-var LinePoints = (function (_super) {
+var LinePoints = /** @class */ (function (_super) {
     __extends(LinePoints, _super);
     /**
      * @param uSegments
@@ -19878,7 +19912,7 @@ function curvePrimitive(options) {
 /**
  * A Geometry for representing functions of one scalar parameter.
  */
-var CurveGeometry = (function (_super) {
+var CurveGeometry = /** @class */ (function (_super) {
     __extends(CurveGeometry, _super);
     function CurveGeometry(contextManager, options, levelUp) {
         if (options === void 0) { options = { kind: 'CurveGeometry' }; }
@@ -19942,7 +19976,7 @@ function linesForGrid(uSegments, uClosed, vSegments, vClosed) {
     }
     return elements;
 }
-var GridLines = (function (_super) {
+var GridLines = /** @class */ (function (_super) {
     __extends(GridLines, _super);
     /**
      * @param uSegments
@@ -20000,7 +20034,7 @@ function pointsForGrid(uSegments, uClosed, vSegments, vClosed) {
 /**
  *
  */
-var GridPoints = (function (_super) {
+var GridPoints = /** @class */ (function (_super) {
     __extends(GridPoints, _super);
     /**
      * @param uSegments
@@ -20131,7 +20165,7 @@ function gridPrimitive(options) {
 /**
  * A Geometry for representing functions of two scalar parameters.
  */
-var GridGeometry = (function (_super) {
+var GridGeometry = /** @class */ (function (_super) {
     __extends(GridGeometry, _super);
     /**
      *
@@ -20341,7 +20375,7 @@ function makePoints(points, uvs, radius, heightSegments, widthSegments, geometry
         }
     }
 }
-var SphereSimplexPrimitivesBuilder = (function (_super) {
+var SphereSimplexPrimitivesBuilder = /** @class */ (function (_super) {
     __extends(SphereSimplexPrimitivesBuilder, _super);
     function SphereSimplexPrimitivesBuilder() {
         var _this = _super.call(this) || this;
@@ -20522,7 +20556,7 @@ function spherePrimitive(options) {
 /**
  * A convenience class for creating a sphere.
  */
-var SphereGeometry = (function (_super) {
+var SphereGeometry = /** @class */ (function (_super) {
     __extends(SphereGeometry, _super);
     /**
      *
@@ -20612,7 +20646,7 @@ function normal(v1, v2, v3) {
  * In elementary geometry, a polyhedron is a solid in three dimensions with
  * flat polygonal faces, straight edges and sharp corners or vertices.
  */
-var PolyhedronBuilder = (function (_super) {
+var PolyhedronBuilder = /** @class */ (function (_super) {
     __extends(PolyhedronBuilder, _super);
     /**
      *
@@ -20790,7 +20824,7 @@ function tetrahedronPrimitive(options) {
 /**
  * A convenience class for creating a tetrahedron geometry.
  */
-var TetrahedronGeometry = (function (_super) {
+var TetrahedronGeometry = /** @class */ (function (_super) {
     __extends(TetrahedronGeometry, _super);
     /**
      *
@@ -20861,7 +20895,7 @@ function makeWebGLProgram(ctx, vertexShaderSrc, fragmentShaderSrc, attribs) {
 /**
  *
  */
-var ShaderMaterial = (function (_super) {
+var ShaderMaterial = /** @class */ (function (_super) {
     __extends(ShaderMaterial, _super);
     /**
      * @param vertexShaderSrc The vertex shader source code.
@@ -21373,7 +21407,7 @@ function detectShaderType(scriptIds, dom) {
  * The scripts are lazily loaded so that the constructor may be called before
  * the DOM has finished loading.
  */
-var HTMLScriptsMaterial = (function (_super) {
+var HTMLScriptsMaterial = /** @class */ (function (_super) {
     __extends(HTMLScriptsMaterial, _super);
     /**
      * @param contextManager
@@ -21809,7 +21843,7 @@ function computeAttribParams(values) {
 /**
  * GraphicsProgramBuilder is the builder pattern for generating vertex and fragment shader source code.
  */
-var GraphicsProgramBuilder = (function () {
+var GraphicsProgramBuilder = /** @class */ (function () {
     /**
      * @param primitive
      */
@@ -21906,7 +21940,7 @@ function fragmentShaderSrc$1(options) {
  * </tr>
  * </table>
  */
-var LineMaterial = (function (_super) {
+var LineMaterial = /** @class */ (function (_super) {
     __extends(LineMaterial, _super);
     /**
      *
@@ -21988,7 +22022,7 @@ var LOGGING_NAME_MESH_MATERIAL = 'MeshMaterial';
 /**
  *
  */
-var MeshMaterial = (function (_super) {
+var MeshMaterial = /** @class */ (function (_super) {
     __extends(MeshMaterial, _super);
     /**
      *
@@ -22064,7 +22098,7 @@ function fragmentShaderSrc$4(options) {
 /**
  *
  */
-var PointMaterial = (function (_super) {
+var PointMaterial = /** @class */ (function (_super) {
     __extends(PointMaterial, _super);
     /**
      *
@@ -22150,7 +22184,7 @@ var tanh = makeUnaryUniversalFunction('tanh', tanhNumber);
 /**
  *
  */
-var Vector4 = (function (_super) {
+var Vector4 = /** @class */ (function (_super) {
     __extends(Vector4, _super);
     /**
      * @class Vector4
@@ -22385,7 +22419,7 @@ function getCanvasElementById(elementId, dom) {
     }
 }
 
-var NumberShareableMap = (function (_super) {
+var NumberShareableMap = /** @class */ (function (_super) {
     __extends(NumberShareableMap, _super);
     function NumberShareableMap() {
         var _this = _super.call(this) || this;
@@ -22844,7 +22878,7 @@ function vectorE3Object(vector) {
 /**
  * A Mesh in the form of an arrow that may be used to represent a vector quantity.
  */
-var Arrow = (function (_super) {
+var Arrow = /** @class */ (function (_super) {
     __extends(Arrow, _super);
     /**
      *
@@ -22997,7 +23031,7 @@ var fragmentShaderSrc$5 = function () {
 /**
  * A 3D visual representation of a reference frame or basis vectors.
  */
-var Basis = (function (_super) {
+var Basis = /** @class */ (function (_super) {
     __extends(Basis, _super);
     /**
      *
@@ -23150,7 +23184,7 @@ var RADIUS_NAME = 'radius';
 /**
  *
  */
-var Sphere = (function (_super) {
+var Sphere = /** @class */ (function (_super) {
     __extends(Sphere, _super);
     /**
      *
@@ -23222,7 +23256,7 @@ var Sphere = (function (_super) {
 /**
  * A 3D visual representation of a box.
  */
-var Box = (function (_super) {
+var Box = /** @class */ (function (_super) {
     __extends(Box, _super);
     /**
      *
@@ -23335,7 +23369,7 @@ var Box = (function (_super) {
 /**
  * A 3D visual representation of a cylinder.
  */
-var Cylinder = (function (_super) {
+var Cylinder = /** @class */ (function (_super) {
     __extends(Cylinder, _super);
     /**
      *
@@ -23542,7 +23576,7 @@ function configLines(contextManager, options, curve) {
 /**
  * A 3D visual representation of a discrete parameterized line.
  */
-var Curve = (function (_super) {
+var Curve = /** @class */ (function (_super) {
     __extends(Curve, _super);
     /**
      * Constructs a Curve.
@@ -23874,7 +23908,7 @@ function configMesh(engine, options, grid) {
 /**
  * A 3D visual representation of a a discrete parameterized surface.
  */
-var Grid = (function (_super) {
+var Grid = /** @class */ (function (_super) {
     __extends(Grid, _super);
     /**
      * Constructs a Grid.
@@ -23959,7 +23993,7 @@ function mapOptions(options) {
 /**
  * A grid in the xy plane.
  */
-var GridXY = (function (_super) {
+var GridXY = /** @class */ (function (_super) {
     __extends(GridXY, _super);
     /**
      * Constructs a GridXY
@@ -24022,7 +24056,7 @@ function mapOptions$1(options) {
 /**
  * A grid in the yz plane.
  */
-var GridYZ = (function (_super) {
+var GridYZ = /** @class */ (function (_super) {
     __extends(GridYZ, _super);
     /**
      * Constructs a GridYZ.
@@ -24085,7 +24119,7 @@ function mapOptions$2(options) {
 /**
  * A #d visual representation of a grid in the zx plane.
  */
-var GridZX = (function (_super) {
+var GridZX = /** @class */ (function (_super) {
     __extends(GridZX, _super);
     function GridZX(contextManager, options, levelUp) {
         if (options === void 0) { options = {}; }
@@ -24109,7 +24143,7 @@ var GridZX = (function (_super) {
 /**
  * A collection of objects that can be treated as a single Renderable.
  */
-var Group = (function (_super) {
+var Group = /** @class */ (function (_super) {
     __extends(Group, _super);
     /**
      * Constructs
@@ -24269,7 +24303,7 @@ function hollowCylinderPrimitive(options) {
 /**
  *
  */
-var HollowCylinderGeometry = (function (_super) {
+var HollowCylinderGeometry = /** @class */ (function (_super) {
     __extends(HollowCylinderGeometry, _super);
     /**
      *
@@ -24309,7 +24343,7 @@ var HollowCylinderGeometry = (function (_super) {
 /**
  * A 3D visual representation of a hollow cylinder.
  */
-var HollowCylinder = (function (_super) {
+var HollowCylinder = /** @class */ (function (_super) {
     __extends(HollowCylinder, _super);
     /**
      * Constructs a HollowCylinder.
@@ -24923,7 +24957,7 @@ var makeMaterial = function makeMaterial(graphics) {
 /**
  *
  */
-var MinecraftBodyPart = (function (_super) {
+var MinecraftBodyPart = /** @class */ (function (_super) {
     __extends(MinecraftBodyPart, _super);
     function MinecraftBodyPart(engine, texture, options, levelUp) {
         if (levelUp === void 0) { levelUp = 0; }
@@ -24943,7 +24977,7 @@ var MinecraftBodyPart = (function (_super) {
     };
     return MinecraftBodyPart;
 }(Mesh));
-var MinecraftHead = (function (_super) {
+var MinecraftHead = /** @class */ (function (_super) {
     __extends(MinecraftHead, _super);
     function MinecraftHead(engine, texture, options) {
         if (options === void 0) { options = {}; }
@@ -24961,7 +24995,7 @@ var MinecraftHead = (function (_super) {
     };
     return MinecraftHead;
 }(MinecraftBodyPart));
-var MinecraftTorso = (function (_super) {
+var MinecraftTorso = /** @class */ (function (_super) {
     __extends(MinecraftTorso, _super);
     function MinecraftTorso(engine, texture, options) {
         if (options === void 0) { options = {}; }
@@ -24979,7 +25013,7 @@ var MinecraftTorso = (function (_super) {
     };
     return MinecraftTorso;
 }(MinecraftBodyPart));
-var MinecraftArmL = (function (_super) {
+var MinecraftArmL = /** @class */ (function (_super) {
     __extends(MinecraftArmL, _super);
     function MinecraftArmL(engine, texture, options) {
         if (options === void 0) { options = {}; }
@@ -24997,7 +25031,7 @@ var MinecraftArmL = (function (_super) {
     };
     return MinecraftArmL;
 }(MinecraftBodyPart));
-var MinecraftArmR = (function (_super) {
+var MinecraftArmR = /** @class */ (function (_super) {
     __extends(MinecraftArmR, _super);
     function MinecraftArmR(engine, texture, options) {
         if (options === void 0) { options = {}; }
@@ -25015,7 +25049,7 @@ var MinecraftArmR = (function (_super) {
     };
     return MinecraftArmR;
 }(MinecraftBodyPart));
-var MinecraftLegL = (function (_super) {
+var MinecraftLegL = /** @class */ (function (_super) {
     __extends(MinecraftLegL, _super);
     function MinecraftLegL(engine, texture, options) {
         if (options === void 0) { options = {}; }
@@ -25033,7 +25067,7 @@ var MinecraftLegL = (function (_super) {
     };
     return MinecraftLegL;
 }(MinecraftBodyPart));
-var MinecraftLegR = (function (_super) {
+var MinecraftLegR = /** @class */ (function (_super) {
     __extends(MinecraftLegR, _super);
     function MinecraftLegR(engine, texture, options) {
         if (options === void 0) { options = {}; }
@@ -25057,7 +25091,7 @@ var e2$2 = vec(0, 1, 0);
 /**
  * A group of body parts arranged to look like a figure.
  */
-var MinecraftFigure = (function (_super) {
+var MinecraftFigure = /** @class */ (function (_super) {
     __extends(MinecraftFigure, _super);
     function MinecraftFigure(engine, texture, options) {
         if (options === void 0) { options = {}; }
@@ -25184,7 +25218,7 @@ quad$1(3, 0, 4, 7);
 quad$1(6, 5, 1, 2);
 quad$1(4, 5, 6, 7);
 quad$1(5, 4, 0, 1);
-var Parallelepiped = (function () {
+var Parallelepiped = /** @class */ (function () {
     function Parallelepiped(contextManager, levelUp) {
         if (levelUp === void 0) { levelUp = 0; }
         this.levelUp = levelUp;
@@ -25297,7 +25331,7 @@ var Parallelepiped = (function () {
 /**
  * A 3D visual representation of a tetrahedron.
  */
-var Tetrahedron = (function (_super) {
+var Tetrahedron = /** @class */ (function (_super) {
     __extends(Tetrahedron, _super);
     function Tetrahedron(contextManager, options, levelUp) {
         if (options === void 0) { options = {}; }
@@ -25362,7 +25396,7 @@ var STRIDE = BYTES_PER_FLOAT * FLOATS_PER_VERTEX;
 /**
  *
  */
-var TrackGeometry = (function () {
+var TrackGeometry = /** @class */ (function () {
     function TrackGeometry(contextManager) {
         this.contextManager = contextManager;
         this.scaling = Matrix4.one.clone();
@@ -25450,7 +25484,7 @@ var TrackGeometry = (function () {
 /**
  *
  */
-var Track = (function (_super) {
+var Track = /** @class */ (function (_super) {
     __extends(Track, _super);
     function Track(contextManager, options, levelUp) {
         if (options === void 0) { options = {}; }
@@ -25507,7 +25541,7 @@ var Track = (function (_super) {
 /**
  * Modulo Arithmetic (Experimental).
  */
-var Modulo = (function () {
+var Modulo = /** @class */ (function () {
     function Modulo() {
         this._value = 0;
         this._size = 0;
@@ -25548,7 +25582,7 @@ var Modulo = (function () {
 /**
  *
  */
-var TrailConfig = (function () {
+var TrailConfig = /** @class */ (function () {
     function TrailConfig() {
         /**
          *
@@ -25594,7 +25628,7 @@ var TrailConfig = (function () {
  *     // Release the trail when no longer required, usually in the window.onunload function.
  *     trail.release()
  */
-var Trail = (function (_super) {
+var Trail = /** @class */ (function (_super) {
     __extends(Trail, _super);
     /**
      * Constructs a trail for the specified mesh.
@@ -25825,7 +25859,7 @@ function primitive(options) {
  * The geometry of the Bug is static so we use the conventional
  * approach based upon GeometryArrays
  */
-var TurtleGeometry = (function (_super) {
+var TurtleGeometry = /** @class */ (function (_super) {
     __extends(TurtleGeometry, _super);
     /**
      *
@@ -25864,7 +25898,7 @@ var TurtleGeometry = (function (_super) {
 /**
  * A 3D visual representation of a turtle.
  */
-var Turtle = (function (_super) {
+var Turtle = /** @class */ (function (_super) {
     __extends(Turtle, _super);
     function Turtle(contextManager, options, levelUp) {
         if (options === void 0) { options = {}; }
@@ -25936,7 +25970,7 @@ var Turtle = (function (_super) {
 /**
  *
  */
-var Diagram3D = (function () {
+var Diagram3D = /** @class */ (function () {
     /**
      *
      */
@@ -26097,7 +26131,7 @@ function perspective(X, n, f, α, aspect) {
  *       scene.add(sphere)
  *     })
  */
-var TextureLoader = (function () {
+var TextureLoader = /** @class */ (function () {
     /**
      * @param contextManager
      */

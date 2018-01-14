@@ -17,7 +17,7 @@ var STRIDE = BYTES_PER_FLOAT * FLOATS_PER_VERTEX;
 /**
  *
  */
-var TrackGeometry = (function () {
+var TrackGeometry = /** @class */ (function () {
     function TrackGeometry(contextManager) {
         this.contextManager = contextManager;
         this.scaling = Matrix4_1.Matrix4.one.clone();
@@ -106,7 +106,7 @@ exports.TrackGeometry = TrackGeometry;
 /**
  *
  */
-var Track = (function (_super) {
+var Track = /** @class */ (function (_super) {
     tslib_1.__extends(Track, _super);
     function Track(contextManager, options, levelUp) {
         if (options === void 0) { options = {}; }

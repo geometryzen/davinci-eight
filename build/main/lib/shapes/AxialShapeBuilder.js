@@ -5,7 +5,7 @@ var ShapeBuilder_1 = require("./ShapeBuilder");
 /**
  *
  */
-var AxialShapeBuilder = (function (_super) {
+var AxialShapeBuilder = /** @class */ (function (_super) {
     tslib_1.__extends(AxialShapeBuilder, _super);
     /**
      *

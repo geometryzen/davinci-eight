@@ -78,7 +78,7 @@ var fragmentShaderSrc = function () {
 /**
  * A 3D visual representation of a reference frame or basis vectors.
  */
-var Basis = (function (_super) {
+var Basis = /** @class */ (function (_super) {
     tslib_1.__extends(Basis, _super);
     /**
      *

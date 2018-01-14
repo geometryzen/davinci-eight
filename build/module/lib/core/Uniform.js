@@ -3,7 +3,7 @@ import { mustBeObject } from '../checks/mustBeObject';
 /**
  * A wrapper around a <code>WebGLUniformLocation</code>.
  */
-var Uniform = (function () {
+var Uniform = /** @class */ (function () {
     function Uniform(info) {
         if (!isNull(info)) {
             mustBeObject('info', info);

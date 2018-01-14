@@ -4,7 +4,7 @@ var mustBeArray_1 = require("../checks/mustBeArray");
 var mustBeObject_1 = require("../checks/mustBeObject");
 var Spinor3_1 = require("../math/Spinor3");
 var Vector3_1 = require("../math/Vector3");
-var Scaling = (function () {
+var Scaling = /** @class */ (function () {
     function Scaling(stress, names) {
         this.stress = Vector3_1.Vector3.copy(mustBeObject_1.mustBeObject('stress', stress));
         this.names = mustBeArray_1.mustBeArray('names', names);

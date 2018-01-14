@@ -52,7 +52,7 @@ var LOGGING_NAME_MESH_MATERIAL = 'MeshMaterial';
 /**
  *
  */
-var MeshMaterial = (function (_super) {
+var MeshMaterial = /** @class */ (function (_super) {
     tslib_1.__extends(MeshMaterial, _super);
     /**
      *

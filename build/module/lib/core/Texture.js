@@ -2,7 +2,7 @@ import * as tslib_1 from "tslib";
 import { mustBeUndefined } from '../checks/mustBeUndefined';
 import { ShareableContextConsumer } from './ShareableContextConsumer';
 import { TextureParameterName } from './TextureParameterName';
-var Texture = (function (_super) {
+var Texture = /** @class */ (function (_super) {
     tslib_1.__extends(Texture, _super);
     function Texture(target, contextManager, levelUp) {
         if (levelUp === void 0) { levelUp = 0; }

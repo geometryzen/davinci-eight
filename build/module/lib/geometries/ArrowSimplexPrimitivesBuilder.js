@@ -32,7 +32,7 @@ function nearest(direction) {
     }
     return Vector3.copy(direction);
 }
-var ArrowSimplexPrimitivesBuilder = (function (_super) {
+var ArrowSimplexPrimitivesBuilder = /** @class */ (function (_super) {
     tslib_1.__extends(ArrowSimplexPrimitivesBuilder, _super);
     function ArrowSimplexPrimitivesBuilder() {
         var _this = _super.call(this) || this;

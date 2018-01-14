@@ -36,7 +36,7 @@ var DEFAULT_B = R3_1.vec(0, 1, 0);
  * e3
  */
 var DEFAULT_C = R3_1.vec(0, 0, 1);
-var CuboidSimplexPrimitivesBuilder = (function (_super) {
+var CuboidSimplexPrimitivesBuilder = /** @class */ (function (_super) {
     tslib_1.__extends(CuboidSimplexPrimitivesBuilder, _super);
     function CuboidSimplexPrimitivesBuilder(a, b, c, k, subdivide, boundary) {
         if (k === void 0) { k = SimplexMode_1.SimplexMode.TRIANGLE; }
@@ -184,7 +184,7 @@ function side(tilt, offset, basis, uSegments, vSegments) {
     }
     return side;
 }
-var CuboidPrimitivesBuilder = (function (_super) {
+var CuboidPrimitivesBuilder = /** @class */ (function (_super) {
     tslib_1.__extends(CuboidPrimitivesBuilder, _super);
     function CuboidPrimitivesBuilder() {
         var _this = _super.call(this) || this;
@@ -364,7 +364,7 @@ function boxPrimitive(options) {
 /**
  * A convenience class for creating a BoxGeometry.
  */
-var BoxGeometry = (function (_super) {
+var BoxGeometry = /** @class */ (function (_super) {
     tslib_1.__extends(BoxGeometry, _super);
     /**
      *

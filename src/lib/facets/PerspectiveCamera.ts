@@ -3,6 +3,7 @@ import { PerspectiveTransform } from './PerspectiveTransform';
 import { Facet } from '../core/Facet';
 import { FacetVisitor } from '../core/FacetVisitor';
 import { ViewTransform } from './ViewTransform';
+import { Matrix4 } from '../math/Matrix4';
 
 /**
  * <p>
@@ -136,5 +137,13 @@ export class PerspectiveCamera implements Facet {
     }
     set up(up: Geometric3) {
         this.V.up.copyVector(up);
+    }
+
+    get projectionMatrix(): Matrix4 {
+        return this.P.matrix
+    }
+
+    get viewMatrix(): Matrix4 {
+        return this.V.matrix
     }
 }

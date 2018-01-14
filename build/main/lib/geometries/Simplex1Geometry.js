@@ -5,7 +5,7 @@ var SimplexPrimitivesBuilder_1 = require("../geometries/SimplexPrimitivesBuilder
 var Simplex_1 = require("../geometries/Simplex");
 var GraphicsProgramSymbols_1 = require("../core/GraphicsProgramSymbols");
 var Vector3_1 = require("../math/Vector3");
-var Simplex1Geometry = (function (_super) {
+var Simplex1Geometry = /** @class */ (function (_super) {
     tslib_1.__extends(Simplex1Geometry, _super);
     function Simplex1Geometry() {
         var _this = _super.call(this) || this;

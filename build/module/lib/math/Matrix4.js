@@ -36,7 +36,7 @@ function add4x4(a, b, c) {
  *
  * An adapter for a `Float32Array`.
  */
-var Matrix4 = (function (_super) {
+var Matrix4 = /** @class */ (function (_super) {
     tslib_1.__extends(Matrix4, _super);
     // The correspondence between the elements property index and the matrix entries is...
     //

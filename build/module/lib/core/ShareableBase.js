@@ -33,7 +33,7 @@ import { uuid4 } from './uuid4';
  *     }
  *
  */
-var ShareableBase = (function () {
+var ShareableBase = /** @class */ (function () {
     /**
      *
      */

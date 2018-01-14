@@ -7,7 +7,7 @@ var elementsForCurve_1 = require("./elementsForCurve");
 var mustBeGE_1 = require("../checks/mustBeGE");
 var mustBeInteger_1 = require("../checks/mustBeInteger");
 var mustBeLT_1 = require("../checks/mustBeLT");
-var LineStrip = (function (_super) {
+var LineStrip = /** @class */ (function (_super) {
     tslib_1.__extends(LineStrip, _super);
     /**
      * @param uSegments

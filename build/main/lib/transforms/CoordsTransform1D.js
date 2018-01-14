@@ -6,7 +6,7 @@ var Vector1_1 = require("../math/Vector1");
 /**
  * Applies coordinates to a line.
  */
-var CoordsTransform1D = (function () {
+var CoordsTransform1D = /** @class */ (function () {
     function CoordsTransform1D(flipU) {
         this.flipU = mustBeBoolean_1.mustBeBoolean('flipU', flipU);
     }

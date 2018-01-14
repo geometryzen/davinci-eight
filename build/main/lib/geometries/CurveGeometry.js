@@ -6,7 +6,7 @@ var curvePrimitive_1 = require("./curvePrimitive");
 /**
  * A Geometry for representing functions of one scalar parameter.
  */
-var CurveGeometry = (function (_super) {
+var CurveGeometry = /** @class */ (function (_super) {
     tslib_1.__extends(CurveGeometry, _super);
     function CurveGeometry(contextManager, options, levelUp) {
         if (options === void 0) { options = { kind: 'CurveGeometry' }; }

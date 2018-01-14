@@ -8,7 +8,7 @@ var viewMatrixFromEyeLookUp_1 = require("./viewMatrixFromEyeLookUp");
 /**
  *
  */
-var ViewTransform = (function () {
+var ViewTransform = /** @class */ (function () {
     /**
      *
      */
@@ -28,7 +28,7 @@ var ViewTransform = (function () {
         /**
          *
          */
-        this.matrix = Matrix4_1.Matrix4.one.clone();
+        this._matrix = Matrix4_1.Matrix4.one.clone();
         /**
          *
          */
@@ -54,13 +54,8 @@ var ViewTransform = (function () {
      *
      */
     ViewTransform.prototype.setUniforms = function (visitor) {
-        if (this._eye.modified || this._look.modified || this._up.modified) {
-            viewMatrixFromEyeLookUp_1.viewMatrixFromEyeLookUp(this._eye, this._look, this._up, this.matrix);
-            this._eye.modified = false;
-            this._look.modified = false;
-            this._up.modified = false;
-        }
-        visitor.matrix4fv(this.matrixName, this.matrix.elements, false);
+        this.refreshMatrix();
+        visitor.matrix4fv(this.matrixName, this._matrix.elements, false);
     };
     Object.defineProperty(ViewTransform.prototype, "eye", {
         /**
@@ -71,6 +66,7 @@ var ViewTransform = (function () {
         },
         set: function (eye) {
             this._eye.copyVector(eye);
+            this.refreshMatrix();
         },
         enumerable: true,
         configurable: true
@@ -84,6 +80,7 @@ var ViewTransform = (function () {
         },
         set: function (look) {
             this._look.copyVector(look);
+            this.refreshMatrix();
         },
         enumerable: true,
         configurable: true
@@ -97,10 +94,30 @@ var ViewTransform = (function () {
         },
         set: function (up) {
             this._up.copyVector(up);
+            this.refreshMatrix();
         },
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(ViewTransform.prototype, "matrix", {
+        get: function () {
+            // This is a bit of a hack because what we really need is for changes to the
+            // eye, look, and up vectors to fire events. This is because it is possible
+            // to mutate these vectors.
+            this.refreshMatrix();
+            return this._matrix;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    ViewTransform.prototype.refreshMatrix = function () {
+        if (this._eye.modified || this._look.modified || this._up.modified) {
+            viewMatrixFromEyeLookUp_1.viewMatrixFromEyeLookUp(this._eye, this._look, this._up, this._matrix);
+            this._eye.modified = false;
+            this._look.modified = false;
+            this._up.modified = false;
+        }
+    };
     return ViewTransform;
 }());
 exports.ViewTransform = ViewTransform;

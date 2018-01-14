@@ -6,7 +6,7 @@ var R3_1 = require("../math/R3");
 /**
  *
  */
-var Diagram3D = (function () {
+var Diagram3D = /** @class */ (function () {
     /**
      *
      */

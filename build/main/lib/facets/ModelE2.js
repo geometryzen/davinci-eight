@@ -4,7 +4,7 @@ var Geometric2_1 = require("../math/Geometric2");
 /**
  *
  */
-var ModelE2 = (function () {
+var ModelE2 = /** @class */ (function () {
     /**
      * <p>
      * A collection of properties for Rigid Body Modeling.

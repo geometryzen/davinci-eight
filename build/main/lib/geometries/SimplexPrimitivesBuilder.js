@@ -11,7 +11,7 @@ var simplicesToPrimitive_1 = require("../geometries/simplicesToPrimitive");
 var simplicesToGeometryMeta_1 = require("../geometries/simplicesToGeometryMeta");
 var Vector1_1 = require("../math/Vector1");
 var Vector3_1 = require("../math/Vector3");
-var SimplexPrimitivesBuilder = (function (_super) {
+var SimplexPrimitivesBuilder = /** @class */ (function (_super) {
     tslib_1.__extends(SimplexPrimitivesBuilder, _super);
     function SimplexPrimitivesBuilder() {
         var _this = _super.call(this) || this;

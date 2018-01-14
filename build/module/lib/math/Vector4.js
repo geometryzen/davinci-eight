@@ -3,7 +3,7 @@ import { Coords } from '../math/Coords';
 /**
  *
  */
-var Vector4 = (function (_super) {
+var Vector4 = /** @class */ (function (_super) {
     tslib_1.__extends(Vector4, _super);
     /**
      * @class Vector4

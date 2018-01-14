@@ -65,7 +65,7 @@ function attributes(elements, vertices) {
  * in a more compact representation based upon number[]. An even more compact
  * representation is VertexArrays, which interleaves the vertex.
  */
-var VertexPrimitive = (function () {
+var VertexPrimitive = /** @class */ (function () {
     /**
      * Constructs a VertexPrimitive and initializes the vertices property with the required number of vertices.
      *

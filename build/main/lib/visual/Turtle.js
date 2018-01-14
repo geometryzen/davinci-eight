@@ -65,7 +65,7 @@ function primitive(options) {
  * The geometry of the Bug is static so we use the conventional
  * approach based upon GeometryArrays
  */
-var TurtleGeometry = (function (_super) {
+var TurtleGeometry = /** @class */ (function (_super) {
     tslib_1.__extends(TurtleGeometry, _super);
     /**
      *
@@ -104,7 +104,7 @@ var TurtleGeometry = (function (_super) {
 /**
  * A 3D visual representation of a turtle.
  */
-var Turtle = (function (_super) {
+var Turtle = /** @class */ (function (_super) {
     tslib_1.__extends(Turtle, _super);
     function Turtle(contextManager, options, levelUp) {
         if (options === void 0) { options = {}; }

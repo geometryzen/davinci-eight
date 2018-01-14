@@ -20,7 +20,7 @@ function stringifyVertex(vertex) {
 /**
  * The data for a vertex in a normalized and uncompressed format that is easy to manipulate.
  */
-var Vertex = (function () {
+var Vertex = /** @class */ (function () {
     /**
      * @param numCoordinates The number of coordinates (dimensionality).
      */

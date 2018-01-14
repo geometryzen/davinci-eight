@@ -60,7 +60,7 @@ function normal(v1, v2, v3) {
  * In elementary geometry, a polyhedron is a solid in three dimensions with
  * flat polygonal faces, straight edges and sharp corners or vertices.
  */
-var PolyhedronBuilder = (function (_super) {
+var PolyhedronBuilder = /** @class */ (function (_super) {
     tslib_1.__extends(PolyhedronBuilder, _super);
     /**
      *

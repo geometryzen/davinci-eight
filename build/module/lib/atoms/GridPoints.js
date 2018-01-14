@@ -26,7 +26,7 @@ function pointsForGrid(uSegments, uClosed, vSegments, vClosed) {
 /**
  *
  */
-var GridPoints = (function (_super) {
+var GridPoints = /** @class */ (function (_super) {
     tslib_1.__extends(GridPoints, _super);
     /**
      * @param uSegments

@@ -12,7 +12,7 @@ import { GeometryElements } from '../core/GeometryElements';
  * The cutLine unit vector defaults to <b>e<b><sub>3</sub>
  * </p>
  */
-var ArrowGeometry = (function (_super) {
+var ArrowGeometry = /** @class */ (function (_super) {
     tslib_1.__extends(ArrowGeometry, _super);
     /**
      *

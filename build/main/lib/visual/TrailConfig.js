@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /**
  *
  */
-var TrailConfig = (function () {
+var TrailConfig = /** @class */ (function () {
     function TrailConfig() {
         /**
          *

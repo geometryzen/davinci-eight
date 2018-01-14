@@ -5,7 +5,7 @@ var mustBeInteger_1 = require("../checks/mustBeInteger");
 /**
  * Modulo Arithmetic (Experimental).
  */
-var Modulo = (function () {
+var Modulo = /** @class */ (function () {
     function Modulo() {
         this._value = 0;
         this._size = 0;

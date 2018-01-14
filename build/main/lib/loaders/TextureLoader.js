@@ -23,7 +23,7 @@ var TextureTarget_1 = require("../core/TextureTarget");
  *       scene.add(sphere)
  *     })
  */
-var TextureLoader = (function () {
+var TextureLoader = /** @class */ (function () {
     /**
      * @param contextManager
      */

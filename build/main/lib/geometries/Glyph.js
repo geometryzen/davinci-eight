@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Glyph = (function () {
+var Glyph = /** @class */ (function () {
     function Glyph() {
         // Do nothing.
     }

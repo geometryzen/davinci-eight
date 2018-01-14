@@ -8,7 +8,7 @@ var Simplex_1 = require("../geometries/Simplex");
 var GraphicsProgramSymbols_1 = require("../core/GraphicsProgramSymbols");
 var triangle_1 = require("../geometries/triangle");
 var Geometric3_1 = require("../math/Geometric3");
-var BarnSimplexPrimitivesBuilder = (function (_super) {
+var BarnSimplexPrimitivesBuilder = /** @class */ (function (_super) {
     tslib_1.__extends(BarnSimplexPrimitivesBuilder, _super);
     function BarnSimplexPrimitivesBuilder() {
         var _this = _super.call(this) || this;

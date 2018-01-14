@@ -12,7 +12,7 @@ function makeKeyUpHandler(keyboard, handler) {
         handler.keyUp(event);
     };
 }
-var Keyboard = (function (_super) {
+var Keyboard = /** @class */ (function (_super) {
     tslib_1.__extends(Keyboard, _super);
     function Keyboard(handler, document) {
         if (document === void 0) { document = window.document; }

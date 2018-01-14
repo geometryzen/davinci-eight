@@ -56,7 +56,7 @@ function triangleStripForGrid(uSegments, vSegments, elements) {
  * counter-clockwise orientation when increasing u is the first direction and
  * increasing v the second direction.
  */
-var GridTriangleStrip = (function (_super) {
+var GridTriangleStrip = /** @class */ (function (_super) {
     tslib_1.__extends(GridTriangleStrip, _super);
     /**
      * @param uSegments

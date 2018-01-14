@@ -39,7 +39,7 @@ var magicCode = Math.random();
 /**
  * A Geometric Number representing the even sub-algebra of G3.
  */
-var Spinor3 = (function () {
+var Spinor3 = /** @class */ (function () {
     /**
      * @param coords [yz, zx, xy, a]
      * @param code

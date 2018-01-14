@@ -6,7 +6,7 @@ var ShareableBase_1 = require("../core/ShareableBase");
 /**
  * enable(capability: Capability): void
  */
-var WebGLEnable = (function (_super) {
+var WebGLEnable = /** @class */ (function (_super) {
     tslib_1.__extends(WebGLEnable, _super);
     function WebGLEnable(contextManager, capability) {
         var _this = _super.call(this) || this;

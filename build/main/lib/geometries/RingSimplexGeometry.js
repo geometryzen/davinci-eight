@@ -104,7 +104,7 @@ function makeEmpty(vertices, radialSegments, thetaSegments, data) {
         }
     }
 }
-var RingSimplexGeometry = (function (_super) {
+var RingSimplexGeometry = /** @class */ (function (_super) {
     tslib_1.__extends(RingSimplexGeometry, _super);
     function RingSimplexGeometry(a, b, sliceAngle) {
         if (a === void 0) { a = 1; }

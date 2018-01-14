@@ -14,7 +14,7 @@ var e2 = vec(0, 1, 0);
 /**
  * A group of body parts arranged to look like a figure.
  */
-var MinecraftFigure = (function (_super) {
+var MinecraftFigure = /** @class */ (function (_super) {
     tslib_1.__extends(MinecraftFigure, _super);
     function MinecraftFigure(engine, texture, options) {
         if (options === void 0) { options = {}; }

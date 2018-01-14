@@ -271,7 +271,7 @@ function configMesh(engine, options, grid) {
 /**
  * A 3D visual representation of a a discrete parameterized surface.
  */
-var Grid = (function (_super) {
+var Grid = /** @class */ (function (_super) {
     tslib_1.__extends(Grid, _super);
     /**
      * Constructs a Grid.

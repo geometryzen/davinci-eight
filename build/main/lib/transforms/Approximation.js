@@ -11,7 +11,7 @@ var Vector3_1 = require("../math/Vector3");
 /**
  * A `Transform` that calls the `approx` method on a `Vertex` attribute.
  */
-var Approximation = (function () {
+var Approximation = /** @class */ (function () {
     /**
      * @param n The value that will be passed to the `approx` method.
      * @param names The names of the attributes that are affected.

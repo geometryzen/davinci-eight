@@ -23,7 +23,7 @@ function computeAttribParams(values) {
 /**
  * GraphicsProgramBuilder is the builder pattern for generating vertex and fragment shader source code.
  */
-var GraphicsProgramBuilder = (function () {
+var GraphicsProgramBuilder = /** @class */ (function () {
     /**
      * @param primitive
      */

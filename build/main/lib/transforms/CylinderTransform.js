@@ -7,7 +7,7 @@ var Vector3_1 = require("../math/Vector3");
 /**
  *
  */
-var CylinderTransform = (function () {
+var CylinderTransform = /** @class */ (function () {
     /**
      * @param sliceAngle
      * @param aPosition The name to use for the position attribute.

@@ -8,7 +8,7 @@ var ShareableBase_1 = require("../core/ShareableBase");
 /**
  * A collection of objects that can be treated as a single Renderable.
  */
-var Group = (function (_super) {
+var Group = /** @class */ (function (_super) {
     tslib_1.__extends(Group, _super);
     /**
      * Constructs

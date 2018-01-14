@@ -49,7 +49,7 @@ function hollowCylinderPrimitive(options) {
 /**
  *
  */
-var HollowCylinderGeometry = (function (_super) {
+var HollowCylinderGeometry = /** @class */ (function (_super) {
     tslib_1.__extends(HollowCylinderGeometry, _super);
     /**
      *

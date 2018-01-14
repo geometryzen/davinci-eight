@@ -2,7 +2,7 @@ import { Geometric2 } from '../math/Geometric2';
 /**
  *
  */
-var ModelE2 = (function () {
+var ModelE2 = /** @class */ (function () {
     /**
      * <p>
      * A collection of properties for Rigid Body Modeling.

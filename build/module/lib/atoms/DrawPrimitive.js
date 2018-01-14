@@ -5,7 +5,7 @@ var context = function () { return "DrawPrimitive constructor"; };
 /**
  * A convenience class for implementing the Primitive interface.
  */
-var DrawPrimitive = (function () {
+var DrawPrimitive = /** @class */ (function () {
     function DrawPrimitive(mode, indices, attributes) {
         this.attributes = {};
         this.mode = mustBeInteger('mode', mode, context);

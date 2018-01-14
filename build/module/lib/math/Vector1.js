@@ -7,7 +7,7 @@ var COORD_X = 0;
 /**
  * @class Vector1
  */
-var Vector1 = (function (_super) {
+var Vector1 = /** @class */ (function (_super) {
     tslib_1.__extends(Vector1, _super);
     /**
      * @class Vector1

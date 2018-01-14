@@ -29,7 +29,7 @@ export class ViewTransform implements Facet {
     /**
      * 
      */
-    private matrix = Matrix4.one.clone();
+    private _matrix = Matrix4.one.clone();
 
     /**
      * 
@@ -65,13 +65,8 @@ export class ViewTransform implements Facet {
      *
      */
     setUniforms(visitor: FacetVisitor): void {
-        if (this._eye.modified || this._look.modified || this._up.modified) {
-            viewMatrixFromEyeLookUp(this._eye, this._look, this._up, this.matrix);
-            this._eye.modified = false;
-            this._look.modified = false;
-            this._up.modified = false;
-        }
-        visitor.matrix4fv(this.matrixName, this.matrix.elements, false);
+        this.refreshMatrix();
+        visitor.matrix4fv(this.matrixName, this._matrix.elements, false);
     }
 
     /**
@@ -82,6 +77,7 @@ export class ViewTransform implements Facet {
     }
     set eye(eye: Geometric3) {
         this._eye.copyVector(eye);
+        this.refreshMatrix();
     }
 
     /**
@@ -92,6 +88,7 @@ export class ViewTransform implements Facet {
     }
     set look(look: Geometric3) {
         this._look.copyVector(look);
+        this.refreshMatrix();
     }
 
     /**
@@ -102,5 +99,23 @@ export class ViewTransform implements Facet {
     }
     set up(up: Geometric3) {
         this._up.copyVector(up);
+        this.refreshMatrix();
+    }
+
+    public get matrix(): Matrix4 {
+        // This is a bit of a hack because what we really need is for changes to the
+        // eye, look, and up vectors to fire events. This is because it is possible
+        // to mutate these vectors.
+        this.refreshMatrix();
+        return this._matrix;
+    }
+
+    private refreshMatrix(): void {
+        if (this._eye.modified || this._look.modified || this._up.modified) {
+            viewMatrixFromEyeLookUp(this._eye, this._look, this._up, this._matrix);
+            this._eye.modified = false;
+            this._look.modified = false;
+            this._up.modified = false;
+        }
     }
 }

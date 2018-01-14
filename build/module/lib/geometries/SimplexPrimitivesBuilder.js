@@ -9,7 +9,7 @@ import { simplicesToPrimitive } from '../geometries/simplicesToPrimitive';
 import { simplicesToGeometryMeta } from '../geometries/simplicesToGeometryMeta';
 import { Vector1 } from '../math/Vector1';
 import { Vector3 } from '../math/Vector3';
-var SimplexPrimitivesBuilder = (function (_super) {
+var SimplexPrimitivesBuilder = /** @class */ (function (_super) {
     tslib_1.__extends(SimplexPrimitivesBuilder, _super);
     function SimplexPrimitivesBuilder() {
         var _this = _super.call(this) || this;

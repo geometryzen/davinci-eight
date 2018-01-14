@@ -5,7 +5,7 @@ import { ShareableContextConsumer } from './ShareableContextConsumer';
 /**
  * GeometryBase
  */
-var GeometryBase = (function (_super) {
+var GeometryBase = /** @class */ (function (_super) {
     tslib_1.__extends(GeometryBase, _super);
     /**
      *

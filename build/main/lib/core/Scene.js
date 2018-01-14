@@ -7,7 +7,7 @@ var ShareableContextConsumer_1 = require("../core/ShareableContextConsumer");
 /**
  * A collection of Renderable objects.
  */
-var Scene = (function (_super) {
+var Scene = /** @class */ (function (_super) {
     tslib_1.__extends(Scene, _super);
     function Scene(contextManager, levelUp) {
         if (levelUp === void 0) { levelUp = 0; }

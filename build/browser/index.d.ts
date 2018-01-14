@@ -3125,6 +3125,14 @@ export class PerspectiveCamera implements Facet {
      * 
      */
     setUniforms(visitor: FacetVisitor): void;
+    /**
+     * 
+     */
+    projectionMatrix: Matrix4;
+    /**
+     * 
+     */
+    viewMatrix: Matrix4;
 }
 
 /**

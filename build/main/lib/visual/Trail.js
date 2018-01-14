@@ -36,7 +36,7 @@ var TrailConfig_1 = require("./TrailConfig");
  *     // Release the trail when no longer required, usually in the window.onunload function.
  *     trail.release()
  */
-var Trail = (function (_super) {
+var Trail = /** @class */ (function (_super) {
     tslib_1.__extends(Trail, _super);
     /**
      * Constructs a trail for the specified mesh.

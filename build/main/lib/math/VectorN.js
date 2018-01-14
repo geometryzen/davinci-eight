@@ -22,7 +22,7 @@ function verbotenPop() {
 /**
  *
  */
-var VectorN = (function () {
+var VectorN = /** @class */ (function () {
     /**
      *
      * @param data

@@ -98,7 +98,7 @@ quad(3, 0, 4, 7);
 quad(6, 5, 1, 2);
 quad(4, 5, 6, 7);
 quad(5, 4, 0, 1);
-var Parallelepiped = (function () {
+var Parallelepiped = /** @class */ (function () {
     function Parallelepiped(contextManager, levelUp) {
         if (levelUp === void 0) { levelUp = 0; }
         this.levelUp = levelUp;

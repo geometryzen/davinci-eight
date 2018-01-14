@@ -1,4 +1,4 @@
-var EventEmitter = (function () {
+var EventEmitter = /** @class */ (function () {
     function EventEmitter(owner) {
         this.owner = owner;
     }

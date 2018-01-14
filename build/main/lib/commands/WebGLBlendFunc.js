@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = require("tslib");
 var ShareableBase_1 = require("../core/ShareableBase");
-var WebGLBlendFunc = (function (_super) {
+var WebGLBlendFunc = /** @class */ (function (_super) {
     tslib_1.__extends(WebGLBlendFunc, _super);
     function WebGLBlendFunc(contextManager, sfactor, dfactor) {
         var _this = _super.call(this) || this;

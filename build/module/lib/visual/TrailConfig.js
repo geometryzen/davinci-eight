@@ -1,7 +1,7 @@
 /**
  *
  */
-var TrailConfig = (function () {
+var TrailConfig = /** @class */ (function () {
     function TrailConfig() {
         /**
          *

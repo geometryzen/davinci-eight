@@ -7,7 +7,7 @@ var ShareableContextConsumer_1 = require("./ShareableContextConsumer");
 /**
  * GeometryBase
  */
-var GeometryBase = (function (_super) {
+var GeometryBase = /** @class */ (function (_super) {
     tslib_1.__extends(GeometryBase, _super);
     /**
      *

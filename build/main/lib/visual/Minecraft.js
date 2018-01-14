@@ -532,7 +532,7 @@ var makeMaterial = function makeMaterial(graphics) {
 /**
  *
  */
-var MinecraftBodyPart = (function (_super) {
+var MinecraftBodyPart = /** @class */ (function (_super) {
     tslib_1.__extends(MinecraftBodyPart, _super);
     function MinecraftBodyPart(engine, texture, options, levelUp) {
         if (levelUp === void 0) { levelUp = 0; }
@@ -553,7 +553,7 @@ var MinecraftBodyPart = (function (_super) {
     return MinecraftBodyPart;
 }(Mesh_1.Mesh));
 exports.MinecraftBodyPart = MinecraftBodyPart;
-var MinecraftHead = (function (_super) {
+var MinecraftHead = /** @class */ (function (_super) {
     tslib_1.__extends(MinecraftHead, _super);
     function MinecraftHead(engine, texture, options) {
         if (options === void 0) { options = {}; }
@@ -572,7 +572,7 @@ var MinecraftHead = (function (_super) {
     return MinecraftHead;
 }(MinecraftBodyPart));
 exports.MinecraftHead = MinecraftHead;
-var MinecraftTorso = (function (_super) {
+var MinecraftTorso = /** @class */ (function (_super) {
     tslib_1.__extends(MinecraftTorso, _super);
     function MinecraftTorso(engine, texture, options) {
         if (options === void 0) { options = {}; }
@@ -591,7 +591,7 @@ var MinecraftTorso = (function (_super) {
     return MinecraftTorso;
 }(MinecraftBodyPart));
 exports.MinecraftTorso = MinecraftTorso;
-var MinecraftArmL = (function (_super) {
+var MinecraftArmL = /** @class */ (function (_super) {
     tslib_1.__extends(MinecraftArmL, _super);
     function MinecraftArmL(engine, texture, options) {
         if (options === void 0) { options = {}; }
@@ -610,7 +610,7 @@ var MinecraftArmL = (function (_super) {
     return MinecraftArmL;
 }(MinecraftBodyPart));
 exports.MinecraftArmL = MinecraftArmL;
-var MinecraftArmR = (function (_super) {
+var MinecraftArmR = /** @class */ (function (_super) {
     tslib_1.__extends(MinecraftArmR, _super);
     function MinecraftArmR(engine, texture, options) {
         if (options === void 0) { options = {}; }
@@ -629,7 +629,7 @@ var MinecraftArmR = (function (_super) {
     return MinecraftArmR;
 }(MinecraftBodyPart));
 exports.MinecraftArmR = MinecraftArmR;
-var MinecraftLegL = (function (_super) {
+var MinecraftLegL = /** @class */ (function (_super) {
     tslib_1.__extends(MinecraftLegL, _super);
     function MinecraftLegL(engine, texture, options) {
         if (options === void 0) { options = {}; }
@@ -648,7 +648,7 @@ var MinecraftLegL = (function (_super) {
     return MinecraftLegL;
 }(MinecraftBodyPart));
 exports.MinecraftLegL = MinecraftLegL;
-var MinecraftLegR = (function (_super) {
+var MinecraftLegR = /** @class */ (function (_super) {
     tslib_1.__extends(MinecraftLegR, _super);
     function MinecraftLegR(engine, texture, options) {
         if (options === void 0) { options = {}; }

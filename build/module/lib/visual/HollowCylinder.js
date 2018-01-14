@@ -18,7 +18,7 @@ import { vectorE3Object } from './vectorE3Object';
 /**
  * A 3D visual representation of a hollow cylinder.
  */
-var HollowCylinder = (function (_super) {
+var HollowCylinder = /** @class */ (function (_super) {
     tslib_1.__extends(HollowCylinder, _super);
     /**
      * Constructs a HollowCylinder.

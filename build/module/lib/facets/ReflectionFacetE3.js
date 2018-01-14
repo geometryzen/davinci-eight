@@ -5,7 +5,7 @@ import { readOnly } from '../i18n/readOnly';
 /**
  *
  */
-var ReflectionFacetE3 = (function () {
+var ReflectionFacetE3 = /** @class */ (function () {
     /**
      * @param name {string} The name of the uniform variable.
      */

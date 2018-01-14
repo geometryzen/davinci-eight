@@ -11,7 +11,7 @@ function coneNormal(ρ, h, out) {
 /**
  *
  */
-var ConeTransform = (function () {
+var ConeTransform = /** @class */ (function () {
     /**
      * @param clockwise
      * @param sliceAngle

@@ -5,7 +5,7 @@ import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 /**
  *
  */
-var OpacityFacet = (function () {
+var OpacityFacet = /** @class */ (function () {
     /**
      *
      */

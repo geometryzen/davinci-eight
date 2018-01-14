@@ -1,6 +1,7 @@
 import { Geometric3 } from '../math/Geometric3';
 import { Facet } from '../core/Facet';
 import { FacetVisitor } from '../core/FacetVisitor';
+import { Matrix4 } from '../math/Matrix4';
 /**
  * <p>
  * The <code>PerspectiveCamera</code> provides projection matrix and view matrix uniforms to the
@@ -80,4 +81,6 @@ export declare class PerspectiveCamera implements Facet {
      * The approximate up direction.
      */
     up: Geometric3;
+    readonly projectionMatrix: Matrix4;
+    readonly viewMatrix: Matrix4;
 }

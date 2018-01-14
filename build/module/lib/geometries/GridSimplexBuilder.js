@@ -7,7 +7,7 @@ import { Vector2 } from '../math/Vector2';
 import { Vector3 } from '../math/Vector3';
 import { mustBeFunction } from '../checks/mustBeFunction';
 import { mustBeInteger } from '../checks/mustBeInteger';
-var GridSimplexBuilder = (function (_super) {
+var GridSimplexBuilder = /** @class */ (function (_super) {
     tslib_1.__extends(GridSimplexBuilder, _super);
     function GridSimplexBuilder(parametricFunction, uSegments, vSegments) {
         var _this = _super.call(this) || this;

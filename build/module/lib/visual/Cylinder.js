@@ -20,7 +20,7 @@ import { vectorE3Object } from './vectorE3Object';
 /**
  * A 3D visual representation of a cylinder.
  */
-var Cylinder = (function (_super) {
+var Cylinder = /** @class */ (function (_super) {
     tslib_1.__extends(Cylinder, _super);
     /**
      *

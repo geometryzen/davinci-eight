@@ -7,7 +7,7 @@ var GraphicsProgramSymbols_1 = require("../core/GraphicsProgramSymbols");
 /**
  *
  */
-var AmbientLight = (function () {
+var AmbientLight = /** @class */ (function () {
     /**
      *
      */

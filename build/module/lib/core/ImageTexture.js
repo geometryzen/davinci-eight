@@ -2,7 +2,7 @@ import * as tslib_1 from "tslib";
 import { DataType } from './DataType';
 import { PixelFormat } from './PixelFormat';
 import { Texture } from './Texture';
-var ImageTexture = (function (_super) {
+var ImageTexture = /** @class */ (function (_super) {
     tslib_1.__extends(ImageTexture, _super);
     function ImageTexture(image, target, contextManager, levelUp) {
         if (levelUp === void 0) { levelUp = 0; }

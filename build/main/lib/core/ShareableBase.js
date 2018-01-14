@@ -35,7 +35,7 @@ var uuid4_1 = require("./uuid4");
  *     }
  *
  */
-var ShareableBase = (function () {
+var ShareableBase = /** @class */ (function () {
     /**
      *
      */

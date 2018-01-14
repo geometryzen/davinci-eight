@@ -10,7 +10,7 @@ var readOnly_1 = require("../i18n/readOnly");
  * Base class for matrices with the expectation that they will be used with WebGL.
  * The underlying data storage is a <code>Float32Array</code>.
  */
-var AbstractMatrix = (function () {
+var AbstractMatrix = /** @class */ (function () {
     /**
      * @param elements
      * @param dimensions

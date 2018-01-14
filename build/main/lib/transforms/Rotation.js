@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var mustBeObject_1 = require("../checks/mustBeObject");
 var Spinor3_1 = require("../math/Spinor3");
 var Vector3_1 = require("../math/Vector3");
-var Rotation = (function () {
+var Rotation = /** @class */ (function () {
     function Rotation(R, names) {
         this.R = Spinor3_1.Spinor3.copy(mustBeObject_1.mustBeObject('R', R));
         this.names = names;

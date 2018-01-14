@@ -44,7 +44,7 @@ function mapOptions(options) {
 /**
  * A #d visual representation of a grid in the zx plane.
  */
-var GridZX = (function (_super) {
+var GridZX = /** @class */ (function (_super) {
     tslib_1.__extends(GridZX, _super);
     function GridZX(contextManager, options, levelUp) {
         if (options === void 0) { options = {}; }

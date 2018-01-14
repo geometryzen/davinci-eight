@@ -111,7 +111,7 @@ function duckCopy(value) {
 /**
  *
  */
-var Geometric2 = (function () {
+var Geometric2 = /** @class */ (function () {
     /**
      * [scalar, x, y, pseudo]
      */

@@ -4,7 +4,7 @@ import { Vector1 } from '../math/Vector1';
 /**
  * Applies coordinates to a line.
  */
-var CoordsTransform1D = (function () {
+var CoordsTransform1D = /** @class */ (function () {
     function CoordsTransform1D(flipU) {
         this.flipU = mustBeBoolean('flipU', flipU);
     }

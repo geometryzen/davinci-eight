@@ -3,7 +3,7 @@ import { Vector3 } from '../math/Vector3';
 /**
  * Applies a translation to the specified attributes of a vertex.
  */
-var Translation = (function () {
+var Translation = /** @class */ (function () {
     function Translation(s, names) {
         this.s = Vector3.copy(mustBeObject('s', s));
         this.names = names;

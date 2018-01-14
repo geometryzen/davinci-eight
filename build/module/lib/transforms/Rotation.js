@@ -1,7 +1,7 @@
 import { mustBeObject } from '../checks/mustBeObject';
 import { Spinor3 } from '../math/Spinor3';
 import { Vector3 } from '../math/Vector3';
-var Rotation = (function () {
+var Rotation = /** @class */ (function () {
     function Rotation(R, names) {
         this.R = Spinor3.copy(mustBeObject('R', R));
         this.names = names;

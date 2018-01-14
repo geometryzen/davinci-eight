@@ -21,7 +21,7 @@ var vectorE3Object_1 = require("./vectorE3Object");
 /**
  * A 3D visual representation of a box.
  */
-var Box = (function (_super) {
+var Box = /** @class */ (function (_super) {
     tslib_1.__extends(Box, _super);
     /**
      *

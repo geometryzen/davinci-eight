@@ -33,7 +33,7 @@ var sqrt = Math.sqrt;
 /**
  *
  */
-var Spinor2 = (function () {
+var Spinor2 = /** @class */ (function () {
     /**
      *
      */

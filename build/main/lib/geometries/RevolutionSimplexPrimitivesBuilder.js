@@ -4,7 +4,7 @@ var tslib_1 = require("tslib");
 var SimplexPrimitivesBuilder_1 = require("../geometries/SimplexPrimitivesBuilder");
 var Spinor3_1 = require("../math/Spinor3");
 var Vector2_1 = require("../math/Vector2");
-var RevolutionSimplexPrimitivesBuilder = (function (_super) {
+var RevolutionSimplexPrimitivesBuilder = /** @class */ (function (_super) {
     tslib_1.__extends(RevolutionSimplexPrimitivesBuilder, _super);
     function RevolutionSimplexPrimitivesBuilder() {
         return _super.call(this) || this;

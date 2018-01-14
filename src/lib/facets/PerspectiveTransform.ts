@@ -29,7 +29,7 @@ export class PerspectiveTransform implements Facet {
     /**
      * 
      */
-    private matrix = Matrix4.one.clone();
+    public matrix = Matrix4.one.clone();
     /**
      * 
      */
@@ -37,16 +37,12 @@ export class PerspectiveTransform implements Facet {
     /**
      * 
      */
-    private matrixNeedsUpdate = true;
-    /**
-     * 
-     */
     constructor(fov = 45 * Math.PI / 180, aspect = 1, near = 0.1, far = 1000) {
-        // Initialize properties through setters in order to incorporate validation.
-        this.fov = fov;
-        this.aspect = aspect;
-        this.near = near;
-        this.far = far;
+        this._fov = fov;
+        this._aspect = aspect;
+        this._near = near;
+        this._far = far;
+        this.refreshMatrix();
     }
     /**
      * The aspect ratio (width / height) of the camera viewport.
@@ -59,7 +55,7 @@ export class PerspectiveTransform implements Facet {
             mustBeNumber('aspect', aspect);
             mustBeGE('aspect', aspect, 0);
             this._aspect = aspect;
-            this.matrixNeedsUpdate = true;
+            this.refreshMatrix();
         }
     }
 
@@ -77,7 +73,7 @@ export class PerspectiveTransform implements Facet {
             mustBeGE('fov', fov, 0);
             mustBeLE('fov', fov, Math.PI);
             this._fov = fov;
-            this.matrixNeedsUpdate = true;
+            this.refreshMatrix();
         }
     }
 
@@ -93,7 +89,7 @@ export class PerspectiveTransform implements Facet {
             mustBeNumber('near', near);
             mustBeGE('near', near, 0);
             this._near = near;
-            this.matrixNeedsUpdate = true;
+            this.refreshMatrix();
         }
     }
 
@@ -108,7 +104,7 @@ export class PerspectiveTransform implements Facet {
             mustBeNumber('far', far);
             mustBeGE('far', far, 0);
             this._far = far;
-            this.matrixNeedsUpdate = true;
+            this.refreshMatrix();
         }
     }
 
@@ -116,10 +112,6 @@ export class PerspectiveTransform implements Facet {
      * 
      */
     setUniforms(visitor: FacetVisitor): void {
-        if (this.matrixNeedsUpdate) {
-            this.matrix.perspective(this._fov, this._aspect, this._near, this._far);
-            this.matrixNeedsUpdate = false;
-        }
         visitor.matrix4fv(this.matrixName, this.matrix.elements, false);
     }
 
@@ -153,5 +145,12 @@ export class PerspectiveTransform implements Facet {
         const v = t * y / weight;
         const w = -1 / weight;
         return [u, v, w];
+    }
+
+    /**
+     * 
+     */
+    private refreshMatrix(): void {
+        this.matrix.perspective(this._fov, this._aspect, this._near, this._far);
     }
 }

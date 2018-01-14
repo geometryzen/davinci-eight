@@ -32,7 +32,7 @@ var indices = [
     19, 5, 14, 19, 14, 4, 19, 4, 17,
     1, 12, 14, 1, 14, 5, 1, 5, 9
 ];
-var DodecahedronPrimitivesBuilder = (function (_super) {
+var DodecahedronPrimitivesBuilder = /** @class */ (function (_super) {
     tslib_1.__extends(DodecahedronPrimitivesBuilder, _super);
     function DodecahedronPrimitivesBuilder(radius, detail) {
         return _super.call(this, vertices, indices, radius, detail) || this;

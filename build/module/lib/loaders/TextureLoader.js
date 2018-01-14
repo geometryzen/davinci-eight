@@ -21,7 +21,7 @@ import { TextureTarget } from '../core/TextureTarget';
  *       scene.add(sphere)
  *     })
  */
-var TextureLoader = (function () {
+var TextureLoader = /** @class */ (function () {
     /**
      * @param contextManager
      */

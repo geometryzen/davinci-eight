@@ -33,7 +33,7 @@ function linesForGrid(uSegments, uClosed, vSegments, vClosed) {
     }
     return elements;
 }
-var GridLines = (function (_super) {
+var GridLines = /** @class */ (function (_super) {
     tslib_1.__extends(GridLines, _super);
     /**
      * @param uSegments

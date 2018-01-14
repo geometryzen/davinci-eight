@@ -5,7 +5,7 @@ import { elementsForCurve } from './elementsForCurve';
 import { mustBeGE } from '../checks/mustBeGE';
 import { mustBeInteger } from '../checks/mustBeInteger';
 import { mustBeLT } from '../checks/mustBeLT';
-var LineStrip = (function (_super) {
+var LineStrip = /** @class */ (function (_super) {
     tslib_1.__extends(LineStrip, _super);
     /**
      * @param uSegments

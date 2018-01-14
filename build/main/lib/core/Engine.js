@@ -67,7 +67,7 @@ var WebGLDisable_1 = require("../commands/WebGLDisable");
  *
  *     requestAnimationFrame(animate)
  */
-var Engine = (function (_super) {
+var Engine = /** @class */ (function (_super) {
     tslib_1.__extends(Engine, _super);
     /**
      * @param canvas

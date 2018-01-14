@@ -6,7 +6,7 @@ export function lock(m) {
     m.lock();
     return m;
 }
-var TargetLockedError = (function (_super) {
+var TargetLockedError = /** @class */ (function (_super) {
     tslib_1.__extends(TargetLockedError, _super);
     /**
      * `operationName` is the name of the operation, without parentheses or parameters.
@@ -17,7 +17,7 @@ var TargetLockedError = (function (_super) {
     return TargetLockedError;
 }(Error));
 export { TargetLockedError };
-var TargetUnlockedError = (function (_super) {
+var TargetUnlockedError = /** @class */ (function (_super) {
     tslib_1.__extends(TargetUnlockedError, _super);
     /**
      * `operationName` is the name of the operation, without parentheses.
@@ -63,7 +63,7 @@ export function lockable() {
 /**
  * Lockable Mixin
  */
-var LockableMixin = (function () {
+var LockableMixin = /** @class */ (function () {
     function LockableMixin() {
     }
     LockableMixin.prototype.isLocked = function () {

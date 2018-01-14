@@ -14,7 +14,7 @@ import { Vector3 } from '../math/Vector3';
  * This class does not default the <b>cutLine</b>.
  * </p>
  */
-var ArrowBuilder = (function (_super) {
+var ArrowBuilder = /** @class */ (function (_super) {
     tslib_1.__extends(ArrowBuilder, _super);
     /**
      *

@@ -67,7 +67,7 @@ function detectShaderType(scriptIds, dom) {
  * The scripts are lazily loaded so that the constructor may be called before
  * the DOM has finished loading.
  */
-var HTMLScriptsMaterial = (function (_super) {
+var HTMLScriptsMaterial = /** @class */ (function (_super) {
     tslib_1.__extends(HTMLScriptsMaterial, _super);
     /**
      * @param contextManager

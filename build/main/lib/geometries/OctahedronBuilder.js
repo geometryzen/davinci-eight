@@ -22,7 +22,7 @@ var vertices = [
 var indices = [
     0, 2, 4, 0, 4, 3, 0, 3, 5, 0, 5, 2, 1, 2, 5, 1, 5, 3, 1, 3, 4, 1, 4, 2
 ];
-var OctahedronBuilder = (function (_super) {
+var OctahedronBuilder = /** @class */ (function (_super) {
     tslib_1.__extends(OctahedronBuilder, _super);
     function OctahedronBuilder(radius, detail) {
         return _super.call(this, vertices, indices, radius, detail) || this;

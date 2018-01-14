@@ -6,7 +6,7 @@ var GraphicsProgramSymbols_1 = require("../core/GraphicsProgramSymbols");
 /**
  *
  */
-var ColorFacet = (function () {
+var ColorFacet = /** @class */ (function () {
     /**
      *
      */

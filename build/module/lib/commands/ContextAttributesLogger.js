@@ -4,7 +4,7 @@ import { ShareableBase } from '../core/ShareableBase';
 /**
  * Displays details about the WegGL version to the console.
  */
-var ContextAttributesLogger = (function (_super) {
+var ContextAttributesLogger = /** @class */ (function (_super) {
     tslib_1.__extends(ContextAttributesLogger, _super);
     /**
      *

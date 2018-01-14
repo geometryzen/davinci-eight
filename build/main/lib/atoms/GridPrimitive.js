@@ -13,7 +13,7 @@ var VertexPrimitive_1 = require("./VertexPrimitive");
  * counter-clockwise orientation when increasing u is the first direction and
  * increasing v the second direction.
  */
-var GridPrimitive = (function (_super) {
+var GridPrimitive = /** @class */ (function (_super) {
     tslib_1.__extends(GridPrimitive, _super);
     function GridPrimitive(mode, uSegments, vSegments) {
         var _this = _super.call(this, mode, numVerticesForGrid_1.numVerticesForGrid(uSegments, vSegments), 2) || this;

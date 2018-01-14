@@ -19,7 +19,7 @@ var DRAWABLE_LOGGING_NAME = 'Drawable';
 /**
  * This class may be used as either a base class or standalone.
  */
-var Drawable = (function (_super) {
+var Drawable = /** @class */ (function (_super) {
     tslib_1.__extends(Drawable, _super);
     /**
      *

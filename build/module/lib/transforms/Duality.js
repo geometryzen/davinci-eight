@@ -9,7 +9,7 @@ import { Vector3 } from '../math/Vector3';
  * Applies a duality transformation to the specified attributes of a vertex, creating a new attribute.
  * The convention used is pre-multiplication by the pseudoscalar.
  */
-var Duality = (function () {
+var Duality = /** @class */ (function () {
     function Duality(sourceName, outputName, changeSign, removeSource) {
         this.sourceName = mustBeString('sourceName', sourceName);
         this.outputName = mustBeString('outputName', outputName);

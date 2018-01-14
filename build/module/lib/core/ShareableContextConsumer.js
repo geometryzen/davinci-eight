@@ -4,7 +4,7 @@ import { ShareableBase } from './ShareableBase';
 /**
  *
  */
-var ShareableContextConsumer = (function (_super) {
+var ShareableContextConsumer = /** @class */ (function (_super) {
     tslib_1.__extends(ShareableContextConsumer, _super);
     /**
      *

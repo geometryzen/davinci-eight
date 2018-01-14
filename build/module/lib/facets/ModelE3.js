@@ -2,7 +2,7 @@ import { Geometric3 } from '../math/Geometric3';
 /**
  *
  */
-var ModelE3 = (function () {
+var ModelE3 = /** @class */ (function () {
     /**
      * <p>
      * A collection of properties for Rigid Body Modeling.

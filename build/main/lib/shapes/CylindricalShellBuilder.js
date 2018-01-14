@@ -16,7 +16,7 @@ var Vector3_1 = require("../math/Vector3");
 /**
  * This implementation only builds the walls of the cylinder (by wrapping a grid)
  */
-var CylindricalShellBuilder = (function (_super) {
+var CylindricalShellBuilder = /** @class */ (function (_super) {
     tslib_1.__extends(CylindricalShellBuilder, _super);
     function CylindricalShellBuilder() {
         var _this = _super !== null && _super.apply(this, arguments) || this;

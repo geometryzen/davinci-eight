@@ -136,7 +136,7 @@ function configLines(contextManager, options, curve) {
 /**
  * A 3D visual representation of a discrete parameterized line.
  */
-var Curve = (function (_super) {
+var Curve = /** @class */ (function (_super) {
     tslib_1.__extends(Curve, _super);
     /**
      * Constructs a Curve.

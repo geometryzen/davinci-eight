@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = require("tslib");
 var PrimitivesBuilder_1 = require("../geometries/PrimitivesBuilder");
-var AxialPrimitivesBuilder = (function (_super) {
+var AxialPrimitivesBuilder = /** @class */ (function (_super) {
     tslib_1.__extends(AxialPrimitivesBuilder, _super);
     function AxialPrimitivesBuilder() {
         var _this = _super.call(this) || this;

@@ -4,7 +4,7 @@ import { vectorFromCoords, vectorCopy } from '../math/R3';
 /**
  *
  */
-var Diagram3D = (function () {
+var Diagram3D = /** @class */ (function () {
     /**
      *
      */

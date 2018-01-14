@@ -6,7 +6,7 @@ var gridPrimitive_1 = require("./gridPrimitive");
 /**
  * A Geometry for representing functions of two scalar parameters.
  */
-var GridGeometry = (function (_super) {
+var GridGeometry = /** @class */ (function (_super) {
     tslib_1.__extends(GridGeometry, _super);
     /**
      *

@@ -29,7 +29,7 @@ function transferOwnership(data) {
  * Provides a safer way to maintain reference counts than a native array.
  * </p>
  */
-var ShareableArray = (function (_super) {
+var ShareableArray = /** @class */ (function (_super) {
     tslib_1.__extends(ShareableArray, _super);
     /**
      *

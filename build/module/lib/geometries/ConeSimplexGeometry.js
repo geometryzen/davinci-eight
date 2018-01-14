@@ -2,7 +2,7 @@ import * as tslib_1 from "tslib";
 import { SliceSimplexPrimitivesBuilder } from '../geometries/SliceSimplexPrimitivesBuilder';
 import { Vector2 } from '../math/Vector2';
 import { Vector3 } from '../math/Vector3';
-var ConeSimplexGeometry = (function (_super) {
+var ConeSimplexGeometry = /** @class */ (function (_super) {
     tslib_1.__extends(ConeSimplexGeometry, _super);
     function ConeSimplexGeometry(radius, height, axis, radiusTop, openCap, openBase, thetaStart) {
         if (radius === void 0) { radius = 0.5; }

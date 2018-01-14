@@ -53,7 +53,7 @@ function fragmentShaderSrc(options) {
  * </tr>
  * </table>
  */
-var LineMaterial = (function (_super) {
+var LineMaterial = /** @class */ (function (_super) {
     tslib_1.__extends(LineMaterial, _super);
     /**
      *

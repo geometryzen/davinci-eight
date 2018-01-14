@@ -8,7 +8,7 @@ var mustBeNumber_1 = require("../checks/mustBeNumber");
 /**
  *
  */
-var PerspectiveTransform = (function () {
+var PerspectiveTransform = /** @class */ (function () {
     /**
      *
      */
@@ -25,15 +25,11 @@ var PerspectiveTransform = (function () {
          *
          */
         this.matrixName = GraphicsProgramSymbols_1.GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX;
-        /**
-         *
-         */
-        this.matrixNeedsUpdate = true;
-        // Initialize properties through setters in order to incorporate validation.
-        this.fov = fov;
-        this.aspect = aspect;
-        this.near = near;
-        this.far = far;
+        this._fov = fov;
+        this._aspect = aspect;
+        this._near = near;
+        this._far = far;
+        this.refreshMatrix();
     }
     Object.defineProperty(PerspectiveTransform.prototype, "aspect", {
         /**
@@ -47,7 +43,7 @@ var PerspectiveTransform = (function () {
                 mustBeNumber_1.mustBeNumber('aspect', aspect);
                 mustBeGE_1.mustBeGE('aspect', aspect, 0);
                 this._aspect = aspect;
-                this.matrixNeedsUpdate = true;
+                this.refreshMatrix();
             }
         },
         enumerable: true,
@@ -67,7 +63,7 @@ var PerspectiveTransform = (function () {
                 mustBeGE_1.mustBeGE('fov', fov, 0);
                 mustBeLE_1.mustBeLE('fov', fov, Math.PI);
                 this._fov = fov;
-                this.matrixNeedsUpdate = true;
+                this.refreshMatrix();
             }
         },
         enumerable: true,
@@ -85,7 +81,7 @@ var PerspectiveTransform = (function () {
                 mustBeNumber_1.mustBeNumber('near', near);
                 mustBeGE_1.mustBeGE('near', near, 0);
                 this._near = near;
-                this.matrixNeedsUpdate = true;
+                this.refreshMatrix();
             }
         },
         enumerable: true,
@@ -103,7 +99,7 @@ var PerspectiveTransform = (function () {
                 mustBeNumber_1.mustBeNumber('far', far);
                 mustBeGE_1.mustBeGE('far', far, 0);
                 this._far = far;
-                this.matrixNeedsUpdate = true;
+                this.refreshMatrix();
             }
         },
         enumerable: true,
@@ -113,10 +109,6 @@ var PerspectiveTransform = (function () {
      *
      */
     PerspectiveTransform.prototype.setUniforms = function (visitor) {
-        if (this.matrixNeedsUpdate) {
-            this.matrix.perspective(this._fov, this._aspect, this._near, this._far);
-            this.matrixNeedsUpdate = false;
-        }
         visitor.matrix4fv(this.matrixName, this.matrix.elements, false);
     };
     /**
@@ -149,6 +141,12 @@ var PerspectiveTransform = (function () {
         var v = t * y / weight;
         var w = -1 / weight;
         return [u, v, w];
+    };
+    /**
+     *
+     */
+    PerspectiveTransform.prototype.refreshMatrix = function () {
+        this.matrix.perspective(this._fov, this._aspect, this._near, this._far);
     };
     return PerspectiveTransform;
 }());

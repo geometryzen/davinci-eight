@@ -16,7 +16,7 @@ function intersectObject(object, raycaster, intersects, recursive) {
         }
     }
 }
-var Raycaster = (function () {
+var Raycaster = /** @class */ (function () {
     function Raycaster(origin, direction, near, far) {
         this.ray = new Ray_1.Ray(origin, direction);
         // direction is assumed to be normalized (for accurate distance calculations)

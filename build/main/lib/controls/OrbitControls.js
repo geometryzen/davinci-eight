@@ -24,7 +24,7 @@ var X = Vector3_1.Vector3.zero();
  * new reference frame. This rotor may also be interpolated for animations.
  * </p>
  */
-var OrbitControls = (function (_super) {
+var OrbitControls = /** @class */ (function (_super) {
     tslib_1.__extends(OrbitControls, _super);
     /**
      * @param view

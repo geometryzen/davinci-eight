@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = require("tslib");
 var SimplexPrimitivesBuilder_1 = require("../geometries/SimplexPrimitivesBuilder");
-var SliceSimplexPrimitivesBuilder = (function (_super) {
+var SliceSimplexPrimitivesBuilder = /** @class */ (function (_super) {
     tslib_1.__extends(SliceSimplexPrimitivesBuilder, _super);
     function SliceSimplexPrimitivesBuilder() {
         var _this = _super.call(this) || this;

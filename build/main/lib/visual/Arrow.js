@@ -22,7 +22,7 @@ var vectorE3Object_1 = require("./vectorE3Object");
 /**
  * A Mesh in the form of an arrow that may be used to represent a vector quantity.
  */
-var Arrow = (function (_super) {
+var Arrow = /** @class */ (function (_super) {
     tslib_1.__extends(Arrow, _super);
     /**
      *

@@ -6,7 +6,7 @@ var Vector3_1 = require("../math/Vector3");
 /**
  *
  */
-var ViewControls = (function (_super) {
+var ViewControls = /** @class */ (function (_super) {
     tslib_1.__extends(ViewControls, _super);
     /**
      * @param view

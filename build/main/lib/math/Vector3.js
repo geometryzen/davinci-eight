@@ -27,7 +27,7 @@ function coordinates(m) {
 /**
  *
  */
-var Vector3 = (function () {
+var Vector3 = /** @class */ (function () {
     /**
      * @param coords
      * @param modified

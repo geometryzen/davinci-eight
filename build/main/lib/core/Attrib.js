@@ -4,7 +4,7 @@ var readOnly_1 = require("../i18n/readOnly");
 /**
  * An object-oriented representation of an <code>attribute</code> in a GLSL shader program.
  */
-var Attrib = (function () {
+var Attrib = /** @class */ (function () {
     /**
      *
      */

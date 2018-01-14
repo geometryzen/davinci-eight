@@ -19,7 +19,7 @@ function klein(u, v) {
     point.y = -2 * (1 - cos(u) / 2) * sin(v);
     return point.scale(0.1);
 }
-var KleinBottleSimplexGeometry = (function (_super) {
+var KleinBottleSimplexGeometry = /** @class */ (function (_super) {
     tslib_1.__extends(KleinBottleSimplexGeometry, _super);
     function KleinBottleSimplexGeometry(uSegments, vSegments) {
         return _super.call(this, klein, uSegments, vSegments) || this;

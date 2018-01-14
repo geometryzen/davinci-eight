@@ -2,7 +2,7 @@
  * Canonical variable names, which also act as semantic identifiers for name overrides.
  * These names must be stable to avoid breaking custom vertex and fragment shaders.
  */
-var GraphicsProgramSymbols = (function () {
+var GraphicsProgramSymbols = /** @class */ (function () {
     function GraphicsProgramSymbols() {
     }
     /**

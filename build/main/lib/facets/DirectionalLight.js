@@ -8,7 +8,7 @@ var Vector3_1 = require("../math/Vector3");
 /**
  *
  */
-var DirectionalLight = (function () {
+var DirectionalLight = /** @class */ (function () {
     function DirectionalLight(direction, color) {
         if (direction === void 0) { direction = Vector3_1.Vector3.vector(0, 0, 1).neg(); }
         if (color === void 0) { color = Color_1.Color.white; }

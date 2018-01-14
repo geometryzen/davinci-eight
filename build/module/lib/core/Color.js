@@ -17,7 +17,7 @@ var rgb255 = function rgb255(red, green, blue) {
 /**
  * A mutable type representing a color through its RGB components.
  */
-var Color = (function (_super) {
+var Color = /** @class */ (function (_super) {
     tslib_1.__extends(Color, _super);
     function Color(r, g, b) {
         var _this = _super.call(this, [r, g, b], false, 3) || this;

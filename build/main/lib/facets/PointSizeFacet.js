@@ -5,7 +5,7 @@ var GraphicsProgramSymbols_1 = require("../core/GraphicsProgramSymbols");
 /**
  *
  */
-var PointSizeFacet = (function () {
+var PointSizeFacet = /** @class */ (function () {
     /**
      *
      */

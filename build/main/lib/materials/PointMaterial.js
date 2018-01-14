@@ -48,7 +48,7 @@ function fragmentShaderSrc(options) {
 /**
  *
  */
-var PointMaterial = (function (_super) {
+var PointMaterial = /** @class */ (function (_super) {
     tslib_1.__extends(PointMaterial, _super);
     /**
      *

@@ -9,7 +9,7 @@ var VertexBuffer_1 = require("./VertexBuffer");
 /**
  * A concrete Geometry for supporting drawArrays.
  */
-var GeometryArrays = (function (_super) {
+var GeometryArrays = /** @class */ (function (_super) {
     tslib_1.__extends(GeometryArrays, _super);
     /**
      *

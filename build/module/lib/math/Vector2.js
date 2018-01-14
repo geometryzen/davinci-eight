@@ -18,7 +18,7 @@ function coordinates(m) {
 /**
  *
  */
-var Vector2 = (function () {
+var Vector2 = /** @class */ (function () {
     /**
      * @param coords The x coordinate and y coordinate.
      * @param modified

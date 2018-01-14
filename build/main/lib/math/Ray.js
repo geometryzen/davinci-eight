@@ -12,7 +12,7 @@ var diff = new Vector3_1.Vector3();
 var edge1 = new Vector3_1.Vector3();
 var edge2 = new Vector3_1.Vector3();
 var normal = new Vector3_1.Vector3();
-var Ray = (function () {
+var Ray = /** @class */ (function () {
     function Ray(origin, direction) {
         this.origin = (origin !== undefined) ? origin : new Vector3_1.Vector3();
         this.direction = (direction !== undefined) ? direction : new Vector3_1.Vector3();

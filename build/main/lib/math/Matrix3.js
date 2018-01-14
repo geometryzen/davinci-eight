@@ -41,7 +41,7 @@ function add3x3(a, b, c) {
  * </table>
  * </p>
  */
-var Matrix3 = (function (_super) {
+var Matrix3 = /** @class */ (function (_super) {
     tslib_1.__extends(Matrix3, _super);
     /**
      * @param elements

@@ -5,7 +5,7 @@ var Vector3_1 = require("../math/Vector3");
 /**
  * A framework, as a base class, for building primitives by applying transformations to vertices.
  */
-var PrimitivesBuilder = (function () {
+var PrimitivesBuilder = /** @class */ (function () {
     function PrimitivesBuilder() {
         /**
          * The scaling to apply to the geometry in the initial configuration.

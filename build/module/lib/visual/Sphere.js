@@ -21,7 +21,7 @@ var RADIUS_NAME = 'radius';
 /**
  *
  */
-var Sphere = (function (_super) {
+var Sphere = /** @class */ (function (_super) {
     tslib_1.__extends(Sphere, _super);
     /**
      *

@@ -20,7 +20,7 @@ var MODEL_FACET_NAME = 'model';
 /**
  * The standard pairing of a Geometry and a Material.
  */
-var Mesh = (function (_super) {
+var Mesh = /** @class */ (function (_super) {
     tslib_1.__extends(Mesh, _super);
     /**
      * Initializes this Mesh with a ColorFacet ('color'), a TextureFacet ('image'), and a ModelFacet ('model').

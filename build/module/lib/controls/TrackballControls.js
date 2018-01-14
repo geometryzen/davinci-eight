@@ -28,8 +28,13 @@ import { ViewControls } from './ViewControls';
  *
  * You may decide to update directional lighting to synchronize with the camera.
  */
-var TrackballControls = (function (_super) {
+var TrackballControls = /** @class */ (function (_super) {
     tslib_1.__extends(TrackballControls, _super);
+    /**
+     *
+     * @param view eye, look, and up vectors. The coordinates will be manipulated by this object.
+     * @param wnd The browser window. Used to add listeners for mouse and keyboard events.
+     */
     function TrackballControls(view, wnd) {
         if (wnd === void 0) { wnd = window; }
         var _this = _super.call(this, view, wnd) || this;

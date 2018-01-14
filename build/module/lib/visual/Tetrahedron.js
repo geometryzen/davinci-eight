@@ -17,7 +17,7 @@ import { vectorE3Object } from './vectorE3Object';
 /**
  * A 3D visual representation of a tetrahedron.
  */
-var Tetrahedron = (function (_super) {
+var Tetrahedron = /** @class */ (function (_super) {
     tslib_1.__extends(Tetrahedron, _super);
     function Tetrahedron(contextManager, options, levelUp) {
         if (options === void 0) { options = {}; }

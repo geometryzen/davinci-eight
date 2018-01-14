@@ -4,7 +4,7 @@ var tslib_1 = require("tslib");
 var mustBeUndefined_1 = require("../checks/mustBeUndefined");
 var ShareableContextConsumer_1 = require("./ShareableContextConsumer");
 var TextureParameterName_1 = require("./TextureParameterName");
-var Texture = (function (_super) {
+var Texture = /** @class */ (function (_super) {
     tslib_1.__extends(Texture, _super);
     function Texture(target, contextManager, levelUp) {
         if (levelUp === void 0) { levelUp = 0; }

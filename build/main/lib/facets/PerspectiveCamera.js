@@ -25,7 +25,7 @@ var ViewTransform_1 = require("./ViewTransform");
  *
  * <p>The camera is initially positioned at <b>e</b><sub>3</sub>.</p>
  */
-var PerspectiveCamera = (function () {
+var PerspectiveCamera = /** @class */ (function () {
     /**
      *
      * @param fov The field of view.
@@ -146,6 +146,20 @@ var PerspectiveCamera = (function () {
         },
         set: function (up) {
             this.V.up.copyVector(up);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(PerspectiveCamera.prototype, "projectionMatrix", {
+        get: function () {
+            return this.P.matrix;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(PerspectiveCamera.prototype, "viewMatrix", {
+        get: function () {
+            return this.V.matrix;
         },
         enumerable: true,
         configurable: true

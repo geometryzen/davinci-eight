@@ -9,7 +9,7 @@ var Vector2_1 = require("../math/Vector2");
 var Vector3_1 = require("../math/Vector3");
 var mustBeFunction_1 = require("../checks/mustBeFunction");
 var mustBeInteger_1 = require("../checks/mustBeInteger");
-var GridSimplexBuilder = (function (_super) {
+var GridSimplexBuilder = /** @class */ (function (_super) {
     tslib_1.__extends(GridSimplexBuilder, _super);
     function GridSimplexBuilder(parametricFunction, uSegments, vSegments) {
         var _this = _super.call(this) || this;

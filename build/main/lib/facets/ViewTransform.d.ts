@@ -1,4 +1,5 @@
 import { Geometric3 } from '../math/Geometric3';
+import { Matrix4 } from '../math/Matrix4';
 import { Facet } from '../core/Facet';
 import { FacetVisitor } from '../core/FacetVisitor';
 /**
@@ -20,7 +21,7 @@ export declare class ViewTransform implements Facet {
     /**
      *
      */
-    private matrix;
+    private _matrix;
     /**
      *
      */
@@ -49,4 +50,6 @@ export declare class ViewTransform implements Facet {
      * The approximate up direction.
      */
     up: Geometric3;
+    readonly matrix: Matrix4;
+    private refreshMatrix();
 }

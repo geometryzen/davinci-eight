@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = require("tslib");
 var ShareableBase_1 = require("../core/ShareableBase");
-var NumberShareableMap = (function (_super) {
+var NumberShareableMap = /** @class */ (function (_super) {
     tslib_1.__extends(NumberShareableMap, _super);
     function NumberShareableMap() {
         var _this = _super.call(this) || this;

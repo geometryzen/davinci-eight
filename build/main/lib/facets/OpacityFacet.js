@@ -7,7 +7,7 @@ var GraphicsProgramSymbols_1 = require("../core/GraphicsProgramSymbols");
 /**
  *
  */
-var OpacityFacet = (function () {
+var OpacityFacet = /** @class */ (function () {
     /**
      *
      */

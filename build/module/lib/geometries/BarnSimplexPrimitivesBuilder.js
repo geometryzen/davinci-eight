@@ -6,7 +6,7 @@ import { Simplex } from '../geometries/Simplex';
 import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { triangle } from '../geometries/triangle';
 import { Geometric3 } from '../math/Geometric3';
-var BarnSimplexPrimitivesBuilder = (function (_super) {
+var BarnSimplexPrimitivesBuilder = /** @class */ (function (_super) {
     tslib_1.__extends(BarnSimplexPrimitivesBuilder, _super);
     function BarnSimplexPrimitivesBuilder() {
         var _this = _super.call(this) || this;

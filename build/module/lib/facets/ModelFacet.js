@@ -8,7 +8,7 @@ import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 /**
  *
  */
-var ModelFacet = (function (_super) {
+var ModelFacet = /** @class */ (function (_super) {
     tslib_1.__extends(ModelFacet, _super);
     /**
      * <p>

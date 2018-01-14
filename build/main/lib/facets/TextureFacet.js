@@ -5,7 +5,7 @@ var exchange_1 = require("../base/exchange");
 var GraphicsProgramSymbols_1 = require("../core/GraphicsProgramSymbols");
 var ShareableBase_1 = require("../core/ShareableBase");
 var TextureUnit_1 = require("../core/TextureUnit");
-var TextureFacet = (function (_super) {
+var TextureFacet = /** @class */ (function (_super) {
     tslib_1.__extends(TextureFacet, _super);
     function TextureFacet() {
         var _this = _super.call(this) || this;

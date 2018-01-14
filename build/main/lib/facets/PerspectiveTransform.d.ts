@@ -1,5 +1,6 @@
 import { Facet } from '../core/Facet';
 import { FacetVisitor } from '../core/FacetVisitor';
+import { Matrix4 } from '../math/Matrix4';
 /**
  *
  */
@@ -23,15 +24,11 @@ export declare class PerspectiveTransform implements Facet {
     /**
      *
      */
-    private matrix;
+    matrix: Matrix4;
     /**
      *
      */
     private matrixName;
-    /**
-     *
-     */
-    private matrixNeedsUpdate;
     /**
      *
      */
@@ -62,4 +59,8 @@ export declare class PerspectiveTransform implements Facet {
      * This method performs the inverse of the perspective transformation.
      */
     imageToCameraCoords(x: number, y: number, z: number): number[];
+    /**
+     *
+     */
+    private refreshMatrix();
 }

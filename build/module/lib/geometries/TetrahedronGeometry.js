@@ -4,7 +4,7 @@ import { tetrahedronPrimitive } from './tetrahedronPrimitive';
 /**
  * A convenience class for creating a tetrahedron geometry.
  */
-var TetrahedronGeometry = (function (_super) {
+var TetrahedronGeometry = /** @class */ (function (_super) {
     tslib_1.__extends(TetrahedronGeometry, _super);
     /**
      *

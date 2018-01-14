@@ -4,7 +4,7 @@ import { Vector2 } from '../math/Vector2';
 /**
  * Applies coordinates to a surface.
  */
-var CoordsTransform2D = (function () {
+var CoordsTransform2D = /** @class */ (function () {
     function CoordsTransform2D(flipU, flipV, exchangeUV) {
         this.flipU = mustBeBoolean('flipU', flipU);
         this.flipV = mustBeBoolean('flipV', flipV);

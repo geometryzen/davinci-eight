@@ -1,6 +1,6 @@
 import * as tslib_1 from "tslib";
 import { PrimitivesBuilder } from '../geometries/PrimitivesBuilder';
-var AxialPrimitivesBuilder = (function (_super) {
+var AxialPrimitivesBuilder = /** @class */ (function (_super) {
     tslib_1.__extends(AxialPrimitivesBuilder, _super);
     function AxialPrimitivesBuilder() {
         var _this = _super.call(this) || this;

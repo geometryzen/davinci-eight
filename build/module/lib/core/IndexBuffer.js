@@ -5,7 +5,7 @@ import { ShareableContextConsumer } from './ShareableContextConsumer';
 /**
  * A wrapper around a WebGLBuffer with binding to ELEMENT_ARRAY_BUFFER.
  */
-var IndexBuffer = (function (_super) {
+var IndexBuffer = /** @class */ (function (_super) {
     tslib_1.__extends(IndexBuffer, _super);
     /**
      *

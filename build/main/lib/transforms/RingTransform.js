@@ -4,7 +4,7 @@ var mustBeNumber_1 = require("../checks/mustBeNumber");
 var mustBeString_1 = require("../checks/mustBeString");
 var Spinor3_1 = require("../math/Spinor3");
 var Vector3_1 = require("../math/Vector3");
-var RingTransform = (function () {
+var RingTransform = /** @class */ (function () {
     /**
      * @param e The axis normal to the plane of the ring.
      * @param cutLine

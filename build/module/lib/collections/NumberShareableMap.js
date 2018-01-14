@@ -1,6 +1,6 @@
 import * as tslib_1 from "tslib";
 import { ShareableBase } from '../core/ShareableBase';
-var NumberShareableMap = (function (_super) {
+var NumberShareableMap = /** @class */ (function (_super) {
     tslib_1.__extends(NumberShareableMap, _super);
     function NumberShareableMap() {
         var _this = _super.call(this) || this;
