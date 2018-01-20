@@ -21,6 +21,14 @@ export class ModelFacet extends ModelE3 implements Facet {
     private _matN = Matrix3.one.clone();
     private matR = Matrix4.one.clone();
     private matT = Matrix4.one.clone();
+    /**
+     * The name used for the model matrix in the vertex shader.
+     */
+    private nameM = GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX;
+    /**
+     * The name used for the normal matrix in the vertex shader.
+     */
+    private nameN = GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX;
 
     /**
      * <p>
@@ -56,7 +64,6 @@ export class ModelFacet extends ModelE3 implements Facet {
     }
 
     /**
-     *
      * @readOnly
      */
     get matrix(): Matrix4 {
@@ -67,12 +74,32 @@ export class ModelFacet extends ModelE3 implements Facet {
     }
 
     /**
+     * The name of the uniform variable in the vertex shader that receives the model matrix value.
+     */
+    get modelMatrixUniformName(): string {
+        return this.nameM;
+    }
+    set modelMatrixUniformName(name: string) {
+        this.nameM = name;
+    }
+
+    /**
+     * The name of the uniform variable in the vertex shader that receives the normal matrix value.
+     */
+    get normalMatrixUniformName(): string {
+        return this.nameN;
+    }
+    set normalMatrixUniformName(name: string) {
+        this.nameN = name;
+    }
+
+    /**
      *
      */
     setUniforms(visitor: FacetVisitor): void {
         this.updateMatrices();
-        visitor.matrix4fv(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, this._matM.elements, false);
-        visitor.matrix3fv(GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX, this._matN.elements, false);
+        visitor.matrix4fv(this.nameM, this._matM.elements, false);
+        visitor.matrix3fv(this.nameN, this._matN.elements, false);
     }
 
     private updateMatrices(): void {

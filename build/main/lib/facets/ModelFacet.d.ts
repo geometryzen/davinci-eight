@@ -15,6 +15,14 @@ export declare class ModelFacet extends ModelE3 implements Facet {
     private matR;
     private matT;
     /**
+     * The name used for the model matrix in the vertex shader.
+     */
+    private nameM;
+    /**
+     * The name used for the normal matrix in the vertex shader.
+     */
+    private nameN;
+    /**
      * <p>
      * A collection of properties governing GLSL uniforms for Rigid Body Modeling.
      * </p>
@@ -35,10 +43,17 @@ export declare class ModelFacet extends ModelE3 implements Facet {
      */
     stress: Matrix4;
     /**
-     *
      * @readOnly
      */
     matrix: Matrix4;
+    /**
+     * The name of the uniform variable in the vertex shader that receives the model matrix value.
+     */
+    modelMatrixUniformName: string;
+    /**
+     * The name of the uniform variable in the vertex shader that receives the normal matrix value.
+     */
+    normalMatrixUniformName: string;
     /**
      *
      */

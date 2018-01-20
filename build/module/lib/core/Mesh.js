@@ -367,6 +367,58 @@ var Mesh = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Mesh.prototype, "modelMatrixUniformName", {
+        /**
+         * The name of the uniform variable in the vertex shader that receives the model matrix value.
+         * The default value is `uModel`.
+         */
+        get: function () {
+            var facet = this.getFacet(MODEL_FACET_NAME);
+            if (facet) {
+                return facet.modelMatrixUniformName;
+            }
+            else {
+                throw new Error(notSupported(MODEL_FACET_NAME).message);
+            }
+        },
+        set: function (name) {
+            var facet = this.getFacet(MODEL_FACET_NAME);
+            if (facet) {
+                facet.modelMatrixUniformName = name;
+            }
+            else {
+                throw new Error(notSupported(MODEL_FACET_NAME).message);
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Mesh.prototype, "normalMatrixUniformName", {
+        /**
+         * The name of the uniform variable in the vertex shader that receives the normal matrix value.
+         * The default value is `uNormal`.
+         */
+        get: function () {
+            var facet = this.getFacet(MODEL_FACET_NAME);
+            if (facet) {
+                return facet.normalMatrixUniformName;
+            }
+            else {
+                throw new Error(notSupported(MODEL_FACET_NAME).message);
+            }
+        },
+        set: function (name) {
+            var facet = this.getFacet(MODEL_FACET_NAME);
+            if (facet) {
+                facet.normalMatrixUniformName = name;
+            }
+            else {
+                throw new Error(notSupported(MODEL_FACET_NAME).message);
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     return Mesh;
 }(Drawable));
 export { Mesh };

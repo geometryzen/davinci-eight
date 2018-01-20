@@ -382,4 +382,49 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
         this.attitude.mul2(R, this.attitude);
     }
 
+    /**
+     * The name of the uniform variable in the vertex shader that receives the model matrix value.
+     * The default value is `uModel`.
+     */
+    get modelMatrixUniformName(): string {
+        const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME);
+        if (facet) {
+            return facet.modelMatrixUniformName;
+        }
+        else {
+            throw new Error(notSupported(MODEL_FACET_NAME).message);
+        }
+    }
+    set modelMatrixUniformName(name: string) {
+        const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME);
+        if (facet) {
+            facet.modelMatrixUniformName = name;
+        }
+        else {
+            throw new Error(notSupported(MODEL_FACET_NAME).message);
+        }
+    }
+
+    /**
+     * The name of the uniform variable in the vertex shader that receives the normal matrix value.
+     * The default value is `uNormal`.
+     */
+    get normalMatrixUniformName(): string {
+        const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME);
+        if (facet) {
+            return facet.normalMatrixUniformName;
+        }
+        else {
+            throw new Error(notSupported(MODEL_FACET_NAME).message);
+        }
+    }
+    set normalMatrixUniformName(name: string) {
+        const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME);
+        if (facet) {
+            facet.normalMatrixUniformName = name;
+        }
+        else {
+            throw new Error(notSupported(MODEL_FACET_NAME).message);
+        }
+    }
 }

@@ -1,4 +1,4 @@
-// Type definitions for davinci-eight 7.0.0
+// Type definitions for davinci-eight 7.2.0
 // Project: https://github.com/geometryzen/davinci-eight
 // Definitions by: David Geo Holmes david.geo.holmes@gmail.com https://www.stemcstudio.com
 //
@@ -4192,6 +4192,16 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
      *
      */
     protected destructor(levelUp: number): void;
+    /**
+     * The name of the uniform variable in the vertex shader that receives the model matrix value.
+     * The default value is `uModel`.
+     */
+    modelMatrixUniformName: string;
+    /**
+     * The name of the uniform variable in the vertex shader that receives the normal matrix value.
+     * The default value is `uNormal`.
+     */
+    normalMatrixUniformName: string;
 }
 
 /**

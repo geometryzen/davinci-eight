@@ -21,6 +21,8 @@ npm update
 ```
 to install the tooling dependencies (For this you need to have [Node.js](http://nodejs.org) installed).
 
+Beware: Upgrading from 5.5.1 to 5.6.0 is problematic on Fedora (2018-01-19).
+
 ```
 npm run-script build
 ```
@@ -43,6 +45,7 @@ The following files should be changed.
 ```
 package.json
 src/lib/config.ts
+src/index.d.ts
 ```
 
 ## Git

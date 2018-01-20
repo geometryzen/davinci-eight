@@ -16,7 +16,7 @@ export interface MaterialOptions {
     };
     /**
      * A mapping from the uniform name to the type name.
-     * For example, 'uModel': 'mat4' produces 'uniform mat4 uModel;'.
+     * For example, 'M': 'mat4' produces 'uniform mat4 M;'.
      */
     uniforms?: {
         [name: string]: UniformGlslType;

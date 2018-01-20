@@ -97,9 +97,9 @@ function readOnly(name) {
 var Eight = /** @class */ (function () {
     function Eight() {
         this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-        this.LAST_MODIFIED = '2017-08-04';
+        this.LAST_MODIFIED = '2018-01-20';
         this.NAMESPACE = 'EIGHT';
-        this.VERSION = '7.1.0';
+        this.VERSION = '7.2.0';
     }
     Eight.prototype.log = function (message) {
         // This should allow us to unit test and run in environments without a console.
@@ -11226,6 +11226,14 @@ var ModelFacet = /** @class */ (function (_super) {
         _this._matN = Matrix3.one.clone();
         _this.matR = Matrix4.one.clone();
         _this.matT = Matrix4.one.clone();
+        /**
+         * The name used for the model matrix in the vertex shader.
+         */
+        _this.nameM = GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX;
+        /**
+         * The name used for the normal matrix in the vertex shader.
+         */
+        _this.nameN = GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX;
         _this.X.modified = true;
         _this.R.modified = true;
         _this.matS.modified = true;
@@ -11247,7 +11255,6 @@ var ModelFacet = /** @class */ (function (_super) {
     });
     Object.defineProperty(ModelFacet.prototype, "matrix", {
         /**
-         *
          * @readOnly
          */
         get: function () {
@@ -11259,13 +11266,39 @@ var ModelFacet = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(ModelFacet.prototype, "modelMatrixUniformName", {
+        /**
+         * The name of the uniform variable in the vertex shader that receives the model matrix value.
+         */
+        get: function () {
+            return this.nameM;
+        },
+        set: function (name) {
+            this.nameM = name;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ModelFacet.prototype, "normalMatrixUniformName", {
+        /**
+         * The name of the uniform variable in the vertex shader that receives the normal matrix value.
+         */
+        get: function () {
+            return this.nameN;
+        },
+        set: function (name) {
+            this.nameN = name;
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      *
      */
     ModelFacet.prototype.setUniforms = function (visitor) {
         this.updateMatrices();
-        visitor.matrix4fv(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, this._matM.elements, false);
-        visitor.matrix3fv(GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX, this._matN.elements, false);
+        visitor.matrix4fv(this.nameM, this._matM.elements, false);
+        visitor.matrix3fv(this.nameN, this._matN.elements, false);
     };
     ModelFacet.prototype.updateMatrices = function () {
         var modified = false;
@@ -11794,6 +11827,58 @@ var Mesh = /** @class */ (function (_super) {
             var B = Geometric3.dualOfVector(this.axis);
             var R = Geometric3.rotorFromVectorToVector(this.meridian, meridian, B);
             this.attitude.mul2(R, this.attitude);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Mesh.prototype, "modelMatrixUniformName", {
+        /**
+         * The name of the uniform variable in the vertex shader that receives the model matrix value.
+         * The default value is `uModel`.
+         */
+        get: function () {
+            var facet = this.getFacet(MODEL_FACET_NAME);
+            if (facet) {
+                return facet.modelMatrixUniformName;
+            }
+            else {
+                throw new Error(notSupported(MODEL_FACET_NAME).message);
+            }
+        },
+        set: function (name) {
+            var facet = this.getFacet(MODEL_FACET_NAME);
+            if (facet) {
+                facet.modelMatrixUniformName = name;
+            }
+            else {
+                throw new Error(notSupported(MODEL_FACET_NAME).message);
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Mesh.prototype, "normalMatrixUniformName", {
+        /**
+         * The name of the uniform variable in the vertex shader that receives the normal matrix value.
+         * The default value is `uNormal`.
+         */
+        get: function () {
+            var facet = this.getFacet(MODEL_FACET_NAME);
+            if (facet) {
+                return facet.normalMatrixUniformName;
+            }
+            else {
+                throw new Error(notSupported(MODEL_FACET_NAME).message);
+            }
+        },
+        set: function (name) {
+            var facet = this.getFacet(MODEL_FACET_NAME);
+            if (facet) {
+                facet.normalMatrixUniformName = name;
+            }
+            else {
+                throw new Error(notSupported(MODEL_FACET_NAME).message);
+            }
         },
         enumerable: true,
         configurable: true
