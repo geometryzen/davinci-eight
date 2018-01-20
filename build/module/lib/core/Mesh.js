@@ -369,8 +369,8 @@ var Mesh = /** @class */ (function (_super) {
     });
     Object.defineProperty(Mesh.prototype, "modelMatrixUniformName", {
         /**
-         * The name of the uniform variable in the vertex shader that receives the model matrix value.
-         * The default value is `uModel`.
+         * The name of the uniform mat4 variable in the vertex shader that receives the model matrix value.
+         * The default name is `uModel`.
          */
         get: function () {
             var facet = this.getFacet(MODEL_FACET_NAME);
@@ -395,8 +395,8 @@ var Mesh = /** @class */ (function (_super) {
     });
     Object.defineProperty(Mesh.prototype, "normalMatrixUniformName", {
         /**
-         * The name of the uniform variable in the vertex shader that receives the normal matrix value.
-         * The default value is `uNormal`.
+         * The name of the uniform mat3 variable in the vertex shader that receives the normal matrix value.
+         * The default name is `uNormal`.
          */
         get: function () {
             var facet = this.getFacet(MODEL_FACET_NAME);

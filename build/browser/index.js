@@ -99,7 +99,7 @@ var Eight = /** @class */ (function () {
         this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
         this.LAST_MODIFIED = '2018-01-20';
         this.NAMESPACE = 'EIGHT';
-        this.VERSION = '7.2.0';
+        this.VERSION = '7.3.0';
     }
     Eight.prototype.log = function (message) {
         // This should allow us to unit test and run in environments without a console.
@@ -11833,8 +11833,8 @@ var Mesh = /** @class */ (function (_super) {
     });
     Object.defineProperty(Mesh.prototype, "modelMatrixUniformName", {
         /**
-         * The name of the uniform variable in the vertex shader that receives the model matrix value.
-         * The default value is `uModel`.
+         * The name of the uniform mat4 variable in the vertex shader that receives the model matrix value.
+         * The default name is `uModel`.
          */
         get: function () {
             var facet = this.getFacet(MODEL_FACET_NAME);
@@ -11859,8 +11859,8 @@ var Mesh = /** @class */ (function (_super) {
     });
     Object.defineProperty(Mesh.prototype, "normalMatrixUniformName", {
         /**
-         * The name of the uniform variable in the vertex shader that receives the normal matrix value.
-         * The default value is `uNormal`.
+         * The name of the uniform mat3 variable in the vertex shader that receives the normal matrix value.
+         * The default name is `uNormal`.
          */
         get: function () {
             var facet = this.getFacet(MODEL_FACET_NAME);
@@ -13800,6 +13800,20 @@ var ViewTransform = /** @class */ (function () {
         this.refreshMatrix();
         visitor.matrix4fv(this.matrixName, this._matrix.elements, false);
     };
+    Object.defineProperty(ViewTransform.prototype, "viewMatrixUniformName", {
+        /**
+         * The name of the uniform mat4 variable in the vertex shader that receives the view matrix value.
+         * The default name is `uView`.
+         */
+        get: function () {
+            return this.matrixName;
+        },
+        set: function (name) {
+            this.matrixName = name;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(ViewTransform.prototype, "eye", {
         /**
          * The position of the camera, a vector.
@@ -13970,6 +13984,20 @@ var PerspectiveTransform = /** @class */ (function () {
     PerspectiveTransform.prototype.setUniforms = function (visitor) {
         visitor.matrix4fv(this.matrixName, this.matrix.elements, false);
     };
+    Object.defineProperty(PerspectiveTransform.prototype, "projectionMatrixUniformName", {
+        /**
+         * The name of the uniform mat4 variable in the vertex shader that receives the projection matrix value.
+         * The default name is `uProjection`.
+         */
+        get: function () {
+            return this.matrixName;
+        },
+        set: function (name) {
+            this.matrixName = name;
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Converts from image cube coordinates to camera coordinates.
      * This method performs the inverse of the perspective transformation.
@@ -14157,9 +14185,37 @@ var PerspectiveCamera = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(PerspectiveCamera.prototype, "projectionMatrixUniformName", {
+        /**
+         * The name of the uniform mat4 variable in the vertex shader that receives the projection matrix value.
+         * The default name is `uProjection`.
+         */
+        get: function () {
+            return this.P.projectionMatrixUniformName;
+        },
+        set: function (name) {
+            this.P.projectionMatrixUniformName = name;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(PerspectiveCamera.prototype, "projectionMatrix", {
         get: function () {
             return this.P.matrix;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(PerspectiveCamera.prototype, "viewMatrixUniformName", {
+        /**
+         * The name of the uniform mat4 variable in the vertex shader that receives the view matrix value.
+         * The default name is `uView`.
+         */
+        get: function () {
+            return this.V.viewMatrixUniformName;
+        },
+        set: function (name) {
+            this.V.viewMatrixUniformName = name;
         },
         enumerable: true,
         configurable: true

@@ -116,6 +116,17 @@ export class PerspectiveTransform implements Facet {
     }
 
     /**
+     * The name of the uniform mat4 variable in the vertex shader that receives the projection matrix value.
+     * The default name is `uProjection`.
+     */
+    get projectionMatrixUniformName(): string {
+        return this.matrixName;
+    }
+    set projectionMatrixUniformName(name: string) {
+        this.matrixName = name;
+    }
+
+    /**
      * Converts from image cube coordinates to camera coordinates.
      * This method performs the inverse of the perspective transformation.
      */

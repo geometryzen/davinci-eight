@@ -1,4 +1,4 @@
-// Type definitions for davinci-eight 7.2.0
+// Type definitions for davinci-eight 7.3.0
 // Project: https://github.com/geometryzen/davinci-eight
 // Definitions by: David Geo Holmes david.geo.holmes@gmail.com https://www.stemcstudio.com
 //
@@ -3130,9 +3130,19 @@ export class PerspectiveCamera implements Facet {
      */
     projectionMatrix: Matrix4;
     /**
+     * The name of the uniform mat4 variable in the vertex shader that receives the projection matrix value.
+     * The default name is `uProjection`.
+     */
+    projectionMatrixUniformName: string;
+    /**
      * 
      */
     viewMatrix: Matrix4;
+    /**
+     * The name of the uniform mat4 variable in the vertex shader that receives the view matrix value.
+     * The default name is `uView`.
+     */
+    viewMatrixUniformName: string;
 }
 
 /**
@@ -4193,13 +4203,13 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
      */
     protected destructor(levelUp: number): void;
     /**
-     * The name of the uniform variable in the vertex shader that receives the model matrix value.
-     * The default value is `uModel`.
+     * The name of the uniform mat4 variable in the vertex shader that receives the model matrix value.
+     * The default name is `uModel`.
      */
     modelMatrixUniformName: string;
     /**
-     * The name of the uniform variable in the vertex shader that receives the normal matrix value.
-     * The default value is `uNormal`.
+     * The name of the uniform mat3 variable in the vertex shader that receives the normal matrix value.
+     * The default name is `uNormal`.
      */
     normalMatrixUniformName: string;
 }

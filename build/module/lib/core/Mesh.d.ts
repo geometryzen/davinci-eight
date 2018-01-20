@@ -108,13 +108,13 @@ export declare class Mesh<G extends Geometry, M extends Material> extends Drawab
      */
     meridian: VectorE3;
     /**
-     * The name of the uniform variable in the vertex shader that receives the model matrix value.
-     * The default value is `uModel`.
+     * The name of the uniform mat4 variable in the vertex shader that receives the model matrix value.
+     * The default name is `uModel`.
      */
     modelMatrixUniformName: string;
     /**
-     * The name of the uniform variable in the vertex shader that receives the normal matrix value.
-     * The default value is `uNormal`.
+     * The name of the uniform mat3 variable in the vertex shader that receives the normal matrix value.
+     * The default name is `uNormal`.
      */
     normalMatrixUniformName: string;
 }

@@ -57,6 +57,20 @@ var ViewTransform = /** @class */ (function () {
         this.refreshMatrix();
         visitor.matrix4fv(this.matrixName, this._matrix.elements, false);
     };
+    Object.defineProperty(ViewTransform.prototype, "viewMatrixUniformName", {
+        /**
+         * The name of the uniform mat4 variable in the vertex shader that receives the view matrix value.
+         * The default name is `uView`.
+         */
+        get: function () {
+            return this.matrixName;
+        },
+        set: function (name) {
+            this.matrixName = name;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(ViewTransform.prototype, "eye", {
         /**
          * The position of the camera, a vector.

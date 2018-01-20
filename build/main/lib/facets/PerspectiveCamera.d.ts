@@ -81,6 +81,16 @@ export declare class PerspectiveCamera implements Facet {
      * The approximate up direction.
      */
     up: Geometric3;
+    /**
+     * The name of the uniform mat4 variable in the vertex shader that receives the projection matrix value.
+     * The default name is `uProjection`.
+     */
+    projectionMatrixUniformName: string;
     readonly projectionMatrix: Matrix4;
+    /**
+     * The name of the uniform mat4 variable in the vertex shader that receives the view matrix value.
+     * The default name is `uView`.
+     */
+    viewMatrixUniformName: string;
     readonly viewMatrix: Matrix4;
 }

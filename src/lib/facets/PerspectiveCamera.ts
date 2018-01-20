@@ -139,8 +139,30 @@ export class PerspectiveCamera implements Facet {
         this.V.up.copyVector(up);
     }
 
+    /**
+     * The name of the uniform mat4 variable in the vertex shader that receives the projection matrix value.
+     * The default name is `uProjection`.
+     */
+    get projectionMatrixUniformName(): string {
+        return this.P.projectionMatrixUniformName;
+    }
+    set projectionMatrixUniformName(name: string) {
+        this.P.projectionMatrixUniformName = name;
+    }
+
     get projectionMatrix(): Matrix4 {
         return this.P.matrix
+    }
+
+    /**
+     * The name of the uniform mat4 variable in the vertex shader that receives the view matrix value.
+     * The default name is `uView`.
+     */
+    get viewMatrixUniformName(): string {
+        return this.V.viewMatrixUniformName;
+    }
+    set viewMatrixUniformName(name: string) {
+        this.V.viewMatrixUniformName = name;
     }
 
     get viewMatrix(): Matrix4 {

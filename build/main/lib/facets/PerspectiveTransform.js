@@ -111,6 +111,20 @@ var PerspectiveTransform = /** @class */ (function () {
     PerspectiveTransform.prototype.setUniforms = function (visitor) {
         visitor.matrix4fv(this.matrixName, this.matrix.elements, false);
     };
+    Object.defineProperty(PerspectiveTransform.prototype, "projectionMatrixUniformName", {
+        /**
+         * The name of the uniform mat4 variable in the vertex shader that receives the projection matrix value.
+         * The default name is `uProjection`.
+         */
+        get: function () {
+            return this.matrixName;
+        },
+        set: function (name) {
+            this.matrixName = name;
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Converts from image cube coordinates to camera coordinates.
      * This method performs the inverse of the perspective transformation.

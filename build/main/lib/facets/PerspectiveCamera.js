@@ -150,9 +150,37 @@ var PerspectiveCamera = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(PerspectiveCamera.prototype, "projectionMatrixUniformName", {
+        /**
+         * The name of the uniform mat4 variable in the vertex shader that receives the projection matrix value.
+         * The default name is `uProjection`.
+         */
+        get: function () {
+            return this.P.projectionMatrixUniformName;
+        },
+        set: function (name) {
+            this.P.projectionMatrixUniformName = name;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(PerspectiveCamera.prototype, "projectionMatrix", {
         get: function () {
             return this.P.matrix;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(PerspectiveCamera.prototype, "viewMatrixUniformName", {
+        /**
+         * The name of the uniform mat4 variable in the vertex shader that receives the view matrix value.
+         * The default name is `uView`.
+         */
+        get: function () {
+            return this.V.viewMatrixUniformName;
+        },
+        set: function (name) {
+            this.V.viewMatrixUniformName = name;
         },
         enumerable: true,
         configurable: true
