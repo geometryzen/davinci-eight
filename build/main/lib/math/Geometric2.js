@@ -205,24 +205,22 @@ var Geometric2 = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Geometric2.prototype, "xy", {
-        /**
-         *
-         */
-        get: function () {
-            return this.coords_[COORD_PSEUDO];
-        },
-        set: function (xy) {
-            if (this.isLocked()) {
-                throw new Lockable_3.TargetLockedError('set xy');
-            }
-            var coords = this.coords_;
-            this.modified_ = this.modified_ || coords[COORD_PSEUDO] !== xy;
-            coords[COORD_PSEUDO] = xy;
-        },
-        enumerable: true,
-        configurable: true
-    });
+    /**
+     *
+     */
+    /*
+    private get xy(): number {
+        return this.coords_[COORD_PSEUDO];
+    }
+    private set xy(xy: number) {
+        if (this.isLocked()) {
+            throw new TargetLockedError('set xy');
+        }
+        const coords = this.coords_;
+        this.modified_ = this.modified_ || coords[COORD_PSEUDO] !== xy;
+        coords[COORD_PSEUDO] = xy;
+    }
+    */
     /**
      * this ⟼ this + M * α
      */

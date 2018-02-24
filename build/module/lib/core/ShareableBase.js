@@ -2,7 +2,7 @@ import { isDefined } from '../checks/isDefined';
 import { mustBeEQ } from '../checks/mustBeEQ';
 import { mustBeInteger } from '../checks/mustBeInteger';
 import { mustBeString } from '../checks/mustBeString';
-import { readOnly } from '../i18n/readOnly';
+// import { readOnly } from '../i18n/readOnly';
 import { refChange } from './refChange';
 import { uuid4 } from './uuid4';
 /**
@@ -85,20 +85,18 @@ var ShareableBase = /** @class */ (function () {
         // We can check this invariant in the final release method.
         this._levelUp = void 0;
     };
-    Object.defineProperty(ShareableBase.prototype, "levelUp", {
-        /**
-         * Returns the total length of the inheritance hierarchy that this instance is involved in.
-         */
-        get: function () {
-            return this._levelUp;
-        },
-        set: function (levelUp) {
-            // The only way the level gets changed is through setLoggingName.
-            throw new Error(readOnly('levelUp').message);
-        },
-        enumerable: true,
-        configurable: true
-    });
+    /**
+     * Returns the total length of the inheritance hierarchy that this instance is involved in.
+     */
+    /*
+    private get levelUp(): number {
+        return this._levelUp;
+    }
+    private set levelUp(levelUp: number) {
+        // The only way the level gets changed is through setLoggingName.
+        throw new Error(readOnly('levelUp').message);
+    }
+    */
     /**
      * An object is a zombie if it has been released by all who have held references.
      * In some cases it may be possible to recycle a zombie.
@@ -177,13 +175,6 @@ var ShareableBase = /** @class */ (function () {
         }
         return refCount;
     };
-    Object.defineProperty(ShareableBase.prototype, "uuid", {
-        get: function () {
-            return this._uuid;
-        },
-        enumerable: true,
-        configurable: true
-    });
     return ShareableBase;
 }());
 export { ShareableBase };

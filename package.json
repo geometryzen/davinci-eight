@@ -1,6 +1,6 @@
 {
   "name": "davinci-eight",
-  "version": "7.3.0",
+  "version": "7.3.1",
   "description": "WebGL library for mathematical physics using Geometric Algebra",
   "author": {
     "name": "David Geo Holmes",
@@ -50,8 +50,8 @@
     "changelog": "standard-version"
   },
   "devDependencies": {
-    "@types/jasmine": "^2.8.4",
-    "@types/node": "^8.5.9",
+    "@types/jasmine": "^2.8.6",
+    "@types/node": "^8.9.4",
     "browserify": "^14.5.0",
     "codecov": "^2.3.0",
     "concurrently": "^3.5.1",
@@ -60,7 +60,7 @@
     "es6-module-loader": "^0.17.11",
     "gh-pages": "^1.1.0",
     "hash.js": "^1.1.3",
-    "jasmine-core": "^2.9.1",
+    "jasmine-core": "^2.99.1",
     "karma": "^1.7.0",
     "karma-chrome-launcher": "^2.2.0",
     "karma-cli": "^1.0.1",
@@ -70,14 +70,14 @@
     "karma-phantomjs-launcher": "^1.0.4",
     "karma-systemjs": "^0.16.0",
     "mkdirp": "^0.5.1",
-    "npm-scripts-info": "^0.3.6",
-    "nyc": "^11.4.1",
+    "npm-scripts-info": "^0.3.7",
+    "nyc": "^11.5.0",
     "opn-cli": "^3.1.0",
     "phantomjs-polyfill": "^0.0.2",
     "rollup": "^0.45.2",
     "rollup-plugin-alias": "^1.4.0",
-    "rollup-plugin-commonjs": "^8.2.6",
-    "rollup-plugin-node-resolve": "^3.0.2",
+    "rollup-plugin-commonjs": "^8.3.0",
+    "rollup-plugin-node-resolve": "^3.0.3",
     "rollup-watch": "^4.3.1",
     "sleep-ms": "^2.0.1",
     "sorcery": "^0.10.0",
@@ -87,7 +87,7 @@
     "tslint": "^5.9.1",
     "tslint-config-standard": "^6.0.1",
     "typedoc": "^0.9.0",
-    "typescript": "^2.6.2"
+    "typescript": "^2.7.2"
   },
   "dependencies": {
     "tslib": "^1.9.0"

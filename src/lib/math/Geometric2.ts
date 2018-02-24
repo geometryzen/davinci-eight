@@ -239,6 +239,7 @@ export class Geometric2 implements GeometricE2, LockableMixin, VectorN<number> {
     /**
      *
      */
+    /*
     private get xy(): number {
         return this.coords_[COORD_PSEUDO];
     }
@@ -250,6 +251,7 @@ export class Geometric2 implements GeometricE2, LockableMixin, VectorN<number> {
         this.modified_ = this.modified_ || coords[COORD_PSEUDO] !== xy;
         coords[COORD_PSEUDO] = xy;
     }
+    */
 
     /**
      * this ⟼ this + M * α

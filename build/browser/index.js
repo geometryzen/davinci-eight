@@ -84,22 +84,12 @@ function mustBeString(name, value, contextBuilder) {
     return value;
 }
 
-function readOnly(name) {
-    mustBeString('name', name);
-    var message = {
-        get message() {
-            return "Property `" + name + "` is readonly.";
-        }
-    };
-    return message;
-}
-
 var Eight = /** @class */ (function () {
     function Eight() {
         this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
         this.LAST_MODIFIED = '2018-01-20';
         this.NAMESPACE = 'EIGHT';
-        this.VERSION = '7.3.0';
+        this.VERSION = '7.3.1';
     }
     Eight.prototype.log = function (message) {
         // This should allow us to unit test and run in environments without a console.
@@ -357,6 +347,7 @@ function uuid4() {
     };
 }
 
+// import { readOnly } from '../i18n/readOnly';
 /**
  * <p>
  * Convenient base class for derived classes implementing <code>Shareable</code>.
@@ -437,20 +428,18 @@ var ShareableBase = /** @class */ (function () {
         // We can check this invariant in the final release method.
         this._levelUp = void 0;
     };
-    Object.defineProperty(ShareableBase.prototype, "levelUp", {
-        /**
-         * Returns the total length of the inheritance hierarchy that this instance is involved in.
-         */
-        get: function () {
-            return this._levelUp;
-        },
-        set: function (levelUp) {
-            // The only way the level gets changed is through setLoggingName.
-            throw new Error(readOnly('levelUp').message);
-        },
-        enumerable: true,
-        configurable: true
-    });
+    /**
+     * Returns the total length of the inheritance hierarchy that this instance is involved in.
+     */
+    /*
+    private get levelUp(): number {
+        return this._levelUp;
+    }
+    private set levelUp(levelUp: number) {
+        // The only way the level gets changed is through setLoggingName.
+        throw new Error(readOnly('levelUp').message);
+    }
+    */
     /**
      * An object is a zombie if it has been released by all who have held references.
      * In some cases it may be possible to recycle a zombie.
@@ -529,13 +518,6 @@ var ShareableBase = /** @class */ (function () {
         }
         return refCount;
     };
-    Object.defineProperty(ShareableBase.prototype, "uuid", {
-        get: function () {
-            return this._uuid;
-        },
-        enumerable: true,
-        configurable: true
-    });
     return ShareableBase;
 }());
 
@@ -4022,6 +4004,16 @@ function quadSpinorE3(s) {
     else {
         return void 0;
     }
+}
+
+function readOnly(name) {
+    mustBeString('name', name);
+    var message = {
+        get message() {
+            return "Property `" + name + "` is readonly.";
+        }
+    };
+    return message;
 }
 
 function toStringCustom(coordinates, coordToString, labels) {
@@ -14645,24 +14637,22 @@ var Geometric2 = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Geometric2.prototype, "xy", {
-        /**
-         *
-         */
-        get: function () {
-            return this.coords_[COORD_PSEUDO$1];
-        },
-        set: function (xy) {
-            if (this.isLocked()) {
-                throw new TargetLockedError('set xy');
-            }
-            var coords = this.coords_;
-            this.modified_ = this.modified_ || coords[COORD_PSEUDO$1] !== xy;
-            coords[COORD_PSEUDO$1] = xy;
-        },
-        enumerable: true,
-        configurable: true
-    });
+    /**
+     *
+     */
+    /*
+    private get xy(): number {
+        return this.coords_[COORD_PSEUDO];
+    }
+    private set xy(xy: number) {
+        if (this.isLocked()) {
+            throw new TargetLockedError('set xy');
+        }
+        const coords = this.coords_;
+        this.modified_ = this.modified_ || coords[COORD_PSEUDO] !== xy;
+        coords[COORD_PSEUDO] = xy;
+    }
+    */
     /**
      * this ⟼ this + M * α
      */
@@ -24294,11 +24284,11 @@ var Group = /** @class */ (function (_super) {
         /**
          * Position (vector). This is a short alias for the position property.
          */
-        _this.X = Geometric3.zero(false);
+        _this.pos = Geometric3.zero(false);
         /**
          * Attitude (spinor). This is a short alias for the attitude property.
          */
-        _this.R = Geometric3.one(false);
+        _this.att = Geometric3.one(false);
         /**
          *
          */
@@ -24324,11 +24314,23 @@ var Group = /** @class */ (function (_super) {
          * Position (vector). This is a long alias for the X property.
          */
         get: function () {
-            return this.X;
+            return this.pos;
         },
         set: function (value) {
             if (value) {
-                this.X.copyVector(value);
+                this.pos.copyVector(value);
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Group.prototype, "X", {
+        get: function () {
+            return this.pos;
+        },
+        set: function (value) {
+            if (value) {
+                this.pos.copyVector(value);
             }
         },
         enumerable: true,
@@ -24339,11 +24341,23 @@ var Group = /** @class */ (function (_super) {
          * Attitude (spinor). This is a long alias for the R property.
          */
         get: function () {
-            return this.R;
+            return this.att;
         },
         set: function (value) {
             if (value) {
-                this.R.copySpinor(value);
+                this.att.copySpinor(value);
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Group.prototype, "R", {
+        get: function () {
+            return this.att;
+        },
+        set: function (value) {
+            if (value) {
+                this.att.copySpinor(value);
             }
         },
         enumerable: true,

@@ -71,7 +71,6 @@ export declare class ShareableBase implements Shareable {
     /**
      * Returns the total length of the inheritance hierarchy that this instance is involved in.
      */
-    private levelUp;
     /**
      * An object is a zombie if it has been released by all who have held references.
      * In some cases it may be possible to recycle a zombie.
@@ -112,5 +111,4 @@ export declare class ShareableBase implements Shareable {
      * @returns The new value of the reference count.
      */
     release(): number;
-    private readonly uuid;
 }

@@ -18,11 +18,11 @@ var Group = /** @class */ (function (_super) {
         /**
          * Position (vector). This is a short alias for the position property.
          */
-        _this.X = Geometric3_1.Geometric3.zero(false);
+        _this.pos = Geometric3_1.Geometric3.zero(false);
         /**
          * Attitude (spinor). This is a short alias for the attitude property.
          */
-        _this.R = Geometric3_1.Geometric3.one(false);
+        _this.att = Geometric3_1.Geometric3.one(false);
         /**
          *
          */
@@ -48,11 +48,23 @@ var Group = /** @class */ (function (_super) {
          * Position (vector). This is a long alias for the X property.
          */
         get: function () {
-            return this.X;
+            return this.pos;
         },
         set: function (value) {
             if (value) {
-                this.X.copyVector(value);
+                this.pos.copyVector(value);
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Group.prototype, "X", {
+        get: function () {
+            return this.pos;
+        },
+        set: function (value) {
+            if (value) {
+                this.pos.copyVector(value);
             }
         },
         enumerable: true,
@@ -63,11 +75,23 @@ var Group = /** @class */ (function (_super) {
          * Attitude (spinor). This is a long alias for the R property.
          */
         get: function () {
-            return this.R;
+            return this.att;
         },
         set: function (value) {
             if (value) {
-                this.R.copySpinor(value);
+                this.att.copySpinor(value);
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Group.prototype, "R", {
+        get: function () {
+            return this.att;
+        },
+        set: function (value) {
+            if (value) {
+                this.att.copySpinor(value);
             }
         },
         enumerable: true,

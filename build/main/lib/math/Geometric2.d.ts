@@ -49,7 +49,6 @@ export declare class Geometric2 implements GeometricE2, LockableMixin, VectorN<n
     /**
      *
      */
-    private xy;
     /**
      * this ⟼ this + M * α
      */

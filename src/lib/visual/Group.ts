@@ -25,11 +25,11 @@ export class Group extends ShareableBase implements GroupMember {
     /**
      * Position (vector). This is a short alias for the position property.
      */
-    public X = Geometric3.zero(false);
+    private pos = Geometric3.zero(false);
     /**
      * Attitude (spinor). This is a short alias for the attitude property.
      */
-    public R = Geometric3.one(false);
+    private att = Geometric3.one(false);
     /**
      * 
      */
@@ -61,11 +61,19 @@ export class Group extends ShareableBase implements GroupMember {
      * Position (vector). This is a long alias for the X property.
      */
     get position(): Geometric3 {
-        return this.X;
+        return this.pos;
     }
     set position(value: Geometric3) {
         if (value) {
-            this.X.copyVector(value);
+            this.pos.copyVector(value);
+        }
+    }
+    get X(): Geometric3 {
+        return this.pos;
+    }
+    set X(value: Geometric3) {
+        if (value) {
+            this.pos.copyVector(value);
         }
     }
 
@@ -73,11 +81,19 @@ export class Group extends ShareableBase implements GroupMember {
      * Attitude (spinor). This is a long alias for the R property.
      */
     get attitude(): Geometric3 {
-        return this.R;
+        return this.att;
     }
     set attitude(value: Geometric3) {
         if (value) {
-            this.R.copySpinor(value);
+            this.att.copySpinor(value);
+        }
+    }
+    get R(): Geometric3 {
+        return this.att;
+    }
+    set R(value: Geometric3) {
+        if (value) {
+            this.att.copySpinor(value);
         }
     }
 
