@@ -6,11 +6,11 @@ export declare class ModelE3 {
     /**
      * The name of the property that designates the attitude.
      */
-    static readonly PROP_ATTITUDE: string;
+    static readonly PROP_ATTITUDE = "R";
     /**
      * The name of the property that designates the position.
      */
-    static readonly PROP_POSITION: string;
+    static readonly PROP_POSITION = "X";
     private readonly _position;
     private readonly _attitude;
     /**

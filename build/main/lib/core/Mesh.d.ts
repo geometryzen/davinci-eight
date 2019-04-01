@@ -80,7 +80,7 @@ export declare class Mesh<G extends Geometry, M extends Material> extends Drawab
      * Stress (tensor)
      */
     private stress;
-    private getScale(i, j);
+    private getScale;
     protected getScaleX(): number;
     protected getScaleY(): number;
     protected getScaleZ(): number;

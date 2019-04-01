@@ -58,5 +58,5 @@ export declare class ModelFacet extends ModelE3 implements Facet {
      *
      */
     setUniforms(visitor: FacetVisitor): void;
-    private updateMatrices();
+    private updateMatrices;
 }

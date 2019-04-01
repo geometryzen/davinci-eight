@@ -56,5 +56,5 @@ export declare class ViewTransform implements Facet {
      */
     up: Geometric3;
     readonly matrix: Matrix4;
-    private refreshMatrix();
+    private refreshMatrix;
 }

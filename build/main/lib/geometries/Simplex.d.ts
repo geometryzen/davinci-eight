@@ -6,8 +6,8 @@ export declare class Simplex {
     constructor(k: SimplexMode);
     readonly k: SimplexMode;
     static indices(simplex: Simplex): number[];
-    private static boundaryMap(simplex);
-    private static subdivideMap(simplex);
+    private static boundaryMap;
+    private static subdivideMap;
     static boundary(simplices: Simplex[], count?: number): Simplex[];
     static subdivide(simplices: Simplex[], count?: number): Simplex[];
     /**

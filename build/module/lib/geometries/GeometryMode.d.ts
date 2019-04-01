@@ -13,5 +13,5 @@ export declare enum GeometryMode {
     /**
      *
      */
-    MESH = 2,
+    MESH = 2
 }

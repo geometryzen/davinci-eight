@@ -9,5 +9,5 @@ export declare enum CurveMode {
     /**
      *
      */
-    LINES = 1,
+    LINES = 1
 }

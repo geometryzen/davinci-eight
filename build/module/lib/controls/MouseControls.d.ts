@@ -128,7 +128,7 @@ export declare class MouseControls extends ShareableBase {
      *
      * @param mouse
      */
-    private updateMouseOnCircle(mouse);
+    private updateMouseOnCircle;
     /**
      * Computes coordinates in the range [0,1] in both e1 and e2 directions.
      * e1 goes to the RIGHT
@@ -137,7 +137,7 @@ export declare class MouseControls extends ShareableBase {
      *
      * @param mouse
      */
-    private updateMouseOnScreen(mouse);
+    private updateMouseOnScreen;
     /**
      * This should be called whenever the window is resized.
      */

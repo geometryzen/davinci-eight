@@ -11,5 +11,5 @@ export declare class WebGLBlendFunc extends ShareableBase {
     contextFree(): void;
     contextGain(): void;
     contextLost(): void;
-    private execute(gl);
+    private execute;
 }

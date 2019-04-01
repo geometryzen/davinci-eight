@@ -20,9 +20,12 @@ and limitations under the License.
 ***************************************************************************** */
 /* global Reflect, Promise */
 
-var extendStatics = Object.setPrototypeOf ||
-    ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-    function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+var extendStatics = function(d, b) {
+    extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return extendStatics(d, b);
+};
 
 function __extends(d, b) {
     extendStatics(d, b);
@@ -87,9 +90,9 @@ function mustBeString(name, value, contextBuilder) {
 var Eight = /** @class */ (function () {
     function Eight() {
         this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-        this.LAST_MODIFIED = '2018-01-20';
+        this.LAST_MODIFIED = '2019-03-31';
         this.NAMESPACE = 'EIGHT';
-        this.VERSION = '7.3.1';
+        this.VERSION = '7.3.2';
     }
     Eight.prototype.log = function (message) {
         // This should allow us to unit test and run in environments without a console.
@@ -5762,6 +5765,10 @@ var Matrix3 = /** @class */ (function (_super) {
         if (rhs instanceof Matrix3) {
             return this.clone().add(rhs);
         }
+        // TODO: Interpret this as I * rhs?
+        //        else if (typeof rhs === 'number') {
+        //            return this.clone().scale(rhs);
+        //        }
         else {
             return void 0;
         }
@@ -5770,6 +5777,10 @@ var Matrix3 = /** @class */ (function (_super) {
         if (lhs instanceof Matrix3) {
             return lhs.clone().add(this);
         }
+        // TODO: Interpret this as I * rhs?
+        //        else if (typeof rhs === 'number') {
+        //            return this.clone().scale(rhs);
+        //        }
         else {
             return void 0;
         }
@@ -5806,6 +5817,10 @@ var Matrix3 = /** @class */ (function (_super) {
         if (rhs instanceof Matrix3) {
             return this.clone().sub(rhs);
         }
+        // TODO: Interpret this as I * rhs?
+        //        else if (typeof rhs === 'number') {
+        //            return this.clone().scale(rhs);
+        //        }
         else {
             return void 0;
         }
@@ -7300,10 +7315,10 @@ var MouseControls = /** @class */ (function (_super) {
             event.preventDefault();
             event.stopPropagation();
             var delta = 0;
-            if (event.wheelDelta) {
-                delta = event.wheelDelta / 40;
+            if (event['wheelDelta']) { // WebKit / Opera / Explorer 9
+                delta = event['wheelDelta'] / 40;
             }
-            else if (event.detail) {
+            else if (event.detail) { // Firefox
                 delta = event.detail / 3;
             }
             _this.zoomStart.y += delta * 0.01;
@@ -13510,6 +13525,10 @@ var Matrix2 = /** @class */ (function (_super) {
         if (rhs instanceof Matrix2) {
             return lock(this.clone().add(rhs));
         }
+        // TODO: Interpret this as I * rhs?
+        //        else if (typeof rhs === 'number') {
+        //            return this.clone().scale(rhs);
+        //        }
         else {
             return void 0;
         }
@@ -13518,6 +13537,10 @@ var Matrix2 = /** @class */ (function (_super) {
         if (lhs instanceof Matrix2) {
             return lock(lhs.clone().add(this));
         }
+        // TODO: Interpret this as I * rhs?
+        //        else if (typeof rhs === 'number') {
+        //            return this.clone().scale(rhs);
+        //        }
         else {
             return void 0;
         }
@@ -13554,6 +13577,10 @@ var Matrix2 = /** @class */ (function (_super) {
         if (rhs instanceof Matrix2) {
             return lock(this.clone().sub(rhs));
         }
+        // TODO: Interpret this as I * rhs?
+        //        else if (typeof rhs === 'number') {
+        //            return this.clone().scale(rhs);
+        //        }
         else {
             return void 0;
         }
@@ -18975,7 +19002,7 @@ var SimplexPrimitivesBuilder = /** @class */ (function (_super) {
         this.check();
         return [simplicesToPrimitive(this.data, this.meta)];
     };
-    SimplexPrimitivesBuilder.prototype.mergeVertices = function () {
+    SimplexPrimitivesBuilder.prototype.mergeVertices = function ( /* precisionPoints = 4 */) {
         // console.warn("SimplexPrimitivesBuilder.mergeVertices not yet implemented");
     };
     SimplexPrimitivesBuilder.prototype.triangle = function (positions, normals, uvs) {

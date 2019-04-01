@@ -7,5 +7,5 @@ export declare enum SimplexMode {
     LINE = 1,
     TRIANGLE = 2,
     TETRAHEDRON = 3,
-    FIVE_CELL = 4,
+    FIVE_CELL = 4
 }

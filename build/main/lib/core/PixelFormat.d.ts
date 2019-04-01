@@ -4,5 +4,5 @@ export declare enum PixelFormat {
     RGB = 6407,
     RGBA = 6408,
     LUMINANCE = 6409,
-    LUMINANCE_ALPHA = 6410,
+    LUMINANCE_ALPHA = 6410
 }

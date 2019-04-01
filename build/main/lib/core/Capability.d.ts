@@ -37,5 +37,5 @@ export declare enum Capability {
     /**
      *
      */
-    SAMPLE_COVERAGE = 32928,
+    SAMPLE_COVERAGE = 32928
 }

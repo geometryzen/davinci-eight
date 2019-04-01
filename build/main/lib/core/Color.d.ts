@@ -171,7 +171,7 @@ export declare class Color extends Coords {
      * @param b The blue component.
      */
     static fromRGB(r: number, g: number, b: number): Color;
-    private static isInstance(x);
+    private static isInstance;
     /**
      * @param a
      * @param b

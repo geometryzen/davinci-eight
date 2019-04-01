@@ -47,7 +47,7 @@ export declare class Matrix3 extends AbstractMatrix<Matrix3> {
      * @param matrix
      * @param throwOnSingular
      */
-    private invertUpperLeft(matrix, throwOnSingular?);
+    private invertUpperLeft;
     /**
      *
      */

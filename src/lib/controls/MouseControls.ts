@@ -213,8 +213,8 @@ export class MouseControls extends ShareableBase {
             event.stopPropagation();
 
             let delta = 0;
-            if (event.wheelDelta) { // WebKit / Opera / Explorer 9
-                delta = event.wheelDelta / 40;
+            if (event['wheelDelta']) { // WebKit / Opera / Explorer 9
+                delta = event['wheelDelta'] / 40;
             }
             else if (event.detail) { // Firefox
                 delta = event.detail / 3;

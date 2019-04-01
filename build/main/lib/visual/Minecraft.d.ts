@@ -16,7 +16,7 @@ export declare enum MinecraftPartKind {
     TorsoLayer2 = 8,
     RightArmLayer2 = 9,
     LeftLegLayer2 = 10,
-    LeftArmLayer2 = 11,
+    LeftArmLayer2 = 11
 }
 export interface MinecraftInternalBodyPartOptions {
     height: number;

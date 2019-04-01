@@ -34,5 +34,5 @@ export declare enum TextureUnit {
     TEXTURE29 = 34013,
     TEXTURE30 = 34014,
     TEXTURE31 = 34015,
-    ACTIVE_TEXTURE = 34016,
+    ACTIVE_TEXTURE = 34016
 }

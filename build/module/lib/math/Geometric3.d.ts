@@ -36,7 +36,7 @@ export declare class Geometric3 implements CartesianG3, GeometricE3, Lockable, V
      * The modified flag is only set to true if the value has changed.
      * Throws an exception if this multivector is locked.
      */
-    private setCoordinate(index, newValue, name);
+    private setCoordinate;
     /**
      * The scalar part of this multivector.
      */
@@ -307,7 +307,7 @@ export declare class Geometric3 implements CartesianG3, GeometricE3, Lockable, V
      * @returns this * m
      */
     mul(m: GeometricE3): Geometric3;
-    private mulByVector(vector);
+    private mulByVector;
     /**
      * this ⟼ a * b
      */
@@ -407,7 +407,7 @@ export declare class Geometric3 implements CartesianG3, GeometricE3, Lockable, V
     /**
      * Helper function for rotorFromFrameToFrame.
      */
-    private rotorFromTwoVectors(e1, f1, e2, f2);
+    private rotorFromTwoVectors;
     /**
      *
      */

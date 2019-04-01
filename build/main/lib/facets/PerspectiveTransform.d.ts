@@ -67,5 +67,5 @@ export declare class PerspectiveTransform implements Facet {
     /**
      *
      */
-    private refreshMatrix();
+    private refreshMatrix;
 }

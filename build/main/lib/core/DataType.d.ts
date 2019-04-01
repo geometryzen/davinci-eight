@@ -10,5 +10,5 @@ export declare enum DataType {
     UNSIGNED_SHORT = 5123,
     INT = 5124,
     UNSIGNED_INT = 5125,
-    FLOAT = 5126,
+    FLOAT = 5126
 }

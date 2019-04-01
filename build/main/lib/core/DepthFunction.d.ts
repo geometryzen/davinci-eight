@@ -34,5 +34,5 @@ export declare enum DepthFunction {
     /**
      * always pass
      */
-    ALWAYS = 519,
+    ALWAYS = 519
 }

@@ -175,10 +175,10 @@ var MouseControls = /** @class */ (function (_super) {
             event.preventDefault();
             event.stopPropagation();
             var delta = 0;
-            if (event.wheelDelta) {
-                delta = event.wheelDelta / 40;
+            if (event['wheelDelta']) { // WebKit / Opera / Explorer 9
+                delta = event['wheelDelta'] / 40;
             }
-            else if (event.detail) {
+            else if (event.detail) { // Firefox
                 delta = event.detail / 3;
             }
             _this.zoomStart.y += delta * 0.01;

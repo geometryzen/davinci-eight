@@ -68,7 +68,7 @@ var SimplexPrimitivesBuilder = /** @class */ (function (_super) {
         this.check();
         return [simplicesToPrimitive_1.simplicesToPrimitive(this.data, this.meta)];
     };
-    SimplexPrimitivesBuilder.prototype.mergeVertices = function () {
+    SimplexPrimitivesBuilder.prototype.mergeVertices = function ( /* precisionPoints = 4 */) {
         // console.warn("SimplexPrimitivesBuilder.mergeVertices not yet implemented");
     };
     SimplexPrimitivesBuilder.prototype.triangle = function (positions, normals, uvs) {

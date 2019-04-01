@@ -269,6 +269,10 @@ var Matrix2 = /** @class */ (function (_super) {
         if (rhs instanceof Matrix2) {
             return lock(this.clone().add(rhs));
         }
+        // TODO: Interpret this as I * rhs?
+        //        else if (typeof rhs === 'number') {
+        //            return this.clone().scale(rhs);
+        //        }
         else {
             return void 0;
         }
@@ -277,6 +281,10 @@ var Matrix2 = /** @class */ (function (_super) {
         if (lhs instanceof Matrix2) {
             return lock(lhs.clone().add(this));
         }
+        // TODO: Interpret this as I * rhs?
+        //        else if (typeof rhs === 'number') {
+        //            return this.clone().scale(rhs);
+        //        }
         else {
             return void 0;
         }
@@ -313,6 +321,10 @@ var Matrix2 = /** @class */ (function (_super) {
         if (rhs instanceof Matrix2) {
             return lock(this.clone().sub(rhs));
         }
+        // TODO: Interpret this as I * rhs?
+        //        else if (typeof rhs === 'number') {
+        //            return this.clone().scale(rhs);
+        //        }
         else {
             return void 0;
         }

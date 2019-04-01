@@ -204,10 +204,10 @@ export declare class Engine extends ShareableBase implements ContextManager {
      *
      */
     stop(): this;
-    private emitStartEvent();
-    private emitContextGain(consumer);
-    private emitStopEvent();
-    private emitContextFree(consumer);
+    private emitStartEvent;
+    private emitContextGain;
+    private emitStopEvent;
+    private emitContextFree;
     /**
      * @param consumer
      */
