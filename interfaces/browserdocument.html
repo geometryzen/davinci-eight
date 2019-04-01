@@ -988,7 +988,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">Event<wbr>Target<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in /home/david/dev/davinci-eight/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:3709</li>
+						<li>Defined in /home/david/dev/davinci-eight/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5081</li>
 					</ul>
 				</aside>
 				<div class="tsd-type-declaration">
@@ -1003,7 +1003,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">document<wbr>Element<span class="tsd-signature-symbol">:</span> <a href="browserhtmlelement.html" class="tsd-signature-type">BrowserHTMLElement</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/54ae26cfc/src/lib/base/BrowserDocument.ts#L7">lib/base/BrowserDocument.ts:7</a></li>
+						<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/311a7372a/src/lib/base/BrowserDocument.ts#L7">lib/base/BrowserDocument.ts:7</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -1014,23 +1014,35 @@ img { max-width: 100%; }
 				<a name="addeventlistener" class="tsd-anchor"></a>
 				<h3>add<wbr>Event<wbr>Listener</h3>
 				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-					<li class="tsd-signature tsd-kind-icon">add<wbr>Event<wbr>Listener<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">EventListenerOrEventListenerObject</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">AddEventListenerOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					<li class="tsd-signature tsd-kind-icon">add<wbr>Event<wbr>Listener<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventListenerOrEventListenerObject</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">AddEventListenerOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<p>Inherited from EventTarget.addEventListener</p>
 							<ul>
-								<li>Defined in /home/david/dev/davinci-eight/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:3704</li>
+								<li>Defined in /home/david/dev/davinci-eight/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5069</li>
 							</ul>
 						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Appends an event listener for events whose type attribute value is type. The callback argument sets the callback that will be invoked when the event is dispatched.
+									The options argument sets listener-specific options. For compatibility this can be a
+									boolean, in which case the method behaves exactly as if the value was specified as options&#39;s capture.
+									When set to true, options&#39;s capture prevents callback from being invoked when the event&#39;s eventPhase attribute value is BUBBLING_PHASE. When false (or not present), callback will not be invoked when event&#39;s eventPhase attribute value is CAPTURING_PHASE. Either way, callback will be invoked if event&#39;s eventPhase attribute value is AT_TARGET.
+									When set to true, options&#39;s passive indicates that the callback will not cancel the event by invoking preventDefault(). This is used to enable performance optimizations described in §2.8 Observing event listeners.
+									When set to true, options&#39;s once indicates that the callback will only be invoked once after which the event listener will
+									be removed.
+								The event listener is appended to target&#39;s event listener list and is not appended if it has the same type, callback, and capture.</p>
+							</div>
+						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
 								<h5>type: <span class="tsd-signature-type">string</span></h5>
 							</li>
 							<li>
-								<h5><span class="tsd-flag ts-flagOptional">Optional</span> listener: <span class="tsd-signature-type">EventListenerOrEventListenerObject</span></h5>
+								<h5>listener: <span class="tsd-signature-type">EventListenerOrEventListenerObject</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
 							</li>
 							<li>
 								<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">AddEventListenerOptions</span></h5>
@@ -1044,20 +1056,26 @@ img { max-width: 100%; }
 				<a name="dispatchevent" class="tsd-anchor"></a>
 				<h3>dispatch<wbr>Event</h3>
 				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-					<li class="tsd-signature tsd-kind-icon">dispatch<wbr>Event<span class="tsd-signature-symbol">(</span>evt<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					<li class="tsd-signature tsd-kind-icon">dispatch<wbr>Event<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<p>Inherited from EventTarget.dispatchEvent</p>
 							<ul>
-								<li>Defined in /home/david/dev/davinci-eight/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:3705</li>
+								<li>Defined in /home/david/dev/davinci-eight/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5074</li>
 							</ul>
 						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Dispatches a synthetic event event to target and returns true
+								if either event&#39;s cancelable attribute value is false or its preventDefault() method was not invoked, and false otherwise.</p>
+							</div>
+						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
-								<h5>evt: <span class="tsd-signature-type">Event</span></h5>
+								<h5>event: <span class="tsd-signature-type">Event</span></h5>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -1074,7 +1092,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/54ae26cfc/src/lib/base/BrowserDocument.ts#L8">lib/base/BrowserDocument.ts:8</a></li>
+								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/311a7372a/src/lib/base/BrowserDocument.ts#L8">lib/base/BrowserDocument.ts:8</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1091,26 +1109,31 @@ img { max-width: 100%; }
 				<a name="removeeventlistener" class="tsd-anchor"></a>
 				<h3>remove<wbr>Event<wbr>Listener</h3>
 				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-					<li class="tsd-signature tsd-kind-icon">remove<wbr>Event<wbr>Listener<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">EventListenerOrEventListenerObject</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">EventListenerOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					<li class="tsd-signature tsd-kind-icon">remove<wbr>Event<wbr>Listener<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventListenerOrEventListenerObject</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">EventListenerOptions</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<p>Inherited from EventTarget.removeEventListener</p>
 							<ul>
-								<li>Defined in /home/david/dev/davinci-eight/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:3706</li>
+								<li>Defined in /home/david/dev/davinci-eight/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5078</li>
 							</ul>
 						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Removes the event listener in target&#39;s event listener list with the same type, callback, and options.</p>
+							</div>
+						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
 								<h5>type: <span class="tsd-signature-type">string</span></h5>
 							</li>
 							<li>
-								<h5><span class="tsd-flag ts-flagOptional">Optional</span> listener: <span class="tsd-signature-type">EventListenerOrEventListenerObject</span></h5>
+								<h5>callback: <span class="tsd-signature-type">EventListenerOrEventListenerObject</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
 							</li>
 							<li>
-								<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">EventListenerOptions</span></h5>
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">EventListenerOptions</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span></h5>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
