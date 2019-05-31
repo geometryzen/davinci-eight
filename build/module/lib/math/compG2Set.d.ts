@@ -1,2 +1,6 @@
-import { GeometricE2 } from '../math/GeometricE2';
-export declare function compG2Set(m: GeometricE2, index: number, value: number): void;
+export declare function compG2Set(m: {
+    a: number;
+    x: number;
+    y: number;
+    b: number;
+}, index: number, value: number): void;
