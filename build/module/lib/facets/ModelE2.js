@@ -32,7 +32,7 @@ var ModelE2 = /** @class */ (function () {
         set: function (attitude) {
             this._attitude.copy(attitude);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ModelE2.prototype, "X", {
@@ -49,7 +49,7 @@ var ModelE2 = /** @class */ (function () {
         set: function (position) {
             this._position.copy(position);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**

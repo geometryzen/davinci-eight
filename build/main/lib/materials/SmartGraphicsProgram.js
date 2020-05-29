@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.SmartGraphicsProgram = void 0;
 var tslib_1 = require("tslib");
 var fragmentShaderSrc_1 = require("./fragmentShaderSrc");
 var ShaderMaterial_1 = require("./ShaderMaterial");

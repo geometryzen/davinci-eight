@@ -44,7 +44,8 @@ export declare class ShareableArray<T extends Shareable> extends ShareableBase {
     /**
      *
      */
-    length: number;
+    get length(): number;
+    set length(unused: number);
     /**
      * The slice() method returns a shallow copy of a portion of an array into a new array object.
      *

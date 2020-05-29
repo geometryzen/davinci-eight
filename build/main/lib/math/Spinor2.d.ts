@@ -22,21 +22,25 @@ export declare class Spinor2 implements SpinorE2, Lockable, VectorN<number> {
      *
      */
     constructor(coords?: number[], modified?: boolean);
-    readonly length: number;
-    modified: boolean;
+    get length(): number;
+    get modified(): boolean;
+    set modified(modified: boolean);
     getComponent(i: number): number;
     /**
      * The bivector part of this spinor as a number.
      */
-    xy: number;
+    get xy(): number;
+    set xy(xy: number);
     /**
      * The scalar part of this spinor as a number.
      */
-    a: number;
+    get a(): number;
+    set a(α: number);
     /**
      * The pseudoscalar part of this spinor as a number.
      */
-    b: number;
+    get b(): number;
+    set b(b: number);
     /**
      *
      * <code>this ⟼ this + α * spinor</code>

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.dataLength = void 0;
 var Geometric2_1 = require("../math/Geometric2");
 var Geometric3_1 = require("../math/Geometric3");
 var Vector2_1 = require("../math/Vector2");

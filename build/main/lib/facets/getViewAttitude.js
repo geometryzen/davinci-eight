@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getViewAttitude = void 0;
 var Geometric3_1 = require("../math/Geometric3");
 var u = Geometric3_1.Geometric3.zero(false);
 var v = Geometric3_1.Geometric3.zero(false);

@@ -41,19 +41,23 @@ export declare class ModelFacet extends ModelE3 implements Facet {
     /**
      * Stress (tensor)
      */
-    stress: Matrix4;
+    get stress(): Matrix4;
+    set stress(stress: Matrix4);
     /**
      * @readOnly
      */
-    matrix: Matrix4;
+    get matrix(): Matrix4;
+    set matrix(unused: Matrix4);
     /**
      * The name of the uniform variable in the vertex shader that receives the model matrix value.
      */
-    modelMatrixUniformName: string;
+    get modelMatrixUniformName(): string;
+    set modelMatrixUniformName(name: string);
     /**
      * The name of the uniform variable in the vertex shader that receives the normal matrix value.
      */
-    normalMatrixUniformName: string;
+    get normalMatrixUniformName(): string;
+    set normalMatrixUniformName(name: string);
     /**
      *
      */

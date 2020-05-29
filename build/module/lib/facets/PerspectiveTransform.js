@@ -44,7 +44,7 @@ var PerspectiveTransform = /** @class */ (function () {
                 this.refreshMatrix();
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PerspectiveTransform.prototype, "fov", {
@@ -64,7 +64,7 @@ var PerspectiveTransform = /** @class */ (function () {
                 this.refreshMatrix();
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PerspectiveTransform.prototype, "near", {
@@ -82,7 +82,7 @@ var PerspectiveTransform = /** @class */ (function () {
                 this.refreshMatrix();
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PerspectiveTransform.prototype, "far", {
@@ -100,7 +100,7 @@ var PerspectiveTransform = /** @class */ (function () {
                 this.refreshMatrix();
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -120,7 +120,7 @@ var PerspectiveTransform = /** @class */ (function () {
         set: function (name) {
             this.matrixName = name;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**

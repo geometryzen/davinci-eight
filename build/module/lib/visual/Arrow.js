@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { ArrowGeometry } from '../geometries/ArrowGeometry';
 import { Color } from '../core/Color';
 import { ds } from './Defaults';
@@ -21,7 +21,7 @@ import { vectorE3Object } from './vectorE3Object';
  * A Mesh in the form of an arrow that may be used to represent a vector quantity.
  */
 var Arrow = /** @class */ (function (_super) {
-    tslib_1.__extends(Arrow, _super);
+    __extends(Arrow, _super);
     /**
      *
      */
@@ -88,7 +88,7 @@ var Arrow = /** @class */ (function (_super) {
                 this.setAxis(axis);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Arrow.prototype, "length", {
@@ -102,7 +102,7 @@ var Arrow = /** @class */ (function (_super) {
         set: function (length) {
             this.setScale(length, length, length);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return Arrow;

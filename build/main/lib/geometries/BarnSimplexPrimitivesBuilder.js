@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.BarnSimplexPrimitivesBuilder = void 0;
 var tslib_1 = require("tslib");
 var computeFaceNormals_1 = require("../geometries/computeFaceNormals");
 var SimplexPrimitivesBuilder_1 = require("../geometries/SimplexPrimitivesBuilder");

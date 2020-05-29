@@ -4,7 +4,9 @@
 export declare class Modulo {
     private _value;
     private _size;
-    size: number;
-    value: number;
+    get size(): number;
+    set size(size: number);
+    get value(): number;
+    set value(value: number);
     inc(): number;
 }

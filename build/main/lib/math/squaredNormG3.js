@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.squaredNormG3 = void 0;
 function squaredNormG3(m) {
     var a = m.a;
     var x = m.x;

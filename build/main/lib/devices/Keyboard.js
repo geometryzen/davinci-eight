@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Keyboard = void 0;
 var tslib_1 = require("tslib");
 var ShareableBase_1 = require("../core/ShareableBase");
 function makeKeyDownHandler(keyboard, handler) {

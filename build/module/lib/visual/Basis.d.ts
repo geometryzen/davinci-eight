@@ -20,10 +20,10 @@ export declare class Basis extends Mesh<Geometry, Material> {
      */
     constructor(contextManager: ContextManager, options?: BasisOptions, levelUp?: number);
     protected destructor(levelUp: number): void;
-    readonly a: Vector3;
-    readonly b: Vector3;
-    readonly c: Vector3;
-    readonly colorA: Color;
-    readonly colorB: Color;
-    readonly colorC: Color;
+    get a(): Vector3;
+    get b(): Vector3;
+    get c(): Vector3;
+    get colorA(): Color;
+    get colorB(): Color;
+    get colorC(): Color;
 }

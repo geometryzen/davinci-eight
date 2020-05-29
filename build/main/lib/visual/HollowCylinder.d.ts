@@ -18,5 +18,6 @@ export declare class HollowCylinder extends Mesh<Geometry, Material> {
     /**
      * The length of the cylinder, a scalar. Defaults to 1.
      */
-    length: number;
+    get length(): number;
+    set length(length: number);
 }

@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { BeginMode } from '../core/BeginMode';
 import { Color } from '../core/Color';
 import { ds } from './Defaults';
@@ -64,7 +64,7 @@ function primitive(options) {
  * approach based upon GeometryArrays
  */
 var TurtleGeometry = /** @class */ (function (_super) {
-    tslib_1.__extends(TurtleGeometry, _super);
+    __extends(TurtleGeometry, _super);
     /**
      *
      */
@@ -103,7 +103,7 @@ var TurtleGeometry = /** @class */ (function (_super) {
  * A 3D visual representation of a turtle.
  */
 var Turtle = /** @class */ (function (_super) {
-    tslib_1.__extends(Turtle, _super);
+    __extends(Turtle, _super);
     function Turtle(contextManager, options, levelUp) {
         if (options === void 0) { options = {}; }
         if (levelUp === void 0) { levelUp = 0; }
@@ -150,7 +150,7 @@ var Turtle = /** @class */ (function (_super) {
             var z = this.getScaleZ();
             this.setScale(width, y, z);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Turtle.prototype, "height", {
@@ -165,7 +165,7 @@ var Turtle = /** @class */ (function (_super) {
             var z = this.getScaleZ();
             this.setScale(x, height, z);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return Turtle;

@@ -55,42 +55,51 @@ export declare class PerspectiveCamera implements Facet {
     /**
      * The aspect ratio (width / height) of the camera viewport.
      */
-    aspect: number;
+    get aspect(): number;
+    set aspect(aspect: number);
     /**
      * The position of the camera, a vector.
      */
-    eye: Geometric3;
+    get eye(): Geometric3;
+    set eye(eye: Geometric3);
     /**
      * The field of view is the (planar) angle (magnitude) in the camera horizontal plane that encloses object that can be seen.
      * Measured in radians.
      */
-    fov: number;
+    get fov(): number;
+    set fov(value: number);
     /**
      * The point that is being looked at.
      */
-    look: Geometric3;
+    get look(): Geometric3;
+    set look(look: Geometric3);
     /**
      * The distance to the near plane.
      */
-    near: number;
+    get near(): number;
+    set near(near: number);
     /**
      * The distance to the far plane.
      */
-    far: number;
+    get far(): number;
+    set far(far: number);
     /**
      * The approximate up direction.
      */
-    up: Geometric3;
+    get up(): Geometric3;
+    set up(up: Geometric3);
     /**
      * The name of the uniform mat4 variable in the vertex shader that receives the projection matrix value.
      * The default name is `uProjection`.
      */
-    projectionMatrixUniformName: string;
-    readonly projectionMatrix: Matrix4;
+    get projectionMatrixUniformName(): string;
+    set projectionMatrixUniformName(name: string);
+    get projectionMatrix(): Matrix4;
     /**
      * The name of the uniform mat4 variable in the vertex shader that receives the view matrix value.
      * The default name is `uView`.
      */
-    viewMatrixUniformName: string;
-    readonly viewMatrix: Matrix4;
+    get viewMatrixUniformName(): string;
+    set viewMatrixUniformName(name: string);
+    get viewMatrix(): Matrix4;
 }

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Tetrahedron = void 0;
 var tslib_1 = require("tslib");
 var Color_1 = require("../core/Color");
 var Defaults_1 = require("./Defaults");
@@ -72,7 +73,7 @@ var Tetrahedron = /** @class */ (function (_super) {
         set: function (radius) {
             this.setScale(radius, radius, radius);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return Tetrahedron;

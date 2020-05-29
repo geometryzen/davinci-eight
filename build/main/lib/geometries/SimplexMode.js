@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.SimplexMode = void 0;
 /**
  * The common low values for a Simplex.
  */

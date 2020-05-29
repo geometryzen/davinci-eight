@@ -75,18 +75,24 @@ export declare class Color extends Coords {
     /**
      * The red coordinate (component) of this color.
      */
-    r: number;
-    red: number;
+    get r(): number;
+    set r(r: number);
+    get red(): number;
+    set red(red: number);
     /**
      * The green coordinate (component) of this color.
      */
-    g: number;
-    green: number;
+    get g(): number;
+    set g(g: number);
+    get green(): number;
+    set green(green: number);
     /**
      * The blue coordinate (component) of this color.
      */
-    b: number;
-    blue: number;
+    get b(): number;
+    set b(b: number);
+    get blue(): number;
+    set blue(blue: number);
     /**
      * Returns a color in which any rgb component whose absolute value is less than pow(10, -n) times the absolute value of the largest coordinate is zero.
      * @param n The exponent used to determine which components are set to zero.
@@ -121,7 +127,7 @@ export declare class Color extends Coords {
     /**
      * Computes the luminance of this color.
      */
-    readonly luminance: number;
+    get luminance(): number;
     /**
      *
      */

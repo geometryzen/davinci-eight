@@ -124,7 +124,7 @@ var Geometric2 = /** @class */ (function () {
         get: function () {
             return 4;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Geometric2.prototype, "modified", {
@@ -137,7 +137,7 @@ var Geometric2 = /** @class */ (function () {
             }
             this.modified_ = modified;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Geometric2.prototype.getComponent = function (i) {
@@ -155,7 +155,7 @@ var Geometric2 = /** @class */ (function () {
             this.modified_ = this.modified_ || coords[COORD_SCALAR] !== a;
             coords[COORD_SCALAR] = a;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Geometric2.prototype, "x", {
@@ -170,7 +170,7 @@ var Geometric2 = /** @class */ (function () {
             this.modified_ = this.modified_ || coords[COORD_X] !== x;
             coords[COORD_X] = x;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Geometric2.prototype, "y", {
@@ -185,7 +185,7 @@ var Geometric2 = /** @class */ (function () {
             this.modified_ = this.modified_ || coords[COORD_Y] !== y;
             coords[COORD_Y] = y;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Geometric2.prototype, "b", {
@@ -200,7 +200,7 @@ var Geometric2 = /** @class */ (function () {
             this.modified_ = this.modified_ || coords[COORD_PSEUDO] !== b;
             coords[COORD_PSEUDO] = b;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**

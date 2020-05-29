@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { GridSimplexBuilder } from '../geometries/GridSimplexBuilder';
 import { Vector3 } from '../math/Vector3';
 var cos = Math.cos;
@@ -22,7 +22,7 @@ function mobius(u, v) {
     return point;
 }
 var MobiusStripSimplexGeometry = /** @class */ (function (_super) {
-    tslib_1.__extends(MobiusStripSimplexGeometry, _super);
+    __extends(MobiusStripSimplexGeometry, _super);
     function MobiusStripSimplexGeometry(uSegments, vSegments) {
         return _super.call(this, mobius, uSegments, vSegments) || this;
     }

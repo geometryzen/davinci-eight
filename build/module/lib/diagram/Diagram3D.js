@@ -37,7 +37,7 @@ var Diagram3D = /** @class */ (function () {
         get: function () {
             return this.ctx.canvas;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Diagram3D.prototype.beginPath = function () {

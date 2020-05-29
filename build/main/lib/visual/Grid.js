@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Grid = void 0;
 var tslib_1 = require("tslib");
 var Color_1 = require("../core/Color");
 var expectOptions_1 = require("../checks/expectOptions");

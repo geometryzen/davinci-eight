@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { BufferObjects } from './BufferObjects';
 import { mustBeUndefined } from '../checks/mustBeUndefined';
 import { ShareableContextConsumer } from './ShareableContextConsumer';
@@ -6,7 +6,7 @@ import { ShareableContextConsumer } from './ShareableContextConsumer';
  * A wrapper around a WebGLBuffer with binding to ELEMENT_ARRAY_BUFFER.
  */
 var IndexBuffer = /** @class */ (function (_super) {
-    tslib_1.__extends(IndexBuffer, _super);
+    __extends(IndexBuffer, _super);
     /**
      *
      */

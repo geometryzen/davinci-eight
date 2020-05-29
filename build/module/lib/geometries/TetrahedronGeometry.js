@@ -1,11 +1,11 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { GeometryElements } from '../core/GeometryElements';
 import { tetrahedronPrimitive } from './tetrahedronPrimitive';
 /**
  * A convenience class for creating a tetrahedron geometry.
  */
 var TetrahedronGeometry = /** @class */ (function (_super) {
-    tslib_1.__extends(TetrahedronGeometry, _super);
+    __extends(TetrahedronGeometry, _super);
     /**
      *
      */

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.arrowPrimitive = void 0;
 var ArrowBuilder_1 = require("../shapes/ArrowBuilder");
 var isDefined_1 = require("../checks/isDefined");
 var mustBeObject_1 = require("../checks/mustBeObject");

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.WebGLBlendFunc = void 0;
 var tslib_1 = require("tslib");
 var ShareableBase_1 = require("../core/ShareableBase");
 var WebGLBlendFunc = /** @class */ (function (_super) {

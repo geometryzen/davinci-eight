@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.TextureFacet = void 0;
 var tslib_1 = require("tslib");
 var exchange_1 = require("../base/exchange");
 var GraphicsProgramSymbols_1 = require("../core/GraphicsProgramSymbols");
@@ -24,7 +25,7 @@ var TextureFacet = /** @class */ (function (_super) {
         set: function (value) {
             this._texture = exchange_1.exchange(this._texture, value);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     TextureFacet.prototype.setUniforms = function (visitor) {

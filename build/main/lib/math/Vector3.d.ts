@@ -31,25 +31,30 @@ export declare class Vector3 implements CartesianG3, VectorE3, Lockable, VectorN
      * @param modified
      */
     constructor(coords?: number[], modified?: boolean);
-    readonly length: number;
-    modified: boolean;
+    get length(): number;
+    get modified(): boolean;
+    set modified(modified: boolean);
     getComponent(i: number): number;
     /**
      * The coordinate corresponding to the e1 basis vector.
      */
-    x: number;
+    get x(): number;
+    set x(value: number);
     /**
      * The coordinate corresponding to the e2 basis vector.
      */
-    y: number;
+    get y(): number;
+    set y(value: number);
     /**
      * The coordinate corresponding to the e3 basis vector.
      */
-    z: number;
+    get z(): number;
+    set z(value: number);
     /**
      *
      */
-    maskG3: number;
+    get maskG3(): number;
+    set maskG3(unused: number);
     /**
      * <p>
      * <code>this ⟼ this + vector * α</code>

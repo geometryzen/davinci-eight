@@ -24,28 +24,34 @@ export declare class Spinor3 implements CartesianG3, SpinorE3, Lockable, VectorN
      * @param code
      */
     constructor(coords: number[], code: number);
-    modified: boolean;
+    get modified(): boolean;
+    set modified(modified: boolean);
     /**
      * The coordinate corresponding to the <b>e</b><sub>23</sub> basis bivector.
      */
-    yz: number;
+    get yz(): number;
+    set yz(yz: number);
     /**
      * The coordinate corresponding to the <b>e</b><sub>31</sub> basis bivector.
      */
-    zx: number;
+    get zx(): number;
+    set zx(zx: number);
     /**
      * The coordinate corresponding to the <b>e</b><sub>12</sub> basis bivector.
      */
-    xy: number;
+    get xy(): number;
+    set xy(xy: number);
     /**
      * The coordinate corresponding to the <b>1</b> basis scalar.
      */
-    a: number;
-    readonly length: number;
+    get a(): number;
+    set a(α: number);
+    get length(): number;
     /**
      *
      */
-    maskG3: number;
+    get maskG3(): number;
+    set maskG3(unused: number);
     /**
      * <p>
      * <code>this ⟼ this + α * spinor</code>

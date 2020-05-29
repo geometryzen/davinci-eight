@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.randomRange = void 0;
 /**
  * Computes a random number within the specified range.
  */

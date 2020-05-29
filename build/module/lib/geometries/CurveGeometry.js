@@ -1,11 +1,11 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { GeometryElements } from '../core/GeometryElements';
 import { curvePrimitive } from './curvePrimitive';
 /**
  * A Geometry for representing functions of one scalar parameter.
  */
 var CurveGeometry = /** @class */ (function (_super) {
-    tslib_1.__extends(CurveGeometry, _super);
+    __extends(CurveGeometry, _super);
     function CurveGeometry(contextManager, options, levelUp) {
         if (options === void 0) { options = { kind: 'CurveGeometry' }; }
         if (levelUp === void 0) { levelUp = 0; }

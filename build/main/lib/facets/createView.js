@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.createView = void 0;
 var Geometric3_1 = require("../math/Geometric3");
 var Matrix4_1 = require("../math/Matrix4");
 var GraphicsProgramSymbols_1 = require("../core/GraphicsProgramSymbols");

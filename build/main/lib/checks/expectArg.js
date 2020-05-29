@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.expectArg = void 0;
 var isUndefined_1 = require("../checks/isUndefined");
 var mustBeNumber_1 = require("../checks/mustBeNumber");
 function message(standard, override) {

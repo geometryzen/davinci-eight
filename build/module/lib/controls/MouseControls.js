@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { mustBeObject } from '../checks/mustBeObject';
 import { ShareableBase } from '../core/ShareableBase';
 import { Vector2 } from '../math/Vector2';
@@ -11,7 +11,7 @@ var keys = [65 /*A*/, 83 /*S*/, 68 /*D*/];
  *
  */
 var MouseControls = /** @class */ (function (_super) {
-    tslib_1.__extends(MouseControls, _super);
+    __extends(MouseControls, _super);
     /**
      *
      * @param wnd

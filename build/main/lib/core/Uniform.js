@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Uniform = void 0;
 var isNull_1 = require("../checks/isNull");
 var mustBeObject_1 = require("../checks/mustBeObject");
 /**

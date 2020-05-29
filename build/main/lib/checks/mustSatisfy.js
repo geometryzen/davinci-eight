@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.mustSatisfy = void 0;
 /**
  * throws name + " must " + message + [" in " + context] + "."
  */

@@ -26,8 +26,10 @@ export declare class Drawable<G extends Geometry, M extends Material> extends Sh
      *
      */
     protected destructor(levelUp: number): void;
-    opacity: number;
-    pointSize: number;
+    get opacity(): number;
+    set opacity(newOpacity: number);
+    get pointSize(): number;
+    set pointSize(newPointSize: number);
     /**
      * A convenience method for calling geometry.bind(material).
      */
@@ -74,17 +76,21 @@ export declare class Drawable<G extends Geometry, M extends Material> extends Sh
     /**
      * Provides a reference counted reference to the geometry property.
      */
-    geometry: G;
+    get geometry(): G;
+    set geometry(geometry: G);
     /**
      * Provides a reference counted reference to the material property.
      */
-    material: M;
+    get material(): M;
+    set material(material: M);
     /**
      * @default true
      */
-    visible: boolean;
+    get visible(): boolean;
+    set visible(visible: boolean);
     /**
      * @default false
      */
-    transparent: boolean;
+    get transparent(): boolean;
+    set transparent(transparent: boolean);
 }

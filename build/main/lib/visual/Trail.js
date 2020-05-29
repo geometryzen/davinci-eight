@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Trail = void 0;
 var tslib_1 = require("tslib");
 var Modulo_1 = require("../math/Modulo");
 var Spinor3_1 = require("../math/Spinor3");

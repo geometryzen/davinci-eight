@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.DodecahedronPrimitivesBuilder = void 0;
 var tslib_1 = require("tslib");
 var PolyhedronBuilder_1 = require("../geometries/PolyhedronBuilder");
 var t = (1 + Math.sqrt(5)) / 2;

@@ -3,6 +3,7 @@
  * Utilities for the construction of WebGLShader code.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.makeWebGLShader = void 0;
 /**
  *
  */

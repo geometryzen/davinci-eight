@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Attrib = void 0;
 var readOnly_1 = require("../i18n/readOnly");
 /**
  * An object-oriented representation of an <code>attribute</code> in a GLSL shader program.
@@ -26,7 +27,7 @@ var Attrib = /** @class */ (function () {
         set: function (unused) {
             throw new Error(readOnly_1.readOnly('index').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.compG2Get = void 0;
 function compG2Get(m, index) {
     switch (index) {
         case 0: {

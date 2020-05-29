@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { Spinor3 } from '../math/Spinor3';
 import { Vector2 } from '../math/Vector2';
 import { Vector3 } from '../math/Vector3';
@@ -29,7 +29,7 @@ import { ViewControls } from './ViewControls';
  * You may decide to update directional lighting to synchronize with the camera.
  */
 var TrackballControls = /** @class */ (function (_super) {
-    tslib_1.__extends(TrackballControls, _super);
+    __extends(TrackballControls, _super);
     /**
      *
      * @param view eye, look, and up vectors. The coordinates will be manipulated by this object.

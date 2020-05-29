@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Arrow = void 0;
 var tslib_1 = require("tslib");
 var ArrowGeometry_1 = require("../geometries/ArrowGeometry");
 var Color_1 = require("../core/Color");
@@ -90,7 +91,7 @@ var Arrow = /** @class */ (function (_super) {
                 this.setAxis(axis);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Arrow.prototype, "length", {
@@ -104,7 +105,7 @@ var Arrow = /** @class */ (function (_super) {
         set: function (length) {
             this.setScale(length, length, length);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return Arrow;

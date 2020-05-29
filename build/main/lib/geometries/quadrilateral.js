@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.quadrilateral = void 0;
 var triangle_1 = require("../geometries/triangle");
 function setAttributes(which, source, target) {
     var names = Object.keys(source);

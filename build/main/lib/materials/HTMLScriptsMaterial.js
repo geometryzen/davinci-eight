@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.HTMLScriptsMaterial = void 0;
 var tslib_1 = require("tslib");
 var isString_1 = require("../checks/isString");
 var mustBeArray_1 = require("../checks/mustBeArray");

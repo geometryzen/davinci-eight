@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ColorFacet = void 0;
 var Color_1 = require("../core/Color");
 var mustBeNumber_1 = require("../checks/mustBeNumber");
 var GraphicsProgramSymbols_1 = require("../core/GraphicsProgramSymbols");
@@ -29,7 +30,7 @@ var ColorFacet = /** @class */ (function () {
             mustBeNumber_1.mustBeNumber('r', r);
             this.color.r = r;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ColorFacet.prototype, "g", {
@@ -43,7 +44,7 @@ var ColorFacet = /** @class */ (function () {
             mustBeNumber_1.mustBeNumber('g', g);
             this.color.g = g;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ColorFacet.prototype, "b", {
@@ -57,7 +58,7 @@ var ColorFacet = /** @class */ (function () {
             mustBeNumber_1.mustBeNumber('b', b);
             this.color.b = b;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     ColorFacet.prototype.scaleRGB = function (α) {

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.computeCount = void 0;
 var mustBeInteger_1 = require("../checks/mustBeInteger");
 /**
  * Computes the number of elements represented by the attribute values.

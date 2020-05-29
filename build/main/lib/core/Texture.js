@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Texture = void 0;
 var tslib_1 = require("tslib");
 var mustBeUndefined_1 = require("../checks/mustBeUndefined");
 var ShareableContextConsumer_1 = require("./ShareableContextConsumer");
@@ -76,7 +77,7 @@ var Texture = /** @class */ (function (_super) {
                 console.warn(this.getLoggingName() + ".minFilter missing WebGL rendering context.");
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Texture.prototype, "magFilter", {
@@ -93,7 +94,7 @@ var Texture = /** @class */ (function (_super) {
                 console.warn(this.getLoggingName() + ".magFilter missing WebGL rendering context.");
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Texture.prototype, "wrapS", {
@@ -110,7 +111,7 @@ var Texture = /** @class */ (function (_super) {
                 console.warn(this.getLoggingName() + ".wrapS missing WebGL rendering context.");
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Texture.prototype, "wrapT", {
@@ -127,7 +128,7 @@ var Texture = /** @class */ (function (_super) {
                 console.warn(this.getLoggingName() + ".wrapT missing WebGL rendering context.");
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**

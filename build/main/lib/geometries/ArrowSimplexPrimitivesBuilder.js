@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ArrowSimplexPrimitivesBuilder = void 0;
 var tslib_1 = require("tslib");
 var RevolutionSimplexPrimitivesBuilder_1 = require("../geometries/RevolutionSimplexPrimitivesBuilder");
 var Spinor3_1 = require("../math/Spinor3");

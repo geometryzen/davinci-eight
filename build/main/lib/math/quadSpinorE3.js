@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.quadSpinorE3 = void 0;
 var isDefined_1 = require("../checks/isDefined");
 var isNumber_1 = require("../checks/isNumber");
 function quadSpinorE3(s) {

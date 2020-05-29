@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.VertexPrimitive = void 0;
 var DataType_1 = require("../core/DataType");
 var DrawAttribute_1 = require("./DrawAttribute");
 var DrawPrimitive_1 = require("./DrawPrimitive");

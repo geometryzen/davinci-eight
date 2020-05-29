@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ViewTransform = void 0;
 var Geometric3_1 = require("../math/Geometric3");
 var GraphicsProgramSymbols_1 = require("../core/GraphicsProgramSymbols");
 var Matrix4_1 = require("../math/Matrix4");
@@ -68,7 +69,7 @@ var ViewTransform = /** @class */ (function () {
         set: function (name) {
             this.matrixName = name;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ViewTransform.prototype, "eye", {
@@ -82,7 +83,7 @@ var ViewTransform = /** @class */ (function () {
             this._eye.copyVector(eye);
             this.refreshMatrix();
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ViewTransform.prototype, "look", {
@@ -96,7 +97,7 @@ var ViewTransform = /** @class */ (function () {
             this._look.copyVector(look);
             this.refreshMatrix();
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ViewTransform.prototype, "up", {
@@ -110,7 +111,7 @@ var ViewTransform = /** @class */ (function () {
             this._up.copyVector(up);
             this.refreshMatrix();
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ViewTransform.prototype, "matrix", {
@@ -121,7 +122,7 @@ var ViewTransform = /** @class */ (function () {
             this.refreshMatrix();
             return this._matrix;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     ViewTransform.prototype.refreshMatrix = function () {

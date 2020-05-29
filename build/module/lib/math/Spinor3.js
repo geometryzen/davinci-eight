@@ -59,7 +59,7 @@ var Spinor3 = /** @class */ (function () {
             }
             this.modified_ = modified;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Spinor3.prototype, "yz", {
@@ -78,7 +78,7 @@ var Spinor3 = /** @class */ (function () {
             this.modified_ = this.modified_ || coords[COORD_YZ] !== yz;
             coords[COORD_YZ] = yz;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Spinor3.prototype, "zx", {
@@ -97,7 +97,7 @@ var Spinor3 = /** @class */ (function () {
             this.modified_ = this.modified_ || coords[COORD_ZX] !== zx;
             coords[COORD_ZX] = zx;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Spinor3.prototype, "xy", {
@@ -116,7 +116,7 @@ var Spinor3 = /** @class */ (function () {
             this.modified_ = this.modified_ || coords[COORD_XY] !== xy;
             coords[COORD_XY] = xy;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Spinor3.prototype, "a", {
@@ -135,14 +135,14 @@ var Spinor3 = /** @class */ (function () {
             this.modified_ = this.modified_ || coords[COORD_SCALAR] !== α;
             coords[COORD_SCALAR] = α;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Spinor3.prototype, "length", {
         get: function () {
             return 4;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Spinor3.prototype, "maskG3", {
@@ -167,7 +167,7 @@ var Spinor3 = /** @class */ (function () {
         set: function (unused) {
             throw new Error(readOnly('maskG3').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.dotVectorCartesianE3 = void 0;
 /**
  * Computes the dot product of the Cartesian components in a Euclidean metric
  */

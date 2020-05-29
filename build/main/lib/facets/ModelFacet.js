@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ModelFacet = void 0;
 var tslib_1 = require("tslib");
 var Matrix3_1 = require("../math/Matrix3");
 var Matrix4_1 = require("../math/Matrix4");
@@ -61,7 +62,7 @@ var ModelFacet = /** @class */ (function (_super) {
             mustBeObject_1.mustBeObject('stress', stress);
             this.matS.copy(stress);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ModelFacet.prototype, "matrix", {
@@ -74,7 +75,7 @@ var ModelFacet = /** @class */ (function (_super) {
         set: function (unused) {
             throw new Error(readOnly_1.readOnly('matrix').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ModelFacet.prototype, "modelMatrixUniformName", {
@@ -87,7 +88,7 @@ var ModelFacet = /** @class */ (function (_super) {
         set: function (name) {
             this.nameM = name;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ModelFacet.prototype, "normalMatrixUniformName", {
@@ -100,7 +101,7 @@ var ModelFacet = /** @class */ (function (_super) {
         set: function (name) {
             this.nameN = name;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**

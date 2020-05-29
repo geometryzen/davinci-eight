@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.mulG2 = void 0;
 var compG2Get_1 = require("../math/compG2Get");
 var mulE2_1 = require("../math/mulE2");
 var compG2Set_1 = require("../math/compG2Set");

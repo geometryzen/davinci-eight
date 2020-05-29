@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { isString } from '../checks/isString';
 import { mustBeArray } from '../checks/mustBeArray';
 import { mustBeObject } from '../checks/mustBeObject';
@@ -68,7 +68,7 @@ function detectShaderType(scriptIds, dom) {
  * the DOM has finished loading.
  */
 var HTMLScriptsMaterial = /** @class */ (function (_super) {
-    tslib_1.__extends(HTMLScriptsMaterial, _super);
+    __extends(HTMLScriptsMaterial, _super);
     /**
      * @param contextManager
      * @param scriptIds The element identifiers for the vertex and fragment shader respectively.

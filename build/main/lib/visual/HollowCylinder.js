@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.HollowCylinder = void 0;
 var tslib_1 = require("tslib");
 var Color_1 = require("../core/Color");
 var Defaults_1 = require("./Defaults");
@@ -104,7 +105,7 @@ var HollowCylinder = /** @class */ (function (_super) {
             var z = this.getScaleZ();
             this.setScale(x, length, z);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return HollowCylinder;

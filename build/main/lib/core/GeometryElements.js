@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.GeometryElements = void 0;
 var tslib_1 = require("tslib");
 var DataType_1 = require("./DataType");
 var GeometryBase_1 = require("./GeometryBase");

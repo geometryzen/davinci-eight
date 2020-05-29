@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Parallelepiped = void 0;
 var BeginMode_1 = require("../core/BeginMode");
 var Color_1 = require("../core/Color");
 var exchange_1 = require("../base/exchange");

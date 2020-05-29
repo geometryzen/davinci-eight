@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.wedgeZX = void 0;
 /**
  * Computes the y component of the cross-product of Cartesian vector components.
  */

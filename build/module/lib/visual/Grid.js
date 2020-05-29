@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { Color } from '../core/Color';
 import { expectOptions } from '../checks/expectOptions';
 import { GeometryMode } from '../geometries/GeometryMode';
@@ -272,7 +272,7 @@ function configMesh(engine, options, grid) {
  * A 3D visual representation of a a discrete parameterized surface.
  */
 var Grid = /** @class */ (function (_super) {
-    tslib_1.__extends(Grid, _super);
+    __extends(Grid, _super);
     /**
      * Constructs a Grid.
      */

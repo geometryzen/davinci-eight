@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { mustBeGE } from '../checks/mustBeGE';
 import { mustBeLT } from '../checks/mustBeLT';
 import { mustBeBoolean } from '../checks/mustBeBoolean';
@@ -11,7 +11,7 @@ import { VertexPrimitive } from './VertexPrimitive';
  *
  */
 var CurvePrimitive = /** @class */ (function (_super) {
-    tslib_1.__extends(CurvePrimitive, _super);
+    __extends(CurvePrimitive, _super);
     /**
      * @param mode
      * @param uSegments
@@ -39,7 +39,7 @@ var CurvePrimitive = /** @class */ (function (_super) {
             mustBeInteger('uSegments', uSegments);
             throw new Error(readOnly('uSegments').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(CurvePrimitive.prototype, "uLength", {
@@ -53,7 +53,7 @@ var CurvePrimitive = /** @class */ (function (_super) {
             mustBeInteger('uLength', uLength);
             throw new Error(readOnly('uLength').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     CurvePrimitive.prototype.vertexTransform = function (transform) {

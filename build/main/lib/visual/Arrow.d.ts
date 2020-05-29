@@ -23,10 +23,12 @@ export declare class Arrow extends Mesh<Geometry, Material> {
      * direction(Arrow.vector) = Arrow.axis
      * Arrow.vector = Arrow.length * Arrow.axis
      */
-    vector: VectorE3;
+    get vector(): VectorE3;
+    set vector(axis: VectorE3);
     /**
      * The length of the Arrow.
      * This property determines the scaling of the Arrow in all directions.
      */
-    length: number;
+    get length(): number;
+    set length(length: number);
 }

@@ -47,7 +47,7 @@ var Vector3 = /** @class */ (function () {
         get: function () {
             return 3;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Vector3.prototype, "modified", {
@@ -60,7 +60,7 @@ var Vector3 = /** @class */ (function () {
             }
             this.modified_ = modified;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Vector3.prototype.getComponent = function (i) {
@@ -81,7 +81,7 @@ var Vector3 = /** @class */ (function () {
             this.modified_ = this.modified_ || coords[COORD_X] !== value;
             coords[COORD_X] = value;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Vector3.prototype, "y", {
@@ -99,7 +99,7 @@ var Vector3 = /** @class */ (function () {
             this.modified_ = this.modified_ || coords[COORD_Y] !== value;
             coords[COORD_Y] = value;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Vector3.prototype, "z", {
@@ -117,7 +117,7 @@ var Vector3 = /** @class */ (function () {
             this.modified_ = this.modified_ || coords[COORD_Z] !== value;
             coords[COORD_Z] = value;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Vector3.prototype, "maskG3", {
@@ -130,7 +130,7 @@ var Vector3 = /** @class */ (function () {
         set: function (unused) {
             throw new Error(readOnly('maskG3').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**

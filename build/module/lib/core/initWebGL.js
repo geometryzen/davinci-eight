@@ -6,7 +6,7 @@ import { isDefined } from '../checks/isDefined';
  * If the canvas is undefined then an undefined value is returned for the context.
  */
 export function initWebGL(canvas, attributes) {
-    // We'll be hyper-functional. An undefined canvas begets and undefined context.
+    // We'll be hyper-functional. An undefined canvas begets an undefined context.
     // Clients must check their context output or canvas input.
     if (isDefined(canvas)) {
         var context;

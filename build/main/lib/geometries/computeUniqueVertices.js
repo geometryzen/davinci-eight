@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.computeUniqueVertices = void 0;
 // This function has the important side-effect of setting the vertex index property.
 function computeUniqueVertices(geometry) {
     var map = {};

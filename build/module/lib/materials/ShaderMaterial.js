@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { Attrib } from '../core/Attrib';
 import { DataType } from '../core/DataType';
 import { isDefined } from '../checks/isDefined';
@@ -15,7 +15,7 @@ import { Uniform } from '../core/Uniform';
  *
  */
 var ShaderMaterial = /** @class */ (function (_super) {
-    tslib_1.__extends(ShaderMaterial, _super);
+    __extends(ShaderMaterial, _super);
     /**
      * @param vertexShaderSrc The vertex shader source code.
      * @param fragmentShaderSrc The fragment shader source code.
@@ -160,7 +160,7 @@ var ShaderMaterial = /** @class */ (function (_super) {
         get: function () {
             return this._vertexShaderSrc;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ShaderMaterial.prototype, "fragmentShaderSrc", {
@@ -170,7 +170,7 @@ var ShaderMaterial = /** @class */ (function (_super) {
         get: function () {
             return this._fragmentShaderSrc;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ShaderMaterial.prototype, "attributeNames", {
@@ -190,7 +190,7 @@ var ShaderMaterial = /** @class */ (function (_super) {
         set: function (unused) {
             throw new Error(readOnly('attributeNames').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**

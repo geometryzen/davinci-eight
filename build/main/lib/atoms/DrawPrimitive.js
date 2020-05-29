@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.DrawPrimitive = void 0;
 var mustBeArray_1 = require("../checks/mustBeArray");
 var mustBeInteger_1 = require("../checks/mustBeInteger");
 var mustBeObject_1 = require("../checks/mustBeObject");

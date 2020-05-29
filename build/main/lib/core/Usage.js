@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.checkUsage = exports.Usage = void 0;
 /**
  * WebGLBuffer usage.
  */

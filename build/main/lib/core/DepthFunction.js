@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.DepthFunction = void 0;
 /**
  * An enumeration specifying the depth comparison function, which sets the conditions
  * under which the pixel will be drawn. The default value is LESS.

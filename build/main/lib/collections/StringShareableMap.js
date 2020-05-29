@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.StringShareableMap = void 0;
 var tslib_1 = require("tslib");
 var ShareableBase_1 = require("../core/ShareableBase");
 /**
@@ -72,7 +73,7 @@ var StringShareableMap = /** @class */ (function (_super) {
         get: function () {
             return Object.keys(this.elements);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(StringShareableMap.prototype, "values", {
@@ -85,7 +86,7 @@ var StringShareableMap = /** @class */ (function (_super) {
             }
             return values;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     StringShareableMap.prototype.remove = function (key) {

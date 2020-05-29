@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { Approximation } from '../transforms/Approximation';
 import { Direction } from '../transforms/Direction';
 import { Duality } from '../transforms/Duality';
@@ -15,7 +15,7 @@ import { Vector3 } from '../math/Vector3';
  * This implementation only builds the walls of the cylinder (by wrapping a grid)
  */
 var CylindricalShellBuilder = /** @class */ (function (_super) {
-    tslib_1.__extends(CylindricalShellBuilder, _super);
+    __extends(CylindricalShellBuilder, _super);
     function CylindricalShellBuilder() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.radialSegments = 1;

@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { computeFaceNormals } from '../geometries/computeFaceNormals';
 import { SimplexPrimitivesBuilder } from '../geometries/SimplexPrimitivesBuilder';
 import { quadrilateral as quad } from '../geometries/quadrilateral';
@@ -7,7 +7,7 @@ import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { triangle } from '../geometries/triangle';
 import { Geometric3 } from '../math/Geometric3';
 var BarnSimplexPrimitivesBuilder = /** @class */ (function (_super) {
-    tslib_1.__extends(BarnSimplexPrimitivesBuilder, _super);
+    __extends(BarnSimplexPrimitivesBuilder, _super);
     function BarnSimplexPrimitivesBuilder() {
         var _this = _super.call(this) || this;
         _this.a = Geometric3.vector(1, 0, 0);

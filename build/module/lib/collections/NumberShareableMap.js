@@ -1,7 +1,7 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { ShareableBase } from '../core/ShareableBase';
 var NumberShareableMap = /** @class */ (function (_super) {
-    tslib_1.__extends(NumberShareableMap, _super);
+    __extends(NumberShareableMap, _super);
     function NumberShareableMap() {
         var _this = _super.call(this) || this;
         _this._elements = {};
@@ -58,7 +58,7 @@ var NumberShareableMap = /** @class */ (function (_super) {
             // FIXME: cache? Maybe, clients may use this to iterate. forEach is too slow.
             return Object.keys(this._elements).map(function (keyString) { return parseFloat(keyString); });
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     NumberShareableMap.prototype.remove = function (key) {

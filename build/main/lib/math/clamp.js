@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.clamp = void 0;
 var mustBeNumber_1 = require("../checks/mustBeNumber");
 function clamp(x, min, max) {
     mustBeNumber_1.mustBeNumber('x', x);

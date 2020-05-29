@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.numVerticesForCurve = void 0;
 var mustBeInteger_1 = require("../checks/mustBeInteger");
 /**
  * Computes the number of vertices required to construct a curve.

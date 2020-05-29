@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.PointMaterial = void 0;
 var tslib_1 = require("tslib");
 var GraphicsProgramBuilder_1 = require("../materials/GraphicsProgramBuilder");
 var GraphicsProgramSymbols_1 = require("../core/GraphicsProgramSymbols");

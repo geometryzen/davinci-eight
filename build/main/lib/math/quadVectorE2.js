@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.quadVectorE2 = void 0;
 var dotVectorCartesianE2_1 = require("../math/dotVectorCartesianE2");
 var isDefined_1 = require("../checks/isDefined");
 var isNumber_1 = require("../checks/isNumber");

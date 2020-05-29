@@ -116,9 +116,9 @@ export declare class Engine extends ShareableBase implements ContextManager {
     /**
      * The canvas element associated with the WebGLRenderingContext.
      */
-    readonly canvas: HTMLCanvasElement;
-    readonly drawingBufferHeight: number;
-    readonly drawingBufferWidth: number;
+    get canvas(): HTMLCanvasElement;
+    get drawingBufferHeight(): number;
+    get drawingBufferWidth(): number;
     blendFunc(sfactor: BlendingFactorSrc, dfactor: BlendingFactorDest): this;
     /**
      * <p>
@@ -157,7 +157,7 @@ export declare class Engine extends ShareableBase implements ContextManager {
     /**
      * The underlying WebGL rendering context.
      */
-    readonly gl: WebGLRenderingContext;
+    get gl(): WebGLRenderingContext;
     /**
      *
      */

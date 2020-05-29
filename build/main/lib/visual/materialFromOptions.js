@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.materialFromOptions = void 0;
 var GraphicsProgramSymbols_1 = require("../core/GraphicsProgramSymbols");
 var isDefined_1 = require("../checks/isDefined");
 var LineMaterial_1 = require("../materials/LineMaterial");

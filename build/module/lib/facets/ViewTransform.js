@@ -66,7 +66,7 @@ var ViewTransform = /** @class */ (function () {
         set: function (name) {
             this.matrixName = name;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ViewTransform.prototype, "eye", {
@@ -80,7 +80,7 @@ var ViewTransform = /** @class */ (function () {
             this._eye.copyVector(eye);
             this.refreshMatrix();
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ViewTransform.prototype, "look", {
@@ -94,7 +94,7 @@ var ViewTransform = /** @class */ (function () {
             this._look.copyVector(look);
             this.refreshMatrix();
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ViewTransform.prototype, "up", {
@@ -108,7 +108,7 @@ var ViewTransform = /** @class */ (function () {
             this._up.copyVector(up);
             this.refreshMatrix();
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ViewTransform.prototype, "matrix", {
@@ -119,7 +119,7 @@ var ViewTransform = /** @class */ (function () {
             this.refreshMatrix();
             return this._matrix;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     ViewTransform.prototype.refreshMatrix = function () {

@@ -5,18 +5,18 @@
 }(this, (function (exports) { 'use strict';
 
 /*! *****************************************************************************
-Copyright (c) Microsoft Corporation. All rights reserved.
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-this file except in compliance with the License. You may obtain a copy of the
-License at http://www.apache.org/licenses/LICENSE-2.0
+Copyright (c) Microsoft Corporation.
 
-THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-MERCHANTABLITY OR NON-INFRINGEMENT.
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
 
-See the Apache Version 2.0 License for specific language governing permissions
-and limitations under the License.
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
 /* global Reflect, Promise */
 
@@ -1859,7 +1859,7 @@ var Geometric3 = /** @class */ (function () {
         get: function () {
             return 8;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Geometric3.prototype, "modified", {
@@ -1872,7 +1872,7 @@ var Geometric3 = /** @class */ (function () {
             }
             this.modified_ = modified;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Geometric3.prototype.getComponent = function (i) {
@@ -1905,7 +1905,7 @@ var Geometric3 = /** @class */ (function () {
         set: function (a) {
             this.setCoordinate(COORD_SCALAR, a, 'a');
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Geometric3.prototype, "x", {
@@ -1918,7 +1918,7 @@ var Geometric3 = /** @class */ (function () {
         set: function (x) {
             this.setCoordinate(COORD_X, x, 'x');
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Geometric3.prototype, "y", {
@@ -1931,7 +1931,7 @@ var Geometric3 = /** @class */ (function () {
         set: function (y) {
             this.setCoordinate(COORD_Y, y, 'y');
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Geometric3.prototype, "z", {
@@ -1944,7 +1944,7 @@ var Geometric3 = /** @class */ (function () {
         set: function (z) {
             this.setCoordinate(COORD_Z, z, 'z');
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Geometric3.prototype, "yz", {
@@ -1957,7 +1957,7 @@ var Geometric3 = /** @class */ (function () {
         set: function (yz) {
             this.setCoordinate(COORD_YZ, yz, 'yz');
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Geometric3.prototype, "zx", {
@@ -1970,7 +1970,7 @@ var Geometric3 = /** @class */ (function () {
         set: function (zx) {
             this.setCoordinate(COORD_ZX, zx, 'zx');
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Geometric3.prototype, "xy", {
@@ -1983,7 +1983,7 @@ var Geometric3 = /** @class */ (function () {
         set: function (xy) {
             this.setCoordinate(COORD_XY, xy, 'xy');
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Geometric3.prototype, "b", {
@@ -1996,7 +1996,7 @@ var Geometric3 = /** @class */ (function () {
         set: function (b) {
             this.setCoordinate(COORD_PSEUDO, b, 'b');
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Geometric3.prototype, "maskG3", {
@@ -2034,7 +2034,7 @@ var Geometric3 = /** @class */ (function () {
             }
             return mask;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -4066,7 +4066,7 @@ var Spinor3 = /** @class */ (function () {
             }
             this.modified_ = modified;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Spinor3.prototype, "yz", {
@@ -4085,7 +4085,7 @@ var Spinor3 = /** @class */ (function () {
             this.modified_ = this.modified_ || coords[COORD_YZ$3] !== yz;
             coords[COORD_YZ$3] = yz;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Spinor3.prototype, "zx", {
@@ -4104,7 +4104,7 @@ var Spinor3 = /** @class */ (function () {
             this.modified_ = this.modified_ || coords[COORD_ZX$3] !== zx;
             coords[COORD_ZX$3] = zx;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Spinor3.prototype, "xy", {
@@ -4123,7 +4123,7 @@ var Spinor3 = /** @class */ (function () {
             this.modified_ = this.modified_ || coords[COORD_XY$3] !== xy;
             coords[COORD_XY$3] = xy;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Spinor3.prototype, "a", {
@@ -4142,14 +4142,14 @@ var Spinor3 = /** @class */ (function () {
             this.modified_ = this.modified_ || coords[COORD_SCALAR$1] !== α;
             coords[COORD_SCALAR$1] = α;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Spinor3.prototype, "length", {
         get: function () {
             return 4;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Spinor3.prototype, "maskG3", {
@@ -4174,7 +4174,7 @@ var Spinor3 = /** @class */ (function () {
         set: function (unused) {
             throw new Error(readOnly('maskG3').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -5246,7 +5246,7 @@ var AbstractMatrix = /** @class */ (function () {
         set: function (unused) {
             throw new Error(readOnly('dimensions').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(AbstractMatrix.prototype, "elements", {
@@ -5260,7 +5260,7 @@ var AbstractMatrix = /** @class */ (function () {
             expectArg('elements', elements).toSatisfy(elements.length === this.length_, "elements length must be " + this.length_);
             this.elements_ = elements;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     AbstractMatrix.prototype.copy = function (m) {
@@ -5900,7 +5900,7 @@ var Vector3 = /** @class */ (function () {
         get: function () {
             return 3;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Vector3.prototype, "modified", {
@@ -5913,7 +5913,7 @@ var Vector3 = /** @class */ (function () {
             }
             this.modified_ = modified;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Vector3.prototype.getComponent = function (i) {
@@ -5934,7 +5934,7 @@ var Vector3 = /** @class */ (function () {
             this.modified_ = this.modified_ || coords[COORD_X$3] !== value;
             coords[COORD_X$3] = value;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Vector3.prototype, "y", {
@@ -5952,7 +5952,7 @@ var Vector3 = /** @class */ (function () {
             this.modified_ = this.modified_ || coords[COORD_Y$3] !== value;
             coords[COORD_Y$3] = value;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Vector3.prototype, "z", {
@@ -5970,7 +5970,7 @@ var Vector3 = /** @class */ (function () {
             this.modified_ = this.modified_ || coords[COORD_Z$3] !== value;
             coords[COORD_Z$3] = value;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Vector3.prototype, "maskG3", {
@@ -5983,7 +5983,7 @@ var Vector3 = /** @class */ (function () {
         set: function (unused) {
             throw new Error(readOnly('maskG3').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -6690,7 +6690,7 @@ var Vector2 = /** @class */ (function () {
         get: function () {
             return 2;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Vector2.prototype, "modified", {
@@ -6703,7 +6703,7 @@ var Vector2 = /** @class */ (function () {
             }
             this.modified_ = modified;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Vector2.prototype.getComponent = function (i) {
@@ -6724,7 +6724,7 @@ var Vector2 = /** @class */ (function () {
             this.modified_ = this.modified_ || coords[COORD_X$4] !== value;
             coords[COORD_X$4] = value;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Vector2.prototype, "y", {
@@ -6742,7 +6742,7 @@ var Vector2 = /** @class */ (function () {
             this.modified_ = this.modified_ || coords[COORD_Y$4] !== value;
             coords[COORD_Y$4] = value;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -7847,7 +7847,7 @@ var Attrib = /** @class */ (function () {
         set: function (unused) {
             throw new Error(readOnly('index').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -8123,7 +8123,7 @@ var VectorN = /** @class */ (function () {
             this.data_ = data;
             this.modified_ = true;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(VectorN.prototype, "modified", {
@@ -8133,7 +8133,7 @@ var VectorN = /** @class */ (function () {
         set: function (modified) {
             this.modified_ = modified;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(VectorN.prototype, "length", {
@@ -8143,7 +8143,7 @@ var VectorN = /** @class */ (function () {
         get: function () {
             return this.coords.length;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -8354,7 +8354,7 @@ var Color = /** @class */ (function (_super) {
             }
             this.coords[COORD_R] = clamp(r, 0, 1);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Color.prototype, "red", {
@@ -8367,7 +8367,7 @@ var Color = /** @class */ (function (_super) {
             }
             this.coords[COORD_R] = clamp(red, 0, 1);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Color.prototype, "g", {
@@ -8383,7 +8383,7 @@ var Color = /** @class */ (function (_super) {
             }
             this.coords[COORD_G] = clamp(g, 0, 1);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Color.prototype, "green", {
@@ -8396,7 +8396,7 @@ var Color = /** @class */ (function (_super) {
             }
             this.coords[COORD_G] = clamp(green, 0, 1);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Color.prototype, "b", {
@@ -8412,7 +8412,7 @@ var Color = /** @class */ (function (_super) {
             }
             this.coords[COORD_B] = clamp(b, 0, 1);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Color.prototype, "blue", {
@@ -8425,7 +8425,7 @@ var Color = /** @class */ (function (_super) {
             }
             this.coords[COORD_B] = clamp(blue, 0, 1);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -8494,7 +8494,7 @@ var Color = /** @class */ (function (_super) {
         get: function () {
             return Color.luminance(this.r, this.g, this.b);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -9033,7 +9033,7 @@ var ShareableContextConsumer = /** @class */ (function (_super) {
         get: function () {
             return this.contextManager.gl;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return ShareableContextConsumer;
@@ -9109,7 +9109,7 @@ var StringShareableMap = /** @class */ (function (_super) {
         get: function () {
             return Object.keys(this.elements);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(StringShareableMap.prototype, "values", {
@@ -9122,7 +9122,7 @@ var StringShareableMap = /** @class */ (function (_super) {
             }
             return values;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     StringShareableMap.prototype.remove = function (key) {
@@ -9213,7 +9213,7 @@ var Drawable = /** @class */ (function (_super) {
                 throw new TypeError("opacity must be a number, undefined, or null.");
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Drawable.prototype, "pointSize", {
@@ -9243,7 +9243,7 @@ var Drawable = /** @class */ (function (_super) {
                 throw new TypeError("pointSize must be a number, undefined, or null.");
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -9374,7 +9374,7 @@ var Drawable = /** @class */ (function (_super) {
         set: function (geometry) {
             this._geometry = exchange(this._geometry, geometry);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Drawable.prototype, "material", {
@@ -9388,7 +9388,7 @@ var Drawable = /** @class */ (function (_super) {
             this._material = exchange(this._material, material);
             synchFacets(this._material, this);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Drawable.prototype, "visible", {
@@ -9403,7 +9403,7 @@ var Drawable = /** @class */ (function (_super) {
             mustBeBoolean('visible', visible, function () { return _this.getLoggingName(); });
             this._visible = visible;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Drawable.prototype, "transparent", {
@@ -9418,7 +9418,7 @@ var Drawable = /** @class */ (function (_super) {
             mustBeBoolean('transparent', transparent, function () { return _this.getLoggingName(); });
             this._transparent = transparent;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return Drawable;
@@ -10195,7 +10195,7 @@ var Texture = /** @class */ (function (_super) {
                 console.warn(this.getLoggingName() + ".minFilter missing WebGL rendering context.");
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Texture.prototype, "magFilter", {
@@ -10212,7 +10212,7 @@ var Texture = /** @class */ (function (_super) {
                 console.warn(this.getLoggingName() + ".magFilter missing WebGL rendering context.");
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Texture.prototype, "wrapS", {
@@ -10229,7 +10229,7 @@ var Texture = /** @class */ (function (_super) {
                 console.warn(this.getLoggingName() + ".wrapS missing WebGL rendering context.");
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Texture.prototype, "wrapT", {
@@ -10246,7 +10246,7 @@ var Texture = /** @class */ (function (_super) {
                 console.warn(this.getLoggingName() + ".wrapT missing WebGL rendering context.");
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -10285,7 +10285,7 @@ var ImageTexture = /** @class */ (function (_super) {
                 return void 0;
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ImageTexture.prototype, "naturalWidth", {
@@ -10297,7 +10297,7 @@ var ImageTexture = /** @class */ (function (_super) {
                 return void 0;
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     ImageTexture.prototype.upload = function () {
@@ -10462,7 +10462,7 @@ var ColorFacet = /** @class */ (function () {
             mustBeNumber('r', r);
             this.color.r = r;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ColorFacet.prototype, "g", {
@@ -10476,7 +10476,7 @@ var ColorFacet = /** @class */ (function () {
             mustBeNumber('g', g);
             this.color.g = g;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ColorFacet.prototype, "b", {
@@ -10490,7 +10490,7 @@ var ColorFacet = /** @class */ (function () {
             mustBeNumber('b', b);
             this.color.b = b;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     ColorFacet.prototype.scaleRGB = function (α) {
@@ -11174,7 +11174,7 @@ var ModelE3 = /** @class */ (function () {
         set: function (attitude) {
             this._attitude.copySpinor(attitude);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ModelE3.prototype, "X", {
@@ -11189,7 +11189,7 @@ var ModelE3 = /** @class */ (function () {
         set: function (position) {
             this._position.copyVector(position);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -11257,7 +11257,7 @@ var ModelFacet = /** @class */ (function (_super) {
             mustBeObject('stress', stress);
             this.matS.copy(stress);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ModelFacet.prototype, "matrix", {
@@ -11270,7 +11270,7 @@ var ModelFacet = /** @class */ (function (_super) {
         set: function (unused) {
             throw new Error(readOnly('matrix').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ModelFacet.prototype, "modelMatrixUniformName", {
@@ -11283,7 +11283,7 @@ var ModelFacet = /** @class */ (function (_super) {
         set: function (name) {
             this.nameM = name;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ModelFacet.prototype, "normalMatrixUniformName", {
@@ -11296,7 +11296,7 @@ var ModelFacet = /** @class */ (function (_super) {
         set: function (name) {
             this.nameN = name;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -11469,7 +11469,7 @@ var TextureFacet = /** @class */ (function (_super) {
         set: function (value) {
             this._texture = exchange(this._texture, value);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     TextureFacet.prototype.setUniforms = function (visitor) {
@@ -11564,7 +11564,7 @@ var Mesh = /** @class */ (function (_super) {
                 throw new Error(notSupported(MODEL_FACET_NAME).message);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Mesh.prototype, "R", {
@@ -11589,7 +11589,7 @@ var Mesh = /** @class */ (function (_super) {
                 throw new Error(notSupported(MODEL_FACET_NAME).message);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Mesh.prototype, "color", {
@@ -11614,7 +11614,7 @@ var Mesh = /** @class */ (function (_super) {
                 throw new Error(notSupported(COLOR_FACET_NAME).message);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Mesh.prototype, "texture", {
@@ -11642,7 +11642,7 @@ var Mesh = /** @class */ (function (_super) {
                 throw new Error(notSupported(TEXTURE_FACET_NAME).message);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Mesh.prototype, "X", {
@@ -11667,7 +11667,7 @@ var Mesh = /** @class */ (function (_super) {
                 throw new Error(notSupported(MODEL_FACET_NAME).message);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Mesh.prototype, "position", {
@@ -11692,7 +11692,7 @@ var Mesh = /** @class */ (function (_super) {
                 throw new Error(notSupported(MODEL_FACET_NAME).message);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Mesh.prototype, "stress", {
@@ -11717,7 +11717,7 @@ var Mesh = /** @class */ (function (_super) {
                 throw new Error(notSupported('stress').message);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Mesh.prototype.getScale = function (i, j) {
@@ -11816,7 +11816,7 @@ var Mesh = /** @class */ (function (_super) {
         set: function (axis) {
             this.setAxis(axis);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Mesh.prototype.getMeridian = function () {
@@ -11835,7 +11835,7 @@ var Mesh = /** @class */ (function (_super) {
             var R = Geometric3.rotorFromVectorToVector(this.meridian, meridian, B);
             this.attitude.mul2(R, this.attitude);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Mesh.prototype, "modelMatrixUniformName", {
@@ -11861,7 +11861,7 @@ var Mesh = /** @class */ (function (_super) {
                 throw new Error(notSupported(MODEL_FACET_NAME).message);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Mesh.prototype, "normalMatrixUniformName", {
@@ -11887,7 +11887,7 @@ var Mesh = /** @class */ (function (_super) {
                 throw new Error(notSupported(MODEL_FACET_NAME).message);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return Mesh;
@@ -12030,7 +12030,7 @@ var ShareableArray = /** @class */ (function (_super) {
         set: function (unused) {
             throw new Error(readOnly('length').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -12612,7 +12612,7 @@ var EIGHTLogger = /** @class */ (function (_super) {
  * If the canvas is undefined then an undefined value is returned for the context.
  */
 function initWebGL(canvas, attributes) {
-    // We'll be hyper-functional. An undefined canvas begets and undefined context.
+    // We'll be hyper-functional. An undefined canvas begets an undefined context.
     // Clients must check their context output or canvas input.
     if (isDefined(canvas)) {
         var context;
@@ -12758,11 +12758,16 @@ var Engine = /** @class */ (function (_super) {
         };
         _this._webGLContextRestored = function (event) {
             if (isDefined(_this._gl)) {
-                event.preventDefault();
-                _this._gl = initWebGL(_this._gl.canvas, attributes);
-                _this._users.forEach(function (user) {
-                    user.contextGain();
-                });
+                if (_this._gl.canvas instanceof HTMLCanvasElement) {
+                    event.preventDefault();
+                    _this._gl = initWebGL(_this._gl.canvas, attributes);
+                    _this._users.forEach(function (user) {
+                        user.contextGain();
+                    });
+                }
+                else {
+                    // 
+                }
             }
         };
         if (canvas) {
@@ -12808,13 +12813,19 @@ var Engine = /** @class */ (function (_super) {
          */
         get: function () {
             if (this._gl) {
-                return this._gl.canvas;
+                if (this._gl.canvas instanceof HTMLCanvasElement) {
+                    return this._gl.canvas;
+                }
+                else {
+                    // OffscreenCanvas or undefined.
+                    return void 0;
+                }
             }
             else {
                 return void 0;
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Engine.prototype, "drawingBufferHeight", {
@@ -12826,7 +12837,7 @@ var Engine = /** @class */ (function (_super) {
                 return void 0;
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Engine.prototype, "drawingBufferWidth", {
@@ -12838,7 +12849,7 @@ var Engine = /** @class */ (function (_super) {
                 return void 0;
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Engine.prototype.blendFunc = function (sfactor, dfactor) {
@@ -12944,7 +12955,7 @@ var Engine = /** @class */ (function (_super) {
                 return void 0;
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -13227,7 +13238,7 @@ var DirectionalLight = /** @class */ (function () {
         set: function (color) {
             this.color_.copy(Color.mustBe('color', color));
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(DirectionalLight.prototype, "direction", {
@@ -13238,7 +13249,7 @@ var DirectionalLight = /** @class */ (function () {
             mustBeObject('direction', direction);
             this.direction_.copy(direction);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     DirectionalLight.prototype.setUniforms = function (visitor) {
@@ -13631,7 +13642,7 @@ var ReflectionFacetE2 = /** @class */ (function () {
         set: function (unused) {
             throw new Error(readOnly('normal').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -13668,7 +13679,7 @@ var ReflectionFacetE3 = /** @class */ (function () {
         set: function (unused) {
             throw new Error(readOnly('normal').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     ReflectionFacetE3.prototype.setUniforms = function (visitor) {
@@ -13701,7 +13712,7 @@ var Vector3Facet = /** @class */ (function () {
         set: function (value) {
             this._name = mustBeString('name', value);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Vector3Facet.prototype, "value", {
@@ -13711,7 +13722,7 @@ var Vector3Facet = /** @class */ (function () {
         set: function (value) {
             this.vector.copy(value);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -13830,7 +13841,7 @@ var ViewTransform = /** @class */ (function () {
         set: function (name) {
             this.matrixName = name;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ViewTransform.prototype, "eye", {
@@ -13844,7 +13855,7 @@ var ViewTransform = /** @class */ (function () {
             this._eye.copyVector(eye);
             this.refreshMatrix();
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ViewTransform.prototype, "look", {
@@ -13858,7 +13869,7 @@ var ViewTransform = /** @class */ (function () {
             this._look.copyVector(look);
             this.refreshMatrix();
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ViewTransform.prototype, "up", {
@@ -13872,7 +13883,7 @@ var ViewTransform = /** @class */ (function () {
             this._up.copyVector(up);
             this.refreshMatrix();
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ViewTransform.prototype, "matrix", {
@@ -13883,7 +13894,7 @@ var ViewTransform = /** @class */ (function () {
             this.refreshMatrix();
             return this._matrix;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     ViewTransform.prototype.refreshMatrix = function () {
@@ -13938,7 +13949,7 @@ var PerspectiveTransform = /** @class */ (function () {
                 this.refreshMatrix();
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PerspectiveTransform.prototype, "fov", {
@@ -13958,7 +13969,7 @@ var PerspectiveTransform = /** @class */ (function () {
                 this.refreshMatrix();
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PerspectiveTransform.prototype, "near", {
@@ -13976,7 +13987,7 @@ var PerspectiveTransform = /** @class */ (function () {
                 this.refreshMatrix();
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PerspectiveTransform.prototype, "far", {
@@ -13994,7 +14005,7 @@ var PerspectiveTransform = /** @class */ (function () {
                 this.refreshMatrix();
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -14014,7 +14025,7 @@ var PerspectiveTransform = /** @class */ (function () {
         set: function (name) {
             this.matrixName = name;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -14122,7 +14133,7 @@ var PerspectiveCamera = /** @class */ (function () {
         set: function (aspect) {
             this.P.aspect = aspect;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PerspectiveCamera.prototype, "eye", {
@@ -14135,7 +14146,7 @@ var PerspectiveCamera = /** @class */ (function () {
         set: function (eye) {
             this.V.eye.copyVector(eye);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PerspectiveCamera.prototype, "fov", {
@@ -14149,7 +14160,7 @@ var PerspectiveCamera = /** @class */ (function () {
         set: function (value) {
             this.P.fov = value;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PerspectiveCamera.prototype, "look", {
@@ -14162,7 +14173,7 @@ var PerspectiveCamera = /** @class */ (function () {
         set: function (look) {
             this.V.look.copyVector(look);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PerspectiveCamera.prototype, "near", {
@@ -14175,7 +14186,7 @@ var PerspectiveCamera = /** @class */ (function () {
         set: function (near) {
             this.P.near = near;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PerspectiveCamera.prototype, "far", {
@@ -14188,7 +14199,7 @@ var PerspectiveCamera = /** @class */ (function () {
         set: function (far) {
             this.P.far = far;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PerspectiveCamera.prototype, "up", {
@@ -14201,7 +14212,7 @@ var PerspectiveCamera = /** @class */ (function () {
         set: function (up) {
             this.V.up.copyVector(up);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PerspectiveCamera.prototype, "projectionMatrixUniformName", {
@@ -14215,14 +14226,14 @@ var PerspectiveCamera = /** @class */ (function () {
         set: function (name) {
             this.P.projectionMatrixUniformName = name;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PerspectiveCamera.prototype, "projectionMatrix", {
         get: function () {
             return this.P.matrix;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PerspectiveCamera.prototype, "viewMatrixUniformName", {
@@ -14236,14 +14247,14 @@ var PerspectiveCamera = /** @class */ (function () {
         set: function (name) {
             this.V.viewMatrixUniformName = name;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PerspectiveCamera.prototype, "viewMatrix", {
         get: function () {
             return this.V.matrix;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return PerspectiveCamera;
@@ -14585,7 +14596,7 @@ var Geometric2 = /** @class */ (function () {
         get: function () {
             return 4;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Geometric2.prototype, "modified", {
@@ -14598,7 +14609,7 @@ var Geometric2 = /** @class */ (function () {
             }
             this.modified_ = modified;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Geometric2.prototype.getComponent = function (i) {
@@ -14616,7 +14627,7 @@ var Geometric2 = /** @class */ (function () {
             this.modified_ = this.modified_ || coords[COORD_SCALAR$2] !== a;
             coords[COORD_SCALAR$2] = a;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Geometric2.prototype, "x", {
@@ -14631,7 +14642,7 @@ var Geometric2 = /** @class */ (function () {
             this.modified_ = this.modified_ || coords[COORD_X$5] !== x;
             coords[COORD_X$5] = x;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Geometric2.prototype, "y", {
@@ -14646,7 +14657,7 @@ var Geometric2 = /** @class */ (function () {
             this.modified_ = this.modified_ || coords[COORD_Y$5] !== y;
             coords[COORD_Y$5] = y;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Geometric2.prototype, "b", {
@@ -14661,7 +14672,7 @@ var Geometric2 = /** @class */ (function () {
             this.modified_ = this.modified_ || coords[COORD_PSEUDO$1] !== b;
             coords[COORD_PSEUDO$1] = b;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -15926,7 +15937,7 @@ var ModelE2 = /** @class */ (function () {
         set: function (attitude) {
             this._attitude.copy(attitude);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ModelE2.prototype, "X", {
@@ -15943,7 +15954,7 @@ var ModelE2 = /** @class */ (function () {
         set: function (position) {
             this._position.copy(position);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -16245,7 +16256,7 @@ var Spinor2 = /** @class */ (function () {
         get: function () {
             return 2;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Spinor2.prototype, "modified", {
@@ -16258,7 +16269,7 @@ var Spinor2 = /** @class */ (function () {
             }
             this.modified_ = modified;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Spinor2.prototype.getComponent = function (i) {
@@ -16280,7 +16291,7 @@ var Spinor2 = /** @class */ (function () {
             this.modified_ = this.modified_ || coords[COORD_PSEUDO$2] !== xy;
             coords[COORD_PSEUDO$2] = xy;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Spinor2.prototype, "a", {
@@ -16299,7 +16310,7 @@ var Spinor2 = /** @class */ (function () {
             this.modified_ = this.modified_ || coords[COORD_SCALAR$3] !== α;
             coords[COORD_SCALAR$3] = α;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Spinor2.prototype, "b", {
@@ -16318,7 +16329,7 @@ var Spinor2 = /** @class */ (function () {
             this.modified_ = this.modified_ || coords[COORD_PSEUDO$2] !== b;
             coords[COORD_PSEUDO$2] = b;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -17266,7 +17277,7 @@ var GridPrimitive = /** @class */ (function (_super) {
             mustBeInteger('uSegments', uSegments);
             throw new Error(readOnly('uSegments').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(GridPrimitive.prototype, "uLength", {
@@ -17280,7 +17291,7 @@ var GridPrimitive = /** @class */ (function (_super) {
             mustBeInteger('uLength', uLength);
             throw new Error(readOnly('uLength').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(GridPrimitive.prototype, "vSegments", {
@@ -17291,7 +17302,7 @@ var GridPrimitive = /** @class */ (function (_super) {
             mustBeInteger('vSegments', vSegments);
             throw new Error(readOnly('vSegments').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(GridPrimitive.prototype, "vLength", {
@@ -17305,7 +17316,7 @@ var GridPrimitive = /** @class */ (function (_super) {
             mustBeInteger('vLength', vLength);
             throw new Error(readOnly('vLength').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     GridPrimitive.prototype.vertexTransform = function (transform) {
@@ -18022,7 +18033,7 @@ var Simplex = /** @class */ (function () {
         get: function () {
             return this.vertices.length - 1;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Simplex.indices = function (simplex) {
@@ -18634,7 +18645,7 @@ var Vector1 = /** @class */ (function (_super) {
             this.modified = this.modified || this.x !== value;
             this.coords[COORD_X$6] = value;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Vector1.prototype.set = function (x) {
@@ -18965,7 +18976,7 @@ var SimplexPrimitivesBuilder = /** @class */ (function (_super) {
         set: function (k) {
             this._k.x = mustBeInteger('k', k);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     SimplexPrimitivesBuilder.prototype.regenerate = function () {
@@ -19140,7 +19151,7 @@ var CuboidSimplexPrimitivesBuilder = /** @class */ (function (_super) {
             this._a = a;
             this._isModified = true;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(CuboidSimplexPrimitivesBuilder.prototype, "b", {
@@ -19151,7 +19162,7 @@ var CuboidSimplexPrimitivesBuilder = /** @class */ (function (_super) {
             this._b = b;
             this._isModified = true;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(CuboidSimplexPrimitivesBuilder.prototype, "c", {
@@ -19162,7 +19173,7 @@ var CuboidSimplexPrimitivesBuilder = /** @class */ (function (_super) {
             this._c = c;
             this._isModified = true;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     CuboidSimplexPrimitivesBuilder.prototype.isModified = function () {
@@ -19299,7 +19310,7 @@ var CuboidPrimitivesBuilder = /** @class */ (function (_super) {
             mustBeNumber('width', width);
             this._a.normalize().scale(width);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(CuboidPrimitivesBuilder.prototype, "height", {
@@ -19310,7 +19321,7 @@ var CuboidPrimitivesBuilder = /** @class */ (function (_super) {
             mustBeNumber('height', height);
             this._b.normalize().scale(height);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(CuboidPrimitivesBuilder.prototype, "depth", {
@@ -19321,7 +19332,7 @@ var CuboidPrimitivesBuilder = /** @class */ (function (_super) {
             mustBeNumber('depth', depth);
             this._c.normalize().scale(depth);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -19904,7 +19915,7 @@ var CurvePrimitive = /** @class */ (function (_super) {
             mustBeInteger('uSegments', uSegments);
             throw new Error(readOnly('uSegments').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(CurvePrimitive.prototype, "uLength", {
@@ -19918,7 +19929,7 @@ var CurvePrimitive = /** @class */ (function (_super) {
             mustBeInteger('uLength', uLength);
             throw new Error(readOnly('uLength').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     CurvePrimitive.prototype.vertexTransform = function (transform) {
@@ -20558,7 +20569,7 @@ var SphereSimplexPrimitivesBuilder = /** @class */ (function (_super) {
             this.stress.y = radius;
             this.stress.z = radius;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     SphereSimplexPrimitivesBuilder.prototype.isModified = function () {
@@ -21199,7 +21210,7 @@ var ShaderMaterial = /** @class */ (function (_super) {
         get: function () {
             return this._vertexShaderSrc;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ShaderMaterial.prototype, "fragmentShaderSrc", {
@@ -21209,7 +21220,7 @@ var ShaderMaterial = /** @class */ (function (_super) {
         get: function () {
             return this._fragmentShaderSrc;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ShaderMaterial.prototype, "attributeNames", {
@@ -21229,7 +21240,7 @@ var ShaderMaterial = /** @class */ (function (_super) {
         set: function (unused) {
             throw new Error(readOnly('attributeNames').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -22367,7 +22378,7 @@ var Vector4 = /** @class */ (function (_super) {
             this.modified = this.modified || this.x !== value;
             this.coords[0] = value;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Vector4.prototype, "y", {
@@ -22382,7 +22393,7 @@ var Vector4 = /** @class */ (function (_super) {
             this.modified = this.modified || this.y !== value;
             this.coords[1] = value;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Vector4.prototype, "z", {
@@ -22397,7 +22408,7 @@ var Vector4 = /** @class */ (function (_super) {
             this.modified = this.modified || this.z !== value;
             this.coords[2] = value;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Vector4.prototype, "w", {
@@ -22412,7 +22423,7 @@ var Vector4 = /** @class */ (function (_super) {
             this.modified = this.modified || this.w !== value;
             this.coords[3] = value;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Vector4.prototype.setW = function (w) {
@@ -22635,7 +22646,7 @@ var NumberShareableMap = /** @class */ (function (_super) {
             // FIXME: cache? Maybe, clients may use this to iterate. forEach is too slow.
             return Object.keys(this._elements).map(function (keyString) { return parseFloat(keyString); });
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     NumberShareableMap.prototype.remove = function (key) {
@@ -23104,7 +23115,7 @@ var Arrow = /** @class */ (function (_super) {
                 this.setAxis(axis);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Arrow.prototype, "length", {
@@ -23118,7 +23129,7 @@ var Arrow = /** @class */ (function (_super) {
         set: function (length) {
             this.setScale(length, length, length);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return Arrow;
@@ -23247,42 +23258,42 @@ var Basis = /** @class */ (function (_super) {
         get: function () {
             return this.uPointA.vector;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Basis.prototype, "b", {
         get: function () {
             return this.uPointB.vector;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Basis.prototype, "c", {
         get: function () {
             return this.uPointC.vector;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Basis.prototype, "colorA", {
         get: function () {
             return this.uColorA.color;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Basis.prototype, "colorB", {
         get: function () {
             return this.uColorB.color;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Basis.prototype, "colorC", {
         get: function () {
             return this.uColorC.color;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return Basis;
@@ -23405,7 +23416,7 @@ var Sphere = /** @class */ (function (_super) {
         set: function (radius) {
             this.setScale(radius, radius, radius);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return Sphere;
@@ -23488,7 +23499,7 @@ var Box = /** @class */ (function (_super) {
             var z = this.getScaleZ();
             this.setScale(width, y, z);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Box.prototype, "height", {
@@ -23503,7 +23514,7 @@ var Box = /** @class */ (function (_super) {
             var z = this.getScaleZ();
             this.setScale(x, height, z);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Box.prototype, "depth", {
@@ -23518,7 +23529,7 @@ var Box = /** @class */ (function (_super) {
             var y = this.getScaleY();
             this.setScale(x, y, depth);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return Box;
@@ -23595,7 +23606,7 @@ var Cylinder = /** @class */ (function (_super) {
             var z = this.getScaleZ();
             this.setScale(x, length, z);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Cylinder.prototype, "radius", {
@@ -23609,7 +23620,7 @@ var Cylinder = /** @class */ (function (_super) {
             var y = this.getScaleY();
             this.setScale(radius, y, radius);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return Cylinder;
@@ -24348,7 +24359,7 @@ var Group = /** @class */ (function (_super) {
                 this.pos.copyVector(value);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Group.prototype, "X", {
@@ -24360,7 +24371,7 @@ var Group = /** @class */ (function (_super) {
                 this.pos.copyVector(value);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Group.prototype, "attitude", {
@@ -24375,7 +24386,7 @@ var Group = /** @class */ (function (_super) {
                 this.att.copySpinor(value);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Group.prototype, "R", {
@@ -24387,7 +24398,7 @@ var Group = /** @class */ (function (_super) {
                 this.att.copySpinor(value);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -24609,7 +24620,7 @@ var HollowCylinder = /** @class */ (function (_super) {
             var z = this.getScaleZ();
             this.setScale(x, length, z);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return HollowCylinder;
@@ -25566,7 +25577,7 @@ var Tetrahedron = /** @class */ (function (_super) {
         set: function (radius) {
             this.setScale(radius, radius, radius);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return Tetrahedron;
@@ -25738,7 +25749,7 @@ var Modulo = /** @class */ (function () {
             this._size = size;
             this.value = this._value;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Modulo.prototype, "value", {
@@ -25748,7 +25759,7 @@ var Modulo = /** @class */ (function () {
         set: function (value) {
             this._value = value % this._size;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Modulo.prototype.inc = function () {
@@ -26128,7 +26139,7 @@ var Turtle = /** @class */ (function (_super) {
             var z = this.getScaleZ();
             this.setScale(width, y, z);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Turtle.prototype, "height", {
@@ -26143,7 +26154,7 @@ var Turtle = /** @class */ (function (_super) {
             var z = this.getScaleZ();
             this.setScale(x, height, z);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return Turtle;
@@ -26185,7 +26196,7 @@ var Diagram3D = /** @class */ (function () {
         get: function () {
             return this.ctx.canvas;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Diagram3D.prototype.beginPath = function () {

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Scaling = void 0;
 var mustBeArray_1 = require("../checks/mustBeArray");
 var mustBeObject_1 = require("../checks/mustBeObject");
 var Spinor3_1 = require("../math/Spinor3");

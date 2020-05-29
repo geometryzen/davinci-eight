@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.computeAttributes = void 0;
 var computeCount_1 = require("./computeCount");
 /**
  * Computes the interleaved attribute values array.

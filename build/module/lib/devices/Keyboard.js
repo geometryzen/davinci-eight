@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { ShareableBase } from '../core/ShareableBase';
 function makeKeyDownHandler(keyboard, handler) {
     return function (event) {
@@ -13,7 +13,7 @@ function makeKeyUpHandler(keyboard, handler) {
     };
 }
 var Keyboard = /** @class */ (function (_super) {
-    tslib_1.__extends(Keyboard, _super);
+    __extends(Keyboard, _super);
     function Keyboard(handler, document) {
         if (document === void 0) { document = window.document; }
         var _this = _super.call(this) || this;

@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { CurvePrimitive } from './CurvePrimitive';
 import { BeginMode } from '../core/BeginMode';
 import { elementsForCurve } from './elementsForCurve';
@@ -9,7 +9,7 @@ import { mustBeLT } from '../checks/mustBeLT';
  *
  */
 var LinePoints = /** @class */ (function (_super) {
-    tslib_1.__extends(LinePoints, _super);
+    __extends(LinePoints, _super);
     /**
      * @param uSegments
      */

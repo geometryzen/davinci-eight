@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.scrolled = void 0;
 function domElement() {
     var documentElement = document.documentElement;
     if (documentElement) {

@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { DataType } from './DataType';
 import { GeometryBase } from './GeometryBase';
 import { IndexBuffer } from './IndexBuffer';
@@ -14,7 +14,7 @@ import { Usage } from './Usage';
  * A Geometry that supports interleaved vertex buffers.
  */
 var GeometryElements = /** @class */ (function (_super) {
-    tslib_1.__extends(GeometryElements, _super);
+    __extends(GeometryElements, _super);
     /**
      *
      */

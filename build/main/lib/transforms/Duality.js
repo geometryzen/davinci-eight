@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Duality = void 0;
 var mustBeBoolean_1 = require("../checks/mustBeBoolean");
 var mustBeString_1 = require("../checks/mustBeString");
 var notImplemented_1 = require("../i18n/notImplemented");

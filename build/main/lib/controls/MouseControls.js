@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.MouseControls = void 0;
 var tslib_1 = require("tslib");
 var mustBeObject_1 = require("../checks/mustBeObject");
 var ShareableBase_1 = require("../core/ShareableBase");

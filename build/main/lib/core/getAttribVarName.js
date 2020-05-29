@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getAttribVarName = void 0;
 var isDefined_1 = require("../checks/isDefined");
 var mustBeObject_1 = require("../checks/mustBeObject");
 var mustBeString_1 = require("../checks/mustBeString");

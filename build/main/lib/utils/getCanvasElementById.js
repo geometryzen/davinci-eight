@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getCanvasElementById = void 0;
 var mustBeString_1 = require("../checks/mustBeString");
 var mustBeObject_1 = require("../checks/mustBeObject");
 function getCanvasElementById(elementId, dom) {

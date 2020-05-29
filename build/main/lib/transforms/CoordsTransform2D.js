@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CoordsTransform2D = void 0;
 var GraphicsProgramSymbols_1 = require("../core/GraphicsProgramSymbols");
 var mustBeBoolean_1 = require("../checks/mustBeBoolean");
 var Vector2_1 = require("../math/Vector2");

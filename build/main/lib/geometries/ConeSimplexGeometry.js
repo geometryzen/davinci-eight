@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ConeSimplexGeometry = void 0;
 var tslib_1 = require("tslib");
 var SliceSimplexPrimitivesBuilder_1 = require("../geometries/SliceSimplexPrimitivesBuilder");
 var Vector2_1 = require("../math/Vector2");

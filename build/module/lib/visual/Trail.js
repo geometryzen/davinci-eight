@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { Modulo } from '../math/Modulo';
 import { Spinor3 } from '../math/Spinor3';
 import { Vector3 } from '../math/Vector3';
@@ -35,7 +35,7 @@ import { TrailConfig } from './TrailConfig';
  *     trail.release()
  */
 var Trail = /** @class */ (function (_super) {
-    tslib_1.__extends(Trail, _super);
+    __extends(Trail, _super);
     /**
      * Constructs a trail for the specified mesh.
      */

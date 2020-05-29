@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.perspective = exports.view = exports.canvasCoords = exports.Diagram3D = void 0;
 var dotVectorE3_1 = require("../math/dotVectorE3");
 var isDefined_1 = require("../checks/isDefined");
 var R3_1 = require("../math/R3");
@@ -39,7 +40,7 @@ var Diagram3D = /** @class */ (function () {
         get: function () {
             return this.ctx.canvas;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Diagram3D.prototype.beginPath = function () {

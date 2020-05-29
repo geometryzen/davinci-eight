@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.setColorOption = void 0;
 var isDefined_1 = require("../checks/isDefined");
 function setColorOption(mesh, options, defaultColor) {
     if (isDefined_1.isDefined(options.color)) {

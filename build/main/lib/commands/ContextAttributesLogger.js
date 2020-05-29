@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ContextAttributesLogger = void 0;
 var tslib_1 = require("tslib");
 var readOnly_1 = require("../i18n/readOnly");
 var ShareableBase_1 = require("../core/ShareableBase");
@@ -44,7 +45,7 @@ var ContextAttributesLogger = /** @class */ (function (_super) {
         set: function (unused) {
             throw new Error(readOnly_1.readOnly('name').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return ContextAttributesLogger;

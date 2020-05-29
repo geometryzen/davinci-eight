@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.GeometryMode = void 0;
 /**
  * Determines how a Geometry will be rendered.
  */

@@ -14,7 +14,9 @@ export declare class DirectionalLight implements Facet {
         g: number;
         b: number;
     });
-    color: Color;
-    direction: Geometric3;
+    get color(): Color;
+    set color(color: Color);
+    get direction(): Geometric3;
+    set direction(direction: Geometric3);
     setUniforms(visitor: FacetVisitor): void;
 }

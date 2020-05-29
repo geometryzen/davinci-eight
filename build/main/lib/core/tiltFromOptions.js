@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.tiltFromOptions = exports.canonicalMeridian = exports.canonicalAxis = void 0;
 var Geometric3_1 = require("../math/Geometric3");
 var isDefined_1 = require("../checks/isDefined");
 var R3_1 = require("../math/R3");

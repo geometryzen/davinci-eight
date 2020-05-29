@@ -1,11 +1,11 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { mustBeNumber } from '../checks/mustBeNumber';
 import { ShareableBase } from '../core/ShareableBase';
 /**
  * disable(capability: Capability): void
  */
 var WebGLDisable = /** @class */ (function (_super) {
-    tslib_1.__extends(WebGLDisable, _super);
+    __extends(WebGLDisable, _super);
     function WebGLDisable(contextManager, capability) {
         var _this = _super.call(this) || this;
         _this.contextManager = contextManager;

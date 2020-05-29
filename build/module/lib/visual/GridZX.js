@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { expectOptions } from '../checks/expectOptions';
 import { GeometryMode } from '../geometries/GeometryMode';
 import { Grid } from './Grid';
@@ -45,7 +45,7 @@ function mapOptions(options) {
  * A #d visual representation of a grid in the zx plane.
  */
 var GridZX = /** @class */ (function (_super) {
-    tslib_1.__extends(GridZX, _super);
+    __extends(GridZX, _super);
     function GridZX(contextManager, options, levelUp) {
         if (options === void 0) { options = {}; }
         if (levelUp === void 0) { levelUp = 0; }

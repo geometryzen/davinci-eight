@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ShareableContextConsumer = void 0;
 var tslib_1 = require("tslib");
 var mustBeNonNullObject_1 = require("../checks/mustBeNonNullObject");
 var ShareableBase_1 = require("./ShareableBase");
@@ -108,7 +109,7 @@ var ShareableContextConsumer = /** @class */ (function (_super) {
         get: function () {
             return this.contextManager.gl;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return ShareableContextConsumer;

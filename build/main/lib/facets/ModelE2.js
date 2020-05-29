@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ModelE2 = void 0;
 var Geometric2_1 = require("../math/Geometric2");
 /**
  *
@@ -34,7 +35,7 @@ var ModelE2 = /** @class */ (function () {
         set: function (attitude) {
             this._attitude.copy(attitude);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ModelE2.prototype, "X", {
@@ -51,7 +52,7 @@ var ModelE2 = /** @class */ (function () {
         set: function (position) {
             this._position.copy(position);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**

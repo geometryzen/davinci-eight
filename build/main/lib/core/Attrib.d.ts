@@ -33,7 +33,8 @@ export declare class Attrib implements ContextProgramConsumer {
      * Returns the cached index obtained by calling <code>getAttribLocation</code> on the
      * <code>WebGLRenderingContext</code>.
      */
-    index: number;
+    get index(): number;
+    set index(unused: number);
     /**
      * Notifies this <code>Attrib</code> of a browser free WebGL context event.
      * This <code>Attrib</code> responds by setting its cached index and context to undefined.

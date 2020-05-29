@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.maskG3 = void 0;
 var isNumber_1 = require("../checks/isNumber");
 var isObject_1 = require("../checks/isObject");
 var scratch = { a: 0, x: 0, y: 0, z: 0, yz: 0, zx: 0, xy: 0, b: 0 };

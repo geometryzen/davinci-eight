@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.mulG3 = void 0;
 var compG3Get_1 = require("../math/compG3Get");
 var mulE3_1 = require("../math/mulE3");
 function mulG3(a, b, out) {

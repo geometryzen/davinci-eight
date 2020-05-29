@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.AmbientLight = void 0;
 var Color_1 = require("../core/Color");
 var mustBeNumber_1 = require("../checks/mustBeNumber");
 var mustBeObject_1 = require("../checks/mustBeObject");

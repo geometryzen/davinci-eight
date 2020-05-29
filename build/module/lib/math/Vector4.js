@@ -1,10 +1,10 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { Coords } from '../math/Coords';
 /**
  *
  */
 var Vector4 = /** @class */ (function (_super) {
-    tslib_1.__extends(Vector4, _super);
+    __extends(Vector4, _super);
     /**
      * @class Vector4
      * @constructor
@@ -28,7 +28,7 @@ var Vector4 = /** @class */ (function (_super) {
             this.modified = this.modified || this.x !== value;
             this.coords[0] = value;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Vector4.prototype, "y", {
@@ -43,7 +43,7 @@ var Vector4 = /** @class */ (function (_super) {
             this.modified = this.modified || this.y !== value;
             this.coords[1] = value;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Vector4.prototype, "z", {
@@ -58,7 +58,7 @@ var Vector4 = /** @class */ (function (_super) {
             this.modified = this.modified || this.z !== value;
             this.coords[2] = value;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Vector4.prototype, "w", {
@@ -73,7 +73,7 @@ var Vector4 = /** @class */ (function (_super) {
             this.modified = this.modified || this.w !== value;
             this.coords[3] = value;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Vector4.prototype.setW = function (w) {

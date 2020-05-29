@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Mesh = void 0;
 var tslib_1 = require("tslib");
 var tiltFromOptions_1 = require("../core/tiltFromOptions");
 var ColorFacet_1 = require("../facets/ColorFacet");
@@ -95,7 +96,7 @@ var Mesh = /** @class */ (function (_super) {
                 throw new Error(notSupported_1.notSupported(MODEL_FACET_NAME).message);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Mesh.prototype, "R", {
@@ -120,7 +121,7 @@ var Mesh = /** @class */ (function (_super) {
                 throw new Error(notSupported_1.notSupported(MODEL_FACET_NAME).message);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Mesh.prototype, "color", {
@@ -145,7 +146,7 @@ var Mesh = /** @class */ (function (_super) {
                 throw new Error(notSupported_1.notSupported(COLOR_FACET_NAME).message);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Mesh.prototype, "texture", {
@@ -173,7 +174,7 @@ var Mesh = /** @class */ (function (_super) {
                 throw new Error(notSupported_1.notSupported(TEXTURE_FACET_NAME).message);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Mesh.prototype, "X", {
@@ -198,7 +199,7 @@ var Mesh = /** @class */ (function (_super) {
                 throw new Error(notSupported_1.notSupported(MODEL_FACET_NAME).message);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Mesh.prototype, "position", {
@@ -223,7 +224,7 @@ var Mesh = /** @class */ (function (_super) {
                 throw new Error(notSupported_1.notSupported(MODEL_FACET_NAME).message);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Mesh.prototype, "stress", {
@@ -248,7 +249,7 @@ var Mesh = /** @class */ (function (_super) {
                 throw new Error(notSupported_1.notSupported('stress').message);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Mesh.prototype.getScale = function (i, j) {
@@ -347,7 +348,7 @@ var Mesh = /** @class */ (function (_super) {
         set: function (axis) {
             this.setAxis(axis);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Mesh.prototype.getMeridian = function () {
@@ -366,7 +367,7 @@ var Mesh = /** @class */ (function (_super) {
             var R = Geometric3_1.Geometric3.rotorFromVectorToVector(this.meridian, meridian, B);
             this.attitude.mul2(R, this.attitude);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Mesh.prototype, "modelMatrixUniformName", {
@@ -392,7 +393,7 @@ var Mesh = /** @class */ (function (_super) {
                 throw new Error(notSupported_1.notSupported(MODEL_FACET_NAME).message);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Mesh.prototype, "normalMatrixUniformName", {
@@ -418,7 +419,7 @@ var Mesh = /** @class */ (function (_super) {
                 throw new Error(notSupported_1.notSupported(MODEL_FACET_NAME).message);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return Mesh;

@@ -1,11 +1,11 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { mustBeNumber } from '../checks/mustBeNumber';
 import { ShareableBase } from '../core/ShareableBase';
 /**
  * enable(capability: Capability): void
  */
 var WebGLEnable = /** @class */ (function (_super) {
-    tslib_1.__extends(WebGLEnable, _super);
+    __extends(WebGLEnable, _super);
     function WebGLEnable(contextManager, capability) {
         var _this = _super.call(this) || this;
         _this.contextManager = contextManager;

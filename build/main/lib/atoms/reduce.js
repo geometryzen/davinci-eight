@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.reduce = void 0;
 var BeginMode_1 = require("../core/BeginMode");
 function copyIndices(src, dest, delta) {
     if (src.indices) {

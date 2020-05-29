@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getUniformVarName = void 0;
 var isDefined_1 = require("../checks/isDefined");
 var expectArg_1 = require("../checks/expectArg");
 /**

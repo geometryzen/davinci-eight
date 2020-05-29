@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.PerspectiveTransform = void 0;
 var GraphicsProgramSymbols_1 = require("../core/GraphicsProgramSymbols");
 var Matrix4_1 = require("../math/Matrix4");
 var mustBeGE_1 = require("../checks/mustBeGE");
@@ -46,7 +47,7 @@ var PerspectiveTransform = /** @class */ (function () {
                 this.refreshMatrix();
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PerspectiveTransform.prototype, "fov", {
@@ -66,7 +67,7 @@ var PerspectiveTransform = /** @class */ (function () {
                 this.refreshMatrix();
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PerspectiveTransform.prototype, "near", {
@@ -84,7 +85,7 @@ var PerspectiveTransform = /** @class */ (function () {
                 this.refreshMatrix();
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PerspectiveTransform.prototype, "far", {
@@ -102,7 +103,7 @@ var PerspectiveTransform = /** @class */ (function () {
                 this.refreshMatrix();
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -122,7 +123,7 @@ var PerspectiveTransform = /** @class */ (function () {
         set: function (name) {
             this.matrixName = name;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**

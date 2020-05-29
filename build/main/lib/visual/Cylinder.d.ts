@@ -18,9 +18,11 @@ export declare class Cylinder extends Mesh<Geometry, Material> {
     /**
      * The length of the cylinder, a scalar. Defaults to 1.
      */
-    length: number;
+    get length(): number;
+    set length(length: number);
     /**
      * The radius of the cylinder, a scalar. Defaults to 1.
      */
-    radius: number;
+    get radius(): number;
+    set radius(radius: number);
 }

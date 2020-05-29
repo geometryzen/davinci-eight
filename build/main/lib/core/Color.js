@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Color = void 0;
 var tslib_1 = require("tslib");
 var clamp_1 = require("../math/clamp");
 var Coords_1 = require("../math/Coords");
@@ -44,7 +45,7 @@ var Color = /** @class */ (function (_super) {
             }
             this.coords[COORD_R] = clamp_1.clamp(r, 0, 1);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Color.prototype, "red", {
@@ -57,7 +58,7 @@ var Color = /** @class */ (function (_super) {
             }
             this.coords[COORD_R] = clamp_1.clamp(red, 0, 1);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Color.prototype, "g", {
@@ -73,7 +74,7 @@ var Color = /** @class */ (function (_super) {
             }
             this.coords[COORD_G] = clamp_1.clamp(g, 0, 1);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Color.prototype, "green", {
@@ -86,7 +87,7 @@ var Color = /** @class */ (function (_super) {
             }
             this.coords[COORD_G] = clamp_1.clamp(green, 0, 1);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Color.prototype, "b", {
@@ -102,7 +103,7 @@ var Color = /** @class */ (function (_super) {
             }
             this.coords[COORD_B] = clamp_1.clamp(b, 0, 1);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Color.prototype, "blue", {
@@ -115,7 +116,7 @@ var Color = /** @class */ (function (_super) {
             }
             this.coords[COORD_B] = clamp_1.clamp(blue, 0, 1);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -184,7 +185,7 @@ var Color = /** @class */ (function (_super) {
         get: function () {
             return Color.luminance(this.r, this.g, this.b);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**

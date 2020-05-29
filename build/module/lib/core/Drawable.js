@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { exchange } from '../base/exchange';
 import { GraphicsProgramSymbols } from './GraphicsProgramSymbols';
 import { isObject } from '../checks/isObject';
@@ -18,7 +18,7 @@ var DRAWABLE_LOGGING_NAME = 'Drawable';
  * This class may be used as either a base class or standalone.
  */
 var Drawable = /** @class */ (function (_super) {
-    tslib_1.__extends(Drawable, _super);
+    __extends(Drawable, _super);
     /**
      *
      */
@@ -91,7 +91,7 @@ var Drawable = /** @class */ (function (_super) {
                 throw new TypeError("opacity must be a number, undefined, or null.");
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Drawable.prototype, "pointSize", {
@@ -121,7 +121,7 @@ var Drawable = /** @class */ (function (_super) {
                 throw new TypeError("pointSize must be a number, undefined, or null.");
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -252,7 +252,7 @@ var Drawable = /** @class */ (function (_super) {
         set: function (geometry) {
             this._geometry = exchange(this._geometry, geometry);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Drawable.prototype, "material", {
@@ -266,7 +266,7 @@ var Drawable = /** @class */ (function (_super) {
             this._material = exchange(this._material, material);
             synchFacets(this._material, this);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Drawable.prototype, "visible", {
@@ -281,7 +281,7 @@ var Drawable = /** @class */ (function (_super) {
             mustBeBoolean('visible', visible, function () { return _this.getLoggingName(); });
             this._visible = visible;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Drawable.prototype, "transparent", {
@@ -296,7 +296,7 @@ var Drawable = /** @class */ (function (_super) {
             mustBeBoolean('transparent', transparent, function () { return _this.getLoggingName(); });
             this._transparent = transparent;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return Drawable;

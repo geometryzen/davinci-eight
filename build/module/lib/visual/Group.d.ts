@@ -46,13 +46,17 @@ export declare class Group extends ShareableBase implements GroupMember {
     /**
      * Position (vector). This is a long alias for the X property.
      */
-    position: Geometric3;
-    X: Geometric3;
+    get position(): Geometric3;
+    set position(value: Geometric3);
+    get X(): Geometric3;
+    set X(value: Geometric3);
     /**
      * Attitude (spinor). This is a long alias for the R property.
      */
-    attitude: Geometric3;
-    R: Geometric3;
+    get attitude(): Geometric3;
+    set attitude(value: Geometric3);
+    get R(): Geometric3;
+    set R(value: Geometric3);
     /**
      * Adds a Renderable item to this Group.
      */

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.MinecraftLegR = exports.MinecraftLegL = exports.MinecraftArmR = exports.MinecraftArmL = exports.MinecraftTorso = exports.MinecraftHead = exports.MinecraftBodyPart = exports.MinecraftPartKind = void 0;
 var tslib_1 = require("tslib");
 var BeginMode_1 = require("../core/BeginMode");
 var GeometryArrays_1 = require("../core/GeometryArrays");

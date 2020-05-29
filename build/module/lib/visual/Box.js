@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { BoxGeometry } from '../geometries/BoxGeometry';
 import { Color } from '../core/Color';
 import { ds } from './Defaults';
@@ -20,7 +20,7 @@ import { vectorE3Object } from './vectorE3Object';
  * A 3D visual representation of a box.
  */
 var Box = /** @class */ (function (_super) {
-    tslib_1.__extends(Box, _super);
+    __extends(Box, _super);
     /**
      *
      */
@@ -93,7 +93,7 @@ var Box = /** @class */ (function (_super) {
             var z = this.getScaleZ();
             this.setScale(width, y, z);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Box.prototype, "height", {
@@ -108,7 +108,7 @@ var Box = /** @class */ (function (_super) {
             var z = this.getScaleZ();
             this.setScale(x, height, z);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Box.prototype, "depth", {
@@ -123,7 +123,7 @@ var Box = /** @class */ (function (_super) {
             var y = this.getScaleY();
             this.setScale(x, y, depth);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return Box;

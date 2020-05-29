@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.tetrahedronPrimitive = void 0;
 var isDefined_1 = require("../checks/isDefined");
 var mustBeNumber_1 = require("../checks/mustBeNumber");
 var PolyhedronBuilder_1 = require("../geometries/PolyhedronBuilder");

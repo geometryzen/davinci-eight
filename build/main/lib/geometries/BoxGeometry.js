@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.BoxGeometry = void 0;
 var tslib_1 = require("tslib");
 var GeometryElements_1 = require("../core/GeometryElements");
 var isDefined_1 = require("../checks/isDefined");
@@ -61,7 +62,7 @@ var CuboidSimplexPrimitivesBuilder = /** @class */ (function (_super) {
             this._a = a;
             this._isModified = true;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(CuboidSimplexPrimitivesBuilder.prototype, "b", {
@@ -72,7 +73,7 @@ var CuboidSimplexPrimitivesBuilder = /** @class */ (function (_super) {
             this._b = b;
             this._isModified = true;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(CuboidSimplexPrimitivesBuilder.prototype, "c", {
@@ -83,7 +84,7 @@ var CuboidSimplexPrimitivesBuilder = /** @class */ (function (_super) {
             this._c = c;
             this._isModified = true;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     CuboidSimplexPrimitivesBuilder.prototype.isModified = function () {
@@ -220,7 +221,7 @@ var CuboidPrimitivesBuilder = /** @class */ (function (_super) {
             mustBeNumber_1.mustBeNumber('width', width);
             this._a.normalize().scale(width);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(CuboidPrimitivesBuilder.prototype, "height", {
@@ -231,7 +232,7 @@ var CuboidPrimitivesBuilder = /** @class */ (function (_super) {
             mustBeNumber_1.mustBeNumber('height', height);
             this._b.normalize().scale(height);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(CuboidPrimitivesBuilder.prototype, "depth", {
@@ -242,7 +243,7 @@ var CuboidPrimitivesBuilder = /** @class */ (function (_super) {
             mustBeNumber_1.mustBeNumber('depth', depth);
             this._c.normalize().scale(depth);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**

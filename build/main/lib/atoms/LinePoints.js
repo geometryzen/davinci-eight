@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.LinePoints = void 0;
 var tslib_1 = require("tslib");
 var CurvePrimitive_1 = require("./CurvePrimitive");
 var BeginMode_1 = require("../core/BeginMode");

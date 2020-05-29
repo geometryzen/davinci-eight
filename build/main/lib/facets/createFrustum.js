@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.createFrustum = void 0;
 var createView_1 = require("./createView");
 var Matrix4_1 = require("../math/Matrix4");
 var Vector1_1 = require("../math/Vector1");

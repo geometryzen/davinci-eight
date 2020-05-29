@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Approximation = void 0;
 var mustBeNumber_1 = require("../checks/mustBeNumber");
 var Coords_1 = require("../math/Coords");
 var Geometric2_1 = require("../math/Geometric2");

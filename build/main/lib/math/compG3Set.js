@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.compG3Set = void 0;
 var COORD_W = 0;
 var COORD_X = 1;
 var COORD_Y = 2;

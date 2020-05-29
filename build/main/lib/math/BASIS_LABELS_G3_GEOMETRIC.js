@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.BASIS_LABELS_G3_GEOMETRIC = void 0;
 var SCALAR_POS_SYMBOL = "1";
 var E1_NEG_SYMBOL = "←";
 var E1_POS_SYMBOL = "→";

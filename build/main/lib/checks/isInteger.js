@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.isInteger = void 0;
 var isNumber_1 = require("../checks/isNumber");
 function isInteger(x) {
     // % coerces its operand to numbers so a typeof test is required.

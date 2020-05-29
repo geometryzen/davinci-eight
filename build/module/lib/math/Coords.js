@@ -1,10 +1,10 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { VectorN } from './VectorN';
 /**
  *
  */
 var Coords = /** @class */ (function (_super) {
-    tslib_1.__extends(Coords, _super);
+    __extends(Coords, _super);
     /**
      *
      */

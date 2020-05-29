@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.PrimitivesBuilder = void 0;
 var Spinor3_1 = require("../math/Spinor3");
 var Vector3_1 = require("../math/Vector3");
 /**

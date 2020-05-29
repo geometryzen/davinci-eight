@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.simplicesToGeometryMeta = void 0;
 var dataLength_1 = require("./dataLength");
 var expectArg_1 = require("../checks/expectArg");
 var isDefined_1 = require("../checks/isDefined");

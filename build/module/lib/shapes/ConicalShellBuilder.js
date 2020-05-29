@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { Approximation } from '../transforms/Approximation';
 import { Direction } from '../transforms/Direction';
 import { Duality } from '../transforms/Duality';
@@ -15,7 +15,7 @@ import { Vector3 } from '../math/Vector3';
  *
  */
 var ConicalShellBuilder = /** @class */ (function (_super) {
-    tslib_1.__extends(ConicalShellBuilder, _super);
+    __extends(ConicalShellBuilder, _super);
     function ConicalShellBuilder() {
         var _this = _super.call(this) || this;
         /**

@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { GraphicsProgramBuilder } from '../materials/GraphicsProgramBuilder';
 import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { isDefined } from '../checks/isDefined';
@@ -53,7 +53,7 @@ var LOGGING_NAME_MESH_MATERIAL = 'MeshMaterial';
  *
  */
 var MeshMaterial = /** @class */ (function (_super) {
-    tslib_1.__extends(MeshMaterial, _super);
+    __extends(MeshMaterial, _super);
     /**
      *
      */

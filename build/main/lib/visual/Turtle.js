@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Turtle = void 0;
 var tslib_1 = require("tslib");
 var BeginMode_1 = require("../core/BeginMode");
 var Color_1 = require("../core/Color");
@@ -152,7 +153,7 @@ var Turtle = /** @class */ (function (_super) {
             var z = this.getScaleZ();
             this.setScale(width, y, z);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Turtle.prototype, "height", {
@@ -167,7 +168,7 @@ var Turtle = /** @class */ (function (_super) {
             var z = this.getScaleZ();
             this.setScale(x, height, z);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return Turtle;

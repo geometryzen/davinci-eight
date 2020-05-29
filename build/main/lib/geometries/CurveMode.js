@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CurveMode = void 0;
 /**
  * Determines how a Curve will be rendered.
  */

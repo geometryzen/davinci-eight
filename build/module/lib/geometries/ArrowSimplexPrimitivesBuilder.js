@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { RevolutionSimplexPrimitivesBuilder } from '../geometries/RevolutionSimplexPrimitivesBuilder';
 import { Spinor3 } from '../math/Spinor3';
 import { Vector3 } from '../math/Vector3';
@@ -33,7 +33,7 @@ function nearest(direction) {
     return Vector3.copy(direction);
 }
 var ArrowSimplexPrimitivesBuilder = /** @class */ (function (_super) {
-    tslib_1.__extends(ArrowSimplexPrimitivesBuilder, _super);
+    __extends(ArrowSimplexPrimitivesBuilder, _super);
     function ArrowSimplexPrimitivesBuilder() {
         var _this = _super.call(this) || this;
         _this.lengthCone = 0.20;

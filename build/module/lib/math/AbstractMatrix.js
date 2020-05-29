@@ -37,7 +37,7 @@ var AbstractMatrix = /** @class */ (function () {
         set: function (unused) {
             throw new Error(readOnly('dimensions').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(AbstractMatrix.prototype, "elements", {
@@ -51,7 +51,7 @@ var AbstractMatrix = /** @class */ (function () {
             expectArg('elements', elements).toSatisfy(elements.length === this.length_, "elements length must be " + this.length_);
             this.elements_ = elements;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     AbstractMatrix.prototype.copy = function (m) {

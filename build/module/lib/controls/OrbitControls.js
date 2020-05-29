@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { Geometric3 } from '../math/Geometric3';
 import { getViewAttitude } from '../facets/getViewAttitude';
 import { Spinor3 } from '../math/Spinor3';
@@ -23,7 +23,7 @@ var X = Vector3.zero();
  * </p>
  */
 var OrbitControls = /** @class */ (function (_super) {
-    tslib_1.__extends(OrbitControls, _super);
+    __extends(OrbitControls, _super);
     /**
      * @param view
      * @param wnd

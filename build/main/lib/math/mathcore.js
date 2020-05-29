@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.tanh = exports.tan = exports.sqrt = exports.sinh = exports.sin = exports.quad = exports.norm = exports.log = exports.exp = exports.cosh = exports.cos = exports.atan = exports.asin = exports.acos = void 0;
 /**
  * Determines whether a property name is callable on an object.
  */

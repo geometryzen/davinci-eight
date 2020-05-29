@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CylindricalShellBuilder = void 0;
 var tslib_1 = require("tslib");
 var Approximation_1 = require("../transforms/Approximation");
 var Direction_1 = require("../transforms/Direction");

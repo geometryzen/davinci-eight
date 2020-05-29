@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Geometric3 = void 0;
 var applyMixins_1 = require("../utils/applyMixins");
 var approx_1 = require("./approx");
 var arraysEQ_1 = require("./arraysEQ");
@@ -129,7 +130,7 @@ var Geometric3 = /** @class */ (function () {
         get: function () {
             return 8;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Geometric3.prototype, "modified", {
@@ -142,7 +143,7 @@ var Geometric3 = /** @class */ (function () {
             }
             this.modified_ = modified;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Geometric3.prototype.getComponent = function (i) {
@@ -175,7 +176,7 @@ var Geometric3 = /** @class */ (function () {
         set: function (a) {
             this.setCoordinate(COORD_SCALAR, a, 'a');
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Geometric3.prototype, "x", {
@@ -188,7 +189,7 @@ var Geometric3 = /** @class */ (function () {
         set: function (x) {
             this.setCoordinate(COORD_X, x, 'x');
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Geometric3.prototype, "y", {
@@ -201,7 +202,7 @@ var Geometric3 = /** @class */ (function () {
         set: function (y) {
             this.setCoordinate(COORD_Y, y, 'y');
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Geometric3.prototype, "z", {
@@ -214,7 +215,7 @@ var Geometric3 = /** @class */ (function () {
         set: function (z) {
             this.setCoordinate(COORD_Z, z, 'z');
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Geometric3.prototype, "yz", {
@@ -227,7 +228,7 @@ var Geometric3 = /** @class */ (function () {
         set: function (yz) {
             this.setCoordinate(COORD_YZ, yz, 'yz');
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Geometric3.prototype, "zx", {
@@ -240,7 +241,7 @@ var Geometric3 = /** @class */ (function () {
         set: function (zx) {
             this.setCoordinate(COORD_ZX, zx, 'zx');
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Geometric3.prototype, "xy", {
@@ -253,7 +254,7 @@ var Geometric3 = /** @class */ (function () {
         set: function (xy) {
             this.setCoordinate(COORD_XY, xy, 'xy');
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Geometric3.prototype, "b", {
@@ -266,7 +267,7 @@ var Geometric3 = /** @class */ (function () {
         set: function (b) {
             this.setCoordinate(COORD_PSEUDO, b, 'b');
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Geometric3.prototype, "maskG3", {
@@ -304,7 +305,7 @@ var Geometric3 = /** @class */ (function () {
             }
             return mask;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**

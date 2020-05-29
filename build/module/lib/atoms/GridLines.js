@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { BeginMode } from '../core/BeginMode';
 import { GridPrimitive } from './GridPrimitive';
 import { mustBeInteger } from '../checks/mustBeInteger';
@@ -34,7 +34,7 @@ function linesForGrid(uSegments, uClosed, vSegments, vClosed) {
     return elements;
 }
 var GridLines = /** @class */ (function (_super) {
-    tslib_1.__extends(GridLines, _super);
+    __extends(GridLines, _super);
     /**
      * @param uSegments
      * @param uClosed

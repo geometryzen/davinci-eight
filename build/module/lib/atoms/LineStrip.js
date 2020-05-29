@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { CurvePrimitive } from './CurvePrimitive';
 import { BeginMode } from '../core/BeginMode';
 import { elementsForCurve } from './elementsForCurve';
@@ -6,7 +6,7 @@ import { mustBeGE } from '../checks/mustBeGE';
 import { mustBeInteger } from '../checks/mustBeInteger';
 import { mustBeLT } from '../checks/mustBeLT';
 var LineStrip = /** @class */ (function (_super) {
-    tslib_1.__extends(LineStrip, _super);
+    __extends(LineStrip, _super);
     /**
      * @param uSegments
      */

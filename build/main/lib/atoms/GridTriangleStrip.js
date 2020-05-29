@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.GridTriangleStrip = void 0;
 var tslib_1 = require("tslib");
 var BeginMode_1 = require("../core/BeginMode");
 var isDefined_1 = require("../checks/isDefined");

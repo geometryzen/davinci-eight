@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ViewControls = void 0;
 var tslib_1 = require("tslib");
 var MouseControls_1 = require("./MouseControls");
 var Vector3_1 = require("../math/Vector3");

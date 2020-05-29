@@ -30,11 +30,13 @@ export declare class ModelE3 {
      * The <em>attitude</em>, a rotor.
      * </p>
      */
-    R: Geometric3;
+    get R(): Geometric3;
+    set R(attitude: Geometric3);
     /**
      * <p>
      * The <em>position</em>, a vector.
      * </p>
      */
-    X: Geometric3;
+    get X(): Geometric3;
+    set X(position: Geometric3);
 }

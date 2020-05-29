@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.numPostsForFence = void 0;
 var mustBeBoolean_1 = require("../checks/mustBeBoolean");
 var mustBeGE_1 = require("../checks/mustBeGE");
 var mustBeInteger_1 = require("../checks/mustBeInteger");

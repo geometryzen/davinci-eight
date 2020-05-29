@@ -56,7 +56,7 @@ var Simplex = /** @class */ (function () {
         get: function () {
             return this.vertices.length - 1;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Simplex.indices = function (simplex) {

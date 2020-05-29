@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { GraphicsProgramBuilder } from '../materials/GraphicsProgramBuilder';
 import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { isDefined } from '../checks/isDefined';
@@ -47,7 +47,7 @@ function fragmentShaderSrc(options) {
  *
  */
 var PointMaterial = /** @class */ (function (_super) {
-    tslib_1.__extends(PointMaterial, _super);
+    __extends(PointMaterial, _super);
     /**
      *
      */

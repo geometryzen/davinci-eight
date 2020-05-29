@@ -1,11 +1,11 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { GeometryElements } from '../core/GeometryElements';
 import { gridPrimitive } from './gridPrimitive';
 /**
  * A Geometry for representing functions of two scalar parameters.
  */
 var GridGeometry = /** @class */ (function (_super) {
-    tslib_1.__extends(GridGeometry, _super);
+    __extends(GridGeometry, _super);
     /**
      *
      */

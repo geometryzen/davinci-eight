@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CurvePrimitive = void 0;
 var tslib_1 = require("tslib");
 var mustBeGE_1 = require("../checks/mustBeGE");
 var mustBeLT_1 = require("../checks/mustBeLT");
@@ -41,7 +42,7 @@ var CurvePrimitive = /** @class */ (function (_super) {
             mustBeInteger_1.mustBeInteger('uSegments', uSegments);
             throw new Error(readOnly_1.readOnly('uSegments').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(CurvePrimitive.prototype, "uLength", {
@@ -55,7 +56,7 @@ var CurvePrimitive = /** @class */ (function (_super) {
             mustBeInteger_1.mustBeInteger('uLength', uLength);
             throw new Error(readOnly_1.readOnly('uLength').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     CurvePrimitive.prototype.vertexTransform = function (transform) {

@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * Sets the lock on the argument and returns the same argument.
  */
@@ -7,7 +7,7 @@ export function lock(m) {
     return m;
 }
 var TargetLockedError = /** @class */ (function (_super) {
-    tslib_1.__extends(TargetLockedError, _super);
+    __extends(TargetLockedError, _super);
     /**
      * `operationName` is the name of the operation, without parentheses or parameters.
      */
@@ -18,7 +18,7 @@ var TargetLockedError = /** @class */ (function (_super) {
 }(Error));
 export { TargetLockedError };
 var TargetUnlockedError = /** @class */ (function (_super) {
-    tslib_1.__extends(TargetUnlockedError, _super);
+    __extends(TargetUnlockedError, _super);
     /**
      * `operationName` is the name of the operation, without parentheses.
      */

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.arc3 = void 0;
 var mustBeDefined_1 = require("../checks/mustBeDefined");
 var mustBeInteger_1 = require("../checks/mustBeInteger");
 var mustBeNumber_1 = require("../checks/mustBeNumber");

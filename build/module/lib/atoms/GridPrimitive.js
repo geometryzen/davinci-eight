@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { mustBeInteger } from '../checks/mustBeInteger';
 import { numPostsForFence } from './numPostsForFence';
 import { numVerticesForGrid } from './numVerticesForGrid';
@@ -12,7 +12,7 @@ import { VertexPrimitive } from './VertexPrimitive';
  * increasing v the second direction.
  */
 var GridPrimitive = /** @class */ (function (_super) {
-    tslib_1.__extends(GridPrimitive, _super);
+    __extends(GridPrimitive, _super);
     function GridPrimitive(mode, uSegments, vSegments) {
         var _this = _super.call(this, mode, numVerticesForGrid(uSegments, vSegments), 2) || this;
         _this._uClosed = false;
@@ -29,7 +29,7 @@ var GridPrimitive = /** @class */ (function (_super) {
             mustBeInteger('uSegments', uSegments);
             throw new Error(readOnly('uSegments').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(GridPrimitive.prototype, "uLength", {
@@ -43,7 +43,7 @@ var GridPrimitive = /** @class */ (function (_super) {
             mustBeInteger('uLength', uLength);
             throw new Error(readOnly('uLength').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(GridPrimitive.prototype, "vSegments", {
@@ -54,7 +54,7 @@ var GridPrimitive = /** @class */ (function (_super) {
             mustBeInteger('vSegments', vSegments);
             throw new Error(readOnly('vSegments').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(GridPrimitive.prototype, "vLength", {
@@ -68,7 +68,7 @@ var GridPrimitive = /** @class */ (function (_super) {
             mustBeInteger('vLength', vLength);
             throw new Error(readOnly('vLength').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     GridPrimitive.prototype.vertexTransform = function (transform) {

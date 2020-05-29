@@ -17,8 +17,10 @@ export declare class Vector3Facet implements Facet {
      */
     vector: Vector3;
     constructor(name: string);
-    name: string;
-    value: VectorE3;
+    get name(): string;
+    set name(value: string);
+    get value(): VectorE3;
+    set value(value: VectorE3);
     /**
      *
      */

@@ -13,7 +13,8 @@ export declare class SimplexPrimitivesBuilder extends PrimitivesBuilder {
     flatSegments: number;
     orientationColors: boolean;
     constructor();
-    k: SimplexMode;
+    get k(): SimplexMode;
+    set k(k: SimplexMode);
     protected regenerate(): void;
     /**
      *

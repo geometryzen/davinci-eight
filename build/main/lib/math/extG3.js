@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.extG3 = void 0;
 var compG3Get_1 = require("../math/compG3Get");
 var extE3_1 = require("../math/extE3");
 var compG3Set_1 = require("../math/compG3Set");

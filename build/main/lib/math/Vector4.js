@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Vector4 = void 0;
 var tslib_1 = require("tslib");
 var Coords_1 = require("../math/Coords");
 /**
@@ -30,7 +31,7 @@ var Vector4 = /** @class */ (function (_super) {
             this.modified = this.modified || this.x !== value;
             this.coords[0] = value;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Vector4.prototype, "y", {
@@ -45,7 +46,7 @@ var Vector4 = /** @class */ (function (_super) {
             this.modified = this.modified || this.y !== value;
             this.coords[1] = value;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Vector4.prototype, "z", {
@@ -60,7 +61,7 @@ var Vector4 = /** @class */ (function (_super) {
             this.modified = this.modified || this.z !== value;
             this.coords[2] = value;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Vector4.prototype, "w", {
@@ -75,7 +76,7 @@ var Vector4 = /** @class */ (function (_super) {
             this.modified = this.modified || this.w !== value;
             this.coords[3] = value;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Vector4.prototype.setW = function (w) {

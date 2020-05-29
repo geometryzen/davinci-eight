@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Capability = void 0;
 /**
  * A capability that may be enabled or disabled for a WebGLRenderingContext.
  */

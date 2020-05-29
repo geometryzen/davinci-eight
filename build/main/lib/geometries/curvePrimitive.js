@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.curvePrimitive = void 0;
 var Color_1 = require("../core/Color");
 var GraphicsProgramSymbols_1 = require("../core/GraphicsProgramSymbols");
 var LineStrip_1 = require("../atoms/LineStrip");

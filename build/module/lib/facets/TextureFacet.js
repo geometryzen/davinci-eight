@@ -1,10 +1,10 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { exchange } from '../base/exchange';
 import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { ShareableBase } from '../core/ShareableBase';
 import { TextureUnit } from '../core/TextureUnit';
 var TextureFacet = /** @class */ (function (_super) {
-    tslib_1.__extends(TextureFacet, _super);
+    __extends(TextureFacet, _super);
     function TextureFacet() {
         var _this = _super.call(this) || this;
         _this.unit = TextureUnit.TEXTURE0;
@@ -22,7 +22,7 @@ var TextureFacet = /** @class */ (function (_super) {
         set: function (value) {
             this._texture = exchange(this._texture, value);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     TextureFacet.prototype.setUniforms = function (visitor) {

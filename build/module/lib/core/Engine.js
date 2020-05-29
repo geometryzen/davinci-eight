@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { checkEnums } from './checkEnums';
 import { ClearBufferMask } from './ClearBufferMask';
 import { EIGHTLogger } from '../commands/EIGHTLogger';
@@ -66,7 +66,7 @@ import { WebGLDisable } from '../commands/WebGLDisable';
  *     requestAnimationFrame(animate)
  */
 var Engine = /** @class */ (function (_super) {
-    tslib_1.__extends(Engine, _super);
+    __extends(Engine, _super);
     /**
      * @param canvas
      * @param attributes Allows the context to be configured.
@@ -111,11 +111,16 @@ var Engine = /** @class */ (function (_super) {
         };
         _this._webGLContextRestored = function (event) {
             if (isDefined(_this._gl)) {
-                event.preventDefault();
-                _this._gl = initWebGL(_this._gl.canvas, attributes);
-                _this._users.forEach(function (user) {
-                    user.contextGain();
-                });
+                if (_this._gl.canvas instanceof HTMLCanvasElement) {
+                    event.preventDefault();
+                    _this._gl = initWebGL(_this._gl.canvas, attributes);
+                    _this._users.forEach(function (user) {
+                        user.contextGain();
+                    });
+                }
+                else {
+                    // 
+                }
             }
         };
         if (canvas) {
@@ -161,13 +166,19 @@ var Engine = /** @class */ (function (_super) {
          */
         get: function () {
             if (this._gl) {
-                return this._gl.canvas;
+                if (this._gl.canvas instanceof HTMLCanvasElement) {
+                    return this._gl.canvas;
+                }
+                else {
+                    // OffscreenCanvas or undefined.
+                    return void 0;
+                }
             }
             else {
                 return void 0;
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Engine.prototype, "drawingBufferHeight", {
@@ -179,7 +190,7 @@ var Engine = /** @class */ (function (_super) {
                 return void 0;
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Engine.prototype, "drawingBufferWidth", {
@@ -191,7 +202,7 @@ var Engine = /** @class */ (function (_super) {
                 return void 0;
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Engine.prototype.blendFunc = function (sfactor, dfactor) {
@@ -297,7 +308,7 @@ var Engine = /** @class */ (function (_super) {
                 return void 0;
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**

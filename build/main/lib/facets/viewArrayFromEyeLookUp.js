@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.viewArrayFromEyeLookUp = void 0;
 var Vector3_1 = require("../math/Vector3");
 var mustSatisfy_1 = require("../checks/mustSatisfy");
 var isDefined_1 = require("../checks/isDefined");

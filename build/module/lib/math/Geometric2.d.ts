@@ -39,13 +39,18 @@ export declare class Geometric2 implements GeometricE2, LockableMixin, VectorN<n
      * [scalar, x, y, pseudo]
      */
     constructor(coords?: [number, number, number, number], modified?: boolean);
-    readonly length: number;
-    modified: boolean;
+    get length(): number;
+    get modified(): boolean;
+    set modified(modified: boolean);
     getComponent(i: number): number;
-    a: number;
-    x: number;
-    y: number;
-    b: number;
+    get a(): number;
+    set a(a: number);
+    get x(): number;
+    set x(x: number);
+    get y(): number;
+    set y(y: number);
+    get b(): number;
+    set b(b: number);
     /**
      *
      */

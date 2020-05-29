@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { GraphicsProgramBuilder } from '../materials/GraphicsProgramBuilder';
 import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { isDefined } from '../checks/isDefined';
@@ -52,7 +52,7 @@ function fragmentShaderSrc(options) {
  * </table>
  */
 var LineMaterial = /** @class */ (function (_super) {
-    tslib_1.__extends(LineMaterial, _super);
+    __extends(LineMaterial, _super);
     /**
      *
      */

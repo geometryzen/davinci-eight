@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Modulo = void 0;
 var mustBeGE_1 = require("../checks/mustBeGE");
 var mustBeInteger_1 = require("../checks/mustBeInteger");
 /**
@@ -20,7 +21,7 @@ var Modulo = /** @class */ (function () {
             this._size = size;
             this.value = this._value;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Modulo.prototype, "value", {
@@ -30,7 +31,7 @@ var Modulo = /** @class */ (function () {
         set: function (value) {
             this._value = value % this._size;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Modulo.prototype.inc = function () {

@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { Geometric3 } from '../math/Geometric3';
 import { GeometryElements } from '../core/GeometryElements';
 import { GeometryMode } from './GeometryMode';
@@ -90,7 +90,7 @@ function computeWallVertices(height, radius, clockwise, stress, tilt, offset, an
  *
  */
 var CylinderSimplexPrimitivesBuilder = /** @class */ (function (_super) {
-    tslib_1.__extends(CylinderSimplexPrimitivesBuilder, _super);
+    __extends(CylinderSimplexPrimitivesBuilder, _super);
     function CylinderSimplexPrimitivesBuilder(height, cutLine, clockwise, mode) {
         var _this = _super.call(this) || this;
         _this.mode = mode;
@@ -319,7 +319,7 @@ function baseOptions(options) {
  * A geometry for a Cylinder.
  */
 var CylinderGeometry = /** @class */ (function (_super) {
-    tslib_1.__extends(CylinderGeometry, _super);
+    __extends(CylinderGeometry, _super);
     /**
      *
      */

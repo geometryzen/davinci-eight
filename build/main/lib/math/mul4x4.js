@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.mul4x4 = void 0;
 function mul4x4(a, b, c) {
     var a11 = a[0x0], a12 = a[0x4], a13 = a[0x8], a14 = a[0xC];
     var a21 = a[0x1], a22 = a[0x5], a23 = a[0x9], a24 = a[0xD];

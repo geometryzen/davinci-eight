@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.gauss = void 0;
 var abs = Math.abs;
 function makeColumnVector(n, v) {
     var a = [];

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.BlendingFactorSrc = void 0;
 var BlendingFactorSrc;
 (function (BlendingFactorSrc) {
     BlendingFactorSrc[BlendingFactorSrc["ZERO"] = 0] = "ZERO";

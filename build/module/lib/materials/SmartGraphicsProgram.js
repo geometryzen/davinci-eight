@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { fragmentShaderSrc as fShaderSrc } from './fragmentShaderSrc';
 import { ShaderMaterial } from './ShaderMaterial';
 import { vertexShaderSrc as vShaderSrc } from './vertexShaderSrc';
@@ -6,7 +6,7 @@ import { vertexShaderSrc as vShaderSrc } from './vertexShaderSrc';
  * A Material that is generated based upon knowledge of parameters and some hints.
  */
 var SmartGraphicsProgram = /** @class */ (function (_super) {
-    tslib_1.__extends(SmartGraphicsProgram, _super);
+    __extends(SmartGraphicsProgram, _super);
     /**
      *
      */

@@ -3,6 +3,7 @@
 // https://github.com/davidmerfield/randomColor/
 // Ported to TypeScript by David Geo Holmes
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.randomColor = void 0;
 /**
  * This isn't know to the TypeScript d.ts
  */

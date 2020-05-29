@@ -42,19 +42,23 @@ export declare class ViewTransform implements Facet {
      * The name of the uniform mat4 variable in the vertex shader that receives the view matrix value.
      * The default name is `uView`.
      */
-    viewMatrixUniformName: string;
+    get viewMatrixUniformName(): string;
+    set viewMatrixUniformName(name: string);
     /**
      * The position of the camera, a vector.
      */
-    eye: Geometric3;
+    get eye(): Geometric3;
+    set eye(eye: Geometric3);
     /**
      * The point that is being looked at.
      */
-    look: Geometric3;
+    get look(): Geometric3;
+    set look(look: Geometric3);
     /**
      * The approximate up direction.
      */
-    up: Geometric3;
-    readonly matrix: Matrix4;
+    get up(): Geometric3;
+    set up(up: Geometric3);
+    get matrix(): Matrix4;
     private refreshMatrix;
 }

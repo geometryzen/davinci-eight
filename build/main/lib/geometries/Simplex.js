@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Simplex = void 0;
 var mustBeEQ_1 = require("../checks/mustBeEQ");
 var mustBeGE_1 = require("../checks/mustBeGE");
 var mustBeLE_1 = require("../checks/mustBeLE");
@@ -58,7 +59,7 @@ var Simplex = /** @class */ (function () {
         get: function () {
             return this.vertices.length - 1;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Simplex.indices = function (simplex) {

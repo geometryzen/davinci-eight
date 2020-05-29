@@ -15,5 +15,6 @@ export declare class Tetrahedron extends Mesh<Geometry, Material> {
     /**
      *
      */
-    radius: number;
+    get radius(): number;
+    set radius(radius: number);
 }

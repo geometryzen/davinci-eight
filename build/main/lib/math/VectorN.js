@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.VectorN = void 0;
 var isDefined_1 = require("../checks/isDefined");
 var isUndefined_1 = require("../checks/isUndefined");
 var Lockable_1 = require("../core/Lockable");
@@ -69,7 +70,7 @@ var VectorN = /** @class */ (function () {
             this.data_ = data;
             this.modified_ = true;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(VectorN.prototype, "modified", {
@@ -79,7 +80,7 @@ var VectorN = /** @class */ (function () {
         set: function (modified) {
             this.modified_ = modified;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(VectorN.prototype, "length", {
@@ -89,7 +90,7 @@ var VectorN = /** @class */ (function () {
         get: function () {
             return this.coords.length;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**

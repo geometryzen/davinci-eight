@@ -27,8 +27,9 @@ export declare class Geometric3 implements CartesianG3, GeometricE3, Lockable, V
      * coords [a, x, y, z, xy, yz, zx, b]
      */
     constructor(coords?: [number, number, number, number, number, number, number, number]);
-    readonly length: number;
-    modified: boolean;
+    get length(): number;
+    get modified(): boolean;
+    set modified(modified: boolean);
     getComponent(i: number): number;
     /**
      * Consistently set a coordinate value in the most optimized way,
@@ -40,35 +41,43 @@ export declare class Geometric3 implements CartesianG3, GeometricE3, Lockable, V
     /**
      * The scalar part of this multivector.
      */
-    a: number;
+    get a(): number;
+    set a(a: number);
     /**
      * The coordinate corresponding to the <b>e</b><sub>1</sub> standard basis vector.
      */
-    x: number;
+    get x(): number;
+    set x(x: number);
     /**
      * The coordinate corresponding to the <b>e</b><sub>2</sub> standard basis vector.
      */
-    y: number;
+    get y(): number;
+    set y(y: number);
     /**
      * The coordinate corresponding to the <b>e</b><sub>3</sub> standard basis vector.
      */
-    z: number;
+    get z(): number;
+    set z(z: number);
     /**
      * The coordinate corresponding to the <b>e</b><sub>2</sub><b>e</b><sub>3</sub> standard basis bivector.
      */
-    yz: number;
+    get yz(): number;
+    set yz(yz: number);
     /**
      * The coordinate corresponding to the <b>e</b><sub>3</sub><b>e</b><sub>1</sub> standard basis bivector.
      */
-    zx: number;
+    get zx(): number;
+    set zx(zx: number);
     /**
      * The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.
      */
-    xy: number;
+    get xy(): number;
+    set xy(xy: number);
     /**
      * The pseudoscalar part of this multivector.
      */
-    b: number;
+    get b(): number;
+    set b(b: number);
     /**
      * A bitmask describing the grades.
      *
@@ -78,7 +87,7 @@ export declare class Geometric3 implements CartesianG3, GeometricE3, Lockable, V
      * 0x4 = bivector
      * 0x8 = pseudoscalar
      */
-    readonly maskG3: number;
+    get maskG3(): number;
     /**
      * Adds a multivector value to this multivector with optional scaling.
      *

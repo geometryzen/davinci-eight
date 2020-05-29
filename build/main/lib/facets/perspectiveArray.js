@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.perspectiveArray = void 0;
 var frustumMatrix_1 = require("./frustumMatrix");
 var mustBeNumber_1 = require("../checks/mustBeNumber");
 /**

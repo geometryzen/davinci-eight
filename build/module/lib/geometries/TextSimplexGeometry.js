@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 // import generateTextShapes from '../geometries/generateTextShapes';
 // import ExtrudeSimplexGeometry from '../geometries/ExtrudeSimplexGeometry')
 import { SimplexPrimitivesBuilder } from '../geometries/SimplexPrimitivesBuilder';
@@ -17,7 +17,7 @@ function futzParameters(parameters: { amount?: number; bevelEnabled?: boolean, b
 }
 */
 var TextSimplexGeometry = /** @class */ (function (_super) {
-    tslib_1.__extends(TextSimplexGeometry, _super);
+    __extends(TextSimplexGeometry, _super);
     function TextSimplexGeometry(text, face, parameters) {
         return _super.call(this) || this;
         // var shapes = generateTextShapes(text, face, parameters)

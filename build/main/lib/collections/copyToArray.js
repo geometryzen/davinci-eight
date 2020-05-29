@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.copyToArray = void 0;
 function copyToArray(source, destination, offset) {
     if (destination === void 0) { destination = []; }
     if (offset === void 0) { offset = 0; }

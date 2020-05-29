@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.makeWebGLProgram = void 0;
 var makeWebGLShader_1 = require("./makeWebGLShader");
 function makeWebGLProgram(ctx, vertexShaderSrc, fragmentShaderSrc, attribs) {
     // create our shaders

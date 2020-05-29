@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.GridPrimitive = void 0;
 var tslib_1 = require("tslib");
 var mustBeInteger_1 = require("../checks/mustBeInteger");
 var numPostsForFence_1 = require("./numPostsForFence");
@@ -31,7 +32,7 @@ var GridPrimitive = /** @class */ (function (_super) {
             mustBeInteger_1.mustBeInteger('uSegments', uSegments);
             throw new Error(readOnly_1.readOnly('uSegments').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(GridPrimitive.prototype, "uLength", {
@@ -45,7 +46,7 @@ var GridPrimitive = /** @class */ (function (_super) {
             mustBeInteger_1.mustBeInteger('uLength', uLength);
             throw new Error(readOnly_1.readOnly('uLength').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(GridPrimitive.prototype, "vSegments", {
@@ -56,7 +57,7 @@ var GridPrimitive = /** @class */ (function (_super) {
             mustBeInteger_1.mustBeInteger('vSegments', vSegments);
             throw new Error(readOnly_1.readOnly('vSegments').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(GridPrimitive.prototype, "vLength", {
@@ -70,7 +71,7 @@ var GridPrimitive = /** @class */ (function (_super) {
             mustBeInteger_1.mustBeInteger('vLength', vLength);
             throw new Error(readOnly_1.readOnly('vLength').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     GridPrimitive.prototype.vertexTransform = function (transform) {

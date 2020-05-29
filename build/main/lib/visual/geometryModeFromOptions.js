@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.geometryModeFromOptions = void 0;
 var isDefined_1 = require("../checks/isDefined");
 var mustBeBoolean_1 = require("../checks/mustBeBoolean");
 var mustBeInteger_1 = require("../checks/mustBeInteger");

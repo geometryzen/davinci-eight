@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Raycaster = void 0;
 var Ray_1 = require("./Ray");
 //    linePrecision: 1,
 function ascSort(a, b) {

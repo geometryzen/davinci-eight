@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ModelE3 = void 0;
 var Geometric3_1 = require("../math/Geometric3");
 /**
  *
@@ -34,7 +35,7 @@ var ModelE3 = /** @class */ (function () {
         set: function (attitude) {
             this._attitude.copySpinor(attitude);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ModelE3.prototype, "X", {
@@ -49,7 +50,7 @@ var ModelE3 = /** @class */ (function () {
         set: function (position) {
             this._position.copyVector(position);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**

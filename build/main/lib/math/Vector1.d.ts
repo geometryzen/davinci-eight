@@ -18,7 +18,8 @@ export declare class Vector1 extends Coords implements VectorE1 {
      * @property x
      * @type Number
      */
-    x: number;
+    get x(): number;
+    set x(value: number);
     set(x: number): Vector1;
     add(vector: VectorE1, alpha?: number): this;
     add2(a: VectorE1, b: VectorE1): this;

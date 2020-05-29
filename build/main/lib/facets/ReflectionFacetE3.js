@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ReflectionFacetE3 = void 0;
 var mustBeString_1 = require("../checks/mustBeString");
 var Geometric3_1 = require("../math/Geometric3");
 var Matrix4_1 = require("../math/Matrix4");
@@ -25,7 +26,7 @@ var ReflectionFacetE3 = /** @class */ (function () {
         set: function (unused) {
             throw new Error(readOnly_1.readOnly('normal').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     ReflectionFacetE3.prototype.setUniforms = function (visitor) {

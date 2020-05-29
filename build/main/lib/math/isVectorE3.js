@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.isVectorE3 = void 0;
 var isNull_1 = require("../checks/isNull");
 var isNumber_1 = require("../checks/isNumber");
 var isObject_1 = require("../checks/isObject");

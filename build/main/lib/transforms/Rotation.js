@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Rotation = void 0;
 var mustBeObject_1 = require("../checks/mustBeObject");
 var Spinor3_1 = require("../math/Spinor3");
 var Vector3_1 = require("../math/Vector3");

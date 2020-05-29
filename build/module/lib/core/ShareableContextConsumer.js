@@ -1,11 +1,11 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { mustBeNonNullObject } from '../checks/mustBeNonNullObject';
 import { ShareableBase } from './ShareableBase';
 /**
  *
  */
 var ShareableContextConsumer = /** @class */ (function (_super) {
-    tslib_1.__extends(ShareableContextConsumer, _super);
+    __extends(ShareableContextConsumer, _super);
     /**
      *
      */
@@ -106,7 +106,7 @@ var ShareableContextConsumer = /** @class */ (function (_super) {
         get: function () {
             return this.contextManager.gl;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return ShareableContextConsumer;

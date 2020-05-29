@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.normVectorE3 = void 0;
 function normVectorE3(vector) {
     var x = vector.x;
     var y = vector.y;

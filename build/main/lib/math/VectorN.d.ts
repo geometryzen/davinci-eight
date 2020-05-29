@@ -32,12 +32,14 @@ export declare class VectorN<T> implements Lockable {
     /**
      *
      */
-    coords: T[];
-    modified: boolean;
+    get coords(): T[];
+    set coords(data: T[]);
+    get modified(): boolean;
+    set modified(modified: boolean);
     /**
      *
      */
-    readonly length: number;
+    get length(): number;
     /**
      *
      */

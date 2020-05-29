@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.GridSimplexBuilder = void 0;
 var tslib_1 = require("tslib");
 var Simplex_1 = require("./Simplex");
 var SimplexMode_1 = require("./SimplexMode");

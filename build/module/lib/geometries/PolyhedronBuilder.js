@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { SimplexPrimitivesBuilder } from '../geometries/SimplexPrimitivesBuilder';
 import { Simplex } from '../geometries/Simplex';
 import { SimplexMode } from '../geometries/SimplexMode';
@@ -59,7 +59,7 @@ function normal(v1, v2, v3) {
  * flat polygonal faces, straight edges and sharp corners or vertices.
  */
 var PolyhedronBuilder = /** @class */ (function (_super) {
-    tslib_1.__extends(PolyhedronBuilder, _super);
+    __extends(PolyhedronBuilder, _super);
     /**
      *
      * param vertices {number} An array of 3 * N numbers representing N vertices.

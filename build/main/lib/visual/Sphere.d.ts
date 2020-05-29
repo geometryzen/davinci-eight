@@ -15,5 +15,6 @@ export declare class Sphere extends Mesh<Geometry, Material> {
      *
      */
     protected destructor(levelUp: number): void;
-    radius: number;
+    get radius(): number;
+    set radius(radius: number);
 }

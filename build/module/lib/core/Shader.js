@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { makeWebGLShader } from './makeWebGLShader';
 import { mustBeNumber } from '../checks/mustBeNumber';
 import { mustBeString } from '../checks/mustBeString';
@@ -8,7 +8,7 @@ import { ShareableContextConsumer } from './ShareableContextConsumer';
  *
  */
 var Shader = /** @class */ (function (_super) {
-    tslib_1.__extends(Shader, _super);
+    __extends(Shader, _super);
     function Shader(source, type, engine) {
         var _this = _super.call(this, engine) || this;
         _this.setLoggingName('Shader');

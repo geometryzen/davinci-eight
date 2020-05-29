@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.WebGLClearColor = void 0;
 var tslib_1 = require("tslib");
 var mustBeNumber_1 = require("../checks/mustBeNumber");
 var ShareableBase_1 = require("../core/ShareableBase");

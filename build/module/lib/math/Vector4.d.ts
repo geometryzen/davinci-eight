@@ -17,22 +17,26 @@ export declare class Vector4 extends Coords {
      * @property x
      * @type Number
      */
-    x: number;
+    get x(): number;
+    set x(value: number);
     /**
      * @property y
      * @type Number
      */
-    y: number;
+    get y(): number;
+    set y(value: number);
     /**
      * @property z
      * @type Number
      */
-    z: number;
+    get z(): number;
+    set z(value: number);
     /**
      * @property w
      * @type Number
      */
-    w: number;
+    get w(): number;
+    set w(value: number);
     setW(w: number): this;
     add(vector: VectorE4, α?: number): this;
     add2(a: VectorE4, b: VectorE4): this;

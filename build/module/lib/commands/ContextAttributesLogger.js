@@ -1,11 +1,11 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { readOnly } from '../i18n/readOnly';
 import { ShareableBase } from '../core/ShareableBase';
 /**
  * Displays details about the WegGL version to the console.
  */
 var ContextAttributesLogger = /** @class */ (function (_super) {
-    tslib_1.__extends(ContextAttributesLogger, _super);
+    __extends(ContextAttributesLogger, _super);
     /**
      *
      */
@@ -42,7 +42,7 @@ var ContextAttributesLogger = /** @class */ (function (_super) {
         set: function (unused) {
             throw new Error(readOnly('name').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return ContextAttributesLogger;

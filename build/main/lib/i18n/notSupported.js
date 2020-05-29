@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.notSupported = void 0;
 var mustBeString_1 = require("../checks/mustBeString");
 function notSupported(name) {
     mustBeString_1.mustBeString('name', name);

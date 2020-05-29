@@ -66,15 +66,16 @@ export declare class ShaderMaterial extends ShareableContextConsumer implements 
     /**
      *
      */
-    readonly vertexShaderSrc: string;
+    get vertexShaderSrc(): string;
     /**
      *
      */
-    readonly fragmentShaderSrc: string;
+    get fragmentShaderSrc(): string;
     /**
      *
      */
-    attributeNames: string[];
+    get attributeNames(): string[];
+    set attributeNames(unused: string[]);
     /**
      * Convenience method for dereferencing the name to an attribute location, followed by enabling the attribute.
      */

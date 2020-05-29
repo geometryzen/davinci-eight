@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Scene = void 0;
 var tslib_1 = require("tslib");
 var mustBeNonNullObject_1 = require("../checks/mustBeNonNullObject");
 var ShareableArray_1 = require("../collections/ShareableArray");

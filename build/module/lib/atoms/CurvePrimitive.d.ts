@@ -14,11 +14,13 @@ export declare class CurvePrimitive extends VertexPrimitive {
      * @param uClosed
      */
     constructor(mode: BeginMode, uSegments: number, uClosed: boolean);
-    uSegments: number;
+    get uSegments(): number;
+    set uSegments(uSegments: number);
     /**
      * uLength = uSegments + 1
      */
-    uLength: number;
+    get uLength(): number;
+    set uLength(uLength: number);
     vertexTransform(transform: Transform): void;
     vertex(uIndex: number): Vertex;
 }

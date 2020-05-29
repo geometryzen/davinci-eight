@@ -18,13 +18,16 @@ export declare class Box extends Mesh<Geometry, Material> {
     /**
      * @default 1
      */
-    width: number;
+    get width(): number;
+    set width(width: number);
     /**
      *
      */
-    height: number;
+    get height(): number;
+    set height(height: number);
     /**
      *
      */
-    depth: number;
+    get depth(): number;
+    set depth(depth: number);
 }

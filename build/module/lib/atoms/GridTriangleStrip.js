@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { BeginMode } from '../core/BeginMode';
 import { isDefined } from '../checks/isDefined';
 import { GridPrimitive } from './GridPrimitive';
@@ -57,7 +57,7 @@ function triangleStripForGrid(uSegments, vSegments, elements) {
  * increasing v the second direction.
  */
 var GridTriangleStrip = /** @class */ (function (_super) {
-    tslib_1.__extends(GridTriangleStrip, _super);
+    __extends(GridTriangleStrip, _super);
     /**
      * @param uSegments
      * @param vSegments

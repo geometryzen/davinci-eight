@@ -15,6 +15,7 @@ export declare class ReflectionFacetE3 implements Facet {
      * @param name {string} The name of the uniform variable.
      */
     constructor(name: string);
-    normal: Geometric3;
+    get normal(): Geometric3;
+    set normal(unused: Geometric3);
     setUniforms(visitor: FacetVisitor): void;
 }

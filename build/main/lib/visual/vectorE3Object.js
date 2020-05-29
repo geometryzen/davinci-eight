@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.vectorE3Object = void 0;
 /**
  * Reduce to the VectorE3 to a simple object data structure.
  */

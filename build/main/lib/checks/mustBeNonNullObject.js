@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.mustBeNonNullObject = void 0;
 var mustSatisfy_1 = require("../checks/mustSatisfy");
 var isNull_1 = require("../checks/isNull");
 var isObject_1 = require("../checks/isObject");

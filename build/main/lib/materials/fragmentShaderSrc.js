@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.fragmentShaderSrc = void 0;
 var config_1 = require("../config");
 var getUniformVarName_1 = require("../core/getUniformVarName");
 var GraphicsProgramSymbols_1 = require("../core/GraphicsProgramSymbols");

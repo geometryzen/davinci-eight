@@ -47,7 +47,7 @@ var Spinor2 = /** @class */ (function () {
         get: function () {
             return 2;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Spinor2.prototype, "modified", {
@@ -60,7 +60,7 @@ var Spinor2 = /** @class */ (function () {
             }
             this.modified_ = modified;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Spinor2.prototype.getComponent = function (i) {
@@ -82,7 +82,7 @@ var Spinor2 = /** @class */ (function () {
             this.modified_ = this.modified_ || coords[COORD_PSEUDO] !== xy;
             coords[COORD_PSEUDO] = xy;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Spinor2.prototype, "a", {
@@ -101,7 +101,7 @@ var Spinor2 = /** @class */ (function () {
             this.modified_ = this.modified_ || coords[COORD_SCALAR] !== α;
             coords[COORD_SCALAR] = α;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Spinor2.prototype, "b", {
@@ -120,7 +120,7 @@ var Spinor2 = /** @class */ (function () {
             this.modified_ = this.modified_ || coords[COORD_PSEUDO] !== b;
             coords[COORD_PSEUDO] = b;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**

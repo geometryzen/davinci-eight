@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Direction = void 0;
 var mustBeString_1 = require("../checks/mustBeString");
 var Geometric2_1 = require("../math/Geometric2");
 var Geometric3_1 = require("../math/Geometric3");

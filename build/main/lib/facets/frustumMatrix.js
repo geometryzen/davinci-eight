@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.frustumMatrix = void 0;
 var mustBeNumber_1 = require("../checks/mustBeNumber");
 var isDefined_1 = require("../checks/isDefined");
 function frustumMatrix(left, right, bottom, top, near, far, matrix) {

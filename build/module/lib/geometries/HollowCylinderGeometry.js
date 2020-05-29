@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { CylindricalShellBuilder } from '../shapes/CylindricalShellBuilder';
 import { GeometryElements } from '../core/GeometryElements';
 import { RingBuilder } from '../shapes/RingBuilder';
@@ -48,7 +48,7 @@ function hollowCylinderPrimitive(options) {
  *
  */
 var HollowCylinderGeometry = /** @class */ (function (_super) {
-    tslib_1.__extends(HollowCylinderGeometry, _super);
+    __extends(HollowCylinderGeometry, _super);
     /**
      *
      */

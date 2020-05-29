@@ -29,7 +29,7 @@ var ReflectionFacetE2 = /** @class */ (function () {
         set: function (unused) {
             throw new Error(readOnly('normal').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.EventEmitter = void 0;
 var EventEmitter = /** @class */ (function () {
     function EventEmitter(owner) {
         this.owner = owner;

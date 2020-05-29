@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { Simplex } from './Simplex';
 import { SimplexMode } from './SimplexMode';
 import { SimplexPrimitivesBuilder } from './SimplexPrimitivesBuilder';
@@ -8,7 +8,7 @@ import { Vector3 } from '../math/Vector3';
 import { mustBeFunction } from '../checks/mustBeFunction';
 import { mustBeInteger } from '../checks/mustBeInteger';
 var GridSimplexBuilder = /** @class */ (function (_super) {
-    tslib_1.__extends(GridSimplexBuilder, _super);
+    __extends(GridSimplexBuilder, _super);
     function GridSimplexBuilder(parametricFunction, uSegments, vSegments) {
         var _this = _super.call(this) || this;
         mustBeFunction('parametricFunction', parametricFunction);

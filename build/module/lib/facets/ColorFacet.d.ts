@@ -33,15 +33,18 @@ export declare class ColorFacet implements Facet {
     /**
      * The red component of the color.
      */
-    r: number;
+    get r(): number;
+    set r(r: number);
     /**
      * The green component of the color.
      */
-    g: number;
+    get g(): number;
+    set g(g: number);
     /**
      * The blue component of the color.
      */
-    b: number;
+    get b(): number;
+    set b(b: number);
     scaleRGB(α: number): ColorFacet;
     setRGB(r: number, g: number, b: number): ColorFacet;
     /**

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.mustHaveOwnProperty = void 0;
 var isDefined_1 = require("../checks/isDefined");
 var mustBeDefined_1 = require("../checks/mustBeDefined");
 var mustSatisfy_1 = require("../checks/mustSatisfy");

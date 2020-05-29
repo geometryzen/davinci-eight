@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.simplicesToPrimitive = void 0;
 var copyToArray_1 = require("../collections/copyToArray");
 var dataFromVectorN_1 = require("./dataFromVectorN");
 var DataType_1 = require("../core/DataType");

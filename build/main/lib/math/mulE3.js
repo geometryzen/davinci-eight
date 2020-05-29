@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.mulE3 = void 0;
 /**
  * Multiplication of Geometric3.
  * This was originally written for asm.

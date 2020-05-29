@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Ray = void 0;
 var Vector3_1 = require("./Vector3");
 /**
  * scratch variables.

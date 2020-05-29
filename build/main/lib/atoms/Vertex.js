@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Vertex = void 0;
 var Coords_1 = require("../math/Coords");
 var mustBeGE_1 = require("../checks/mustBeGE");
 var mustBeInteger_1 = require("../checks/mustBeInteger");

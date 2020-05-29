@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ReflectionFacetE2 = void 0;
 var mustBeString_1 = require("../checks/mustBeString");
 var Vector2_1 = require("../math/Vector2");
 var Matrix2_1 = require("../math/Matrix2");
@@ -31,7 +32,7 @@ var ReflectionFacetE2 = /** @class */ (function () {
         set: function (unused) {
             throw new Error(readOnly_1.readOnly('normal').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**

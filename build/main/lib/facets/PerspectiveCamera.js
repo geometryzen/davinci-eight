@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.PerspectiveCamera = void 0;
 var Geometric3_1 = require("../math/Geometric3");
 var PerspectiveTransform_1 = require("./PerspectiveTransform");
 var ViewTransform_1 = require("./ViewTransform");
@@ -68,7 +69,7 @@ var PerspectiveCamera = /** @class */ (function () {
         set: function (aspect) {
             this.P.aspect = aspect;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PerspectiveCamera.prototype, "eye", {
@@ -81,7 +82,7 @@ var PerspectiveCamera = /** @class */ (function () {
         set: function (eye) {
             this.V.eye.copyVector(eye);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PerspectiveCamera.prototype, "fov", {
@@ -95,7 +96,7 @@ var PerspectiveCamera = /** @class */ (function () {
         set: function (value) {
             this.P.fov = value;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PerspectiveCamera.prototype, "look", {
@@ -108,7 +109,7 @@ var PerspectiveCamera = /** @class */ (function () {
         set: function (look) {
             this.V.look.copyVector(look);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PerspectiveCamera.prototype, "near", {
@@ -121,7 +122,7 @@ var PerspectiveCamera = /** @class */ (function () {
         set: function (near) {
             this.P.near = near;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PerspectiveCamera.prototype, "far", {
@@ -134,7 +135,7 @@ var PerspectiveCamera = /** @class */ (function () {
         set: function (far) {
             this.P.far = far;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PerspectiveCamera.prototype, "up", {
@@ -147,7 +148,7 @@ var PerspectiveCamera = /** @class */ (function () {
         set: function (up) {
             this.V.up.copyVector(up);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PerspectiveCamera.prototype, "projectionMatrixUniformName", {
@@ -161,14 +162,14 @@ var PerspectiveCamera = /** @class */ (function () {
         set: function (name) {
             this.P.projectionMatrixUniformName = name;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PerspectiveCamera.prototype, "projectionMatrix", {
         get: function () {
             return this.P.matrix;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PerspectiveCamera.prototype, "viewMatrixUniformName", {
@@ -182,14 +183,14 @@ var PerspectiveCamera = /** @class */ (function () {
         set: function (name) {
             this.V.viewMatrixUniformName = name;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PerspectiveCamera.prototype, "viewMatrix", {
         get: function () {
             return this.V.matrix;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return PerspectiveCamera;

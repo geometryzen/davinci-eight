@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { BeginMode } from '../core/BeginMode';
 import { Color } from '../core/Color';
 import { ColorFacet } from '../facets/ColorFacet';
@@ -77,7 +77,7 @@ var fragmentShaderSrc = function () {
  * A 3D visual representation of a reference frame or basis vectors.
  */
 var Basis = /** @class */ (function (_super) {
-    tslib_1.__extends(Basis, _super);
+    __extends(Basis, _super);
     /**
      *
      */
@@ -134,42 +134,42 @@ var Basis = /** @class */ (function (_super) {
         get: function () {
             return this.uPointA.vector;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Basis.prototype, "b", {
         get: function () {
             return this.uPointB.vector;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Basis.prototype, "c", {
         get: function () {
             return this.uPointC.vector;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Basis.prototype, "colorA", {
         get: function () {
             return this.uColorA.color;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Basis.prototype, "colorB", {
         get: function () {
             return this.uColorB.color;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Basis.prototype, "colorC", {
         get: function () {
             return this.uColorC.color;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return Basis;

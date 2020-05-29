@@ -48,5 +48,5 @@ export declare class ShareableContextConsumer extends ShareableBase implements C
     /**
      * Provides access to the underlying WebGL context.
      */
-    readonly gl: WebGLRenderingContext;
+    get gl(): WebGLRenderingContext;
 }

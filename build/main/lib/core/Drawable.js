@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Drawable = void 0;
 var tslib_1 = require("tslib");
 var exchange_1 = require("../base/exchange");
 var GraphicsProgramSymbols_1 = require("./GraphicsProgramSymbols");
@@ -93,7 +94,7 @@ var Drawable = /** @class */ (function (_super) {
                 throw new TypeError("opacity must be a number, undefined, or null.");
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Drawable.prototype, "pointSize", {
@@ -123,7 +124,7 @@ var Drawable = /** @class */ (function (_super) {
                 throw new TypeError("pointSize must be a number, undefined, or null.");
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -254,7 +255,7 @@ var Drawable = /** @class */ (function (_super) {
         set: function (geometry) {
             this._geometry = exchange_1.exchange(this._geometry, geometry);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Drawable.prototype, "material", {
@@ -268,7 +269,7 @@ var Drawable = /** @class */ (function (_super) {
             this._material = exchange_1.exchange(this._material, material);
             synchFacets(this._material, this);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Drawable.prototype, "visible", {
@@ -283,7 +284,7 @@ var Drawable = /** @class */ (function (_super) {
             mustBeBoolean_1.mustBeBoolean('visible', visible, function () { return _this.getLoggingName(); });
             this._visible = visible;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Drawable.prototype, "transparent", {
@@ -298,7 +299,7 @@ var Drawable = /** @class */ (function (_super) {
             mustBeBoolean_1.mustBeBoolean('transparent', transparent, function () { return _this.getLoggingName(); });
             this._transparent = transparent;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return Drawable;

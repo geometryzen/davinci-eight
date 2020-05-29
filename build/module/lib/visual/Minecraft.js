@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { BeginMode } from '../core/BeginMode';
 import { GeometryArrays } from '../core/GeometryArrays';
 import { ImageTexture } from '../core/ImageTexture';
@@ -531,7 +531,7 @@ var makeMaterial = function makeMaterial(graphics) {
  *
  */
 var MinecraftBodyPart = /** @class */ (function (_super) {
-    tslib_1.__extends(MinecraftBodyPart, _super);
+    __extends(MinecraftBodyPart, _super);
     function MinecraftBodyPart(engine, texture, options, levelUp) {
         if (levelUp === void 0) { levelUp = 0; }
         var _this = _super.call(this, void 0, void 0, engine, {}, levelUp + 1) || this;
@@ -552,7 +552,7 @@ var MinecraftBodyPart = /** @class */ (function (_super) {
 }(Mesh));
 export { MinecraftBodyPart };
 var MinecraftHead = /** @class */ (function (_super) {
-    tslib_1.__extends(MinecraftHead, _super);
+    __extends(MinecraftHead, _super);
     function MinecraftHead(engine, texture, options) {
         if (options === void 0) { options = {}; }
         var _this = _super.call(this, engine, texture, {
@@ -571,7 +571,7 @@ var MinecraftHead = /** @class */ (function (_super) {
 }(MinecraftBodyPart));
 export { MinecraftHead };
 var MinecraftTorso = /** @class */ (function (_super) {
-    tslib_1.__extends(MinecraftTorso, _super);
+    __extends(MinecraftTorso, _super);
     function MinecraftTorso(engine, texture, options) {
         if (options === void 0) { options = {}; }
         var _this = _super.call(this, engine, texture, {
@@ -590,7 +590,7 @@ var MinecraftTorso = /** @class */ (function (_super) {
 }(MinecraftBodyPart));
 export { MinecraftTorso };
 var MinecraftArmL = /** @class */ (function (_super) {
-    tslib_1.__extends(MinecraftArmL, _super);
+    __extends(MinecraftArmL, _super);
     function MinecraftArmL(engine, texture, options) {
         if (options === void 0) { options = {}; }
         var _this = _super.call(this, engine, texture, {
@@ -609,7 +609,7 @@ var MinecraftArmL = /** @class */ (function (_super) {
 }(MinecraftBodyPart));
 export { MinecraftArmL };
 var MinecraftArmR = /** @class */ (function (_super) {
-    tslib_1.__extends(MinecraftArmR, _super);
+    __extends(MinecraftArmR, _super);
     function MinecraftArmR(engine, texture, options) {
         if (options === void 0) { options = {}; }
         var _this = _super.call(this, engine, texture, {
@@ -628,7 +628,7 @@ var MinecraftArmR = /** @class */ (function (_super) {
 }(MinecraftBodyPart));
 export { MinecraftArmR };
 var MinecraftLegL = /** @class */ (function (_super) {
-    tslib_1.__extends(MinecraftLegL, _super);
+    __extends(MinecraftLegL, _super);
     function MinecraftLegL(engine, texture, options) {
         if (options === void 0) { options = {}; }
         var _this = _super.call(this, engine, texture, {
@@ -647,7 +647,7 @@ var MinecraftLegL = /** @class */ (function (_super) {
 }(MinecraftBodyPart));
 export { MinecraftLegL };
 var MinecraftLegR = /** @class */ (function (_super) {
-    tslib_1.__extends(MinecraftLegR, _super);
+    __extends(MinecraftLegR, _super);
     function MinecraftLegR(engine, texture, options) {
         if (options === void 0) { options = {}; }
         var _this = _super.call(this, engine, texture, {

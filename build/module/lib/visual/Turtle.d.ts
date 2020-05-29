@@ -27,9 +27,11 @@ export interface TurtleOptions {
 export declare class Turtle extends Mesh<Geometry, Material> {
     constructor(contextManager: ContextManager, options?: TurtleOptions, levelUp?: number);
     protected destructor(levelUp: number): void;
-    width: number;
+    get width(): number;
+    set width(width: number);
     /**
      *
      */
-    height: number;
+    get height(): number;
+    set height(height: number);
 }

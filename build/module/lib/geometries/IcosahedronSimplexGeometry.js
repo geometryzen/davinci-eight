@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { PolyhedronBuilder } from '../geometries/PolyhedronBuilder';
 /**
  * The golden ratio.
@@ -16,7 +16,7 @@ var indices = [
     4, 9, 5, 2, 4, 11, 6, 2, 10, 8, 6, 7, 9, 8, 1
 ];
 var IcosahedronSimplexGeometry = /** @class */ (function (_super) {
-    tslib_1.__extends(IcosahedronSimplexGeometry, _super);
+    __extends(IcosahedronSimplexGeometry, _super);
     function IcosahedronSimplexGeometry(radius, detail) {
         return _super.call(this, vertices, indices, radius, detail) || this;
     }

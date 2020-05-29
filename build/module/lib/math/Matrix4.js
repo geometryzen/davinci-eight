@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { AbstractMatrix } from '../math/AbstractMatrix';
 import { det4x4 } from './det4x4';
 import { inv4x4 } from '../math/inv4x4';
@@ -37,7 +37,7 @@ function add4x4(a, b, c) {
  * An adapter for a `Float32Array`.
  */
 var Matrix4 = /** @class */ (function (_super) {
-    tslib_1.__extends(Matrix4, _super);
+    __extends(Matrix4, _super);
     // The correspondence between the elements property index and the matrix entries is...
     //
     //  0  4  8 12

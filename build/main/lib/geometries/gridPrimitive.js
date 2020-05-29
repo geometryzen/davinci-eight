@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.gridPrimitive = void 0;
 var Color_1 = require("../core/Color");
 var GeometryMode_1 = require("./GeometryMode");
 var GraphicsProgramSymbols_1 = require("../core/GraphicsProgramSymbols");

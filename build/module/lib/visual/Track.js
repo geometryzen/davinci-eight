@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { BeginMode } from '../core/BeginMode';
 import { Color } from '../core/Color';
 import { DataType } from '../core/DataType';
@@ -105,7 +105,7 @@ export { TrackGeometry };
  *
  */
 var Track = /** @class */ (function (_super) {
-    tslib_1.__extends(Track, _super);
+    __extends(Track, _super);
     function Track(contextManager, options, levelUp) {
         if (options === void 0) { options = {}; }
         if (levelUp === void 0) { levelUp = 0; }

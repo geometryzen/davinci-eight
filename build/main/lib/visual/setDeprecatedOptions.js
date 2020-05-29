@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.setDeprecatedOptions = void 0;
 var isDefined_1 = require("../checks/isDefined");
 var ATTITUDE_NAME = 'attitude';
 var POSITION_NAME = 'position';

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Group = void 0;
 var tslib_1 = require("tslib");
 var Geometric3_1 = require("../math/Geometric3");
 var Matrix4_1 = require("../math/Matrix4");
@@ -55,7 +56,7 @@ var Group = /** @class */ (function (_super) {
                 this.pos.copyVector(value);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Group.prototype, "X", {
@@ -67,7 +68,7 @@ var Group = /** @class */ (function (_super) {
                 this.pos.copyVector(value);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Group.prototype, "attitude", {
@@ -82,7 +83,7 @@ var Group = /** @class */ (function (_super) {
                 this.att.copySpinor(value);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Group.prototype, "R", {
@@ -94,7 +95,7 @@ var Group = /** @class */ (function (_super) {
                 this.att.copySpinor(value);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**

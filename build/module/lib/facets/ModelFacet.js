@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { Matrix3 } from '../math/Matrix3';
 import { Matrix4 } from '../math/Matrix4';
 import { ModelE3 } from './ModelE3';
@@ -9,7 +9,7 @@ import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
  *
  */
 var ModelFacet = /** @class */ (function (_super) {
-    tslib_1.__extends(ModelFacet, _super);
+    __extends(ModelFacet, _super);
     /**
      * <p>
      * A collection of properties governing GLSL uniforms for Rigid Body Modeling.
@@ -59,7 +59,7 @@ var ModelFacet = /** @class */ (function (_super) {
             mustBeObject('stress', stress);
             this.matS.copy(stress);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ModelFacet.prototype, "matrix", {
@@ -72,7 +72,7 @@ var ModelFacet = /** @class */ (function (_super) {
         set: function (unused) {
             throw new Error(readOnly('matrix').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ModelFacet.prototype, "modelMatrixUniformName", {
@@ -85,7 +85,7 @@ var ModelFacet = /** @class */ (function (_super) {
         set: function (name) {
             this.nameM = name;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ModelFacet.prototype, "normalMatrixUniformName", {
@@ -98,7 +98,7 @@ var ModelFacet = /** @class */ (function (_super) {
         set: function (name) {
             this.nameN = name;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**

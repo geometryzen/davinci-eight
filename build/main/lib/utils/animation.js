@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.animation = void 0;
 var mustBeNumber_1 = require("../checks/mustBeNumber");
 var expectArg_1 = require("../checks/expectArg");
 function defaultSetUp() {

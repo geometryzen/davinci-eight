@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.GridGeometry = void 0;
 var tslib_1 = require("tslib");
 var GeometryElements_1 = require("../core/GeometryElements");
 var gridPrimitive_1 = require("./gridPrimitive");

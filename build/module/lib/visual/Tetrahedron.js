@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { Color } from '../core/Color';
 import { ds } from './Defaults';
 import { materialFromOptions } from './materialFromOptions';
@@ -18,7 +18,7 @@ import { vectorE3Object } from './vectorE3Object';
  * A 3D visual representation of a tetrahedron.
  */
 var Tetrahedron = /** @class */ (function (_super) {
-    tslib_1.__extends(Tetrahedron, _super);
+    __extends(Tetrahedron, _super);
     function Tetrahedron(contextManager, options, levelUp) {
         if (options === void 0) { options = {}; }
         if (levelUp === void 0) { levelUp = 0; }
@@ -70,7 +70,7 @@ var Tetrahedron = /** @class */ (function (_super) {
         set: function (radius) {
             this.setScale(radius, radius, radius);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return Tetrahedron;

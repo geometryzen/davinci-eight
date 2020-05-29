@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.referenceAxis = void 0;
 var Geometric3_1 = require("../math/Geometric3");
 var R3_1 = require("../math/R3");
 var tiltFromOptions_1 = require("../core/tiltFromOptions");

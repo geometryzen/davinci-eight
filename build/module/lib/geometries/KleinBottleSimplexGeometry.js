@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { GridSimplexBuilder } from '../geometries/GridSimplexBuilder';
 import { Vector3 } from '../math/Vector3';
 var cos = Math.cos;
@@ -20,7 +20,7 @@ function klein(u, v) {
     return point.scale(0.1);
 }
 var KleinBottleSimplexGeometry = /** @class */ (function (_super) {
-    tslib_1.__extends(KleinBottleSimplexGeometry, _super);
+    __extends(KleinBottleSimplexGeometry, _super);
     function KleinBottleSimplexGeometry(uSegments, vSegments) {
         return _super.call(this, klein, uSegments, vSegments) || this;
     }

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.rotorFromDirectionsE2 = void 0;
 var dotVectorE2_1 = require("./dotVectorE2");
 var quadVectorE2_1 = require("./quadVectorE2");
 var sqrt = Math.sqrt;

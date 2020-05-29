@@ -146,11 +146,16 @@ export class Engine extends ShareableBase implements ContextManager {
 
         this._webGLContextRestored = (event: Event) => {
             if (isDefined(this._gl)) {
-                event.preventDefault();
-                this._gl = initWebGL(this._gl.canvas, attributes);
-                this._users.forEach((user: ContextConsumer) => {
-                    user.contextGain();
-                });
+                if (this._gl.canvas instanceof HTMLCanvasElement) {
+                    event.preventDefault();
+                    this._gl = initWebGL(this._gl.canvas, attributes);
+                    this._users.forEach((user: ContextConsumer) => {
+                        user.contextGain();
+                    });
+                }
+                else {
+                    // 
+                }
             }
         };
 
@@ -199,7 +204,13 @@ export class Engine extends ShareableBase implements ContextManager {
      */
     get canvas(): HTMLCanvasElement {
         if (this._gl) {
-            return this._gl.canvas;
+            if (this._gl.canvas instanceof HTMLCanvasElement) {
+                return this._gl.canvas;
+            }
+            else {
+                // OffscreenCanvas or undefined.
+                return void 0;
+            }
         }
         else {
             return void 0;

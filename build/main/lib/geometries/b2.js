@@ -1,6 +1,7 @@
 "use strict";
 // Quadratic Bezier
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.b2 = void 0;
 function b2p0(t, p) {
     var k = 1 - t;
     return k * k * p;

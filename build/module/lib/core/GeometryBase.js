@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { mustBeDefined } from '../checks/mustBeDefined';
 import { notSupported } from '../i18n/notSupported';
 import { ShareableContextConsumer } from './ShareableContextConsumer';
@@ -6,7 +6,7 @@ import { ShareableContextConsumer } from './ShareableContextConsumer';
  * GeometryBase
  */
 var GeometryBase = /** @class */ (function (_super) {
-    tslib_1.__extends(GeometryBase, _super);
+    __extends(GeometryBase, _super);
     /**
      *
      */

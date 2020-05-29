@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.DirectionalLight = void 0;
 var Color_1 = require("../core/Color");
 var Geometric3_1 = require("../math/Geometric3");
 var mustBeObject_1 = require("../checks/mustBeObject");
@@ -24,7 +25,7 @@ var DirectionalLight = /** @class */ (function () {
         set: function (color) {
             this.color_.copy(Color_1.Color.mustBe('color', color));
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(DirectionalLight.prototype, "direction", {
@@ -35,7 +36,7 @@ var DirectionalLight = /** @class */ (function () {
             mustBeObject_1.mustBeObject('direction', direction);
             this.direction_.copy(direction);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     DirectionalLight.prototype.setUniforms = function (visitor) {

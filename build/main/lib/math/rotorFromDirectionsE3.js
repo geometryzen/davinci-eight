@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.rotorFromDirectionsE3 = void 0;
 var dotVectorE3_1 = require("./dotVectorE3");
 var quadVectorE3_1 = require("./quadVectorE3");
 var wedgeXY_1 = require("./wedgeXY");

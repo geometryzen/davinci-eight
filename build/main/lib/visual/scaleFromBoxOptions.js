@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.scaleFromBoxOptions = void 0;
 var isDefined_1 = require("../checks/isDefined");
 var Vector3_1 = require("../math/Vector3");
 function scaleFromBoxOptions(options) {

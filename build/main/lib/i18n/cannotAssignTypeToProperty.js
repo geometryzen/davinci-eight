@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.cannotAssignTypeToProperty = void 0;
 var mustBeString_1 = require("../checks/mustBeString");
 function cannotAssignTypeToProperty(type, name) {
     mustBeString_1.mustBeString('type', type);

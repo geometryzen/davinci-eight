@@ -30,7 +30,8 @@ export declare class ModelE2 {
      * The <em>attitude</em>, a unitary spinor.
      * </p>
      */
-    R: Geometric2;
+    get R(): Geometric2;
+    set R(attitude: Geometric2);
     /**
      * <p>
      * The <em>position</em>, a vector.
@@ -38,5 +39,6 @@ export declare class ModelE2 {
      * The vector <b>X</b> designates the displacement from the local origin (Computer Graphics).
      * </p>
      */
-    X: Geometric2;
+    get X(): Geometric2;
+    set X(position: Geometric2);
 }

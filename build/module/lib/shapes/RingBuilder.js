@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { Approximation } from '../transforms/Approximation';
 import { Direction } from '../transforms/Direction';
 import { Duality } from '../transforms/Duality';
@@ -15,7 +15,7 @@ import { Vector3 } from '../math/Vector3';
  * Constructs a one-sided ring using a TRIANGLE_STRIP.
  */
 var RingBuilder = /** @class */ (function (_super) {
-    tslib_1.__extends(RingBuilder, _super);
+    __extends(RingBuilder, _super);
     function RingBuilder() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         /**

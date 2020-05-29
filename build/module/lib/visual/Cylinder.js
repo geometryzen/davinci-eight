@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { Color } from '../core/Color';
 import { CylinderGeometry } from '../geometries/CylinderGeometry';
 import { ds } from './Defaults';
@@ -21,7 +21,7 @@ import { vectorE3Object } from './vectorE3Object';
  * A 3D visual representation of a cylinder.
  */
 var Cylinder = /** @class */ (function (_super) {
-    tslib_1.__extends(Cylinder, _super);
+    __extends(Cylinder, _super);
     /**
      *
      */
@@ -88,7 +88,7 @@ var Cylinder = /** @class */ (function (_super) {
             var z = this.getScaleZ();
             this.setScale(x, length, z);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Cylinder.prototype, "radius", {
@@ -102,7 +102,7 @@ var Cylinder = /** @class */ (function (_super) {
             var y = this.getScaleY();
             this.setScale(radius, y, radius);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return Cylinder;

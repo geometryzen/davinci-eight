@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Box = void 0;
 var tslib_1 = require("tslib");
 var BoxGeometry_1 = require("../geometries/BoxGeometry");
 var Color_1 = require("../core/Color");
@@ -95,7 +96,7 @@ var Box = /** @class */ (function (_super) {
             var z = this.getScaleZ();
             this.setScale(width, y, z);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Box.prototype, "height", {
@@ -110,7 +111,7 @@ var Box = /** @class */ (function (_super) {
             var z = this.getScaleZ();
             this.setScale(x, height, z);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Box.prototype, "depth", {
@@ -125,7 +126,7 @@ var Box = /** @class */ (function (_super) {
             var y = this.getScaleY();
             this.setScale(x, y, depth);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return Box;

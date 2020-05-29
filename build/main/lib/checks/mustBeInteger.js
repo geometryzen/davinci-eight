@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.mustBeInteger = void 0;
 var mustSatisfy_1 = require("../checks/mustSatisfy");
 var isInteger_1 = require("../checks/isInteger");
 function beAnInteger() {

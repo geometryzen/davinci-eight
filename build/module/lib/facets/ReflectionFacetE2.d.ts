@@ -21,7 +21,8 @@ export declare class ReflectionFacetE2 implements Facet {
     /**
      *
      */
-    normal: Vector2;
+    get normal(): Vector2;
+    set normal(unused: Vector2);
     /**
      *
      */

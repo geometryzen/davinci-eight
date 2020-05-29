@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Simplex1Geometry = void 0;
 var tslib_1 = require("tslib");
 var SimplexPrimitivesBuilder_1 = require("../geometries/SimplexPrimitivesBuilder");
 var Simplex_1 = require("../geometries/Simplex");

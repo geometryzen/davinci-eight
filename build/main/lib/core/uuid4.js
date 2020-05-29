@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.uuid4 = void 0;
 function uuid4() {
     var maxFromBits = function (bits) {
         return Math.pow(2, bits);

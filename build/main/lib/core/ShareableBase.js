@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ShareableBase = void 0;
 var isDefined_1 = require("../checks/isDefined");
 var mustBeEQ_1 = require("../checks/mustBeEQ");
 var mustBeInteger_1 = require("../checks/mustBeInteger");

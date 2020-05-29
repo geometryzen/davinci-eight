@@ -13,5 +13,6 @@ export declare class ContextAttributesLogger extends ShareableBase {
     contextFree(): void;
     contextGain(): void;
     contextLost(): void;
-    name: string;
+    get name(): string;
+    set name(unused: string);
 }

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.mustBeObject = void 0;
 var mustSatisfy_1 = require("../checks/mustSatisfy");
 var isObject_1 = require("../checks/isObject");
 function beObject() {

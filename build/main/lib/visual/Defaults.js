@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ds = void 0;
 var tiltFromOptions_1 = require("../core/tiltFromOptions");
 var INITIAL_AXIS = tiltFromOptions_1.canonicalAxis;
 var INITIAL_LENGTH = 1.0;

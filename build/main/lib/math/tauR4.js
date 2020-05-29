@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.tauR4 = void 0;
 /**
  * Computes Γ<sub>R</sub>(a)
  *

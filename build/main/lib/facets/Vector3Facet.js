@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Vector3Facet = void 0;
 var mustBeString_1 = require("../checks/mustBeString");
 var Vector3_1 = require("../math/Vector3");
 /**
@@ -22,7 +23,7 @@ var Vector3Facet = /** @class */ (function () {
         set: function (value) {
             this._name = mustBeString_1.mustBeString('name', value);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Vector3Facet.prototype, "value", {
@@ -32,7 +33,7 @@ var Vector3Facet = /** @class */ (function () {
         set: function (value) {
             this.vector.copy(value);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**

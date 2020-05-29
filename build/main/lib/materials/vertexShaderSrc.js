@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.vertexShaderSrc = void 0;
 var config_1 = require("../config");
 var getAttribVarName_1 = require("../core/getAttribVarName");
 var getUniformVarName_1 = require("../core/getUniformVarName");

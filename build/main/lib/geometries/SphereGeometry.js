@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.SphereGeometry = void 0;
 var tslib_1 = require("tslib");
 var arc3_1 = require("../geometries/arc3");
 var Geometric3_1 = require("../math/Geometric3");
@@ -215,7 +216,7 @@ var SphereSimplexPrimitivesBuilder = /** @class */ (function (_super) {
             this.stress.y = radius;
             this.stress.z = radius;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     SphereSimplexPrimitivesBuilder.prototype.isModified = function () {

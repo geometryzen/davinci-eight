@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { canonicalAxis, canonicalMeridian } from '../core/tiltFromOptions';
 import { ColorFacet } from '../facets/ColorFacet';
 import { Drawable } from './Drawable';
@@ -19,7 +19,7 @@ var MODEL_FACET_NAME = 'model';
  * The standard pairing of a Geometry and a Material.
  */
 var Mesh = /** @class */ (function (_super) {
-    tslib_1.__extends(Mesh, _super);
+    __extends(Mesh, _super);
     /**
      * Initializes this Mesh with a ColorFacet ('color'), a TextureFacet ('image'), and a ModelFacet ('model').
      *
@@ -93,7 +93,7 @@ var Mesh = /** @class */ (function (_super) {
                 throw new Error(notSupported(MODEL_FACET_NAME).message);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Mesh.prototype, "R", {
@@ -118,7 +118,7 @@ var Mesh = /** @class */ (function (_super) {
                 throw new Error(notSupported(MODEL_FACET_NAME).message);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Mesh.prototype, "color", {
@@ -143,7 +143,7 @@ var Mesh = /** @class */ (function (_super) {
                 throw new Error(notSupported(COLOR_FACET_NAME).message);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Mesh.prototype, "texture", {
@@ -171,7 +171,7 @@ var Mesh = /** @class */ (function (_super) {
                 throw new Error(notSupported(TEXTURE_FACET_NAME).message);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Mesh.prototype, "X", {
@@ -196,7 +196,7 @@ var Mesh = /** @class */ (function (_super) {
                 throw new Error(notSupported(MODEL_FACET_NAME).message);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Mesh.prototype, "position", {
@@ -221,7 +221,7 @@ var Mesh = /** @class */ (function (_super) {
                 throw new Error(notSupported(MODEL_FACET_NAME).message);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Mesh.prototype, "stress", {
@@ -246,7 +246,7 @@ var Mesh = /** @class */ (function (_super) {
                 throw new Error(notSupported('stress').message);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Mesh.prototype.getScale = function (i, j) {
@@ -345,7 +345,7 @@ var Mesh = /** @class */ (function (_super) {
         set: function (axis) {
             this.setAxis(axis);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Mesh.prototype.getMeridian = function () {
@@ -364,7 +364,7 @@ var Mesh = /** @class */ (function (_super) {
             var R = Geometric3.rotorFromVectorToVector(this.meridian, meridian, B);
             this.attitude.mul2(R, this.attitude);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Mesh.prototype, "modelMatrixUniformName", {
@@ -390,7 +390,7 @@ var Mesh = /** @class */ (function (_super) {
                 throw new Error(notSupported(MODEL_FACET_NAME).message);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Mesh.prototype, "normalMatrixUniformName", {
@@ -416,7 +416,7 @@ var Mesh = /** @class */ (function (_super) {
                 throw new Error(notSupported(MODEL_FACET_NAME).message);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return Mesh;

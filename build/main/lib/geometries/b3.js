@@ -1,6 +1,7 @@
 "use strict";
 // Cubic Bezier Functions
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.b3 = void 0;
 function b3p0(t, p) {
     var k = 1 - t;
     return k * k * k * p;

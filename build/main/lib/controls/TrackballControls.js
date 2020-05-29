@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.TrackballControls = void 0;
 var tslib_1 = require("tslib");
 var Spinor3_1 = require("../math/Spinor3");
 var Vector2_1 = require("../math/Vector2");

@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { AbstractMatrix } from '../math/AbstractMatrix';
 import { det3x3 } from '../math/det3x3';
 import { inv3x3 } from '../math/inv3x3';
@@ -40,7 +40,7 @@ function add3x3(a, b, c) {
  * </p>
  */
 var Matrix3 = /** @class */ (function (_super) {
-    tslib_1.__extends(Matrix3, _super);
+    __extends(Matrix3, _super);
     /**
      * @param elements
      */

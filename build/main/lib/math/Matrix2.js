@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Matrix2 = void 0;
 var tslib_1 = require("tslib");
 var AbstractMatrix_1 = require("../math/AbstractMatrix");
 var det2x2_1 = require("../math/det2x2");

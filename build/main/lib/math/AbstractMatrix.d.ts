@@ -22,8 +22,10 @@ export declare class AbstractMatrix<T extends {
     isLocked(): boolean;
     lock(): number;
     unlock(token: number): void;
-    dimensions: number;
-    elements: Float32Array;
+    get dimensions(): number;
+    set dimensions(unused: number);
+    get elements(): Float32Array;
+    set elements(elements: Float32Array);
     copy(m: T): T;
     /**
      * @param row The zero-based row.

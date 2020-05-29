@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Cylinder = void 0;
 var tslib_1 = require("tslib");
 var Color_1 = require("../core/Color");
 var CylinderGeometry_1 = require("../geometries/CylinderGeometry");
@@ -90,7 +91,7 @@ var Cylinder = /** @class */ (function (_super) {
             var z = this.getScaleZ();
             this.setScale(x, length, z);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Cylinder.prototype, "radius", {
@@ -104,7 +105,7 @@ var Cylinder = /** @class */ (function (_super) {
             var y = this.getScaleY();
             this.setScale(radius, y, radius);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return Cylinder;

@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { mustBeNonNullObject } from '../checks/mustBeNonNullObject';
 import { ShareableArray } from '../collections/ShareableArray';
 import { ShareableContextConsumer } from '../core/ShareableContextConsumer';
@@ -6,7 +6,7 @@ import { ShareableContextConsumer } from '../core/ShareableContextConsumer';
  * A collection of Renderable objects.
  */
 var Scene = /** @class */ (function (_super) {
-    tslib_1.__extends(Scene, _super);
+    __extends(Scene, _super);
     function Scene(contextManager, levelUp) {
         if (levelUp === void 0) { levelUp = 0; }
         var _this = _super.call(this, contextManager) || this;

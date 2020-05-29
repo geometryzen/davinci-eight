@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.initWebGL = void 0;
 var isDefined_1 = require("../checks/isDefined");
 /**
  * Returns the WebGLRenderingContext given a canvas.
@@ -8,7 +9,7 @@ var isDefined_1 = require("../checks/isDefined");
  * If the canvas is undefined then an undefined value is returned for the context.
  */
 function initWebGL(canvas, attributes) {
-    // We'll be hyper-functional. An undefined canvas begets and undefined context.
+    // We'll be hyper-functional. An undefined canvas begets an undefined context.
     // Clients must check their context output or canvas input.
     if (isDefined_1.isDefined(canvas)) {
         var context;

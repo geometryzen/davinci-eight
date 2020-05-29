@@ -1,11 +1,11 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { MouseControls } from './MouseControls';
 import { Vector3 } from '../math/Vector3';
 /**
  *
  */
 var ViewControls = /** @class */ (function (_super) {
-    tslib_1.__extends(ViewControls, _super);
+    __extends(ViewControls, _super);
     /**
      * @param view
      * @param wnd

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.extE2 = void 0;
 function extE2(a0, a1, a2, a3, b0, b1, b2, b3, index) {
     a0 = +a0;
     a1 = +a1;

@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { Geometric3 } from '../math/Geometric3';
 import { Matrix4 } from '../math/Matrix4';
 import { ShareableArray } from '../collections/ShareableArray';
@@ -7,7 +7,7 @@ import { ShareableBase } from '../core/ShareableBase';
  * A collection of objects that can be treated as a single Renderable.
  */
 var Group = /** @class */ (function (_super) {
-    tslib_1.__extends(Group, _super);
+    __extends(Group, _super);
     /**
      * Constructs
      */
@@ -53,7 +53,7 @@ var Group = /** @class */ (function (_super) {
                 this.pos.copyVector(value);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Group.prototype, "X", {
@@ -65,7 +65,7 @@ var Group = /** @class */ (function (_super) {
                 this.pos.copyVector(value);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Group.prototype, "attitude", {
@@ -80,7 +80,7 @@ var Group = /** @class */ (function (_super) {
                 this.att.copySpinor(value);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Group.prototype, "R", {
@@ -92,7 +92,7 @@ var Group = /** @class */ (function (_super) {
                 this.att.copySpinor(value);
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**

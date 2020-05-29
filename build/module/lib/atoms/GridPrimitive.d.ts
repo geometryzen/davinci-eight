@@ -14,16 +14,20 @@ export declare class GridPrimitive extends VertexPrimitive {
     private _vSegments;
     private _vClosed;
     constructor(mode: BeginMode, uSegments: number, vSegments: number);
-    uSegments: number;
+    get uSegments(): number;
+    set uSegments(uSegments: number);
     /**
      * uLength = uSegments + 1
      */
-    uLength: number;
-    vSegments: number;
+    get uLength(): number;
+    set uLength(uLength: number);
+    get vSegments(): number;
+    set vSegments(vSegments: number);
     /**
      * vLength = vSegments + 1
      */
-    vLength: number;
+    get vLength(): number;
+    set vLength(vLength: number);
     vertexTransform(transform: Transform): void;
     /**
      * Derived classes must override.

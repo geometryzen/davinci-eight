@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Shader = void 0;
 var tslib_1 = require("tslib");
 var makeWebGLShader_1 = require("./makeWebGLShader");
 var mustBeNumber_1 = require("../checks/mustBeNumber");

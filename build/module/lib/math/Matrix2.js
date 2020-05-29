@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { AbstractMatrix } from '../math/AbstractMatrix';
 import { det2x2 } from '../math/det2x2';
 import { isDefined } from '../checks/isDefined';
@@ -19,7 +19,7 @@ function add2x2(a, b, c) {
  *
  */
 var Matrix2 = /** @class */ (function (_super) {
-    tslib_1.__extends(Matrix2, _super);
+    __extends(Matrix2, _super);
     /**
      * 2x2 (square) matrix of numbers.
      * Constructs a Matrix2 by wrapping a Float32Array.

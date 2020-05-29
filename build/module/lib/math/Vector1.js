@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { Coords } from '../math/Coords';
 var exp = Math.exp;
 var log = Math.log;
@@ -8,7 +8,7 @@ var COORD_X = 0;
  * @class Vector1
  */
 var Vector1 = /** @class */ (function (_super) {
-    tslib_1.__extends(Vector1, _super);
+    __extends(Vector1, _super);
     /**
      * @class Vector1
      * @constructor
@@ -32,7 +32,7 @@ var Vector1 = /** @class */ (function (_super) {
             this.modified = this.modified || this.x !== value;
             this.coords[COORD_X] = value;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Vector1.prototype.set = function (x) {

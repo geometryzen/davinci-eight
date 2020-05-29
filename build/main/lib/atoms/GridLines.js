@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.GridLines = void 0;
 var tslib_1 = require("tslib");
 var BeginMode_1 = require("../core/BeginMode");
 var GridPrimitive_1 = require("./GridPrimitive");

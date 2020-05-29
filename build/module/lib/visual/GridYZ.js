@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { expectOptions } from '../checks/expectOptions';
 import { GeometryMode } from '../geometries/GeometryMode';
 import { Grid } from './Grid';
@@ -45,7 +45,7 @@ function mapOptions(options) {
  * A grid in the yz plane.
  */
 var GridYZ = /** @class */ (function (_super) {
-    tslib_1.__extends(GridYZ, _super);
+    __extends(GridYZ, _super);
     /**
      * Constructs a GridYZ.
      */

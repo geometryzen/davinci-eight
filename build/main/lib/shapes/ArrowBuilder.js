@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ArrowBuilder = void 0;
 var tslib_1 = require("tslib");
 var AxialShapeBuilder_1 = require("./AxialShapeBuilder");
 var ConicalShellBuilder_1 = require("../shapes/ConicalShellBuilder");

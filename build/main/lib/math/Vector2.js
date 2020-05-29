@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Vector2 = void 0;
 var applyMixins_1 = require("../utils/applyMixins");
 var approx_1 = require("./approx");
 var b2_1 = require("../geometries/b2");
@@ -35,7 +36,7 @@ var Vector2 = /** @class */ (function () {
         get: function () {
             return 2;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Vector2.prototype, "modified", {
@@ -48,7 +49,7 @@ var Vector2 = /** @class */ (function () {
             }
             this.modified_ = modified;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Vector2.prototype.getComponent = function (i) {
@@ -69,7 +70,7 @@ var Vector2 = /** @class */ (function () {
             this.modified_ = this.modified_ || coords[COORD_X] !== value;
             coords[COORD_X] = value;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Vector2.prototype, "y", {
@@ -87,7 +88,7 @@ var Vector2 = /** @class */ (function () {
             this.modified_ = this.modified_ || coords[COORD_Y] !== value;
             coords[COORD_Y] = value;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**

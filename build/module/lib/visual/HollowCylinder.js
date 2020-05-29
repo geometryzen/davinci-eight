@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { Color } from '../core/Color';
 import { ds } from './Defaults';
 import { GraphicsProgramSymbols as GPS } from '../core/GraphicsProgramSymbols';
@@ -19,7 +19,7 @@ import { vectorE3Object } from './vectorE3Object';
  * A 3D visual representation of a hollow cylinder.
  */
 var HollowCylinder = /** @class */ (function (_super) {
-    tslib_1.__extends(HollowCylinder, _super);
+    __extends(HollowCylinder, _super);
     /**
      * Constructs a HollowCylinder.
      */
@@ -102,7 +102,7 @@ var HollowCylinder = /** @class */ (function (_super) {
             var z = this.getScaleZ();
             this.setScale(x, length, z);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return HollowCylinder;

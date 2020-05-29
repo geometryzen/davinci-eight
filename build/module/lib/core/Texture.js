@@ -1,9 +1,9 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { mustBeUndefined } from '../checks/mustBeUndefined';
 import { ShareableContextConsumer } from './ShareableContextConsumer';
 import { TextureParameterName } from './TextureParameterName';
 var Texture = /** @class */ (function (_super) {
-    tslib_1.__extends(Texture, _super);
+    __extends(Texture, _super);
     function Texture(target, contextManager, levelUp) {
         if (levelUp === void 0) { levelUp = 0; }
         var _this = _super.call(this, contextManager) || this;
@@ -74,7 +74,7 @@ var Texture = /** @class */ (function (_super) {
                 console.warn(this.getLoggingName() + ".minFilter missing WebGL rendering context.");
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Texture.prototype, "magFilter", {
@@ -91,7 +91,7 @@ var Texture = /** @class */ (function (_super) {
                 console.warn(this.getLoggingName() + ".magFilter missing WebGL rendering context.");
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Texture.prototype, "wrapS", {
@@ -108,7 +108,7 @@ var Texture = /** @class */ (function (_super) {
                 console.warn(this.getLoggingName() + ".wrapS missing WebGL rendering context.");
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Texture.prototype, "wrapT", {
@@ -125,7 +125,7 @@ var Texture = /** @class */ (function (_super) {
                 console.warn(this.getLoggingName() + ".wrapT missing WebGL rendering context.");
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**

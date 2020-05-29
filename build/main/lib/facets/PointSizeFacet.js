@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.PointSizeFacet = void 0;
 var mustBeInteger_1 = require("../checks/mustBeInteger");
 var GraphicsProgramSymbols_1 = require("../core/GraphicsProgramSymbols");
 /**

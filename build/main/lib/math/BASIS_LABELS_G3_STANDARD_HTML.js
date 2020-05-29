@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.BASIS_LABELS_G3_STANDARD_HTML = void 0;
 var SCALAR_SYMBOL = "1";
 var E1_SYMBOL = "<b>e</b><sub>1</sub>";
 var E2_SYMBOL = "<b>e</b><sub>2</sub>";

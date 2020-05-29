@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { Color } from '../core/Color';
 import { CurveGeometry } from '../geometries/CurveGeometry';
@@ -135,7 +135,7 @@ function configLines(contextManager, options, curve) {
  * A 3D visual representation of a discrete parameterized line.
  */
 var Curve = /** @class */ (function (_super) {
-    tslib_1.__extends(Curve, _super);
+    __extends(Curve, _super);
     /**
      * Constructs a Curve.
      */

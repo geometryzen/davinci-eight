@@ -8,6 +8,7 @@ export declare class TextureFacet extends ShareableBase implements Facet {
     unit: TextureUnit;
     constructor();
     protected destructor(levelUp: number): void;
-    texture: Texture;
+    get texture(): Texture;
+    set texture(value: Texture);
     setUniforms(visitor: FacetVisitor): void;
 }

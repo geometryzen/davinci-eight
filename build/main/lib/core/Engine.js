@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Engine = void 0;
 var tslib_1 = require("tslib");
 var checkEnums_1 = require("./checkEnums");
 var ClearBufferMask_1 = require("./ClearBufferMask");
@@ -113,11 +114,16 @@ var Engine = /** @class */ (function (_super) {
         };
         _this._webGLContextRestored = function (event) {
             if (isDefined_1.isDefined(_this._gl)) {
-                event.preventDefault();
-                _this._gl = initWebGL_1.initWebGL(_this._gl.canvas, attributes);
-                _this._users.forEach(function (user) {
-                    user.contextGain();
-                });
+                if (_this._gl.canvas instanceof HTMLCanvasElement) {
+                    event.preventDefault();
+                    _this._gl = initWebGL_1.initWebGL(_this._gl.canvas, attributes);
+                    _this._users.forEach(function (user) {
+                        user.contextGain();
+                    });
+                }
+                else {
+                    // 
+                }
             }
         };
         if (canvas) {
@@ -163,13 +169,18 @@ var Engine = /** @class */ (function (_super) {
          */
         get: function () {
             if (this._gl) {
-                return this._gl.canvas;
+                if (this._gl.canvas instanceof HTMLCanvasElement) {
+                    return this._gl.canvas;
+                }
+                else {
+                    return void 0;
+                }
             }
             else {
                 return void 0;
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Engine.prototype, "drawingBufferHeight", {
@@ -181,7 +192,7 @@ var Engine = /** @class */ (function (_super) {
                 return void 0;
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Engine.prototype, "drawingBufferWidth", {
@@ -193,7 +204,7 @@ var Engine = /** @class */ (function (_super) {
                 return void 0;
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Engine.prototype.blendFunc = function (sfactor, dfactor) {
@@ -299,7 +310,7 @@ var Engine = /** @class */ (function (_super) {
                 return void 0;
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**

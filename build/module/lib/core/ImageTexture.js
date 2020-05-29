@@ -1,9 +1,9 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { DataType } from './DataType';
 import { PixelFormat } from './PixelFormat';
 import { Texture } from './Texture';
 var ImageTexture = /** @class */ (function (_super) {
-    tslib_1.__extends(ImageTexture, _super);
+    __extends(ImageTexture, _super);
     function ImageTexture(image, target, contextManager, levelUp) {
         if (levelUp === void 0) { levelUp = 0; }
         var _this = _super.call(this, target, contextManager, levelUp + 1) || this;
@@ -29,7 +29,7 @@ var ImageTexture = /** @class */ (function (_super) {
                 return void 0;
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ImageTexture.prototype, "naturalWidth", {
@@ -41,7 +41,7 @@ var ImageTexture = /** @class */ (function (_super) {
                 return void 0;
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     ImageTexture.prototype.upload = function () {

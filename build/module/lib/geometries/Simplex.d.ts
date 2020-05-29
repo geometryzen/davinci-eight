@@ -4,7 +4,7 @@ import { VectorN } from '../atoms/VectorN';
 export declare class Simplex {
     vertices: Vertex[];
     constructor(k: SimplexMode);
-    readonly k: SimplexMode;
+    get k(): SimplexMode;
     static indices(simplex: Simplex): number[];
     private static boundaryMap;
     private static subdivideMap;

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.expectOptions = void 0;
 var mustBeArray_1 = require("./mustBeArray");
 /**
  * Determines whether the actual options supplied are expected.

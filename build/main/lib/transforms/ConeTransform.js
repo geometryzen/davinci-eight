@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ConeTransform = void 0;
 var mustBeBoolean_1 = require("../checks/mustBeBoolean");
 var mustBeNumber_1 = require("../checks/mustBeNumber");
 var mustBeString_1 = require("../checks/mustBeString");

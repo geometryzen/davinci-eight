@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { AxialShapeBuilder } from './AxialShapeBuilder';
 import { ConicalShellBuilder } from '../shapes/ConicalShellBuilder';
 import { CylindricalShellBuilder } from '../shapes/CylindricalShellBuilder';
@@ -15,7 +15,7 @@ import { Vector3 } from '../math/Vector3';
  * </p>
  */
 var ArrowBuilder = /** @class */ (function (_super) {
-    tslib_1.__extends(ArrowBuilder, _super);
+    __extends(ArrowBuilder, _super);
     /**
      *
      * @param axis The direction of the arrow. The argument is normalized to a unit vector.

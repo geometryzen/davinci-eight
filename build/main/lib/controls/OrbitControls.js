@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.OrbitControls = void 0;
 var tslib_1 = require("tslib");
 var Geometric3_1 = require("../math/Geometric3");
 var getViewAttitude_1 = require("../facets/getViewAttitude");

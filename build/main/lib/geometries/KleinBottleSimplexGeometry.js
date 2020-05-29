@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.KleinBottleSimplexGeometry = void 0;
 var tslib_1 = require("tslib");
 var GridSimplexBuilder_1 = require("../geometries/GridSimplexBuilder");
 var Vector3_1 = require("../math/Vector3");

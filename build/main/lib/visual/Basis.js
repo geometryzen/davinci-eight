@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Basis = void 0;
 var tslib_1 = require("tslib");
 var BeginMode_1 = require("../core/BeginMode");
 var Color_1 = require("../core/Color");
@@ -136,42 +137,42 @@ var Basis = /** @class */ (function (_super) {
         get: function () {
             return this.uPointA.vector;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Basis.prototype, "b", {
         get: function () {
             return this.uPointB.vector;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Basis.prototype, "c", {
         get: function () {
             return this.uPointC.vector;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Basis.prototype, "colorA", {
         get: function () {
             return this.uColorA.color;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Basis.prototype, "colorB", {
         get: function () {
             return this.uColorB.color;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Basis.prototype, "colorC", {
         get: function () {
             return this.uColorC.color;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return Basis;

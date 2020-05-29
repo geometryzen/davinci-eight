@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { arrowPrimitive } from './arrowPrimitive';
 import { GeometryElements } from '../core/GeometryElements';
 /**
@@ -13,7 +13,7 @@ import { GeometryElements } from '../core/GeometryElements';
  * </p>
  */
 var ArrowGeometry = /** @class */ (function (_super) {
-    tslib_1.__extends(ArrowGeometry, _super);
+    __extends(ArrowGeometry, _super);
     /**
      *
      */

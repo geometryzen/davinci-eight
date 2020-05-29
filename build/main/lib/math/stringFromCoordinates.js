@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.stringFromCoordinates = void 0;
 var isDefined_1 = require("../checks/isDefined");
 var mustBeArray_1 = require("../checks/mustBeArray");
 function isLabelOne(label) {

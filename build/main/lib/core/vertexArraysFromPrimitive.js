@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.vertexArraysFromPrimitive = void 0;
 var computeAttributes_1 = require("./computeAttributes");
 var computePointers_1 = require("./computePointers");
 var computeStride_1 = require("./computeStride");

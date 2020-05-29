@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.scpE3 = void 0;
 /**
  * Scalar Product of Geometric3.
  * This was originally written for asm.

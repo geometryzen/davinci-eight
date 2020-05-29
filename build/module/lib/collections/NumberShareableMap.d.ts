@@ -10,6 +10,6 @@ export declare class NumberShareableMap<V extends Shareable> extends ShareableBa
     put(key: number, value: V): void;
     putWeakRef(key: number, value: V): void;
     forEach(callback: (key: number, value: V) => void): void;
-    readonly keys: number[];
+    get keys(): number[];
     remove(key: number): void;
 }

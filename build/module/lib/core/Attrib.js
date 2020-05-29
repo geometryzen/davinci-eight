@@ -24,7 +24,7 @@ var Attrib = /** @class */ (function () {
         set: function (unused) {
             throw new Error(readOnly('index').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**

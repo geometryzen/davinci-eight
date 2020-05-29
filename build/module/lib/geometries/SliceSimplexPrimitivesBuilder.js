@@ -1,7 +1,7 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { SimplexPrimitivesBuilder } from '../geometries/SimplexPrimitivesBuilder';
 var SliceSimplexPrimitivesBuilder = /** @class */ (function (_super) {
-    tslib_1.__extends(SliceSimplexPrimitivesBuilder, _super);
+    __extends(SliceSimplexPrimitivesBuilder, _super);
     function SliceSimplexPrimitivesBuilder() {
         var _this = _super.call(this) || this;
         _this.sliceAngle = 2 * Math.PI;

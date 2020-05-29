@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.config = exports.Eight = void 0;
 var Eight = /** @class */ (function () {
     function Eight() {
         this.GITHUB = 'https://github.com/geometryzen/davinci-eight';

@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { arc3 } from '../geometries/arc3';
 import { Geometric3 } from '../math/Geometric3';
 import { GeometryElements } from '../core/GeometryElements';
@@ -189,7 +189,7 @@ function makePoints(points, uvs, radius, heightSegments, widthSegments, geometry
     }
 }
 var SphereSimplexPrimitivesBuilder = /** @class */ (function (_super) {
-    tslib_1.__extends(SphereSimplexPrimitivesBuilder, _super);
+    __extends(SphereSimplexPrimitivesBuilder, _super);
     function SphereSimplexPrimitivesBuilder() {
         var _this = _super.call(this) || this;
         _this.tilt = Spinor3.one.clone();
@@ -213,7 +213,7 @@ var SphereSimplexPrimitivesBuilder = /** @class */ (function (_super) {
             this.stress.y = radius;
             this.stress.z = radius;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     SphereSimplexPrimitivesBuilder.prototype.isModified = function () {
@@ -370,7 +370,7 @@ function spherePrimitive(options) {
  * A convenience class for creating a sphere.
  */
 var SphereGeometry = /** @class */ (function (_super) {
-    tslib_1.__extends(SphereGeometry, _super);
+    __extends(SphereGeometry, _super);
     /**
      *
      */

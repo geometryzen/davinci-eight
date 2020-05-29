@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { Color } from '../core/Color';
 import { ds } from './Defaults';
 import { referenceAxis } from '../core/referenceAxis';
@@ -22,7 +22,7 @@ var RADIUS_NAME = 'radius';
  *
  */
 var Sphere = /** @class */ (function (_super) {
-    tslib_1.__extends(Sphere, _super);
+    __extends(Sphere, _super);
     /**
      *
      */
@@ -84,7 +84,7 @@ var Sphere = /** @class */ (function (_super) {
         set: function (radius) {
             this.setScale(radius, radius, radius);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return Sphere;

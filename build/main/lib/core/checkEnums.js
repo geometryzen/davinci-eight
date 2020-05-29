@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.checkEnums = void 0;
 var BeginMode_1 = require("./BeginMode");
 var BlendingFactorDest_1 = require("./BlendingFactorDest");
 var BlendingFactorSrc_1 = require("./BlendingFactorSrc");

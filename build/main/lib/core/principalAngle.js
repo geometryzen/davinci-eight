@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.principalAngle = void 0;
 /**
  * Converts the angle specified into one in the closed interval [0, Math.PI]
  */

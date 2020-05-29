@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.vec = exports.vectorFromCoords = exports.vectorCopy = void 0;
 var mustBeNumber_1 = require("../checks/mustBeNumber");
 var wedgeXY_1 = require("./wedgeXY");
 var wedgeYZ_1 = require("./wedgeYZ");

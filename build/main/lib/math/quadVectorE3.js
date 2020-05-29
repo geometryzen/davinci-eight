@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.quadVectorE3 = void 0;
 function quadVectorE3(vector) {
     var x = vector.x;
     var y = vector.y;

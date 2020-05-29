@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.LockableMixin = exports.lockable = exports.TargetUnlockedError = exports.TargetLockedError = exports.lock = void 0;
 var tslib_1 = require("tslib");
 /**
  * Sets the lock on the argument and returns the same argument.

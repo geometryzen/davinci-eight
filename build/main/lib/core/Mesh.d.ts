@@ -55,31 +55,38 @@ export declare class Mesh<G extends Geometry, M extends Material> extends Drawab
     /**
      * Attitude (spinor). This is an alias for the R property.
      */
-    attitude: Geometric3;
+    get attitude(): Geometric3;
+    set attitude(spinor: Geometric3);
     /**
      * Attitude (spinor). This is an alias for the attitude property.
      */
-    R: Geometric3;
+    get R(): Geometric3;
+    set R(spinor: Geometric3);
     /**
      * Color
      */
-    color: Color;
+    get color(): Color;
+    set color(color: Color);
     /**
      * Texture (image).
      */
-    texture: Texture;
+    get texture(): Texture;
+    set texture(value: Texture);
     /**
      * Position (vector). This is an alias for the position property.
      */
-    X: Geometric3;
+    get X(): Geometric3;
+    set X(vector: Geometric3);
     /**
      * Position (vector). This is an alias for the X property.
      */
-    position: Geometric3;
+    get position(): Geometric3;
+    set position(vector: Geometric3);
     /**
      * Stress (tensor)
      */
-    private stress;
+    private get stress();
+    private set stress(value);
     private getScale;
     protected getScaleX(): number;
     protected getScaleY(): number;
@@ -101,20 +108,24 @@ export declare class Mesh<G extends Geometry, M extends Material> extends Drawab
     /**
      * The current axis (unit vector) of the mesh.
      */
-    axis: VectorE3;
+    get axis(): VectorE3;
+    set axis(axis: VectorE3);
     protected getMeridian(): Readonly<R3>;
     /**
      * The current meridian (unit vector) of the mesh.
      */
-    meridian: VectorE3;
+    get meridian(): VectorE3;
+    set meridian(value: VectorE3);
     /**
      * The name of the uniform mat4 variable in the vertex shader that receives the model matrix value.
      * The default name is `uModel`.
      */
-    modelMatrixUniformName: string;
+    get modelMatrixUniformName(): string;
+    set modelMatrixUniformName(name: string);
     /**
      * The name of the uniform mat3 variable in the vertex shader that receives the normal matrix value.
      * The default name is `uNormal`.
      */
-    normalMatrixUniformName: string;
+    get normalMatrixUniformName(): string;
+    set normalMatrixUniformName(name: string);
 }

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.elementsForCurve = void 0;
 var isDefined_1 = require("../checks/isDefined");
 var mustBeArray_1 = require("../checks/mustBeArray");
 var numPostsForFence_1 = require("./numPostsForFence");

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.BeginMode = void 0;
 /**
  * The enumerated modes of drawing WebGL primitives.
  *

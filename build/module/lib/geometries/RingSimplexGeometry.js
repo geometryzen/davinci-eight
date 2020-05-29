@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { arc3 } from '../geometries/arc3';
 import { Simplex } from '../geometries/Simplex';
 import { SimplexMode } from '../geometries/SimplexMode';
@@ -103,7 +103,7 @@ function makeEmpty(vertices, radialSegments, thetaSegments, data) {
     }
 }
 var RingSimplexGeometry = /** @class */ (function (_super) {
-    tslib_1.__extends(RingSimplexGeometry, _super);
+    __extends(RingSimplexGeometry, _super);
     function RingSimplexGeometry(a, b, sliceAngle) {
         if (a === void 0) { a = 1; }
         if (b === void 0) { b = 0; }

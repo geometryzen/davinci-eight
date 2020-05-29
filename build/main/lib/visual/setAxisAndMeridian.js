@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.setAxisAndMeridian = void 0;
 var isDefined_1 = require("../checks/isDefined");
 /**
  * Sets the axis and meridian properties from options in the correct order.

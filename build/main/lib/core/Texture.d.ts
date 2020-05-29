@@ -20,10 +20,14 @@ export declare class Texture extends ShareableContextConsumer {
      *
      */
     unbind(): void;
-    minFilter: TextureMinFilter;
-    magFilter: TextureMagFilter;
-    wrapS: TextureWrapMode;
-    wrapT: TextureWrapMode;
+    get minFilter(): TextureMinFilter;
+    set minFilter(filter: TextureMinFilter);
+    get magFilter(): TextureMagFilter;
+    set magFilter(filter: TextureMagFilter);
+    get wrapS(): TextureWrapMode;
+    set wrapS(mode: TextureWrapMode);
+    get wrapT(): TextureWrapMode;
+    set wrapT(mode: TextureWrapMode);
     /**
      *
      */

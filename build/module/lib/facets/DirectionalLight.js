@@ -22,7 +22,7 @@ var DirectionalLight = /** @class */ (function () {
         set: function (color) {
             this.color_.copy(Color.mustBe('color', color));
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(DirectionalLight.prototype, "direction", {
@@ -33,7 +33,7 @@ var DirectionalLight = /** @class */ (function () {
             mustBeObject('direction', direction);
             this.direction_.copy(direction);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     DirectionalLight.prototype.setUniforms = function (visitor) {

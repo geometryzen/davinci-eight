@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.glslAttribType = void 0;
 var GraphicsProgramSymbols_1 = require("../core/GraphicsProgramSymbols");
 var mustBeInteger_1 = require("../checks/mustBeInteger");
 var mustBeString_1 = require("../checks/mustBeString");

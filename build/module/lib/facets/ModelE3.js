@@ -32,7 +32,7 @@ var ModelE3 = /** @class */ (function () {
         set: function (attitude) {
             this._attitude.copySpinor(attitude);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ModelE3.prototype, "X", {
@@ -47,7 +47,7 @@ var ModelE3 = /** @class */ (function () {
         set: function (position) {
             this._position.copyVector(position);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**

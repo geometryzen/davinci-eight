@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { GeometryElements } from '../core/GeometryElements';
 import { isDefined } from '../checks/isDefined';
 import { mustBeBoolean } from '../checks/mustBeBoolean';
@@ -35,7 +35,7 @@ var DEFAULT_B = vec(0, 1, 0);
  */
 var DEFAULT_C = vec(0, 0, 1);
 var CuboidSimplexPrimitivesBuilder = /** @class */ (function (_super) {
-    tslib_1.__extends(CuboidSimplexPrimitivesBuilder, _super);
+    __extends(CuboidSimplexPrimitivesBuilder, _super);
     function CuboidSimplexPrimitivesBuilder(a, b, c, k, subdivide, boundary) {
         if (k === void 0) { k = SimplexMode.TRIANGLE; }
         if (subdivide === void 0) { subdivide = 0; }
@@ -59,7 +59,7 @@ var CuboidSimplexPrimitivesBuilder = /** @class */ (function (_super) {
             this._a = a;
             this._isModified = true;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(CuboidSimplexPrimitivesBuilder.prototype, "b", {
@@ -70,7 +70,7 @@ var CuboidSimplexPrimitivesBuilder = /** @class */ (function (_super) {
             this._b = b;
             this._isModified = true;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(CuboidSimplexPrimitivesBuilder.prototype, "c", {
@@ -81,7 +81,7 @@ var CuboidSimplexPrimitivesBuilder = /** @class */ (function (_super) {
             this._c = c;
             this._isModified = true;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     CuboidSimplexPrimitivesBuilder.prototype.isModified = function () {
@@ -183,7 +183,7 @@ function side(tilt, offset, basis, uSegments, vSegments) {
     return side;
 }
 var CuboidPrimitivesBuilder = /** @class */ (function (_super) {
-    tslib_1.__extends(CuboidPrimitivesBuilder, _super);
+    __extends(CuboidPrimitivesBuilder, _super);
     function CuboidPrimitivesBuilder() {
         var _this = _super.call(this) || this;
         _this.iSegments = 1;
@@ -218,7 +218,7 @@ var CuboidPrimitivesBuilder = /** @class */ (function (_super) {
             mustBeNumber('width', width);
             this._a.normalize().scale(width);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(CuboidPrimitivesBuilder.prototype, "height", {
@@ -229,7 +229,7 @@ var CuboidPrimitivesBuilder = /** @class */ (function (_super) {
             mustBeNumber('height', height);
             this._b.normalize().scale(height);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(CuboidPrimitivesBuilder.prototype, "depth", {
@@ -240,7 +240,7 @@ var CuboidPrimitivesBuilder = /** @class */ (function (_super) {
             mustBeNumber('depth', depth);
             this._c.normalize().scale(depth);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -363,7 +363,7 @@ function boxPrimitive(options) {
  * A convenience class for creating a BoxGeometry.
  */
 var BoxGeometry = /** @class */ (function (_super) {
-    tslib_1.__extends(BoxGeometry, _super);
+    __extends(BoxGeometry, _super);
     /**
      *
      */

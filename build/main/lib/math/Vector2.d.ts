@@ -23,17 +23,20 @@ export declare class Vector2 implements VectorE2, Lockable, VectorN<number> {
      * @param modified
      */
     constructor(coords?: number[], modified?: boolean);
-    readonly length: number;
-    modified: boolean;
+    get length(): number;
+    get modified(): boolean;
+    set modified(modified: boolean);
     getComponent(i: number): number;
     /**
      *
      */
-    x: number;
+    get x(): number;
+    set x(value: number);
     /**
      *
      */
-    y: number;
+    get y(): number;
+    set y(value: number);
     /**
      * @param v
      * @param α

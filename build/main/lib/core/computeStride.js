@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.computeStride = void 0;
 /**
  * Computes the stride for a given collection of attributes.
  */

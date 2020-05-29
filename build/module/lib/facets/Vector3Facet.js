@@ -20,7 +20,7 @@ var Vector3Facet = /** @class */ (function () {
         set: function (value) {
             this._name = mustBeString('name', value);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Vector3Facet.prototype, "value", {
@@ -30,7 +30,7 @@ var Vector3Facet = /** @class */ (function () {
         set: function (value) {
             this.vector.copy(value);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**

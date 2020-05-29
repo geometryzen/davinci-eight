@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.square = void 0;
 var quadrilateral_1 = require("../geometries/quadrilateral");
 var GraphicsProgramSymbols_1 = require("../core/GraphicsProgramSymbols");
 var Vector2_1 = require("../math/Vector2");

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.SimplexPrimitivesBuilder = void 0;
 var tslib_1 = require("tslib");
 var mustBeBoolean_1 = require("../checks/mustBeBoolean");
 var mustBeInteger_1 = require("../checks/mustBeInteger");
@@ -31,7 +32,7 @@ var SimplexPrimitivesBuilder = /** @class */ (function (_super) {
         set: function (k) {
             this._k.x = mustBeInteger_1.mustBeInteger('k', k);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     SimplexPrimitivesBuilder.prototype.regenerate = function () {

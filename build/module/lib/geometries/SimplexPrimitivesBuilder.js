@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { mustBeBoolean } from '../checks/mustBeBoolean';
 import { mustBeInteger } from '../checks/mustBeInteger';
 import { PrimitivesBuilder } from '../geometries/PrimitivesBuilder';
@@ -10,7 +10,7 @@ import { simplicesToGeometryMeta } from '../geometries/simplicesToGeometryMeta';
 import { Vector1 } from '../math/Vector1';
 import { Vector3 } from '../math/Vector3';
 var SimplexPrimitivesBuilder = /** @class */ (function (_super) {
-    tslib_1.__extends(SimplexPrimitivesBuilder, _super);
+    __extends(SimplexPrimitivesBuilder, _super);
     function SimplexPrimitivesBuilder() {
         var _this = _super.call(this) || this;
         _this.data = [];
@@ -29,7 +29,7 @@ var SimplexPrimitivesBuilder = /** @class */ (function (_super) {
         set: function (k) {
             this._k.x = mustBeInteger('k', k);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     SimplexPrimitivesBuilder.prototype.regenerate = function () {

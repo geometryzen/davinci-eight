@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.tetrahedron = void 0;
 var expectArg_1 = require("../checks/expectArg");
 var triangle_1 = require("../geometries/triangle");
 var VectorN_1 = require("../math/VectorN");

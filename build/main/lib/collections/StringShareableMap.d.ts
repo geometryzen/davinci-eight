@@ -19,7 +19,7 @@ export declare class StringShareableMap<V extends Shareable> extends ShareableBa
     put(key: string, value: V): void;
     putWeakRef(key: string, value: V): void;
     forEach(callback: (key: string, value: V) => void): void;
-    readonly keys: string[];
-    readonly values: V[];
+    get keys(): string[];
+    get values(): V[];
     remove(key: string): V;
 }

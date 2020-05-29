@@ -27,7 +27,7 @@ var ColorFacet = /** @class */ (function () {
             mustBeNumber('r', r);
             this.color.r = r;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ColorFacet.prototype, "g", {
@@ -41,7 +41,7 @@ var ColorFacet = /** @class */ (function () {
             mustBeNumber('g', g);
             this.color.g = g;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ColorFacet.prototype, "b", {
@@ -55,7 +55,7 @@ var ColorFacet = /** @class */ (function () {
             mustBeNumber('b', b);
             this.color.b = b;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     ColorFacet.prototype.scaleRGB = function (α) {

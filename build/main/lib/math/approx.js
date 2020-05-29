@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.approx = void 0;
 function approx(coords, n) {
     var max = 0;
     var iLen = coords.length;

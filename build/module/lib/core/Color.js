@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { clamp } from '../math/clamp';
 import { Coords } from '../math/Coords';
 import { isDefined } from '../checks/isDefined';
@@ -18,7 +18,7 @@ var rgb255 = function rgb255(red, green, blue) {
  * A mutable type representing a color through its RGB components.
  */
 var Color = /** @class */ (function (_super) {
-    tslib_1.__extends(Color, _super);
+    __extends(Color, _super);
     function Color(r, g, b) {
         var _this = _super.call(this, [r, g, b], false, 3) || this;
         mustBeGE('r', r, 0);
@@ -42,7 +42,7 @@ var Color = /** @class */ (function (_super) {
             }
             this.coords[COORD_R] = clamp(r, 0, 1);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Color.prototype, "red", {
@@ -55,7 +55,7 @@ var Color = /** @class */ (function (_super) {
             }
             this.coords[COORD_R] = clamp(red, 0, 1);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Color.prototype, "g", {
@@ -71,7 +71,7 @@ var Color = /** @class */ (function (_super) {
             }
             this.coords[COORD_G] = clamp(g, 0, 1);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Color.prototype, "green", {
@@ -84,7 +84,7 @@ var Color = /** @class */ (function (_super) {
             }
             this.coords[COORD_G] = clamp(green, 0, 1);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Color.prototype, "b", {
@@ -100,7 +100,7 @@ var Color = /** @class */ (function (_super) {
             }
             this.coords[COORD_B] = clamp(b, 0, 1);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Color.prototype, "blue", {
@@ -113,7 +113,7 @@ var Color = /** @class */ (function (_super) {
             }
             this.coords[COORD_B] = clamp(blue, 0, 1);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -182,7 +182,7 @@ var Color = /** @class */ (function (_super) {
         get: function () {
             return Color.luminance(this.r, this.g, this.b);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**

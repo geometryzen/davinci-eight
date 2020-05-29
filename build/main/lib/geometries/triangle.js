@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.triangle = void 0;
 var computeFaceNormals_1 = require("../geometries/computeFaceNormals");
 var Simplex_1 = require("../geometries/Simplex");
 var SimplexMode_1 = require("../geometries/SimplexMode");

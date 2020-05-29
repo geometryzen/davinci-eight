@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.makeWebGLShader = void 0;
 function decodeType(gl, type) {
     if (type === gl.VERTEX_SHADER) {
         return "VERTEX_SHADER";

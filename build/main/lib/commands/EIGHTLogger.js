@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.EIGHTLogger = void 0;
 var tslib_1 = require("tslib");
 var config_1 = require("../config");
 var ShareableBase_1 = require("../core/ShareableBase");

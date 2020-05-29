@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.AbstractMatrix = void 0;
 var Lockable_1 = require("../core/Lockable");
 var Lockable_2 = require("../core/Lockable");
 var mustBeDefined_1 = require("../checks/mustBeDefined");
@@ -39,7 +40,7 @@ var AbstractMatrix = /** @class */ (function () {
         set: function (unused) {
             throw new Error(readOnly_1.readOnly('dimensions').message);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(AbstractMatrix.prototype, "elements", {
@@ -53,7 +54,7 @@ var AbstractMatrix = /** @class */ (function () {
             expectArg_1.expectArg('elements', elements).toSatisfy(elements.length === this.length_, "elements length must be " + this.length_);
             this.elements_ = elements;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     AbstractMatrix.prototype.copy = function (m) {

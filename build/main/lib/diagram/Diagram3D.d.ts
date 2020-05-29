@@ -33,7 +33,7 @@ export declare class Diagram3D {
         fov: number;
         aspect: number;
     });
-    readonly canvas: HTMLCanvasElement;
+    get canvas(): HTMLCanvasElement;
     beginPath(): void;
     clear(): void;
     closePath(): void;

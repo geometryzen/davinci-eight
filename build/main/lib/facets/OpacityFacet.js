@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.OpacityFacet = void 0;
 var mustBeGE_1 = require("../checks/mustBeGE");
 var mustBeLE_1 = require("../checks/mustBeLE");
 var mustBeNumber_1 = require("../checks/mustBeNumber");
