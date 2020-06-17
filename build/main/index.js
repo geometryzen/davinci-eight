@@ -63,6 +63,8 @@ var TextureParameterName_1 = require("./lib/core/TextureParameterName");
 Object.defineProperty(exports, "TextureParameterName", { enumerable: true, get: function () { return TextureParameterName_1.TextureParameterName; } });
 var TextureTarget_1 = require("./lib/core/TextureTarget");
 Object.defineProperty(exports, "TextureTarget", { enumerable: true, get: function () { return TextureTarget_1.TextureTarget; } });
+var TextureUnit_1 = require("./lib/core/TextureUnit");
+Object.defineProperty(exports, "TextureUnit", { enumerable: true, get: function () { return TextureUnit_1.TextureUnit; } });
 var TextureWrapMode_1 = require("./lib/core/TextureWrapMode");
 Object.defineProperty(exports, "TextureWrapMode", { enumerable: true, get: function () { return TextureWrapMode_1.TextureWrapMode; } });
 var Uniform_1 = require("./lib/core/Uniform");

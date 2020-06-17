@@ -1,95 +1,95 @@
 {
-  "name": "davinci-eight",
-  "version": "7.3.3",
-  "description": "WebGL library for mathematical physics using Geometric Algebra",
-  "author": {
-    "name": "David Geo Holmes",
-    "email": "david.geo.holmes@gmail.com"
-  },
-  "browser": "./build/browser/index.js",
-  "main": "./build/main/index.js",
-  "module": "./build/module/index.js",
-  "types": "./build/main/index.d.ts",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/geometryzen/davinci-eight.git"
-  },
-  "engines": {
-    "node": ">=4"
-  },
-  "bugs": {
-    "url": "https://github.com/geometryzen/davinci-eight/issues"
-  },
-  "license": "MIT",
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/geometryzen/davinci-eight/blob/master/LICENSE"
+    "name": "davinci-eight",
+    "version": "7.4.0",
+    "description": "WebGL library for mathematical physics using Geometric Algebra",
+    "author": {
+        "name": "David Geo Holmes",
+        "email": "david.geo.holmes@gmail.com"
+    },
+    "browser": "./build/browser/index.js",
+    "main": "./build/main/index.js",
+    "module": "./build/module/index.js",
+    "types": "./build/main/index.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/geometryzen/davinci-eight.git"
+    },
+    "engines": {
+        "node": ">=4"
+    },
+    "bugs": {
+        "url": "https://github.com/geometryzen/davinci-eight/issues"
+    },
+    "license": "MIT",
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "https://github.com/geometryzen/davinci-eight/blob/master/LICENSE"
+        }
+    ],
+    "keywords": [
+        "WebGL",
+        "STEMCstudio",
+        "Geometric",
+        "Algebra",
+        "Physics",
+        "Mathematics"
+    ],
+    "scripts": {
+        "info": "npm-scripts-info",
+        "build": "trash build && tsc -p tsconfig.main.json && tsc -p tsconfig.module.json && npm run-script build:browser",
+        "build:browser": "rollup --config rollup.config.js --format umd --name 'EIGHT' --output build/browser/index.js && sorcery -i build/browser/index.js && cp src/index.d.ts build/browser",
+        "lint": "tslint src/**/*.ts",
+        "unit": "trash test && tsc -p tsconfig.json && karma start",
+        "test": "npm run-script lint && npm run-script unit && nyc check-coverage --lines 40 --functions 30 --branches 20",
+        "watch": "concurrently -r --kill-others 'tsc -p tsconfig.json -w' 'sleepms 2000 && jasmine-node test --autotest --watch test'",
+        "coverage": "trash test && tsc -p tsconfig.json && nyc karma start && nyc report --reporter=html && opn coverage/index.html",
+        "docs": "npm run-script docs:typedoc && opn docs/index.html",
+        "docs:typedoc": "trash docs && typedoc src/index.ts --excludePrivate --excludeNotExported --mode file --theme minimal --out docs",
+        "pages": "npm run-script docs:typedoc && gh-pages -d docs",
+        "changelog": "standard-version"
+    },
+    "devDependencies": {
+        "@types/jasmine": "^2.8.16",
+        "@types/node": "^8.10.61",
+        "browserify": "^14.5.0",
+        "codecov": "^2.3.0",
+        "concurrently": "^3.6.1",
+        "core-js": "^2.6.11",
+        "cpx": "^1.5.0",
+        "es6-module-loader": "^0.17.11",
+        "gh-pages": "^1.2.0",
+        "hash.js": "^1.1.7",
+        "jasmine-core": "^2.99.1",
+        "karma": "^1.7.0",
+        "karma-chrome-launcher": "^2.2.0",
+        "karma-cli": "^1.0.1",
+        "karma-coverage": "^1.1.2",
+        "karma-jasmine": "^1.1.2",
+        "karma-jasmine-html-reporter": "^0.2.2",
+        "karma-phantomjs-launcher": "^1.0.4",
+        "karma-systemjs": "^0.16.0",
+        "mkdirp": "^0.5.5",
+        "npm-scripts-info": "^0.3.9",
+        "nyc": "^11.9.0",
+        "opn-cli": "^3.1.0",
+        "phantomjs-polyfill": "^0.0.2",
+        "rollup": "^0.45.2",
+        "rollup-plugin-alias": "^1.5.2",
+        "rollup-plugin-commonjs": "^8.4.1",
+        "rollup-plugin-node-resolve": "^3.4.0",
+        "rollup-watch": "^4.3.1",
+        "sleep-ms": "^2.0.1",
+        "sorcery": "^0.10.0",
+        "standard-version": "^5.0.2",
+        "systemjs": "^0.19.41",
+        "trash-cli": "^1.4.0",
+        "tslint": "^5.20.1",
+        "tslint-config-standard": "^8.0.1",
+        "typedoc": "^0.17.7",
+        "typescript": "^3.9.5"
+    },
+    "dependencies": {
+        "tslib": "^1.13.0"
     }
-  ],
-  "keywords": [
-    "WebGL",
-    "STEMCstudio",
-    "Geometric",
-    "Algebra",
-    "Physics",
-    "Mathematics"
-  ],
-  "scripts": {
-    "info": "npm-scripts-info",
-    "build": "trash build && tsc -p tsconfig.main.json && tsc -p tsconfig.module.json && npm run-script build:browser",
-    "build:browser": "rollup --config rollup.config.js --format umd --name 'EIGHT' --output build/browser/index.js && sorcery -i build/browser/index.js && cp src/index.d.ts build/browser",
-    "lint": "tslint src/**/*.ts",
-    "unit": "trash test && tsc -p tsconfig.json && karma start",
-    "test": "npm run-script lint && npm run-script unit && nyc check-coverage --lines 40 --functions 30 --branches 20",
-    "watch": "concurrently -r --kill-others 'tsc -p tsconfig.json -w' 'sleepms 2000 && jasmine-node test --autotest --watch test'",
-    "coverage": "trash test && tsc -p tsconfig.json && nyc karma start && nyc report --reporter=html && opn coverage/index.html",
-    "docs": "npm run-script docs:typedoc && opn docs/index.html",
-    "docs:typedoc": "trash docs && typedoc src/index.ts --excludePrivate --excludeNotExported --mode file --theme minimal --out docs",
-    "pages": "npm run-script docs:typedoc && gh-pages -d docs",
-    "changelog": "standard-version"
-  },
-  "devDependencies": {
-    "@types/jasmine": "^2.8.16",
-    "@types/node": "^8.10.61",
-    "browserify": "^14.5.0",
-    "codecov": "^2.3.0",
-    "concurrently": "^3.6.1",
-    "core-js": "^2.6.11",
-    "cpx": "^1.5.0",
-    "es6-module-loader": "^0.17.11",
-    "gh-pages": "^1.2.0",
-    "hash.js": "^1.1.7",
-    "jasmine-core": "^2.99.1",
-    "karma": "^1.7.0",
-    "karma-chrome-launcher": "^2.2.0",
-    "karma-cli": "^1.0.1",
-    "karma-coverage": "^1.1.2",
-    "karma-jasmine": "^1.1.2",
-    "karma-jasmine-html-reporter": "^0.2.2",
-    "karma-phantomjs-launcher": "^1.0.4",
-    "karma-systemjs": "^0.16.0",
-    "mkdirp": "^0.5.5",
-    "npm-scripts-info": "^0.3.9",
-    "nyc": "^11.9.0",
-    "opn-cli": "^3.1.0",
-    "phantomjs-polyfill": "^0.0.2",
-    "rollup": "^0.45.2",
-    "rollup-plugin-alias": "^1.5.2",
-    "rollup-plugin-commonjs": "^8.4.1",
-    "rollup-plugin-node-resolve": "^3.4.0",
-    "rollup-watch": "^4.3.1",
-    "sleep-ms": "^2.0.1",
-    "sorcery": "^0.10.0",
-    "standard-version": "^5.0.2",
-    "systemjs": "^0.19.41",
-    "trash-cli": "^1.4.0",
-    "tslint": "^5.20.1",
-    "tslint-config-standard": "^8.0.1",
-    "typedoc": "^0.14.2",
-    "typescript": "^3.9.3"
-  },
-  "dependencies": {
-    "tslib": "^1.13.0"
-  }
 }

@@ -1,4 +1,4 @@
-// Type definitions for davinci-eight 7.3.3
+// Type definitions for davinci-eight 7.4.0
 // Project: https://github.com/geometryzen/davinci-eight
 // Definitions by: David Geo Holmes david.geo.holmes@gmail.com https://www.stemcstudio.com
 //

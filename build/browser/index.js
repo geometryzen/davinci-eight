@@ -90,9 +90,9 @@ function mustBeString(name, value, contextBuilder) {
 var Eight = /** @class */ (function () {
     function Eight() {
         this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-        this.LAST_MODIFIED = '2019-03-31';
+        this.LAST_MODIFIED = '2020-06-16';
         this.NAMESPACE = 'EIGHT';
-        this.VERSION = '7.3.3';
+        this.VERSION = '7.4.0';
     }
     Eight.prototype.log = function (message) {
         // This should allow us to unit test and run in environments without a console.
@@ -11413,7 +11413,7 @@ function referenceMeridian(options, fallback) {
 /**
  *
  */
-var TextureUnit;
+
 (function (TextureUnit) {
     TextureUnit[TextureUnit["TEXTURE0"] = 33984] = "TEXTURE0";
     TextureUnit[TextureUnit["TEXTURE1"] = 33985] = "TEXTURE1";
@@ -11448,13 +11448,13 @@ var TextureUnit;
     TextureUnit[TextureUnit["TEXTURE30"] = 34014] = "TEXTURE30";
     TextureUnit[TextureUnit["TEXTURE31"] = 34015] = "TEXTURE31";
     TextureUnit[TextureUnit["ACTIVE_TEXTURE"] = 34016] = "ACTIVE_TEXTURE";
-})(TextureUnit || (TextureUnit = {}));
+})(exports.TextureUnit || (exports.TextureUnit = {}));
 
 var TextureFacet = /** @class */ (function (_super) {
     __extends(TextureFacet, _super);
     function TextureFacet() {
         var _this = _super.call(this) || this;
-        _this.unit = TextureUnit.TEXTURE0;
+        _this.unit = exports.TextureUnit.TEXTURE0;
         _this.setLoggingName('TextureFacet');
         return _this;
     }

@@ -173,6 +173,7 @@ var Engine = /** @class */ (function (_super) {
                     return this._gl.canvas;
                 }
                 else {
+                    // OffscreenCanvas or undefined.
                     return void 0;
                 }
             }

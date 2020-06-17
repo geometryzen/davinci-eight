@@ -31,6 +31,7 @@ export { TextureMagFilter } from './lib/core/TextureMagFilter';
 export { TextureMinFilter } from './lib/core/TextureMinFilter';
 export { TextureParameterName } from './lib/core/TextureParameterName';
 export { TextureTarget } from './lib/core/TextureTarget';
+export { TextureUnit } from './lib/core/TextureUnit';
 export { TextureWrapMode } from './lib/core/TextureWrapMode';
 export { Uniform } from './lib/core/Uniform';
 export { Usage } from './lib/core/Usage';
