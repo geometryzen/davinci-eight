@@ -2,6 +2,8 @@
 
 ### Prerequisites
 
+npm install --global karma-cli
+npm install --global nyc
 npm install --global trash-cli
 npm install --global rollup
 npm install --global sorcery
