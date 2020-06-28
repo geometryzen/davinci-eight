@@ -1,6 +1,6 @@
 {
     "name": "davinci-eight",
-    "version": "7.4.0",
+    "version": "7.4.1",
     "description": "WebGL library for mathematical physics using Geometric Algebra",
     "author": {
         "name": "David Geo Holmes",
@@ -38,7 +38,7 @@
     "scripts": {
         "info": "npm-scripts-info",
         "build": "trash build && tsc -p tsconfig.main.json && tsc -p tsconfig.module.json && npm run-script build:browser",
-        "build:browser": "rollup --config rollup.config.js --format umd --name 'EIGHT' --output build/browser/index.js && sorcery -i build/browser/index.js && cp src/index.d.ts build/browser",
+        "build:browser": "rollup --config rollup.config.js && cp src/index.d.ts build/browser",
         "lint": "tslint src/**/*.ts",
         "unit": "trash test && tsc -p tsconfig.json && karma start",
         "test": "npm run-script lint && npm run-script unit && nyc check-coverage --lines 40 --functions 30 --branches 20",
@@ -50,7 +50,7 @@
         "changelog": "standard-version"
     },
     "devDependencies": {
-        "@types/jasmine": "^2.8.16",
+        "@types/jasmine": "^2.8.17",
         "@types/node": "^8.10.61",
         "browserify": "^14.5.0",
         "codecov": "^2.3.0",
@@ -90,6 +90,6 @@
         "typescript": "^3.9.5"
     },
     "dependencies": {
-        "tslib": "^1.13.0"
+        "tslib": "^2.0.0"
     }
 }

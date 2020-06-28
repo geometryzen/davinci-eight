@@ -1,5 +1,11 @@
 ## Contributing
 
+### Prerequisites
+
+npm install --global trash-cli
+npm install --global rollup
+npm install --global sorcery
+
 ### Building
 
 Open a terminal window.
