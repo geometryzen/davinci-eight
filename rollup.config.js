@@ -1,4 +1,10 @@
 import pkg from './package.json';
+import commonjs from '@rollup/plugin-commonjs';
+import nodeResolve from '@rollup/plugin-node-resolve';
+import alias from '@rollup/plugin-alias';
+
+const substituteModulePaths = {
+}
 
 export default [
     // browser-friendly UMD build
@@ -7,11 +13,15 @@ export default [
         output: {
             name: 'EIGHT',
             file: pkg.browser,
-            format: 'umd',
-            globals: {
-                tslib: 'tslib'
-            }
+            format: 'umd'
         },
-        external: ['tslib']
+        plugins: [
+            alias(substituteModulePaths),
+            nodeResolve({
+                browser: true
+            }),
+            commonjs()
+        ]
     }
+
 ];

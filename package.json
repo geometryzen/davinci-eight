@@ -1,6 +1,6 @@
 {
     "name": "davinci-eight",
-    "version": "7.4.1",
+    "version": "7.4.2",
     "description": "WebGL library for mathematical physics using Geometric Algebra",
     "author": {
         "name": "David Geo Holmes",
@@ -75,9 +75,9 @@
         "opn-cli": "^3.1.0",
         "phantomjs-polyfill": "^0.0.2",
         "rollup": "^0.45.2",
-        "rollup-plugin-alias": "^1.5.2",
-        "rollup-plugin-commonjs": "^8.4.1",
-        "rollup-plugin-node-resolve": "^3.4.0",
+        "@rollup/plugin-alias": "^3.1.1",
+        "@rollup/plugin-commonjs": "^13.0.0",
+        "@rollup/plugin-node-resolve": "^8.1.0",
         "rollup-watch": "^4.3.1",
         "sleep-ms": "^2.0.1",
         "sorcery": "^0.10.0",

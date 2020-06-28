@@ -1,8 +1,37 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('tslib')) :
-    typeof define === 'function' && define.amd ? define(['exports', 'tslib'], factory) :
-    (global = global || self, factory(global.EIGHT = {}, global.tslib));
-}(this, (function (exports, tslib) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+    typeof define === 'function' && define.amd ? define(['exports'], factory) :
+    (global = global || self, factory(global.EIGHT = {}));
+}(this, (function (exports) { 'use strict';
+
+    /*! *****************************************************************************
+    Copyright (c) Microsoft Corporation.
+
+    Permission to use, copy, modify, and/or distribute this software for any
+    purpose with or without fee is hereby granted.
+
+    THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+    REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+    AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+    INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+    LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+    OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+    PERFORMANCE OF THIS SOFTWARE.
+    ***************************************************************************** */
+    /* global Reflect, Promise */
+
+    var extendStatics = function(d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+
+    function __extends(d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    }
 
     function isDefined(arg) {
         return (typeof arg !== 'undefined');
@@ -63,7 +92,7 @@
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2020-06-28';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '7.4.1';
+            this.VERSION = '7.4.2';
         }
         Eight.prototype.log = function (message) {
             // This should allow us to unit test and run in environments without a console.
@@ -495,7 +524,7 @@
     }());
 
     var WebGLBlendFunc = /** @class */ (function (_super) {
-        tslib.__extends(WebGLBlendFunc, _super);
+        __extends(WebGLBlendFunc, _super);
         function WebGLBlendFunc(contextManager, sfactor, dfactor) {
             var _this = _super.call(this) || this;
             _this.contextManager = contextManager;
@@ -533,7 +562,7 @@
     }
 
     var WebGLClearColor = /** @class */ (function (_super) {
-        tslib.__extends(WebGLClearColor, _super);
+        __extends(WebGLClearColor, _super);
         function WebGLClearColor(contextManager, r, g, b, a) {
             if (r === void 0) { r = 0; }
             if (g === void 0) { g = 0; }
@@ -578,7 +607,7 @@
      * disable(capability: Capability): void
      */
     var WebGLDisable = /** @class */ (function (_super) {
-        tslib.__extends(WebGLDisable, _super);
+        __extends(WebGLDisable, _super);
         function WebGLDisable(contextManager, capability) {
             var _this = _super.call(this) || this;
             _this.contextManager = contextManager;
@@ -606,7 +635,7 @@
      * enable(capability: Capability): void
      */
     var WebGLEnable = /** @class */ (function (_super) {
-        tslib.__extends(WebGLEnable, _super);
+        __extends(WebGLEnable, _super);
         function WebGLEnable(contextManager, capability) {
             var _this = _super.call(this) || this;
             _this.contextManager = contextManager;
@@ -1071,7 +1100,7 @@
         return m;
     }
     var TargetLockedError = /** @class */ (function (_super) {
-        tslib.__extends(TargetLockedError, _super);
+        __extends(TargetLockedError, _super);
         /**
          * `operationName` is the name of the operation, without parentheses or parameters.
          */
@@ -1081,7 +1110,7 @@
         return TargetLockedError;
     }(Error));
     var TargetUnlockedError = /** @class */ (function (_super) {
-        tslib.__extends(TargetUnlockedError, _super);
+        __extends(TargetUnlockedError, _super);
         /**
          * `operationName` is the name of the operation, without parentheses.
          */
@@ -5368,7 +5397,7 @@
      * </p>
      */
     var Matrix3 = /** @class */ (function (_super) {
-        tslib.__extends(Matrix3, _super);
+        __extends(Matrix3, _super);
         /**
          * @param elements
          */
@@ -7114,7 +7143,7 @@
      *
      */
     var MouseControls = /** @class */ (function (_super) {
-        tslib.__extends(MouseControls, _super);
+        __extends(MouseControls, _super);
         /**
          *
          * @param wnd
@@ -7444,7 +7473,7 @@
      *
      */
     var ViewControls = /** @class */ (function (_super) {
-        tslib.__extends(ViewControls, _super);
+        __extends(ViewControls, _super);
         /**
          * @param view
          * @param wnd
@@ -7623,7 +7652,7 @@
      * </p>
      */
     var OrbitControls = /** @class */ (function (_super) {
-        tslib.__extends(OrbitControls, _super);
+        __extends(OrbitControls, _super);
         /**
          * @param view
          * @param wnd
@@ -7701,7 +7730,7 @@
      * You may decide to update directional lighting to synchronize with the camera.
      */
     var TrackballControls = /** @class */ (function (_super) {
-        tslib.__extends(TrackballControls, _super);
+        __extends(TrackballControls, _super);
         /**
          *
          * @param view eye, look, and up vectors. The coordinates will be manipulated by this object.
@@ -8199,7 +8228,7 @@
      *
      */
     var Coords = /** @class */ (function (_super) {
-        tslib.__extends(Coords, _super);
+        __extends(Coords, _super);
         /**
          *
          */
@@ -8289,7 +8318,7 @@
      * A mutable type representing a color through its RGB components.
      */
     var Color = /** @class */ (function (_super) {
-        tslib.__extends(Color, _super);
+        __extends(Color, _super);
         function Color(r, g, b) {
             var _this = _super.call(this, [r, g, b], false, 3) || this;
             mustBeGE('r', r, 0);
@@ -8890,7 +8919,7 @@
      *
      */
     var ShareableContextConsumer = /** @class */ (function (_super) {
-        tslib.__extends(ShareableContextConsumer, _super);
+        __extends(ShareableContextConsumer, _super);
         /**
          *
          */
@@ -8998,7 +9027,7 @@
      *
      */
     var StringShareableMap = /** @class */ (function (_super) {
-        tslib.__extends(StringShareableMap, _super);
+        __extends(StringShareableMap, _super);
         /**
          * A map of string to V extends Shareable.
          */
@@ -9095,7 +9124,7 @@
      * This class may be used as either a base class or standalone.
      */
     var Drawable = /** @class */ (function (_super) {
-        tslib.__extends(Drawable, _super);
+        __extends(Drawable, _super);
         /**
          *
          */
@@ -9457,7 +9486,7 @@
      * GeometryBase
      */
     var GeometryBase = /** @class */ (function (_super) {
-        tslib.__extends(GeometryBase, _super);
+        __extends(GeometryBase, _super);
         /**
          *
          */
@@ -9646,7 +9675,7 @@
      * A wrapper around a WebGLBuffer with binding to ARRAY_BUFFER.
      */
     var VertexBuffer = /** @class */ (function (_super) {
-        tslib.__extends(VertexBuffer, _super);
+        __extends(VertexBuffer, _super);
         /**
          *
          */
@@ -9737,7 +9766,7 @@
      * A concrete Geometry for supporting drawArrays.
      */
     var GeometryArrays = /** @class */ (function (_super) {
-        tslib.__extends(GeometryArrays, _super);
+        __extends(GeometryArrays, _super);
         /**
          *
          */
@@ -9831,7 +9860,7 @@
      * A wrapper around a WebGLBuffer with binding to ELEMENT_ARRAY_BUFFER.
      */
     var IndexBuffer = /** @class */ (function (_super) {
-        tslib.__extends(IndexBuffer, _super);
+        __extends(IndexBuffer, _super);
         /**
          *
          */
@@ -9925,7 +9954,7 @@
      * A Geometry that supports interleaved vertex buffers.
      */
     var GeometryElements = /** @class */ (function (_super) {
-        tslib.__extends(GeometryElements, _super);
+        __extends(GeometryElements, _super);
         /**
          *
          */
@@ -10064,7 +10093,7 @@
     })(exports.TextureParameterName || (exports.TextureParameterName = {}));
 
     var Texture = /** @class */ (function (_super) {
-        tslib.__extends(Texture, _super);
+        __extends(Texture, _super);
         function Texture(target, contextManager, levelUp) {
             if (levelUp === void 0) { levelUp = 0; }
             var _this = _super.call(this, contextManager) || this;
@@ -10199,7 +10228,7 @@
     }(ShareableContextConsumer));
 
     var ImageTexture = /** @class */ (function (_super) {
-        tslib.__extends(ImageTexture, _super);
+        __extends(ImageTexture, _super);
         function ImageTexture(image, target, contextManager, levelUp) {
             if (levelUp === void 0) { levelUp = 0; }
             var _this = _super.call(this, target, contextManager, levelUp + 1) || this;
@@ -10660,7 +10689,7 @@
      * An adapter for a `Float32Array`.
      */
     var Matrix4 = /** @class */ (function (_super) {
-        tslib.__extends(Matrix4, _super);
+        __extends(Matrix4, _super);
         // The correspondence between the elements property index and the matrix entries is...
         //
         //  0  4  8 12
@@ -11144,7 +11173,7 @@
      *
      */
     var ModelFacet = /** @class */ (function (_super) {
-        tslib.__extends(ModelFacet, _super);
+        __extends(ModelFacet, _super);
         /**
          * <p>
          * A collection of properties governing GLSL uniforms for Rigid Body Modeling.
@@ -11387,7 +11416,7 @@
     })(exports.TextureUnit || (exports.TextureUnit = {}));
 
     var TextureFacet = /** @class */ (function (_super) {
-        tslib.__extends(TextureFacet, _super);
+        __extends(TextureFacet, _super);
         function TextureFacet() {
             var _this = _super.call(this) || this;
             _this.unit = exports.TextureUnit.TEXTURE0;
@@ -11426,7 +11455,7 @@
      * The standard pairing of a Geometry and a Material.
      */
     var Mesh = /** @class */ (function (_super) {
-        tslib.__extends(Mesh, _super);
+        __extends(Mesh, _super);
         /**
          * Initializes this Mesh with a ColorFacet ('color'), a TextureFacet ('image'), and a ModelFacet ('model').
          *
@@ -11865,7 +11894,7 @@
      * </p>
      */
     var ShareableArray = /** @class */ (function (_super) {
-        tslib.__extends(ShareableArray, _super);
+        __extends(ShareableArray, _super);
         /**
          *
          */
@@ -12045,7 +12074,7 @@
      * A collection of Renderable objects.
      */
     var Scene = /** @class */ (function (_super) {
-        tslib.__extends(Scene, _super);
+        __extends(Scene, _super);
         function Scene(contextManager, levelUp) {
             if (levelUp === void 0) { levelUp = 0; }
             var _this = _super.call(this, contextManager) || this;
@@ -12231,7 +12260,7 @@
      *
      */
     var Shader = /** @class */ (function (_super) {
-        tslib.__extends(Shader, _super);
+        __extends(Shader, _super);
         function Shader(source, type, engine) {
             var _this = _super.call(this, engine) || this;
             _this.setLoggingName('Shader');
@@ -12513,7 +12542,7 @@
      * Displays details about EIGHT to the console.
      */
     var EIGHTLogger = /** @class */ (function (_super) {
-        tslib.__extends(EIGHTLogger, _super);
+        __extends(EIGHTLogger, _super);
         function EIGHTLogger() {
             var _this = _super.call(this) || this;
             _this.setLoggingName('EIGHTLogger');
@@ -12572,7 +12601,7 @@
      * Displays details about the WegGL version to the console.
      */
     var VersionLogger = /** @class */ (function (_super) {
-        tslib.__extends(VersionLogger, _super);
+        __extends(VersionLogger, _super);
         function VersionLogger(contextManager) {
             var _this = _super.call(this) || this;
             _this.contextManager = contextManager;
@@ -12645,7 +12674,7 @@
      *     requestAnimationFrame(animate)
      */
     var Engine = /** @class */ (function (_super) {
-        tslib.__extends(Engine, _super);
+        __extends(Engine, _super);
         /**
          * @param canvas
          * @param attributes Allows the context to be configured.
@@ -13212,7 +13241,7 @@
      *
      */
     var Matrix2 = /** @class */ (function (_super) {
-        tslib.__extends(Matrix2, _super);
+        __extends(Matrix2, _super);
         /**
          * 2x2 (square) matrix of numbers.
          * Constructs a Matrix2 by wrapping a Float32Array.
@@ -16111,7 +16140,7 @@
      *
      */
     var AxialShapeBuilder = /** @class */ (function (_super) {
-        tslib.__extends(AxialShapeBuilder, _super);
+        __extends(AxialShapeBuilder, _super);
         /**
          *
          */
@@ -17186,7 +17215,7 @@
      * increasing v the second direction.
      */
     var GridPrimitive = /** @class */ (function (_super) {
-        tslib.__extends(GridPrimitive, _super);
+        __extends(GridPrimitive, _super);
         function GridPrimitive(mode, uSegments, vSegments) {
             var _this = _super.call(this, mode, numVerticesForGrid(uSegments, vSegments), 2) || this;
             _this._uClosed = false;
@@ -17317,7 +17346,7 @@
      * increasing v the second direction.
      */
     var GridTriangleStrip = /** @class */ (function (_super) {
-        tslib.__extends(GridTriangleStrip, _super);
+        __extends(GridTriangleStrip, _super);
         /**
          * @param uSegments
          * @param vSegments
@@ -17532,7 +17561,7 @@
      *
      */
     var ConicalShellBuilder = /** @class */ (function (_super) {
-        tslib.__extends(ConicalShellBuilder, _super);
+        __extends(ConicalShellBuilder, _super);
         function ConicalShellBuilder() {
             var _this = _super.call(this) || this;
             /**
@@ -17624,7 +17653,7 @@
      * This implementation only builds the walls of the cylinder (by wrapping a grid)
      */
     var CylindricalShellBuilder = /** @class */ (function (_super) {
-        tslib.__extends(CylindricalShellBuilder, _super);
+        __extends(CylindricalShellBuilder, _super);
         function CylindricalShellBuilder() {
             var _this = _super !== null && _super.apply(this, arguments) || this;
             _this.radialSegments = 1;
@@ -17715,7 +17744,7 @@
      * Constructs a one-sided ring using a TRIANGLE_STRIP.
      */
     var RingBuilder = /** @class */ (function (_super) {
-        tslib.__extends(RingBuilder, _super);
+        __extends(RingBuilder, _super);
         function RingBuilder() {
             var _this = _super !== null && _super.apply(this, arguments) || this;
             /**
@@ -17791,7 +17820,7 @@
      * </p>
      */
     var ArrowBuilder = /** @class */ (function (_super) {
-        tslib.__extends(ArrowBuilder, _super);
+        __extends(ArrowBuilder, _super);
         /**
          *
          * @param axis The direction of the arrow. The argument is normalized to a unit vector.
@@ -18150,7 +18179,7 @@
      * </p>
      */
     var ArrowGeometry = /** @class */ (function (_super) {
-        tslib.__extends(ArrowGeometry, _super);
+        __extends(ArrowGeometry, _super);
         /**
          *
          */
@@ -18544,7 +18573,7 @@
      * @class Vector1
      */
     var Vector1 = /** @class */ (function (_super) {
-        tslib.__extends(Vector1, _super);
+        __extends(Vector1, _super);
         /**
          * @class Vector1
          * @constructor
@@ -18880,7 +18909,7 @@
     }(Coords));
 
     var SimplexPrimitivesBuilder = /** @class */ (function (_super) {
-        tslib.__extends(SimplexPrimitivesBuilder, _super);
+        __extends(SimplexPrimitivesBuilder, _super);
         function SimplexPrimitivesBuilder() {
             var _this = _super.call(this) || this;
             _this.data = [];
@@ -19050,7 +19079,7 @@
      */
     var DEFAULT_C = vec(0, 0, 1);
     var CuboidSimplexPrimitivesBuilder = /** @class */ (function (_super) {
-        tslib.__extends(CuboidSimplexPrimitivesBuilder, _super);
+        __extends(CuboidSimplexPrimitivesBuilder, _super);
         function CuboidSimplexPrimitivesBuilder(a, b, c, k, subdivide, boundary) {
             if (k === void 0) { k = SimplexMode.TRIANGLE; }
             if (subdivide === void 0) { subdivide = 0; }
@@ -19195,7 +19224,7 @@
         return side;
     }
     var CuboidPrimitivesBuilder = /** @class */ (function (_super) {
-        tslib.__extends(CuboidPrimitivesBuilder, _super);
+        __extends(CuboidPrimitivesBuilder, _super);
         function CuboidPrimitivesBuilder() {
             var _this = _super.call(this) || this;
             _this.iSegments = 1;
@@ -19375,7 +19404,7 @@
      * A convenience class for creating a BoxGeometry.
      */
     var BoxGeometry = /** @class */ (function (_super) {
-        tslib.__extends(BoxGeometry, _super);
+        __extends(BoxGeometry, _super);
         /**
          *
          */
@@ -19521,7 +19550,7 @@
      *
      */
     var CylinderSimplexPrimitivesBuilder = /** @class */ (function (_super) {
-        tslib.__extends(CylinderSimplexPrimitivesBuilder, _super);
+        __extends(CylinderSimplexPrimitivesBuilder, _super);
         function CylinderSimplexPrimitivesBuilder(height, cutLine, clockwise, mode) {
             var _this = _super.call(this) || this;
             _this.mode = mode;
@@ -19750,7 +19779,7 @@
      * A geometry for a Cylinder.
      */
     var CylinderGeometry = /** @class */ (function (_super) {
-        tslib.__extends(CylinderGeometry, _super);
+        __extends(CylinderGeometry, _super);
         /**
          *
          */
@@ -19807,7 +19836,7 @@
      *
      */
     var CurvePrimitive = /** @class */ (function (_super) {
-        tslib.__extends(CurvePrimitive, _super);
+        __extends(CurvePrimitive, _super);
         /**
          * @param mode
          * @param uSegments
@@ -19881,7 +19910,7 @@
     }
 
     var LineStrip = /** @class */ (function (_super) {
-        tslib.__extends(LineStrip, _super);
+        __extends(LineStrip, _super);
         /**
          * @param uSegments
          */
@@ -19922,7 +19951,7 @@
      *
      */
     var LinePoints = /** @class */ (function (_super) {
-        tslib.__extends(LinePoints, _super);
+        __extends(LinePoints, _super);
         /**
          * @param uSegments
          */
@@ -20001,7 +20030,7 @@
      * A Geometry for representing functions of one scalar parameter.
      */
     var CurveGeometry = /** @class */ (function (_super) {
-        tslib.__extends(CurveGeometry, _super);
+        __extends(CurveGeometry, _super);
         function CurveGeometry(contextManager, options, levelUp) {
             if (options === void 0) { options = { kind: 'CurveGeometry' }; }
             if (levelUp === void 0) { levelUp = 0; }
@@ -20065,7 +20094,7 @@
         return elements;
     }
     var GridLines = /** @class */ (function (_super) {
-        tslib.__extends(GridLines, _super);
+        __extends(GridLines, _super);
         /**
          * @param uSegments
          * @param uClosed
@@ -20123,7 +20152,7 @@
      *
      */
     var GridPoints = /** @class */ (function (_super) {
-        tslib.__extends(GridPoints, _super);
+        __extends(GridPoints, _super);
         /**
          * @param uSegments
          * @param uClosed
@@ -20254,7 +20283,7 @@
      * A Geometry for representing functions of two scalar parameters.
      */
     var GridGeometry = /** @class */ (function (_super) {
-        tslib.__extends(GridGeometry, _super);
+        __extends(GridGeometry, _super);
         /**
          *
          */
@@ -20464,7 +20493,7 @@
         }
     }
     var SphereSimplexPrimitivesBuilder = /** @class */ (function (_super) {
-        tslib.__extends(SphereSimplexPrimitivesBuilder, _super);
+        __extends(SphereSimplexPrimitivesBuilder, _super);
         function SphereSimplexPrimitivesBuilder() {
             var _this = _super.call(this) || this;
             _this.tilt = Spinor3.one.clone();
@@ -20645,7 +20674,7 @@
      * A convenience class for creating a sphere.
      */
     var SphereGeometry = /** @class */ (function (_super) {
-        tslib.__extends(SphereGeometry, _super);
+        __extends(SphereGeometry, _super);
         /**
          *
          */
@@ -20735,7 +20764,7 @@
      * flat polygonal faces, straight edges and sharp corners or vertices.
      */
     var PolyhedronBuilder = /** @class */ (function (_super) {
-        tslib.__extends(PolyhedronBuilder, _super);
+        __extends(PolyhedronBuilder, _super);
         /**
          *
          * param vertices {number} An array of 3 * N numbers representing N vertices.
@@ -20913,7 +20942,7 @@
      * A convenience class for creating a tetrahedron geometry.
      */
     var TetrahedronGeometry = /** @class */ (function (_super) {
-        tslib.__extends(TetrahedronGeometry, _super);
+        __extends(TetrahedronGeometry, _super);
         /**
          *
          */
@@ -20984,7 +21013,7 @@
      *
      */
     var ShaderMaterial = /** @class */ (function (_super) {
-        tslib.__extends(ShaderMaterial, _super);
+        __extends(ShaderMaterial, _super);
         /**
          * @param vertexShaderSrc The vertex shader source code.
          * @param fragmentShaderSrc The fragment shader source code.
@@ -21487,7 +21516,7 @@
      * the DOM has finished loading.
      */
     var HTMLScriptsMaterial = /** @class */ (function (_super) {
-        tslib.__extends(HTMLScriptsMaterial, _super);
+        __extends(HTMLScriptsMaterial, _super);
         /**
          * @param contextManager
          * @param scriptIds The element identifiers for the vertex and fragment shader respectively.
@@ -22004,7 +22033,7 @@
      * </table>
      */
     var LineMaterial = /** @class */ (function (_super) {
-        tslib.__extends(LineMaterial, _super);
+        __extends(LineMaterial, _super);
         /**
          *
          */
@@ -22086,7 +22115,7 @@
      *
      */
     var MeshMaterial = /** @class */ (function (_super) {
-        tslib.__extends(MeshMaterial, _super);
+        __extends(MeshMaterial, _super);
         /**
          *
          */
@@ -22162,7 +22191,7 @@
      *
      */
     var PointMaterial = /** @class */ (function (_super) {
-        tslib.__extends(PointMaterial, _super);
+        __extends(PointMaterial, _super);
         /**
          *
          */
@@ -22248,7 +22277,7 @@
      *
      */
     var Vector4 = /** @class */ (function (_super) {
-        tslib.__extends(Vector4, _super);
+        __extends(Vector4, _super);
         /**
          * @class Vector4
          * @constructor
@@ -22483,7 +22512,7 @@
     }
 
     var NumberShareableMap = /** @class */ (function (_super) {
-        tslib.__extends(NumberShareableMap, _super);
+        __extends(NumberShareableMap, _super);
         function NumberShareableMap() {
             var _this = _super.call(this) || this;
             _this._elements = {};
@@ -22939,7 +22968,7 @@
      * A Mesh in the form of an arrow that may be used to represent a vector quantity.
      */
     var Arrow = /** @class */ (function (_super) {
-        tslib.__extends(Arrow, _super);
+        __extends(Arrow, _super);
         /**
          *
          */
@@ -23092,7 +23121,7 @@
      * A 3D visual representation of a reference frame or basis vectors.
      */
     var Basis = /** @class */ (function (_super) {
-        tslib.__extends(Basis, _super);
+        __extends(Basis, _super);
         /**
          *
          */
@@ -23245,7 +23274,7 @@
      *
      */
     var Sphere = /** @class */ (function (_super) {
-        tslib.__extends(Sphere, _super);
+        __extends(Sphere, _super);
         /**
          *
          */
@@ -23317,7 +23346,7 @@
      * A 3D visual representation of a box.
      */
     var Box = /** @class */ (function (_super) {
-        tslib.__extends(Box, _super);
+        __extends(Box, _super);
         /**
          *
          */
@@ -23430,7 +23459,7 @@
      * A 3D visual representation of a cylinder.
      */
     var Cylinder = /** @class */ (function (_super) {
-        tslib.__extends(Cylinder, _super);
+        __extends(Cylinder, _super);
         /**
          *
          */
@@ -23631,7 +23660,7 @@
      * A 3D visual representation of a discrete parameterized line.
      */
     var Curve = /** @class */ (function (_super) {
-        tslib.__extends(Curve, _super);
+        __extends(Curve, _super);
         /**
          * Constructs a Curve.
          */
@@ -23953,7 +23982,7 @@
      * A 3D visual representation of a a discrete parameterized surface.
      */
     var Grid = /** @class */ (function (_super) {
-        tslib.__extends(Grid, _super);
+        __extends(Grid, _super);
         /**
          * Constructs a Grid.
          */
@@ -24038,7 +24067,7 @@
      * A grid in the xy plane.
      */
     var GridXY = /** @class */ (function (_super) {
-        tslib.__extends(GridXY, _super);
+        __extends(GridXY, _super);
         /**
          * Constructs a GridXY
          */
@@ -24101,7 +24130,7 @@
      * A grid in the yz plane.
      */
     var GridYZ = /** @class */ (function (_super) {
-        tslib.__extends(GridYZ, _super);
+        __extends(GridYZ, _super);
         /**
          * Constructs a GridYZ.
          */
@@ -24164,7 +24193,7 @@
      * A #d visual representation of a grid in the zx plane.
      */
     var GridZX = /** @class */ (function (_super) {
-        tslib.__extends(GridZX, _super);
+        __extends(GridZX, _super);
         function GridZX(contextManager, options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
@@ -24188,7 +24217,7 @@
      * A collection of objects that can be treated as a single Renderable.
      */
     var Group = /** @class */ (function (_super) {
-        tslib.__extends(Group, _super);
+        __extends(Group, _super);
         /**
          * Constructs
          */
@@ -24372,7 +24401,7 @@
      *
      */
     var HollowCylinderGeometry = /** @class */ (function (_super) {
-        tslib.__extends(HollowCylinderGeometry, _super);
+        __extends(HollowCylinderGeometry, _super);
         /**
          *
          */
@@ -24412,7 +24441,7 @@
      * A 3D visual representation of a hollow cylinder.
      */
     var HollowCylinder = /** @class */ (function (_super) {
-        tslib.__extends(HollowCylinder, _super);
+        __extends(HollowCylinder, _super);
         /**
          * Constructs a HollowCylinder.
          */
@@ -25026,7 +25055,7 @@
      *
      */
     var MinecraftBodyPart = /** @class */ (function (_super) {
-        tslib.__extends(MinecraftBodyPart, _super);
+        __extends(MinecraftBodyPart, _super);
         function MinecraftBodyPart(engine, texture, options, levelUp) {
             if (levelUp === void 0) { levelUp = 0; }
             var _this = _super.call(this, void 0, void 0, engine, {}, levelUp + 1) || this;
@@ -25046,7 +25075,7 @@
         return MinecraftBodyPart;
     }(Mesh));
     var MinecraftHead = /** @class */ (function (_super) {
-        tslib.__extends(MinecraftHead, _super);
+        __extends(MinecraftHead, _super);
         function MinecraftHead(engine, texture, options) {
             if (options === void 0) { options = {}; }
             var _this = _super.call(this, engine, texture, {
@@ -25064,7 +25093,7 @@
         return MinecraftHead;
     }(MinecraftBodyPart));
     var MinecraftTorso = /** @class */ (function (_super) {
-        tslib.__extends(MinecraftTorso, _super);
+        __extends(MinecraftTorso, _super);
         function MinecraftTorso(engine, texture, options) {
             if (options === void 0) { options = {}; }
             var _this = _super.call(this, engine, texture, {
@@ -25082,7 +25111,7 @@
         return MinecraftTorso;
     }(MinecraftBodyPart));
     var MinecraftArmL = /** @class */ (function (_super) {
-        tslib.__extends(MinecraftArmL, _super);
+        __extends(MinecraftArmL, _super);
         function MinecraftArmL(engine, texture, options) {
             if (options === void 0) { options = {}; }
             var _this = _super.call(this, engine, texture, {
@@ -25100,7 +25129,7 @@
         return MinecraftArmL;
     }(MinecraftBodyPart));
     var MinecraftArmR = /** @class */ (function (_super) {
-        tslib.__extends(MinecraftArmR, _super);
+        __extends(MinecraftArmR, _super);
         function MinecraftArmR(engine, texture, options) {
             if (options === void 0) { options = {}; }
             var _this = _super.call(this, engine, texture, {
@@ -25118,7 +25147,7 @@
         return MinecraftArmR;
     }(MinecraftBodyPart));
     var MinecraftLegL = /** @class */ (function (_super) {
-        tslib.__extends(MinecraftLegL, _super);
+        __extends(MinecraftLegL, _super);
         function MinecraftLegL(engine, texture, options) {
             if (options === void 0) { options = {}; }
             var _this = _super.call(this, engine, texture, {
@@ -25136,7 +25165,7 @@
         return MinecraftLegL;
     }(MinecraftBodyPart));
     var MinecraftLegR = /** @class */ (function (_super) {
-        tslib.__extends(MinecraftLegR, _super);
+        __extends(MinecraftLegR, _super);
         function MinecraftLegR(engine, texture, options) {
             if (options === void 0) { options = {}; }
             var _this = _super.call(this, engine, texture, {
@@ -25160,7 +25189,7 @@
      * A group of body parts arranged to look like a figure.
      */
     var MinecraftFigure = /** @class */ (function (_super) {
-        tslib.__extends(MinecraftFigure, _super);
+        __extends(MinecraftFigure, _super);
         function MinecraftFigure(engine, texture, options) {
             if (options === void 0) { options = {}; }
             var _this = _super.call(this) || this;
@@ -25397,7 +25426,7 @@
      * A 3D visual representation of a tetrahedron.
      */
     var Tetrahedron = /** @class */ (function (_super) {
-        tslib.__extends(Tetrahedron, _super);
+        __extends(Tetrahedron, _super);
         function Tetrahedron(contextManager, options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
@@ -25550,7 +25579,7 @@
      *
      */
     var Track = /** @class */ (function (_super) {
-        tslib.__extends(Track, _super);
+        __extends(Track, _super);
         function Track(contextManager, options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
@@ -25694,7 +25723,7 @@
      *     trail.release()
      */
     var Trail = /** @class */ (function (_super) {
-        tslib.__extends(Trail, _super);
+        __extends(Trail, _super);
         /**
          * Constructs a trail for the specified mesh.
          */
@@ -25925,7 +25954,7 @@
      * approach based upon GeometryArrays
      */
     var TurtleGeometry = /** @class */ (function (_super) {
-        tslib.__extends(TurtleGeometry, _super);
+        __extends(TurtleGeometry, _super);
         /**
          *
          */
@@ -25964,7 +25993,7 @@
      * A 3D visual representation of a turtle.
      */
     var Turtle = /** @class */ (function (_super) {
-        tslib.__extends(Turtle, _super);
+        __extends(Turtle, _super);
         function Turtle(contextManager, options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
