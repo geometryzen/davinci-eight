@@ -3,12 +3,15 @@
 ### Prerequisites
 
 npm install --global gh-pages
+npm install --global jasmine-node
 npm install --global karma-cli
+npm install --global npm-scripts-info
 npm install --global nyc
 npm install --global open-cli
 npm install --global trash-cli
 npm install --global typedoc
 npm install --global rollup
+npm install --global sleep-ms
 npm install --global sorcery
 
 ### Building

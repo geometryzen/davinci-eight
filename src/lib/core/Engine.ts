@@ -34,6 +34,15 @@ export interface EngineAttributes extends WebGLContextAttributes {
     webglLogging?: boolean;
 }
 
+function getWindowDocument(window: Window): Document {
+    if (window) {
+        return window.document
+    }
+    else {
+        return void 0
+    }
+}
+
 /**
  * A wrapper around an HTMLCanvasElement providing access to the WebGLRenderingContext
  * and notifications of context loss and restore. An instance of the Engine will usually
@@ -121,7 +130,7 @@ export class Engine extends ShareableBase implements ContextManager {
      * @param attributes Allows the context to be configured.
      * @param doc The document object model that contains the canvas identifier.
      */
-    constructor(canvas?: string | HTMLCanvasElement | WebGLRenderingContext, attributes: EngineAttributes = {}, doc = window.document) {
+    constructor(canvas?: string | HTMLCanvasElement | WebGLRenderingContext, attributes: EngineAttributes = {}, doc = getWindowDocument(window)) {
         super();
         this.setLoggingName('Engine');
 

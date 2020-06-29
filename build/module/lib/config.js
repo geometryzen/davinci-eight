@@ -1,9 +1,9 @@
 var Eight = /** @class */ (function () {
     function Eight() {
         this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-        this.LAST_MODIFIED = '2020-06-28';
+        this.LAST_MODIFIED = '2020-06-29';
         this.NAMESPACE = 'EIGHT';
-        this.VERSION = '7.4.3';
+        this.VERSION = '7.4.4';
     }
     Eight.prototype.log = function (message) {
         // This should allow us to unit test and run in environments without a console.

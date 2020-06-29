@@ -16,6 +16,14 @@ import { VersionLogger } from '../commands/VersionLogger';
 import { WebGLClearColor } from '../commands/WebGLClearColor';
 import { WebGLEnable } from '../commands/WebGLEnable';
 import { WebGLDisable } from '../commands/WebGLDisable';
+function getWindowDocument(window) {
+    if (window) {
+        return window.document;
+    }
+    else {
+        return void 0;
+    }
+}
 /**
  * A wrapper around an HTMLCanvasElement providing access to the WebGLRenderingContext
  * and notifications of context loss and restore. An instance of the Engine will usually
@@ -74,7 +82,7 @@ var Engine = /** @class */ (function (_super) {
      */
     function Engine(canvas, attributes, doc) {
         if (attributes === void 0) { attributes = {}; }
-        if (doc === void 0) { doc = window.document; }
+        if (doc === void 0) { doc = getWindowDocument(window); }
         var _this = _super.call(this) || this;
         // Remark: We only hold weak references to users so that the lifetime of resource
         // objects is not affected by the fact that they are listening for gl events.

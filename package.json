@@ -1,15 +1,14 @@
 {
     "name": "davinci-eight",
-    "version": "7.4.3",
+    "version": "7.4.4",
     "description": "WebGL library for mathematical physics using Geometric Algebra",
     "author": {
         "name": "David Geo Holmes",
         "email": "david.geo.holmes@gmail.com"
     },
     "browser": "./build/browser/index.js",
-    "main": "./build/main/index.js",
     "module": "./build/module/index.js",
-    "types": "./build/main/index.d.ts",
+    "types": "./build/module/index.d.ts",
     "repository": {
         "type": "git",
         "url": "git://github.com/geometryzen/davinci-eight.git"
@@ -49,6 +48,14 @@
         "pages": "npm run docs:typedoc && gh-pages -d docs",
         "changelog": "standard-version"
     },
+    "scripts-info": {
+        "info": "Displays information about the scripts.",
+        "build": "Build the package.",
+        "test": "Run the tests.",
+        "docs": "Generate documentation.",
+        "pages": "Publish documentation as GitHub pages.",
+        "watch": "Watch codebase, trigger build when source code changes."
+    },
     "devDependencies": {
         "@rollup/plugin-alias": "^3.1.1",
         "@rollup/plugin-commonjs": "^13.0.0",
@@ -63,6 +70,7 @@
         "gh-pages": "^3.1.0",
         "hash.js": "^1.1.7",
         "jasmine-core": "^3.5.0",
+        "jasmine-node": "^3.0.0",
         "karma": "^5.1.0",
         "karma-chrome-launcher": "^3.1.0",
         "karma-cli": "^2.0.0",

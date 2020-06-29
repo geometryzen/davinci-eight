@@ -90,9 +90,9 @@
     var Eight = /** @class */ (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2020-06-28';
+            this.LAST_MODIFIED = '2020-06-29';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '7.4.3';
+            this.VERSION = '7.4.4';
         }
         Eight.prototype.log = function (message) {
             // This should allow us to unit test and run in environments without a console.
@@ -12624,6 +12624,14 @@
         return VersionLogger;
     }(ShareableBase));
 
+    function getWindowDocument(window) {
+        if (window) {
+            return window.document;
+        }
+        else {
+            return void 0;
+        }
+    }
     /**
      * A wrapper around an HTMLCanvasElement providing access to the WebGLRenderingContext
      * and notifications of context loss and restore. An instance of the Engine will usually
@@ -12682,7 +12690,7 @@
          */
         function Engine(canvas, attributes, doc) {
             if (attributes === void 0) { attributes = {}; }
-            if (doc === void 0) { doc = window.document; }
+            if (doc === void 0) { doc = getWindowDocument(window); }
             var _this = _super.call(this) || this;
             // Remark: We only hold weak references to users so that the lifetime of resource
             // objects is not affected by the fact that they are listening for gl events.
