@@ -37,11 +37,8 @@
     ],
     "scripts": {
         "info": "npm-scripts-info",
-        "build": "trash build && tsc -p tsconfig.main.json && tsc -p tsconfig.module.json && npm run build:browser",
-        "build:amd": "tsc -p tsconfig.amd.json",
+        "build": "trash build && tsc -p tsconfig.module.json && npm run build:browser",
         "build:browser": "rollup --config rollup.config.js && cp src/index.d.ts build/browser",
-        "build:system": "tsc -p tsconfig.system.json",
-        "build:umd": "tsc -p tsconfig.umd.json",
         "lint": "tslint src/**/*.ts",
         "unit": "trash test && tsc -p tsconfig.test.json && karma start",
         "test": "npm run lint && npm run unit && nyc check-coverage --lines 40 --functions 30 --branches 20",
@@ -53,12 +50,14 @@
         "changelog": "standard-version"
     },
     "devDependencies": {
+        "@rollup/plugin-alias": "^3.1.1",
+        "@rollup/plugin-commonjs": "^13.0.0",
+        "@rollup/plugin-node-resolve": "^8.1.0",
         "@types/jasmine": "^3.5.11",
         "@types/node": "^8.10.61",
         "browserify": "^16.5.1",
         "codecov": "^3.7.0",
         "concurrently": "^5.2.0",
-        "core-js": "^3.6.5",
         "cpx": "^1.5.0",
         "es6-module-loader": "^0.17.11",
         "gh-pages": "^3.1.0",
@@ -78,9 +77,6 @@
         "open-cli": "^6.0.1",
         "phantomjs-polyfill": "^0.0.2",
         "rollup": "^2.18.1",
-        "@rollup/plugin-alias": "^3.1.1",
-        "@rollup/plugin-commonjs": "^13.0.0",
-        "@rollup/plugin-node-resolve": "^8.1.0",
         "rollup-watch": "^4.3.1",
         "sleep-ms": "^2.0.1",
         "sorcery": "^0.10.0",
@@ -88,8 +84,7 @@
         "systemjs": "^0.19.41",
         "trash-cli": "^3.0.0",
         "tslint": "^6.1.2",
-        "tslint-config-standard": "^9.0.0",
-        "typedoc": "^0.17.7",
+        "typedoc": "^0.17.8",
         "typescript": "^3.9.5"
     },
     "dependencies": {

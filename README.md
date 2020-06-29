@@ -1,6 +1,14 @@
 # davinci-eight
 
-[![Sponsors on Open Collective](https://opencollective.com/davinci-eight/sponsors/badge.svg)](#raising-funds) [![Backers on Open Collective](https://opencollective.com/davinci-eight/backers/badge.svg)](#raising-funds) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/geometryzen/davinci-eight?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![version](https://img.shields.io/npm/v/davinci-eight.svg)](https://www.npmjs.com/package/davinci-eight) [![npm downloads](https://img.shields.io/npm/dm/davinci-eight.svg)](https://npm-stat.com/charts.html?package=davinci-eight&from=2020-06-01) [![Build Status](https://travis-ci.org/geometryzen/davinci-eight.svg)](https://travis-ci.org/geometryzen/davinci-eight) [![devDependency status](https://david-dm.org/geometryzen/davinci-eight/dev-status.svg)](https://david-dm.org/geometryzen/davinci-eight?type=dev)
+[![version](https://img.shields.io/npm/v/davinci-eight.svg)](https://www.npmjs.com/package/davinci-eight) 
+
+[![npm downloads](https://img.shields.io/npm/dm/davinci-eight.svg)](https://npm-stat.com/charts.html?package=davinci-eight&from=2020-06-01) 
+
+<!--
+[![Build Status](https://travis-ci.org/geometryzen/davinci-eight.svg)](https://travis-ci.org/geometryzen/davinci-eight) 
+-->
+
+[![devDependency status](https://david-dm.org/geometryzen/davinci-eight/dev-status.svg)](https://david-dm.org/geometryzen/davinci-eight?type=dev)
 
 davinci-eight is a WebGL library for mathematical physics using Geometric Algebra
 

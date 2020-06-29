@@ -38,9 +38,9 @@ to install the tooling dependencies (For this you need to have [Node.js](http://
 Beware: Upgrading from 5.5.1 to 5.6.0 is problematic on Fedora (2018-01-19).
 
 ```bash
-npm run-script build
-npm run-script docs
-npm run-script pages
+npm run build
+npm run docs
+npm run pages
 ```
 
 to compile the source using the TypeScript compiler (For this you need to have [TypeScript](http://www.typescriptlang.org) installed) and to package the individual files into a single JavaScript file.

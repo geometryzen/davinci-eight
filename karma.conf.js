@@ -22,12 +22,6 @@ module.exports = function (config) {
     // list of files / patterns to load in the browser
     // These files are loaded using <script> tags so it's a good place to put polyfill files.
     files: [
-      // Polyfills.
-      // The core-js polyfill has changed and this file no longer exists.
-      // It does not seem to be required.
-      // Perhaps drop the package.json dependency too.
-      // 'node_modules/core-js/client/shim.min.js',
-
       // Include this with a <script> tag so that System is defined.
       'node_modules/systemjs/dist/system.src.js',
 
