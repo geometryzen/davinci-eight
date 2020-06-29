@@ -4,7 +4,6 @@
         "outDir": "test",
         "rootDir": "src",
         "moduleResolution": "node",
-        "module": "commonjs",
         "declaration": false,
         "importHelpers": true,
         "inlineSourceMap": false,

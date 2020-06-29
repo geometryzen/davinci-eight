@@ -1,8 +1,71 @@
-# EIGHT
+# davinci-eight
 
-EIGHT is a WebGL library for mathematical physics using Geometric Algebra
+[![Sponsors on Open Collective](https://opencollective.com/davinci-eight/sponsors/badge.svg)](#raising-funds) [![Backers on Open Collective](https://opencollective.com/davinci-eight/backers/badge.svg)](#raising-funds) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/geometryzen/davinci-eight?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![version](https://img.shields.io/npm/v/davinci-eight.svg)](https://www.npmjs.com/package/davinci-eight) [![npm downloads](https://img.shields.io/npm/dm/davinci-eight.svg)](https://npm-stat.com/charts.html?package=davinci-eight&from=2020-06-01) [![Build Status](https://travis-ci.org/geometryzen/davinci-eight.svg)](https://travis-ci.org/geometryzen/davinci-eight) [![devDependency status](https://david-dm.org/geometryzen/davinci-eight/dev-status.svg)](https://david-dm.org/geometryzen/davinci-eight?type=dev)
 
-EIGHT is designed and developed according to the following principles:
+davinci-eight is a WebGL library for mathematical physics using Geometric Algebra
+
+```ts
+import { Engine, Capability } from 'davinci-eight'
+import { Facet, PerspectiveCamera, DirectionalLight } from 'davinci-eight'
+import { Box } from 'davinci-eight'
+import { Color } from 'davinci-eight'
+import { TrackballControls } from 'davinci-eight'
+import { Geometric3 } from 'davinci-eight'
+
+const e2 = Geometric3.e2()
+const e3 = Geometric3.e3()
+
+const engine = new Engine('my-canvas')
+    .size(500, 500)
+    .clearColor(0.1, 0.1, 0.1, 1.0)
+    .enable(Capability.DEPTH_TEST)
+
+const ambients: Facet[] = []
+
+const camera = new PerspectiveCamera()
+// camera.eye.z = 5
+camera.eye = e2 + 3 * e3
+ambients.push(camera)
+
+const dirLight = new DirectionalLight()
+ambients.push(dirLight)
+
+const box = new Box(engine, { color: Color.green })
+
+const trackball = new TrackballControls(camera, window)
+// Subscribe to mouse events from the canvas.
+trackball.subscribe(engine.canvas)
+
+/**
+ * animate is the callback point for requestAnimationFrame.
+ * This has been initialized with a function expression in order
+ * to avoid issues associated with JavaScript hoisting.
+ */
+const animate = function(timestamp: number) {
+    engine.clear()
+
+    // Update the camera based upon mouse events received.
+    trackball.update()
+
+    // Keep the directional light pointing in the same direction as the camera.
+    dirLight.direction.copy(camera.look).sub(camera.eye)
+
+    const t = timestamp * 0.001
+
+    // box.R.rotorFromGeneratorAngle({ xy: 0, yz: 1, zx: 0 }, t)
+    box.attitude.rotorFromAxisAngle(e2, t)
+
+    box.render(ambients)
+
+    // This call keeps the animation going.
+    requestAnimationFrame(animate)
+}
+
+// This call "primes the pump".
+requestAnimationFrame(animate)
+```
+
+davinci-eight is designed and developed according to the following principles:
 
 1. Designed foremost to support Mathematical Physics using Geometric Algebra.
 2. Manage WebGL shader complexity rather than trying to hide it.
@@ -19,7 +82,7 @@ EIGHT is designed and developed according to the following principles:
 
 Used here: [__https://www.stemcstudio.com__](https://stemcstudio.com)
 
-## Why EIGHT?
+## Why 8?
 
 8 = 2<sup>3</sup>, which is the number of dimensions in a geometric space over a vector space of 3 dimensions.
 
@@ -44,5 +107,5 @@ In particular, you may see the word `default` frequently. This is because the EI
 Just click through the `default` links to get past them.
 
 ## License
-Copyright (c) 2014-2019 David Holmes
+Copyright (c) 2014-2020 David Holmes
 Licensed under the MIT license.
