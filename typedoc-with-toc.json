@@ -1,0 +1,29 @@
+{
+    "mode": "file",
+    "out": "docs",
+    "excludeNotExported": true,
+    "excludePrivate": true,
+    "theme": "minimal",
+    "toc": [
+        "Engine",
+        "Capability",
+        "Facet",
+        "PerspectiveCamera",
+        "DirectionalLight",
+        "Box",
+        "Color",
+        "TrackballControls",
+        "Geometric3",
+        "Mesh",
+        "Geometry",
+        "Material",
+        "VectorE3",
+        "GeometricE3",
+        "Pseudo",
+        "Scalar",
+        "SpinorE3",
+        "ContextManager",
+        "ShareableBase",
+        "Shareable"
+    ]
+}

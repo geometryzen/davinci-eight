@@ -12,7 +12,7 @@
 
 davinci-eight is a WebGL library for mathematical physics using Geometric Algebra
 
-<iframe src="https://www.stemcstudio.com/gists/54644519dcd556bf8bf779bfa084ced3?embed=true&file=main.ts&hideExplorer&hideREADME" width="860px" height="600px" title="Getting Started" allowfullscreen="true"></iframe>
+Example: [__https://www.stemcstudio.com/gists/54644519dcd556bf8bf779bfa084ced3__](https://stemcstudio.com/gists/54644519dcd556bf8bf779bfa084ced3)
 
 davinci-eight is designed and developed according to the following principles:
 
