@@ -9747,12 +9747,18 @@
             this.webGLBuffer = void 0;
             _super.prototype.contextLost.call(this);
         };
+        /**
+         * Binds this buffer to the ARRAY_BUFFER target.
+         */
         VertexBuffer.prototype.bind = function () {
             var gl = this.gl;
             if (gl) {
                 gl.bindBuffer(BufferObjects.ARRAY_BUFFER, this.webGLBuffer);
             }
         };
+        /**
+         * Unbinds this buffer from the ARRAY_BUFFER target.
+         */
         VertexBuffer.prototype.unbind = function () {
             var gl = this.gl;
             if (gl) {

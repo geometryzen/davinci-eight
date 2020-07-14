@@ -93,6 +93,9 @@ export class VertexBuffer extends ShareableContextConsumer {
         super.contextLost();
     }
 
+    /**
+     * Binds this buffer to the ARRAY_BUFFER target.
+     */
     bind(): void {
         const gl = this.gl;
         if (gl) {
@@ -100,6 +103,9 @@ export class VertexBuffer extends ShareableContextConsumer {
         }
     }
 
+    /**
+     * Unbinds this buffer from the ARRAY_BUFFER target.
+     */
     unbind() {
         const gl = this.gl;
         if (gl) {

@@ -23,6 +23,7 @@ export class ShareableContextConsumer extends ShareableBase implements ContextCo
         contextManager.addRef();
         this.subscribe(false);
     }
+
     /**
      * 
      */
@@ -32,6 +33,7 @@ export class ShareableContextConsumer extends ShareableBase implements ContextCo
         this.contextManager.addRef();
         this.subscribe(false);
     }
+
     /**
      * 
      */

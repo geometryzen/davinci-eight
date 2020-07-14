@@ -44,7 +44,7 @@
         "watch": "concurrently -r --kill-others 'tsc -p tsconfig.test.json -w' 'sleepms 2000 && jasmine-node test --autotest --watch test'",
         "coverage": "trash test && tsc -p tsconfig.test.json && nyc karma start && nyc report --reporter=html && open-cli coverage/index.html",
         "docs": "npm run docs:typedoc && open-cli docs/index.html",
-        "docs:typedoc": "trash docs && typedoc src/index.ts --excludePrivate --excludeNotExported --mode file --theme minimal --out docs",
+        "docs:typedoc": "trash docs && typedoc --options typedoc.json",
         "pages": "npm run docs:typedoc && gh-pages -d docs",
         "changelog": "standard-version"
     },
@@ -58,8 +58,8 @@
     },
     "devDependencies": {
         "@rollup/plugin-alias": "^3.1.1",
-        "@rollup/plugin-commonjs": "^13.0.0",
-        "@rollup/plugin-node-resolve": "^8.1.0",
+        "@rollup/plugin-commonjs": "^13.0.2",
+        "@rollup/plugin-node-resolve": "^8.4.0",
         "@types/jasmine": "^3.5.11",
         "@types/node": "^8.10.61",
         "browserify": "^16.5.1",
@@ -84,16 +84,16 @@
         "nyc": "^15.1.0",
         "open-cli": "^6.0.1",
         "phantomjs-polyfill": "^0.0.2",
-        "rollup": "^2.18.1",
+        "rollup": "^2.21.0",
         "rollup-watch": "^4.3.1",
         "sleep-ms": "^2.0.1",
         "sorcery": "^0.10.0",
-        "standard-version": "^8.0.0",
+        "standard-version": "^8.0.2",
         "systemjs": "^0.19.41",
         "trash-cli": "^3.0.0",
         "tslint": "^6.1.2",
         "typedoc": "^0.17.8",
-        "typescript": "^3.9.5"
+        "typescript": "^3.9.6"
     },
     "dependencies": {
         "tslib": "^2.0.0"

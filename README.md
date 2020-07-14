@@ -12,66 +12,7 @@
 
 davinci-eight is a WebGL library for mathematical physics using Geometric Algebra
 
-```ts
-import { Engine, Capability } from 'davinci-eight'
-import { Facet, PerspectiveCamera, DirectionalLight } from 'davinci-eight'
-import { Box } from 'davinci-eight'
-import { Color } from 'davinci-eight'
-import { TrackballControls } from 'davinci-eight'
-import { Geometric3 } from 'davinci-eight'
-
-const e2 = Geometric3.e2()
-const e3 = Geometric3.e3()
-
-const engine = new Engine('my-canvas')
-    .size(500, 500)
-    .clearColor(0.1, 0.1, 0.1, 1.0)
-    .enable(Capability.DEPTH_TEST)
-
-const ambients: Facet[] = []
-
-const camera = new PerspectiveCamera()
-// camera.eye.z = 5
-camera.eye = e2 + 3 * e3
-ambients.push(camera)
-
-const dirLight = new DirectionalLight()
-ambients.push(dirLight)
-
-const box = new Box(engine, { color: Color.green })
-
-const trackball = new TrackballControls(camera, window)
-// Subscribe to mouse events from the canvas.
-trackball.subscribe(engine.canvas)
-
-/**
- * animate is the callback point for requestAnimationFrame.
- * This has been initialized with a function expression in order
- * to avoid issues associated with JavaScript hoisting.
- */
-const animate = function(timestamp: number) {
-    engine.clear()
-
-    // Update the camera based upon mouse events received.
-    trackball.update()
-
-    // Keep the directional light pointing in the same direction as the camera.
-    dirLight.direction.copy(camera.look).sub(camera.eye)
-
-    const t = timestamp * 0.001
-
-    // box.R.rotorFromGeneratorAngle({ xy: 0, yz: 1, zx: 0 }, t)
-    box.attitude.rotorFromAxisAngle(e2, t)
-
-    box.render(ambients)
-
-    // This call keeps the animation going.
-    requestAnimationFrame(animate)
-}
-
-// This call "primes the pump".
-requestAnimationFrame(animate)
-```
+<iframe src="https://www.stemcstudio.com/gists/54644519dcd556bf8bf779bfa084ced3?embed=true&file=main.ts&hideExplorer&hideREADME" width="860px" height="600px" title="Getting Started" allowfullscreen="true"></iframe>
 
 davinci-eight is designed and developed according to the following principles:
 
@@ -99,6 +40,8 @@ Geometric Algebra is what you get when you define an associative multiplicative 
 More simply, geometry makes more sense when it is done using Geometric Algebra!
 
 ## API Documentation
+
+Typedoc here: [__https://geometryzen.github.io/davinci-eight__](https://geometryzen.github.io/davinci-eight)
 
 The `Globals` or top-level components represent only a small portion of what is available in the EIGHT library.
 Drilling into the top-level componets will reveal a reusable structure for implementing your own components.

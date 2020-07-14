@@ -27,6 +27,12 @@ export declare class VertexBuffer extends ShareableContextConsumer {
     contextFree(): void;
     contextGain(): void;
     contextLost(): void;
+    /**
+     * Binds this buffer to the ARRAY_BUFFER target.
+     */
     bind(): void;
+    /**
+     * Unbinds this buffer from the ARRAY_BUFFER target.
+     */
     unbind(): void;
 }
