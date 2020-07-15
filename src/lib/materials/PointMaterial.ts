@@ -9,6 +9,7 @@ import { ShaderMaterial } from './ShaderMaterial';
 import { mustBeObject } from '../checks/mustBeObject';
 import { PointMaterialOptions } from './PointMaterialOptions';
 import { UniformGlslType } from '../core/UniformGlslType';
+import { GLSLESVersion } from './glslVersion';
 
 function builder(options: PointMaterialOptions) {
     if (isNull(options) || isUndefined(options)) {
@@ -32,6 +33,7 @@ function builder(options: PointMaterialOptions) {
     const uniforms: { [name: string]: UniformGlslType } = isDefined(options.uniforms) ? options.uniforms : {};
 
     const gpb = new GraphicsProgramBuilder();
+    gpb.version(GLSLESVersion.ThreeHundred);
 
     const aNames = Object.keys(attributes);
     for (let a = 0; a < aNames.length; a++) {

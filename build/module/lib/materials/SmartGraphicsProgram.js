@@ -2,6 +2,7 @@ import { __extends } from "tslib";
 import { fragmentShaderSrc as fShaderSrc } from './fragmentShaderSrc';
 import { ShaderMaterial } from './ShaderMaterial';
 import { vertexShaderSrc as vShaderSrc } from './vertexShaderSrc';
+import { GLSLESVersion } from './glslVersion';
 /**
  * A Material that is generated based upon knowledge of parameters and some hints.
  */
@@ -12,7 +13,7 @@ var SmartGraphicsProgram = /** @class */ (function (_super) {
      */
     function SmartGraphicsProgram(aParams, uParams, vColor, vCoords, vLight, contextManager, levelUp) {
         if (levelUp === void 0) { levelUp = 0; }
-        var _this = _super.call(this, vShaderSrc(aParams, uParams, vColor, vCoords, vLight), fShaderSrc(aParams, uParams, vColor, vCoords, vLight), [], contextManager, levelUp + 1) || this;
+        var _this = _super.call(this, vShaderSrc(aParams, uParams, vColor, vCoords, vLight, GLSLESVersion.ThreeHundred), fShaderSrc(aParams, uParams, vColor, vCoords, vLight, GLSLESVersion.ThreeHundred), [], contextManager, levelUp + 1) || this;
         _this.setLoggingName('SmartGraphicsProgram');
         if (levelUp === 0) {
             _this.synchUp();

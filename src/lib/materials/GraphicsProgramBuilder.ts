@@ -11,6 +11,8 @@ import { vCoordsRequired } from './vCoordsRequired';
 import { vLightRequired } from './vLightRequired';
 import { fragmentShaderSrc } from './fragmentShaderSrc';
 import { vertexShaderSrc } from './vertexShaderSrc';
+import { GLSLESVersion } from './glslVersion';
+import { mustBeDefined } from '../checks/mustBeDefined';
 
 function computeAttribParams(values: { [key: string]: { size: AttributeSizeType, name?: string } }) {
     const result: { [key: string]: { glslType: AttributeGlslType, name?: string } } = {};
@@ -34,6 +36,8 @@ export class GraphicsProgramBuilder {
     private aMeta: { [key: string]: { size: AttributeSizeType; } } = {};
 
     private uParams: { [key: string]: { glslType: UniformGlslType; name?: string } } = {};
+
+    private _version: GLSLESVersion = GLSLESVersion.OneHundred;
 
     /**
      * @param primitive
@@ -64,6 +68,12 @@ export class GraphicsProgramBuilder {
         return this;
     }
 
+    public version(version: GLSLESVersion): this {
+        mustBeDefined("version", version);
+        this._version = version;
+        return this;
+    }
+
     /**
      * Computes vertex shader source code consistent with the state of this builder.
      */
@@ -72,7 +82,7 @@ export class GraphicsProgramBuilder {
         const vColor = vColorRequired(aParams, this.uParams);
         const vCoords = vCoordsRequired(aParams, this.uParams);
         const vLight = vLightRequired(aParams, this.uParams);
-        return vertexShaderSrc(aParams, this.uParams, vColor, vCoords, vLight);
+        return vertexShaderSrc(aParams, this.uParams, vColor, vCoords, vLight, this._version);
     }
 
     /**
@@ -83,6 +93,6 @@ export class GraphicsProgramBuilder {
         const vColor = vColorRequired(aParams, this.uParams);
         const vCoords = vCoordsRequired(aParams, this.uParams);
         const vLight = vLightRequired(aParams, this.uParams);
-        return fragmentShaderSrc(aParams, this.uParams, vColor, vCoords, vLight);
+        return fragmentShaderSrc(aParams, this.uParams, vColor, vCoords, vLight, this._version);
     }
 }

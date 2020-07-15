@@ -6,6 +6,7 @@ import { isNull } from '../checks/isNull';
 import { isUndefined } from '../checks/isUndefined';
 import { ShaderMaterial } from './ShaderMaterial';
 import { mustBeObject } from '../checks/mustBeObject';
+import { GLSLESVersion } from './glslVersion';
 function builder(options) {
     if (isNull(options) || isUndefined(options)) {
         options = { kind: 'PointMaterial', attributes: {}, uniforms: {} };
@@ -23,6 +24,7 @@ function builder(options) {
     var attributes = isDefined(options.attributes) ? options.attributes : {};
     var uniforms = isDefined(options.uniforms) ? options.uniforms : {};
     var gpb = new GraphicsProgramBuilder();
+    gpb.version(GLSLESVersion.ThreeHundred);
     var aNames = Object.keys(attributes);
     for (var a = 0; a < aNames.length; a++) {
         var aName = aNames[a];

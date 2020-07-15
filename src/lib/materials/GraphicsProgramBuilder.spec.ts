@@ -1,5 +1,6 @@
 import { GraphicsProgramBuilder } from './GraphicsProgramBuilder';
 import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
+import { GLSLESVersion } from './glslVersion';
 
 function split(text: string): string[] {
     return text.split('\n');
@@ -17,8 +18,12 @@ function stripWS(line: string): string {
     return line.trim();
 }
 
+function precision(): string {
+    return "#ifdef GL_FRAGMENT_PRECISION_HIGH precision highp float; #else precision mediump float; #endif";
+}
+
 describe("GraphicsProgramBuilder", function () {
-    describe("minimal", function () {
+    describe("minimal, default version", function () {
         const gpb = new GraphicsProgramBuilder();
         const vs = gpb.vertexShaderSrc();
         const fs = gpb.fragmentShaderSrc();
@@ -29,6 +34,34 @@ describe("GraphicsProgramBuilder", function () {
         it("fragmentShader", function () {
             const text = split(fs).filter(isCodeLine).map(stripWS).join(' ').trim();
             expect(text).toBe("void main(void) { gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0); }");
+        });
+    });
+    describe("minimal, GLSL 100", function () {
+        const gpb = new GraphicsProgramBuilder();
+        gpb.version(GLSLESVersion.OneHundred);
+        const vs = gpb.vertexShaderSrc();
+        const fs = gpb.fragmentShaderSrc();
+        it("vertexShader", function () {
+            const text = split(vs).filter(isCodeLine).map(stripWS).join(' ').trim();
+            expect(text).toBe("void main(void) { gl_Position = vec4(0.0, 0.0, 0.0, 1.0); }");
+        });
+        it("fragmentShader", function () {
+            const text = split(fs).filter(isCodeLine).map(stripWS).join(' ').trim();
+            expect(text).toBe("void main(void) { gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0); }");
+        });
+    });
+    describe("minimal, GLSL 300", function () {
+        const gpb = new GraphicsProgramBuilder();
+        gpb.version(GLSLESVersion.ThreeHundred);
+        const vs = gpb.vertexShaderSrc();
+        const fs = gpb.fragmentShaderSrc();
+        it("vertexShader", function () {
+            const text = split(vs).filter(isCodeLine).map(stripWS).join(' ').trim();
+            expect(text).toBe("#version 300 es void main(void) { gl_Position = vec4(0.0, 0.0, 0.0, 1.0); }");
+        });
+        it("fragmentShader", function () {
+            const text = split(fs).filter(isCodeLine).map(stripWS).join(' ').trim();
+            expect(text).toBe(`#version 300 es ${precision()} out vec4 fragColor; void main(void) { fragColor = vec4(1.0, 1.0, 1.0, 1.0); }`);
         });
     });
     describe("attribute vec4 aPosition;", function () {
@@ -43,6 +76,21 @@ describe("GraphicsProgramBuilder", function () {
         it("fragmentShader", function () {
             const text = split(fs).filter(isCodeLine).map(stripWS).join(' ').trim();
             expect(text).toBe("void main(void) { gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0); }");
+        });
+    });
+    describe("attribute vec4 aPosition; GLSL 300", function () {
+        const gpb = new GraphicsProgramBuilder();
+        gpb.attribute('aPosition', 4);
+        gpb.version(GLSLESVersion.ThreeHundred);
+        const vs = gpb.vertexShaderSrc();
+        const fs = gpb.fragmentShaderSrc();
+        it("vertexShader", function () {
+            const text = split(vs).filter(isCodeLine).map(stripWS).join(' ').trim();
+            expect(text).toBe("#version 300 es in vec4 aPosition; void main(void) { gl_Position = aPosition; }");
+        });
+        it("fragmentShader", function () {
+            const text = split(fs).filter(isCodeLine).map(stripWS).join(' ').trim();
+            expect(text).toBe(`#version 300 es ${precision()} out vec4 fragColor; void main(void) { fragColor = vec4(1.0, 1.0, 1.0, 1.0); }`);
         });
     });
     describe("attribute vec3 aPosition;", function () {
@@ -115,6 +163,21 @@ describe("GraphicsProgramBuilder", function () {
             expect(text).toBe("varying highp vec2 vCoords; void main(void) { gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0); }");
         });
     });
+    describe("attribute vec2 aCoord; GLSL 300", function () {
+        const gpb = new GraphicsProgramBuilder();
+        gpb.attribute(GraphicsProgramSymbols.ATTRIBUTE_COORDS, 2);
+        gpb.version(GLSLESVersion.ThreeHundred);
+        const vs = gpb.vertexShaderSrc();
+        const fs = gpb.fragmentShaderSrc();
+        it("vertexShader", function () {
+            const text = split(vs).filter(isCodeLine).map(stripWS).join(' ').trim();
+            expect(text).toBe("#version 300 es in vec2 aCoords; out highp vec2 vCoords; void main(void) { gl_Position = vec4(0.0, 0.0, 0.0, 1.0); vCoords = aCoords; }");
+        });
+        it("fragmentShader", function () {
+            const text = split(fs).filter(isCodeLine).map(stripWS).join(' ').trim();
+            expect(text).toBe(`#version 300 es ${precision()} in highp vec2 vCoords; out vec4 fragColor; void main(void) { fragColor = vec4(1.0, 1.0, 1.0, 1.0); }`);
+        });
+    });
     describe("attribute vec2 aCoord; uniform sampler2D uImage", function () {
         const gpb = new GraphicsProgramBuilder();
         gpb.attribute(GraphicsProgramSymbols.ATTRIBUTE_COORDS, 2);
@@ -128,6 +191,22 @@ describe("GraphicsProgramBuilder", function () {
         it("fragmentShader", function () {
             const text = split(fs).filter(isCodeLine).map(stripWS).join(' ').trim();
             expect(text).toBe("varying highp vec2 vCoords; uniform sampler2D uImage; void main(void) { gl_FragColor = texture2D(uImage, vCoords); }");
+        });
+    });
+    describe("attribute vec2 aCoord; uniform sampler2D uImage GLSL 300", function () {
+        const gpb = new GraphicsProgramBuilder();
+        gpb.version(GLSLESVersion.ThreeHundred);
+        gpb.attribute(GraphicsProgramSymbols.ATTRIBUTE_COORDS, 2);
+        gpb.uniform(GraphicsProgramSymbols.UNIFORM_IMAGE, 'sampler2D');
+        const vs = gpb.vertexShaderSrc();
+        const fs = gpb.fragmentShaderSrc();
+        it("vertexShader", function () {
+            const text = split(vs).filter(isCodeLine).map(stripWS).join(' ').trim();
+            expect(text).toBe("#version 300 es in vec2 aCoords; out highp vec2 vCoords; void main(void) { gl_Position = vec4(0.0, 0.0, 0.0, 1.0); vCoords = aCoords; }");
+        });
+        it("fragmentShader", function () {
+            const text = split(fs).filter(isCodeLine).map(stripWS).join(' ').trim();
+            expect(text).toBe(`#version 300 es ${precision()} in highp vec2 vCoords; uniform sampler2D uImage; out vec4 fragColor; void main(void) { fragColor = texture(uImage, vCoords); }`);
         });
     });
     describe("attribute vec2 aCoord; uniform sampler2D uImage", function () {

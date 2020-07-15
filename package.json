@@ -1,6 +1,6 @@
 {
     "name": "davinci-eight",
-    "version": "8.0.0",
+    "version": "8.1.0",
     "description": "WebGL library for mathematical physics using Geometric Algebra",
     "author": {
         "name": "David Geo Holmes",

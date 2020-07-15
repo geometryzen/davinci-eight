@@ -54,4 +54,21 @@ describe("PointMaterial", function () {
         refChange('quiet');
         refChange('reset');
     });
+    it("should contain aPosition", function () {
+        const matOptions: PointMaterialOptions = void 0;
+        refChange('quiet');
+        refChange('reset');
+        refChange('quiet');
+        refChange('start');
+        const engine: Engine = new Engine();
+        const material = new PointMaterial(engine, matOptions);
+        expect(material.vertexShaderSrc).toContain("vec3 aPosition;");
+        material.release();
+        engine.release();
+        refChange('stop');
+        const outstanding = refChange('dump');
+        expect(outstanding).toBe(0);
+        refChange('quiet');
+        refChange('reset');
+    });
 });

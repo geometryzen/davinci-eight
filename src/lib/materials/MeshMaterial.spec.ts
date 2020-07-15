@@ -63,7 +63,7 @@ describe("MeshMaterial", function () {
       refChange('start');
       const engine: Engine = new Engine();
       const material = new MeshMaterial(engine, matOptions);
-      expect(material.vertexShaderSrc).toContain("attribute vec3 aPosition;");
+      expect(material.vertexShaderSrc).toContain("vec3 aPosition;");
       material.release();
       engine.release();
       refChange('stop');

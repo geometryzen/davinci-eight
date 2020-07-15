@@ -7,6 +7,8 @@ import { vCoordsRequired } from './vCoordsRequired';
 import { vLightRequired } from './vLightRequired';
 import { fragmentShaderSrc } from './fragmentShaderSrc';
 import { vertexShaderSrc } from './vertexShaderSrc';
+import { GLSLESVersion } from './glslVersion';
+import { mustBeDefined } from '../checks/mustBeDefined';
 function computeAttribParams(values) {
     var result = {};
     var keys = Object.keys(values);
@@ -30,6 +32,7 @@ var GraphicsProgramBuilder = /** @class */ (function () {
     function GraphicsProgramBuilder(primitive) {
         this.aMeta = {};
         this.uParams = {};
+        this._version = GLSLESVersion.OneHundred;
         if (primitive) {
             var attributes = primitive.attributes;
             var keys = Object.keys(attributes);
@@ -52,6 +55,11 @@ var GraphicsProgramBuilder = /** @class */ (function () {
         this.uParams[name] = { glslType: glslType };
         return this;
     };
+    GraphicsProgramBuilder.prototype.version = function (version) {
+        mustBeDefined("version", version);
+        this._version = version;
+        return this;
+    };
     /**
      * Computes vertex shader source code consistent with the state of this builder.
      */
@@ -60,7 +68,7 @@ var GraphicsProgramBuilder = /** @class */ (function () {
         var vColor = vColorRequired(aParams, this.uParams);
         var vCoords = vCoordsRequired(aParams, this.uParams);
         var vLight = vLightRequired(aParams, this.uParams);
-        return vertexShaderSrc(aParams, this.uParams, vColor, vCoords, vLight);
+        return vertexShaderSrc(aParams, this.uParams, vColor, vCoords, vLight, this._version);
     };
     /**
      * Computes fragment shader source code consistent with the state of this builder.
@@ -70,7 +78,7 @@ var GraphicsProgramBuilder = /** @class */ (function () {
         var vColor = vColorRequired(aParams, this.uParams);
         var vCoords = vCoordsRequired(aParams, this.uParams);
         var vLight = vLightRequired(aParams, this.uParams);
-        return fragmentShaderSrc(aParams, this.uParams, vColor, vCoords, vLight);
+        return fragmentShaderSrc(aParams, this.uParams, vColor, vCoords, vLight, this._version);
     };
     return GraphicsProgramBuilder;
 }());

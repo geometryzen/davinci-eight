@@ -4,6 +4,7 @@ import { fragmentShaderSrc as fShaderSrc } from './fragmentShaderSrc';
 import { ShaderMaterial } from './ShaderMaterial';
 import { vertexShaderSrc as vShaderSrc } from './vertexShaderSrc';
 import { UniformGlslType } from '../core/UniformGlslType';
+import { GLSLESVersion } from './glslVersion';
 
 /**
  * A Material that is generated based upon knowledge of parameters and some hints.
@@ -22,8 +23,8 @@ export class SmartGraphicsProgram extends ShaderMaterial {
         levelUp = 0
     ) {
         super(
-            vShaderSrc(aParams, uParams, vColor, vCoords, vLight),
-            fShaderSrc(aParams, uParams, vColor, vCoords, vLight),
+            vShaderSrc(aParams, uParams, vColor, vCoords, vLight, GLSLESVersion.ThreeHundred),
+            fShaderSrc(aParams, uParams, vColor, vCoords, vLight, GLSLESVersion.ThreeHundred),
             [],
             contextManager,
             levelUp + 1
