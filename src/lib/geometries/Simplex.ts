@@ -26,7 +26,7 @@ function concatReduce(a: Simplex[], b: Simplex[]): Simplex[] {
 function lerp(a: number[], b: number[], alpha: number, data: number[] = []): number[] {
     mustBeEQ('a.length', a.length, b.length);
     const dims = a.length;
-    var i: number;
+    let i: number;
     let beta = 1 - alpha;
     for (i = 0; i < dims; i++) {
         data.push(beta * a[i] + alpha * b[i]);
@@ -40,7 +40,7 @@ function lerpVertexAttributeMap(a: VertexAttributeMap, b: VertexAttributeMap, al
 
     let keys = Object.keys(a);
     let keysLength = keys.length;
-    for (var k = 0; k < keysLength; k++) {
+    for (let k = 0; k < keysLength; k++) {
         let key = keys[k];
         attribMap[key] = lerpVectorN(a[key], b[key], alpha);
     }
@@ -57,7 +57,7 @@ export class Simplex {
         mustBeInteger('k', k);
         const numVertices: number = k + 1;
         const numCoordinates = 0;
-        for (var i = 0; i < numVertices; i++) {
+        for (let i = 0; i < numVertices; i++) {
             this.vertices.push(new Vertex(numCoordinates));
         }
     }
@@ -71,24 +71,24 @@ export class Simplex {
         const vertices = simplex.vertices;
         const k = simplex.k;
         if (k === SimplexMode.TRIANGLE) {
-            var line01 = new Simplex(k - 1);
+            const line01 = new Simplex(k - 1);
             line01.vertices[0].attributes = vertices[0].attributes;
             line01.vertices[1].attributes = vertices[1].attributes;
 
-            var line12 = new Simplex(k - 1);
+            const line12 = new Simplex(k - 1);
             line12.vertices[0].attributes = vertices[1].attributes;
             line12.vertices[1].attributes = vertices[2].attributes;
 
-            var line20 = new Simplex(k - 1);
+            const line20 = new Simplex(k - 1);
             line20.vertices[0].attributes = vertices[2].attributes;
             line20.vertices[1].attributes = vertices[0].attributes;
             return [line01, line12, line20];
         }
         else if (k === SimplexMode.LINE) {
-            var point0 = new Simplex(k - 1);
+            const point0 = new Simplex(k - 1);
             point0.vertices[0].attributes = simplex.vertices[0].attributes;
 
-            var point1 = new Simplex(k - 1);
+            const point1 = new Simplex(k - 1);
             point1.vertices[0].attributes = simplex.vertices[1].attributes;
             return [point0, point1];
         }

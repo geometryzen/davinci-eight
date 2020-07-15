@@ -9,9 +9,9 @@ describe("GridTriangleStrip", function () {
     describe("constructor", function () {
         describe("(0,0)", function () {
 
-            var uSegments = 0;
-            var vSegments = 0;
-            var strip = new GridTriangleStrip(uSegments, vSegments);
+            const uSegments = 0;
+            const vSegments = 0;
+            const strip = new GridTriangleStrip(uSegments, vSegments);
             it("should have correct uSegments", function () {
                 expect(strip.uSegments).toBe(uSegments);
             });
@@ -25,8 +25,7 @@ describe("GridTriangleStrip", function () {
                 expect(strip.vLength).toBe(vSegments + 1);
             });
             it("should generate the correct VertexArray", function () {
-                // var arrays = strip.toVertexArrays()
-                var vertex = strip.vertex(0, 0);
+                const vertex = strip.vertex(0, 0);
                 expect(typeof vertex.attributes).toBe('object');
             });
         });

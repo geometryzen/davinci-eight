@@ -38,7 +38,7 @@
         "info": "npm-scripts-info",
         "build": "trash build && tsc -p tsconfig.module.json && npm run build:browser",
         "build:browser": "rollup --config rollup.config.js && cp src/index.d.ts build/browser",
-        "lint": "tslint src/**/*.ts",
+        "lint": "clear && tslint src/**/*.ts && tslint src/lib/**/*.ts",
         "unit": "trash test && tsc -p tsconfig.test.json && karma start",
         "test": "npm run lint && npm run unit && nyc check-coverage --lines 40 --functions 30 --branches 20",
         "watch": "concurrently -r --kill-others 'tsc -p tsconfig.test.json -w' 'sleepms 2000 && jasmine-node test --autotest --watch test'",

@@ -21,7 +21,6 @@ function linesForGrid(uSegments: number, uClosed: boolean, vSegments: number, vC
     for (let i = 0; i < iLength; i++) {
         for (let j = 0; j < jLength; j++) {
             // The first line is in the direction of increasing i.
-            // 
             if (i < uSegments) {
                 elements.push(vertexIndex(i, j, iLength, jLength));
                 elements.push(vertexIndex(i + 1, j, iLength, jLength));

@@ -67,7 +67,7 @@ export class GridPrimitive extends VertexPrimitive {
 
     public vertexTransform(transform: Transform): void {
         const iLen = this.vertices.length;
-        for (var i = 0; i < iLen; i++) {
+        for (let i = 0; i < iLen; i++) {
             const vertex = this.vertices[i];
             const u = vertex.coords.getComponent(0);
             const v = vertex.coords.getComponent(1);

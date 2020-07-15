@@ -13,7 +13,7 @@ export function makeWebGLProgram(ctx: WebGLRenderingContext, vertexShaderSrc: st
     ctx.attachShader(program, fs);
 
     // Bind attributes allows us to specify the index that an attribute should be bound to.
-    for (var index = 0; index < attribs.length; ++index) {
+    for (let index = 0; index < attribs.length; ++index) {
         ctx.bindAttribLocation(program, index, attribs[index]);
     }
 

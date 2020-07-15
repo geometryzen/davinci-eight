@@ -104,9 +104,9 @@ function pickSaturation(hue: number, options: { hue?: string; luminosity?: strin
     return 0;
   }
 
-  var saturationRange = getSaturationRange(hue);
+  const saturationRange = getSaturationRange(hue);
 
-  var sMin = saturationRange[0],
+  let sMin = saturationRange[0],
     sMax = saturationRange[1];
 
   switch (options.luminosity) {
@@ -129,7 +129,7 @@ function pickSaturation(hue: number, options: { hue?: string; luminosity?: strin
 
 function pickBrightness(H: number, S: number, options: { luminosity?: string }): number {
 
-  var bMin = getMinimumBrightness(H, S),
+  let bMin = getMinimumBrightness(H, S),
     bMax = 100;
 
   switch (options.luminosity) {
@@ -157,19 +157,19 @@ function setFormatString(hsv: number[], options: { format?: string }): string {
   switch (options.format) {
 
     case 'hsl':
-      var hsl = HSVtoHSL(hsv);
+      const hsl = HSVtoHSL(hsv);
       return 'hsl(' + hsl[0] + ', ' + hsl[1] + '%, ' + hsl[2] + '%)';
 
     case 'hsla':
-      var hslColor = HSVtoHSL(hsv);
+      const hslColor = HSVtoHSL(hsv);
       return 'hsla(' + hslColor[0] + ', ' + hslColor[1] + '%, ' + hslColor[2] + '%, ' + Math.random() + ')';
 
     case 'rgb':
-      var rgb = HSVtoRGB(hsv);
+      const rgb = HSVtoRGB(hsv);
       return 'rgb(' + rgb.join(', ') + ')';
 
     case 'rgba':
-      var rgbColor = HSVtoRGB(hsv);
+      const rgbColor = HSVtoRGB(hsv);
       return 'rgba(' + rgbColor.join(', ') + ', ' + Math.random() + ')';
 
     default:
@@ -198,19 +198,19 @@ function setFormatArray(hsv: number[], options: { format?: string }): number[] {
 
 function getMinimumBrightness(H: number, S: number): number {
 
-  var lowerBounds = getColorInfo(H).lowerBounds;
+  const lowerBounds = getColorInfo(H).lowerBounds;
 
-  for (var i = 0; i < lowerBounds.length - 1; i++) {
+  for (let i = 0; i < lowerBounds.length - 1; i++) {
 
-    var s1 = lowerBounds[i][0],
+    const s1 = lowerBounds[i][0],
       v1 = lowerBounds[i][1];
 
-    var s2 = lowerBounds[i + 1][0],
+    const s2 = lowerBounds[i + 1][0],
       v2 = lowerBounds[i + 1][1];
 
     if (S >= s1 && S <= s2) {
 
-      var m = (v2 - v1) / (s2 - s1),
+      const m = (v2 - v1) / (s2 - s1),
         b = v1 - m * s1;
 
       return m * S + b;
@@ -225,7 +225,7 @@ function getHueRange(colorInput: string): number[] {
 
   if (typeof parseInt(colorInput) === 'number') {
 
-    var number = parseInt(colorInput);
+    const number = parseInt(colorInput);
 
     if (number < 360 && number > 0) {
       return [number, number];
@@ -236,7 +236,7 @@ function getHueRange(colorInput: string): number[] {
   if (typeof colorInput === 'string') {
 
     if (colorDictionary[colorInput]) {
-      var color = colorDictionary[colorInput];
+      const color = colorDictionary[colorInput];
       if (color.hueRange) { return color.hueRange; }
     }
   }
@@ -274,10 +274,10 @@ function randomWithin(range: number[]): number {
   }
   else {
     // Seeded random algorithm from http://indiegamr.com/generate-repeatable-random-numbers-in-js/
-    var max = range[1] || 1;
-    var min = range[0] || 0;
+    const max = range[1] || 1;
+    const min = range[0] || 0;
     seed = (seed * 9301 + 49297) % 233280;
-    var rnd = seed / 233280.0;
+    const rnd = seed / 233280.0;
     return Math.floor(min + rnd * (max - min));
   }
 }
@@ -288,7 +288,7 @@ function HSVtoHex(hsv: number[]): string {
   const rgb: number[] = HSVtoRGB(hsv);
 
   function componentToHex(c: number): string {
-    var hex = c.toString(16);
+    const hex = c.toString(16);
     return hex.length === 1 ? '0' + hex : hex;
   }
 
@@ -369,16 +369,16 @@ function HSVtoRGB(hsv: number[]): number[] {
 
   // this doesn't work for the values of 0 and 360
   // here's the hacky fix
-  var h = hsv[0];
+  let h = hsv[0];
   if (h === 0) { h = 1; }
   if (h === 360) { h = 359; }
 
   // Rebase the h,s,v values
   h = h / 360;
-  var s = hsv[1] / 100,
+  const s = hsv[1] / 100,
     v = hsv[2] / 100;
 
-  var h_i = Math.floor(h * 6),
+  let h_i = Math.floor(h * 6),
     f = h * 6 - h_i,
     p = v * (1 - s),
     q = v * (1 - f * s),
@@ -396,12 +396,12 @@ function HSVtoRGB(hsv: number[]): number[] {
     case 5: r = v; g = p; b = q; break;
   }
 
-  var result = [Math.floor(r * 255), Math.floor(g * 255), Math.floor(b * 255)];
+  const result = [Math.floor(r * 255), Math.floor(g * 255), Math.floor(b * 255)];
   return result;
 }
 
 function HSVtoHSL(hsv: number[]): number[] {
-  var h = hsv[0],
+  const h = hsv[0],
     s = hsv[1] / 100,
     v = hsv[2] / 100,
     k = (2 - s) * v;

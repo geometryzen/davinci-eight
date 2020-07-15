@@ -9,7 +9,7 @@ export function initWebGL(canvas, attributes) {
     // We'll be hyper-functional. An undefined canvas begets an undefined context.
     // Clients must check their context output or canvas input.
     if (isDefined(canvas)) {
-        var context;
+        var context = void 0;
         try {
             // Try to grab the standard context. If it fails, fallback to experimental.
             context = (canvas.getContext('webgl', attributes) || canvas.getContext('experimental-webgl', attributes));

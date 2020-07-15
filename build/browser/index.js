@@ -12582,7 +12582,7 @@
         // We'll be hyper-functional. An undefined canvas begets an undefined context.
         // Clients must check their context output or canvas input.
         if (isDefined(canvas)) {
-            var context;
+            var context = void 0;
             try {
                 // Try to grab the standard context. If it fails, fallback to experimental.
                 context = (canvas.getContext('webgl', attributes) || canvas.getContext('experimental-webgl', attributes));
@@ -12643,49 +12643,13 @@
      * and notifications of context loss and restore. An instance of the Engine will usually
      * be a required parameter for any consumer of WebGL resources.
      *
+     * <iframe
+     *     title="Engine"
+     *     width="860"
+     *     height="600"
+     *     src="https://www.stemcstudio.com/gists/54644519dcd556bf8bf779bfa084ced3?embed&file=main.ts&hideREADME">
+     * </iframe>
      *
-     *     export const e1 = EIGHT.Geometric3.e1;
-     *     export const e2 = EIGHT.Geometric3.e2;
-     *     export const e3 = EIGHT.Geometric3.e3;
-     *
-     *     const engine = new EIGHT.Engine('canvas3D')
-     *       .size(500, 500)
-     *       .clearColor(0.1, 0.1, 0.1, 1.0)
-     *       .enable(EIGHT.Capability.DEPTH_TEST)
-     *
-     *     const scene = new EIGHT.Scene(engine)
-     *
-     *     const ambients: EIGHT.Facet[] = []
-     *
-     *     const camera = new EIGHT.PerspectiveCamera()
-     *     camera.eye = e2 + 3 * e3
-     *     ambients.push(camera)
-     *
-     *     const dirLight = new EIGHT.DirectionalLight()
-     *     ambients.push(dirLight)
-     *
-     *     const trackball = new EIGHT.TrackballControls(camera)
-     *     trackball.subscribe(engine.canvas)
-     *
-     *     const box = new EIGHT.Box(engine)
-     *     box.color = EIGHT.Color.green
-     *     scene.add(box)
-     *
-     *     const animate = function(timestamp: number) {
-     *       engine.clear()
-     *
-     *       trackball.update()
-     *
-     *       dirLight.direction = camera.look - camera.eye
-     *
-     *       box.attitude.rotorFromAxisAngle(e2, timestamp * 0.001)
-     *
-     *       scene.render(ambients)
-     *
-     *       requestAnimationFrame(animate)
-     *     }
-     *
-     *     requestAnimationFrame(animate)
      */
     var Engine = /** @class */ (function (_super) {
         __extends(Engine, _super);
@@ -17342,7 +17306,6 @@
                     // The next point is the same as the one before
                     elements[j + 2] = elements[j + 1];
                     // additional vertex degenerate triangle
-                    // 
                     elements[j + 3] = (1 + i) / 2;
                     // Increment j for the two duplicate vertices
                     j += 2;
@@ -20093,7 +20056,6 @@
         for (var i = 0; i < iLength; i++) {
             for (var j = 0; j < jLength; j++) {
                 // The first line is in the direction of increasing i.
-                // 
                 if (i < uSegments) {
                     elements.push(vertexIndex(i, j, iLength, jLength));
                     elements.push(vertexIndex(i + 1, j, iLength, jLength));

@@ -41,7 +41,7 @@ export function uuid4() {
     const paddedString = function (str: string, length: number, z?: string) {
         str = String(str);
         z = (!z) ? '0' : z;
-        var i = length - str.length;
+        let i = length - str.length;
         for (; i > 0; i >>>= 1, z += z) {
             if (i & 1) {
                 str = z + str;

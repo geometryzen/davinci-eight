@@ -39,7 +39,6 @@ function triangleStripForGrid(uSegments, vSegments, elements) {
                 // The next point is the same as the one before
                 elements[j + 2] = elements[j + 1];
                 // additional vertex degenerate triangle
-                // 
                 elements[j + 3] = (1 + i) / 2;
                 // Increment j for the two duplicate vertices
                 j += 2;

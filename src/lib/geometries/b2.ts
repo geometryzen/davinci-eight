@@ -1,7 +1,7 @@
 // Quadratic Bezier
 
 function b2p0(t: number, p: number): number {
-    var k = 1 - t;
+    const k = 1 - t;
     return k * k * p;
 }
 

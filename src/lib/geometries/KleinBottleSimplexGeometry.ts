@@ -6,7 +6,7 @@ let sin = Math.sin;
 let pi = Math.PI;
 
 function klein(u: number, v: number): Vector3 {
-    var point = new Vector3();
+    const point = new Vector3();
 
     u = u * 2 * pi;
     v = v * 2 * pi;

@@ -3,8 +3,8 @@ import { Vector4 } from './Vector4';
 describe("Vector4", function () {
 
     describe("constructor", function () {
-        var data = [Math.random(), Math.random(), Math.random(), Math.random()];
-        var vec = new Vector4(data, false);
+        const data = [Math.random(), Math.random(), Math.random(), Math.random()];
+        const vec = new Vector4(data, false);
         it("getComponent(0)", function () {
             expect(vec.getComponent(0)).toBe(data[0]);
         });
@@ -20,16 +20,16 @@ describe("Vector4", function () {
     });
 
     describe("add", function () {
-        var a = new Vector4([Math.random(), Math.random(), Math.random(), Math.random()], false);
-        var ax = a.x;
-        var ay = a.y;
-        var az = a.z;
-        var aw = a.w;
-        var b = new Vector4([Math.random(), Math.random(), Math.random(), Math.random()], false);
-        var bx = b.x;
-        var by = b.y;
-        var bz = b.z;
-        var bw = b.w;
+        const a = new Vector4([Math.random(), Math.random(), Math.random(), Math.random()], false);
+        const ax = a.x;
+        const ay = a.y;
+        const az = a.z;
+        const aw = a.w;
+        const b = new Vector4([Math.random(), Math.random(), Math.random(), Math.random()], false);
+        const bx = b.x;
+        const by = b.y;
+        const bz = b.z;
+        const bw = b.w;
         a.add(b);
         it("add, x component", function () {
             expect(a.x).toBe(ax + bx);
@@ -50,16 +50,16 @@ describe("Vector4", function () {
     });
 
     describe("a.add2(a, b)", function () {
-        var a = new Vector4([Math.random(), Math.random(), Math.random(), Math.random()], false);
-        var ax = a.x;
-        var ay = a.y;
-        var az = a.z;
-        var aw = a.w;
-        var b = new Vector4([Math.random(), Math.random(), Math.random(), Math.random()], false);
-        var bx = b.x;
-        var by = b.y;
-        var bz = b.z;
-        var bw = b.w;
+        const a = new Vector4([Math.random(), Math.random(), Math.random(), Math.random()], false);
+        const ax = a.x;
+        const ay = a.y;
+        const az = a.z;
+        const aw = a.w;
+        const b = new Vector4([Math.random(), Math.random(), Math.random(), Math.random()], false);
+        const bx = b.x;
+        const by = b.y;
+        const bz = b.z;
+        const bw = b.w;
         a.add2(a, b);
         it("add, x component", function () {
             expect(a.x).toBe(ax + bx);
@@ -80,16 +80,16 @@ describe("Vector4", function () {
     });
 
     describe("a.add2(b, a)", function () {
-        var a = new Vector4([Math.random(), Math.random(), Math.random(), Math.random()], false);
-        var ax = a.x;
-        var ay = a.y;
-        var az = a.z;
-        var aw = a.w;
-        var b = new Vector4([Math.random(), Math.random(), Math.random(), Math.random()], false);
-        var bx = b.x;
-        var by = b.y;
-        var bz = b.z;
-        var bw = b.w;
+        const a = new Vector4([Math.random(), Math.random(), Math.random(), Math.random()], false);
+        const ax = a.x;
+        const ay = a.y;
+        const az = a.z;
+        const aw = a.w;
+        const b = new Vector4([Math.random(), Math.random(), Math.random(), Math.random()], false);
+        const bx = b.x;
+        const by = b.y;
+        const bz = b.z;
+        const bw = b.w;
         a.add2(b, a);
         it("add, x component", function () {
             expect(a.x).toBe(ax + bx);
@@ -110,8 +110,8 @@ describe("Vector4", function () {
     });
 
     describe("copy", function () {
-        var a = new Vector4([Math.random(), Math.random(), Math.random(), Math.random()], false);
-        var b = new Vector4([Math.random(), Math.random(), Math.random(), Math.random()], false);
+        const a = new Vector4([Math.random(), Math.random(), Math.random(), Math.random()], false);
+        const b = new Vector4([Math.random(), Math.random(), Math.random(), Math.random()], false);
         a.copy(b);
         it("add, x component", function () {
             expect(a.x).toBe(b.x);

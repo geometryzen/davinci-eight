@@ -9,7 +9,7 @@ export function lcoE2(a0: number, a1: number, a2: number, a3: number, b0: number
     b2 = +b2;
     b3 = +b3;
     index = index | 0;
-    var x = 0.0;
+    let x = 0.0;
     switch (~(~index)) {
         case 0: {
             x = +(a0 * b0 + a1 * b1 + a2 * b2 - a3 * b3);

@@ -21,7 +21,7 @@ export function scpE3(a0: number, a1: number, a2: number, a3: number, a4: number
     b6 = +b6;
     b7 = +b7;
     index = index | 0;
-    var x = 0.0;
+    let x = 0.0;
     switch (~(~index)) {
         case 0: {
             x = +(a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7);

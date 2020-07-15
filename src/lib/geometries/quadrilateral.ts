@@ -6,8 +6,8 @@ function setAttributes(which: number[], source: { [name: string]: VectorN<number
     let names: string[] = Object.keys(source);
     let namesLength: number = names.length;
     let i: number;
-    var name: string;
-    var values: VectorN<number>[];
+    let name: string;
+    let values: VectorN<number>[];
     for (i = 0; i < namesLength; i++) {
         name = names[i];
         values = source[name];

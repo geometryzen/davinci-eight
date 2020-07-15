@@ -6,18 +6,18 @@ let sin = Math.sin;
 let pi = Math.PI;
 
 function mobius(u: number, v: number): Vector3 {
-    var point = new Vector3([0, 0, 0]);
+    const point = new Vector3([0, 0, 0]);
     /**
      * radius
      */
-    var R = 1;
+    const R = 1;
     /**
      * half-width
      */
-    var w = 0.05;
+    const w = 0.05;
 
-    var s = (2 * u - 1) * w; // [-w, w]
-    var t = 2 * pi * v;     // [0, 2pi]
+    const s = (2 * u - 1) * w; // [-w, w]
+    const t = 2 * pi * v;     // [0, 2pi]
 
     point.x = (R + s * cos(t / 2)) * cos(t);
     point.y = (R + s * cos(t / 2)) * sin(t);

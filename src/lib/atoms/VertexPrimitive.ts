@@ -103,7 +103,7 @@ export class VertexPrimitive {
         mustBeInteger('numCoordinates', numCoordinates);
         mustBeGE('numCoordinates', numCoordinates, 0);
         this.vertices = [];
-        for (var i = 0; i < numVertices; i++) {
+        for (let i = 0; i < numVertices; i++) {
             this.vertices.push(new Vertex(numCoordinates));
         }
     }

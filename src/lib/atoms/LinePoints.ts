@@ -7,7 +7,7 @@ import { mustBeLT } from '../checks/mustBeLT';
 import { Vertex } from './Vertex';
 
 /**
- * 
+ *
  */
 export class LinePoints extends CurvePrimitive {
     /**

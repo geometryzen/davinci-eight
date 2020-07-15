@@ -117,19 +117,19 @@ function setFormatString(hsv: number[], options: { format?: string }): string {
   switch (options.format) {
 
     case 'hsl':
-      var hsl = HSVtoHSL(hsv);
+      const hsl = HSVtoHSL(hsv);
       return 'hsl(' + hsl[0] + ', ' + hsl[1] + '%, ' + hsl[2] + '%)';
 
     case 'hsla':
-      var hslColor = HSVtoHSL(hsv);
+      const hslColor = HSVtoHSL(hsv);
       return 'hsla(' + hslColor[0] + ', ' + hslColor[1] + '%, ' + hslColor[2] + '%, ' + Math.random() + ')';
 
     case 'rgb':
-      var rgb = HSVtoRGB(hsv);
+      const rgb = HSVtoRGB(hsv);
       return 'rgb(' + rgb.join(', ') + ')';
 
     case 'rgba':
-      var rgbColor = HSVtoRGB(hsv);
+      const rgbColor = HSVtoRGB(hsv);
       return 'rgba(' + rgbColor.join(', ') + ', ' + Math.random() + ')';
 
     default:
@@ -217,7 +217,7 @@ function HSVtoHex(hsv: number[]): string {
   const rgb: number[] = HSVtoRGB(hsv);
 
   function componentToHex(c: number): string {
-    var hex = c.toString(16);
+    const hex = c.toString(16);
     return hex.length === 1 ? '0' + hex : hex;
   }
 

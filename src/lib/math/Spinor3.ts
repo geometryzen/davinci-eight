@@ -515,9 +515,9 @@ export class Spinor3 implements CartesianG3, SpinorE3, Lockable, VectorN<number>
      * @chainable
      */
     lerp(target: SpinorE3, α: number): Spinor3 {
-        var Vector2 = Spinor3.copy(target);
-        var Vector1 = this.clone();
-        var R = Vector2.mul(Vector1.inv());
+        const Vector2 = Spinor3.copy(target);
+        const Vector1 = this.clone();
+        const R = Vector2.mul(Vector1.inv());
         R.log();
         R.scale(α);
         R.exp();

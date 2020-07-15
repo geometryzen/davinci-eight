@@ -59,7 +59,7 @@ export class BarnSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
 
         switch (this.k) {
             case 0: {
-                var simplices = points.map(function (point) {
+                const simplices = points.map(function (point) {
                     let simplex = new Simplex(0);
                     simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = point;
                     return simplex;
@@ -68,12 +68,12 @@ export class BarnSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
                 break;
             }
             case 1: {
-                var lines = [[0, 1], [1, 6], [6, 5], [5, 0], [1, 2], [6, 7], [5, 9], [0, 4], [4, 3], [3, 2], [9, 8], [8, 7], [9, 4], [8, 3], [7, 2]];
+                const lines = [[0, 1], [1, 6], [6, 5], [5, 0], [1, 2], [6, 7], [5, 9], [0, 4], [4, 3], [3, 2], [9, 8], [8, 7], [9, 4], [8, 3], [7, 2]];
                 this.data = lines.map(function (line) { return simplex(line); });
                 break;
             }
             case 2: {
-                var faces: Simplex[][] = [0, 1, 2, 3, 4, 5, 6, 7, 8].map(function (index) { return void 0; });
+                const faces: Simplex[][] = [0, 1, 2, 3, 4, 5, 6, 7, 8].map(function (index) { return void 0; });
                 faces[0] = quad(points[0], points[5], points[9], points[4]);
                 faces[1] = quad(points[3], points[4], points[9], points[8]);
                 faces[2] = quad(points[2], points[3], points[8], points[7]);

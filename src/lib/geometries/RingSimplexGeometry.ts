@@ -15,18 +15,18 @@ function computeVertices(a: number, b: number, axis: VectorE3, start: VectorE3, 
      * `t` is the vector perpendicular to s in the plane of the ring.
      * We could use the generator an PI / 4 to calculate this or the cross product as here.
      */
-    var perp = Vector3.copy(axis).cross(start);
+    const perp = Vector3.copy(axis).cross(start);
     /**
      * The distance of the vertex from the origin and center.
      */
-    var radius = b;
-    var radiusStep = (a - b) / radialSegments;
+    let radius = b;
+    const radiusStep = (a - b) / radialSegments;
 
-    for (var i = 0; i < radialSegments + 1; i++) {
-        var begin = Vector3.copy(start).scale(radius);
-        var arcPoints = arc3(begin, angle, generator, thetaSegments);
-        for (var j = 0, jLength = arcPoints.length; j < jLength; j++) {
-            var arcPoint = arcPoints[j];
+    for (let i = 0; i < radialSegments + 1; i++) {
+        const begin = Vector3.copy(start).scale(radius);
+        const arcPoints = arc3(begin, angle, generator, thetaSegments);
+        for (let j = 0, jLength = arcPoints.length; j < jLength; j++) {
+            const arcPoint = arcPoints[j];
             vertices.push(arcPoint);
             // The coordinates vary between -a and +a, which we map to 0 and 1.
             uvs.push(new Vector2([(arcPoint.dot(start) / a + 1) / 2, (arcPoint.dot(perp) / a + 1) / 2]));
@@ -40,25 +40,25 @@ function vertexIndex(i: number, j: number, thetaSegments: number): number {
 }
 
 function makeTriangles(vertices: Vector3[], uvs: Vector2[], axis: VectorE3, radialSegments: number, thetaSegments: number, geometry: SimplexPrimitivesBuilder) {
-    for (var i = 0; i < radialSegments; i++) {
+    for (let i = 0; i < radialSegments; i++) {
         // Our traversal has resulted in the following formula for the index
         // into the vertices or uvs array
         // vertexIndex(i, j) => i * (thetaSegments + 1) + j
         /**
          * The index along the start radial line where j = 0. This is just index(i,0)
          */
-        var startLineIndex = i * (thetaSegments + 1);
+        const startLineIndex = i * (thetaSegments + 1);
 
-        for (var j = 0; j < thetaSegments; j++) {
+        for (let j = 0; j < thetaSegments; j++) {
             /**
              * The index of the corner of the quadrilateral with the lowest value of i and j.
              * This corresponds to the smallest radius and smallest angle counterclockwise. 
              */
-            var quadIndex = startLineIndex + j;
+            const quadIndex = startLineIndex + j;
 
-            var v0 = quadIndex;
-            var v1 = quadIndex + thetaSegments + 1;  // Move outwards one segment.
-            var v2 = quadIndex + thetaSegments + 2;  // Then move one segment along the radius.
+            let v0 = quadIndex;
+            let v1 = quadIndex + thetaSegments + 1;  // Move outwards one segment.
+            let v2 = quadIndex + thetaSegments + 2;  // Then move one segment along the radius.
 
             geometry.triangle([vertices[v0], vertices[v1], vertices[v2]], [Vector3.copy(axis), Vector3.copy(axis), Vector3.copy(axis)], [uvs[v0].clone(), uvs[v1].clone(), uvs[v2].clone()]);
 
@@ -134,13 +134,13 @@ export class RingSimplexGeometry extends SliceSimplexPrimitivesBuilder {
     public regenerate(): void {
         this.data = [];
 
-        var radialSegments = this.flatSegments;
-        var thetaSegments = this.curvedSegments;
+        const radialSegments = this.flatSegments;
+        const thetaSegments = this.curvedSegments;
         // TODO: The generator does not have to be dual to the axis
-        var generator: SpinorE3 = Spinor3.dual(this.e, false);
+        const generator: SpinorE3 = Spinor3.dual(this.e, false);
 
-        var vertices: Vector3[] = [];
-        var uvs: Vector2[] = [];
+        const vertices: Vector3[] = [];
+        const uvs: Vector2[] = [];
 
         computeVertices(this.a, this.b, this.e, this.cutLine, this.sliceAngle, generator, radialSegments, thetaSegments, vertices, uvs);
         switch (this.k) {

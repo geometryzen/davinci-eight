@@ -45,8 +45,8 @@ export class NumberShareableMap<V extends Shareable> extends ShareableBase {
     }
 
     putWeakRef(key: number, value: V): void {
-        var elements = this._elements;
-        var existing = elements[key];
+        const elements = this._elements;
+        const existing = elements[key];
         if (existing) {
             existing.release();
         }
@@ -55,7 +55,7 @@ export class NumberShareableMap<V extends Shareable> extends ShareableBase {
 
     forEach(callback: (key: number, value: V) => void) {
         let keys: number[] = this.keys;
-        for (var i = 0, iLength = keys.length; i < iLength; i++) {
+        for (let i = 0, iLength = keys.length; i < iLength; i++) {
             let key: number = keys[i];
             let value = this._elements[key];
             callback(key, value);

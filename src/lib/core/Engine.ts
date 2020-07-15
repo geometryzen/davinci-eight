@@ -36,10 +36,10 @@ export interface EngineAttributes extends WebGLContextAttributes {
 
 function getWindowDocument(window: Window): Document {
     if (window) {
-        return window.document
+        return window.document;
     }
     else {
-        return void 0
+        return void 0;
     }
 }
 
@@ -47,50 +47,14 @@ function getWindowDocument(window: Window): Document {
  * A wrapper around an HTMLCanvasElement providing access to the WebGLRenderingContext
  * and notifications of context loss and restore. An instance of the Engine will usually
  * be a required parameter for any consumer of WebGL resources.
+ * 
+ * <iframe
+ *     title="Engine"
+ *     width="860"
+ *     height="600"
+ *     src="https://www.stemcstudio.com/gists/54644519dcd556bf8bf779bfa084ced3?embed&file=main.ts&hideREADME">
+ * </iframe>
  *
- *
- *     export const e1 = EIGHT.Geometric3.e1;
- *     export const e2 = EIGHT.Geometric3.e2;
- *     export const e3 = EIGHT.Geometric3.e3;
- *
- *     const engine = new EIGHT.Engine('canvas3D')
- *       .size(500, 500)
- *       .clearColor(0.1, 0.1, 0.1, 1.0)
- *       .enable(EIGHT.Capability.DEPTH_TEST)
- *
- *     const scene = new EIGHT.Scene(engine)
- *
- *     const ambients: EIGHT.Facet[] = []
- *
- *     const camera = new EIGHT.PerspectiveCamera()
- *     camera.eye = e2 + 3 * e3
- *     ambients.push(camera)
- *
- *     const dirLight = new EIGHT.DirectionalLight()
- *     ambients.push(dirLight)
- *
- *     const trackball = new EIGHT.TrackballControls(camera)
- *     trackball.subscribe(engine.canvas)
- *
- *     const box = new EIGHT.Box(engine)
- *     box.color = EIGHT.Color.green
- *     scene.add(box)
- *
- *     const animate = function(timestamp: number) {
- *       engine.clear()
- *
- *       trackball.update()
- *
- *       dirLight.direction = camera.look - camera.eye
- *
- *       box.attitude.rotorFromAxisAngle(e2, timestamp * 0.001)
- *
- *       scene.render(ambients)
- *
- *       requestAnimationFrame(animate)
- *     }
- *
- *     requestAnimationFrame(animate)
  */
 export class Engine extends ShareableBase implements ContextManager {
     /**

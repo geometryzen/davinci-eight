@@ -194,9 +194,9 @@ export class Vector3 implements CartesianG3, VectorE3, Lockable, VectorN<number>
      */
     applyMatrix4(σ: Matrix4): Vector3 {
 
-        var x = this.x, y = this.y, z = this.z;
+        const x = this.x, y = this.y, z = this.z;
 
-        var e = σ.elements;
+        const e = σ.elements;
 
         this.x = e[0x0] * x + e[0x4] * y + e[0x8] * z + e[0xC];
         this.y = e[0x1] * x + e[0x5] * y + e[0x9] * z + e[0xD];

@@ -12,9 +12,9 @@ function bigger(a: number, b: number): boolean {
 }
 
 const permutation = function (direction: VectorE3): number {
-    var x = Math.abs(direction.x);
-    var y = Math.abs(direction.y);
-    var z = Math.abs(direction.z);
+    const x = Math.abs(direction.x);
+    const y = Math.abs(direction.y);
+    const z = Math.abs(direction.z);
     return bigger(x, z) ? (bigger(x, y) ? 0 : 1) : (bigger(y, z) ? 1 : 2);
 };
 
@@ -23,7 +23,7 @@ const orientation = function (cardinalIndex: number, direction: Vector3): number
 };
 
 function nearest(direction: Vector3): Vector3 {
-    var cardinalIndex = permutation(direction);
+    const cardinalIndex = permutation(direction);
     switch (cardinalIndex) {
         case 0: {
             return new Vector3([orientation(cardinalIndex, direction), 0, 0]);
@@ -56,35 +56,35 @@ export class ArrowSimplexPrimitivesBuilder extends RevolutionSimplexPrimitivesBu
         return this;
     }
     protected regenerate(): void {
-        var length = this.vector.magnitude();
-        var lengthShaft = length - this.lengthCone;
-        var halfLength = length / 2;
-        var radiusCone = this.radiusCone;
-        var radiusShaft = this.radiusShaft;
-        var computeArrow = function (direction: Vector3): { points: Vector3[], generator: Spinor3 } {
-            var cycle = permutation(direction);
-            var sign = orientation(cycle, direction);
-            var i = (cycle + 0) % 3;
-            var j = (cycle + 2) % 3;
-            var k = (cycle + 1) % 3;
-            var a = halfLength * sign;
-            var b = lengthShaft * sign;
+        const length = this.vector.magnitude();
+        const lengthShaft = length - this.lengthCone;
+        const halfLength = length / 2;
+        const radiusCone = this.radiusCone;
+        const radiusShaft = this.radiusShaft;
+        const computeArrow = function (direction: Vector3): { points: Vector3[], generator: Spinor3 } {
+            const cycle = permutation(direction);
+            const sign = orientation(cycle, direction);
+            const i = (cycle + 0) % 3;
+            const j = (cycle + 2) % 3;
+            const k = (cycle + 1) % 3;
+            const a = halfLength * sign;
+            const b = lengthShaft * sign;
             // data is for an arrow pointing in the e1 direction in the xy-plane.
-            var data = [
+            const data = [
                 [a, 0, 0],    // head end
                 [b - a, radiusCone, 0],
                 [b - a, radiusShaft, 0],
                 [-a, radiusShaft, 0],
                 [-a, 0, 0]    // tail end
             ];
-            var points = data.map(function (point: number[]) {
+            const points = data.map(function (point: number[]) {
                 return new Vector3([point[i], point[j], point[k]]);
             });
-            var generator = Spinor3.dual(nearest(direction), false);
+            const generator = Spinor3.dual(nearest(direction), false);
             return { "points": points, "generator": generator };
         };
-        var direction = Vector3.copy(this.vector).normalize();
-        var arrow = computeArrow(direction);
+        const direction = Vector3.copy(this.vector).normalize();
+        const arrow = computeArrow(direction);
         // TODO: The directions may be wrong here and need revesing.
         // The convention is that we rotate from a to b.
         const R = Spinor3.rotorFromDirections(nearest(direction), direction);

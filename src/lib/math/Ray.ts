@@ -82,13 +82,13 @@ export class Ray {
         segDir.copy(v1).sub(v0).normalize();
         diff.copy(this.origin).sub(segCenter);
 
-        var segExtent = v0.distanceTo(v1) * 0.5;
-        var a01 = - this.direction.dot(segDir);
-        var b0 = diff.dot(this.direction);
-        var b1 = - diff.dot(segDir);
-        var c = diff.squaredNorm();
-        var det = Math.abs(1 - a01 * a01);
-        var s0, s1, sqrDist, extDet;
+        const segExtent = v0.distanceTo(v1) * 0.5;
+        const a01 = - this.direction.dot(segDir);
+        const b0 = diff.dot(this.direction);
+        const b1 = - diff.dot(segDir);
+        const c = diff.squaredNorm();
+        const det = Math.abs(1 - a01 * a01);
+        let s0, s1, sqrDist, extDet;
 
         if (det > 0) {
 
@@ -107,7 +107,7 @@ export class Ray {
                         // region 0
                         // Minimum at interior points of ray and segment.
 
-                        var invDet = 1 / det;
+                        const invDet = 1 / det;
                         s0 *= invDet;
                         s1 *= invDet;
                         sqrDist = s0 * (s0 + a01 * s1 + 2 * b0) + s1 * (a01 * s0 + s1 + 2 * b1) + c;
@@ -189,19 +189,19 @@ export class Ray {
     }
     intersectSphere(sphere: { center: VectorE3, radius: number }, optionalTarget: Vector3) {
         v1.sub2(sphere.center, this.origin);
-        var tca = v1.dot(this.direction);
-        var d2 = v1.dot(v1) - tca * tca;
-        var radius2 = sphere.radius * sphere.radius;
+        const tca = v1.dot(this.direction);
+        const d2 = v1.dot(v1) - tca * tca;
+        const radius2 = sphere.radius * sphere.radius;
 
         if (d2 > radius2) return null;
 
-        var thc = Math.sqrt(radius2 - d2);
+        const thc = Math.sqrt(radius2 - d2);
 
         // t0 = first intersect point - entrance on front of sphere
-        var t0 = tca - thc;
+        const t0 = tca - thc;
 
         // t1 = second intersect point - exit point on back of sphere
-        var t1 = tca + thc;
+        const t1 = tca + thc;
 
         // test to see if both t0 and t1 are behind the ray - if so, return null
         if (t0 < 0 && t1 < 0) return null;
@@ -218,7 +218,7 @@ export class Ray {
         return this.distanceToPoint(sphere.center) <= sphere.radius;
     }
     distanceToPlane(plane: { normal: Vector3; distanceToPoint: (point: VectorE3) => number; constant: number }) {
-        var denominator = plane.normal.dot(this.direction);
+        const denominator = plane.normal.dot(this.direction);
         if (denominator === 0) {
             // line is coplanar, return origin
             if (plane.distanceToPoint(this.origin) === 0) {
@@ -227,12 +227,12 @@ export class Ray {
             // Null is preferable to undefined since undefined means.... it is undefined
             return null;
         }
-        var t = - (this.origin.dot(plane.normal) + plane.constant) / denominator;
+        const t = - (this.origin.dot(plane.normal) + plane.constant) / denominator;
         // Return if the ray never intersects the plane
         return t >= 0 ? t : null;
     }
     intersectPlane(plane: { normal: Vector3; distanceToPoint: (point: VectorE3) => number; constant: number }, optionalTarget: Vector3) {
-        var t = this.distanceToPlane(plane);
+        const t = this.distanceToPlane(plane);
         if (t === null) {
             return null;
         }
@@ -240,11 +240,11 @@ export class Ray {
     }
     intersectsPlane(plane: { normal: Vector3; distanceToPoint: (point: VectorE3) => number; constant: number }): boolean {
         // check if the ray lies on the plane first
-        var distToPoint = plane.distanceToPoint(this.origin);
+        const distToPoint = plane.distanceToPoint(this.origin);
         if (distToPoint === 0) {
             return true;
         }
-        var denominator = plane.normal.dot(this.direction);
+        const denominator = plane.normal.dot(this.direction);
         if (denominator * distToPoint < 0) {
             return true;
         }
@@ -253,13 +253,13 @@ export class Ray {
     }
     intersectBox(box: { min: VectorE3; max: VectorE3 }, optionalTarget: Vector3): Vector3 {
 
-        var tmin, tmax, tymin, tymax, tzmin, tzmax;
+        let tmin, tmax, tymin, tymax, tzmin, tzmax;
 
-        var invdirx = 1 / this.direction.x,
+        const invdirx = 1 / this.direction.x,
             invdiry = 1 / this.direction.y,
             invdirz = 1 / this.direction.z;
 
-        var origin = this.origin;
+        const origin = this.origin;
 
         if (invdirx >= 0) {
 
@@ -335,8 +335,8 @@ export class Ray {
         //   |Dot(D,N)|*b1 = sign(Dot(D,N))*Dot(D,Cross(Q,E2))
         //   |Dot(D,N)|*b2 = sign(Dot(D,N))*Dot(D,Cross(E1,Q))
         //   |Dot(D,N)|*t = -sign(Dot(D,N))*Dot(Q,N)
-        var DdN = this.direction.dot(normal);
-        var sign;
+        let DdN = this.direction.dot(normal);
+        let sign;
 
         if (DdN > 0) {
 
@@ -355,7 +355,7 @@ export class Ray {
         }
 
         diff.sub2(this.origin, a);
-        var DdQxE2 = sign * this.direction.dot(edge2.cross2(diff, edge2));
+        const DdQxE2 = sign * this.direction.dot(edge2.cross2(diff, edge2));
 
         // b1 < 0, no intersection
         if (DdQxE2 < 0) {
@@ -364,7 +364,7 @@ export class Ray {
 
         }
 
-        var DdE1xQ = sign * this.direction.dot(edge1.cross(diff));
+        const DdE1xQ = sign * this.direction.dot(edge1.cross(diff));
 
         // b2 < 0, no intersection
         if (DdE1xQ < 0) {
@@ -381,7 +381,7 @@ export class Ray {
         }
 
         // Line intersects triangle, check if ray does.
-        var QdN = - sign * diff.dot(normal);
+        const QdN = - sign * diff.dot(normal);
 
         // t < 0, no intersection
         if (QdN < 0) {

@@ -29,7 +29,7 @@ export function simplicesToGeometryMeta(geometry: Simplex[]): GeometryMeta {
     let kValueOfSimplex: number = void 0;
     let knowns: { [key: string]: { size: AttributeSizeType } } = {};
     let geometryLen = geometry.length;
-    for (var i = 0; i < geometryLen; i++) {
+    for (let i = 0; i < geometryLen; i++) {
         let simplex: Simplex = geometry[i];
         if (!(simplex instanceof Simplex)) {
             expectArg('simplex', simplex).toSatisfy(false, "Every element must be a Simplex @ simplicesToGeometryMeta(). Found " + stringify(simplex, 2));
@@ -37,12 +37,12 @@ export function simplicesToGeometryMeta(geometry: Simplex[]): GeometryMeta {
         let vertices: Vertex[] = simplex.vertices;
         // TODO: Check consistency of k-values.
         kValueOfSimplex = simplex.k;
-        for (var j = 0, vsLen = vertices.length; j < vsLen; j++) {
+        for (let j = 0, vsLen = vertices.length; j < vsLen; j++) {
             let vertex: Vertex = vertices[j];
             let attributes = vertex.attributes;
             let keys: string[] = Object.keys(attributes);
             let keysLen = keys.length;
-            for (var k = 0; k < keysLen; k++) {
+            for (let k = 0; k < keysLen; k++) {
                 let key = keys[k];
                 let value: VectorN<number> = attributes[key];
                 let dLength = dataLength(value);

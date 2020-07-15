@@ -151,7 +151,7 @@ export class PerspectiveCamera implements Facet {
     }
 
     get projectionMatrix(): Matrix4 {
-        return this.P.matrix
+        return this.P.matrix;
     }
 
     /**
@@ -166,6 +166,6 @@ export class PerspectiveCamera implements Facet {
     }
 
     get viewMatrix(): Matrix4 {
-        return this.V.matrix
+        return this.V.matrix;
     }
 }

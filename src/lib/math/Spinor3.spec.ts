@@ -9,8 +9,8 @@ const e3 = Vector3.vector(0, 0, 1);
 describe("Spinor3", function () {
     describe("constructor", function () {
         it("coords argument should be preserved", function () {
-            var coords = [1, 2, 3, 4];
-            var m = Spinor3.spinor(1, 2, 3, 4);
+            const coords = [1, 2, 3, 4];
+            const m = Spinor3.spinor(1, 2, 3, 4);
             expect(m.getComponent(0)).toBe(coords[0]);
             expect(m.getComponent(1)).toBe(coords[1]);
             expect(m.getComponent(2)).toBe(coords[2]);
@@ -139,8 +139,8 @@ describe("Spinor3", function () {
 
     describe("exp", function () {
         it("should preserve the identity", function () {
-            var m = Spinor3.spinor(0, 0, 0, 1);
-            var r = m.exp();
+            const m = Spinor3.spinor(0, 0, 0, 1);
+            const r = m.exp();
             expect(m.getComponent(0)).toBe(0);
             expect(m.getComponent(1)).toBe(0);
             expect(m.getComponent(2)).toBe(0);
@@ -149,8 +149,8 @@ describe("Spinor3", function () {
             expect(r).toBe(m);
         });
         it("should correspond with scalar exponentiation", function () {
-            var m = Spinor3.spinor(0, 0, 0, 3);
-            var clone = m.clone();
+            const m = Spinor3.spinor(0, 0, 0, 3);
+            const clone = m.clone();
             m.exp();
             expect(m.getComponent(0)).toBe(0);
             expect(m.getComponent(1)).toBe(0);

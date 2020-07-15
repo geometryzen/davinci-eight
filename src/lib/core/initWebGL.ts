@@ -11,7 +11,8 @@ export function initWebGL(canvas: HTMLCanvasElement, attributes?: WebGLContextAt
     // We'll be hyper-functional. An undefined canvas begets an undefined context.
     // Clients must check their context output or canvas input.
     if (isDefined(canvas)) {
-        var context: WebGLRenderingContext;
+
+        let context: WebGLRenderingContext;
 
         try {
             // Try to grab the standard context. If it fails, fallback to experimental.

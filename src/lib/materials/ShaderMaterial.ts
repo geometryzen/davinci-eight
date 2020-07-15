@@ -140,13 +140,13 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
      */
     contextLost(): void {
         this._program = void 0;
-        for (var aName in this._attributesByName) {
+        for (const aName in this._attributesByName) {
             // TODO: This would be better over the array.
             if (this._attributesByName.hasOwnProperty(aName)) {
                 this._attributesByName[aName].contextLost();
             }
         }
-        for (var uName in this._uniforms) {
+        for (const uName in this._uniforms) {
             if (this._uniforms.hasOwnProperty(uName)) {
                 this._uniforms[uName].contextLost();
             }
@@ -246,7 +246,7 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
         if (attribLocations) {
             // TODO: Store loactions as a plain array in order to avoid temporaries (aNames)
             const aNames = Object.keys(attribLocations);
-            for (var i = 0, iLength = aNames.length; i < iLength; i++) {
+            for (let i = 0, iLength = aNames.length; i < iLength; i++) {
                 attribLocations[aNames[i]].enable();
             }
         }
@@ -280,7 +280,7 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
         if (attribLocations) {
             // TODO: Store loactions as a plain array in order to avoid temporaries (aNames)
             const aNames = Object.keys(attribLocations);
-            for (var i = 0, iLength = aNames.length; i < iLength; i++) {
+            for (let i = 0, iLength = aNames.length; i < iLength; i++) {
                 attribLocations[aNames[i]].disable();
             }
         }

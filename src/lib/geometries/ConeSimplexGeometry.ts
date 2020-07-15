@@ -41,9 +41,9 @@ export class ConeSimplexGeometry extends SliceSimplexPrimitivesBuilder {
 
         let heightHalf = height / 2;
 
-        var x: number;
-        var y: number;
-        var points: Vector3[] = [];
+        let x: number;
+        let y: number;
+        const points: Vector3[] = [];
         let vertices: number[][] = [];
         let uvs: Vector2[][] = [];
 
@@ -67,8 +67,8 @@ export class ConeSimplexGeometry extends SliceSimplexPrimitivesBuilder {
         }
 
         let tanTheta = (radiusBottom - radiusTop) / height;
-        var na: Vector3;
-        var nb: Vector3;
+        let na: Vector3;
+        let nb: Vector3;
         for (x = 0; x < radialSegments; x++) {
             if (radiusTop !== 0) {
                 na = Vector3.copy(points[vertices[0][x]]);

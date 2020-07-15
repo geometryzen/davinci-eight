@@ -393,9 +393,9 @@ export class Spinor2 implements SpinorE2, Lockable, VectorN<number> {
      * @chainable
      */
     lerp(target: SpinorE2, α: number) {
-        var Vector2 = Spinor2.copy(target);
-        var Vector1 = this.clone();
-        var R = Vector2.mul(Vector1.inv());
+        const Vector2 = Spinor2.copy(target);
+        const Vector1 = this.clone();
+        const R = Vector2.mul(Vector1.inv());
         R.log();
         R.scale(α);
         R.exp();
