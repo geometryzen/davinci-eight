@@ -90,9 +90,9 @@
     var Eight = /** @class */ (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2020-06-29';
+            this.LAST_MODIFIED = '2020-07-14';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '7.4.4';
+            this.VERSION = '8.0.0';
         }
         Eight.prototype.log = function (message) {
             // This should allow us to unit test and run in environments without a console.
@@ -7992,7 +7992,7 @@
     })(exports.BlendingFactorSrc || (exports.BlendingFactorSrc = {}));
 
     /**
-     * A capability that may be enabled or disabled for a WebGLRenderingContext.
+     * A capability that may be enabled or disabled for a WebGL rendering context.
      */
     (function (Capability) {
         /**
@@ -12583,9 +12583,9 @@
         // Clients must check their context output or canvas input.
         if (isDefined(canvas)) {
             var context = void 0;
+            var contextId = 'webgl2';
             try {
-                // Try to grab the standard context. If it fails, fallback to experimental.
-                context = (canvas.getContext('webgl', attributes) || canvas.getContext('experimental-webgl', attributes));
+                context = canvas.getContext(contextId, attributes);
             }
             catch (e) {
                 // Do nothing.
@@ -12594,7 +12594,7 @@
                 return context;
             }
             else {
-                throw new Error("Unable to initialize WebGL. Your browser may not support it.");
+                throw new Error("canvas.getContext('" + contextId + "') failed. Your browser may not support it.");
             }
         }
         else {
@@ -12667,7 +12667,7 @@
             // Users should automatically add themselves upon construction and remove upon release.
             _this._users = [];
             /**
-             * Actions that are executed when a WebGLRenderingContext is gained.
+             * Actions that are executed when a WebGL rendering context is gained.
              */
             _this._commands = new ShareableArray([]);
             /**
@@ -21107,7 +21107,7 @@
                     }
                 }
                 else {
-                    console.warn("memory leak: WebGLProgram has not been deleted because WebGLRenderingContext is not available anymore.");
+                    console.warn("memory leak: WebGLProgram has not been deleted because WebGL rendering context is not available anymore.");
                 }
                 this._program = void 0;
             }

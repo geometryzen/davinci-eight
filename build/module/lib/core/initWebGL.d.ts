@@ -4,4 +4,4 @@
  * attributes
  * If the canvas is undefined then an undefined value is returned for the context.
  */
-export declare function initWebGL(canvas: HTMLCanvasElement, attributes?: WebGLContextAttributes): WebGLRenderingContext;
+export declare function initWebGL(canvas: HTMLCanvasElement, attributes?: WebGLContextAttributes): WebGL2RenderingContext;

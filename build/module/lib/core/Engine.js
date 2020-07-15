@@ -53,7 +53,7 @@ var Engine = /** @class */ (function (_super) {
         // Users should automatically add themselves upon construction and remove upon release.
         _this._users = [];
         /**
-         * Actions that are executed when a WebGLRenderingContext is gained.
+         * Actions that are executed when a WebGL rendering context is gained.
          */
         _this._commands = new ShareableArray([]);
         /**

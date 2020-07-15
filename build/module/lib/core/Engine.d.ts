@@ -48,7 +48,7 @@ export declare class Engine extends ShareableBase implements ContextManager {
      */
     private _webGLContextRestored;
     /**
-     * Actions that are executed when a WebGLRenderingContext is gained.
+     * Actions that are executed when a WebGL rendering context is gained.
      */
     private _commands;
     /**
@@ -64,7 +64,7 @@ export declare class Engine extends ShareableBase implements ContextManager {
      * @param attributes Allows the context to be configured.
      * @param doc The document object model that contains the canvas identifier.
      */
-    constructor(canvas?: string | HTMLCanvasElement | WebGLRenderingContext, attributes?: EngineAttributes, doc?: Document);
+    constructor(canvas?: string | HTMLCanvasElement | WebGL2RenderingContext, attributes?: EngineAttributes, doc?: Document);
     /**
      *
      */
@@ -163,7 +163,7 @@ export declare class Engine extends ShareableBase implements ContextManager {
      * @param canvas The HTML canvas element or canvas element identifier.
      * @param doc The document object model that contains the canvas identifier.
      */
-    start(canvas: string | HTMLCanvasElement | WebGLRenderingContext, doc?: Document): this;
+    start(canvas: string | HTMLCanvasElement | WebGL2RenderingContext, doc?: Document): this;
     /**
      *
      */

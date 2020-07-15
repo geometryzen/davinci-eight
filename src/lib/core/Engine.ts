@@ -60,7 +60,7 @@ export class Engine extends ShareableBase implements ContextManager {
     /**
      * 
      */
-    private _gl: WebGLRenderingContext;
+    private _gl: WebGL2RenderingContext;
     /**
      * 
      */
@@ -78,7 +78,7 @@ export class Engine extends ShareableBase implements ContextManager {
      */
     private _webGLContextRestored: (event: Event) => any;
     /**
-     * Actions that are executed when a WebGLRenderingContext is gained.
+     * Actions that are executed when a WebGL rendering context is gained.
      */
     private _commands = new ShareableArray<ContextConsumer>([]);
     /**
@@ -94,7 +94,7 @@ export class Engine extends ShareableBase implements ContextManager {
      * @param attributes Allows the context to be configured.
      * @param doc The document object model that contains the canvas identifier.
      */
-    constructor(canvas?: string | HTMLCanvasElement | WebGLRenderingContext, attributes: EngineAttributes = {}, doc = getWindowDocument(window)) {
+    constructor(canvas?: string | HTMLCanvasElement | WebGL2RenderingContext, attributes: EngineAttributes = {}, doc = getWindowDocument(window)) {
         super();
         this.setLoggingName('Engine');
 
@@ -402,7 +402,7 @@ export class Engine extends ShareableBase implements ContextManager {
      * @param canvas The HTML canvas element or canvas element identifier.
      * @param doc The document object model that contains the canvas identifier.
      */
-    start(canvas: string | HTMLCanvasElement | WebGLRenderingContext, doc = window.document): this {
+    start(canvas: string | HTMLCanvasElement | WebGL2RenderingContext, doc = window.document): this {
         if (typeof canvas === 'string') {
             const canvasElement = <HTMLCanvasElement>doc.getElementById(canvas);
             if (canvasElement) {

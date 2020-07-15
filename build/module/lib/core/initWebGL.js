@@ -10,9 +10,9 @@ export function initWebGL(canvas, attributes) {
     // Clients must check their context output or canvas input.
     if (isDefined(canvas)) {
         var context = void 0;
+        var contextId = 'webgl2';
         try {
-            // Try to grab the standard context. If it fails, fallback to experimental.
-            context = (canvas.getContext('webgl', attributes) || canvas.getContext('experimental-webgl', attributes));
+            context = canvas.getContext(contextId, attributes);
         }
         catch (e) {
             // Do nothing.
@@ -21,7 +21,7 @@ export function initWebGL(canvas, attributes) {
             return context;
         }
         else {
-            throw new Error("Unable to initialize WebGL. Your browser may not support it.");
+            throw new Error("canvas.getContext('" + contextId + "') failed. Your browser may not support it.");
         }
     }
     else {

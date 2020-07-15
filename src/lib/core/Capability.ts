@@ -1,5 +1,5 @@
 /**
- * A capability that may be enabled or disabled for a WebGLRenderingContext.
+ * A capability that may be enabled or disabled for a WebGL rendering context.
  */
 export enum Capability {
     /**

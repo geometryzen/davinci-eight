@@ -13,7 +13,7 @@ import { mustBeEQ } from '../checks/mustBeEQ';
 /**
  * Verify that the enums match the values in the WebGL rendering context.
  */
-export function checkEnums(gl: WebGLRenderingContext): WebGLRenderingContext {
+export function checkEnums(gl: WebGL2RenderingContext): WebGL2RenderingContext {
 
     // BeginMode
     mustBeEQ('LINE_LOOP', BeginMode.LINE_LOOP, gl.LINE_LOOP);

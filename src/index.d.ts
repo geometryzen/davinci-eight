@@ -1,4 +1,4 @@
-// Type definitions for davinci-eight 7.4.3
+// Type definitions for davinci-eight 8.0.0
 // Project: https://github.com/geometryzen/davinci-eight
 // Definitions by: David Geo Holmes david.geo.holmes@gmail.com https://www.stemcstudio.com
 //
@@ -56,7 +56,7 @@ export enum BlendingFactorSrc {
 }
 
 /**
- * A capability that may be enabled or disabled for a WebGLRenderingContext.
+ * A capability that may be enabled or disabled for a WebGL rendering context.
  */
 export enum Capability {
 
@@ -367,14 +367,14 @@ export interface EngineAttributes extends WebGLContextAttributes {
 }
 
 /**
- * A wrapper around an HTMLCanvasElement that provides WebGLRenderingContext initialization
+ * A wrapper around an HTMLCanvasElement that provides WebGL rendering context initialization
  * and context lost management. An instance of this class is provided to objects created
  * WebGL resources.
  */
 export class Engine extends ShareableBase {
 
     /**
-     * The canvas containing associated with the underlying WebGLRenderingContext.
+     * The canvas containing associated with the underlying WebGL rendering context.
      */
     canvas: HTMLCanvasElement;
 
@@ -389,15 +389,15 @@ export class Engine extends ShareableBase {
     drawingBufferWidth: number;
 
     /**
-     * The underlying WebGLRenderingContext.
+     * The underlying WebGL rendering context.
      */
-    gl: WebGLRenderingContext;
+    gl: WebGL2RenderingContext;
 
     /**
      * Constructs an Engine.
      * If the canvas argument is provided then the Engine will be started automatically.
      */
-    constructor(canvas?: string | HTMLCanvasElement | WebGLRenderingContext, attributes?: EngineAttributes, doc?: Document);
+    constructor(canvas?: string | HTMLCanvasElement | WebGL2RenderingContext, attributes?: EngineAttributes, doc?: Document);
 
     /**
      * Called when the last reference to this Engine has been released.
@@ -498,7 +498,7 @@ export class Engine extends ShareableBase {
     start(canvas: HTMLCanvasElement | string, doc?: Document): Engine;
 
     /**
-     * Terminates the WebGLRenderingContext for the underlying canvas.
+     * Terminates the WebGL rendering context for the underlying canvas.
      */
     stop(): Engine;
 
@@ -548,7 +548,7 @@ export interface ContextConsumer extends Shareable {
  * 
  */
 export interface ContextManager extends Shareable {
-        /*readonly*/ gl: WebGLRenderingContext;
+        /*readonly*/ gl: WebGL2RenderingContext;
     synchronize(consumer: ContextConsumer): void;
     addContextListener(consumer: ContextConsumer): void;
     removeContextListener(consumer: ContextConsumer): void;
@@ -591,7 +591,7 @@ export class Uniform implements ContextProgramConsumer {
     constructor(info: WebGLActiveInfo);
 
     contextFree(): void;
-    contextGain(gl: WebGLRenderingContext, program: WebGLProgram): void;
+    contextGain(gl: WebGL2RenderingContext, program: WebGLProgram): void;
     contextLost(): void;
 
     /**
@@ -713,7 +713,7 @@ export function vertexArraysFromPrimitive(primitive: Primitive, order?: string[]
  */
 export interface ContextProgramConsumer {
     contextFree(): void;
-    contextGain(gl: WebGLRenderingContext, program: WebGLProgram): void;
+    contextGain(gl: WebGL2RenderingContext, program: WebGLProgram): void;
     contextLost(): void;
 }
 
@@ -723,7 +723,7 @@ export interface ContextProgramConsumer {
 export class Attrib implements ContextProgramConsumer {
     index: number;
     contextFree(): void;
-    contextGain(gl: WebGLRenderingContext, program: WebGLProgram): void;
+    contextGain(gl: WebGL2RenderingContext, program: WebGLProgram): void;
     contextLost(): void;
     config(size: number, type: DataType, normalized?: boolean, stride?: number, offset?: number): void;
     enable(): void;

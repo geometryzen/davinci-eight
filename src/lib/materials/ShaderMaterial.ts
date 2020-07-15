@@ -169,7 +169,7 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
                 }
             }
             else {
-                console.warn("memory leak: WebGLProgram has not been deleted because WebGLRenderingContext is not available anymore.");
+                console.warn("memory leak: WebGLProgram has not been deleted because WebGL rendering context is not available anymore.");
             }
             this._program = void 0;
         }

@@ -42,6 +42,7 @@ Beware: Upgrading from 5.5.1 to 5.6.0 is problematic on Fedora (2018-01-19).
 
 ```bash
 npm run build
+npm run test
 npm run docs
 npm run pages
 ```
