@@ -786,13 +786,13 @@ export class TextureLoader {
     constructor(contextManager: ContextManager);
     /**
      * 
-     * @param url 
+     * @param url The Uniform Resource Locator of the image.
      * @param options 
      */
     imageTexture(url: string, options?: TextureLoaderOptions): Promise<ImageTexture>;
     /**
      * @deprecated
-     * @param url 
+     * @param url The Uniform Resource Locator of the image.
      * @param onLoad 
      * @param onError 
      * @param options 
