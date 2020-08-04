@@ -1,4 +1,4 @@
-// Type definitions for davinci-eight 8.1.0
+// Type definitions for davinci-eight 8.2.0
 // Project: https://github.com/geometryzen/davinci-eight
 // Definitions by: David Geo Holmes david.geo.holmes@gmail.com https://www.stemcstudio.com
 //
@@ -784,6 +784,19 @@ interface TextureLoaderOptions {
 
 export class TextureLoader {
     constructor(contextManager: ContextManager);
+    /**
+     * 
+     * @param url 
+     * @param options 
+     */
+    imageTexture(url: string, options?: TextureLoaderOptions): Promise<ImageTexture>;
+    /**
+     * @deprecated
+     * @param url 
+     * @param onLoad 
+     * @param onError 
+     * @param options 
+     */
     loadImageTexture(url: string, onLoad: (texture: ImageTexture) => any, onError?: () => any, options?: TextureLoaderOptions): void;
 }
 
@@ -3075,7 +3088,7 @@ export class Scene extends ShareableContextConsumer implements Renderable {
 /**
  *
  */
-export class PerspectiveCamera implements Facet {
+export class PerspectiveCamera implements Facet, Camera, Prism {
     /**
      * The aspect ratio of the viewport, i.e., width / height.
      */
@@ -5281,13 +5294,38 @@ class GUI {
 }
 */
 
+export interface Camera {
+    /**
+     * The position of the camera, a position vector.
+     */
+    eye: VectorE3;
+    /**
+     * The point (position vector) that the camera looks at.
+     */
+    look: VectorE3;
+    /**
+     * The direction that is used to orient the camera. 
+     */
+    up: VectorE3;
+}
+
+export interface Prism {
+    /**
+     * The distance to the near plane of the viewport.
+     */
+    near?: number;
+    far?: number;
+    fov?: number;
+    aspect?: number;
+}
+
 /**
  * HTMLCanvasElement overlay for putting labels and lines on a 3D diagram.
  */
 export class Diagram3D {
     ctx: CanvasRenderingContext2D;
     canvas: HTMLCanvasElement;
-    constructor(canvas: string | HTMLCanvasElement, camera: { eye: VectorE3; look: VectorE3; up: VectorE3; near?: number, far?: number, fov?: number, aspect?: number }, prism?: { near: number, far: number, fov: number, aspect: number });
+    constructor(canvas: string | HTMLCanvasElement, camera: Camera, prism: Prism);
     beginPath(): void;
     clear(): void;
     closePath(): void;
@@ -5303,6 +5341,11 @@ export class Diagram3D {
      * Strokes the text at the position specified.
      */
     strokeText(text: string, X: VectorE3, maxWidth?: number): void;
+}
+
+export class HTMLOverlay {
+    constructor(containerId: string, camera: Camera, prism: Prism);
+    text(name: string, text: string, X: VectorE3): void;
 }
 
 export function acos<T>(x: T): T;

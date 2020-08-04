@@ -24,9 +24,17 @@ export declare class TextureLoader {
      */
     constructor(contextManager: ContextManager);
     /**
+     *
+     * @param url The Uniform Resource Locator of the image.
+     * @param options
+     */
+    imageTexture(url: string, options?: TextureLoaderOptions): Promise<ImageTexture>;
+    /**
+     * @deprecated
      * @param url The Uniform Resource Locator of the image.
      * @param onLoad
      * @param onError
+     * @param options
      */
     loadImageTexture(url: string, onLoad: (texture: ImageTexture) => any, onError?: () => any, options?: TextureLoaderOptions): void;
 }

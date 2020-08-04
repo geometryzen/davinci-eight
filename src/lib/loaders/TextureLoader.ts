@@ -33,31 +33,57 @@ export class TextureLoader {
     }
 
     /**
+     * 
+     * @param url The Uniform Resource Locator of the image.
+     * @param options 
+     */
+    imageTexture(url: string, options: TextureLoaderOptions = {}): Promise<ImageTexture> {
+        mustBeString('url', url);
+        if (isDefined(options.crossOrigin)) {
+            mustBeString('options.crossOrigin', options.crossOrigin);
+        }
+        return new Promise<ImageTexture>((response, reject) => {
+            const image = new Image();
+            image.onload = () => {
+                const texture = new ImageTexture(image, TextureTarget.TEXTURE_2D, this.contextManager);
+                texture.bind();
+                texture.upload();
+                texture.unbind();
+                response(texture);
+            };
+            image.onerror = (event: string | Event, source: string, lineno: number, colno: number, cause: Error) => {
+                reject(new Error(`Error occurred while loading image. Cause: ${cause}`));
+            };
+            // How to issue a CORS request for an image coming from another domain.
+            // The image is fetched from the server without any credentials, i.e., cookies.
+            if (isDefined(options.crossOrigin)) {
+                image.crossOrigin = options.crossOrigin;
+            }
+            image.src = url;
+        });
+    }
+
+    /**
+     * @deprecated
      * @param url The Uniform Resource Locator of the image.
      * @param onLoad
      * @param onError
+     * @param options
      */
     loadImageTexture(url: string, onLoad: (texture: ImageTexture) => any, onError?: () => any, options: TextureLoaderOptions = {}): void {
-        mustBeString('url', url);
+        console.warn("loadImageTexture() is deprecated. Please use imageTexture().");
         mustBeFunction('onLoad', onLoad);
-        const image = new Image();
-        image.onload = () => {
-            const texture = new ImageTexture(image, TextureTarget.TEXTURE_2D, this.contextManager);
-            texture.bind();
-            texture.upload();
-            texture.unbind();
-            onLoad(texture);
-        };
-        image.onerror = () => {
-            if (isFunction(onError)) {
-                onError();
-            }
-        };
-        // How to issue a CORS request for an image coming from another domain.
-        // The image is fetched from the server without any credentials, i.e., cookies.
-        if (isDefined(options.crossOrigin)) {
-            image.crossOrigin = mustBeString('crossOrigin', options.crossOrigin);
+        if (isDefined(onError)) {
+            mustBeFunction('onError', onError);
         }
-        image.src = url;
+        this.imageTexture(url, options)
+            .then((texture) => {
+                onLoad(texture);
+            })
+            .catch((err) => {
+                if (isFunction(onError)) {
+                    onError();
+                }
+            });
     }
 }

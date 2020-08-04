@@ -3,6 +3,16 @@ import { isDefined } from '../checks/isDefined';
 import { R3 } from '../math/R3';
 import { vectorFromCoords, vectorCopy } from '../math/R3';
 import { VectorE3 } from '../math/VectorE3';
+import { Camera } from '../facets/Camera';
+import { Prism } from '../facets/Prism';
+
+function pointerEvents(canvas: HTMLCanvasElement, value: 'auto' | 'none') {
+    canvas.style.pointerEvents = value;
+}
+
+function position(canvas: HTMLCanvasElement, value: 'absolute' | 'relative') {
+    canvas.style.pointerEvents = value;
+}
 
 /**
  * 
@@ -11,11 +21,11 @@ export class Diagram3D {
     /**
      * 
      */
-    private camera: { eye: VectorE3; look: VectorE3; up: VectorE3 };
+    private camera: Camera;
     /**
      * 
      */
-    private prism: { near: number, far: number, fov: number, aspect: number };
+    private prism: Prism;
     /**
      * 
      */
@@ -23,19 +33,23 @@ export class Diagram3D {
     /**
      * 
      */
-    constructor(canvas: string | HTMLCanvasElement, camera: { eye: VectorE3; look: VectorE3; up: VectorE3; near: number, far: number, fov: number, aspect: number }, prism?: { near: number, far: number, fov: number, aspect: number }) {
+    constructor(canvas: string | HTMLCanvasElement, camera: Camera, prism: Prism) {
         if (typeof canvas === 'string') {
             const canvasElement = <HTMLCanvasElement>document.getElementById(canvas);
             this.ctx = canvasElement.getContext('2d');
+            pointerEvents(canvasElement, 'none');
+            position(canvasElement, 'absolute');
         }
         else if (canvas instanceof HTMLCanvasElement) {
             this.ctx = canvas.getContext('2d');
+            pointerEvents(canvas, 'none');
+            position(canvas, 'absolute');
         }
         else {
             throw new Error("canvas must either be a canvas Id or an HTMLCanvasElement.");
         }
         this.ctx.strokeStyle = "#FFFFFF";
-        this.ctx.fillStyle = '#ffffff';
+        this.ctx.fillStyle = '#FFFFFF';
         this.ctx.font = '24px Helvetica';
         if (isDefined(camera)) {
             if (isDefined(prism)) {
@@ -44,12 +58,18 @@ export class Diagram3D {
             }
             else {
                 this.camera = camera;
-                this.prism = camera;
+                this.prism = prism;
             }
         }
     }
     get canvas(): HTMLCanvasElement {
         return this.ctx.canvas;
+    }
+    get fillStyle(): string | CanvasGradient | CanvasPattern {
+        return this.ctx.fillStyle;
+    }
+    set fillStyle(fillStyle: string | CanvasGradient | CanvasPattern) {
+        this.ctx.fillStyle = fillStyle;
     }
     beginPath(): void {
         this.ctx.beginPath();

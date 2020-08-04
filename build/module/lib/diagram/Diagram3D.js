@@ -1,6 +1,12 @@
 import { dotVectorE3 } from '../math/dotVectorE3';
 import { isDefined } from '../checks/isDefined';
 import { vectorFromCoords, vectorCopy } from '../math/R3';
+function pointerEvents(canvas, value) {
+    canvas.style.pointerEvents = value;
+}
+function position(canvas, value) {
+    canvas.style.pointerEvents = value;
+}
 /**
  *
  */
@@ -12,15 +18,19 @@ var Diagram3D = /** @class */ (function () {
         if (typeof canvas === 'string') {
             var canvasElement = document.getElementById(canvas);
             this.ctx = canvasElement.getContext('2d');
+            pointerEvents(canvasElement, 'none');
+            position(canvasElement, 'absolute');
         }
         else if (canvas instanceof HTMLCanvasElement) {
             this.ctx = canvas.getContext('2d');
+            pointerEvents(canvas, 'none');
+            position(canvas, 'absolute');
         }
         else {
             throw new Error("canvas must either be a canvas Id or an HTMLCanvasElement.");
         }
         this.ctx.strokeStyle = "#FFFFFF";
-        this.ctx.fillStyle = '#ffffff';
+        this.ctx.fillStyle = '#FFFFFF';
         this.ctx.font = '24px Helvetica';
         if (isDefined(camera)) {
             if (isDefined(prism)) {
@@ -29,13 +39,23 @@ var Diagram3D = /** @class */ (function () {
             }
             else {
                 this.camera = camera;
-                this.prism = camera;
+                this.prism = prism;
             }
         }
     }
     Object.defineProperty(Diagram3D.prototype, "canvas", {
         get: function () {
             return this.ctx.canvas;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Diagram3D.prototype, "fillStyle", {
+        get: function () {
+            return this.ctx.fillStyle;
+        },
+        set: function (fillStyle) {
+            this.ctx.fillStyle = fillStyle;
         },
         enumerable: false,
         configurable: true

@@ -1,7 +1,7 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define(['exports'], factory) :
-    (global = global || self, factory(global.EIGHT = {}));
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.EIGHT = {}));
 }(this, (function (exports) { 'use strict';
 
     /*! *****************************************************************************
@@ -90,9 +90,9 @@
     var Eight = /** @class */ (function () {
         function Eight() {
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2020-07-15';
+            this.LAST_MODIFIED = '2020-08-04';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '8.1.0';
+            this.VERSION = '8.2.0';
         }
         Eight.prototype.log = function (message) {
             // This should allow us to unit test and run in environments without a console.
@@ -26120,6 +26120,12 @@
         return Turtle;
     }(Mesh));
 
+    function pointerEvents(canvas, value) {
+        canvas.style.pointerEvents = value;
+    }
+    function position(canvas, value) {
+        canvas.style.pointerEvents = value;
+    }
     /**
      *
      */
@@ -26131,15 +26137,19 @@
             if (typeof canvas === 'string') {
                 var canvasElement = document.getElementById(canvas);
                 this.ctx = canvasElement.getContext('2d');
+                pointerEvents(canvasElement, 'none');
+                position(canvasElement, 'absolute');
             }
             else if (canvas instanceof HTMLCanvasElement) {
                 this.ctx = canvas.getContext('2d');
+                pointerEvents(canvas, 'none');
+                position(canvas, 'absolute');
             }
             else {
                 throw new Error("canvas must either be a canvas Id or an HTMLCanvasElement.");
             }
             this.ctx.strokeStyle = "#FFFFFF";
-            this.ctx.fillStyle = '#ffffff';
+            this.ctx.fillStyle = '#FFFFFF';
             this.ctx.font = '24px Helvetica';
             if (isDefined(camera)) {
                 if (isDefined(prism)) {
@@ -26148,13 +26158,23 @@
                 }
                 else {
                     this.camera = camera;
-                    this.prism = camera;
+                    this.prism = prism;
                 }
             }
         }
         Object.defineProperty(Diagram3D.prototype, "canvas", {
             get: function () {
                 return this.ctx.canvas;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(Diagram3D.prototype, "fillStyle", {
+            get: function () {
+                return this.ctx.fillStyle;
+            },
+            set: function (fillStyle) {
+                this.ctx.fillStyle = fillStyle;
             },
             enumerable: false,
             configurable: true
@@ -26293,34 +26313,60 @@
             mustBeNonNullObject('contextManager', contextManager);
         }
         /**
+         *
          * @param url The Uniform Resource Locator of the image.
-         * @param onLoad
-         * @param onError
+         * @param options
          */
-        TextureLoader.prototype.loadImageTexture = function (url, onLoad, onError, options) {
+        TextureLoader.prototype.imageTexture = function (url, options) {
             var _this = this;
             if (options === void 0) { options = {}; }
             mustBeString('url', url);
+            if (isDefined(options.crossOrigin)) {
+                mustBeString('options.crossOrigin', options.crossOrigin);
+            }
+            return new Promise(function (response, reject) {
+                var image = new Image();
+                image.onload = function () {
+                    var texture = new ImageTexture(image, exports.TextureTarget.TEXTURE_2D, _this.contextManager);
+                    texture.bind();
+                    texture.upload();
+                    texture.unbind();
+                    response(texture);
+                };
+                image.onerror = function (event, source, lineno, colno, cause) {
+                    reject(new Error("Error occurred while loading image. Cause: " + cause));
+                };
+                // How to issue a CORS request for an image coming from another domain.
+                // The image is fetched from the server without any credentials, i.e., cookies.
+                if (isDefined(options.crossOrigin)) {
+                    image.crossOrigin = options.crossOrigin;
+                }
+                image.src = url;
+            });
+        };
+        /**
+         * @deprecated
+         * @param url The Uniform Resource Locator of the image.
+         * @param onLoad
+         * @param onError
+         * @param options
+         */
+        TextureLoader.prototype.loadImageTexture = function (url, onLoad, onError, options) {
+            if (options === void 0) { options = {}; }
+            console.warn("loadImageTexture() is deprecated. Please use imageTexture().");
             mustBeFunction('onLoad', onLoad);
-            var image = new Image();
-            image.onload = function () {
-                var texture = new ImageTexture(image, exports.TextureTarget.TEXTURE_2D, _this.contextManager);
-                texture.bind();
-                texture.upload();
-                texture.unbind();
+            if (isDefined(onError)) {
+                mustBeFunction('onError', onError);
+            }
+            this.imageTexture(url, options)
+                .then(function (texture) {
                 onLoad(texture);
-            };
-            image.onerror = function () {
+            })
+                .catch(function (err) {
                 if (isFunction(onError)) {
                     onError();
                 }
-            };
-            // How to issue a CORS request for an image coming from another domain.
-            // The image is fetched from the server without any credentials, i.e., cookies.
-            if (isDefined(options.crossOrigin)) {
-                image.crossOrigin = mustBeString('crossOrigin', options.crossOrigin);
-            }
-            image.src = url;
+            });
         };
         return TextureLoader;
     }());

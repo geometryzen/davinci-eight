@@ -2,6 +2,8 @@ import { Geometric3 } from '../math/Geometric3';
 import { Facet } from '../core/Facet';
 import { FacetVisitor } from '../core/FacetVisitor';
 import { Matrix4 } from '../math/Matrix4';
+import { Camera } from './Camera';
+import { Prism } from './Prism';
 /**
  * <p>
  * The <code>PerspectiveCamera</code> provides projection matrix and view matrix uniforms to the
@@ -24,7 +26,7 @@ import { Matrix4 } from '../math/Matrix4';
  *
  * <p>The camera is initially positioned at <b>e</b><sub>3</sub>.</p>
  */
-export declare class PerspectiveCamera implements Facet {
+export declare class PerspectiveCamera implements Facet, Camera, Prism {
     /**
      *
      */

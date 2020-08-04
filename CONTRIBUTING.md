@@ -41,6 +41,7 @@ to install the tooling dependencies (For this you need to have [Node.js](http://
 Beware: Upgrading from 5.5.1 to 5.6.0 is problematic on Fedora (2018-01-19).
 
 ```bash
+npm run lint
 npm run build
 npm run test
 npm run docs

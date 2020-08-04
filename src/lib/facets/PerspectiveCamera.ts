@@ -4,6 +4,8 @@ import { Facet } from '../core/Facet';
 import { FacetVisitor } from '../core/FacetVisitor';
 import { ViewTransform } from './ViewTransform';
 import { Matrix4 } from '../math/Matrix4';
+import { Camera } from './Camera';
+import { Prism } from './Prism';
 
 /**
  * <p>
@@ -27,7 +29,7 @@ import { Matrix4 } from '../math/Matrix4';
  *
  * <p>The camera is initially positioned at <b>e</b><sub>3</sub>.</p>
  */
-export class PerspectiveCamera implements Facet {
+export class PerspectiveCamera implements Facet, Camera, Prism {
     /**
      *
      */

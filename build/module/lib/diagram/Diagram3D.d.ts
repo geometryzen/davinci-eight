@@ -1,5 +1,7 @@
 import { R3 } from '../math/R3';
 import { VectorE3 } from '../math/VectorE3';
+import { Camera } from '../facets/Camera';
+import { Prism } from '../facets/Prism';
 /**
  *
  */
@@ -19,21 +21,10 @@ export declare class Diagram3D {
     /**
      *
      */
-    constructor(canvas: string | HTMLCanvasElement, camera: {
-        eye: VectorE3;
-        look: VectorE3;
-        up: VectorE3;
-        near: number;
-        far: number;
-        fov: number;
-        aspect: number;
-    }, prism?: {
-        near: number;
-        far: number;
-        fov: number;
-        aspect: number;
-    });
+    constructor(canvas: string | HTMLCanvasElement, camera: Camera, prism: Prism);
     get canvas(): HTMLCanvasElement;
+    get fillStyle(): string | CanvasGradient | CanvasPattern;
+    set fillStyle(fillStyle: string | CanvasGradient | CanvasPattern);
     beginPath(): void;
     clear(): void;
     closePath(): void;

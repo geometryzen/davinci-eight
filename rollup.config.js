@@ -7,7 +7,6 @@ const substituteModulePaths = {
 }
 
 export default [
-    // browser-friendly UMD build
     {
         input: './build/module/index.js',
         output: {
@@ -23,5 +22,4 @@ export default [
             commonjs()
         ]
     }
-
 ];
