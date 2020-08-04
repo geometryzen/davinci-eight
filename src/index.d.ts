@@ -1,4 +1,4 @@
-// Type definitions for davinci-eight 8.2.0
+// Type definitions for davinci-eight 8.2.1
 // Project: https://github.com/geometryzen/davinci-eight
 // Definitions by: David Geo Holmes david.geo.holmes@gmail.com https://www.stemcstudio.com
 //
@@ -758,14 +758,16 @@ export class Texture extends ShareableContextConsumer {
 }
 
 export class ImageTexture extends Texture {
-        /**
-         * The intrinsic height of the image in CSS pixels, if it is available, otherwise zero.
-         */
-        /*readonly*/ naturalHeight: number;
-        /**
-         * The intrinsic width of the image in CSS pixels, if it is available, otherwise zero.
-         */
-        /*readonly*/ naturalWidth: number;
+    /**
+     * The original height of the image resource before sizing.
+     * The intrinsic height of the image in CSS pixels, if it is available, otherwise zero.
+     */
+    naturalHeight: number;
+    /**
+     * The original width of the image resource before sizing.
+     * The intrinsic width of the image in CSS pixels, if it is available, otherwise zero.
+     */
+    naturalWidth: number;
     /**
      * 
      */
@@ -782,6 +784,19 @@ interface TextureLoaderOptions {
     crossOrigin?: string;
 }
 
+/**
+ * const loader = new TextureLoader(engine)
+ * loader.imageTexture('/assets/img/textures/solar-system/mars.jpg')
+ *     .then((texture) => {
+ *         texture.minFilter = TextureMinFilter.NEAREST
+ *         sphere.texture = texture
+ *         texture.release()
+ *         scene.add(sphere)
+ *     })
+ *     .catch((err) => {
+ *         console.error(err)
+ *     })
+ */
 export class TextureLoader {
     constructor(contextManager: ContextManager);
     /**

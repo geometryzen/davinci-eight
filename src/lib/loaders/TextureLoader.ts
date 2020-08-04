@@ -51,8 +51,9 @@ export class TextureLoader {
                 texture.unbind();
                 response(texture);
             };
-            image.onerror = (event: string | Event, source: string, lineno: number, colno: number, cause: Error) => {
-                reject(new Error(`Error occurred while loading image. Cause: ${cause}`));
+            image.onerror = (event: string | Event, source: string, lineno: number, colno: number, error: Error) => {
+                console.log(`event=${event}: ${typeof event}, source=${source}, lineno=${lineno}, colno=${colno}, error=${error}`);
+                reject(new Error(`Error occurred while loading image. Cause: ${error}`));
             };
             // How to issue a CORS request for an image coming from another domain.
             // The image is fetched from the server without any credentials, i.e., cookies.

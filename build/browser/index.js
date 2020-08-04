@@ -92,7 +92,7 @@
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2020-08-04';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '8.2.0';
+            this.VERSION = '8.2.1';
         }
         Eight.prototype.log = function (message) {
             // This should allow us to unit test and run in environments without a console.
@@ -26333,8 +26333,9 @@
                     texture.unbind();
                     response(texture);
                 };
-                image.onerror = function (event, source, lineno, colno, cause) {
-                    reject(new Error("Error occurred while loading image. Cause: " + cause));
+                image.onerror = function (event, source, lineno, colno, error) {
+                    console.log("event=" + event + ": " + typeof event + ", source=" + source + ", lineno=" + lineno + ", colno=" + colno + ", error=" + error);
+                    reject(new Error("Error occurred while loading image. Cause: " + error));
                 };
                 // How to issue a CORS request for an image coming from another domain.
                 // The image is fetched from the server without any credentials, i.e., cookies.
