@@ -2729,10 +2729,10 @@ img {
 					<a href="pointmaterialoptions.html#attributes" class="tsd-kind-icon">attributes</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a href="pointmaterialoptions.html#kind" class="tsd-kind-icon">kind</a>
+					<a href="pointmaterialoptions.html#uniforms" class="tsd-kind-icon">uniforms</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a href="pointmaterialoptions.html#uniforms" class="tsd-kind-icon">uniforms</a>
+					<a href="pointmaterialoptions.html#version" class="tsd-kind-icon">version</a>
 				</li>
 			</ul>
 		</li>
@@ -2745,12 +2745,14 @@ img {
 			<ul class="tsd-hierarchy">
 				<li>
 					<a href="materialoptions.html" class="tsd-signature-type">MaterialOptions</a>
-				</li>
-				<li>
-					<a href="materialkey.html" class="tsd-signature-type">MaterialKey</a>
 					<ul class="tsd-hierarchy">
 						<li>
 							<span class="target">PointMaterialOptions</span>
+							<ul class="tsd-hierarchy">
+								<li>
+									<a href="pointmaterialoptionswithkind.html" class="tsd-signature-type">PointMaterialOptionsWithKind</a>
+								</li>
+							</ul>
 						</li>
 					</ul>
 				</li>
@@ -2764,8 +2766,8 @@ img {
 						<h3>Properties</h3>
 						<ul class="tsd-index-list">
 							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="pointmaterialoptions.html#attributes" class="tsd-kind-icon">attributes</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="pointmaterialoptions.html#kind" class="tsd-kind-icon">kind</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="pointmaterialoptions.html#uniforms" class="tsd-kind-icon">uniforms</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="pointmaterialoptions.html#version" class="tsd-kind-icon">version</a></li>
 						</ul>
 					</section>
 				</div>
@@ -2780,7 +2782,7 @@ img {
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="materialoptions.html">MaterialOptions</a>.<a href="materialoptions.html#attributes">attributes</a></p>
 					<ul>
-						<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b211c1aed/src/lib/materials/MaterialOptions.ts#L15">src/lib/materials/MaterialOptions.ts:15</a></li>
+						<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/99059a999/src/lib/materials/MaterialOptions.ts#L16">src/lib/materials/MaterialOptions.ts:16</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -2802,24 +2804,13 @@ img {
 				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-				<a name="kind" class="tsd-anchor"></a>
-				<h3>kind</h3>
-				<div class="tsd-signature tsd-kind-icon">kind<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"PointMaterial"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"LineMaterial"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"MeshMaterial"</span></div>
-				<aside class="tsd-sources">
-					<p>Inherited from <a href="materialkey.html">MaterialKey</a>.<a href="materialkey.html#kind">kind</a></p>
-					<ul>
-						<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b211c1aed/src/lib/core/MaterialKey.ts#L5">src/lib/core/MaterialKey.ts:5</a></li>
-					</ul>
-				</aside>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 				<a name="uniforms" class="tsd-anchor"></a>
 				<h3><span class="tsd-flag ts-flagOptional">Optional</span> uniforms</h3>
 				<div class="tsd-signature tsd-kind-icon">uniforms<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="materialoptions.html">MaterialOptions</a>.<a href="materialoptions.html#uniforms">uniforms</a></p>
 					<ul>
-						<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b211c1aed/src/lib/materials/MaterialOptions.ts#L20">src/lib/materials/MaterialOptions.ts:20</a></li>
+						<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/99059a999/src/lib/materials/MaterialOptions.ts#L21">src/lib/materials/MaterialOptions.ts:21</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -2835,6 +2826,22 @@ img {
 							<h5><span class="tsd-signature-symbol">[</span>name: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><a href="../globals.html#uniformglsltype" class="tsd-signature-type">UniformGlslType</a></h5>
 						</li>
 					</ul>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+				<a name="version" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagOptional">Optional</span> version</h3>
+				<div class="tsd-signature tsd-kind-icon">version<span class="tsd-signature-symbol">:</span> <a href="../enums/glslesversion.html" class="tsd-signature-type">GLSLESVersion</a></div>
+				<aside class="tsd-sources">
+					<p>Inherited from <a href="materialoptions.html">MaterialOptions</a>.<a href="materialoptions.html#version">version</a></p>
+					<ul>
+						<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/99059a999/src/lib/materials/MaterialOptions.ts#L25">src/lib/materials/MaterialOptions.ts:25</a></li>
+					</ul>
+				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>An optional GLSL version that can be used to override the default algorithm for shader version.</p>
+					</div>
 				</div>
 			</section>
 		</section>

@@ -2734,6 +2734,9 @@ img {
 				<li class=" tsd-kind-get-signature tsd-parent-kind-class">
 					<a href="diagram3d.html#canvas" class="tsd-kind-icon">canvas</a>
 				</li>
+				<li class=" tsd-kind-accessor tsd-parent-kind-class">
+					<a href="diagram3d.html#fillstyle" class="tsd-kind-icon">fill<wbr>Style</a>
+				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class">
 					<a href="diagram3d.html#beginpath" class="tsd-kind-icon">begin<wbr>Path</a>
 				</li>
@@ -2795,6 +2798,7 @@ img {
 						<h3>Accessors</h3>
 						<ul class="tsd-index-list">
 							<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="diagram3d.html#canvas" class="tsd-kind-icon">canvas</a></li>
+							<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="diagram3d.html#fillstyle" class="tsd-kind-icon">fill<wbr>Style</a></li>
 						</ul>
 					</section>
 					<section class="tsd-index-section ">
@@ -2820,13 +2824,13 @@ img {
 				<a name="constructor" class="tsd-anchor"></a>
 				<h3>constructor</h3>
 				<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-					<li class="tsd-signature tsd-kind-icon">new <wbr>Diagram3D<span class="tsd-signature-symbol">(</span>canvas<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">HTMLCanvasElement</span>, camera<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>aspect<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>eye<span class="tsd-signature-symbol">: </span><a href="../interfaces/vectore3.html" class="tsd-signature-type">VectorE3</a><span class="tsd-signature-symbol">; </span>far<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>fov<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>look<span class="tsd-signature-symbol">: </span><a href="../interfaces/vectore3.html" class="tsd-signature-type">VectorE3</a><span class="tsd-signature-symbol">; </span>near<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>up<span class="tsd-signature-symbol">: </span><a href="../interfaces/vectore3.html" class="tsd-signature-type">VectorE3</a><span class="tsd-signature-symbol"> }</span>, prism<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">{ </span>aspect<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>far<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>fov<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>near<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="diagram3d.html" class="tsd-signature-type">Diagram3D</a></li>
+					<li class="tsd-signature tsd-kind-icon">new <wbr>Diagram3D<span class="tsd-signature-symbol">(</span>canvas<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">HTMLCanvasElement</span>, camera<span class="tsd-signature-symbol">: </span><a href="../interfaces/camera.html" class="tsd-signature-type">Camera</a>, prism<span class="tsd-signature-symbol">: </span><a href="../interfaces/prism.html" class="tsd-signature-type">Prism</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="diagram3d.html" class="tsd-signature-type">Diagram3D</a></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b211c1aed/src/lib/diagram/Diagram3D.ts#L22">src/lib/diagram/Diagram3D.ts:22</a></li>
+								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/99059a999/src/lib/diagram/Diagram3D.ts#L32">src/lib/diagram/Diagram3D.ts:32</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2835,47 +2839,10 @@ img {
 								<h5>canvas: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">HTMLCanvasElement</span></h5>
 							</li>
 							<li>
-								<h5>camera: <span class="tsd-signature-symbol">{ </span>aspect<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>eye<span class="tsd-signature-symbol">: </span><a href="../interfaces/vectore3.html" class="tsd-signature-type">VectorE3</a><span class="tsd-signature-symbol">; </span>far<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>fov<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>look<span class="tsd-signature-symbol">: </span><a href="../interfaces/vectore3.html" class="tsd-signature-type">VectorE3</a><span class="tsd-signature-symbol">; </span>near<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>up<span class="tsd-signature-symbol">: </span><a href="../interfaces/vectore3.html" class="tsd-signature-type">VectorE3</a><span class="tsd-signature-symbol"> }</span></h5>
-								<ul class="tsd-parameters">
-									<li class="tsd-parameter">
-										<h5>aspect<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
-									</li>
-									<li class="tsd-parameter">
-										<h5>eye<span class="tsd-signature-symbol">: </span><a href="../interfaces/vectore3.html" class="tsd-signature-type">VectorE3</a></h5>
-									</li>
-									<li class="tsd-parameter">
-										<h5>far<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
-									</li>
-									<li class="tsd-parameter">
-										<h5>fov<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
-									</li>
-									<li class="tsd-parameter">
-										<h5>look<span class="tsd-signature-symbol">: </span><a href="../interfaces/vectore3.html" class="tsd-signature-type">VectorE3</a></h5>
-									</li>
-									<li class="tsd-parameter">
-										<h5>near<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
-									</li>
-									<li class="tsd-parameter">
-										<h5>up<span class="tsd-signature-symbol">: </span><a href="../interfaces/vectore3.html" class="tsd-signature-type">VectorE3</a></h5>
-									</li>
-								</ul>
+								<h5>camera: <a href="../interfaces/camera.html" class="tsd-signature-type">Camera</a></h5>
 							</li>
 							<li>
-								<h5><span class="tsd-flag ts-flagOptional">Optional</span> prism: <span class="tsd-signature-symbol">{ </span>aspect<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>far<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>fov<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>near<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></h5>
-								<ul class="tsd-parameters">
-									<li class="tsd-parameter">
-										<h5>aspect<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
-									</li>
-									<li class="tsd-parameter">
-										<h5>far<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
-									</li>
-									<li class="tsd-parameter">
-										<h5>fov<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
-									</li>
-									<li class="tsd-parameter">
-										<h5>near<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
-									</li>
-								</ul>
+								<h5>prism: <a href="../interfaces/prism.html" class="tsd-signature-type">Prism</a></h5>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <a href="diagram3d.html" class="tsd-signature-type">Diagram3D</a></h4>
@@ -2891,7 +2858,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">ctx<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">CanvasRenderingContext2D</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b211c1aed/src/lib/diagram/Diagram3D.ts#L22">src/lib/diagram/Diagram3D.ts:22</a></li>
+						<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/99059a999/src/lib/diagram/Diagram3D.ts#L32">src/lib/diagram/Diagram3D.ts:32</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -2908,10 +2875,42 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b211c1aed/src/lib/diagram/Diagram3D.ts#L51">src/lib/diagram/Diagram3D.ts:51</a></li>
+								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/99059a999/src/lib/diagram/Diagram3D.ts#L65">src/lib/diagram/Diagram3D.ts:65</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">HTMLCanvasElement</span></h4>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
+				<a name="fillstyle" class="tsd-anchor"></a>
+				<h3>fill<wbr>Style</h3>
+				<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
+					<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> fillStyle<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">CanvasGradient</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">CanvasPattern</span></li>
+					<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> fillStyle<span class="tsd-signature-symbol">(</span>fillStyle<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">CanvasGradient</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">CanvasPattern</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/99059a999/src/lib/diagram/Diagram3D.ts#L68">src/lib/diagram/Diagram3D.ts:68</a></li>
+							</ul>
+						</aside>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">CanvasGradient</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">CanvasPattern</span></h4>
+					</li>
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/99059a999/src/lib/diagram/Diagram3D.ts#L71">src/lib/diagram/Diagram3D.ts:71</a></li>
+							</ul>
+						</aside>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>fillStyle: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">CanvasGradient</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">CanvasPattern</span></h5>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 					</li>
 				</ul>
 			</section>
@@ -2928,7 +2927,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b211c1aed/src/lib/diagram/Diagram3D.ts#L54">src/lib/diagram/Diagram3D.ts:54</a></li>
+								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/99059a999/src/lib/diagram/Diagram3D.ts#L74">src/lib/diagram/Diagram3D.ts:74</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -2945,7 +2944,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b211c1aed/src/lib/diagram/Diagram3D.ts#L57">src/lib/diagram/Diagram3D.ts:57</a></li>
+								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/99059a999/src/lib/diagram/Diagram3D.ts#L77">src/lib/diagram/Diagram3D.ts:77</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -2962,7 +2961,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b211c1aed/src/lib/diagram/Diagram3D.ts#L60">src/lib/diagram/Diagram3D.ts:60</a></li>
+								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/99059a999/src/lib/diagram/Diagram3D.ts#L80">src/lib/diagram/Diagram3D.ts:80</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -2979,7 +2978,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b211c1aed/src/lib/diagram/Diagram3D.ts#L63">src/lib/diagram/Diagram3D.ts:63</a></li>
+								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/99059a999/src/lib/diagram/Diagram3D.ts#L83">src/lib/diagram/Diagram3D.ts:83</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3002,7 +3001,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b211c1aed/src/lib/diagram/Diagram3D.ts#L66">src/lib/diagram/Diagram3D.ts:66</a></li>
+								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/99059a999/src/lib/diagram/Diagram3D.ts#L86">src/lib/diagram/Diagram3D.ts:86</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3031,7 +3030,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b211c1aed/src/lib/diagram/Diagram3D.ts#L74">src/lib/diagram/Diagram3D.ts:74</a></li>
+								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/99059a999/src/lib/diagram/Diagram3D.ts#L94">src/lib/diagram/Diagram3D.ts:94</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3054,7 +3053,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b211c1aed/src/lib/diagram/Diagram3D.ts#L70">src/lib/diagram/Diagram3D.ts:70</a></li>
+								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/99059a999/src/lib/diagram/Diagram3D.ts#L90">src/lib/diagram/Diagram3D.ts:90</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3077,7 +3076,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b211c1aed/src/lib/diagram/Diagram3D.ts#L78">src/lib/diagram/Diagram3D.ts:78</a></li>
+								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/99059a999/src/lib/diagram/Diagram3D.ts#L98">src/lib/diagram/Diagram3D.ts:98</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -3094,7 +3093,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b211c1aed/src/lib/diagram/Diagram3D.ts#L81">src/lib/diagram/Diagram3D.ts:81</a></li>
+								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/99059a999/src/lib/diagram/Diagram3D.ts#L101">src/lib/diagram/Diagram3D.ts:101</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>

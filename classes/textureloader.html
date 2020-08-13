@@ -2729,6 +2729,9 @@ img {
 					<a href="textureloader.html#constructor" class="tsd-kind-icon">constructor</a>
 				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class">
+					<a href="textureloader.html#imagetexture" class="tsd-kind-icon">image<wbr>Texture</a>
+				</li>
+				<li class=" tsd-kind-method tsd-parent-kind-class">
 					<a href="textureloader.html#loadimagetexture" class="tsd-kind-icon">load<wbr>Image<wbr>Texture</a>
 				</li>
 			</ul>
@@ -2777,6 +2780,7 @@ loader.load<span class="hljs-constructor">ImageTexture(&#x27;<span class="hljs-p
 					<section class="tsd-index-section ">
 						<h3>Methods</h3>
 						<ul class="tsd-index-list">
+							<li class="tsd-kind-method tsd-parent-kind-class"><a href="textureloader.html#imagetexture" class="tsd-kind-icon">image<wbr>Texture</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="textureloader.html#loadimagetexture" class="tsd-kind-icon">load<wbr>Image<wbr>Texture</a></li>
 						</ul>
 					</section>
@@ -2795,7 +2799,7 @@ loader.load<span class="hljs-constructor">ImageTexture(&#x27;<span class="hljs-p
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b211c1aed/src/lib/loaders/TextureLoader.ts#L27">src/lib/loaders/TextureLoader.ts:27</a></li>
+								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/99059a999/src/lib/loaders/TextureLoader.ts#L27">src/lib/loaders/TextureLoader.ts:27</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2818,6 +2822,39 @@ loader.load<span class="hljs-constructor">ImageTexture(&#x27;<span class="hljs-p
 		<section class="tsd-panel-group tsd-member-group ">
 			<h2>Methods</h2>
 			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<a name="imagetexture" class="tsd-anchor"></a>
+				<h3>image<wbr>Texture</h3>
+				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<li class="tsd-signature tsd-kind-icon">image<wbr>Texture<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/textureloaderoptions.html" class="tsd-signature-type">TextureLoaderOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="imagetexture.html" class="tsd-signature-type">ImageTexture</a><span class="tsd-signature-symbol">&gt;</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/99059a999/src/lib/loaders/TextureLoader.ts#L40">src/lib/loaders/TextureLoader.ts:40</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+						</div>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>url: <span class="tsd-signature-type">string</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>The Uniform Resource Locator of the image.</p>
+								</div>
+							</li>
+							<li>
+								<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/textureloaderoptions.html" class="tsd-signature-type">TextureLoaderOptions</a><span class="tsd-signature-symbol"> = {}</span></h5>
+								<div class="tsd-comment tsd-typography">
+								</div>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="imagetexture.html" class="tsd-signature-type">ImageTexture</a><span class="tsd-signature-symbol">&gt;</span></h4>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 				<a name="loadimagetexture" class="tsd-anchor"></a>
 				<h3>load<wbr>Image<wbr>Texture</h3>
 				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -2827,10 +2864,14 @@ loader.load<span class="hljs-constructor">ImageTexture(&#x27;<span class="hljs-p
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/b211c1aed/src/lib/loaders/TextureLoader.ts#L40">src/lib/loaders/TextureLoader.ts:40</a></li>
+								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/99059a999/src/lib/loaders/TextureLoader.ts#L74">src/lib/loaders/TextureLoader.ts:74</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
+							<dl class="tsd-comment-tags">
+								<dt>deprecated</dt>
+								<dd></dd>
+							</dl>
 						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
@@ -2863,8 +2904,6 @@ loader.load<span class="hljs-constructor">ImageTexture(&#x27;<span class="hljs-p
 							</li>
 							<li>
 								<h5><span class="tsd-flag ts-flagOptional">Optional</span> onError: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">any</span></h5>
-								<div class="tsd-comment tsd-typography">
-								</div>
 								<ul class="tsd-parameters">
 									<li class="tsd-parameter-signature">
 										<ul class="tsd-signatures tsd-kind-type-literal">
@@ -2880,6 +2919,8 @@ loader.load<span class="hljs-constructor">ImageTexture(&#x27;<span class="hljs-p
 							</li>
 							<li>
 								<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/textureloaderoptions.html" class="tsd-signature-type">TextureLoaderOptions</a><span class="tsd-signature-symbol"> = {}</span></h5>
+								<div class="tsd-comment tsd-typography">
+								</div>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
