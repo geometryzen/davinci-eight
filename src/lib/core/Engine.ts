@@ -1,33 +1,32 @@
-import { BlendingFactorDest } from './BlendingFactorDest';
-import { BlendingFactorSrc } from './BlendingFactorSrc';
-import { Capability } from './Capability';
-import { checkEnums } from './checkEnums';
-import { ClearBufferMask } from './ClearBufferMask';
-import { DepthFunction } from './DepthFunction';
-import { EIGHTLogger } from '../commands/EIGHTLogger';
-import { ContextConsumer } from './ContextConsumer';
-import { ContextManager } from './ContextManager';
-import { Geometry } from './Geometry';
-import { GeometryKey } from './GeometryKey';
-import { initWebGL } from './initWebGL';
 import { isDefined } from '../checks/isDefined';
-import { Material } from './Material';
-import { MaterialKey } from './MaterialKey';
 import { mustBeGE } from '../checks/mustBeGE';
 import { mustBeLE } from '../checks/mustBeLE';
 import { mustBeNonNullObject } from '../checks/mustBeNonNullObject';
 import { mustBeNumber } from '../checks/mustBeNumber';
 import { mustBeString } from '../checks/mustBeString';
-import { PixelFormat } from './PixelFormat';
-import { PixelType } from './PixelType';
-import { R3 } from '../math/R3';
 import { ShareableArray } from '../collections/ShareableArray';
-import { ShareableBase } from './ShareableBase';
-import { vectorFromCoords } from '../math/R3';
+import { EIGHTLogger } from '../commands/EIGHTLogger';
 import { VersionLogger } from '../commands/VersionLogger';
 import { WebGLClearColor } from '../commands/WebGLClearColor';
-import { WebGLEnable } from '../commands/WebGLEnable';
 import { WebGLDisable } from '../commands/WebGLDisable';
+import { WebGLEnable } from '../commands/WebGLEnable';
+import { R3, vectorFromCoords } from '../math/R3';
+import { BlendingFactorDest } from './BlendingFactorDest';
+import { BlendingFactorSrc } from './BlendingFactorSrc';
+import { Capability } from './Capability';
+import { checkEnums } from './checkEnums';
+import { ClearBufferMask } from './ClearBufferMask';
+import { ContextConsumer } from './ContextConsumer';
+import { ContextManager } from './ContextManager';
+import { DepthFunction } from './DepthFunction';
+import { Geometry } from './Geometry';
+import { GeometryKey } from './GeometryKey';
+import { initWebGL } from './initWebGL';
+import { Material } from './Material';
+import { MaterialKey } from './MaterialKey';
+import { PixelFormat } from './PixelFormat';
+import { PixelType } from './PixelType';
+import { ShareableBase } from './ShareableBase';
 
 export interface EngineAttributes extends WebGLContextAttributes {
     eightLogging?: boolean;
@@ -60,7 +59,8 @@ export class Engine extends ShareableBase implements ContextManager {
     /**
      * 
      */
-    private _gl: WebGL2RenderingContext;
+    private _gl: WebGL2RenderingContext | WebGLRenderingContext;
+    private _contextId: 'webgl2' | 'webgl';
     /**
      * 
      */
@@ -121,7 +121,9 @@ export class Engine extends ShareableBase implements ContextManager {
             if (isDefined(this._gl)) {
                 if (this._gl.canvas instanceof HTMLCanvasElement) {
                     event.preventDefault();
-                    this._gl = initWebGL(this._gl.canvas, attributes);
+                    const result = initWebGL(this._gl.canvas, attributes);
+                    this._gl = checkEnums(result.context);
+                    this._contextId = result.contextId;
                     this._users.forEach((user: ContextConsumer) => {
                         user.contextGain();
                     });
@@ -310,13 +312,17 @@ export class Engine extends ShareableBase implements ContextManager {
     /**
      * The underlying WebGL rendering context.
      */
-    get gl(): WebGLRenderingContext {
+    get gl(): WebGL2RenderingContext | WebGLRenderingContext {
         if (this._gl) {
             return this._gl;
         }
         else {
             return void 0;
         }
+    }
+
+    get contextId(): 'webgl2' | 'webgl' {
+        return this._contextId;
     }
 
     /**
@@ -402,7 +408,7 @@ export class Engine extends ShareableBase implements ContextManager {
      * @param canvas The HTML canvas element or canvas element identifier.
      * @param doc The document object model that contains the canvas identifier.
      */
-    start(canvas: string | HTMLCanvasElement | WebGL2RenderingContext, doc = window.document): this {
+    start(canvas: string | HTMLCanvasElement | WebGL2RenderingContext | WebGLRenderingContext, doc = window.document): this {
         if (typeof canvas === 'string') {
             const canvasElement = <HTMLCanvasElement>doc.getElementById(canvas);
             if (canvasElement) {
@@ -420,7 +426,9 @@ export class Engine extends ShareableBase implements ContextManager {
                 return this;
             }
             else {
-                this._gl = checkEnums(initWebGL(canvas, this._attributes));
+                const result = initWebGL(canvas, this._attributes);
+                this._gl = checkEnums(result.context);
+                this._contextId = result.contextId;
                 this.emitStartEvent();
                 canvas.addEventListener('webglcontextlost', this._webGLContextLost, false);
                 canvas.addEventListener('webglcontextrestored', this._webGLContextRestored, false);

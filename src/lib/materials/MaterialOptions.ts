@@ -1,5 +1,6 @@
 import { AttributeSizeType } from '../core/AttributeSizeType';
 import { UniformGlslType } from '../core/UniformGlslType';
+import { GLSLESVersion } from './glslVersion';
 
 /**
  * A specification of the attributes and uniforms required in the Material.
@@ -18,4 +19,8 @@ export interface MaterialOptions {
      * For example, 'M': 'mat4' produces 'uniform mat4 M;'.
      */
     uniforms?: { [name: string]: UniformGlslType };
+    /**
+     * An optional GLSL version that can be used to override the default algorithm for shader version.
+     */
+    version?: GLSLESVersion;
 }

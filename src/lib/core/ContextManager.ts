@@ -1,9 +1,9 @@
 import { ContextConsumer } from './ContextConsumer';
-import { Shareable } from './Shareable';
 import { Geometry } from './Geometry';
 import { GeometryKey } from './GeometryKey';
 import { Material } from './Material';
 import { MaterialKey } from './MaterialKey';
+import { Shareable } from './Shareable';
 
 /**
  * 
@@ -12,7 +12,11 @@ export interface ContextManager extends Shareable {
     /**
      * 
      */
-    readonly gl: WebGLRenderingContext;
+    readonly gl: WebGL2RenderingContext | WebGLRenderingContext;
+    /**
+     * The context identifier that was used to get the WebGL rendering context.
+     */
+    readonly contextId: 'webgl2' | 'webgl';
     /**
      * 
      */

@@ -1,12 +1,12 @@
-import { ContextManager } from '../core/ContextManager';
-import { ImageTexture } from '../core/ImageTexture';
-import { isFunction } from '../checks/isFunction';
 import { isDefined } from '../checks/isDefined';
-import { mustBeString } from '../checks/mustBeString';
+import { isFunction } from '../checks/isFunction';
 import { mustBeFunction } from '../checks/mustBeFunction';
 import { mustBeNonNullObject } from '../checks/mustBeNonNullObject';
-import { TextureLoaderOptions } from './TextureLoaderOptions';
+import { mustBeString } from '../checks/mustBeString';
+import { ContextManager } from '../core/ContextManager';
+import { ImageTexture } from '../core/ImageTexture';
 import { TextureTarget } from '../core/TextureTarget';
+import { TextureLoaderOptions } from './TextureLoaderOptions';
 
 /**
  * A utility for loading Texture resources from a URL.

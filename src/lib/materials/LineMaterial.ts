@@ -1,38 +1,60 @@
-import { AttributeSizeType } from '../core/AttributeSizeType';
-import { ContextManager } from '../core/ContextManager';
-import { GraphicsProgramBuilder } from '../materials/GraphicsProgramBuilder';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { isDefined } from '../checks/isDefined';
 import { isNull } from '../checks/isNull';
 import { isUndefined } from '../checks/isUndefined';
+import { mustBeNonNullObject } from '../checks/mustBeNonNullObject';
+import { mustBeObject } from '../checks/mustBeObject';
+import { AttributeSizeType } from '../core/AttributeSizeType';
+import { ContextManager } from '../core/ContextManager';
+import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
+import { UniformGlslType } from '../core/UniformGlslType';
+import { GraphicsProgramBuilder } from '../materials/GraphicsProgramBuilder';
+import { glslVersionFromWebGLContextId } from './glslVersionFromWebGLContextId';
 import { LineMaterialOptions } from './LineMaterialOptions';
 import { ShaderMaterial } from './ShaderMaterial';
-import { mustBeObject } from '../checks/mustBeObject';
-import { UniformGlslType } from '../core/UniformGlslType';
-import { GLSLESVersion } from './glslVersion';
 
-function builder(options?: LineMaterialOptions) {
+function defaultOptions(options: LineMaterialOptions): void {
+    if (!options.attributes) {
+        options.attributes = {};
+    }
+    if (!options.uniforms) {
+        options.uniforms = {};
+    }
+
+    options.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
+
+    options.uniforms[GraphicsProgramSymbols.UNIFORM_COLOR] = 'vec3';
+    options.uniforms[GraphicsProgramSymbols.UNIFORM_OPACITY] = 'float';
+    options.uniforms[GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX] = 'mat4';
+    options.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4';
+    options.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
+}
+
+function shaderPropertiesCount(options: LineMaterialOptions): number {
+    let count = Object.keys(options).length;
+    if (options.version) {
+        count--;
+    }
+    return count;
+}
+
+function builder(contextId: 'webgl2' | 'webgl', options?: LineMaterialOptions) {
 
     if (isNull(options) || isUndefined(options)) {
-        options = { kind: 'LineMaterial', attributes: {}, uniforms: {} };
-
-        options.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
-
-        options.uniforms[GraphicsProgramSymbols.UNIFORM_COLOR] = 'vec3';
-        options.uniforms[GraphicsProgramSymbols.UNIFORM_OPACITY] = 'float';
-        options.uniforms[GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX] = 'mat4';
-        options.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4';
-        options.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
+        options = { attributes: {}, uniforms: {} };
+        defaultOptions(options);
     }
     else {
         mustBeObject('options', options);
+        if (shaderPropertiesCount(options) === 0) {
+            defaultOptions(options);
+        }
     }
 
     const attributes: { [name: string]: AttributeSizeType } = isDefined(options.attributes) ? options.attributes : {};
     const uniforms: { [name: string]: UniformGlslType } = isDefined(options.uniforms) ? options.uniforms : {};
 
     const gpb = new GraphicsProgramBuilder();
-    gpb.version(GLSLESVersion.ThreeHundred);
+    gpb.version(glslVersionFromWebGLContextId(options.version, contextId));
 
     const aNames = Object.keys(attributes);
     for (let a = 0; a < aNames.length; a++) {
@@ -51,12 +73,18 @@ function builder(options?: LineMaterialOptions) {
     return gpb;
 }
 
-function vertexShaderSrc(options?: LineMaterialOptions): string {
-    return builder(options).vertexShaderSrc();
+function vertexShaderSrc(contextId: 'webgl2' | 'webgl', options?: LineMaterialOptions): string {
+    return builder(contextId, options).vertexShaderSrc();
 }
 
-function fragmentShaderSrc(options?: LineMaterialOptions): string {
-    return builder(options).fragmentShaderSrc();
+function fragmentShaderSrc(contextId: 'webgl2' | 'webgl', options?: LineMaterialOptions): string {
+    return builder(contextId, options).fragmentShaderSrc();
+}
+
+const LOGGING_NAME_LINE_MATERIAL = 'LineMaterial';
+
+function getContextId(contextManager: ContextManager): 'webgl2' | 'webgl' {
+    return mustBeNonNullObject('contextManager', contextManager).contextId;
 }
 
 /**
@@ -74,8 +102,8 @@ export class LineMaterial extends ShaderMaterial {
      * 
      */
     constructor(contextManager: ContextManager, options?: LineMaterialOptions, levelUp = 0) {
-        super(vertexShaderSrc(options), fragmentShaderSrc(options), [], contextManager, levelUp + 1);
-        this.setLoggingName('LineMaterial');
+        super(vertexShaderSrc(getContextId(contextManager), options), fragmentShaderSrc(getContextId(contextManager), options), [], contextManager, levelUp + 1);
+        this.setLoggingName(LOGGING_NAME_LINE_MATERIAL);
         if (levelUp === 0) {
             this.synchUp();
         }
@@ -86,7 +114,7 @@ export class LineMaterial extends ShaderMaterial {
      */
     protected resurrector(levelUp: number): void {
         super.resurrector(levelUp + 1);
-        this.setLoggingName('LineMaterial');
+        this.setLoggingName(LOGGING_NAME_LINE_MATERIAL);
         if (levelUp === 0) {
             this.synchUp();
         }

@@ -31,7 +31,7 @@ describe("Drawable", function () {
       refChange('start');
       const engine = new Engine();
       const geometry = new BoxGeometry(engine);
-      const matOptions: MeshMaterialOptions = { kind: 'MeshMaterial' };
+      const matOptions: MeshMaterialOptions = {};
       const material = new MeshMaterial(engine, matOptions);
       const drawable = new Drawable(geometry, material, engine);
       geometry.release();

@@ -1,8 +1,4 @@
 import { __extends } from "tslib";
-import { checkEnums } from './checkEnums';
-import { ClearBufferMask } from './ClearBufferMask';
-import { EIGHTLogger } from '../commands/EIGHTLogger';
-import { initWebGL } from './initWebGL';
 import { isDefined } from '../checks/isDefined';
 import { mustBeGE } from '../checks/mustBeGE';
 import { mustBeLE } from '../checks/mustBeLE';
@@ -10,12 +6,16 @@ import { mustBeNonNullObject } from '../checks/mustBeNonNullObject';
 import { mustBeNumber } from '../checks/mustBeNumber';
 import { mustBeString } from '../checks/mustBeString';
 import { ShareableArray } from '../collections/ShareableArray';
-import { ShareableBase } from './ShareableBase';
-import { vectorFromCoords } from '../math/R3';
+import { EIGHTLogger } from '../commands/EIGHTLogger';
 import { VersionLogger } from '../commands/VersionLogger';
 import { WebGLClearColor } from '../commands/WebGLClearColor';
-import { WebGLEnable } from '../commands/WebGLEnable';
 import { WebGLDisable } from '../commands/WebGLDisable';
+import { WebGLEnable } from '../commands/WebGLEnable';
+import { vectorFromCoords } from '../math/R3';
+import { checkEnums } from './checkEnums';
+import { ClearBufferMask } from './ClearBufferMask';
+import { initWebGL } from './initWebGL';
+import { ShareableBase } from './ShareableBase';
 function getWindowDocument(window) {
     if (window) {
         return window.document;
@@ -85,7 +85,9 @@ var Engine = /** @class */ (function (_super) {
             if (isDefined(_this._gl)) {
                 if (_this._gl.canvas instanceof HTMLCanvasElement) {
                     event.preventDefault();
-                    _this._gl = initWebGL(_this._gl.canvas, attributes);
+                    var result = initWebGL(_this._gl.canvas, attributes);
+                    _this._gl = checkEnums(result.context);
+                    _this._contextId = result.contextId;
                     _this._users.forEach(function (user) {
                         user.contextGain();
                     });
@@ -283,6 +285,13 @@ var Engine = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Engine.prototype, "contextId", {
+        get: function () {
+            return this._contextId;
+        },
+        enumerable: false,
+        configurable: true
+    });
     /**
      *
      */
@@ -379,7 +388,9 @@ var Engine = /** @class */ (function (_super) {
                 return this;
             }
             else {
-                this._gl = checkEnums(initWebGL(canvas, this._attributes));
+                var result = initWebGL(canvas, this._attributes);
+                this._gl = checkEnums(result.context);
+                this._contextId = result.contextId;
                 this.emitStartEvent();
                 canvas.addEventListener('webglcontextlost', this._webGLContextLost, false);
                 canvas.addEventListener('webglcontextrestored', this._webGLContextRestored, false);

@@ -1,13 +1,13 @@
-import { ContextProgramConsumer } from './ContextProgramConsumer';
 import { isNull } from '../checks/isNull';
 import { mustBeObject } from '../checks/mustBeObject';
+import { ContextProgramConsumer } from './ContextProgramConsumer';
 
 /**
  * A wrapper around a <code>WebGLUniformLocation</code>.
  */
 export class Uniform implements ContextProgramConsumer {
 
-    private gl: WebGLRenderingContext;
+    private gl: WebGL2RenderingContext | WebGLRenderingContext;
 
     private location: WebGLUniformLocation;
 
@@ -24,7 +24,7 @@ export class Uniform implements ContextProgramConsumer {
         this.contextLost();
     }
 
-    contextGain(gl: WebGLRenderingContext, program: WebGLProgram): void {
+    contextGain(gl: WebGL2RenderingContext | WebGLRenderingContext, program: WebGLProgram): void {
         this.contextLost();
         this.gl = gl;
         // If the location is null, no uniforms are updated and no error code is generated.

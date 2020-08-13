@@ -13,7 +13,10 @@ export class ShareableContextConsumer extends ShareableBase implements ContextCo
     private isSubscribed = false;
 
     /**
-     * 
+     * Creates a subscription to WebGL rendering context events from the contextManager but
+     * defers synchronization (because this is a base class).
+     * The contextManager must be defined.
+     * @param contextManager The ContextManager that will be subscribed to for WebGL rendering context events.
      */
     constructor(protected contextManager: ContextManager) {
         super();

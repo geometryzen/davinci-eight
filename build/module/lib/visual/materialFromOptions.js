@@ -5,7 +5,7 @@ import { MeshMaterial } from '../materials/MeshMaterial';
 import { PointMaterial } from '../materials/PointMaterial';
 import { SimplexMode } from '../geometries/SimplexMode';
 function pointMaterialOptions() {
-    var options = { kind: 'LineMaterial', attributes: {}, uniforms: {} };
+    var options = { kind: 'PointMaterial', attributes: {}, uniforms: {} };
     options.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
     options.uniforms[GraphicsProgramSymbols.UNIFORM_COLOR] = 'vec3';
     options.uniforms[GraphicsProgramSymbols.UNIFORM_OPACITY] = 'float';

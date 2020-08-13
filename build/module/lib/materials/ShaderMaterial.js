@@ -1,26 +1,33 @@
 import { __extends } from "tslib";
-import { Attrib } from '../core/Attrib';
-import { DataType } from '../core/DataType';
 import { isDefined } from '../checks/isDefined';
-import { isString } from '../checks/isString';
 import { isNull } from '../checks/isNull';
-import { makeWebGLProgram } from '../core/makeWebGLProgram';
+import { isString } from '../checks/isString';
 import { mustBeArray } from '../checks/mustBeArray';
 import { mustBeString } from '../checks/mustBeString';
 import { mustBeUndefined } from '../checks/mustBeUndefined';
-import { readOnly } from '../i18n/readOnly';
+import { Attrib } from '../core/Attrib';
+import { DataType } from '../core/DataType';
+import { makeWebGLProgram } from '../core/makeWebGLProgram';
 import { ShareableContextConsumer } from '../core/ShareableContextConsumer';
 import { Uniform } from '../core/Uniform';
+import { readOnly } from '../i18n/readOnly';
 /**
  *
  */
 var ShaderMaterial = /** @class */ (function (_super) {
     __extends(ShaderMaterial, _super);
     /**
+     * 1. Creates a subscription to WebGL rendering context events but does not synchronize.
+     * 2. Constructs vertex and fragment shader sources.
+     * 3. Synchronizes with the WebGL rendering context if this is a top-level class (levelUp is zero).
+     *
+     * The contextManager must be defined.
+     *
      * @param vertexShaderSrc The vertex shader source code.
      * @param fragmentShaderSrc The fragment shader source code.
      * @param attribs The attribute ordering.
-     * @param engine The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
+     * @param contextManager The <code>ContextManager</code> to subscribe to for WebGL rendering context events.
+     * @param levelUp The level of this class in the implementation inheritance hierarchy.
      */
     function ShaderMaterial(vertexShaderSrc, fragmentShaderSrc, attribs, contextManager, levelUp) {
         if (levelUp === void 0) { levelUp = 0; }

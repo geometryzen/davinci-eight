@@ -1,8 +1,8 @@
 import { ContextManager } from '../core/ContextManager';
-import { CurveGeometry } from '../geometries/CurveGeometry';
-import { CurveOptions } from './CurveOptions';
 import { Material } from '../core/Material';
 import { Mesh } from '../core/Mesh';
+import { CurveGeometry } from '../geometries/CurveGeometry';
+import { CurveOptions } from './CurveOptions';
 /**
  * A 3D visual representation of a discrete parameterized line.
  */

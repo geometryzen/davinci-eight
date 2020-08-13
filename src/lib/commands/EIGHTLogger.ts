@@ -23,7 +23,7 @@ export class EIGHTLogger extends ShareableBase {
    * Logs the namespace, version, GitHub URL, and last modified date to the console.
    */
   contextGain(): void {
-    console.log(`${config.NAMESPACE} ${config.VERSION} (${config.GITHUB}) ${config.LAST_MODIFIED}`);
+    console.log(`${config.MARKETING_NAME} ${config.VERSION} (${config.GITHUB}) ${config.LAST_MODIFIED}`);
   }
 
   contextLost(): void {

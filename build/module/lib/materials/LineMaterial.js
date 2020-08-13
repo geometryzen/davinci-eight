@@ -1,29 +1,49 @@
 import { __extends } from "tslib";
-import { GraphicsProgramBuilder } from '../materials/GraphicsProgramBuilder';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { isDefined } from '../checks/isDefined';
 import { isNull } from '../checks/isNull';
 import { isUndefined } from '../checks/isUndefined';
-import { ShaderMaterial } from './ShaderMaterial';
+import { mustBeNonNullObject } from '../checks/mustBeNonNullObject';
 import { mustBeObject } from '../checks/mustBeObject';
-import { GLSLESVersion } from './glslVersion';
-function builder(options) {
+import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
+import { GraphicsProgramBuilder } from '../materials/GraphicsProgramBuilder';
+import { glslVersionFromWebGLContextId } from './glslVersionFromWebGLContextId';
+import { ShaderMaterial } from './ShaderMaterial';
+function defaultOptions(options) {
+    if (!options.attributes) {
+        options.attributes = {};
+    }
+    if (!options.uniforms) {
+        options.uniforms = {};
+    }
+    options.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
+    options.uniforms[GraphicsProgramSymbols.UNIFORM_COLOR] = 'vec3';
+    options.uniforms[GraphicsProgramSymbols.UNIFORM_OPACITY] = 'float';
+    options.uniforms[GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX] = 'mat4';
+    options.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4';
+    options.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
+}
+function shaderPropertiesCount(options) {
+    var count = Object.keys(options).length;
+    if (options.version) {
+        count--;
+    }
+    return count;
+}
+function builder(contextId, options) {
     if (isNull(options) || isUndefined(options)) {
-        options = { kind: 'LineMaterial', attributes: {}, uniforms: {} };
-        options.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
-        options.uniforms[GraphicsProgramSymbols.UNIFORM_COLOR] = 'vec3';
-        options.uniforms[GraphicsProgramSymbols.UNIFORM_OPACITY] = 'float';
-        options.uniforms[GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX] = 'mat4';
-        options.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4';
-        options.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
+        options = { attributes: {}, uniforms: {} };
+        defaultOptions(options);
     }
     else {
         mustBeObject('options', options);
+        if (shaderPropertiesCount(options) === 0) {
+            defaultOptions(options);
+        }
     }
     var attributes = isDefined(options.attributes) ? options.attributes : {};
     var uniforms = isDefined(options.uniforms) ? options.uniforms : {};
     var gpb = new GraphicsProgramBuilder();
-    gpb.version(GLSLESVersion.ThreeHundred);
+    gpb.version(glslVersionFromWebGLContextId(options.version, contextId));
     var aNames = Object.keys(attributes);
     for (var a = 0; a < aNames.length; a++) {
         var aName = aNames[a];
@@ -38,11 +58,15 @@ function builder(options) {
     }
     return gpb;
 }
-function vertexShaderSrc(options) {
-    return builder(options).vertexShaderSrc();
+function vertexShaderSrc(contextId, options) {
+    return builder(contextId, options).vertexShaderSrc();
 }
-function fragmentShaderSrc(options) {
-    return builder(options).fragmentShaderSrc();
+function fragmentShaderSrc(contextId, options) {
+    return builder(contextId, options).fragmentShaderSrc();
+}
+var LOGGING_NAME_LINE_MATERIAL = 'LineMaterial';
+function getContextId(contextManager) {
+    return mustBeNonNullObject('contextManager', contextManager).contextId;
 }
 /**
  * Generates a WebGLProgram suitable for use with LINES, and LINE_STRIP.
@@ -60,8 +84,8 @@ var LineMaterial = /** @class */ (function (_super) {
      */
     function LineMaterial(contextManager, options, levelUp) {
         if (levelUp === void 0) { levelUp = 0; }
-        var _this = _super.call(this, vertexShaderSrc(options), fragmentShaderSrc(options), [], contextManager, levelUp + 1) || this;
-        _this.setLoggingName('LineMaterial');
+        var _this = _super.call(this, vertexShaderSrc(getContextId(contextManager), options), fragmentShaderSrc(getContextId(contextManager), options), [], contextManager, levelUp + 1) || this;
+        _this.setLoggingName(LOGGING_NAME_LINE_MATERIAL);
         if (levelUp === 0) {
             _this.synchUp();
         }
@@ -72,7 +96,7 @@ var LineMaterial = /** @class */ (function (_super) {
      */
     LineMaterial.prototype.resurrector = function (levelUp) {
         _super.prototype.resurrector.call(this, levelUp + 1);
-        this.setLoggingName('LineMaterial');
+        this.setLoggingName(LOGGING_NAME_LINE_MATERIAL);
         if (levelUp === 0) {
             this.synchUp();
         }

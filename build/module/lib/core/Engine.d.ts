@@ -1,16 +1,16 @@
+import { R3 } from '../math/R3';
 import { BlendingFactorDest } from './BlendingFactorDest';
 import { BlendingFactorSrc } from './BlendingFactorSrc';
 import { Capability } from './Capability';
-import { DepthFunction } from './DepthFunction';
 import { ContextConsumer } from './ContextConsumer';
 import { ContextManager } from './ContextManager';
+import { DepthFunction } from './DepthFunction';
 import { Geometry } from './Geometry';
 import { GeometryKey } from './GeometryKey';
 import { Material } from './Material';
 import { MaterialKey } from './MaterialKey';
 import { PixelFormat } from './PixelFormat';
 import { PixelType } from './PixelType';
-import { R3 } from '../math/R3';
 import { ShareableBase } from './ShareableBase';
 export interface EngineAttributes extends WebGLContextAttributes {
     eightLogging?: boolean;
@@ -34,6 +34,7 @@ export declare class Engine extends ShareableBase implements ContextManager {
      *
      */
     private _gl;
+    private _contextId;
     /**
      *
      */
@@ -121,7 +122,8 @@ export declare class Engine extends ShareableBase implements ContextManager {
     /**
      * The underlying WebGL rendering context.
      */
-    get gl(): WebGLRenderingContext;
+    get gl(): WebGL2RenderingContext | WebGLRenderingContext;
+    get contextId(): 'webgl2' | 'webgl';
     /**
      *
      */
@@ -163,7 +165,7 @@ export declare class Engine extends ShareableBase implements ContextManager {
      * @param canvas The HTML canvas element or canvas element identifier.
      * @param doc The document object model that contains the canvas identifier.
      */
-    start(canvas: string | HTMLCanvasElement | WebGL2RenderingContext, doc?: Document): this;
+    start(canvas: string | HTMLCanvasElement | WebGL2RenderingContext | WebGLRenderingContext, doc?: Document): this;
     /**
      *
      */

@@ -47,7 +47,7 @@ export declare class Attrib implements ContextProgramConsumer {
      * @param context
      * @param program
      */
-    contextGain(context: WebGLRenderingContext, program: WebGLProgram): void;
+    contextGain(context: WebGL2RenderingContext | WebGLRenderingContext, program: WebGLProgram): void;
     /**
      * Notifies this <code>Attrib</code> of a browser lost WebGL context event.
      * This <code>Attrib</code> responds by setting its cached index and context to undefined.

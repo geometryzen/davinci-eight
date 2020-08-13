@@ -1,35 +1,33 @@
-import { Color } from '../core/Color';
-import { ContextManager } from '../core/ContextManager';
 import { expectOptions } from '../checks/expectOptions';
-import { Geometry } from '../core/Geometry';
-import { GeometryMode } from '../geometries/GeometryMode';
-import { geometryModeFromOptions } from './geometryModeFromOptions';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { GridGeometry } from '../geometries/GridGeometry';
-import { GridGeometryOptions } from '../geometries/GridGeometryOptions';
-import { GridOptions } from './GridOptions';
 import { isFunction } from '../checks/isFunction';
 import { isNull } from '../checks/isNull';
 import { isUndefined } from '../checks/isUndefined';
-import { LineMaterial } from '../materials/LineMaterial';
-import { LineMaterialOptions } from '../materials/LineMaterialOptions';
-import { Material } from '../core/Material';
-import { Mesh } from '../core/Mesh';
-import { MeshMaterial } from '../materials/MeshMaterial';
-import { MeshMaterialOptions } from '../materials/MeshMaterialOptions';
-import { mustBeGE } from '../checks/mustBeGE';
 import { mustBeFunction } from '../checks/mustBeFunction';
+import { mustBeGE } from '../checks/mustBeGE';
 import { mustBeInteger } from '../checks/mustBeInteger';
 import { mustBeNumber } from '../checks/mustBeNumber';
 import { mustBeObject } from '../checks/mustBeObject';
+import { validate } from '../checks/validate';
+import { Color } from '../core/Color';
+import { ContextManager } from '../core/ContextManager';
+import { Geometry } from '../core/Geometry';
+import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
+import { Material } from '../core/Material';
+import { Mesh } from '../core/Mesh';
+import { GeometryMode } from '../geometries/GeometryMode';
+import { GridGeometry } from '../geometries/GridGeometry';
+import { GridGeometryOptions } from '../geometries/GridGeometryOptions';
+import { LineMaterial } from '../materials/LineMaterial';
+import { MeshMaterial } from '../materials/MeshMaterial';
 import { PointMaterial } from '../materials/PointMaterial';
-import { PointMaterialOptions } from '../materials/PointMaterialOptions';
 import { vec } from '../math/R3';
+import { VectorE3 } from '../math/VectorE3';
+import { geometryModeFromOptions } from './geometryModeFromOptions';
+import { GridOptions } from './GridOptions';
+import { LineMaterialOptionsWithKind, MeshMaterialOptionsWithKind, PointMaterialOptionsWithKind } from './materialFromOptions';
 import { setAxisAndMeridian } from './setAxisAndMeridian';
 import { setColorOption } from './setColorOption';
 import { setDeprecatedOptions } from './setDeprecatedOptions';
-import { validate } from '../checks/validate';
-import { VectorE3 } from '../math/VectorE3';
 
 const COORD_MIN_DEFAULT = -1;
 const COORD_MAX_DEFAULT = +1;
@@ -159,7 +157,7 @@ function configPoints(engine: ContextManager, options: GridOptions, grid: Grid) 
     geoOptions.mode = GeometryMode.POINT;
     configGeometry(engine, geoOptions, grid);
 
-    const matOptions: PointMaterialOptions = { kind: 'PointMaterial', attributes: {}, uniforms: {} };
+    const matOptions: PointMaterialOptionsWithKind = { kind: 'PointMaterial', attributes: {}, uniforms: {} };
 
     if (isFunctionOrUndefined(options.aPosition)) {
         matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
@@ -203,7 +201,7 @@ function configLines(engine: ContextManager, options: GridOptions, grid: Grid) {
     geoOptions.mode = GeometryMode.WIRE;
     configGeometry(engine, geoOptions, grid);
 
-    const matOptions: LineMaterialOptions = { kind: 'LineMaterial', attributes: {}, uniforms: {} };
+    const matOptions: LineMaterialOptionsWithKind = { kind: 'LineMaterial', attributes: {}, uniforms: {} };
 
     if (isFunctionOrUndefined(options.aPosition)) {
         matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
@@ -256,7 +254,7 @@ function configMesh(engine: ContextManager, options: GridOptions, grid: Grid) {
     grid.geometry = geometry;
     geometry.release();
 
-    const matOptions: MeshMaterialOptions = { kind: 'MeshMaterial', attributes: {}, uniforms: {} };
+    const matOptions: MeshMaterialOptionsWithKind = { kind: 'MeshMaterial', attributes: {}, uniforms: {} };
 
     if (isFunctionOrUndefined(options.aPosition)) {
         matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;

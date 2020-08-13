@@ -37,10 +37,17 @@ export declare class ShaderMaterial extends ShareableContextConsumer implements 
      */
     private _uniforms;
     /**
+     * 1. Creates a subscription to WebGL rendering context events but does not synchronize.
+     * 2. Constructs vertex and fragment shader sources.
+     * 3. Synchronizes with the WebGL rendering context if this is a top-level class (levelUp is zero).
+     *
+     * The contextManager must be defined.
+     *
      * @param vertexShaderSrc The vertex shader source code.
      * @param fragmentShaderSrc The fragment shader source code.
      * @param attribs The attribute ordering.
-     * @param engine The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
+     * @param contextManager The <code>ContextManager</code> to subscribe to for WebGL rendering context events.
+     * @param levelUp The level of this class in the implementation inheritance hierarchy.
      */
     constructor(vertexShaderSrc: string, fragmentShaderSrc: string, attribs: string[], contextManager: ContextManager, levelUp?: number);
     /**

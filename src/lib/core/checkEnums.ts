@@ -1,3 +1,4 @@
+import { mustBeEQ } from '../checks/mustBeEQ';
 import { BeginMode } from './BeginMode';
 import { BlendingFactorDest } from './BlendingFactorDest';
 import { BlendingFactorSrc } from './BlendingFactorSrc';
@@ -8,12 +9,11 @@ import { DepthFunction } from './DepthFunction';
 import { PixelFormat } from './PixelFormat';
 import { PixelType } from './PixelType';
 import { Usage } from './Usage';
-import { mustBeEQ } from '../checks/mustBeEQ';
 
 /**
  * Verify that the enums match the values in the WebGL rendering context.
  */
-export function checkEnums(gl: WebGL2RenderingContext): WebGL2RenderingContext {
+export function checkEnums(gl: WebGL2RenderingContext | WebGLRenderingContext): WebGL2RenderingContext | WebGLRenderingContext {
 
     // BeginMode
     mustBeEQ('LINE_LOOP', BeginMode.LINE_LOOP, gl.LINE_LOOP);

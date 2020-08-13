@@ -1,3 +1,4 @@
+import { mustBeEQ } from '../checks/mustBeEQ';
 import { BeginMode } from './BeginMode';
 import { BlendingFactorDest } from './BlendingFactorDest';
 import { BlendingFactorSrc } from './BlendingFactorSrc';
@@ -8,7 +9,6 @@ import { DepthFunction } from './DepthFunction';
 import { PixelFormat } from './PixelFormat';
 import { PixelType } from './PixelType';
 import { Usage } from './Usage';
-import { mustBeEQ } from '../checks/mustBeEQ';
 /**
  * Verify that the enums match the values in the WebGL rendering context.
  */

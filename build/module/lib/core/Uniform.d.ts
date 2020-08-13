@@ -8,7 +8,7 @@ export declare class Uniform implements ContextProgramConsumer {
     private name;
     constructor(info: WebGLActiveInfo);
     contextFree(): void;
-    contextGain(gl: WebGLRenderingContext, program: WebGLProgram): void;
+    contextGain(gl: WebGL2RenderingContext | WebGLRenderingContext, program: WebGLProgram): void;
     contextLost(): void;
     uniform1f(x: number): void;
     uniform1i(x: number): void;

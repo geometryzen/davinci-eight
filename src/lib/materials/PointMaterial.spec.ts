@@ -1,7 +1,8 @@
 import { Engine } from '../core/Engine';
-import { PointMaterial } from './PointMaterial';
-import { PointMaterialOptions } from '../materials/PointMaterialOptions';
 import { refChange } from '../core/refChange';
+import { PointMaterialOptions } from '../materials/PointMaterialOptions';
+import { GLSLESVersion } from './glslVersion';
+import { PointMaterial } from './PointMaterial';
 
 describe("PointMaterial", function () {
     it("constructor-destructor", function () {
@@ -63,6 +64,61 @@ describe("PointMaterial", function () {
         const engine: Engine = new Engine();
         const material = new PointMaterial(engine, matOptions);
         expect(material.vertexShaderSrc).toContain("vec3 aPosition;");
+        material.release();
+        engine.release();
+        refChange('stop');
+        const outstanding = refChange('dump');
+        expect(outstanding).toBe(0);
+        refChange('quiet');
+        refChange('reset');
+    });
+    it("should respect GLSL version 100", function () {
+        const matOptions: PointMaterialOptions = { version: GLSLESVersion.OneHundred };
+        refChange('quiet');
+        refChange('reset');
+        refChange('quiet');
+        refChange('start');
+        const engine: Engine = new Engine();
+        const material = new PointMaterial(engine, matOptions);
+
+        expect(material.vertexShaderSrc).toContain("attribute vec3 aPosition;");
+        expect(material.vertexShaderSrc).toContain("varying highp vec4 vColor;");
+        expect(material.vertexShaderSrc).toContain("gl_Position =");
+        expect(material.vertexShaderSrc).toContain("gl_PointSize =");
+        expect(material.vertexShaderSrc).toContain("vColor =");
+
+        expect(material.fragmentShaderSrc).toContain("varying highp vec4 vColor;");
+        expect(material.fragmentShaderSrc).toContain("gl_FragColor");
+
+        material.release();
+        engine.release();
+        refChange('stop');
+        const outstanding = refChange('dump');
+        expect(outstanding).toBe(0);
+        refChange('quiet');
+        refChange('reset');
+    });
+    it("should respect GLSL version 300", function () {
+        const matOptions: PointMaterialOptions = { version: GLSLESVersion.ThreeHundred };
+        refChange('quiet');
+        refChange('reset');
+        refChange('quiet');
+        refChange('start');
+        const engine: Engine = new Engine();
+        const material = new PointMaterial(engine, matOptions);
+
+        expect(material.fragmentShaderSrc).toContain("#version 300 es");
+        expect(material.vertexShaderSrc).toContain("in vec3 aPosition;");
+        expect(material.vertexShaderSrc).toContain("out highp vec4 vColor;");
+        expect(material.vertexShaderSrc).toContain("gl_Position =");
+        expect(material.vertexShaderSrc).toContain("gl_PointSize =");
+        expect(material.vertexShaderSrc).toContain("vColor =");
+
+        expect(material.fragmentShaderSrc).toContain("#version 300 es");
+        expect(material.fragmentShaderSrc).toContain("precision");
+        expect(material.fragmentShaderSrc).toContain("in highp vec4 vColor;");
+        expect(material.fragmentShaderSrc).toContain("out vec4");
+
         material.release();
         engine.release();
         refChange('stop');

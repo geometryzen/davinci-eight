@@ -1,20 +1,20 @@
+import { isDefined } from '../checks/isDefined';
+import { mustBeNumber } from '../checks/mustBeNumber';
 import { Color } from '../core/Color';
-import { ds } from './Defaults';
 import { ContextManager } from '../core/ContextManager';
 import { Geometry } from '../core/Geometry';
 import { GraphicsProgramSymbols as GPS } from '../core/GraphicsProgramSymbols';
-import { HollowCylinderGeometry } from '../geometries/HollowCylinderGeometry';
-import { HollowCylinderGeometryOptions } from '../geometries/HollowCylinderGeometryOptions';
-import { HollowCylinderOptions } from './HollowCylinderOptions';
-import { offsetFromOptions } from './offsetFromOptions';
-import { referenceAxis } from '../core/referenceAxis';
-import { referenceMeridian } from '../core/referenceMeridian';
-import { isDefined } from '../checks/isDefined';
 import { Material } from '../core/Material';
 import { Mesh } from '../core/Mesh';
+import { referenceAxis } from '../core/referenceAxis';
+import { referenceMeridian } from '../core/referenceMeridian';
+import { HollowCylinderGeometry } from '../geometries/HollowCylinderGeometry';
+import { HollowCylinderGeometryOptions } from '../geometries/HollowCylinderGeometryOptions';
 import { MeshMaterial } from '../materials/MeshMaterial';
-import { MeshMaterialOptions } from '../materials/MeshMaterialOptions';
-import { mustBeNumber } from '../checks/mustBeNumber';
+import { ds } from './Defaults';
+import { HollowCylinderOptions } from './HollowCylinderOptions';
+import { MeshMaterialOptionsWithKind } from './materialFromOptions';
+import { offsetFromOptions } from './offsetFromOptions';
 import { setAxisAndMeridian } from './setAxisAndMeridian';
 import { setColorOption } from './setColorOption';
 import { setDeprecatedOptions } from './setDeprecatedOptions';
@@ -55,7 +55,7 @@ export class HollowCylinder extends Mesh<Geometry, Material> {
             contextManager.putCacheGeometry(geoOptions, geometry);
         }
 
-        const mmo: MeshMaterialOptions = { kind: 'MeshMaterial', attributes: {}, uniforms: {} };
+        const mmo: MeshMaterialOptionsWithKind = { kind: 'MeshMaterial', attributes: {}, uniforms: {} };
 
         mmo.attributes[GPS.ATTRIBUTE_POSITION] = 3;
         mmo.attributes[GPS.ATTRIBUTE_NORMAL] = 3;

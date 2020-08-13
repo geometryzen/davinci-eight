@@ -1,20 +1,20 @@
 import { __extends } from "tslib";
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { Color } from '../core/Color';
-import { CurveGeometry } from '../geometries/CurveGeometry';
-import { CurveMode } from '../geometries/CurveMode';
 import { isDefined } from '../checks/isDefined';
 import { isFunction } from '../checks/isFunction';
 import { isNull } from '../checks/isNull';
 import { isUndefined } from '../checks/isUndefined';
-import { LineMaterial } from '../materials/LineMaterial';
-import { Mesh } from '../core/Mesh';
 import { mustBeGE } from '../checks/mustBeGE';
 import { mustBeNumber } from '../checks/mustBeNumber';
+import { Color } from '../core/Color';
+import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
+import { Mesh } from '../core/Mesh';
+import { CurveGeometry } from '../geometries/CurveGeometry';
+import { CurveMode } from '../geometries/CurveMode';
+import { LineMaterial } from '../materials/LineMaterial';
 import { PointMaterial } from '../materials/PointMaterial';
+import { Vector3 } from '../math/Vector3';
 import { setColorOption } from './setColorOption';
 import { setDeprecatedOptions } from './setDeprecatedOptions';
-import { Vector3 } from '../math/Vector3';
 function aPositionDefault(u) {
     return Vector3.vector(u, 0, 0);
 }

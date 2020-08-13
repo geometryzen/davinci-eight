@@ -2,19 +2,19 @@ export declare class Eight {
     /**
      * The GitHub URL of the repository.
      */
-    GITHUB: string;
+    readonly GITHUB: "https://github.com/geometryzen/davinci-eight";
     /**
      * The last modification date in YYYY-MM-DD format.
      */
-    LAST_MODIFIED: string;
+    readonly LAST_MODIFIED: "2020-08-13";
     /**
-     * The namespace used for traditional JavaScript module loading.
+     * The name used for marketing purposes.
      */
-    NAMESPACE: string;
+    readonly MARKETING_NAME: "DaVinci eight";
     /**
      * The semantic version number of this library, i.e., (major.minor.patch) format.
      */
-    VERSION: string;
+    readonly VERSION: "8.3.0";
     constructor();
     log(message?: any): void;
     info(message?: any): void;

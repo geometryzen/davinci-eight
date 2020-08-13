@@ -1,10 +1,15 @@
 import { __extends } from "tslib";
+import { mustBeNonNullObject } from '../checks/mustBeNonNullObject';
 import { fragmentShaderSrc as fShaderSrc } from './fragmentShaderSrc';
+import { glslVersionFromWebGLContextId } from './glslVersionFromWebGLContextId';
 import { ShaderMaterial } from './ShaderMaterial';
 import { vertexShaderSrc as vShaderSrc } from './vertexShaderSrc';
-import { GLSLESVersion } from './glslVersion';
+function getContextId(contextManager) {
+    return mustBeNonNullObject('contextManager', contextManager).contextId;
+}
 /**
  * A Material that is generated based upon knowledge of parameters and some hints.
+ * This is currently not exposed and has limited testing.
  */
 var SmartGraphicsProgram = /** @class */ (function (_super) {
     __extends(SmartGraphicsProgram, _super);
@@ -13,7 +18,7 @@ var SmartGraphicsProgram = /** @class */ (function (_super) {
      */
     function SmartGraphicsProgram(aParams, uParams, vColor, vCoords, vLight, contextManager, levelUp) {
         if (levelUp === void 0) { levelUp = 0; }
-        var _this = _super.call(this, vShaderSrc(aParams, uParams, vColor, vCoords, vLight, GLSLESVersion.ThreeHundred), fShaderSrc(aParams, uParams, vColor, vCoords, vLight, GLSLESVersion.ThreeHundred), [], contextManager, levelUp + 1) || this;
+        var _this = _super.call(this, vShaderSrc(aParams, uParams, vColor, vCoords, vLight, glslVersionFromWebGLContextId(void 0, getContextId(contextManager))), fShaderSrc(aParams, uParams, vColor, vCoords, vLight, glslVersionFromWebGLContextId(void 0, getContextId(contextManager))), [], contextManager, levelUp + 1) || this;
         _this.setLoggingName('SmartGraphicsProgram');
         if (levelUp === 0) {
             _this.synchUp();

@@ -23,7 +23,7 @@
     var extendStatics = function(d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
 
@@ -89,10 +89,10 @@
 
     var Eight = /** @class */ (function () {
         function Eight() {
-            this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2020-08-04';
-            this.NAMESPACE = 'EIGHT';
-            this.VERSION = '8.2.1';
+            this.GITHUB = "https://github.com/geometryzen/davinci-eight";
+            this.LAST_MODIFIED = "2020-08-13";
+            this.MARKETING_NAME = "DaVinci eight";
+            this.VERSION = '8.3.0';
         }
         Eight.prototype.log = function (message) {
             // This should allow us to unit test and run in environments without a console.
@@ -8921,7 +8921,10 @@
     var ShareableContextConsumer = /** @class */ (function (_super) {
         __extends(ShareableContextConsumer, _super);
         /**
-         *
+         * Creates a subscription to WebGL rendering context events from the contextManager but
+         * defers synchronization (because this is a base class).
+         * The contextManager must be defined.
+         * @param contextManager The ContextManager that will be subscribed to for WebGL rendering context events.
          */
         function ShareableContextConsumer(contextManager) {
             var _this = _super.call(this) || this;
@@ -12467,6 +12470,61 @@
     }());
 
     /**
+     * Displays details about EIGHT to the console.
+     */
+    var EIGHTLogger = /** @class */ (function (_super) {
+        __extends(EIGHTLogger, _super);
+        function EIGHTLogger() {
+            var _this = _super.call(this) || this;
+            _this.setLoggingName('EIGHTLogger');
+            return _this;
+        }
+        EIGHTLogger.prototype.destructor = function (levelUp) {
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        EIGHTLogger.prototype.contextFree = function () {
+            // Does nothing.
+        };
+        /**
+         * Logs the namespace, version, GitHub URL, and last modified date to the console.
+         */
+        EIGHTLogger.prototype.contextGain = function () {
+            console.log(config.MARKETING_NAME + " " + config.VERSION + " (" + config.GITHUB + ") " + config.LAST_MODIFIED);
+        };
+        EIGHTLogger.prototype.contextLost = function () {
+            // Do nothing.
+        };
+        return EIGHTLogger;
+    }(ShareableBase));
+
+    /**
+     * Displays details about the WegGL version to the console.
+     */
+    var VersionLogger = /** @class */ (function (_super) {
+        __extends(VersionLogger, _super);
+        function VersionLogger(contextManager) {
+            var _this = _super.call(this) || this;
+            _this.contextManager = contextManager;
+            _this.setLoggingName("VersionLogger");
+            return _this;
+        }
+        VersionLogger.prototype.destructor = function (levelUp) {
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        VersionLogger.prototype.contextFree = function () {
+            // Do nothing.
+        };
+        VersionLogger.prototype.contextGain = function () {
+            var gl = this.contextManager.gl;
+            console.log(gl.getParameter(gl.VERSION));
+        };
+        VersionLogger.prototype.contextLost = function () {
+            // Do nothing.
+        };
+        return VersionLogger;
+    }(ShareableBase));
+
+    /**
      * Verify that the enums match the values in the WebGL rendering context.
      */
     function checkEnums(gl) {
@@ -12545,56 +12603,34 @@
     }
 
     /**
-     * Displays details about EIGHT to the console.
-     */
-    var EIGHTLogger = /** @class */ (function (_super) {
-        __extends(EIGHTLogger, _super);
-        function EIGHTLogger() {
-            var _this = _super.call(this) || this;
-            _this.setLoggingName('EIGHTLogger');
-            return _this;
-        }
-        EIGHTLogger.prototype.destructor = function (levelUp) {
-            _super.prototype.destructor.call(this, levelUp + 1);
-        };
-        EIGHTLogger.prototype.contextFree = function () {
-            // Does nothing.
-        };
-        /**
-         * Logs the namespace, version, GitHub URL, and last modified date to the console.
-         */
-        EIGHTLogger.prototype.contextGain = function () {
-            console.log(config.NAMESPACE + " " + config.VERSION + " (" + config.GITHUB + ") " + config.LAST_MODIFIED);
-        };
-        EIGHTLogger.prototype.contextLost = function () {
-            // Do nothing.
-        };
-        return EIGHTLogger;
-    }(ShareableBase));
-
-    /**
-     * Returns the WebGLRenderingContext given a canvas.
-     * canvas
-     * attributes
+     * Returns a WebGL rendering context given a canvas element.
+     * @param canvas The canvas element.
+     * @param options The arguments to the HTMLCanvasElement.getContext() method.
      * If the canvas is undefined then an undefined value is returned for the context.
      */
-    function initWebGL(canvas, attributes) {
+    function initWebGL(canvas, options) {
         // We'll be hyper-functional. An undefined canvas begets an undefined context.
         // Clients must check their context output or canvas input.
         if (isDefined(canvas)) {
-            var context = void 0;
-            var contextId = 'webgl2';
             try {
-                context = canvas.getContext(contextId, attributes);
+                var contextId = 'webgl2';
+                var context = canvas.getContext(contextId, options);
+                if (context) {
+                    return { context: context, contextId: contextId };
+                }
+                else {
+                    throw new Error("canvas.getContext('" + contextId + "') failed. Your browser may not support it.");
+                }
             }
             catch (e) {
-                // Do nothing.
-            }
-            if (context) {
-                return context;
-            }
-            else {
-                throw new Error("canvas.getContext('" + contextId + "') failed. Your browser may not support it.");
+                var contextId = 'webgl';
+                var context = canvas.getContext(contextId, options);
+                if (context) {
+                    return { context: context, contextId: contextId };
+                }
+                else {
+                    throw new Error("canvas.getContext('" + contextId + "') failed. Your browser may not support it.");
+                }
             }
         }
         else {
@@ -12602,33 +12638,6 @@
             return void 0;
         }
     }
-
-    /**
-     * Displays details about the WegGL version to the console.
-     */
-    var VersionLogger = /** @class */ (function (_super) {
-        __extends(VersionLogger, _super);
-        function VersionLogger(contextManager) {
-            var _this = _super.call(this) || this;
-            _this.contextManager = contextManager;
-            _this.setLoggingName("VersionLogger");
-            return _this;
-        }
-        VersionLogger.prototype.destructor = function (levelUp) {
-            _super.prototype.destructor.call(this, levelUp + 1);
-        };
-        VersionLogger.prototype.contextFree = function () {
-            // Do nothing.
-        };
-        VersionLogger.prototype.contextGain = function () {
-            var gl = this.contextManager.gl;
-            console.log(gl.getParameter(gl.VERSION));
-        };
-        VersionLogger.prototype.contextLost = function () {
-            // Do nothing.
-        };
-        return VersionLogger;
-    }(ShareableBase));
 
     function getWindowDocument(window) {
         if (window) {
@@ -12699,7 +12708,9 @@
                 if (isDefined(_this._gl)) {
                     if (_this._gl.canvas instanceof HTMLCanvasElement) {
                         event.preventDefault();
-                        _this._gl = initWebGL(_this._gl.canvas, attributes);
+                        var result = initWebGL(_this._gl.canvas, attributes);
+                        _this._gl = checkEnums(result.context);
+                        _this._contextId = result.contextId;
                         _this._users.forEach(function (user) {
                             user.contextGain();
                         });
@@ -12894,6 +12905,13 @@
             enumerable: false,
             configurable: true
         });
+        Object.defineProperty(Engine.prototype, "contextId", {
+            get: function () {
+                return this._contextId;
+            },
+            enumerable: false,
+            configurable: true
+        });
         /**
          *
          */
@@ -12990,7 +13008,9 @@
                     return this;
                 }
                 else {
-                    this._gl = checkEnums(initWebGL(canvas, this._attributes));
+                    var result = initWebGL(canvas, this._attributes);
+                    this._gl = checkEnums(result.context);
+                    this._contextId = result.contextId;
                     this.emitStartEvent();
                     canvas.addEventListener('webglcontextlost', this._webGLContextLost, false);
                     canvas.addEventListener('webglcontextrestored', this._webGLContextRestored, false);
@@ -20991,10 +21011,17 @@
     var ShaderMaterial = /** @class */ (function (_super) {
         __extends(ShaderMaterial, _super);
         /**
+         * 1. Creates a subscription to WebGL rendering context events but does not synchronize.
+         * 2. Constructs vertex and fragment shader sources.
+         * 3. Synchronizes with the WebGL rendering context if this is a top-level class (levelUp is zero).
+         *
+         * The contextManager must be defined.
+         *
          * @param vertexShaderSrc The vertex shader source code.
          * @param fragmentShaderSrc The fragment shader source code.
          * @param attribs The attribute ordering.
-         * @param engine The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
+         * @param contextManager The <code>ContextManager</code> to subscribe to for WebGL rendering context events.
+         * @param levelUp The level of this class in the implementation inheritance hierarchy.
          */
         function ShaderMaterial(vertexShaderSrc, fragmentShaderSrc, attribs, contextManager, levelUp) {
             if (levelUp === void 0) { levelUp = 0; }
@@ -21604,7 +21631,7 @@
     var GLSLESVersion;
     (function (GLSLESVersion) {
         GLSLESVersion["OneHundred"] = "100";
-        GLSLESVersion["ThreeHundred"] = "300 es";
+        GLSLESVersion["ThreeHundred"] = "300";
     })(GLSLESVersion || (GLSLESVersion = {}));
 
     function getUniformCodeName(uniforms, name) {
@@ -21659,7 +21686,7 @@
         if (version === GLSLESVersion.ThreeHundred) {
             lines.push("#version 300 es");
         }
-        lines.push("// fragment shader generated by " + config.NAMESPACE + " " + config.VERSION);
+        lines.push("// fragment shader generated by " + config.MARKETING_NAME + " " + config.VERSION);
         // Only the fragment shader requires an explicit precision for floats.
         // For fragment shaders, highp might not be available, which can be tested using the GL_FRAGMENT_PRECISION_HIGH macro.
         if (emitFragmentFloatPrecision(version)) {
@@ -21777,7 +21804,7 @@
         if (version === GLSLESVersion.ThreeHundred) {
             lines.push("#version 300 es");
         }
-        lines.push("// vertex shader generated by " + config.NAMESPACE + " " + config.VERSION);
+        lines.push("// vertex shader generated by " + config.MARKETING_NAME + " " + config.VERSION);
         // The precision is implicitly highp for vertex shaders.
         // So there is no need to add preamble for changing the precision unless
         // we want to lower the precision.
@@ -22043,23 +22070,69 @@
         return GraphicsProgramBuilder;
     }());
 
-    function builder(options) {
+    /**
+     * Returns a GLSL version (usually for the purpose of automatically writing shaders).
+     * If an override is defined then it will be returned.
+     * Otherwise, if the contextId is known, a version will be returned that is consistent with the contextId.
+     * If the contextId is not yet known and there is no override, returns the latest GLSL version.
+     * @param override The override that the caller desires. May be undefined.
+     * @param contextId The context identifier, usually determined from a ContextManager.
+     */
+    function glslVersionFromWebGLContextId(override, contextId) {
+        if (override) {
+            return override;
+        }
+        else {
+            switch (contextId) {
+                case 'webgl2': return GLSLESVersion.ThreeHundred;
+                case 'webgl': return GLSLESVersion.OneHundred;
+                default: {
+                    // In the majority of examples, the WebGL rendering context will be initialized
+                    // before we construct the shaders and so it will be rare that we end up here.
+                    // We don't want the user to be forced to override to get the latest, so we
+                    // return the most aggressive option.
+                    return GLSLESVersion.ThreeHundred;
+                }
+            }
+        }
+    }
+
+    function defaultOptions(options) {
+        if (!options.attributes) {
+            options.attributes = {};
+        }
+        if (!options.uniforms) {
+            options.uniforms = {};
+        }
+        options.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
+        options.uniforms[GraphicsProgramSymbols.UNIFORM_COLOR] = 'vec3';
+        options.uniforms[GraphicsProgramSymbols.UNIFORM_OPACITY] = 'float';
+        options.uniforms[GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX] = 'mat4';
+        options.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4';
+        options.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
+    }
+    function shaderPropertiesCount(options) {
+        var count = Object.keys(options).length;
+        if (options.version) {
+            count--;
+        }
+        return count;
+    }
+    function builder(contextId, options) {
         if (isNull(options) || isUndefined(options)) {
-            options = { kind: 'LineMaterial', attributes: {}, uniforms: {} };
-            options.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
-            options.uniforms[GraphicsProgramSymbols.UNIFORM_COLOR] = 'vec3';
-            options.uniforms[GraphicsProgramSymbols.UNIFORM_OPACITY] = 'float';
-            options.uniforms[GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX] = 'mat4';
-            options.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4';
-            options.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
+            options = { attributes: {}, uniforms: {} };
+            defaultOptions(options);
         }
         else {
             mustBeObject('options', options);
+            if (shaderPropertiesCount(options) === 0) {
+                defaultOptions(options);
+            }
         }
         var attributes = isDefined(options.attributes) ? options.attributes : {};
         var uniforms = isDefined(options.uniforms) ? options.uniforms : {};
         var gpb = new GraphicsProgramBuilder();
-        gpb.version(GLSLESVersion.ThreeHundred);
+        gpb.version(glslVersionFromWebGLContextId(options.version, contextId));
         var aNames = Object.keys(attributes);
         for (var a = 0; a < aNames.length; a++) {
             var aName = aNames[a];
@@ -22074,11 +22147,15 @@
         }
         return gpb;
     }
-    function vertexShaderSrc$2(options) {
-        return builder(options).vertexShaderSrc();
+    function vertexShaderSrc$2(contextId, options) {
+        return builder(contextId, options).vertexShaderSrc();
     }
-    function fragmentShaderSrc$2(options) {
-        return builder(options).fragmentShaderSrc();
+    function fragmentShaderSrc$2(contextId, options) {
+        return builder(contextId, options).fragmentShaderSrc();
+    }
+    var LOGGING_NAME_LINE_MATERIAL = 'LineMaterial';
+    function getContextId(contextManager) {
+        return mustBeNonNullObject('contextManager', contextManager).contextId;
     }
     /**
      * Generates a WebGLProgram suitable for use with LINES, and LINE_STRIP.
@@ -22096,8 +22173,8 @@
          */
         function LineMaterial(contextManager, options, levelUp) {
             if (levelUp === void 0) { levelUp = 0; }
-            var _this = _super.call(this, vertexShaderSrc$2(options), fragmentShaderSrc$2(options), [], contextManager, levelUp + 1) || this;
-            _this.setLoggingName('LineMaterial');
+            var _this = _super.call(this, vertexShaderSrc$2(getContextId(contextManager), options), fragmentShaderSrc$2(getContextId(contextManager), options), [], contextManager, levelUp + 1) || this;
+            _this.setLoggingName(LOGGING_NAME_LINE_MATERIAL);
             if (levelUp === 0) {
                 _this.synchUp();
             }
@@ -22108,7 +22185,7 @@
          */
         LineMaterial.prototype.resurrector = function (levelUp) {
             _super.prototype.resurrector.call(this, levelUp + 1);
-            this.setLoggingName('LineMaterial');
+            this.setLoggingName(LOGGING_NAME_LINE_MATERIAL);
             if (levelUp === 0) {
                 this.synchUp();
             }
@@ -22125,29 +22202,53 @@
         return LineMaterial;
     }(ShaderMaterial));
 
-    function builder$1(options) {
+    function defaultOptions$1(options) {
+        if (!options.attributes) {
+            options.attributes = {};
+        }
+        if (!options.uniforms) {
+            options.uniforms = {};
+        }
+        options.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
+        options.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = 3;
+        options.attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS] = 2;
+        options.uniforms[GraphicsProgramSymbols.UNIFORM_COLOR] = 'vec3';
+        options.uniforms[GraphicsProgramSymbols.UNIFORM_OPACITY] = 'float';
+        options.uniforms[GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX] = 'mat4';
+        options.uniforms[GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX] = 'mat3';
+        options.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4';
+        options.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
+        options.uniforms[GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT] = 'vec3';
+        options.uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR] = 'vec3';
+        options.uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION] = 'vec3';
+    }
+    function shaderPropertiesCount$1(options) {
+        var count = Object.keys(options).length;
+        if (options.version) {
+            count--;
+        }
+        return count;
+    }
+    /**
+     *
+     * @param contextId The context identifier used when creating the WebGL rendering context. May be undefined.
+     * @param options
+     */
+    function builder$1(contextId, options) {
         if (isUndefined(options) || isNull(options)) {
-            options = { kind: 'MeshMaterial', attributes: {}, uniforms: {} };
-            options.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
-            options.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = 3;
-            options.attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS] = 2;
-            options.uniforms[GraphicsProgramSymbols.UNIFORM_COLOR] = 'vec3';
-            options.uniforms[GraphicsProgramSymbols.UNIFORM_OPACITY] = 'float';
-            options.uniforms[GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX] = 'mat4';
-            options.uniforms[GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX] = 'mat3';
-            options.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4';
-            options.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
-            options.uniforms[GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT] = 'vec3';
-            options.uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR] = 'vec3';
-            options.uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION] = 'vec3';
+            options = { attributes: {}, uniforms: {} };
+            defaultOptions$1(options);
         }
         else {
             mustBeObject('options', options);
+            if (shaderPropertiesCount$1(options) === 0) {
+                defaultOptions$1(options);
+            }
         }
         var attributes = isDefined(options.attributes) ? options.attributes : {};
         var uniforms = isDefined(options.uniforms) ? options.uniforms : {};
         var gpb = new GraphicsProgramBuilder();
-        gpb.version(GLSLESVersion.ThreeHundred);
+        gpb.version(glslVersionFromWebGLContextId(options.version, contextId));
         var aNames = Object.keys(attributes);
         for (var a = 0; a < aNames.length; a++) {
             var aName = aNames[a];
@@ -22162,24 +22263,36 @@
         }
         return gpb;
     }
-    function vertexShaderSrc$3(options) {
-        return builder$1(options).vertexShaderSrc();
+    function vertexShaderSrc$3(contextId, options) {
+        return builder$1(contextId, options).vertexShaderSrc();
     }
-    function fragmentShaderSrc$3(options) {
-        return builder$1(options).fragmentShaderSrc();
+    function fragmentShaderSrc$3(contextId, options) {
+        return builder$1(contextId, options).fragmentShaderSrc();
     }
     var LOGGING_NAME_MESH_MATERIAL = 'MeshMaterial';
+    function getContextId$1(contextManager) {
+        return mustBeNonNullObject('contextManager', contextManager).contextId;
+    }
     /**
      *
      */
     var MeshMaterial = /** @class */ (function (_super) {
         __extends(MeshMaterial, _super);
         /**
+         * 1. Creates a subscription to WebGL rendering context events but does not subscribe.
+         * 2. Constructs vertex and fragment shader sources.
+         * 3. Sets the name for reporting reference counts.
+         * 4. Synchronize with the WebGL rendering context if this is a top-level class (levelUp is zero).
          *
+         * The contextManager must be defined.
+         *
+         * @param contextManager The ContextManager that will be subscribed to for WebGL rendering context events.
+         * @param options Used to configure the MeshMaterial.
+         * @param levelUp Defines the level of the MeshMaterial in the inheritance hierarchy.
          */
         function MeshMaterial(contextManager, options, levelUp) {
             if (levelUp === void 0) { levelUp = 0; }
-            var _this = _super.call(this, vertexShaderSrc$3(options), fragmentShaderSrc$3(options), [], contextManager, levelUp + 1) || this;
+            var _this = _super.call(this, vertexShaderSrc$3(getContextId$1(contextManager), options), fragmentShaderSrc$3(getContextId$1(contextManager), options), [], contextManager, levelUp + 1) || this;
             _this.setLoggingName(LOGGING_NAME_MESH_MATERIAL);
             if (levelUp === 0) {
                 _this.synchUp();
@@ -22208,24 +22321,43 @@
         return MeshMaterial;
     }(ShaderMaterial));
 
-    function builder$2(options) {
+    function defaultOptions$2(options) {
+        if (!options.attributes) {
+            options.attributes = {};
+        }
+        if (!options.uniforms) {
+            options.uniforms = {};
+        }
+        options.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
+        options.uniforms[GraphicsProgramSymbols.UNIFORM_COLOR] = 'vec3';
+        options.uniforms[GraphicsProgramSymbols.UNIFORM_OPACITY] = 'float';
+        options.uniforms[GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX] = 'mat4';
+        options.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4';
+        options.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
+        options.uniforms[GraphicsProgramSymbols.UNIFORM_POINT_SIZE] = 'float';
+    }
+    function shaderPropertiesCount$2(options) {
+        var count = Object.keys(options).length;
+        if (options.version) {
+            count--;
+        }
+        return count;
+    }
+    function builder$2(contextId, options) {
         if (isNull(options) || isUndefined(options)) {
-            options = { kind: 'PointMaterial', attributes: {}, uniforms: {} };
-            options.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
-            options.uniforms[GraphicsProgramSymbols.UNIFORM_COLOR] = 'vec3';
-            options.uniforms[GraphicsProgramSymbols.UNIFORM_OPACITY] = 'float';
-            options.uniforms[GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX] = 'mat4';
-            options.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4';
-            options.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
-            options.uniforms[GraphicsProgramSymbols.UNIFORM_POINT_SIZE] = 'float';
+            options = { attributes: {}, uniforms: {} };
+            defaultOptions$2(options);
         }
         else {
             mustBeObject('options', options);
+            if (shaderPropertiesCount$2(options) === 0) {
+                defaultOptions$2(options);
+            }
         }
         var attributes = isDefined(options.attributes) ? options.attributes : {};
         var uniforms = isDefined(options.uniforms) ? options.uniforms : {};
         var gpb = new GraphicsProgramBuilder();
-        gpb.version(GLSLESVersion.ThreeHundred);
+        gpb.version(glslVersionFromWebGLContextId(options.version, contextId));
         var aNames = Object.keys(attributes);
         for (var a = 0; a < aNames.length; a++) {
             var aName = aNames[a];
@@ -22240,11 +22372,15 @@
         }
         return gpb;
     }
-    function vertexShaderSrc$4(options) {
-        return builder$2(options).vertexShaderSrc();
+    function vertexShaderSrc$4(contextId, options) {
+        return builder$2(contextId, options).vertexShaderSrc();
     }
-    function fragmentShaderSrc$4(options) {
-        return builder$2(options).fragmentShaderSrc();
+    function fragmentShaderSrc$4(contextId, options) {
+        return builder$2(contextId, options).fragmentShaderSrc();
+    }
+    var LOGGING_NAME_POINT_MATERIAL = 'PointMaterial';
+    function getContextId$2(contextManager) {
+        return mustBeNonNullObject('contextManager', contextManager).contextId;
     }
     /**
      *
@@ -22256,8 +22392,8 @@
          */
         function PointMaterial(contextManager, options, levelUp) {
             if (levelUp === void 0) { levelUp = 0; }
-            var _this = _super.call(this, vertexShaderSrc$4(options), fragmentShaderSrc$4(options), [], contextManager, levelUp + 1) || this;
-            _this.setLoggingName('PointMaterial');
+            var _this = _super.call(this, vertexShaderSrc$4(getContextId$2(contextManager), options), fragmentShaderSrc$4(getContextId$2(contextManager), options), [], contextManager, levelUp + 1) || this;
+            _this.setLoggingName(LOGGING_NAME_POINT_MATERIAL);
             if (levelUp === 0) {
                 _this.synchUp();
             }
@@ -22268,7 +22404,7 @@
          */
         PointMaterial.prototype.resurrector = function (levelUp) {
             _super.prototype.resurrector.call(this, levelUp + 1);
-            this.setLoggingName('PointMaterial');
+            this.setLoggingName(LOGGING_NAME_POINT_MATERIAL);
             if (levelUp === 0) {
                 this.synchUp();
             }
@@ -22790,7 +22926,7 @@
     var ds = make(INITIAL_AXIS, INITIAL_LENGTH, INITIAL_MERIDIAN, INITIAL_RADIUS, INITIAL_SLICE);
 
     function pointMaterialOptions() {
-        var options = { kind: 'LineMaterial', attributes: {}, uniforms: {} };
+        var options = { kind: 'PointMaterial', attributes: {}, uniforms: {} };
         options.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
         options.uniforms[GraphicsProgramSymbols.UNIFORM_COLOR] = 'vec3';
         options.uniforms[GraphicsProgramSymbols.UNIFORM_OPACITY] = 'float';

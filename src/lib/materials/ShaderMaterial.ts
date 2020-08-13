@@ -1,20 +1,20 @@
+import { isDefined } from '../checks/isDefined';
+import { isNull } from '../checks/isNull';
+import { isString } from '../checks/isString';
+import { mustBeArray } from '../checks/mustBeArray';
+import { mustBeString } from '../checks/mustBeString';
+import { mustBeUndefined } from '../checks/mustBeUndefined';
 import { Attrib } from '../core/Attrib';
 import { BeginMode } from '../core/BeginMode';
 import { ContextManager } from '../core/ContextManager';
 import { DataType } from '../core/DataType';
-import { isDefined } from '../checks/isDefined';
-import { isString } from '../checks/isString';
-import { isNull } from '../checks/isNull';
 import { makeWebGLProgram } from '../core/makeWebGLProgram';
 import { Material } from '../core/Material';
-import { mustBeArray } from '../checks/mustBeArray';
-import { mustBeString } from '../checks/mustBeString';
-import { mustBeUndefined } from '../checks/mustBeUndefined';
-import { readOnly } from '../i18n/readOnly';
 import { ShareableContextConsumer } from '../core/ShareableContextConsumer';
 import { TextureUnit } from '../core/TextureUnit';
 import { Uniform } from '../core/Uniform';
 import { VertexBuffer } from '../core/VertexBuffer';
+import { readOnly } from '../i18n/readOnly';
 
 /**
  *
@@ -53,10 +53,17 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
     private _uniforms: { [name: string]: Uniform } = {};
 
     /**
+     * 1. Creates a subscription to WebGL rendering context events but does not synchronize.
+     * 2. Constructs vertex and fragment shader sources.
+     * 3. Synchronizes with the WebGL rendering context if this is a top-level class (levelUp is zero).
+     * 
+     * The contextManager must be defined.
+     * 
      * @param vertexShaderSrc The vertex shader source code.
      * @param fragmentShaderSrc The fragment shader source code.
      * @param attribs The attribute ordering.
-     * @param engine The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
+     * @param contextManager The <code>ContextManager</code> to subscribe to for WebGL rendering context events.
+     * @param levelUp The level of this class in the implementation inheritance hierarchy.
      */
     constructor(vertexShaderSrc: string, fragmentShaderSrc: string, attribs: string[], contextManager: ContextManager, levelUp = 0) {
         super(contextManager);

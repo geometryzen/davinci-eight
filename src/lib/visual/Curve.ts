@@ -1,26 +1,25 @@
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { Color } from '../core/Color';
-import { ContextManager } from '../core/ContextManager';
-import { CurveGeometry } from '../geometries/CurveGeometry';
-import { CurveGeometryOptions } from '../geometries/CurveGeometryOptions';
-import { CurveMode } from '../geometries/CurveMode';
-import { CurveOptions } from './CurveOptions';
 import { isDefined } from '../checks/isDefined';
 import { isFunction } from '../checks/isFunction';
 import { isNull } from '../checks/isNull';
 import { isUndefined } from '../checks/isUndefined';
-import { LineMaterial } from '../materials/LineMaterial';
-import { LineMaterialOptions } from '../materials/LineMaterialOptions';
-import { Material } from '../core/Material';
-import { Mesh } from '../core/Mesh';
 import { mustBeGE } from '../checks/mustBeGE';
 import { mustBeNumber } from '../checks/mustBeNumber';
+import { Color } from '../core/Color';
+import { ContextManager } from '../core/ContextManager';
+import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
+import { Material } from '../core/Material';
+import { Mesh } from '../core/Mesh';
+import { CurveGeometry } from '../geometries/CurveGeometry';
+import { CurveGeometryOptions } from '../geometries/CurveGeometryOptions';
+import { CurveMode } from '../geometries/CurveMode';
+import { LineMaterial } from '../materials/LineMaterial';
 import { PointMaterial } from '../materials/PointMaterial';
-import { PointMaterialOptions } from '../materials/PointMaterialOptions';
-import { setColorOption } from './setColorOption';
-import { setDeprecatedOptions } from './setDeprecatedOptions';
 import { Vector3 } from '../math/Vector3';
 import { VectorE3 } from '../math/VectorE3';
+import { CurveOptions } from './CurveOptions';
+import { LineMaterialOptionsWithKind, PointMaterialOptionsWithKind } from './materialFromOptions';
+import { setColorOption } from './setColorOption';
+import { setDeprecatedOptions } from './setDeprecatedOptions';
 
 function aPositionDefault(u: number): VectorE3 {
     return Vector3.vector(u, 0, 0);
@@ -86,7 +85,7 @@ function configPoints(contextManager: ContextManager, options: CurveOptions, cur
     curve.geometry = geometry;
     geometry.release();
 
-    const matOptions: PointMaterialOptions = { kind: 'PointMaterial', attributes: {}, uniforms: {} };
+    const matOptions: PointMaterialOptionsWithKind = { kind: 'PointMaterial', attributes: {}, uniforms: {} };
 
     if (isFunctionOrUndefined(options.aPosition)) {
         matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
@@ -131,7 +130,7 @@ function configLines(contextManager: ContextManager, options: CurveOptions, curv
     curve.geometry = geometry;
     geometry.release();
 
-    const matOptions: LineMaterialOptions = { kind: 'LineMaterial', attributes: {}, uniforms: {} };
+    const matOptions: LineMaterialOptionsWithKind = { kind: 'LineMaterial', attributes: {}, uniforms: {} };
 
     if (isFunctionOrUndefined(options.aPosition)) {
         matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;

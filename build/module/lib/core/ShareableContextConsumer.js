@@ -7,7 +7,10 @@ import { ShareableBase } from './ShareableBase';
 var ShareableContextConsumer = /** @class */ (function (_super) {
     __extends(ShareableContextConsumer, _super);
     /**
-     *
+     * Creates a subscription to WebGL rendering context events from the contextManager but
+     * defers synchronization (because this is a base class).
+     * The contextManager must be defined.
+     * @param contextManager The ContextManager that will be subscribed to for WebGL rendering context events.
      */
     function ShareableContextConsumer(contextManager) {
         var _this = _super.call(this) || this;

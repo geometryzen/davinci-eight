@@ -22,7 +22,7 @@ export class Attrib implements ContextProgramConsumer {
      * The cached <code>WebGLRenderingContext</code> obtained through
      * a <code>contextGain</code> notification.
      */
-    private _gl: WebGLRenderingContext;
+    private _gl: WebGL2RenderingContext | WebGLRenderingContext;
     /**
      * 
      */
@@ -64,7 +64,7 @@ export class Attrib implements ContextProgramConsumer {
      * @param context
      * @param program
      */
-    contextGain(context: WebGLRenderingContext, program: WebGLProgram): void {
+    contextGain(context: WebGL2RenderingContext | WebGLRenderingContext, program: WebGLProgram): void {
         this._index = context.getAttribLocation(program, this._name);
         this._gl = context;
     }

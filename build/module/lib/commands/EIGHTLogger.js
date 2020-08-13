@@ -21,7 +21,7 @@ var EIGHTLogger = /** @class */ (function (_super) {
      * Logs the namespace, version, GitHub URL, and last modified date to the console.
      */
     EIGHTLogger.prototype.contextGain = function () {
-        console.log(config.NAMESPACE + " " + config.VERSION + " (" + config.GITHUB + ") " + config.LAST_MODIFIED);
+        console.log(config.MARKETING_NAME + " " + config.VERSION + " (" + config.GITHUB + ") " + config.LAST_MODIFIED);
     };
     EIGHTLogger.prototype.contextLost = function () {
         // Do nothing.

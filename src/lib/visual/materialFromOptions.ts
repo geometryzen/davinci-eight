@@ -9,9 +9,22 @@ import { MeshMaterialOptions } from '../materials/MeshMaterialOptions';
 import { PointMaterial } from '../materials/PointMaterial';
 import { PointMaterialOptions } from '../materials/PointMaterialOptions';
 import { SimplexMode } from '../geometries/SimplexMode';
+import { MaterialKey } from '../core/MaterialKey';
 
-function pointMaterialOptions(): PointMaterialOptions {
-    const options: PointMaterialOptions = { kind: 'LineMaterial', attributes: {}, uniforms: {} };
+export interface PointMaterialOptionsWithKind extends PointMaterialOptions, MaterialKey {
+    kind: 'PointMaterial';
+}
+
+export interface LineMaterialOptionsWithKind extends LineMaterialOptions, MaterialKey {
+    kind: 'LineMaterial';
+}
+
+export interface MeshMaterialOptionsWithKind extends MeshMaterialOptions, MaterialKey {
+    kind: 'MeshMaterial';
+}
+
+function pointMaterialOptions(): PointMaterialOptionsWithKind {
+    const options: PointMaterialOptionsWithKind = { kind: 'PointMaterial', attributes: {}, uniforms: {} };
 
     options.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
 
@@ -26,8 +39,8 @@ function pointMaterialOptions(): PointMaterialOptions {
     return options;
 }
 
-function lineMaterialOptions(): LineMaterialOptions {
-    const options: LineMaterialOptions = { kind: 'LineMaterial', attributes: {}, uniforms: {} };
+function lineMaterialOptions(): LineMaterialOptionsWithKind {
+    const options: LineMaterialOptionsWithKind = { kind: 'LineMaterial', attributes: {}, uniforms: {} };
 
     options.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
 
@@ -40,8 +53,8 @@ function lineMaterialOptions(): LineMaterialOptions {
     return options;
 }
 
-function meshMaterialOptions(behaviors: MaterialBehaviors): MeshMaterialOptions {
-    const options: MeshMaterialOptions = { kind: 'MeshMaterial', attributes: {}, uniforms: {} };
+function meshMaterialOptions(behaviors: MaterialBehaviors): MeshMaterialOptionsWithKind {
+    const options: MeshMaterialOptionsWithKind = { kind: 'MeshMaterial', attributes: {}, uniforms: {} };
 
     behaviors.colored = isDefined(behaviors.colored) ? behaviors.colored : true;
     behaviors.reflective = isDefined(behaviors.reflective) ? behaviors.reflective : true;
@@ -93,7 +106,7 @@ export interface MaterialBehaviors {
 export function materialFromOptions(contextManager: ContextManager, simplexMode: SimplexMode, behaviors: MaterialBehaviors): Material {
     switch (simplexMode) {
         case SimplexMode.POINT: {
-            const matOptions: PointMaterialOptions = pointMaterialOptions();
+            const matOptions: PointMaterialOptionsWithKind = pointMaterialOptions();
             const cachedMaterial = contextManager.getCacheMaterial(matOptions);
             if (cachedMaterial && cachedMaterial instanceof PointMaterial) {
                 return cachedMaterial;
@@ -105,7 +118,7 @@ export function materialFromOptions(contextManager: ContextManager, simplexMode:
             }
         }
         case SimplexMode.LINE: {
-            const matOptions: LineMaterialOptions = lineMaterialOptions();
+            const matOptions: LineMaterialOptionsWithKind = lineMaterialOptions();
             const cachedMaterial = contextManager.getCacheMaterial(matOptions);
             if (cachedMaterial && cachedMaterial instanceof LineMaterial) {
                 return cachedMaterial;
@@ -117,7 +130,7 @@ export function materialFromOptions(contextManager: ContextManager, simplexMode:
             }
         }
         case SimplexMode.TRIANGLE: {
-            const matOptions: MeshMaterialOptions = meshMaterialOptions(behaviors);
+            const matOptions: MeshMaterialOptionsWithKind = meshMaterialOptions(behaviors);
             const cachedMaterial = contextManager.getCacheMaterial(matOptions);
             if (cachedMaterial && cachedMaterial instanceof MeshMaterial) {
                 return cachedMaterial;

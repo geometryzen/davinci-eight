@@ -1,27 +1,33 @@
 import { isDefined } from '../checks/isDefined';
 /**
- * Returns the WebGLRenderingContext given a canvas.
- * canvas
- * attributes
+ * Returns a WebGL rendering context given a canvas element.
+ * @param canvas The canvas element.
+ * @param options The arguments to the HTMLCanvasElement.getContext() method.
  * If the canvas is undefined then an undefined value is returned for the context.
  */
-export function initWebGL(canvas, attributes) {
+export function initWebGL(canvas, options) {
     // We'll be hyper-functional. An undefined canvas begets an undefined context.
     // Clients must check their context output or canvas input.
     if (isDefined(canvas)) {
-        var context = void 0;
-        var contextId = 'webgl2';
         try {
-            context = canvas.getContext(contextId, attributes);
+            var contextId = 'webgl2';
+            var context = canvas.getContext(contextId, options);
+            if (context) {
+                return { context: context, contextId: contextId };
+            }
+            else {
+                throw new Error("canvas.getContext('" + contextId + "') failed. Your browser may not support it.");
+            }
         }
         catch (e) {
-            // Do nothing.
-        }
-        if (context) {
-            return context;
-        }
-        else {
-            throw new Error("canvas.getContext('" + contextId + "') failed. Your browser may not support it.");
+            var contextId = 'webgl';
+            var context = canvas.getContext(contextId, options);
+            if (context) {
+                return { context: context, contextId: contextId };
+            }
+            else {
+                throw new Error("canvas.getContext('" + contextId + "') failed. Your browser may not support it.");
+            }
         }
     }
     else {

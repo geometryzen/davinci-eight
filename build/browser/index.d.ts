@@ -1,4 +1,4 @@
-// Type definitions for davinci-eight 8.2.1
+// Type definitions for davinci-eight 8.3.0
 // Project: https://github.com/geometryzen/davinci-eight
 // Definitions by: David Geo Holmes david.geo.holmes@gmail.com https://www.stemcstudio.com
 //
@@ -69,6 +69,9 @@ export enum Capability {
      * Blend computed fragment color values with color buffer values.
      */
     BLEND,
+    /**
+     * 
+     */
     DITHER,
     STENCIL_TEST,
     /**
@@ -219,12 +222,12 @@ export interface Shareable {
     /**
      * Notifies this instance that something is referencing it.
      */
-    addRef?(): number;
+    addRef?(): number
 
     /**
      * Notifies this instance that something is dereferencing it.
      */
-    release?(): number;
+    release?(): number
 }
 
 /**
@@ -273,7 +276,7 @@ export class ShareableArray<T extends Shareable> extends ShareableBase {
      */
     constructor(elements: T[]);
     forEach(callback: (value: T, index: number) => void): void;
-    get(index: number): T;
+    get(index: number): T
     /**
      * Gets the element at the specified index without incrementing the reference count.
      * Use this method when you don't intend to hold onto the returned value.
@@ -292,7 +295,7 @@ export class ShareableArray<T extends Shareable> extends ShareableBase {
 }
 
 export class NumberShareableMap<V extends Shareable> extends ShareableBase {
-    keys: number[];
+    keys: number[]
     constructor()
     exists(key: number): boolean
     get(key: number): V
@@ -304,7 +307,7 @@ export class NumberShareableMap<V extends Shareable> extends ShareableBase {
 }
 
 export class StringShareableMap<V extends Shareable> extends ShareableBase {
-    keys: string[];
+    keys: string[]
     constructor()
     exists(key: string): boolean
     forEach(callback: (key: string, value: V) => void): void
@@ -319,37 +322,37 @@ export interface WindowAnimationRunner {
     /**
      *
      */
-    start(): void;
+    start(): void
 
     /**
      *
      */
-    stop(): void;
+    stop(): void
 
     /**
      *
      */
-    reset(): void;
+    reset(): void
 
     /**
      *
      */
-    lap(): void;
+    lap(): void
 
     /**
      *
      */
-    time: number;
+    time: number
 
     /**
      *
      */
-    isRunning: boolean;
+    isRunning: boolean
 
     /**
      *
      */
-    isPaused: boolean;
+    isPaused: boolean
 }
 
 /**
@@ -359,11 +362,11 @@ export interface EngineAttributes extends WebGLContextAttributes {
     /**
      * Determines whether the Engine logs the version of EIGHT to the console.
      */
-    eightLogging?: boolean;
+    eightLogging?: boolean
     /**
      * Determines whether the Engine logs the version of WebGL to the console.
      */
-    webglLogging?: boolean;
+    webglLogging?: boolean
 }
 
 /**
@@ -371,33 +374,38 @@ export interface EngineAttributes extends WebGLContextAttributes {
  * and context lost management. An instance of this class is provided to objects created
  * WebGL resources.
  */
-export class Engine extends ShareableBase {
+export class Engine extends ShareableBase implements ContextManager {
 
     /**
      * The canvas containing associated with the underlying WebGL rendering context.
      */
-    canvas: HTMLCanvasElement;
+    canvas: HTMLCanvasElement
 
     /**
      * 
      */
-    drawingBufferHeight: number;
+    drawingBufferHeight: number
 
     /**
      * 
      */
-    drawingBufferWidth: number;
+    drawingBufferWidth: number
 
     /**
      * The underlying WebGL rendering context.
      */
-    gl: WebGL2RenderingContext;
+    readonly gl: WebGL2RenderingContext | WebGLRenderingContext
+
+    /**
+     * The context identifier that was used to get the WebGL rendering context.
+     */
+    readonly contextId: 'webgl2' | 'webgl'
 
     /**
      * Constructs an Engine.
      * If the canvas argument is provided then the Engine will be started automatically.
      */
-    constructor(canvas?: string | HTMLCanvasElement | WebGL2RenderingContext, attributes?: EngineAttributes, doc?: Document);
+    constructor(canvas?: string | HTMLCanvasElement | WebGL2RenderingContext | WebGLRenderingContext, attributes?: EngineAttributes, doc?: Document);
 
     /**
      * Called when the last reference to this Engine has been released.
@@ -528,30 +536,38 @@ export interface ContextConsumer extends Shareable {
      * method may be called multiple times for what is logically the same context. In such
      * cases the dependent must be idempotent and respond only to the first request.
      */
-    contextFree?(): void;
+    contextFree?(): void
     /**
      * Called to inform the dependent of a new WebGL rendering context.
      * The implementation should ignore the notification if it has already
      * received the same context.
      */
-    contextGain?(): void;
+    contextGain?(): void
     /**
      * Called to inform the dependent of a loss of WebGL rendering context.
      * The dependent must assume that any cached context is invalid.
      * The dependent must not try to use and cached context to free resources.
      * The dependent should reset its state to that for which there is no context.
      */
-    contextLost?(): void;
+    contextLost?(): void
 }
 
 /**
  * 
  */
 export interface ContextManager extends Shareable {
-        /*readonly*/ gl: WebGL2RenderingContext;
-    synchronize(consumer: ContextConsumer): void;
-    addContextListener(consumer: ContextConsumer): void;
-    removeContextListener(consumer: ContextConsumer): void;
+    /**
+     * The WebGL rendering context.
+     */
+    readonly gl: WebGL2RenderingContext | WebGLRenderingContext
+    /**
+     * The context identifier that was used to get the WebGL rendering context.
+     */
+    readonly contextId: 'webgl2' | 'webgl'
+
+    synchronize(consumer: ContextConsumer): void
+    addContextListener(consumer: ContextConsumer): void
+    removeContextListener(consumer: ContextConsumer): void
 }
 
 export class ShareableContextConsumer extends ShareableBase implements ContextConsumer {
@@ -591,7 +607,7 @@ export class Uniform implements ContextProgramConsumer {
     constructor(info: WebGLActiveInfo);
 
     contextFree(): void;
-    contextGain(gl: WebGL2RenderingContext, program: WebGLProgram): void;
+    contextGain(gl: WebGL2RenderingContext | WebGLRenderingContext, program: WebGLProgram): void;
     contextLost(): void;
 
     /**
@@ -625,45 +641,45 @@ export class Uniform implements ContextProgramConsumer {
  *
  */
 export interface FacetVisitor {
-    matrix2fv(name: string, mat2: Float32Array, transpose: boolean): void;
-    matrix3fv(name: string, mat3: Float32Array, transpose: boolean): void;
-    matrix4fv(name: string, mat4: Float32Array, transpose: boolean): void;
-    uniform1f(name: string, x: number): void;
-    uniform2f(name: string, x: number, y: number): void;
-    uniform3f(name: string, x: number, y: number, z: number): void;
-    uniform4f(name: string, x: number, y: number, z: number, w: number): void;
-    vector2fv(name: string, vec2: Float32Array): void;
-    vector3fv(name: string, vec3: Float32Array): void;
-    vector4fv(name: string, vec4: Float32Array): void;
+    matrix2fv(name: string, mat2: Float32Array, transpose: boolean): void
+    matrix3fv(name: string, mat3: Float32Array, transpose: boolean): void
+    matrix4fv(name: string, mat4: Float32Array, transpose: boolean): void
+    uniform1f(name: string, x: number): void
+    uniform2f(name: string, x: number, y: number): void
+    uniform3f(name: string, x: number, y: number, z: number): void
+    uniform4f(name: string, x: number, y: number, z: number, w: number): void
+    vector2fv(name: string, vec2: Float32Array): void
+    vector3fv(name: string, vec3: Float32Array): void
+    vector4fv(name: string, vec4: Float32Array): void
 }
 
 export interface Material extends Facet, FacetVisitor, ContextConsumer {
-    vertexShaderSrc: string;
-    fragmentShaderSrc: string;
-    attrib(name: string, value: VertexBuffer, size: number, normalized?: boolean, stride?: number, offset?: number): Material;
-    getAttrib(indexOrName: number | string): Attrib;
-    getAttribLocation(name: string): number;
-    enableAttrib(indexOrName: number | string): void;
-    disableAttrib(indexOrName: number | string): void;
+    vertexShaderSrc: string
+    fragmentShaderSrc: string
+    attrib(name: string, value: VertexBuffer, size: number, normalized?: boolean, stride?: number, offset?: number): Material
+    getAttrib(indexOrName: number | string): Attrib
+    getAttribLocation(name: string): number
+    enableAttrib(indexOrName: number | string): void
+    disableAttrib(indexOrName: number | string): void
     /**
      * mode Specifies the type of the primitive being rendered.
      * first Specifies the starting index in the array of vector points.
      * count The number of points to be rendered.
      */
-    drawArrays(mode: BeginMode, first: number, count: number): Material;
+    drawArrays(mode: BeginMode, first: number, count: number): Material
     /**
      * mode Specifies the type of the primitive being rendered.
      * count The number of elements to be rendered.
      * type The type of the values in the element array buffer.
      * offset Specifies an offset into the element array buffer.
      */
-    drawElements(mode: BeginMode, count: number, type: DataType, offset: number): Material;
-    getUniform(name: string): Uniform;
-    matrix2fv(name: string, elements: Float32Array, transpose?: boolean): Material;
-    matrix3fv(name: string, elements: Float32Array, transpose?: boolean): Material;
-    matrix4fv(name: string, elements: Float32Array, transpose?: boolean): Material;
-    uniform(name: string, value: number | number[]): Material;
-    use(): Material;
+    drawElements(mode: BeginMode, count: number, type: DataType, offset: number): Material
+    getUniform(name: string): Uniform
+    matrix2fv(name: string, elements: Float32Array, transpose?: boolean): Material
+    matrix3fv(name: string, elements: Float32Array, transpose?: boolean): Material
+    matrix4fv(name: string, elements: Float32Array, transpose?: boolean): Material
+    uniform(name: string, value: number | number[]): Material
+    use(): Material
 }
 
 /**
@@ -675,12 +691,12 @@ export interface Attribute {
     /**
      * The attribute values.
      */
-    values: number[];
+    values: number[]
 
     /**
      * The number of values that are associated with a given vertex.
      */
-    size: number;
+    size: number
 }
 
 /**
@@ -690,40 +706,40 @@ export interface Primitive {
     /**
      *
      */
-    mode: BeginMode;
+    mode: BeginMode
 
     /**
      *
      */
-    indices?: number[];
+    indices?: number[]
 
     /**
      *
      */
-    attributes: { [name: string]: Attribute };
+    attributes: { [name: string]: Attribute }
 }
 
 /**
  * 
  */
-export function vertexArraysFromPrimitive(primitive: Primitive, order?: string[]): VertexArrays;
+export function vertexArraysFromPrimitive(primitive: Primitive, order?: string[]): VertexArrays
 
 /**
  *
  */
 export interface ContextProgramConsumer {
-    contextFree(): void;
-    contextGain(gl: WebGL2RenderingContext, program: WebGLProgram): void;
-    contextLost(): void;
+    contextFree(): void
+    contextGain(gl: WebGL2RenderingContext | WebGLRenderingContext, program: WebGLProgram): void
+    contextLost(): void
 }
 
 /**
  * Manages the lifecycle of an attribute used in a vertex shader.
  */
 export class Attrib implements ContextProgramConsumer {
-    index: number;
+    index: number
     contextFree(): void;
-    contextGain(gl: WebGL2RenderingContext, program: WebGLProgram): void;
+    contextGain(gl: WebGL2RenderingContext | WebGLRenderingContext, program: WebGLProgram): void;
     contextLost(): void;
     config(size: number, type: DataType, normalized?: boolean, stride?: number, offset?: number): void;
     enable(): void;
@@ -734,10 +750,10 @@ export class Attrib implements ContextProgramConsumer {
  * A wrapper around a WebGLTexture and containing a loaded HTMLImageElement.
  */
 export class Texture extends ShareableContextConsumer {
-    minFilter: TextureMinFilter;
-    magFilter: TextureMagFilter;
-    wrapS: TextureWrapMode;
-    wrapT: TextureWrapMode;
+    minFilter: TextureMinFilter
+    magFilter: TextureMagFilter
+    wrapS: TextureWrapMode
+    wrapT: TextureWrapMode
     constructor(target: TextureTarget, contextManager: ContextManager, levelUp?: number);
     protected destructor(levelUp: number): void;
 
@@ -762,12 +778,12 @@ export class ImageTexture extends Texture {
      * The original height of the image resource before sizing.
      * The intrinsic height of the image in CSS pixels, if it is available, otherwise zero.
      */
-    naturalHeight: number;
+    naturalHeight: number
     /**
      * The original width of the image resource before sizing.
      * The intrinsic width of the image in CSS pixels, if it is available, otherwise zero.
      */
-    naturalWidth: number;
+    naturalWidth: number
     /**
      * 
      */
@@ -781,7 +797,7 @@ export class ImageTexture extends Texture {
 }
 
 interface TextureLoaderOptions {
-    crossOrigin?: string;
+    crossOrigin?: string
 }
 
 /**
@@ -819,9 +835,9 @@ export class TextureLoader {
  *
  */
 export class AbstractMatrix {
-    elements: Float32Array;
-    dimensions: number;
-    modified: boolean;
+    elements: Float32Array
+    dimensions: number
+    modified: boolean
     constructor(elements: Float32Array, dimensions: number);
 }
 
@@ -1124,7 +1140,7 @@ export class Matrix4 extends AbstractMatrix {
      * The identity matrix for multiplication, 1.
      * The matrix is locked (immutable), but may be cloned.
      */
-    static one: Matrix4;
+    static one: Matrix4
 
     /**
      * Sets this matrix to the identity element for multiplication, 1.
@@ -1816,7 +1832,7 @@ export class Geometric2 extends VectorN<number> implements GeometricE2 {
  *
  */
 export class Vector1 extends VectorN<number> implements VectorE1 {
-    x: number;
+    x: number
     constructor(coords?: number[], modified?: boolean);
 }
 
@@ -1827,11 +1843,11 @@ export class Vector2 extends VectorN<number> implements VectorE2 {
     /**
      * 
      */
-    x: number;
+    x: number
     /**
      * 
      */
-    y: number;
+    y: number
     constructor(coords?: number[], modified?: boolean);
     add(v: VectorE2): Vector2;
     add2(a: VectorE2, b: VectorE2): Vector2;
@@ -1866,33 +1882,33 @@ export class Vector2 extends VectorN<number> implements VectorE2 {
  * The even sub-algebra of Geometric2.
  */
 export class Spinor2 extends VectorN<number> implements SpinorE2 {
-    a: number;
-    b: number;
+    a: number
+    b: number
 }
 
 export interface Scalar {
-    a: number;
+    a: number
 }
 
 export interface Pseudo {
-    b: number;
+    b: number
 }
 
 export interface BivectorE3 {
     /**
      * The bivector component in the e2e3 plane.
      */
-    yz: number;
+    yz: number
 
     /**
      * The bivector component in the e3e1 plane.
      */
-    zx: number;
+    zx: number
 
     /**
      * The bivector component in the e1e2 plane.
      */
-    xy: number;
+    xy: number
 }
 
 export interface SpinorE3 extends Scalar, BivectorE3 {
@@ -1912,42 +1928,42 @@ export class Geometric3 extends VectorN<number> implements GeometricE3 {
     /**
      * The coordinate corresponding to the unit standard basis scalar.
      */
-    a: number;
+    a: number
 
     /**
      * The coordinate corresponding to the e1 standard basis vector.
      */
-    x: number;
+    x: number
 
     /**
      * The coordinate corresponding to the e2 standard basis vector.
      */
-    y: number;
+    y: number
 
     /**
      * The coordinate corresponding to the e3 standard basis vector.
      */
-    z: number;
+    z: number
 
     /**
      * The bivector component in the e2e3 plane.
      */
-    yz: number;
+    yz: number
 
     /**
      * The bivector component in the e3e1 plane.
      */
-    zx: number;
+    zx: number
 
     /**
      * The coordinate corresponding to the e1e2 standard basis bivector.
      */
-    xy: number;
+    xy: number
 
     /**
      * The pseudoscalar coordinate of the multivector.
      */
-    b: number;
+    b: number
 
     /**
      * Constructs a Geometric3.
@@ -2476,22 +2492,22 @@ export class Spinor3 extends VectorN<number> implements SpinorE3 {
     /**
      * The bivector component in the e2e3 plane.
      */
-    yz: number;
+    yz: number
 
     /**
      * The bivector component in the e3e1 plane.
      */
-    zx: number;
+    zx: number
 
     /**
      * The bivector component in the e1e2 plane.
      */
-    xy: number;
+    xy: number
 
     /**
      * The coordinate corresponding to the 1 basis scalar.
      */
-    a: number;
+    a: number
 
     /**
      * this ⟼ this + spinor * α
@@ -2671,28 +2687,28 @@ export interface VectorE3 {
      * The magnitude of the projection onto the standard e1 basis vector.
      * The Cartesian x-coordinate.
      */
-    x: number;
+    x: number
 
     /**
      * The magnitude of the projection onto the standard e2 basis vector. 
      * The Cartesian y-coordinate.
      */
-    y: number;
+    y: number
 
     /**
      * The magnitude of the projection onto the standard e2 basis vector. 
      * The Cartesian z-coordinate.
      */
-    z: number;
+    z: number
 }
 
 /**
  *
  */
 export class Vector3 extends VectorN<number> implements VectorE3 {
-    x: number;
-    y: number;
-    z: number;
+    x: number
+    y: number
+    z: number
     constructor(coordinates?: number[], modified?: boolean);
     /**
      * this += α * vector
@@ -2756,20 +2772,20 @@ export class Vector3 extends VectorN<number> implements VectorE3 {
  *
  */
 export interface VectorE4 {
-    x: number;
-    y: number;
-    z: number;
-    w: number;
+    x: number
+    y: number
+    z: number
+    w: number
 }
 
 /**
  *
  */
 export class Vector4 extends VectorN<number> implements VectorE4 {
-    x: number;
-    y: number;
-    z: number;
-    w: number;
+    x: number
+    y: number
+    z: number
+    w: number
     constructor(coords?: number[], modified?: boolean)
     applyMatrix(σ: Matrix4): Vector4
     clone(): Vector4
@@ -2780,7 +2796,7 @@ export class Vector4 extends VectorN<number> implements VectorE4 {
  * A provider of a collection of 'uniform' variables for use in a WebGL program.
  */
 export interface Facet {
-    setUniforms(visitor: FacetVisitor): void;
+    setUniforms(visitor: FacetVisitor): void
 }
 
 /**
@@ -2791,33 +2807,33 @@ export class Color implements Lockable {
      * The red component of the Color. A short alias for the 'red' property.
      * The value is clamped to the range [0,1].
      */
-    r: number;
+    r: number
     /**
      * The green component of the Color. A short alias for the 'green' property.
      * The value is clamped to the range [0,1].
      */
-    g: number;
+    g: number
     /**
      * The blue component of the Color. A short alias for the 'blue' property.
      * The value is clamped to the range [0,1].
      */
-    b: number;
+    b: number
 
     /**
      * The red component of the Color. A long alias for the 'r' property.
      * The value is clamped to the range [0,1].
      */
-    red: number;
+    red: number
     /**
      * The green component of the Color. A long alias for the 'g' property.
      * The value is clamped to the range [0,1].
      */
-    green: number;
+    green: number
     /**
      * The blue component of the Color. A long alias for the 'b' property.
      * The value is clamped to the range [0,1].
      */
-    blue: number;
+    blue: number
 
     /**
      * Constructs a new Color from its red, green, and blue values.
@@ -2834,23 +2850,23 @@ export class Color implements Lockable {
     toString(): string;
     unlock(token: number): void;
 
-    static black: Color;
-    static blue: Color;
-    static cyan: Color;
-    static green: Color;
-    static red: Color;
-    static magenta: Color;
-    static yellow: Color;
-    static white: Color;
-    static gray: Color;
-    static blueviolet: Color;
-    static cobalt: Color;
-    static chartreuse: Color;
-    static hotpink: Color;
-    static lime: Color;
-    static slateblue: Color;
-    static springgreen: Color;
-    static teal: Color;
+    static black: Color
+    static blue: Color
+    static cyan: Color
+    static green: Color
+    static red: Color
+    static magenta: Color
+    static yellow: Color
+    static white: Color
+    static gray: Color
+    static blueviolet: Color
+    static cobalt: Color
+    static chartreuse: Color
+    static hotpink: Color
+    static lime: Color
+    static slateblue: Color
+    static springgreen: Color
+    static teal: Color
 
     static copy(color: Color): Color;
     static fromHSL(H: number, S: number, L: number): Color;
@@ -2867,7 +2883,7 @@ export interface IGraphicsBuffers extends ContextConsumer {
     /**
      *
      */
-    draw(program: Material): void;
+    draw(program: Material): void
 }
 
 /**
@@ -2877,7 +2893,7 @@ export interface AttribMetaInfo {
     /**
      * The type keyword as it appears in the GLSL shader program.
      */
-    glslType: string;
+    glslType: string
 }
 
 /**
@@ -2887,27 +2903,27 @@ export interface UniformMetaInfo {
     /**
      * Specifies an optional override of the name used as a key.
      */
-    name?: string;
+    name?: string
     /**
      * The type keyword as it appears in the GLSL shader program.
      */
-    glslType: string;
+    glslType: string
 }
 
 /**
  * A set of state variables for graphics modeling in Euclidean 2D space.
  */
 export class ModelE2 {
-    static PROP_ATTITUDE: string;
-    static PROP_POSITION: string;
+    static PROP_ATTITUDE: string
+    static PROP_POSITION: string
     /**
      * Attitude (spinor). Initialized to 1.
      */
-    R: Geometric2;
+    R: Geometric2
     /**
      * Position (vector). Initialized to 0.
      */
-    X: Geometric2;
+    X: Geometric2
     /**
      *
      */
@@ -2918,16 +2934,16 @@ export class ModelE2 {
  *
  */
 export class ModelE3 {
-    static PROP_ATTITUDE: string;
-    static PROP_POSITION: string;
+    static PROP_ATTITUDE: string
+    static PROP_POSITION: string
     /**
      * Attitude (spinor). Initialized to 1.
      */
-    R: Geometric3;
+    R: Geometric3
     /**
      * Position (vector). Initialized to 0.
      */
-    X: Geometric3;
+    X: Geometric3
     /**
      *
      */
@@ -2941,11 +2957,11 @@ export class ModelFacet extends ModelE3 {
     /**
      * The matrix that is used for the uniform conventionally named 'uModel'.
      */
-    matrix: Matrix4;
+    matrix: Matrix4
     /**
      * The overall scale.
      */
-    stress: Matrix4;
+    stress: Matrix4
     /**
      * Constructs a ModelFacet at the origin and with unity attitude.
      */
@@ -2983,7 +2999,7 @@ export class ModelFacet extends ModelE3 {
  *
  * Returns the number of outstanding reference counts for the 'stop' command.
  */
-export function refChange(uuid: string, name?: string, change?: number): number;
+export function refChange(uuid: string, name?: string, change?: number): number
 
 /**
  * Canonical variable names, which also act as semantic identifiers for name overrides.
@@ -2993,49 +3009,49 @@ export class GraphicsProgramSymbols {
     /**
      * 'aColor'
      */
-    static ATTRIBUTE_COLOR: string;
+    static ATTRIBUTE_COLOR: string
     /**
      * 'aGeometryIndex'
      */
-    static ATTRIBUTE_GEOMETRY_INDEX: string;
+    static ATTRIBUTE_GEOMETRY_INDEX: string
     /**
      * 'aNormal'
      */
-    static ATTRIBUTE_NORMAL: string;
+    static ATTRIBUTE_NORMAL: string
     /**
      * 'aPosition'
      */
-    static ATTRIBUTE_POSITION: string;
+    static ATTRIBUTE_POSITION: string
     /**
      * 'aTextureCoords'
      */
-    static ATTRIBUTE_COORDS: string;
+    static ATTRIBUTE_COORDS: string
 
-    static UNIFORM_AMBIENT_LIGHT: string;
-    static UNIFORM_COLOR: string;
-    static UNIFORM_DIRECTIONAL_LIGHT_COLOR: string;
-    static UNIFORM_DIRECTIONAL_LIGHT_DIRECTION: string;
-    static UNIFORM_OPACITY: string;
-    static UNIFORM_POINT_LIGHT_COLOR: string;
-    static UNIFORM_POINT_LIGHT_POSITION: string;
-    static UNIFORM_PROJECTION_MATRIX: string;
-    static UNIFORM_REFLECTION_ONE_MATRIX: string;
-    static UNIFORM_REFLECTION_TWO_MATRIX: string;
-    static UNIFORM_MODEL_MATRIX: string;
-    static UNIFORM_NORMAL_MATRIX: string;
-    static UNIFORM_VIEW_MATRIX: string;
+    static UNIFORM_AMBIENT_LIGHT: string
+    static UNIFORM_COLOR: string
+    static UNIFORM_DIRECTIONAL_LIGHT_COLOR: string
+    static UNIFORM_DIRECTIONAL_LIGHT_DIRECTION: string
+    static UNIFORM_OPACITY: string
+    static UNIFORM_POINT_LIGHT_COLOR: string
+    static UNIFORM_POINT_LIGHT_POSITION: string
+    static UNIFORM_PROJECTION_MATRIX: string
+    static UNIFORM_REFLECTION_ONE_MATRIX: string
+    static UNIFORM_REFLECTION_TWO_MATRIX: string
+    static UNIFORM_MODEL_MATRIX: string
+    static UNIFORM_NORMAL_MATRIX: string
+    static UNIFORM_VIEW_MATRIX: string
     /**
      * 'vColor'
      */
-    static VARYING_COLOR: string;
+    static VARYING_COLOR: string
     /**
      * 'vCoords'
      */
-    static VARYING_COORDS: string;
+    static VARYING_COORDS: string
     /**
      * 'vLight'
      */
-    static VARYING_LIGHT: string;
+    static VARYING_LIGHT: string
 }
 
 /**
@@ -3045,18 +3061,18 @@ export interface Renderable extends ContextConsumer {
     /**
      * An optional name allowing the object to be found by name.
      */
-    name?: string;
+    name?: string
 
     /**
      * Determines when this object will be renderered relative to other objects.
      * Transparent objects are rendered after non-transparent objects.
      */
-    transparent?: boolean;
+    transparent?: boolean
 
     /**
      * Renders this object to the WebGL pipeline.
      */
-    render(ambients: Facet[]): void;
+    render(ambients: Facet[]): void
 }
 
 /**
@@ -3107,32 +3123,32 @@ export class PerspectiveCamera implements Facet, Camera, Prism {
     /**
      * The aspect ratio of the viewport, i.e., width / height.
      */
-    aspect: number;
+    aspect: number
     /**
      * The position of the camera, a position vector.
      */
-    eye: Geometric3;
+    eye: Geometric3
     /**
      * The distance to the far plane of the viewport.
      */
-    far: number;
+    far: number
     /**
      * The field of view is the angle in the camera horizontal plane that the viewport subtends at the camera.
      * The field of view is measured in radians.
      */
-    fov: number;
+    fov: number
     /**
      * The point (position vector) that the camera looks at.
      */
-    look: Geometric3;
+    look: Geometric3
     /**
      * The distance to the near plane of the viewport.
      */
-    near: number;
+    near: number
     /**
      * The direction that is used to orient the camera. 
      */
-    up: Geometric3;
+    up: Geometric3
     /**
      * Constructs a PerspectiveCamera from optional parameters.
      * 
@@ -3156,21 +3172,21 @@ export class PerspectiveCamera implements Facet, Camera, Prism {
     /**
      * 
      */
-    projectionMatrix: Matrix4;
+    projectionMatrix: Matrix4
     /**
      * The name of the uniform mat4 variable in the vertex shader that receives the projection matrix value.
      * The default name is `uProjection`.
      */
-    projectionMatrixUniformName: string;
+    projectionMatrixUniformName: string
     /**
      * 
      */
-    viewMatrix: Matrix4;
+    viewMatrix: Matrix4
     /**
      * The name of the uniform mat4 variable in the vertex shader that receives the view matrix value.
      * The default name is `uView`.
      */
-    viewMatrixUniformName: string;
+    viewMatrixUniformName: string
 }
 
 /**
@@ -3181,19 +3197,19 @@ export class PerspectiveTransform implements Facet {
      * The field of view is the angle in the camera horizontal plane that the viewport subtends at the camera.
      * The field of view is measured in radians.
      */
-    fov: number;
+    fov: number
     /**
      * The aspect ratio of the viewport, i.e., width / height.
      */
-    aspect: number;
+    aspect: number
     /**
      * The distance to the near plane of the viewport.
      */
-    near: number;
+    near: number
     /**
      * The distance to the far plane of the viewport.
      */
-    far: number;
+    far: number
     /**
      * 
      */
@@ -3217,15 +3233,15 @@ export class ViewTransform implements Facet {
     /**
      * The position of the camera, a position vector.
      */
-    eye: Geometric3;
+    eye: Geometric3
     /**
      * The point (position vector) that the camera looks at.
      */
-    look: Geometric3;
+    look: Geometric3
     /**
      * The direction that is used to orient the camera. 
      */
-    up: Geometric3;
+    up: Geometric3
     /**
      * 
      */
@@ -3244,27 +3260,27 @@ export interface VertexAttribPointer {
     /**
      * The name of the vertex attribute.
      */
-    name: string;
+    name: string
     /**
      * The number of values per vertex for this attribute.
      */
-    size: number;
+    size: number
     /**
      * Determines what range to use when normalizing values.
      */
-    normalized: boolean;
+    normalized: boolean
     /**
      * The offset of the values in bytes.
      */
-    offset: number;
+    offset: number
 }
 
 export interface VertexArrays {
-    mode: BeginMode;
-    indices?: number[];
-    attributes: number[];
-    stride: number;
-    pointers: VertexAttribPointer[];
+    mode: BeginMode
+    indices?: number[]
+    attributes: number[]
+    stride: number
+    pointers: VertexAttribPointer[]
 }
 
 /**
@@ -3274,22 +3290,22 @@ export interface Geometry extends ContextConsumer {
     /**
      * Binds the attributes of the material to the buffers in this Geometry.
      */
-    bind(material: Material): void;
+    bind(material: Material): void
     /**
      * Unbinds the attributes of the material from the buffers in this Geometry.
      */
-    unbind(material: Material): void;
+    unbind(material: Material): void
     /**
      * Invokes the appropriate drawArrays or drawElements call to send data to the Graphics Pipeline.
      */
-    draw(): void;
+    draw(): void
 }
 
 /**
  * A Geometry for supporting drawArrays.
  */
 export class GeometryArrays extends ShareableContextConsumer implements Geometry {
-    scaling: Matrix4;
+    scaling: Matrix4
     constructor(contextManager: ContextManager, primitive: Primitive, options?: { order?: string[]; tilt?: SpinorE3 }, levelUp?: number);
     protected destructor(levelUp: number): void;
     bind(material: Material): GeometryArrays;
@@ -3302,7 +3318,7 @@ export class GeometryArrays extends ShareableContextConsumer implements Geometry
  * A Geometry for supporting drawElements.
  */
 export class GeometryElements extends ShareableContextConsumer implements Geometry {
-    scaling: Matrix4;
+    scaling: Matrix4
     constructor(contextManager: ContextManager, primitive: Primitive, options?: { order?: string[]; tilt?: SpinorE3 }, levelUp?: number);
     protected destructor(levelUp: number): void;
     bind(material: Material): GeometryElements;
@@ -3315,25 +3331,25 @@ export class GeometryElements extends ShareableContextConsumer implements Geomet
  * Merges a list of Primitive(s) into a single Primitive to minimize WebGL calls.
  * (Experimental)
  */
-export function reduce(primitives: Primitive[]): Primitive;
+export function reduce(primitives: Primitive[]): Primitive
 
 export class ConicalShellBuilder {
-    height: Vector3;
-    cutLine: Vector3;
-    clockwise: boolean;
-    offset: Vector3;
-    radius: number;
-    radialSegments: number;
-    sliceAngle: number;
-    stress: Vector3;
-    thetaSegments: number;
+    height: Vector3
+    cutLine: Vector3
+    clockwise: boolean
+    offset: Vector3
+    radius: number
+    radialSegments: number
+    sliceAngle: number
+    stress: Vector3
+    thetaSegments: number
     /**
      * The spinor that rotates from the canonical frame to the reference frame.
      */
-    tilt: Spinor3;
-    useNormal: boolean;
-    usePosition: boolean;
-    useTextureCoord: boolean;
+    tilt: Spinor3
+    useNormal: boolean
+    usePosition: boolean
+    useTextureCoord: boolean
     toPrimitive(): Primitive;
 }
 
@@ -3341,31 +3357,31 @@ export class CylindricalShellBuilder {
     /**
      * Axis of symmetry and the height vector.
      */
-    height: Vector3;
+    height: Vector3
     /**
      * Initial cut line and the radius vector.
      */
-    cutLine: Vector3;
+    cutLine: Vector3
     /**
      * Determines the orientation of the slice from the cut line.
      */
-    clockwise: boolean;
+    clockwise: boolean
     /**
      * Determines the direction of normal vectors.
      */
-    convex: boolean;
-    offset: Vector3;
-    radialSegments: number;
-    sliceAngle: number;
-    stress: Vector3;
-    thetaSegments: number;
+    convex: boolean
+    offset: Vector3
+    radialSegments: number
+    sliceAngle: number
+    stress: Vector3
+    thetaSegments: number
     /**
      * The spinor that rotates from the canonical frame to the reference frame.
      */
-    tilt: Spinor3;
-    useNormal: boolean;
-    usePosition: boolean;
-    useTextureCoord: boolean;
+    tilt: Spinor3
+    useNormal: boolean
+    usePosition: boolean
+    useTextureCoord: boolean
     toPrimitive(): Primitive;
 }
 
@@ -3373,23 +3389,23 @@ export class RingBuilder {
     /**
      * The direction normal to the plane of the ring.
      */
-    e: Vector3;
-    cutLine: Vector3;
-    clockwise: boolean;
-    innerRadius: number;
-    offset: Vector3;
-    outerRadius: number;
-    radialSegments: number;
-    sliceAngle: number;
-    stress: Vector3;
-    thetaSegments: number;
+    e: Vector3
+    cutLine: Vector3
+    clockwise: boolean
+    innerRadius: number
+    offset: Vector3
+    outerRadius: number
+    radialSegments: number
+    sliceAngle: number
+    stress: Vector3
+    thetaSegments: number
     /**
      * The spinor that rotates from the canonical frame to the reference frame.
      */
-    tilt: Spinor3;
-    useNormal: boolean;
-    usePosition: boolean;
-    useTextureCoord: boolean;
+    tilt: Spinor3
+    useNormal: boolean
+    usePosition: boolean
+    useTextureCoord: boolean
     toPrimitive(): Primitive;
 }
 
@@ -3416,16 +3432,16 @@ export interface GeometryOptions {
      * A translation from the canonical position.
      * This is the third and last operation applied to canonical vertex data.
      */
-    offset?: VectorE3;
+    offset?: VectorE3
     /**
      * A scaling along the standard basis directions from the canonical unit scaling.
      * This is the first operation applied to canonical vertex data.
      */
-    stress?: VectorE3;
+    stress?: VectorE3
     /**
      * The spinor that rotates from the canonical frame to the reference frame.
      */
-    tilt?: SpinorE3;
+    tilt?: SpinorE3
 }
 
 export interface ArrowGeometryOptions extends GeometryOptions {
@@ -3439,52 +3455,52 @@ export interface BoxGeometryOptions extends GeometryOptions {
     /**
      * 
      */
-    depth?: number;
+    depth?: number
     /**
      * 
      */
-    height?: number;
+    height?: number
     /**
      * 
      */
-    mode?: GeometryMode;
+    mode?: GeometryMode
     /**
      * 
      */
-    openBack?: boolean;
+    openBack?: boolean
     /**
      * 
      */
-    openBase?: boolean;
+    openBase?: boolean
     /**
      * 
      */
-    openFront?: boolean;
+    openFront?: boolean
     /**
      * 
      */
-    openLeft?: boolean;
+    openLeft?: boolean
     /**
      * 
      */
-    openRight?: boolean;
+    openRight?: boolean
     /**
      * 
      */
-    openCap?: boolean;
+    openCap?: boolean
     /**
      * 
      */
-    width?: number;
+    width?: number
 }
 
 /**
  * 
  */
 export class BoxGeometry extends GeometryElements {
-    width: number;
-    height: number;
-    depth: number;
+    width: number
+    height: number
+    depth: number
     constructor(contextManager: ContextManager, options?: BoxGeometryOptions);
 }
 
@@ -3495,43 +3511,43 @@ export interface CylinderGeometryOptions extends GeometryOptions {
     /**
      * 
      */
-    heightSegments?: number;
+    heightSegments?: number
     /**
      * 
      */
-    length?: number;
+    length?: number
     /**
      * 
      */
-    mode?: GeometryMode;
+    mode?: GeometryMode
     /**
      *
      */
-    openBase?: boolean;
+    openBase?: boolean
     /**
      *
      */
-    openCap?: boolean;
+    openCap?: boolean
     /**
      *
      */
-    openWall?: boolean;
+    openWall?: boolean
     /**
      * 
      */
-    radius?: number;
+    radius?: number
     /**
      * 
      */
-    thetaSegments?: number;
+    thetaSegments?: number
 }
 
 /**
  * 
  */
 export class CylinderGeometry extends GeometryElements {
-    length: number;
-    radius: number;
+    length: number
+    radius: number
     constructor(contextManager: ContextManager, options?: CylinderGeometryOptions, levelUp?: number);
 }
 
@@ -3553,35 +3569,35 @@ export interface CurveGeometryOptions extends GeometryOptions {
     /**
      * A parametric function determining the positions of points on the curve.
      */
-    aPosition?(u: number): VectorE3;
+    aPosition?(u: number): VectorE3
     /**
      * A parametric function determining the vertex colors.
      */
-    aColor?(u: number): { r: number; g: number; b: number };
+    aColor?(u: number): { r: number; g: number; b: number }
     /**
      * A parametric function determining the vertex coordinates.
      */
-    aCoords?(u: number): { u: number; };
+    aCoords?(u: number): { u: number; }
     /**
      * @default LINES
      */
-    mode?: CurveMode;
+    mode?: CurveMode
     /**
      * 
      */
-    uClosed?: boolean;
+    uClosed?: boolean
     /**
      * @default 0
      */
-    uMin?: number;
+    uMin?: number
     /**
      * @default 1
      */
-    uMax?: number;
+    uMax?: number
     /**
      * @default 1
      */
-    uSegments?: number;
+    uSegments?: number
 }
 
 export class CurveGeometry extends GeometryElements {
@@ -3596,55 +3612,55 @@ export interface GridGeometryOptions extends GeometryOptions {
     /**
      * A parametric function determining the vertex positions.
      */
-    aPosition?(u: number, v: number): VectorE3;
+    aPosition?(u: number, v: number): VectorE3
     /**
      * A parametric function determining the vertex normal vectors.
      */
-    aNormal?(u: number, v: number): VectorE3;
+    aNormal?(u: number, v: number): VectorE3
     /**
      * A parametric function determining the vertex colors.
      */
-    aColor?(u: number, v: number): { r: number; g: number; b: number };
+    aColor?(u: number, v: number): { r: number; g: number; b: number }
     /**
      * A parametric function determining the vertex coordinates.
      */
-    aCoords?(u: number, v: number): { u: number; v: number };
+    aCoords?(u: number, v: number): { u: number; v: number }
     /**
      * @default WIRE
      */
-    mode?: GeometryMode;
+    mode?: GeometryMode
     /**
      * 
      */
-    uClosed?: boolean;
+    uClosed?: boolean
     /**
      * The start value of the u parameter. Default is 0.
      */
-    uMin?: number;
+    uMin?: number
     /**
      * The finish value of the u parameter. Default is 1.
      */
-    uMax?: number;
+    uMax?: number
     /**
      * The number of u parameter segments. Default is 1.
      */
-    uSegments?: number;
+    uSegments?: number
     /**
      * 
      */
-    vClosed?: boolean;
+    vClosed?: boolean
     /**
      * The start value of the v parameter. Default is 0.
      */
-    vMin?: number;
+    vMin?: number
     /**
      * The finish value of the v parameter. Default is 1.
      */
-    vMax?: number;
+    vMax?: number
     /**
      * The number of v parameter segments. Default is 1.
      */
-    vSegments?: number;
+    vSegments?: number
 }
 
 /**
@@ -3655,18 +3671,18 @@ export class GridGeometry extends GeometryElements {
 }
 
 export interface SphereGeometryOptions extends GeometryOptions {
-    azimuthSegments?: number;
-    azimuthStart?: number;
-    azimuthLength?: number;
-    elevationSegments?: number;
-    elevationStart?: number;
-    elevationLength?: number;
-    mode?: GeometryMode;
-    radius?: number;
+    azimuthSegments?: number
+    azimuthStart?: number
+    azimuthLength?: number
+    elevationSegments?: number
+    elevationStart?: number
+    elevationLength?: number
+    mode?: GeometryMode
+    radius?: number
 }
 
 export class SphereGeometry extends GeometryElements {
-    radius: number;
+    radius: number
     constructor(contextManager: ContextManager, options?: SphereGeometryOptions);
 }
 
@@ -3674,9 +3690,9 @@ export class SphereGeometry extends GeometryElements {
  *
  */
 export class ShaderMaterial extends ShareableContextConsumer implements Material {
-        /*readonly*/ attributeNames: string[];
-        /*readonly*/ fragmentShaderSrc: string;
-        /*readonly*/ vertexShaderSrc: string;
+        /*readonly*/ attributeNames: string[]
+        /*readonly*/ fragmentShaderSrc: string
+        /*readonly*/ vertexShaderSrc: string
     constructor(vertexShaderSrc: string, fragmentShaderSrc: string, attribs: string[], contextManager: ContextManager);
     contextFree(): void;
     contextGain(): void;
@@ -3712,51 +3728,51 @@ export interface AbstractDrawable<G extends Geometry, M extends Material> extend
     /**
      * 
      */
-    geometry: G;
+    geometry: G
     /**
      * 
      */
-    material: M;
+    material: M
     /**
      * 
      */
-    name: string;
+    name: string
     /**
      * 
      */
-    visible: boolean;
+    visible: boolean
     /**
      * 
      */
-    transparent: boolean;
+    transparent: boolean
     /**
      * 
      */
-    bind(): AbstractDrawable<G, M>;
+    bind(): AbstractDrawable<G, M>
     /**
      * 
      */
-    draw(): AbstractDrawable<G, M>;
+    draw(): AbstractDrawable<G, M>
     /**
      * 
      */
-    render(ambients: Facet[]): AbstractDrawable<G, M>;
+    render(ambients: Facet[]): AbstractDrawable<G, M>
     /**
      * 
      */
-    setAmbients(ambients: Facet[]): AbstractDrawable<G, M>;
+    setAmbients(ambients: Facet[]): AbstractDrawable<G, M>
     /**
      * 
      */
-    setUniforms(): AbstractDrawable<G, M>;
+    setUniforms(): AbstractDrawable<G, M>
     /**
      * 
      */
-    unbind(): AbstractDrawable<G, M>;
+    unbind(): AbstractDrawable<G, M>
     /**
      * 
      */
-    use(): AbstractDrawable<G, M>;
+    use(): AbstractDrawable<G, M>
 }
 
 /**
@@ -3768,37 +3784,37 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
     /**
      *
      */
-    geometry: G;
+    geometry: G
 
     /**
      *
      */
-    material: M;
+    material: M
 
     /**
      * A user-assigned name that allows the composite object to be found.
      */
-    name: string;
+    name: string
 
     /**
      * Determines whether this Drawable will be rendered.
      */
-    visible: boolean;
+    visible: boolean
 
     /**
      * 
      */
-    transparent: boolean;
+    transparent: boolean
 
     /**
      * Determines the optional uOpacity uniform value.
      */
-    opacity: number;
+    opacity: number
 
     /**
      * Determines the optional uPointSize uniform value.
      */
-    pointSize: number;
+    pointSize: number
 
     /**
      *
@@ -3886,17 +3902,44 @@ export class HTMLScriptsMaterial extends ShaderMaterial {
     protected destructor(levelUp: number): void;
 }
 
-export interface PointMaterialOptions {
+/**
+ * The attribute size type corresponds to float, vec2, vec3, or vec4.
+ */
+export type AttributeSizeType = 1 | 2 | 3 | 4;
+/**
+ * 
+ */
+export type UniformGlslType = 'float' | 'mat2' | 'mat3' | 'mat4' | 'sampler2D' | 'vec2' | 'vec3' | 'vec4';
 
-    /**
-     *
-     */
-    attributes?: { [name: string]: number };
+export enum GLSLESVersion {
+    OneHundred = "100",
+    ThreeHundred = "300"
+}
 
+/**
+ * A specification of the attributes and uniforms required in the Material.
+ */
+export interface MaterialOptions {
     /**
-     *
+     * A mapping from the attribute name to the size of the float or vector.
+     * 'aThing': 1 => 'attribute float aThing'
+     * 'aThing': 2 => 'attribute vec2 aThing;'
+     * 'aThing': 3 => 'attribute vec3 aThing;'
+     * 'aThing': 4 => 'attribute vec4 aThing;'
      */
-    uniforms?: { [name: string]: string };
+    attributes?: { [name: string]: AttributeSizeType };
+    /**
+     * A mapping from the uniform name to the type name.
+     * For example, 'M': 'mat4' produces 'uniform mat4 M;'.
+     */
+    uniforms?: { [name: string]: UniformGlslType };
+    /**
+     * An optional GLSL version that can be used to override the default algorithm for shader version.
+     */
+    version?: GLSLESVersion;
+}
+
+export interface PointMaterialOptions extends MaterialOptions {
 }
 
 /**
@@ -3907,17 +3950,7 @@ export class PointMaterial extends ShaderMaterial {
     protected destructor(levelUp: number): void;
 }
 
-export interface LineMaterialOptions {
-
-    /**
-     *
-     */
-    attributes?: { [name: string]: number };
-
-    /**
-     *
-     */
-    uniforms?: { [name: string]: string };
+export interface LineMaterialOptions extends MaterialOptions {
 }
 
 /**
@@ -3928,17 +3961,8 @@ export class LineMaterial extends ShaderMaterial {
     protected destructor(levelUp: number): void;
 }
 
-export interface MeshMaterialOptions {
+export interface MeshMaterialOptions extends MaterialOptions {
 
-    /**
-     *
-     */
-    attributes?: { [name: string]: number };
-
-    /**
-     *
-     */
-    uniforms?: { [name: string]: string };
 }
 
 /**
@@ -3950,7 +3974,7 @@ export class MeshMaterial extends ShaderMaterial {
 }
 
 export class AmbientLight implements Facet {
-    color: Color;
+    color: Color
     constructor(color: Color);
     setUniforms(visitor: FacetVisitor): void;
 }
@@ -3959,10 +3983,10 @@ export class AmbientLight implements Facet {
  *
  */
 export class ColorFacet implements Facet {
-    r: number;
-    g: number;
-    b: number;
-    α: number;
+    r: number
+    g: number
+    b: number
+    α: number
     constructor(name?: string);
     scaleRGB(α: number): ColorFacet;
     scaleRGBA(α: number): ColorFacet;
@@ -3981,11 +4005,11 @@ export class DirectionalLight implements Facet {
     /**
      * The direction (unit vector) in which the light is traveling.
      */
-    direction: Geometric3;
+    direction: Geometric3
     /**
      * The color of the light.
      */
-    color: Color;
+    color: Color
     /**
      * Constructs a DirectionalLight.
      * The initial direction defaults to -e3 (out of the screen).
@@ -3999,7 +4023,7 @@ export class DirectionalLight implements Facet {
 }
 
 export class PointSizeFacet implements Facet {
-    pointSize: number;
+    pointSize: number
     constructor(pointSize?: number);
     setUniforms(visitor: FacetVisitor): void;
 }
@@ -4011,11 +4035,11 @@ export class Vector3Facet implements Facet {
     /**
      * The name of the uniform that will be updated by this Facet.
      */
-    name: string;
+    name: string
     /**
      * The value that will be given to the uniform.
      */
-    value: VectorE3;
+    value: VectorE3
     /**
      * Constructs a Facet corresponding to a vec3 with the name specified.
      */
@@ -4033,7 +4057,7 @@ export class ReflectionFacetE2 extends ShareableBase implements Facet {
     /**
      * The vector perpendicular to the (hyper-)plane of reflection.
      */
-    public normal: Vector2;
+    public normal: Vector2
 
     /**
      * name The name of the uniform variable associated with this facet.
@@ -4054,7 +4078,7 @@ export class ReflectionFacetE3 extends ShareableBase implements Facet {
      * The vector perpendicular to the (hyper-)plane of reflection.
      *
      */
-    public normal: Vector3;
+    public normal: Vector3
 
     /**
      * name The name of the uniform variable associated with this facet.
@@ -4071,34 +4095,34 @@ export class ReflectionFacetE3 extends ShareableBase implements Facet {
  * `blendFunc(sfactor: number, dfactor: number): void`
  */
 export class WebGLBlendFunc extends ShareableBase {
-    sfactor: BlendingFactorSrc;
-    dfactor: BlendingFactorDest;
+    sfactor: BlendingFactorSrc
+    dfactor: BlendingFactorDest
     constructor(sfactor: BlendingFactorSrc, dfactor: BlendingFactorDest);
 
     /**
      *
      */
-    contextFree(): void;
+    contextFree(): void
 
     /**
      *
      */
-    contextGain(): void;
+    contextGain(): void
 
     /**
      *
      */
-    contextLost(): void;
+    contextLost(): void
 }
 
 /**
  *
  */
 export class WebGLClearColor extends ShareableBase {
-    r: number;
-    g: number;
-    b: number;
-    a: number;
+    r: number
+    g: number
+    b: number
+    a: number
     constructor(contextManager: ContextManager, r?: number, g?: number, b?: number, a?: number);
     /**
      *
@@ -4162,66 +4186,66 @@ export interface AbstractMesh<G extends Geometry, M extends Material> extends Ab
     /**
      * Color
      */
-    color: Color;
+    color: Color
     /**
      * Opacity
      */
-    opacity: number;
+    opacity: number
     /**
      * Attitude (spinor)
      */
-    R: Geometric3;
+    R: Geometric3
     /**
      * Position (vector)
      */
-    X: Geometric3;
+    X: Geometric3
 }
 
 export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M> implements AbstractMesh<G, M> {
     /**
      * Attitude (spinor). This is an alias for the R property.
      */
-    attitude: Geometric3;
+    attitude: Geometric3
     /**
      * 
      */
-    axis: VectorE3;
+    axis: VectorE3
     /**
      * Color
      */
-    color: Color;
+    color: Color
     /**
      * 
      */
-    meridian: VectorE3;
+    meridian: VectorE3
     /**
      * Opacity
      */
-    opacity: number;
+    opacity: number
     /**
      * Position (vector). This is an alias for the position property.
      */
-    position: Geometric3;
+    position: Geometric3
     /**
      * Attitude (spinor). This is an alias for the attitude property.
      */
-    R: Geometric3;
+    R: Geometric3
     /**
      * The reference frame axis.
      */
-    referenceAxis: VectorE3;
+    referenceAxis: VectorE3
     /**
      * The reference frame meridian.
      */
-    referenceMeridian: VectorE3;
+    referenceMeridian: VectorE3
     /**
      * Texture
      */
-    texture: Texture;
+    texture: Texture
     /**
      * Position (vector). This is an alias for the position property.
      */
-    X: Geometric3;
+    X: Geometric3
     /**
      *
      */
@@ -4234,12 +4258,12 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
      * The name of the uniform mat4 variable in the vertex shader that receives the model matrix value.
      * The default name is `uModel`.
      */
-    modelMatrixUniformName: string;
+    modelMatrixUniformName: string
     /**
      * The name of the uniform mat3 variable in the vertex shader that receives the normal matrix value.
      * The default name is `uNormal`.
      */
-    normalMatrixUniformName: string;
+    normalMatrixUniformName: string
 }
 
 /**
@@ -4249,23 +4273,23 @@ export interface ArrowOptions {
     /**
      * The reference axis.
      */
-    axis?: VectorE3;
+    axis?: VectorE3
     /**
      * Color
      */
-    color?: Color;
+    color?: Color
     /**
      * The initial length of the Arrow.
      */
-    length?: number;
+    length?: number
     /**
      * The reference meridian.
      */
-    meridian?: VectorE3;
+    meridian?: VectorE3
     /**
      * The spinor that rotates from the canonical frame to the reference frame.
      */
-    tilt?: SpinorE3;
+    tilt?: SpinorE3
 }
 
 /**
@@ -4276,11 +4300,11 @@ export class Arrow extends Mesh<Geometry, Material> {
      * The length of the Arrow.
      * This property determines the scaling of the Arrow in all directions.
      */
-    length: number;
+    length: number
     /**
      * The vector that is represented by the Arrow.
      */
-    vector: VectorE3;
+    vector: VectorE3
     /**
      * Constructs an Arrow.
      */
@@ -4301,12 +4325,12 @@ export interface BasisOptions {
  * A 3D visual representation of a list of vectors, [a, b, c], called a basis.
  */
 export class Basis extends Mesh<Geometry, Material> {
-    a: Vector3;
-    b: Vector3;
-    c: Vector3;
-    colorA: Color;
-    colorB: Color;
-    colorC: Color;
+    a: Vector3
+    b: Vector3
+    c: Vector3
+    colorA: Color
+    colorB: Color
+    colorC: Color
     /**
      * 
      */
@@ -4324,75 +4348,75 @@ export interface BoxOptions {
     /**
      * The reference axis.
      */
-    axis?: VectorE3;
+    axis?: VectorE3
     /**
      * 
      */
-    color?: Color;
+    color?: Color
     /**
      * 
      */
-    colored?: boolean;
+    colored?: boolean
     /**
      * 
      */
-    depth?: number;
+    depth?: number
     /**
      * 
      */
-    height?: number;
+    height?: number
     /**
      * The reference meridian.
      */
-    meridian?: VectorE3;
+    meridian?: VectorE3
     /**
      * 
      */
-    mode?: 'mesh' | 'wire' | 'point' | GeometryMode;
+    mode?: 'mesh' | 'wire' | 'point' | GeometryMode
     /**
      * 
      */
-    offset?: VectorE3;
+    offset?: VectorE3
     /**
      * 
      */
-    openBack?: boolean;
+    openBack?: boolean
     /**
      * 
      */
-    openBase?: boolean;
+    openBase?: boolean
     /**
      * 
      */
-    openCap?: boolean;
+    openCap?: boolean
     /**
      * 
      */
-    openFront?: boolean;
+    openFront?: boolean
     /**
      * 
      */
-    openLeft?: boolean;
+    openLeft?: boolean
     /**
      * 
      */
-    openRight?: boolean;
+    openRight?: boolean
     /**
      * 
      */
-    textured?: boolean;
+    textured?: boolean
     /**
      * The spinor that rotates from the canonical frame to the reference frame.
      */
-    tilt?: SpinorE3;
+    tilt?: SpinorE3
     /**
      * 
      */
-    transparent?: boolean;
+    transparent?: boolean
     /**
      * 
      */
-    width?: number;
+    width?: number
 }
 
 /**
@@ -4402,11 +4426,11 @@ export class Box extends Mesh<Geometry, Material> {
     /**
      * 
      */
-    width: number;
+    width: number
     /**
      * 
      */
-    height: number;
+    height: number
     /**
      * 
      */
@@ -4428,67 +4452,67 @@ export interface CylinderOptions {
     /**
      * The reference axis.
      */
-    axis?: VectorE3;
+    axis?: VectorE3
     /**
      * 
      */
-    color?: Color;
+    color?: Color
     /**
      * 
      */
-    colored?: boolean;
+    colored?: boolean
     /**
      * 
      */
-    heightSegments?: number;
+    heightSegments?: number
     /**
      * 
      */
-    length?: number;
+    length?: number
     /**
      * The reference meridian.
      */
-    meridian?: VectorE3;
+    meridian?: VectorE3
     /**
      * 
      */
-    mode?: 'mesh' | 'wire' | 'point' | GeometryMode;
+    mode?: 'mesh' | 'wire' | 'point' | GeometryMode
     /**
      * 
      */
-    offset?: VectorE3;
+    offset?: VectorE3
     /**
      * 
      */
-    openBase?: boolean;
+    openBase?: boolean
     /**
      * 
      */
-    openCap?: boolean;
+    openCap?: boolean
     /**
      * 
      */
-    openWall?: boolean;
+    openWall?: boolean
     /**
      * 
      */
-    radius?: number;
+    radius?: number
     /**
      * 
      */
-    textured?: boolean;
+    textured?: boolean
     /**
      * 
      */
-    thetaSegments?: number;
+    thetaSegments?: number
     /**
      * The spinor that rotates from the canonical frame to the reference frame.
      */
-    tilt?: SpinorE3;
+    tilt?: SpinorE3
     /**
      * 
      */
-    transparent?: boolean;
+    transparent?: boolean
 }
 
 /**
@@ -4499,12 +4523,12 @@ export class Cylinder extends Mesh<Geometry, Material> {
      * The length of the Cylinder.
      * This property determines the scaling of the Cylinder in the axial direction only.
      */
-    length: number;
+    length: number
     /**
      * The radius of the Cylinder.
      * This property determines the scaling of the Cylinder in the radial direction only.
      */
-    radius: number;
+    radius: number
     /**
      * Constructs a Cylinder.
      */
@@ -4519,12 +4543,12 @@ export class Cylinder extends Mesh<Geometry, Material> {
  * Options for the creation of a new Curve.
  */
 export interface CurveOptions {
-    aColor?(u: number): Color;
-    aPosition?(u: number): VectorE3;
-    mode?: CurveMode;
-    uMax?: number;
-    uMin?: number;
-    uSegments?: number;
+    aColor?(u: number): Color
+    aPosition?(u: number): VectorE3
+    mode?: CurveMode
+    uMax?: number
+    uMin?: number
+    uSegments?: number
 }
 
 /**
@@ -4545,16 +4569,16 @@ export class Curve extends Mesh<Geometry, Material> {
  * Options for the creation of a new Grid.
  */
 export interface GridOptions {
-    aColor?(u: number, v: number): Color;
-    aNormal?(u: number, v: number): VectorE3;
-    aPosition?(u: number, v: number): VectorE3;
-    mode?: GeometryMode;
-    uMax?: number;
-    uMin?: number;
-    uSegments?: number;
-    vMax?: number;
-    vMin?: number;
-    vSegments?: number;
+    aColor?(u: number, v: number): Color
+    aNormal?(u: number, v: number): VectorE3
+    aPosition?(u: number, v: number): VectorE3
+    mode?: GeometryMode
+    uMax?: number
+    uMin?: number
+    uSegments?: number
+    vMax?: number
+    vMin?: number
+    vSegments?: number
 }
 
 /**
@@ -4575,17 +4599,17 @@ export class Grid extends Mesh<Geometry, Material> {
  * Options for the creation of a new GridXY.
  */
 export interface GridXYOptions {
-    xMin?: number;
-    xMax?: number;
-    xSegments?: number;
-    yMin?: number;
-    yMax?: number;
-    ySegments?: number;
+    xMin?: number
+    xMax?: number
+    xSegments?: number
+    yMin?: number
+    yMax?: number
+    ySegments?: number
     /**
      * Returns the z-coordinate for the specified x and y coordinates.
      */
-    z?(x: number, y: number): number;
-    mode?: GeometryMode;
+    z?(x: number, y: number): number
+    mode?: GeometryMode
 }
 
 /**
@@ -4614,14 +4638,14 @@ export class GridXY extends Grid {
  * Options for the creation of a new GridYZ.
  */
 export interface GridYZOptions {
-    yMin?: number;
-    yMax?: number;
-    ySegments?: number;
-    zMin?: number;
-    zMax?: number;
-    zSegments?: number;
-    x?(y: number, z: number): number;
-    mode?: GeometryMode;
+    yMin?: number
+    yMax?: number
+    ySegments?: number
+    zMin?: number
+    zMax?: number
+    zSegments?: number
+    x?(y: number, z: number): number
+    mode?: GeometryMode
 }
 
 /**
@@ -4650,14 +4674,14 @@ export class GridYZ extends Grid {
  * Options for the creation of a new GridZX.
  */
 export interface GridZXOptions {
-    zMin?: number;
-    zMax?: number;
-    zSegments?: number;
-    xMin?: number;
-    xMax?: number;
-    xSegments?: number;
-    y?(z: number, x: number): number;
-    mode?: GeometryMode;
+    zMin?: number
+    zMax?: number
+    zSegments?: number
+    xMin?: number
+    xMax?: number
+    xSegments?: number
+    y?(z: number, x: number): number
+    mode?: GeometryMode
 }
 
 /**
@@ -4686,40 +4710,40 @@ export class GridZX extends Grid {
  * 
  */
 export interface GroupMember extends Renderable {
-    X: Geometric3;
-    R: Geometric3;
-    visible: boolean;
+    X: Geometric3
+    R: Geometric3
+    visible: boolean
 }
 
 export class Group extends ShareableBase implements GroupMember {
     /**
      * Position (vector). Alias for the 'position' property.
      */
-    X: Geometric3;
+    X: Geometric3
     /**
      * Attitude (spinor). Alias for the 'attitude' property.
      */
-    R: Geometric3;
+    R: Geometric3
     /**
      * Position (vector). Alias for the 'X' property.
      */
-    position: Geometric3;
+    position: Geometric3
     /**
      * Attitude (spinor). Alias for the 'R' property.
      */
-    attitude: Geometric3;
+    attitude: Geometric3
     /**
      * 
      */
-    name: string;
+    name: string
     /**
      * 
      */
-    transparent: boolean;
+    transparent: boolean
     /**
      * 
      */
-    visible: boolean;
+    visible: boolean
     /**
      * 
      */
@@ -4749,31 +4773,31 @@ export interface HollowCylinderOptions {
     /**
      * The reference axis.
      */
-    axis?: VectorE3;
+    axis?: VectorE3
     /**
      * The uniform color of the HollowCylinder.
      */
-    color?: Color;
+    color?: Color
     /**
      * The reference meridian.
      */
-    meridian?: VectorE3;
+    meridian?: VectorE3
     /**
      * The outer radius of the cylinder.
      */
-    outerRadius?: number;
+    outerRadius?: number
     /**
      * The inner radius of the cylinder.
      */
-    innerRadius?: number;
+    innerRadius?: number
     /**
      * The angular size of the cylinder. Default is 2 * PI.
      */
-    sliceAngle?: number;
+    sliceAngle?: number
     /**
      * The spinor that rotates from the canonical frame to the reference frame.
      */
-    tilt?: SpinorE3;
+    tilt?: SpinorE3
 }
 
 /**
@@ -4784,7 +4808,7 @@ export class HollowCylinder extends Mesh<Geometry, Material> {
      * The length of the HollowCylinder.
      * This property determines the scaling of the HollowCylinder in the axial direction only.
      */
-    length: number;
+    length: number
     /**
      * Constructs a HollowCylinder.
      */
@@ -4799,22 +4823,22 @@ export class HollowCylinder extends Mesh<Geometry, Material> {
  * A 3D visual representation of a parallelepiped.
  */
 export class Parallelepiped implements Renderable {
-    public name: string;
-    public opacity: number;
-    public transparent: boolean;
-    public X: Geometric3;
+    public name: string
+    public opacity: number
+    public transparent: boolean
+    public X: Geometric3
     /**
      * Edge vector, defaults to e1.
      */
-    public a: Geometric3;
+    public a: Geometric3
     /**
      * Edge vector, defaults to e2.
      */
-    public b: Geometric3;
+    public b: Geometric3
     /**
      * Edge vector, defaults to e3.
      */
-    public c: Geometric3;
+    public c: Geometric3
     /**
      * Face colors
      * top    - 0
@@ -4824,7 +4848,7 @@ export class Parallelepiped implements Renderable {
      * left   - 4
      * back   - 5
      */
-    public colors: Color[];
+    public colors: Color[]
     /**
      * Constructs a Parallelepiped.
      */
@@ -4848,63 +4872,63 @@ export interface SphereOptions {
     /**
      * The reference axis.
      */
-    axis?: VectorE3;
+    axis?: VectorE3
     /**
      * 
      */
-    azimuthStart?: number;
+    azimuthStart?: number
     /**
      * 
      */
-    azimuthLength?: number;
+    azimuthLength?: number
     /**
      * 
      */
-    azimuthSegments?: number;
+    azimuthSegments?: number
     /**
      * 
      */
-    color?: Color;
+    color?: Color
     /**
      * 
      */
-    colored?: boolean;
+    colored?: boolean
     /**
      * 
      */
-    elevationStart?: number;
+    elevationStart?: number
     /**
      * 
      */
-    elevationLength?: number;
+    elevationLength?: number
     /**
      * 
      */
-    elevationSegments?: number;
+    elevationSegments?: number
     /**
      * The reference meridian.
      */
-    meridian?: VectorE3;
+    meridian?: VectorE3
     /**
      * 
      */
-    mode?: 'mesh' | 'wire' | 'point' | GeometryMode;
+    mode?: 'mesh' | 'wire' | 'point' | GeometryMode
     /**
      * 
      */
-    radius?: number;
+    radius?: number
     /**
      * 
      */
-    textured?: boolean;
+    textured?: boolean
     /**
      * The spinor that rotates from the canonical frame to the reference frame.
      */
-    tilt?: SpinorE3;
+    tilt?: SpinorE3
     /**
      * 
      */
-    transparent?: boolean;
+    transparent?: boolean
 }
 
 /**
@@ -4914,7 +4938,7 @@ export class Sphere extends Mesh<Geometry, Material> {
     /**
      * Radius (scalar).
      */
-    radius: number;
+    radius: number
     /**
      * Constructs a Sphere.
      */
@@ -4999,17 +5023,17 @@ export interface TrailConfig {
      * Determines whether the trail will record historical events and draw them.
      * Default is true.
      */
-    enabled: boolean;
+    enabled: boolean
     /**
      * Determines the number of animation frames between the recording of events.
      * Default is 10.
      */
-    interval: number;
+    interval: number
     /**
      * Determines the maximum number of historical events that form the trail.
      * Default is 10.
      */
-    retain: number;
+    retain: number
 }
 
 /**
@@ -5019,7 +5043,7 @@ export class Trail extends ShareableBase implements Renderable {
     /**
      *
      */
-    config: TrailConfig;
+    config: TrailConfig
     /**
      * Constructs a Trail for the specified Mesh.
      */
@@ -5055,7 +5079,7 @@ export class Trail extends ShareableBase implements Renderable {
  * Options for the creation of a new Turtle.
  */
 export interface TurtleOptions {
-    color?: Color;
+    color?: Color
 }
 
 /**
@@ -5065,11 +5089,11 @@ export class Turtle extends Mesh<Geometry, Material> {
     /**
      * 
      */
-    height: number;
+    height: number
     /**
      * 
      */
-    width: number;
+    width: number
     /**
      * Constructs a Turtle.
      */
@@ -5089,17 +5113,17 @@ export interface MinecraftBodyPartOptions {
      * Determines how the body part is scaled.
      * Default is 1.
      */
-    height?: number;
+    height?: number
     /**
      * Adjusts texturing to compensate for old skins.
      * Default is false.
      */
-    oldSkinLayout?: boolean;
+    oldSkinLayout?: boolean
     /**
      * Adjusts the geometry to change the rotation origin.
      * Default is zero.
      */
-    offset?: VectorE3;
+    offset?: VectorE3
 }
 
 /**
@@ -5152,24 +5176,24 @@ export interface MinecraftFigureOptions {
      * The overall height of the figure.
      * Default is 1.
      */
-    height?: number;
+    height?: number
     /**
      * Adjusts texturing to compensate for old skins.
      * Default is false.
      */
-    oldSkinLayout?: boolean;
+    oldSkinLayout?: boolean
 }
 
 /**
  * Figure
  */
 export class MinecraftFigure extends Group {
-    public head: MinecraftHead;
-    public armL: MinecraftArmL;
-    public armR: MinecraftArmR;
-    public legL: MinecraftLegL;
-    public legR: MinecraftLegR;
-    public torso: MinecraftHead;
+    public head: MinecraftHead
+    public armL: MinecraftArmL
+    public armR: MinecraftArmR
+    public legL: MinecraftLegL
+    public legR: MinecraftLegR
+    public torso: MinecraftHead
     constructor(engine: Engine, texture: ImageTexture, options?: MinecraftFigureOptions);
 }
 
@@ -5177,18 +5201,18 @@ export class MinecraftFigure extends Group {
  *
  */
 export class MouseControls extends ShareableBase {
-    enabled: boolean;
-    maxDistance: number;
-    minDistance: number;
-    protected moveCurr: Geometric2;
-    protected movePrev: Geometric2;
-    noPan: boolean;
-    noRotate: boolean;
-    noZoom: boolean;
-    protected panEnd: Geometric2;
-    protected panStart: Geometric2;
-    protected zoomEnd: Geometric2;
-    protected zoomStart: Geometric2;
+    enabled: boolean
+    maxDistance: number
+    minDistance: number
+    protected moveCurr: Geometric2
+    protected movePrev: Geometric2
+    noPan: boolean
+    noRotate: boolean
+    noZoom: boolean
+    protected panEnd: Geometric2
+    protected panStart: Geometric2
+    protected zoomEnd: Geometric2
+    protected zoomStart: Geometric2
     constructor(wnd?: Window);
     protected destructor(levelUp: number): void;
     handleResize(): void;
@@ -5219,30 +5243,30 @@ export interface ViewController {
     /**
      * Called during the animation loop to update the target.
      */
-    update(): void;
+    update(): void
     /**
      * Reset the view to the last synchronization point.
      */
-    reset(): void;
+    reset(): void
     /**
      * Called at any time to set a view for this controller.
      */
-    setView(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }): void;
+    setView(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }): void
     /**
      * Synchronizes this controller with the view.
      */
-    synchronize(): void;
+    synchronize(): void
 }
 
 /**
  *
  */
 export class ViewControls extends MouseControls implements ViewController {
-    protected eyeMinusLook: Geometric3;
-    protected look: Geometric3;
-    public panSpeed: number;
-    public rotateSpeed: number;
-    public zoomSpeed: number;
+    protected eyeMinusLook: Geometric3
+    protected look: Geometric3
+    public panSpeed: number
+    public rotateSpeed: number
+    public zoomSpeed: number
     constructor(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }, wnd?: Window);
     protected destructor(levelUp: number): void;
     /**
@@ -5313,33 +5337,33 @@ export interface Camera {
     /**
      * The position of the camera, a position vector.
      */
-    eye: VectorE3;
+    eye: VectorE3
     /**
      * The point (position vector) that the camera looks at.
      */
-    look: VectorE3;
+    look: VectorE3
     /**
      * The direction that is used to orient the camera. 
      */
-    up: VectorE3;
+    up: VectorE3
 }
 
 export interface Prism {
     /**
      * The distance to the near plane of the viewport.
      */
-    near?: number;
-    far?: number;
-    fov?: number;
-    aspect?: number;
+    near?: number
+    far?: number
+    fov?: number
+    aspect?: number
 }
 
 /**
  * HTMLCanvasElement overlay for putting labels and lines on a 3D diagram.
  */
 export class Diagram3D {
-    ctx: CanvasRenderingContext2D;
-    canvas: HTMLCanvasElement;
+    ctx: CanvasRenderingContext2D
+    canvas: HTMLCanvasElement
     constructor(canvas: string | HTMLCanvasElement, camera: Camera, prism: Prism);
     beginPath(): void;
     clear(): void;
@@ -5363,17 +5387,17 @@ export class HTMLOverlay {
     text(name: string, text: string, X: VectorE3): void;
 }
 
-export function acos<T>(x: T): T;
-export function asin<T>(x: T): T;
-export function atan<T>(x: T): T;
-export function cos<T>(x: T): T;
-export function cosh<T>(x: T): T;
-export function exp<T>(x: T): T;
-export function log<T>(x: T): T;
-export function norm<T>(x: T): T;
-export function quad<T>(x: T): T;
-export function sin<T>(x: T): T;
-export function sinh<T>(x: T): T;
-export function sqrt<T>(x: T): T;
-export function tan<T>(x: T): T;
-export function tanh<T>(x: T): T;
+export function acos<T>(x: T): T
+export function asin<T>(x: T): T
+export function atan<T>(x: T): T
+export function cos<T>(x: T): T
+export function cosh<T>(x: T): T
+export function exp<T>(x: T): T
+export function log<T>(x: T): T
+export function norm<T>(x: T): T
+export function quad<T>(x: T): T
+export function sin<T>(x: T): T
+export function sinh<T>(x: T): T
+export function sqrt<T>(x: T): T
+export function tan<T>(x: T): T
+export function tanh<T>(x: T): T

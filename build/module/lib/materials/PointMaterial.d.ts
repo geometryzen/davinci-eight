@@ -1,6 +1,6 @@
 import { ContextManager } from '../core/ContextManager';
-import { ShaderMaterial } from './ShaderMaterial';
 import { PointMaterialOptions } from './PointMaterialOptions';
+import { ShaderMaterial } from './ShaderMaterial';
 /**
  *
  */
