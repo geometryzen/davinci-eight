@@ -90,9 +90,9 @@
     var Eight = /** @class */ (function () {
         function Eight() {
             this.GITHUB = "https://github.com/geometryzen/davinci-eight";
-            this.LAST_MODIFIED = "2020-08-13";
+            this.LAST_MODIFIED = "2020-08-15";
             this.MARKETING_NAME = "DaVinci eight";
-            this.VERSION = '8.3.0';
+            this.VERSION = '8.4.0';
         }
         Eight.prototype.log = function (message) {
             // This should allow us to unit test and run in environments without a console.
@@ -12602,40 +12602,95 @@
         return gl;
     }
 
+    function getContextFailed(contextId) {
+        return "canvas.getContext('" + contextId + "') failed. Your browser may not support it.";
+    }
+    function invalidContextId(contextId) {
+        return JSON.stringify(contextId) + " is not a recognized WebGL contextId. contextId must be 'webgl2' or 'webgl'.";
+    }
     /**
      * Returns a WebGL rendering context given a canvas element.
      * @param canvas The canvas element.
      * @param options The arguments to the HTMLCanvasElement.getContext() method.
+     * @param contextId An optional override for the context identifier.
      * If the canvas is undefined then an undefined value is returned for the context.
      */
-    function initWebGL(canvas, options) {
+    function initWebGL(canvas, options, contextId) {
         // We'll be hyper-functional. An undefined canvas begets an undefined context.
         // Clients must check their context output or canvas input.
         if (isDefined(canvas)) {
-            try {
-                var contextId = 'webgl2';
-                var context = canvas.getContext(contextId, options);
-                if (context) {
-                    return { context: context, contextId: contextId };
-                }
-                else {
-                    throw new Error("canvas.getContext('" + contextId + "') failed. Your browser may not support it.");
+            if (contextId) {
+                switch (contextId) {
+                    case 'webgl2': {
+                        var context = canvas.getContext(contextId, options);
+                        if (context) {
+                            return { context: context, contextId: contextId };
+                        }
+                        else {
+                            throw new Error(getContextFailed(contextId));
+                        }
+                    }
+                    case 'webgl': {
+                        var context = canvas.getContext(contextId, options);
+                        if (context) {
+                            return { context: context, contextId: contextId };
+                        }
+                        else {
+                            throw new Error(getContextFailed(contextId));
+                        }
+                    }
+                    default: {
+                        // From a type-safety perspective, this should never happen.
+                        throw new Error(invalidContextId(contextId));
+                    }
                 }
             }
-            catch (e) {
-                var contextId = 'webgl';
-                var context = canvas.getContext(contextId, options);
-                if (context) {
-                    return { context: context, contextId: contextId };
+            else {
+                try {
+                    var candidateContextId = 'webgl2';
+                    var context = canvas.getContext(candidateContextId, options);
+                    if (context) {
+                        return { context: context, contextId: candidateContextId };
+                    }
+                    else {
+                        throw new Error(getContextFailed(candidateContextId));
+                    }
                 }
-                else {
-                    throw new Error("canvas.getContext('" + contextId + "') failed. Your browser may not support it.");
+                catch (e) {
+                    var candidateContextId = 'webgl';
+                    var context = canvas.getContext(candidateContextId, options);
+                    if (context) {
+                        return { context: context, contextId: candidateContextId };
+                    }
+                    else {
+                        throw new Error(getContextFailed(candidateContextId));
+                    }
                 }
             }
         }
         else {
             // An undefined canvas results in an undefined context.
             return void 0;
+        }
+    }
+
+    function beContextId() {
+        return "be 'webgl2' or 'webgl'";
+    }
+    function isWebGLContextId(x) {
+        switch (x) {
+            case 'webgl2': return true;
+            case 'webgl': return true;
+            default: return false;
+        }
+    }
+    function mustBeWebGLContextId(name, value, contextBuilder) {
+        if (isWebGLContextId(value)) {
+            return value;
+        }
+        else {
+            mustSatisfy(name, false, beContextId, contextBuilder);
+            return value;
         }
     }
 
@@ -12688,7 +12743,11 @@
              */
             _this.materials = {};
             _this.setLoggingName('Engine');
+            // TODO: Defensive copy and strip off the extra attributes on EngineAttributes just in case the WebGL runtime gets strict and complains.
             _this._attributes = attributes;
+            if (isDefined(attributes.contextId)) {
+                _this._overrideContextId = mustBeWebGLContextId("attributes.contextId", attributes.contextId);
+            }
             if (attributes.eightLogging) {
                 _this._commands.pushWeakRef(new EIGHTLogger());
             }
@@ -12708,7 +12767,7 @@
                 if (isDefined(_this._gl)) {
                     if (_this._gl.canvas instanceof HTMLCanvasElement) {
                         event.preventDefault();
-                        var result = initWebGL(_this._gl.canvas, attributes);
+                        var result = initWebGL(_this._gl.canvas, attributes, _this._overrideContextId);
                         _this._gl = checkEnums(result.context);
                         _this._contextId = result.contextId;
                         _this._users.forEach(function (user) {
@@ -13008,7 +13067,8 @@
                     return this;
                 }
                 else {
-                    var result = initWebGL(canvas, this._attributes);
+                    // TODO: Really should strip
+                    var result = initWebGL(canvas, this._attributes, this._overrideContextId);
                     this._gl = checkEnums(result.context);
                     this._contextId = result.contextId;
                     this.emitStartEvent();

@@ -16,6 +16,7 @@ import { checkEnums } from './checkEnums';
 import { ClearBufferMask } from './ClearBufferMask';
 import { initWebGL } from './initWebGL';
 import { ShareableBase } from './ShareableBase';
+import { mustBeWebGLContextId } from '../checks/mustBeWebGLContextId';
 function getWindowDocument(window) {
     if (window) {
         return window.document;
@@ -65,7 +66,11 @@ var Engine = /** @class */ (function (_super) {
          */
         _this.materials = {};
         _this.setLoggingName('Engine');
+        // TODO: Defensive copy and strip off the extra attributes on EngineAttributes just in case the WebGL runtime gets strict and complains.
         _this._attributes = attributes;
+        if (isDefined(attributes.contextId)) {
+            _this._overrideContextId = mustBeWebGLContextId("attributes.contextId", attributes.contextId);
+        }
         if (attributes.eightLogging) {
             _this._commands.pushWeakRef(new EIGHTLogger());
         }
@@ -85,7 +90,7 @@ var Engine = /** @class */ (function (_super) {
             if (isDefined(_this._gl)) {
                 if (_this._gl.canvas instanceof HTMLCanvasElement) {
                     event.preventDefault();
-                    var result = initWebGL(_this._gl.canvas, attributes);
+                    var result = initWebGL(_this._gl.canvas, attributes, _this._overrideContextId);
                     _this._gl = checkEnums(result.context);
                     _this._contextId = result.contextId;
                     _this._users.forEach(function (user) {
@@ -388,7 +393,8 @@ var Engine = /** @class */ (function (_super) {
                 return this;
             }
             else {
-                var result = initWebGL(canvas, this._attributes);
+                // TODO: Really should strip
+                var result = initWebGL(canvas, this._attributes, this._overrideContextId);
                 this._gl = checkEnums(result.context);
                 this._contextId = result.contextId;
                 this.emitStartEvent();

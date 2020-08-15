@@ -13,7 +13,17 @@ import { PixelFormat } from './PixelFormat';
 import { PixelType } from './PixelType';
 import { ShareableBase } from './ShareableBase';
 export interface EngineAttributes extends WebGLContextAttributes {
+    /**
+     * Determines the WebGL context identifier used to get the context from the canvas element.
+     */
+    contextId?: 'webgl2' | 'webgl';
+    /**
+     * Determines whether the Engine logs the version of the library to the console.
+     */
     eightLogging?: boolean;
+    /**
+     * Determines whether the Engine logs the version of WebGL to the console.
+     */
     webglLogging?: boolean;
 }
 /**
@@ -35,6 +45,7 @@ export declare class Engine extends ShareableBase implements ContextManager {
      */
     private _gl;
     private _contextId;
+    private _overrideContextId;
     /**
      *
      */

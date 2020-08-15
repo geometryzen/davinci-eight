@@ -27,9 +27,20 @@ import { MaterialKey } from './MaterialKey';
 import { PixelFormat } from './PixelFormat';
 import { PixelType } from './PixelType';
 import { ShareableBase } from './ShareableBase';
+import { mustBeWebGLContextId } from '../checks/mustBeWebGLContextId';
 
 export interface EngineAttributes extends WebGLContextAttributes {
+    /**
+     * Determines the WebGL context identifier used to get the context from the canvas element.
+     */
+    contextId?: 'webgl2' | 'webgl';
+    /**
+     * Determines whether the Engine logs the version of the library to the console.
+     */
     eightLogging?: boolean;
+    /**
+     * Determines whether the Engine logs the version of WebGL to the console.
+     */
     webglLogging?: boolean;
 }
 
@@ -61,6 +72,7 @@ export class Engine extends ShareableBase implements ContextManager {
      */
     private _gl: WebGL2RenderingContext | WebGLRenderingContext;
     private _contextId: 'webgl2' | 'webgl';
+    private _overrideContextId: 'webgl2' | 'webgl' | undefined;
     /**
      * 
      */
@@ -98,7 +110,11 @@ export class Engine extends ShareableBase implements ContextManager {
         super();
         this.setLoggingName('Engine');
 
+        // TODO: Defensive copy and strip off the extra attributes on EngineAttributes just in case the WebGL runtime gets strict and complains.
         this._attributes = attributes;
+        if (isDefined(attributes.contextId)) {
+            this._overrideContextId = mustBeWebGLContextId("attributes.contextId", attributes.contextId);
+        }
 
         if (attributes.eightLogging) {
             this._commands.pushWeakRef(new EIGHTLogger());
@@ -121,7 +137,7 @@ export class Engine extends ShareableBase implements ContextManager {
             if (isDefined(this._gl)) {
                 if (this._gl.canvas instanceof HTMLCanvasElement) {
                     event.preventDefault();
-                    const result = initWebGL(this._gl.canvas, attributes);
+                    const result = initWebGL(this._gl.canvas, attributes, this._overrideContextId);
                     this._gl = checkEnums(result.context);
                     this._contextId = result.contextId;
                     this._users.forEach((user: ContextConsumer) => {
@@ -426,7 +442,8 @@ export class Engine extends ShareableBase implements ContextManager {
                 return this;
             }
             else {
-                const result = initWebGL(canvas, this._attributes);
+                // TODO: Really should strip
+                const result = initWebGL(canvas, this._attributes, this._overrideContextId);
                 this._gl = checkEnums(result.context);
                 this._contextId = result.contextId;
                 this.emitStartEvent();

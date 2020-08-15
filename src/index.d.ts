@@ -1,4 +1,4 @@
-// Type definitions for davinci-eight 8.3.0
+// Type definitions for davinci-eight 8.4.0
 // Project: https://github.com/geometryzen/davinci-eight
 // Definitions by: David Geo Holmes david.geo.holmes@gmail.com https://www.stemcstudio.com
 //
@@ -269,7 +269,7 @@ export class ShareableBase implements Shareable {
 }
 
 export class ShareableArray<T extends Shareable> extends ShareableBase {
-    length: number;
+    length: number
     /**
      * Collection class for maintaining an array of types derived from Shareable.
      * Provides a safer way to maintain reference counts than a native array.
@@ -360,7 +360,11 @@ export interface WindowAnimationRunner {
  */
 export interface EngineAttributes extends WebGLContextAttributes {
     /**
-     * Determines whether the Engine logs the version of EIGHT to the console.
+     * Determines the WebGL context identifier used to get the context from the canvas element.
+     */
+    contextId?: 'webgl2' | 'webgl'
+    /**
+     * Determines whether the Engine logs the version of the library to the console.
      */
     eightLogging?: boolean
     /**
@@ -1249,7 +1253,7 @@ export class Matrix4 extends AbstractMatrix {
      * The identity matrix for addition, 0.
      * The matrix is locked (immutable), but may be cloned.
      */
-    static zero: Matrix4;
+    static zero: Matrix4
 }
 
 /**
@@ -1259,7 +1263,7 @@ export interface VectorE1 {
     /**
      * The Cartesian x-coordinate.
      */
-    x: number;
+    x: number
 }
 
 /**
@@ -1269,11 +1273,11 @@ export interface VectorE2 {
     /**
      * The Cartesian x-coordinate or <em>abscissa</em>.
      */
-    x: number;
+    x: number
     /**
      * The Cartesian y-coordinate or <em>ordinate</em>.
      */
-    y: number;
+    y: number
 }
 
 /**
@@ -1297,25 +1301,25 @@ export interface Lockable {
      * If the `Lockable` is in the unlocked state then it is mutable.
      * If the `Lockable` is in the locked state then it is immutable.
      */
-    isLocked(): boolean;
+    isLocked(): boolean
     /**
      * Locks this `Lockable` (preventing any further mutation),
      * and returns a token that may be used to unlock it.
      */
-    lock(): number;
+    lock(): number
     /**
      * Unlocks this `Lockable` (allowing mutation),
      * using a token that was obtained from a preceding lock method call.
      */
-    unlock(token: number): void;
+    unlock(token: number): void
 }
 
 /**
  *
  */
 export class VectorN<T> implements Lockable {
-    coords: T[];
-    modified: boolean;
+    coords: T[]
+    modified: boolean
     constructor(coords: T[], modified?: boolean, size?: number);
     clone(): VectorN<T>;
     getComponent(index: number): T;
@@ -1353,11 +1357,11 @@ export class Geometric2 extends VectorN<number> implements GeometricE2 {
      * You can also use Unicode symbols
      * 
      */
-    static BASIS_LABELS: (string | string[])[];
+    static BASIS_LABELS: (string | string[])[]
 
-    static BASIS_LABELS_COMPASS: (string | string[])[];
-    static BASIS_LABELS_GEOMETRIC: (string | string[])[];
-    static BASIS_LABELS_STANDARD: (string | string[])[];
+    static BASIS_LABELS_COMPASS: (string | string[])[]
+    static BASIS_LABELS_GEOMETRIC: (string | string[])[]
+    static BASIS_LABELS_STANDARD: (string | string[])[]
 
     /**
      * Constructs a Geometric2.
@@ -1368,22 +1372,22 @@ export class Geometric2 extends VectorN<number> implements GeometricE2 {
     /**
      * The coordinate corresponding to the unit standard basis scalar.
      */
-    a: number;
+    a: number
 
     /**
      * The coordinate corresponding to the e1 standard basis vector.
      */
-    x: number;
+    x: number
 
     /**
      * The coordinate corresponding to the e2 standard basis vector.
      */
-    y: number;
+    y: number
 
     /**
      * The coordinate corresponding to the e1e2 standard basis bivector.
      */
-    b: number;
+    b: number
 
     /**
      * 
@@ -3905,11 +3909,11 @@ export class HTMLScriptsMaterial extends ShaderMaterial {
 /**
  * The attribute size type corresponds to float, vec2, vec3, or vec4.
  */
-export type AttributeSizeType = 1 | 2 | 3 | 4;
+export type AttributeSizeType = 1 | 2 | 3 | 4
 /**
  * 
  */
-export type UniformGlslType = 'float' | 'mat2' | 'mat3' | 'mat4' | 'sampler2D' | 'vec2' | 'vec3' | 'vec4';
+export type UniformGlslType = 'float' | 'mat2' | 'mat3' | 'mat4' | 'sampler2D' | 'vec2' | 'vec3' | 'vec4'
 
 export enum GLSLESVersion {
     OneHundred = "100",
@@ -3927,16 +3931,16 @@ export interface MaterialOptions {
      * 'aThing': 3 => 'attribute vec3 aThing;'
      * 'aThing': 4 => 'attribute vec4 aThing;'
      */
-    attributes?: { [name: string]: AttributeSizeType };
+    attributes?: { [name: string]: AttributeSizeType }
     /**
      * A mapping from the uniform name to the type name.
      * For example, 'M': 'mat4' produces 'uniform mat4 M;'.
      */
-    uniforms?: { [name: string]: UniformGlslType };
+    uniforms?: { [name: string]: UniformGlslType }
     /**
      * An optional GLSL version that can be used to override the default algorithm for shader version.
      */
-    version?: GLSLESVersion;
+    version?: GLSLESVersion
 }
 
 export interface PointMaterialOptions extends MaterialOptions {
@@ -4434,7 +4438,7 @@ export class Box extends Mesh<Geometry, Material> {
     /**
      * 
      */
-    depth: number;
+    depth: number
     /**
      * Constructs a Box.
      */
