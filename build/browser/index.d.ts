@@ -1,4 +1,4 @@
-// Type definitions for davinci-eight 8.4.1
+// Type definitions for davinci-eight 8.4.2
 // Project: https://github.com/geometryzen/davinci-eight
 // Definitions by: David Geo Holmes david.geo.holmes@gmail.com https://www.stemcstudio.com
 //
@@ -825,14 +825,6 @@ export class TextureLoader {
      * @param options 
      */
     imageTexture(url: string, options?: TextureLoaderOptions): Promise<ImageTexture>;
-    /**
-     * @deprecated
-     * @param url The Uniform Resource Locator of the image.
-     * @param onLoad 
-     * @param onError 
-     * @param options 
-     */
-    loadImageTexture(url: string, onLoad: (texture: ImageTexture) => any, onError?: () => any, options?: TextureLoaderOptions): void;
 }
 
 /**
@@ -3097,10 +3089,6 @@ export class Scene extends ShareableContextConsumer implements Renderable {
     contextGain(): void;
     contextLost(): void;
     protected destructor(levelUp: number): void;
-    /**
-     * @deprecated. Please use the render method instead.
-     */
-    draw(ambients: Facet[]): void;
     find(match: (drawable: Renderable) => boolean): ShareableArray<Renderable>;
     findByName(name: string): ShareableArray<Renderable>;
     findOne(match: (drawable: Renderable) => boolean): Renderable;
@@ -4972,7 +4960,7 @@ export interface TetrahedronOptions {
     /**
      * 
      */
-    mode?: 'mesh' | 'wire' | 'point';
+    mode?: 'mesh' | 'wire' | 'point'
     /**
      * 
      */
@@ -5084,10 +5072,6 @@ export class Trail extends ShareableBase implements Renderable {
      * 
      */
     protected destructor(levelUp: number): void;
-    /**
-     * @deprecated. Use the render method instead.
-     */
-    draw(ambients: Facet[]): void;
     /**
      * Erases the trail history.
      */

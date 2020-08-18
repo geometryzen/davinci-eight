@@ -6,7 +6,7 @@ export declare class Eight {
     /**
      * The last modification date in YYYY-MM-DD format.
      */
-    readonly LAST_MODIFIED: "2020-08-17";
+    readonly LAST_MODIFIED: "2020-08-18";
     /**
      * The name used for marketing purposes.
      */
@@ -14,7 +14,7 @@ export declare class Eight {
     /**
      * The semantic version number of this library, i.e., (major.minor.patch) format.
      */
-    readonly VERSION: "8.4.1";
+    readonly VERSION: "8.4.2";
     constructor();
     log(message?: any): void;
     info(message?: any): void;
