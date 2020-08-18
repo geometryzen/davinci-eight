@@ -1,4 +1,4 @@
-// Type definitions for davinci-eight 8.4.0
+// Type definitions for davinci-eight 8.4.1
 // Project: https://github.com/geometryzen/davinci-eight
 // Definitions by: David Geo Holmes david.geo.holmes@gmail.com https://www.stemcstudio.com
 //
@@ -4957,7 +4957,35 @@ export class Sphere extends Mesh<Geometry, Material> {
  * Options for the creation of a new Tetrahedron.
  */
 export interface TetrahedronOptions {
-
+    /**
+     * 
+     */
+    axis?: VectorE3
+    /**
+     * 
+     */
+    color?: { r: number; g: number; b: number }
+    /**
+     * 
+     */
+    meridian?: VectorE3
+    /**
+     * 
+     */
+    mode?: 'mesh' | 'wire' | 'point';
+    /**
+     * 
+     */
+    offset?: VectorE3
+    /**
+     * 
+     */
+    tilt?: SpinorE3
+    textured?: boolean
+    transparent?: boolean
+    emissive?: boolean
+    colored?: boolean
+    reflective?: boolean
 }
 
 /**
@@ -4967,7 +4995,7 @@ export class Tetrahedron extends Mesh<Geometry, Material> {
     /**
      * 
      */
-    radius: number;
+    radius: number
     /**
      * Constructs a Tetrahedron.
      */

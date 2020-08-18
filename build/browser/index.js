@@ -90,9 +90,9 @@
     var Eight = /** @class */ (function () {
         function Eight() {
             this.GITHUB = "https://github.com/geometryzen/davinci-eight";
-            this.LAST_MODIFIED = "2020-08-15";
+            this.LAST_MODIFIED = "2020-08-17";
             this.MARKETING_NAME = "DaVinci eight";
-            this.VERSION = '8.4.0';
+            this.VERSION = '8.4.1';
         }
         Eight.prototype.log = function (message) {
             // This should allow us to unit test and run in environments without a console.
@@ -21552,6 +21552,7 @@
                 else if (script.type.indexOf('fragment') >= 0) {
                     result[1] = elementId;
                 }
+                else ;
             }
             if (isString(script.textContent)) {
                 if (script.textContent.indexOf('gl_Position') >= 0) {
@@ -21560,6 +21561,7 @@
                 else if (script.textContent.indexOf('gl_FragColor') >= 0) {
                     result[1] = elementId;
                 }
+                else ;
             }
         }
     }
