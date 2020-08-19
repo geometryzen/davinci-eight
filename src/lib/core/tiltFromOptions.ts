@@ -5,7 +5,13 @@ import { VectorE3 } from '../math/VectorE3';
 import { R3 } from '../math/R3';
 import { vec } from '../math/R3';
 
+/**
+ * e2 = vec(0, 1, 0)
+ */
 export const canonicalAxis: Readonly<R3> = vec(0, 1, 0);
+/**
+ * e3 = vec(0, 0, 1)
+ */
 export const canonicalMeridian: Readonly<R3> = vec(0, 0, 1);
 
 /**

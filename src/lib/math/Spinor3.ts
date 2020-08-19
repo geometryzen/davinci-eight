@@ -64,6 +64,9 @@ export class Spinor3 implements CartesianG3, SpinorE3, Lockable, VectorN<number>
     private modified_: boolean;
 
     /**
+     * Initializes the spinor from the specified coordinates.
+     * The spinor is not locked.
+     * The spinor is not modified.
      * @param coords [yz, zx, xy, a]
      * @param code
      */
@@ -1148,6 +1151,8 @@ export class Spinor3 implements CartesianG3, SpinorE3, Lockable, VectorN<number>
 
     /**
      * Constructs a new Spinor3 from coordinates. 
+     * The returned spinor is not locked.
+     * The returned spinor is not modified.
      * @param yz The coordinate corresponding to the e2e3 basis bivector.
      * @param zx The coordinate corresponding to the e3e1 basis bivector.
      * @param xy The coordinate corresponding to the e1e2 basis bivector.
@@ -1158,7 +1163,10 @@ export class Spinor3 implements CartesianG3, SpinorE3, Lockable, VectorN<number>
     }
 
     /**
-     *
+     * A spinor with the value of 1.
+     * The spinor is not modified (initially).
+     * The spinor is not locked (initially).
+     * @deprecated This value may become locked in future. User Spinor3.spinor(0, 0, 0, 1) instead.
      */
     static readonly one = Spinor3.spinor(0, 0, 0, 1);
 
@@ -1183,7 +1191,10 @@ export class Spinor3 implements CartesianG3, SpinorE3, Lockable, VectorN<number>
     }
 
     /**
-     *
+     * A spinor with the value of 0.
+     * The spinor is not modified (initially).
+     * The spinor is not locked (initially).
+     * @deprecated This value may become locked in future. User Spinor3.spinor(0, 0, 0, 0) instead.
      */
     static readonly zero = Spinor3.spinor(0, 0, 0, 0);
 }

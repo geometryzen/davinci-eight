@@ -1,12 +1,20 @@
+import { Transform } from '../atoms/Transform';
+import { Vertex } from '../atoms/Vertex';
 import { Primitive } from '../core/Primitive';
 import { Spinor3 } from '../math/Spinor3';
 import { Vector3 } from '../math/Vector3';
-import { Vertex } from '../atoms/Vertex';
-import { Transform } from '../atoms/Transform';
 /**
  * A framework, as a base class, for building primitives by applying transformations to vertices.
  */
 export declare class PrimitivesBuilder {
+    /**
+     *
+     */
+    zenith: Vector3;
+    /**
+     *
+     */
+    meridian: Vector3;
     /**
      * The scaling to apply to the geometry in the initial configuration.
      * This has a slightly strange sounding name because it involves a

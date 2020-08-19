@@ -39,11 +39,13 @@ npm update
 to install the tooling dependencies (For this you need to have [Node.js](http://nodejs.org) installed).
 
 ```bash
+npm run info
 npm run lint
 npm run build
 npm run test
 npm run docs
 npm run pages
+npm run watch
 ```
 
 to compile the source using the TypeScript compiler (For this you need to have [TypeScript](http://www.typescriptlang.org) installed) and to package the individual files into a single JavaScript file.
@@ -51,12 +53,6 @@ to compile the source using the TypeScript compiler (For this you need to have [
 ## Making Changes
 
 Make your changes to the TypeScript files in the _src_ directory. Do not edit the files in the _dist_ directory, these files will be generated.
-
-## Testing
-
-```bash
-karma start
-```
 
 ## Versioning
 

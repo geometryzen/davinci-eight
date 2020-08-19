@@ -19,18 +19,62 @@ import { SpinorE3 } from '../math/SpinorE3';
 import { Vector2 } from '../math/Vector2';
 import { Vector3 } from '../math/Vector3';
 import { VectorE3 } from '../math/VectorE3';
+import { mustBeDefined } from '../checks/mustBeDefined';
 
-const DEFAULT_MERIDIAN = vec(0, 0, 1);
-const DEFAULT_ZENITH = vec(0, 1, 0);
-const DEFAULT_AZIMUTH_START = 0;
-const DEFAULT_AZIMUTH_LENGTH = 2 * Math.PI;
-const DEFAULT_AZIMUTH_SEGMENTS = 20;
-const DEFAULT_ELEVATION_START = 0;
-const DEFAULT_ELEVATION_LENGTH = Math.PI;
-const DEFAULT_ELEVATION_SEGMENTS = 10;
+const PI = Math.PI;
+const TAU = 2 * PI;
+
+// TODO: These values should only be used for making the options complete.
+// They should not be used directly in calculations.
+// To do so would mean an option value is missing.
+/**
+ * e3 = vec(0, 0, 1)
+ */
+export const DEFAULT_MERIDIAN = vec(0, 0, 1);
+/**
+ * e2 = vec(0, 1, 0)
+ */
+export const DEFAULT_ZENITH = vec(0, 1, 0);
+export const DEFAULT_STRESS = vec(1, 1, 1);
+export const DEFAULT_TILT = Spinor3.one.clone(); // TODO: Should be locked.
+export const DEFAULT_OFFSET = vec(0, 0, 0);
+
+export const DEFAULT_AZIMUTH_START = 0;
+export const DEFAULT_AZIMUTH_LENGTH = TAU;
+/**
+ * The default number of segments for the azimuth (phi) angle.
+ * By making this value 36, each segment represents 10 degrees.
+ */
+export const DEFAULT_AZIMUTH_SEGMENTS = 36;
+export const DEFAULT_ELEVATION_START = 0;
+/**
+ * The elevation ranges from zero to PI.
+ */
+export const DEFAULT_ELEVATION_LENGTH = PI;
+/**
+ * The default number of segments for the elevation (theta) angle.
+ * By making this value 18, each segment represents 10 degrees.
+ */
+export const DEFAULT_ELEVATION_SEGMENTS = 18;
 const DEFAULT_RADIUS = 1;
 
-function computeVertices(
+/**
+ * 
+ * @param stress 
+ * @param tilt 
+ * @param offset 
+ * @param azimuthStart 
+ * @param azimuthLength 
+ * @param azimuthSegments Must be an integer.
+ * @param elevationStart 
+ * @param elevationLength 
+ * @param elevationSegments Must be an integer. 
+ * @param points 
+ * @param uvs 
+ */
+export function computeSphereVerticesAndCoordinates(
+    zenith: VectorE3,
+    meridian: VectorE3,
     stress: VectorE3,
     tilt: SpinorE3,
     offset: VectorE3,
@@ -43,31 +87,65 @@ function computeVertices(
     points: Vector3[],
     uvs: Vector2[]
 ) {
+    mustBeDefined('points', points);
+    mustBeDefined('uvs', uvs);
 
-    const generator: SpinorE3 = Spinor3.dual(DEFAULT_ZENITH, false);
+    mustBeDefined('zenith', zenith);
+    mustBeDefined('meridian', meridian);
+    mustBeDefined('stress', stress);
+    mustBeDefined('tilt', tilt);
+    mustBeDefined('offset', offset);
+
+    mustBeNumber('azimuthStart', azimuthStart);
+    mustBeNumber('azimuthLength', azimuthLength);
+    mustBeInteger('azimuthSegments', azimuthSegments);
+
+    mustBeNumber('elevationStart', elevationStart);
+    mustBeNumber('elevationLength', elevationLength);
+    mustBeInteger('elevationSegments', elevationSegments);
+
+    const generator: Spinor3 = Spinor3.dual(zenith, false);
     const iLength = elevationSegments + 1;
     const jLength = azimuthSegments + 1;
 
     for (let i = 0; i < iLength; i++) {
-        const v = i / elevationSegments;
-
-        const θ: number = elevationStart + v * elevationLength;
-        const arcRadius = Math.sin(θ);
+        /**
+         * The elevation angle, zero at the zenith, PI/2 at the quator, PI at the nadir. 
+         */
+        const theta: number = elevationStart + (elevationSegments ? i / elevationSegments : 0) * elevationLength;
+        /**
+         * arcRadius assumes that we have a unit sphere.
+         */
+        const arcRadius = Math.sin(theta);
         const R = Geometric3.fromSpinor(generator).scale(-azimuthStart / 2).exp();
-        const begin = Geometric3.fromVector(DEFAULT_MERIDIAN).rotate(R).scale(arcRadius);
+        const begin = Geometric3.fromVector(meridian).rotate(R).scale(arcRadius);
 
         const arcPoints: Vector3[] = arc3(begin, azimuthLength, generator, azimuthSegments);
         /**
          * Displacement that we need to add (in the axis direction) to each arc point to get the
          * distance position parallel to the axis correct.
          */
-        const cosθ = Math.cos(θ);
-        const displacement = cosθ;
+        const arcHeight = Math.cos(theta);
 
+        /**
+         * The y component of texture coordinates a.k.a 'v'.
+         */
+        const v = theta / PI;
         for (let j = 0; j < jLength; j++) {
-            const point = arcPoints[j].add(DEFAULT_ZENITH, displacement).stress(stress).rotate(tilt).add(offset);
+            const arcPoint = arcPoints[j];
+            const point = arcPoint.add(zenith, arcHeight);
+            point.stress(stress).rotate(tilt).add(offset);
             points.push(point);
-            const u = j / azimuthSegments;
+            /**
+             * The azimuth angle, zero at the meridian, increasing eastwards to TAU back at the meridian. 
+             * Computed in order to compute the texture coordinate. 
+             */
+            const phi = azimuthStart + (azimuthSegments ? j / azimuthSegments : 0) * azimuthLength;
+            /**
+             * The x component of texture coordinates a.k.a 'u'.
+             */
+            const u = phi / TAU;
+            // TODO: Variation of texture coordinates with axis, meridian, stress, tilt, and offset.
             uvs.push(new Vector2([u, v]));
         }
     }
@@ -265,8 +343,12 @@ class SphereSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
         const points: Vector3[] = [];
         const uvs: Vector2[] = [];
 
-        computeVertices(
-            this.stress, this.tilt, this.offset,
+        computeSphereVerticesAndCoordinates(
+            this.zenith,
+            this.meridian,
+            this.stress,
+            this.tilt,
+            this.offset,
             this.azimuthStart, this.azimuthLength, this.azimuthSegments,
             this.elevationStart, this.elevationLength, this.elevationSegments,
             points, uvs);
@@ -398,12 +480,42 @@ function spherePrimitive(options: SphereGeometryOptions = { kind: 'SphereGeometr
     else {
         mustBeInteger('elevationSegments', options.elevationSegments);
     }
+
+    if (options.axis) {
+        builder.zenith.copy(options.axis);
+    }
+    else {
+        builder.zenith.copy(DEFAULT_ZENITH);
+    }
+
+    if (options.meridian) {
+        builder.meridian.copy(options.meridian);
+    }
+    else {
+        builder.meridian.copy(DEFAULT_MERIDIAN);
+    }
+
     if (options.stress) {
         builder.stress.copy(options.stress);
     }
+    else {
+        builder.stress.copy(DEFAULT_STRESS);
+    }
+
+    if (options.tilt) {
+        builder.tilt.copy(options.tilt);
+    }
+    else {
+        builder.tilt.copy(DEFAULT_TILT);
+    }
+
     if (options.offset) {
         builder.offset.copy(options.offset);
     }
+    else {
+        builder.offset.copy(DEFAULT_OFFSET);
+    }
+
     const primitives = builder.toPrimitives();
     if (primitives.length === 1) {
         return primitives[0];
@@ -414,7 +526,7 @@ function spherePrimitive(options: SphereGeometryOptions = { kind: 'SphereGeometr
 }
 
 /**
- * A convenience class for creating a sphere.
+ * A convenience class for creating sphere geometry elements.
  */
 export class SphereGeometry extends GeometryElements {
     /**

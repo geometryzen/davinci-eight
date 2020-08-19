@@ -60,10 +60,12 @@ export class Vector3 implements CartesianG3, VectorE3, Lockable, VectorN<number>
     }
 
     /**
-     * @param coords
-     * @param modified
+     * Initializes the vector to the specified coordinates and modification state.
+     * The returned vector is not locked.
+     * @param coords Three numbers corresponding to the x, y, and z coordinates. Default is [0, 0, 0].
+     * @param modified The modification state. Default is false.
      */
-    constructor(coords: number[] = [0, 0, 0], modified = false) {
+    constructor(coords: [number, number, number] = [0, 0, 0], modified = false) {
         this.coords_ = coords;
         this.modified_ = modified;
     }
@@ -146,13 +148,12 @@ export class Vector3 implements CartesianG3, VectorE3, Lockable, VectorN<number>
      * <code>this ⟼ this + vector * α</code>
      * </p>
      *
-     * @method add
-     * @param vector {Vector3}
-     * @param [α = 1] {number}
-     * @return {Vector3} <code>this</code>
+     * @param vector
+     * @param α
+     * @return <code>this</code>
      * @chainable
      */
-    add(vector: VectorE3, α = 1) {
+    add(vector: VectorE3, α = 1): this {
         this.x += vector.x * α;
         this.y += vector.y * α;
         this.z += vector.z * α;
@@ -223,7 +224,7 @@ export class Vector3 implements CartesianG3, VectorE3, Lockable, VectorN<number>
      * @return {Vector3} <code>this</code>
      * @chainable
      */
-    reflect(n: VectorE3) {
+    reflect(n: VectorE3): this {
         const ax = this.x;
         const ay = this.y;
         const az = this.z;
@@ -562,7 +563,7 @@ export class Vector3 implements CartesianG3, VectorE3, Lockable, VectorN<number>
      * @return {Vector3} <code>this</code>
      * @chainable
      */
-    setXYZ(x: number, y: number, z: number) {
+    setXYZ(x: number, y: number, z: number): this {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -812,23 +813,21 @@ export class Vector3 implements CartesianG3, VectorE3, Lockable, VectorN<number>
     }
 
     /**
-     * @method vector
-     * @param x {number}
-     * @param y {number}
-     * @param z {number}
-     * @return {Vector3}
-     * @static
-     * @chainable
+     * Creates a vector with the specified cartesian coordinates.
+     * The returned vector is not locked.
+     * The returned vector is not modified.
+     * @param x The x-coordinate.
+     * @param y The y-coordinate.
+     * @param z The z-coordinate.
      */
     static vector(x: number, y: number, z: number): Vector3 {
         return new Vector3([x, y, z]);
     }
 
     /**
-     * @method zero
-     * @return {Vector3}
-     * @static
-     * @chainable
+     * Creates a vector with all cartesian coordinates set to zero.
+     * The returned vector is not locked.
+     * The returned vector is not modified.
      */
     static zero(): Vector3 {
         return new Vector3([0, 0, 0]);

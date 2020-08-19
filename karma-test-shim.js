@@ -8,7 +8,7 @@ Error.stackTraceLimit = Infinity;
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000;
 
 // (1)
-var builtPaths = (__karma__.config.builtPaths || ['test/'])
+var builtPaths = (__karma__.config.builtPaths || ['karma_test_build/'])
     .map(function (p) { return '/base/' + p; });
 
 // (2) Use this hook to tell Karma not to start the tests.

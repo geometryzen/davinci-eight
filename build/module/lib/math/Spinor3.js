@@ -39,6 +39,9 @@ var magicCode = Math.random();
  */
 var Spinor3 = /** @class */ (function () {
     /**
+     * Initializes the spinor from the specified coordinates.
+     * The spinor is not locked.
+     * The spinor is not modified.
      * @param coords [yz, zx, xy, a]
      * @param code
      */
@@ -1061,6 +1064,8 @@ var Spinor3 = /** @class */ (function () {
     };
     /**
      * Constructs a new Spinor3 from coordinates.
+     * The returned spinor is not locked.
+     * The returned spinor is not modified.
      * @param yz The coordinate corresponding to the e2e3 basis bivector.
      * @param zx The coordinate corresponding to the e3e1 basis bivector.
      * @param xy The coordinate corresponding to the e1e2 basis bivector.
@@ -1086,11 +1091,17 @@ var Spinor3 = /** @class */ (function () {
         return Spinor3.spinor(yz, zx, xy, 0);
     };
     /**
-     *
+     * A spinor with the value of 1.
+     * The spinor is not modified (initially).
+     * The spinor is not locked (initially).
+     * @deprecated This value may become locked in future. User Spinor3.spinor(0, 0, 0, 1) instead.
      */
     Spinor3.one = Spinor3.spinor(0, 0, 0, 1);
     /**
-     *
+     * A spinor with the value of 0.
+     * The spinor is not modified (initially).
+     * The spinor is not locked (initially).
+     * @deprecated This value may become locked in future. User Spinor3.spinor(0, 0, 0, 0) instead.
      */
     Spinor3.zero = Spinor3.spinor(0, 0, 0, 0);
     return Spinor3;

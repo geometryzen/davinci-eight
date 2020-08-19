@@ -62,7 +62,7 @@
     }
 
     function isInteger(x) {
-        // % coerces its operand to numbers so a typeof test is required.
+        // % coerces its operand to numbers so a type guard is required.
         // Note that ECMAScript 6 provides Number.isInteger().
         return isNumber(x) && x % 1 === 0;
     }
@@ -90,24 +90,20 @@
     var Eight = /** @class */ (function () {
         function Eight() {
             this.GITHUB = "https://github.com/geometryzen/davinci-eight";
-            this.LAST_MODIFIED = "2020-08-18";
+            this.LAST_MODIFIED = "2020-08-19";
             this.MARKETING_NAME = "DaVinci eight";
-            this.VERSION = '8.4.2';
+            this.VERSION = '8.4.3';
         }
         Eight.prototype.log = function (message) {
-            // This should allow us to unit test and run in environments without a console.
             console.log(message);
         };
         Eight.prototype.info = function (message) {
-            // This should allow us to unit test and run in environments without a console.
             console.log(message);
         };
         Eight.prototype.warn = function (message) {
-            // This should allow us to unit test and run in environments without a console.
             console.warn(message);
         };
         Eight.prototype.error = function (message) {
-            // This should allow us to unit test and run in environments without a console.
             console.error(message);
         };
         return Eight;
@@ -341,7 +337,7 @@
             generate: function () {
                 return fromParts(randomUI32(), randomUI16(), 0x4000 | randomUI12(), 0x80 | randomUI06(), randomUI08(), randomUI48());
             },
-            // addition by Ka-Jan to test for validity
+            // addition by Ka-Jan to check for validity
             // Based on: http://stackoverflow.com/questions/7905929/how-to-test-valid-uuid-guid
             validate: function (uuid) {
                 var testPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -4036,6 +4032,9 @@
      */
     var Spinor3 = /** @class */ (function () {
         /**
+         * Initializes the spinor from the specified coordinates.
+         * The spinor is not locked.
+         * The spinor is not modified.
          * @param coords [yz, zx, xy, a]
          * @param code
          */
@@ -5058,6 +5057,8 @@
         };
         /**
          * Constructs a new Spinor3 from coordinates.
+         * The returned spinor is not locked.
+         * The returned spinor is not modified.
          * @param yz The coordinate corresponding to the e2e3 basis bivector.
          * @param zx The coordinate corresponding to the e3e1 basis bivector.
          * @param xy The coordinate corresponding to the e1e2 basis bivector.
@@ -5083,11 +5084,17 @@
             return Spinor3.spinor(yz, zx, xy, 0);
         };
         /**
-         *
+         * A spinor with the value of 1.
+         * The spinor is not modified (initially).
+         * The spinor is not locked (initially).
+         * @deprecated This value may become locked in future. User Spinor3.spinor(0, 0, 0, 1) instead.
          */
         Spinor3.one = Spinor3.spinor(0, 0, 0, 1);
         /**
-         *
+         * A spinor with the value of 0.
+         * The spinor is not modified (initially).
+         * The spinor is not locked (initially).
+         * @deprecated This value may become locked in future. User Spinor3.spinor(0, 0, 0, 0) instead.
          */
         Spinor3.zero = Spinor3.spinor(0, 0, 0, 0);
         return Spinor3;
@@ -5870,8 +5877,10 @@
      */
     var Vector3 = /** @class */ (function () {
         /**
-         * @param coords
-         * @param modified
+         * Initializes the vector to the specified coordinates and modification state.
+         * The returned vector is not locked.
+         * @param coords Three numbers corresponding to the x, y, and z coordinates. Default is [0, 0, 0].
+         * @param modified The modification state. Default is false.
          */
         function Vector3(coords, modified) {
             if (coords === void 0) { coords = [0, 0, 0]; }
@@ -5981,10 +5990,9 @@
          * <code>this ⟼ this + vector * α</code>
          * </p>
          *
-         * @method add
-         * @param vector {Vector3}
-         * @param [α = 1] {number}
-         * @return {Vector3} <code>this</code>
+         * @param vector
+         * @param α
+         * @return <code>this</code>
          * @chainable
          */
         Vector3.prototype.add = function (vector, α) {
@@ -6584,22 +6592,20 @@
             return Vector3.vector(x, y, z).normalize();
         };
         /**
-         * @method vector
-         * @param x {number}
-         * @param y {number}
-         * @param z {number}
-         * @return {Vector3}
-         * @static
-         * @chainable
+         * Creates a vector with the specified cartesian coordinates.
+         * The returned vector is not locked.
+         * The returned vector is not modified.
+         * @param x The x-coordinate.
+         * @param y The y-coordinate.
+         * @param z The z-coordinate.
          */
         Vector3.vector = function (x, y, z) {
             return new Vector3([x, y, z]);
         };
         /**
-         * @method zero
-         * @return {Vector3}
-         * @static
-         * @chainable
+         * Creates a vector with all cartesian coordinates set to zero.
+         * The returned vector is not locked.
+         * The returned vector is not modified.
          */
         Vector3.zero = function () {
             return new Vector3([0, 0, 0]);
@@ -10408,7 +10414,13 @@
         return Object.freeze(that);
     }
 
+    /**
+     * e2 = vec(0, 1, 0)
+     */
     var canonicalAxis = vec(0, 1, 0);
+    /**
+     * e3 = vec(0, 0, 1)
+     */
     var canonicalMeridian = vec(0, 0, 1);
 
     /**
@@ -12720,11 +12732,10 @@
         /**
          * @param canvas
          * @param attributes Allows the context to be configured.
-         * @param doc The document object model that contains the canvas identifier.
+         * @param dom The document object model that contains the canvas identifier.
          */
-        function Engine(canvas, attributes, doc) {
+        function Engine(canvas, attributes, dom) {
             if (attributes === void 0) { attributes = {}; }
-            if (doc === void 0) { doc = getWindowDocument(window); }
             var _this = _super.call(this) || this;
             // Remark: We only hold weak references to users so that the lifetime of resource
             // objects is not affected by the fact that they are listening for gl events.
@@ -12777,7 +12788,12 @@
                 }
             };
             if (canvas) {
-                _this.start(canvas, doc);
+                if (dom) {
+                    _this.start(canvas, dom);
+                }
+                else {
+                    _this.start(canvas, getWindowDocument(window));
+                }
             }
             return _this;
         }
@@ -13046,17 +13062,23 @@
          * Initializes the <code>WebGLRenderingContext</code> for the specified <code>HTMLCanvasElement</code>.
          *
          * @param canvas The HTML canvas element or canvas element identifier.
-         * @param doc The document object model that contains the canvas identifier.
+         * @param dom The document object model that contains the canvas identifier.
          */
-        Engine.prototype.start = function (canvas, doc) {
-            if (doc === void 0) { doc = window.document; }
+        Engine.prototype.start = function (canvas, dom) {
             if (typeof canvas === 'string') {
-                var canvasElement = doc.getElementById(canvas);
-                if (canvasElement) {
-                    return this.start(canvasElement, doc);
+                if (dom) {
+                    var canvasElement = dom.getElementById(canvas);
+                    if (canvasElement) {
+                        // Recursive call but this time the canvas is an HTML canvas element.
+                        return this.start(canvasElement, dom);
+                    }
+                    else {
+                        throw new Error("canvas argument must be a canvas element id or an HTMLCanvasElement.");
+                    }
                 }
                 else {
-                    throw new Error("canvas argument must be a canvas element id or an HTMLCanvasElement.");
+                    // Recursive call but this time the document object model is defined.
+                    return this.start(canvas, getWindowDocument(window));
                 }
             }
             else if (canvas instanceof HTMLCanvasElement) {
@@ -18278,6 +18300,14 @@
     var PrimitivesBuilder = /** @class */ (function () {
         function PrimitivesBuilder() {
             /**
+             *
+             */
+            this.zenith = Vector3.vector(0, 1, 0);
+            /**
+             *
+             */
+            this.meridian = Vector3.vector(0, 0, 1);
+            /**
              * The scaling to apply to the geometry in the initial configuration.
              * This has a slightly strange sounding name because it involves a
              * reference frame specific transformation.
@@ -19509,6 +19539,9 @@
         mustBeNumber('angle', angle);
         mustBeDefined('generator', generator);
         mustBeInteger('segments', segments);
+        if (isNaN(begin.x) || isNaN(begin.y) || isNaN(begin.z)) {
+            throw new Error("arc3(begin=" + begin.toString() + ")");
+        }
         /**
          * The return value is an array of points with length => segments + 1.
          */
@@ -20375,36 +20408,107 @@
         return GridGeometry;
     }(GeometryElements));
 
+    var PI = Math.PI;
+    var TAU = 2 * PI;
+    // TODO: These values should only be used for making the options complete.
+    // They should not be used directly in calculations.
+    // To do so would mean an option value is missing.
+    /**
+     * e3 = vec(0, 0, 1)
+     */
     var DEFAULT_MERIDIAN = vec(0, 0, 1);
+    /**
+     * e2 = vec(0, 1, 0)
+     */
     var DEFAULT_ZENITH = vec(0, 1, 0);
+    var DEFAULT_STRESS = vec(1, 1, 1);
+    var DEFAULT_TILT = Spinor3.one.clone(); // TODO: Should be locked.
+    var DEFAULT_OFFSET = vec(0, 0, 0);
     var DEFAULT_AZIMUTH_START = 0;
-    var DEFAULT_AZIMUTH_LENGTH = 2 * Math.PI;
-    var DEFAULT_AZIMUTH_SEGMENTS = 20;
+    var DEFAULT_AZIMUTH_LENGTH = TAU;
+    /**
+     * The default number of segments for the azimuth (phi) angle.
+     * By making this value 36, each segment represents 10 degrees.
+     */
+    var DEFAULT_AZIMUTH_SEGMENTS = 36;
     var DEFAULT_ELEVATION_START = 0;
-    var DEFAULT_ELEVATION_LENGTH = Math.PI;
-    var DEFAULT_ELEVATION_SEGMENTS = 10;
+    /**
+     * The elevation ranges from zero to PI.
+     */
+    var DEFAULT_ELEVATION_LENGTH = PI;
+    /**
+     * The default number of segments for the elevation (theta) angle.
+     * By making this value 18, each segment represents 10 degrees.
+     */
+    var DEFAULT_ELEVATION_SEGMENTS = 18;
     var DEFAULT_RADIUS = 1;
-    function computeVertices(stress, tilt, offset, azimuthStart, azimuthLength, azimuthSegments, elevationStart, elevationLength, elevationSegments, points, uvs) {
-        var generator = Spinor3.dual(DEFAULT_ZENITH, false);
+    /**
+     *
+     * @param stress
+     * @param tilt
+     * @param offset
+     * @param azimuthStart
+     * @param azimuthLength
+     * @param azimuthSegments Must be an integer.
+     * @param elevationStart
+     * @param elevationLength
+     * @param elevationSegments Must be an integer.
+     * @param points
+     * @param uvs
+     */
+    function computeSphereVerticesAndCoordinates(zenith, meridian, stress, tilt, offset, azimuthStart, azimuthLength, azimuthSegments, elevationStart, elevationLength, elevationSegments, points, uvs) {
+        mustBeDefined('points', points);
+        mustBeDefined('uvs', uvs);
+        mustBeDefined('zenith', zenith);
+        mustBeDefined('meridian', meridian);
+        mustBeDefined('stress', stress);
+        mustBeDefined('tilt', tilt);
+        mustBeDefined('offset', offset);
+        mustBeNumber('azimuthStart', azimuthStart);
+        mustBeNumber('azimuthLength', azimuthLength);
+        mustBeInteger('azimuthSegments', azimuthSegments);
+        mustBeNumber('elevationStart', elevationStart);
+        mustBeNumber('elevationLength', elevationLength);
+        mustBeInteger('elevationSegments', elevationSegments);
+        var generator = Spinor3.dual(zenith, false);
         var iLength = elevationSegments + 1;
         var jLength = azimuthSegments + 1;
         for (var i = 0; i < iLength; i++) {
-            var v = i / elevationSegments;
-            var θ = elevationStart + v * elevationLength;
-            var arcRadius = Math.sin(θ);
+            /**
+             * The elevation angle, zero at the zenith, PI/2 at the quator, PI at the nadir.
+             */
+            var theta = elevationStart + (elevationSegments ? i / elevationSegments : 0) * elevationLength;
+            /**
+             * arcRadius assumes that we have a unit sphere.
+             */
+            var arcRadius = Math.sin(theta);
             var R = Geometric3.fromSpinor(generator).scale(-azimuthStart / 2).exp();
-            var begin = Geometric3.fromVector(DEFAULT_MERIDIAN).rotate(R).scale(arcRadius);
+            var begin = Geometric3.fromVector(meridian).rotate(R).scale(arcRadius);
             var arcPoints = arc3(begin, azimuthLength, generator, azimuthSegments);
             /**
              * Displacement that we need to add (in the axis direction) to each arc point to get the
              * distance position parallel to the axis correct.
              */
-            var cosθ = Math.cos(θ);
-            var displacement = cosθ;
+            var arcHeight = Math.cos(theta);
+            /**
+             * The y component of texture coordinates a.k.a 'v'.
+             */
+            var v = theta / PI;
             for (var j = 0; j < jLength; j++) {
-                var point = arcPoints[j].add(DEFAULT_ZENITH, displacement).stress(stress).rotate(tilt).add(offset);
+                var arcPoint = arcPoints[j];
+                var point = arcPoint.add(zenith, arcHeight);
+                point.stress(stress).rotate(tilt).add(offset);
                 points.push(point);
-                var u = j / azimuthSegments;
+                /**
+                 * The azimuth angle, zero at the meridian, increasing eastwards to TAU back at the meridian.
+                 * Computed in order to compute the texture coordinate.
+                 */
+                var phi = azimuthStart + (azimuthSegments ? j / azimuthSegments : 0) * azimuthLength;
+                /**
+                 * The x component of texture coordinates a.k.a 'u'.
+                 */
+                var u = phi / TAU;
+                // TODO: Variation of texture coordinates with axis, meridian, stress, tilt, and offset.
                 uvs.push(new Vector2([u, v]));
             }
         }
@@ -20588,7 +20692,7 @@
             // Output. Could this be {[name:string]:VertexN<number>}[]
             var points = [];
             var uvs = [];
-            computeVertices(this.stress, this.tilt, this.offset, this.azimuthStart, this.azimuthLength, this.azimuthSegments, this.elevationStart, this.elevationLength, this.elevationSegments, points, uvs);
+            computeSphereVerticesAndCoordinates(this.zenith, this.meridian, this.stress, this.tilt, this.offset, this.azimuthStart, this.azimuthLength, this.azimuthSegments, this.elevationStart, this.elevationLength, this.elevationSegments, points, uvs);
             switch (this.k) {
                 case SimplexMode.EMPTY: {
                     makeTriangles(points, uvs, this.radius, this.elevationSegments, this.azimuthSegments, this);
@@ -20712,11 +20816,35 @@
         else {
             mustBeInteger('elevationSegments', options.elevationSegments);
         }
+        if (options.axis) {
+            builder.zenith.copy(options.axis);
+        }
+        else {
+            builder.zenith.copy(DEFAULT_ZENITH);
+        }
+        if (options.meridian) {
+            builder.meridian.copy(options.meridian);
+        }
+        else {
+            builder.meridian.copy(DEFAULT_MERIDIAN);
+        }
         if (options.stress) {
             builder.stress.copy(options.stress);
         }
+        else {
+            builder.stress.copy(DEFAULT_STRESS);
+        }
+        if (options.tilt) {
+            builder.tilt.copy(options.tilt);
+        }
+        else {
+            builder.tilt.copy(DEFAULT_TILT);
+        }
         if (options.offset) {
             builder.offset.copy(options.offset);
+        }
+        else {
+            builder.offset.copy(DEFAULT_OFFSET);
         }
         var primitives = builder.toPrimitives();
         if (primitives.length === 1) {
@@ -20727,7 +20855,7 @@
         }
     }
     /**
-     * A convenience class for creating a sphere.
+     * A convenience class for creating sphere geometry elements.
      */
     var SphereGeometry = /** @class */ (function (_super) {
         __extends(SphereGeometry, _super);
@@ -22985,6 +23113,14 @@
         */
         return { axis: axis, length: length, meridian: meridian, radius: radius, sliceAngle: sliceAngle };
     }
+    /**
+     * Defaults:
+     * axis:       e2,
+     * length:     1,
+     * meridian:   e3,
+     * radius:     0.5,
+     * sliceAngle: tau.
+     */
     var ds = make(INITIAL_AXIS, INITIAL_LENGTH, INITIAL_MERIDIAN, INITIAL_RADIUS, INITIAL_SLICE);
 
     function pointMaterialOptions() {
@@ -23093,7 +23229,8 @@
 
     /**
      * Reduce to the vectorE3 data structure.
-     * If the value of the vector is 0, return void 0.
+     * If the value of the vector is 0, return undefined.
+     * TODO: Why do we do this "dangerous" thing?
      */
     function simplify(vector) {
         if (vector.x !== 0 || vector.y !== 0 || vector.z !== 0) {
@@ -23104,7 +23241,7 @@
         }
     }
     /**
-     * This function computes the initial requested direction of an object.
+     * This function computes the initial requested offset of an object.
      */
     function offsetFromOptions(options) {
         if (options.offset) {
@@ -23549,11 +23686,11 @@
             geoOptions.elevationLength = options.elevationLength;
             geoOptions.elevationSegments = options.elevationSegments;
             geoOptions.elevationStart = options.elevationStart;
-            geoOptions.offset = offsetFromOptions(options);
-            geoOptions.stress = void 0;
-            geoOptions.tilt = spinorE3Object(options.tilt);
             geoOptions.axis = vectorE3Object(referenceAxis(options, ds.axis).direction());
             geoOptions.meridian = vectorE3Object(referenceMeridian(options, ds.meridian).direction());
+            geoOptions.stress = void 0;
+            geoOptions.tilt = spinorE3Object(options.tilt);
+            geoOptions.offset = offsetFromOptions(options);
             var cachedGeometry = contextManager.getCacheGeometry(geoOptions);
             if (cachedGeometry && cachedGeometry instanceof SphereGeometry) {
                 _this.geometry = cachedGeometry;

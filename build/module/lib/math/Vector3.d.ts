@@ -27,10 +27,12 @@ export declare class Vector3 implements CartesianG3, VectorE3, Lockable, VectorN
      */
     static dot(a: VectorE3, b: VectorE3): number;
     /**
-     * @param coords
-     * @param modified
+     * Initializes the vector to the specified coordinates and modification state.
+     * The returned vector is not locked.
+     * @param coords Three numbers corresponding to the x, y, and z coordinates. Default is [0, 0, 0].
+     * @param modified The modification state. Default is false.
      */
-    constructor(coords?: number[], modified?: boolean);
+    constructor(coords?: [number, number, number], modified?: boolean);
     get length(): number;
     get modified(): boolean;
     set modified(modified: boolean);
@@ -60,10 +62,9 @@ export declare class Vector3 implements CartesianG3, VectorE3, Lockable, VectorN
      * <code>this ⟼ this + vector * α</code>
      * </p>
      *
-     * @method add
-     * @param vector {Vector3}
-     * @param [α = 1] {number}
-     * @return {Vector3} <code>this</code>
+     * @param vector
+     * @param α
+     * @return <code>this</code>
      * @chainable
      */
     add(vector: VectorE3, α?: number): this;
@@ -375,20 +376,18 @@ export declare class Vector3 implements CartesianG3, VectorE3, Lockable, VectorN
      */
     static random(): Vector3;
     /**
-     * @method vector
-     * @param x {number}
-     * @param y {number}
-     * @param z {number}
-     * @return {Vector3}
-     * @static
-     * @chainable
+     * Creates a vector with the specified cartesian coordinates.
+     * The returned vector is not locked.
+     * The returned vector is not modified.
+     * @param x The x-coordinate.
+     * @param y The y-coordinate.
+     * @param z The z-coordinate.
      */
     static vector(x: number, y: number, z: number): Vector3;
     /**
-     * @method zero
-     * @return {Vector3}
-     * @static
-     * @chainable
+     * Creates a vector with all cartesian coordinates set to zero.
+     * The returned vector is not locked.
+     * The returned vector is not modified.
      */
     static zero(): Vector3;
 }

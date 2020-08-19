@@ -4,14 +4,14 @@
             'npm:': 'node_modules/'
         },
         map: {
-            'test': 'test',
+            'test': 'karma_test_build',
             'tslib': 'npm:tslib/tslib.js'
         },
         packages: {
-            test: {
+            'test': {
                 defaultExtension: 'js'
             },
-            tslib: {
+            'tslib': {
                 defaultExtension: 'js'
             }
         }

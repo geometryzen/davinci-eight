@@ -1,6 +1,6 @@
 {
     "name": "davinci-eight",
-    "version": "8.4.2",
+    "version": "8.4.3",
     "description": "WebGL library for mathematical physics using Geometric Algebra",
     "author": {
         "name": "David Geo Holmes",
@@ -38,23 +38,24 @@
         "info": "npm-scripts-info",
         "build": "trash build && tsc -p tsconfig.module.json && npm run build:browser",
         "build:browser": "rollup --config rollup.config.js && cp src/index.d.ts build/browser",
-        "lint": "clear && tslint src/**/*.ts && tslint src/lib/**/*.ts",
-        "unit": "trash test && tsc -p tsconfig.test.json && karma start",
+        "lint": "tslint src/**/*.ts && tslint src/lib/**/*.ts",
+        "unit": "trash karma_test_build && tsc -p tsconfig.karma.json && karma start",
         "test": "npm run lint && npm run unit && nyc check-coverage --lines 40 --functions 30 --branches 20",
-        "watch": "concurrently -r --kill-others 'tsc -p tsconfig.test.json -w' 'sleepms 2000 && jasmine-node test --autotest --watch test'",
-        "coverage": "trash test && tsc -p tsconfig.test.json && nyc karma start && nyc report --reporter=html && open-cli coverage/index.html",
+        "watch": "concurrently -r --kill-others 'tsc -p tsconfig.karma.json -w' 'sleepms 2000 && jasmine-node karma_test_build --autotest --watch karma_test_build'",
+        "coverage": "trash karma_test_build && tsc -p tsconfig.karma.json && nyc karma start && nyc report --reporter=html && open-cli coverage/index.html",
         "docs": "npm run docs:typedoc && open-cli docs/index.html",
         "docs:typedoc": "trash docs && typedoc --options typedoc.json",
         "pages": "npm run docs:typedoc && gh-pages -d docs",
         "changelog": "standard-version"
     },
     "scripts-info": {
-        "info": "Displays information about the scripts.",
-        "build": "Build the package.",
-        "test": "Run the tests.",
-        "docs": "Generate documentation.",
-        "pages": "Publish documentation as GitHub pages.",
-        "watch": "Watch codebase, trigger build when source code changes."
+        "npm run info": "Displays information about the scripts.",
+        "npm run lint": "Check the source for linting errors.",
+        "npm run build": "Build the package.",
+        "npm run test": "Run the tests.",
+        "npm run docs": "Generate documentation.",
+        "npm run pages": "Publish documentation as GitHub pages.",
+        "npm run watch": "Watch codebase, trigger build when source code changes."
     },
     "devDependencies": {
         "@rollup/plugin-alias": "^3.1.1",
@@ -84,7 +85,7 @@
         "nyc": "^15.1.0",
         "open-cli": "^6.0.1",
         "phantomjs-polyfill": "^0.0.2",
-        "rollup": "^2.26.3",
+        "rollup": "^2.26.4",
         "rollup-watch": "^4.3.1",
         "sleep-ms": "^2.0.1",
         "sorcery": "^0.10.0",

@@ -104,9 +104,9 @@ export class Engine extends ShareableBase implements ContextManager {
     /**
      * @param canvas 
      * @param attributes Allows the context to be configured.
-     * @param doc The document object model that contains the canvas identifier.
+     * @param dom The document object model that contains the canvas identifier.
      */
-    constructor(canvas?: string | HTMLCanvasElement | WebGL2RenderingContext, attributes: EngineAttributes = {}, doc = getWindowDocument(window)) {
+    constructor(canvas?: string | HTMLCanvasElement | WebGL2RenderingContext, attributes: EngineAttributes = {}, dom?: Document) {
         super();
         this.setLoggingName('Engine');
 
@@ -144,14 +144,16 @@ export class Engine extends ShareableBase implements ContextManager {
                         user.contextGain();
                     });
                 }
-                else {
-                    // 
-                }
             }
         };
 
         if (canvas) {
-            this.start(canvas, doc);
+            if (dom) {
+                this.start(canvas, dom);
+            }
+            else {
+                this.start(canvas, getWindowDocument(window));
+            }
         }
     }
 
@@ -422,16 +424,23 @@ export class Engine extends ShareableBase implements ContextManager {
      * Initializes the <code>WebGLRenderingContext</code> for the specified <code>HTMLCanvasElement</code>.
      *
      * @param canvas The HTML canvas element or canvas element identifier.
-     * @param doc The document object model that contains the canvas identifier.
+     * @param dom The document object model that contains the canvas identifier.
      */
-    start(canvas: string | HTMLCanvasElement | WebGL2RenderingContext | WebGLRenderingContext, doc = window.document): this {
+    start(canvas: string | HTMLCanvasElement | WebGL2RenderingContext | WebGLRenderingContext, dom?: Document): this {
         if (typeof canvas === 'string') {
-            const canvasElement = <HTMLCanvasElement>doc.getElementById(canvas);
-            if (canvasElement) {
-                return this.start(canvasElement, doc);
+            if (dom) {
+                const canvasElement = <HTMLCanvasElement>dom.getElementById(canvas);
+                if (canvasElement) {
+                    // Recursive call but this time the canvas is an HTML canvas element.
+                    return this.start(canvasElement, dom);
+                }
+                else {
+                    throw new Error("canvas argument must be a canvas element id or an HTMLCanvasElement.");
+                }
             }
             else {
-                throw new Error("canvas argument must be a canvas element id or an HTMLCanvasElement.");
+                // Recursive call but this time the document object model is defined.
+                return this.start(canvas, getWindowDocument(window));
             }
         }
         else if (canvas instanceof HTMLCanvasElement) {

@@ -1,7 +1,7 @@
 import { Engine } from '../core/Engine';
+import { refChange } from '../core/refChange';
 import { BoxGeometry } from './BoxGeometry';
 import { BoxGeometryOptions } from './BoxGeometryOptions';
-import { refChange } from '../core/refChange';
 
 describe("BoxGeometry", function () {
     it("constructor-destructor", function () {

@@ -76,7 +76,7 @@ export function uuid4() {
             );
         },
 
-        // addition by Ka-Jan to test for validity
+        // addition by Ka-Jan to check for validity
         // Based on: http://stackoverflow.com/questions/7905929/how-to-test-valid-uuid-guid
         validate: function (uuid: string) {
             const testPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;

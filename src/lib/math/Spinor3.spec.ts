@@ -16,6 +16,7 @@ describe("Spinor3", function () {
             expect(m.getComponent(2)).toBe(coords[2]);
             expect(m.getComponent(3)).toBe(coords[3]);
             expect(m.modified).toBe(false);
+            expect(m.isLocked()).toBe(false);
         });
         it("no argument should create identity", function () {
             const m = Spinor3.one;

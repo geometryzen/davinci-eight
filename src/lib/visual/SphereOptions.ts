@@ -7,7 +7,7 @@ import { SpinorE3 } from '../math/SpinorE3';
  */
 export interface SphereOptions {
     /**
-     * 
+     *
      */
     axis?: VectorE3;
     /**
@@ -27,7 +27,7 @@ export interface SphereOptions {
      */
     color?: { r: number; g: number; b: number };
     /**
-     * 
+     *
      */
     colored?: boolean;
     /**
@@ -43,15 +43,15 @@ export interface SphereOptions {
      */
     elevationLength?: number;
     /**
-     * 
+     *
      */
     meridian?: VectorE3;
     /**
-     * 
+     * Why does this not appear to be used?
      */
     mode?: 'mesh' | 'wire' | 'point' | GeometryMode;
     /**
-     * 
+     * The center of the sphere.
      */
     offset?: VectorE3;
     /**

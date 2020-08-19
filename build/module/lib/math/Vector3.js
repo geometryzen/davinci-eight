@@ -27,8 +27,10 @@ function coordinates(m) {
  */
 var Vector3 = /** @class */ (function () {
     /**
-     * @param coords
-     * @param modified
+     * Initializes the vector to the specified coordinates and modification state.
+     * The returned vector is not locked.
+     * @param coords Three numbers corresponding to the x, y, and z coordinates. Default is [0, 0, 0].
+     * @param modified The modification state. Default is false.
      */
     function Vector3(coords, modified) {
         if (coords === void 0) { coords = [0, 0, 0]; }
@@ -138,10 +140,9 @@ var Vector3 = /** @class */ (function () {
      * <code>this ⟼ this + vector * α</code>
      * </p>
      *
-     * @method add
-     * @param vector {Vector3}
-     * @param [α = 1] {number}
-     * @return {Vector3} <code>this</code>
+     * @param vector
+     * @param α
+     * @return <code>this</code>
      * @chainable
      */
     Vector3.prototype.add = function (vector, α) {
@@ -741,22 +742,20 @@ var Vector3 = /** @class */ (function () {
         return Vector3.vector(x, y, z).normalize();
     };
     /**
-     * @method vector
-     * @param x {number}
-     * @param y {number}
-     * @param z {number}
-     * @return {Vector3}
-     * @static
-     * @chainable
+     * Creates a vector with the specified cartesian coordinates.
+     * The returned vector is not locked.
+     * The returned vector is not modified.
+     * @param x The x-coordinate.
+     * @param y The y-coordinate.
+     * @param z The z-coordinate.
      */
     Vector3.vector = function (x, y, z) {
         return new Vector3([x, y, z]);
     };
     /**
-     * @method zero
-     * @return {Vector3}
-     * @static
-     * @chainable
+     * Creates a vector with all cartesian coordinates set to zero.
+     * The returned vector is not locked.
+     * The returned vector is not modified.
      */
     Vector3.zero = function () {
         return new Vector3([0, 0, 0]);

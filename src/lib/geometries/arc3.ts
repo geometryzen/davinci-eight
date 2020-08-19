@@ -19,6 +19,10 @@ export function arc3(begin: VectorE3, angle: number, generator: SpinorE3, segmen
     mustBeDefined('generator', generator);
     mustBeInteger('segments', segments);
 
+    if (isNaN(begin.x) || isNaN(begin.y) || isNaN(begin.z)) {
+        throw new Error(`arc3(begin=${begin.toString()})`);
+    }
+
     /**
      * The return value is an array of points with length => segments + 1.
      */

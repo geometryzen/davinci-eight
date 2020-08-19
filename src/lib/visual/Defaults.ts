@@ -7,15 +7,30 @@ const INITIAL_MERIDIAN = canonicalMeridian;
 const INITIAL_RADIUS = 0.5;
 const INITIAL_SLICE = 2 * Math.PI;
 
-export interface ALR {
+export interface ALMRS {
+    /**
+     * Default e2
+     */
     axis: Readonly<R3>;
+    /**
+     * Default 1
+     */
     length: number;
+    /**
+     * Default e3
+     */
     meridian: Readonly<R3>;
+    /**
+     * Default 0.5
+     */
     radius: number;
+    /**
+     * Default tau
+     */
     sliceAngle: number;
 }
 
-function make(axis: Readonly<R3>, length: number, meridian: Readonly<R3>, radius: number, sliceAngle: number): ALR {
+function make(axis: Readonly<R3>, length: number, meridian: Readonly<R3>, radius: number, sliceAngle: number): ALMRS {
     /*
     const that: ALR = {
         get axis(): R3 {
@@ -33,4 +48,12 @@ function make(axis: Readonly<R3>, length: number, meridian: Readonly<R3>, radius
     return { axis, length, meridian, radius, sliceAngle };
 }
 
-export const ds = make(INITIAL_AXIS, INITIAL_LENGTH, INITIAL_MERIDIAN, INITIAL_RADIUS, INITIAL_SLICE);
+/**
+ * Defaults:
+ * axis:       e2,
+ * length:     1,
+ * meridian:   e3,
+ * radius:     0.5,
+ * sliceAngle: tau.
+ */
+export const ds: ALMRS = make(INITIAL_AXIS, INITIAL_LENGTH, INITIAL_MERIDIAN, INITIAL_RADIUS, INITIAL_SLICE);

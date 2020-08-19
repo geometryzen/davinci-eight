@@ -74,9 +74,9 @@ export declare class Engine extends ShareableBase implements ContextManager {
     /**
      * @param canvas
      * @param attributes Allows the context to be configured.
-     * @param doc The document object model that contains the canvas identifier.
+     * @param dom The document object model that contains the canvas identifier.
      */
-    constructor(canvas?: string | HTMLCanvasElement | WebGL2RenderingContext, attributes?: EngineAttributes, doc?: Document);
+    constructor(canvas?: string | HTMLCanvasElement | WebGL2RenderingContext, attributes?: EngineAttributes, dom?: Document);
     /**
      *
      */
@@ -174,9 +174,9 @@ export declare class Engine extends ShareableBase implements ContextManager {
      * Initializes the <code>WebGLRenderingContext</code> for the specified <code>HTMLCanvasElement</code>.
      *
      * @param canvas The HTML canvas element or canvas element identifier.
-     * @param doc The document object model that contains the canvas identifier.
+     * @param dom The document object model that contains the canvas identifier.
      */
-    start(canvas: string | HTMLCanvasElement | WebGL2RenderingContext | WebGLRenderingContext, doc?: Document): this;
+    start(canvas: string | HTMLCanvasElement | WebGL2RenderingContext | WebGLRenderingContext, dom?: Document): this;
     /**
      *
      */

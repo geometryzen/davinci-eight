@@ -2,7 +2,7 @@
 .vscode
 /node_modules
 /src
-/test
+/karma_test_build
 /typings
 .gitignore
 .npmignore
@@ -13,5 +13,5 @@ rollup.config.js
 tsconfig.json
 tsconfig.main.json
 tsconfig.module.json
-tsconfig.test.json
+tsconfig.karma.json
 tslint.json

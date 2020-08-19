@@ -1,8 +1,56 @@
 import { ContextManager } from '../core/ContextManager';
 import { GeometryElements } from '../core/GeometryElements';
 import { SphereGeometryOptions } from './SphereGeometryOptions';
+import { Spinor3 } from '../math/Spinor3';
+import { SpinorE3 } from '../math/SpinorE3';
+import { Vector2 } from '../math/Vector2';
+import { Vector3 } from '../math/Vector3';
+import { VectorE3 } from '../math/VectorE3';
 /**
- * A convenience class for creating a sphere.
+ * e3 = vec(0, 0, 1)
+ */
+export declare const DEFAULT_MERIDIAN: Readonly<import("../math/R3").R3>;
+/**
+ * e2 = vec(0, 1, 0)
+ */
+export declare const DEFAULT_ZENITH: Readonly<import("../math/R3").R3>;
+export declare const DEFAULT_STRESS: Readonly<import("../math/R3").R3>;
+export declare const DEFAULT_TILT: Spinor3;
+export declare const DEFAULT_OFFSET: Readonly<import("../math/R3").R3>;
+export declare const DEFAULT_AZIMUTH_START = 0;
+export declare const DEFAULT_AZIMUTH_LENGTH: number;
+/**
+ * The default number of segments for the azimuth (phi) angle.
+ * By making this value 36, each segment represents 10 degrees.
+ */
+export declare const DEFAULT_AZIMUTH_SEGMENTS = 36;
+export declare const DEFAULT_ELEVATION_START = 0;
+/**
+ * The elevation ranges from zero to PI.
+ */
+export declare const DEFAULT_ELEVATION_LENGTH: number;
+/**
+ * The default number of segments for the elevation (theta) angle.
+ * By making this value 18, each segment represents 10 degrees.
+ */
+export declare const DEFAULT_ELEVATION_SEGMENTS = 18;
+/**
+ *
+ * @param stress
+ * @param tilt
+ * @param offset
+ * @param azimuthStart
+ * @param azimuthLength
+ * @param azimuthSegments Must be an integer.
+ * @param elevationStart
+ * @param elevationLength
+ * @param elevationSegments Must be an integer.
+ * @param points
+ * @param uvs
+ */
+export declare function computeSphereVerticesAndCoordinates(zenith: VectorE3, meridian: VectorE3, stress: VectorE3, tilt: SpinorE3, offset: VectorE3, azimuthStart: number, azimuthLength: number, azimuthSegments: number, elevationStart: number, elevationLength: number, elevationSegments: number, points: Vector3[], uvs: Vector2[]): void;
+/**
+ * A convenience class for creating sphere geometry elements.
  */
 export declare class SphereGeometry extends GeometryElements {
     /**

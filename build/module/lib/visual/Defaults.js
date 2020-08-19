@@ -21,4 +21,12 @@ function make(axis, length, meridian, radius, sliceAngle) {
     */
     return { axis: axis, length: length, meridian: meridian, radius: radius, sliceAngle: sliceAngle };
 }
+/**
+ * Defaults:
+ * axis:       e2,
+ * length:     1,
+ * meridian:   e3,
+ * radius:     0.5,
+ * sliceAngle: tau.
+ */
 export var ds = make(INITIAL_AXIS, INITIAL_LENGTH, INITIAL_MERIDIAN, INITIAL_RADIUS, INITIAL_SLICE);

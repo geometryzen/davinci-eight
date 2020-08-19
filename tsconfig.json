@@ -1,7 +1,6 @@
 {
     "compilerOptions": {
         "target": "es5",
-        "outDir": "test",
         "rootDir": "src",
         "moduleResolution": "node",
         "declaration": false,

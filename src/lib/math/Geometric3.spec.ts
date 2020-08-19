@@ -500,9 +500,9 @@ describe("Geometric3", function () {
             const R = Geometric3.rotorFromDirections(a, b);
             const V = a.clone().rotate(R);
             expect(V.a).toBe(0);
-            expect(V.x).toBeCloseTo(b.x, 14);
-            expect(V.y).toBeCloseTo(b.y, 14);
-            expect(V.z).toBeCloseTo(b.z, 14);
+            expect(V.x).toBeCloseTo(b.x, 13);
+            expect(V.y).toBeCloseTo(b.y, 13);
+            expect(V.z).toBeCloseTo(b.z, 13);
             expect(V.yz).toBe(0);
             expect(V.zx).toBe(0);
             expect(V.xy).toBe(0);

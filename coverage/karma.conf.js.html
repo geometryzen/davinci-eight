@@ -269,7 +269,7 @@ module.exports = function (config) {
 &nbsp;
       'karma-test-shim.js',
 &nbsp;
-      { pattern: 'test/**/*.js', included: false, watched: false },
+      { pattern: 'karma_test_build/**/*.js', included: false, watched: false },
 &nbsp;
       // Karma will load this under /base/node_modules/tslib/tslib.js
       { pattern: 'node_modules/tslib/tslib.js', included: false, watched: false },
@@ -280,45 +280,35 @@ module.exports = function (config) {
     proxies: {
     },
 &nbsp;
-&nbsp;
     // list of files to exclude
     exclude: [],
-&nbsp;
 &nbsp;
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'test/**/!(*spec).js': ['coverage']
+      'karma_test_build/**/!(*spec).js': ['coverage']
     },
 &nbsp;
-&nbsp;
-    // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
     reporters: ['progress', 'coverage', 'kjhtml'],
 &nbsp;
-&nbsp;
     // web server port
     port: 9876,
 &nbsp;
-&nbsp;
     // enable / disable colors in the output (reporters and logs)
     colors: true,
-&nbsp;
 &nbsp;
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
     logLevel: config.LOG_WARN,
 &nbsp;
-&nbsp;
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: true,
-&nbsp;
 &nbsp;
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     browsers: ['Chrome'],
-&nbsp;
 &nbsp;
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits

@@ -1,24 +1,24 @@
+import { isDefined } from '../checks/isDefined';
+import { mustBeNumber } from '../checks/mustBeNumber';
 import { Color } from '../core/Color';
 import { ContextManager } from '../core/ContextManager';
-import { ds } from './Defaults';
+import { Geometry } from '../core/Geometry';
+import { Material } from '../core/Material';
+import { Mesh } from '../core/Mesh';
 import { referenceAxis } from '../core/referenceAxis';
 import { referenceMeridian } from '../core/referenceMeridian';
-import { isDefined } from '../checks/isDefined';
-import { Geometry } from '../core/Geometry';
+import { SimplexMode } from '../geometries/SimplexMode';
+import { SphereGeometry } from '../geometries/SphereGeometry';
+import { SphereGeometryOptions } from '../geometries/SphereGeometryOptions';
+import { ds } from './Defaults';
 import { geometryModeFromOptions } from './geometryModeFromOptions';
-import { Material } from '../core/Material';
 import { materialFromOptions } from './materialFromOptions';
-import { Mesh } from '../core/Mesh';
-import { mustBeNumber } from '../checks/mustBeNumber';
 import { offsetFromOptions } from './offsetFromOptions';
 import { setAxisAndMeridian } from './setAxisAndMeridian';
 import { setColorOption } from './setColorOption';
 import { setDeprecatedOptions } from './setDeprecatedOptions';
-import { SimplexMode } from '../geometries/SimplexMode';
 import { simplexModeFromOptions } from './simplexModeFromOptions';
 import { SphereOptions } from './SphereOptions';
-import { SphereGeometry } from '../geometries/SphereGeometry';
-import { SphereGeometryOptions } from '../geometries/SphereGeometryOptions';
 import { spinorE3Object } from './spinorE3Object';
 import { vectorE3Object } from './vectorE3Object';
 
@@ -46,12 +46,12 @@ export class Sphere extends Mesh<Geometry, Material> {
         geoOptions.elevationLength = options.elevationLength;
         geoOptions.elevationSegments = options.elevationSegments;
         geoOptions.elevationStart = options.elevationStart;
-        geoOptions.offset = offsetFromOptions(options);
-        geoOptions.stress = void 0;
 
-        geoOptions.tilt = spinorE3Object(options.tilt);
         geoOptions.axis = vectorE3Object(referenceAxis(options, ds.axis).direction());
         geoOptions.meridian = vectorE3Object(referenceMeridian(options, ds.meridian).direction());
+        geoOptions.stress = void 0;
+        geoOptions.tilt = spinorE3Object(options.tilt);
+        geoOptions.offset = offsetFromOptions(options);
 
         const cachedGeometry = contextManager.getCacheGeometry(geoOptions);
         if (cachedGeometry && cachedGeometry instanceof SphereGeometry) {

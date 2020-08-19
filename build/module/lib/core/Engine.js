@@ -43,11 +43,10 @@ var Engine = /** @class */ (function (_super) {
     /**
      * @param canvas
      * @param attributes Allows the context to be configured.
-     * @param doc The document object model that contains the canvas identifier.
+     * @param dom The document object model that contains the canvas identifier.
      */
-    function Engine(canvas, attributes, doc) {
+    function Engine(canvas, attributes, dom) {
         if (attributes === void 0) { attributes = {}; }
-        if (doc === void 0) { doc = getWindowDocument(window); }
         var _this = _super.call(this) || this;
         // Remark: We only hold weak references to users so that the lifetime of resource
         // objects is not affected by the fact that they are listening for gl events.
@@ -97,13 +96,15 @@ var Engine = /** @class */ (function (_super) {
                         user.contextGain();
                     });
                 }
-                else {
-                    // 
-                }
             }
         };
         if (canvas) {
-            _this.start(canvas, doc);
+            if (dom) {
+                _this.start(canvas, dom);
+            }
+            else {
+                _this.start(canvas, getWindowDocument(window));
+            }
         }
         return _this;
     }
@@ -372,17 +373,23 @@ var Engine = /** @class */ (function (_super) {
      * Initializes the <code>WebGLRenderingContext</code> for the specified <code>HTMLCanvasElement</code>.
      *
      * @param canvas The HTML canvas element or canvas element identifier.
-     * @param doc The document object model that contains the canvas identifier.
+     * @param dom The document object model that contains the canvas identifier.
      */
-    Engine.prototype.start = function (canvas, doc) {
-        if (doc === void 0) { doc = window.document; }
+    Engine.prototype.start = function (canvas, dom) {
         if (typeof canvas === 'string') {
-            var canvasElement = doc.getElementById(canvas);
-            if (canvasElement) {
-                return this.start(canvasElement, doc);
+            if (dom) {
+                var canvasElement = dom.getElementById(canvas);
+                if (canvasElement) {
+                    // Recursive call but this time the canvas is an HTML canvas element.
+                    return this.start(canvasElement, dom);
+                }
+                else {
+                    throw new Error("canvas argument must be a canvas element id or an HTMLCanvasElement.");
+                }
             }
             else {
-                throw new Error("canvas argument must be a canvas element id or an HTMLCanvasElement.");
+                // Recursive call but this time the document object model is defined.
+                return this.start(canvas, getWindowDocument(window));
             }
         }
         else if (canvas instanceof HTMLCanvasElement) {

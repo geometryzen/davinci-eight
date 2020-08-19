@@ -4,7 +4,7 @@ import { refChange } from '../core/refChange';
 // Example of using ShareableBase as a base class in order to implement reference counting.
 // When all references have been released, the destructor function is called. 
 class Recyclable extends ShareableBase {
-  // This test flag is used to check that the destructor has been called.
+  // This flag is used to check that the destructor has been called.
   public isCleanedUp = false;
   constructor(levelUp = 0) {
     super();
@@ -32,7 +32,7 @@ class Recyclable extends ShareableBase {
  * We expect addRef on the zombie to throw an exception.
  */
 class Mortal extends ShareableBase {
-  // This test flag is used to check that the destructor has been called.
+  // This flag is used to check that the destructor has been called.
   public isCleanedUp = false;
   constructor(levelUp = 0) {
     super();

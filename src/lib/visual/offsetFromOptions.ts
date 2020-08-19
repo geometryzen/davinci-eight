@@ -3,7 +3,8 @@ import { VectorE3 } from '../math/VectorE3';
 
 /**
  * Reduce to the vectorE3 data structure.
- * If the value of the vector is 0, return void 0.
+ * If the value of the vector is 0, return undefined.
+ * TODO: Why do we do this "dangerous" thing?
  */
 function simplify(vector: VectorE3): VectorE3 {
     if (vector.x !== 0 || vector.y !== 0 || vector.z !== 0) {
@@ -15,7 +16,7 @@ function simplify(vector: VectorE3): VectorE3 {
 }
 
 /**
- * This function computes the initial requested direction of an object.
+ * This function computes the initial requested offset of an object.
  */
 export function offsetFromOptions(options: { offset?: VectorE3 }): VectorE3 {
     if (options.offset) {

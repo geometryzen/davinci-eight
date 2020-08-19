@@ -1,4 +1,4 @@
-// Type definitions for davinci-eight 8.4.2
+// Type definitions for davinci-eight 8.4.3
 // Project: https://github.com/geometryzen/davinci-eight
 // Definitions by: David Geo Holmes david.geo.holmes@gmail.com https://www.stemcstudio.com
 //
@@ -237,35 +237,35 @@ export class ShareableBase implements Shareable {
     /**
      *
      */
-    constructor();
+    constructor()
     /**
      * Notifies this instance that something is referencing it.
      */
-    addRef(): number;
+    addRef(): number
     /**
      *
      */
-    protected destructor(levelUp: number): void;
+    protected destructor(levelUp: number): void
     /**
      *
      */
-    getLoggingName(): string;
+    getLoggingName(): string
     /**
      *
      */
-    isZombie(): boolean;
+    isZombie(): boolean
     /**
      * Notifies this instance that something is dereferencing it.
      */
-    release(): number;
+    release(): number
     /**
      *
      */
-    protected resurrector(levelUp: number): void;
+    protected resurrector(levelUp: number): void
     /**
      *
      */
-    protected setLoggingName(name: string): void;
+    protected setLoggingName(name: string): void
 }
 
 export class ShareableArray<T extends Shareable> extends ShareableBase {
@@ -274,24 +274,24 @@ export class ShareableArray<T extends Shareable> extends ShareableBase {
      * Collection class for maintaining an array of types derived from Shareable.
      * Provides a safer way to maintain reference counts than a native array.
      */
-    constructor(elements: T[]);
-    forEach(callback: (value: T, index: number) => void): void;
+    constructor(elements: T[])
+    forEach(callback: (value: T, index: number) => void): void
     get(index: number): T
     /**
      * Gets the element at the specified index without incrementing the reference count.
      * Use this method when you don't intend to hold onto the returned value.
      */
-    getWeakRef(index: number): T;
-    indexOf(searchElement: T, fromIndex?: number): number;
-    pop(): T;
-    push(element: T): number;
+    getWeakRef(index: number): T
+    indexOf(searchElement: T, fromIndex?: number): number
+    pop(): T
+    push(element: T): number
     /**
      * Pushes an element onto the tail of the list without incrementing the element reference count.
      */
-    pushWeakRef(element: T): number;
-    shift(): T;
-    slice(begin?: number, end?: number): ShareableArray<T>;
-    splice(index: number, deleteCount: number): ShareableArray<T>;
+    pushWeakRef(element: T): number
+    shift(): T
+    slice(begin?: number, end?: number): ShareableArray<T>
+    splice(index: number, deleteCount: number): ShareableArray<T>
 }
 
 export class NumberShareableMap<V extends Shareable> extends ShareableBase {
@@ -409,54 +409,54 @@ export class Engine extends ShareableBase implements ContextManager {
      * Constructs an Engine.
      * If the canvas argument is provided then the Engine will be started automatically.
      */
-    constructor(canvas?: string | HTMLCanvasElement | WebGL2RenderingContext | WebGLRenderingContext, attributes?: EngineAttributes, doc?: Document);
+    constructor(canvas?: string | HTMLCanvasElement | WebGL2RenderingContext | WebGLRenderingContext, attributes?: EngineAttributes, doc?: Document)
 
     /**
      * Called when the last reference to this Engine has been released.
      */
-    protected destructor(levelUp: number): void;
+    protected destructor(levelUp: number): void
 
     /**
      *
      */
-    addContextListener(user: ContextConsumer): void;
+    addContextListener(user: ContextConsumer): void
 
     /**
      * Sets the parameters for blending.
      */
-    blendFunc(sfactor: BlendingFactorSrc, dfactor: BlendingFactorDest): Engine;
+    blendFunc(sfactor: BlendingFactorSrc, dfactor: BlendingFactorDest): Engine
 
     /**
      * Clears buffers to preset values.
      * The preset values can be set by clearColor(), clearDepth() or clearStencil().
      * The mask defaults to ClearBufferMask.COLOR_BUFFER_BIT | ClearBufferMask.DEPTH_BUFFER_BIT
      */
-    clear(mask?: ClearBufferMask): Engine;
+    clear(mask?: ClearBufferMask): Engine
 
     /**
      * Specifies color values used by the clear method to clear the color buffer.
      * The values are clamped between 0 and 1.
      * The default value for red, green, and blue is 0. The default value for alpha is 1.
      */
-    clearColor(red: number, green: number, blue: number, alpha: number): Engine;
+    clearColor(red: number, green: number, blue: number, alpha: number): Engine
 
     /**
      * Specifies the depth value used by the clear method to clear the depth buffer.
      * The value is clamped between 0 and 1.
      * The default value is 1.
      */
-    clearDepth(depth: number): Engine;
+    clearDepth(depth: number): Engine
 
     /**
      * Specifies the stencil index used by the clear method to clear the stencil buffer.
      * The default value is 0.
      */
-    clearStencil(s: number): Engine;
+    clearStencil(s: number): Engine
 
     /**
      * Specifies a function that compares the incoming pixel depth to the current depth buffer value.
      */
-    depthFunc(func: DepthFunction): Engine;
+    depthFunc(func: DepthFunction): Engine
 
     /**
      * Converts from device (canvas) coordinates to image cube coordinates (-1 <= x, y, z <= +1).
@@ -464,60 +464,60 @@ export class Engine extends ShareableBase implements ContextManager {
      * deviceY: The y-coordinate of the device event.
      * imageZ: The optional value to use as the resulting depth coordinate.
      */
-    deviceToImageCoords(deviceX: number, deviceY: number, imageZ?: number): VectorE3;
+    deviceToImageCoords(deviceX: number, deviceY: number, imageZ?: number): VectorE3
 
     /**
      * Turns off the specified WebGL capability for this context.
      */
-    disable(capability: Capability): Engine;
+    disable(capability: Capability): Engine
 
     /**
      * Turns on the specified WebGL capability for this context.
      */
-    enable(capability: Capability): Engine;
+    enable(capability: Capability): Engine
 
     /**
      * Returns the implementation dependent viewport maximum dimensions.
      * e.g. Int32Array[maxWidth, maxHeight]
      */
-    getMaxViewportDims(): Int32Array;
+    getMaxViewportDims(): Int32Array
 
     /**
      * Returns the current viewport parameters.
      * e.g. Int32Array[x, y, width, height]
      */
-    getViewport(): Int32Array;
+    getViewport(): Int32Array
 
     /**
      * 
      */
-    readPixels(x: number, y: number, width: number, height: number, format: PixelFormat, type: PixelType, pixels: ArrayBufferView): void;
+    readPixels(x: number, y: number, width: number, height: number, format: PixelFormat, type: PixelType, pixels: ArrayBufferView): void
 
     /**
      *
      */
-    removeContextListener(user: ContextConsumer): void;
+    removeContextListener(user: ContextConsumer): void
 
     /**
      * A convenience method for setting the width and height properties of the
      * underlying canvas and for setting the viewport to the drawing buffer height and width.
      */
-    size(width: number, height: number): Engine;
+    size(width: number, height: number): Engine
 
     /**
      * Initializes the WebGL context for the specified canvas or canvas element identifier.
      */
-    start(canvas: HTMLCanvasElement | string, doc?: Document): Engine;
+    start(canvas: HTMLCanvasElement | string, doc?: Document): Engine
 
     /**
      * Terminates the WebGL rendering context for the underlying canvas.
      */
-    stop(): Engine;
+    stop(): Engine
 
     /**
      *
      */
-    synchronize(user: ContextConsumer): Engine;
+    synchronize(user: ContextConsumer): Engine
 
     /**
      * Defines what part of the canvas will be used in rendering the drawing buffer.
@@ -526,7 +526,7 @@ export class Engine extends ShareableBase implements ContextManager {
      * width
      * height
      */
-    viewport(x: number, y: number, width: number, height: number): Engine;
+    viewport(x: number, y: number, width: number, height: number): Engine
 }
 
 /**
@@ -575,21 +575,21 @@ export interface ContextManager extends Shareable {
 }
 
 export class ShareableContextConsumer extends ShareableBase implements ContextConsumer {
-    cleanUp(): void;
-    contextFree(): void;
-    contextGain(): void;
-    contextLost(): void;
-    synchUp(): void;
+    cleanUp(): void
+    contextFree(): void
+    contextGain(): void
+    contextLost(): void
+    synchUp(): void
 }
 
 /**
  * A wrapper around a WebGLBuffer with binding to ARRAY_BUFFER.
  */
 export class VertexBuffer extends ShareableContextConsumer {
-    constructor(contextManager: ContextManager, data: Float32Array, usage: Usage, levelUp?: number);
-    protected destructor(levelUp: number): void;
-    bind(): void;
-    upload(): void;
+    constructor(contextManager: ContextManager, data: Float32Array, usage: Usage, levelUp?: number)
+    protected destructor(levelUp: number): void
+    bind(): void
+    upload(): void
     unbind(): void
 }
 
@@ -597,48 +597,48 @@ export class VertexBuffer extends ShareableContextConsumer {
  * A wrapper around a WebGLBuffer with binding to ELEMENT_ARRAY_BUFFER.
  */
 export class IndexBuffer extends ShareableContextConsumer {
-    constructor(contextManager: ContextManager, data: Uint16Array, usage: Usage, levelUp?: number);
-    protected destructor(levelUp: number): void;
-    bind(): void;
-    upload(): void;
-    unbind(): void;
+    constructor(contextManager: ContextManager, data: Uint16Array, usage: Usage, levelUp?: number)
+    protected destructor(levelUp: number): void
+    bind(): void
+    upload(): void
+    unbind(): void
 }
 
 /**
  * Utility class for managing a shader uniform variable.
  */
 export class Uniform implements ContextProgramConsumer {
-    constructor(info: WebGLActiveInfo);
+    constructor(info: WebGLActiveInfo)
 
-    contextFree(): void;
-    contextGain(gl: WebGL2RenderingContext | WebGLRenderingContext, program: WebGLProgram): void;
-    contextLost(): void;
-
-    /**
-     * Sets the uniform location to the value of the specified matrix.
-     */
-    matrix2fv(transpose: boolean, value: Float32Array): void;
+    contextFree(): void
+    contextGain(gl: WebGL2RenderingContext | WebGLRenderingContext, program: WebGLProgram): void
+    contextLost(): void
 
     /**
      * Sets the uniform location to the value of the specified matrix.
      */
-    matrix3fv(transpose: boolean, value: Float32Array): void;
+    matrix2fv(transpose: boolean, value: Float32Array): void
 
     /**
      * Sets the uniform location to the value of the specified matrix.
      */
-    matrix4fv(transpose: boolean, value: Float32Array): void;
+    matrix3fv(transpose: boolean, value: Float32Array): void
 
-    toString(): string;
+    /**
+     * Sets the uniform location to the value of the specified matrix.
+     */
+    matrix4fv(transpose: boolean, value: Float32Array): void
 
-    uniform1f(x: number): void;
-    uniform1fv(data: Float32Array): void;
-    uniform2f(x: number, y: number): void;
-    uniform2fv(data: Float32Array): void;
-    uniform3f(x: number, y: number, z: number): void;
-    uniform3fv(data: Float32Array): void;
-    uniform4f(x: number, y: number, z: number, w: number): void;
-    uniform4fv(data: Float32Array): void;
+    toString(): string
+
+    uniform1f(x: number): void
+    uniform1fv(data: Float32Array): void
+    uniform2f(x: number, y: number): void
+    uniform2fv(data: Float32Array): void
+    uniform3f(x: number, y: number, z: number): void
+    uniform3fv(data: Float32Array): void
+    uniform4f(x: number, y: number, z: number, w: number): void
+    uniform4fv(data: Float32Array): void
 }
 
 /**
@@ -688,7 +688,6 @@ export interface Material extends Facet, FacetVisitor, ContextConsumer {
 
 /**
  * An array of attribute values associated with meta data describing how to interpret the values.
- * {values: number[]; size: number;}
  */
 export interface Attribute {
 
@@ -742,12 +741,12 @@ export interface ContextProgramConsumer {
  */
 export class Attrib implements ContextProgramConsumer {
     index: number
-    contextFree(): void;
-    contextGain(gl: WebGL2RenderingContext | WebGLRenderingContext, program: WebGLProgram): void;
-    contextLost(): void;
-    config(size: number, type: DataType, normalized?: boolean, stride?: number, offset?: number): void;
-    enable(): void;
-    disable(): void;
+    contextFree(): void
+    contextGain(gl: WebGL2RenderingContext | WebGLRenderingContext, program: WebGLProgram): void
+    contextLost(): void
+    config(size: number, type: DataType, normalized?: boolean, stride?: number, offset?: number): void
+    enable(): void
+    disable(): void
 }
 
 /**
@@ -758,23 +757,23 @@ export class Texture extends ShareableContextConsumer {
     magFilter: TextureMagFilter
     wrapS: TextureWrapMode
     wrapT: TextureWrapMode
-    constructor(target: TextureTarget, contextManager: ContextManager, levelUp?: number);
-    protected destructor(levelUp: number): void;
+    constructor(target: TextureTarget, contextManager: ContextManager, levelUp?: number)
+    protected destructor(levelUp: number): void
 
     /**
      *
      */
-    bind(): void;
+    bind(): void
 
     /**
      *
      */
-    unbind(): void;
+    unbind(): void
 
     /**
      *
      */
-    upload(): void;
+    upload(): void
 }
 
 export class ImageTexture extends Texture {
@@ -791,13 +790,13 @@ export class ImageTexture extends Texture {
     /**
      * 
      */
-    constructor(image: HTMLImageElement, target: TextureTarget, contextManager: ContextManager, levelUp?: number);
-    protected destructor(levelUp: number): void;
+    constructor(image: HTMLImageElement, target: TextureTarget, contextManager: ContextManager, levelUp?: number)
+    protected destructor(levelUp: number): void
 
     /**
      *
      */
-    upload(): void;
+    upload(): void
 }
 
 interface TextureLoaderOptions {
@@ -818,13 +817,13 @@ interface TextureLoaderOptions {
  *     })
  */
 export class TextureLoader {
-    constructor(contextManager: ContextManager);
+    constructor(contextManager: ContextManager)
     /**
      * 
      * @param url The Uniform Resource Locator of the image.
      * @param options 
      */
-    imageTexture(url: string, options?: TextureLoaderOptions): Promise<ImageTexture>;
+    imageTexture(url: string, options?: TextureLoaderOptions): Promise<ImageTexture>
 }
 
 /**
@@ -834,7 +833,7 @@ export class AbstractMatrix {
     elements: Float32Array
     dimensions: number
     modified: boolean
-    constructor(elements: Float32Array, dimensions: number);
+    constructor(elements: Float32Array, dimensions: number)
 }
 
 /**
@@ -846,57 +845,57 @@ export class Matrix2 extends AbstractMatrix {
      * Constructs a new Matrix2 wrapper around a Float32Array.
      * The elements are expected to be in column-major order.
      */
-    constructor(elements: Float32Array);
+    constructor(elements: Float32Array)
 
     /**
      * Sets this matrix to the value of this + rhs.
      */
-    add(rhs: Matrix2): Matrix2;
+    add(rhs: Matrix2): Matrix2
 
     /**
      * Creates a copy of this matrix.
      */
-    clone(): Matrix2;
+    clone(): Matrix2
 
     /**
      * Computes the determinant of this matrix.
      */
-    det(): number;
+    det(): number
 
     /**
      * Sets this matrix to its multiplicative inverse.
      */
-    inv(): Matrix2;
+    inv(): Matrix2
 
     /**
      * Determines whether this matrix is the multiplicative identity.
      */
-    isOne(): boolean;
+    isOne(): boolean
 
     /**
      * Determines whether this matrix is the additive identity.
      */
-    isZero(): boolean;
+    isZero(): boolean
 
     /**
      * Sets this matrix to the value of this * rhs.
      */
-    mul(rhs: Matrix2): Matrix2;
+    mul(rhs: Matrix2): Matrix2
 
     /**
      * Sets this matrix to the value of a * b.
      */
-    mul2(a: Matrix2, b: Matrix2): Matrix2;
+    mul2(a: Matrix2, b: Matrix2): Matrix2
 
     /**
      * Sets this matrix to its additive inverse.
      */
-    neg(): Matrix2;
+    neg(): Matrix2
 
     /**
      * Sets this matrix to the multiplicative identity, <em>1</em>. 
      */
-    one(): Matrix2;
+    one(): Matrix2
 
     /**
      * 
@@ -907,58 +906,58 @@ export class Matrix2 extends AbstractMatrix {
      * this ⟼ reflection(n) = I - 2 * n<sup>T</sup> * n
      * 
      */
-    reflection(n: VectorE1): Matrix2;
+    reflection(n: VectorE1): Matrix2
 
     /**
      * Computes the row corresponding to the zero-based index, i.
      */
-    row(i: number): number[];
+    row(i: number): number[]
 
     /**
      * Sets this matrix to the value of this * α.
      */
-    scale(α: number): Matrix2;
+    scale(α: number): Matrix2
 
     /**
      * Sets the elements of this matrix.
      * The parameters are in row-major order.
      */
-    set(n11: number, n12: number, n21: number, n22: number): Matrix2;
+    set(n11: number, n12: number, n21: number, n22: number): Matrix2
 
     /**
      * Sets this matrix to the value of this - rhs.
      */
-    sub(rhs: Matrix2): Matrix2;
+    sub(rhs: Matrix2): Matrix2
 
     /**
      * Computes a string representation of this matrix in exponential notation.
      */
-    toExponential(fractionDigits?: number): string;
+    toExponential(fractionDigits?: number): string
 
     /**
      * Computes a string representation of this matrix with a fixed number of digits.
      */
-    toFixed(fractionDigits?: number): string;
+    toFixed(fractionDigits?: number): string
 
     /**
      *
      */
-    toPrecision(precision?: number): string;
+    toPrecision(precision?: number): string
 
     /**
      * Computes a string representation of this matrix.
      */
-    toString(radix?: number): string;
+    toString(radix?: number): string
 
     /**
      * Sets this matrix to the additive identity, <em>0</em>. 
      */
-    zero(): Matrix2;
+    zero(): Matrix2
 
     /**
      * Creates a matrix that is the multiplicative identity, <em>1</em>. 
      */
-    static one(): Matrix2;
+    static one(): Matrix2
 
     /**
      * 
@@ -969,12 +968,12 @@ export class Matrix2 extends AbstractMatrix {
      * reflection(n) = I - 2 * n<sup>T</sup> * n
      * 
      */
-    static reflection(n: VectorE1): Matrix2;
+    static reflection(n: VectorE1): Matrix2
 
     /**
      * Creates a matrix that is the additive identity, <em>0</em>. 
      */
-    static zero(): Matrix2;
+    static zero(): Matrix2
 }
 
 /**
@@ -986,72 +985,72 @@ export class Matrix3 extends AbstractMatrix {
      * Constructs a new Matrix3 wrapper around a Float32Array.
      * The elements are expected to be in column-major order.
      */
-    constructor(elements: Float32Array);
+    constructor(elements: Float32Array)
 
     /**
      * Sets this matrix to the value of this + rhs.
      */
-    add(rhs: Matrix3): Matrix3;
+    add(rhs: Matrix3): Matrix3
 
     /**
      * Creates a copy of this matrix.
      */
-    clone(): Matrix3;
+    clone(): Matrix3
 
     /**
      *
      */
-    copy(m: Matrix3): Matrix3;
+    copy(m: Matrix3): Matrix3
 
     /**
      *
      */
-    det(): number;
+    det(): number
 
     /**
      *
      */
-    inv(): Matrix3;
+    inv(): Matrix3
 
     /**
      *
      */
-    isOne(): boolean;
+    isOne(): boolean
 
     /**
      *
      */
-    isZero(): boolean;
+    isZero(): boolean
 
     /**
      *
      */
-    mul(rhs: Matrix3): Matrix3;
+    mul(rhs: Matrix3): Matrix3
 
     /**
      *
      */
-    mul2(a: Matrix3, b: Matrix3): Matrix3;
+    mul2(a: Matrix3, b: Matrix3): Matrix3
 
     /**
      *
      */
-    neg(): Matrix3;
+    neg(): Matrix3
 
     /**
      * Sets this matrix to the identity element for multiplication, 1.
      */
-    one(): Matrix4;
+    one(): Matrix4
 
-    reflection(n: VectorE3): Matrix3;
-    rotate(spinor: SpinorE2): Matrix3;
-    rotation(spinor: SpinorE2): Matrix3;
-    row(i: number): number[];
-    scale(α: number): Matrix3;
-    set(m11: number, m12: number, m13: number, m21: number, m22: number, m23: number, m31: number, m32: number, m33: number): Matrix3;
-    sub(rhs: Matrix3): Matrix3;
-    toString(): string;
-    transpose(): Matrix3;
+    reflection(n: VectorE3): Matrix3
+    rotate(spinor: SpinorE2): Matrix3
+    rotation(spinor: SpinorE2): Matrix3
+    row(i: number): number[]
+    scale(α: number): Matrix3
+    set(m11: number, m12: number, m13: number, m21: number, m22: number, m23: number, m31: number, m32: number, m33: number): Matrix3
+    sub(rhs: Matrix3): Matrix3
+    toString(): string
+    transpose(): Matrix3
     /**
      * Sets the target to the homogeneous translation matrix,
      *
@@ -1061,75 +1060,75 @@ export class Matrix3 extends AbstractMatrix {
      * |0  0  1  |
      * -         -
      */
-    translation(a: VectorE2): Matrix3;
-    zero(): Matrix3;
+    translation(a: VectorE2): Matrix3
+    zero(): Matrix3
 
     /**
      *
      */
-    normalFromMatrix4(matrix: Matrix4): void;
+    normalFromMatrix4(matrix: Matrix4): void
 
     /**
      * Generates a new identity matrix.
      */
-    static one(): Matrix3;
-    static reflection(n: VectorE2): Matrix3;
+    static one(): Matrix3
+    static reflection(n: VectorE2): Matrix3
     /**
      * Generates the homogeneous (3x3) matrix corresponding to the 2D rotation given by the spinor.
      */
-    static rotation(s: SpinorE2): Matrix3;
+    static rotation(s: SpinorE2): Matrix3
     /**
      * Generates the homogeneous (3x3) matrix corresponding to the 2D translation given by the vector.
      */
-    static translation(a: VectorE2): Matrix3;
-    static zero(): Matrix3;
+    static translation(a: VectorE2): Matrix3
+    static zero(): Matrix3
 }
 
 /**
  *
  */
 export class Matrix4 extends AbstractMatrix {
-    constructor(elements: Float32Array);
+    constructor(elements: Float32Array)
 
     /**
      * Returns a copy of this matrix instance.
      */
-    clone(): Matrix4;
+    clone(): Matrix4
 
     /**
      *
      */
-    compose(scale: VectorE3, attitude: SpinorE3, position: VectorE3): Matrix4;
+    compose(scale: VectorE3, attitude: SpinorE3, position: VectorE3): Matrix4
 
     /**
      *
      */
-    copy(matrix: Matrix4): Matrix4;
+    copy(matrix: Matrix4): Matrix4
 
     /**
      * Computes the determinant of the matrix.
      */
-    det(): number;
+    det(): number
 
     /**
      *
      */
-    frustum(left: number, right: number, bottom: number, top: number, near: number, far: number): Matrix4;
+    frustum(left: number, right: number, bottom: number, top: number, near: number, far: number): Matrix4
 
     /**
      *
      */
-    invert(m: Matrix4, throwOnSingular?: boolean): Matrix4;
+    invert(m: Matrix4, throwOnSingular?: boolean): Matrix4
 
     /**
      *
      */
-    mul(rhs: Matrix4): Matrix4;
+    mul(rhs: Matrix4): Matrix4
 
     /**
      *
      */
-    mul2(a: Matrix4, b: Matrix4): Matrix4;
+    mul2(a: Matrix4, b: Matrix4): Matrix4
 
     /**
      * Creates a new matrix with diagonal elements 1 and all other elements zero.
@@ -1141,104 +1140,104 @@ export class Matrix4 extends AbstractMatrix {
     /**
      * Sets this matrix to the identity element for multiplication, 1.
      */
-    one(): Matrix4;
+    one(): Matrix4
 
-    perspective(fov: number, aspect: number, near: number, far: number): Matrix4;
-
-    /**
-     *
-     */
-    reflection(n: VectorE3): Matrix4;
+    perspective(fov: number, aspect: number, near: number, far: number): Matrix4
 
     /**
      *
      */
-    rmul(lhs: Matrix4): Matrix4;
+    reflection(n: VectorE3): Matrix4
 
     /**
      *
      */
-    rotate(spinor: SpinorE3): Matrix4;
+    rmul(lhs: Matrix4): Matrix4
+
+    /**
+     *
+     */
+    rotate(spinor: SpinorE3): Matrix4
 
     /**
      * Generates a new rotation matrix.
      */
-    static rotation(spinor: SpinorE3): Matrix4;
+    static rotation(spinor: SpinorE3): Matrix4
 
     /**
      *
      */
-    rotation(spinor: SpinorE3): Matrix4;
+    rotation(spinor: SpinorE3): Matrix4
 
     /**
      *
      */
-    rotationAxis(n: VectorE3, angle: number): Matrix4;
+    rotationAxis(n: VectorE3, angle: number): Matrix4
 
     /**
      *
      */
-    row(i: number): number[];
+    row(i: number): number[]
 
     /**
      *
      */
-    scale(scale: VectorE3): Matrix4;
+    scale(scale: VectorE3): Matrix4
 
     /**
      *
      */
-    scaleXYZ(scale: VectorE3): Matrix4;
+    scaleXYZ(scale: VectorE3): Matrix4
 
     /**
      * Generates a new scaling matrix.
      */
-    static scaling(scale: VectorE3): Matrix4;
+    static scaling(scale: VectorE3): Matrix4
 
     /**
      *
      */
-    scaling(scale: VectorE3): Matrix4;
+    scaling(scale: VectorE3): Matrix4
 
     /**
      *
      */
-    toExponential(fractionDigits?: number): string;
+    toExponential(fractionDigits?: number): string
 
     /**
      *
      */
-    toFixed(fractionDigits?: number): string;
+    toFixed(fractionDigits?: number): string
 
     /**
      *
      */
-    toPrecision(precision?: number): string;
+    toPrecision(precision?: number): string
 
     /**
      *
      */
-    toString(radix?: number): string;
+    toString(radix?: number): string
 
     /**
      *
      */
-    translate(displacement: VectorE3): Matrix4;
+    translate(displacement: VectorE3): Matrix4
 
     /**
      * Generates a new translation matrix.
      */
-    static translation(vector: VectorE3): Matrix4;
+    static translation(vector: VectorE3): Matrix4
 
     /**
      *
      */
-    translation(displacement: VectorE3): Matrix4;
+    translation(displacement: VectorE3): Matrix4
 
     /**
      *
      */
-    transpose(): Matrix4;
+    transpose(): Matrix4
 
     /**
      * Creates a new matrix with all elements zero.
@@ -1312,18 +1311,18 @@ export interface Lockable {
 export class VectorN<T> implements Lockable {
     coords: T[]
     modified: boolean
-    constructor(coords: T[], modified?: boolean, size?: number);
-    clone(): VectorN<T>;
-    getComponent(index: number): T;
-    isLocked(): boolean;
-    lock(): number;
-    pop(): T;
-    push(value: T): number;
-    setComponent(index: number, value: T): void;
-    toArray(array?: T[], offset?: number): T[];
-    toLocaleString(): string;
-    unlock(token: number): void;
-    toString(): string;
+    constructor(coords: T[], modified?: boolean, size?: number)
+    clone(): VectorN<T>
+    getComponent(index: number): T
+    isLocked(): boolean
+    lock(): number
+    pop(): T
+    push(value: T): number
+    setComponent(index: number, value: T): void
+    toArray(array?: T[], offset?: number): T[]
+    toLocaleString(): string
+    unlock(token: number): void
+    toString(): string
 }
 
 /**
@@ -1359,7 +1358,7 @@ export class Geometric2 extends VectorN<number> implements GeometricE2 {
      * Constructs a Geometric2.
      * The multivector is initialized to zero.
      */
-    constructor();
+    constructor()
 
     /**
      * The coordinate corresponding to the unit standard basis scalar.
@@ -1386,37 +1385,37 @@ export class Geometric2 extends VectorN<number> implements GeometricE2 {
      * this ⟼ this + M * α
      * 
      */
-    add(M: GeometricE2, α?: number): Geometric2;
+    add(M: GeometricE2, α?: number): Geometric2
 
     /**
      * 
      * this ⟼ a + b
      * 
      */
-    add2(a: GeometricE2, b: GeometricE2): Geometric2;
+    add2(a: GeometricE2, b: GeometricE2): Geometric2
 
-    addPseudo(β: number): Geometric2;
+    addPseudo(β: number): Geometric2
 
-    addScalar(α: number): Geometric2;
+    addScalar(α: number): Geometric2
 
     /**
      * 
      * this ⟼ this + v * α
      * 
      */
-    addVector(v: VectorE2, α?: number): Geometric2;
+    addVector(v: VectorE2, α?: number): Geometric2
 
     /**
      * The bivector whose area (magnitude) is θ/2, where θ is the radian measure. 
      */
-    arg(): Geometric2;
+    arg(): Geometric2
 
-    approx(n: number): Geometric2;
+    approx(n: number): Geometric2
 
     /**
      *
      */
-    clone(): Geometric2;
+    clone(): Geometric2
 
     /**
      * The Clifford conjugate.
@@ -1425,7 +1424,7 @@ export class Geometric2 extends VectorN<number> implements GeometricE2 {
      * 
      * @returns conj(this)
      */
-    conj(): Geometric2;
+    conj(): Geometric2
 
     /**
      * Sets this multivector to be a copy of another multivector.
@@ -1433,9 +1432,9 @@ export class Geometric2 extends VectorN<number> implements GeometricE2 {
      * this ⟼ copy(M)
      * 
      */
-    copy(M: GeometricE2): Geometric2;
+    copy(M: GeometricE2): Geometric2
 
-    copyScalar(α: number): Geometric2;
+    copyScalar(α: number): Geometric2
 
     /**
      * Sets this multivector to be a copy of a spinor.
@@ -1443,7 +1442,7 @@ export class Geometric2 extends VectorN<number> implements GeometricE2 {
      * this ⟼ copy(spinor)
      * 
      */
-    copySpinor(spinor: SpinorE2): Geometric2;
+    copySpinor(spinor: SpinorE2): Geometric2
 
     /**
      * Sets this multivector to be a copy of a vector.
@@ -1451,22 +1450,22 @@ export class Geometric2 extends VectorN<number> implements GeometricE2 {
      * this ⟼ copyVector(vector)
      * 
      */
-    copyVector(vector: VectorE2): Geometric2;
+    copyVector(vector: VectorE2): Geometric2
 
-    cos(): Geometric2;
+    cos(): Geometric2
 
-    cosh(): Geometric2;
+    cosh(): Geometric2
 
-    cubicBezier(t: number, controlBegin: GeometricE2, controlEnd: GeometricE2, endPoint: GeometricE2): Geometric2;
+    cubicBezier(t: number, controlBegin: GeometricE2, controlEnd: GeometricE2, endPoint: GeometricE2): Geometric2
 
     /**
      * 
      * this ⟼ this / magnitude(this)
      * 
      */
-    normalize(): Geometric2;
+    normalize(): Geometric2
 
-    distanceTo(M: GeometricE2): number;
+    distanceTo(M: GeometricE2): number
 
     /**
      * Sets this multivector to the result of division by another multivector.
@@ -1474,21 +1473,21 @@ export class Geometric2 extends VectorN<number> implements GeometricE2 {
      * this ⟼ this / m
      * 
      */
-    div(m: GeometricE2): Geometric2;
+    div(m: GeometricE2): Geometric2
 
     /**
      * 
      * this ⟼ a / b
      * 
      */
-    div2(a: GeometricE2, b: GeometricE2): Geometric2;
+    div2(a: GeometricE2, b: GeometricE2): Geometric2
 
     /**
      * 
      * this ⟼ this / α
      * 
      */
-    divByScalar(α: number): Geometric2;
+    divByScalar(α: number): Geometric2
 
     /**
      * 
@@ -1496,43 +1495,43 @@ export class Geometric2 extends VectorN<number> implements GeometricE2 {
      * 
      * Notice that the dual of a vector is related to the spinor by the right-hand rule.
      */
-    dual(m: GeometricE2): Geometric2;
+    dual(m: GeometricE2): Geometric2
 
-    equals(M: GeometricE2): boolean;
+    equals(M: GeometricE2): boolean
 
     /**
      * 
      * this ⟼ e<sup>this</sup>
      * 
      */
-    exp(): Geometric2;
+    exp(): Geometric2
 
     /**
      * 
      * this ⟼ this ^ m
      * 
      */
-    ext(m: GeometricE2): Geometric2;
+    ext(m: GeometricE2): Geometric2
 
     /**
      * 
      * this ⟼ a ^ b
      * 
      */
-    ext2(a: GeometricE2, b: GeometricE2): Geometric2;
+    ext2(a: GeometricE2, b: GeometricE2): Geometric2
 
-    grade(grade: number): Geometric2;
+    grade(grade: number): Geometric2
 
     /**
      * 
      * this ⟼ conj(this) / quad(this)
      * 
      */
-    inv(): Geometric2;
+    inv(): Geometric2
 
-    isOne(): boolean;
+    isOne(): boolean
 
-    isZero(): boolean;
+    isZero(): boolean
 
     /**
      * Sets this multivector to the left contraction with another multivector.
@@ -1540,7 +1539,7 @@ export class Geometric2 extends VectorN<number> implements GeometricE2 {
      * this ⟼ this << m
      * 
      */
-    lco(m: GeometricE2): Geometric2;
+    lco(m: GeometricE2): Geometric2
 
     /**
      * Sets this multivector to the left contraction of two multivectors. 
@@ -1548,74 +1547,74 @@ export class Geometric2 extends VectorN<number> implements GeometricE2 {
      * this ⟼ a << b
      * 
      */
-    lco2(a: GeometricE2, b: GeometricE2): Geometric2;
+    lco2(a: GeometricE2, b: GeometricE2): Geometric2
 
     /**
      * 
      * this ⟼ this + α * (target - this)
      * 
      */
-    lerp(target: GeometricE2, α: number): Geometric2;
+    lerp(target: GeometricE2, α: number): Geometric2
 
     /**
      * 
      * this ⟼ a + α * (b - a)
      * 
      */
-    lerp2(a: GeometricE2, b: GeometricE2, α: number): Geometric2;
+    lerp2(a: GeometricE2, b: GeometricE2, α: number): Geometric2
 
     /**
      * 
      * this ⟼ log(this)
      * 
      */
-    log(): Geometric2;
+    log(): Geometric2
 
     /**
      * Computes the <em>square root</em> of the <em>squared norm</em>.
      */
-    magnitude(): number;
+    magnitude(): number
 
     /**
      * 
      * this ⟼ this * s
      * 
      */
-    mul(m: GeometricE2): Geometric2;
+    mul(m: GeometricE2): Geometric2
 
     /**
      * 
      * this ⟼ a * b
      * 
      */
-    mul2(a: GeometricE2, b: GeometricE2): Geometric2;
+    mul2(a: GeometricE2, b: GeometricE2): Geometric2
 
     /**
      * 
      * this ⟼ -1 * this
      * 
      */
-    neg(): Geometric2;
+    neg(): Geometric2
 
     /**
      * 
      * this ⟼ sqrt(this * conj(this))
      * 
      */
-    norm(): Geometric2;
+    norm(): Geometric2
 
-    one(): Geometric2;
+    one(): Geometric2
 
-    pow(): Geometric2;
+    pow(): Geometric2
 
     /**
      * 
      * this ⟼ this | ~this = scp(this, rev(this))
      * 
      */
-    quad(): Geometric2;
+    quad(): Geometric2
 
-    quadraticBezier(t: number, controlPoint: GeometricE2, endPoint: GeometricE2): Geometric2;
+    quadraticBezier(t: number, controlPoint: GeometricE2, endPoint: GeometricE2): Geometric2
 
     /**
      * Sets this multivector to the right contraction with another multivector.
@@ -1623,7 +1622,7 @@ export class Geometric2 extends VectorN<number> implements GeometricE2 {
      * this ⟼ this >> m
      * 
      */
-    rco(m: GeometricE2): Geometric2;
+    rco(m: GeometricE2): Geometric2
 
     /**
      * Sets this multivector to the right contraction of two multivectors.
@@ -1631,28 +1630,28 @@ export class Geometric2 extends VectorN<number> implements GeometricE2 {
      * this ⟼ a >> b
      * 
      */
-    rco2(a: GeometricE2, b: GeometricE2): Geometric2;
+    rco2(a: GeometricE2, b: GeometricE2): Geometric2
 
     /**
      * 
      * this ⟼ - n * this * n
      * 
      */
-    reflect(n: VectorE2): Geometric2;
+    reflect(n: VectorE2): Geometric2
 
     /**
      * 
      * this ⟼ rev(this)
      * 
      */
-    rev(): Geometric2;
+    rev(): Geometric2
 
     /**
      * 
      * this ⟼ R * this * rev(R)
      * 
      */
-    rotate(R: SpinorE2): Geometric2;
+    rotate(R: SpinorE2): Geometric2
 
     /**
      * 
@@ -1660,80 +1659,80 @@ export class Geometric2 extends VectorN<number> implements GeometricE2 {
      * R = (|b||a| + b * a) / sqrt(2 * |b||a|(|b||a| + b << a))
      * 
      */
-    rotorFromDirections(a: VectorE2, b: VectorE2): Geometric2;
+    rotorFromDirections(a: VectorE2, b: VectorE2): Geometric2
 
     /**
      * 
      * this = ⟼ exp(- B * θ / 2)
      * 
      */
-    rotorFromGeneratorAngle(B: SpinorE2, θ: number): Geometric2;
+    rotorFromGeneratorAngle(B: SpinorE2, θ: number): Geometric2
 
     /**
      * 
      * this ⟼ this * α
      * 
      */
-    scale(α: number): Geometric2;
+    scale(α: number): Geometric2
 
     /**
      * 
      * this ⟼ scp(this, m)
      * 
      */
-    scp(m: GeometricE2): Geometric2;
+    scp(m: GeometricE2): Geometric2
 
     /**
      * 
      * this ⟼ scp(a, b)
      * 
      */
-    scp2(a: GeometricE2, b: GeometricE2): Geometric2;
+    scp2(a: GeometricE2, b: GeometricE2): Geometric2
 
-    sin(): Geometric2;
+    sin(): Geometric2
 
-    sinh(): Geometric2;
+    sinh(): Geometric2
 
     /**
      * Computes the squared norm, scp(A, rev(A)).
      */
-    squaredNorm(): Geometric2;
+    squaredNorm(): Geometric2
 
-    stress(σ: VectorE2): Geometric2;
+    stress(σ: VectorE2): Geometric2
 
     /**
      * 
      * this ⟼ this - M * α
      * 
      */
-    sub(M: GeometricE2, α?: number): Geometric2;
+    sub(M: GeometricE2, α?: number): Geometric2
 
     /**
      * 
      * this ⟼ a - b
      * 
      */
-    sub2(a: GeometricE2, b: GeometricE2): Geometric2;
+    sub2(a: GeometricE2, b: GeometricE2): Geometric2
 
     /**
      * Returns a string representing the number in exponential notation.
      */
-    toExponential(fractionDigits?: number): string;
+    toExponential(fractionDigits?: number): string
 
     /**
      * Returns a string representing the number in fixed-point notation.
      */
-    toFixed(fractionDigits?: number): string;
+    toFixed(fractionDigits?: number): string
 
     /**
      *
      */
-    toPrecision(precision?: number): string;
+    toPrecision(precision?: number): string
 
     /**
      * Returns a string representation of the number.
      */
-    toString(radix?: number): string;
+    toString(radix?: number): string
 
     /**
      * 
@@ -1741,87 +1740,87 @@ export class Geometric2 extends VectorN<number> implements GeometricE2 {
      * 
      * Sets this Geometric2 to the geometric product a * b of the vector arguments.
      */
-    versor(a: VectorE2, b: VectorE2): Geometric2;
+    versor(a: VectorE2, b: VectorE2): Geometric2
 
-    zero(): Geometric2;
+    zero(): Geometric2
 
     /**
      * Creates a copy of a multivector.
      */
-    static copy(M: GeometricE2): Geometric2;
+    static copy(M: GeometricE2): Geometric2
 
     /**
      * The identity element for addition, 0.
      */
-    static zero(lock?: boolean): Geometric2;
+    static zero(lock?: boolean): Geometric2
 
     /**
      * Constructs the standard basis vector corresponding to the x coordinate.
      */
-    static e1(lock?: boolean): Geometric2;
+    static e1(lock?: boolean): Geometric2
 
     /**
      * constructs the standard basis vector corresponding to the y coordinate.
      */
-    static e2(lock?: boolean): Geometric2;
+    static e2(lock?: boolean): Geometric2
 
-    static fromCartesian(α: number, x: number, y: number, β: number): Geometric2;
+    static fromCartesian(α: number, x: number, y: number, β: number): Geometric2
 
     /**
      * Creates a copy of a bivector.
      */
-    static fromBivector(B: Pseudo): Geometric2;
+    static fromBivector(B: Pseudo): Geometric2
 
     /**
      * Creates a copy of a spinor.
      */
-    static fromSpinor(spinor: SpinorE2): Geometric2;
+    static fromSpinor(spinor: SpinorE2): Geometric2
 
     /**
      * Creates a copy of a vector.
      */
-    static fromVector(vector: VectorE2): Geometric2;
+    static fromVector(vector: VectorE2): Geometric2
 
     /**
      * Multivector basis element corresponding to the pseudoscalar coordinate.
      */
-    static I(lock?: boolean): Geometric2;
+    static I(lock?: boolean): Geometric2
 
     /**
      * Linear interpolation of two multivectors.
      *
      * A + α * (B - A)
      */
-    static lerp(A: GeometricE2, B: GeometricE2, α: number): Geometric2;
+    static lerp(A: GeometricE2, B: GeometricE2, α: number): Geometric2
 
     /**
      * Multivector basis element corresponding to the scalar coordinate.
      * The identity element for multiplication, 1 (scalar).
      */
-    static one(lock?: boolean): Geometric2;
+    static one(lock?: boolean): Geometric2
 
     /**
      * Computes the rotor corresponding to a rotation from vector a to vector b.
      */
-    static rotorFromDirections(a: VectorE2, b: VectorE2): Geometric2;
-    static rotorFromVectorToVector(a: VectorE2, b: VectorE2): Geometric2;
+    static rotorFromDirections(a: VectorE2, b: VectorE2): Geometric2
+    static rotorFromVectorToVector(a: VectorE2, b: VectorE2): Geometric2
 
     /**
      * Creates a copy of a pseudoscalar.
      */
-    static scalar(β: number): Geometric2;
+    static scalar(β: number): Geometric2
 
     /**
      * Creates a copy of a scalar.
      */
-    static scalar(α: number): Geometric2;
+    static scalar(α: number): Geometric2
 
     /**
      * Creates a vector from Cartesian coordinates
      */
-    static vector(x: number, y: number): Geometric2;
+    static vector(x: number, y: number): Geometric2
 
-    static zero(): Geometric2;
+    static zero(): Geometric2
 }
 
 /**
@@ -1829,7 +1828,7 @@ export class Geometric2 extends VectorN<number> implements GeometricE2 {
  */
 export class Vector1 extends VectorN<number> implements VectorE1 {
     x: number
-    constructor(coords?: number[], modified?: boolean);
+    constructor(coords?: number[], modified?: boolean)
 }
 
 /**
@@ -1844,34 +1843,34 @@ export class Vector2 extends VectorN<number> implements VectorE2 {
      * 
      */
     y: number
-    constructor(coords?: number[], modified?: boolean);
-    add(v: VectorE2): Vector2;
-    add2(a: VectorE2, b: VectorE2): Vector2;
-    applyMatrix(σ: Matrix2): Vector2;
-    clone(): Vector2;
-    copy(v: VectorE2): Vector2;
-    cubicBezier(t: number, controlBegin: VectorE2, endPoint: VectorE2): Vector2;
-    distanceTo(point: VectorE2): number;
-    lerp(v: VectorE2, α: number): Vector2;
-    lerp2(a: VectorE2, b: VectorE2, α: number): Vector2;
-    magnitude(): number;
-    neg(): Vector2;
-    quadraticBezier(t: number, controlPoint: VectorE2, endPoint: VectorE2): Vector2;
-    rotate(spinor: SpinorE2): Vector2;
-    scale(α: number): Vector2;
-    squaredNorm(): number;
-    set(x: number, y: number): Vector2;
-    sub(v: VectorE2): Vector2;
-    sub2(a: VectorE2, b: VectorE2): Vector2;
-    toExponential(fractionDigits?: number): string;
-    toFixed(fractionDigits?: number): string;
-    toPrecision(precision?: number): string;
-    toString(radix?: number): string;
-    zero(): Vector2;
-    static copy(v: VectorE2): Vector2;
-    static lerp(a: VectorE2, b: VectorE2, α: number): Vector2;
-    static random(): Vector2;
-    static vector(x: number, y: number): Vector2;
+    constructor(coords?: number[], modified?: boolean)
+    add(v: VectorE2): Vector2
+    add2(a: VectorE2, b: VectorE2): Vector2
+    applyMatrix(σ: Matrix2): Vector2
+    clone(): Vector2
+    copy(v: VectorE2): Vector2
+    cubicBezier(t: number, controlBegin: VectorE2, endPoint: VectorE2): Vector2
+    distanceTo(point: VectorE2): number
+    lerp(v: VectorE2, α: number): Vector2
+    lerp2(a: VectorE2, b: VectorE2, α: number): Vector2
+    magnitude(): number
+    neg(): Vector2
+    quadraticBezier(t: number, controlPoint: VectorE2, endPoint: VectorE2): Vector2
+    rotate(spinor: SpinorE2): Vector2
+    scale(α: number): Vector2
+    squaredNorm(): number
+    set(x: number, y: number): Vector2
+    sub(v: VectorE2): Vector2
+    sub2(a: VectorE2, b: VectorE2): Vector2
+    toExponential(fractionDigits?: number): string
+    toFixed(fractionDigits?: number): string
+    toPrecision(precision?: number): string
+    toString(radix?: number): string
+    zero(): Vector2
+    static copy(v: VectorE2): Vector2
+    static lerp(a: VectorE2, b: VectorE2, α: number): Vector2
+    static random(): Vector2
+    static vector(x: number, y: number): Vector2
 }
 
 /**
@@ -1965,53 +1964,53 @@ export class Geometric3 extends VectorN<number> implements GeometricE3 {
      * Constructs a Geometric3.
      * The multivector is initialized to zero.
      */
-    constructor();
+    constructor()
 
     /**
      * Adds M * α to this multivector.
      *
      * this ⟼ this + M * α
      */
-    add(M: GeometricE3, α?: number): this;
+    add(M: GeometricE3, α?: number): this
 
     /**
      * Sets this multivector to the sum of a and b.
      *
      * this ⟼ a + b
      */
-    add2(a: GeometricE3, b: GeometricE3): this;
+    add2(a: GeometricE3, b: GeometricE3): this
 
     /**
      * Adds the bivector B to this multivector.
      */
-    addBivector(B: BivectorE3): this;
+    addBivector(B: BivectorE3): this
 
     /**
      * Adds the pseudoscalar coordinate to this multivector.
      */
-    addPseudo(β: number): this;
+    addPseudo(β: number): this
 
     /**
      * Adds the scalar coordinate to this multivector.
      */
-    addScalar(α: number): this;
+    addScalar(α: number): this
 
     /**
      * Adds v * α to this multivector where v is a vector and α is an optional scalar.
      *
      * this ⟼ this + v * α
      */
-    addVector(v: VectorE3, α?: number): this;
+    addVector(v: VectorE3, α?: number): this
 
     /**
      * The bivector whose area (magnitude) is θ/2, where θ is the radian measure. 
      */
-    arg(): Geometric3;
+    arg(): Geometric3
 
     /**
      * Returns a clone of this multivector.
      */
-    clone(): Geometric3;
+    clone(): Geometric3
 
     /**
      * The Clifford conjugate.
@@ -2020,73 +2019,73 @@ export class Geometric3 extends VectorN<number> implements GeometricE3 {
      * 
      * @returns conj(this)
      */
-    conj(): Geometric3;
+    conj(): Geometric3
 
     /**
      * Copies the multivector M into this multivector.
      *
      * this ⟼ copy(M)
      */
-    copy(M: GeometricE3): this;
+    copy(M: GeometricE3): this
 
     /**
      * Copies the scalar α into this multivector.
      *
      * this ⟼ copy(α)
      */
-    copyScalar(α: number): this;
+    copyScalar(α: number): this
 
     /**
      * Copies the spinor into this multivector.
      *
      * this ⟼ copy(spinor)
      */
-    copySpinor(spinor: SpinorE3): this;
+    copySpinor(spinor: SpinorE3): this
 
     /**
      * Copies the vector into this multivector.
      *
      * this ⟼ copyVector(vector)
      */
-    copyVector(vector: VectorE3): this;
+    copyVector(vector: VectorE3): this
 
     /**
      * Sets this multivector to the vector cross product of this with m.
      * this ⟼ this x m
      */
-    cross(m: GeometricE3): this;
+    cross(m: GeometricE3): this
 
     /**
      * Computes the direction of this multivector.
      */
-    direction(): Geometric3;
+    direction(): Geometric3
 
     /**
      * Computes the distance from this point to the specified point.
      */
-    distanceTo(point: VectorE3): number;
+    distanceTo(point: VectorE3): number
 
     /**
      * Sets this multivector to the result of division by another multivector.
      * 
      * this ⟼ this / m
      */
-    div(m: GeometricE3): this;
+    div(m: GeometricE3): this
 
     /**
      * this ⟼ a / b
      */
-    div2(a: SpinorE3, b: SpinorE3): this;
+    div2(a: SpinorE3, b: SpinorE3): this
 
     /**
      * this ⟼ this / α
      */
-    divByScalar(α: number): this;
+    divByScalar(α: number): this
 
     /**
      * this ⟼ this / v
      */
-    divByVector(v: VectorE3): this;
+    divByVector(v: VectorE3): this
 
     /**
      * this ⟼ dual(m) = I * m
@@ -2094,147 +2093,147 @@ export class Geometric3 extends VectorN<number> implements GeometricE3 {
      * Notice that the dual of a vector is related to the bivector by the right-hand rule.
      * m The vector whose dual will be used to set this spinor.
      */
-    dual(m: VectorE3): this;
+    dual(m: VectorE3): this
 
     /**
      * this ⟼ exp(this)
      */
-    exp(): this;
+    exp(): this
 
     /**
      * this ⟼ this ^ m
      */
-    ext(m: GeometricE3): this;
+    ext(m: GeometricE3): this
 
     /**
      * this ⟼ a ^ b
      */
-    ext2(a: GeometricE3, b: GeometricE3): this;
+    ext2(a: GeometricE3, b: GeometricE3): this
 
     /**
      * this ⟼ grade(this, n)
      */
-    grade(n: number): this;
+    grade(n: number): this
 
     /**
      * Sets this multivector to its inverse.
      * this ⟼ conj(this) / quad(this)
      */
-    inv(): this;
+    inv(): this
 
     /**
      * Determins whether this multivector is exactly one.
      */
-    isOne(): boolean;
+    isOne(): boolean
 
     /**
      * Determines whether this multivector is exactly zero.
      */
-    isZero(): boolean;
+    isZero(): boolean
 
     /**
      * Sets this multivector to the left contraction with another multivector.
      * 
      * this ⟼ this << m
      */
-    lco(m: GeometricE3): this;
+    lco(m: GeometricE3): this
 
     /**
      * Sets this multivector to the left contraction of two multivectors. 
      * 
      * this ⟼ a << b
      */
-    lco2(a: GeometricE3, b: GeometricE3): this;
+    lco2(a: GeometricE3, b: GeometricE3): this
 
     /**
      * this ⟼ this + α * (target - this)
      */
-    lerp(target: GeometricE3, α: number): this;
+    lerp(target: GeometricE3, α: number): this
 
     /**
      * this ⟼ a + α * (b - a)
      */
-    lerp2(a: GeometricE3, b: GeometricE3, α: number): this;
+    lerp2(a: GeometricE3, b: GeometricE3, α: number): this
 
     /**
      * this ⟼ log(this)
      */
-    log(): this;
+    log(): this
 
     /**
      * magnitude(this) = sqrt(this | ~this)
      */
-    magnitude(): number;
+    magnitude(): number
 
     /**
      * this ⟼ this * m
      */
-    mul(m: GeometricE3): this;
+    mul(m: GeometricE3): this
 
     /**
      * this ⟼ a * b
      */
-    mul2(a: GeometricE3, b: GeometricE3): this;
+    mul2(a: GeometricE3, b: GeometricE3): this
 
     /**
      * this ⟼ -1 * this
      */
-    neg(): this;
+    neg(): this
 
     /**
      * this ⟼ magnitude(this) = sqrt(this * ~this)
      */
-    norm(): this;
+    norm(): this
 
     /**
      * Normalizes this multivector by dividing it by its magnitude.
      * this ⟼ this / magnitude(this)
      */
-    normalize(): this;
+    normalize(): this
 
     /**
      * Sets this multivector to the identity element for multiplication, 1.
      */
-    one(): this;
+    one(): this
 
     /**
      * Computes the square of the magnitude.
      */
-    quaditude(): number;
+    quaditude(): number
 
     /**
      * Computes the distance from this point to the specified point.
      */
-    quadranceTo(point: VectorE3): number;
+    quadranceTo(point: VectorE3): number
 
     /**
      * Sets this multivector to the right contraction with another multivector.
      * 
      * this ⟼ this >> m
      */
-    rco(m: GeometricE3): this;
+    rco(m: GeometricE3): this
 
     /**
      * Sets this multivector to the right contraction of two multivectors.
      * 
      * this ⟼ a >> b
      */
-    rco2(a: GeometricE3, b: GeometricE3): this;
+    rco2(a: GeometricE3, b: GeometricE3): this
 
     /**
      * this ⟼ - n * this * n
      */
-    reflect(n: VectorE3): this;
+    reflect(n: VectorE3): this
 
     /**
      * this ⟼ rev(this)
      */
-    rev(): this;
+    rev(): this
 
     /**
      * this ⟼ R * this * rev(R)
      */
-    rotate(R: SpinorE3): this;
+    rotate(R: SpinorE3): this
 
     /**
      * Sets this multivector to a rotor that rotates through angle θ around the specified direction.
@@ -2242,7 +2241,7 @@ export class Geometric3 extends VectorN<number> implements GeometricE3 {
      * n: The (unit) vector defining the rotation direction.
      * θ: The rotation angle in radians when the rotor is applied on both sides as R * M * ~R
      */
-    rotorFromAxisAngle(n: VectorE3, θ: number): this;
+    rotorFromAxisAngle(n: VectorE3, θ: number): this
 
     /**
      * Sets this multivector to a rotor representing a rotation from a to b.
@@ -2252,12 +2251,12 @@ export class Geometric3 extends VectorN<number> implements GeometricE3 {
      * a The <em>from</em> vector.
      * b The <em>to</em> vector.
      */
-    rotorFromDirections(a: VectorE3, b: VectorE3): this;
+    rotorFromDirections(a: VectorE3, b: VectorE3): this
 
     /**
      * 
      */
-    rotorFromFrameToFrame(es: VectorE3[], fs: VectorE3[]): this;
+    rotorFromFrameToFrame(es: VectorE3[], fs: VectorE3[]): this
 
     /**
      * Sets this multivector to a rotor represented by the plane B and angle θ.
@@ -2266,12 +2265,12 @@ export class Geometric3 extends VectorN<number> implements GeometricE3 {
      * B is the (unit) bivector generating the rotation, B * B = -1.
      * θ The rotation angle in radians.
      */
-    rotorFromGeneratorAngle(B: BivectorE3, θ: number): this;
+    rotorFromGeneratorAngle(B: BivectorE3, θ: number): this
 
     /**
      * 
      */
-    rotorFromVectorToVector(a: VectorE3, b: VectorE3, B: BivectorE3): this;
+    rotorFromVectorToVector(a: VectorE3, b: VectorE3, B: BivectorE3): this
 
     /**
      * 
@@ -2279,7 +2278,7 @@ export class Geometric3 extends VectorN<number> implements GeometricE3 {
      * 
      * α
      */
-    scale(α: number): this;
+    scale(α: number): this
 
     /**
      * 
@@ -2287,7 +2286,7 @@ export class Geometric3 extends VectorN<number> implements GeometricE3 {
      * 
      * m
      */
-    scp(m: GeometricE3): this;
+    scp(m: GeometricE3): this
 
     /**
      * 
@@ -2296,12 +2295,12 @@ export class Geometric3 extends VectorN<number> implements GeometricE3 {
      * a
      * b
      */
-    scp2(a: GeometricE3, b: GeometricE3): this;
+    scp2(a: GeometricE3, b: GeometricE3): this
 
     /**
      * this ⟼ (this | ~this) = scp(this, rev(this))
      */
-    squaredNorm(): this;
+    squaredNorm(): this
 
     /**
      * 
@@ -2310,7 +2309,7 @@ export class Geometric3 extends VectorN<number> implements GeometricE3 {
      * M
      * α
      */
-    sub(M: GeometricE3, α?: number): this;
+    sub(M: GeometricE3, α?: number): this
 
     /**
      * 
@@ -2319,35 +2318,35 @@ export class Geometric3 extends VectorN<number> implements GeometricE3 {
      * a
      * b
      */
-    sub2(a: GeometricE3, b: GeometricE3): this;
+    sub2(a: GeometricE3, b: GeometricE3): this
 
     /**
      * Subtracts v * α from this multivector where v is a vector and α is an optional scalar.
      *
      * this ⟼ this - v * α
      */
-    subVector(v: VectorE3, α?: number): this;
+    subVector(v: VectorE3, α?: number): this
 
     /**
      * Returns a string representing the number in exponential notation.
      */
-    toExponential(fractionDigits?: number): string;
+    toExponential(fractionDigits?: number): string
 
     /**
      * Returns a string representing the number in fixed-point notation.
      * fractionDigits
      */
-    toFixed(fractionDigits?: number): string;
+    toFixed(fractionDigits?: number): string
 
     /**
      *
      */
-    toPrecision(precision?: number): string;
+    toPrecision(precision?: number): string
 
     /**
      * Returns a string representation of the number.
      */
-    toString(radix?: number): string;
+    toString(radix?: number): string
 
     /**
      * 
@@ -2355,130 +2354,130 @@ export class Geometric3 extends VectorN<number> implements GeometricE3 {
      * 
      * Sets this Geometric3 to the geometric product a * b of the vector arguments.
      */
-    versor(a: VectorE3, b: VectorE3): this;
+    versor(a: VectorE3, b: VectorE3): this
 
     /**
      * Sets this multivector to the identity element for addition, 0.
      */
-    zero(): Geometric3;
+    zero(): Geometric3
 
     /**
      * Constructs a mutable bivector with the coordinates yz, zx, and xy.
      */
-    static bivector(yz: number, zx: number, xy: number): Geometric3;
+    static bivector(yz: number, zx: number, xy: number): Geometric3
 
     /**
      * Constructs a mutable multivector by copying a multivector.
      */
-    static copy(m: GeometricE3): Geometric3;
+    static copy(m: GeometricE3): Geometric3
 
     /**
      * Constructs a mutable multivector which is the dual of the bivector B.
      */
-    static dualOfBivector(B: BivectorE3): Geometric3;
+    static dualOfBivector(B: BivectorE3): Geometric3
 
     /**
      * Constructs a mutable multivector which is the dual of the vector v.
      */
-    static dualOfVector(v: VectorE3): Geometric3;
+    static dualOfVector(v: VectorE3): Geometric3
 
     /**
      * Constructs the basis vector e1 corresponding to the x coordinate.
      * Locking the vector prevents mutation. 
      */
-    static e1(lock?: boolean): Geometric3;
+    static e1(lock?: boolean): Geometric3
 
     /**
      * Constructs the basis vector e2 corresponding to the y coordinate.
      * Locking the vector prevents mutation. 
      */
-    static e2(lock?: boolean): Geometric3;
+    static e2(lock?: boolean): Geometric3
 
     /**
      * Constructs the basis vector e3 corresponding to the z coordinate.
      * Locking the vector prevents mutation. 
      */
-    static e3(lock?: boolean): Geometric3;
+    static e3(lock?: boolean): Geometric3
 
     /**
      * Creates a copy of a bivector.
      */
-    static fromBivector(B: BivectorE3): Geometric3;
+    static fromBivector(B: BivectorE3): Geometric3
 
     /**
      * Creates a copy of a scalar.
      */
-    static fromScalar(scalar: Scalar): Geometric3;
+    static fromScalar(scalar: Scalar): Geometric3
 
     /**
      * Creates a copy of a spinor.
      */
-    static fromSpinor(spinor: SpinorE3): Geometric3;
+    static fromSpinor(spinor: SpinorE3): Geometric3
 
     /**
      * Creates a copy of a vector.
      */
-    static fromVector(vector: VectorE3): Geometric3;
+    static fromVector(vector: VectorE3): Geometric3
 
     /**
      * Multivector basis element corresponding to the pseudoscalar coordinate.
      */
-    static I(lock?: boolean): Geometric2;
+    static I(lock?: boolean): Geometric2
 
     /**
      * Multivector basis element corresponding to the scalar coordinate.
      * The identity element for multiplication, 1 (scalar).
      */
-    static one(lock?: boolean): Geometric3;
+    static one(lock?: boolean): Geometric3
 
     /**
      * 
      */
-    static pseudo(β: number): Geometric3;
+    static pseudo(β: number): Geometric3
 
     /**
      * Computes a multivector with random components in the range [lowerBound, upperBound].
      */
-    static random(lowerBound?: number, upperBound?: number): Geometric3;
+    static random(lowerBound?: number, upperBound?: number): Geometric3
 
     /**
      * Computes the rotor that rotates vector a to vector b.
      */
-    static rotorFromDirections(a: VectorE3, b: VectorE3): Geometric3;
+    static rotorFromDirections(a: VectorE3, b: VectorE3): Geometric3
 
     /**
      * Computes the rotor that rotates vector `a` to vector `b`.
      * The bivector B provides the plane of rotation when `a` and `b` are anti-aligned.
      * The result is independent of the magnitudes of `a` and `b`.
      */
-    static rotorFromVectorToVector(a: VectorE3, b: VectorE3, B: BivectorE3): Geometric3;
+    static rotorFromVectorToVector(a: VectorE3, b: VectorE3, B: BivectorE3): Geometric3
 
     /**
      * Constructs a scalar from a number.
      */
-    static scalar(α: number): Geometric3;
+    static scalar(α: number): Geometric3
 
     /**
      * Constructs a spinor from its bivector and scalar coordinates.
      */
-    static spinor(yz: number, zx: number, xy: number, α: number): Geometric3;
+    static spinor(yz: number, zx: number, xy: number, α: number): Geometric3
 
     /**
      * Constructs a vector from Cartesian coordinates.
      */
-    static vector(x: number, y: number, z: number): Geometric3;
+    static vector(x: number, y: number, z: number): Geometric3
 
     /**
      * Constructs a mutable bivector as the outer product of two vectors.
      */
-    static wedge(a: VectorE3, b: VectorE3): Geometric3;
+    static wedge(a: VectorE3, b: VectorE3): Geometric3
 
     /**
      * The identity element for addition, 0.
      * e.g.
-     * const origin = EIGHT.Geometric3.zero(true);
+     * const origin = EIGHT.Geometric3.zero(true)
      */
-    static zero(lock?: boolean): Geometric3;
+    static zero(lock?: boolean): Geometric3
 }
 
 /**
@@ -2567,9 +2566,9 @@ export class Spinor3 extends VectorN<number> implements SpinorE3 {
 
     lco(rhs: SpinorE3): Spinor3
 
-    lerp(target: SpinorE3, α: number): Spinor3;
+    lerp(target: SpinorE3, α: number): Spinor3
 
-    lerp2(a: SpinorE3, b: SpinorE3, α: number): Spinor3;
+    lerp2(a: SpinorE3, b: SpinorE3, α: number): Spinor3
 
     /**
      * 
@@ -2662,16 +2661,16 @@ export class Spinor3 extends VectorN<number> implements SpinorE3 {
      *
      * Sets this Spinor3 to the geometric product, a * b,  of the vector arguments
      */
-    versor(a: VectorE3, b: VectorE3): Spinor3;
-    static copy(spinor: SpinorE3): Spinor3;
-    static dual(vector: VectorE3, changeSign: boolean): Spinor3;
-    static fromBivector(B: BivectorE3): Spinor3;
-    static lerp(a: SpinorE3, b: SpinorE3, α: number): Spinor3;
-    static one(): Spinor3;
-    static rotorFromDirections(a: VectorE3, b: VectorE3): Spinor3;
-    static rotorFromVectorToVector(a: VectorE3, b: VectorE3, B: BivectorE3): Spinor3;
-    static spinor(yz: number, zx: number, xy: number, α: number): Spinor3;
-    static zero(): Spinor3;
+    versor(a: VectorE3, b: VectorE3): Spinor3
+    static copy(spinor: SpinorE3): Spinor3
+    static dual(vector: VectorE3, changeSign: boolean): Spinor3
+    static fromBivector(B: BivectorE3): Spinor3
+    static lerp(a: SpinorE3, b: SpinorE3, α: number): Spinor3
+    static one(): Spinor3
+    static rotorFromDirections(a: VectorE3, b: VectorE3): Spinor3
+    static rotorFromVectorToVector(a: VectorE3, b: VectorE3, B: BivectorE3): Spinor3
+    static spinor(yz: number, zx: number, xy: number, α: number): Spinor3
+    static zero(): Spinor3
 }
 
 /**
@@ -2705,63 +2704,63 @@ export class Vector3 extends VectorN<number> implements VectorE3 {
     x: number
     y: number
     z: number
-    constructor(coordinates?: number[], modified?: boolean);
+    constructor(coordinates?: number[], modified?: boolean)
     /**
      * this += α * vector
      */
-    add(vector: VectorE3, α?: number): Vector3;
-    applyMatrix(σ: Matrix3): Vector3;
-    applyMatrix4(σ: Matrix4): Vector3;
-    clone(): Vector3;
-    copy(source: VectorE3): Vector3;
-    copyCoordinates(coordinates: number[]): Vector3;
-    cross(v: VectorE3): Vector3;
-    cross2(a: VectorE3, b: VectorE3): Vector3;
-    distanceTo(point: VectorE3): number;
-    divByScalar(rhs: number): Vector3;
-    dot(v: VectorE3): number;
-    dual(B: SpinorE3, changeSign: boolean): Vector3;
-    lerp(target: VectorE3, α: number): Vector3;
-    lerp2(a: VectorE3, b: VectorE3, α: number): Vector3;
+    add(vector: VectorE3, α?: number): Vector3
+    applyMatrix(σ: Matrix3): Vector3
+    applyMatrix4(σ: Matrix4): Vector3
+    clone(): Vector3
+    copy(source: VectorE3): Vector3
+    copyCoordinates(coordinates: number[]): Vector3
+    cross(v: VectorE3): Vector3
+    cross2(a: VectorE3, b: VectorE3): Vector3
+    distanceTo(point: VectorE3): number
+    divByScalar(rhs: number): Vector3
+    dot(v: VectorE3): number
+    dual(B: SpinorE3, changeSign: boolean): Vector3
+    lerp(target: VectorE3, α: number): Vector3
+    lerp2(a: VectorE3, b: VectorE3, α: number): Vector3
     /**
      * Computes the <em>square root</em> of the <em>squared norm</em>.
      */
-    magnitude(): number;
-    neg(): Vector3;
-    normalize(): Vector3;
-    quadranceTo(point: VectorE3): number;
-    reflect(n: VectorE3): Vector3;
-    rotate(R: SpinorE3): Vector3;
-    scale(rhs: number): Vector3;
-    set(x: number, y: number, z: number): Vector3;
-    squaredNorm(): number;
-    stress(σ: VectorE3): Vector3;
-    sub(vector: VectorE3, α?: number): Vector3;
-    toExponential(fractionDigits?: number): string;
-    toFixed(fractionDigits?: number): string;
-    toPrecision(precision?: number): string;
-    toString(radix?: number): string;
-    zero(): Vector3;
-    static copy(vector: VectorE3): Vector3;
-    static dot(a: VectorE3, b: VectorE3): number;
+    magnitude(): number
+    neg(): Vector3
+    normalize(): Vector3
+    quadranceTo(point: VectorE3): number
+    reflect(n: VectorE3): Vector3
+    rotate(R: SpinorE3): Vector3
+    scale(rhs: number): Vector3
+    set(x: number, y: number, z: number): Vector3
+    squaredNorm(): number
+    stress(σ: VectorE3): Vector3
+    sub(vector: VectorE3, α?: number): Vector3
+    toExponential(fractionDigits?: number): string
+    toFixed(fractionDigits?: number): string
+    toPrecision(precision?: number): string
+    toString(radix?: number): string
+    zero(): Vector3
+    static copy(vector: VectorE3): Vector3
+    static dot(a: VectorE3, b: VectorE3): number
     /**
      * Constructs a vector which is the dual of the supplied bivector, B.
      * The convention used is dual(m) = I * m.
      * If a sign change is desired from this convention,
      * set changeSign to true.
      */
-    static dual(B: BivectorE3, changeSign?: boolean): Vector3;
-    static e1(): Vector3;
-    static e2(): Vector3;
-    static e3(): Vector3;
-    static isInstance(x: any): boolean;
-    static lerp(a: VectorE3, b: VectorE3, α: number): Vector3;
-    static random(): Vector3;
-    static vector(x: number, y: number, z: number): Vector3;
+    static dual(B: BivectorE3, changeSign?: boolean): Vector3
+    static e1(): Vector3
+    static e2(): Vector3
+    static e3(): Vector3
+    static isInstance(x: any): boolean
+    static lerp(a: VectorE3, b: VectorE3, α: number): Vector3
+    static random(): Vector3
+    static vector(x: number, y: number, z: number): Vector3
     /**
      * Constructs the zero (vector).
      */
-    static zero(): Vector3;
+    static zero(): Vector3
 }
 
 /**
@@ -2835,16 +2834,16 @@ export class Color implements Lockable {
      * Constructs a new Color from its red, green, and blue values.
      * Each value is clamped in the range [0,1].
      */
-    constructor(red: number, green: number, blue: number);
-    approx(n: number): Color;
-    clone(): Color;
-    copy(color: Color): Color;
-    isLocked(): boolean;
-    lerp(target: Color, α: number): Color;
-    lock(): number;
-    scale(α: number): Color;
-    toString(): string;
-    unlock(token: number): void;
+    constructor(red: number, green: number, blue: number)
+    approx(n: number): Color
+    clone(): Color
+    copy(color: Color): Color
+    isLocked(): boolean
+    lerp(target: Color, α: number): Color
+    lock(): number
+    scale(α: number): Color
+    toString(): string
+    unlock(token: number): void
 
     static black: Color
     static blue: Color
@@ -2864,12 +2863,20 @@ export class Color implements Lockable {
     static springgreen: Color
     static teal: Color
 
-    static copy(color: Color): Color;
-    static fromHSL(H: number, S: number, L: number): Color;
-    static fromRGB(red: number, green: number, blue: number): Color;
-    static lerp(a: Color, b: Color, α: number): Color;
-    static luminance(r: number, g: number, b: number): number;
-    static random(): Color;
+    static copy(color: Color): Color
+    static fromHSL(H: number, S: number, L: number): Color
+    /**
+     * Constructs a new mutable instance of Color from the rgb components.
+     * The components are clamped to the range [0, 1].
+     * 
+     * @param r The red component.
+     * @param g The green component.
+     * @param b The blue component.
+     */
+    static fromRGB(red: number, green: number, blue: number): Color
+    static lerp(a: Color, b: Color, α: number): Color
+    static luminance(r: number, g: number, b: number): number
+    static random(): Color
 }
 
 /**
@@ -2923,7 +2930,7 @@ export class ModelE2 {
     /**
      *
      */
-    constructor();
+    constructor()
 }
 
 /**
@@ -2943,7 +2950,7 @@ export class ModelE3 {
     /**
      *
      */
-    constructor();
+    constructor()
 }
 
 /**
@@ -2961,8 +2968,8 @@ export class ModelFacet extends ModelE3 {
     /**
      * Constructs a ModelFacet at the origin and with unity attitude.
      */
-    constructor();
-    setUniforms(visitor: FacetVisitor): void;
+    constructor()
+    setUniforms(visitor: FacetVisitor): void
 }
 
 /**
@@ -2970,27 +2977,27 @@ export class ModelFacet extends ModelE3 {
  *
  * Instrumenting reference counting:
  *   constructor():
- *     refChange(uuid, 'YourClassName',+1);
+ *     refChange(uuid, 'YourClassName',+1)
  *   addRef():
- *     refChange(uuid, 'YourClassName',+1);
+ *     refChange(uuid, 'YourClassName',+1)
  *   release():
- *     refChange(uuid, 'YourClassName',-1);
+ *     refChange(uuid, 'YourClassName',-1)
  *
  * Debugging reference counts:
  *   Start tracking reference counts:
- *     refChange('start'[, 'where']);
+ *     refChange('start'[, 'where'])
  *     The system will record reference count changes.
  *   Stop tracking reference counts:
- *     refChange('stop'[, 'where']);
+ *     refChange('stop'[, 'where'])
  *     The system will compute the total outstanding number of reference counts.
  *   Dump tracking reference counts:
- *     refChange('dump'[, 'where']);
+ *     refChange('dump'[, 'where'])
  *     The system will log net reference count changes to the console.
  *   Don't track reference counts (default):
- *     refChange('reset'[, 'where']);
+ *     refChange('reset'[, 'where'])
  *     The system will clear statistics and enter will not record changes.
  *   Trace reference counts for a particular class:
- *     refChange('trace', 'YourClassName');
+ *     refChange('trace', 'YourClassName')
  *     The system will report reference count changes on the specified class.
  *
  * Returns the number of outstanding reference counts for the 'stop' command.
@@ -3079,24 +3086,24 @@ export class Scene extends ShareableContextConsumer implements Renderable {
      * Constructs a Scene instance.
      * contextManager: Usually an instance of Engine.
      */
-    constructor(contextManager: ContextManager);
+    constructor(contextManager: ContextManager)
     /**
      * Adds the specified drawable object to this Scene.
      */
-    add(drawable: Renderable): void;
-    contains(drawable: Renderable): boolean;
-    contextFree(): void;
-    contextGain(): void;
-    contextLost(): void;
-    protected destructor(levelUp: number): void;
-    find(match: (drawable: Renderable) => boolean): ShareableArray<Renderable>;
-    findByName(name: string): ShareableArray<Renderable>;
-    findOne(match: (drawable: Renderable) => boolean): Renderable;
-    findOneByName(name: string): Renderable;
+    add(drawable: Renderable): void
+    contains(drawable: Renderable): boolean
+    contextFree(): void
+    contextGain(): void
+    contextLost(): void
+    protected destructor(levelUp: number): void
+    find(match: (drawable: Renderable) => boolean): ShareableArray<Renderable>
+    findByName(name: string): ShareableArray<Renderable>
+    findOne(match: (drawable: Renderable) => boolean): Renderable
+    findOneByName(name: string): Renderable
     /**
      * Removes the specified drawable from this Scene.
      */
-    remove(drawable: Renderable): void;
+    remove(drawable: Renderable): void
     /**
      * Traverses the collection of AbstractDrawable objects, calling render(ambients) on each one.
      * The rendering takes place in two stages.
@@ -3105,7 +3112,7 @@ export class Scene extends ShareableContextConsumer implements Renderable {
      *
      * ambients: Provide GLSL uniform values for all objects. 
      */
-    render(ambients: Facet[]): void;
+    render(ambients: Facet[]): void
 }
 
 /**
@@ -3149,18 +3156,18 @@ export class PerspectiveCamera implements Facet, Camera, Prism {
      * near: The distance to the near plane from the camera.
      * far: The distance to the far plane from the camera. 
      */
-    constructor(fov?: number, aspect?: number, near?: number, far?: number);
+    constructor(fov?: number, aspect?: number, near?: number, far?: number)
     /**
      * Converts from image cube coordinates to world coordinates.
      * imageX: The x-coordinate in the image cube. -1 <= x <= +1.
      * imageY: The y-coordinate in the image cube. -1 <= y <= +1.
      * imageZ: The z-coordinate in the image cube. -1 <= z <= +1.
      */
-    imageToWorldCoords(imageX: number, imageY: number, imageZ: number): Geometric3;
+    imageToWorldCoords(imageX: number, imageY: number, imageZ: number): Geometric3
     /**
      * 
      */
-    setUniforms(visitor: FacetVisitor): void;
+    setUniforms(visitor: FacetVisitor): void
     /**
      * 
      */
@@ -3205,17 +3212,17 @@ export class PerspectiveTransform implements Facet {
     /**
      * 
      */
-    constructor(fov?: number, aspect?: number, near?: number, far?: number);
+    constructor(fov?: number, aspect?: number, near?: number, far?: number)
 
     /**
      * 
      */
-    imageToCameraCoords(x: number, y: number, z: number): number[];
+    imageToCameraCoords(x: number, y: number, z: number): number[]
 
     /**
      * 
      */
-    setUniforms(visitor: FacetVisitor): void;
+    setUniforms(visitor: FacetVisitor): void
 }
 
 /**
@@ -3237,15 +3244,15 @@ export class ViewTransform implements Facet {
     /**
      * 
      */
-    constructor();
+    constructor()
     /**
      * 
      */
-    cameraToWorldCoords(cameraCoords: number[]): Geometric3;
+    cameraToWorldCoords(cameraCoords: number[]): Geometric3
     /**
      * 
      */
-    setUniforms(visitor: FacetVisitor): void;
+    setUniforms(visitor: FacetVisitor): void
 }
 
 export interface VertexAttribPointer {
@@ -3298,12 +3305,12 @@ export interface Geometry extends ContextConsumer {
  */
 export class GeometryArrays extends ShareableContextConsumer implements Geometry {
     scaling: Matrix4
-    constructor(contextManager: ContextManager, primitive: Primitive, options?: { order?: string[]; tilt?: SpinorE3 }, levelUp?: number);
-    protected destructor(levelUp: number): void;
-    bind(material: Material): GeometryArrays;
-    unbind(material: Material): GeometryArrays;
-    draw(): GeometryArrays;
-    protected setScale(x: number, y: number, z: number): void;
+    constructor(contextManager: ContextManager, primitive: Primitive, options?: { order?: string[]; tilt?: SpinorE3; }, levelUp?: number)
+    protected destructor(levelUp: number): void
+    bind(material: Material): GeometryArrays
+    unbind(material: Material): GeometryArrays
+    draw(): GeometryArrays
+    protected setScale(x: number, y: number, z: number): void
 }
 
 /**
@@ -3311,12 +3318,12 @@ export class GeometryArrays extends ShareableContextConsumer implements Geometry
  */
 export class GeometryElements extends ShareableContextConsumer implements Geometry {
     scaling: Matrix4
-    constructor(contextManager: ContextManager, primitive: Primitive, options?: { order?: string[]; tilt?: SpinorE3 }, levelUp?: number);
-    protected destructor(levelUp: number): void;
-    bind(material: Material): GeometryElements;
-    unbind(material: Material): GeometryElements;
-    draw(): GeometryElements;
-    protected setScale(x: number, y: number, z: number): void;
+    constructor(contextManager: ContextManager, primitive: Primitive, options?: { order?: string[]; tilt?: SpinorE3; }, levelUp?: number)
+    protected destructor(levelUp: number): void
+    bind(material: Material): GeometryElements
+    unbind(material: Material): GeometryElements
+    draw(): GeometryElements
+    protected setScale(x: number, y: number, z: number): void
 }
 
 /**
@@ -3342,7 +3349,7 @@ export class ConicalShellBuilder {
     useNormal: boolean
     usePosition: boolean
     useTextureCoord: boolean
-    toPrimitive(): Primitive;
+    toPrimitive(): Primitive
 }
 
 export class CylindricalShellBuilder {
@@ -3374,7 +3381,7 @@ export class CylindricalShellBuilder {
     useNormal: boolean
     usePosition: boolean
     useTextureCoord: boolean
-    toPrimitive(): Primitive;
+    toPrimitive(): Primitive
 }
 
 export class RingBuilder {
@@ -3398,7 +3405,7 @@ export class RingBuilder {
     useNormal: boolean
     usePosition: boolean
     useTextureCoord: boolean
-    toPrimitive(): Primitive;
+    toPrimitive(): Primitive
 }
 
 /**
@@ -3421,6 +3428,14 @@ export enum GeometryMode {
 
 export interface GeometryOptions {
     /**
+     * 
+     */
+    axis?: VectorE3
+    /**
+     * 
+     */
+    meridian?: VectorE3
+    /**
      * A translation from the canonical position.
      * This is the third and last operation applied to canonical vertex data.
      */
@@ -3440,7 +3455,7 @@ export interface ArrowGeometryOptions extends GeometryOptions {
 }
 
 export class ArrowGeometry extends GeometryElements {
-    constructor(contextManager: ContextManager, options?: ArrowGeometryOptions);
+    constructor(contextManager: ContextManager, options?: ArrowGeometryOptions)
 }
 
 export interface BoxGeometryOptions extends GeometryOptions {
@@ -3493,7 +3508,7 @@ export class BoxGeometry extends GeometryElements {
     width: number
     height: number
     depth: number
-    constructor(contextManager: ContextManager, options?: BoxGeometryOptions);
+    constructor(contextManager: ContextManager, options?: BoxGeometryOptions)
 }
 
 /**
@@ -3540,7 +3555,7 @@ export interface CylinderGeometryOptions extends GeometryOptions {
 export class CylinderGeometry extends GeometryElements {
     length: number
     radius: number
-    constructor(contextManager: ContextManager, options?: CylinderGeometryOptions, levelUp?: number);
+    constructor(contextManager: ContextManager, options?: CylinderGeometryOptions, levelUp?: number)
 }
 
 /**
@@ -3565,11 +3580,15 @@ export interface CurveGeometryOptions extends GeometryOptions {
     /**
      * A parametric function determining the vertex colors.
      */
-    aColor?(u: number): { r: number; g: number; b: number }
+    aColor?(u: number): {
+        r: number
+        g: number
+        b: number
+    }
     /**
      * A parametric function determining the vertex coordinates.
      */
-    aCoords?(u: number): { u: number; }
+    aCoords?(u: number): { u: number }
     /**
      * @default LINES
      */
@@ -3593,8 +3612,8 @@ export interface CurveGeometryOptions extends GeometryOptions {
 }
 
 export class CurveGeometry extends GeometryElements {
-    constructor(contextManager: ContextManager, options?: CurveGeometryOptions, levelUp?: number);
-    protected destructor(levelUp: number): void;
+    constructor(contextManager: ContextManager, options?: CurveGeometryOptions, levelUp?: number)
+    protected destructor(levelUp: number): void
 }
 
 /**
@@ -3612,11 +3631,11 @@ export interface GridGeometryOptions extends GeometryOptions {
     /**
      * A parametric function determining the vertex colors.
      */
-    aColor?(u: number, v: number): { r: number; g: number; b: number }
+    aColor?(u: number, v: number): { r: number; g: number; b: number; }
     /**
      * A parametric function determining the vertex coordinates.
      */
-    aCoords?(u: number, v: number): { u: number; v: number }
+    aCoords?(u: number, v: number): { u: number; v: number; }
     /**
      * @default WIRE
      */
@@ -3659,7 +3678,7 @@ export interface GridGeometryOptions extends GeometryOptions {
  * 
  */
 export class GridGeometry extends GeometryElements {
-    constructor(contextManager: ContextManager, options?: GridGeometryOptions);
+    constructor(contextManager: ContextManager, options?: GridGeometryOptions)
 }
 
 export interface SphereGeometryOptions extends GeometryOptions {
@@ -3675,7 +3694,7 @@ export interface SphereGeometryOptions extends GeometryOptions {
 
 export class SphereGeometry extends GeometryElements {
     radius: number
-    constructor(contextManager: ContextManager, options?: SphereGeometryOptions);
+    constructor(contextManager: ContextManager, options?: SphereGeometryOptions)
 }
 
 /**
@@ -3685,35 +3704,35 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
         /*readonly*/ attributeNames: string[]
         /*readonly*/ fragmentShaderSrc: string
         /*readonly*/ vertexShaderSrc: string
-    constructor(vertexShaderSrc: string, fragmentShaderSrc: string, attribs: string[], contextManager: ContextManager);
-    contextFree(): void;
-    contextGain(): void;
-    contextLost(): void;
-    protected destructor(levelUp: number): void;
-    attrib(name: string, value: VertexBuffer, size: number, normalized?: boolean, stride?: number, offset?: number): Material;
-    disableAttrib(indexOrName: number | string): void;
-    disableAttribs(): void;
-    drawArrays(mode: BeginMode, first: number, count: number): Material;
-    drawElements(mode: BeginMode, count: number, type: DataType, offset: number): Material;
-    enableAttrib(indexOrName: number | string): void;
-    enableAttribs(): void;
-    getAttrib(indexOrName: number | string): Attrib;
-    getAttribLocation(name: string): number;
-    getUniform(name: string): Uniform;
-    hasUniform(name: string): boolean;
-    matrix2fv(name: string, mat2: Float32Array, transpose?: boolean): Material;
-    matrix3fv(name: string, mat3: Float32Array, transpose?: boolean): Material;
-    matrix4fv(name: string, mat4: Float32Array, transpose?: boolean): Material;
-    setUniforms(visitor: FacetVisitor): void;
-    uniform1f(name: string, x: number): void;
-    uniform2f(name: string, x: number, y: number): void;
-    uniform3f(name: string, x: number, y: number, z: number): void;
-    uniform4f(name: string, x: number, y: number, z: number, w: number): void;
-    uniform(name: string, value: number | number[]): Material;
-    use(): Material;
-    vector2fv(name: string, vec2: Float32Array): void;
-    vector3fv(name: string, vec3: Float32Array): void;
-    vector4fv(name: string, vec4: Float32Array): void;
+    constructor(vertexShaderSrc: string, fragmentShaderSrc: string, attribs: string[], contextManager: ContextManager)
+    contextFree(): void
+    contextGain(): void
+    contextLost(): void
+    protected destructor(levelUp: number): void
+    attrib(name: string, value: VertexBuffer, size: number, normalized?: boolean, stride?: number, offset?: number): Material
+    disableAttrib(indexOrName: number | string): void
+    disableAttribs(): void
+    drawArrays(mode: BeginMode, first: number, count: number): Material
+    drawElements(mode: BeginMode, count: number, type: DataType, offset: number): Material
+    enableAttrib(indexOrName: number | string): void
+    enableAttribs(): void
+    getAttrib(indexOrName: number | string): Attrib
+    getAttribLocation(name: string): number
+    getUniform(name: string): Uniform
+    hasUniform(name: string): boolean
+    matrix2fv(name: string, mat2: Float32Array, transpose?: boolean): Material
+    matrix3fv(name: string, mat3: Float32Array, transpose?: boolean): Material
+    matrix4fv(name: string, mat4: Float32Array, transpose?: boolean): Material
+    setUniforms(visitor: FacetVisitor): void
+    uniform1f(name: string, x: number): void
+    uniform2f(name: string, x: number, y: number): void
+    uniform3f(name: string, x: number, y: number, z: number): void
+    uniform4f(name: string, x: number, y: number, z: number, w: number): void
+    uniform(name: string, value: number | number[]): Material
+    use(): Material
+    vector2fv(name: string, vec2: Float32Array): void
+    vector3fv(name: string, vec3: Float32Array): void
+    vector4fv(name: string, vec4: Float32Array): void
 }
 
 export interface AbstractDrawable<G extends Geometry, M extends Material> extends ContextConsumer {
@@ -3811,34 +3830,34 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
     /**
      *
      */
-    constructor(geometry: G, material: M, contextManager: ContextManager, levelUp?: number);
+    constructor(geometry: G, material: M, contextManager: ContextManager, levelUp?: number)
 
-    contextFree(): void;
-    contextGain(): void;
-    contextLost(): void;
+    contextFree(): void
+    contextGain(): void
+    contextLost(): void
 
-    protected destructor(levelUp: number): void;
+    protected destructor(levelUp: number): void
 
     /**
      * Binds the buffers in the geometry property to the attributes in the current program.
      */
-    bind(): Drawable<G, M>;
+    bind(): Drawable<G, M>
 
     /**
      * Calls the appropriate WebGL drawArrays or drawElements function through the geometry property.
      */
-    draw(): Drawable<G, M>;
+    draw(): Drawable<G, M>
 
     /**
      * Gets a facet of this composite object by name.
      * Facets provide uniform arguments to the graphics program.
      */
-    getFacet(name: string): Facet;
+    getFacet(name: string): Facet
 
     /**
      * Removes a facet of this composite object by name.
      */
-    removeFacet(name: string): Facet;
+    removeFacet(name: string): Facet
 
     /**
      * A convenience method for multiple methods.
@@ -3850,33 +3869,33 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
      * draw()
      * unbind()
      */
-    render(ambients: Facet[]): Drawable<G, M>;
+    render(ambients: Facet[]): Drawable<G, M>
 
     /**
      * Sets a facet of this composite object by name.
      * Facets provide uniform arguments to the graphics program.
      */
-    setFacet(name: string, facet: Facet): void;
+    setFacet(name: string, facet: Facet): void
 
     /**
      * Sets uniforms in the current program from values provided by the ambient facets.
      */
-    setAmbients(ambients: Facet[]): Drawable<G, M>;
+    setAmbients(ambients: Facet[]): Drawable<G, M>
 
     /**
      * Sets uniforms in the current program from values provided by this Drawable.
      */
-    setUniforms(): Drawable<G, M>;
+    setUniforms(): Drawable<G, M>
 
     /**
      * Unbinds the buffers in the geometry property from the current program.
      */
-    unbind(): Drawable<G, M>;
+    unbind(): Drawable<G, M>
 
     /**
      * Makes the WebGLProgram in the material property the current program.
      */
-    use(): Drawable<G, M>;
+    use(): Drawable<G, M>
 }
 
 /**
@@ -3886,12 +3905,12 @@ export class HTMLScriptsMaterial extends ShaderMaterial {
     /**
      *
      */
-    constructor(contextManager: ContextManager, scriptIds: string[], attribs?: string[], dom?: Document, levelUp?: number);
+    constructor(contextManager: ContextManager, scriptIds: string[], attribs?: string[], dom?: Document, levelUp?: number)
     /**
      *
      * @param levelUp
      */
-    protected destructor(levelUp: number): void;
+    protected destructor(levelUp: number): void
 }
 
 /**
@@ -3915,14 +3934,14 @@ export interface MaterialOptions {
     /**
      * A mapping from the attribute name to the size of the float or vector.
      * 'aThing': 1 => 'attribute float aThing'
-     * 'aThing': 2 => 'attribute vec2 aThing;'
-     * 'aThing': 3 => 'attribute vec3 aThing;'
-     * 'aThing': 4 => 'attribute vec4 aThing;'
+     * 'aThing': 2 => 'attribute vec2  aThing'
+     * 'aThing': 3 => 'attribute vec3  aThing'
+     * 'aThing': 4 => 'attribute vec4  aThing'
      */
     attributes?: { [name: string]: AttributeSizeType }
     /**
      * A mapping from the uniform name to the type name.
-     * For example, 'M': 'mat4' produces 'uniform mat4 M;'.
+     * For example, 'M': 'mat4' produces 'uniform mat4 M'.
      */
     uniforms?: { [name: string]: UniformGlslType }
     /**
@@ -3938,8 +3957,8 @@ export interface PointMaterialOptions extends MaterialOptions {
  *
  */
 export class PointMaterial extends ShaderMaterial {
-    constructor(contextManager: ContextManager, options?: PointMaterialOptions, levelUp?: number);
-    protected destructor(levelUp: number): void;
+    constructor(contextManager: ContextManager, options?: PointMaterialOptions, levelUp?: number)
+    protected destructor(levelUp: number): void
 }
 
 export interface LineMaterialOptions extends MaterialOptions {
@@ -3950,7 +3969,7 @@ export interface LineMaterialOptions extends MaterialOptions {
  */
 export class LineMaterial extends ShaderMaterial {
     constructor(contextManager: ContextManager, options?: LineMaterialOptions, levelUp?: number)
-    protected destructor(levelUp: number): void;
+    protected destructor(levelUp: number): void
 }
 
 export interface MeshMaterialOptions extends MaterialOptions {
@@ -3961,14 +3980,14 @@ export interface MeshMaterialOptions extends MaterialOptions {
  *
  */
 export class MeshMaterial extends ShaderMaterial {
-    constructor(contextManager: ContextManager, options?: MeshMaterialOptions, levelUp?: number);
-    protected destructor(levelUp: number): void;
+    constructor(contextManager: ContextManager, options?: MeshMaterialOptions, levelUp?: number)
+    protected destructor(levelUp: number): void
 }
 
 export class AmbientLight implements Facet {
     color: Color
-    constructor(color: Color);
-    setUniforms(visitor: FacetVisitor): void;
+    constructor(color: Color)
+    setUniforms(visitor: FacetVisitor): void
 }
 
 /**
@@ -3979,13 +3998,13 @@ export class ColorFacet implements Facet {
     g: number
     b: number
     α: number
-    constructor(name?: string);
-    scaleRGB(α: number): ColorFacet;
-    scaleRGBA(α: number): ColorFacet;
-    setColorRGB(color: Color): ColorFacet;
-    setRGB(r: number, g: number, b: number): ColorFacet;
-    setRGBA(r: number, g: number, b: number, a: number): ColorFacet;
-    setUniforms(visitor: FacetVisitor): void;
+    constructor(name?: string)
+    scaleRGB(α: number): ColorFacet
+    scaleRGBA(α: number): ColorFacet
+    setColorRGB(color: Color): ColorFacet
+    setRGB(r: number, g: number, b: number): ColorFacet
+    setRGBA(r: number, g: number, b: number, a: number): ColorFacet
+    setUniforms(visitor: FacetVisitor): void
 }
 
 /**
@@ -4007,17 +4026,17 @@ export class DirectionalLight implements Facet {
      * The initial direction defaults to -e3 (out of the screen).
      * The initial color defaults to white.
      */
-    constructor(direction?: VectorE3, color?: Color);
+    constructor(direction?: VectorE3, color?: Color)
     /**
      * Calls the visitor supplying the two uniform values.
      */
-    setUniforms(visitor: FacetVisitor): void;
+    setUniforms(visitor: FacetVisitor): void
 }
 
 export class PointSizeFacet implements Facet {
     pointSize: number
-    constructor(pointSize?: number);
-    setUniforms(visitor: FacetVisitor): void;
+    constructor(pointSize?: number)
+    setUniforms(visitor: FacetVisitor): void
 }
 
 /**
@@ -4035,11 +4054,11 @@ export class Vector3Facet implements Facet {
     /**
      * Constructs a Facet corresponding to a vec3 with the name specified.
      */
-    constructor(name: string);
+    constructor(name: string)
     /**
      * The visit method used to update the uniform in the FacetVisitor.
      */
-    setUniforms(visitor: FacetVisitor): void;
+    setUniforms(visitor: FacetVisitor): void
 }
 
 /**
@@ -4054,12 +4073,12 @@ export class ReflectionFacetE2 extends ShareableBase implements Facet {
     /**
      * name The name of the uniform variable associated with this facet.
      */
-    constructor(name: string);
+    constructor(name: string)
 
     /**
      *
      */
-    setUniforms(visitor: FacetVisitor): void;
+    setUniforms(visitor: FacetVisitor): void
 }
 
 /**
@@ -4075,12 +4094,12 @@ export class ReflectionFacetE3 extends ShareableBase implements Facet {
     /**
      * name The name of the uniform variable associated with this facet.
      */
-    constructor(name: string);
+    constructor(name: string)
 
     /**
      *
      */
-    setUniforms(visitor: FacetVisitor): void;
+    setUniforms(visitor: FacetVisitor): void
 }
 
 /**
@@ -4089,7 +4108,7 @@ export class ReflectionFacetE3 extends ShareableBase implements Facet {
 export class WebGLBlendFunc extends ShareableBase {
     sfactor: BlendingFactorSrc
     dfactor: BlendingFactorDest
-    constructor(sfactor: BlendingFactorSrc, dfactor: BlendingFactorDest);
+    constructor(sfactor: BlendingFactorSrc, dfactor: BlendingFactorDest)
 
     /**
      *
@@ -4115,19 +4134,19 @@ export class WebGLClearColor extends ShareableBase {
     g: number
     b: number
     a: number
-    constructor(contextManager: ContextManager, r?: number, g?: number, b?: number, a?: number);
+    constructor(contextManager: ContextManager, r?: number, g?: number, b?: number, a?: number)
     /**
      *
      */
-    contextFree(): void;
+    contextFree(): void
     /**
      *
      */
-    contextGain(): void;
+    contextGain(): void
     /**
      *
      */
-    contextLost(): void;
+    contextLost(): void
 }
 
 /**
@@ -4137,19 +4156,19 @@ export class WebGLDisable extends ShareableBase {
     /**
      *
      */
-    constructor(contextManager: ContextManager, capability: Capability);
+    constructor(contextManager: ContextManager, capability: Capability)
     /**
      *
      */
-    contextFree(): void;
+    contextFree(): void
     /**
      *
      */
-    contextGain(): void;
+    contextGain(): void
     /**
      *
      */
-    contextLost(): void;
+    contextLost(): void
 }
 
 /**
@@ -4159,19 +4178,19 @@ export class WebGLEnable extends ShareableBase {
     /**
      *
      */
-    constructor(contextManager: ContextManager, capability: Capability);
+    constructor(contextManager: ContextManager, capability: Capability)
     /**
      *
      */
-    contextFree(): void;
+    contextFree(): void
     /**
      *
      */
-    contextGain(): void;
+    contextGain(): void
     /**
      *
      */
-    contextLost(): void;
+    contextLost(): void
 }
 
 export interface AbstractMesh<G extends Geometry, M extends Material> extends AbstractDrawable<G, M> {
@@ -4241,11 +4260,11 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
     /**
      *
      */
-    constructor(geometry: G, material: M, contextManager: ContextManager, options?: { axis?: VectorE3; meridian?: VectorE3 }, levelUp?: number);
+    constructor(geometry: G, material: M, contextManager: ContextManager, options?: { axis?: VectorE3; meridian?: VectorE3; }, levelUp?: number)
     /**
      *
      */
-    protected destructor(levelUp: number): void;
+    protected destructor(levelUp: number): void
     /**
      * The name of the uniform mat4 variable in the vertex shader that receives the model matrix value.
      * The default name is `uModel`.
@@ -4300,17 +4319,33 @@ export class Arrow extends Mesh<Geometry, Material> {
     /**
      * Constructs an Arrow.
      */
-    constructor(contextManager: ContextManager, options?: ArrowOptions, levelUp?: number);
+    constructor(contextManager: ContextManager, options?: ArrowOptions, levelUp?: number)
     /**
      * 
      */
-    protected destructor(levelUp: number): void;
+    protected destructor(levelUp: number): void
 }
 
 /**
  * Options for the creation of a new Basis.
  */
 export interface BasisOptions {
+    /**
+     * 
+     */
+    axis?: VectorE3
+    /**
+     * 
+     */
+    color?: { r: number; g: number; b: number; }
+    /**
+     * 
+     */
+    meridian?: VectorE3
+    /**
+     * 
+     */
+    tilt?: SpinorE3
 }
 
 /**
@@ -4326,11 +4361,11 @@ export class Basis extends Mesh<Geometry, Material> {
     /**
      * 
      */
-    constructor(contextManager: ContextManager, options?: BasisOptions, levelUp?: number);
+    constructor(contextManager: ContextManager, options?: BasisOptions, levelUp?: number)
     /**
      * 
      */
-    protected destructor(levelUp: number): void;
+    protected destructor(levelUp: number): void
 }
 
 /**
@@ -4430,11 +4465,11 @@ export class Box extends Mesh<Geometry, Material> {
     /**
      * Constructs a Box.
      */
-    constructor(contextManager: ContextManager, options?: BoxOptions, levelUp?: number);
+    constructor(contextManager: ContextManager, options?: BoxOptions, levelUp?: number)
     /**
      * 
      */
-    protected destructor(levelUp: number): void;
+    protected destructor(levelUp: number): void
 }
 
 /**
@@ -4524,11 +4559,11 @@ export class Cylinder extends Mesh<Geometry, Material> {
     /**
      * Constructs a Cylinder.
      */
-    constructor(contextManager: ContextManager, options?: CylinderOptions, levelUp?: number);
+    constructor(contextManager: ContextManager, options?: CylinderOptions, levelUp?: number)
     /**
      * 
      */
-    protected destructor(levelUp: number): void;
+    protected destructor(levelUp: number): void
 }
 
 /**
@@ -4550,11 +4585,11 @@ export class Curve extends Mesh<Geometry, Material> {
     /**
      * Constructs a Curve.
      */
-    constructor(contextManager: ContextManager, options?: CurveOptions, levelUp?: number);
+    constructor(contextManager: ContextManager, options?: CurveOptions, levelUp?: number)
     /**
      * 
      */
-    protected destructor(levelUp: number): void;
+    protected destructor(levelUp: number): void
 }
 
 /**
@@ -4580,11 +4615,11 @@ export class Grid extends Mesh<Geometry, Material> {
     /**
      * 
      */
-    constructor(contextManager: ContextManager, options?: GridOptions, levelUp?: number);
+    constructor(contextManager: ContextManager, options?: GridOptions, levelUp?: number)
     /**
      * 
      */
-    protected destructor(levelUp: number): void;
+    protected destructor(levelUp: number): void
 }
 
 /**
@@ -4619,11 +4654,11 @@ export class GridXY extends Grid {
      * ySegments: 10
      * z: (x: number, y: number) => 0
      */
-    constructor(contextManager: ContextManager, options?: GridXYOptions, levelUp?: number);
+    constructor(contextManager: ContextManager, options?: GridXYOptions, levelUp?: number)
     /**
      * 
      */
-    protected destructor(levelUp: number): void;
+    protected destructor(levelUp: number): void
 }
 
 /**
@@ -4655,11 +4690,11 @@ export class GridYZ extends Grid {
      * zSegments: 10
      * x: (y: number, z: number) => 0
      */
-    constructor(contextManager: ContextManager, options?: GridYZOptions, levelUp?: number);
+    constructor(contextManager: ContextManager, options?: GridYZOptions, levelUp?: number)
     /**
      * 
      */
-    protected destructor(levelUp: number): void;
+    protected destructor(levelUp: number): void
 }
 
 /**
@@ -4691,11 +4726,11 @@ export class GridZX extends Grid {
      * xSegments: 10
      * y: (z: number, x: number) => 0
      */
-    constructor(contextManager: ContextManager, options?: GridZXOptions, levelUp?: number);
+    constructor(contextManager: ContextManager, options?: GridZXOptions, levelUp?: number)
     /**
      * 
      */
-    protected destructor(levelUp: number): void;
+    protected destructor(levelUp: number): void
 }
 
 /**
@@ -4739,23 +4774,23 @@ export class Group extends ShareableBase implements GroupMember {
     /**
      * 
      */
-    constructor();
+    constructor()
     /**
      * Constructs a Group.
      */
-    protected destructor(levelUp: number): void;
+    protected destructor(levelUp: number): void
     /**
      * 
      */
-    add(member: GroupMember): void;
+    add(member: GroupMember): void
     /**
      * 
      */
-    remove(member: GroupMember): void;
+    remove(member: GroupMember): void
     /**
      * 
      */
-    render(ambients: Facet[]): void;
+    render(ambients: Facet[]): void
 }
 
 /**
@@ -4804,11 +4839,11 @@ export class HollowCylinder extends Mesh<Geometry, Material> {
     /**
      * Constructs a HollowCylinder.
      */
-    constructor(contextManager: ContextManager, options?: HollowCylinderOptions, levelUp?: number);
+    constructor(contextManager: ContextManager, options?: HollowCylinderOptions, levelUp?: number)
     /**
      * 
      */
-    protected destructor(levelUp: number): void;
+    protected destructor(levelUp: number): void
 }
 
 /**
@@ -4844,17 +4879,17 @@ export class Parallelepiped implements Renderable {
     /**
      * Constructs a Parallelepiped.
      */
-    constructor(contextManager: ContextManager);
+    constructor(contextManager: ContextManager)
     /**
      * 
      */
-    protected destructor(levelUp: number): void;
-    render(ambients: Facet[]): void;
-    addRef(): number;
-    release(): number;
-    contextFree(): void;
-    contextGain(): void;
-    contextLost(): void;
+    protected destructor(levelUp: number): void
+    render(ambients: Facet[]): void
+    addRef(): number
+    release(): number
+    contextFree(): void
+    contextGain(): void
+    contextLost(): void
 }
 
 /**
@@ -4906,7 +4941,11 @@ export interface SphereOptions {
      */
     mode?: 'mesh' | 'wire' | 'point' | GeometryMode
     /**
-     * 
+     * The center of the sphere. Default: 0
+     */
+    offset?: VectorE3
+    /**
+     * The radius of the sphere. Default: 1
      */
     radius?: number
     /**
@@ -4934,11 +4973,11 @@ export class Sphere extends Mesh<Geometry, Material> {
     /**
      * Constructs a Sphere.
      */
-    constructor(contextManager: ContextManager, options?: SphereOptions, levelUp?: number);
+    constructor(contextManager: ContextManager, options?: SphereOptions, levelUp?: number)
     /**
      * 
      */
-    protected destructor(levelUp: number): void;
+    protected destructor(levelUp: number): void
 }
 
 /**
@@ -4952,7 +4991,7 @@ export interface TetrahedronOptions {
     /**
      * 
      */
-    color?: { r: number; g: number; b: number }
+    color?: { r: number; g: number; b: number; }
     /**
      * 
      */
@@ -4987,11 +5026,11 @@ export class Tetrahedron extends Mesh<Geometry, Material> {
     /**
      * Constructs a Tetrahedron.
      */
-    constructor(contextManager: ContextManager, options?: TetrahedronOptions, levelUp?: number);
+    constructor(contextManager: ContextManager, options?: TetrahedronOptions, levelUp?: number)
     /**
      * 
      */
-    protected destructor(levelUp: number): void;
+    protected destructor(levelUp: number): void
 }
 
 /**
@@ -5004,11 +5043,11 @@ export interface TrackOptions {
 /**
  * A graphical object used to visualize a succession of points using a line.
  * e.g.
- * const path = new Track({engine});
+ * const path = new Track({engine})
  * ...
- * path.addPoint(X);
+ * path.addPoint(X)
  * ...
- * path.render(ambients);
+ * path.render(ambients)
  * 
  * The Track will only be visible if there are two or more points defined.
  */
@@ -5017,22 +5056,22 @@ export class Track extends Mesh<Geometry, Material> {
     /**
      * Constructs a new Track.
      */
-    constructor(engine: Engine, options?: TrackOptions);
+    constructor(engine: Engine, options?: TrackOptions)
 
     /**
      * 
      */
-    protected destructor(levelUp: number): void;
+    protected destructor(levelUp: number): void
 
     /**
      * Extends this Track by adding a new point.
      */
-    addPoint(point: VectorE3): void;
+    addPoint(point: VectorE3): void
 
     /**
      * Erases the points, making it ready to accept new points.
      */
-    clear(): void;
+    clear(): void
 }
 
 /**
@@ -5067,28 +5106,28 @@ export class Trail extends ShareableBase implements Renderable {
     /**
      * Constructs a Trail for the specified Mesh.
      */
-    constructor(mesh: Mesh<Geometry, Material>);
+    constructor(mesh: Mesh<Geometry, Material>)
     /**
      * 
      */
-    protected destructor(levelUp: number): void;
+    protected destructor(levelUp: number): void
     /**
      * Erases the trail history.
      */
-    erase(): void;
+    erase(): void
     /**
      * 
      */
-    forEach(callback: (alpha: number, X: Vector3, R: Spinor3) => any): void;
+    forEach(callback: (alpha: number, X: Vector3, R: Spinor3) => any): void
     /**
      * Renders the mesh in its historical positions and attitudes.
      */
-    render(ambients: Facet[]): void;
+    render(ambients: Facet[]): void
     /**
      * Records the graphics model variables.
      * alpha: The value that parametrizes the trail. e.g. the time.
      */
-    snapshot(alpha?: number): void;
+    snapshot(alpha?: number): void
 }
 
 /**
@@ -5113,11 +5152,11 @@ export class Turtle extends Mesh<Geometry, Material> {
     /**
      * Constructs a Turtle.
      */
-    constructor(contextManager: ContextManager, options?: TurtleOptions, levelUp?: number);
+    constructor(contextManager: ContextManager, options?: TurtleOptions, levelUp?: number)
     /**
      * 
      */
-    protected destructor(levelUp: number): void;
+    protected destructor(levelUp: number): void
 }
 
 /**
@@ -5146,42 +5185,42 @@ export interface MinecraftBodyPartOptions {
  * Left Arm
  */
 export class MinecraftArmL extends Mesh<Geometry, Material> {
-    constructor(engine: Engine, texture: ImageTexture, options?: MinecraftBodyPartOptions);
+    constructor(engine: Engine, texture: ImageTexture, options?: MinecraftBodyPartOptions)
 }
 
 /**
  * Right Arm
  */
 export class MinecraftArmR extends Mesh<Geometry, Material> {
-    constructor(engine: Engine, texture: ImageTexture, options?: MinecraftBodyPartOptions);
+    constructor(engine: Engine, texture: ImageTexture, options?: MinecraftBodyPartOptions)
 }
 
 /**
  * Head
  */
 export class MinecraftHead extends Mesh<Geometry, Material> {
-    constructor(engine: Engine, texture: ImageTexture, options?: MinecraftBodyPartOptions);
+    constructor(engine: Engine, texture: ImageTexture, options?: MinecraftBodyPartOptions)
 }
 
 /**
  * Left Leg
  */
 export class MinecraftLegL extends Mesh<Geometry, Material> {
-    constructor(engine: Engine, texture: ImageTexture, options?: MinecraftBodyPartOptions);
+    constructor(engine: Engine, texture: ImageTexture, options?: MinecraftBodyPartOptions)
 }
 
 /**
  * Right Leg
  */
 export class MinecraftLegR extends Mesh<Geometry, Material> {
-    constructor(engine: Engine, texture: ImageTexture, options?: MinecraftBodyPartOptions);
+    constructor(engine: Engine, texture: ImageTexture, options?: MinecraftBodyPartOptions)
 }
 
 /**
  * Torso
  */
 export class MinecraftTorso extends Mesh<Geometry, Material> {
-    constructor(engine: Engine, texture: ImageTexture, options?: MinecraftBodyPartOptions);
+    constructor(engine: Engine, texture: ImageTexture, options?: MinecraftBodyPartOptions)
 }
 
 /**
@@ -5210,7 +5249,7 @@ export class MinecraftFigure extends Group {
     public legL: MinecraftLegL
     public legR: MinecraftLegR
     public torso: MinecraftHead
-    constructor(engine: Engine, texture: ImageTexture, options?: MinecraftFigureOptions);
+    constructor(engine: Engine, texture: ImageTexture, options?: MinecraftFigureOptions)
 }
 
 /**
@@ -5229,27 +5268,27 @@ export class MouseControls extends ShareableBase {
     protected panStart: Geometric2
     protected zoomEnd: Geometric2
     protected zoomStart: Geometric2
-    constructor(wnd?: Window);
-    protected destructor(levelUp: number): void;
-    handleResize(): void;
-    move(x: number, y: number): void;
-    reset(): void;
+    constructor(wnd?: Window)
+    protected destructor(levelUp: number): void
+    handleResize(): void
+    move(x: number, y: number): void
+    reset(): void
     /**
      * 
      */
-    subscribe(domElement: HTMLElement): void;
+    subscribe(domElement: HTMLElement): void
     /**
      * 
      */
-    unsubscribe(): void;
+    unsubscribe(): void
     /**
      * Allows the context menu to be displayed.
      */
-    enableContextMenu(): void;
+    enableContextMenu(): void
     /**
      * Prevents the context menu from being displayed.
      */
-    disableContextMenu(): void;
+    disableContextMenu(): void
 }
 
 /**
@@ -5283,69 +5322,69 @@ export class ViewControls extends MouseControls implements ViewController {
     public panSpeed: number
     public rotateSpeed: number
     public zoomSpeed: number
-    constructor(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }, wnd?: Window);
-    protected destructor(levelUp: number): void;
+    constructor(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }, wnd?: Window)
+    protected destructor(levelUp: number): void
     /**
      *
      */
-    protected panCamera(): void;
+    protected panCamera(): void
     /**
      * Resets the camera position and attitude.
      */
-    reset(): void;
+    reset(): void
     /**
      *
      */
-    protected rotateCamera(): void;
+    protected rotateCamera(): void
     /**
      * Sets the view being controlled vythe view controller.
      */
-    setView(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }): void;
+    setView(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }): void
     /**
      * Synchronizes this controller with the view.
      */
-    synchronize(): void;
+    synchronize(): void
     /**
      * Updates the camera position and attitude based upon movement of the mouse controls.
      */
-    update(): void;
+    update(): void
     /**
      *
      */
-    protected zoomCamera(): void;
+    protected zoomCamera(): void
 }
 
 /**
  * A ViewController that preserves the up direction.
  */
 export class OrbitControls extends ViewControls {
-    constructor(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }, wnd?: Window);
-    protected destructor(levelUp: number): void;
+    constructor(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }, wnd?: Window)
+    protected destructor(levelUp: number): void
 }
 
 /**
  * A ViewController that does not preserve the up direction.
  */
 export class TrackballControls extends ViewControls {
-    constructor(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }, wnd?: Window);
-    protected destructor(levelUp: number): void;
+    constructor(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }, wnd?: Window)
+    protected destructor(levelUp: number): void
 }
 
 /*
 interface GUIParams {
-    autoPlace?: boolean;
-    closed?: boolean;
-    hideable?: boolean;
-    parent?: GUI;
-    resizable?: boolean;
-    scrollable?: boolean;
-    width?: number;
+    autoPlace?: boolean
+    closed?: boolean
+    hideable?: boolean
+    parent?: GUI
+    resizable?: boolean
+    scrollable?: boolean
+    width?: number
 }
 
 class GUI {
-    constructor(params?: GUIParams);
-    add(object: {}, property: string): void;
-    addColor(object: {}, property: string): void;
+    constructor(params?: GUIParams)
+    add(object: {}, property: string): void
+    addColor(object: {}, property: string): void
 }
 */
 
@@ -5380,27 +5419,27 @@ export interface Prism {
 export class Diagram3D {
     ctx: CanvasRenderingContext2D
     canvas: HTMLCanvasElement
-    constructor(canvas: string | HTMLCanvasElement, camera: Camera, prism: Prism);
-    beginPath(): void;
-    clear(): void;
-    closePath(): void;
-    fill(fillRule?: string): void;
+    constructor(canvas: string | HTMLCanvasElement, camera: Camera, prism: Prism)
+    beginPath(): void
+    clear(): void
+    closePath(): void
+    fill(fillRule?: string): void
     /**
      * Fills the text at the position specified.
      */
-    fillText(text: string, X: VectorE3, maxWidth?: number): void;
-    moveTo(X: VectorE3): void;
-    lineTo(X: VectorE3): void;
-    stroke(): void;
+    fillText(text: string, X: VectorE3, maxWidth?: number): void
+    moveTo(X: VectorE3): void
+    lineTo(X: VectorE3): void
+    stroke(): void
     /**
      * Strokes the text at the position specified.
      */
-    strokeText(text: string, X: VectorE3, maxWidth?: number): void;
+    strokeText(text: string, X: VectorE3, maxWidth?: number): void
 }
 
 export class HTMLOverlay {
-    constructor(containerId: string, camera: Camera, prism: Prism);
-    text(name: string, text: string, X: VectorE3): void;
+    constructor(containerId: string, camera: Camera, prism: Prism)
+    text(name: string, text: string, X: VectorE3): void
 }
 
 export function acos<T>(x: T): T

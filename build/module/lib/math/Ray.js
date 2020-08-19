@@ -155,10 +155,10 @@ var Ray = /** @class */ (function () {
         var t0 = tca - thc;
         // t1 = second intersect point - exit point on back of sphere
         var t1 = tca + thc;
-        // test to see if both t0 and t1 are behind the ray - if so, return null
+        // determine whether both t0 and t1 are behind the ray - if so, return null
         if (t0 < 0 && t1 < 0)
             return null;
-        // test to see if t0 is behind the ray:
+        // determine whether t0 is behind the ray:
         // if it is, the ray is inside the sphere, so return the second exit point scaled by t1,
         // in order to always return an intersect point that is in front of the ray.
         if (t0 < 0)

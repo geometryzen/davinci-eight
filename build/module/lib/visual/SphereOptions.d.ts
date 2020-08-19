@@ -50,11 +50,11 @@ export interface SphereOptions {
      */
     meridian?: VectorE3;
     /**
-     *
+     * Why does this not appear to be used?
      */
     mode?: 'mesh' | 'wire' | 'point' | GeometryMode;
     /**
-     *
+     * The center of the sphere.
      */
     offset?: VectorE3;
     /**

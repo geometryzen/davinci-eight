@@ -2,7 +2,7 @@ import { Vector3 } from './Vector3';
 
 describe("Vector3", function () {
     describe("constructor", function () {
-        const data = [Math.random(), Math.random(), Math.random()];
+        const data: [number, number, number] = [Math.random(), Math.random(), Math.random()];
         const vec = new Vector3(data, false);
         it("getComponent(0)", function () {
             expect(vec.getComponent(0)).toBe(data[0]);
@@ -12,6 +12,31 @@ describe("Vector3", function () {
         });
         it("getComponent(2)", function () {
             expect(vec.getComponent(2)).toBe(data[2]);
+        });
+    });
+    describe("locking", function () {
+        it("new Vector3", function () {
+            // Not sure why TypeScript infers the type of data to be number[]. 
+            const data: [number, number, number] = [1, 2, 3];
+            const vec = new Vector3(data, false);
+            expect(vec.isLocked()).toBe(false);
+            expect(vec.isLocked()).toBe(false);
+        });
+        it("vector(x, y, z)", function () {
+            const vec = Vector3.vector(1, 1, 1);
+            expect(vec.isLocked()).toBe(false);
+        });
+    });
+    describe("modified", function () {
+        it("new Vector3", function () {
+            // Not sure why TypeScript infers the type of data to be number[]. 
+            const data: [number, number, number] = [1, 2, 3];
+            const vec = new Vector3(data, false);
+            expect(vec.modified).toBe(false);
+        });
+        it("vector(x, y, z)", function () {
+            const vec = Vector3.vector(1, 1, 1);
+            expect(vec.modified).toBe(false);
         });
     });
     describe("maskG3", function () {

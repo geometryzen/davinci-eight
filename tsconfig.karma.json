@@ -1,7 +1,7 @@
 {
     "extends": "./tsconfig",
     "compilerOptions": {
-        "outDir": "test",
+        "outDir": "karma_test_build",
         "module": "CommonJS",
         "declaration": false
     },

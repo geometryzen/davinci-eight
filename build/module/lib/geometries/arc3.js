@@ -15,6 +15,9 @@ export function arc3(begin, angle, generator, segments) {
     mustBeNumber('angle', angle);
     mustBeDefined('generator', generator);
     mustBeInteger('segments', segments);
+    if (isNaN(begin.x) || isNaN(begin.y) || isNaN(begin.z)) {
+        throw new Error("arc3(begin=" + begin.toString() + ")");
+    }
     /**
      * The return value is an array of points with length => segments + 1.
      */

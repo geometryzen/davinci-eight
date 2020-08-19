@@ -6,6 +6,14 @@ import { Vector3 } from '../math/Vector3';
 var PrimitivesBuilder = /** @class */ (function () {
     function PrimitivesBuilder() {
         /**
+         *
+         */
+        this.zenith = Vector3.vector(0, 1, 0);
+        /**
+         *
+         */
+        this.meridian = Vector3.vector(0, 0, 1);
+        /**
          * The scaling to apply to the geometry in the initial configuration.
          * This has a slightly strange sounding name because it involves a
          * reference frame specific transformation.

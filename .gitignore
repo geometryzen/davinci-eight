@@ -3,4 +3,4 @@
 coverage/
 docs/
 node_modules/
-test/
+karma_test_build/
