@@ -1,28 +1,34 @@
-import { Attribute } from '../core/Attribute';
-import { AttributeSizeType } from '../core/AttributeSizeType';
-import { copyToArray } from '../collections/copyToArray';
-import { dataFromVectorN } from './dataFromVectorN';
-import { DataType } from '../core/DataType';
-import { VectorN as DefaultVectorN } from '../math/VectorN';
 import { DrawAttribute } from '../atoms/DrawAttribute';
-import { BeginMode } from '../core/BeginMode';
 import { DrawPrimitive } from '../atoms/DrawPrimitive';
-import { simplicesToGeometryMeta } from './simplicesToGeometryMeta';
-import { computeUniqueVertices } from './computeUniqueVertices';
-import { expectArg } from '../checks/expectArg';
-import { GeometryMeta } from './GeometryMeta';
-import { Primitive } from '../core/Primitive';
-import { Simplex } from './Simplex';
-import { SimplexMode } from './SimplexMode';
 import { VectorN } from '../atoms/VectorN';
 import { Vertex } from '../atoms/Vertex';
+import { expectArg } from '../checks/expectArg';
+import { copyToArray } from '../collections/copyToArray';
+import { Attribute } from '../core/Attribute';
+import { AttributeSizeType } from '../core/AttributeSizeType';
+import { BeginMode } from '../core/BeginMode';
+import { DataType } from '../core/DataType';
+import { Primitive } from '../core/Primitive';
+import { VectorN as DefaultVectorN } from '../math/VectorN';
+import { computeUniqueVertices } from './computeUniqueVertices';
+import { dataFromVectorN } from './dataFromVectorN';
+import { GeometryMeta } from './GeometryMeta';
+import { Simplex } from './Simplex';
+import { SimplexMode } from './SimplexMode';
+import { simplicesToGeometryMeta } from './simplicesToGeometryMeta';
 
+/**
+ * @hidden
+ */
 function numberList(size: number, value: number): number[] {
     const data: number[] = [];
     for (let i = 0; i < size; i++) { data.push(value); }
     return data;
 }
 
+/**
+ * @hidden
+ */
 function attribName(name: string, attribMap?: { [name: string]: { name?: string } }): string {
     expectArg('name', name).toBeString();
     expectArg('attribMap', attribMap).toBeObject();
@@ -36,6 +42,9 @@ function attribName(name: string, attribMap?: { [name: string]: { name?: string 
     }
 }
 
+/**
+ * @hidden
+ */
 function attribSize(key: string, attribMap?: { [key: string]: { size: AttributeSizeType } }): AttributeSizeType {
     expectArg('key', key).toBeString();
     expectArg('attribMap', attribMap).toBeObject();
@@ -51,10 +60,16 @@ function attribSize(key: string, attribMap?: { [key: string]: { size: AttributeS
     }
 }
 
+/**
+ * @hidden
+ */
 function concat(a: number[], b: number[]): number[] {
     return a.concat(b);
 }
 
+/**
+ * @hidden
+ */
 export function simplicesToPrimitive(simplices: Simplex[], geometryMeta?: GeometryMeta): Primitive {
     expectArg('simplices', simplices).toBeObject();
 

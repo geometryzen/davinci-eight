@@ -1,10 +1,17 @@
 import { isUndefined } from '../checks/isUndefined';
 import { mustBeNumber } from '../checks/mustBeNumber';
 
+/**
+ * @hidden
+ */
 function message(standard: string, override: () => string): string {
   return isUndefined(override) ? standard : override();
 }
+
 // FIXME: This plays havok with the TypeScript compiler stack and encourages temporary object creation.
+/**
+ * @hidden
+ */
 export function expectArg<T>(name: string, value: T) {
   let arg = {
     toSatisfy(condition: boolean, message: string) {

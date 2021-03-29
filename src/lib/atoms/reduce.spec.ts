@@ -1,8 +1,11 @@
 import { BeginMode } from '../core/BeginMode';
-import { reduce } from './reduce';
 import { Vector2 } from '../math/Vector2';
 import { GridTriangleStrip } from './GridTriangleStrip';
+import { reduce } from './reduce';
 
+/**
+ * @hidden
+ */
 function makeGrid(uSegments: number, vSegments: number, uOffset: number, vOffset: number): GridTriangleStrip {
     const grid = new GridTriangleStrip(uSegments, vSegments);
     const iLength = grid.uLength;

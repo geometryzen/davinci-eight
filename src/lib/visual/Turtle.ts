@@ -1,39 +1,64 @@
 import { BeginMode } from '../core/BeginMode';
 import { Color } from '../core/Color';
 import { ContextManager } from '../core/ContextManager';
-import { ds } from './Defaults';
 import { Geometry } from '../core/Geometry';
-import { Geometric3 } from '../math/Geometric3';
 import { GeometryArrays } from '../core/GeometryArrays';
 import { GeometryKey } from '../core/GeometryKey';
 import { GraphicsProgramSymbols as GPS } from '../core/GraphicsProgramSymbols';
 import { Material } from '../core/Material';
-import { materialFromOptions } from './materialFromOptions';
 import { Mesh } from '../core/Mesh';
-import { offsetFromOptions } from './offsetFromOptions';
 import { Primitive } from '../core/Primitive';
+import { SimplexMode } from '../geometries/SimplexMode';
+import { Geometric3 } from '../math/Geometric3';
+import { vec } from '../math/R3';
+import { SpinorE3 } from '../math/SpinorE3';
+import { VectorE3 } from '../math/VectorE3';
+import { ds } from './Defaults';
+import { materialFromOptions } from './materialFromOptions';
+import { offsetFromOptions } from './offsetFromOptions';
 import { setAxisAndMeridian } from './setAxisAndMeridian';
 import { setColorOption } from './setColorOption';
-import { SimplexMode } from '../geometries/SimplexMode';
 import { simplexModeFromOptions } from './simplexModeFromOptions';
-import { SpinorE3 } from '../math/SpinorE3';
 import { tiltFromOptions } from './tiltFromOptions';
-import { vec } from '../math/R3';
-import { VectorE3 } from '../math/VectorE3';
 
+/**
+ * @hidden
+ */
 const NOSE = [0, +1, 0];
+/**
+ * @hidden
+ */
 const LLEG = [-1, -1, 0];
+/**
+ * @hidden
+ */
 const RLEG = [+1, -1, 0];
+/**
+ * @hidden
+ */
 const TAIL = [0, -1, 0];
+/**
+ * @hidden
+ */
 const CENTER = [0, 0, 0];
+/**
+ * @hidden
+ */
 const LEFT = [-0.5, 0, 0];
 
+/**
+ * @hidden
+ */
 const canonicalAxis = vec(0, 0, 1);
 
+/**
+ * @hidden
+ */
 function concat<T>(a: T[], b: T[]) { return a.concat(b); }
 
 /**
  * Transform a list of points by applying a tilt rotation and an offset translation.
+ * @hidden
  */
 function transform(xs: number[][], options: { tilt?: SpinorE3, offset?: VectorE3 }): number[][] {
     if (options.tilt || options.offset) {
@@ -60,6 +85,7 @@ function transform(xs: number[][], options: { tilt?: SpinorE3, offset?: VectorE3
  * All points lie in the the plane z = 0.
  * The height and width of the triangle are centered on the origin (0, 0).
  * The height and width range from -1 to +1.
+ * @hidden
  */
 function primitive(options: { tilt?: SpinorE3, offset?: VectorE3 }): Primitive {
     const values = transform([CENTER, LEFT, CENTER, TAIL, NOSE, LLEG, NOSE, RLEG, LLEG, RLEG], options).reduce(concat);
@@ -71,6 +97,9 @@ function primitive(options: { tilt?: SpinorE3, offset?: VectorE3 }): Primitive {
     return result;
 }
 
+/**
+ * @hidden
+ */
 interface TurtleGeometryOptions extends GeometryKey {
     tilt?: SpinorE3;
     offset?: VectorE3;
@@ -79,6 +108,7 @@ interface TurtleGeometryOptions extends GeometryKey {
 /**
  * The geometry of the Bug is static so we use the conventional
  * approach based upon GeometryArrays
+ * @hidden
  */
 class TurtleGeometry extends GeometryArrays {
     /**
@@ -112,6 +142,9 @@ class TurtleGeometry extends GeometryArrays {
     }
 }
 
+/**
+ *
+ */
 export interface TurtleOptions {
     axis?: VectorE3;
     color?: { r: number; g: number; b: number };
@@ -137,17 +170,10 @@ export class Turtle extends Mesh<Geometry, Material> {
         geoOptions.tilt = tiltFromOptions(options, canonicalAxis);
         geoOptions.offset = offsetFromOptions(options);
 
-        const cachedGeometry = contextManager.getCacheGeometry(geoOptions);
-        if (cachedGeometry && cachedGeometry instanceof TurtleGeometry) {
-            this.geometry = cachedGeometry;
-            cachedGeometry.release();
-        }
-        else {
-            const geometry = new TurtleGeometry(contextManager, geoOptions);
-            this.geometry = geometry;
-            geometry.release();
-            contextManager.putCacheGeometry(geoOptions, geometry);
-        }
+        const geometry = new TurtleGeometry(contextManager, geoOptions);
+        this.geometry = geometry;
+        geometry.release();
+        contextManager.putCacheGeometry(geoOptions, geometry);
 
         const material = materialFromOptions(contextManager, simplexModeFromOptions(options, SimplexMode.LINE), options);
         this.material = material;

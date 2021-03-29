@@ -7,10 +7,22 @@ import { mustBeLE } from '../checks/mustBeLE';
 import { mustBeNumber } from '../checks/mustBeNumber';
 import { principalAngle } from './principalAngle';
 
+/**
+ * @hidden
+ */
 const COORD_R = 0;
+/**
+ * @hidden
+ */
 const COORD_G = 1;
+/**
+ * @hidden
+ */
 const COORD_B = 2;
 
+/**
+ * @hidden
+ */
 const rgb255 = function rgb255(red: number, green: number, blue: number): Color {
     const UBYTEMAX = 255;
     return new Color(red / UBYTEMAX, green / UBYTEMAX, blue / UBYTEMAX);

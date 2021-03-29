@@ -1,23 +1,38 @@
-import { GraphicsProgramBuilder } from './GraphicsProgramBuilder';
 import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { GLSLESVersion } from './glslVersion';
+import { GraphicsProgramBuilder } from './GraphicsProgramBuilder';
 
+/**
+ * @hidden
+ */
 function split(text: string): string[] {
     return text.split('\n');
 }
 
+/**
+ * @hidden
+ */
 function isSingleLineComment(line: string): boolean {
     return line.length >= 2 && line.substring(0, 2) === '//';
 }
 
+/**
+ * @hidden
+ */
 function isCodeLine(line: string): boolean {
     return !isSingleLineComment(line);
 }
 
+/**
+ * @hidden
+ */
 function stripWS(line: string): string {
     return line.trim();
 }
 
+/**
+ * @hidden
+ */
 function precision(): string {
     return "#ifdef GL_FRAGMENT_PRECISION_HIGH precision highp float; #else precision mediump float; #endif";
 }

@@ -1,7 +1,10 @@
-import { SpinorE3 } from '../math/SpinorE3';
 import { isDefined } from '../checks/isDefined';
 import { isNumber } from '../checks/isNumber';
+import { SpinorE3 } from '../math/SpinorE3';
 
+/**
+ * @hidden
+ */
 export function quadSpinorE3(s: SpinorE3): number {
     if (isDefined(s)) {
         const α = s.a;

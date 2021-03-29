@@ -1,7 +1,10 @@
-import { GeometricE3 } from '../math/GeometricE3';
 import { compG3Get as get } from '../math/compG3Get';
+import { GeometricE3 } from '../math/GeometricE3';
 import { mulE3 } from '../math/mulE3';
 
+/**
+ * @hidden
+ */
 export function mulG3(a: GeometricE3, b: GeometricE3, out: number[]): void {
 
     const a0 = a.a;

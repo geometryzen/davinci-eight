@@ -1,24 +1,33 @@
-import { AbstractDrawable } from './AbstractDrawable';
-import { ContextManager } from '../core/ContextManager';
 import { exchange } from '../base/exchange';
-import { Facet } from '../core/Facet';
-import { Geometry } from './Geometry';
-import { GraphicsProgramSymbols } from './GraphicsProgramSymbols';
-import { isObject } from '../checks/isObject';
 import { isNull } from '../checks/isNull';
 import { isNumber } from '../checks/isNumber';
+import { isObject } from '../checks/isObject';
 import { isUndefined } from '../checks/isUndefined';
 import { mustBeBoolean } from '../checks/mustBeBoolean';
 import { mustBeNonNullObject } from '../checks/mustBeNonNullObject';
-import { Material } from './Material';
+import { StringShareableMap } from '../collections/StringShareableMap';
+import { ContextManager } from '../core/ContextManager';
+import { Facet } from '../core/Facet';
+import { ShareableContextConsumer } from '../core/ShareableContextConsumer';
 import { OpacityFacet } from '../facets/OpacityFacet';
 import { PointSizeFacet } from '../facets/PointSizeFacet';
-import { ShareableContextConsumer } from '../core/ShareableContextConsumer';
-import { StringShareableMap } from '../collections/StringShareableMap';
+import { AbstractDrawable } from './AbstractDrawable';
+import { Geometry } from './Geometry';
+import { GraphicsProgramSymbols } from './GraphicsProgramSymbols';
+import { Material } from './Material';
 
+/**
+ * @hidden
+ */
 const OPACITY_FACET_NAME = 'opacity';
+/**
+ * @hidden
+ */
 const POINTSIZE_FACET_NAME = 'pointSize';
 
+/**
+ * @hidden
+ */
 const DRAWABLE_LOGGING_NAME = 'Drawable';
 
 /**
@@ -311,6 +320,7 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
 
 /**
  * Helper function to synchronize and optimize facets.
+ * @hidden
  */
 function synchFacets<G extends Geometry, M extends Material>(material: M, drawable: Drawable<G, M>) {
     if (material) {

@@ -1,10 +1,12 @@
 import { canonicalAxis, canonicalMeridian } from '../core/tiltFromOptions';
 import { Geometric3 } from '../math/Geometric3';
-import { R3 } from '../math/R3';
+import { R3, vec } from '../math/R3';
 import { SpinorE3 } from '../math/SpinorE3';
-import { vec } from '../math/R3';
 import { VectorE3 } from '../math/VectorE3';
 
+/**
+ * @hidden
+ */
 export interface MeridianOptions {
     /**
      * 
@@ -30,6 +32,7 @@ export interface MeridianOptions {
 
 /**
  * This function computes the reference meridian of an object.
+ * @hidden
  */
 export function referenceMeridian(options: MeridianOptions, fallback: VectorE3): Readonly<R3> {
     if (options.tilt) {

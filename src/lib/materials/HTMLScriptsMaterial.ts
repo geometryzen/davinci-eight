@@ -1,11 +1,14 @@
-import { ContextManager } from '../core/ContextManager';
 import { isString } from '../checks/isString';
 import { mustBeArray } from '../checks/mustBeArray';
 import { mustBeObject } from '../checks/mustBeObject';
 import { mustBeString } from '../checks/mustBeString';
 import { mustSatisfy } from '../checks/mustSatisfy';
+import { ContextManager } from '../core/ContextManager';
 import { ShaderMaterial } from './ShaderMaterial';
 
+/**
+ * @hidden
+ */
 function getHTMLElementById(elementId: string, dom: Document): HTMLElement {
     const element = dom.getElementById(mustBeString('elementId', elementId));
     if (element) {
@@ -16,18 +19,27 @@ function getHTMLElementById(elementId: string, dom: Document): HTMLElement {
     }
 }
 
+/**
+ * @hidden
+ */
 function vertexShaderSrc(vsId: string, dom: Document): string {
     mustBeString('vsId', vsId);
     mustBeObject('dom', dom);
     return getHTMLElementById(vsId, dom).textContent;
 }
 
+/**
+ * @hidden
+ */
 function fragmentShaderSrc(fsId: string, dom: Document): string {
     mustBeString('fsId', fsId);
     mustBeObject('dom', dom);
     return getHTMLElementById(fsId, dom).textContent;
 }
 
+/**
+ * @hidden
+ */
 function assign(elementId: string, dom: Document, result: string[]): void {
     const htmlElement = dom.getElementById(elementId);
     if (htmlElement instanceof HTMLScriptElement) {
@@ -57,6 +69,9 @@ function assign(elementId: string, dom: Document, result: string[]): void {
     }
 }
 
+/**
+ * @hidden
+ */
 function detectShaderType(scriptIds: string[], dom: Document): string[] {
     mustBeArray('scriptIds', scriptIds);
     mustSatisfy('scriptIds', scriptIds.length === 2, () => { return 'have two script element identifiers.'; });

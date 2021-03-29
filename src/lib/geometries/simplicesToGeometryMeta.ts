@@ -1,12 +1,15 @@
-import { AttributeSizeType } from '../core/AttributeSizeType';
-import { dataLength } from './dataLength';
+import { VectorN } from '../atoms/VectorN';
+import { Vertex } from '../atoms/Vertex';
 import { expectArg } from '../checks/expectArg';
 import { isDefined } from '../checks/isDefined';
+import { AttributeSizeType } from '../core/AttributeSizeType';
+import { dataLength } from './dataLength';
 import { GeometryMeta } from './GeometryMeta';
 import { Simplex } from './Simplex';
-import { Vertex } from '../atoms/Vertex';
-import { VectorN } from '../atoms/VectorN';
 
+/**
+ * @hidden
+ */
 function stringify(thing: any, space: any): string {
     let cache: any[] = [];
     return JSON.stringify(thing, function (key: string, value: any) {
@@ -24,6 +27,7 @@ function stringify(thing: any, space: any): string {
 
 /**
  * Returns undefined (void 0) for an empty geometry.
+ * @hidden
  */
 export function simplicesToGeometryMeta(geometry: Simplex[]): GeometryMeta {
     let kValueOfSimplex: number = void 0;

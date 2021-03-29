@@ -1,6 +1,9 @@
-import { LocalizableMessage } from '../i18n/LocalizableMessage';
 import { mustBeString } from '../checks/mustBeString';
+import { LocalizableMessage } from '../i18n/LocalizableMessage';
 
+/**
+ * @hidden
+ */
 export function readOnly(name: string): LocalizableMessage {
     mustBeString('name', name);
     let message: LocalizableMessage = {

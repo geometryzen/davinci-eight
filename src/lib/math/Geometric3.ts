@@ -1,8 +1,12 @@
+import { VectorN } from '../atoms/VectorN';
+import { mustBeEQ } from '../checks/mustBeEQ';
+import { mustBeInteger } from '../checks/mustBeInteger';
+import { lock, LockableMixin as Lockable, TargetLockedError } from '../core/Lockable';
 import { applyMixins } from '../utils/applyMixins';
 import { approx } from './approx';
+import { arraysEQ } from './arraysEQ';
 import { BivectorE3 } from './BivectorE3';
 import { CartesianG3 } from './CartesianG3';
-import { arraysEQ } from './arraysEQ';
 import { dotVectorE3 as dotVector } from './dotVectorE3';
 import { extG3 } from './extG3';
 import { gauss } from './gauss';
@@ -11,48 +15,80 @@ import { isScalarG3 } from './isScalarG3';
 import { isVectorE3 } from './isVectorE3';
 import { isVectorG3 } from './isVectorG3';
 import { lcoG3 } from './lcoG3';
-import { lock, LockableMixin as Lockable, TargetLockedError } from '../core/Lockable';
 import { maskG3 } from './maskG3';
 import { mulE3 } from './mulE3';
-import { mustBeEQ } from '../checks/mustBeEQ';
-import { mustBeInteger } from '../checks/mustBeInteger';
 import { randomRange } from './randomRange';
 import { rcoG3 } from './rcoG3';
 import { rotorFromDirectionsE3 as rotorFromDirections } from './rotorFromDirectionsE3';
-import { scpG3 } from './scpG3';
 import { Scalar } from './Scalar';
+import { scpG3 } from './scpG3';
 import { SpinorE3 } from './SpinorE3';
 import { squaredNormG3 } from './squaredNormG3';
 import { stringFromCoordinates } from './stringFromCoordinates';
 import { VectorE3 } from './VectorE3';
-import { VectorN } from '../atoms/VectorN';
 import { wedgeXY } from './wedgeXY';
 import { wedgeYZ } from './wedgeYZ';
 import { wedgeZX } from './wedgeZX';
 
 // Symbolic constants for the coordinate indices into the data array.
+/**
+ * @hidden
+ */
 const COORD_SCALAR = 0;
+/**
+ * @hidden
+ */
 const COORD_X = 1;
+/**
+ * @hidden
+ */
 const COORD_Y = 2;
+/**
+ * @hidden
+ */
 const COORD_Z = 3;
+/**
+ * @hidden
+ */
 const COORD_XY = 4;
+/**
+ * @hidden
+ */
 const COORD_YZ = 5;
+/**
+ * @hidden
+ */
 const COORD_ZX = 6;
+/**
+ * @hidden
+ */
 const COORD_PSEUDO = 7;
 
 // FIXME: Change to Canonical ordering.
+/**
+ * @hidden
+ */
 const BASIS_LABELS = ["1", "e1", "e2", "e3", "e12", "e23", "e31", "e123"];
 
+/**
+ * @hidden
+ */
 const zero = function zero(): [number, number, number, number, number, number, number, number] {
     return [0, 0, 0, 0, 0, 0, 0, 0];
 };
 
+/**
+ * @hidden
+ */
 const scalar = function scalar(a: number) {
     const coords = zero();
     coords[COORD_SCALAR] = a;
     return coords;
 };
 
+/**
+ * @hidden
+ */
 const vector = function vector(x: number, y: number, z: number) {
     const coords = zero();
     coords[COORD_X] = x;
@@ -61,6 +97,9 @@ const vector = function vector(x: number, y: number, z: number) {
     return coords;
 };
 
+/**
+ * @hidden
+ */
 const bivector = function bivector(yz: number, zx: number, xy: number) {
     const coords = zero();
     coords[COORD_YZ] = yz;
@@ -69,6 +108,9 @@ const bivector = function bivector(yz: number, zx: number, xy: number) {
     return coords;
 };
 
+/**
+ * @hidden
+ */
 const spinor = function spinor(a: number, yz: number, zx: number, xy: number) {
     const coords = zero();
     coords[COORD_SCALAR] = a;
@@ -78,6 +120,9 @@ const spinor = function spinor(a: number, yz: number, zx: number, xy: number) {
     return coords;
 };
 
+/**
+ * @hidden
+ */
 const multivector = function multivector(a: number, x: number, y: number, z: number, yz: number, zx: number, xy: number, b: number) {
     const coords = zero();
     coords[COORD_SCALAR] = a;
@@ -91,12 +136,18 @@ const multivector = function multivector(a: number, x: number, y: number, z: num
     return coords;
 };
 
+/**
+ * @hidden
+ */
 const pseudo = function pseudo(b: number) {
     const coords = zero();
     coords[COORD_PSEUDO] = b;
     return coords;
 };
 
+/**
+ * @hidden
+ */
 function coordinates(m: GeometricE3) {
     const coords = zero();
     coords[COORD_SCALAR] = m.a;
@@ -112,6 +163,7 @@ function coordinates(m: GeometricE3) {
 
 /**
  * cos(a, b) = (a | b) / |a||b|
+ * @hidden
  */
 function cosVectorVector(a: VectorE3, b: VectorE3): number {
     function scp(c: VectorE3, d: VectorE3): number {
@@ -125,6 +177,7 @@ function cosVectorVector(a: VectorE3, b: VectorE3): number {
 
 /**
  * Scratch variable for holding cosines.
+ * @hidden
  */
 const cosines: number[] = [];
 

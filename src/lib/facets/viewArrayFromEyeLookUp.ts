@@ -1,13 +1,25 @@
-import { VectorE3 } from '../math/VectorE3';
-import { Vector3 } from '../math/Vector3';
-import { mustSatisfy } from '../checks/mustSatisfy';
 import { isDefined } from '../checks/isDefined';
+import { mustSatisfy } from '../checks/mustSatisfy';
+import { Vector3 } from '../math/Vector3';
+import { VectorE3 } from '../math/VectorE3';
 
 // Assume single-threaded to avoid temporary object creation.
+/**
+ * @hidden
+ */
 const n = new Vector3();
+/**
+ * @hidden
+ */
 const u = new Vector3();
+/**
+ * @hidden
+ */
 const v = new Vector3();
 
+/**
+ * @hidden
+ */
 export function viewArrayFromEyeLookUp(eye: VectorE3, look: VectorE3, up: VectorE3, matrix?: Float32Array): Float32Array {
 
   const m = isDefined(matrix) ? matrix : new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);

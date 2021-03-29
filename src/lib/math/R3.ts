@@ -7,6 +7,7 @@ import { wedgeZX } from './wedgeZX';
 
 /**
  * A vector with cartesian coordinates and immutable.
+ * @hidden
  */
 export interface R3 extends VectorE3 {
     readonly x: number;
@@ -38,16 +39,22 @@ export interface R3 extends VectorE3 {
 }
 
 /**
- * 
+ * @hidden
  */
 export function vectorCopy(vector: VectorE3): Readonly<R3> {
     return vec(vector.x, vector.y, vector.z);
 }
 
+/**
+ * @hidden
+ */
 export function vectorFromCoords(x: number, y: number, z: number): Readonly<R3> {
     return vec(x, y, z);
 }
 
+/**
+ * @hidden
+ */
 export function vec(x: number, y: number, z: number): Readonly<R3> {
     const dot = function dot(rhs: VectorE3) {
         return x * rhs.x + y * rhs.y + z * rhs.z;

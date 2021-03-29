@@ -1,46 +1,57 @@
-import { BoxGeometryOptions } from './BoxGeometryOptions';
-import { ContextManager } from '../core/ContextManager';
-import { GeometryElements } from '../core/GeometryElements';
+import { GridTriangleStrip } from '../atoms/GridTriangleStrip';
+import { reduce } from '../atoms/reduce';
 import { isDefined } from '../checks/isDefined';
 import { mustBeBoolean } from '../checks/mustBeBoolean';
 import { mustBeNumber } from '../checks/mustBeNumber';
-import { Primitive } from '../core/Primitive';
-import { reduce } from '../atoms/reduce';
-import { Geometric3 } from '../math/Geometric3';
-import { GeometryMode } from './GeometryMode';
-import { GridTriangleStrip } from '../atoms/GridTriangleStrip';
-import { PrimitivesBuilder } from './PrimitivesBuilder';
+import { ContextManager } from '../core/ContextManager';
+import { GeometryElements } from '../core/GeometryElements';
 import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { SpinorE3 } from '../math/SpinorE3';
-import { Spinor3 } from '../math/Spinor3';
-import { Vector2 } from '../math/Vector2';
+import { Primitive } from '../core/Primitive';
 import { computeFaceNormals } from '../geometries/computeFaceNormals';
-import { SimplexPrimitivesBuilder } from '../geometries/SimplexPrimitivesBuilder';
 import { quadrilateral as quad } from '../geometries/quadrilateral';
 import { Simplex } from '../geometries/Simplex';
 import { SimplexMode } from '../geometries/SimplexMode';
-import { vec } from '../math/R3';
-import { vectorCopy } from '../math/R3';
+import { SimplexPrimitivesBuilder } from '../geometries/SimplexPrimitivesBuilder';
+import { Geometric3 } from '../math/Geometric3';
+import { vec, vectorCopy } from '../math/R3';
+import { Spinor3 } from '../math/Spinor3';
+import { SpinorE3 } from '../math/SpinorE3';
 import { Vector1 } from '../math/Vector1';
+import { Vector2 } from '../math/Vector2';
 import { Vector3 } from '../math/Vector3';
 import { VectorE3 } from '../math/VectorE3';
+import { BoxGeometryOptions } from './BoxGeometryOptions';
+import { GeometryMode } from './GeometryMode';
+import { PrimitivesBuilder } from './PrimitivesBuilder';
 
+/**
+ * @hidden
+ */
 const canonicalAxis = vec(0, 1, 0);
+/**
+ * @hidden
+ */
 const canonicalMeridian = vec(0, 0, 1);
 
 /**
  * e1
+ * @hidden
  */
 const DEFAULT_A = vec(1, 0, 0);
 /**
  * e2
+ * @hidden
  */
 const DEFAULT_B = vec(0, 1, 0);
 /**
  * e3
+ * @hidden
  */
 const DEFAULT_C = vec(0, 0, 1);
 
+/**
+ * @hidden
+ */
 class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
     private _a: VectorE3;
     private _b: VectorE3;
@@ -149,6 +160,9 @@ class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
     }
 }
 
+/**
+ * @hidden
+ */
 function side(tilt: SpinorE3, offset: Vector3, basis: Vector3[], uSegments: number, vSegments: number): GridTriangleStrip {
 
     // The normal will be the same for all vertices in the side, so we compute it once here.
@@ -184,6 +198,9 @@ function side(tilt: SpinorE3, offset: Vector3, basis: Vector3[], uSegments: numb
     return side;
 }
 
+/**
+ * @hidden
+ */
 class CuboidPrimitivesBuilder extends PrimitivesBuilder {
 
     public iSegments = 1;
@@ -274,6 +291,9 @@ class CuboidPrimitivesBuilder extends PrimitivesBuilder {
     }
 }
 
+/**
+ * @hidden
+ */
 function boxPrimitive(options: BoxGeometryOptions = { kind: 'BoxGeometry' }): Primitive {
 
     const width = isDefined(options.width) ? mustBeNumber('width', options.width) : 1;

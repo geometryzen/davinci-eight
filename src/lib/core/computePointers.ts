@@ -3,7 +3,7 @@ import { DataType } from './DataType';
 import { VertexAttribPointer } from './VertexAttribPointer';
 
 /**
- * @deprecated
+ * @hidden
  */
 export function computePointers(attributes: { [name: string]: Attribute }, aNames: string[]): VertexAttribPointer[] {
     const aNamesLen = aNames.length;

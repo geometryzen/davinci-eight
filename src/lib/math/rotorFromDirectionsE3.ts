@@ -1,18 +1,27 @@
 import { BivectorE3 as Bivector } from './BivectorE3';
 import { dotVectorE3 as dot } from './dotVectorE3';
 import { quadVectorE3 as quad } from './quadVectorE3';
-import { VectorE3 as Vector } from './VectorE3';
 import { SpinorE3 as Spinor } from './SpinorE3';
+import { VectorE3 as Vector } from './VectorE3';
 import { wedgeXY } from './wedgeXY';
 import { wedgeYZ } from './wedgeYZ';
 import { wedgeZX } from './wedgeZX';
 
+/**
+ * @hidden
+ */
 const sqrt = Math.sqrt;
+/**
+ * @hidden
+ */
 const cosPIdiv4 = Math.cos(Math.PI / 4);
+/**
+ * @hidden
+ */
 const sinPIdiv4 = Math.sin(Math.PI / 4);
 
 /**
- * 
+ * @hidden 
  */
 export interface MutableSpinor extends Spinor {
     /**
@@ -34,6 +43,7 @@ export interface MutableSpinor extends Spinor {
  * the bivector B will be used if specified.
  * Otherwise, sets the output spinor to a random bivector if the vectors are anti-parallel.
  * The result is independent of the magnitudes of a and b.
+ * @hidden
  */
 export function rotorFromDirectionsE3(a: Vector, b: Vector, B: Bivector | undefined, m: MutableSpinor): void {
     // Optimization for equal vectors.

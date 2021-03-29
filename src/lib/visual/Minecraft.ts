@@ -1,16 +1,19 @@
+import { isBoolean } from '../checks/isBoolean';
+import { isNumber } from '../checks/isNumber';
 import { BeginMode } from '../core/BeginMode';
 import { Engine } from '../core/Engine';
 import { Geometry } from '../core/Geometry';
 import { GeometryArrays } from '../core/GeometryArrays';
 import { ImageTexture } from '../core/ImageTexture';
-import { isBoolean } from '../checks/isBoolean';
-import { isNumber } from '../checks/isNumber';
 import { Material } from '../core/Material';
 import { Mesh } from '../core/Mesh';
 import { Primitive } from '../core/Primitive';
 import { ShaderMaterial } from '../materials/ShaderMaterial';
 import { VectorE3 } from '../math/VectorE3';
 
+/**
+ * @hidden
+ */
 export enum MinecraftPartKind {
     Head,
     Helm,
@@ -27,6 +30,9 @@ export enum MinecraftPartKind {
 }
 
 
+/**
+ * @hidden
+ */
 export interface MinecraftInternalBodyPartOptions {
     height: number;
     partKind: MinecraftPartKind;
@@ -34,6 +40,9 @@ export interface MinecraftInternalBodyPartOptions {
     offset?: VectorE3;
 }
 
+/**
+ * @hidden
+ */
 enum MinecraftSide {
     Top,
     Bottom,
@@ -45,6 +54,7 @@ enum MinecraftSide {
 
 /**
  * The dimensions have been adjusted so that the total height of the figure is 1.
+ * @hidden
  */
 function dimensions(part: MinecraftPartKind, height: number): number[] {
     const LIMB_SIZE = 0.125 * height;
@@ -80,6 +90,9 @@ function dimensions(part: MinecraftPartKind, height: number): number[] {
     }
 }
 
+/**
+ * @hidden
+ */
 function textureBounds(part: MinecraftPartKind, side: MinecraftSide, version: number, oldSkinLayout: boolean): number[] {
     switch (part) {
         case MinecraftPartKind.Head: {
@@ -447,6 +460,9 @@ function textureBounds(part: MinecraftPartKind, side: MinecraftSide, version: nu
     }
 }
 
+/**
+ * @hidden
+ */
 function aCoords(part: MinecraftPartKind, side: MinecraftSide, width: number, height: number, oldSkinLayout: boolean): number[] {
     const cs = textureBounds(part, side, version(width, height), oldSkinLayout);
     const x1 = cs[0] / width;
@@ -456,6 +472,9 @@ function aCoords(part: MinecraftPartKind, side: MinecraftSide, width: number, he
     return [x1, y2, x2, y2, x1, y1, x2, y2, x2, y1, x1, y1];
 }
 
+/**
+ * @hidden
+ */
 function version(width: number, height: number): number {
     if (width === 2 * height) {
         return 0;
@@ -469,6 +488,9 @@ function version(width: number, height: number): number {
     }
 }
 
+/**
+ * @hidden
+ */
 function primitiveFromOptions(texture: ImageTexture, options: MinecraftInternalBodyPartOptions): Primitive {
     const partKind = options.partKind;
     const offset = options.offset ? options.offset : { x: 0, y: 0, z: 0 };
@@ -522,10 +544,16 @@ function primitiveFromOptions(texture: ImageTexture, options: MinecraftInternalB
     return primitive;
 }
 
+/**
+ * @hidden
+ */
 function makeGeometry(graphics: Engine, texture: ImageTexture, options: MinecraftInternalBodyPartOptions): Geometry {
     return new GeometryArrays(graphics, primitiveFromOptions(texture, options));
 }
 
+/**
+ * @hidden
+ */
 const vs = [
     'attribute vec3 aPosition;',
     'attribute vec2 aCoords;',
@@ -539,6 +567,9 @@ const vs = [
     '}'
 ].join('\n');
 
+/**
+ * @hidden
+ */
 const fs = [
     'precision mediump float;',
     'varying highp vec2 vCoords;',
@@ -549,6 +580,9 @@ const fs = [
 
 ].join('\n');
 
+/**
+ * @hidden
+ */
 const makeMaterial = function makeMaterial(graphics: Engine): Material {
     return new ShaderMaterial(vs, fs, [], graphics);
 };

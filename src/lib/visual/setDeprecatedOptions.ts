@@ -3,12 +3,19 @@ import { isDefined } from '../checks/isDefined';
 import { Material } from '../core/Material';
 import { Mesh } from '../core/Mesh';
 
+/**
+ * @hidden
+ */
 const ATTITUDE_NAME = 'attitude';
+/**
+ * @hidden
+ */
 const POSITION_NAME = 'position';
 
 /**
  * Deprecated support for 'position' and 'attitude' in options.
  * Implementations should use the corresponding properties instead.
+ * @hidden
  */
 export function setDeprecatedOptions(mesh: Mesh<Geometry, Material>, options: {}): void {
     if (isDefined(options[POSITION_NAME])) {

@@ -3,6 +3,9 @@ import { AttributeSizeType } from '../core/AttributeSizeType';
 import { BeginMode } from '../core/BeginMode';
 import { Primitive } from '../core/Primitive';
 
+/**
+ * @hidden
+ */
 function copyIndices(src: Primitive, dest: number[], delta: number): void {
     if (src.indices) {
         const iLen = src.indices.length;
@@ -12,10 +15,16 @@ function copyIndices(src: Primitive, dest: number[], delta: number): void {
     }
 }
 
+/**
+ * @hidden
+ */
 function max(xs: number[]): number {
     return xs.reduce(function (a, b) { return a > b ? a : b; });
 }
 
+/**
+ * @hidden
+ */
 function joinIndices(previous: Primitive, current: Primitive, dest: number[]): void {
     if (previous.indices) {
         const lastIndex = previous.indices[previous.indices.length - 1];
@@ -29,6 +38,9 @@ function joinIndices(previous: Primitive, current: Primitive, dest: number[]): v
     }
 }
 
+/**
+ * @hidden
+ */
 function ensureAttribute(attributes: { [name: string]: Attribute }, name: string, size: AttributeSizeType): Attribute {
     if (!attributes[name]) {
         attributes[name] = { values: [], size };
@@ -36,6 +48,9 @@ function ensureAttribute(attributes: { [name: string]: Attribute }, name: string
     return attributes[name];
 }
 
+/**
+ * @hidden
+ */
 function copyAttributes(primitive: Primitive, attributes: { [name: string]: Attribute }) {
     const keys = Object.keys(primitive.attributes);
     const kLen = keys.length;
@@ -53,6 +68,7 @@ function copyAttributes(primitive: Primitive, attributes: { [name: string]: Attr
 
 /**
  * reduces multiple TRIANGLE_STRIP Primitives to a single TRAINGLE_STRIP Primitive.
+ * @hidden
  */
 export function reduce(primitives: Primitive[]): Primitive {
     for (let i = 0; i < primitives.length; i++) {

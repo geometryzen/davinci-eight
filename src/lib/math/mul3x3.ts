@@ -1,3 +1,6 @@
+/**
+ * @hidden
+ */
 export function mul3x3(a: Float32Array, b: Float32Array, c: Float32Array): Float32Array {
 
     let a11 = a[0x0], a12 = a[0x3], a13 = a[0x6];

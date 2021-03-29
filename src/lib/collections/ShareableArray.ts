@@ -1,10 +1,11 @@
-import { readOnly } from '../i18n/readOnly';
 import { Shareable } from '../core/Shareable';
 import { ShareableBase } from '../core/ShareableBase';
+import { readOnly } from '../i18n/readOnly';
 
 /**
  * Essentially constructs the ShareableArray without incrementing the
  * reference count of the elements, and without creating zombies.
+ * @hidden
  */
 function transferOwnership<T extends Shareable>(data: T[]): ShareableArray<T> {
     if (data) {
@@ -30,6 +31,7 @@ function transferOwnership<T extends Shareable>(data: T[]): ShareableArray<T> {
  * <p>
  * Provides a safer way to maintain reference counts than a native array.
  * </p>
+ * @hidden
  */
 export class ShareableArray<T extends Shareable> extends ShareableBase {
 

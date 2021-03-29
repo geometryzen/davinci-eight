@@ -3,14 +3,23 @@ import { Spinor3 } from '../math/Spinor3';
 import { Vector3 } from '../math/Vector3';
 import { VectorE3 } from '../math/VectorE3';
 
+/**
+ * @hidden
+ */
 function signum(x: number): number {
     return x >= 0 ? +1 : -1;
 }
 
+/**
+ * @hidden
+ */
 function bigger(a: number, b: number): boolean {
     return a >= b;
 }
 
+/**
+ * @hidden
+ */
 const permutation = function (direction: VectorE3): number {
     const x = Math.abs(direction.x);
     const y = Math.abs(direction.y);
@@ -18,10 +27,16 @@ const permutation = function (direction: VectorE3): number {
     return bigger(x, z) ? (bigger(x, y) ? 0 : 1) : (bigger(y, z) ? 1 : 2);
 };
 
+/**
+ * @hidden
+ */
 const orientation = function (cardinalIndex: number, direction: Vector3): number {
     return signum(direction.getComponent(cardinalIndex));
 };
 
+/**
+ * @hidden
+ */
 function nearest(direction: Vector3): Vector3 {
     const cardinalIndex = permutation(direction);
     switch (cardinalIndex) {
@@ -38,6 +53,9 @@ function nearest(direction: Vector3): Vector3 {
     return Vector3.copy(direction);
 }
 
+/**
+ * @hidden
+ */
 export class ArrowSimplexPrimitivesBuilder extends RevolutionSimplexPrimitivesBuilder {
     public lengthCone = 0.20;
     public radiusCone = 0.08;

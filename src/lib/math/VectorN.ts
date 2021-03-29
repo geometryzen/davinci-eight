@@ -1,30 +1,45 @@
 import { isDefined } from '../checks/isDefined';
 import { isUndefined } from '../checks/isUndefined';
-import { Lockable, lockable, TargetLockedError } from '../core/Lockable';
 import { mustSatisfy } from '../checks/mustSatisfy';
+import { Lockable, lockable, TargetLockedError } from '../core/Lockable';
 
+/**
+ * @hidden
+ */
 function pushString(T: string): string {
     return "push(value: " + T + "): number";
 }
 
+/**
+ * @hidden
+ */
 function popString(T: string): string {
     return "pop(): " + T;
 }
 
+/**
+ * @hidden
+ */
 function verboten(operation: string): string {
     return operation + " is not allowed for a fixed size vector";
 }
 
+/**
+ * @hidden
+ */
 function verbotenPush(): string {
     return verboten(pushString('T'));
 }
 
+/**
+ * @hidden
+ */
 function verbotenPop(): string {
     return verboten(popString('T'));
 }
 
 /**
- *
+ * @hidden
  */
 export class VectorN<T> implements Lockable {
     /**

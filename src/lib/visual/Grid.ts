@@ -29,26 +29,78 @@ import { setAxisAndMeridian } from './setAxisAndMeridian';
 import { setColorOption } from './setColorOption';
 import { setDeprecatedOptions } from './setDeprecatedOptions';
 
+/**
+ * @hidden
+ */
 const COORD_MIN_DEFAULT = -1;
+/**
+ * @hidden
+ */
 const COORD_MAX_DEFAULT = +1;
+/**
+ * @hidden
+ */
 const GRID_SEGMENTS_DEFAULT = 10;
-
+/**
+ * @hidden
+ */
 const OPTION_OFFSET = { name: 'offset' };
+/**
+ * @hidden
+ */
 const OPTION_TILT = { name: 'tilt' };
+/**
+ * @hidden
+ */
 const OPTION_STRESS = { name: 'stress' };
+/**
+ * @hidden
+ */
 const OPTION_COLOR = { name: 'color', assertFn: mustBeObject };
-
+/**
+ * @hidden
+ */
 const OPTION_POSITION_FUNCTION = { name: 'aPosition', assertFn: mustBeFunction };
+/**
+ * @hidden
+ */
 const OPTION_NORMAL_FUNCTION = { name: 'aNormal', assertFn: mustBeFunction };
+/**
+ * @hidden
+ */
 const OPTION_COLOR_FUNCTION = { name: 'aColor', assertFn: mustBeFunction };
+/**
+ * @hidden
+ */
 const OPTION_UMIN = { name: 'uMin', defaultValue: COORD_MIN_DEFAULT, assertFn: mustBeNumber };
+/**
+ * @hidden
+ */
 const OPTION_UMAX = { name: 'uMax', defaultValue: COORD_MAX_DEFAULT, assertFn: mustBeNumber };
+/**
+ * @hidden
+ */
 const OPTION_USEGMENTS = { name: 'uSegments', defaultValue: GRID_SEGMENTS_DEFAULT, assertFn: mustBeInteger };
+/**
+ * @hidden
+ */
 const OPTION_VMIN = { name: 'vMin', defaultValue: COORD_MIN_DEFAULT, assertFn: mustBeNumber };
+/**
+ * @hidden
+ */
 const OPTION_VMAX = { name: 'vMax', defaultValue: COORD_MAX_DEFAULT, assertFn: mustBeNumber };
+/**
+ * @hidden
+ */
 const OPTION_VSEGMENTS = { name: 'vSegments', defaultValue: GRID_SEGMENTS_DEFAULT, assertFn: mustBeInteger };
+/**
+ * @hidden
+ */
 const OPTION_MODE = { name: 'mode', defaultValue: GeometryMode.WIRE, assertFn: mustBeInteger };
 
+/**
+ * @hidden
+ */
 const OPTIONS = [
     OPTION_OFFSET,
     OPTION_TILT,
@@ -65,6 +117,10 @@ const OPTIONS = [
     OPTION_VSEGMENTS,
     OPTION_MODE
 ];
+
+/**
+ * @hidden
+ */
 const OPTION_NAMES = OPTIONS.map((option) => option.name);
 
 function aPositionDefault(u: number, v: number): VectorE3 {

@@ -6,6 +6,7 @@ import { SimplexMode } from '../geometries/SimplexMode';
 
 /**
  * Converts from a mode, k, or wireFrame option specification to a SimplexMode.
+ * @hidden
  */
 export function simplexModeFromOptions(options: { wireFrame?: boolean; k?: number; mode?: 'mesh' | 'wire' | 'point' | GeometryMode } = {}, fallback: SimplexMode): SimplexMode {
     if (isDefined(options)) {

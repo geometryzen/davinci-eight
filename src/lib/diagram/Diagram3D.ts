@@ -1,15 +1,20 @@
-import { dotVectorE3 } from '../math/dotVectorE3';
 import { isDefined } from '../checks/isDefined';
-import { R3 } from '../math/R3';
-import { vectorFromCoords, vectorCopy } from '../math/R3';
-import { VectorE3 } from '../math/VectorE3';
 import { Camera } from '../facets/Camera';
 import { Prism } from '../facets/Prism';
+import { dotVectorE3 } from '../math/dotVectorE3';
+import { R3, vectorCopy, vectorFromCoords } from '../math/R3';
+import { VectorE3 } from '../math/VectorE3';
 
+/**
+ * @hidden
+ */
 function pointerEvents(canvas: HTMLCanvasElement, value: 'auto' | 'none') {
     canvas.style.pointerEvents = value;
 }
 
+/**
+ * @hidden
+ */
 function position(canvas: HTMLCanvasElement, value: 'absolute' | 'relative') {
     canvas.style.pointerEvents = value;
 }
@@ -105,7 +110,7 @@ export class Diagram3D {
 }
 
 /**
- * 
+ * @hidden
  */
 export function canvasCoords(X: VectorE3, camera: { eye: VectorE3; look: VectorE3; up: VectorE3 }, prism: { near: number, far: number, fov: number, aspect: number }, width: number, height: number): { x: number; y: number } {
     const cameraCoords = view(X, camera.eye, camera.look, camera.up);
@@ -124,12 +129,14 @@ export function canvasCoords(X: VectorE3, camera: { eye: VectorE3; look: VectorE
  * View transformation converts world coordinates to camera frame coordinates.
  * We first compute the camera frame (u, v, w, eye), then solve the equation
  * X = x * u + y * v * z * n + eye
+ * @hidden
  * 
  * @param X The world vector.
  * @param eye The position of the camera.
  * @param look The point that the camera is aimed at.
  * @param up The approximate up direction.
  * @returns The coordinates in the camera (u, v, w) basis.
+ * @hidden
  */
 export function view(X: VectorE3, eye: VectorE3, look: VectorE3, up: VectorE3): Readonly<R3> {
     /**
@@ -166,6 +173,7 @@ export function view(X: VectorE3, eye: VectorE3, look: VectorE3, up: VectorE3): 
  * @param f The distance to the far plane.
  * @param α The angle subtended at the apex of the pyramid in the vw-plane.
  * @param aspect The ratio of the width to the height (width divided by height).
+ * @hidden
  */
 export function perspective(X: VectorE3, n: number, f: number, α: number, aspect: number): Readonly<R3> {
     /**

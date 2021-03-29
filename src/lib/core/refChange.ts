@@ -1,5 +1,5 @@
-import { config } from '../config';
 import { isDefined } from '../checks/isDefined';
+import { config } from '../config';
 
 let statistics: { [uuid: string]: { refCount: number; name: string; zombie: boolean } } = {};
 let chatty = true;
@@ -7,24 +7,42 @@ let skip = true;
 let trace = false;
 let traceName: string = void 0;
 
+/**
+ * @hidden
+ */
 const LOGGING_NAME_REF_CHANGE = 'refChange';
 
+/**
+ * @hidden
+ */
 function prefix(message: string): string {
     return LOGGING_NAME_REF_CHANGE + ": " + message;
 }
 
+/**
+ * @hidden
+ */
 function log(message: string): void {
     return config.log(prefix(message));
 }
 
+/**
+ * @hidden
+ */
 function warn(message: string): void {
     return config.warn(prefix(message));
 }
 
+/**
+ * @hidden
+ */
 function error(message: string): void {
     return config.error(prefix(message));
 }
 
+/**
+ * @hidden
+ */
 function garbageCollect(): void {
     const uuids: string[] = Object.keys(statistics);
     uuids.forEach(function (uuid: string) {
@@ -35,6 +53,9 @@ function garbageCollect(): void {
     });
 }
 
+/**
+ * @hidden
+ */
 function computeOutstanding(): number {
     const uuids = Object.keys(statistics);
     const uuidsLength = uuids.length;
@@ -47,6 +68,9 @@ function computeOutstanding(): number {
     return total;
 }
 
+/**
+ * @hidden
+ */
 function stop(): number {
     if (skip) {
         warn("Nothing to see because skip mode is " + skip);
@@ -55,10 +79,16 @@ function stop(): number {
     return computeOutstanding();
 }
 
+/**
+ * @hidden
+ */
 function outstandingMessage(outstanding: number): string {
     return `There are ${outstanding} outstanding reference counts.`;
 }
 
+/**
+ * @hidden
+ */
 function dump(): number {
     const outstanding: number = stop();
     if (outstanding > 0) {
@@ -74,6 +104,9 @@ function dump(): number {
     return outstanding;
 }
 
+/**
+ * @hidden
+ */
 export function refChange(uuid: string, name?: string, change = 0): number {
     if (change !== 0 && skip) {
         return void 0;

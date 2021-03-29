@@ -1,29 +1,50 @@
-import { BasisOptions } from './BasisOptions';
 import { BeginMode } from '../core/BeginMode';
 import { Color } from '../core/Color';
-import { ColorFacet } from '../facets/ColorFacet';
 import { ContextManager } from '../core/ContextManager';
-import { ds } from './Defaults';
 import { Geometry } from '../core/Geometry';
 import { GeometryArrays } from '../core/GeometryArrays';
 import { GraphicsProgramSymbols as GPS } from '../core/GraphicsProgramSymbols';
 import { Material } from '../core/Material';
 import { Mesh } from '../core/Mesh';
 import { Primitive } from '../core/Primitive';
-import { setColorOption } from './setColorOption';
-import { setDeprecatedOptions } from './setDeprecatedOptions';
+import { ColorFacet } from '../facets/ColorFacet';
+import { Vector3Facet } from '../facets/Vector3Facet';
 import { ShaderMaterial } from '../materials/ShaderMaterial';
 import { Vector3 } from '../math/Vector3';
-import { Vector3Facet } from '../facets/Vector3Facet';
+import { BasisOptions } from './BasisOptions';
+import { ds } from './Defaults';
+import { setColorOption } from './setColorOption';
+import { setDeprecatedOptions } from './setDeprecatedOptions';
 
+/**
+ * @hidden
+ */
 const uPointA = 'uPointA';
+/**
+ * @hidden
+ */
 const uPointB = 'uPointB';
+/**
+ * @hidden
+ */
 const uPointC = 'uPointC';
 
+/**
+ * @hidden
+ */
 const uColorA = 'uColorA';
+/**
+ * @hidden
+ */
 const uColorB = 'uColorB';
+/**
+ * @hidden
+ */
 const uColorC = 'uColorC';
 
+/**
+ * @hidden
+ */
 const vertexShaderSrc = function (): string {
     const vs: string = [
         "attribute float aPointIndex;",
@@ -70,6 +91,9 @@ const vertexShaderSrc = function (): string {
     return vs;
 };
 
+/**
+ * @hidden
+ */
 const fragmentShaderSrc = function (): string {
     const fs: string = [
         "precision mediump float;",

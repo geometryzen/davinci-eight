@@ -1,9 +1,12 @@
+import { VectorN } from '../atoms/VectorN';
+import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { computeFaceNormals } from '../geometries/computeFaceNormals';
 import { Simplex } from '../geometries/Simplex';
 import { SimplexMode } from '../geometries/SimplexMode';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { VectorN } from '../atoms/VectorN';
 
+/**
+ * @hidden
+ */
 export function triangle(a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, attributes: { [name: string]: VectorN<number>[] } = {}, triangles: Simplex[] = []): Simplex[] {
 
     const simplex = new Simplex(SimplexMode.TRIANGLE);

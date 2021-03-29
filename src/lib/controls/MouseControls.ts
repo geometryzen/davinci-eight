@@ -1,14 +1,18 @@
 import { BrowserHTMLElement } from '../base/BrowserHTMLElement';
 import { BrowserWindow } from '../base/BrowserWindow';
-import { MouseCoordinates } from './MouseCoordinates';
 import { mustBeObject } from '../checks/mustBeObject';
 import { ShareableBase } from '../core/ShareableBase';
 import { Vector2 } from '../math/Vector2';
+import { MouseCoordinates } from './MouseCoordinates';
 
+/**
+ * @hidden
+ */
 const MODE = { NONE: -1, ROTATE: 0, ZOOM: 1, PAN: 2, TOUCH_ROTATE: 3, TOUCH_ZOOM_PAN: 4 };
 
 /**
  * The index into the keys array is ROTATE=0, ZOOM=1, PAN=2
+ * @hidden
  */
 const keys = [65 /*A*/, 83 /*S*/, 68 /*D*/];
 

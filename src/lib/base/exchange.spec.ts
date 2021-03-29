@@ -1,6 +1,9 @@
 import { ShareableBase } from '../core/ShareableBase';
 import { exchange } from './exchange';
 
+/**
+ * @hidden
+ */
 class Foo extends ShareableBase {
   constructor() {
     super();

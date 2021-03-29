@@ -1,7 +1,7 @@
 import { isDefined } from '../checks/isDefined';
 import { mustBeNumber } from '../checks/mustBeNumber';
-import { PolyhedronBuilder } from '../geometries/PolyhedronBuilder';
 import { Primitive } from '../core/Primitive';
+import { PolyhedronBuilder } from '../geometries/PolyhedronBuilder';
 import { TetrahedronGeometryOptions } from './TetrahedronGeometryOptions';
 
 //
@@ -16,6 +16,9 @@ import { TetrahedronGeometryOptions } from './TetrahedronGeometryOptions';
 // the same, sqrt(8), because the side length of the cube is 2. So we have
 // four equilateral triangles stiched together to form a tetrahedron.
 //
+/**
+ * @hidden
+ */
 const vertices: number[] = [
     +1, +1, +1, -1, -1, +1, -1, +1, -1, +1, -1, -1
 ];
@@ -24,10 +27,16 @@ const vertices: number[] = [
 // The following 12 indices comprise four triangles.
 // Each triangle is traversed counter-clockwise as seen from the outside. 
 //
+/**
+ * @hidden
+ */
 const indices: number[] = [
     2, 1, 0, 0, 3, 2, 1, 3, 0, 2, 3, 1
 ];
 
+/**
+ * @hidden
+ */
 export function tetrahedronPrimitive(options: TetrahedronGeometryOptions = { kind: 'TetrahedronGeometry' }): Primitive {
     const radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : 1.0;
     const builder = new PolyhedronBuilder(vertices, indices, radius);

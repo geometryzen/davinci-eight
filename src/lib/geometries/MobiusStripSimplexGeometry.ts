@@ -1,10 +1,22 @@
 import { GridSimplexBuilder } from '../geometries/GridSimplexBuilder';
 import { Vector3 } from '../math/Vector3';
 
-let cos = Math.cos;
-let sin = Math.sin;
-let pi = Math.PI;
+/**
+ * @hidden
+ */
+const cos = Math.cos;
+/**
+ * @hidden
+ */
+const sin = Math.sin;
+/**
+ * @hidden
+ */
+const pi = Math.PI;
 
+/**
+ * @hidden
+ */
 function mobius(u: number, v: number): Vector3 {
     const point = new Vector3([0, 0, 0]);
     /**

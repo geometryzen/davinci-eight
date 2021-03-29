@@ -112,17 +112,10 @@ var Turtle = /** @class */ (function (_super) {
         var geoOptions = { kind: 'TurtleGeometry' };
         geoOptions.tilt = tiltFromOptions(options, canonicalAxis);
         geoOptions.offset = offsetFromOptions(options);
-        var cachedGeometry = contextManager.getCacheGeometry(geoOptions);
-        if (cachedGeometry && cachedGeometry instanceof TurtleGeometry) {
-            _this.geometry = cachedGeometry;
-            cachedGeometry.release();
-        }
-        else {
-            var geometry = new TurtleGeometry(contextManager, geoOptions);
-            _this.geometry = geometry;
-            geometry.release();
-            contextManager.putCacheGeometry(geoOptions, geometry);
-        }
+        var geometry = new TurtleGeometry(contextManager, geoOptions);
+        _this.geometry = geometry;
+        geometry.release();
+        contextManager.putCacheGeometry(geoOptions, geometry);
         var material = materialFromOptions(contextManager, simplexModeFromOptions(options, SimplexMode.LINE), options);
         _this.material = material;
         material.release();

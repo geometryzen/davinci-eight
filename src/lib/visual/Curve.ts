@@ -21,18 +21,30 @@ import { LineMaterialOptionsWithKind, PointMaterialOptionsWithKind } from './mat
 import { setColorOption } from './setColorOption';
 import { setDeprecatedOptions } from './setDeprecatedOptions';
 
+/**
+ * @hidden
+ */
 function aPositionDefault(u: number): VectorE3 {
     return Vector3.vector(u, 0, 0);
 }
 
+/**
+ * @hidden
+ */
 function isFunctionOrNull(x: any): boolean {
     return isFunction(x) || isNull(x);
 }
 
+/**
+ * @hidden
+ */
 function isFunctionOrUndefined(x: any): boolean {
     return isFunction(x) || isUndefined(x);
 }
 
+/**
+ * @hidden
+ */
 function transferGeometryOptions(options: CurveOptions, geoOptions: CurveGeometryOptions): void {
 
     if (isFunctionOrNull(options.aPosition)) {
@@ -77,6 +89,9 @@ function transferGeometryOptions(options: CurveOptions, geoOptions: CurveGeometr
     }
 }
 
+/**
+ * @hidden
+ */
 function configPoints(contextManager: ContextManager, options: CurveOptions, curve: Curve) {
     const geoOptions: CurveGeometryOptions = { kind: 'CurveGeometry' };
     transferGeometryOptions(options, geoOptions);
@@ -122,6 +137,9 @@ function configPoints(contextManager: ContextManager, options: CurveOptions, cur
     material.release();
 }
 
+/**
+ * @hidden
+ */
 function configLines(contextManager: ContextManager, options: CurveOptions, curve: Curve) {
     const geoOptions: CurveGeometryOptions = { kind: 'CurveGeometry' };
     transferGeometryOptions(options, geoOptions);

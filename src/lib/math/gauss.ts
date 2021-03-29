@@ -1,5 +1,11 @@
+/**
+ * @hidden
+ */
 const abs = Math.abs;
 
+/**
+ * @hidden
+ */
 function makeColumnVector(n: number, v: number): number[] {
     const a: number[] = [];
     for (let i = 0; i < n; i++) {
@@ -8,6 +14,9 @@ function makeColumnVector(n: number, v: number): number[] {
     return a;
 }
 
+/**
+ * @hidden
+ */
 function rowWithMaximumInColumn(A: number[][], column: number, N: number): number {
     let biggest = abs(A[column][column]);
     let maxRow = column;
@@ -20,6 +29,9 @@ function rowWithMaximumInColumn(A: number[][], column: number, N: number): numbe
     return maxRow;
 }
 
+/**
+ * @hidden
+ */
 function swapRows(A: number[][], i: number, j: number, N: number) {
     const colLength = N + 1;
     for (let column = i; column < colLength; column++) {
@@ -29,6 +41,9 @@ function swapRows(A: number[][], i: number, j: number, N: number) {
     }
 }
 
+/**
+ * @hidden
+ */
 function makeZeroBelow(A: number[][], i: number, N: number): void {
     for (let row = i + 1; row < N; row++) {
         const c = -A[row][i] / A[i][i];
@@ -43,6 +58,9 @@ function makeZeroBelow(A: number[][], i: number, N: number): void {
     }
 }
 
+/**
+ * @hidden
+ */
 function solve(A: number[][], N: number) {
     const x = makeColumnVector(N, 0);
     for (let i = N - 1; i > -1; i--) {
@@ -58,6 +76,7 @@ function solve(A: number[][], N: number) {
 /**
  * Gaussian elimination
  * Ax = b
+ * @hidden
  */
 export function gauss(A: number[][], b: number[]): number[] {
 

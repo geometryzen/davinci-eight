@@ -1,3 +1,6 @@
+/**
+ * @hidden
+ */
 export function uuid4() {
 
     const maxFromBits = function (bits: number): number {

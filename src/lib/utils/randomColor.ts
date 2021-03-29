@@ -2,6 +2,9 @@
 // https://github.com/davidmerfield/randomColor/
 // Ported to TypeScript by David Geo Holmes
 
+/**
+ * @hidden
+ */
 interface ColorEntry {
   hueRange: number[];
   lowerBounds: number[][];
@@ -10,19 +13,29 @@ interface ColorEntry {
 }
 
 /**
- * This isn't know to the TypeScript d.ts
+ * This isn't known to the TypeScript d.ts
+ * @hidden
  */
 const MAX_SAFE_INTEGER = Math.pow(2, 53) - 1; // 9007199254740991
 
 // Seed to get repeatable colors
+/**
+ * @hidden
+ */
 let seed: number = null;
 
 // Shared color dictionary
+/**
+ * @hidden
+ */
 const colorDictionary: { [name: string]: ColorEntry } = {};
 
 // Populate the color dictionary
 loadColorBounds();
 
+/**
+ * @hidden
+ */
 export function randomColor(options: { count?: number, format?: string, hue?: string, luminosity?: string, seed?: any } = {}): number[] {
 
   // Check if there is a seed and ensure it's an
@@ -82,6 +95,9 @@ export function randomColor(options: { count?: number, format?: string, hue?: st
   return setFormatArray([H, S, B], options);
 }
 
+/**
+ * @hidden
+ */
 function pickHue(options: { hue?: string }): number {
 
   const hueRange = getHueRange(options.hue);
@@ -94,6 +110,9 @@ function pickHue(options: { hue?: string }): number {
   return hue;
 }
 
+/**
+ * @hidden
+ */
 function pickSaturation(hue: number, options: { hue?: string; luminosity?: string }) {
 
   if (options.luminosity === 'random') {
@@ -127,6 +146,9 @@ function pickSaturation(hue: number, options: { hue?: string; luminosity?: strin
   return randomWithin([sMin, sMax]);
 }
 
+/**
+ * @hidden
+ */
 function pickBrightness(H: number, S: number, options: { luminosity?: string }): number {
 
   let bMin = getMinimumBrightness(H, S),
@@ -178,6 +200,9 @@ function setFormatString(hsv: number[], options: { format?: string }): string {
 }
 */
 
+/**
+ * @hidden
+ */
 function setFormatArray(hsv: number[], options: { format?: string }): number[] {
 
   switch (options.format) {
@@ -196,6 +221,9 @@ function setFormatArray(hsv: number[], options: { format?: string }): number[] {
   }
 }
 
+/**
+ * @hidden
+ */
 function getMinimumBrightness(H: number, S: number): number {
 
   const lowerBounds = getColorInfo(H).lowerBounds;
@@ -221,6 +249,9 @@ function getMinimumBrightness(H: number, S: number): number {
   return 0;
 }
 
+/**
+ * @hidden
+ */
 function getHueRange(colorInput: string): number[] {
 
   if (typeof parseInt(colorInput) === 'number') {
@@ -244,10 +275,16 @@ function getHueRange(colorInput: string): number[] {
   return [0, 360];
 }
 
+/**
+ * @hidden
+ */
 function getSaturationRange(hue: number): number[] {
   return getColorInfo(hue).saturationRange;
 }
 
+/**
+ * @hidden
+ */
 function getColorInfo(hue: number): ColorEntry {
 
   // Maps red colors to make picking hue easier
@@ -268,6 +305,9 @@ function getColorInfo(hue: number): ColorEntry {
   throw new Error(`Color with hue ${hue} not found`);
 }
 
+/**
+ * @hidden
+ */
 function randomWithin(range: number[]): number {
   if (seed === null) {
     return Math.floor(range[0] + Math.random() * (range[1] + 1 - range[0]));
@@ -298,6 +338,9 @@ function HSVtoHex(hsv: number[]): string {
 }
 */
 
+/**
+ * @hidden
+ */
 function defineColor(name: string, hueRange: number[], lowerBounds: number[][]): void {
 
   const sMin = lowerBounds[0][0];
@@ -314,6 +357,9 @@ function defineColor(name: string, hueRange: number[], lowerBounds: number[][]):
   };
 }
 
+/**
+ * @hidden
+ */
 function loadColorBounds() {
 
   defineColor(
@@ -365,6 +411,9 @@ function loadColorBounds() {
   );
 }
 
+/**
+ * @hidden
+ */
 function HSVtoRGB(hsv: number[]): number[] {
 
   // this doesn't work for the values of 0 and 360
@@ -400,6 +449,9 @@ function HSVtoRGB(hsv: number[]): number[] {
   return result;
 }
 
+/**
+ * @hidden
+ */
 function HSVtoHSL(hsv: number[]): number[] {
   const h = hsv[0],
     s = hsv[1] / 100,
@@ -413,6 +465,9 @@ function HSVtoHSL(hsv: number[]): number[] {
   ];
 }
 
+/**
+ * @hidden
+ */
 function stringToInteger(s: string): number {
   let total = 0;
   for (let i = 0; i !== s.length; i++) {

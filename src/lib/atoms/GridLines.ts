@@ -1,12 +1,13 @@
+import { mustBeInteger } from '../checks/mustBeInteger';
 import { BeginMode } from '../core/BeginMode';
 import { GridPrimitive } from './GridPrimitive';
-import { mustBeInteger } from '../checks/mustBeInteger';
 import { numPostsForFence } from './numPostsForFence';
 import { Vertex } from './Vertex';
 
 /**
  * Computes the vertex index from integer coordinates.
  * Both lengths are included for symmetry!
+ * @hidden
  */
 function vertexIndex(i: number, j: number, iLength: number, jLength: number): number {
     mustBeInteger('iLength', iLength);
@@ -14,6 +15,9 @@ function vertexIndex(i: number, j: number, iLength: number, jLength: number): nu
     return j * iLength + i;
 }
 
+/**
+ * @hidden
+ */
 function linesForGrid(uSegments: number, uClosed: boolean, vSegments: number, vClosed: boolean): number[] {
     const iLength = numPostsForFence(uSegments, uClosed);
     const jLength = numPostsForFence(vSegments, vClosed);

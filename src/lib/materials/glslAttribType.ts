@@ -1,9 +1,12 @@
+import { mustBeInteger } from '../checks/mustBeInteger';
+import { mustBeString } from '../checks/mustBeString';
 import { AttributeGlslType } from '../core/AttributeGlslType';
 import { AttributeSizeType } from '../core/AttributeSizeType';
 import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { mustBeInteger } from '../checks/mustBeInteger';
-import { mustBeString } from '../checks/mustBeString';
 
+/**
+ * @hidden
+ */
 function sizeType(size: AttributeSizeType): AttributeGlslType {
   mustBeInteger('size', size);
   switch (size) {
@@ -25,6 +28,9 @@ function sizeType(size: AttributeSizeType): AttributeGlslType {
   }
 }
 
+/**
+ * @hidden
+ */
 export function glslAttribType(key: string, size: AttributeSizeType): AttributeGlslType {
   mustBeString('key', key);
   mustBeInteger('size', size);

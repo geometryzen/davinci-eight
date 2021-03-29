@@ -1,9 +1,15 @@
 import { mustSatisfy } from '../checks/mustSatisfy';
 
+/**
+ * @hidden
+ */
 function beContextId() {
     return "be 'webgl2' or 'webgl'";
 }
 
+/**
+ * @hidden
+ */
 function isWebGLContextId(x: any): x is 'webgl2' | 'webgl' {
     switch (x) {
         case 'webgl2': return true;
@@ -12,6 +18,9 @@ function isWebGLContextId(x: any): x is 'webgl2' | 'webgl' {
     }
 }
 
+/**
+ * @hidden
+ */
 export function mustBeWebGLContextId(name: string, value: any, contextBuilder?: () => string): 'webgl2' | 'webgl' {
     if (isWebGLContextId(value)) {
         return value;

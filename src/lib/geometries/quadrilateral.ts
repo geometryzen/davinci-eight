@@ -1,7 +1,10 @@
+import { VectorN } from '../atoms/VectorN';
 import { Simplex } from '../geometries/Simplex';
 import { triangle } from '../geometries/triangle';
-import { VectorN } from '../atoms/VectorN';
 
+/**
+ * @hidden
+ */
 function setAttributes(which: number[], source: { [name: string]: VectorN<number>[] }, target: { [name: string]: VectorN<number>[] }) {
     let names: string[] = Object.keys(source);
     let namesLength: number = names.length;
@@ -26,6 +29,7 @@ function setAttributes(which: number[], source: { [name: string]: VectorN<number
  *
  * The quadrilateral is split into two triangles: b-c-a and d-a-c, like a "Z".
  * The zeroth vertex for each triangle is opposite the other triangle.
+ * @hidden
  */
 export function quadrilateral(a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, d: VectorN<number>, attributes: { [name: string]: VectorN<number>[] } = {}, triangles: Simplex[] = []): Simplex[] {
 

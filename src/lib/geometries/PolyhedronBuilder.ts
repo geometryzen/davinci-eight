@@ -1,23 +1,35 @@
-import { VectorE3 } from '../math/VectorE3';
-import { SimplexPrimitivesBuilder } from '../geometries/SimplexPrimitivesBuilder';
+import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { Simplex } from '../geometries/Simplex';
 import { SimplexMode } from '../geometries/SimplexMode';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
+import { SimplexPrimitivesBuilder } from '../geometries/SimplexPrimitivesBuilder';
 import { Vector2 } from '../math/Vector2';
 import { Vector3 } from '../math/Vector3';
+import { VectorE3 } from '../math/VectorE3';
 
 /**
  * Scratch variables to avoid creating temporary objects.
  */
+/**
+ * @hidden
+ */
 const a = Vector3.zero();
+/**
+ * @hidden
+ */
 const b = Vector3.zero();
 
 // Angle around the Y axis, counter-clockwise when looking from above.
+/**
+ * @hidden
+ */
 function azimuth(vector: VectorE3): number {
     return Math.atan2(vector.z, -vector.x);
 }
 
 // Angle above the XZ plane.
+/**
+ * @hidden
+ */
 function inclination(pos: VectorE3): number {
     return Math.atan2(-pos.y, Math.sqrt(pos.x * pos.x + pos.z * pos.z));
 }
@@ -28,6 +40,7 @@ function inclination(pos: VectorE3): number {
  * Sets a hidden `index` property to the index in `points`
  * Computes the texture coordinates and sticks them in the hidden `uv` property as a Vector2.
  * OK!
+ * @hidden
  */
 function prepare(point: VectorE3, points: Vector3[]): VectorE3 {
     // Copy the point and project it onto the unit sphere.
@@ -44,6 +57,9 @@ function prepare(point: VectorE3, points: Vector3[]): VectorE3 {
 }
 
 // Texture fixing helper.
+/**
+ * @hidden
+ */
 function correctUV(uv: Vector2, vector: VectorE3, azimuth: number): Vector2 {
     if ((azimuth < 0) && (uv.x === 1)) uv = new Vector2([uv.x - 1, uv.y]);
     if ((vector.x === 0) && (vector.z === 0)) uv = new Vector2([azimuth / 2 / Math.PI + 0.5, uv.y]);
@@ -52,6 +68,7 @@ function correctUV(uv: Vector2, vector: VectorE3, azimuth: number): Vector2 {
 
 /**
  * Computes the normal associated with the three position vectors taken to represent a triangle with CCW-outside orientation.
+ * @hidden
  */
 function normal(v1: VectorE3, v2: VectorE3, v3: VectorE3): Vector3 {
     a.copy(v2).sub(v1);
@@ -62,6 +79,7 @@ function normal(v1: VectorE3, v2: VectorE3, v3: VectorE3): Vector3 {
 /**
  * In elementary geometry, a polyhedron is a solid in three dimensions with
  * flat polygonal faces, straight edges and sharp corners or vertices.
+ * @hidden
  */
 export class PolyhedronBuilder extends SimplexPrimitivesBuilder {
 

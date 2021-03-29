@@ -1,30 +1,40 @@
-import { applyMixins } from '../utils/applyMixins';
-import { approx } from './approx';
-import { dotVectorCartesianE2 } from '../math/dotVectorCartesianE2';
-import { lock, LockableMixin as Lockable, TargetLockedError } from '../core/Lockable';
+import { VectorN } from '../atoms/VectorN';
 import { mustBeInteger } from '../checks/mustBeInteger';
 import { mustBeNumber } from '../checks/mustBeNumber';
 import { mustBeObject } from '../checks/mustBeObject';
+import { lock, LockableMixin as Lockable, TargetLockedError } from '../core/Lockable';
 import { notSupported } from '../i18n/notSupported';
-import { Pseudo } from './Pseudo';
+import { dotVectorCartesianE2 } from '../math/dotVectorCartesianE2';
 import { quadSpinorE2 as quadSpinor } from '../math/quadSpinorE2';
 import { rotorFromDirectionsE2 } from '../math/rotorFromDirectionsE2';
 import { SpinorE2 } from '../math/SpinorE2';
 import { VectorE2 } from '../math/VectorE2';
-import { VectorN } from '../atoms/VectorN';
 import { wedgeXY } from '../math/wedgeXY';
+import { applyMixins } from '../utils/applyMixins';
+import { approx } from './approx';
+import { Pseudo } from './Pseudo';
 
 // Symbolic constants for the coordinate indices into the coords array.
+/**
+ * @hidden
+ */
 const COORD_SCALAR = 1;
+/**
+ * @hidden
+ */
 const COORD_PSEUDO = 0;
 
 /**
  * Coordinates corresponding to basis labels.
+ * @hidden
  */
 function coordinates(m: SpinorE2): number[] {
     return [m.b, m.a];
 }
 
+/**
+ * @hidden
+ */
 function one(): number[] {
     const coords = [0, 0];
     coords[COORD_SCALAR] = 1;
@@ -32,15 +42,33 @@ function one(): number[] {
     return coords;
 }
 
+/**
+ * @hidden
+ */
 const abs = Math.abs;
+/**
+ * @hidden
+ */
 const atan2 = Math.atan2;
+/**
+ * @hidden
+ */
 const log = Math.log;
+/**
+ * @hidden
+ */
 const cos = Math.cos;
+/**
+ * @hidden
+ */
 const sin = Math.sin;
+/**
+ * @hidden
+ */
 const sqrt = Math.sqrt;
 
 /**
- *
+ * @hidden
  */
 export class Spinor2 implements SpinorE2, Lockable, VectorN<number> {
     // Lockable

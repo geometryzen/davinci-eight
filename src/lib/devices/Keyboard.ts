@@ -1,6 +1,9 @@
-import { IKeyboardHandler } from '../devices/IKeyboardHandler';
 import { ShareableBase } from '../core/ShareableBase';
+import { IKeyboardHandler } from '../devices/IKeyboardHandler';
 
+/**
+ * @hidden
+ */
 function makeKeyDownHandler(keyboard: Keyboard, handler: IKeyboardHandler) {
   return function (event: KeyboardEvent) {
     keyboard.currentlyPressedKeys[event.keyCode] = true;
@@ -8,6 +11,9 @@ function makeKeyDownHandler(keyboard: Keyboard, handler: IKeyboardHandler) {
   };
 }
 
+/**
+ * @hidden
+ */
 function makeKeyUpHandler(keyboard: Keyboard, handler: IKeyboardHandler) {
   return function (event: KeyboardEvent) {
     keyboard.currentlyPressedKeys[event.keyCode] = false;

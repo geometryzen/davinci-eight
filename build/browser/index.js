@@ -28,6 +28,8 @@
     };
 
     function __extends(d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -122,7 +124,7 @@
     function prefix(message) {
         return LOGGING_NAME_REF_CHANGE + ": " + message;
     }
-    function log(message) {
+    function log$4(message) {
         return config.log(prefix(message));
     }
     function warn(message) {
@@ -185,16 +187,16 @@
                 if (name === traceName) {
                     var element = statistics[uuid];
                     if (element) {
-                        log(change + " on " + uuid + " @ " + name);
+                        log$4(change + " on " + uuid + " @ " + name);
                     }
                     else {
-                        log(change + " on " + uuid + " @ " + name);
+                        log$4(change + " on " + uuid + " @ " + name);
                     }
                 }
             }
             else {
                 // trace everything
-                log(change + " on " + uuid + " @ " + name);
+                log$4(change + " on " + uuid + " @ " + name);
             }
         }
         if (change === +1) {
@@ -229,7 +231,7 @@
             var message = isDefined(name) ? uuid + " @ " + name : uuid;
             if (uuid === 'stop') {
                 if (chatty) {
-                    log(message);
+                    log$4(message);
                 }
                 return stop();
             }
@@ -245,14 +247,14 @@
                 }
                 else if (uuid === 'start') {
                     if (chatty) {
-                        log(message);
+                        log$4(message);
                     }
                     skip = false;
                     trace = false;
                 }
                 else if (uuid === 'reset') {
                     if (chatty) {
-                        log(message);
+                        log$4(message);
                     }
                     statistics = {};
                     chatty = true;
@@ -262,7 +264,7 @@
                 }
                 else if (uuid === 'trace') {
                     if (chatty) {
-                        log(message);
+                        log$4(message);
                     }
                     skip = false;
                     trace = true;
@@ -728,38 +730,38 @@
     // GraphicsProgramSymbols constants for the coordinate indices into the data array.
     // These are chosen to match those used by G3.
     // TODO: The goal should be to protect the user from changes in ordering.
-    var COORD_W = 0;
-    var COORD_X = 1;
-    var COORD_Y = 2;
-    var COORD_Z = 3;
-    var COORD_XY = 4;
-    var COORD_YZ = 5;
-    var COORD_ZX = 6;
-    var COORD_XYZ = 7;
+    var COORD_W$1 = 0;
+    var COORD_X$6 = 1;
+    var COORD_Y$5 = 2;
+    var COORD_Z$3 = 3;
+    var COORD_XY$3 = 4;
+    var COORD_YZ$3 = 5;
+    var COORD_ZX$3 = 6;
+    var COORD_XYZ$1 = 7;
     function compG3Get(m, index) {
         switch (index) {
-            case COORD_W: {
+            case COORD_W$1: {
                 return m.a;
             }
-            case COORD_X: {
+            case COORD_X$6: {
                 return m.x;
             }
-            case COORD_Y: {
+            case COORD_Y$5: {
                 return m.y;
             }
-            case COORD_Z: {
+            case COORD_Z$3: {
                 return m.z;
             }
-            case COORD_XY: {
+            case COORD_XY$3: {
                 return m.xy;
             }
-            case COORD_YZ: {
+            case COORD_YZ$3: {
                 return m.yz;
             }
-            case COORD_ZX: {
+            case COORD_ZX$3: {
                 return m.zx;
             }
-            case COORD_XYZ: {
+            case COORD_XYZ$1: {
                 return m.b;
             }
             default: {
@@ -835,45 +837,45 @@
         return +x;
     }
 
-    var COORD_W$1 = 0;
-    var COORD_X$1 = 1;
-    var COORD_Y$1 = 2;
-    var COORD_Z$1 = 3;
-    var COORD_XY$1 = 4;
-    var COORD_YZ$1 = 5;
-    var COORD_ZX$1 = 6;
-    var COORD_XYZ$1 = 7;
+    var COORD_W = 0;
+    var COORD_X$5 = 1;
+    var COORD_Y$4 = 2;
+    var COORD_Z$2 = 3;
+    var COORD_XY$2 = 4;
+    var COORD_YZ$2 = 5;
+    var COORD_ZX$2 = 6;
+    var COORD_XYZ = 7;
     function compG3Set(m, index, value) {
         switch (index) {
-            case COORD_W$1: {
+            case COORD_W: {
                 m.a = value;
                 break;
             }
-            case COORD_X$1: {
+            case COORD_X$5: {
                 m.x = value;
                 break;
             }
-            case COORD_Y$1: {
+            case COORD_Y$4: {
                 m.y = value;
                 break;
             }
-            case COORD_Z$1: {
+            case COORD_Z$2: {
                 m.z = value;
                 break;
             }
-            case COORD_XY$1: {
+            case COORD_XY$2: {
                 m.xy = value;
                 break;
             }
-            case COORD_YZ$1: {
+            case COORD_YZ$2: {
                 m.yz = value;
                 break;
             }
-            case COORD_ZX$1: {
+            case COORD_ZX$2: {
                 m.zx = value;
                 break;
             }
-            case COORD_XYZ$1: {
+            case COORD_XYZ: {
                 m.b = value;
                 break;
             }
@@ -905,7 +907,7 @@
         return out;
     }
 
-    var abs = Math.abs;
+    var abs$2 = Math.abs;
     function makeColumnVector(n, v) {
         var a = [];
         for (var i = 0; i < n; i++) {
@@ -914,11 +916,11 @@
         return a;
     }
     function rowWithMaximumInColumn(A, column, N) {
-        var biggest = abs(A[column][column]);
+        var biggest = abs$2(A[column][column]);
         var maxRow = column;
         for (var row = column + 1; row < N; row++) {
-            if (abs(A[row][column]) > biggest) {
-                biggest = abs(A[row][column]);
+            if (abs$2(A[row][column]) > biggest) {
+                biggest = abs$2(A[row][column]);
                 maxRow = row;
             }
         }
@@ -1105,7 +1107,7 @@
         }
         return TargetLockedError;
     }(Error));
-    var TargetUnlockedError = /** @class */ (function (_super) {
+    /** @class */ ((function (_super) {
         __extends(TargetUnlockedError, _super);
         /**
          * `operationName` is the name of the operation, without parentheses.
@@ -1114,7 +1116,7 @@
             return _super.call(this, "target of operation '" + operationName + "' must be immutable.") || this;
         }
         return TargetUnlockedError;
-    }(Error));
+    })(Error));
     function lockable() {
         var lock_ = void 0;
         var that = {
@@ -1398,7 +1400,7 @@
         return az * bx - ax * bz;
     }
 
-    var sqrt = Math.sqrt;
+    var sqrt$8 = Math.sqrt;
     var cosPIdiv4 = Math.cos(Math.PI / 4);
     var sinPIdiv4 = Math.sin(Math.PI / 4);
     /**
@@ -1555,12 +1557,12 @@
             }
         }
         var quadA = quadVectorE3(a);
-        var absA = sqrt(quadA);
+        var absA = sqrt$8(quadA);
         var quadB = quadVectorE3(b);
-        var absB = sqrt(quadB);
+        var absB = sqrt$8(quadB);
         var BA = absB * absA;
         var dotBA = dotVectorE3(b, a);
-        var denom = sqrt(2 * (quadB * quadA + BA * dotBA));
+        var denom = sqrt$8(2 * (quadB * quadA + BA * dotBA));
         if (denom !== 0) {
             m = m.versor(b, a);
             m = m.addScalar(BA);
@@ -1741,73 +1743,73 @@
     }
 
     // Symbolic constants for the coordinate indices into the data array.
-    var COORD_SCALAR = 0;
-    var COORD_X$2 = 1;
-    var COORD_Y$2 = 2;
-    var COORD_Z$2 = 3;
-    var COORD_XY$2 = 4;
-    var COORD_YZ$2 = 5;
-    var COORD_ZX$2 = 6;
-    var COORD_PSEUDO = 7;
+    var COORD_SCALAR$3 = 0;
+    var COORD_X$4 = 1;
+    var COORD_Y$3 = 2;
+    var COORD_Z$1 = 3;
+    var COORD_XY$1 = 4;
+    var COORD_YZ$1 = 5;
+    var COORD_ZX$1 = 6;
+    var COORD_PSEUDO$2 = 7;
     // FIXME: Change to Canonical ordering.
-    var BASIS_LABELS = ["1", "e1", "e2", "e3", "e12", "e23", "e31", "e123"];
-    var zero = function zero() {
+    var BASIS_LABELS$2 = ["1", "e1", "e2", "e3", "e12", "e23", "e31", "e123"];
+    var zero$1 = function zero() {
         return [0, 0, 0, 0, 0, 0, 0, 0];
     };
-    var scalar = function scalar(a) {
-        var coords = zero();
-        coords[COORD_SCALAR] = a;
+    var scalar$1 = function scalar(a) {
+        var coords = zero$1();
+        coords[COORD_SCALAR$3] = a;
         return coords;
     };
-    var vector = function vector(x, y, z) {
-        var coords = zero();
-        coords[COORD_X$2] = x;
-        coords[COORD_Y$2] = y;
-        coords[COORD_Z$2] = z;
+    var vector$1 = function vector(x, y, z) {
+        var coords = zero$1();
+        coords[COORD_X$4] = x;
+        coords[COORD_Y$3] = y;
+        coords[COORD_Z$1] = z;
         return coords;
     };
     var bivector = function bivector(yz, zx, xy) {
-        var coords = zero();
-        coords[COORD_YZ$2] = yz;
-        coords[COORD_ZX$2] = zx;
-        coords[COORD_XY$2] = xy;
+        var coords = zero$1();
+        coords[COORD_YZ$1] = yz;
+        coords[COORD_ZX$1] = zx;
+        coords[COORD_XY$1] = xy;
         return coords;
     };
     var spinor = function spinor(a, yz, zx, xy) {
-        var coords = zero();
-        coords[COORD_SCALAR] = a;
-        coords[COORD_YZ$2] = yz;
-        coords[COORD_ZX$2] = zx;
-        coords[COORD_XY$2] = xy;
+        var coords = zero$1();
+        coords[COORD_SCALAR$3] = a;
+        coords[COORD_YZ$1] = yz;
+        coords[COORD_ZX$1] = zx;
+        coords[COORD_XY$1] = xy;
         return coords;
     };
     var multivector = function multivector(a, x, y, z, yz, zx, xy, b) {
-        var coords = zero();
-        coords[COORD_SCALAR] = a;
-        coords[COORD_X$2] = x;
-        coords[COORD_Y$2] = y;
-        coords[COORD_Z$2] = z;
-        coords[COORD_YZ$2] = yz;
-        coords[COORD_ZX$2] = zx;
-        coords[COORD_XY$2] = xy;
-        coords[COORD_PSEUDO] = b;
+        var coords = zero$1();
+        coords[COORD_SCALAR$3] = a;
+        coords[COORD_X$4] = x;
+        coords[COORD_Y$3] = y;
+        coords[COORD_Z$1] = z;
+        coords[COORD_YZ$1] = yz;
+        coords[COORD_ZX$1] = zx;
+        coords[COORD_XY$1] = xy;
+        coords[COORD_PSEUDO$2] = b;
         return coords;
     };
-    var pseudo = function pseudo(b) {
-        var coords = zero();
-        coords[COORD_PSEUDO] = b;
+    var pseudo$1 = function pseudo(b) {
+        var coords = zero$1();
+        coords[COORD_PSEUDO$2] = b;
         return coords;
     };
-    function coordinates(m) {
-        var coords = zero();
-        coords[COORD_SCALAR] = m.a;
-        coords[COORD_X$2] = m.x;
-        coords[COORD_Y$2] = m.y;
-        coords[COORD_Z$2] = m.z;
-        coords[COORD_YZ$2] = m.yz;
-        coords[COORD_ZX$2] = m.zx;
-        coords[COORD_XY$2] = m.xy;
-        coords[COORD_PSEUDO] = m.b;
+    function coordinates$5(m) {
+        var coords = zero$1();
+        coords[COORD_SCALAR$3] = m.a;
+        coords[COORD_X$4] = m.x;
+        coords[COORD_Y$3] = m.y;
+        coords[COORD_Z$1] = m.z;
+        coords[COORD_YZ$1] = m.yz;
+        coords[COORD_ZX$1] = m.zx;
+        coords[COORD_XY$1] = m.xy;
+        coords[COORD_PSEUDO$2] = m.b;
         return coords;
     }
     /**
@@ -1886,10 +1888,10 @@
              * The scalar part of this multivector.
              */
             get: function () {
-                return this.coords_[COORD_SCALAR];
+                return this.coords_[COORD_SCALAR$3];
             },
             set: function (a) {
-                this.setCoordinate(COORD_SCALAR, a, 'a');
+                this.setCoordinate(COORD_SCALAR$3, a, 'a');
             },
             enumerable: false,
             configurable: true
@@ -1899,10 +1901,10 @@
              * The coordinate corresponding to the <b>e</b><sub>1</sub> standard basis vector.
              */
             get: function () {
-                return this.coords_[COORD_X$2];
+                return this.coords_[COORD_X$4];
             },
             set: function (x) {
-                this.setCoordinate(COORD_X$2, x, 'x');
+                this.setCoordinate(COORD_X$4, x, 'x');
             },
             enumerable: false,
             configurable: true
@@ -1912,10 +1914,10 @@
              * The coordinate corresponding to the <b>e</b><sub>2</sub> standard basis vector.
              */
             get: function () {
-                return this.coords_[COORD_Y$2];
+                return this.coords_[COORD_Y$3];
             },
             set: function (y) {
-                this.setCoordinate(COORD_Y$2, y, 'y');
+                this.setCoordinate(COORD_Y$3, y, 'y');
             },
             enumerable: false,
             configurable: true
@@ -1925,10 +1927,10 @@
              * The coordinate corresponding to the <b>e</b><sub>3</sub> standard basis vector.
              */
             get: function () {
-                return this.coords_[COORD_Z$2];
+                return this.coords_[COORD_Z$1];
             },
             set: function (z) {
-                this.setCoordinate(COORD_Z$2, z, 'z');
+                this.setCoordinate(COORD_Z$1, z, 'z');
             },
             enumerable: false,
             configurable: true
@@ -1938,10 +1940,10 @@
              * The coordinate corresponding to the <b>e</b><sub>2</sub><b>e</b><sub>3</sub> standard basis bivector.
              */
             get: function () {
-                return this.coords_[COORD_YZ$2];
+                return this.coords_[COORD_YZ$1];
             },
             set: function (yz) {
-                this.setCoordinate(COORD_YZ$2, yz, 'yz');
+                this.setCoordinate(COORD_YZ$1, yz, 'yz');
             },
             enumerable: false,
             configurable: true
@@ -1951,10 +1953,10 @@
              * The coordinate corresponding to the <b>e</b><sub>3</sub><b>e</b><sub>1</sub> standard basis bivector.
              */
             get: function () {
-                return this.coords_[COORD_ZX$2];
+                return this.coords_[COORD_ZX$1];
             },
             set: function (zx) {
-                this.setCoordinate(COORD_ZX$2, zx, 'zx');
+                this.setCoordinate(COORD_ZX$1, zx, 'zx');
             },
             enumerable: false,
             configurable: true
@@ -1964,10 +1966,10 @@
              * The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.
              */
             get: function () {
-                return this.coords_[COORD_XY$2];
+                return this.coords_[COORD_XY$1];
             },
             set: function (xy) {
-                this.setCoordinate(COORD_XY$2, xy, 'xy');
+                this.setCoordinate(COORD_XY$1, xy, 'xy');
             },
             enumerable: false,
             configurable: true
@@ -1977,10 +1979,10 @@
              * The pseudoscalar part of this multivector.
              */
             get: function () {
-                return this.coords_[COORD_PSEUDO];
+                return this.coords_[COORD_PSEUDO$2];
             },
             set: function (b) {
-                this.setCoordinate(COORD_PSEUDO, b, 'b');
+                this.setCoordinate(COORD_PSEUDO$2, b, 'b');
             },
             enumerable: false,
             configurable: true
@@ -1997,14 +1999,14 @@
              */
             get: function () {
                 var coords = this.coords_;
-                var α = coords[COORD_SCALAR];
-                var x = coords[COORD_X$2];
-                var y = coords[COORD_Y$2];
-                var z = coords[COORD_Z$2];
-                var yz = coords[COORD_YZ$2];
-                var zx = coords[COORD_ZX$2];
-                var xy = coords[COORD_XY$2];
-                var β = coords[COORD_PSEUDO];
+                var α = coords[COORD_SCALAR$3];
+                var x = coords[COORD_X$4];
+                var y = coords[COORD_Y$3];
+                var z = coords[COORD_Z$1];
+                var yz = coords[COORD_YZ$1];
+                var zx = coords[COORD_ZX$1];
+                var xy = coords[COORD_XY$1];
+                var β = coords[COORD_PSEUDO$2];
                 var mask = 0x0;
                 if (α !== 0) {
                     mask += 0x1;
@@ -2207,14 +2209,14 @@
                 throw new TargetLockedError('copyCoordinates');
             }
             // Copy using the setters so that the modified flag is updated.
-            this.a = coordinates[COORD_SCALAR];
-            this.x = coordinates[COORD_X$2];
-            this.y = coordinates[COORD_Y$2];
-            this.z = coordinates[COORD_Z$2];
-            this.yz = coordinates[COORD_YZ$2];
-            this.zx = coordinates[COORD_ZX$2];
-            this.xy = coordinates[COORD_XY$2];
-            this.b = coordinates[COORD_PSEUDO];
+            this.a = coordinates[COORD_SCALAR$3];
+            this.x = coordinates[COORD_X$4];
+            this.y = coordinates[COORD_Y$3];
+            this.z = coordinates[COORD_Z$1];
+            this.yz = coordinates[COORD_YZ$1];
+            this.zx = coordinates[COORD_ZX$1];
+            this.xy = coordinates[COORD_XY$1];
+            this.b = coordinates[COORD_PSEUDO$2];
             return this;
         };
         /**
@@ -2320,14 +2322,14 @@
             if (this.isLocked()) {
                 throw new TargetLockedError('copyScalar');
             }
-            this.setCoordinate(COORD_SCALAR, α, 'a');
-            this.setCoordinate(COORD_X$2, 0, 'x');
-            this.setCoordinate(COORD_Y$2, 0, 'y');
-            this.setCoordinate(COORD_Z$2, 0, 'z');
-            this.setCoordinate(COORD_YZ$2, 0, 'yz');
-            this.setCoordinate(COORD_ZX$2, 0, 'zx');
-            this.setCoordinate(COORD_XY$2, 0, 'xy');
-            this.setCoordinate(COORD_PSEUDO, 0, 'b');
+            this.setCoordinate(COORD_SCALAR$3, α, 'a');
+            this.setCoordinate(COORD_X$4, 0, 'x');
+            this.setCoordinate(COORD_Y$3, 0, 'y');
+            this.setCoordinate(COORD_Z$1, 0, 'z');
+            this.setCoordinate(COORD_YZ$1, 0, 'yz');
+            this.setCoordinate(COORD_ZX$1, 0, 'zx');
+            this.setCoordinate(COORD_XY$1, 0, 'xy');
+            this.setCoordinate(COORD_PSEUDO$2, 0, 'b');
             return this;
         };
         /**
@@ -2340,14 +2342,14 @@
             if (this.isLocked()) {
                 throw new TargetLockedError('copySpinor');
             }
-            this.setCoordinate(COORD_SCALAR, spinor.a, 'a');
-            this.setCoordinate(COORD_X$2, 0, 'x');
-            this.setCoordinate(COORD_Y$2, 0, 'y');
-            this.setCoordinate(COORD_Z$2, 0, 'z');
-            this.setCoordinate(COORD_YZ$2, spinor.yz, 'yz');
-            this.setCoordinate(COORD_ZX$2, spinor.zx, 'zx');
-            this.setCoordinate(COORD_XY$2, spinor.xy, 'xy');
-            this.setCoordinate(COORD_PSEUDO, 0, 'b');
+            this.setCoordinate(COORD_SCALAR$3, spinor.a, 'a');
+            this.setCoordinate(COORD_X$4, 0, 'x');
+            this.setCoordinate(COORD_Y$3, 0, 'y');
+            this.setCoordinate(COORD_Z$1, 0, 'z');
+            this.setCoordinate(COORD_YZ$1, spinor.yz, 'yz');
+            this.setCoordinate(COORD_ZX$1, spinor.zx, 'zx');
+            this.setCoordinate(COORD_XY$1, spinor.xy, 'xy');
+            this.setCoordinate(COORD_PSEUDO$2, 0, 'b');
             return this;
         };
         /**
@@ -2360,14 +2362,14 @@
             if (this.isLocked()) {
                 throw new TargetLockedError('copyVector');
             }
-            this.setCoordinate(COORD_SCALAR, 0, 'a');
-            this.setCoordinate(COORD_X$2, vector.x, 'x');
-            this.setCoordinate(COORD_Y$2, vector.y, 'y');
-            this.setCoordinate(COORD_Z$2, vector.z, 'z');
-            this.setCoordinate(COORD_YZ$2, 0, 'yz');
-            this.setCoordinate(COORD_ZX$2, 0, 'zx');
-            this.setCoordinate(COORD_XY$2, 0, 'xy');
-            this.setCoordinate(COORD_PSEUDO, 0, 'b');
+            this.setCoordinate(COORD_SCALAR$3, 0, 'a');
+            this.setCoordinate(COORD_X$4, vector.x, 'x');
+            this.setCoordinate(COORD_Y$3, vector.y, 'y');
+            this.setCoordinate(COORD_Z$1, vector.z, 'z');
+            this.setCoordinate(COORD_YZ$1, 0, 'yz');
+            this.setCoordinate(COORD_ZX$1, 0, 'zx');
+            this.setCoordinate(COORD_XY$1, 0, 'xy');
+            this.setCoordinate(COORD_PSEUDO$2, 0, 'b');
             return this;
         };
         /**
@@ -2955,22 +2957,22 @@
                 var t2 = n33 + n11 - n22;
                 var t3 = n11 + n22 - n33;
                 var cs = this.coords_;
-                var a = cs[COORD_SCALAR];
-                var x1 = cs[COORD_X$2];
-                var x2 = cs[COORD_Y$2];
-                var x3 = cs[COORD_Z$2];
-                var B3 = cs[COORD_XY$2];
-                var B1 = cs[COORD_YZ$2];
-                var B2 = cs[COORD_ZX$2];
-                var b = cs[COORD_PSEUDO];
-                this.setCoordinate(COORD_SCALAR, -nn * a, 'a');
-                this.setCoordinate(COORD_X$2, x1 * t1 - x2 * f3 - x3 * f2, 'x');
-                this.setCoordinate(COORD_Y$2, x2 * t2 - x3 * f1 - x1 * f3, 'y');
-                this.setCoordinate(COORD_Z$2, x3 * t3 - x1 * f2 - x2 * f1, 'z');
-                this.setCoordinate(COORD_XY$2, B3 * t3 - B1 * f2 - B2 * f1, 'xy');
-                this.setCoordinate(COORD_YZ$2, B1 * t1 - B2 * f3 - B3 * f2, 'yz');
-                this.setCoordinate(COORD_ZX$2, B2 * t2 - B3 * f1 - B1 * f3, 'zx');
-                this.setCoordinate(COORD_PSEUDO, -nn * b, 'b');
+                var a = cs[COORD_SCALAR$3];
+                var x1 = cs[COORD_X$4];
+                var x2 = cs[COORD_Y$3];
+                var x3 = cs[COORD_Z$1];
+                var B3 = cs[COORD_XY$1];
+                var B1 = cs[COORD_YZ$1];
+                var B2 = cs[COORD_ZX$1];
+                var b = cs[COORD_PSEUDO$2];
+                this.setCoordinate(COORD_SCALAR$3, -nn * a, 'a');
+                this.setCoordinate(COORD_X$4, x1 * t1 - x2 * f3 - x3 * f2, 'x');
+                this.setCoordinate(COORD_Y$3, x2 * t2 - x3 * f1 - x1 * f3, 'y');
+                this.setCoordinate(COORD_Z$1, x3 * t3 - x1 * f2 - x2 * f1, 'z');
+                this.setCoordinate(COORD_XY$1, B3 * t3 - B1 * f2 - B2 * f1, 'xy');
+                this.setCoordinate(COORD_YZ$1, B1 * t1 - B2 * f3 - B3 * f2, 'yz');
+                this.setCoordinate(COORD_ZX$1, B2 * t2 - B3 * f1 - B1 * f3, 'zx');
+                this.setCoordinate(COORD_PSEUDO$2, -nn * b, 'b');
                 return this;
             }
         };
@@ -3310,35 +3312,35 @@
          *
          */
         Geometric3.prototype.toArray = function () {
-            return coordinates(this);
+            return coordinates$5(this);
         };
         /**
          * Returns a string representing the number in exponential notation.
          */
         Geometric3.prototype.toExponential = function (fractionDigits) {
             var coordToString = function (coord) { return coord.toExponential(fractionDigits); };
-            return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS);
+            return stringFromCoordinates(coordinates$5(this), coordToString, BASIS_LABELS$2);
         };
         /**
          * Returns a string representing the number in fixed-point notation.
          */
         Geometric3.prototype.toFixed = function (fractionDigits) {
             var coordToString = function (coord) { return coord.toFixed(fractionDigits); };
-            return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS);
+            return stringFromCoordinates(coordinates$5(this), coordToString, BASIS_LABELS$2);
         };
         /**
          *
          */
         Geometric3.prototype.toPrecision = function (precision) {
             var coordToString = function (coord) { return coord.toPrecision(precision); };
-            return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS);
+            return stringFromCoordinates(coordinates$5(this), coordToString, BASIS_LABELS$2);
         };
         /**
          * Returns a string representation of this multivector.
          */
         Geometric3.prototype.toString = function (radix) {
             var coordToString = function (coord) { return coord.toString(radix); };
-            return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS);
+            return stringFromCoordinates(coordinates$5(this), coordToString, BASIS_LABELS$2);
         };
         /**
          * Extraction of grade <em>i</em>.
@@ -3756,13 +3758,13 @@
          * Constructs a mutable multivector by copying a multivector.
          */
         Geometric3.copy = function (M) {
-            return new Geometric3(coordinates(M));
+            return new Geometric3(coordinates$5(M));
         };
         /**
          * Constructs a mutable multivector which is the dual of the bivector `B`.
          */
         Geometric3.dualOfBivector = function (B) {
-            return new Geometric3(vector(-B.yz, -B.zx, -B.xy));
+            return new Geometric3(vector$1(-B.yz, -B.zx, -B.xy));
         };
         /**
          * Constructs a mutable multivector which is the dual of the vector `v`.
@@ -3804,7 +3806,7 @@
          * Constructs a mutable pseudoscalar with the magnitude `β`.
          */
         Geometric3.pseudo = function (β) {
-            return new Geometric3(pseudo(β));
+            return new Geometric3(pseudo$1(β));
         };
         /**
          * Computes a multivector with random components in the range [lowerBound, upperBound].
@@ -3827,10 +3829,10 @@
          * The result is independent of the magnitudes of `a` and `b`.
          */
         Geometric3.rotorFromDirections = function (a, b) {
-            return new Geometric3(zero()).rotorFromDirections(a, b);
+            return new Geometric3(zero$1()).rotorFromDirections(a, b);
         };
         Geometric3.rotorFromFrameToFrame = function (es, fs) {
-            return new Geometric3(zero()).rotorFromFrameToFrame(es, fs);
+            return new Geometric3(zero$1()).rotorFromFrameToFrame(es, fs);
         };
         /**
          * Computes the rotor that rotates vector `a` to vector `b`.
@@ -3838,13 +3840,13 @@
          * The result is independent of the magnitudes of `a` and `b`.
          */
         Geometric3.rotorFromVectorToVector = function (a, b, B) {
-            return new Geometric3(zero()).rotorFromVectorToVector(a, b, B);
+            return new Geometric3(zero$1()).rotorFromVectorToVector(a, b, B);
         };
         /**
          * Constructs a mutable scalar with the magnitude `α`.
          */
         Geometric3.scalar = function (α) {
-            return new Geometric3(scalar(α));
+            return new Geometric3(scalar$1(α));
         };
         /**
          * Constructs a mutable scalar with the coordinates `yz`, `zx`, `xy`, and `α`.
@@ -3856,7 +3858,7 @@
          * Constructs a mutable vector with the coordinates `x`, `y`, and `z`.
          */
         Geometric3.vector = function (x, y, z) {
-            return new Geometric3(vector(x, y, z));
+            return new Geometric3(vector$1(x, y, z));
         };
         /**
          * Constructs a mutable bivector as the outer product of two vectors.
@@ -3878,38 +3880,38 @@
          */
         Geometric3.zero = function (lock) {
             if (lock === void 0) { lock = false; }
-            return lock ? Geometric3.ZERO : new Geometric3(zero());
+            return lock ? Geometric3.ZERO : new Geometric3(zero$1());
         };
         /**
          * The identity element for addition, `0`.
          * The multivector is locked.
          */
-        Geometric3.ZERO = new Geometric3(scalar(0));
+        Geometric3.ZERO = new Geometric3(scalar$1(0));
         /**
          * The identity element for multiplication, `1`.
          * The multivector is locked (immutable), but may be cloned.
          */
-        Geometric3.ONE = new Geometric3(scalar(1));
+        Geometric3.ONE = new Geometric3(scalar$1(1));
         /**
          * The basis element corresponding to the vector `x` coordinate.
          * The multivector is locked (immutable), but may be cloned.
          */
-        Geometric3.E1 = new Geometric3(vector(1, 0, 0));
+        Geometric3.E1 = new Geometric3(vector$1(1, 0, 0));
         /**
          * The basis element corresponding to the vector `y` coordinate.
          * The multivector is locked (immutable), but may be cloned.
          */
-        Geometric3.E2 = new Geometric3(vector(0, 1, 0));
+        Geometric3.E2 = new Geometric3(vector$1(0, 1, 0));
         /**
          * The basis element corresponding to the vector `z` coordinate.
          * The multivector is locked (immutable), but may be cloned.
          */
-        Geometric3.E3 = new Geometric3(vector(0, 0, 1));
+        Geometric3.E3 = new Geometric3(vector$1(0, 0, 1));
         /**
          * The basis element corresponding to the pseudoscalar `b` coordinate.
          * The multivector is locked (immutable), but may be cloned.
          */
-        Geometric3.PSEUDO = new Geometric3(pseudo(1));
+        Geometric3.PSEUDO = new Geometric3(pseudo$1(1));
         return Geometric3;
     }());
     applyMixins(Geometric3, [LockableMixin]);
@@ -3920,29 +3922,29 @@
     Geometric3.ONE.lock();
     Geometric3.ZERO.lock();
 
-    var u = Geometric3.zero(false);
-    var v = Geometric3.zero(false);
-    var n = Geometric3.zero(false);
-    var e1 = Geometric3.E1;
-    var e2 = Geometric3.E2;
-    var e3 = Geometric3.E3;
+    var u$1 = Geometric3.zero(false);
+    var v$1 = Geometric3.zero(false);
+    var n$1 = Geometric3.zero(false);
+    var e1$1 = Geometric3.E1;
+    var e2$2 = Geometric3.E2;
+    var e3$1 = Geometric3.E3;
     function getViewAttitude(eye, look, up, R) {
         // The attitude is obtained by computing the rotor required to rotate
         // the standard reference frame u, v, n = (e1, e2, e3) to the new reference
         // frame.
         // n = direction(X - look)
-        n.copyVector(eye).subVector(look).normalize();
+        n$1.copyVector(eye).subVector(look).normalize();
         // u = -(dual(up) >> n) (right contraction turns vector in opposite sense to bivector)
-        u.copyVector(up).dual(u).rco(n).neg();
+        u$1.copyVector(up).dual(u$1).rco(n$1).neg();
         // v = dual(u ^ n)
-        v.copy(u).ext(n).dual(v);
+        v$1.copy(u$1).ext(n$1).dual(v$1);
         // We recover the rotor as follows:
         // R = ψ / sqrt(ψ * ~ψ), where ψ = 1 + u * e1 + v * e2 + n * e3
         // We can use e1, e2, e3 as the reciprocal vectors because in an orthogonal
         // frame they are the same as the standard basis vectors.
         // We don't need u, v, w after we recover the rotor, so use them in the
         // intermediate calculation
-        R.one().add(u.mul(e1)).add(v.mul(e2)).add(n.mul(e3));
+        R.one().add(u$1.mul(e1$1)).add(v$1.mul(e2$2)).add(n$1.mul(e3$1));
         R.normalize();
     }
 
@@ -3969,11 +3971,11 @@
         return -R.yz * S.yz - R.zx * S.zx - R.xy * S.xy + R.a * S.a;
     }
 
-    function beObject() {
+    function beObject$1() {
         return "be an `object`";
     }
     function mustBeObject(name, value, contextBuilder) {
-        mustSatisfy(name, isObject(value), beObject, contextBuilder);
+        mustSatisfy(name, isObject(value), beObject$1, contextBuilder);
         return value;
     }
 
@@ -4011,21 +4013,21 @@
     }
 
     // Constants for the coordinate indices into the coords array.
-    var COORD_YZ$3 = 0;
-    var COORD_ZX$3 = 1;
-    var COORD_XY$3 = 2;
-    var COORD_SCALAR$1 = 3;
+    var COORD_YZ = 0;
+    var COORD_ZX = 1;
+    var COORD_XY = 2;
+    var COORD_SCALAR$2 = 3;
     var BASIS_LABELS$1 = ['e23', 'e31', 'e12', '1'];
     /**
      * Coordinates corresponding to basis labels.
      */
-    function coordinates$1(m) {
+    function coordinates$4(m) {
         return [m.yz, m.zx, m.xy, m.a];
     }
-    var exp = Math.exp;
-    var cos = Math.cos;
-    var sin = Math.sin;
-    var sqrt$1 = Math.sqrt;
+    var exp$3 = Math.exp;
+    var cos$3 = Math.cos;
+    var sin$3 = Math.sin;
+    var sqrt$7 = Math.sqrt;
     var magicCode = Math.random();
     /**
      * A Geometric Number representing the even sub-algebra of G3.
@@ -4063,7 +4065,7 @@
              * The coordinate corresponding to the <b>e</b><sub>23</sub> basis bivector.
              */
             get: function () {
-                return this.coords_[COORD_YZ$3];
+                return this.coords_[COORD_YZ];
             },
             set: function (yz) {
                 if (this.isLocked()) {
@@ -4071,8 +4073,8 @@
                 }
                 mustBeNumber('yz', yz);
                 var coords = this.coords_;
-                this.modified_ = this.modified_ || coords[COORD_YZ$3] !== yz;
-                coords[COORD_YZ$3] = yz;
+                this.modified_ = this.modified_ || coords[COORD_YZ] !== yz;
+                coords[COORD_YZ] = yz;
             },
             enumerable: false,
             configurable: true
@@ -4082,7 +4084,7 @@
              * The coordinate corresponding to the <b>e</b><sub>31</sub> basis bivector.
              */
             get: function () {
-                return this.coords_[COORD_ZX$3];
+                return this.coords_[COORD_ZX];
             },
             set: function (zx) {
                 if (this.isLocked()) {
@@ -4090,8 +4092,8 @@
                 }
                 mustBeNumber('zx', zx);
                 var coords = this.coords_;
-                this.modified_ = this.modified_ || coords[COORD_ZX$3] !== zx;
-                coords[COORD_ZX$3] = zx;
+                this.modified_ = this.modified_ || coords[COORD_ZX] !== zx;
+                coords[COORD_ZX] = zx;
             },
             enumerable: false,
             configurable: true
@@ -4101,7 +4103,7 @@
              * The coordinate corresponding to the <b>e</b><sub>12</sub> basis bivector.
              */
             get: function () {
-                return this.coords_[COORD_XY$3];
+                return this.coords_[COORD_XY];
             },
             set: function (xy) {
                 if (this.isLocked()) {
@@ -4109,8 +4111,8 @@
                 }
                 mustBeNumber('xy', xy);
                 var coords = this.coords_;
-                this.modified_ = this.modified_ || coords[COORD_XY$3] !== xy;
-                coords[COORD_XY$3] = xy;
+                this.modified_ = this.modified_ || coords[COORD_XY] !== xy;
+                coords[COORD_XY] = xy;
             },
             enumerable: false,
             configurable: true
@@ -4120,7 +4122,7 @@
              * The coordinate corresponding to the <b>1</b> basis scalar.
              */
             get: function () {
-                return this.coords_[COORD_SCALAR$1];
+                return this.coords_[COORD_SCALAR$2];
             },
             set: function (α) {
                 if (this.isLocked()) {
@@ -4128,8 +4130,8 @@
                 }
                 mustBeNumber('α', α);
                 var coords = this.coords_;
-                this.modified_ = this.modified_ || coords[COORD_SCALAR$1] !== α;
-                coords[COORD_SCALAR$1] = α;
+                this.modified_ = this.modified_ || coords[COORD_SCALAR$2] !== α;
+                coords[COORD_SCALAR$2] = α;
             },
             enumerable: false,
             configurable: true
@@ -4147,10 +4149,10 @@
              */
             get: function () {
                 var coords = this.coords_;
-                var α = coords[COORD_SCALAR$1];
-                var yz = coords[COORD_YZ$3];
-                var zx = coords[COORD_ZX$3];
-                var xy = coords[COORD_XY$3];
+                var α = coords[COORD_SCALAR$2];
+                var yz = coords[COORD_YZ];
+                var zx = coords[COORD_ZX];
+                var xy = coords[COORD_XY];
                 var m = 0x0;
                 if (α !== 0) {
                     m += 0x1;
@@ -4282,10 +4284,10 @@
         };
         Spinor3.prototype.copyCoordinates = function (coordinates) {
             // Copy using the setters so that the modified flag is updated.
-            this.yz = coordinates[COORD_YZ$3];
-            this.zx = coordinates[COORD_ZX$3];
-            this.xy = coordinates[COORD_XY$3];
-            this.a = coordinates[COORD_SCALAR$1];
+            this.yz = coordinates[COORD_YZ];
+            this.zx = coordinates[COORD_ZX];
+            this.xy = coordinates[COORD_XY];
+            this.a = coordinates[COORD_SCALAR$2];
             return this;
         };
         /**
@@ -4410,13 +4412,13 @@
             var x = this.yz;
             var y = this.zx;
             var z = this.xy;
-            var expW = exp(w);
+            var expW = exp$3(w);
             // φ is actually the absolute value of one half the rotation angle.
             // The orientation of the rotation gets carried in the bivector components.
             // FIXME: DRY
-            var φ = sqrt$1(x * x + y * y + z * z);
-            var s = expW * (φ !== 0 ? sin(φ) / φ : 1);
-            this.a = expW * cos(φ);
+            var φ = sqrt$7(x * x + y * y + z * z);
+            var s = expW * (φ !== 0 ? sin$3(φ) / φ : 1);
+            this.a = expW * cos$3(φ);
             this.yz = x * s;
             this.zx = y * s;
             this.xy = z * s;
@@ -4518,9 +4520,9 @@
             var z = this.xy;
             // FIXME: DRY
             var bb = x * x + y * y + z * z;
-            var Vector2 = sqrt$1(bb);
+            var Vector2 = sqrt$7(bb);
             var R0 = Math.abs(w);
-            var R = sqrt$1(w * w + bb);
+            var R = sqrt$7(w * w + bb);
             this.a = Math.log(R);
             var θ = Math.atan2(Vector2, R0) / Vector2;
             // The angle, θ, produced by atan2 will be in the range [-π, +π]
@@ -4541,13 +4543,13 @@
          * @return {number}
          */
         Spinor3.prototype.magnitude = function () {
-            return sqrt$1(this.squaredNormSansUnits());
+            return sqrt$7(this.squaredNormSansUnits());
         };
         /**
          * Intentionally undocumented.
          */
         Spinor3.prototype.magnitudeSansUnits = function () {
-            return sqrt$1(this.squaredNormSansUnits());
+            return sqrt$7(this.squaredNormSansUnits());
         };
         /**
          * <p>
@@ -4782,11 +4784,11 @@
          */
         Spinor3.prototype.rotorFromGeneratorAngle = function (B, θ) {
             var φ = θ / 2;
-            var s = sin(φ);
+            var s = sin$3(φ);
             this.yz = -B.yz * s;
             this.zx = -B.zx * s;
             this.xy = -B.xy * s;
-            this.a = cos(φ);
+            this.a = cos$3(φ);
             return this;
         };
         Spinor3.prototype.rotorFromVectorToVector = function (a, b, B) {
@@ -4939,7 +4941,7 @@
          *
          */
         Spinor3.prototype.toArray = function () {
-            return coordinates$1(this);
+            return coordinates$4(this);
         };
         /**
          * @method toExponential
@@ -4948,7 +4950,7 @@
          */
         Spinor3.prototype.toExponential = function (fractionDigits) {
             var coordToString = function (coord) { return coord.toExponential(fractionDigits); };
-            return toStringCustom(coordinates$1(this), coordToString, BASIS_LABELS$1);
+            return toStringCustom(coordinates$4(this), coordToString, BASIS_LABELS$1);
         };
         /**
          * @method toFixed
@@ -4957,7 +4959,7 @@
          */
         Spinor3.prototype.toFixed = function (fractionDigits) {
             var coordToString = function (coord) { return coord.toFixed(fractionDigits); };
-            return toStringCustom(coordinates$1(this), coordToString, BASIS_LABELS$1);
+            return toStringCustom(coordinates$4(this), coordToString, BASIS_LABELS$1);
         };
         /**
          * @method toPrecision
@@ -4966,7 +4968,7 @@
          */
         Spinor3.prototype.toPrecision = function (position) {
             var coordToString = function (coord) { return coord.toPrecision(position); };
-            return toStringCustom(coordinates$1(this), coordToString, BASIS_LABELS$1);
+            return toStringCustom(coordinates$4(this), coordToString, BASIS_LABELS$1);
         };
         /**
          * @method toString
@@ -4975,7 +4977,7 @@
          */
         Spinor3.prototype.toString = function (radix) {
             var coordToString = function (coord) { return coord.toString(radix); };
-            return toStringCustom(coordinates$1(this), coordToString, BASIS_LABELS$1);
+            return toStringCustom(coordinates$4(this), coordToString, BASIS_LABELS$1);
         };
         Spinor3.prototype.ext = function (rhs) {
             return this.ext2(this, rhs);
@@ -5861,15 +5863,15 @@
         return Matrix3;
     }(AbstractMatrix));
 
-    var sqrt$2 = Math.sqrt;
+    var sqrt$6 = Math.sqrt;
     var COORD_X$3 = 0;
-    var COORD_Y$3 = 1;
-    var COORD_Z$3 = 2;
-    var BASIS_LABELS$2 = ['e1', 'e2', 'e3'];
+    var COORD_Y$2 = 1;
+    var COORD_Z = 2;
+    var BASIS_LABELS = ['e1', 'e2', 'e3'];
     /**
      * Coordinates corresponding to basis labels.
      */
-    function coordinates$2(m) {
+    function coordinates$3(m) {
         return [m.x, m.y, m.z];
     }
     /**
@@ -5941,15 +5943,15 @@
              * The coordinate corresponding to the e2 basis vector.
              */
             get: function () {
-                return this.coords_[COORD_Y$3];
+                return this.coords_[COORD_Y$2];
             },
             set: function (value) {
                 if (this.isLocked()) {
                     throw new TargetLockedError('set y');
                 }
                 var coords = this.coords_;
-                this.modified_ = this.modified_ || coords[COORD_Y$3] !== value;
-                coords[COORD_Y$3] = value;
+                this.modified_ = this.modified_ || coords[COORD_Y$2] !== value;
+                coords[COORD_Y$2] = value;
             },
             enumerable: false,
             configurable: true
@@ -5959,15 +5961,15 @@
              * The coordinate corresponding to the e3 basis vector.
              */
             get: function () {
-                return this.coords_[COORD_Z$3];
+                return this.coords_[COORD_Z];
             },
             set: function (value) {
                 if (this.isLocked()) {
                     throw new TargetLockedError('set z');
                 }
                 var coords = this.coords_;
-                this.modified_ = this.modified_ || coords[COORD_Z$3] !== value;
-                coords[COORD_Z$3] = value;
+                this.modified_ = this.modified_ || coords[COORD_Z] !== value;
+                coords[COORD_Z] = value;
             },
             enumerable: false,
             configurable: true
@@ -6122,8 +6124,8 @@
         Vector3.prototype.copyCoordinates = function (coordinates) {
             // Copy using the setters so that the modified flag is updated.
             this.x = coordinates[COORD_X$3];
-            this.y = coordinates[COORD_Y$3];
-            this.z = coordinates[COORD_Z$3];
+            this.y = coordinates[COORD_Y$2];
+            this.z = coordinates[COORD_Z];
             return this;
         };
         /**
@@ -6161,7 +6163,7 @@
          */
         Vector3.prototype.distanceTo = function (point) {
             if (isDefined(point)) {
-                return sqrt$2(this.quadranceTo(point));
+                return sqrt$6(this.quadranceTo(point));
             }
             else {
                 return void 0;
@@ -6268,7 +6270,7 @@
          * @return {number}
          */
         Vector3.prototype.magnitude = function () {
-            return sqrt$2(this.squaredNorm());
+            return sqrt$6(this.squaredNorm());
         };
         /**
          * @method neg
@@ -6413,7 +6415,7 @@
          *
          */
         Vector3.prototype.toArray = function () {
-            return coordinates$2(this);
+            return coordinates$3(this);
         };
         /**
          * @param fractionDigits
@@ -6421,7 +6423,7 @@
          */
         Vector3.prototype.toExponential = function (fractionDigits) {
             var coordToString = function (coord) { return coord.toExponential(fractionDigits); };
-            return toStringCustom(coordinates$2(this), coordToString, BASIS_LABELS$2);
+            return toStringCustom(coordinates$3(this), coordToString, BASIS_LABELS);
         };
         /**
          * @param fractionDigits
@@ -6429,7 +6431,7 @@
          */
         Vector3.prototype.toFixed = function (fractionDigits) {
             var coordToString = function (coord) { return coord.toFixed(fractionDigits); };
-            return toStringCustom(coordinates$2(this), coordToString, BASIS_LABELS$2);
+            return toStringCustom(coordinates$3(this), coordToString, BASIS_LABELS);
         };
         /**
          * @param precision
@@ -6437,7 +6439,7 @@
          */
         Vector3.prototype.toPrecision = function (precision) {
             var coordToString = function (coord) { return coord.toPrecision(precision); };
-            return toStringCustom(coordinates$2(this), coordToString, BASIS_LABELS$2);
+            return toStringCustom(coordinates$3(this), coordToString, BASIS_LABELS);
         };
         /**
          * @param radix
@@ -6445,7 +6447,7 @@
          */
         Vector3.prototype.toString = function (radix) {
             var coordToString = function (coord) { return coord.toString(radix); };
-            return toStringCustom(coordinates$2(this), coordToString, BASIS_LABELS$2);
+            return toStringCustom(coordinates$3(this), coordToString, BASIS_LABELS);
         };
         /**
          * Sets this vector to the identity element for addition, <b>0</b>.
@@ -6659,13 +6661,13 @@
         return message;
     }
 
-    var sqrt$3 = Math.sqrt;
-    var COORD_X$4 = 0;
-    var COORD_Y$4 = 1;
+    var sqrt$5 = Math.sqrt;
+    var COORD_X$2 = 0;
+    var COORD_Y$1 = 1;
     /**
      * Coordinates corresponding to basis labels.
      */
-    function coordinates$3(m) {
+    function coordinates$2(m) {
         return [m.x, m.y];
     }
     /**
@@ -6710,15 +6712,15 @@
              *
              */
             get: function () {
-                return this.coords_[COORD_X$4];
+                return this.coords_[COORD_X$2];
             },
             set: function (value) {
                 if (this.isLocked()) {
                     throw new TargetLockedError('set x');
                 }
                 var coords = this.coords_;
-                this.modified_ = this.modified_ || coords[COORD_X$4] !== value;
-                coords[COORD_X$4] = value;
+                this.modified_ = this.modified_ || coords[COORD_X$2] !== value;
+                coords[COORD_X$2] = value;
             },
             enumerable: false,
             configurable: true
@@ -6728,15 +6730,15 @@
              *
              */
             get: function () {
-                return this.coords_[COORD_Y$4];
+                return this.coords_[COORD_Y$1];
             },
             set: function (value) {
                 if (this.isLocked()) {
                     throw new TargetLockedError('set y');
                 }
                 var coords = this.coords_;
-                this.modified_ = this.modified_ || coords[COORD_Y$4] !== value;
-                coords[COORD_Y$4] = value;
+                this.modified_ = this.modified_ || coords[COORD_Y$1] !== value;
+                coords[COORD_Y$1] = value;
             },
             enumerable: false,
             configurable: true
@@ -6830,7 +6832,7 @@
          * @return {number}
          */
         Vector2.prototype.distanceTo = function (position) {
-            return sqrt$3(this.quadranceTo(position));
+            return sqrt$5(this.quadranceTo(position));
         };
         /**
          * @method sub
@@ -6942,7 +6944,7 @@
          * @return {number}
          */
         Vector2.prototype.magnitude = function () {
-            return sqrt$3(this.squaredNorm());
+            return sqrt$5(this.squaredNorm());
         };
         Vector2.prototype.normalize = function () {
             return this.divByScalar(this.magnitude());
@@ -7036,7 +7038,7 @@
          *
          */
         Vector2.prototype.toArray = function () {
-            return coordinates$3(this);
+            return coordinates$2(this);
         };
         /**
          * @method toExponential
@@ -7640,8 +7642,8 @@
     }(MouseControls));
 
     // Scratch variables to aboid creating temporary objects.
-    var a = Geometric3.zero(false);
-    var b = Geometric3.zero(false);
+    var a$1 = Geometric3.zero(false);
+    var b$1 = Geometric3.zero(false);
     var d = Geometric3.zero(false);
     var B = Spinor3.one.clone();
     var R = Spinor3.one.clone();
@@ -7688,13 +7690,13 @@
                     // rotor that we must apply to get the true rotation.
                     X.copy(this.eyeMinusLook).add(this.look);
                     getViewAttitude(X, this.look, this.up, R);
-                    a.zero();
-                    a.x = this.movePrev.x;
-                    a.y = this.movePrev.y;
-                    b.zero();
-                    b.x = this.moveCurr.x;
-                    b.y = this.moveCurr.y;
-                    d.copy(b).sub(a);
+                    a$1.zero();
+                    a$1.x = this.movePrev.x;
+                    a$1.y = this.movePrev.y;
+                    b$1.zero();
+                    b$1.x = this.moveCurr.x;
+                    b$1.y = this.moveCurr.y;
+                    d.copy(b$1).sub(a$1);
                     d.rotate(R);
                     X.normalize();
                     // B = direction(X ^ d)
@@ -7964,6 +7966,7 @@
      *
      * https://www.khronos.org/registry/webgl/specs/1.0/
      */
+    exports.BeginMode = void 0;
     (function (BeginMode) {
         BeginMode[BeginMode["POINTS"] = 0] = "POINTS";
         BeginMode[BeginMode["LINES"] = 1] = "LINES";
@@ -7974,6 +7977,7 @@
         BeginMode[BeginMode["TRIANGLE_FAN"] = 6] = "TRIANGLE_FAN";
     })(exports.BeginMode || (exports.BeginMode = {}));
 
+    exports.BlendingFactorDest = void 0;
     (function (BlendingFactorDest) {
         BlendingFactorDest[BlendingFactorDest["ZERO"] = 0] = "ZERO";
         BlendingFactorDest[BlendingFactorDest["ONE"] = 1] = "ONE";
@@ -7985,6 +7989,7 @@
         BlendingFactorDest[BlendingFactorDest["ONE_MINUS_DST_ALPHA"] = 773] = "ONE_MINUS_DST_ALPHA";
     })(exports.BlendingFactorDest || (exports.BlendingFactorDest = {}));
 
+    exports.BlendingFactorSrc = void 0;
     (function (BlendingFactorSrc) {
         BlendingFactorSrc[BlendingFactorSrc["ZERO"] = 0] = "ZERO";
         BlendingFactorSrc[BlendingFactorSrc["ONE"] = 1] = "ONE";
@@ -8000,6 +8005,7 @@
     /**
      * A capability that may be enabled or disabled for a WebGL rendering context.
      */
+    exports.Capability = void 0;
     (function (Capability) {
         /**
          * Let polygons be culled.
@@ -8039,6 +8045,7 @@
         Capability[Capability["SAMPLE_COVERAGE"] = 32928] = "SAMPLE_COVERAGE";
     })(exports.Capability || (exports.Capability = {}));
 
+    exports.ClearBufferMask = void 0;
     (function (ClearBufferMask) {
         ClearBufferMask[ClearBufferMask["DEPTH_BUFFER_BIT"] = 256] = "DEPTH_BUFFER_BIT";
         ClearBufferMask[ClearBufferMask["STENCIL_BUFFER_BIT"] = 1024] = "STENCIL_BUFFER_BIT";
@@ -8715,6 +8722,7 @@
      *
      * https://www.khronos.org/registry/webgl/specs/1.0/
      */
+    exports.DataType = void 0;
     (function (DataType) {
         DataType[DataType["BYTE"] = 5120] = "BYTE";
         DataType[DataType["UNSIGNED_BYTE"] = 5121] = "UNSIGNED_BYTE";
@@ -8870,11 +8878,11 @@
         return value;
     }
 
-    function beObject$1() {
+    function beObject() {
         return "be a non-null `object`";
     }
     function mustBeNonNullObject(name, value, contextBuilder) {
-        mustSatisfy(name, isObject(value) && !isNull(value), beObject$1, contextBuilder);
+        mustSatisfy(name, isObject(value) && !isNull(value), beObject, contextBuilder);
         return value;
     }
 
@@ -9446,6 +9454,7 @@
      * An enumeration specifying the depth comparison function, which sets the conditions
      * under which the pixel will be drawn. The default value is LESS.
      */
+    exports.DepthFunction = void 0;
     (function (DepthFunction) {
         /**
          * never pass
@@ -9552,6 +9561,7 @@
     /**
      * WebGLBuffer usage.
      */
+    exports.Usage = void 0;
     (function (Usage) {
         /**
          * Contents of the buffer are likely to not be used often.
@@ -10088,6 +10098,7 @@
         return GeometryElements;
     }(GeometryBase));
 
+    exports.PixelFormat = void 0;
     (function (PixelFormat) {
         PixelFormat[PixelFormat["DEPTH_COMPONENT"] = 6402] = "DEPTH_COMPONENT";
         PixelFormat[PixelFormat["ALPHA"] = 6406] = "ALPHA";
@@ -10100,6 +10111,7 @@
     /**
      *
      */
+    exports.TextureParameterName = void 0;
     (function (TextureParameterName) {
         TextureParameterName[TextureParameterName["TEXTURE_MAG_FILTER"] = 10240] = "TEXTURE_MAG_FILTER";
         TextureParameterName[TextureParameterName["TEXTURE_MIN_FILTER"] = 10241] = "TEXTURE_MIN_FILTER";
@@ -10417,11 +10429,11 @@
     /**
      * e2 = vec(0, 1, 0)
      */
-    var canonicalAxis = vec(0, 1, 0);
+    var canonicalAxis$4 = vec(0, 1, 0);
     /**
      * e3 = vec(0, 0, 1)
      */
-    var canonicalMeridian = vec(0, 0, 1);
+    var canonicalMeridian$1 = vec(0, 0, 1);
 
     /**
      *
@@ -11331,7 +11343,7 @@
      */
     function referenceAxis(options, fallback) {
         if (options.tilt) {
-            var axis = Geometric3.fromVector(canonicalAxis).rotate(options.tilt);
+            var axis = Geometric3.fromVector(canonicalAxis$4).rotate(options.tilt);
             return vec(axis.x, axis.y, axis.z);
         }
         else if (options.axis) {
@@ -11344,16 +11356,16 @@
             return vec(axis.x, axis.y, axis.z).direction();
         }
         else if (options.meridian) {
-            var B = Geometric3.dualOfVector(canonicalAxis);
-            var tilt = Geometric3.rotorFromVectorToVector(canonicalMeridian, options.meridian, B);
-            var axis = Geometric3.fromVector(canonicalAxis).rotate(tilt);
+            var B = Geometric3.dualOfVector(canonicalAxis$4);
+            var tilt = Geometric3.rotorFromVectorToVector(canonicalMeridian$1, options.meridian, B);
+            var axis = Geometric3.fromVector(canonicalAxis$4).rotate(tilt);
             return vec(axis.x, axis.y, axis.z).direction();
         }
         else if (options.cutLine) {
             console.warn("cutLine is deprecated. Please use meridian instead.");
-            var B = Geometric3.dualOfVector(canonicalAxis);
-            var tilt = Geometric3.rotorFromVectorToVector(canonicalMeridian, options.cutLine, B);
-            var axis = Geometric3.fromVector(canonicalAxis).rotate(tilt);
+            var B = Geometric3.dualOfVector(canonicalAxis$4);
+            var tilt = Geometric3.rotorFromVectorToVector(canonicalMeridian$1, options.cutLine, B);
+            var axis = Geometric3.fromVector(canonicalAxis$4).rotate(tilt);
             return vec(axis.x, axis.y, axis.z).direction();
         }
         else {
@@ -11366,7 +11378,7 @@
      */
     function referenceMeridian(options, fallback) {
         if (options.tilt) {
-            var meridian = Geometric3.fromVector(canonicalMeridian).rotate(options.tilt);
+            var meridian = Geometric3.fromVector(canonicalMeridian$1).rotate(options.tilt);
             return vec(meridian.x, meridian.y, meridian.z);
         }
         else if (options.meridian) {
@@ -11379,17 +11391,17 @@
             return vec(meridian.x, meridian.y, meridian.z).direction();
         }
         else if (options.axis) {
-            var B = Geometric3.dualOfVector(canonicalMeridian);
-            var tilt = Geometric3.rotorFromVectorToVector(canonicalAxis, options.axis, B);
-            var meridian = Geometric3.fromVector(canonicalMeridian).rotate(tilt);
+            var B = Geometric3.dualOfVector(canonicalMeridian$1);
+            var tilt = Geometric3.rotorFromVectorToVector(canonicalAxis$4, options.axis, B);
+            var meridian = Geometric3.fromVector(canonicalMeridian$1).rotate(tilt);
             return vec(meridian.x, meridian.y, meridian.z).direction();
         }
         else if (typeof options.height === 'object') {
             console.warn("height is deprecated. Please use axis instead.");
             var axis = options.height;
-            var B = Geometric3.dualOfVector(canonicalMeridian);
-            var tilt = Geometric3.rotorFromVectorToVector(canonicalAxis, axis, B);
-            var meridian = Geometric3.fromVector(canonicalMeridian).rotate(tilt);
+            var B = Geometric3.dualOfVector(canonicalMeridian$1);
+            var tilt = Geometric3.rotorFromVectorToVector(canonicalAxis$4, axis, B);
+            var meridian = Geometric3.fromVector(canonicalMeridian$1).rotate(tilt);
             return vec(meridian.x, meridian.y, meridian.z).direction();
         }
         else {
@@ -11400,6 +11412,7 @@
     /**
      *
      */
+    exports.TextureUnit = void 0;
     (function (TextureUnit) {
         TextureUnit[TextureUnit["TEXTURE0"] = 33984] = "TEXTURE0";
         TextureUnit[TextureUnit["TEXTURE1"] = 33985] = "TEXTURE1";
@@ -11501,9 +11514,9 @@
             _this.setFacet(TEXTURE_FACET_NAME, textureFacet);
             textureFacet.release();
             _this.setFacet(MODEL_FACET_NAME, new ModelFacet());
-            _this.referenceAxis = referenceAxis(options, canonicalAxis).direction();
-            _this.referenceMeridian = referenceMeridian(options, canonicalMeridian).rejectionFrom(_this.referenceAxis).direction();
-            var tilt = Geometric3.rotorFromFrameToFrame([canonicalAxis, canonicalMeridian, canonicalAxis.cross(canonicalMeridian)], [_this.referenceAxis, _this.referenceMeridian, _this.referenceAxis.cross(_this.referenceMeridian)]);
+            _this.referenceAxis = referenceAxis(options, canonicalAxis$4).direction();
+            _this.referenceMeridian = referenceMeridian(options, canonicalMeridian$1).rejectionFrom(_this.referenceAxis).direction();
+            var tilt = Geometric3.rotorFromFrameToFrame([canonicalAxis$4, canonicalMeridian$1, canonicalAxis$4.cross(canonicalMeridian$1)], [_this.referenceAxis, _this.referenceMeridian, _this.referenceAxis.cross(_this.referenceMeridian)]);
             if (tilt && !Spinor3.isOne(tilt)) {
                 _this.Kidentity = false;
                 _this.K = Matrix4.one.clone();
@@ -11879,6 +11892,7 @@
         return Mesh;
     }(Drawable));
 
+    exports.PixelType = void 0;
     (function (PixelType) {
         PixelType[PixelType["UNSIGNED_BYTE"] = 5121] = "UNSIGNED_BYTE";
         PixelType[PixelType["UNSIGNED_SHORT_4_4_4_4"] = 32819] = "UNSIGNED_SHORT_4_4_4_4";
@@ -12314,6 +12328,7 @@
     /**
      *
      */
+    exports.TextureMagFilter = void 0;
     (function (TextureMagFilter) {
         TextureMagFilter[TextureMagFilter["NEAREST"] = 9728] = "NEAREST";
         TextureMagFilter[TextureMagFilter["LINEAR"] = 9729] = "LINEAR";
@@ -12322,6 +12337,7 @@
     /**
      *
      */
+    exports.TextureMinFilter = void 0;
     (function (TextureMinFilter) {
         TextureMinFilter[TextureMinFilter["NEAREST"] = 9728] = "NEAREST";
         TextureMinFilter[TextureMinFilter["LINEAR"] = 9729] = "LINEAR";
@@ -12334,6 +12350,7 @@
     /**
      *
      */
+    exports.TextureTarget = void 0;
     (function (TextureTarget) {
         TextureTarget[TextureTarget["TEXTURE_2D"] = 3553] = "TEXTURE_2D";
         TextureTarget[TextureTarget["TEXTURE"] = 5890] = "TEXTURE";
@@ -12342,6 +12359,7 @@
     /**
      *
      */
+    exports.TextureWrapMode = void 0;
     (function (TextureWrapMode) {
         TextureWrapMode[TextureWrapMode["REPEAT"] = 10497] = "REPEAT";
         TextureWrapMode[TextureWrapMode["CLAMP_TO_EDGE"] = 33071] = "CLAMP_TO_EDGE";
@@ -13771,35 +13789,35 @@
     }());
 
     // Assume single-threaded to avoid temporary object creation.
-    var n$1 = new Vector3();
-    var u$1 = new Vector3();
-    var v$1 = new Vector3();
+    var n = new Vector3();
+    var u = new Vector3();
+    var v = new Vector3();
     function viewArrayFromEyeLookUp(eye, look, up, matrix) {
         var m = isDefined(matrix) ? matrix : new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
         mustSatisfy('matrix', m.length === 16, function () { return 'matrix must have length 16'; });
-        n$1.copy(eye).sub(look);
-        if (n$1.x === 0 && n$1.y === 0 && n$1.z === 0) {
+        n.copy(eye).sub(look);
+        if (n.x === 0 && n.y === 0 && n.z === 0) {
             // view direction is ambiguous.
-            n$1.z = 1;
+            n.z = 1;
         }
         else {
-            n$1.normalize();
+            n.normalize();
         }
-        n$1.approx(12).normalize();
-        u$1.copy(up).cross(n$1).approx(12).normalize();
-        v$1.copy(n$1).cross(u$1).approx(12).normalize();
-        m[0x0] = u$1.x;
-        m[0x4] = u$1.y;
-        m[0x8] = u$1.z;
-        m[0xC] = -Vector3.dot(eye, u$1);
-        m[0x1] = v$1.x;
-        m[0x5] = v$1.y;
-        m[0x9] = v$1.z;
-        m[0xD] = -Vector3.dot(eye, v$1);
-        m[0x2] = n$1.x;
-        m[0x6] = n$1.y;
-        m[0xA] = n$1.z;
-        m[0xE] = -Vector3.dot(eye, n$1);
+        n.approx(12).normalize();
+        u.copy(up).cross(n).approx(12).normalize();
+        v.copy(n).cross(u).approx(12).normalize();
+        m[0x0] = u.x;
+        m[0x4] = u.y;
+        m[0x8] = u.z;
+        m[0xC] = -Vector3.dot(eye, u);
+        m[0x1] = v.x;
+        m[0x5] = v.y;
+        m[0x9] = v.z;
+        m[0xD] = -Vector3.dot(eye, v);
+        m[0x2] = n.x;
+        m[0x6] = n.y;
+        m[0xA] = n.z;
+        m[0xE] = -Vector3.dot(eye, n);
         m[0x3] = 0.0;
         m[0x7] = 0.0;
         m[0xB] = 0.0;
@@ -14533,17 +14551,17 @@
     }
 
     // symbolic constants for the coordinate indices into the data array.
-    var COORD_SCALAR$2 = 0;
-    var COORD_X$5 = 1;
-    var COORD_Y$5 = 2;
+    var COORD_SCALAR$1 = 0;
+    var COORD_X$1 = 1;
+    var COORD_Y = 2;
     var COORD_PSEUDO$1 = 3;
     var abs$1 = Math.abs;
-    var atan2 = Math.atan2;
-    var exp$1 = Math.exp;
-    var log$1 = Math.log;
-    var cos$1 = Math.cos;
-    var sin$1 = Math.sin;
-    var sqrt$5 = Math.sqrt;
+    var atan2$1 = Math.atan2;
+    var exp$2 = Math.exp;
+    var log$3 = Math.log;
+    var cos$2 = Math.cos;
+    var sin$2 = Math.sin;
+    var sqrt$3 = Math.sqrt;
     var LEFTWARDS_ARROW = "←";
     var RIGHTWARDS_ARROW = "→";
     var UPWARDS_ARROW = "↑";
@@ -14553,33 +14571,33 @@
     var ARROW_LABELS = ["1", [LEFTWARDS_ARROW, RIGHTWARDS_ARROW], [DOWNWARDS_ARROW, UPWARDS_ARROW], [CLOCKWISE_OPEN_CIRCLE_ARROW, ANTICLOCKWISE_OPEN_CIRCLE_ARROW]];
     var COMPASS_LABELS = ["1", ['W', 'E'], ['S', 'N'], [CLOCKWISE_OPEN_CIRCLE_ARROW, ANTICLOCKWISE_OPEN_CIRCLE_ARROW]];
     var STANDARD_LABELS = ["1", "e1", "e2", "I"];
-    var zero$1 = function zero() {
+    var zero = function zero() {
         return [0, 0, 0, 0];
     };
-    var scalar$1 = function scalar(a) {
-        var coords = zero$1();
-        coords[COORD_SCALAR$2] = a;
+    var scalar = function scalar(a) {
+        var coords = zero();
+        coords[COORD_SCALAR$1] = a;
         return coords;
     };
-    var vector$1 = function vector(x, y) {
-        var coords = zero$1();
-        coords[COORD_X$5] = x;
-        coords[COORD_Y$5] = y;
+    var vector = function vector(x, y) {
+        var coords = zero();
+        coords[COORD_X$1] = x;
+        coords[COORD_Y] = y;
         return coords;
     };
-    var pseudo$1 = function pseudo(b) {
-        var coords = zero$1();
+    var pseudo = function pseudo(b) {
+        var coords = zero();
         coords[COORD_PSEUDO$1] = b;
         return coords;
     };
     /**
      * Coordinates corresponding to basis labels.
      */
-    function coordinates$4(m) {
-        var coords = zero$1();
-        coords[COORD_SCALAR$2] = m.a;
-        coords[COORD_X$5] = m.x;
-        coords[COORD_Y$5] = m.y;
+    function coordinates$1(m) {
+        var coords = zero();
+        coords[COORD_SCALAR$1] = m.a;
+        coords[COORD_X$1] = m.x;
+        coords[COORD_Y] = m.y;
         coords[COORD_PSEUDO$1] = m.b;
         return coords;
     }
@@ -14652,45 +14670,45 @@
         };
         Object.defineProperty(Geometric2.prototype, "a", {
             get: function () {
-                return this.coords_[COORD_SCALAR$2];
+                return this.coords_[COORD_SCALAR$1];
             },
             set: function (a) {
                 if (this.isLocked()) {
                     throw new TargetLockedError('set a');
                 }
                 var coords = this.coords_;
-                this.modified_ = this.modified_ || coords[COORD_SCALAR$2] !== a;
-                coords[COORD_SCALAR$2] = a;
+                this.modified_ = this.modified_ || coords[COORD_SCALAR$1] !== a;
+                coords[COORD_SCALAR$1] = a;
             },
             enumerable: false,
             configurable: true
         });
         Object.defineProperty(Geometric2.prototype, "x", {
             get: function () {
-                return this.coords_[COORD_X$5];
+                return this.coords_[COORD_X$1];
             },
             set: function (x) {
                 if (this.isLocked()) {
                     throw new TargetLockedError('set x');
                 }
                 var coords = this.coords_;
-                this.modified_ = this.modified_ || coords[COORD_X$5] !== x;
-                coords[COORD_X$5] = x;
+                this.modified_ = this.modified_ || coords[COORD_X$1] !== x;
+                coords[COORD_X$1] = x;
             },
             enumerable: false,
             configurable: true
         });
         Object.defineProperty(Geometric2.prototype, "y", {
             get: function () {
-                return this.coords_[COORD_Y$5];
+                return this.coords_[COORD_Y];
             },
             set: function (y) {
                 if (this.isLocked()) {
                     throw new TargetLockedError('set y');
                 }
                 var coords = this.coords_;
-                this.modified_ = this.modified_ || coords[COORD_Y$5] !== y;
-                coords[COORD_Y$5] = y;
+                this.modified_ = this.modified_ || coords[COORD_Y] !== y;
+                coords[COORD_Y] = y;
             },
             enumerable: false,
             configurable: true
@@ -14978,12 +14996,12 @@
         Geometric2.prototype.exp = function () {
             var w = this.a;
             var z = this.b;
-            var expW = exp$1(w);
+            var expW = exp$2(w);
             // φ is actually the absolute value of one half the rotation angle.
             // The orientation of the rotation gets carried in the bivector components.
-            var φ = sqrt$5(z * z);
-            var s = expW * (φ !== 0 ? sin$1(φ) / φ : 1);
-            this.a = expW * cos$1(φ);
+            var φ = sqrt$3(z * z);
+            var s = expW * (φ !== 0 ? sin$2(φ) / φ : 1);
+            this.a = expW * cos$2(φ);
             this.b = z * s;
             return this;
         };
@@ -15103,10 +15121,10 @@
             // FIXME: This only handles the spinor components.
             var α = this.a;
             var β = this.b;
-            this.a = log$1(sqrt$5(α * α + β * β));
+            this.a = log$3(sqrt$3(α * α + β * β));
             this.x = 0;
             this.y = 0;
-            this.b = atan2(β, α);
+            this.b = atan2$1(β, α);
             return this;
         };
         /**
@@ -15115,7 +15133,7 @@
          * This method does not change this multivector.
          */
         Geometric2.prototype.magnitude = function () {
-            return sqrt$5(this.quaditude());
+            return sqrt$3(this.quaditude());
         };
         /**
          * this ⟼ this * m
@@ -15317,13 +15335,13 @@
             /**
              * scalar part = cos(|B| * θ / 2)
              */
-            this.a = cos$1(abs$1(β) * φ);
+            this.a = cos$2(abs$1(β) * φ);
             this.x = 0;
             this.y = 0;
             /**
              * pseudo part = -unit(B) * sin(|B| * θ / 2)
              */
-            this.b = -sin$1(β * φ);
+            this.b = -sin$2(β * φ);
             return this;
         };
         /**
@@ -15425,35 +15443,35 @@
          *
          */
         Geometric2.prototype.toArray = function () {
-            return coordinates$4(this);
+            return coordinates$1(this);
         };
         /**
          * Returns a representation of this multivector in exponential notation.
          */
         Geometric2.prototype.toExponential = function (fractionDigits) {
             var coordToString = function (coord) { return coord.toExponential(fractionDigits); };
-            return stringFromCoordinates(coordinates$4(this), coordToString, Geometric2.BASIS_LABELS);
+            return stringFromCoordinates(coordinates$1(this), coordToString, Geometric2.BASIS_LABELS);
         };
         /**
          * Returns a representation of this multivector in fixed-point notation.
          */
         Geometric2.prototype.toFixed = function (fractionDigits) {
             var coordToString = function (coord) { return coord.toFixed(fractionDigits); };
-            return stringFromCoordinates(coordinates$4(this), coordToString, Geometric2.BASIS_LABELS);
+            return stringFromCoordinates(coordinates$1(this), coordToString, Geometric2.BASIS_LABELS);
         };
         /**
          * Returns a representation of this multivector in exponential or fixed-point notation.
          */
         Geometric2.prototype.toPrecision = function (precision) {
             var coordToString = function (coord) { return coord.toPrecision(precision); };
-            return stringFromCoordinates(coordinates$4(this), coordToString, Geometric2.BASIS_LABELS);
+            return stringFromCoordinates(coordinates$1(this), coordToString, Geometric2.BASIS_LABELS);
         };
         /**
          * Returns a representation of this multivector.
          */
         Geometric2.prototype.toString = function (radix) {
             var coordToString = function (coord) { return coord.toString(radix); };
-            return stringFromCoordinates(coordinates$4(this), coordToString, Geometric2.BASIS_LABELS);
+            return stringFromCoordinates(coordinates$1(this), coordToString, Geometric2.BASIS_LABELS);
         };
         /**
          * Extraction of grade <em>i</em>.
@@ -15887,7 +15905,7 @@
          */
         Geometric2.zero = function (lock) {
             if (lock === void 0) { lock = false; }
-            return lock ? Geometric2.ZERO : new Geometric2(zero$1());
+            return lock ? Geometric2.ZERO : new Geometric2(zero());
         };
         /**
          *
@@ -15909,27 +15927,27 @@
          * The basis element corresponding to the vector `x` coordinate.
          * The multivector is locked (immutable), but may be cloned.
          */
-        Geometric2.E1 = new Geometric2(vector$1(1, 0));
+        Geometric2.E1 = new Geometric2(vector(1, 0));
         /**
          * The basis element corresponding to the vector `y` coordinate.
          * The multivector is locked (immutable), but may be cloned.
          */
-        Geometric2.E2 = new Geometric2(vector$1(0, 1));
+        Geometric2.E2 = new Geometric2(vector(0, 1));
         /**
          * The identity element for addition, `0`.
          * The multivector is locked.
          */
-        Geometric2.PSEUDO = new Geometric2(pseudo$1(1));
+        Geometric2.PSEUDO = new Geometric2(pseudo(1));
         /**
          * The identity element for multiplication, `1`.
          * The multivector is locked (immutable), but may be cloned.
          */
-        Geometric2.ONE = new Geometric2(scalar$1(1));
+        Geometric2.ONE = new Geometric2(scalar(1));
         /**
          * The identity element for addition, `0`.
          * The multivector is locked.
          */
-        Geometric2.ZERO = new Geometric2(scalar$1(0));
+        Geometric2.ZERO = new Geometric2(scalar(0));
         return Geometric2;
     }());
     applyMixins(Geometric2, [LockableMixin]);
@@ -16015,7 +16033,7 @@
     function isExactMultipleOf(numer, denom) {
         return numer % denom === 0;
     }
-    function checkSize(size, values) {
+    function checkSize$1(size, values) {
         if (typeof size === 'number') {
             if (!isExactMultipleOf(values.length, size)) {
                 throw new Error("values.length must be an exact multiple of size");
@@ -16034,7 +16052,7 @@
             // mustBeArray('values', values)
             // mustBeInteger('size', size)
             this.values = checkValues(values);
-            this.size = checkSize(size, values);
+            this.size = checkSize$1(size, values);
             this.type = type;
         }
         return DrawAttribute;
@@ -16254,26 +16272,26 @@
     }
 
     // Symbolic constants for the coordinate indices into the coords array.
-    var COORD_SCALAR$3 = 1;
-    var COORD_PSEUDO$2 = 0;
+    var COORD_SCALAR = 1;
+    var COORD_PSEUDO = 0;
     /**
      * Coordinates corresponding to basis labels.
      */
-    function coordinates$5(m) {
+    function coordinates(m) {
         return [m.b, m.a];
     }
     function one() {
         var coords = [0, 0];
-        coords[COORD_SCALAR$3] = 1;
-        coords[COORD_PSEUDO$2] = 0;
+        coords[COORD_SCALAR] = 1;
+        coords[COORD_PSEUDO] = 0;
         return coords;
     }
-    var abs$2 = Math.abs;
-    var atan2$1 = Math.atan2;
+    var abs = Math.abs;
+    var atan2 = Math.atan2;
     var log$2 = Math.log;
-    var cos$2 = Math.cos;
-    var sin$2 = Math.sin;
-    var sqrt$6 = Math.sqrt;
+    var cos$1 = Math.cos;
+    var sin$1 = Math.sin;
+    var sqrt$2 = Math.sqrt;
     /**
      *
      */
@@ -16315,7 +16333,7 @@
              * The bivector part of this spinor as a number.
              */
             get: function () {
-                return this.coords_[COORD_PSEUDO$2];
+                return this.coords_[COORD_PSEUDO];
             },
             set: function (xy) {
                 if (this.isLocked()) {
@@ -16323,8 +16341,8 @@
                 }
                 mustBeNumber('xy', xy);
                 var coords = this.coords_;
-                this.modified_ = this.modified_ || coords[COORD_PSEUDO$2] !== xy;
-                coords[COORD_PSEUDO$2] = xy;
+                this.modified_ = this.modified_ || coords[COORD_PSEUDO] !== xy;
+                coords[COORD_PSEUDO] = xy;
             },
             enumerable: false,
             configurable: true
@@ -16334,7 +16352,7 @@
              * The scalar part of this spinor as a number.
              */
             get: function () {
-                return this.coords_[COORD_SCALAR$3];
+                return this.coords_[COORD_SCALAR];
             },
             set: function (α) {
                 if (this.isLocked()) {
@@ -16342,8 +16360,8 @@
                 }
                 mustBeNumber('α', α);
                 var coords = this.coords_;
-                this.modified_ = this.modified_ || coords[COORD_SCALAR$3] !== α;
-                coords[COORD_SCALAR$3] = α;
+                this.modified_ = this.modified_ || coords[COORD_SCALAR] !== α;
+                coords[COORD_SCALAR] = α;
             },
             enumerable: false,
             configurable: true
@@ -16353,7 +16371,7 @@
              * The pseudoscalar part of this spinor as a number.
              */
             get: function () {
-                return this.coords_[COORD_PSEUDO$2];
+                return this.coords_[COORD_PSEUDO];
             },
             set: function (b) {
                 if (this.isLocked()) {
@@ -16361,8 +16379,8 @@
                 }
                 mustBeNumber('b', b);
                 var coords = this.coords_;
-                this.modified_ = this.modified_ || coords[COORD_PSEUDO$2] !== b;
-                coords[COORD_PSEUDO$2] = b;
+                this.modified_ = this.modified_ || coords[COORD_PSEUDO] !== b;
+                coords[COORD_PSEUDO] = b;
             },
             enumerable: false,
             configurable: true
@@ -16552,9 +16570,9 @@
             // φ is actually the absolute value of one half the rotation angle.
             // The orientation of the rotation gets carried in the bivector components.
             // FIXME: DRY
-            var φ = sqrt$6(β * β);
-            var s = expA * (φ !== 0 ? sin$2(φ) / φ : 1);
-            this.a = expA * cos$2(φ);
+            var φ = sqrt$2(β * β);
+            var s = expA * (φ !== 0 ? sin$1(φ) / φ : 1);
+            this.a = expA * cos$1(φ);
             this.b = β * s;
             return this;
         };
@@ -16643,11 +16661,11 @@
                 var z = this.xy;
                 // FIXME: DRY
                 var bb = z * z;
-                var Vector2 = sqrt$6(bb);
-                var R0 = abs$2(w);
-                var R = sqrt$6(w * w + bb);
+                var Vector2 = sqrt$2(bb);
+                var R0 = abs(w);
+                var R = sqrt$2(w * w + bb);
                 this.a = log$2(R);
-                var f = atan2$1(Vector2, R0) / Vector2;
+                var f = atan2(Vector2, R0) / Vector2;
                 this.xy = z * f;
                 return this;
             }
@@ -16664,7 +16682,7 @@
          * @return {number}
          */
         Spinor2.prototype.magnitude = function () {
-            return sqrt$6(this.quaditude());
+            return sqrt$2(this.quaditude());
         };
         /**
          * <p>
@@ -16841,9 +16859,9 @@
          */
         Spinor2.prototype.rotorFromGeneratorAngle = function (B, θ) {
             var φ = θ / 2;
-            var s = sin$2(φ);
+            var s = sin$1(φ);
             this.xy = -B.b * s;
-            this.a = cos$2(φ);
+            this.a = cos$1(φ);
             return this;
         };
         Spinor2.prototype.rotorFromVectorToVector = function (a, b) {
@@ -16954,7 +16972,7 @@
          *
          */
         Spinor2.prototype.toArray = function () {
-            return coordinates$5(this);
+            return coordinates(this);
         };
         Spinor2.prototype.toExponential = function (fractionDigits) {
             // FIXME: Do like others.
@@ -17195,7 +17213,7 @@
         }
     }
 
-    function checkSize$1(length) {
+    function checkSize(length) {
         if (length === 1) {
             return 1;
         }
@@ -17229,7 +17247,7 @@
             for (var j = 0; j < jLen; j++) {
                 var name_1 = names[j];
                 var data = dataFromVectorN(vertex.attributes[name_1]);
-                var size = checkSize$1(data.length);
+                var size = checkSize(data.length);
                 var attrib = attribs[name_1];
                 if (!attrib) {
                     attrib = attribs[name_1] = new DrawAttribute([], size, exports.DataType.FLOAT);
@@ -18198,6 +18216,7 @@
     /**
      * Determines how a Geometry will be rendered.
      */
+    exports.GeometryMode = void 0;
     (function (GeometryMode) {
         /**
          *
@@ -18213,14 +18232,14 @@
         GeometryMode[GeometryMode["MESH"] = 2] = "MESH";
     })(exports.GeometryMode || (exports.GeometryMode = {}));
 
-    var canonicalAxis$1 = vec(0, 1, 0);
+    var canonicalAxis$3 = vec(0, 1, 0);
     var canonicalCutLine = vec(0, 0, 1);
-    var getAxis = function getAxis(options) {
+    var getAxis$1 = function getAxis(options) {
         if (isDefined(options.axis)) {
             return options.axis;
         }
         else {
-            return canonicalAxis$1;
+            return canonicalAxis$3;
         }
     };
     var getCutLine = function getCutLine(options) {
@@ -18237,7 +18256,7 @@
     function arrowPrimitive(options) {
         if (options === void 0) { options = { kind: 'ArrowGeometry' }; }
         mustBeObject('options', options);
-        var builder = new ArrowBuilder(getAxis(options), getCutLine(options), false);
+        var builder = new ArrowBuilder(getAxis$1(options), getCutLine(options), false);
         if (isDefined(options.radiusCone)) {
             builder.radiusCone = mustBeNumber("options.radiusCone", options.radiusCone);
         }
@@ -18575,7 +18594,7 @@
             throw new Error("Unable to compute size; missing attribute specification for " + key);
         }
     }
-    function concat(a, b) {
+    function concat$1(a, b) {
         return a.concat(b);
     }
     function simplicesToPrimitive(simplices, geometryMeta) {
@@ -18596,7 +18615,7 @@
         var vsLength = vertices.length;
         // Each simplex produces as many indices as vertices.
         // This is why we need the Vertex to have an temporary index property.
-        var indices = simplices.map(Simplex.indices).reduce(concat, []);
+        var indices = simplices.map(Simplex.indices).reduce(concat$1, []);
         // Create intermediate data structures for output and to cache dimensions and name.
         // For performance an array will be used whose index is the key index.
         var outputs = [];
@@ -18652,10 +18671,10 @@
         }
     }
 
-    var exp$2 = Math.exp;
-    var log$3 = Math.log;
-    var sqrt$7 = Math.sqrt;
-    var COORD_X$6 = 0;
+    var exp$1 = Math.exp;
+    var log$1 = Math.log;
+    var sqrt$1 = Math.sqrt;
+    var COORD_X = 0;
     /**
      * @class Vector1
      */
@@ -18678,11 +18697,11 @@
              * @type Number
              */
             get: function () {
-                return this.coords[COORD_X$6];
+                return this.coords[COORD_X];
             },
             set: function (value) {
                 this.modified = this.modified || this.x !== value;
-                this.coords[COORD_X$6] = value;
+                this.coords[COORD_X] = value;
             },
             enumerable: false,
             configurable: true
@@ -18750,7 +18769,7 @@
             return this;
         };
         Vector1.prototype.exp = function () {
-            this.x = exp$2(this.x);
+            this.x = exp$1(this.x);
             return this;
         };
         Vector1.prototype.one = function () {
@@ -18765,7 +18784,7 @@
             return this;
         };
         Vector1.prototype.log = function () {
-            this.x = log$3(this.x);
+            this.x = log$1(this.x);
             return this;
         };
         Vector1.prototype.mul = function (v) {
@@ -18851,7 +18870,7 @@
          * @return {number}
          */
         Vector1.prototype.distanceTo = function (position) {
-            return sqrt$7(this.quadranceTo(position));
+            return sqrt$1(this.quadranceTo(position));
         };
         Vector1.prototype.dot = function (v) {
             return this.x * v.x;
@@ -18862,7 +18881,7 @@
          * @return {number}
          */
         Vector1.prototype.magnitude = function () {
-            return sqrt$7(this.squaredNorm());
+            return sqrt$1(this.squaredNorm());
         };
         Vector1.prototype.normalize = function () {
             return this.divByScalar(this.magnitude());
@@ -19152,7 +19171,7 @@
     }
 
     var canonicalAxis$2 = vec(0, 1, 0);
-    var canonicalMeridian$1 = vec(0, 0, 1);
+    var canonicalMeridian = vec(0, 0, 1);
     /**
      * e1
      */
@@ -19410,7 +19429,7 @@
         var depth = isDefined(options.depth) ? mustBeNumber('depth', options.depth) : 1;
         var axis = isDefined(options.axis) ? vectorCopy(options.axis).direction() : vec(0, 1, 0);
         var meridian = (isDefined(options.meridian) ? vectorCopy(options.meridian) : vec(0, 0, 1)).rejectionFrom(axis).direction();
-        var tilt = Geometric3.rotorFromFrameToFrame([canonicalAxis$2, canonicalMeridian$1, canonicalAxis$2.cross(canonicalMeridian$1)], [axis, meridian, axis.cross(meridian)]);
+        var tilt = Geometric3.rotorFromFrameToFrame([canonicalAxis$2, canonicalMeridian, canonicalAxis$2.cross(canonicalMeridian)], [axis, meridian, axis.cross(meridian)]);
         var mode = isDefined(options.mode) ? options.mode : exports.GeometryMode.MESH;
         switch (mode) {
             case exports.GeometryMode.POINT: {
@@ -19562,7 +19581,7 @@
         return points;
     }
 
-    var canonicalAxis$3 = vec(0, 1, 0);
+    var canonicalAxis$1 = vec(0, 1, 0);
     // const canonicalMeridian = vec(0, 0, 1);
     /**
      * @param height The vector in the height direction. The length also gives the cylinder length.
@@ -19795,7 +19814,7 @@
         };
         return CylinderSimplexPrimitivesBuilder;
     }(SimplexPrimitivesBuilder));
-    function getAxis$1(options) {
+    function getAxis(options) {
         if (options === void 0) { options = { kind: 'CylinderGeometry' }; }
         if (isDefined(options.axis)) {
             return options.axis;
@@ -19827,7 +19846,7 @@
         /**
          * The canonical axis is in the e2 direction.
          */
-        var height = getAxis$1(options);
+        var height = getAxis(options);
         /**
          * The canonical cutLine is in the e3 direction.
          */
@@ -19861,8 +19880,8 @@
         }
     }
     function baseOptions(options) {
-        var axis = getAxis$1(options);
-        var tilt = Geometric3.rotorFromDirections(canonicalAxis$3, axis);
+        var axis = getAxis(options);
+        var tilt = Geometric3.rotorFromDirections(canonicalAxis$1, axis);
         return { tilt: tilt };
     }
     /**
@@ -20026,6 +20045,7 @@
     /**
      * Determines how a Curve will be rendered.
      */
+    exports.CurveMode = void 0;
     (function (CurveMode) {
         /**
          *
@@ -20067,10 +20087,10 @@
         return (typeof x === 'function');
     }
 
-    function aPositionDefault(u) {
+    function aPositionDefault$2(u) {
         return Vector3.vector(u, 0, 0);
     }
-    function topology(mode, uSegments, uClosed) {
+    function topology$1(mode, uSegments, uClosed) {
         switch (mode) {
             case exports.CurveMode.POINTS: {
                 return new LinePoints(uSegments);
@@ -20083,8 +20103,8 @@
             }
         }
     }
-    function transformVertex(vertex, u, options) {
-        var aPosition = isDefined(options.aPosition) ? options.aPosition : aPositionDefault;
+    function transformVertex$1(vertex, u, options) {
+        var aPosition = isDefined(options.aPosition) ? options.aPosition : aPositionDefault$2;
         var aColor = isDefined(options.aColor) ? options.aColor : void 0;
         if (isFunction(aPosition)) {
             vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = Vector3.copy(aPosition(u));
@@ -20099,19 +20119,19 @@
         var uSegments = isDefined(options.uSegments) ? options.uSegments : 1;
         var mode = isDefined(options.mode) ? options.mode : exports.CurveMode.LINES;
         // Working on the assumption that the grid is open in both directions.
-        var curve = topology(mode, uSegments);
+        var curve = topology$1(mode, uSegments);
         var iLen = curve.uLength;
         if (uSegments > 0) {
             for (var i = 0; i < iLen; i++) {
                 var vertex = curve.vertex(i);
                 var u = uMin + (uMax - uMin) * i / uSegments;
-                transformVertex(vertex, u, options);
+                transformVertex$1(vertex, u, options);
             }
         }
         else {
             var vertex = curve.vertex(0);
             var u = (uMin + uMax) / 2;
-            transformVertex(vertex, u, options);
+            transformVertex$1(vertex, u, options);
         }
         return curve.toPrimitive();
     }
@@ -20157,7 +20177,7 @@
      * Computes the vertex index from integer coordinates.
      * Both lengths are included for symmetry!
      */
-    function vertexIndex(i, j, iLength, jLength) {
+    function vertexIndex$2(i, j, iLength, jLength) {
         mustBeInteger('iLength', iLength);
         mustBeInteger('jLength', jLength);
         return j * iLength + i;
@@ -20170,13 +20190,13 @@
             for (var j = 0; j < jLength; j++) {
                 // The first line is in the direction of increasing i.
                 if (i < uSegments) {
-                    elements.push(vertexIndex(i, j, iLength, jLength));
-                    elements.push(vertexIndex(i + 1, j, iLength, jLength));
+                    elements.push(vertexIndex$2(i, j, iLength, jLength));
+                    elements.push(vertexIndex$2(i + 1, j, iLength, jLength));
                 }
                 // The second line is in the direction of increasing j.
                 if (j < vSegments) {
-                    elements.push(vertexIndex(i, j, iLength, jLength));
-                    elements.push(vertexIndex(i, j + 1, iLength, jLength));
+                    elements.push(vertexIndex$2(i, j, iLength, jLength));
+                    elements.push(vertexIndex$2(i, j + 1, iLength, jLength));
                 }
             }
         }
@@ -20212,7 +20232,7 @@
         GridLines.prototype.vertex = function (i, j) {
             mustBeInteger('i', i);
             mustBeInteger('j', j);
-            return this.vertices[vertexIndex(i, j, this.uLength, this.vLength)];
+            return this.vertices[vertexIndex$2(i, j, this.uLength, this.vLength)];
         };
         return GridLines;
     }(GridPrimitive));
@@ -20277,7 +20297,7 @@
     /**
      *
      */
-    function topology$1(mode, uSegments, uClosed, vSegments, vClosed) {
+    function topology(mode, uSegments, uClosed, vSegments, vClosed) {
         switch (mode) {
             case exports.GeometryMode.POINT: {
                 return new GridPoints(uSegments, uClosed, vSegments, vClosed);
@@ -20297,7 +20317,7 @@
      * Decorates the vertex with aPosition, aNormal, and aColor attributes,
      * but only if these functions are provided in the options.
      */
-    function transformVertex$1(vertex, u, v, options) {
+    function transformVertex(vertex, u, v, options) {
         var aPosition = isDefined(options.aPosition) ? options.aPosition : void 0;
         var aNormal = isDefined(options.aNormal) ? options.aNormal : void 0;
         var aColor = isDefined(options.aColor) ? options.aColor : void 0;
@@ -20326,7 +20346,7 @@
         var vSegments = isDefined(options.vSegments) ? mustBeNumber('vSegments', options.vSegments) : 1;
         var vClosed = isDefined(options.vClosed) ? mustBeBoolean('vClosed', options.vClosed) : false;
         var mode = isDefined(options.mode) ? options.mode : exports.GeometryMode.WIRE;
-        var grid = topology$1(mode, uSegments, uClosed, vSegments, vClosed);
+        var grid = topology(mode, uSegments, uClosed, vSegments, vClosed);
         var iLen = grid.uLength;
         var jLen = grid.vLength;
         if (uSegments > 0) {
@@ -20336,7 +20356,7 @@
                         var vertex = grid.vertex(i, j);
                         var u = uMin + (uMax - uMin) * i / uSegments;
                         var v = vMin + (vMax - vMin) * j / vSegments;
-                        transformVertex$1(vertex, u, v, options);
+                        transformVertex(vertex, u, v, options);
                     }
                 }
             }
@@ -20345,7 +20365,7 @@
                     var vertex = grid.vertex(i, 0);
                     var u = uMin + (uMax - uMin) * i / uSegments;
                     var v = (vMin + vMax) / 2;
-                    transformVertex$1(vertex, u, v, options);
+                    transformVertex(vertex, u, v, options);
                 }
             }
         }
@@ -20355,14 +20375,14 @@
                     var vertex = grid.vertex(0, j);
                     var u = (uMin + uMax) / 2;
                     var v = vMin + (vMax - vMin) * j / vSegments;
-                    transformVertex$1(vertex, u, v, options);
+                    transformVertex(vertex, u, v, options);
                 }
             }
             else {
                 var vertex = grid.vertex(0, 0);
                 var u = (uMin + uMax) / 2;
                 var v = (vMin + vMax) / 2;
-                transformVertex$1(vertex, u, v, options);
+                transformVertex(vertex, u, v, options);
             }
         }
         return grid.toPrimitive();
@@ -20516,7 +20536,7 @@
     function quadIndex(i, j, innerSegments) {
         return i * (innerSegments + 1) + j;
     }
-    function vertexIndex$2(qIndex, n, innerSegments) {
+    function vertexIndex(qIndex, n, innerSegments) {
         switch (n) {
             case 0: return qIndex + 1;
             case 1: return qIndex;
@@ -20530,10 +20550,10 @@
             for (var j = 0; j < widthSegments; j++) {
                 var qIndex = quadIndex(i, j, widthSegments);
                 // Form a quadrilateral. v0 through v3 give the indices into the points array.
-                var v0 = vertexIndex$2(qIndex, 0, widthSegments);
-                var v1 = vertexIndex$2(qIndex, 1, widthSegments);
-                var v2 = vertexIndex$2(qIndex, 2, widthSegments);
-                var v3 = vertexIndex$2(qIndex, 3, widthSegments);
+                var v0 = vertexIndex(qIndex, 0, widthSegments);
+                var v1 = vertexIndex(qIndex, 1, widthSegments);
+                var v2 = vertexIndex(qIndex, 2, widthSegments);
+                var v3 = vertexIndex(qIndex, 3, widthSegments);
                 // The normal vectors for the sphere are simply the normalized position vectors.
                 var n0 = Vector3.copy(points[v0]).normalize();
                 var n1 = Vector3.copy(points[v1]).normalize();
@@ -20570,10 +20590,10 @@
         for (var i = 0; i < heightSegments; i++) {
             for (var j = 0; j < widthSegments; j++) {
                 var qIndex = quadIndex(i, j, widthSegments);
-                var v0 = vertexIndex$2(qIndex, 0, widthSegments);
-                var v1 = vertexIndex$2(qIndex, 1, widthSegments);
-                var v2 = vertexIndex$2(qIndex, 2, widthSegments);
-                var v3 = vertexIndex$2(qIndex, 3, widthSegments);
+                var v0 = vertexIndex(qIndex, 0, widthSegments);
+                var v1 = vertexIndex(qIndex, 1, widthSegments);
+                var v2 = vertexIndex(qIndex, 2, widthSegments);
+                var v3 = vertexIndex(qIndex, 3, widthSegments);
                 // The normal vectors for the sphere are simply the normalized position vectors.
                 var n0 = Vector3.copy(points[v0]).normalize();
                 var n1 = Vector3.copy(points[v1]).normalize();
@@ -20613,10 +20633,10 @@
         for (var i = 0; i < heightSegments; i++) {
             for (var j = 0; j < widthSegments; j++) {
                 var qIndex = quadIndex(i, j, widthSegments);
-                var v0 = vertexIndex$2(qIndex, 0, widthSegments);
-                var v1 = vertexIndex$2(qIndex, 1, widthSegments);
-                var v2 = vertexIndex$2(qIndex, 2, widthSegments);
-                var v3 = vertexIndex$2(qIndex, 3, widthSegments);
+                var v0 = vertexIndex(qIndex, 0, widthSegments);
+                var v1 = vertexIndex(qIndex, 1, widthSegments);
+                var v2 = vertexIndex(qIndex, 2, widthSegments);
+                var v3 = vertexIndex(qIndex, 3, widthSegments);
                 // The normal vectors for the sphere are simply the normalized position vectors.
                 var n0 = Vector3.copy(points[v0]).normalize();
                 var n1 = Vector3.copy(points[v1]).normalize();
@@ -20897,8 +20917,8 @@
     /**
      * Scratch variables to avoid creating temporary objects.
      */
-    var a$1 = Vector3.zero();
-    var b$1 = Vector3.zero();
+    var a = Vector3.zero();
+    var b = Vector3.zero();
     // Angle around the Y axis, counter-clockwise when looking from above.
     function azimuth(vector) {
         return Math.atan2(vector.z, -vector.x);
@@ -20939,9 +20959,9 @@
      * Computes the normal associated with the three position vectors taken to represent a triangle with CCW-outside orientation.
      */
     function normal(v1, v2, v3) {
-        a$1.copy(v2).sub(v1);
-        b$1.copy(v3).sub(v2);
-        return Vector3.copy(a$1).cross(b$1).normalize();
+        a.copy(v2).sub(v1);
+        b.copy(v3).sub(v2);
+        return Vector3.copy(a).cross(b).normalize();
     }
     /**
      * In elementary geometry, a polyhedron is a solid in three dimensions with
@@ -21099,7 +21119,7 @@
     // the same, sqrt(8), because the side length of the cube is 2. So we have
     // four equilateral triangles stiched together to form a tetrahedron.
     //
-    var vertices = [
+    var vertices$1 = [
         +1, +1, +1, -1, -1, +1, -1, +1, -1, +1, -1, -1
     ];
     //
@@ -21112,7 +21132,7 @@
     function tetrahedronPrimitive(options) {
         if (options === void 0) { options = { kind: 'TetrahedronGeometry' }; }
         var radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : 1.0;
-        var builder = new PolyhedronBuilder(vertices, indices, radius);
+        var builder = new PolyhedronBuilder(vertices$1, indices, radius);
         var primitives = builder.toPrimitives();
         if (primitives.length === 1) {
             return primitives[0];
@@ -21659,12 +21679,12 @@
             throw new Error("'" + elementId + "' is not a valid element identifier.");
         }
     }
-    function vertexShaderSrc(vsId, dom) {
+    function vertexShaderSrc$6(vsId, dom) {
         mustBeString('vsId', vsId);
         mustBeObject('dom', dom);
         return getHTMLElementById(vsId, dom).textContent;
     }
-    function fragmentShaderSrc(fsId, dom) {
+    function fragmentShaderSrc$6(fsId, dom) {
         mustBeString('fsId', fsId);
         mustBeObject('dom', dom);
         return getHTMLElementById(fsId, dom).textContent;
@@ -21721,7 +21741,7 @@
             if (attribs === void 0) { attribs = []; }
             if (dom === void 0) { dom = window.document; }
             if (levelUp === void 0) { levelUp = 0; }
-            var _this = _super.call(this, vertexShaderSrc(detectShaderType(scriptIds, dom)[0], dom), fragmentShaderSrc(detectShaderType(scriptIds, dom)[1], dom), attribs, contextManager, levelUp + 1) || this;
+            var _this = _super.call(this, vertexShaderSrc$6(detectShaderType(scriptIds, dom)[0], dom), fragmentShaderSrc$6(detectShaderType(scriptIds, dom)[1], dom), attribs, contextManager, levelUp + 1) || this;
             _this.setLoggingName('HTMLScriptsMaterial');
             if (levelUp === 0) {
                 _this.synchUp();
@@ -21824,7 +21844,7 @@
         GLSLESVersion["ThreeHundred"] = "300";
     })(GLSLESVersion || (GLSLESVersion = {}));
 
-    function getUniformCodeName(uniforms, name) {
+    function getUniformCodeName$1(uniforms, name) {
         return getUniformVarName(uniforms[name], name);
     }
     function getFragColorVarName(version) {
@@ -21859,13 +21879,13 @@
             return false;
         }
     }
-    var SPACE = ' ';
-    var UNIFORM = 'uniform' + SPACE;
-    var SEMICOLON = ';';
+    var SPACE$1 = ' ';
+    var UNIFORM$1 = 'uniform' + SPACE$1;
+    var SEMICOLON$1 = ';';
     /**
      * Generates a fragment shader
      */
-    function fragmentShaderSrc$1(attributes, uniforms, vColor, vCoords, vLight, version) {
+    function fragmentShaderSrc$5(attributes, uniforms, vColor, vCoords, vLight, version) {
         mustBeDefined('attributes', attributes);
         mustBeDefined('uniforms', uniforms);
         mustBeBoolean(GraphicsProgramSymbols.VARYING_COLOR, vColor);
@@ -21899,7 +21919,7 @@
             if (uniforms.hasOwnProperty(uName)) {
                 switch (uniforms[uName].glslType) {
                     case 'sampler2D': {
-                        lines.push(UNIFORM + uniforms[uName].glslType + SPACE + getUniformCodeName(uniforms, uName) + SEMICOLON);
+                        lines.push(UNIFORM$1 + uniforms[uName].glslType + SPACE$1 + getUniformCodeName$1(uniforms, uName) + SEMICOLON$1);
                         break;
                     }
                 }
@@ -21952,7 +21972,7 @@
         return code;
     }
 
-    function getUniformCodeName$1(uniforms, name) {
+    function getUniformCodeName(uniforms, name) {
         return getUniformVarName(uniforms[name], name);
     }
     function getAttributeModifier(version) {
@@ -21971,19 +21991,19 @@
             return "varying";
         }
     }
-    var SPACE$1 = ' ';
-    var UNIFORM$1 = 'uniform' + SPACE$1;
-    var COMMA = ',' + SPACE$1;
-    var SEMICOLON$1 = ';';
+    var SPACE = ' ';
+    var UNIFORM = 'uniform' + SPACE;
+    var COMMA = ',' + SPACE;
+    var SEMICOLON = ';';
     var LPAREN = '(';
     var RPAREN = ')';
-    var TIMES = SPACE$1 + '*' + SPACE$1;
-    var ASSIGN = SPACE$1 + '=' + SPACE$1;
+    var TIMES = SPACE + '*' + SPACE;
+    var ASSIGN = SPACE + '=' + SPACE;
     var DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME = "directionalLightCosineFactor";
     /**
      * Generates a vertex shader.
      */
-    function vertexShaderSrc$1(attributes, uniforms, vColor, vCoords, vLight, version) {
+    function vertexShaderSrc$5(attributes, uniforms, vColor, vCoords, vLight, version) {
         mustBeDefined('attributes', attributes);
         mustBeDefined('uniforms', uniforms);
         mustBeBoolean(GraphicsProgramSymbols.VARYING_COLOR, vColor);
@@ -22010,7 +22030,7 @@
                         break;
                     }
                     default: {
-                        lines.push(UNIFORM$1 + uniforms[uName].glslType + SPACE$1 + getUniformCodeName$1(uniforms, uName) + SEMICOLON$1);
+                        lines.push(UNIFORM + uniforms[uName].glslType + SPACE + getUniformCodeName(uniforms, uName) + SEMICOLON);
                     }
                 }
             }
@@ -22026,7 +22046,7 @@
         }
         lines.push("void main(void) {");
         var glPosition = [];
-        glPosition.unshift(SEMICOLON$1);
+        glPosition.unshift(SEMICOLON);
         if (attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION]) {
             switch (attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION].glslType) {
                 case 'float': {
@@ -22083,42 +22103,42 @@
         // Reflections are applied first.
         if (uniforms[GraphicsProgramSymbols.UNIFORM_REFLECTION_ONE_MATRIX]) {
             glPosition.unshift(TIMES);
-            glPosition.unshift(getUniformCodeName$1(uniforms, GraphicsProgramSymbols.UNIFORM_REFLECTION_ONE_MATRIX));
+            glPosition.unshift(getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_REFLECTION_ONE_MATRIX));
         }
         if (uniforms[GraphicsProgramSymbols.UNIFORM_REFLECTION_TWO_MATRIX]) {
             glPosition.unshift(TIMES);
-            glPosition.unshift(getUniformCodeName$1(uniforms, GraphicsProgramSymbols.UNIFORM_REFLECTION_TWO_MATRIX));
+            glPosition.unshift(getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_REFLECTION_TWO_MATRIX));
         }
         if (uniforms[GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX]) {
             glPosition.unshift(TIMES);
-            glPosition.unshift(getUniformCodeName$1(uniforms, GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX));
+            glPosition.unshift(getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX));
         }
         if (uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX]) {
             glPosition.unshift(TIMES);
-            glPosition.unshift(getUniformCodeName$1(uniforms, GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX));
+            glPosition.unshift(getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX));
         }
         if (uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX]) {
             glPosition.unshift(TIMES);
-            glPosition.unshift(getUniformCodeName$1(uniforms, GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX));
+            glPosition.unshift(getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX));
         }
         glPosition.unshift(ASSIGN);
         glPosition.unshift("gl_Position");
         glPosition.unshift('  ');
         lines.push(glPosition.join(''));
         if (uniforms[GraphicsProgramSymbols.UNIFORM_POINT_SIZE]) {
-            lines.push("  gl_PointSize = " + getUniformCodeName$1(uniforms, GraphicsProgramSymbols.UNIFORM_POINT_SIZE) + ";");
+            lines.push("  gl_PointSize = " + getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_POINT_SIZE) + ";");
         }
         if (vColor) {
             if (attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR]) {
                 var colorAttribVarName = getAttribVarName(attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR], GraphicsProgramSymbols.ATTRIBUTE_COLOR);
                 switch (attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR].glslType) {
                     case 'vec4': {
-                        lines.push("  " + GraphicsProgramSymbols.VARYING_COLOR + " = " + colorAttribVarName + SEMICOLON$1);
+                        lines.push("  " + GraphicsProgramSymbols.VARYING_COLOR + " = " + colorAttribVarName + SEMICOLON);
                         break;
                     }
                     case 'vec3': {
                         if (uniforms[GraphicsProgramSymbols.UNIFORM_OPACITY]) {
-                            lines.push("  " + GraphicsProgramSymbols.VARYING_COLOR + " = vec4(" + colorAttribVarName + ", " + getUniformCodeName$1(uniforms, GraphicsProgramSymbols.UNIFORM_OPACITY) + ");");
+                            lines.push("  " + GraphicsProgramSymbols.VARYING_COLOR + " = vec4(" + colorAttribVarName + ", " + getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_OPACITY) + ");");
                         }
                         else {
                             lines.push("  " + GraphicsProgramSymbols.VARYING_COLOR + " = vec4(" + colorAttribVarName + ", 1.0);");
@@ -22131,15 +22151,15 @@
                 }
             }
             else if (uniforms[GraphicsProgramSymbols.UNIFORM_COLOR]) {
-                var colorUniformVarName = getUniformCodeName$1(uniforms, GraphicsProgramSymbols.UNIFORM_COLOR);
+                var colorUniformVarName = getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_COLOR);
                 switch (uniforms[GraphicsProgramSymbols.UNIFORM_COLOR].glslType) {
                     case 'vec4': {
-                        lines.push("  vColor = " + colorUniformVarName + SEMICOLON$1);
+                        lines.push("  vColor = " + colorUniformVarName + SEMICOLON);
                         break;
                     }
                     case 'vec3': {
                         if (uniforms[GraphicsProgramSymbols.UNIFORM_OPACITY]) {
-                            lines.push("  " + GraphicsProgramSymbols.VARYING_COLOR + " = vec4(" + colorUniformVarName + ", " + getUniformCodeName$1(uniforms, GraphicsProgramSymbols.UNIFORM_OPACITY) + ");");
+                            lines.push("  " + GraphicsProgramSymbols.VARYING_COLOR + " = vec4(" + colorUniformVarName + ", " + getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_OPACITY) + ");");
                         }
                         else {
                             lines.push("  " + GraphicsProgramSymbols.VARYING_COLOR + " = vec4(" + colorUniformVarName + ", 1.0);");
@@ -22160,20 +22180,20 @@
         }
         if (vLight) {
             if (uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR] && uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION] && uniforms[GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX] && attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL]) {
-                lines.push("  vec3 L = normalize(" + getUniformCodeName$1(uniforms, GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION) + ");");
-                lines.push("  vec3 N = normalize(" + getUniformCodeName$1(uniforms, GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX) + " * " + getAttribVarName(attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL], GraphicsProgramSymbols.ATTRIBUTE_NORMAL) + ");");
+                lines.push("  vec3 L = normalize(" + getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION) + ");");
+                lines.push("  vec3 N = normalize(" + getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX) + " * " + getAttribVarName(attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL], GraphicsProgramSymbols.ATTRIBUTE_NORMAL) + ");");
                 lines.push("  // The minus sign arises because L is the light direction, so we need dot(N, -L) = -dot(N, L)");
                 lines.push("  float " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " = max(-dot(N, L), 0.0);");
                 if (uniforms[GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT]) {
-                    lines.push("  " + GraphicsProgramSymbols.VARYING_LIGHT + " = " + getUniformCodeName$1(uniforms, GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT) + " + " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " * " + getUniformCodeName$1(uniforms, GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR) + ";");
+                    lines.push("  " + GraphicsProgramSymbols.VARYING_LIGHT + " = " + getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT) + " + " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " * " + getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR) + ";");
                 }
                 else {
-                    lines.push("  " + GraphicsProgramSymbols.VARYING_LIGHT + " = " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " * " + getUniformCodeName$1(uniforms, GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR) + ";");
+                    lines.push("  " + GraphicsProgramSymbols.VARYING_LIGHT + " = " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " * " + getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR) + ";");
                 }
             }
             else {
                 if (uniforms[GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT]) {
-                    lines.push("  " + GraphicsProgramSymbols.VARYING_LIGHT + " = " + getUniformCodeName$1(uniforms, GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT) + ";");
+                    lines.push("  " + GraphicsProgramSymbols.VARYING_LIGHT + " = " + getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT) + ";");
                 }
                 else {
                     lines.push("  " + GraphicsProgramSymbols.VARYING_LIGHT + " = vec3(1.0, 1.0, 1.0);");
@@ -22245,7 +22265,7 @@
             var vColor = vColorRequired(aParams, this.uParams);
             var vCoords = vCoordsRequired(aParams, this.uParams);
             var vLight = vLightRequired(aParams, this.uParams);
-            return vertexShaderSrc$1(aParams, this.uParams, vColor, vCoords, vLight, this._version);
+            return vertexShaderSrc$5(aParams, this.uParams, vColor, vCoords, vLight, this._version);
         };
         /**
          * Computes fragment shader source code consistent with the state of this builder.
@@ -22255,7 +22275,7 @@
             var vColor = vColorRequired(aParams, this.uParams);
             var vCoords = vCoordsRequired(aParams, this.uParams);
             var vLight = vLightRequired(aParams, this.uParams);
-            return fragmentShaderSrc$1(aParams, this.uParams, vColor, vCoords, vLight, this._version);
+            return fragmentShaderSrc$5(aParams, this.uParams, vColor, vCoords, vLight, this._version);
         };
         return GraphicsProgramBuilder;
     }());
@@ -22287,7 +22307,7 @@
         }
     }
 
-    function defaultOptions(options) {
+    function defaultOptions$2(options) {
         if (!options.attributes) {
             options.attributes = {};
         }
@@ -22301,22 +22321,22 @@
         options.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4';
         options.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
     }
-    function shaderPropertiesCount(options) {
+    function shaderPropertiesCount$2(options) {
         var count = Object.keys(options).length;
         if (options.version) {
             count--;
         }
         return count;
     }
-    function builder(contextId, options) {
+    function builder$2(contextId, options) {
         if (isNull(options) || isUndefined(options)) {
             options = { attributes: {}, uniforms: {} };
-            defaultOptions(options);
+            defaultOptions$2(options);
         }
         else {
             mustBeObject('options', options);
-            if (shaderPropertiesCount(options) === 0) {
-                defaultOptions(options);
+            if (shaderPropertiesCount$2(options) === 0) {
+                defaultOptions$2(options);
             }
         }
         var attributes = isDefined(options.attributes) ? options.attributes : {};
@@ -22337,14 +22357,14 @@
         }
         return gpb;
     }
-    function vertexShaderSrc$2(contextId, options) {
-        return builder(contextId, options).vertexShaderSrc();
+    function vertexShaderSrc$4(contextId, options) {
+        return builder$2(contextId, options).vertexShaderSrc();
     }
-    function fragmentShaderSrc$2(contextId, options) {
-        return builder(contextId, options).fragmentShaderSrc();
+    function fragmentShaderSrc$4(contextId, options) {
+        return builder$2(contextId, options).fragmentShaderSrc();
     }
     var LOGGING_NAME_LINE_MATERIAL = 'LineMaterial';
-    function getContextId(contextManager) {
+    function getContextId$2(contextManager) {
         return mustBeNonNullObject('contextManager', contextManager).contextId;
     }
     /**
@@ -22363,7 +22383,7 @@
          */
         function LineMaterial(contextManager, options, levelUp) {
             if (levelUp === void 0) { levelUp = 0; }
-            var _this = _super.call(this, vertexShaderSrc$2(getContextId(contextManager), options), fragmentShaderSrc$2(getContextId(contextManager), options), [], contextManager, levelUp + 1) || this;
+            var _this = _super.call(this, vertexShaderSrc$4(getContextId$2(contextManager), options), fragmentShaderSrc$4(getContextId$2(contextManager), options), [], contextManager, levelUp + 1) || this;
             _this.setLoggingName(LOGGING_NAME_LINE_MATERIAL);
             if (levelUp === 0) {
                 _this.synchUp();
@@ -22511,7 +22531,7 @@
         return MeshMaterial;
     }(ShaderMaterial));
 
-    function defaultOptions$2(options) {
+    function defaultOptions(options) {
         if (!options.attributes) {
             options.attributes = {};
         }
@@ -22526,22 +22546,22 @@
         options.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
         options.uniforms[GraphicsProgramSymbols.UNIFORM_POINT_SIZE] = 'float';
     }
-    function shaderPropertiesCount$2(options) {
+    function shaderPropertiesCount(options) {
         var count = Object.keys(options).length;
         if (options.version) {
             count--;
         }
         return count;
     }
-    function builder$2(contextId, options) {
+    function builder(contextId, options) {
         if (isNull(options) || isUndefined(options)) {
             options = { attributes: {}, uniforms: {} };
-            defaultOptions$2(options);
+            defaultOptions(options);
         }
         else {
             mustBeObject('options', options);
-            if (shaderPropertiesCount$2(options) === 0) {
-                defaultOptions$2(options);
+            if (shaderPropertiesCount(options) === 0) {
+                defaultOptions(options);
             }
         }
         var attributes = isDefined(options.attributes) ? options.attributes : {};
@@ -22562,14 +22582,14 @@
         }
         return gpb;
     }
-    function vertexShaderSrc$4(contextId, options) {
-        return builder$2(contextId, options).vertexShaderSrc();
+    function vertexShaderSrc$2(contextId, options) {
+        return builder(contextId, options).vertexShaderSrc();
     }
-    function fragmentShaderSrc$4(contextId, options) {
-        return builder$2(contextId, options).fragmentShaderSrc();
+    function fragmentShaderSrc$2(contextId, options) {
+        return builder(contextId, options).fragmentShaderSrc();
     }
     var LOGGING_NAME_POINT_MATERIAL = 'PointMaterial';
-    function getContextId$2(contextManager) {
+    function getContextId(contextManager) {
         return mustBeNonNullObject('contextManager', contextManager).contextId;
     }
     /**
@@ -22582,7 +22602,7 @@
          */
         function PointMaterial(contextManager, options, levelUp) {
             if (levelUp === void 0) { levelUp = 0; }
-            var _this = _super.call(this, vertexShaderSrc$4(getContextId$2(contextManager), options), fragmentShaderSrc$4(getContextId$2(contextManager), options), [], contextManager, levelUp + 1) || this;
+            var _this = _super.call(this, vertexShaderSrc$2(getContextId(contextManager), options), fragmentShaderSrc$2(getContextId(contextManager), options), [], contextManager, levelUp + 1) || this;
             _this.setLoggingName(LOGGING_NAME_POINT_MATERIAL);
             if (levelUp === 0) {
                 _this.synchUp();
@@ -22646,15 +22666,15 @@
     var acos = makeUnaryUniversalFunction('acos', Math.acos);
     var asin = makeUnaryUniversalFunction('asin', Math.asin);
     var atan = makeUnaryUniversalFunction('atan', Math.atan);
-    var cos$3 = makeUnaryUniversalFunction('cos', Math.cos);
+    var cos = makeUnaryUniversalFunction('cos', Math.cos);
     var cosh = makeUnaryUniversalFunction('cosh', coshNumber);
-    var exp$3 = makeUnaryUniversalFunction('exp', Math.exp);
-    var log$4 = makeUnaryUniversalFunction('log', Math.log);
+    var exp = makeUnaryUniversalFunction('exp', Math.exp);
+    var log = makeUnaryUniversalFunction('log', Math.log);
     var norm = makeUnaryUniversalFunction('norm', Math.abs);
-    var quad = makeUnaryUniversalFunction('quad', function (x) { return x * x; });
-    var sin$3 = makeUnaryUniversalFunction('sin', Math.sin);
+    var quad$1 = makeUnaryUniversalFunction('quad', function (x) { return x * x; });
+    var sin = makeUnaryUniversalFunction('sin', Math.sin);
     var sinh = makeUnaryUniversalFunction('sinh', sinhNumber);
-    var sqrt$8 = makeUnaryUniversalFunction('sqrt', Math.sqrt);
+    var sqrt = makeUnaryUniversalFunction('sqrt', Math.sqrt);
     var tan = makeUnaryUniversalFunction('tan', Math.tan);
     var tanh = makeUnaryUniversalFunction('tanh', tanhNumber);
 
@@ -23091,9 +23111,9 @@
         return publicAPI;
     }
 
-    var INITIAL_AXIS = canonicalAxis;
+    var INITIAL_AXIS = canonicalAxis$4;
     var INITIAL_LENGTH = 1.0;
-    var INITIAL_MERIDIAN = canonicalMeridian;
+    var INITIAL_MERIDIAN = canonicalMeridian$1;
     var INITIAL_RADIUS = 0.5;
     var INITIAL_SLICE = 2 * Math.PI;
     function make(axis, length, meridian, radius, sliceAngle) {
@@ -23232,7 +23252,7 @@
      * If the value of the vector is 0, return undefined.
      * TODO: Why do we do this "dangerous" thing?
      */
-    function simplify(vector) {
+    function simplify$1(vector) {
         if (vector.x !== 0 || vector.y !== 0 || vector.z !== 0) {
             return { x: vector.x, y: vector.y, z: vector.z };
         }
@@ -23245,10 +23265,10 @@
      */
     function offsetFromOptions(options) {
         if (options.offset) {
-            return simplify(options.offset);
+            return simplify$1(options.offset);
         }
         else {
-            return simplify(Geometric3.ZERO);
+            return simplify$1(Geometric3.ZERO);
         }
     }
 
@@ -23455,7 +23475,7 @@
     var uColorA = 'uColorA';
     var uColorB = 'uColorB';
     var uColorC = 'uColorC';
-    var vertexShaderSrc$5 = function () {
+    var vertexShaderSrc$1 = function () {
         var vs = [
             "attribute float aPointIndex;",
             "attribute float aColorIndex;",
@@ -23500,7 +23520,7 @@
         ].join('\n');
         return vs;
     };
-    var fragmentShaderSrc$5 = function () {
+    var fragmentShaderSrc$1 = function () {
         var fs = [
             "precision mediump float;",
             "varying highp vec4 " + GraphicsProgramSymbols.VARYING_COLOR + ";",
@@ -23546,7 +23566,7 @@
             var geometry = new GeometryArrays(contextManager, primitive);
             _this.geometry = geometry;
             geometry.release();
-            var material = new ShaderMaterial(vertexShaderSrc$5(), fragmentShaderSrc$5(), [], contextManager);
+            var material = new ShaderMaterial(vertexShaderSrc$1(), fragmentShaderSrc$1(), [], contextManager);
             _this.material = material;
             material.release();
             _this.setFacet("Basis-" + uPointA, _this.uPointA);
@@ -23943,14 +23963,14 @@
     function aPositionDefault$1(u) {
         return Vector3.vector(u, 0, 0);
     }
-    function isFunctionOrNull(x) {
+    function isFunctionOrNull$1(x) {
         return isFunction(x) || isNull(x);
     }
-    function isFunctionOrUndefined(x) {
+    function isFunctionOrUndefined$1(x) {
         return isFunction(x) || isUndefined(x);
     }
-    function transferGeometryOptions(options, geoOptions) {
-        if (isFunctionOrNull(options.aPosition)) {
+    function transferGeometryOptions$1(options, geoOptions) {
+        if (isFunctionOrNull$1(options.aPosition)) {
             geoOptions.aPosition = options.aPosition;
         }
         else if (isUndefined(options.aPosition)) {
@@ -23959,7 +23979,7 @@
         else {
             throw new Error("aPosition must be one of function, null, or undefined.");
         }
-        if (isFunctionOrNull(options.aColor)) {
+        if (isFunctionOrNull$1(options.aColor)) {
             geoOptions.aColor = options.aColor;
         }
         else if (isUndefined(options.aColor)) ;
@@ -23985,15 +24005,15 @@
             geoOptions.uSegments = 1;
         }
     }
-    function configPoints(contextManager, options, curve) {
+    function configPoints$1(contextManager, options, curve) {
         var geoOptions = { kind: 'CurveGeometry' };
-        transferGeometryOptions(options, geoOptions);
+        transferGeometryOptions$1(options, geoOptions);
         geoOptions.mode = exports.CurveMode.POINTS;
         var geometry = new CurveGeometry(contextManager, geoOptions);
         curve.geometry = geometry;
         geometry.release();
         var matOptions = { kind: 'PointMaterial', attributes: {}, uniforms: {} };
-        if (isFunctionOrUndefined(options.aPosition)) {
+        if (isFunctionOrUndefined$1(options.aPosition)) {
             matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
         }
         else if (isNull(options.aPosition)) ;
@@ -24021,15 +24041,15 @@
         curve.material = material;
         material.release();
     }
-    function configLines(contextManager, options, curve) {
+    function configLines$1(contextManager, options, curve) {
         var geoOptions = { kind: 'CurveGeometry' };
-        transferGeometryOptions(options, geoOptions);
+        transferGeometryOptions$1(options, geoOptions);
         geoOptions.mode = exports.CurveMode.LINES;
         var geometry = new CurveGeometry(contextManager, geoOptions);
         curve.geometry = geometry;
         geometry.release();
         var matOptions = { kind: 'LineMaterial', attributes: {}, uniforms: {} };
-        if (isFunctionOrUndefined(options.aPosition)) {
+        if (isFunctionOrUndefined$1(options.aPosition)) {
             matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
         }
         else if (isNull(options.aPosition)) ;
@@ -24066,11 +24086,11 @@
             var mode = isDefined(options.mode) ? options.mode : exports.CurveMode.LINES;
             switch (mode) {
                 case exports.CurveMode.POINTS: {
-                    configPoints(contextManager, options, _this);
+                    configPoints$1(contextManager, options, _this);
                     break;
                 }
                 case exports.CurveMode.LINES: {
-                    configLines(contextManager, options, _this);
+                    configLines$1(contextManager, options, _this);
                     break;
                 }
                 default: {
@@ -24170,7 +24190,7 @@
         OPTION_MODE
     ];
     var OPTION_NAMES = OPTIONS.map(function (option) { return option.name; });
-    function aPositionDefault$2(u, v) {
+    function aPositionDefault(u, v) {
         return vec(u, v, 0);
     }
     function aNormalDefault(u, v) {
@@ -24178,23 +24198,23 @@
         mustBeNumber('v', v);
         return vec(0, 0, 1);
     }
-    function isFunctionOrNull$1(x) {
+    function isFunctionOrNull(x) {
         return isFunction(x) || isNull(x);
     }
-    function isFunctionOrUndefined$1(x) {
+    function isFunctionOrUndefined(x) {
         return isFunction(x) || isUndefined(x);
     }
-    function transferGeometryOptions$1(source, target) {
-        if (isFunctionOrNull$1(source.aPosition)) {
+    function transferGeometryOptions(source, target) {
+        if (isFunctionOrNull(source.aPosition)) {
             target.aPosition = source.aPosition;
         }
         else if (isUndefined(source.aPosition)) {
-            target.aPosition = aPositionDefault$2;
+            target.aPosition = aPositionDefault;
         }
         else {
             throw new Error("aPosition must be one of function, null, or undefined.");
         }
-        if (isFunctionOrNull$1(source.aNormal)) {
+        if (isFunctionOrNull(source.aNormal)) {
             target.aNormal = source.aNormal;
         }
         else if (isUndefined(source.aNormal)) {
@@ -24203,7 +24223,7 @@
         else {
             throw new Error("aNormal must be one of function, null, or undefined.");
         }
-        if (isFunctionOrNull$1(source.aColor)) {
+        if (isFunctionOrNull(source.aColor)) {
             target.aColor = source.aColor;
         }
         else if (isUndefined(source.aColor)) ;
@@ -24241,13 +24261,13 @@
         }
         */
     }
-    function configPoints$1(engine, options, grid) {
+    function configPoints(engine, options, grid) {
         var geoOptions = { kind: 'GridGeometry' };
-        transferGeometryOptions$1(options, geoOptions);
+        transferGeometryOptions(options, geoOptions);
         geoOptions.mode = exports.GeometryMode.POINT;
         configGeometry(engine, geoOptions, grid);
         var matOptions = { kind: 'PointMaterial', attributes: {}, uniforms: {} };
-        if (isFunctionOrUndefined$1(options.aPosition)) {
+        if (isFunctionOrUndefined(options.aPosition)) {
             matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
         }
         else if (isNull(options.aPosition)) ;
@@ -24277,13 +24297,13 @@
             engine.putCacheMaterial(matOptions, material);
         }
     }
-    function configLines$1(engine, options, grid) {
+    function configLines(engine, options, grid) {
         var geoOptions = { kind: 'GridGeometry' };
-        transferGeometryOptions$1(options, geoOptions);
+        transferGeometryOptions(options, geoOptions);
         geoOptions.mode = exports.GeometryMode.WIRE;
         configGeometry(engine, geoOptions, grid);
         var matOptions = { kind: 'LineMaterial', attributes: {}, uniforms: {} };
-        if (isFunctionOrUndefined$1(options.aPosition)) {
+        if (isFunctionOrUndefined(options.aPosition)) {
             matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
         }
         else if (isNull(options.aPosition)) ;
@@ -24319,21 +24339,21 @@
     }
     function configMesh(engine, options, grid) {
         var geoOptions = { kind: 'GridGeometry' };
-        transferGeometryOptions$1(options, geoOptions);
+        transferGeometryOptions(options, geoOptions);
         geoOptions.mode = exports.GeometryMode.MESH;
         configGeometry(engine, geoOptions, grid);
         var geometry = new GridGeometry(engine, geoOptions);
         grid.geometry = geometry;
         geometry.release();
         var matOptions = { kind: 'MeshMaterial', attributes: {}, uniforms: {} };
-        if (isFunctionOrUndefined$1(options.aPosition)) {
+        if (isFunctionOrUndefined(options.aPosition)) {
             matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
         }
         else if (isNull(options.aPosition)) ;
         else {
             throw new Error();
         }
-        if (isFunctionOrUndefined$1(options.aNormal)) {
+        if (isFunctionOrUndefined(options.aNormal)) {
             matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = 3;
             matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX] = 'mat3';
             matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR] = 'vec3';
@@ -24389,11 +24409,11 @@
             var mode = geometryModeFromOptions(options, exports.GeometryMode.WIRE);
             switch (mode) {
                 case exports.GeometryMode.POINT: {
-                    configPoints$1(engine, options, _this);
+                    configPoints(engine, options, _this);
                     break;
                 }
                 case exports.GeometryMode.WIRE: {
-                    configLines$1(engine, options, _this);
+                    configLines(engine, options, _this);
                     break;
                 }
                 case exports.GeometryMode.MESH: {
@@ -24424,9 +24444,9 @@
         return Grid;
     }(Mesh));
 
-    var ALLOWED_OPTIONS = ['xMin', 'xMax', 'xSegments', 'yMin', 'yMax', 'ySegments', 'z', 'contextManager', 'engine', 'tilt', 'offset', 'mode'];
-    function mapOptions(options) {
-        expectOptions(ALLOWED_OPTIONS, Object.keys(options));
+    var ALLOWED_OPTIONS$2 = ['xMin', 'xMax', 'xSegments', 'yMin', 'yMax', 'ySegments', 'z', 'contextManager', 'engine', 'tilt', 'offset', 'mode'];
+    function mapOptions$2(options) {
+        expectOptions(ALLOWED_OPTIONS$2, Object.keys(options));
         var aPosition;
         if (isDefined(options.z)) {
             mustBeFunction('z', options.z);
@@ -24468,7 +24488,7 @@
         function GridXY(contextManager, options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
-            var _this = _super.call(this, contextManager, mapOptions(options), levelUp + 1) || this;
+            var _this = _super.call(this, contextManager, mapOptions$2(options), levelUp + 1) || this;
             _this.setLoggingName('GridXY');
             if (levelUp === 0) {
                 _this.synchUp();
@@ -24550,9 +24570,9 @@
         return GridYZ;
     }(Grid));
 
-    var ALLOWED_OPTIONS$2 = ['zMin', 'zMax', 'zSegments', 'xMin', 'xMax', 'xSegments', 'y', 'contextManager', 'engine', 'tilt', 'offset', 'mode'];
-    function mapOptions$2(options) {
-        expectOptions(ALLOWED_OPTIONS$2, Object.keys(options));
+    var ALLOWED_OPTIONS = ['zMin', 'zMax', 'zSegments', 'xMin', 'xMax', 'xSegments', 'y', 'contextManager', 'engine', 'tilt', 'offset', 'mode'];
+    function mapOptions(options) {
+        expectOptions(ALLOWED_OPTIONS, Object.keys(options));
         var aPosition;
         if (isDefined(options.y)) {
             mustBeFunction('y', options.y);
@@ -24591,7 +24611,7 @@
         function GridZX(contextManager, options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
-            var _this = _super.call(this, contextManager, mapOptions$2(options), levelUp + 1) || this;
+            var _this = _super.call(this, contextManager, mapOptions(options), levelUp + 1) || this;
             _this.setLoggingName('GridZX');
             if (levelUp === 0) {
                 _this.synchUp();
@@ -24752,14 +24772,14 @@
     }(ShareableBase));
 
     var e2$1 = Vector3.vector(0, 1, 0);
-    var e3$1 = Vector3.vector(0, 0, 1);
+    var e3 = Vector3.vector(0, 0, 1);
     /**
      * Generates a Primitive from the specified options.
      */
     function hollowCylinderPrimitive(options) {
         if (options === void 0) { options = { kind: 'HollowCylinderGeometry' }; }
         var axis = (typeof options.axis === 'object') ? Vector3.copy(options.axis) : e2$1;
-        var meridian = (typeof options.meridian === 'object') ? Vector3.copy(options.meridian).normalize() : e3$1;
+        var meridian = (typeof options.meridian === 'object') ? Vector3.copy(options.meridian).normalize() : e3;
         var outerRadius = (typeof options.outerRadius === 'number') ? options.outerRadius : 1.0;
         var innerRadius = (typeof options.innerRadius === 'number') ? options.innerRadius : 0.5;
         var sliceAngle = (typeof options.sliceAngle === 'number') ? options.sliceAngle : 2 * Math.PI;
@@ -25349,7 +25369,7 @@
             }
         }
     }
-    function aCoords(part, side, width, height, oldSkinLayout) {
+    function aCoords$1(part, side, width, height, oldSkinLayout) {
         var cs = textureBounds(part, side, version(width, height), oldSkinLayout);
         var x1 = cs[0] / width;
         var y1 = cs[1] / height;
@@ -25403,12 +25423,12 @@
         var height = naturalHeight * naturalScale;
         var oldSkinLayout = options.oldSkinLayout;
         var coords = [
-            aCoords(partKind, MinecraftSide.Front, width, height, oldSkinLayout),
-            aCoords(partKind, MinecraftSide.Back, width, height, oldSkinLayout),
-            aCoords(partKind, MinecraftSide.Left, width, height, oldSkinLayout),
-            aCoords(partKind, MinecraftSide.Right, width, height, oldSkinLayout),
-            aCoords(partKind, MinecraftSide.Top, width, height, oldSkinLayout),
-            aCoords(partKind, MinecraftSide.Bottom, width, height, oldSkinLayout)
+            aCoords$1(partKind, MinecraftSide.Front, width, height, oldSkinLayout),
+            aCoords$1(partKind, MinecraftSide.Back, width, height, oldSkinLayout),
+            aCoords$1(partKind, MinecraftSide.Left, width, height, oldSkinLayout),
+            aCoords$1(partKind, MinecraftSide.Right, width, height, oldSkinLayout),
+            aCoords$1(partKind, MinecraftSide.Top, width, height, oldSkinLayout),
+            aCoords$1(partKind, MinecraftSide.Bottom, width, height, oldSkinLayout)
         ].reduce(function (a, b) { return a.concat(b); });
         var primitive = {
             mode: exports.BeginMode.TRIANGLES,
@@ -25577,8 +25597,8 @@
         return MinecraftLegR;
     }(MinecraftBodyPart));
 
-    var e1$1 = vec(1, 0, 0);
-    var e2$2 = vec(0, 1, 0);
+    var e1 = vec(1, 0, 0);
+    var e2 = vec(0, 1, 0);
     /**
      * A group of body parts arranged to look like a figure.
      */
@@ -25590,28 +25610,28 @@
             var height = isNumber(options.height) ? options.height : 1;
             var scale = height / 32;
             var oldSkinLayout = isBoolean(options.oldSkinLayout) ? options.oldSkinLayout : false;
-            _this.head = new MinecraftHead(engine, texture, { height: height, offset: e2$2.scale(scale * 4), oldSkinLayout: oldSkinLayout });
-            _this.head.position.zero().addVector(e2$2, scale * 24);
+            _this.head = new MinecraftHead(engine, texture, { height: height, offset: e2.scale(scale * 4), oldSkinLayout: oldSkinLayout });
+            _this.head.position.zero().addVector(e2, scale * 24);
             _this.add(_this.head);
             _this.head.release();
             _this.torso = new MinecraftTorso(engine, texture, { height: height, oldSkinLayout: oldSkinLayout });
-            _this.torso.position.zero().addVector(e2$2, scale * 18);
+            _this.torso.position.zero().addVector(e2, scale * 18);
             _this.add(_this.torso);
             _this.torso.release();
-            _this.armL = new MinecraftArmL(engine, texture, { height: height, offset: e2$2.scale(-scale * 4), oldSkinLayout: oldSkinLayout });
-            _this.armL.position.zero().addVector(e2$2, scale * 22).addVector(e1$1, scale * 6);
+            _this.armL = new MinecraftArmL(engine, texture, { height: height, offset: e2.scale(-scale * 4), oldSkinLayout: oldSkinLayout });
+            _this.armL.position.zero().addVector(e2, scale * 22).addVector(e1, scale * 6);
             _this.add(_this.armL);
             _this.armL.release();
-            _this.armR = new MinecraftArmR(engine, texture, { height: height, offset: e2$2.scale(-scale * 4), oldSkinLayout: oldSkinLayout });
-            _this.armR.position.zero().addVector(e2$2, scale * 22).subVector(e1$1, scale * 6);
+            _this.armR = new MinecraftArmR(engine, texture, { height: height, offset: e2.scale(-scale * 4), oldSkinLayout: oldSkinLayout });
+            _this.armR.position.zero().addVector(e2, scale * 22).subVector(e1, scale * 6);
             _this.add(_this.armR);
             _this.armR.release();
-            _this.legL = new MinecraftLegL(engine, texture, { height: height, offset: e2$2.scale(-scale * 4), oldSkinLayout: oldSkinLayout });
-            _this.legL.position.zero().addVector(e2$2, scale * 10).addVector(e1$1, scale * 2);
+            _this.legL = new MinecraftLegL(engine, texture, { height: height, offset: e2.scale(-scale * 4), oldSkinLayout: oldSkinLayout });
+            _this.legL.position.zero().addVector(e2, scale * 10).addVector(e1, scale * 2);
             _this.add(_this.legL);
             _this.legL.release();
-            _this.legR = new MinecraftLegR(engine, texture, { height: height, offset: e2$2.scale(-scale * 4), oldSkinLayout: oldSkinLayout });
-            _this.legR.position.zero().addVector(e2$2, scale * 10).subVector(e1$1, scale * 2);
+            _this.legR = new MinecraftLegR(engine, texture, { height: height, offset: e2.scale(-scale * 4), oldSkinLayout: oldSkinLayout });
+            _this.legR.position.zero().addVector(e2, scale * 10).subVector(e1, scale * 2);
             _this.add(_this.legR);
             _this.legR.release();
             return _this;
@@ -25619,7 +25639,7 @@
         return MinecraftFigure;
     }(Group));
 
-    var vertexShaderSrc$6 = [
+    var vertexShaderSrc = [
         "attribute vec3 aCoords;",
         "attribute float aFace;",
         "uniform vec3 a;",
@@ -25661,7 +25681,7 @@
         "  }",
         "}"
     ].join('\n');
-    var fragmentShaderSrc$6 = [
+    var fragmentShaderSrc = [
         "precision mediump float;",
         "varying highp vec4 vColor;",
         "",
@@ -25672,7 +25692,7 @@
     /**
      * Coordinates of the cube vertices.
      */
-    var vertices$1 = [
+    var vertices = [
         [-0.5, -0.5, +0.5],
         [-0.5, +0.5, +0.5],
         [+0.5, +0.5, +0.5],
@@ -25682,7 +25702,7 @@
         [+0.5, +0.5, -0.5],
         [+0.5, -0.5, -0.5],
     ];
-    var aCoords$1 = [];
+    var aCoords = [];
     var aFaces = [];
     var ID = 'parallelepiped';
     var NAME = 'Parallelepiped';
@@ -25692,23 +25712,23 @@
      * The dimensionality of each position is 3, but could be changed.
      * The first parameter, a, is used to pick the color of the entire face.
      */
-    function quad$1(a, b, c, d) {
+    function quad(a, b, c, d) {
         var indices = [a, b, c, a, c, d];
         for (var i = 0; i < indices.length; i++) {
-            var vertex = vertices$1[indices[i]];
+            var vertex = vertices[indices[i]];
             var dims = vertex.length;
             for (var d_1 = 0; d_1 < dims; d_1++) {
-                aCoords$1.push(vertex[d_1]);
+                aCoords.push(vertex[d_1]);
             }
             aFaces.push(a - 1);
         }
     }
-    quad$1(1, 0, 3, 2);
-    quad$1(2, 3, 7, 6);
-    quad$1(3, 0, 4, 7);
-    quad$1(6, 5, 1, 2);
-    quad$1(4, 5, 6, 7);
-    quad$1(5, 4, 0, 1);
+    quad(1, 0, 3, 2);
+    quad(2, 3, 7, 6);
+    quad(3, 0, 4, 7);
+    quad(6, 5, 1, 2);
+    quad(4, 5, 6, 7);
+    quad(5, 4, 0, 1);
     var Parallelepiped = /** @class */ (function () {
         function Parallelepiped(contextManager, levelUp) {
             if (levelUp === void 0) { levelUp = 0; }
@@ -25796,7 +25816,7 @@
                 var primitive = {
                     mode: exports.BeginMode.TRIANGLES,
                     attributes: {
-                        aCoords: { values: aCoords$1, size: 3 },
+                        aCoords: { values: aCoords, size: 3 },
                         aFace: { values: aFaces, size: 1 }
                     }
                 };
@@ -25804,7 +25824,7 @@
                 // geometry.mode = BeginMode.TRIANGLES;
                 // geometry.setAttribute('aCoords', { values: aCoords, size: 3, type: DataType.FLOAT });
                 // geometry.setAttribute('aFace', { values: aFaces, size: 1, type: DataType.FLOAT });
-                var material = new ShaderMaterial(vertexShaderSrc$6, fragmentShaderSrc$6, [], this.contextManager);
+                var material = new ShaderMaterial(vertexShaderSrc, fragmentShaderSrc, [], this.contextManager);
                 this.mesh = new Mesh(geometry, material, this.contextManager, {}, 0);
                 geometry.release();
                 material.release();
@@ -26274,7 +26294,7 @@
      * Reduce to the SpinorE3 data structure.
      * If the value of the spinor is 1, return void 0.
      */
-    function simplify$1(spinor) {
+    function simplify(spinor) {
         if (spinor.a !== 1 || spinor.xy !== 0 || spinor.yz !== 0 || spinor.zx !== 0) {
             return { a: spinor.a, xy: spinor.xy, yz: spinor.yz, zx: spinor.zx };
         }
@@ -26287,14 +26307,14 @@
      */
     function tiltFromOptions(options, canonical) {
         if (options.tilt) {
-            return simplify$1(options.tilt);
+            return simplify(options.tilt);
         }
         else if (options.axis) {
             var axis = options.axis;
-            return simplify$1(Geometric3.rotorFromDirections(canonical, axis));
+            return simplify(Geometric3.rotorFromDirections(canonical, axis));
         }
         else {
-            return simplify$1(Geometric3.ONE);
+            return simplify(Geometric3.ONE);
         }
     }
 
@@ -26304,8 +26324,8 @@
     var TAIL = [0, -1, 0];
     var CENTER = [0, 0, 0];
     var LEFT = [-0.5, 0, 0];
-    var canonicalAxis$4 = vec(0, 0, 1);
-    function concat$1(a, b) { return a.concat(b); }
+    var canonicalAxis = vec(0, 0, 1);
+    function concat(a, b) { return a.concat(b); }
     /**
      * Transform a list of points by applying a tilt rotation and an offset translation.
      */
@@ -26335,7 +26355,7 @@
      * The height and width range from -1 to +1.
      */
     function primitive(options) {
-        var values = transform([CENTER, LEFT, CENTER, TAIL, NOSE, LLEG, NOSE, RLEG, LLEG, RLEG], options).reduce(concat$1);
+        var values = transform([CENTER, LEFT, CENTER, TAIL, NOSE, LLEG, NOSE, RLEG, LLEG, RLEG], options).reduce(concat);
         var result = {
             mode: exports.BeginMode.LINES,
             attributes: {}
@@ -26394,19 +26414,12 @@
             var _this = _super.call(this, void 0, void 0, contextManager, { axis: ds.axis, meridian: ds.meridian }, levelUp + 1) || this;
             _this.setLoggingName('Turtle');
             var geoOptions = { kind: 'TurtleGeometry' };
-            geoOptions.tilt = tiltFromOptions(options, canonicalAxis$4);
+            geoOptions.tilt = tiltFromOptions(options, canonicalAxis);
             geoOptions.offset = offsetFromOptions(options);
-            var cachedGeometry = contextManager.getCacheGeometry(geoOptions);
-            if (cachedGeometry && cachedGeometry instanceof TurtleGeometry) {
-                _this.geometry = cachedGeometry;
-                cachedGeometry.release();
-            }
-            else {
-                var geometry = new TurtleGeometry(contextManager, geoOptions);
-                _this.geometry = geometry;
-                geometry.release();
-                contextManager.putCacheGeometry(geoOptions, geometry);
-            }
+            var geometry = new TurtleGeometry(contextManager, geoOptions);
+            _this.geometry = geometry;
+            geometry.release();
+            contextManager.putCacheGeometry(geoOptions, geometry);
             var material = materialFromOptions(contextManager, simplexModeFromOptions(options, SimplexMode.LINE), options);
             _this.material = material;
             material.release();
@@ -26808,20 +26821,20 @@
     exports.animation = animation;
     exports.asin = asin;
     exports.atan = atan;
-    exports.cos = cos$3;
+    exports.cos = cos;
     exports.cosh = cosh;
-    exports.exp = exp$3;
+    exports.exp = exp;
     exports.frustumMatrix = frustumMatrix;
     exports.getCanvasElementById = getCanvasElementById;
-    exports.log = log$4;
+    exports.log = log;
     exports.norm = norm;
     exports.perspectiveMatrix = perspectiveMatrix;
-    exports.quad = quad;
+    exports.quad = quad$1;
     exports.reduce = reduce;
     exports.refChange = refChange;
-    exports.sin = sin$3;
+    exports.sin = sin;
     exports.sinh = sinh;
-    exports.sqrt = sqrt$8;
+    exports.sqrt = sqrt;
     exports.tan = tan;
     exports.tanh = tanh;
     exports.vertexArraysFromPrimitive = vertexArraysFromPrimitive;

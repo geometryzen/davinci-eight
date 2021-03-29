@@ -1,28 +1,40 @@
+import { isDefined } from '../checks/isDefined';
 import { ContextManager } from '../core/ContextManager';
 import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { isDefined } from '../checks/isDefined';
+import { Material } from '../core/Material';
+import { MaterialKey } from '../core/MaterialKey';
+import { SimplexMode } from '../geometries/SimplexMode';
 import { LineMaterial } from '../materials/LineMaterial';
 import { LineMaterialOptions } from '../materials/LineMaterialOptions';
-import { Material } from '../core/Material';
 import { MeshMaterial } from '../materials/MeshMaterial';
 import { MeshMaterialOptions } from '../materials/MeshMaterialOptions';
 import { PointMaterial } from '../materials/PointMaterial';
 import { PointMaterialOptions } from '../materials/PointMaterialOptions';
-import { SimplexMode } from '../geometries/SimplexMode';
-import { MaterialKey } from '../core/MaterialKey';
 
+/**
+ * @hidden
+ */
 export interface PointMaterialOptionsWithKind extends PointMaterialOptions, MaterialKey {
     kind: 'PointMaterial';
 }
 
+/**
+ * @hidden
+ */
 export interface LineMaterialOptionsWithKind extends LineMaterialOptions, MaterialKey {
     kind: 'LineMaterial';
 }
 
+/**
+ * @hidden
+ */
 export interface MeshMaterialOptionsWithKind extends MeshMaterialOptions, MaterialKey {
     kind: 'MeshMaterial';
 }
 
+/**
+ * @hidden
+ */
 function pointMaterialOptions(): PointMaterialOptionsWithKind {
     const options: PointMaterialOptionsWithKind = { kind: 'PointMaterial', attributes: {}, uniforms: {} };
 
@@ -39,6 +51,9 @@ function pointMaterialOptions(): PointMaterialOptionsWithKind {
     return options;
 }
 
+/**
+ * @hidden
+ */
 function lineMaterialOptions(): LineMaterialOptionsWithKind {
     const options: LineMaterialOptionsWithKind = { kind: 'LineMaterial', attributes: {}, uniforms: {} };
 
@@ -53,6 +68,9 @@ function lineMaterialOptions(): LineMaterialOptionsWithKind {
     return options;
 }
 
+/**
+ * @hidden
+ */
 function meshMaterialOptions(behaviors: MaterialBehaviors): MeshMaterialOptionsWithKind {
     const options: MeshMaterialOptionsWithKind = { kind: 'MeshMaterial', attributes: {}, uniforms: {} };
 
@@ -91,6 +109,7 @@ function meshMaterialOptions(behaviors: MaterialBehaviors): MeshMaterialOptionsW
 /**
  * Behaviors are what the end-user cares about.
  * These must be translated into implementation details.
+ * @hidden
  */
 export interface MaterialBehaviors {
     textured?: boolean;
@@ -101,7 +120,7 @@ export interface MaterialBehaviors {
 }
 
 /**
- * 
+ * @hidden
  */
 export function materialFromOptions(contextManager: ContextManager, simplexMode: SimplexMode, behaviors: MaterialBehaviors): Material {
     switch (simplexMode) {

@@ -12,6 +12,9 @@ import { glslVersionFromWebGLContextId } from './glslVersionFromWebGLContextId';
 import { LineMaterialOptions } from './LineMaterialOptions';
 import { ShaderMaterial } from './ShaderMaterial';
 
+/**
+ * @hidden
+ */
 function defaultOptions(options: LineMaterialOptions): void {
     if (!options.attributes) {
         options.attributes = {};
@@ -29,6 +32,9 @@ function defaultOptions(options: LineMaterialOptions): void {
     options.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
 }
 
+/**
+ * @hidden
+ */
 function shaderPropertiesCount(options: LineMaterialOptions): number {
     let count = Object.keys(options).length;
     if (options.version) {
@@ -37,6 +43,9 @@ function shaderPropertiesCount(options: LineMaterialOptions): number {
     return count;
 }
 
+/**
+ * @hidden
+ */
 function builder(contextId: 'webgl2' | 'webgl', options?: LineMaterialOptions) {
 
     if (isNull(options) || isUndefined(options)) {
@@ -73,16 +82,28 @@ function builder(contextId: 'webgl2' | 'webgl', options?: LineMaterialOptions) {
     return gpb;
 }
 
+/**
+ * @hidden
+ */
 function vertexShaderSrc(contextId: 'webgl2' | 'webgl', options?: LineMaterialOptions): string {
     return builder(contextId, options).vertexShaderSrc();
 }
 
+/**
+ * @hidden
+ */
 function fragmentShaderSrc(contextId: 'webgl2' | 'webgl', options?: LineMaterialOptions): string {
     return builder(contextId, options).fragmentShaderSrc();
 }
 
+/**
+ * @hidden
+ */
 const LOGGING_NAME_LINE_MATERIAL = 'LineMaterial';
 
+/**
+ * @hidden
+ */
 function getContextId(contextManager: ContextManager): 'webgl2' | 'webgl' {
     return mustBeNonNullObject('contextManager', contextManager).contextId;
 }

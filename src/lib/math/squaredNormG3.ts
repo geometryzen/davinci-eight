@@ -1,5 +1,8 @@
 import { GeometricE3 } from '../math/GeometricE3';
 
+/**
+ * @hidden
+ */
 export function squaredNormG3(m: GeometricE3) {
     const a = m.a;
     const x = m.x;

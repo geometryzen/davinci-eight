@@ -4,6 +4,9 @@ import { GeometryElements } from './GeometryElements';
 import { Primitive } from './Primitive';
 import { refChange } from './refChange';
 
+/**
+ * @hidden
+ */
 const primitive: Primitive = {
     mode: BeginMode.POINTS,
     attributes: {

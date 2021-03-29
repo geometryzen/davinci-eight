@@ -1,22 +1,28 @@
-import { Color } from '../core/Color';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { LineStrip } from '../atoms/LineStrip';
-import { CurveGeometryOptions } from './CurveGeometryOptions';
-import { CurveMode } from './CurveMode';
-import { LinePoints } from '../atoms/LinePoints';
 import { CurvePrimitive } from '../atoms/CurvePrimitive';
+import { LinePoints } from '../atoms/LinePoints';
+import { LineStrip } from '../atoms/LineStrip';
+import { Vertex } from '../atoms/Vertex';
 import { isDefined } from '../checks/isDefined';
 import { isFunction } from '../checks/isFunction';
 import { mustBeNumber } from '../checks/mustBeNumber';
+import { Color } from '../core/Color';
+import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { Primitive } from '../core/Primitive';
 import { Vector3 } from '../math/Vector3';
 import { VectorE3 } from '../math/VectorE3';
-import { Vertex } from '../atoms/Vertex';
+import { CurveGeometryOptions } from './CurveGeometryOptions';
+import { CurveMode } from './CurveMode';
 
+/**
+ * @hidden
+ */
 function aPositionDefault(u: number): VectorE3 {
     return Vector3.vector(u, 0, 0);
 }
 
+/**
+ * @hidden
+ */
 function topology(mode: CurveMode, uSegments: number, uClosed: boolean): CurvePrimitive {
     switch (mode) {
         case CurveMode.POINTS: {
@@ -31,6 +37,9 @@ function topology(mode: CurveMode, uSegments: number, uClosed: boolean): CurvePr
     }
 }
 
+/**
+ * @hidden
+ */
 function transformVertex(vertex: Vertex, u: number, options: CurveGeometryOptions) {
 
     const aPosition = isDefined(options.aPosition) ? options.aPosition : aPositionDefault;
@@ -44,6 +53,9 @@ function transformVertex(vertex: Vertex, u: number, options: CurveGeometryOption
     }
 }
 
+/**
+ * @hidden
+ */
 export function curvePrimitive(options: CurveGeometryOptions): Primitive {
 
     const uMin: number = isDefined(options.uMin) ? mustBeNumber('uMin', options.uMin) : 0;

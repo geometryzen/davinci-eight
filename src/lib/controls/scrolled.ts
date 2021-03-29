@@ -1,5 +1,8 @@
 import { Geometric2 } from '../math/Geometric2';
 
+/**
+ * @hidden
+ */
 function domElement(): HTMLElement {
     const documentElement = document.documentElement;
     if (documentElement) {
@@ -21,6 +24,7 @@ function domElement(): HTMLElement {
  * A cross-browser compatible, geometric, implementation of scrollX and scrollY.
  *
  * See https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollX
+ * @hidden
  */
 export function scrolled(out: Geometric2): void {
     out.a = 0;

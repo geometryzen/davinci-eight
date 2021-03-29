@@ -1,3 +1,6 @@
+/**
+ * @hidden
+ */
 function decodeType(gl: WebGLRenderingContext, type: number): string {
     if (type === gl.VERTEX_SHADER) {
         return "VERTEX_SHADER";
@@ -11,7 +14,7 @@ function decodeType(gl: WebGLRenderingContext, type: number): string {
 }
 
 /**
- *
+ * @hidden
  */
 export function makeWebGLShader(gl: WebGLRenderingContext, source: string, type: number): WebGLShader {
     const shader: WebGLShader = gl.createShader(type);

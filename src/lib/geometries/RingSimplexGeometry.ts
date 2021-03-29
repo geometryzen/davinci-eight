@@ -1,15 +1,18 @@
+import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { arc3 } from '../geometries/arc3';
-import { SimplexPrimitivesBuilder } from '../geometries/SimplexPrimitivesBuilder';
 import { Simplex } from '../geometries/Simplex';
 import { SimplexMode } from '../geometries/SimplexMode';
+import { SimplexPrimitivesBuilder } from '../geometries/SimplexPrimitivesBuilder';
 import { SliceSimplexPrimitivesBuilder } from '../geometries/SliceSimplexPrimitivesBuilder';
 import { Spinor3 } from '../math/Spinor3';
 import { SpinorE3 } from '../math/SpinorE3';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { Vector2 } from '../math/Vector2';
 import { Vector3 } from '../math/Vector3';
 import { VectorE3 } from '../math/VectorE3';
 
+/**
+ * @hidden
+ */
 function computeVertices(a: number, b: number, axis: VectorE3, start: VectorE3, angle: number, generator: SpinorE3, radialSegments: number, thetaSegments: number, vertices: Vector3[], uvs: Vector2[]) {
     /**
      * `t` is the vector perpendicular to s in the plane of the ring.
@@ -35,10 +38,16 @@ function computeVertices(a: number, b: number, axis: VectorE3, start: VectorE3, 
     }
 }
 
+/**
+ * @hidden
+ */
 function vertexIndex(i: number, j: number, thetaSegments: number): number {
     return i * (thetaSegments + 1) + j;
 }
 
+/**
+ * @hidden
+ */
 function makeTriangles(vertices: Vector3[], uvs: Vector2[], axis: VectorE3, radialSegments: number, thetaSegments: number, geometry: SimplexPrimitivesBuilder) {
     for (let i = 0; i < radialSegments; i++) {
         // Our traversal has resulted in the following formula for the index
@@ -71,6 +80,9 @@ function makeTriangles(vertices: Vector3[], uvs: Vector2[], axis: VectorE3, radi
     }
 }
 
+/**
+ * @hidden
+ */
 function makeLineSegments(vertices: Vector3[], radialSegments: number, thetaSegments: number, data: Simplex[]) {
     for (let i = 0; i < radialSegments; i++) {
         for (let j = 0; j < thetaSegments; j++) {
@@ -99,6 +111,9 @@ function makeLineSegments(vertices: Vector3[], radialSegments: number, thetaSegm
     }
 }
 
+/**
+ * @hidden
+ */
 function makePoints(vertices: Vector3[], radialSegments: number, thetaSegments: number, data: Simplex[]) {
     for (let i = 0; i <= radialSegments; i++) {
         for (let j = 0; j <= thetaSegments; j++) {
@@ -109,6 +124,9 @@ function makePoints(vertices: Vector3[], radialSegments: number, thetaSegments: 
     }
 }
 
+/**
+ * @hidden
+ */
 function makeEmpty(vertices: Vector3[], radialSegments: number, thetaSegments: number, data: Simplex[]) {
     for (let i = 0; i <= radialSegments; i++) {
         for (let j = 0; j <= thetaSegments; j++) {

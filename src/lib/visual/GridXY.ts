@@ -1,15 +1,15 @@
-import { ContextManager } from '../core/ContextManager';
 import { expectOptions } from '../checks/expectOptions';
-import { GeometryMode } from '../geometries/GeometryMode';
-import { Grid } from './Grid';
-import { GridOptions } from './GridOptions';
 import { isDefined } from '../checks/isDefined';
 import { mustBeFunction } from '../checks/mustBeFunction';
 import { mustBeInteger } from '../checks/mustBeInteger';
 import { mustBeNumber } from '../checks/mustBeNumber';
 import { validate } from '../checks/validate';
-import { VectorE3 } from '../math/VectorE3';
+import { ContextManager } from '../core/ContextManager';
+import { GeometryMode } from '../geometries/GeometryMode';
 import { vec } from '../math/R3';
+import { VectorE3 } from '../math/VectorE3';
+import { Grid } from './Grid';
+import { GridOptions } from './GridOptions';
 
 export interface GridXYOptions {
     xMin?: number;
@@ -22,8 +22,14 @@ export interface GridXYOptions {
     mode?: GeometryMode;
 }
 
+/**
+ * @hidden
+ */
 const ALLOWED_OPTIONS = ['xMin', 'xMax', 'xSegments', 'yMin', 'yMax', 'ySegments', 'z', 'contextManager', 'engine', 'tilt', 'offset', 'mode'];
 
+/**
+ * @hidden
+ */
 function mapOptions(options: GridXYOptions): GridOptions {
     expectOptions(ALLOWED_OPTIONS, Object.keys(options));
     let aPosition: (u: number, v: number) => VectorE3;

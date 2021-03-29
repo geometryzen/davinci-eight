@@ -1,5 +1,6 @@
 /**
  * throws name + " must " + message + [" in " + context] + "."
+ * @hidden
  */
 export function mustSatisfy(name: string, condition: boolean, messageBuilder: () => string, contextBuilder?: () => string) {
     if (!condition) {
