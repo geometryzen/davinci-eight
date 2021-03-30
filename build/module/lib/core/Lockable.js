@@ -1,11 +1,15 @@
 import { __extends } from "tslib";
 /**
  * Sets the lock on the argument and returns the same argument.
+ * @hidden
  */
 export function lock(m) {
     m.lock();
     return m;
 }
+/**
+ * @hidden
+ */
 var TargetLockedError = /** @class */ (function (_super) {
     __extends(TargetLockedError, _super);
     /**
@@ -17,6 +21,9 @@ var TargetLockedError = /** @class */ (function (_super) {
     return TargetLockedError;
 }(Error));
 export { TargetLockedError };
+/**
+ * @hidden
+ */
 var TargetUnlockedError = /** @class */ (function (_super) {
     __extends(TargetUnlockedError, _super);
     /**
@@ -28,6 +35,9 @@ var TargetUnlockedError = /** @class */ (function (_super) {
     return TargetUnlockedError;
 }(Error));
 export { TargetUnlockedError };
+/**
+ * @hidden
+ */
 export function lockable() {
     var lock_ = void 0;
     var that = {
@@ -62,6 +72,7 @@ export function lockable() {
 }
 /**
  * Lockable Mixin
+ * @hidden
  */
 var LockableMixin = /** @class */ (function () {
     function LockableMixin() {

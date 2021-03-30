@@ -19,6 +19,9 @@ export var Usage;
      */
     Usage[Usage["DYNAMIC_DRAW"] = 35048] = "DYNAMIC_DRAW";
 })(Usage || (Usage = {}));
+/**
+ * @hidden
+ */
 export function checkUsage(name, usage) {
     switch (usage) {
         case Usage.STREAM_DRAW:

@@ -1,10 +1,31 @@
 import { Geometric3 } from '../math/Geometric3';
+/**
+ * @hidden
+ */
 var u = Geometric3.zero(false);
+/**
+ * @hidden
+ */
 var v = Geometric3.zero(false);
+/**
+ * @hidden
+ */
 var n = Geometric3.zero(false);
+/**
+ * @hidden
+ */
 var e1 = Geometric3.E1;
+/**
+ * @hidden
+ */
 var e2 = Geometric3.E2;
+/**
+ * @hidden
+ */
 var e3 = Geometric3.E3;
+/**
+ * @hidden
+ */
 export function getViewAttitude(eye, look, up, R) {
     // The attitude is obtained by computing the rotor required to rotate
     // the standard reference frame u, v, n = (e1, e2, e3) to the new reference

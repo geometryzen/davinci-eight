@@ -1,13 +1,16 @@
+import { mustBeFunction } from '../checks/mustBeFunction';
+import { mustBeInteger } from '../checks/mustBeInteger';
+import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
+import { Vector2 } from '../math/Vector2';
+import { Vector3 } from '../math/Vector3';
 import { VectorE3 } from '../math/VectorE3';
 import { Simplex } from './Simplex';
 import { SimplexMode } from './SimplexMode';
 import { SimplexPrimitivesBuilder } from './SimplexPrimitivesBuilder';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { Vector2 } from '../math/Vector2';
-import { Vector3 } from '../math/Vector3';
-import { mustBeFunction } from '../checks/mustBeFunction';
-import { mustBeInteger } from '../checks/mustBeInteger';
 
+/**
+ * @hidden
+ */
 export class GridSimplexBuilder extends SimplexPrimitivesBuilder {
     constructor(parametricFunction: (u: number, v: number) => VectorE3, uSegments: number, vSegments: number) {
         super();

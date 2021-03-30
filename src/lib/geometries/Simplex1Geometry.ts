@@ -1,8 +1,11 @@
-import { SimplexPrimitivesBuilder } from '../geometries/SimplexPrimitivesBuilder';
-import { Simplex } from '../geometries/Simplex';
 import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
+import { Simplex } from '../geometries/Simplex';
+import { SimplexPrimitivesBuilder } from '../geometries/SimplexPrimitivesBuilder';
 import { Vector3 } from '../math/Vector3';
 
+/**
+ * @hidden
+ */
 export class Simplex1Geometry extends SimplexPrimitivesBuilder {
     public head: Vector3 = new Vector3([1, 0, 0]);
     public tail: Vector3 = new Vector3([0, 1, 0]);

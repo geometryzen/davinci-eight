@@ -35,6 +35,9 @@ function klein(u: number, v: number): Vector3 {
     return point.scale(0.1);
 }
 
+/**
+ * @hidden
+ */
 export class KleinBottleSimplexGeometry extends GridSimplexBuilder {
     constructor(uSegments: number, vSegments: number) {
         super(klein, uSegments, vSegments);

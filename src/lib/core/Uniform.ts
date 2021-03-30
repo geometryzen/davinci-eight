@@ -4,6 +4,7 @@ import { ContextProgramConsumer } from './ContextProgramConsumer';
 
 /**
  * A wrapper around a <code>WebGLUniformLocation</code>.
+ * @hidden
  */
 export class Uniform implements ContextProgramConsumer {
 

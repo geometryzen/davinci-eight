@@ -1,11 +1,11 @@
-import { Color } from '../core/Color';
 import { mustBeNumber } from '../checks/mustBeNumber';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
+import { Color } from '../core/Color';
 import { Facet } from '../core/Facet';
 import { FacetVisitor } from '../core/FacetVisitor';
+import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 
 /**
- *
+ * @hidden
  */
 export class ColorFacet implements Facet {
 

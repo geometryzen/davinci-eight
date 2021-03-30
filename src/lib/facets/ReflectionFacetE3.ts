@@ -1,12 +1,12 @@
+import { mustBeString } from '../checks/mustBeString';
 import { Facet } from '../core/Facet';
 import { FacetVisitor } from '../core/FacetVisitor';
-import { mustBeString } from '../checks/mustBeString';
+import { readOnly } from '../i18n/readOnly';
 import { Geometric3 } from '../math/Geometric3';
 import { Matrix4 } from '../math/Matrix4';
-import { readOnly } from '../i18n/readOnly';
 
 /**
- *
+ * @hidden
  */
 export class ReflectionFacetE3 implements Facet {
     /**

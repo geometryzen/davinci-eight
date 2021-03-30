@@ -2,6 +2,7 @@
  * The enumerated modes of drawing WebGL primitives.
  * 
  * https://www.khronos.org/registry/webgl/specs/1.0/
+ * @hidden
  */
 export enum BeginMode {
     POINTS = 0x0000,

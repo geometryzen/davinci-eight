@@ -1,17 +1,18 @@
+import { mustBeNonNullObject } from '../checks/mustBeNonNullObject';
+import { SpinorE3 } from '../math/SpinorE3';
 import { BeginMode } from './BeginMode';
 import { ContextManager } from './ContextManager';
 import { GeometryBase } from './GeometryBase';
 import { Material } from './Material';
-import { mustBeNonNullObject } from '../checks/mustBeNonNullObject';
 import { Primitive } from './Primitive';
-import { SpinorE3 } from '../math/SpinorE3';
 import { Usage } from './Usage';
-import { VertexAttribPointer } from './VertexAttribPointer';
 import { vertexArraysFromPrimitive } from './vertexArraysFromPrimitive';
+import { VertexAttribPointer } from './VertexAttribPointer';
 import { VertexBuffer } from './VertexBuffer';
 
 /**
  * A concrete Geometry for supporting drawArrays.
+ * @hidden
  */
 export class GeometryArrays extends GeometryBase {
     /**

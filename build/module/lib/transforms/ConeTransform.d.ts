@@ -1,6 +1,6 @@
-import { Vector3 } from '../math/Vector3';
-import { Vertex } from '../atoms/Vertex';
 import { Transform } from '../atoms/Transform';
+import { Vertex } from '../atoms/Vertex';
+import { Vector3 } from '../math/Vector3';
 /**
  *
  */

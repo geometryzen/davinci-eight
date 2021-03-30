@@ -1,12 +1,12 @@
-import { AxialShapeBuilder } from './AxialShapeBuilder';
-import { ConicalShellBuilder } from '../shapes/ConicalShellBuilder';
-import { CylindricalShellBuilder } from '../shapes/CylindricalShellBuilder';
+import { reduce } from '../atoms/reduce';
 import { mustBeDefined } from '../checks/mustBeDefined';
 import { Primitive } from '../core/Primitive';
-import { reduce } from '../atoms/reduce';
-import { RingBuilder } from '../shapes/RingBuilder';
 import { Vector3 } from '../math/Vector3';
 import { VectorE3 } from '../math/VectorE3';
+import { ConicalShellBuilder } from '../shapes/ConicalShellBuilder';
+import { CylindricalShellBuilder } from '../shapes/CylindricalShellBuilder';
+import { RingBuilder } from '../shapes/RingBuilder';
+import { AxialShapeBuilder } from './AxialShapeBuilder';
 
 /**
  * <p>
@@ -15,6 +15,7 @@ import { VectorE3 } from '../math/VectorE3';
  * <p>
  * This class does not default the <b>cutLine</b>.
  * </p>
+ * @hidden
  */
 export class ArrowBuilder extends AxialShapeBuilder {
 

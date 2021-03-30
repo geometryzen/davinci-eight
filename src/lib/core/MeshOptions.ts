@@ -1,7 +1,7 @@
 import { VectorE3 } from '../math/VectorE3';
 
 /**
- * 
+ * @hidden
  */
 export interface MeshOptions {
     /**

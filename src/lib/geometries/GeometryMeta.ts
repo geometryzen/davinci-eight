@@ -2,7 +2,7 @@ import { AttributeSizeType } from '../core/AttributeSizeType';
 import { SimplexMode } from './SimplexMode';
 
 /**
- *
+ * @hidden
  */
 export interface GeometryMeta {
     k: SimplexMode;

@@ -1,6 +1,9 @@
 import { compG3Get as get } from '../math/compG3Get';
-import { extE3 } from '../math/extE3';
 import { compG3Set as set } from '../math/compG3Set';
+import { extE3 } from '../math/extE3';
+/**
+ * @hidden
+ */
 export function extG3(a, b, out) {
     var a0 = get(a, 0);
     var a1 = get(a, 1);

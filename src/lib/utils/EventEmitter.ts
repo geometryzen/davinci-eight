@@ -1,3 +1,6 @@
+/**
+ * @hidden
+ */
 export class EventEmitter<T, V> {
 
     private _eventRegistry: { [name: string]: ((eventName: string, key: string, value: V, source: T) => any)[] };

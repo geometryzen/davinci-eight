@@ -2,6 +2,7 @@ import { AttributeSizeType } from './AttributeSizeType';
 
 /**
  * An array of attribute values associated with meta data describing how to interpret the values.
+ * @hidden
  */
 export interface Attribute {
 

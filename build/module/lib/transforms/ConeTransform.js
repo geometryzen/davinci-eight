@@ -3,6 +3,9 @@ import { mustBeNumber } from '../checks/mustBeNumber';
 import { mustBeString } from '../checks/mustBeString';
 import { Spinor3 } from '../math/Spinor3';
 import { Vector3 } from '../math/Vector3';
+/**
+ * @hidden
+ */
 function coneNormal(ρ, h, out) {
     out.copy(ρ);
     var ρ2 = out.squaredNorm();

@@ -1,3 +1,5 @@
+import { Transform } from '../atoms/Transform';
+import { Vertex } from '../atoms/Vertex';
 import { mustBeString } from '../checks/mustBeString';
 import { Geometric2 } from '../math/Geometric2';
 import { Geometric3 } from '../math/Geometric3';
@@ -5,9 +7,10 @@ import { Spinor2 } from '../math/Spinor2';
 import { Spinor3 } from '../math/Spinor3';
 import { Vector2 } from '../math/Vector2';
 import { Vector3 } from '../math/Vector3';
-import { Vertex } from '../atoms/Vertex';
-import { Transform } from '../atoms/Transform';
 
+/**
+ * @hidden
+ */
 export class Direction implements Transform {
 
     /**

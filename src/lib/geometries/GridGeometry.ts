@@ -5,6 +5,7 @@ import { gridPrimitive } from './gridPrimitive';
 
 /**
  * A Geometry for representing functions of two scalar parameters.
+ * @hidden
  */
 export class GridGeometry extends GeometryElements {
     /**

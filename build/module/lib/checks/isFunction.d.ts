@@ -1,1 +1,4 @@
-export declare function isFunction(x: any): x is Function;
+/**
+ * @hidden
+ */
+export declare function isFunction(x: unknown): x is Function;

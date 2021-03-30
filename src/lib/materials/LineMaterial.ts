@@ -116,6 +116,7 @@ function getContextId(contextManager: ContextManager): 'webgl2' | 'webgl' {
  * <td>attribute</td><td>vec3</td><td>aPosition</td>
  * </tr>
  * </table>
+ * @hidden
  */
 export class LineMaterial extends ShaderMaterial {
 

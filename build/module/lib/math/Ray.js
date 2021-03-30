@@ -2,14 +2,41 @@ import { Vector3 } from './Vector3';
 /**
  * scratch variables.
  */
+/**
+ * @hidden
+ */
 var v1 = new Vector3();
+/**
+ * @hidden
+ */
 var v = new Vector3();
+/**
+ * @hidden
+ */
 var segCenter = new Vector3();
+/**
+ * @hidden
+ */
 var segDir = new Vector3();
+/**
+ * @hidden
+ */
 var diff = new Vector3();
+/**
+ * @hidden
+ */
 var edge1 = new Vector3();
+/**
+ * @hidden
+ */
 var edge2 = new Vector3();
+/**
+ * @hidden
+ */
 var normal = new Vector3();
+/**
+ *
+ */
 var Ray = /** @class */ (function () {
     function Ray(origin, direction) {
         this.origin = (origin !== undefined) ? origin : new Vector3();

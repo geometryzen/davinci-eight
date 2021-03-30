@@ -1,11 +1,14 @@
-import { CurvePrimitive } from './CurvePrimitive';
-import { BeginMode } from '../core/BeginMode';
-import { elementsForCurve } from './elementsForCurve';
 import { mustBeGE } from '../checks/mustBeGE';
 import { mustBeInteger } from '../checks/mustBeInteger';
 import { mustBeLT } from '../checks/mustBeLT';
+import { BeginMode } from '../core/BeginMode';
+import { CurvePrimitive } from './CurvePrimitive';
+import { elementsForCurve } from './elementsForCurve';
 import { Vertex } from './Vertex';
 
+/**
+ * @hidden
+ */
 export class LineStrip extends CurvePrimitive {
 
     /**

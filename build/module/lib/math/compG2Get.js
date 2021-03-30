@@ -1,3 +1,6 @@
+/**
+ * @hidden
+ */
 export function compG2Get(m, index) {
     switch (index) {
         case 0: {

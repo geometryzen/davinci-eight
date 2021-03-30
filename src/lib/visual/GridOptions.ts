@@ -2,7 +2,7 @@ import { GeometryMode } from '../geometries/GeometryMode';
 import { VectorE3 } from '../math/VectorE3';
 
 /**
- *
+ * @hidden
  */
 export interface GridOptions {
     /**

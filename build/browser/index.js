@@ -35,10 +35,16 @@
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     }
 
+    /**
+     * @hidden
+     */
     function isDefined(arg) {
         return (typeof arg !== 'undefined');
     }
 
+    /**
+     * @hidden
+     */
     function isEQ(value, limit) {
         return value === limit;
     }
@@ -63,10 +69,16 @@
         return value;
     }
 
+    /**
+     * @hidden
+     */
     function isNumber(x) {
         return (typeof x === 'number');
     }
 
+    /**
+     * @hidden
+     */
     function isInteger(x) {
         // % coerces its operand to numbers so a type guard is required.
         // Note that ECMAScript 6 provides Number.isInteger().
@@ -87,6 +99,9 @@
         return value;
     }
 
+    /**
+     * @hidden
+     */
     function isString(s) {
         return (typeof s === 'string');
     }
@@ -105,6 +120,9 @@
         return value;
     }
 
+    /**
+     * @hidden
+     */
     var Eight = /** @class */ (function () {
         function Eight() {
             this.GITHUB = "https://github.com/geometryzen/davinci-eight";
@@ -127,14 +145,29 @@
         return Eight;
     }());
     /**
-     *
+     * @hidden
      */
     var config = new Eight();
 
+    /**
+     * @hidden
+     */
     var statistics = {};
+    /**
+     * @hidden
+     */
     var chatty = true;
+    /**
+     * @hidden
+     */
     var skip = true;
+    /**
+     * @hidden
+     */
     var trace = false;
+    /**
+     * @hidden
+     */
     var traceName = void 0;
     /**
      * @hidden
@@ -717,11 +750,15 @@
 
     /**
      * Sets the lock on the argument and returns the same argument.
+     * @hidden
      */
     function lock(m) {
         m.lock();
         return m;
     }
+    /**
+     * @hidden
+     */
     var TargetLockedError = /** @class */ (function (_super) {
         __extends(TargetLockedError, _super);
         /**
@@ -732,6 +769,9 @@
         }
         return TargetLockedError;
     }(Error));
+    /**
+     * @hidden
+     */
     /** @class */ ((function (_super) {
         __extends(TargetUnlockedError, _super);
         /**
@@ -742,6 +782,9 @@
         }
         return TargetUnlockedError;
     })(Error));
+    /**
+     * @hidden
+     */
     function lockable() {
         var lock_ = void 0;
         var that = {
@@ -776,6 +819,7 @@
     }
     /**
      * Lockable Mixin
+     * @hidden
      */
     var LockableMixin = /** @class */ (function () {
         function LockableMixin() {
@@ -809,6 +853,9 @@
         return LockableMixin;
     }());
 
+    /**
+     * @hidden
+     */
     function applyMixins(derivedCtor, baseCtors) {
         baseCtors.forEach(function (baseCtor) {
             Object.getOwnPropertyNames(baseCtor.prototype).forEach(function (name) {
@@ -817,6 +864,9 @@
         });
     }
 
+    /**
+     * @hidden
+     */
     function approx(coords, n) {
         var max = 0;
         var iLen = coords.length;
@@ -831,14 +881,23 @@
         }
     }
 
+    /**
+     * @hidden
+     */
     function isNull(x) {
         return x === null;
     }
 
+    /**
+     * @hidden
+     */
     function isUndefined(arg) {
         return (typeof arg === 'undefined');
     }
 
+    /**
+     * @hidden
+     */
     function arraysEQ(a, b) {
         if (isDefined(a)) {
             if (isDefined(b)) {
@@ -875,6 +934,9 @@
         }
     }
 
+    /**
+     * @hidden
+     */
     function dotVectorE3(a, b) {
         return a.x * b.x + a.y * b.y + a.z * b.z;
     }
@@ -882,14 +944,41 @@
     // GraphicsProgramSymbols constants for the coordinate indices into the data array.
     // These are chosen to match those used by G3.
     // TODO: The goal should be to protect the user from changes in ordering.
+    /**
+     * @hidden
+     */
     var COORD_W$1 = 0;
+    /**
+     * @hidden
+     */
     var COORD_X$6 = 1;
+    /**
+     * @hidden
+     */
     var COORD_Y$5 = 2;
+    /**
+     * @hidden
+     */
     var COORD_Z$3 = 3;
+    /**
+     * @hidden
+     */
     var COORD_XY$3 = 4;
+    /**
+     * @hidden
+     */
     var COORD_YZ$3 = 5;
+    /**
+     * @hidden
+     */
     var COORD_ZX$3 = 6;
+    /**
+     * @hidden
+     */
     var COORD_XYZ$1 = 7;
+    /**
+     * @hidden
+     */
     function compG3Get(m, index) {
         switch (index) {
             case COORD_W$1: {
@@ -922,6 +1011,83 @@
         }
     }
 
+    /**
+     * @hidden
+     */
+    var COORD_W = 0;
+    /**
+     * @hidden
+     */
+    var COORD_X$5 = 1;
+    /**
+     * @hidden
+     */
+    var COORD_Y$4 = 2;
+    /**
+     * @hidden
+     */
+    var COORD_Z$2 = 3;
+    /**
+     * @hidden
+     */
+    var COORD_XY$2 = 4;
+    /**
+     * @hidden
+     */
+    var COORD_YZ$2 = 5;
+    /**
+     * @hidden
+     */
+    var COORD_ZX$2 = 6;
+    /**
+     * @hidden
+     */
+    var COORD_XYZ = 7;
+    /**
+     * @hidden
+     */
+    function compG3Set(m, index, value) {
+        switch (index) {
+            case COORD_W: {
+                m.a = value;
+                break;
+            }
+            case COORD_X$5: {
+                m.x = value;
+                break;
+            }
+            case COORD_Y$4: {
+                m.y = value;
+                break;
+            }
+            case COORD_Z$2: {
+                m.z = value;
+                break;
+            }
+            case COORD_XY$2: {
+                m.xy = value;
+                break;
+            }
+            case COORD_YZ$2: {
+                m.yz = value;
+                break;
+            }
+            case COORD_ZX$2: {
+                m.zx = value;
+                break;
+            }
+            case COORD_XYZ: {
+                m.b = value;
+                break;
+            }
+            default:
+                throw new Error("index => " + index);
+        }
+    }
+
+    /**
+     * @hidden
+     */
     function extE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
         a0 = +a0;
         a1 = +a1;
@@ -989,53 +1155,9 @@
         return +x;
     }
 
-    var COORD_W = 0;
-    var COORD_X$5 = 1;
-    var COORD_Y$4 = 2;
-    var COORD_Z$2 = 3;
-    var COORD_XY$2 = 4;
-    var COORD_YZ$2 = 5;
-    var COORD_ZX$2 = 6;
-    var COORD_XYZ = 7;
-    function compG3Set(m, index, value) {
-        switch (index) {
-            case COORD_W: {
-                m.a = value;
-                break;
-            }
-            case COORD_X$5: {
-                m.x = value;
-                break;
-            }
-            case COORD_Y$4: {
-                m.y = value;
-                break;
-            }
-            case COORD_Z$2: {
-                m.z = value;
-                break;
-            }
-            case COORD_XY$2: {
-                m.xy = value;
-                break;
-            }
-            case COORD_YZ$2: {
-                m.yz = value;
-                break;
-            }
-            case COORD_ZX$2: {
-                m.zx = value;
-                break;
-            }
-            case COORD_XYZ: {
-                m.b = value;
-                break;
-            }
-            default:
-                throw new Error("index => " + index);
-        }
-    }
-
+    /**
+     * @hidden
+     */
     function extG3(a, b, out) {
         var a0 = compG3Get(a, 0);
         var a1 = compG3Get(a, 1);
@@ -1146,10 +1268,16 @@
         return solve(A, N);
     }
 
+    /**
+     * @hidden
+     */
     function isScalarG3(m) {
         return m.x === 0 && m.y === 0 && m.z === 0 && m.xy === 0 && m.yz === 0 && m.zx === 0 && m.b === 0;
     }
 
+    /**
+     * @hidden
+     */
     function isObject(x) {
         return (typeof x === 'object');
     }
@@ -1157,6 +1285,7 @@
     /**
      * Determines whether the argument supports the VectorE3 interface.
      * The argument must be a non-null object and must support the x, y, and z numeric properties.
+     * @hidden
      */
     function isVectorE3(v) {
         if (isObject(v) && !isNull(v)) {
@@ -1167,10 +1296,16 @@
         }
     }
 
+    /**
+     * @hidden
+     */
     function isVectorG3(m) {
         return m.a === 0 && m.xy === 0 && m.yz === 0 && m.zx === 0 && m.b === 0;
     }
 
+    /**
+     * @hidden
+     */
     function lcoE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
         a0 = +a0;
         a1 = +a1;
@@ -1238,6 +1373,9 @@
         return +x;
     }
 
+    /**
+     * @hidden
+     */
     function lcoG3(a, b, out) {
         var a0 = compG3Get(a, 0);
         var a1 = compG3Get(a, 1);
@@ -1745,6 +1883,9 @@
         return a * a + x * x + y * y + z * z + yz * yz + zx * zx + xy * xy + b * b;
     }
 
+    /**
+     * @hidden
+     */
     function isArray(x) {
         return Object.prototype.toString.call(x) === '[object Array]';
     }
@@ -4106,12 +4247,33 @@
     Geometric3.ONE.lock();
     Geometric3.ZERO.lock();
 
+    /**
+     * @hidden
+     */
     var u$1 = Geometric3.zero(false);
+    /**
+     * @hidden
+     */
     var v$1 = Geometric3.zero(false);
+    /**
+     * @hidden
+     */
     var n$1 = Geometric3.zero(false);
+    /**
+     * @hidden
+     */
     var e1$1 = Geometric3.E1;
+    /**
+     * @hidden
+     */
     var e2$2 = Geometric3.E2;
+    /**
+     * @hidden
+     */
     var e3$1 = Geometric3.E3;
+    /**
+     * @hidden
+     */
     function getViewAttitude(eye, look, up, R) {
         // The attitude is obtained by computing the rotor required to rotate
         // the standard reference frame u, v, n = (e1, e2, e3) to the new reference
@@ -4133,10 +4295,52 @@
     }
 
     /**
+     * @hidden
+     */
+    function beObject$1() {
+        return "be an `object`";
+    }
+    /**
+     * @hidden
+     */
+    function mustBeObject(name, value, contextBuilder) {
+        mustSatisfy(name, isObject(value), beObject$1, contextBuilder);
+        return value;
+    }
+
+    /**
+     * @hidden
+     */
+    function readOnly(name) {
+        mustBeString('name', name);
+        var message = {
+            get message() {
+                return "Property `" + name + "` is readonly.";
+            }
+        };
+        return message;
+    }
+
+    /**
      * Computes the dot product of the Cartesian components in a Euclidean metric
+     * @hidden
      */
     function dotVectorCartesianE3(ax, ay, az, bx, by, bz) {
         return ax * bx + ay * by + az * bz;
+    }
+
+    /**
+     * @hidden
+     */
+    function mulSpinorE3alpha(R, S) {
+        return -R.yz * S.yz - R.zx * S.zx - R.xy * S.xy + R.a * S.a;
+    }
+
+    /**
+     * @hidden
+     */
+    function mulSpinorE3XY(R, S) {
+        return -R.yz * S.zx + R.zx * S.yz + R.xy * S.a + R.a * S.xy;
     }
 
     /**
@@ -4151,34 +4355,6 @@
      */
     function mulSpinorE3ZX(R, S) {
         return R.yz * S.xy + R.zx * S.a - R.xy * S.yz + R.a * S.zx;
-    }
-
-    /**
-     * @hidden
-     */
-    function mulSpinorE3XY(R, S) {
-        return -R.yz * S.zx + R.zx * S.yz + R.xy * S.a + R.a * S.xy;
-    }
-
-    /**
-     * @hidden
-     */
-    function mulSpinorE3alpha(R, S) {
-        return -R.yz * S.yz - R.zx * S.zx - R.xy * S.xy + R.a * S.a;
-    }
-
-    /**
-     * @hidden
-     */
-    function beObject$1() {
-        return "be an `object`";
-    }
-    /**
-     * @hidden
-     */
-    function mustBeObject(name, value, contextBuilder) {
-        mustSatisfy(name, isObject(value), beObject$1, contextBuilder);
-        return value;
     }
 
     /**
@@ -4205,40 +4381,58 @@
     /**
      * @hidden
      */
-    function readOnly(name) {
-        mustBeString('name', name);
-        var message = {
-            get message() {
-                return "Property `" + name + "` is readonly.";
-            }
-        };
-        return message;
-    }
-
-    /**
-     * @hidden
-     */
     function toStringCustom(coordinates, coordToString, labels) {
         var quantityString = stringFromCoordinates(coordinates, coordToString, labels);
         return quantityString;
     }
 
     // Constants for the coordinate indices into the coords array.
+    /**
+     * @hidden
+     */
     var COORD_YZ = 0;
+    /**
+     * @hidden
+     */
     var COORD_ZX = 1;
+    /**
+     * @hidden
+     */
     var COORD_XY = 2;
+    /**
+     * @hidden
+     */
     var COORD_SCALAR$2 = 3;
+    /**
+     * @hidden
+     */
     var BASIS_LABELS$1 = ['e23', 'e31', 'e12', '1'];
     /**
      * Coordinates corresponding to basis labels.
+     * @hidden
      */
     function coordinates$4(m) {
         return [m.yz, m.zx, m.xy, m.a];
     }
+    /**
+     * @hidden
+     */
     var exp$3 = Math.exp;
+    /**
+     * @hidden
+     */
     var cos$3 = Math.cos;
+    /**
+     * @hidden
+     */
     var sin$3 = Math.sin;
+    /**
+     * @hidden
+     */
     var sqrt$7 = Math.sqrt;
+    /**
+     * @hidden
+     */
     var magicCode = Math.random();
     /**
      * A Geometric Number representing the even sub-algebra of G3.
@@ -5537,6 +5731,7 @@
 
     /**
      * Computes the determinant of a 3x3 (square) matrix where the elements are assumed to be in column-major order.
+     * @hidden
      */
     function det3x3(m) {
         var m00 = m[0x0], m01 = m[0x3], m02 = m[0x6];
@@ -5547,6 +5742,7 @@
 
     /**
      * Computes the inverse of a 2x2 (square) matrix where the elements are assumed to be in column-major order.
+     * @hidden
      */
     function inv3x3(m, te) {
         var det = det3x3(m);
@@ -5599,6 +5795,9 @@
         return c;
     }
 
+    /**
+     * @hidden
+     */
     function add3x3(a, b, c) {
         var a11 = a[0x0], a12 = a[0x3], a13 = a[0x6];
         var a21 = a[0x1], a22 = a[0x4], a23 = a[0x7];
@@ -6844,36 +7043,63 @@
     applyMixins(Vector3, [LockableMixin]);
 
     // Quadratic Bezier
+    /**
+     * @hidden
+     */
     function b2p0(t, p) {
         var k = 1 - t;
         return k * k * p;
     }
+    /**
+     * @hidden
+     */
     function b2p1(t, p) {
         return 2 * (1 - t) * t * p;
     }
+    /**
+     * @hidden
+     */
     function b2p2(t, p) {
         return t * t * p;
     }
+    /**
+     * @hidden
+     */
     function b2(t, begin, control, end) {
         return b2p0(t, begin) + b2p1(t, control) + b2p2(t, end);
     }
 
     // Cubic Bezier Functions
+    /**
+     * @hidden
+     */
     function b3p0(t, p) {
         var k = 1 - t;
         return k * k * k * p;
     }
+    /**
+     * @hidden
+     */
     function b3p1(t, p) {
         var k = 1 - t;
         return 3 * k * k * t * p;
     }
+    /**
+     * @hidden
+     */
     function b3p2(t, p) {
         var k = 1 - t;
         return 3 * k * t * t * p;
     }
+    /**
+     * @hidden
+     */
     function b3p3(t, p) {
         return t * t * t * p;
     }
+    /**
+     * @hidden
+     */
     function b3(t, p0, p1, p2, p3) {
         return b3p0(t, p0) + b3p1(t, p1) + b3p2(t, p2) + b3p3(t, p3);
     }
@@ -7876,11 +8102,29 @@
     }(MouseControls));
 
     // Scratch variables to aboid creating temporary objects.
+    /**
+     * @hidden
+     */
     var a$1 = Geometric3.zero(false);
+    /**
+     * @hidden
+     */
     var b$1 = Geometric3.zero(false);
+    /**
+     * @hidden
+     */
     var d = Geometric3.zero(false);
+    /**
+     * @hidden
+     */
     var B = Spinor3.one.clone();
+    /**
+     * @hidden
+     */
     var R = Spinor3.one.clone();
+    /**
+     * @hidden
+     */
     var X = Vector3.zero();
     /**
      * <p>
@@ -8286,6 +8530,9 @@
         ClearBufferMask[ClearBufferMask["COLOR_BUFFER_BIT"] = 16384] = "COLOR_BUFFER_BIT";
     })(exports.ClearBufferMask || (exports.ClearBufferMask = {}));
 
+    /**
+     * @hidden
+     */
     function clamp(x, min, max) {
         mustBeNumber('x', x);
         mustBeNumber('min', min);
@@ -8536,6 +8783,9 @@
         return Coords;
     }(VectorN));
 
+    /**
+     * @hidden
+     */
     function isGE(value, limit) {
         return value >= limit;
     }
@@ -8548,6 +8798,9 @@
         return value;
     }
 
+    /**
+     * @hidden
+     */
     function isLE(value, limit) {
         return value <= limit;
     }
@@ -9003,6 +9256,7 @@
 
     /**
      * exchange(thing to release, thing to addRef)
+     * @hidden
      */
     function exchange(mine, yours) {
         if (mine !== yours) {
@@ -9020,6 +9274,9 @@
         }
     }
 
+    /**
+     * @hidden
+     */
     function isBoolean(x) {
         return (typeof x === 'boolean');
     }
@@ -9875,6 +10132,7 @@
 
     /**
      * Computes the number of elements represented by the attribute values.
+     * @hidden
      */
     function computeCount(attribs, aNames) {
         var aNamesLen = aNames.length;
@@ -9892,6 +10150,7 @@
 
     /**
      * Computes the interleaved attribute values array.
+     * @hidden
      */
     function computeAttributes(attributes, aNames) {
         var aNamesLen = aNames.length;
@@ -9930,6 +10189,7 @@
 
     /**
      * Computes the stride for a given collection of attributes.
+     * @hidden
      */
     function computeStride(attributes, aNames) {
         var aNamesLen = aNames.length;
@@ -10842,33 +11102,67 @@
     }());
 
     /**
-     * Computes the determinant of a 4x4 (square) matrix where the elements are assumed to be in column-major order.
+     * @hidden
      */
-    function det4x4(m) {
-        var n11 = m[0x0], n12 = m[0x4], n13 = m[0x8], n14 = m[0xC];
-        var n21 = m[0x1], n22 = m[0x5], n23 = m[0x9], n24 = m[0xD];
-        var n31 = m[0x2], n32 = m[0x6], n33 = m[0xA], n34 = m[0xE];
-        var n41 = m[0x3], n42 = m[0x7], n43 = m[0xB], n44 = m[0xF];
-        var n1122 = n11 * n22;
-        var n1123 = n11 * n23;
-        var n1124 = n11 * n24;
-        var n1221 = n12 * n21;
-        var n1223 = n12 * n23;
-        var n1224 = n12 * n24;
-        var n1321 = n13 * n21;
-        var n1322 = n13 * n22;
-        var n1324 = n13 * n24;
-        var n1421 = n14 * n21;
-        var n1422 = n14 * n22;
-        var n1423 = n14 * n23;
-        return n41 * ((n1423 - n1324) * n32 + (n1224 - n1422) * n33 + (n1322 - n1223) * n34) +
-            n42 * ((n1324 - n1423) * n31 + (n1421 - n1124) * n33 + (n1123 - n1321) * n34) +
-            n43 * ((n1422 - n1224) * n31 + (n1124 - n1421) * n32 + (n1221 - n1122) * n34) +
-            n44 * ((n1223 - n1322) * n31 + (n1321 - n1123) * n32 + (n1122 - n1221) * n33);
+    function frustumMatrix(left, right, bottom, top, near, far, matrix) {
+        mustBeNumber('left', left);
+        mustBeNumber('right', right);
+        mustBeNumber('bottom', bottom);
+        mustBeNumber('top', top);
+        mustBeNumber('near', near);
+        mustBeNumber('far', far);
+        var m = isDefined(matrix) ? matrix : new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+        var x = 2 * near / (right - left);
+        var y = 2 * near / (top - bottom);
+        var a = (right + left) / (right - left);
+        var b = (top + bottom) / (top - bottom);
+        var c = -(far + near) / (far - near);
+        var d = -2 * far * near / (far - near);
+        m[0x0] = x;
+        m[0x4] = 0;
+        m[0x8] = a;
+        m[0xC] = 0;
+        m[0x1] = 0;
+        m[0x5] = y;
+        m[0x9] = b;
+        m[0xD] = 0;
+        m[0x2] = 0;
+        m[0x6] = 0;
+        m[0xA] = c;
+        m[0xE] = d;
+        m[0x3] = 0;
+        m[0x7] = 0;
+        m[0xB] = -1;
+        m[0xF] = 0;
+        return m;
+    }
+
+    /**
+     * Computes the matrix for the viewing transformation.
+     * @param fov The angle subtended at the apex of the viewing pyramid.
+     * @param aspect The ratio of width / height of the viewing pyramid.
+     * @param near The distance from the camera eye point to the near plane.
+     * @param far The distance from the camera eye point to the far plane.
+     * @hidden
+     */
+    function perspectiveArray(fov, aspect, near, far, matrix) {
+        // We can leverage the frustum function, although technically the
+        // symmetry in this perspective transformation should reduce the amount
+        // of computation required.
+        mustBeNumber('fov', fov);
+        mustBeNumber('aspect', aspect);
+        mustBeNumber('near', near);
+        mustBeNumber('far', far);
+        var ymax = near * Math.tan(fov * 0.5); // top
+        var ymin = -ymax; // bottom
+        var xmin = ymin * aspect; // left
+        var xmax = ymax * aspect; // right
+        return frustumMatrix(xmin, xmax, ymin, ymax, near, far, matrix);
     }
 
     /**
      * Computes the inverse of a 4x4 (square) matrix where the elements are assumed to be in column-major order.
+     * @hidden
      */
     function inv4x4(src, dest) {
         var n11 = src[0x0], n12 = src[0x4], n13 = src[0x8], n14 = src[0xC];
@@ -10946,62 +11240,36 @@
         return c;
     }
 
-    function frustumMatrix(left, right, bottom, top, near, far, matrix) {
-        mustBeNumber('left', left);
-        mustBeNumber('right', right);
-        mustBeNumber('bottom', bottom);
-        mustBeNumber('top', top);
-        mustBeNumber('near', near);
-        mustBeNumber('far', far);
-        var m = isDefined(matrix) ? matrix : new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-        var x = 2 * near / (right - left);
-        var y = 2 * near / (top - bottom);
-        var a = (right + left) / (right - left);
-        var b = (top + bottom) / (top - bottom);
-        var c = -(far + near) / (far - near);
-        var d = -2 * far * near / (far - near);
-        m[0x0] = x;
-        m[0x4] = 0;
-        m[0x8] = a;
-        m[0xC] = 0;
-        m[0x1] = 0;
-        m[0x5] = y;
-        m[0x9] = b;
-        m[0xD] = 0;
-        m[0x2] = 0;
-        m[0x6] = 0;
-        m[0xA] = c;
-        m[0xE] = d;
-        m[0x3] = 0;
-        m[0x7] = 0;
-        m[0xB] = -1;
-        m[0xF] = 0;
-        return m;
+    /**
+     * Computes the determinant of a 4x4 (square) matrix where the elements are assumed to be in column-major order.
+     * @hidden
+     */
+    function det4x4(m) {
+        var n11 = m[0x0], n12 = m[0x4], n13 = m[0x8], n14 = m[0xC];
+        var n21 = m[0x1], n22 = m[0x5], n23 = m[0x9], n24 = m[0xD];
+        var n31 = m[0x2], n32 = m[0x6], n33 = m[0xA], n34 = m[0xE];
+        var n41 = m[0x3], n42 = m[0x7], n43 = m[0xB], n44 = m[0xF];
+        var n1122 = n11 * n22;
+        var n1123 = n11 * n23;
+        var n1124 = n11 * n24;
+        var n1221 = n12 * n21;
+        var n1223 = n12 * n23;
+        var n1224 = n12 * n24;
+        var n1321 = n13 * n21;
+        var n1322 = n13 * n22;
+        var n1324 = n13 * n24;
+        var n1421 = n14 * n21;
+        var n1422 = n14 * n22;
+        var n1423 = n14 * n23;
+        return n41 * ((n1423 - n1324) * n32 + (n1224 - n1422) * n33 + (n1322 - n1223) * n34) +
+            n42 * ((n1324 - n1423) * n31 + (n1421 - n1124) * n33 + (n1123 - n1321) * n34) +
+            n43 * ((n1422 - n1224) * n31 + (n1124 - n1421) * n32 + (n1221 - n1122) * n34) +
+            n44 * ((n1223 - n1322) * n31 + (n1321 - n1123) * n32 + (n1122 - n1221) * n33);
     }
 
     /**
-     * Computes the matrix for the viewing transformation.
-     * @param fov The angle subtended at the apex of the viewing pyramid.
-     * @param aspect The ratio of width / height of the viewing pyramid.
-     * @param near The distance from the camera eye point to the near plane.
-     * @param far The distance from the camera eye point to the far plane.
      * @hidden
      */
-    function perspectiveArray(fov, aspect, near, far, matrix) {
-        // We can leverage the frustum function, although technically the
-        // symmetry in this perspective transformation should reduce the amount
-        // of computation required.
-        mustBeNumber('fov', fov);
-        mustBeNumber('aspect', aspect);
-        mustBeNumber('near', near);
-        mustBeNumber('far', far);
-        var ymax = near * Math.tan(fov * 0.5); // top
-        var ymin = -ymax; // bottom
-        var xmin = ymin * aspect; // left
-        var xmax = ymax * aspect; // right
-        return frustumMatrix(xmin, xmax, ymin, ymax, near, far, matrix);
-    }
-
     function add4x4(a, b, c) {
         var a11 = a[0x0], a12 = a[0x4], a13 = a[0x8], a14 = a[0xC];
         var a21 = a[0x1], a22 = a[0x5], a23 = a[0x9], a24 = a[0xD];
@@ -11651,6 +11919,79 @@
     }(ModelE3));
 
     /**
+     *
+     */
+    exports.TextureUnit = void 0;
+    (function (TextureUnit) {
+        TextureUnit[TextureUnit["TEXTURE0"] = 33984] = "TEXTURE0";
+        TextureUnit[TextureUnit["TEXTURE1"] = 33985] = "TEXTURE1";
+        TextureUnit[TextureUnit["TEXTURE2"] = 33986] = "TEXTURE2";
+        TextureUnit[TextureUnit["TEXTURE3"] = 33987] = "TEXTURE3";
+        TextureUnit[TextureUnit["TEXTURE4"] = 33988] = "TEXTURE4";
+        TextureUnit[TextureUnit["TEXTURE5"] = 33989] = "TEXTURE5";
+        TextureUnit[TextureUnit["TEXTURE6"] = 33990] = "TEXTURE6";
+        TextureUnit[TextureUnit["TEXTURE7"] = 33991] = "TEXTURE7";
+        TextureUnit[TextureUnit["TEXTURE8"] = 33992] = "TEXTURE8";
+        TextureUnit[TextureUnit["TEXTURE9"] = 33993] = "TEXTURE9";
+        TextureUnit[TextureUnit["TEXTURE10"] = 33994] = "TEXTURE10";
+        TextureUnit[TextureUnit["TEXTURE11"] = 33995] = "TEXTURE11";
+        TextureUnit[TextureUnit["TEXTURE12"] = 33996] = "TEXTURE12";
+        TextureUnit[TextureUnit["TEXTURE13"] = 33997] = "TEXTURE13";
+        TextureUnit[TextureUnit["TEXTURE14"] = 33998] = "TEXTURE14";
+        TextureUnit[TextureUnit["TEXTURE15"] = 33999] = "TEXTURE15";
+        TextureUnit[TextureUnit["TEXTURE16"] = 34000] = "TEXTURE16";
+        TextureUnit[TextureUnit["TEXTURE17"] = 34001] = "TEXTURE17";
+        TextureUnit[TextureUnit["TEXTURE18"] = 34002] = "TEXTURE18";
+        TextureUnit[TextureUnit["TEXTURE19"] = 34003] = "TEXTURE19";
+        TextureUnit[TextureUnit["TEXTURE20"] = 34004] = "TEXTURE20";
+        TextureUnit[TextureUnit["TEXTURE21"] = 34005] = "TEXTURE21";
+        TextureUnit[TextureUnit["TEXTURE22"] = 34006] = "TEXTURE22";
+        TextureUnit[TextureUnit["TEXTURE23"] = 34007] = "TEXTURE23";
+        TextureUnit[TextureUnit["TEXTURE24"] = 34008] = "TEXTURE24";
+        TextureUnit[TextureUnit["TEXTURE25"] = 34009] = "TEXTURE25";
+        TextureUnit[TextureUnit["TEXTURE26"] = 34010] = "TEXTURE26";
+        TextureUnit[TextureUnit["TEXTURE27"] = 34011] = "TEXTURE27";
+        TextureUnit[TextureUnit["TEXTURE28"] = 34012] = "TEXTURE28";
+        TextureUnit[TextureUnit["TEXTURE29"] = 34013] = "TEXTURE29";
+        TextureUnit[TextureUnit["TEXTURE30"] = 34014] = "TEXTURE30";
+        TextureUnit[TextureUnit["TEXTURE31"] = 34015] = "TEXTURE31";
+        TextureUnit[TextureUnit["ACTIVE_TEXTURE"] = 34016] = "ACTIVE_TEXTURE";
+    })(exports.TextureUnit || (exports.TextureUnit = {}));
+
+    var TextureFacet = /** @class */ (function (_super) {
+        __extends(TextureFacet, _super);
+        function TextureFacet() {
+            var _this = _super.call(this) || this;
+            _this.unit = exports.TextureUnit.TEXTURE0;
+            _this.setLoggingName('TextureFacet');
+            return _this;
+        }
+        TextureFacet.prototype.destructor = function (levelUp) {
+            this._texture = exchange(this._texture, void 0);
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        Object.defineProperty(TextureFacet.prototype, "texture", {
+            get: function () {
+                return this._texture;
+            },
+            set: function (value) {
+                this._texture = exchange(this._texture, value);
+            },
+            enumerable: false,
+            configurable: true
+        });
+        TextureFacet.prototype.setUniforms = function (visitor) {
+            if (this._texture) {
+                visitor.activeTexture(this.unit);
+                this._texture.bind();
+                visitor.uniform1i(GraphicsProgramSymbols.UNIFORM_IMAGE, 0);
+                // this._texture.unbind();
+            }
+        };
+        return TextureFacet;
+    }(ShareableBase));
+
+    /**
      * This function computes the reference axis of an object.
      * @hidden
      */
@@ -11724,80 +12065,16 @@
     }
 
     /**
-     *
+     * @hidden
      */
-    exports.TextureUnit = void 0;
-    (function (TextureUnit) {
-        TextureUnit[TextureUnit["TEXTURE0"] = 33984] = "TEXTURE0";
-        TextureUnit[TextureUnit["TEXTURE1"] = 33985] = "TEXTURE1";
-        TextureUnit[TextureUnit["TEXTURE2"] = 33986] = "TEXTURE2";
-        TextureUnit[TextureUnit["TEXTURE3"] = 33987] = "TEXTURE3";
-        TextureUnit[TextureUnit["TEXTURE4"] = 33988] = "TEXTURE4";
-        TextureUnit[TextureUnit["TEXTURE5"] = 33989] = "TEXTURE5";
-        TextureUnit[TextureUnit["TEXTURE6"] = 33990] = "TEXTURE6";
-        TextureUnit[TextureUnit["TEXTURE7"] = 33991] = "TEXTURE7";
-        TextureUnit[TextureUnit["TEXTURE8"] = 33992] = "TEXTURE8";
-        TextureUnit[TextureUnit["TEXTURE9"] = 33993] = "TEXTURE9";
-        TextureUnit[TextureUnit["TEXTURE10"] = 33994] = "TEXTURE10";
-        TextureUnit[TextureUnit["TEXTURE11"] = 33995] = "TEXTURE11";
-        TextureUnit[TextureUnit["TEXTURE12"] = 33996] = "TEXTURE12";
-        TextureUnit[TextureUnit["TEXTURE13"] = 33997] = "TEXTURE13";
-        TextureUnit[TextureUnit["TEXTURE14"] = 33998] = "TEXTURE14";
-        TextureUnit[TextureUnit["TEXTURE15"] = 33999] = "TEXTURE15";
-        TextureUnit[TextureUnit["TEXTURE16"] = 34000] = "TEXTURE16";
-        TextureUnit[TextureUnit["TEXTURE17"] = 34001] = "TEXTURE17";
-        TextureUnit[TextureUnit["TEXTURE18"] = 34002] = "TEXTURE18";
-        TextureUnit[TextureUnit["TEXTURE19"] = 34003] = "TEXTURE19";
-        TextureUnit[TextureUnit["TEXTURE20"] = 34004] = "TEXTURE20";
-        TextureUnit[TextureUnit["TEXTURE21"] = 34005] = "TEXTURE21";
-        TextureUnit[TextureUnit["TEXTURE22"] = 34006] = "TEXTURE22";
-        TextureUnit[TextureUnit["TEXTURE23"] = 34007] = "TEXTURE23";
-        TextureUnit[TextureUnit["TEXTURE24"] = 34008] = "TEXTURE24";
-        TextureUnit[TextureUnit["TEXTURE25"] = 34009] = "TEXTURE25";
-        TextureUnit[TextureUnit["TEXTURE26"] = 34010] = "TEXTURE26";
-        TextureUnit[TextureUnit["TEXTURE27"] = 34011] = "TEXTURE27";
-        TextureUnit[TextureUnit["TEXTURE28"] = 34012] = "TEXTURE28";
-        TextureUnit[TextureUnit["TEXTURE29"] = 34013] = "TEXTURE29";
-        TextureUnit[TextureUnit["TEXTURE30"] = 34014] = "TEXTURE30";
-        TextureUnit[TextureUnit["TEXTURE31"] = 34015] = "TEXTURE31";
-        TextureUnit[TextureUnit["ACTIVE_TEXTURE"] = 34016] = "ACTIVE_TEXTURE";
-    })(exports.TextureUnit || (exports.TextureUnit = {}));
-
-    var TextureFacet = /** @class */ (function (_super) {
-        __extends(TextureFacet, _super);
-        function TextureFacet() {
-            var _this = _super.call(this) || this;
-            _this.unit = exports.TextureUnit.TEXTURE0;
-            _this.setLoggingName('TextureFacet');
-            return _this;
-        }
-        TextureFacet.prototype.destructor = function (levelUp) {
-            this._texture = exchange(this._texture, void 0);
-            _super.prototype.destructor.call(this, levelUp + 1);
-        };
-        Object.defineProperty(TextureFacet.prototype, "texture", {
-            get: function () {
-                return this._texture;
-            },
-            set: function (value) {
-                this._texture = exchange(this._texture, value);
-            },
-            enumerable: false,
-            configurable: true
-        });
-        TextureFacet.prototype.setUniforms = function (visitor) {
-            if (this._texture) {
-                visitor.activeTexture(this.unit);
-                this._texture.bind();
-                visitor.uniform1i(GraphicsProgramSymbols.UNIFORM_IMAGE, 0);
-                // this._texture.unbind();
-            }
-        };
-        return TextureFacet;
-    }(ShareableBase));
-
     var COLOR_FACET_NAME = 'color';
+    /**
+     * @hidden
+     */
     var TEXTURE_FACET_NAME = 'image';
+    /**
+     * @hidden
+     */
     var MODEL_FACET_NAME = 'model';
     /**
      * The standard pairing of a Geometry and a Material.
@@ -12819,6 +13096,35 @@
     }());
 
     /**
+     * @hidden
+     */
+    function beContextId() {
+        return "be 'webgl2' or 'webgl'";
+    }
+    /**
+     * @hidden
+     */
+    function isWebGLContextId(x) {
+        switch (x) {
+            case 'webgl2': return true;
+            case 'webgl': return true;
+            default: return false;
+        }
+    }
+    /**
+     * @hidden
+     */
+    function mustBeWebGLContextId(name, value, contextBuilder) {
+        if (isWebGLContextId(value)) {
+            return value;
+        }
+        else {
+            mustSatisfy(name, false, beContextId, contextBuilder);
+            return value;
+        }
+    }
+
+    /**
      * Displays details about EIGHT to the console.
      */
     var EIGHTLogger = /** @class */ (function (_super) {
@@ -12875,6 +13181,7 @@
 
     /**
      * Verify that the enums match the values in the WebGL rendering context.
+     * @hidden
      */
     function checkEnums(gl) {
         // BeginMode
@@ -12951,9 +13258,15 @@
         return gl;
     }
 
+    /**
+     * @hidden
+     */
     function getContextFailed(contextId) {
         return "canvas.getContext('" + contextId + "') failed. Your browser may not support it.";
     }
+    /**
+     * @hidden
+     */
     function invalidContextId(contextId) {
         return JSON.stringify(contextId) + " is not a recognized WebGL contextId. contextId must be 'webgl2' or 'webgl'.";
     }
@@ -12963,6 +13276,7 @@
      * @param options The arguments to the HTMLCanvasElement.getContext() method.
      * @param contextId An optional override for the context identifier.
      * If the canvas is undefined then an undefined value is returned for the context.
+     * @hidden
      */
     function initWebGL(canvas, options, contextId) {
         // We'll be hyper-functional. An undefined canvas begets an undefined context.
@@ -13026,32 +13340,6 @@
     /**
      * @hidden
      */
-    function beContextId() {
-        return "be 'webgl2' or 'webgl'";
-    }
-    /**
-     * @hidden
-     */
-    function isWebGLContextId(x) {
-        switch (x) {
-            case 'webgl2': return true;
-            case 'webgl': return true;
-            default: return false;
-        }
-    }
-    /**
-     * @hidden
-     */
-    function mustBeWebGLContextId(name, value, contextBuilder) {
-        if (isWebGLContextId(value)) {
-            return value;
-        }
-        else {
-            mustSatisfy(name, false, beContextId, contextBuilder);
-            return value;
-        }
-    }
-
     function getWindowDocument(window) {
         if (window) {
             return window.document;
@@ -13644,6 +13932,7 @@
 
     /**
      * Computes the determinant of a 2x2 (square) matrix where the elements are assumed to be in column-major order.
+     * @hidden
      */
     function det2x2(m) {
         var n11 = m[0x0];
@@ -13653,6 +13942,9 @@
         return n11 * n22 - n12 * n21;
     }
 
+    /**
+     * @hidden
+     */
     function add2x2(a, b, c) {
         var a11 = a[0x0], a12 = a[0x2];
         var a21 = a[0x1], a22 = a[0x3];
@@ -14665,6 +14957,9 @@
         return m;
     }
 
+    /**
+     * @hidden
+     */
     function dotVectorE2(a, b) {
         if (isDefined(a) && isDefined(b)) {
             return a.x * b.x + a.y * b.y;
@@ -14674,6 +14969,9 @@
         }
     }
 
+    /**
+     * @hidden
+     */
     function extE2(a0, a1, a2, a3, b0, b1, b2, b3, index) {
         a0 = +a0;
         a1 = +a1;
@@ -14713,6 +15011,9 @@
         return +x;
     }
 
+    /**
+     * @hidden
+     */
     function lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, index) {
         a0 = +a0;
         a1 = +a1;
@@ -14838,6 +15139,7 @@
 
     /**
      * Computes the dot product of the Cartesian components in a Euclidean metric
+     * @hidden
      */
     function dotVectorCartesianE2(ax, ay, bx, by) {
         return ax * bx + ay * by;
@@ -14913,40 +15215,112 @@
     }
 
     // symbolic constants for the coordinate indices into the data array.
+    /**
+     * @hidden
+     */
     var COORD_SCALAR$1 = 0;
+    /**
+     * @hidden
+     */
     var COORD_X$1 = 1;
+    /**
+     * @hidden
+     */
     var COORD_Y = 2;
+    /**
+     * @hidden
+     */
     var COORD_PSEUDO$1 = 3;
+    /**
+     * @hidden
+     */
     var abs$1 = Math.abs;
+    /**
+     * @hidden
+     */
     var atan2$1 = Math.atan2;
+    /**
+     * @hidden
+     */
     var exp$2 = Math.exp;
+    /**
+     * @hidden
+     */
     var log$3 = Math.log;
+    /**
+     * @hidden
+     */
     var cos$2 = Math.cos;
+    /**
+     * @hidden
+     */
     var sin$2 = Math.sin;
+    /**
+     * @hidden
+     */
     var sqrt$3 = Math.sqrt;
+    /**
+     * @hidden
+     */
     var LEFTWARDS_ARROW = "←";
+    /**
+     * @hidden
+     */
     var RIGHTWARDS_ARROW = "→";
+    /**
+     * @hidden
+     */
     var UPWARDS_ARROW = "↑";
+    /**
+     * @hidden
+     */
     var DOWNWARDS_ARROW = "↓";
+    /**
+     * @hidden
+     */
     var CLOCKWISE_OPEN_CIRCLE_ARROW = "↻";
+    /**
+     * @hidden
+     */
     var ANTICLOCKWISE_OPEN_CIRCLE_ARROW = "↺";
+    /**
+     * @hidden
+     */
     var ARROW_LABELS = ["1", [LEFTWARDS_ARROW, RIGHTWARDS_ARROW], [DOWNWARDS_ARROW, UPWARDS_ARROW], [CLOCKWISE_OPEN_CIRCLE_ARROW, ANTICLOCKWISE_OPEN_CIRCLE_ARROW]];
+    /**
+     * @hidden
+     */
     var COMPASS_LABELS = ["1", ['W', 'E'], ['S', 'N'], [CLOCKWISE_OPEN_CIRCLE_ARROW, ANTICLOCKWISE_OPEN_CIRCLE_ARROW]];
+    /**
+     * @hidden
+     */
     var STANDARD_LABELS = ["1", "e1", "e2", "I"];
+    /**
+     * @hidden
+     */
     var zero = function zero() {
         return [0, 0, 0, 0];
     };
+    /**
+     * @hidden
+     */
     var scalar = function scalar(a) {
         var coords = zero();
         coords[COORD_SCALAR$1] = a;
         return coords;
     };
+    /**
+     * @hidden
+     */
     var vector = function vector(x, y) {
         var coords = zero();
         coords[COORD_X$1] = x;
         coords[COORD_Y] = y;
         return coords;
     };
+    /**
+     * @hidden
+     */
     var pseudo = function pseudo(b) {
         var coords = zero();
         coords[COORD_PSEUDO$1] = b;
@@ -14954,6 +15328,7 @@
     };
     /**
      * Coordinates corresponding to basis labels.
+     * @hidden
      */
     function coordinates$1(m) {
         var coords = zero();
@@ -14965,6 +15340,7 @@
     }
     /**
      * Promotes an unknown value to a Geometric2, or returns undefined.
+     * @hidden
      */
     function duckCopy(value) {
         if (isObject(value)) {
@@ -16383,18 +16759,30 @@
         return ModelE2;
     }());
 
+    /**
+     * @hidden
+     */
     function isVectorN(values) {
         return Array.isArray(values);
     }
+    /**
+     * @hidden
+     */
     function checkValues(values) {
         if (!isVectorN(values)) {
             throw new Error("values must be a number[]");
         }
         return values;
     }
+    /**
+     * @hidden
+     */
     function isExactMultipleOf(numer, denom) {
         return numer % denom === 0;
     }
+    /**
+     * @hidden
+     */
     function checkSize$1(size, values) {
         if (typeof size === 'number') {
             if (!isExactMultipleOf(values.length, size)) {
@@ -16420,6 +16808,9 @@
         return DrawAttribute;
     }());
 
+    /**
+     * @hidden
+     */
     var context = function () { return "DrawPrimitive constructor"; };
     /**
      * A convenience class for implementing the Primitive interface.
@@ -17606,6 +17997,7 @@
     /**
      * This seems a bit hacky. Maybe we need an abstraction that recognizes the existence of
      * geometric numbers for vertex attributes, but allows us to extract the vector (grade-1) part?
+     * @hidden
      */
     function dataFromVectorN(source) {
         if (source instanceof Geometric3) {
@@ -17630,6 +18022,9 @@
         }
     }
 
+    /**
+     * @hidden
+     */
     function checkSize(length) {
         if (length === 1) {
             return 1;
@@ -17652,6 +18047,7 @@
      * There is some magic in the conversion of various types (Geometric2, Geometric3, Vector2, Vector3)
      * to number[], but the basic rule is that the vector grade is extracted and used in a way that is
      * consistent with the linear dimension (2,3), so there should be no surprises.
+     * @hidden
      */
     function attributes(elements, vertices) {
         mustBeArray('elements', elements);
@@ -17887,6 +18283,9 @@
         return GridTriangleStrip;
     }(GridPrimitive));
 
+    /**
+     * @hidden
+     */
     function coneNormal(ρ, h, out) {
         out.copy(ρ);
         var ρ2 = out.squaredNorm();
@@ -18454,19 +18853,31 @@
         SimplexMode[SimplexMode["FIVE_CELL"] = 4] = "FIVE_CELL";
     })(SimplexMode || (SimplexMode = {}));
 
+    /**
+     * @hidden
+     */
     function checkIntegerArg(name, n, min, max) {
         mustBeInteger(name, n);
         mustBeGE(name, n, min);
         mustBeLE(name, n, max);
         return n;
     }
+    /**
+     * @hidden
+     */
     function checkCountArg(count) {
         // TODO: The count range should depend upon the k value of the simplex.
         return checkIntegerArg('count', count, 0, 7);
     }
+    /**
+     * @hidden
+     */
     function concatReduce(a, b) {
         return a.concat(b);
     }
+    /**
+     * @hidden
+     */
     function lerp(a, b, alpha, data) {
         if (data === void 0) { data = []; }
         mustBeEQ('a.length', a.length, b.length);
@@ -18478,6 +18889,9 @@
         }
         return data;
     }
+    /**
+     * @hidden
+     */
     function lerpVertexAttributeMap(a, b, alpha) {
         var attribMap = {};
         var keys = Object.keys(a);
@@ -18488,9 +18902,15 @@
         }
         return attribMap;
     }
+    /**
+     * @hidden
+     */
     function lerpVectorN(a, b, alpha) {
         return new VectorN(lerp(a.toArray(), b.toArray(), alpha));
     }
+    /**
+     * @hidden
+     */
     var Simplex = /** @class */ (function () {
         function Simplex(k) {
             this.vertices = [];
@@ -18652,8 +19072,17 @@
         GeometryMode[GeometryMode["MESH"] = 2] = "MESH";
     })(exports.GeometryMode || (exports.GeometryMode = {}));
 
+    /**
+     * @hidden
+     */
     var canonicalAxis$3 = vec(0, 1, 0);
+    /**
+     * @hidden
+     */
     var canonicalCutLine = vec(0, 0, 1);
+    /**
+     * @hidden
+     */
     var getAxis$1 = function getAxis(options) {
         if (isDefined(options.axis)) {
             return options.axis;
@@ -18662,6 +19091,9 @@
             return canonicalAxis$3;
         }
     };
+    /**
+     * @hidden
+     */
     var getCutLine = function getCutLine(options) {
         if (isDefined(options.meridian)) {
             return options.meridian;
@@ -18671,7 +19103,7 @@
         }
     };
     /**
-     *
+     * @hidden
      */
     function arrowPrimitive(options) {
         if (options === void 0) { options = { kind: 'ArrowGeometry' }; }
@@ -18733,6 +19165,9 @@
         return ArrowGeometry;
     }(GeometryElements));
 
+    /**
+     * @hidden
+     */
     function computeFaceNormals(simplex, positionName, normalName) {
         if (positionName === void 0) { positionName = GraphicsProgramSymbols.ATTRIBUTE_POSITION; }
         if (normalName === void 0) { normalName = GraphicsProgramSymbols.ATTRIBUTE_NORMAL; }
@@ -18890,6 +19325,9 @@
         return PrimitivesBuilder;
     }());
 
+    /**
+     * @hidden
+     */
     function copyToArray(source, destination, offset) {
         if (destination === void 0) { destination = []; }
         if (offset === void 0) { offset = 0; }
@@ -18901,6 +19339,9 @@
     }
 
     // This function has the important side-effect of setting the vertex index property.
+    /**
+     * @hidden
+     */
     function computeUniqueVertices(geometry) {
         var map = {};
         var vertices = [];
@@ -18927,6 +19368,7 @@
     /**
      * This seems a bit hacky. Maybe we need an abstraction that recognizes the existence of
      * geometric numbers for vertex attributes, but allows us to extract the vector (grade-1) part?
+     * @hidden
      */
     function dataLength(source) {
         if (source instanceof Geometric3) {
@@ -20019,6 +20461,7 @@
      * angle: {number} The angle of the rotation.
      * generator {SpinorE3} The generator of the rotation.
      * segments {number} The number of segments.
+     * @hidden
      */
     function arc3(begin, angle, generator, segments) {
         mustBeDefined('begin', begin);
@@ -20048,6 +20491,9 @@
         return points;
     }
 
+    /**
+     * @hidden
+     */
     var canonicalAxis$1 = vec(0, 1, 0);
     // const canonicalMeridian = vec(0, 0, 1);
     /**
@@ -20065,6 +20511,7 @@
      * @param tangents
      * @param vertices
      * @param uvs
+     * @hidden
      */
     function computeWallVertices(height, radius, clockwise, stress, tilt, offset, angle, generator, heightSegments, thetaSegments, points, tangents, vertices, uvs) {
         /**
@@ -20123,7 +20570,7 @@
         }
     }
     /**
-     *
+     * @hidden
      */
     var CylinderSimplexPrimitivesBuilder = /** @class */ (function (_super) {
         __extends(CylinderSimplexPrimitivesBuilder, _super);
@@ -20281,6 +20728,9 @@
         };
         return CylinderSimplexPrimitivesBuilder;
     }(SimplexPrimitivesBuilder));
+    /**
+     * @hidden
+     */
     function getAxis(options) {
         if (options === void 0) { options = { kind: 'CylinderGeometry' }; }
         if (isDefined(options.axis)) {
@@ -20293,6 +20743,9 @@
             return vec(0, 1, 0);
         }
     }
+    /**
+     * @hidden
+     */
     function getMeridian(options) {
         if (options === void 0) { options = { kind: 'CylinderGeometry' }; }
         if (isDefined(options.meridian)) {
@@ -20307,6 +20760,7 @@
     }
     /**
      * TODO: Support GeometryMode.
+     * @hidden
      */
     function cylinderPrimitive(options) {
         if (options === void 0) { options = { kind: 'CylinderGeometry' }; }
@@ -20346,6 +20800,9 @@
             throw new Error("Expecting CylinderSimplexPrimitivesBuilder to return one Primitive.");
         }
     }
+    /**
+     * @hidden
+     */
     function baseOptions(options) {
         var axis = getAxis(options);
         var tilt = Geometric3.rotorFromDirections(canonicalAxis$1, axis);
@@ -20391,6 +20848,9 @@
         return CylinderGeometry;
     }(GeometryElements));
 
+    /**
+     * @hidden
+     */
     function isLT(value, limit) {
         return value < limit;
     }
@@ -20478,6 +20938,9 @@
         return CurvePrimitive;
     }(VertexPrimitive));
 
+    /**
+     * @hidden
+     */
     function elementsForCurve(uSegments, uClosed, elements) {
         // Make sure that we have somewhere valid to store the result.
         elements = isDefined(elements) ? mustBeArray('elements', elements) : [];
@@ -20539,6 +21002,9 @@
         return LineStrip;
     }(CurvePrimitive));
 
+    /**
+     * @hidden
+     */
     function isFunction(x) {
         return (typeof x === 'function');
     }
@@ -20786,7 +21252,7 @@
     }(GridPrimitive));
 
     /**
-     *
+     * @hidden
      */
     function topology(mode, uSegments, uClosed, vSegments, vClosed) {
         switch (mode) {
@@ -20807,6 +21273,7 @@
     /**
      * Decorates the vertex with aPosition, aNormal, and aColor attributes,
      * but only if these functions are provided in the options.
+     * @hidden
      */
     function transformVertex(vertex, u, v, options) {
         var aPosition = isDefined(options.aPosition) ? options.aPosition : void 0;
@@ -20827,6 +21294,9 @@
             vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = Color.copy(aColor(u, v));
         }
     }
+    /**
+     * @hidden
+     */
     function gridPrimitive(options) {
         var uMin = isDefined(options.uMin) ? mustBeNumber('uMin', options.uMin) : 0;
         var uMax = isDefined(options.uMax) ? mustBeNumber('uMax', options.uMax) : 1;
@@ -22362,6 +22832,7 @@
 
     /**
      * Policy for how an attribute variable name is determined.
+     * @hidden
      */
     function getAttribVarName(attribute, varName) {
         mustBeObject('attribute', attribute);
@@ -22370,72 +22841,8 @@
     }
 
     /**
-     * @hidden
-     */
-    function sizeType(size) {
-        mustBeInteger('size', size);
-        switch (size) {
-            case 1: {
-                return 'float';
-            }
-            case 2: {
-                return 'vec2';
-            }
-            case 3: {
-                return 'vec3';
-            }
-            case 4: {
-                return 'vec4';
-            }
-            default: {
-                throw new Error("Can't compute the GLSL attribute type from size " + size);
-            }
-        }
-    }
-    /**
-     * @hidden
-     */
-    function glslAttribType(key, size) {
-        mustBeString('key', key);
-        mustBeInteger('size', size);
-        switch (key) {
-            case GraphicsProgramSymbols.ATTRIBUTE_COLOR: {
-                // No need to hard-code to 'vec3' anymore.
-                return sizeType(size);
-            }
-            default: {
-                return sizeType(size);
-            }
-        }
-    }
-
-    /**
-     * @hidden
-     */
-    function vColorRequired(attributes, uniforms) {
-        return !!attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] || !!uniforms[GraphicsProgramSymbols.UNIFORM_COLOR];
-    }
-
-    /**
-     * @hidden
-     */
-    function vCoordsRequired(attributes, uniforms) {
-        mustBeDefined('attributes', attributes);
-        mustBeDefined('uniforms', uniforms);
-        return !!attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS];
-    }
-
-    /**
-     * @hidden
-     */
-    function vLightRequired(attributes, uniforms) {
-        mustBeDefined('attributes', attributes);
-        mustBeDefined('uniforms', uniforms);
-        return !!uniforms[GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT] || (!!uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR] && !!uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR]);
-    }
-
-    /**
      * Policy for how a uniform variable name is determined.
+     * @hidden
      */
     function getUniformVarName(uniform, varName) {
         expectArg('uniform', uniform).toBeObject();
@@ -22449,9 +22856,15 @@
         GLSLESVersion["ThreeHundred"] = "300";
     })(GLSLESVersion || (GLSLESVersion = {}));
 
+    /**
+     * @hidden
+     */
     function getUniformCodeName$1(uniforms, name) {
         return getUniformVarName(uniforms[name], name);
     }
+    /**
+     * @hidden
+     */
     function getFragColorVarName(version) {
         if (version === GLSLESVersion.ThreeHundred) {
             return "fragColor";
@@ -22460,6 +22873,9 @@
             return "gl_FragColor";
         }
     }
+    /**
+     * @hidden
+     */
     function getFragmentShaderVaryingModifier(version) {
         if (version === GLSLESVersion.ThreeHundred) {
             return "in";
@@ -22468,6 +22884,9 @@
             return "varying";
         }
     }
+    /**
+     * @hidden
+     */
     function getTexture2D(version) {
         if (version === GLSLESVersion.ThreeHundred) {
             return "texture";
@@ -22476,6 +22895,9 @@
             return "texture2D";
         }
     }
+    /**
+     * @hidden
+     */
     function emitFragmentFloatPrecision(version) {
         if (version === GLSLESVersion.ThreeHundred) {
             return true;
@@ -22484,11 +22906,21 @@
             return false;
         }
     }
+    /**
+     * @hidden
+     */
     var SPACE$1 = ' ';
+    /**
+     * @hidden
+     */
     var UNIFORM$1 = 'uniform' + SPACE$1;
+    /**
+     * @hidden
+     */
     var SEMICOLON$1 = ';';
     /**
      * Generates a fragment shader
+     * @hidden
      */
     function fragmentShaderSrc$5(attributes, uniforms, vColor, vCoords, vLight, version) {
         mustBeDefined('attributes', attributes);
@@ -22577,9 +23009,71 @@
         return code;
     }
 
+    /**
+     * @hidden
+     */
+    function sizeType(size) {
+        mustBeInteger('size', size);
+        switch (size) {
+            case 1: {
+                return 'float';
+            }
+            case 2: {
+                return 'vec2';
+            }
+            case 3: {
+                return 'vec3';
+            }
+            case 4: {
+                return 'vec4';
+            }
+            default: {
+                throw new Error("Can't compute the GLSL attribute type from size " + size);
+            }
+        }
+    }
+    /**
+     * @hidden
+     */
+    function glslAttribType(key, size) {
+        mustBeString('key', key);
+        mustBeInteger('size', size);
+        switch (key) {
+            case GraphicsProgramSymbols.ATTRIBUTE_COLOR: {
+                // No need to hard-code to 'vec3' anymore.
+                return sizeType(size);
+            }
+            default: {
+                return sizeType(size);
+            }
+        }
+    }
+
+    /**
+     * @hidden
+     */
+    function vColorRequired(attributes, uniforms) {
+        return !!attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] || !!uniforms[GraphicsProgramSymbols.UNIFORM_COLOR];
+    }
+
+    /**
+     * @hidden
+     */
+    function vCoordsRequired(attributes, uniforms) {
+        mustBeDefined('attributes', attributes);
+        mustBeDefined('uniforms', uniforms);
+        return !!attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS];
+    }
+
+    /**
+     * @hidden
+     */
     function getUniformCodeName(uniforms, name) {
         return getUniformVarName(uniforms[name], name);
     }
+    /**
+     * @hidden
+     */
     function getAttributeModifier(version) {
         if (version === GLSLESVersion.ThreeHundred) {
             return "in";
@@ -22588,6 +23082,9 @@
             return "attribute";
         }
     }
+    /**
+     * @hidden
+     */
     function getVertexShaderVaryingModifier(version) {
         if (version === GLSLESVersion.ThreeHundred) {
             return "out";
@@ -22596,17 +23093,45 @@
             return "varying";
         }
     }
+    /**
+     * @hidden
+     */
     var SPACE = ' ';
+    /**
+     * @hidden
+     */
     var UNIFORM = 'uniform' + SPACE;
+    /**
+     * @hidden
+     */
     var COMMA = ',' + SPACE;
+    /**
+     * @hidden
+     */
     var SEMICOLON = ';';
+    /**
+     * @hidden
+     */
     var LPAREN = '(';
+    /**
+     * @hidden
+     */
     var RPAREN = ')';
+    /**
+     * @hidden
+     */
     var TIMES = SPACE + '*' + SPACE;
+    /**
+     * @hidden
+     */
     var ASSIGN = SPACE + '=' + SPACE;
+    /**
+     * @hidden
+     */
     var DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME = "directionalLightCosineFactor";
     /**
      * Generates a vertex shader.
+     * @hidden
      */
     function vertexShaderSrc$5(attributes, uniforms, vColor, vCoords, vLight, version) {
         mustBeDefined('attributes', attributes);
@@ -22811,6 +23336,18 @@
         return code;
     }
 
+    /**
+     * @hidden
+     */
+    function vLightRequired(attributes, uniforms) {
+        mustBeDefined('attributes', attributes);
+        mustBeDefined('uniforms', uniforms);
+        return !!uniforms[GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT] || (!!uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR] && !!uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR]);
+    }
+
+    /**
+     * @hidden
+     */
     function computeAttribParams(values) {
         var result = {};
         var keys = Object.keys(values);
@@ -22826,6 +23363,7 @@
     }
     /**
      * GraphicsProgramBuilder is the builder pattern for generating vertex and fragment shader source code.
+     * @hidden
      */
     var GraphicsProgramBuilder = /** @class */ (function () {
         /**
@@ -22892,6 +23430,7 @@
      * If the contextId is not yet known and there is no override, returns the latest GLSL version.
      * @param override The override that the caller desires. May be undefined.
      * @param contextId The context identifier, usually determined from a ContextManager.
+     * @hidden
      */
     function glslVersionFromWebGLContextId(override, contextId) {
         if (override) {
@@ -23038,6 +23577,9 @@
         return LineMaterial;
     }(ShaderMaterial));
 
+    /**
+     * @hidden
+     */
     function defaultOptions$1(options) {
         if (!options.attributes) {
             options.attributes = {};
@@ -23058,6 +23600,9 @@
         options.uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR] = 'vec3';
         options.uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION] = 'vec3';
     }
+    /**
+     * @hidden
+     */
     function shaderPropertiesCount$1(options) {
         var count = Object.keys(options).length;
         if (options.version) {
@@ -23069,6 +23614,7 @@
      *
      * @param contextId The context identifier used when creating the WebGL rendering context. May be undefined.
      * @param options
+     * @hidden
      */
     function builder$1(contextId, options) {
         if (isUndefined(options) || isNull(options)) {
@@ -23099,13 +23645,25 @@
         }
         return gpb;
     }
+    /**
+     * @hidden
+     */
     function vertexShaderSrc$3(contextId, options) {
         return builder$1(contextId, options).vertexShaderSrc();
     }
+    /**
+     * @hidden
+     */
     function fragmentShaderSrc$3(contextId, options) {
         return builder$1(contextId, options).fragmentShaderSrc();
     }
+    /**
+     * @hidden
+     */
     var LOGGING_NAME_MESH_MATERIAL = 'MeshMaterial';
+    /**
+     * @hidden
+     */
     function getContextId$1(contextManager) {
         return mustBeNonNullObject('contextManager', contextManager).contextId;
     }
@@ -23157,6 +23715,9 @@
         return MeshMaterial;
     }(ShaderMaterial));
 
+    /**
+     * @hidden
+     */
     function defaultOptions(options) {
         if (!options.attributes) {
             options.attributes = {};
@@ -23172,6 +23733,9 @@
         options.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
         options.uniforms[GraphicsProgramSymbols.UNIFORM_POINT_SIZE] = 'float';
     }
+    /**
+     * @hidden
+     */
     function shaderPropertiesCount(options) {
         var count = Object.keys(options).length;
         if (options.version) {
@@ -23179,6 +23743,9 @@
         }
         return count;
     }
+    /**
+     * @hidden
+     */
     function builder(contextId, options) {
         if (isNull(options) || isUndefined(options)) {
             options = { attributes: {}, uniforms: {} };
@@ -23208,13 +23775,25 @@
         }
         return gpb;
     }
+    /**
+     * @hidden
+     */
     function vertexShaderSrc$2(contextId, options) {
         return builder(contextId, options).vertexShaderSrc();
     }
+    /**
+     * @hidden
+     */
     function fragmentShaderSrc$2(contextId, options) {
         return builder(contextId, options).fragmentShaderSrc();
     }
+    /**
+     * @hidden
+     */
     var LOGGING_NAME_POINT_MATERIAL = 'PointMaterial';
+    /**
+     * @hidden
+     */
     function getContextId(contextManager) {
         return mustBeNonNullObject('contextManager', contextManager).contextId;
     }
@@ -23582,6 +24161,9 @@
         return Vector4;
     }(Coords));
 
+    /**
+     * @hidden
+     */
     function getCanvasElementById(elementId, dom) {
         if (dom === void 0) { dom = window.document; }
         mustBeString('elementId', elementId);
@@ -23664,20 +24246,32 @@
         return NumberShareableMap;
     }(ShareableBase));
 
+    /**
+     * @hidden
+     */
     function defaultSetUp() {
         // Do nothing yet.
     }
+    /**
+     * @hidden
+     */
     function defaultTearDown(animateException) {
         if (animateException) {
             var message = "Exception raised during animate function: " + animateException;
             console.warn(message);
         }
     }
+    /**
+     * @hidden
+     */
     function defaultTerminate(time) {
         mustBeNumber('time', time);
         // Never ending, because whenever asked we say nee.
         return false;
     }
+    /**
+     * @hidden
+     */
     function animation(animate, options) {
         if (options === void 0) { options = {}; }
         var STATE_INITIAL = 1;
@@ -23790,11 +24384,29 @@
         return publicAPI;
     }
 
+    /**
+     * @hidden
+     */
     var INITIAL_AXIS = canonicalAxis$4;
+    /**
+     * @hidden
+     */
     var INITIAL_LENGTH = 1.0;
+    /**
+     * @hidden
+     */
     var INITIAL_MERIDIAN = canonicalMeridian$1;
+    /**
+     * @hidden
+     */
     var INITIAL_RADIUS = 0.5;
+    /**
+     * @hidden
+     */
     var INITIAL_SLICE = 2 * Math.PI;
+    /**
+     * @hidden
+     */
     function make(axis, length, meridian, radius, sliceAngle) {
         /*
         const that: ALR = {
@@ -23819,6 +24431,7 @@
      * meridian:   e3,
      * radius:     0.5,
      * sliceAngle: tau.
+     * @hidden
      */
     var ds = make(INITIAL_AXIS, INITIAL_LENGTH, INITIAL_MERIDIAN, INITIAL_RADIUS, INITIAL_SLICE);
 
@@ -24366,6 +24979,7 @@
 
     /**
      * Converts from a mode, k, or wireFrame option specification to a GeometryMode.
+     * @hidden
      */
     function geometryModeFromOptions(options, fallback, suppressWarnings) {
         if (fallback === void 0) { fallback = exports.GeometryMode.MESH; }
@@ -24414,6 +25028,9 @@
         }
     }
 
+    /**
+     * @hidden
+     */
     var RADIUS_NAME = 'radius';
     /**
      *
@@ -24871,7 +25488,7 @@
      * Usage:
      *
      * expectOptions(['foo', 'bar'], Object.keys(options));
-     *
+     * @hidden
      */
     function expectOptions(expects, actuals) {
         mustBeArray('expects', expects);
@@ -25003,20 +25620,35 @@
      * @hidden
      */
     var OPTION_NAMES = OPTIONS.map(function (option) { return option.name; });
+    /**
+     * @hidden
+     */
     function aPositionDefault(u, v) {
         return vec(u, v, 0);
     }
+    /**
+     * @hidden
+     */
     function aNormalDefault(u, v) {
         mustBeNumber('u', u);
         mustBeNumber('v', v);
         return vec(0, 0, 1);
     }
+    /**
+     * @hidden
+     */
     function isFunctionOrNull(x) {
         return isFunction(x) || isNull(x);
     }
+    /**
+     * @hidden
+     */
     function isFunctionOrUndefined(x) {
         return isFunction(x) || isUndefined(x);
     }
+    /**
+     * @hidden
+     */
     function transferGeometryOptions(source, target) {
         if (isFunctionOrNull(source.aPosition)) {
             target.aPosition = source.aPosition;
@@ -25053,7 +25685,7 @@
         mustBeGE('vSegments', target.vSegments, 0);
     }
     /**
-     *
+     * @hidden
      */
     function configGeometry(engine, geoOptions, grid) {
         // Don't use the Geometry cache until we can better differentiate the options.
@@ -25074,6 +25706,9 @@
         }
         */
     }
+    /**
+     * @hidden
+     */
     function configPoints(engine, options, grid) {
         var geoOptions = { kind: 'GridGeometry' };
         transferGeometryOptions(options, geoOptions);
@@ -25110,6 +25745,9 @@
             engine.putCacheMaterial(matOptions, material);
         }
     }
+    /**
+     * @hidden
+     */
     function configLines(engine, options, grid) {
         var geoOptions = { kind: 'GridGeometry' };
         transferGeometryOptions(options, geoOptions);
@@ -25150,6 +25788,9 @@
             engine.putCacheMaterial(matOptions, material);
         }
     }
+    /**
+     * @hidden
+     */
     function configMesh(engine, options, grid) {
         var geoOptions = { kind: 'GridGeometry' };
         transferGeometryOptions(options, geoOptions);
@@ -25602,10 +26243,17 @@
         return Group;
     }(ShareableBase));
 
+    /**
+     * @hidden
+     */
     var e2$1 = Vector3.vector(0, 1, 0);
+    /**
+     * @hidden
+     */
     var e3 = Vector3.vector(0, 0, 1);
     /**
      * Generates a Primitive from the specified options.
+     * @hidden
      */
     function hollowCylinderPrimitive(options) {
         if (options === void 0) { options = { kind: 'HollowCylinderGeometry' }; }
@@ -26501,6 +27149,9 @@
         return MinecraftFigure;
     }(Group));
 
+    /**
+     * @hidden
+     */
     var vertexShaderSrc = [
         "attribute vec3 aCoords;",
         "attribute float aFace;",
@@ -26543,6 +27194,9 @@
         "  }",
         "}"
     ].join('\n');
+    /**
+     * @hidden
+     */
     var fragmentShaderSrc = [
         "precision mediump float;",
         "varying highp vec4 vColor;",
@@ -26553,6 +27207,7 @@
     ].join('\n');
     /**
      * Coordinates of the cube vertices.
+     * @hidden
      */
     var vertices = [
         [-0.5, -0.5, +0.5],
@@ -26564,15 +27219,28 @@
         [+0.5, +0.5, -0.5],
         [+0.5, -0.5, -0.5],
     ];
+    /**
+     * @hidden
+     */
     var aCoords = [];
+    /**
+     * @hidden
+     */
     var aFaces = [];
+    /**
+     * @hidden
+     */
     var ID = 'parallelepiped';
+    /**
+     * @hidden
+     */
     var NAME = 'Parallelepiped';
     /**
      * Pushes positions and colors into the the aPositions and aColors arrays.
      * A quad call pushes two triangles, making a square face.
      * The dimensionality of each position is 3, but could be changed.
      * The first parameter, a, is used to pick the color of the entire face.
+     * @hidden
      */
     function quad(a, b, c, d) {
         var indices = [a, b, c, a, c, d];
@@ -26760,8 +27428,17 @@
         return Tetrahedron;
     }(Mesh));
 
+    /**
+     * @hidden
+     */
     var FLOATS_PER_VERTEX = 3;
+    /**
+     * @hidden
+     */
     var BYTES_PER_FLOAT = 4;
+    /**
+     * @hidden
+     */
     var STRIDE = BYTES_PER_FLOAT * FLOATS_PER_VERTEX;
     /**
      *

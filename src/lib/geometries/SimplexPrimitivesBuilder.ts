@@ -1,17 +1,20 @@
-import { GeometryMeta } from '../geometries/GeometryMeta';
 import { mustBeBoolean } from '../checks/mustBeBoolean';
 import { mustBeInteger } from '../checks/mustBeInteger';
+import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
+import { Primitive } from '../core/Primitive';
+import { GeometryMeta } from '../geometries/GeometryMeta';
 import { PrimitivesBuilder } from '../geometries/PrimitivesBuilder';
 import { Simplex } from '../geometries/Simplex';
 import { SimplexMode } from '../geometries/SimplexMode';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { simplicesToPrimitive } from '../geometries/simplicesToPrimitive';
 import { simplicesToGeometryMeta } from '../geometries/simplicesToGeometryMeta';
-import { Primitive } from '../core/Primitive';
+import { simplicesToPrimitive } from '../geometries/simplicesToPrimitive';
 import { Vector1 } from '../math/Vector1';
-import { Vector3 } from '../math/Vector3';
 import { Vector2 } from '../math/Vector2';
+import { Vector3 } from '../math/Vector3';
 
+/**
+ * @hidden
+ */
 export class SimplexPrimitivesBuilder extends PrimitivesBuilder {
     public data: Simplex[] = [];
     public meta: GeometryMeta;

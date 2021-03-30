@@ -1,15 +1,33 @@
 import { __extends } from "tslib";
-import { Geometric3 } from '../math/Geometric3';
 import { getViewAttitude } from '../facets/getViewAttitude';
+import { Geometric3 } from '../math/Geometric3';
 import { Spinor3 } from '../math/Spinor3';
 import { Vector3 } from '../math/Vector3';
 import { ViewControls } from './ViewControls';
 // Scratch variables to aboid creating temporary objects.
+/**
+ * @hidden
+ */
 var a = Geometric3.zero(false);
+/**
+ * @hidden
+ */
 var b = Geometric3.zero(false);
+/**
+ * @hidden
+ */
 var d = Geometric3.zero(false);
+/**
+ * @hidden
+ */
 var B = Spinor3.one.clone();
+/**
+ * @hidden
+ */
 var R = Spinor3.one.clone();
+/**
+ * @hidden
+ */
 var X = Vector3.zero();
 /**
  * <p>

@@ -1,3 +1,6 @@
+/**
+ * @hidden
+ */
 export interface Prism {
     /**
      * The distance to the near plane of the viewport.

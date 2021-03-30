@@ -1,13 +1,20 @@
 import { __extends } from "tslib";
-import { CylindricalShellBuilder } from '../shapes/CylindricalShellBuilder';
-import { GeometryElements } from '../core/GeometryElements';
-import { RingBuilder } from '../shapes/RingBuilder';
 import { reduce } from '../atoms/reduce';
+import { GeometryElements } from '../core/GeometryElements';
 import { Vector3 } from '../math/Vector3';
+import { CylindricalShellBuilder } from '../shapes/CylindricalShellBuilder';
+import { RingBuilder } from '../shapes/RingBuilder';
+/**
+ * @hidden
+ */
 var e2 = Vector3.vector(0, 1, 0);
+/**
+ * @hidden
+ */
 var e3 = Vector3.vector(0, 0, 1);
 /**
  * Generates a Primitive from the specified options.
+ * @hidden
  */
 function hollowCylinderPrimitive(options) {
     if (options === void 0) { options = { kind: 'HollowCylinderGeometry' }; }

@@ -1,19 +1,29 @@
 /**
  * Sets the lock on the argument and returns the same argument.
+ * @hidden
  */
 export declare function lock<T extends Lockable>(m: T): T;
+/**
+ * @hidden
+ */
 export declare class TargetLockedError extends Error {
     /**
      * `operationName` is the name of the operation, without parentheses or parameters.
      */
     constructor(operationName: string);
 }
+/**
+ * @hidden
+ */
 export declare class TargetUnlockedError extends Error {
     /**
      * `operationName` is the name of the operation, without parentheses.
      */
     constructor(operationName: string);
 }
+/**
+ * @hidden
+ */
 export interface Lockable {
     /**
      * Determines whether this `Lockable` is locked.
@@ -32,9 +42,13 @@ export interface Lockable {
      */
     unlock(token: number): void;
 }
+/**
+ * @hidden
+ */
 export declare function lockable(): Lockable;
 /**
  * Lockable Mixin
+ * @hidden
  */
 export declare class LockableMixin implements Lockable {
     isLocked(): boolean;

@@ -1,8 +1,8 @@
 import { Color } from '../core/Color';
 import { ContextManager } from '../core/ContextManager';
 import { Facet } from '../core/Facet';
-import { Geometric3 } from '../math/Geometric3';
 import { Renderable } from '../core/Renderable';
+import { Geometric3 } from '../math/Geometric3';
 export declare class Parallelepiped implements Renderable {
     private levelUp;
     name: string;

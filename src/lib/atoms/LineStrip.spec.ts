@@ -1,7 +1,7 @@
 import { BeginMode } from '../core/BeginMode';
-import { LineStrip } from './LineStrip';
-import { CoordsTransform1D } from '../transforms/CoordsTransform1D';
 import { vertexArraysFromPrimitive } from '../core/vertexArraysFromPrimitive';
+import { CoordsTransform1D } from '../transforms/CoordsTransform1D';
+import { LineStrip } from './LineStrip';
 
 describe("LineStrip", function () {
     // TODO: Should we support -1 like simplices as an empty LINE STRIP?

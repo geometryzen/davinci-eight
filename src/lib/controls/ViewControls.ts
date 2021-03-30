@@ -1,11 +1,11 @@
 import { BrowserWindow } from '../base/BrowserWindow';
-import { MouseControls } from './MouseControls';
 import { Vector3 } from '../math/Vector3';
 import { VectorE3 } from '../math/VectorE3';
+import { MouseControls } from './MouseControls';
 import { ViewController } from './ViewController';
 
 /**
- *
+ * @hidden
  */
 export class ViewControls extends MouseControls implements ViewController {
 

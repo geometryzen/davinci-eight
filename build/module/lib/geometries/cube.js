@@ -1,5 +1,5 @@
-import { quadrilateral } from '../geometries/quadrilateral';
 import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
+import { quadrilateral } from '../geometries/quadrilateral';
 import { Vector2 } from '../math/Vector2';
 import { Vector3 } from '../math/Vector3';
 /**
@@ -12,6 +12,7 @@ import { Vector3 } from '../math/Vector3';
  *  | |v7---|-|v4
  *  |/      |/
  *  v2------v3
+ * @hidden
  */
 export function cube(size) {
     if (size === void 0) { size = 1; }

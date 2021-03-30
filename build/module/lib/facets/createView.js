@@ -1,7 +1,7 @@
+import { isUndefined } from '../checks/isUndefined';
+import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { Geometric3 } from '../math/Geometric3';
 import { Matrix4 } from '../math/Matrix4';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { isUndefined } from '../checks/isUndefined';
 import { viewMatrixFromEyeLookUp } from './viewMatrixFromEyeLookUp';
 //
 // In this implementation, the state variables are eye, look, and up.
@@ -18,6 +18,9 @@ import { viewMatrixFromEyeLookUp } from './viewMatrixFromEyeLookUp';
 // transforms from the reference frame to the u, v, n frame.
 // The reference frame is n = e3, v = e2, and u = e1.
 //
+/**
+ * @hidden
+ */
 export function createView(options) {
     if (options === void 0) { options = {}; }
     /**

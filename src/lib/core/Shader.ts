@@ -1,12 +1,12 @@
-import { Engine } from './Engine';
-import { makeWebGLShader } from './makeWebGLShader';
 import { mustBeNumber } from '../checks/mustBeNumber';
 import { mustBeString } from '../checks/mustBeString';
 import { mustBeUndefined } from '../checks/mustBeUndefined';
+import { Engine } from './Engine';
+import { makeWebGLShader } from './makeWebGLShader';
 import { ShareableContextConsumer } from './ShareableContextConsumer';
 
 /**
- *
+ * @hidden
  */
 export class Shader extends ShareableContextConsumer {
     private _source: string;

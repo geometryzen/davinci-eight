@@ -31,7 +31,8 @@ const POINTSIZE_FACET_NAME = 'pointSize';
 const DRAWABLE_LOGGING_NAME = 'Drawable';
 
 /**
- * This class may be used as either a base class or standalone. 
+ * This class may be used as either a base class or standalone.
+ * @hidden
  */
 export class Drawable<G extends Geometry, M extends Material> extends ShareableContextConsumer implements AbstractDrawable<G, M> {
 

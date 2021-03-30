@@ -1,8 +1,8 @@
 import { Engine } from '../core/Engine';
-import { LineMaterial } from './LineMaterial';
-import { LineMaterialOptions } from '../materials/LineMaterialOptions';
 import { refChange } from '../core/refChange';
+import { LineMaterialOptions } from '../materials/LineMaterialOptions';
 import { GLSLESVersion } from './glslVersion';
+import { LineMaterial } from './LineMaterial';
 
 describe("LineMaterial", function () {
     it("constructor-destructor", function () {

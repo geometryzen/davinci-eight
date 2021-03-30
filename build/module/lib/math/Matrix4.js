@@ -1,10 +1,13 @@
 import { __extends } from "tslib";
-import { AbstractMatrix } from '../math/AbstractMatrix';
-import { det4x4 } from './det4x4';
-import { inv4x4 } from '../math/inv4x4';
 import { lock, TargetLockedError } from '../core/Lockable';
-import { mul4x4 } from '../math/mul4x4';
 import { perspectiveArray } from '../facets/perspectiveArray';
+import { AbstractMatrix } from '../math/AbstractMatrix';
+import { inv4x4 } from '../math/inv4x4';
+import { mul4x4 } from '../math/mul4x4';
+import { det4x4 } from './det4x4';
+/**
+ * @hidden
+ */
 function add4x4(a, b, c) {
     var a11 = a[0x0], a12 = a[0x4], a13 = a[0x8], a14 = a[0xC];
     var a21 = a[0x1], a22 = a[0x5], a23 = a[0x9], a24 = a[0xD];

@@ -1,5 +1,8 @@
 import { AttributeGlslType } from './AttributeGlslType';
 
+/**
+ * @hidden
+ */
 export interface AttribMetaInfo {
     /**
      * 

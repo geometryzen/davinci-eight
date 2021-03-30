@@ -39,7 +39,7 @@ const edge2 = new Vector3();
 const normal = new Vector3();
 
 /**
- *
+ * @hidden
  */
 export class Ray {
     origin: Vector3;

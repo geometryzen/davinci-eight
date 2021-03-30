@@ -1,7 +1,7 @@
-import { ArrowGeometryOptions } from './ArrowGeometryOptions';
-import { arrowPrimitive } from './arrowPrimitive';
 import { ContextManager } from '../core/ContextManager';
 import { GeometryElements } from '../core/GeometryElements';
+import { ArrowGeometryOptions } from './ArrowGeometryOptions';
+import { arrowPrimitive } from './arrowPrimitive';
 
 /**
  * <p>
@@ -13,6 +13,7 @@ import { GeometryElements } from '../core/GeometryElements';
  * <p>
  * The cutLine unit vector defaults to <b>e<b><sub>3</sub>
  * </p>
+ * @hidden
  */
 export class ArrowGeometry extends GeometryElements {
     /**

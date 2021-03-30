@@ -5,6 +5,7 @@ import { Vector3 } from '../math/Vector3';
 /**
  * This seems a bit hacky. Maybe we need an abstraction that recognizes the existence of
  * geometric numbers for vertex attributes, but allows us to extract the vector (grade-1) part?
+ * @hidden
  */
 export function dataLength(source) {
     if (source instanceof Geometric3) {

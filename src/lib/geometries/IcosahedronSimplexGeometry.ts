@@ -25,6 +25,9 @@ const indices = [
     4, 9, 5, 2, 4, 11, 6, 2, 10, 8, 6, 7, 9, 8, 1
 ];
 
+/**
+ * @hidden
+ */
 export class IcosahedronSimplexGeometry extends PolyhedronBuilder {
     constructor(radius?: number, detail?: number) {
         super(vertices, indices, radius, detail);

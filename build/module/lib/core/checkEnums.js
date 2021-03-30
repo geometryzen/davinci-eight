@@ -11,6 +11,7 @@ import { PixelType } from './PixelType';
 import { Usage } from './Usage';
 /**
  * Verify that the enums match the values in the WebGL rendering context.
+ * @hidden
  */
 export function checkEnums(gl) {
     // BeginMode

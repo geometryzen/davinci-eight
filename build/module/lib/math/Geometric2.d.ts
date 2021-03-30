@@ -1,9 +1,9 @@
-import { GeometricE2 } from './GeometricE2';
+import { VectorN } from '../atoms/VectorN';
 import { LockableMixin } from '../core/Lockable';
+import { GeometricE2 } from './GeometricE2';
 import { Pseudo } from './Pseudo';
 import { SpinorE2 } from './SpinorE2';
 import { VectorE2 } from './VectorE2';
-import { VectorN } from '../atoms/VectorN';
 /**
  *
  */

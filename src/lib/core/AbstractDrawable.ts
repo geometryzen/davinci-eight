@@ -1,10 +1,10 @@
 import { Facet } from './Facet';
 import { Geometry } from './Geometry';
-import { Renderable } from './Renderable';
 import { Material } from './Material';
+import { Renderable } from './Renderable';
 
 /**
- *
+ * @hidden
  */
 export interface AbstractDrawable<G extends Geometry, M extends Material> extends Renderable {
 

@@ -1,19 +1,19 @@
+import { GridTriangleStrip } from '../atoms/GridTriangleStrip';
+import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
+import { Primitive } from '../core/Primitive';
+import { Vector3 } from '../math/Vector3';
 import { Approximation } from '../transforms/Approximation';
+import { ConeTransform } from '../transforms/ConeTransform';
+import { CoordsTransform2D } from '../transforms/CoordsTransform2D';
 import { Direction } from '../transforms/Direction';
 import { Duality } from '../transforms/Duality';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { GridTriangleStrip } from '../atoms/GridTriangleStrip';
-import { AxialShapeBuilder } from './AxialShapeBuilder';
-import { Primitive } from '../core/Primitive';
-import { ConeTransform } from '../transforms/ConeTransform';
 import { Rotation } from '../transforms/Rotation';
 import { Scaling } from '../transforms/Scaling';
 import { Translation } from '../transforms/Translation';
-import { CoordsTransform2D } from '../transforms/CoordsTransform2D';
-import { Vector3 } from '../math/Vector3';
+import { AxialShapeBuilder } from './AxialShapeBuilder';
 
 /**
- *
+ * @hidden
  */
 export class ConicalShellBuilder extends AxialShapeBuilder {
 

@@ -1,17 +1,17 @@
-import { BeginMode } from '../core/BeginMode';
-import { mustBeGE } from '../checks/mustBeGE';
-import { mustBeLT } from '../checks/mustBeLT';
 import { mustBeBoolean } from '../checks/mustBeBoolean';
+import { mustBeGE } from '../checks/mustBeGE';
 import { mustBeInteger } from '../checks/mustBeInteger';
+import { mustBeLT } from '../checks/mustBeLT';
+import { BeginMode } from '../core/BeginMode';
+import { readOnly } from '../i18n/readOnly';
 import { numPostsForFence } from './numPostsForFence';
 import { numVerticesForCurve } from './numVerticesForCurve';
-import { readOnly } from '../i18n/readOnly';
 import { Transform } from './Transform';
 import { Vertex } from './Vertex';
 import { VertexPrimitive } from './VertexPrimitive';
 
 /**
- *
+ * @hidden
  */
 export class CurvePrimitive extends VertexPrimitive {
 

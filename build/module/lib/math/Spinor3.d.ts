@@ -1,9 +1,9 @@
-import { BivectorE3 } from './BivectorE3';
-import { CartesianG3 } from './CartesianG3';
+import { VectorN } from '../atoms/VectorN';
 import { LockableMixin as Lockable } from '../core/Lockable';
 import { SpinorE3 } from '../math/SpinorE3';
+import { BivectorE3 } from './BivectorE3';
+import { CartesianG3 } from './CartesianG3';
 import { VectorE3 } from './VectorE3';
-import { VectorN } from '../atoms/VectorN';
 /**
  * A Geometric Number representing the even sub-algebra of G3.
  */

@@ -1,3 +1,6 @@
+/**
+ * @hidden
+ */
 export enum PixelType {
     UNSIGNED_BYTE = 0x1401,
     UNSIGNED_SHORT_4_4_4_4 = 0x8033,

@@ -3,6 +3,9 @@ import { Vector3 } from '../math/Vector3';
 import { wedgeXY } from '../math/wedgeXY';
 import { wedgeYZ } from '../math/wedgeYZ';
 import { wedgeZX } from '../math/wedgeZX';
+/**
+ * @hidden
+ */
 export function computeFaceNormals(simplex, positionName, normalName) {
     if (positionName === void 0) { positionName = GraphicsProgramSymbols.ATTRIBUTE_POSITION; }
     if (normalName === void 0) { normalName = GraphicsProgramSymbols.ATTRIBUTE_NORMAL; }

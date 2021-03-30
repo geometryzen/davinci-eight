@@ -1,15 +1,27 @@
+/**
+ * @hidden
+ */
 function isVectorN(values) {
     return Array.isArray(values);
 }
+/**
+ * @hidden
+ */
 function checkValues(values) {
     if (!isVectorN(values)) {
         throw new Error("values must be a number[]");
     }
     return values;
 }
+/**
+ * @hidden
+ */
 function isExactMultipleOf(numer, denom) {
     return numer % denom === 0;
 }
+/**
+ * @hidden
+ */
 function checkSize(size, values) {
     if (typeof size === 'number') {
         if (!isExactMultipleOf(values.length, size)) {

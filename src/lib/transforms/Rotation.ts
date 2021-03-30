@@ -1,10 +1,13 @@
+import { Transform } from '../atoms/Transform';
+import { Vertex } from '../atoms/Vertex';
 import { mustBeObject } from '../checks/mustBeObject';
 import { Spinor3 } from '../math/Spinor3';
 import { SpinorE3 } from '../math/SpinorE3';
 import { Vector3 } from '../math/Vector3';
-import { Vertex } from '../atoms/Vertex';
-import { Transform } from '../atoms/Transform';
 
+/**
+ * @hidden
+ */
 export class Rotation implements Transform {
     private R: Spinor3;
     private names: string[];

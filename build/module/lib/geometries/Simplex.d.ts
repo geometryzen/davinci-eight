@@ -1,6 +1,9 @@
-import { SimplexMode } from './SimplexMode';
-import { Vertex } from '../atoms/Vertex';
 import { VectorN } from '../atoms/VectorN';
+import { Vertex } from '../atoms/Vertex';
+import { SimplexMode } from './SimplexMode';
+/**
+ * @hidden
+ */
 export declare class Simplex {
     vertices: Vertex[];
     constructor(k: SimplexMode);

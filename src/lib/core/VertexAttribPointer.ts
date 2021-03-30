@@ -1,7 +1,7 @@
 import { DataType } from './DataType';
 
 /**
- *
+ * @hidden
  */
 export interface VertexAttribPointer {
 

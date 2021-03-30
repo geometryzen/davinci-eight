@@ -1,19 +1,28 @@
 import { __extends } from "tslib";
 import { canonicalAxis, canonicalMeridian } from '../core/tiltFromOptions';
 import { ColorFacet } from '../facets/ColorFacet';
-import { Drawable } from './Drawable';
+import { ModelFacet } from '../facets/ModelFacet';
+import { TextureFacet } from '../facets/TextureFacet';
+import { notSupported } from '../i18n/notSupported';
 import { Geometric3 } from '../math/Geometric3';
 import { Matrix4 } from '../math/Matrix4';
-import { ModelFacet } from '../facets/ModelFacet';
-import { notSupported } from '../i18n/notSupported';
 import { quadVectorE3 } from '../math/quadVectorE3';
 import { vectorCopy } from '../math/R3';
+import { Spinor3 } from '../math/Spinor3';
+import { Drawable } from './Drawable';
 import { referenceAxis } from './referenceAxis';
 import { referenceMeridian } from './referenceMeridian';
-import { Spinor3 } from '../math/Spinor3';
-import { TextureFacet } from '../facets/TextureFacet';
+/**
+ * @hidden
+ */
 var COLOR_FACET_NAME = 'color';
+/**
+ * @hidden
+ */
 var TEXTURE_FACET_NAME = 'image';
+/**
+ * @hidden
+ */
 var MODEL_FACET_NAME = 'model';
 /**
  * The standard pairing of a Geometry and a Material.

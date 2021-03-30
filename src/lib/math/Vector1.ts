@@ -11,7 +11,7 @@ const sqrt = Math.sqrt;
 const COORD_X = 0;
 
 /**
- * @class Vector1
+ * @hidden
  */
 export class Vector1 extends Coords implements VectorE1 {
 

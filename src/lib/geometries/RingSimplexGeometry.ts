@@ -136,6 +136,9 @@ function makeEmpty(vertices: Vector3[], radialSegments: number, thetaSegments: n
     }
 }
 
+/**
+ * @hidden
+ */
 export class RingSimplexGeometry extends SliceSimplexPrimitivesBuilder {
     public a: number;
     public b: number;

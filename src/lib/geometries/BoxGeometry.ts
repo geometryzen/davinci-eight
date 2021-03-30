@@ -384,6 +384,7 @@ function boxPrimitive(options: BoxGeometryOptions = { kind: 'BoxGeometry' }): Pr
 
 /**
  * A convenience class for creating a BoxGeometry.
+ * @hidden
  */
 export class BoxGeometry extends GeometryElements {
     /**

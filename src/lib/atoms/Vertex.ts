@@ -30,6 +30,7 @@ function stringifyVertex(vertex: Vertex): string {
 
 /**
  * The data for a vertex in a normalized and uncompressed format that is easy to manipulate.
+ * @hidden
  */
 export class Vertex {
 

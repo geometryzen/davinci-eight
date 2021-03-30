@@ -1,10 +1,13 @@
-import { createView } from './createView';
-import { Matrix4 } from '../math/Matrix4';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { Vector1 } from '../math/Vector1';
 import { isUndefined } from '../checks/isUndefined';
 import { mustBeNumber } from '../checks/mustBeNumber';
+import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
+import { Matrix4 } from '../math/Matrix4';
+import { Vector1 } from '../math/Vector1';
+import { createView } from './createView';
 import { perspectiveMatrix as computePerspectiveMatrix } from './perspectiveMatrix';
+/**
+ * @hidden
+ */
 export function createPerspective(options) {
     if (options === void 0) { options = {}; }
     var fov = new Vector1([isUndefined(options.fov) ? 75 * Math.PI / 180 : options.fov]);

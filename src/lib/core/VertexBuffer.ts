@@ -1,11 +1,12 @@
+import { mustBeUndefined } from '../checks/mustBeUndefined';
 import { BufferObjects } from './BufferObjects';
 import { ContextManager } from './ContextManager';
-import { mustBeUndefined } from '../checks/mustBeUndefined';
 import { ShareableContextConsumer } from './ShareableContextConsumer';
 import { Usage } from './Usage';
 
 /**
  * A wrapper around a WebGLBuffer with binding to ARRAY_BUFFER.
+ * @hidden
  */
 export class VertexBuffer extends ShareableContextConsumer {
     /**

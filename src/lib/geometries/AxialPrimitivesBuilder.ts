@@ -1,5 +1,8 @@
 import { PrimitivesBuilder } from '../geometries/PrimitivesBuilder';
 
+/**
+ * @hidden
+ */
 export class AxialPrimitivesBuilder extends PrimitivesBuilder {
 
     /**

@@ -1,3 +1,5 @@
+import { Transform } from '../atoms/Transform';
+import { Vertex } from '../atoms/Vertex';
 import { mustBeNumber } from '../checks/mustBeNumber';
 import { Coords } from '../math/Coords';
 import { Geometric2 } from '../math/Geometric2';
@@ -6,11 +8,10 @@ import { Spinor2 } from '../math/Spinor2';
 import { Spinor3 } from '../math/Spinor3';
 import { Vector2 } from '../math/Vector2';
 import { Vector3 } from '../math/Vector3';
-import { Vertex } from '../atoms/Vertex';
-import { Transform } from '../atoms/Transform';
 
 /**
  * A `Transform` that calls the `approx` method on a `Vertex` attribute.
+ * @hidden
  */
 export class Approximation implements Transform {
 

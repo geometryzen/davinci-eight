@@ -1,17 +1,20 @@
 import { __extends } from "tslib";
-import { Geometric3 } from '../math/Geometric3';
-import { GeometryElements } from '../core/GeometryElements';
-import { GeometryMode } from './GeometryMode';
 import { isDefined } from '../checks/isDefined';
 import { mustBeBoolean } from '../checks/mustBeBoolean';
 import { mustBeInteger } from '../checks/mustBeInteger';
 import { mustBeNumber } from '../checks/mustBeNumber';
+import { GeometryElements } from '../core/GeometryElements';
 import { arc3 } from '../geometries/arc3';
 import { SimplexPrimitivesBuilder } from '../geometries/SimplexPrimitivesBuilder';
+import { Geometric3 } from '../math/Geometric3';
+import { vec } from '../math/R3';
 import { Spinor3 } from '../math/Spinor3';
 import { Vector2 } from '../math/Vector2';
 import { Vector3 } from '../math/Vector3';
-import { vec } from '../math/R3';
+import { GeometryMode } from './GeometryMode';
+/**
+ * @hidden
+ */
 var canonicalAxis = vec(0, 1, 0);
 // const canonicalMeridian = vec(0, 0, 1);
 /**
@@ -29,6 +32,7 @@ var canonicalAxis = vec(0, 1, 0);
  * @param tangents
  * @param vertices
  * @param uvs
+ * @hidden
  */
 function computeWallVertices(height, radius, clockwise, stress, tilt, offset, angle, generator, heightSegments, thetaSegments, points, tangents, vertices, uvs) {
     /**
@@ -87,7 +91,7 @@ function computeWallVertices(height, radius, clockwise, stress, tilt, offset, an
     }
 }
 /**
- *
+ * @hidden
  */
 var CylinderSimplexPrimitivesBuilder = /** @class */ (function (_super) {
     __extends(CylinderSimplexPrimitivesBuilder, _super);
@@ -245,6 +249,9 @@ var CylinderSimplexPrimitivesBuilder = /** @class */ (function (_super) {
     };
     return CylinderSimplexPrimitivesBuilder;
 }(SimplexPrimitivesBuilder));
+/**
+ * @hidden
+ */
 function getAxis(options) {
     if (options === void 0) { options = { kind: 'CylinderGeometry' }; }
     if (isDefined(options.axis)) {
@@ -257,6 +264,9 @@ function getAxis(options) {
         return vec(0, 1, 0);
     }
 }
+/**
+ * @hidden
+ */
 function getMeridian(options) {
     if (options === void 0) { options = { kind: 'CylinderGeometry' }; }
     if (isDefined(options.meridian)) {
@@ -271,6 +281,7 @@ function getMeridian(options) {
 }
 /**
  * TODO: Support GeometryMode.
+ * @hidden
  */
 function cylinderPrimitive(options) {
     if (options === void 0) { options = { kind: 'CylinderGeometry' }; }
@@ -310,6 +321,9 @@ function cylinderPrimitive(options) {
         throw new Error("Expecting CylinderSimplexPrimitivesBuilder to return one Primitive.");
     }
 }
+/**
+ * @hidden
+ */
 function baseOptions(options) {
     var axis = getAxis(options);
     var tilt = Geometric3.rotorFromDirections(canonicalAxis, axis);

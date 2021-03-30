@@ -1,6 +1,9 @@
 import { mustBeArray } from '../checks/mustBeArray';
 import { mustBeInteger } from '../checks/mustBeInteger';
 import { mustBeObject } from '../checks/mustBeObject';
+/**
+ * @hidden
+ */
 var context = function () { return "DrawPrimitive constructor"; };
 /**
  * A convenience class for implementing the Primitive interface.

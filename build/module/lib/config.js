@@ -1,3 +1,6 @@
+/**
+ * @hidden
+ */
 var Eight = /** @class */ (function () {
     function Eight() {
         this.GITHUB = "https://github.com/geometryzen/davinci-eight";
@@ -21,6 +24,6 @@ var Eight = /** @class */ (function () {
 }());
 export { Eight };
 /**
- *
+ * @hidden
  */
 export var config = new Eight();

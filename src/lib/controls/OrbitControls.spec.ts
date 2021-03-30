@@ -1,9 +1,9 @@
 import { BrowserDocument } from '../base/BrowserDocument';
 import { BrowserHTMLElement } from '../base/BrowserHTMLElement';
 import { BrowserWindow } from '../base/BrowserWindow';
-import { OrbitControls } from './OrbitControls';
-import { PerspectiveCamera } from '../facets/PerspectiveCamera';
 import { refChange } from '../core/refChange';
+import { PerspectiveCamera } from '../facets/PerspectiveCamera';
+import { OrbitControls } from './OrbitControls';
 
 /*
 class MockElement implements BrowserHTMLElement {
@@ -26,6 +26,9 @@ class MockElement implements BrowserHTMLElement {
 }
 */
 
+/**
+ * @hidden
+ */
 class MockDocument implements BrowserDocument {
     public documentElement: BrowserHTMLElement;
     public listening: { [type: string]: EventListener } = {};
@@ -43,6 +46,9 @@ class MockDocument implements BrowserDocument {
     }
 }
 
+/**
+ * @hidden
+ */
 class MockWindow implements BrowserWindow {
     public document = new MockDocument();
     public listening: { [type: string]: EventListener } = {};

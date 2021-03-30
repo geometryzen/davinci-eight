@@ -2,7 +2,7 @@ import { GeometryKey } from '../core/GeometryKey';
 import { GeometryOptions } from './GeometryOptions';
 
 /**
- *
+ * @hidden
  */
 export interface ArrowGeometryOptions extends GeometryOptions, GeometryKey {
     /**

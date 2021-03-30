@@ -1,7 +1,7 @@
 import { Facet } from '../core/Facet';
 import { Geometric3 } from '../math/Geometric3';
-import { VectorE3 } from '../math/VectorE3';
 import { Matrix4 } from '../math/Matrix4';
+import { VectorE3 } from '../math/VectorE3';
 
 /**
  * <p>
@@ -11,6 +11,7 @@ import { Matrix4 } from '../math/Matrix4';
  * <p>
  * The attitude may be undefined when the vector eye - look is parallel to the up vector.
  * </p>
+ * @hidden
  */
 export interface View extends Facet {
 

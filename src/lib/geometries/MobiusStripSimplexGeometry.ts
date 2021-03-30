@@ -37,6 +37,9 @@ function mobius(u: number, v: number): Vector3 {
     return point;
 }
 
+/**
+ * @hidden
+ */
 export class MobiusStripSimplexGeometry extends GridSimplexBuilder {
     constructor(uSegments: number, vSegments: number) {
         super(mobius, uSegments, vSegments);

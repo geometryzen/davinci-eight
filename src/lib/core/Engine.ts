@@ -29,6 +29,9 @@ import { PixelFormat } from './PixelFormat';
 import { PixelType } from './PixelType';
 import { ShareableBase } from './ShareableBase';
 
+/**
+ * @hidden
+ */
 export interface EngineAttributes extends WebGLContextAttributes {
     /**
      * Determines the WebGL context identifier used to get the context from the canvas element.

@@ -1,11 +1,12 @@
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { mustBeBoolean } from '../checks/mustBeBoolean';
-import { Vector1 } from '../math/Vector1';
-import { Vertex } from '../atoms/Vertex';
 import { Transform } from '../atoms/Transform';
+import { Vertex } from '../atoms/Vertex';
+import { mustBeBoolean } from '../checks/mustBeBoolean';
+import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
+import { Vector1 } from '../math/Vector1';
 
 /**
  * Applies coordinates to a line.
+ * @hidden
  */
 export class CoordsTransform1D implements Transform {
     public flipU: boolean;

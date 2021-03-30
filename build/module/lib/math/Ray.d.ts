@@ -1,6 +1,9 @@
 import { Matrix4 } from './Matrix4';
 import { Vector3 } from './Vector3';
 import { VectorE3 } from './VectorE3';
+/**
+ *
+ */
 export declare class Ray {
     origin: Vector3;
     direction: Vector3;

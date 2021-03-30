@@ -3,6 +3,7 @@ import { mustBeInteger } from '../checks/mustBeInteger';
 
 /**
  * Modulo Arithmetic (Experimental).
+ * @hidden
  */
 export class Modulo {
     private _value = 0;

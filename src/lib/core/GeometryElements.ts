@@ -1,24 +1,25 @@
+import { isArray } from '../checks/isArray';
+import { isNull } from '../checks/isNull';
+import { isUndefined } from '../checks/isUndefined';
+import { mustBeArray } from '../checks/mustBeArray';
+import { mustBeNonNullObject } from '../checks/mustBeNonNullObject';
+import { SpinorE3 } from '../math/SpinorE3';
+import { VectorE3 } from '../math/VectorE3';
 import { BeginMode } from './BeginMode';
 import { ContextManager } from './ContextManager';
 import { DataType } from './DataType';
 import { GeometryBase } from './GeometryBase';
 import { IndexBuffer } from './IndexBuffer';
-import { isArray } from '../checks/isArray';
-import { isNull } from '../checks/isNull';
-import { isUndefined } from '../checks/isUndefined';
 import { Material } from './Material';
-import { mustBeArray } from '../checks/mustBeArray';
-import { mustBeNonNullObject } from '../checks/mustBeNonNullObject';
 import { Primitive } from './Primitive';
-import { SpinorE3 } from '../math/SpinorE3';
-import { VectorE3 } from '../math/VectorE3';
-import { VertexAttribPointer } from './VertexAttribPointer';
-import { vertexArraysFromPrimitive } from './vertexArraysFromPrimitive';
-import { VertexBuffer } from './VertexBuffer';
 import { Usage } from './Usage';
+import { vertexArraysFromPrimitive } from './vertexArraysFromPrimitive';
+import { VertexAttribPointer } from './VertexAttribPointer';
+import { VertexBuffer } from './VertexBuffer';
 
 /**
  * A Geometry that supports interleaved vertex buffers.
+ * @hidden
  */
 export class GeometryElements extends GeometryBase {
     /**

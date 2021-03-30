@@ -1,15 +1,15 @@
-import { applyMixins } from '../utils/applyMixins';
-import { approx } from './approx';
+import { VectorN } from '../atoms/VectorN';
+import { lock, LockableMixin as Lockable, TargetLockedError } from '../core/Lockable';
 import { b2 } from '../geometries/b2';
 import { b3 } from '../geometries/b3';
-import { lock, LockableMixin as Lockable, TargetLockedError } from '../core/Lockable';
-import { Matrix2 } from '../math/Matrix2';
 import { notImplemented } from '../i18n/notImplemented';
-import { randomRange } from './randomRange';
+import { Matrix2 } from '../math/Matrix2';
 import { SpinorE2 } from '../math/SpinorE2';
 import { stringFromCoordinates } from '../math/stringFromCoordinates';
 import { VectorE2 } from '../math/VectorE2';
-import { VectorN } from '../atoms/VectorN';
+import { applyMixins } from '../utils/applyMixins';
+import { approx } from './approx';
+import { randomRange } from './randomRange';
 
 const sqrt = Math.sqrt;
 
@@ -24,7 +24,7 @@ function coordinates(m: VectorE2): number[] {
 }
 
 /**
- *
+ * @hidden
  */
 export class Vector2 implements VectorE2, Lockable, VectorN<number> {
     // Lockable

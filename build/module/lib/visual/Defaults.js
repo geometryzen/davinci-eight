@@ -1,9 +1,27 @@
 import { canonicalAxis, canonicalMeridian } from '../core/tiltFromOptions';
+/**
+ * @hidden
+ */
 var INITIAL_AXIS = canonicalAxis;
+/**
+ * @hidden
+ */
 var INITIAL_LENGTH = 1.0;
+/**
+ * @hidden
+ */
 var INITIAL_MERIDIAN = canonicalMeridian;
+/**
+ * @hidden
+ */
 var INITIAL_RADIUS = 0.5;
+/**
+ * @hidden
+ */
 var INITIAL_SLICE = 2 * Math.PI;
+/**
+ * @hidden
+ */
 function make(axis, length, meridian, radius, sliceAngle) {
     /*
     const that: ALR = {
@@ -28,5 +46,6 @@ function make(axis, length, meridian, radius, sliceAngle) {
  * meridian:   e3,
  * radius:     0.5,
  * sliceAngle: tau.
+ * @hidden
  */
 export var ds = make(INITIAL_AXIS, INITIAL_LENGTH, INITIAL_MERIDIAN, INITIAL_RADIUS, INITIAL_SLICE);

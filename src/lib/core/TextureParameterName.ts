@@ -1,5 +1,5 @@
 /**
- *
+ * @hidden
  */
 export enum TextureParameterName {
     TEXTURE_MAG_FILTER = 0x2800,

@@ -2,9 +2,9 @@ import { isDefined } from '../checks/isDefined';
 import { mustBeEQ } from '../checks/mustBeEQ';
 import { mustBeInteger } from '../checks/mustBeInteger';
 import { mustBeString } from '../checks/mustBeString';
+import { Shareable } from '../core/Shareable';
 // import { readOnly } from '../i18n/readOnly';
 import { refChange } from './refChange';
-import { Shareable } from '../core/Shareable';
 import { uuid4 } from './uuid4';
 
 /**
@@ -33,7 +33,7 @@ import { uuid4 } from './uuid4';
  *         super.destructor(levelUp + 1)
  *       }
  *     }
- *
+ *  @hidden
  */
 export class ShareableBase implements Shareable {
     /**

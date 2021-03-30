@@ -77,6 +77,7 @@ const magicCode = Math.random();
 
 /**
  * A Geometric Number representing the even sub-algebra of G3.
+ * @hidden
  */
 export class Spinor3 implements CartesianG3, SpinorE3, Lockable, VectorN<number> {
     // Lockable

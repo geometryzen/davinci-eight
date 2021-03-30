@@ -1,8 +1,8 @@
 import { BeginMode } from '../core/BeginMode';
 import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { GridTriangleStrip } from './GridTriangleStrip';
 import { Vector2 } from '../math/Vector2';
 import { Vector3 } from '../math/Vector3';
+import { GridTriangleStrip } from './GridTriangleStrip';
 
 describe("GridTriangleStrip", function () {
 

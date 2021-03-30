@@ -3,6 +3,7 @@ import { UniformMetaInfo } from '../core/UniformMetaInfo';
 import { GLSLESVersion } from './glslVersion';
 /**
  * Generates a fragment shader
+ * @hidden
  */
 export declare function fragmentShaderSrc(attributes: {
     [name: string]: AttribMetaInfo;

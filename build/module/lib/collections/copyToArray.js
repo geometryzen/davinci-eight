@@ -1,3 +1,6 @@
+/**
+ * @hidden
+ */
 export function copyToArray(source, destination, offset) {
     if (destination === void 0) { destination = []; }
     if (offset === void 0) { offset = 0; }

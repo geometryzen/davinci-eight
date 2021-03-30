@@ -1,11 +1,14 @@
+import { Transform } from '../atoms/Transform';
+import { Vertex } from '../atoms/Vertex';
 import { mustBeNumber } from '../checks/mustBeNumber';
 import { mustBeString } from '../checks/mustBeString';
 import { Spinor3 } from '../math/Spinor3';
 import { Vector3 } from '../math/Vector3';
 import { VectorE3 } from '../math/VectorE3';
-import { Vertex } from '../atoms/Vertex';
-import { Transform } from '../atoms/Transform';
 
+/**
+ * @hidden
+ */
 export class RingTransform implements Transform {
     private e: Vector3;
     private cutLine: Vector3;

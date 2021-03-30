@@ -39,6 +39,9 @@ function linesForGrid(uSegments: number, uClosed: boolean, vSegments: number, vC
     return elements;
 }
 
+/**
+ * @hidden
+ */
 export class GridLines extends GridPrimitive {
 
     /**

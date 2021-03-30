@@ -1,9 +1,9 @@
-import { BeginMode } from '../core/BeginMode';
 import { mustBeInteger } from '../checks/mustBeInteger';
-import { numPostsForFence } from './numPostsForFence';
-import { numVerticesForGrid } from './numVerticesForGrid';
+import { BeginMode } from '../core/BeginMode';
 import { notSupported } from '../i18n/notSupported';
 import { readOnly } from '../i18n/readOnly';
+import { numPostsForFence } from './numPostsForFence';
+import { numVerticesForGrid } from './numVerticesForGrid';
 import { Transform } from './Transform';
 import { Vertex } from './Vertex';
 import { VertexPrimitive } from './VertexPrimitive';
@@ -13,6 +13,7 @@ import { VertexPrimitive } from './VertexPrimitive';
  * The vertices generated have coordinates (u, v) and the traversal creates
  * counter-clockwise orientation when increasing u is the first direction and
  * increasing v the second direction.
+ * @hidden
  */
 export class GridPrimitive extends VertexPrimitive {
 

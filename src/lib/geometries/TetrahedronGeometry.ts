@@ -5,6 +5,7 @@ import { tetrahedronPrimitive } from './tetrahedronPrimitive';
 
 /**
  * A convenience class for creating a tetrahedron geometry.
+ * @hidden
  */
 export class TetrahedronGeometry extends GeometryElements {
     /**

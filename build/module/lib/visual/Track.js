@@ -3,14 +3,23 @@ import { BeginMode } from '../core/BeginMode';
 import { Color } from '../core/Color';
 import { DataType } from '../core/DataType';
 import { GraphicsProgramSymbols as GPS } from '../core/GraphicsProgramSymbols';
-import { LineMaterial } from '../materials/LineMaterial';
-import { Matrix4 } from '../math/Matrix4';
 import { Mesh } from '../core/Mesh';
-import { setColorOption } from './setColorOption';
 import { Usage } from '../core/Usage';
 import { VertexBuffer } from '../core/VertexBuffer';
+import { LineMaterial } from '../materials/LineMaterial';
+import { Matrix4 } from '../math/Matrix4';
+import { setColorOption } from './setColorOption';
+/**
+ * @hidden
+ */
 var FLOATS_PER_VERTEX = 3;
+/**
+ * @hidden
+ */
 var BYTES_PER_FLOAT = 4;
+/**
+ * @hidden
+ */
 var STRIDE = BYTES_PER_FLOAT * FLOATS_PER_VERTEX;
 /**
  *

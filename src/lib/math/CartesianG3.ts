@@ -5,6 +5,7 @@
  * 3 linear dimensions
  * No units of measure
  * Euclidean metric.
+ * @hidden
  */
 export interface CartesianG3 {
   /**

@@ -21,6 +21,9 @@ function makeKeyUpHandler(keyboard: Keyboard, handler: IKeyboardHandler) {
   };
 }
 
+/**
+ * @hidden
+ */
 export class Keyboard extends ShareableBase {
   private handler: IKeyboardHandler;
   private document: Document;

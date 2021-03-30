@@ -1,5 +1,8 @@
-import { mustBeNumber } from '../checks/mustBeNumber';
 import { isDefined } from '../checks/isDefined';
+import { mustBeNumber } from '../checks/mustBeNumber';
+/**
+ * @hidden
+ */
 export function frustumMatrix(left, right, bottom, top, near, far, matrix) {
     mustBeNumber('left', left);
     mustBeNumber('right', right);

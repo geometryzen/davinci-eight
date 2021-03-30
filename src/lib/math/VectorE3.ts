@@ -1,5 +1,6 @@
 /**
  * Cartesian coordinates of a vector using the standard basis.
+ * @hidden
  */
 export interface VectorE3 {
     /**

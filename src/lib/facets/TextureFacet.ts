@@ -1,11 +1,14 @@
 import { exchange } from '../base/exchange';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { Facet } from '../core/Facet';
 import { FacetVisitor } from '../core/FacetVisitor';
+import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { ShareableBase } from '../core/ShareableBase';
 import { Texture } from '../core/Texture';
 import { TextureUnit } from '../core/TextureUnit';
 
+/**
+ * @hidden
+ */
 export class TextureFacet extends ShareableBase implements Facet {
     private _texture: Texture;
     public unit = TextureUnit.TEXTURE0;

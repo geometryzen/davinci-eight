@@ -3,6 +3,9 @@ import { Spinor3 } from '../math/Spinor3';
 import { Vector2 } from '../math/Vector2';
 import { Vector3 } from '../math/Vector3';
 
+/**
+ * @hidden
+ */
 export class RevolutionSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
     constructor() {
         super();

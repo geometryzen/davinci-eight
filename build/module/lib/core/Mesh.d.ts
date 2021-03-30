@@ -1,14 +1,14 @@
+import { AbstractMesh } from '../core/AbstractMesh';
+import { Geometric3 } from '../math/Geometric3';
+import { R3 } from '../math/R3';
+import { VectorE3 } from '../math/VectorE3';
 import { Color } from './Color';
 import { ContextManager } from './ContextManager';
 import { Drawable } from './Drawable';
-import { Geometric3 } from '../math/Geometric3';
 import { Geometry } from './Geometry';
 import { Material } from './Material';
-import { AbstractMesh } from '../core/AbstractMesh';
 import { MeshOptions } from './MeshOptions';
-import { R3 } from '../math/R3';
 import { Texture } from './Texture';
-import { VectorE3 } from '../math/VectorE3';
 /**
  * The standard pairing of a Geometry and a Material.
  */

@@ -1,12 +1,13 @@
+import { mustBeDefined } from '../checks/mustBeDefined';
+import { notSupported } from '../i18n/notSupported';
 import { ContextManager } from './ContextManager';
 import { Geometry } from './Geometry';
 import { Material } from './Material';
-import { mustBeDefined } from '../checks/mustBeDefined';
-import { notSupported } from '../i18n/notSupported';
 import { ShareableContextConsumer } from './ShareableContextConsumer';
 
 /**
  * GeometryBase
+ * @hidden
  */
 export class GeometryBase extends ShareableContextConsumer implements Geometry {
     /**

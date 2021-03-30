@@ -1,7 +1,7 @@
 import { AbstractMatrix } from '../math/AbstractMatrix';
-import { Matrix4 } from './Matrix4';
 import { SpinorE2 } from '../math/SpinorE2';
 import { VectorE2 } from '../math/VectorE2';
+import { Matrix4 } from './Matrix4';
 /**
  * <p>
  * A 3x3 (square) matrix of <code>number</code>s.

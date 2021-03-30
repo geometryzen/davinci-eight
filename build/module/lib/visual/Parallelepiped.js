@@ -1,11 +1,14 @@
+import { exchange } from '../base/exchange';
 import { BeginMode } from '../core/BeginMode';
 import { Color } from '../core/Color';
-import { exchange } from '../base/exchange';
-import { Geometric3 } from '../math/Geometric3';
 import { GeometryArrays } from '../core/GeometryArrays';
 import { Mesh } from '../core/Mesh';
 import { refChange } from '../core/refChange';
 import { ShaderMaterial } from '../materials/ShaderMaterial';
+import { Geometric3 } from '../math/Geometric3';
+/**
+ * @hidden
+ */
 var vertexShaderSrc = [
     "attribute vec3 aCoords;",
     "attribute float aFace;",
@@ -48,6 +51,9 @@ var vertexShaderSrc = [
     "  }",
     "}"
 ].join('\n');
+/**
+ * @hidden
+ */
 var fragmentShaderSrc = [
     "precision mediump float;",
     "varying highp vec4 vColor;",
@@ -58,6 +64,7 @@ var fragmentShaderSrc = [
 ].join('\n');
 /**
  * Coordinates of the cube vertices.
+ * @hidden
  */
 var vertices = [
     [-0.5, -0.5, +0.5],
@@ -69,15 +76,28 @@ var vertices = [
     [+0.5, +0.5, -0.5],
     [+0.5, -0.5, -0.5],
 ];
+/**
+ * @hidden
+ */
 var aCoords = [];
+/**
+ * @hidden
+ */
 var aFaces = [];
+/**
+ * @hidden
+ */
 var ID = 'parallelepiped';
+/**
+ * @hidden
+ */
 var NAME = 'Parallelepiped';
 /**
  * Pushes positions and colors into the the aPositions and aColors arrays.
  * A quad call pushes two triangles, making a square face.
  * The dimensionality of each position is 3, but could be changed.
  * The first parameter, a, is used to pick the color of the entire face.
+ * @hidden
  */
 function quad(a, b, c, d) {
     var indices = [a, b, c, a, c, d];

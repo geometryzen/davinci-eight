@@ -27,7 +27,7 @@ const BYTES_PER_FLOAT = 4;
 const STRIDE = BYTES_PER_FLOAT * FLOATS_PER_VERTEX;
 
 /**
- * 
+ * @hidden
  */
 export class TrackGeometry implements Geometry {
     scaling = Matrix4.one.clone();
@@ -117,6 +117,9 @@ export class TrackGeometry implements Geometry {
     }
 }
 
+/**
+ * @hidden
+ */
 export interface TrackOptions {
     color?: { r: 0; g: 0; b: 0 };
 }

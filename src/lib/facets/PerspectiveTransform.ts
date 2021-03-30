@@ -1,13 +1,13 @@
+import { mustBeGE } from '../checks/mustBeGE';
+import { mustBeLE } from '../checks/mustBeLE';
+import { mustBeNumber } from '../checks/mustBeNumber';
 import { Facet } from '../core/Facet';
 import { FacetVisitor } from '../core/FacetVisitor';
 import { GraphicsProgramSymbols as ProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { Matrix4 } from '../math/Matrix4';
-import { mustBeGE } from '../checks/mustBeGE';
-import { mustBeLE } from '../checks/mustBeLE';
-import { mustBeNumber } from '../checks/mustBeNumber';
 
 /**
- * 
+ * @hidden
  */
 export class PerspectiveTransform implements Facet {
     /**

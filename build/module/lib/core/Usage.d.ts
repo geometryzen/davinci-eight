@@ -18,4 +18,7 @@ export declare enum Usage {
      */
     DYNAMIC_DRAW = 35048
 }
+/**
+ * @hidden
+ */
 export declare function checkUsage(name: string, usage: Usage): void;

@@ -1,9 +1,10 @@
 import { GeometryKey } from '../core/GeometryKey';
-import { GeometryOptions } from './GeometryOptions';
 import { VectorE3 } from '../math/VectorE3';
+import { GeometryOptions } from './GeometryOptions';
 
 /**
  * Options for creating a HollowCylinderGeometry.
+ * @hidden
  */
 export interface HollowCylinderGeometryOptions extends GeometryOptions, GeometryKey {
     /**

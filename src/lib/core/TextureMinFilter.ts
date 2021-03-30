@@ -1,5 +1,5 @@
 /**
- *
+ * @hidden
  */
 export enum TextureMinFilter {
     NEAREST = 0x2600,

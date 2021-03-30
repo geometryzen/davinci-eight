@@ -1,5 +1,6 @@
 /**
  * Computes the stride for a given collection of attributes.
+ * @hidden
  */
 export function computeStride(attributes, aNames) {
     var aNamesLen = aNames.length;

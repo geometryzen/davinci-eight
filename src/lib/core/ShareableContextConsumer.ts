@@ -1,10 +1,10 @@
+import { mustBeNonNullObject } from '../checks/mustBeNonNullObject';
 import { ContextConsumer } from './ContextConsumer';
 import { ContextManager } from './ContextManager';
-import { mustBeNonNullObject } from '../checks/mustBeNonNullObject';
 import { ShareableBase } from './ShareableBase';
 
 /**
- * 
+ * @hidden
  */
 export class ShareableContextConsumer extends ShareableBase implements ContextConsumer {
     /**

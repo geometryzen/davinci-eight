@@ -9,5 +9,6 @@ import { Simplex } from '../geometries/Simplex';
  *  | |v7---|-|v4
  *  |/      |/
  *  v2------v3
+ * @hidden
  */
 export declare function cube(size?: number): Simplex[];

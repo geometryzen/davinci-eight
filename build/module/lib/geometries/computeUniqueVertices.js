@@ -1,4 +1,7 @@
 // This function has the important side-effect of setting the vertex index property.
+/**
+ * @hidden
+ */
 export function computeUniqueVertices(geometry) {
     var map = {};
     var vertices = [];

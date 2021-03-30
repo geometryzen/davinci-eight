@@ -5,6 +5,7 @@ import { mustBeLE } from '../checks/mustBeLE';
 import { mustBeNonNullObject } from '../checks/mustBeNonNullObject';
 import { mustBeNumber } from '../checks/mustBeNumber';
 import { mustBeString } from '../checks/mustBeString';
+import { mustBeWebGLContextId } from '../checks/mustBeWebGLContextId';
 import { ShareableArray } from '../collections/ShareableArray';
 import { EIGHTLogger } from '../commands/EIGHTLogger';
 import { VersionLogger } from '../commands/VersionLogger';
@@ -16,7 +17,9 @@ import { checkEnums } from './checkEnums';
 import { ClearBufferMask } from './ClearBufferMask';
 import { initWebGL } from './initWebGL';
 import { ShareableBase } from './ShareableBase';
-import { mustBeWebGLContextId } from '../checks/mustBeWebGLContextId';
+/**
+ * @hidden
+ */
 function getWindowDocument(window) {
     if (window) {
         return window.document;

@@ -1,3 +1,6 @@
+/**
+ * @hidden
+ */
 export function applyMixins(derivedCtor, baseCtors) {
     baseCtors.forEach(function (baseCtor) {
         Object.getOwnPropertyNames(baseCtor.prototype).forEach(function (name) {

@@ -377,6 +377,7 @@ function baseOptions(options: CylinderGeometryOptions): { tilt: SpinorE3 } {
 
 /**
  * A geometry for a Cylinder.
+ * @hidden
  */
 export class CylinderGeometry extends GeometryElements {
     /**

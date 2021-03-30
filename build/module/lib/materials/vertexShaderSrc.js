@@ -1,13 +1,19 @@
+import { mustBeBoolean } from '../checks/mustBeBoolean';
+import { mustBeDefined } from '../checks/mustBeDefined';
 import { config } from '../config';
 import { getAttribVarName } from '../core/getAttribVarName';
 import { getUniformVarName } from '../core/getUniformVarName';
-import { mustBeBoolean } from '../checks/mustBeBoolean';
-import { mustBeDefined } from '../checks/mustBeDefined';
 import { GraphicsProgramSymbols as GPS } from '../core/GraphicsProgramSymbols';
 import { GLSLESVersion } from './glslVersion';
+/**
+ * @hidden
+ */
 function getUniformCodeName(uniforms, name) {
     return getUniformVarName(uniforms[name], name);
 }
+/**
+ * @hidden
+ */
 function getAttributeModifier(version) {
     if (version === GLSLESVersion.ThreeHundred) {
         return "in";
@@ -16,6 +22,9 @@ function getAttributeModifier(version) {
         return "attribute";
     }
 }
+/**
+ * @hidden
+ */
 function getVertexShaderVaryingModifier(version) {
     if (version === GLSLESVersion.ThreeHundred) {
         return "out";
@@ -24,17 +33,45 @@ function getVertexShaderVaryingModifier(version) {
         return "varying";
     }
 }
+/**
+ * @hidden
+ */
 var SPACE = ' ';
+/**
+ * @hidden
+ */
 var UNIFORM = 'uniform' + SPACE;
+/**
+ * @hidden
+ */
 var COMMA = ',' + SPACE;
+/**
+ * @hidden
+ */
 var SEMICOLON = ';';
+/**
+ * @hidden
+ */
 var LPAREN = '(';
+/**
+ * @hidden
+ */
 var RPAREN = ')';
+/**
+ * @hidden
+ */
 var TIMES = SPACE + '*' + SPACE;
+/**
+ * @hidden
+ */
 var ASSIGN = SPACE + '=' + SPACE;
+/**
+ * @hidden
+ */
 var DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME = "directionalLightCosineFactor";
 /**
  * Generates a vertex shader.
+ * @hidden
  */
 export function vertexShaderSrc(attributes, uniforms, vColor, vCoords, vLight, version) {
     mustBeDefined('attributes', attributes);

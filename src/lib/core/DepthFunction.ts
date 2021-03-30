@@ -1,6 +1,7 @@
 /**
  * An enumeration specifying the depth comparison function, which sets the conditions
  * under which the pixel will be drawn. The default value is LESS.
+ * @hidden
  */
 export enum DepthFunction {
 

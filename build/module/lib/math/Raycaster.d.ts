@@ -1,11 +1,17 @@
 import { Ray } from './Ray';
 import { Vector3 } from './Vector3';
+/**
+ * @hidden
+ */
 export interface Raycastable {
     visible: boolean;
     distance: number;
     raycast(raycaster: Raycaster, intersects: Raycastable[]): void;
     children: Raycastable[];
 }
+/**
+ * @hidden
+ */
 export declare class Raycaster {
     ray: Ray;
     near: number;

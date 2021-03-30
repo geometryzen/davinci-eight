@@ -5,6 +5,7 @@ import { readOnly } from '../i18n/readOnly';
 
 /**
  * An object-oriented representation of an <code>attribute</code> in a GLSL shader program.
+ * @hidden
  */
 export class Attrib implements ContextProgramConsumer {
     /**

@@ -1,12 +1,18 @@
+import { mustBeBoolean } from '../checks/mustBeBoolean';
+import { mustBeDefined } from '../checks/mustBeDefined';
 import { config } from '../config';
 import { getUniformVarName } from '../core/getUniformVarName';
 import { GraphicsProgramSymbols as GPS } from '../core/GraphicsProgramSymbols';
-import { mustBeBoolean } from '../checks/mustBeBoolean';
-import { mustBeDefined } from '../checks/mustBeDefined';
 import { GLSLESVersion } from './glslVersion';
+/**
+ * @hidden
+ */
 function getUniformCodeName(uniforms, name) {
     return getUniformVarName(uniforms[name], name);
 }
+/**
+ * @hidden
+ */
 function getFragColorVarName(version) {
     if (version === GLSLESVersion.ThreeHundred) {
         return "fragColor";
@@ -15,6 +21,9 @@ function getFragColorVarName(version) {
         return "gl_FragColor";
     }
 }
+/**
+ * @hidden
+ */
 function getFragmentShaderVaryingModifier(version) {
     if (version === GLSLESVersion.ThreeHundred) {
         return "in";
@@ -23,6 +32,9 @@ function getFragmentShaderVaryingModifier(version) {
         return "varying";
     }
 }
+/**
+ * @hidden
+ */
 function getTexture2D(version) {
     if (version === GLSLESVersion.ThreeHundred) {
         return "texture";
@@ -31,6 +43,9 @@ function getTexture2D(version) {
         return "texture2D";
     }
 }
+/**
+ * @hidden
+ */
 function emitFragmentFloatPrecision(version) {
     if (version === GLSLESVersion.ThreeHundred) {
         return true;
@@ -39,11 +54,21 @@ function emitFragmentFloatPrecision(version) {
         return false;
     }
 }
+/**
+ * @hidden
+ */
 var SPACE = ' ';
+/**
+ * @hidden
+ */
 var UNIFORM = 'uniform' + SPACE;
+/**
+ * @hidden
+ */
 var SEMICOLON = ';';
 /**
  * Generates a fragment shader
+ * @hidden
  */
 export function fragmentShaderSrc(attributes, uniforms, vColor, vCoords, vLight, version) {
     mustBeDefined('attributes', attributes);

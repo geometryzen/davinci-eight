@@ -2,7 +2,7 @@ import { Shareable } from '../core/Shareable';
 import { ShareableBase } from '../core/ShareableBase';
 
 /**
- *
+ * @hidden
  */
 export class StringShareableMap<V extends Shareable> extends ShareableBase implements Shareable {
 

@@ -17,7 +17,7 @@ const MODE = { NONE: -1, ROTATE: 0, ZOOM: 1, PAN: 2, TOUCH_ROTATE: 3, TOUCH_ZOOM
 const keys = [65 /*A*/, 83 /*S*/, 68 /*D*/];
 
 /**
- *
+ * @hidden
  */
 export class MouseControls extends ShareableBase {
 

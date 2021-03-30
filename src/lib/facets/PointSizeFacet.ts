@@ -1,10 +1,10 @@
+import { mustBeInteger } from '../checks/mustBeInteger';
 import { Facet } from '../core/Facet';
 import { FacetVisitor } from '../core/FacetVisitor';
-import { mustBeInteger } from '../checks/mustBeInteger';
 import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 
 /**
- *
+ * @hidden
  */
 export class PointSizeFacet implements Facet {
     /**

@@ -1,8 +1,14 @@
 import { Ray } from './Ray';
 //    linePrecision: 1,
+/**
+ * @hidden
+ */
 function ascSort(a, b) {
     return a.distance - b.distance;
 }
+/**
+ * @hidden
+ */
 function intersectObject(object, raycaster, intersects, recursive) {
     if (object.visible === false)
         return;
@@ -14,6 +20,9 @@ function intersectObject(object, raycaster, intersects, recursive) {
         }
     }
 }
+/**
+ * @hidden
+ */
 var Raycaster = /** @class */ (function () {
     function Raycaster(origin, direction, near, far) {
         this.ray = new Ray(origin, direction);

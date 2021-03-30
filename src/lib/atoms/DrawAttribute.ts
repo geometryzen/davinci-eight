@@ -43,6 +43,7 @@ function checkSize(size: AttributeSizeType, values: number[]): AttributeSizeType
 
 /**
  * A convenience class for implementing the Attribute interface.
+ * @hidden
  */
 export class DrawAttribute implements Attribute {
     public readonly values: number[];

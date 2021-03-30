@@ -1,9 +1,21 @@
 import { __extends } from "tslib";
 import { GridSimplexBuilder } from '../geometries/GridSimplexBuilder';
 import { Vector3 } from '../math/Vector3';
+/**
+ * @hidden
+ */
 var cos = Math.cos;
+/**
+ * @hidden
+ */
 var sin = Math.sin;
+/**
+ * @hidden
+ */
 var pi = Math.PI;
+/**
+ * @hidden
+ */
 function klein(u, v) {
     var point = new Vector3();
     u = u * 2 * pi;

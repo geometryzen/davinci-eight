@@ -1,8 +1,11 @@
-import { CurveMode } from './CurveMode';
 import { GeometryKey } from '../core/GeometryKey';
-import { GeometryOptions } from './GeometryOptions';
 import { VectorE3 } from '../math/VectorE3';
+import { CurveMode } from './CurveMode';
+import { GeometryOptions } from './GeometryOptions';
 
+/**
+ * @hidden
+ */
 export interface CurveGeometryOptions extends GeometryOptions, GeometryKey {
 
     /**

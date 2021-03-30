@@ -1,1 +1,4 @@
-export declare function isString(s: any): s is string;
+/**
+ * @hidden
+ */
+export declare function isString(s: unknown): s is string;

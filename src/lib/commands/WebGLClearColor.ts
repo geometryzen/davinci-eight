@@ -1,7 +1,10 @@
-import { ContextManager } from '../core/ContextManager';
 import { mustBeNumber } from '../checks/mustBeNumber';
+import { ContextManager } from '../core/ContextManager';
 import { ShareableBase } from '../core/ShareableBase';
 
+/**
+ * @hidden
+ */
 export class WebGLClearColor extends ShareableBase {
     public r: number;
     public g: number;

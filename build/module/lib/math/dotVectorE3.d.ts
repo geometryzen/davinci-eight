@@ -1,3 +1,6 @@
+/**
+ * @hidden
+ */
 export declare function dotVectorE3(a: {
     x: number;
     y: number;

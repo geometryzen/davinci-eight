@@ -110,7 +110,7 @@ function getContextId(contextManager: ContextManager): 'webgl2' | 'webgl' {
 }
 
 /**
- *
+ * @hidden
  */
 export class PointMaterial extends ShaderMaterial {
 

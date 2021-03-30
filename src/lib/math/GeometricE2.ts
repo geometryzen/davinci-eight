@@ -4,7 +4,7 @@ import { SpinorE2 } from '../math/SpinorE2';
 import { VectorE2 } from '../math/VectorE2';
 
 /**
- *
+ * @hidden
  */
 export interface GeometricE2 extends Pseudo, Scalar, SpinorE2, VectorE2 {
 }

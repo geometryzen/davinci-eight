@@ -3,6 +3,7 @@ import { mustBeObject } from '../checks/mustBeObject';
 import { mustBeString } from '../checks/mustBeString';
 /**
  * Policy for how an attribute variable name is determined.
+ * @hidden
  */
 export function getAttribVarName(attribute, varName) {
     mustBeObject('attribute', attribute);

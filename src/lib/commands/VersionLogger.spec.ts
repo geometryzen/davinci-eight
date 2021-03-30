@@ -1,6 +1,6 @@
 import { Engine } from '../core/Engine';
-import { VersionLogger } from './VersionLogger';
 import { refChange } from '../core/refChange';
+import { VersionLogger } from './VersionLogger';
 
 describe("VersionLogger", function () {
   it("new-release", function () {

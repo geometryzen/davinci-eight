@@ -1,14 +1,17 @@
-import { getAttribVarName } from '../core/getAttribVarName';
-import { glslAttribType } from './glslAttribType';
+import { mustBeDefined } from '../checks/mustBeDefined';
 import { mustBeInteger } from '../checks/mustBeInteger';
 import { mustBeString } from '../checks/mustBeString';
+import { getAttribVarName } from '../core/getAttribVarName';
+import { fragmentShaderSrc } from './fragmentShaderSrc';
+import { glslAttribType } from './glslAttribType';
+import { GLSLESVersion } from './glslVersion';
 import { vColorRequired } from './vColorRequired';
 import { vCoordsRequired } from './vCoordsRequired';
-import { vLightRequired } from './vLightRequired';
-import { fragmentShaderSrc } from './fragmentShaderSrc';
 import { vertexShaderSrc } from './vertexShaderSrc';
-import { GLSLESVersion } from './glslVersion';
-import { mustBeDefined } from '../checks/mustBeDefined';
+import { vLightRequired } from './vLightRequired';
+/**
+ * @hidden
+ */
 function computeAttribParams(values) {
     var result = {};
     var keys = Object.keys(values);
@@ -24,6 +27,7 @@ function computeAttribParams(values) {
 }
 /**
  * GraphicsProgramBuilder is the builder pattern for generating vertex and fragment shader source code.
+ * @hidden
  */
 var GraphicsProgramBuilder = /** @class */ (function () {
     /**

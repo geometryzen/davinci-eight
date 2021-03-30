@@ -31,7 +31,7 @@ function pointsForGrid(uSegments: number, uClosed: boolean, vSegments: number, v
 }
 
 /**
- *
+ * @hidden
  */
 export class GridPoints extends GridPrimitive {
 

@@ -2,13 +2,20 @@ import { __extends } from "tslib";
 import { PolyhedronBuilder } from '../geometries/PolyhedronBuilder';
 /**
  * The golden ratio.
+ * @hidden
  */
 var φ = (1 + Math.sqrt(5)) / 2;
+/**
+ * @hidden
+ */
 var vertices = [
     -1, φ, 0, 1, φ, 0, -1, -φ, 0, 1, -φ, 0,
     0, -1, φ, 0, 1, φ, 0, -1, -φ, 0, 1, -φ,
     φ, 0, -1, φ, 0, 1, -φ, 0, -1, -φ, 0, 1
 ];
+/**
+ * @hidden
+ */
 var indices = [
     0, 11, 5, 0, 5, 1, 0, 1, 7, 0, 7, 10, 0, 10, 11,
     1, 5, 9, 5, 11, 4, 11, 10, 2, 10, 7, 6, 7, 1, 8,

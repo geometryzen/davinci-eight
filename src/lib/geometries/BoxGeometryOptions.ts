@@ -4,6 +4,7 @@ import { GeometryOptions } from './GeometryOptions';
 
 /**
  * The options when creating a BoxGeometry.
+ * @hidden
  */
 export interface BoxGeometryOptions extends GeometryOptions, GeometryKey {
     /**

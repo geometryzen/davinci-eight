@@ -1,19 +1,19 @@
+import { VectorN } from '../atoms/VectorN';
+import { isDefined } from '../checks/isDefined';
+import { isNumber } from '../checks/isNumber';
+import { lock, LockableMixin as Lockable, TargetLockedError } from '../core/Lockable';
+import { readOnly } from '../i18n/readOnly';
 import { applyMixins } from '../utils/applyMixins';
 import { approx } from './approx';
 import { BivectorE3 } from './BivectorE3';
 import { CartesianG3 } from './CartesianG3';
-import { VectorE3 } from './VectorE3';
 import { dotVectorE3 } from './dotVectorE3';
-import { lock, LockableMixin as Lockable, TargetLockedError } from '../core/Lockable';
 import { Matrix3 } from './Matrix3';
 import { Matrix4 } from './Matrix4';
-import { isDefined } from '../checks/isDefined';
-import { isNumber } from '../checks/isNumber';
 import { randomRange } from './randomRange';
-import { readOnly } from '../i18n/readOnly';
 import { SpinorE3 } from './SpinorE3';
 import { toStringCustom } from './toStringCustom';
-import { VectorN } from '../atoms/VectorN';
+import { VectorE3 } from './VectorE3';
 import { wedgeXY } from './wedgeXY';
 import { wedgeYZ } from './wedgeYZ';
 import { wedgeZX } from './wedgeZX';
@@ -33,7 +33,7 @@ function coordinates(m: VectorE3): number[] {
 }
 
 /**
- *
+ * @hidden
  */
 export class Vector3 implements CartesianG3, VectorE3, Lockable, VectorN<number> {
     // Lockable

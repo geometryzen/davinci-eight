@@ -1,9 +1,9 @@
 import { ContextManager } from '../core/ContextManager';
 import { Geometry } from '../core/Geometry';
-import { LineMaterial } from '../materials/LineMaterial';
 import { Material } from '../core/Material';
-import { Matrix4 } from '../math/Matrix4';
 import { Mesh } from '../core/Mesh';
+import { LineMaterial } from '../materials/LineMaterial';
+import { Matrix4 } from '../math/Matrix4';
 import { VectorE3 } from '../math/VectorE3';
 /**
  *

@@ -1,1 +1,4 @@
-export declare function isInteger(x: any): x is number;
+/**
+ * @hidden
+ */
+export declare function isInteger(x: unknown): x is number;

@@ -1,5 +1,6 @@
 /**
  * A capability that may be enabled or disabled for a WebGL rendering context.
+ * @hidden
  */
 export enum Capability {
     /**

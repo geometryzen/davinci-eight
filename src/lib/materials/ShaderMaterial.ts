@@ -17,7 +17,7 @@ import { VertexBuffer } from '../core/VertexBuffer';
 import { readOnly } from '../i18n/readOnly';
 
 /**
- *
+ * @hidden
  */
 export class ShaderMaterial extends ShareableContextConsumer implements Material {
 

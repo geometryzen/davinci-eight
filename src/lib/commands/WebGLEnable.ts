@@ -1,10 +1,11 @@
+import { mustBeNumber } from '../checks/mustBeNumber';
 import { Capability } from '../core/Capability';
 import { ContextManager } from '../core/ContextManager';
-import { mustBeNumber } from '../checks/mustBeNumber';
 import { ShareableBase } from '../core/ShareableBase';
 
 /**
  * enable(capability: Capability): void
+ * @hidden
  */
 export class WebGLEnable extends ShareableBase {
     private _capability: Capability;

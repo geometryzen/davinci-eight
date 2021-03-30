@@ -1,6 +1,6 @@
 import { ContextManager } from '../core/ContextManager';
-import { CylinderGeometryOptions } from './CylinderGeometryOptions';
 import { GeometryElements } from '../core/GeometryElements';
+import { CylinderGeometryOptions } from './CylinderGeometryOptions';
 /**
  * A geometry for a Cylinder.
  */

@@ -25,7 +25,7 @@ function add2x2(a: Float32Array, b: Float32Array, c: Float32Array): void {
 }
 
 /**
- *
+ * @hidden
  */
 export class Matrix2 extends AbstractMatrix<Matrix2> {
 

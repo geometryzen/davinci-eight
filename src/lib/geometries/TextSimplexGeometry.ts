@@ -18,6 +18,9 @@ function futzParameters(parameters: { amount?: number; bevelEnabled?: boolean, b
 }
 */
 
+/**
+ * @hidden
+ */
 export class TextSimplexGeometry extends /*Extrude*/SimplexPrimitivesBuilder {
     constructor(text: string, face: FontFace, parameters: { amount?: number; bevelEnabled?: boolean, bevelSize?: number, bevelThickness?: number; height?: number }) {
         super();

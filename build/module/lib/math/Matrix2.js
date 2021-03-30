@@ -1,10 +1,13 @@
 import { __extends } from "tslib";
-import { AbstractMatrix } from '../math/AbstractMatrix';
-import { det2x2 } from '../math/det2x2';
 import { isDefined } from '../checks/isDefined';
-import { lock, TargetLockedError } from '../core/Lockable';
 import { mustBeInteger } from '../checks/mustBeInteger';
 import { mustBeNumber } from '../checks/mustBeNumber';
+import { lock, TargetLockedError } from '../core/Lockable';
+import { AbstractMatrix } from '../math/AbstractMatrix';
+import { det2x2 } from '../math/det2x2';
+/**
+ * @hidden
+ */
 function add2x2(a, b, c) {
     var a11 = a[0x0], a12 = a[0x2];
     var a21 = a[0x1], a22 = a[0x3];

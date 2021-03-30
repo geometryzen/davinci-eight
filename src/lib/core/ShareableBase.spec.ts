@@ -1,8 +1,11 @@
-import { ShareableBase } from './ShareableBase';
 import { refChange } from '../core/refChange';
+import { ShareableBase } from './ShareableBase';
 
 // Example of using ShareableBase as a base class in order to implement reference counting.
-// When all references have been released, the destructor function is called. 
+// When all references have been released, the destructor function is called.
+/**
+ * @hidden
+ */
 class Recyclable extends ShareableBase {
   // This flag is used to check that the destructor has been called.
   public isCleanedUp = false;
@@ -30,6 +33,7 @@ class Recyclable extends ShareableBase {
 /**
  * A mortal does not have a resurrector method.
  * We expect addRef on the zombie to throw an exception.
+ * @hidden
  */
 class Mortal extends ShareableBase {
   // This flag is used to check that the destructor has been called.

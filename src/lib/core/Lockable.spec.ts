@@ -4,6 +4,7 @@ import { LockableMixin } from './Lockable';
 /**
  * WARNING: property getter and setter don't work with this mixin approach.
  * Notice that isLocked is now a standard function.
+ * @hidden
  */
 class HAL implements LockableMixin {
     // Lockable

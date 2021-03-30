@@ -113,20 +113,35 @@ var OPTIONS = [
  * @hidden
  */
 var OPTION_NAMES = OPTIONS.map(function (option) { return option.name; });
+/**
+ * @hidden
+ */
 function aPositionDefault(u, v) {
     return vec(u, v, 0);
 }
+/**
+ * @hidden
+ */
 function aNormalDefault(u, v) {
     mustBeNumber('u', u);
     mustBeNumber('v', v);
     return vec(0, 0, 1);
 }
+/**
+ * @hidden
+ */
 function isFunctionOrNull(x) {
     return isFunction(x) || isNull(x);
 }
+/**
+ * @hidden
+ */
 function isFunctionOrUndefined(x) {
     return isFunction(x) || isUndefined(x);
 }
+/**
+ * @hidden
+ */
 function transferGeometryOptions(source, target) {
     if (isFunctionOrNull(source.aPosition)) {
         target.aPosition = source.aPosition;
@@ -165,7 +180,7 @@ function transferGeometryOptions(source, target) {
     mustBeGE('vSegments', target.vSegments, 0);
 }
 /**
- *
+ * @hidden
  */
 function configGeometry(engine, geoOptions, grid) {
     // Don't use the Geometry cache until we can better differentiate the options.
@@ -186,6 +201,9 @@ function configGeometry(engine, geoOptions, grid) {
     }
     */
 }
+/**
+ * @hidden
+ */
 function configPoints(engine, options, grid) {
     var geoOptions = { kind: 'GridGeometry' };
     transferGeometryOptions(options, geoOptions);
@@ -224,6 +242,9 @@ function configPoints(engine, options, grid) {
         engine.putCacheMaterial(matOptions, material);
     }
 }
+/**
+ * @hidden
+ */
 function configLines(engine, options, grid) {
     var geoOptions = { kind: 'GridGeometry' };
     transferGeometryOptions(options, geoOptions);
@@ -266,6 +287,9 @@ function configLines(engine, options, grid) {
         engine.putCacheMaterial(matOptions, material);
     }
 }
+/**
+ * @hidden
+ */
 function configMesh(engine, options, grid) {
     var geoOptions = { kind: 'GridGeometry' };
     transferGeometryOptions(options, geoOptions);

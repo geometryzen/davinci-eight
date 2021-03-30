@@ -3,6 +3,7 @@ import { UniformMetaInfo } from '../core/UniformMetaInfo';
 import { GLSLESVersion } from './glslVersion';
 /**
  * Generates a vertex shader.
+ * @hidden
  */
 export declare function vertexShaderSrc(attributes: {
     [name: string]: AttribMetaInfo;

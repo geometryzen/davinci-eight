@@ -1,11 +1,13 @@
 import { __extends } from "tslib";
+import { mustBeNumber } from '../checks/mustBeNumber';
+import { lock, TargetLockedError } from '../core/Lockable';
 import { AbstractMatrix } from '../math/AbstractMatrix';
 import { det3x3 } from '../math/det3x3';
 import { inv3x3 } from '../math/inv3x3';
-import { lock } from '../core/Lockable';
-import { TargetLockedError } from '../core/Lockable';
 import { mul3x3 } from '../math/mul3x3';
-import { mustBeNumber } from '../checks/mustBeNumber';
+/**
+ * @hidden
+ */
 function add3x3(a, b, c) {
     var a11 = a[0x0], a12 = a[0x3], a13 = a[0x6];
     var a21 = a[0x1], a22 = a[0x4], a23 = a[0x7];

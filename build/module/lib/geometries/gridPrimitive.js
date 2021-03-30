@@ -1,6 +1,3 @@
-import { Color } from '../core/Color';
-import { GeometryMode } from './GeometryMode';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { GridLines } from '../atoms/GridLines';
 import { GridPoints } from '../atoms/GridPoints';
 import { GridTriangleStrip } from '../atoms/GridTriangleStrip';
@@ -8,10 +5,13 @@ import { isDefined } from '../checks/isDefined';
 import { isFunction } from '../checks/isFunction';
 import { mustBeBoolean } from '../checks/mustBeBoolean';
 import { mustBeNumber } from '../checks/mustBeNumber';
+import { Color } from '../core/Color';
+import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { Vector2 } from '../math/Vector2';
 import { Vector3 } from '../math/Vector3';
+import { GeometryMode } from './GeometryMode';
 /**
- *
+ * @hidden
  */
 function topology(mode, uSegments, uClosed, vSegments, vClosed) {
     switch (mode) {
@@ -32,6 +32,7 @@ function topology(mode, uSegments, uClosed, vSegments, vClosed) {
 /**
  * Decorates the vertex with aPosition, aNormal, and aColor attributes,
  * but only if these functions are provided in the options.
+ * @hidden
  */
 function transformVertex(vertex, u, v, options) {
     var aPosition = isDefined(options.aPosition) ? options.aPosition : void 0;
@@ -52,6 +53,9 @@ function transformVertex(vertex, u, v, options) {
         vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = Color.copy(aColor(u, v));
     }
 }
+/**
+ * @hidden
+ */
 export function gridPrimitive(options) {
     var uMin = isDefined(options.uMin) ? mustBeNumber('uMin', options.uMin) : 0;
     var uMax = isDefined(options.uMax) ? mustBeNumber('uMax', options.uMax) : 1;

@@ -1,1 +1,4 @@
-export declare function isObject(x: any): boolean;
+/**
+ * @hidden
+ */
+export declare function isObject(x: unknown): boolean;

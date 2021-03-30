@@ -17,7 +17,7 @@ function coneNormal(ρ: VectorE3, h: VectorE3, out: Vector3): void {
 }
 
 /**
- *
+ * @hidden
  */
 export class ConeTransform implements Transform {
 

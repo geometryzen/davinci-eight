@@ -6,7 +6,10 @@ import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { triangle } from '../geometries/triangle';
 import { Geometric3 } from '../math/Geometric3';
 
-export class BarnSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
+/**
+ * @hidden
+ */
+ export class BarnSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
     public a: Geometric3 = Geometric3.vector(1, 0, 0);
     public b: Geometric3 = Geometric3.vector(0, 1, 0);
     public c: Geometric3 = Geometric3.vector(0, 0, 1);

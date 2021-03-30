@@ -14,6 +14,7 @@ function getContextId(contextManager: ContextManager): 'webgl2' | 'webgl' {
 /**
  * A Material that is generated based upon knowledge of parameters and some hints.
  * This is currently not exposed and has limited testing.
+ * @hidden
  */
 export class SmartGraphicsProgram extends ShaderMaterial {
     /**

@@ -1,4 +1,7 @@
 import { R3 } from '../math/R3';
+/**
+ * @hidden
+ */
 export interface ALMRS {
     /**
      * Default e2
@@ -28,5 +31,6 @@ export interface ALMRS {
  * meridian:   e3,
  * radius:     0.5,
  * sliceAngle: tau.
+ * @hidden
  */
 export declare const ds: ALMRS;

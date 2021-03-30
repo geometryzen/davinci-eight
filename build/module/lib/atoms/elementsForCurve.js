@@ -1,6 +1,9 @@
 import { isDefined } from '../checks/isDefined';
 import { mustBeArray } from '../checks/mustBeArray';
 import { numPostsForFence } from './numPostsForFence';
+/**
+ * @hidden
+ */
 export function elementsForCurve(uSegments, uClosed, elements) {
     // Make sure that we have somewhere valid to store the result.
     elements = isDefined(elements) ? mustBeArray('elements', elements) : [];

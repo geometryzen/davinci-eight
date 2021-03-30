@@ -588,7 +588,7 @@ const makeMaterial = function makeMaterial(graphics: Engine): Material {
 };
 
 /**
- * 
+ * @hidden
  */
 export class MinecraftBodyPart extends Mesh<Geometry, Material> {
     constructor(engine: Engine, texture: ImageTexture, options: MinecraftInternalBodyPartOptions, levelUp = 0) {
@@ -607,12 +607,18 @@ export class MinecraftBodyPart extends Mesh<Geometry, Material> {
     }
 }
 
+/**
+ * @hidden
+ */
 export interface MinecraftBodyPartOptions {
     height?: number;
     oldSkinLayout?: boolean;
     offset?: VectorE3;
 }
 
+/**
+ * @hidden
+ */
 export class MinecraftHead extends MinecraftBodyPart {
     constructor(engine: Engine, texture: ImageTexture, options: MinecraftBodyPartOptions = {}) {
         super(engine, texture, {
@@ -628,6 +634,9 @@ export class MinecraftHead extends MinecraftBodyPart {
     }
 }
 
+/**
+ * @hidden
+ */
 export class MinecraftTorso extends MinecraftBodyPart {
     constructor(engine: Engine, texture: ImageTexture, options: MinecraftBodyPartOptions = {}) {
         super(engine, texture, {
@@ -643,6 +652,9 @@ export class MinecraftTorso extends MinecraftBodyPart {
     }
 }
 
+/**
+ * @hidden
+ */
 export class MinecraftArmL extends MinecraftBodyPart {
     constructor(engine: Engine, texture: ImageTexture, options: MinecraftBodyPartOptions = {}) {
         super(engine, texture, {
@@ -658,6 +670,9 @@ export class MinecraftArmL extends MinecraftBodyPart {
     }
 }
 
+/**
+ * @hidden
+ */
 export class MinecraftArmR extends MinecraftBodyPart {
     constructor(engine: Engine, texture: ImageTexture, options: MinecraftBodyPartOptions = {}) {
         super(engine, texture, {
@@ -673,6 +688,9 @@ export class MinecraftArmR extends MinecraftBodyPart {
     }
 }
 
+/**
+ * @hidden
+ */
 export class MinecraftLegL extends MinecraftBodyPart {
     constructor(engine: Engine, texture: ImageTexture, options: MinecraftBodyPartOptions = {}) {
         super(engine, texture, {
@@ -688,6 +706,9 @@ export class MinecraftLegL extends MinecraftBodyPart {
     }
 }
 
+/**
+ * @hidden
+ */
 export class MinecraftLegR extends MinecraftBodyPart {
     constructor(engine: Engine, texture: ImageTexture, options: MinecraftBodyPartOptions = {}) {
         super(engine, texture, {
@@ -702,4 +723,3 @@ export class MinecraftLegR extends MinecraftBodyPart {
         super.destructor(levelUp + 1);
     }
 }
-

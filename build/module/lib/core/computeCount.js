@@ -1,6 +1,7 @@
 import { mustBeInteger } from '../checks/mustBeInteger';
 /**
  * Computes the number of elements represented by the attribute values.
+ * @hidden
  */
 export function computeCount(attribs, aNames) {
     var aNamesLen = aNames.length;

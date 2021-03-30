@@ -1,19 +1,31 @@
-import { mustBeNumber } from '../checks/mustBeNumber';
 import { expectArg } from '../checks/expectArg';
+import { mustBeNumber } from '../checks/mustBeNumber';
+/**
+ * @hidden
+ */
 function defaultSetUp() {
     // Do nothing yet.
 }
+/**
+ * @hidden
+ */
 function defaultTearDown(animateException) {
     if (animateException) {
         var message = "Exception raised during animate function: " + animateException;
         console.warn(message);
     }
 }
+/**
+ * @hidden
+ */
 function defaultTerminate(time) {
     mustBeNumber('time', time);
     // Never ending, because whenever asked we say nee.
     return false;
 }
+/**
+ * @hidden
+ */
 export function animation(animate, options) {
     if (options === void 0) { options = {}; }
     var STATE_INITIAL = 1;

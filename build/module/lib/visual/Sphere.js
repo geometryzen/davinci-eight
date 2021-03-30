@@ -17,6 +17,9 @@ import { setDeprecatedOptions } from './setDeprecatedOptions';
 import { simplexModeFromOptions } from './simplexModeFromOptions';
 import { spinorE3Object } from './spinorE3Object';
 import { vectorE3Object } from './vectorE3Object';
+/**
+ * @hidden
+ */
 var RADIUS_NAME = 'radius';
 /**
  *

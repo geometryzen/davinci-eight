@@ -118,7 +118,7 @@ function getContextId(contextManager: ContextManager): 'webgl2' | 'webgl' {
 }
 
 /**
- * 
+ * @hidden
  */
 export class MeshMaterial extends ShaderMaterial {
     /**

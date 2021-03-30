@@ -1,11 +1,12 @@
+import { Transform } from '../atoms/Transform';
+import { Vertex } from '../atoms/Vertex';
 import { mustBeObject } from '../checks/mustBeObject';
 import { Vector3 } from '../math/Vector3';
 import { VectorE3 } from '../math/VectorE3';
-import { Vertex } from '../atoms/Vertex';
-import { Transform } from '../atoms/Transform';
 
 /**
  * Applies a translation to the specified attributes of a vertex.
+ * @hidden
  */
 export class Translation implements Transform {
 

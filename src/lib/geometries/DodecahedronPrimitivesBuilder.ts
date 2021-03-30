@@ -51,6 +51,9 @@ const indices = [
     1, 12, 14, 1, 14, 5, 1, 5, 9
 ];
 
+/**
+ * @hidden
+ */
 export class DodecahedronPrimitivesBuilder extends PolyhedronBuilder {
     constructor(radius?: number, detail?: number) {
         super(vertices, indices, radius, detail);

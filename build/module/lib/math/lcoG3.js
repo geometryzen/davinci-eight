@@ -1,6 +1,9 @@
 import { compG3Get as get } from '../math/compG3Get';
-import { lcoE3 } from '../math/lcoE3';
 import { compG3Set as set } from '../math/compG3Set';
+import { lcoE3 } from '../math/lcoE3';
+/**
+ * @hidden
+ */
 export function lcoG3(a, b, out) {
     var a0 = get(a, 0);
     var a1 = get(a, 1);

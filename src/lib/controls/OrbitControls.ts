@@ -42,6 +42,7 @@ const X: Vector3 = Vector3.zero();
  * A rotor may be calculated that rotates the camera from its old reference frame to the
  * new reference frame. This rotor may also be interpolated for animations.
  * </p>
+ * @hidden
  */
 export class OrbitControls extends ViewControls {
 

@@ -1,3 +1,5 @@
+import { Transform } from '../atoms/Transform';
+import { Vertex } from '../atoms/Vertex';
 import { mustBeBoolean } from '../checks/mustBeBoolean';
 import { mustBeString } from '../checks/mustBeString';
 import { notImplemented } from '../i18n/notImplemented';
@@ -5,12 +7,11 @@ import { Spinor2 } from '../math/Spinor2';
 import { Spinor3 } from '../math/Spinor3';
 import { Vector2 } from '../math/Vector2';
 import { Vector3 } from '../math/Vector3';
-import { Vertex } from '../atoms/Vertex';
-import { Transform } from '../atoms/Transform';
 
 /**
  * Applies a duality transformation to the specified attributes of a vertex, creating a new attribute.
  * The convention used is pre-multiplication by the pseudoscalar.
+ * @hidden
  */
 export class Duality implements Transform {
 

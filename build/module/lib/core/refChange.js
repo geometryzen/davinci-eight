@@ -1,9 +1,24 @@
 import { isDefined } from '../checks/isDefined';
 import { config } from '../config';
+/**
+ * @hidden
+ */
 var statistics = {};
+/**
+ * @hidden
+ */
 var chatty = true;
+/**
+ * @hidden
+ */
 var skip = true;
+/**
+ * @hidden
+ */
 var trace = false;
+/**
+ * @hidden
+ */
 var traceName = void 0;
 /**
  * @hidden

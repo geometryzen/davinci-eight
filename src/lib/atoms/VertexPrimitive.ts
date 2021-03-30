@@ -79,6 +79,7 @@ function attributes(elements: number[], vertices: Vertex[]): { [name: string]: A
  * generation and transformation. Topolgy provides a toPrimitive method which results
  * in a more compact representation based upon number[]. An even more compact
  * representation is VertexArrays, which interleaves the vertex.
+ * @hidden
  */
 export class VertexPrimitive {
     /**

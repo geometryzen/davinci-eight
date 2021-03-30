@@ -1,6 +1,7 @@
 import { computeCount } from './computeCount';
 /**
  * Computes the interleaved attribute values array.
+ * @hidden
  */
 export function computeAttributes(attributes, aNames) {
     var aNamesLen = aNames.length;

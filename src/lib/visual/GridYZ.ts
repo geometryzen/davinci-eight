@@ -11,6 +11,9 @@ import { VectorE3 } from '../math/VectorE3';
 import { Grid } from './Grid';
 import { GridOptions } from './GridOptions';
 
+/**
+ * @hidden
+ */
 export interface GridYZOptions {
     yMin?: number;
     yMax?: number;

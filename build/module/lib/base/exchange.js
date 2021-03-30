@@ -1,5 +1,6 @@
 /**
  * exchange(thing to release, thing to addRef)
+ * @hidden
  */
 export function exchange(mine, yours) {
     if (mine !== yours) {

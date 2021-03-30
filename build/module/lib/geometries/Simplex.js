@@ -1,23 +1,35 @@
+import { Vertex } from '../atoms/Vertex';
 import { mustBeEQ } from '../checks/mustBeEQ';
 import { mustBeGE } from '../checks/mustBeGE';
-import { mustBeLE } from '../checks/mustBeLE';
 import { mustBeInteger } from '../checks/mustBeInteger';
-import { SimplexMode } from './SimplexMode';
-import { Vertex } from '../atoms/Vertex';
+import { mustBeLE } from '../checks/mustBeLE';
 import { VectorN as DefaultVectorN } from '../math/VectorN';
+import { SimplexMode } from './SimplexMode';
+/**
+ * @hidden
+ */
 function checkIntegerArg(name, n, min, max) {
     mustBeInteger(name, n);
     mustBeGE(name, n, min);
     mustBeLE(name, n, max);
     return n;
 }
+/**
+ * @hidden
+ */
 function checkCountArg(count) {
     // TODO: The count range should depend upon the k value of the simplex.
     return checkIntegerArg('count', count, 0, 7);
 }
+/**
+ * @hidden
+ */
 function concatReduce(a, b) {
     return a.concat(b);
 }
+/**
+ * @hidden
+ */
 function lerp(a, b, alpha, data) {
     if (data === void 0) { data = []; }
     mustBeEQ('a.length', a.length, b.length);
@@ -29,6 +41,9 @@ function lerp(a, b, alpha, data) {
     }
     return data;
 }
+/**
+ * @hidden
+ */
 function lerpVertexAttributeMap(a, b, alpha) {
     var attribMap = {};
     var keys = Object.keys(a);
@@ -39,9 +54,15 @@ function lerpVertexAttributeMap(a, b, alpha) {
     }
     return attribMap;
 }
+/**
+ * @hidden
+ */
 function lerpVectorN(a, b, alpha) {
     return new DefaultVectorN(lerp(a.toArray(), b.toArray(), alpha));
 }
+/**
+ * @hidden
+ */
 var Simplex = /** @class */ (function () {
     function Simplex(k) {
         this.vertices = [];

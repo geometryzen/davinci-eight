@@ -143,7 +143,7 @@ class TurtleGeometry extends GeometryArrays {
 }
 
 /**
- *
+ * @hidden
  */
 export interface TurtleOptions {
     axis?: VectorE3;

@@ -8,6 +8,9 @@ import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { GraphicsProgramBuilder } from '../materials/GraphicsProgramBuilder';
 import { glslVersionFromWebGLContextId } from './glslVersionFromWebGLContextId';
 import { ShaderMaterial } from './ShaderMaterial';
+/**
+ * @hidden
+ */
 function defaultOptions(options) {
     if (!options.attributes) {
         options.attributes = {};
@@ -28,6 +31,9 @@ function defaultOptions(options) {
     options.uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR] = 'vec3';
     options.uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION] = 'vec3';
 }
+/**
+ * @hidden
+ */
 function shaderPropertiesCount(options) {
     var count = Object.keys(options).length;
     if (options.version) {
@@ -39,6 +45,7 @@ function shaderPropertiesCount(options) {
  *
  * @param contextId The context identifier used when creating the WebGL rendering context. May be undefined.
  * @param options
+ * @hidden
  */
 function builder(contextId, options) {
     if (isUndefined(options) || isNull(options)) {
@@ -69,13 +76,25 @@ function builder(contextId, options) {
     }
     return gpb;
 }
+/**
+ * @hidden
+ */
 function vertexShaderSrc(contextId, options) {
     return builder(contextId, options).vertexShaderSrc();
 }
+/**
+ * @hidden
+ */
 function fragmentShaderSrc(contextId, options) {
     return builder(contextId, options).fragmentShaderSrc();
 }
+/**
+ * @hidden
+ */
 var LOGGING_NAME_MESH_MATERIAL = 'MeshMaterial';
+/**
+ * @hidden
+ */
 function getContextId(contextManager) {
     return mustBeNonNullObject('contextManager', contextManager).contextId;
 }

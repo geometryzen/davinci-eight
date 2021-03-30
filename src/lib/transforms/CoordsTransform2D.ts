@@ -1,11 +1,12 @@
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { mustBeBoolean } from '../checks/mustBeBoolean';
-import { Vector2 } from '../math/Vector2';
-import { Vertex } from '../atoms/Vertex';
 import { Transform } from '../atoms/Transform';
+import { Vertex } from '../atoms/Vertex';
+import { mustBeBoolean } from '../checks/mustBeBoolean';
+import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
+import { Vector2 } from '../math/Vector2';
 
 /**
  * Applies coordinates to a surface.
+ * @hidden
  */
 export class CoordsTransform2D implements Transform {
     public flipU: boolean;

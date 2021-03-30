@@ -35,6 +35,7 @@ const MODEL_FACET_NAME = 'model';
 
 /**
  * The standard pairing of a Geometry and a Material.
+ * @hidden
  */
 export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M> implements AbstractMesh<G, M> {
     /**

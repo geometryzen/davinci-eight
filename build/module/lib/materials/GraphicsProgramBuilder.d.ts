@@ -1,9 +1,10 @@
 import { AttributeSizeType } from '../core/AttributeSizeType';
-import { UniformGlslType } from '../core/UniformGlslType';
 import { Primitive } from '../core/Primitive';
+import { UniformGlslType } from '../core/UniformGlslType';
 import { GLSLESVersion } from './glslVersion';
 /**
  * GraphicsProgramBuilder is the builder pattern for generating vertex and fragment shader source code.
+ * @hidden
  */
 export declare class GraphicsProgramBuilder {
     private aMeta;

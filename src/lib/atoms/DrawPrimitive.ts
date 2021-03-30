@@ -12,6 +12,7 @@ const context = () => { return "DrawPrimitive constructor"; };
 
 /**
  * A convenience class for implementing the Primitive interface.
+ * @hidden
  */
 export class DrawPrimitive implements Primitive {
     public mode: BeginMode;

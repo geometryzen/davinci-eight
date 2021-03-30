@@ -581,6 +581,7 @@ function spherePrimitive(options: SphereGeometryOptions = { kind: 'SphereGeometr
 
 /**
  * A convenience class for creating sphere geometry elements.
+ * @hidden
  */
 export class SphereGeometry extends GeometryElements {
     /**

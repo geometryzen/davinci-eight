@@ -6,7 +6,7 @@ import { MaterialKey } from './MaterialKey';
 import { Shareable } from './Shareable';
 
 /**
- * 
+ * @hidden
  */
 export interface ContextManager extends Shareable {
     /**

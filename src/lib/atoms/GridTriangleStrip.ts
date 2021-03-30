@@ -60,6 +60,7 @@ function triangleStripForGrid(uSegments: number, vSegments: number, elements?: n
  * The vertices generated have coordinates (u, v) and the traversal creates
  * counter-clockwise orientation when increasing u is the first direction and
  * increasing v the second direction.
+ * @hidden
  */
 export class GridTriangleStrip extends GridPrimitive {
 

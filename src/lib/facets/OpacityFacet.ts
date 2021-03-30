@@ -1,12 +1,12 @@
-import { Facet } from '../core/Facet';
-import { FacetVisitor } from '../core/FacetVisitor';
 import { mustBeGE } from '../checks/mustBeGE';
 import { mustBeLE } from '../checks/mustBeLE';
 import { mustBeNumber } from '../checks/mustBeNumber';
+import { Facet } from '../core/Facet';
+import { FacetVisitor } from '../core/FacetVisitor';
 import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 
 /**
- *
+ * @hidden
  */
 export class OpacityFacet implements Facet {
 

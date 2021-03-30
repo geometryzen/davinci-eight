@@ -67,7 +67,7 @@ function hollowCylinderPrimitive(options: HollowCylinderGeometryOptions = { kind
 }
 
 /**
- * 
+ * @hidden
  */
 export class HollowCylinderGeometry extends GeometryElements {
     /**

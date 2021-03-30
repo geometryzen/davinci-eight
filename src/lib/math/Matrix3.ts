@@ -49,6 +49,7 @@ function add3x3(a: Float32Array, b: Float32Array, c: Float32Array): void {
  * <tr><td>2</td><td>5</td><td>8</td></tr>
  * </table>
  * </p>
+ * @hidden
  */
 export class Matrix3 extends AbstractMatrix<Matrix3> {
 

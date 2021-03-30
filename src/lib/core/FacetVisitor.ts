@@ -1,5 +1,8 @@
 import { TextureUnit } from './TextureUnit';
 
+/**
+ * @hidden
+ */
 export interface FacetVisitor {
     activeTexture(unit: TextureUnit): void;
     matrix2fv(name: string, mat2: Float32Array, transpose: boolean): void;

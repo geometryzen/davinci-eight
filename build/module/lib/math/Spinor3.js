@@ -1,38 +1,69 @@
-import { applyMixins } from '../utils/applyMixins';
-import { approx } from './approx';
-import { dotVectorCartesianE3 } from './dotVectorCartesianE3';
-import { lock, LockableMixin as Lockable, TargetLockedError } from '../core/Lockable';
-import { mulSpinorE3YZ } from './mulSpinorE3YZ';
-import { mulSpinorE3ZX } from './mulSpinorE3ZX';
-import { mulSpinorE3XY } from './mulSpinorE3XY';
-import { mulSpinorE3alpha } from './mulSpinorE3alpha';
 import { mustBeInteger } from '../checks/mustBeInteger';
 import { mustBeNumber } from '../checks/mustBeNumber';
 import { mustBeObject } from '../checks/mustBeObject';
+import { lock, LockableMixin as Lockable, TargetLockedError } from '../core/Lockable';
+import { readOnly } from '../i18n/readOnly';
+import { applyMixins } from '../utils/applyMixins';
+import { approx } from './approx';
+import { dotVectorCartesianE3 } from './dotVectorCartesianE3';
+import { mulSpinorE3alpha } from './mulSpinorE3alpha';
+import { mulSpinorE3XY } from './mulSpinorE3XY';
+import { mulSpinorE3YZ } from './mulSpinorE3YZ';
+import { mulSpinorE3ZX } from './mulSpinorE3ZX';
 import { quadSpinorE3 as quadSpinor } from './quadSpinorE3';
 import { randomRange } from './randomRange';
-import { readOnly } from '../i18n/readOnly';
 import { rotorFromDirectionsE3 as rotorFromDirections } from './rotorFromDirectionsE3';
 import { toStringCustom } from './toStringCustom';
 import { wedgeXY } from './wedgeXY';
 import { wedgeYZ } from './wedgeYZ';
 import { wedgeZX } from './wedgeZX';
 // Constants for the coordinate indices into the coords array.
+/**
+ * @hidden
+ */
 var COORD_YZ = 0;
+/**
+ * @hidden
+ */
 var COORD_ZX = 1;
+/**
+ * @hidden
+ */
 var COORD_XY = 2;
+/**
+ * @hidden
+ */
 var COORD_SCALAR = 3;
+/**
+ * @hidden
+ */
 var BASIS_LABELS = ['e23', 'e31', 'e12', '1'];
 /**
  * Coordinates corresponding to basis labels.
+ * @hidden
  */
 function coordinates(m) {
     return [m.yz, m.zx, m.xy, m.a];
 }
+/**
+ * @hidden
+ */
 var exp = Math.exp;
+/**
+ * @hidden
+ */
 var cos = Math.cos;
+/**
+ * @hidden
+ */
 var sin = Math.sin;
+/**
+ * @hidden
+ */
 var sqrt = Math.sqrt;
+/**
+ * @hidden
+ */
 var magicCode = Math.random();
 /**
  * A Geometric Number representing the even sub-algebra of G3.

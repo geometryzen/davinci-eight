@@ -1,9 +1,10 @@
 import { ContextManager } from '../core/ContextManager';
-import { readOnly } from '../i18n/readOnly';
 import { ShareableBase } from '../core/ShareableBase';
+import { readOnly } from '../i18n/readOnly';
 
 /**
  * Displays details about the WegGL version to the console.
+ * @hidden
  */
 export class ContextAttributesLogger extends ShareableBase {
     /**

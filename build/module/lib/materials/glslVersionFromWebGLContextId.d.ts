@@ -6,5 +6,6 @@ import { GLSLESVersion } from './glslVersion';
  * If the contextId is not yet known and there is no override, returns the latest GLSL version.
  * @param override The override that the caller desires. May be undefined.
  * @param contextId The context identifier, usually determined from a ContextManager.
+ * @hidden
  */
 export declare function glslVersionFromWebGLContextId(override: GLSLESVersion | undefined | null, contextId: 'webgl2' | 'webgl' | undefined | null): GLSLESVersion;

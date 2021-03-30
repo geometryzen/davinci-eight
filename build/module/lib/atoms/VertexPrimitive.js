@@ -1,13 +1,16 @@
-import { DataType } from '../core/DataType';
-import { DrawAttribute } from './DrawAttribute';
-import { DrawPrimitive } from './DrawPrimitive';
 import { mustBeArray } from '../checks/mustBeArray';
 import { mustBeGE } from '../checks/mustBeGE';
 import { mustBeInteger } from '../checks/mustBeInteger';
 import { mustBeNonNullObject } from '../checks/mustBeNonNullObject';
-import { notSupported } from '../i18n/notSupported';
-import { Vertex } from './Vertex';
+import { DataType } from '../core/DataType';
 import { dataFromVectorN } from '../geometries/dataFromVectorN';
+import { notSupported } from '../i18n/notSupported';
+import { DrawAttribute } from './DrawAttribute';
+import { DrawPrimitive } from './DrawPrimitive';
+import { Vertex } from './Vertex';
+/**
+ * @hidden
+ */
 function checkSize(length) {
     if (length === 1) {
         return 1;
@@ -30,6 +33,7 @@ function checkSize(length) {
  * There is some magic in the conversion of various types (Geometric2, Geometric3, Vector2, Vector3)
  * to number[], but the basic rule is that the vector grade is extracted and used in a way that is
  * consistent with the linear dimension (2,3), so there should be no surprises.
+ * @hidden
  */
 function attributes(elements, vertices) {
     mustBeArray('elements', elements);

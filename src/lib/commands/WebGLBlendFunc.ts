@@ -3,6 +3,9 @@ import { BlendingFactorSrc } from '../core/BlendingFactorSrc';
 import { ContextManager } from '../core/ContextManager';
 import { ShareableBase } from '../core/ShareableBase';
 
+/**
+ * @hidden
+ */
 export class WebGLBlendFunc extends ShareableBase {
     public sfactor: BlendingFactorSrc;
     public dfactor: BlendingFactorDest;

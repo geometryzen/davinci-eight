@@ -2,6 +2,7 @@
  * DataType with values from WebGLRenderingContextBase.
  * 
  * https://www.khronos.org/registry/webgl/specs/1.0/
+ * @hidden
  */
 export enum DataType {
     BYTE = 0x1400,

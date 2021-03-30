@@ -1,3 +1,6 @@
+/**
+ * @hidden
+ */
 export declare class Eight {
     /**
      * The GitHub URL of the repository.
@@ -22,6 +25,6 @@ export declare class Eight {
     error(message?: any): void;
 }
 /**
- *
+ * @hidden
  */
 export declare const config: Eight;

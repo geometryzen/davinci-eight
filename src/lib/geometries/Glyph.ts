@@ -1,3 +1,6 @@
+/**
+ * @hidden
+ */
 export class Glyph {
   ha: number;
   o: string;

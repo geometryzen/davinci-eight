@@ -1,5 +1,8 @@
-import { mustBeString } from '../checks/mustBeString';
 import { mustBeObject } from '../checks/mustBeObject';
+import { mustBeString } from '../checks/mustBeString';
+/**
+ * @hidden
+ */
 export function getCanvasElementById(elementId, dom) {
     if (dom === void 0) { dom = window.document; }
     mustBeString('elementId', elementId);

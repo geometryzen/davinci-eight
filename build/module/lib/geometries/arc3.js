@@ -9,6 +9,7 @@ import { Vector3 } from '../math/Vector3';
  * angle: {number} The angle of the rotation.
  * generator {SpinorE3} The generator of the rotation.
  * segments {number} The number of segments.
+ * @hidden
  */
 export function arc3(begin, angle, generator, segments) {
     mustBeDefined('begin', begin);

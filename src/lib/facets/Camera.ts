@@ -1,5 +1,8 @@
 import { VectorE3 } from '../math/VectorE3';
 
+/**
+ * @hidden
+ */
 export interface Camera {
     /**
      * The position of the camera, a position vector.

@@ -3,6 +3,7 @@ import { ShareableBase } from '../core/ShareableBase';
 
 /**
  * Displays details about the WegGL version to the console.
+ * @hidden
  */
 export class VersionLogger extends ShareableBase {
   constructor(private contextManager: ContextManager) {

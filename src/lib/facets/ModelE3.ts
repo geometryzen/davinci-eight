@@ -1,7 +1,7 @@
 import { Geometric3 } from '../math/Geometric3';
 
 /**
- *
+ * @hidden
  */
 export class ModelE3 {
 
