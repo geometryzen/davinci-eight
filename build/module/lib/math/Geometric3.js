@@ -1,3 +1,6 @@
+import { mustBeEQ } from '../checks/mustBeEQ';
+import { mustBeInteger } from '../checks/mustBeInteger';
+import { lock, LockableMixin as Lockable, TargetLockedError } from '../core/Lockable';
 import { applyMixins } from '../utils/applyMixins';
 import { approx } from './approx';
 import { arraysEQ } from './arraysEQ';
@@ -8,11 +11,8 @@ import { isScalarG3 } from './isScalarG3';
 import { isVectorE3 } from './isVectorE3';
 import { isVectorG3 } from './isVectorG3';
 import { lcoG3 } from './lcoG3';
-import { lock, LockableMixin as Lockable, TargetLockedError } from '../core/Lockable';
 import { maskG3 } from './maskG3';
 import { mulE3 } from './mulE3';
-import { mustBeEQ } from '../checks/mustBeEQ';
-import { mustBeInteger } from '../checks/mustBeInteger';
 import { randomRange } from './randomRange';
 import { rcoG3 } from './rcoG3';
 import { rotorFromDirectionsE3 as rotorFromDirections } from './rotorFromDirectionsE3';
@@ -23,24 +23,60 @@ import { wedgeXY } from './wedgeXY';
 import { wedgeYZ } from './wedgeYZ';
 import { wedgeZX } from './wedgeZX';
 // Symbolic constants for the coordinate indices into the data array.
+/**
+ * @hidden
+ */
 var COORD_SCALAR = 0;
+/**
+ * @hidden
+ */
 var COORD_X = 1;
+/**
+ * @hidden
+ */
 var COORD_Y = 2;
+/**
+ * @hidden
+ */
 var COORD_Z = 3;
+/**
+ * @hidden
+ */
 var COORD_XY = 4;
+/**
+ * @hidden
+ */
 var COORD_YZ = 5;
+/**
+ * @hidden
+ */
 var COORD_ZX = 6;
+/**
+ * @hidden
+ */
 var COORD_PSEUDO = 7;
 // FIXME: Change to Canonical ordering.
+/**
+ * @hidden
+ */
 var BASIS_LABELS = ["1", "e1", "e2", "e3", "e12", "e23", "e31", "e123"];
+/**
+ * @hidden
+ */
 var zero = function zero() {
     return [0, 0, 0, 0, 0, 0, 0, 0];
 };
+/**
+ * @hidden
+ */
 var scalar = function scalar(a) {
     var coords = zero();
     coords[COORD_SCALAR] = a;
     return coords;
 };
+/**
+ * @hidden
+ */
 var vector = function vector(x, y, z) {
     var coords = zero();
     coords[COORD_X] = x;
@@ -48,6 +84,9 @@ var vector = function vector(x, y, z) {
     coords[COORD_Z] = z;
     return coords;
 };
+/**
+ * @hidden
+ */
 var bivector = function bivector(yz, zx, xy) {
     var coords = zero();
     coords[COORD_YZ] = yz;
@@ -55,6 +94,9 @@ var bivector = function bivector(yz, zx, xy) {
     coords[COORD_XY] = xy;
     return coords;
 };
+/**
+ * @hidden
+ */
 var spinor = function spinor(a, yz, zx, xy) {
     var coords = zero();
     coords[COORD_SCALAR] = a;
@@ -63,6 +105,9 @@ var spinor = function spinor(a, yz, zx, xy) {
     coords[COORD_XY] = xy;
     return coords;
 };
+/**
+ * @hidden
+ */
 var multivector = function multivector(a, x, y, z, yz, zx, xy, b) {
     var coords = zero();
     coords[COORD_SCALAR] = a;
@@ -75,11 +120,17 @@ var multivector = function multivector(a, x, y, z, yz, zx, xy, b) {
     coords[COORD_PSEUDO] = b;
     return coords;
 };
+/**
+ * @hidden
+ */
 var pseudo = function pseudo(b) {
     var coords = zero();
     coords[COORD_PSEUDO] = b;
     return coords;
 };
+/**
+ * @hidden
+ */
 function coordinates(m) {
     var coords = zero();
     coords[COORD_SCALAR] = m.a;
@@ -94,6 +145,7 @@ function coordinates(m) {
 }
 /**
  * cos(a, b) = (a | b) / |a||b|
+ * @hidden
  */
 function cosVectorVector(a, b) {
     function scp(c, d) {
@@ -106,6 +158,7 @@ function cosVectorVector(a, b) {
 }
 /**
  * Scratch variable for holding cosines.
+ * @hidden
  */
 var cosines = [];
 /**

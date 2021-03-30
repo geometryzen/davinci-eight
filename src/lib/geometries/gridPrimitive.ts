@@ -1,22 +1,22 @@
-import { Color } from '../core/Color';
-import { GeometryMode } from './GeometryMode';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { GridLines } from '../atoms/GridLines';
-import { GridGeometryOptions } from './GridGeometryOptions';
 import { GridPoints } from '../atoms/GridPoints';
 import { GridPrimitive } from '../atoms/GridPrimitive';
 import { GridTriangleStrip } from '../atoms/GridTriangleStrip';
+import { Vertex } from '../atoms/Vertex';
 import { isDefined } from '../checks/isDefined';
 import { isFunction } from '../checks/isFunction';
 import { mustBeBoolean } from '../checks/mustBeBoolean';
 import { mustBeNumber } from '../checks/mustBeNumber';
+import { Color } from '../core/Color';
+import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { Primitive } from '../core/Primitive';
 import { Vector2 } from '../math/Vector2';
 import { Vector3 } from '../math/Vector3';
-import { Vertex } from '../atoms/Vertex';
+import { GeometryMode } from './GeometryMode';
+import { GridGeometryOptions } from './GridGeometryOptions';
 
 /**
- * 
+ * @hidden
  */
 function topology(mode: GeometryMode, uSegments: number, uClosed: boolean, vSegments: number, vClosed: boolean): GridPrimitive {
     switch (mode) {
@@ -38,6 +38,7 @@ function topology(mode: GeometryMode, uSegments: number, uClosed: boolean, vSegm
 /**
  * Decorates the vertex with aPosition, aNormal, and aColor attributes,
  * but only if these functions are provided in the options.
+ * @hidden
  */
 function transformVertex(vertex: Vertex, u: number, v: number, options: GridGeometryOptions) {
 
@@ -61,6 +62,9 @@ function transformVertex(vertex: Vertex, u: number, v: number, options: GridGeom
     }
 }
 
+/**
+ * @hidden
+ */
 export function gridPrimitive(options: GridGeometryOptions): Primitive {
 
     const uMin: number = isDefined(options.uMin) ? mustBeNumber('uMin', options.uMin) : 0;

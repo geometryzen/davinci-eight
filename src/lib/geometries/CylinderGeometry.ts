@@ -1,22 +1,25 @@
-import { ContextManager } from '../core/ContextManager';
-import { CylinderGeometryOptions } from './CylinderGeometryOptions';
-import { Geometric3 } from '../math/Geometric3';
-import { GeometryElements } from '../core/GeometryElements';
-import { GeometryMode } from './GeometryMode';
 import { isDefined } from '../checks/isDefined';
 import { mustBeBoolean } from '../checks/mustBeBoolean';
 import { mustBeInteger } from '../checks/mustBeInteger';
 import { mustBeNumber } from '../checks/mustBeNumber';
+import { ContextManager } from '../core/ContextManager';
+import { GeometryElements } from '../core/GeometryElements';
 import { Primitive } from '../core/Primitive';
 import { arc3 } from '../geometries/arc3';
 import { SimplexPrimitivesBuilder } from '../geometries/SimplexPrimitivesBuilder';
+import { Geometric3 } from '../math/Geometric3';
+import { vec } from '../math/R3';
 import { Spinor3 } from '../math/Spinor3';
 import { SpinorE3 } from '../math/SpinorE3';
 import { Vector2 } from '../math/Vector2';
 import { Vector3 } from '../math/Vector3';
 import { VectorE3 } from '../math/VectorE3';
-import { vec } from '../math/R3';
+import { CylinderGeometryOptions } from './CylinderGeometryOptions';
+import { GeometryMode } from './GeometryMode';
 
+/**
+ * @hidden
+ */
 const canonicalAxis = vec(0, 1, 0);
 // const canonicalMeridian = vec(0, 0, 1);
 
@@ -35,6 +38,7 @@ const canonicalAxis = vec(0, 1, 0);
  * @param tangents
  * @param vertices
  * @param uvs
+ * @hidden
  */
 function computeWallVertices(height: VectorE3, radius: VectorE3, clockwise: boolean, stress: VectorE3, tilt: SpinorE3, offset: VectorE3, angle: number, generator: SpinorE3, heightSegments: number, thetaSegments: number, points: Vector3[], tangents: Spinor3[], vertices: number[][], uvs: Vector2[][]) {
     /**
@@ -105,7 +109,7 @@ function computeWallVertices(height: VectorE3, radius: VectorE3, clockwise: bool
 }
 
 /**
- *
+ * @hidden
  */
 class CylinderSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
     /**
@@ -287,6 +291,9 @@ class CylinderSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
     }
 }
 
+/**
+ * @hidden
+ */
 function getAxis(options: CylinderGeometryOptions = { kind: 'CylinderGeometry' }): VectorE3 {
     if (isDefined(options.axis)) {
         return options.axis;
@@ -299,6 +306,9 @@ function getAxis(options: CylinderGeometryOptions = { kind: 'CylinderGeometry' }
     }
 }
 
+/**
+ * @hidden
+ */
 function getMeridian(options: CylinderGeometryOptions = { kind: 'CylinderGeometry' }): VectorE3 {
     if (isDefined(options.meridian)) {
         return options.meridian;
@@ -313,6 +323,7 @@ function getMeridian(options: CylinderGeometryOptions = { kind: 'CylinderGeometr
 
 /**
  * TODO: Support GeometryMode.
+ * @hidden
  */
 function cylinderPrimitive(options: CylinderGeometryOptions = { kind: 'CylinderGeometry' }): Primitive {
 
@@ -355,6 +366,9 @@ function cylinderPrimitive(options: CylinderGeometryOptions = { kind: 'CylinderG
     }
 }
 
+/**
+ * @hidden
+ */
 function baseOptions(options: CylinderGeometryOptions): { tilt: SpinorE3 } {
     const axis = getAxis(options);
     const tilt = Geometric3.rotorFromDirections(canonicalAxis, axis);

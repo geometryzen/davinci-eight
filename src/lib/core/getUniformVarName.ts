@@ -1,8 +1,9 @@
-import { isDefined } from '../checks/isDefined';
 import { expectArg } from '../checks/expectArg';
+import { isDefined } from '../checks/isDefined';
 
 /**
  * Policy for how a uniform variable name is determined.
+ * @hidden
  */
 export function getUniformVarName(uniform: { name?: string }, varName: string) {
     expectArg('uniform', uniform).toBeObject();

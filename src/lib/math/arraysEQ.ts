@@ -2,6 +2,9 @@ import { isDefined } from '../checks/isDefined';
 import { isNull } from '../checks/isNull';
 import { isUndefined } from '../checks/isUndefined';
 
+/**
+ * @hidden
+ */
 export function arraysEQ<T>(a: T[], b: T[]): boolean {
   if (isDefined(a)) {
     if (isDefined(b)) {

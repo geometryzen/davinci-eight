@@ -1,11 +1,17 @@
 import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
+import { Vector3 } from '../math/Vector3';
 import { Simplex } from './Simplex';
 import { simplicesToGeometryMeta } from './simplicesToGeometryMeta';
 import { simplicesToPrimitive } from './simplicesToPrimitive';
 import { triangle } from './triangle';
-import { Vector3 } from '../math/Vector3';
 
+/**
+ * @hidden
+ */
 const VERTICES_PER_FACE = 3;
+/**
+ * @hidden
+ */
 const COORDS_PER_POSITION = 3;
 
 describe("simplicesToPrimitive", function () {

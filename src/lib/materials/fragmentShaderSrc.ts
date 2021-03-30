@@ -1,16 +1,22 @@
-import { AttribMetaInfo } from '../core/AttribMetaInfo';
-import { config } from '../config';
-import { getUniformVarName } from '../core/getUniformVarName';
-import { GraphicsProgramSymbols as GPS } from '../core/GraphicsProgramSymbols';
 import { mustBeBoolean } from '../checks/mustBeBoolean';
 import { mustBeDefined } from '../checks/mustBeDefined';
+import { config } from '../config';
+import { AttribMetaInfo } from '../core/AttribMetaInfo';
+import { getUniformVarName } from '../core/getUniformVarName';
+import { GraphicsProgramSymbols as GPS } from '../core/GraphicsProgramSymbols';
 import { UniformMetaInfo } from '../core/UniformMetaInfo';
 import { GLSLESVersion } from './glslVersion';
 
+/**
+ * @hidden
+ */
 function getUniformCodeName(uniforms: { [name: string]: UniformMetaInfo }, name: string) {
   return getUniformVarName(uniforms[name], name);
 }
 
+/**
+ * @hidden
+ */
 function getFragColorVarName(version: GLSLESVersion) {
   if (version === GLSLESVersion.ThreeHundred) {
     return "fragColor";
@@ -20,6 +26,9 @@ function getFragColorVarName(version: GLSLESVersion) {
   }
 }
 
+/**
+ * @hidden
+ */
 function getFragmentShaderVaryingModifier(version: GLSLESVersion) {
   if (version === GLSLESVersion.ThreeHundred) {
     return "in";
@@ -30,6 +39,9 @@ function getFragmentShaderVaryingModifier(version: GLSLESVersion) {
 }
 
 
+/**
+ * @hidden
+ */
 function getTexture2D(version: GLSLESVersion) {
   if (version === GLSLESVersion.ThreeHundred) {
     return "texture";
@@ -39,6 +51,9 @@ function getTexture2D(version: GLSLESVersion) {
   }
 }
 
+/**
+ * @hidden
+ */
 function emitFragmentFloatPrecision(version: GLSLESVersion): boolean {
   if (version === GLSLESVersion.ThreeHundred) {
     return true;
@@ -48,12 +63,22 @@ function emitFragmentFloatPrecision(version: GLSLESVersion): boolean {
   }
 }
 
+/**
+ * @hidden
+ */
 const SPACE = ' ';
+/**
+ * @hidden
+ */
 const UNIFORM = 'uniform' + SPACE;
+/**
+ * @hidden
+ */
 const SEMICOLON = ';';
 
 /**
  * Generates a fragment shader
+ * @hidden
  */
 export function fragmentShaderSrc(attributes: { [name: string]: AttribMetaInfo }, uniforms: { [name: string]: UniformMetaInfo }, vColor: boolean, vCoords: boolean, vLight: boolean, version: GLSLESVersion) {
 

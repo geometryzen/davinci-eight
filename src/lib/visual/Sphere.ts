@@ -22,6 +22,9 @@ import { SphereOptions } from './SphereOptions';
 import { spinorE3Object } from './spinorE3Object';
 import { vectorE3Object } from './vectorE3Object';
 
+/**
+ * @hidden
+ */
 const RADIUS_NAME = 'radius';
 
 /**

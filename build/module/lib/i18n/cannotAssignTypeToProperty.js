@@ -1,4 +1,7 @@
 import { mustBeString } from '../checks/mustBeString';
+/**
+ * @hidden
+ */
 export function cannotAssignTypeToProperty(type, name) {
     mustBeString('type', type);
     mustBeString('name', name);

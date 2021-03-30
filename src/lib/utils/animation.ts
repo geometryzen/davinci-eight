@@ -1,13 +1,19 @@
 import { BrowserWindow } from '../base/BrowserWindow';
-import { mustBeNumber } from '../checks/mustBeNumber';
-import { WindowAnimationOptions } from './WindowAnimationOptions';
-import { WindowAnimationRunner } from '../utils/WindowAnimationRunner';
 import { expectArg } from '../checks/expectArg';
+import { mustBeNumber } from '../checks/mustBeNumber';
+import { WindowAnimationRunner } from '../utils/WindowAnimationRunner';
+import { WindowAnimationOptions } from './WindowAnimationOptions';
 
+/**
+ * @hidden
+ */
 function defaultSetUp(): void {
   // Do nothing yet.
 }
 
+/**
+ * @hidden
+ */
 function defaultTearDown(animateException: any): void {
   if (animateException) {
     const message = `Exception raised during animate function: ${animateException}`;
@@ -15,12 +21,18 @@ function defaultTearDown(animateException: any): void {
   }
 }
 
+/**
+ * @hidden
+ */
 function defaultTerminate(time: number): boolean {
   mustBeNumber('time', time);
   // Never ending, because whenever asked we say nee.
   return false;
 }
 
+/**
+ * @hidden
+ */
 export function animation(animate: (time: number) => void, options: WindowAnimationOptions = {}): WindowAnimationRunner {
 
   const STATE_INITIAL = 1;

@@ -1,23 +1,41 @@
-import { config } from '../config';
 import { isDefined } from '../checks/isDefined';
+import { config } from '../config';
 var statistics = {};
 var chatty = true;
 var skip = true;
 var trace = false;
 var traceName = void 0;
+/**
+ * @hidden
+ */
 var LOGGING_NAME_REF_CHANGE = 'refChange';
+/**
+ * @hidden
+ */
 function prefix(message) {
     return LOGGING_NAME_REF_CHANGE + ": " + message;
 }
+/**
+ * @hidden
+ */
 function log(message) {
     return config.log(prefix(message));
 }
+/**
+ * @hidden
+ */
 function warn(message) {
     return config.warn(prefix(message));
 }
+/**
+ * @hidden
+ */
 function error(message) {
     return config.error(prefix(message));
 }
+/**
+ * @hidden
+ */
 function garbageCollect() {
     var uuids = Object.keys(statistics);
     uuids.forEach(function (uuid) {
@@ -27,6 +45,9 @@ function garbageCollect() {
         }
     });
 }
+/**
+ * @hidden
+ */
 function computeOutstanding() {
     var uuids = Object.keys(statistics);
     var uuidsLength = uuids.length;
@@ -38,6 +59,9 @@ function computeOutstanding() {
     }
     return total;
 }
+/**
+ * @hidden
+ */
 function stop() {
     if (skip) {
         warn("Nothing to see because skip mode is " + skip);
@@ -45,9 +69,15 @@ function stop() {
     garbageCollect();
     return computeOutstanding();
 }
+/**
+ * @hidden
+ */
 function outstandingMessage(outstanding) {
     return "There are " + outstanding + " outstanding reference counts.";
 }
+/**
+ * @hidden
+ */
 function dump() {
     var outstanding = stop();
     if (outstanding > 0) {
@@ -62,6 +92,9 @@ function dump() {
     }
     return outstanding;
 }
+/**
+ * @hidden
+ */
 export function refChange(uuid, name, change) {
     if (change === void 0) { change = 0; }
     if (change !== 0 && skip) {

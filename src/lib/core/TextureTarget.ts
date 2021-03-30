@@ -6,6 +6,9 @@ export enum TextureTarget {
     TEXTURE = 0x1702
 }
 
+/**
+ * @hidden
+ */
 export function checkTextureTarget(name: string, target: TextureTarget): void {
     switch (target) {
         case TextureTarget.TEXTURE_2D:

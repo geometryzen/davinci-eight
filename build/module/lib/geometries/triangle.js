@@ -1,7 +1,10 @@
+import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { computeFaceNormals } from '../geometries/computeFaceNormals';
 import { Simplex } from '../geometries/Simplex';
 import { SimplexMode } from '../geometries/SimplexMode';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
+/**
+ * @hidden
+ */
 export function triangle(a, b, c, attributes, triangles) {
     if (attributes === void 0) { attributes = {}; }
     if (triangles === void 0) { triangles = []; }

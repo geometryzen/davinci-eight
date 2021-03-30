@@ -2,21 +2,36 @@ import { __extends } from "tslib";
 import { RevolutionSimplexPrimitivesBuilder } from '../geometries/RevolutionSimplexPrimitivesBuilder';
 import { Spinor3 } from '../math/Spinor3';
 import { Vector3 } from '../math/Vector3';
+/**
+ * @hidden
+ */
 function signum(x) {
     return x >= 0 ? +1 : -1;
 }
+/**
+ * @hidden
+ */
 function bigger(a, b) {
     return a >= b;
 }
+/**
+ * @hidden
+ */
 var permutation = function (direction) {
     var x = Math.abs(direction.x);
     var y = Math.abs(direction.y);
     var z = Math.abs(direction.z);
     return bigger(x, z) ? (bigger(x, y) ? 0 : 1) : (bigger(y, z) ? 1 : 2);
 };
+/**
+ * @hidden
+ */
 var orientation = function (cardinalIndex, direction) {
     return signum(direction.getComponent(cardinalIndex));
 };
+/**
+ * @hidden
+ */
 function nearest(direction) {
     var cardinalIndex = permutation(direction);
     switch (cardinalIndex) {
@@ -32,6 +47,9 @@ function nearest(direction) {
     }
     return Vector3.copy(direction);
 }
+/**
+ * @hidden
+ */
 var ArrowSimplexPrimitivesBuilder = /** @class */ (function (_super) {
     __extends(ArrowSimplexPrimitivesBuilder, _super);
     function ArrowSimplexPrimitivesBuilder() {

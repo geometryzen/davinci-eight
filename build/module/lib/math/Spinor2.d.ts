@@ -1,10 +1,10 @@
+import { VectorN } from '../atoms/VectorN';
 import { LockableMixin as Lockable } from '../core/Lockable';
-import { Pseudo } from './Pseudo';
 import { SpinorE2 } from '../math/SpinorE2';
 import { VectorE2 } from '../math/VectorE2';
-import { VectorN } from '../atoms/VectorN';
+import { Pseudo } from './Pseudo';
 /**
- *
+ * @hidden
  */
 export declare class Spinor2 implements SpinorE2, Lockable, VectorN<number> {
     isLocked: () => boolean;

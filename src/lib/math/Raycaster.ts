@@ -1,6 +1,9 @@
 import { Ray } from './Ray';
 import { Vector3 } from './Vector3';
 
+/**
+ * @hidden
+ */
 export interface Raycastable {
     visible: boolean;
     distance: number;
@@ -10,10 +13,16 @@ export interface Raycastable {
 
 //    linePrecision: 1,
 
+/**
+ * @hidden
+ */
 function ascSort(a: Raycastable, b: Raycastable): number {
     return a.distance - b.distance;
 }
 
+/**
+ * @hidden
+ */
 function intersectObject(object: Raycastable, raycaster: Raycaster, intersects: Raycastable[], recursive: boolean) {
 
     if (object.visible === false) return;
@@ -26,6 +35,9 @@ function intersectObject(object: Raycastable, raycaster: Raycaster, intersects: 
     }
 }
 
+/**
+ * @hidden
+ */
 export class Raycaster {
     ray: Ray;
     near: number;

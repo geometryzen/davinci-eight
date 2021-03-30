@@ -1,5 +1,8 @@
 import { GeometricE2 } from '../math/GeometricE2';
 
+/**
+ * @hidden
+ */
 export function compG2Get(m: GeometricE2, index: number): number {
     switch (index) {
         case 0: {

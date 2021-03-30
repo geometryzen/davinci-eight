@@ -4,6 +4,9 @@ import { ImageTexture } from '../core/ImageTexture';
 import { Material } from '../core/Material';
 import { Mesh } from '../core/Mesh';
 import { VectorE3 } from '../math/VectorE3';
+/**
+ * @hidden
+ */
 export declare enum MinecraftPartKind {
     Head = 0,
     Helm = 1,
@@ -18,6 +21,9 @@ export declare enum MinecraftPartKind {
     LeftLegLayer2 = 10,
     LeftArmLayer2 = 11
 }
+/**
+ * @hidden
+ */
 export interface MinecraftInternalBodyPartOptions {
     height: number;
     partKind: MinecraftPartKind;

@@ -1,17 +1,35 @@
 import { BrowserWindow } from '../base/BrowserWindow';
-import { Geometric3 } from '../math/Geometric3';
 import { getViewAttitude } from '../facets/getViewAttitude';
+import { Geometric3 } from '../math/Geometric3';
 import { Spinor3 } from '../math/Spinor3';
 import { Vector3 } from '../math/Vector3';
 import { VectorE3 } from '../math/VectorE3';
 import { ViewControls } from './ViewControls';
 
 // Scratch variables to aboid creating temporary objects.
+/**
+ * @hidden
+ */
 const a: Geometric3 = Geometric3.zero(false);
+/**
+ * @hidden
+ */
 const b: Geometric3 = Geometric3.zero(false);
+/**
+ * @hidden
+ */
 const d: Geometric3 = Geometric3.zero(false);
+/**
+ * @hidden
+ */
 const B: Spinor3 = Spinor3.one.clone();
+/**
+ * @hidden
+ */
 const R: Spinor3 = Spinor3.one.clone();
+/**
+ * @hidden
+ */
 const X: Vector3 = Vector3.zero();
 
 /**

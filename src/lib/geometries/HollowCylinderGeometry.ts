@@ -1,17 +1,24 @@
-import { ContextManager } from '../core/ContextManager';
-import { CylindricalShellBuilder } from '../shapes/CylindricalShellBuilder';
-import { GeometryElements } from '../core/GeometryElements';
-import { HollowCylinderGeometryOptions } from './HollowCylinderGeometryOptions';
-import { Primitive } from '../core/Primitive';
-import { RingBuilder } from '../shapes/RingBuilder';
 import { reduce } from '../atoms/reduce';
+import { ContextManager } from '../core/ContextManager';
+import { GeometryElements } from '../core/GeometryElements';
+import { Primitive } from '../core/Primitive';
 import { Vector3 } from '../math/Vector3';
+import { CylindricalShellBuilder } from '../shapes/CylindricalShellBuilder';
+import { RingBuilder } from '../shapes/RingBuilder';
+import { HollowCylinderGeometryOptions } from './HollowCylinderGeometryOptions';
 
+/**
+ * @hidden
+ */
 const e2 = Vector3.vector(0, 1, 0);
+/**
+ * @hidden
+ */
 const e3 = Vector3.vector(0, 0, 1);
 
 /**
  * Generates a Primitive from the specified options.
+ * @hidden
  */
 function hollowCylinderPrimitive(options: HollowCylinderGeometryOptions = { kind: 'HollowCylinderGeometry' }): Primitive {
     const axis = (typeof options.axis === 'object') ? Vector3.copy(options.axis) : e2;

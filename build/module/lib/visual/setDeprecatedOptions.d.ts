@@ -4,5 +4,6 @@ import { Mesh } from '../core/Mesh';
 /**
  * Deprecated support for 'position' and 'attitude' in options.
  * Implementations should use the corresponding properties instead.
+ * @hidden
  */
 export declare function setDeprecatedOptions(mesh: Mesh<Geometry, Material>, options: {}): void;

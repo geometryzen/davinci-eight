@@ -1,3 +1,6 @@
+/**
+ * @hidden
+ */
 export function approx(coords: number[], n: number): void {
     let max = 0;
     const iLen = coords.length;

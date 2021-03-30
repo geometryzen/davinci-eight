@@ -1,3 +1,6 @@
+/**
+ * @hidden
+ */
 export function normVectorE3(vector) {
     var x = vector.x;
     var y = vector.y;

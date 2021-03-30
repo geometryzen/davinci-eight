@@ -2,10 +2,16 @@ import { Attribute } from '../core/Attribute';
 import { AttributeSizeType } from '../core/AttributeSizeType';
 import { DataType } from '../core/DataType';
 
+/**
+ * @hidden
+ */
 function isVectorN(values: number[]): boolean {
     return Array.isArray(values);
 }
 
+/**
+ * @hidden
+ */
 function checkValues(values: number[]): number[] {
     if (!isVectorN(values)) {
         throw new Error("values must be a number[]");
@@ -13,10 +19,16 @@ function checkValues(values: number[]): number[] {
     return values;
 }
 
+/**
+ * @hidden
+ */
 function isExactMultipleOf(numer: number, denom: number): boolean {
     return numer % denom === 0;
 }
 
+/**
+ * @hidden
+ */
 function checkSize(size: AttributeSizeType, values: number[]): AttributeSizeType {
     if (typeof size === 'number') {
         if (!isExactMultipleOf(values.length, size)) {

@@ -1,6 +1,9 @@
 import { compG2Get as get } from '../math/compG2Get';
-import { mulE2 } from '../math/mulE2';
 import { compG2Set as set } from '../math/compG2Set';
+import { mulE2 } from '../math/mulE2';
+/**
+ * @hidden
+ */
 export function mulG2(a, b, out) {
     var a0 = get(a, 0);
     var a1 = get(a, 1);

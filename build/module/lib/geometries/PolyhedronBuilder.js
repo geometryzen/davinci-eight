@@ -1,20 +1,32 @@
 import { __extends } from "tslib";
-import { SimplexPrimitivesBuilder } from '../geometries/SimplexPrimitivesBuilder';
+import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { Simplex } from '../geometries/Simplex';
 import { SimplexMode } from '../geometries/SimplexMode';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
+import { SimplexPrimitivesBuilder } from '../geometries/SimplexPrimitivesBuilder';
 import { Vector2 } from '../math/Vector2';
 import { Vector3 } from '../math/Vector3';
 /**
  * Scratch variables to avoid creating temporary objects.
  */
+/**
+ * @hidden
+ */
 var a = Vector3.zero();
+/**
+ * @hidden
+ */
 var b = Vector3.zero();
 // Angle around the Y axis, counter-clockwise when looking from above.
+/**
+ * @hidden
+ */
 function azimuth(vector) {
     return Math.atan2(vector.z, -vector.x);
 }
 // Angle above the XZ plane.
+/**
+ * @hidden
+ */
 function inclination(pos) {
     return Math.atan2(-pos.y, Math.sqrt(pos.x * pos.x + pos.z * pos.z));
 }
@@ -24,6 +36,7 @@ function inclination(pos) {
  * Sets a hidden `index` property to the index in `points`
  * Computes the texture coordinates and sticks them in the hidden `uv` property as a Vector2.
  * OK!
+ * @hidden
  */
 function prepare(point, points) {
     // Copy the point and project it onto the unit sphere.
@@ -39,6 +52,9 @@ function prepare(point, points) {
     return vertex;
 }
 // Texture fixing helper.
+/**
+ * @hidden
+ */
 function correctUV(uv, vector, azimuth) {
     if ((azimuth < 0) && (uv.x === 1))
         uv = new Vector2([uv.x - 1, uv.y]);
@@ -48,6 +64,7 @@ function correctUV(uv, vector, azimuth) {
 }
 /**
  * Computes the normal associated with the three position vectors taken to represent a triangle with CCW-outside orientation.
+ * @hidden
  */
 function normal(v1, v2, v3) {
     a.copy(v2).sub(v1);
@@ -57,6 +74,7 @@ function normal(v1, v2, v3) {
 /**
  * In elementary geometry, a polyhedron is a solid in three dimensions with
  * flat polygonal faces, straight edges and sharp corners or vertices.
+ * @hidden
  */
 var PolyhedronBuilder = /** @class */ (function (_super) {
     __extends(PolyhedronBuilder, _super);

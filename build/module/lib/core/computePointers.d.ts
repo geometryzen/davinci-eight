@@ -1,7 +1,7 @@
 import { Attribute } from './Attribute';
 import { VertexAttribPointer } from './VertexAttribPointer';
 /**
- * @deprecated
+ * @hidden
  */
 export declare function computePointers(attributes: {
     [name: string]: Attribute;

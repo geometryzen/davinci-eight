@@ -1,9 +1,9 @@
-import { Simplex } from '../geometries/Simplex';
-import { quadrilateral } from '../geometries/quadrilateral';
+import { VectorN } from '../atoms/VectorN';
 import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
+import { quadrilateral } from '../geometries/quadrilateral';
+import { Simplex } from '../geometries/Simplex';
 import { Vector2 } from '../math/Vector2';
 import { Vector3 } from '../math/Vector3';
-import { VectorN } from '../atoms/VectorN';
 
 /**
  * cube as Simplex[]
@@ -15,6 +15,7 @@ import { VectorN } from '../atoms/VectorN';
  *  | |v7---|-|v4
  *  |/      |/
  *  v2------v3
+ * @hidden
  */
 export function cube(size = 1): Simplex[] {
 

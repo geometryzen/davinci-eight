@@ -1,9 +1,12 @@
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { isDefined } from '../checks/isDefined';
+import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
+import { SimplexMode } from '../geometries/SimplexMode';
 import { LineMaterial } from '../materials/LineMaterial';
 import { MeshMaterial } from '../materials/MeshMaterial';
 import { PointMaterial } from '../materials/PointMaterial';
-import { SimplexMode } from '../geometries/SimplexMode';
+/**
+ * @hidden
+ */
 function pointMaterialOptions() {
     var options = { kind: 'PointMaterial', attributes: {}, uniforms: {} };
     options.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
@@ -15,6 +18,9 @@ function pointMaterialOptions() {
     options.uniforms[GraphicsProgramSymbols.UNIFORM_POINT_SIZE] = 'float';
     return options;
 }
+/**
+ * @hidden
+ */
 function lineMaterialOptions() {
     var options = { kind: 'LineMaterial', attributes: {}, uniforms: {} };
     options.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
@@ -25,6 +31,9 @@ function lineMaterialOptions() {
     options.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
     return options;
 }
+/**
+ * @hidden
+ */
 function meshMaterialOptions(behaviors) {
     var options = { kind: 'MeshMaterial', attributes: {}, uniforms: {} };
     behaviors.colored = isDefined(behaviors.colored) ? behaviors.colored : true;
@@ -55,7 +64,7 @@ function meshMaterialOptions(behaviors) {
     return options;
 }
 /**
- *
+ * @hidden
  */
 export function materialFromOptions(contextManager, simplexMode, behaviors) {
     switch (simplexMode) {

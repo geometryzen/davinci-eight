@@ -19,6 +19,9 @@ export enum Usage {
     DYNAMIC_DRAW = 0x88E8
 }
 
+/**
+ * @hidden
+ */
 export function checkUsage(name: string, usage: Usage): void {
     switch (usage) {
         case Usage.STREAM_DRAW:

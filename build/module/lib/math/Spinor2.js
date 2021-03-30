@@ -1,37 +1,65 @@
-import { applyMixins } from '../utils/applyMixins';
-import { approx } from './approx';
-import { dotVectorCartesianE2 } from '../math/dotVectorCartesianE2';
-import { lock, LockableMixin as Lockable, TargetLockedError } from '../core/Lockable';
 import { mustBeInteger } from '../checks/mustBeInteger';
 import { mustBeNumber } from '../checks/mustBeNumber';
 import { mustBeObject } from '../checks/mustBeObject';
+import { lock, LockableMixin as Lockable, TargetLockedError } from '../core/Lockable';
 import { notSupported } from '../i18n/notSupported';
+import { dotVectorCartesianE2 } from '../math/dotVectorCartesianE2';
 import { quadSpinorE2 as quadSpinor } from '../math/quadSpinorE2';
 import { rotorFromDirectionsE2 } from '../math/rotorFromDirectionsE2';
 import { wedgeXY } from '../math/wedgeXY';
+import { applyMixins } from '../utils/applyMixins';
+import { approx } from './approx';
 // Symbolic constants for the coordinate indices into the coords array.
+/**
+ * @hidden
+ */
 var COORD_SCALAR = 1;
+/**
+ * @hidden
+ */
 var COORD_PSEUDO = 0;
 /**
  * Coordinates corresponding to basis labels.
+ * @hidden
  */
 function coordinates(m) {
     return [m.b, m.a];
 }
+/**
+ * @hidden
+ */
 function one() {
     var coords = [0, 0];
     coords[COORD_SCALAR] = 1;
     coords[COORD_PSEUDO] = 0;
     return coords;
 }
+/**
+ * @hidden
+ */
 var abs = Math.abs;
+/**
+ * @hidden
+ */
 var atan2 = Math.atan2;
+/**
+ * @hidden
+ */
 var log = Math.log;
+/**
+ * @hidden
+ */
 var cos = Math.cos;
+/**
+ * @hidden
+ */
 var sin = Math.sin;
+/**
+ * @hidden
+ */
 var sqrt = Math.sqrt;
 /**
- *
+ * @hidden
  */
 var Spinor2 = /** @class */ (function () {
     /**

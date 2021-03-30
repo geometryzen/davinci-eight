@@ -1,3 +1,6 @@
-export function isUndefined(arg: any): boolean {
+/**
+ * @hidden
+ */
+ export function isUndefined(arg: any): boolean {
   return (typeof arg === 'undefined');
 }

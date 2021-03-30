@@ -1,5 +1,8 @@
 import { RevolutionSimplexPrimitivesBuilder } from '../geometries/RevolutionSimplexPrimitivesBuilder';
 import { Vector3 } from '../math/Vector3';
+/**
+ * @hidden
+ */
 export declare class ArrowSimplexPrimitivesBuilder extends RevolutionSimplexPrimitivesBuilder {
     lengthCone: number;
     radiusCone: number;

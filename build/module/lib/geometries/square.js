@@ -1,5 +1,5 @@
-import { quadrilateral } from '../geometries/quadrilateral';
 import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
+import { quadrilateral } from '../geometries/quadrilateral';
 import { Vector2 } from '../math/Vector2';
 import { Vector3 } from '../math/Vector3';
 // square
@@ -9,6 +9,9 @@ import { Vector3 } from '../math/Vector3';
 //  |       |
 //  c-------d
 //
+/**
+ * @hidden
+ */
 export function square(size) {
     if (size === void 0) { size = 1; }
     var s = size / 2;

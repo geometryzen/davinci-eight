@@ -15,15 +15,27 @@ import { PointMaterial } from '../materials/PointMaterial';
 import { Vector3 } from '../math/Vector3';
 import { setColorOption } from './setColorOption';
 import { setDeprecatedOptions } from './setDeprecatedOptions';
+/**
+ * @hidden
+ */
 function aPositionDefault(u) {
     return Vector3.vector(u, 0, 0);
 }
+/**
+ * @hidden
+ */
 function isFunctionOrNull(x) {
     return isFunction(x) || isNull(x);
 }
+/**
+ * @hidden
+ */
 function isFunctionOrUndefined(x) {
     return isFunction(x) || isUndefined(x);
 }
+/**
+ * @hidden
+ */
 function transferGeometryOptions(options, geoOptions) {
     if (isFunctionOrNull(options.aPosition)) {
         geoOptions.aPosition = options.aPosition;
@@ -62,6 +74,9 @@ function transferGeometryOptions(options, geoOptions) {
         geoOptions.uSegments = 1;
     }
 }
+/**
+ * @hidden
+ */
 function configPoints(contextManager, options, curve) {
     var geoOptions = { kind: 'CurveGeometry' };
     transferGeometryOptions(options, geoOptions);
@@ -100,6 +115,9 @@ function configPoints(contextManager, options, curve) {
     curve.material = material;
     material.release();
 }
+/**
+ * @hidden
+ */
 function configLines(contextManager, options, curve) {
     var geoOptions = { kind: 'CurveGeometry' };
     transferGeometryOptions(options, geoOptions);

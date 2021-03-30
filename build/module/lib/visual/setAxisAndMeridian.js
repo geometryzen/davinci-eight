@@ -1,6 +1,7 @@
 import { isDefined } from '../checks/isDefined';
 /**
  * Sets the axis and meridian properties from options in the correct order.
+ * @hidden
  */
 export function setAxisAndMeridian(mesh, options) {
     if (isDefined(options.axis)) {

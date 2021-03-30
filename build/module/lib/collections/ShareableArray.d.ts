@@ -7,6 +7,7 @@ import { ShareableBase } from '../core/ShareableBase';
  * <p>
  * Provides a safer way to maintain reference counts than a native array.
  * </p>
+ * @hidden
  */
 export declare class ShareableArray<T extends Shareable> extends ShareableBase {
     /**

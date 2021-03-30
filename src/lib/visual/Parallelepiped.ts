@@ -1,16 +1,19 @@
+import { exchange } from '../base/exchange';
 import { BeginMode } from '../core/BeginMode';
 import { Color } from '../core/Color';
 import { ContextManager } from '../core/ContextManager';
-import { exchange } from '../base/exchange';
 import { Facet } from '../core/Facet';
-import { Geometric3 } from '../math/Geometric3';
 import { GeometryArrays } from '../core/GeometryArrays';
 import { Mesh } from '../core/Mesh';
 import { Primitive } from '../core/Primitive';
 import { refChange } from '../core/refChange';
 import { Renderable } from '../core/Renderable';
 import { ShaderMaterial } from '../materials/ShaderMaterial';
+import { Geometric3 } from '../math/Geometric3';
 
+/**
+ * @hidden
+ */
 const vertexShaderSrc = [
     "attribute vec3 aCoords;",
     "attribute float aFace;",
@@ -54,6 +57,9 @@ const vertexShaderSrc = [
     "}"
 ].join('\n');
 
+/**
+ * @hidden
+ */
 const fragmentShaderSrc = [
     "precision mediump float;",
     "varying highp vec4 vColor;",
@@ -65,6 +71,7 @@ const fragmentShaderSrc = [
 
 /**
  * Coordinates of the cube vertices.
+ * @hidden
  */
 const vertices = [
     [-0.5, -0.5, +0.5],
@@ -77,10 +84,22 @@ const vertices = [
     [+0.5, -0.5, -0.5],
 ];
 
+/**
+ * @hidden
+ */
 const aCoords: number[] = [];
+/**
+ * @hidden
+ */
 const aFaces: number[] = [];
 
+/**
+ * @hidden
+ */
 const ID = 'parallelepiped';
+/**
+ * @hidden
+ */
 const NAME = 'Parallelepiped';
 
 /**
@@ -88,6 +107,7 @@ const NAME = 'Parallelepiped';
  * A quad call pushes two triangles, making a square face.
  * The dimensionality of each position is 3, but could be changed.
  * The first parameter, a, is used to pick the color of the entire face.
+ * @hidden
  */
 function quad(a: number, b: number, c: number, d: number): void {
     const indices = [a, b, c, a, c, d];

@@ -1,4 +1,7 @@
 import { mustBeString } from '../checks/mustBeString';
+/**
+ * @hidden
+ */
 export function notImplemented(name) {
     mustBeString('name', name);
     var message = {

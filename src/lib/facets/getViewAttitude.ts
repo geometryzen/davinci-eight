@@ -2,14 +2,35 @@ import { Geometric3 } from '../math/Geometric3';
 import { Spinor3 } from '../math/Spinor3';
 import { VectorE3 } from '../math/VectorE3';
 
+/**
+ * @hidden
+ */
 const u: Geometric3 = Geometric3.zero(false);
+/**
+ * @hidden
+ */
 const v: Geometric3 = Geometric3.zero(false);
+/**
+ * @hidden
+ */
 const n: Geometric3 = Geometric3.zero(false);
 
+/**
+ * @hidden
+ */
 const e1: Geometric3 = Geometric3.E1;
+/**
+ * @hidden
+ */
 const e2: Geometric3 = Geometric3.E2;
+/**
+ * @hidden
+ */
 const e3: Geometric3 = Geometric3.E3;
 
+/**
+ * @hidden
+ */
 export function getViewAttitude(eye: VectorE3, look: VectorE3, up: VectorE3, R: Spinor3): void {
     // The attitude is obtained by computing the rotor required to rotate
     // the standard reference frame u, v, n = (e1, e2, e3) to the new reference

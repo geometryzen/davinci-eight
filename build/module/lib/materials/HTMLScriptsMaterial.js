@@ -5,6 +5,9 @@ import { mustBeObject } from '../checks/mustBeObject';
 import { mustBeString } from '../checks/mustBeString';
 import { mustSatisfy } from '../checks/mustSatisfy';
 import { ShaderMaterial } from './ShaderMaterial';
+/**
+ * @hidden
+ */
 function getHTMLElementById(elementId, dom) {
     var element = dom.getElementById(mustBeString('elementId', elementId));
     if (element) {
@@ -14,16 +17,25 @@ function getHTMLElementById(elementId, dom) {
         throw new Error("'" + elementId + "' is not a valid element identifier.");
     }
 }
+/**
+ * @hidden
+ */
 function vertexShaderSrc(vsId, dom) {
     mustBeString('vsId', vsId);
     mustBeObject('dom', dom);
     return getHTMLElementById(vsId, dom).textContent;
 }
+/**
+ * @hidden
+ */
 function fragmentShaderSrc(fsId, dom) {
     mustBeString('fsId', fsId);
     mustBeObject('dom', dom);
     return getHTMLElementById(fsId, dom).textContent;
 }
+/**
+ * @hidden
+ */
 function assign(elementId, dom, result) {
     var htmlElement = dom.getElementById(elementId);
     if (htmlElement instanceof HTMLScriptElement) {
@@ -52,6 +64,9 @@ function assign(elementId, dom, result) {
         }
     }
 }
+/**
+ * @hidden
+ */
 function detectShaderType(scriptIds, dom) {
     mustBeArray('scriptIds', scriptIds);
     mustSatisfy('scriptIds', scriptIds.length === 2, function () { return 'have two script element identifiers.'; });

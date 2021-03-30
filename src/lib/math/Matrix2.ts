@@ -1,11 +1,14 @@
-import { AbstractMatrix } from '../math/AbstractMatrix';
-import { det2x2 } from '../math/det2x2';
 import { isDefined } from '../checks/isDefined';
-import { lock, TargetLockedError } from '../core/Lockable';
 import { mustBeInteger } from '../checks/mustBeInteger';
 import { mustBeNumber } from '../checks/mustBeNumber';
+import { lock, TargetLockedError } from '../core/Lockable';
+import { AbstractMatrix } from '../math/AbstractMatrix';
+import { det2x2 } from '../math/det2x2';
 import { VectorE1 } from '../math/VectorE1';
 
+/**
+ * @hidden
+ */
 function add2x2(a: Float32Array, b: Float32Array, c: Float32Array): void {
 
     const a11 = a[0x0], a12 = a[0x2];

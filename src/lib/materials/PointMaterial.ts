@@ -12,6 +12,9 @@ import { glslVersionFromWebGLContextId } from './glslVersionFromWebGLContextId';
 import { PointMaterialOptions } from './PointMaterialOptions';
 import { ShaderMaterial } from './ShaderMaterial';
 
+/**
+ * @hidden
+ */
 function defaultOptions(options: PointMaterialOptions): void {
     if (!options.attributes) {
         options.attributes = {};
@@ -31,6 +34,9 @@ function defaultOptions(options: PointMaterialOptions): void {
     options.uniforms[GraphicsProgramSymbols.UNIFORM_POINT_SIZE] = 'float';
 }
 
+/**
+ * @hidden
+ */
 function shaderPropertiesCount(options: PointMaterialOptions): number {
     let count = Object.keys(options).length;
     if (options.version) {
@@ -39,6 +45,9 @@ function shaderPropertiesCount(options: PointMaterialOptions): number {
     return count;
 }
 
+/**
+ * @hidden
+ */
 function builder(contextId: 'webgl2' | 'webgl', options: PointMaterialOptions) {
     if (isNull(options) || isUndefined(options)) {
         options = { attributes: {}, uniforms: {} };
@@ -74,16 +83,28 @@ function builder(contextId: 'webgl2' | 'webgl', options: PointMaterialOptions) {
     return gpb;
 }
 
+/**
+ * @hidden
+ */
 function vertexShaderSrc(contextId: 'webgl2' | 'webgl', options?: PointMaterialOptions): string {
     return builder(contextId, options).vertexShaderSrc();
 }
 
+/**
+ * @hidden
+ */
 function fragmentShaderSrc(contextId: 'webgl2' | 'webgl', options?: PointMaterialOptions): string {
     return builder(contextId, options).fragmentShaderSrc();
 }
 
+/**
+ * @hidden
+ */
 const LOGGING_NAME_POINT_MATERIAL = 'PointMaterial';
 
+/**
+ * @hidden
+ */
 function getContextId(contextManager: ContextManager): 'webgl2' | 'webgl' {
     return mustBeNonNullObject('contextManager', contextManager).contextId;
 }

@@ -1,3 +1,6 @@
+/**
+ * @hidden
+ */
 export class Eight {
     /**
      * The GitHub URL of the repository.
@@ -41,6 +44,6 @@ export class Eight {
 }
 
 /**
- *
+ * @hidden
  */
 export const config = new Eight();

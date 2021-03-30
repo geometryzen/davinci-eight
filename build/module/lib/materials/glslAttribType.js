@@ -1,6 +1,9 @@
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { mustBeInteger } from '../checks/mustBeInteger';
 import { mustBeString } from '../checks/mustBeString';
+import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
+/**
+ * @hidden
+ */
 function sizeType(size) {
     mustBeInteger('size', size);
     switch (size) {
@@ -21,6 +24,9 @@ function sizeType(size) {
         }
     }
 }
+/**
+ * @hidden
+ */
 export function glslAttribType(key, size) {
     mustBeString('key', key);
     mustBeInteger('size', size);

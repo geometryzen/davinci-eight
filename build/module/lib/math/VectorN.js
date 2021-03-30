@@ -1,24 +1,39 @@
 import { isDefined } from '../checks/isDefined';
 import { isUndefined } from '../checks/isUndefined';
-import { lockable, TargetLockedError } from '../core/Lockable';
 import { mustSatisfy } from '../checks/mustSatisfy';
+import { lockable, TargetLockedError } from '../core/Lockable';
+/**
+ * @hidden
+ */
 function pushString(T) {
     return "push(value: " + T + "): number";
 }
+/**
+ * @hidden
+ */
 function popString(T) {
     return "pop(): " + T;
 }
+/**
+ * @hidden
+ */
 function verboten(operation) {
     return operation + " is not allowed for a fixed size vector";
 }
+/**
+ * @hidden
+ */
 function verbotenPush() {
     return verboten(pushString('T'));
 }
+/**
+ * @hidden
+ */
 function verbotenPop() {
     return verboten(popString('T'));
 }
 /**
- *
+ * @hidden
  */
 var VectorN = /** @class */ (function () {
     /**

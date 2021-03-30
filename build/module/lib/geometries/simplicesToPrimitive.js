@@ -1,15 +1,18 @@
+import { DrawAttribute } from '../atoms/DrawAttribute';
+import { DrawPrimitive } from '../atoms/DrawPrimitive';
+import { expectArg } from '../checks/expectArg';
 import { copyToArray } from '../collections/copyToArray';
-import { dataFromVectorN } from './dataFromVectorN';
+import { BeginMode } from '../core/BeginMode';
 import { DataType } from '../core/DataType';
 import { VectorN as DefaultVectorN } from '../math/VectorN';
-import { DrawAttribute } from '../atoms/DrawAttribute';
-import { BeginMode } from '../core/BeginMode';
-import { DrawPrimitive } from '../atoms/DrawPrimitive';
-import { simplicesToGeometryMeta } from './simplicesToGeometryMeta';
 import { computeUniqueVertices } from './computeUniqueVertices';
-import { expectArg } from '../checks/expectArg';
+import { dataFromVectorN } from './dataFromVectorN';
 import { Simplex } from './Simplex';
 import { SimplexMode } from './SimplexMode';
+import { simplicesToGeometryMeta } from './simplicesToGeometryMeta';
+/**
+ * @hidden
+ */
 function numberList(size, value) {
     var data = [];
     for (var i = 0; i < size; i++) {
@@ -17,6 +20,9 @@ function numberList(size, value) {
     }
     return data;
 }
+/**
+ * @hidden
+ */
 function attribName(name, attribMap) {
     expectArg('name', name).toBeString();
     expectArg('attribMap', attribMap).toBeObject();
@@ -29,6 +35,9 @@ function attribName(name, attribMap) {
         throw new Error("Unable to compute name; missing attribute specification for " + name);
     }
 }
+/**
+ * @hidden
+ */
 function attribSize(key, attribMap) {
     expectArg('key', key).toBeString();
     expectArg('attribMap', attribMap).toBeObject();
@@ -43,9 +52,15 @@ function attribSize(key, attribMap) {
         throw new Error("Unable to compute size; missing attribute specification for " + key);
     }
 }
+/**
+ * @hidden
+ */
 function concat(a, b) {
     return a.concat(b);
 }
+/**
+ * @hidden
+ */
 export function simplicesToPrimitive(simplices, geometryMeta) {
     expectArg('simplices', simplices).toBeObject();
     var actuals = simplicesToGeometryMeta(simplices);

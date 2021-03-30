@@ -1,47 +1,78 @@
+import { VectorN } from '../atoms/VectorN';
+import { mustBeInteger } from '../checks/mustBeInteger';
+import { mustBeNumber } from '../checks/mustBeNumber';
+import { mustBeObject } from '../checks/mustBeObject';
+import { lock, LockableMixin as Lockable, TargetLockedError } from '../core/Lockable';
+import { readOnly } from '../i18n/readOnly';
+import { SpinorE3 } from '../math/SpinorE3';
 import { applyMixins } from '../utils/applyMixins';
 import { approx } from './approx';
 import { BivectorE3 } from './BivectorE3';
 import { CartesianG3 } from './CartesianG3';
 import { dotVectorCartesianE3 } from './dotVectorCartesianE3';
-import { lock, LockableMixin as Lockable, TargetLockedError } from '../core/Lockable';
+import { mulSpinorE3alpha } from './mulSpinorE3alpha';
+import { mulSpinorE3XY } from './mulSpinorE3XY';
 import { mulSpinorE3YZ } from './mulSpinorE3YZ';
 import { mulSpinorE3ZX } from './mulSpinorE3ZX';
-import { mulSpinorE3XY } from './mulSpinorE3XY';
-import { mulSpinorE3alpha } from './mulSpinorE3alpha';
-import { mustBeInteger } from '../checks/mustBeInteger';
-import { mustBeNumber } from '../checks/mustBeNumber';
-import { mustBeObject } from '../checks/mustBeObject';
 import { quadSpinorE3 as quadSpinor } from './quadSpinorE3';
 import { randomRange } from './randomRange';
-import { readOnly } from '../i18n/readOnly';
 import { rotorFromDirectionsE3 as rotorFromDirections } from './rotorFromDirectionsE3';
-import { SpinorE3 } from '../math/SpinorE3';
 import { toStringCustom } from './toStringCustom';
 import { VectorE3 } from './VectorE3';
-import { VectorN } from '../atoms/VectorN';
 import { wedgeXY } from './wedgeXY';
 import { wedgeYZ } from './wedgeYZ';
 import { wedgeZX } from './wedgeZX';
 
 // Constants for the coordinate indices into the coords array.
+/**
+ * @hidden
+ */
 const COORD_YZ = 0;
+/**
+ * @hidden
+ */
 const COORD_ZX = 1;
+/**
+ * @hidden
+ */
 const COORD_XY = 2;
+/**
+ * @hidden
+ */
 const COORD_SCALAR = 3;
+/**
+ * @hidden
+ */
 const BASIS_LABELS = ['e23', 'e31', 'e12', '1'];
 
 /**
  * Coordinates corresponding to basis labels.
+ * @hidden
  */
 function coordinates(m: SpinorE3): number[] {
     return [m.yz, m.zx, m.xy, m.a];
 }
 
+/**
+ * @hidden
+ */
 const exp = Math.exp;
+/**
+ * @hidden
+ */
 const cos = Math.cos;
+/**
+ * @hidden
+ */
 const sin = Math.sin;
+/**
+ * @hidden
+ */
 const sqrt = Math.sqrt;
 
+/**
+ * @hidden
+ */
 const magicCode = Math.random();
 
 /**

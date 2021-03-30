@@ -1,10 +1,22 @@
-import { Vector3 } from '../math/Vector3';
-import { mustSatisfy } from '../checks/mustSatisfy';
 import { isDefined } from '../checks/isDefined';
+import { mustSatisfy } from '../checks/mustSatisfy';
+import { Vector3 } from '../math/Vector3';
 // Assume single-threaded to avoid temporary object creation.
+/**
+ * @hidden
+ */
 var n = new Vector3();
+/**
+ * @hidden
+ */
 var u = new Vector3();
+/**
+ * @hidden
+ */
 var v = new Vector3();
+/**
+ * @hidden
+ */
 export function viewArrayFromEyeLookUp(eye, look, up, matrix) {
     var m = isDefined(matrix) ? matrix : new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
     mustSatisfy('matrix', m.length === 16, function () { return 'matrix must have length 16'; });

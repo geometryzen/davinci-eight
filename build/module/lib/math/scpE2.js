@@ -1,3 +1,6 @@
+/**
+ * @hidden
+ */
 export function scpE2(a0, a1, a2, a3, b0, b1, b2, b3, index) {
     switch (index) {
         case 0:

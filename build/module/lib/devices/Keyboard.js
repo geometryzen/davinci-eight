@@ -1,11 +1,17 @@
 import { __extends } from "tslib";
 import { ShareableBase } from '../core/ShareableBase';
+/**
+ * @hidden
+ */
 function makeKeyDownHandler(keyboard, handler) {
     return function (event) {
         keyboard.currentlyPressedKeys[event.keyCode] = true;
         handler.keyDown(event);
     };
 }
+/**
+ * @hidden
+ */
 function makeKeyUpHandler(keyboard, handler) {
     return function (event) {
         keyboard.currentlyPressedKeys[event.keyCode] = false;

@@ -4,6 +4,7 @@ import { mustBeLE } from '../checks/mustBeLE';
 import { mustBeNonNullObject } from '../checks/mustBeNonNullObject';
 import { mustBeNumber } from '../checks/mustBeNumber';
 import { mustBeString } from '../checks/mustBeString';
+import { mustBeWebGLContextId } from '../checks/mustBeWebGLContextId';
 import { ShareableArray } from '../collections/ShareableArray';
 import { EIGHTLogger } from '../commands/EIGHTLogger';
 import { VersionLogger } from '../commands/VersionLogger';
@@ -27,7 +28,6 @@ import { MaterialKey } from './MaterialKey';
 import { PixelFormat } from './PixelFormat';
 import { PixelType } from './PixelType';
 import { ShareableBase } from './ShareableBase';
-import { mustBeWebGLContextId } from '../checks/mustBeWebGLContextId';
 
 export interface EngineAttributes extends WebGLContextAttributes {
     /**
@@ -44,6 +44,9 @@ export interface EngineAttributes extends WebGLContextAttributes {
     webglLogging?: boolean;
 }
 
+/**
+ * @hidden
+ */
 function getWindowDocument(window: Window): Document {
     if (window) {
         return window.document;

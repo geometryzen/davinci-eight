@@ -12,6 +12,9 @@ import { glslVersionFromWebGLContextId } from './glslVersionFromWebGLContextId';
 import { MeshMaterialOptions } from './MeshMaterialOptions';
 import { ShaderMaterial } from './ShaderMaterial';
 
+/**
+ * @hidden
+ */
 function defaultOptions(options: MeshMaterialOptions): void {
     if (!options.attributes) {
         options.attributes = {};
@@ -35,6 +38,9 @@ function defaultOptions(options: MeshMaterialOptions): void {
     options.uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION] = 'vec3';
 }
 
+/**
+ * @hidden
+ */
 function shaderPropertiesCount(options: MeshMaterialOptions): number {
     let count = Object.keys(options).length;
     if (options.version) {
@@ -47,6 +53,7 @@ function shaderPropertiesCount(options: MeshMaterialOptions): number {
  * 
  * @param contextId The context identifier used when creating the WebGL rendering context. May be undefined.
  * @param options 
+ * @hidden
  */
 function builder(contextId: 'webgl2' | 'webgl', options?: MeshMaterialOptions) {
     if (isUndefined(options) || isNull(options)) {
@@ -84,16 +91,28 @@ function builder(contextId: 'webgl2' | 'webgl', options?: MeshMaterialOptions) {
     return gpb;
 }
 
+/**
+ * @hidden
+ */
 function vertexShaderSrc(contextId: 'webgl2' | 'webgl', options?: MeshMaterialOptions): string {
     return builder(contextId, options).vertexShaderSrc();
 }
 
+/**
+ * @hidden
+ */
 function fragmentShaderSrc(contextId: 'webgl2' | 'webgl', options?: MeshMaterialOptions): string {
     return builder(contextId, options).fragmentShaderSrc();
 }
 
+/**
+ * @hidden
+ */
 const LOGGING_NAME_MESH_MATERIAL = 'MeshMaterial';
 
+/**
+ * @hidden
+ */
 function getContextId(contextManager: ContextManager): 'webgl2' | 'webgl' {
     return mustBeNonNullObject('contextManager', contextManager).contextId;
 }

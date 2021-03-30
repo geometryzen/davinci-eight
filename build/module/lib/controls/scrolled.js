@@ -1,3 +1,6 @@
+/**
+ * @hidden
+ */
 function domElement() {
     var documentElement = document.documentElement;
     if (documentElement) {
@@ -18,6 +21,7 @@ function domElement() {
  * A cross-browser compatible, geometric, implementation of scrollX and scrollY.
  *
  * See https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollX
+ * @hidden
  */
 export function scrolled(out) {
     out.a = 0;

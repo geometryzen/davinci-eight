@@ -1,9 +1,15 @@
-import { dotVectorE3 } from '../math/dotVectorE3';
 import { isDefined } from '../checks/isDefined';
-import { vectorFromCoords, vectorCopy } from '../math/R3';
+import { dotVectorE3 } from '../math/dotVectorE3';
+import { vectorCopy, vectorFromCoords } from '../math/R3';
+/**
+ * @hidden
+ */
 function pointerEvents(canvas, value) {
     canvas.style.pointerEvents = value;
 }
+/**
+ * @hidden
+ */
 function position(canvas, value) {
     canvas.style.pointerEvents = value;
 }
@@ -95,7 +101,7 @@ var Diagram3D = /** @class */ (function () {
 }());
 export { Diagram3D };
 /**
- *
+ * @hidden
  */
 export function canvasCoords(X, camera, prism, width, height) {
     var cameraCoords = view(X, camera.eye, camera.look, camera.up);
@@ -113,12 +119,14 @@ export function canvasCoords(X, camera, prism, width, height) {
  * View transformation converts world coordinates to camera frame coordinates.
  * We first compute the camera frame (u, v, w, eye), then solve the equation
  * X = x * u + y * v * z * n + eye
+ * @hidden
  *
  * @param X The world vector.
  * @param eye The position of the camera.
  * @param look The point that the camera is aimed at.
  * @param up The approximate up direction.
  * @returns The coordinates in the camera (u, v, w) basis.
+ * @hidden
  */
 export function view(X, eye, look, up) {
     /**
@@ -151,6 +159,7 @@ export function view(X, eye, look, up) {
  * @param f The distance to the far plane.
  * @param α The angle subtended at the apex of the pyramid in the vw-plane.
  * @param aspect The ratio of the width to the height (width divided by height).
+ * @hidden
  */
 export function perspective(X, n, f, α, aspect) {
     /**

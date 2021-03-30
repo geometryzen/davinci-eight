@@ -1,5 +1,8 @@
 import { mustBeDefined } from '../checks/mustBeDefined';
 import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
+/**
+ * @hidden
+ */
 export function vLightRequired(attributes, uniforms) {
     mustBeDefined('attributes', attributes);
     mustBeDefined('uniforms', uniforms);

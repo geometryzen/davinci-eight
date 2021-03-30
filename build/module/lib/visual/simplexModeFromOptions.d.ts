@@ -2,6 +2,7 @@ import { GeometryMode } from '../geometries/GeometryMode';
 import { SimplexMode } from '../geometries/SimplexMode';
 /**
  * Converts from a mode, k, or wireFrame option specification to a SimplexMode.
+ * @hidden
  */
 export declare function simplexModeFromOptions(options: {
     wireFrame?: boolean;

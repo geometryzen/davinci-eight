@@ -1,8 +1,9 @@
-import { Attribute } from './Attribute';
 import { mustBeInteger } from '../checks/mustBeInteger';
+import { Attribute } from './Attribute';
 
 /**
  * Computes the number of elements represented by the attribute values.
+ * @hidden
  */
 export function computeCount(attribs: { [name: string]: Attribute }, aNames: string[]): number {
     const aNamesLen = aNames.length;

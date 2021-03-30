@@ -1,15 +1,18 @@
-import { FacetVisitor } from '../core/FacetVisitor';
-import { Perspective } from './Perspective';
-import { createView } from './createView';
-import { Matrix4 } from '../math/Matrix4';
-import { Geometric3 } from '../math/Geometric3';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { VectorE3 } from '../math/VectorE3';
-import { Vector1 } from '../math/Vector1';
 import { isUndefined } from '../checks/isUndefined';
 import { mustBeNumber } from '../checks/mustBeNumber';
+import { FacetVisitor } from '../core/FacetVisitor';
+import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
+import { Geometric3 } from '../math/Geometric3';
+import { Matrix4 } from '../math/Matrix4';
+import { Vector1 } from '../math/Vector1';
+import { VectorE3 } from '../math/VectorE3';
+import { createView } from './createView';
+import { Perspective } from './Perspective';
 import { perspectiveMatrix as computePerspectiveMatrix } from './perspectiveMatrix';
 
+/**
+ * @hidden
+ */
 export function createPerspective(options: { fov?: number; aspect?: number; near?: number; far?: number; projectionMatrixName?: string; viewMatrixName?: string; } = {}): Perspective {
 
     const fov: Vector1 = new Vector1([isUndefined(options.fov) ? 75 * Math.PI / 180 : options.fov]);

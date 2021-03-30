@@ -1,12 +1,15 @@
 import { __extends } from "tslib";
+import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { arc3 } from '../geometries/arc3';
 import { Simplex } from '../geometries/Simplex';
 import { SimplexMode } from '../geometries/SimplexMode';
 import { SliceSimplexPrimitivesBuilder } from '../geometries/SliceSimplexPrimitivesBuilder';
 import { Spinor3 } from '../math/Spinor3';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { Vector2 } from '../math/Vector2';
 import { Vector3 } from '../math/Vector3';
+/**
+ * @hidden
+ */
 function computeVertices(a, b, axis, start, angle, generator, radialSegments, thetaSegments, vertices, uvs) {
     /**
      * `t` is the vector perpendicular to s in the plane of the ring.
@@ -30,9 +33,15 @@ function computeVertices(a, b, axis, start, angle, generator, radialSegments, th
         radius += radiusStep;
     }
 }
+/**
+ * @hidden
+ */
 function vertexIndex(i, j, thetaSegments) {
     return i * (thetaSegments + 1) + j;
 }
+/**
+ * @hidden
+ */
 function makeTriangles(vertices, uvs, axis, radialSegments, thetaSegments, geometry) {
     for (var i = 0; i < radialSegments; i++) {
         // Our traversal has resulted in the following formula for the index
@@ -59,6 +68,9 @@ function makeTriangles(vertices, uvs, axis, radialSegments, thetaSegments, geome
         }
     }
 }
+/**
+ * @hidden
+ */
 function makeLineSegments(vertices, radialSegments, thetaSegments, data) {
     for (var i = 0; i < radialSegments; i++) {
         for (var j = 0; j < thetaSegments; j++) {
@@ -85,6 +97,9 @@ function makeLineSegments(vertices, radialSegments, thetaSegments, data) {
         data.push(simplex);
     }
 }
+/**
+ * @hidden
+ */
 function makePoints(vertices, radialSegments, thetaSegments, data) {
     for (var i = 0; i <= radialSegments; i++) {
         for (var j = 0; j <= thetaSegments; j++) {
@@ -94,6 +109,9 @@ function makePoints(vertices, radialSegments, thetaSegments, data) {
         }
     }
 }
+/**
+ * @hidden
+ */
 function makeEmpty(vertices, radialSegments, thetaSegments, data) {
     for (var i = 0; i <= radialSegments; i++) {
         for (var j = 0; j <= thetaSegments; j++) {

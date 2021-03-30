@@ -1,19 +1,22 @@
-import { getAttribVarName } from '../core/getAttribVarName';
-import { glslAttribType } from './glslAttribType';
-import { AttributeGlslType } from '../core/AttributeGlslType';
-import { AttributeSizeType } from '../core/AttributeSizeType';
-import { UniformGlslType } from '../core/UniformGlslType';
+import { mustBeDefined } from '../checks/mustBeDefined';
 import { mustBeInteger } from '../checks/mustBeInteger';
 import { mustBeString } from '../checks/mustBeString';
+import { AttributeGlslType } from '../core/AttributeGlslType';
+import { AttributeSizeType } from '../core/AttributeSizeType';
+import { getAttribVarName } from '../core/getAttribVarName';
 import { Primitive } from '../core/Primitive';
+import { UniformGlslType } from '../core/UniformGlslType';
+import { fragmentShaderSrc } from './fragmentShaderSrc';
+import { glslAttribType } from './glslAttribType';
+import { GLSLESVersion } from './glslVersion';
 import { vColorRequired } from './vColorRequired';
 import { vCoordsRequired } from './vCoordsRequired';
-import { vLightRequired } from './vLightRequired';
-import { fragmentShaderSrc } from './fragmentShaderSrc';
 import { vertexShaderSrc } from './vertexShaderSrc';
-import { GLSLESVersion } from './glslVersion';
-import { mustBeDefined } from '../checks/mustBeDefined';
+import { vLightRequired } from './vLightRequired';
 
+/**
+ * @hidden
+ */
 function computeAttribParams(values: { [key: string]: { size: AttributeSizeType, name?: string } }) {
     const result: { [key: string]: { glslType: AttributeGlslType, name?: string } } = {};
     const keys = Object.keys(values);
@@ -30,6 +33,7 @@ function computeAttribParams(values: { [key: string]: { size: AttributeSizeType,
 
 /**
  * GraphicsProgramBuilder is the builder pattern for generating vertex and fragment shader source code.
+ * @hidden
  */
 export class GraphicsProgramBuilder {
 

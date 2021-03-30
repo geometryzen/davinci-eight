@@ -1,5 +1,8 @@
 import { isDefined } from '../checks/isDefined';
 import { mustBeArray } from '../checks/mustBeArray';
+/**
+ * @hidden
+ */
 function isLabelOne(label) {
     if (typeof label === 'string') {
         return label === "1";
@@ -17,6 +20,9 @@ function isLabelOne(label) {
         }
     }
 }
+/**
+ * @hidden
+ */
 function appendLabel(coord, label, sb) {
     if (typeof label === 'string') {
         sb.push(label);
@@ -37,6 +43,9 @@ function appendLabel(coord, label, sb) {
         }
     }
 }
+/**
+ * @hidden
+ */
 function appendCoord(coord, numberToString, label, sb) {
     if (coord !== 0) {
         if (coord >= 0) {
@@ -92,6 +101,9 @@ function appendCoord(coord, numberToString, label, sb) {
         // Do nothing if the coordinate is zero.
     }
 }
+/**
+ * @hidden
+ */
 export function stringFromCoordinates(coordinates, numberToString, labels) {
     var sb = [];
     for (var i = 0, iLength = coordinates.length; i < iLength; i++) {

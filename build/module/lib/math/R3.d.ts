@@ -2,6 +2,7 @@ import { SpinorE3 } from './SpinorE3';
 import { VectorE3 } from './VectorE3';
 /**
  * A vector with cartesian coordinates and immutable.
+ * @hidden
  */
 export interface R3 extends VectorE3 {
     readonly x: number;
@@ -32,8 +33,14 @@ export interface R3 extends VectorE3 {
     __neg__(): Readonly<R3>;
 }
 /**
- *
+ * @hidden
  */
 export declare function vectorCopy(vector: VectorE3): Readonly<R3>;
+/**
+ * @hidden
+ */
 export declare function vectorFromCoords(x: number, y: number, z: number): Readonly<R3>;
+/**
+ * @hidden
+ */
 export declare function vec(x: number, y: number, z: number): Readonly<R3>;

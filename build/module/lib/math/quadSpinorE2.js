@@ -1,5 +1,8 @@
 import { isDefined } from '../checks/isDefined';
 import { isNumber } from '../checks/isNumber';
+/**
+ * @hidden
+ */
 export function quadSpinorE2(s) {
     if (isDefined(s)) {
         var α = s.a;

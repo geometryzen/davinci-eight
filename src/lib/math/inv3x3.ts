@@ -2,6 +2,7 @@ import { det3x3 } from '../math/det3x3';
 
 /**
  * Computes the inverse of a 2x2 (square) matrix where the elements are assumed to be in column-major order.
+ * @hidden
  */
 export function inv3x3(m: Float32Array, te: Float32Array): void {
 

@@ -1,6 +1,6 @@
 import { DataType } from './DataType';
 /**
- * @deprecated
+ * @hidden
  */
 export function computePointers(attributes, aNames) {
     var aNamesLen = aNames.length;

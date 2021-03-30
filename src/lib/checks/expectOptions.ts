@@ -5,7 +5,7 @@ import { mustBeArray } from './mustBeArray';
  * Usage:
  *
  * expectOptions(['foo', 'bar'], Object.keys(options));
- *
+ * @hidden
  */
 export function expectOptions(expects: string[], actuals: string[]): void {
     mustBeArray('expects', expects);

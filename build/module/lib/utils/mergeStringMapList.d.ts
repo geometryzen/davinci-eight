@@ -1,3 +1,6 @@
+/**
+ * @hidden
+ */
 export declare function mergeStringMapList<T>(ms: {
     [name: string]: T;
 }[]): {

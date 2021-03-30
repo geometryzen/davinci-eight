@@ -1,6 +1,9 @@
 import { R3 } from '../math/R3';
 import { SpinorE3 } from '../math/SpinorE3';
 import { VectorE3 } from '../math/VectorE3';
+/**
+ * @hidden
+ */
 export interface MeridianOptions {
     /**
      *
@@ -25,5 +28,6 @@ export interface MeridianOptions {
 }
 /**
  * This function computes the reference meridian of an object.
+ * @hidden
  */
 export declare function referenceMeridian(options: MeridianOptions, fallback: VectorE3): Readonly<R3>;

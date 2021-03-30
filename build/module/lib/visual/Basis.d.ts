@@ -1,10 +1,10 @@
-import { BasisOptions } from './BasisOptions';
 import { Color } from '../core/Color';
 import { ContextManager } from '../core/ContextManager';
 import { Geometry } from '../core/Geometry';
 import { Material } from '../core/Material';
 import { Mesh } from '../core/Mesh';
 import { Vector3 } from '../math/Vector3';
+import { BasisOptions } from './BasisOptions';
 /**
  * A 3D visual representation of a reference frame or basis vectors.
  */

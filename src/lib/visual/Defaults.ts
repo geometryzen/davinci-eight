@@ -1,12 +1,30 @@
-import { R3 } from '../math/R3';
 import { canonicalAxis, canonicalMeridian } from '../core/tiltFromOptions';
+import { R3 } from '../math/R3';
 
+/**
+ * @hidden
+ */
 const INITIAL_AXIS = canonicalAxis;
+/**
+ * @hidden
+ */
 const INITIAL_LENGTH = 1.0;
+/**
+ * @hidden
+ */
 const INITIAL_MERIDIAN = canonicalMeridian;
+/**
+ * @hidden
+ */
 const INITIAL_RADIUS = 0.5;
+/**
+ * @hidden
+ */
 const INITIAL_SLICE = 2 * Math.PI;
 
+/**
+ * @hidden
+ */
 export interface ALMRS {
     /**
      * Default e2
@@ -30,6 +48,9 @@ export interface ALMRS {
     sliceAngle: number;
 }
 
+/**
+ * @hidden
+ */
 function make(axis: Readonly<R3>, length: number, meridian: Readonly<R3>, radius: number, sliceAngle: number): ALMRS {
     /*
     const that: ALR = {
@@ -55,5 +76,6 @@ function make(axis: Readonly<R3>, length: number, meridian: Readonly<R3>, radius
  * meridian:   e3,
  * radius:     0.5,
  * sliceAngle: tau.
+ * @hidden
  */
 export const ds: ALMRS = make(INITIAL_AXIS, INITIAL_LENGTH, INITIAL_MERIDIAN, INITIAL_RADIUS, INITIAL_SLICE);

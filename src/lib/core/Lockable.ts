@@ -1,11 +1,15 @@
 /**
  * Sets the lock on the argument and returns the same argument.
+ * @hidden
  */
 export function lock<T extends Lockable>(m: T): T {
     m.lock();
     return m;
 }
 
+/**
+ * @hidden
+ */
 export class TargetLockedError extends Error {
     /**
      * `operationName` is the name of the operation, without parentheses or parameters.
@@ -15,6 +19,9 @@ export class TargetLockedError extends Error {
     }
 }
 
+/**
+ * @hidden
+ */
 export class TargetUnlockedError extends Error {
     /**
      * `operationName` is the name of the operation, without parentheses.
@@ -24,6 +31,9 @@ export class TargetUnlockedError extends Error {
     }
 }
 
+/**
+ * @hidden
+ */
 export interface Lockable {
     /**
      * Determines whether this `Lockable` is locked.
@@ -43,6 +53,9 @@ export interface Lockable {
     unlock(token: number): void;
 }
 
+/**
+ * @hidden
+ */
 export function lockable(): Lockable {
     let lock_: number = void 0;
     const that: Lockable = {
@@ -79,6 +92,7 @@ export function lockable(): Lockable {
 
 /**
  * Lockable Mixin
+ * @hidden
  */
 export class LockableMixin implements Lockable {
 

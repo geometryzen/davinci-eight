@@ -4,17 +4,26 @@ import { ContextManager } from '../core/ContextManager';
 import { DataType } from '../core/DataType';
 import { Geometry } from '../core/Geometry';
 import { GraphicsProgramSymbols as GPS } from '../core/GraphicsProgramSymbols';
-import { LineMaterial } from '../materials/LineMaterial';
 import { Material } from '../core/Material';
-import { Matrix4 } from '../math/Matrix4';
 import { Mesh } from '../core/Mesh';
-import { setColorOption } from './setColorOption';
 import { Usage } from '../core/Usage';
-import { VectorE3 } from '../math/VectorE3';
 import { VertexBuffer } from '../core/VertexBuffer';
+import { LineMaterial } from '../materials/LineMaterial';
+import { Matrix4 } from '../math/Matrix4';
+import { VectorE3 } from '../math/VectorE3';
+import { setColorOption } from './setColorOption';
 
+/**
+ * @hidden
+ */
 const FLOATS_PER_VERTEX = 3;
+/**
+ * @hidden
+ */
 const BYTES_PER_FLOAT = 4;
+/**
+ * @hidden
+ */
 const STRIDE = BYTES_PER_FLOAT * FLOATS_PER_VERTEX;
 
 /**

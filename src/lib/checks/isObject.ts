@@ -1,3 +1,6 @@
-export function isObject(x: any): boolean {
+/**
+ * @hidden
+ */
+export function isObject(x: unknown): boolean {
     return (typeof x === 'object');
 }

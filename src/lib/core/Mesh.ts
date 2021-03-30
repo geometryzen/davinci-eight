@@ -1,27 +1,36 @@
-import { canonicalAxis, canonicalMeridian } from '../core/tiltFromOptions';
-import { Color } from './Color';
-import { ColorFacet } from '../facets/ColorFacet';
-import { ContextManager } from './ContextManager';
-import { Drawable } from './Drawable';
-import { Geometric3 } from '../math/Geometric3';
-import { Geometry } from './Geometry';
-import { Material } from './Material';
 import { AbstractMesh } from '../core/AbstractMesh';
-import { Matrix4 } from '../math/Matrix4';
-import { MeshOptions } from './MeshOptions';
+import { canonicalAxis, canonicalMeridian } from '../core/tiltFromOptions';
+import { ColorFacet } from '../facets/ColorFacet';
 import { ModelFacet } from '../facets/ModelFacet';
+import { TextureFacet } from '../facets/TextureFacet';
 import { notSupported } from '../i18n/notSupported';
+import { Geometric3 } from '../math/Geometric3';
+import { Matrix4 } from '../math/Matrix4';
 import { quadVectorE3 } from '../math/quadVectorE3';
 import { R3, vectorCopy } from '../math/R3';
+import { Spinor3 } from '../math/Spinor3';
+import { VectorE3 } from '../math/VectorE3';
+import { Color } from './Color';
+import { ContextManager } from './ContextManager';
+import { Drawable } from './Drawable';
+import { Geometry } from './Geometry';
+import { Material } from './Material';
+import { MeshOptions } from './MeshOptions';
 import { referenceAxis } from './referenceAxis';
 import { referenceMeridian } from './referenceMeridian';
-import { Spinor3 } from '../math/Spinor3';
 import { Texture } from './Texture';
-import { TextureFacet } from '../facets/TextureFacet';
-import { VectorE3 } from '../math/VectorE3';
 
+/**
+ * @hidden
+ */
 const COLOR_FACET_NAME = 'color';
+/**
+ * @hidden
+ */
 const TEXTURE_FACET_NAME = 'image';
+/**
+ * @hidden
+ */
 const MODEL_FACET_NAME = 'model';
 
 /**

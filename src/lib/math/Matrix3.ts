@@ -1,14 +1,16 @@
+import { mustBeNumber } from '../checks/mustBeNumber';
+import { lock, TargetLockedError } from '../core/Lockable';
 import { AbstractMatrix } from '../math/AbstractMatrix';
 import { det3x3 } from '../math/det3x3';
 import { inv3x3 } from '../math/inv3x3';
-import { lock } from '../core/Lockable';
-import { TargetLockedError } from '../core/Lockable';
-import { Matrix4 } from './Matrix4';
 import { mul3x3 } from '../math/mul3x3';
-import { mustBeNumber } from '../checks/mustBeNumber';
 import { SpinorE2 } from '../math/SpinorE2';
 import { VectorE2 } from '../math/VectorE2';
+import { Matrix4 } from './Matrix4';
 
+/**
+ * @hidden
+ */
 function add3x3(a: Float32Array, b: Float32Array, c: Float32Array): void {
 
     const a11 = a[0x0], a12 = a[0x3], a13 = a[0x6];

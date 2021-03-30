@@ -1,39 +1,50 @@
 import { __extends } from "tslib";
-import { GeometryElements } from '../core/GeometryElements';
+import { GridTriangleStrip } from '../atoms/GridTriangleStrip';
+import { reduce } from '../atoms/reduce';
 import { isDefined } from '../checks/isDefined';
 import { mustBeBoolean } from '../checks/mustBeBoolean';
 import { mustBeNumber } from '../checks/mustBeNumber';
-import { reduce } from '../atoms/reduce';
-import { Geometric3 } from '../math/Geometric3';
-import { GeometryMode } from './GeometryMode';
-import { GridTriangleStrip } from '../atoms/GridTriangleStrip';
-import { PrimitivesBuilder } from './PrimitivesBuilder';
+import { GeometryElements } from '../core/GeometryElements';
 import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { Spinor3 } from '../math/Spinor3';
-import { Vector2 } from '../math/Vector2';
 import { computeFaceNormals } from '../geometries/computeFaceNormals';
-import { SimplexPrimitivesBuilder } from '../geometries/SimplexPrimitivesBuilder';
 import { quadrilateral as quad } from '../geometries/quadrilateral';
 import { Simplex } from '../geometries/Simplex';
 import { SimplexMode } from '../geometries/SimplexMode';
-import { vec } from '../math/R3';
-import { vectorCopy } from '../math/R3';
+import { SimplexPrimitivesBuilder } from '../geometries/SimplexPrimitivesBuilder';
+import { Geometric3 } from '../math/Geometric3';
+import { vec, vectorCopy } from '../math/R3';
+import { Spinor3 } from '../math/Spinor3';
 import { Vector1 } from '../math/Vector1';
+import { Vector2 } from '../math/Vector2';
 import { Vector3 } from '../math/Vector3';
+import { GeometryMode } from './GeometryMode';
+import { PrimitivesBuilder } from './PrimitivesBuilder';
+/**
+ * @hidden
+ */
 var canonicalAxis = vec(0, 1, 0);
+/**
+ * @hidden
+ */
 var canonicalMeridian = vec(0, 0, 1);
 /**
  * e1
+ * @hidden
  */
 var DEFAULT_A = vec(1, 0, 0);
 /**
  * e2
+ * @hidden
  */
 var DEFAULT_B = vec(0, 1, 0);
 /**
  * e3
+ * @hidden
  */
 var DEFAULT_C = vec(0, 0, 1);
+/**
+ * @hidden
+ */
 var CuboidSimplexPrimitivesBuilder = /** @class */ (function (_super) {
     __extends(CuboidSimplexPrimitivesBuilder, _super);
     function CuboidSimplexPrimitivesBuilder(a, b, c, k, subdivide, boundary) {
@@ -153,6 +164,9 @@ var CuboidSimplexPrimitivesBuilder = /** @class */ (function (_super) {
     };
     return CuboidSimplexPrimitivesBuilder;
 }(SimplexPrimitivesBuilder));
+/**
+ * @hidden
+ */
 function side(tilt, offset, basis, uSegments, vSegments) {
     // The normal will be the same for all vertices in the side, so we compute it once here.
     // Perform the stress ant tilt transformations on the tangent bivector before computing the normal.
@@ -182,6 +196,9 @@ function side(tilt, offset, basis, uSegments, vSegments) {
     }
     return side;
 }
+/**
+ * @hidden
+ */
 var CuboidPrimitivesBuilder = /** @class */ (function (_super) {
     __extends(CuboidPrimitivesBuilder, _super);
     function CuboidPrimitivesBuilder() {
@@ -275,6 +292,9 @@ var CuboidPrimitivesBuilder = /** @class */ (function (_super) {
     };
     return CuboidPrimitivesBuilder;
 }(PrimitivesBuilder));
+/**
+ * @hidden
+ */
 function boxPrimitive(options) {
     if (options === void 0) { options = { kind: 'BoxGeometry' }; }
     var width = isDefined(options.width) ? mustBeNumber('width', options.width) : 1;

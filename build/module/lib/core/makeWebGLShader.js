@@ -1,3 +1,6 @@
+/**
+ * @hidden
+ */
 function decodeType(gl, type) {
     if (type === gl.VERTEX_SHADER) {
         return "VERTEX_SHADER";
@@ -10,7 +13,7 @@ function decodeType(gl, type) {
     }
 }
 /**
- *
+ * @hidden
  */
 export function makeWebGLShader(gl, source, type) {
     var shader = gl.createShader(type);

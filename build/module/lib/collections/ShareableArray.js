@@ -1,9 +1,10 @@
 import { __extends } from "tslib";
-import { readOnly } from '../i18n/readOnly';
 import { ShareableBase } from '../core/ShareableBase';
+import { readOnly } from '../i18n/readOnly';
 /**
  * Essentially constructs the ShareableArray without incrementing the
  * reference count of the elements, and without creating zombies.
+ * @hidden
  */
 function transferOwnership(data) {
     if (data) {
@@ -28,6 +29,7 @@ function transferOwnership(data) {
  * <p>
  * Provides a safer way to maintain reference counts than a native array.
  * </p>
+ * @hidden
  */
 var ShareableArray = /** @class */ (function (_super) {
     __extends(ShareableArray, _super);

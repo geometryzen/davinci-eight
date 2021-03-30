@@ -1,5 +1,6 @@
 /**
  * throws name + " must " + message + [" in " + context] + "."
+ * @hidden
  */
 export function mustSatisfy(name, condition, messageBuilder, contextBuilder) {
     if (!condition) {

@@ -3,14 +3,20 @@ import { wedgeXY } from './wedgeXY';
 import { wedgeYZ } from './wedgeYZ';
 import { wedgeZX } from './wedgeZX';
 /**
- *
+ * @hidden
  */
 export function vectorCopy(vector) {
     return vec(vector.x, vector.y, vector.z);
 }
+/**
+ * @hidden
+ */
 export function vectorFromCoords(x, y, z) {
     return vec(x, y, z);
 }
+/**
+ * @hidden
+ */
 export function vec(x, y, z) {
     var dot = function dot(rhs) {
         return x * rhs.x + y * rhs.y + z * rhs.z;

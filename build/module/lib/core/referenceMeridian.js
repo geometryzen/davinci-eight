@@ -3,6 +3,7 @@ import { Geometric3 } from '../math/Geometric3';
 import { vec } from '../math/R3';
 /**
  * This function computes the reference meridian of an object.
+ * @hidden
  */
 export function referenceMeridian(options, fallback) {
     if (options.tilt) {

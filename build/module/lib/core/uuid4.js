@@ -1,3 +1,6 @@
+/**
+ * @hidden
+ */
 export function uuid4() {
     var maxFromBits = function (bits) {
         return Math.pow(2, bits);

@@ -1,11 +1,14 @@
-import { Simplex } from '../geometries/Simplex';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { Vector3 } from '../math/Vector3';
 import { VectorN } from '../atoms/VectorN';
+import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
+import { Simplex } from '../geometries/Simplex';
+import { Vector3 } from '../math/Vector3';
 import { wedgeXY } from '../math/wedgeXY';
 import { wedgeYZ } from '../math/wedgeYZ';
 import { wedgeZX } from '../math/wedgeZX';
 
+/**
+ * @hidden
+ */
 export function computeFaceNormals(simplex: Simplex, positionName = GraphicsProgramSymbols.ATTRIBUTE_POSITION, normalName = GraphicsProgramSymbols.ATTRIBUTE_NORMAL): void {
     const vertex0 = simplex.vertices[0].attributes;
     const vertex1 = simplex.vertices[1].attributes;

@@ -1,11 +1,11 @@
 import { Engine } from '../core/Engine';
 import { refChange } from '../core/refChange';
+import { vec } from '../math/R3';
 // import { Spinor3 } from '../math/Spinor3';
 import { Vector2 } from '../math/Vector2';
 import { Vector3 } from '../math/Vector3';
-import { computeSphereVerticesAndCoordinates, DEFAULT_AZIMUTH_LENGTH, DEFAULT_AZIMUTH_SEGMENTS, DEFAULT_AZIMUTH_START, DEFAULT_ELEVATION_LENGTH, DEFAULT_ELEVATION_SEGMENTS, DEFAULT_ELEVATION_START, SphereGeometry, DEFAULT_OFFSET, DEFAULT_STRESS, DEFAULT_TILT, DEFAULT_ZENITH, DEFAULT_MERIDIAN } from './SphereGeometry';
+import { computeSphereVerticesAndCoordinates, DEFAULT_AZIMUTH_LENGTH, DEFAULT_AZIMUTH_SEGMENTS, DEFAULT_AZIMUTH_START, DEFAULT_ELEVATION_LENGTH, DEFAULT_ELEVATION_SEGMENTS, DEFAULT_ELEVATION_START, DEFAULT_MERIDIAN, DEFAULT_OFFSET, DEFAULT_STRESS, DEFAULT_TILT, DEFAULT_ZENITH, SphereGeometry } from './SphereGeometry';
 import { SphereGeometryOptions } from './SphereGeometryOptions';
-import { vec } from '../math/R3';
 
 // import Spinor3 from '../math/Spinor3';
 // import Vector3 from '../math/Vector3';
@@ -17,9 +17,21 @@ import { vec } from '../math/R3';
  * The decimal place up to which the numbers should agree.
  * Make this as large as possible while avoiding rounding errors.
  */
+/**
+ * @hidden
+ */
 const PRECISION = 13;
+/**
+ * @hidden
+ */
 const MATHEMATICS_ZENITH = vec(0, 0, 1);
+/**
+ * @hidden
+ */
 const MATHEMATICS_MERIDIAN = vec(1, 0, 0);
+/**
+ * @hidden
+ */
 const MATHEMATICS_NADIR = vec(0, 0, -1);
 
 

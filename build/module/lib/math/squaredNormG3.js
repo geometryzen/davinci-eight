@@ -1,3 +1,6 @@
+/**
+ * @hidden
+ */
 export function squaredNormG3(m) {
     var a = m.a;
     var x = m.x;

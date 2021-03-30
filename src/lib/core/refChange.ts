@@ -1,10 +1,25 @@
 import { isDefined } from '../checks/isDefined';
 import { config } from '../config';
 
+/**
+ * @hidden
+ */
 let statistics: { [uuid: string]: { refCount: number; name: string; zombie: boolean } } = {};
+/**
+ * @hidden
+ */
 let chatty = true;
+/**
+ * @hidden
+ */
 let skip = true;
+/**
+ * @hidden
+ */
 let trace = false;
+/**
+ * @hidden
+ */
 let traceName: string = void 0;
 
 /**

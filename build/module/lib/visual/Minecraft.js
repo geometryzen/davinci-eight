@@ -1,11 +1,14 @@
 import { __extends } from "tslib";
+import { isBoolean } from '../checks/isBoolean';
+import { isNumber } from '../checks/isNumber';
 import { BeginMode } from '../core/BeginMode';
 import { GeometryArrays } from '../core/GeometryArrays';
 import { ImageTexture } from '../core/ImageTexture';
-import { isBoolean } from '../checks/isBoolean';
-import { isNumber } from '../checks/isNumber';
 import { Mesh } from '../core/Mesh';
 import { ShaderMaterial } from '../materials/ShaderMaterial';
+/**
+ * @hidden
+ */
 export var MinecraftPartKind;
 (function (MinecraftPartKind) {
     MinecraftPartKind[MinecraftPartKind["Head"] = 0] = "Head";
@@ -21,6 +24,9 @@ export var MinecraftPartKind;
     MinecraftPartKind[MinecraftPartKind["LeftLegLayer2"] = 10] = "LeftLegLayer2";
     MinecraftPartKind[MinecraftPartKind["LeftArmLayer2"] = 11] = "LeftArmLayer2";
 })(MinecraftPartKind || (MinecraftPartKind = {}));
+/**
+ * @hidden
+ */
 var MinecraftSide;
 (function (MinecraftSide) {
     MinecraftSide[MinecraftSide["Top"] = 0] = "Top";
@@ -32,6 +38,7 @@ var MinecraftSide;
 })(MinecraftSide || (MinecraftSide = {}));
 /**
  * The dimensions have been adjusted so that the total height of the figure is 1.
+ * @hidden
  */
 function dimensions(part, height) {
     var LIMB_SIZE = 0.125 * height;
@@ -65,6 +72,9 @@ function dimensions(part, height) {
         }
     }
 }
+/**
+ * @hidden
+ */
 function textureBounds(part, side, version, oldSkinLayout) {
     switch (part) {
         case MinecraftPartKind.Head: {
@@ -431,6 +441,9 @@ function textureBounds(part, side, version, oldSkinLayout) {
         }
     }
 }
+/**
+ * @hidden
+ */
 function aCoords(part, side, width, height, oldSkinLayout) {
     var cs = textureBounds(part, side, version(width, height), oldSkinLayout);
     var x1 = cs[0] / width;
@@ -439,6 +452,9 @@ function aCoords(part, side, width, height, oldSkinLayout) {
     var y2 = cs[3] / height;
     return [x1, y2, x2, y2, x1, y1, x2, y2, x2, y1, x1, y1];
 }
+/**
+ * @hidden
+ */
 function version(width, height) {
     if (width === 2 * height) {
         return 0;
@@ -451,6 +467,9 @@ function version(width, height) {
         return 0;
     }
 }
+/**
+ * @hidden
+ */
 function primitiveFromOptions(texture, options) {
     var partKind = options.partKind;
     var offset = options.offset ? options.offset : { x: 0, y: 0, z: 0 };
@@ -501,9 +520,15 @@ function primitiveFromOptions(texture, options) {
     };
     return primitive;
 }
+/**
+ * @hidden
+ */
 function makeGeometry(graphics, texture, options) {
     return new GeometryArrays(graphics, primitiveFromOptions(texture, options));
 }
+/**
+ * @hidden
+ */
 var vs = [
     'attribute vec3 aPosition;',
     'attribute vec2 aCoords;',
@@ -516,6 +541,9 @@ var vs = [
     '  vCoords = aCoords;',
     '}'
 ].join('\n');
+/**
+ * @hidden
+ */
 var fs = [
     'precision mediump float;',
     'varying highp vec2 vCoords;',
@@ -524,6 +552,9 @@ var fs = [
     '  gl_FragColor = texture2D(uImage, vec2(vCoords.s, vCoords.t));',
     '}'
 ].join('\n');
+/**
+ * @hidden
+ */
 var makeMaterial = function makeMaterial(graphics) {
     return new ShaderMaterial(vs, fs, [], graphics);
 };

@@ -3,6 +3,7 @@ import { Geometric3 } from '../math/Geometric3';
  * Reduce to the vectorE3 data structure.
  * If the value of the vector is 0, return undefined.
  * TODO: Why do we do this "dangerous" thing?
+ * @hidden
  */
 function simplify(vector) {
     if (vector.x !== 0 || vector.y !== 0 || vector.z !== 0) {
@@ -14,6 +15,7 @@ function simplify(vector) {
 }
 /**
  * This function computes the initial requested offset of an object.
+ * @hidden
  */
 export function offsetFromOptions(options) {
     if (options.offset) {

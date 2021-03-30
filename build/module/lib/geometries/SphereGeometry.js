@@ -1,54 +1,86 @@
 import { __extends } from "tslib";
-import { arc3 } from '../geometries/arc3';
-import { Geometric3 } from '../math/Geometric3';
-import { GeometryElements } from '../core/GeometryElements';
-import { GeometryMode } from './GeometryMode';
 import { isInteger } from '../checks/isInteger';
 import { isNumber } from '../checks/isNumber';
 import { isUndefined } from '../checks/isUndefined';
+import { mustBeDefined } from '../checks/mustBeDefined';
 import { mustBeGE } from '../checks/mustBeGE';
 import { mustBeInteger } from '../checks/mustBeInteger';
 import { mustBeNumber } from '../checks/mustBeNumber';
-import { vec } from '../math/R3';
+import { GeometryElements } from '../core/GeometryElements';
+import { arc3 } from '../geometries/arc3';
 import { SimplexPrimitivesBuilder } from '../geometries/SimplexPrimitivesBuilder';
-import { SimplexMode } from './SimplexMode';
+import { Geometric3 } from '../math/Geometric3';
+import { vec } from '../math/R3';
 import { Spinor3 } from '../math/Spinor3';
 import { Vector2 } from '../math/Vector2';
 import { Vector3 } from '../math/Vector3';
-import { mustBeDefined } from '../checks/mustBeDefined';
+import { GeometryMode } from './GeometryMode';
+import { SimplexMode } from './SimplexMode';
+/**
+ * @hidden
+ */
 var PI = Math.PI;
+/**
+ * @hidden
+ */
 var TAU = 2 * PI;
 // TODO: These values should only be used for making the options complete.
 // They should not be used directly in calculations.
 // To do so would mean an option value is missing.
 /**
  * e3 = vec(0, 0, 1)
+ * @hidden
  */
 export var DEFAULT_MERIDIAN = vec(0, 0, 1);
 /**
  * e2 = vec(0, 1, 0)
+ * @hidden
  */
 export var DEFAULT_ZENITH = vec(0, 1, 0);
+/**
+ * @hidden
+ */
 export var DEFAULT_STRESS = vec(1, 1, 1);
+/**
+ * @hidden
+ */
 export var DEFAULT_TILT = Spinor3.one.clone(); // TODO: Should be locked.
+/**
+ * @hidden
+ */
 export var DEFAULT_OFFSET = vec(0, 0, 0);
+/**
+ * @hidden
+ */
 export var DEFAULT_AZIMUTH_START = 0;
+/**
+ * @hidden
+ */
 export var DEFAULT_AZIMUTH_LENGTH = TAU;
 /**
  * The default number of segments for the azimuth (phi) angle.
  * By making this value 36, each segment represents 10 degrees.
+ * @hidden
  */
 export var DEFAULT_AZIMUTH_SEGMENTS = 36;
+/**
+ * @hidden
+ */
 export var DEFAULT_ELEVATION_START = 0;
 /**
  * The elevation ranges from zero to PI.
+ * @hidden
  */
 export var DEFAULT_ELEVATION_LENGTH = PI;
 /**
  * The default number of segments for the elevation (theta) angle.
  * By making this value 18, each segment represents 10 degrees.
+ * @hidden
  */
 export var DEFAULT_ELEVATION_SEGMENTS = 18;
+/**
+ * @hidden
+ */
 var DEFAULT_RADIUS = 1;
 /**
  *
@@ -63,6 +95,7 @@ var DEFAULT_RADIUS = 1;
  * @param elevationSegments Must be an integer.
  * @param points
  * @param uvs
+ * @hidden
  */
 export function computeSphereVerticesAndCoordinates(zenith, meridian, stress, tilt, offset, azimuthStart, azimuthLength, azimuthSegments, elevationStart, elevationLength, elevationSegments, points, uvs) {
     mustBeDefined('points', points);
@@ -121,9 +154,15 @@ export function computeSphereVerticesAndCoordinates(zenith, meridian, stress, ti
         }
     }
 }
+/**
+ * @hidden
+ */
 function quadIndex(i, j, innerSegments) {
     return i * (innerSegments + 1) + j;
 }
+/**
+ * @hidden
+ */
 function vertexIndex(qIndex, n, innerSegments) {
     switch (n) {
         case 0: return qIndex + 1;
@@ -133,6 +172,9 @@ function vertexIndex(qIndex, n, innerSegments) {
     }
     throw new Error("n must be in the range [0, 3]");
 }
+/**
+ * @hidden
+ */
 function makeTriangles(points, uvs, radius, heightSegments, widthSegments, geometry) {
     for (var i = 0; i < heightSegments; i++) {
         for (var j = 0; j < widthSegments; j++) {
@@ -174,6 +216,9 @@ function makeTriangles(points, uvs, radius, heightSegments, widthSegments, geome
         }
     }
 }
+/**
+ * @hidden
+ */
 function makeLineSegments(points, uvs, radius, heightSegments, widthSegments, geometry) {
     for (var i = 0; i < heightSegments; i++) {
         for (var j = 0; j < widthSegments; j++) {
@@ -217,6 +262,9 @@ function makeLineSegments(points, uvs, radius, heightSegments, widthSegments, ge
         }
     }
 }
+/**
+ * @hidden
+ */
 function makePoints(points, uvs, radius, heightSegments, widthSegments, geometry) {
     for (var i = 0; i < heightSegments; i++) {
         for (var j = 0; j < widthSegments; j++) {
@@ -260,6 +308,9 @@ function makePoints(points, uvs, radius, heightSegments, widthSegments, geometry
         }
     }
 }
+/**
+ * @hidden
+ */
 var SphereSimplexPrimitivesBuilder = /** @class */ (function (_super) {
     __extends(SphereSimplexPrimitivesBuilder, _super);
     function SphereSimplexPrimitivesBuilder() {
@@ -326,6 +377,9 @@ var SphereSimplexPrimitivesBuilder = /** @class */ (function (_super) {
     };
     return SphereSimplexPrimitivesBuilder;
 }(SimplexPrimitivesBuilder));
+/**
+ * @hidden
+ */
 function spherePrimitive(options) {
     if (options === void 0) { options = { kind: 'SphereGeometry' }; }
     var builder = new SphereSimplexPrimitivesBuilder();

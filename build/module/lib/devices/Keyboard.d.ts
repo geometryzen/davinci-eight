@@ -1,5 +1,5 @@
-import { IKeyboardHandler } from '../devices/IKeyboardHandler';
 import { ShareableBase } from '../core/ShareableBase';
+import { IKeyboardHandler } from '../devices/IKeyboardHandler';
 export declare class Keyboard extends ShareableBase {
     private handler;
     private document;

@@ -1,3 +1,6 @@
+/**
+ * @hidden
+ */
 export function mul3x3(a, b, c) {
     var a11 = a[0x0], a12 = a[0x3], a13 = a[0x6];
     var a21 = a[0x1], a22 = a[0x4], a23 = a[0x7];

@@ -1,3 +1,6 @@
+/**
+ * @hidden
+ */
 export function mergeStringMapList(ms) {
     var result = {};
     ms.forEach(function (m) {

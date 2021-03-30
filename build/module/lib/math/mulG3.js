@@ -1,5 +1,8 @@
 import { compG3Get as get } from '../math/compG3Get';
 import { mulE3 } from '../math/mulE3';
+/**
+ * @hidden
+ */
 export function mulG3(a, b, out) {
     var a0 = a.a;
     var a1 = a.x;

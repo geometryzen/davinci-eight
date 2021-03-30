@@ -1,8 +1,8 @@
 import { BivectorE3 as Bivector } from './BivectorE3';
-import { VectorE3 as Vector } from './VectorE3';
 import { SpinorE3 as Spinor } from './SpinorE3';
+import { VectorE3 as Vector } from './VectorE3';
 /**
- *
+ * @hidden
  */
 export interface MutableSpinor extends Spinor {
     /**
@@ -23,5 +23,6 @@ export interface MutableSpinor extends Spinor {
  * the bivector B will be used if specified.
  * Otherwise, sets the output spinor to a random bivector if the vectors are anti-parallel.
  * The result is independent of the magnitudes of a and b.
+ * @hidden
  */
 export declare function rotorFromDirectionsE3(a: Vector, b: Vector, B: Bivector | undefined, m: MutableSpinor): void;

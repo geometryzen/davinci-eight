@@ -1,10 +1,14 @@
 import { dotVectorE2 } from './dotVectorE2';
 import { quadVectorE2 } from './quadVectorE2';
+/**
+ * @hidden
+ */
 var sqrt = Math.sqrt;
 /**
  * Sets this multivector to a rotor representing a rotation from a to b.
  * R = (|b||a| + b * a) / sqrt(2 * |b||a|(|b||a| + b << a))
  * Returns undefined (void 0) if the vectors are anti-parallel.
+ * @hidden
  */
 export function rotorFromDirectionsE2(a, b, m) {
     var quadA = quadVectorE2(a);

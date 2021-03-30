@@ -1,6 +1,9 @@
 import { compG3Get as get } from '../math/compG3Get';
-import { rcoE3 } from '../math/rcoE3';
 import { compG3Set as set } from '../math/compG3Set';
+import { rcoE3 } from '../math/rcoE3';
+/**
+ * @hidden
+ */
 export function rcoG3(a, b, out) {
     var a0 = get(a, 0);
     var a1 = get(a, 1);

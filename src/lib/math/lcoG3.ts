@@ -1,8 +1,11 @@
-import { GeometricE3 } from '../math/GeometricE3';
 import { compG3Get as get } from '../math/compG3Get';
-import { lcoE3 } from '../math/lcoE3';
 import { compG3Set as set } from '../math/compG3Set';
+import { GeometricE3 } from '../math/GeometricE3';
+import { lcoE3 } from '../math/lcoE3';
 
+/**
+ * @hidden
+ */
 export function lcoG3<T extends GeometricE3>(a: GeometricE3, b: GeometricE3, out: T): T {
 
     const a0 = get(a, 0);

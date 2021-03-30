@@ -1,15 +1,21 @@
-import { Color } from '../core/Color';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { LineStrip } from '../atoms/LineStrip';
-import { CurveMode } from './CurveMode';
 import { LinePoints } from '../atoms/LinePoints';
+import { LineStrip } from '../atoms/LineStrip';
 import { isDefined } from '../checks/isDefined';
 import { isFunction } from '../checks/isFunction';
 import { mustBeNumber } from '../checks/mustBeNumber';
+import { Color } from '../core/Color';
+import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { Vector3 } from '../math/Vector3';
+import { CurveMode } from './CurveMode';
+/**
+ * @hidden
+ */
 function aPositionDefault(u) {
     return Vector3.vector(u, 0, 0);
 }
+/**
+ * @hidden
+ */
 function topology(mode, uSegments, uClosed) {
     switch (mode) {
         case CurveMode.POINTS: {
@@ -23,6 +29,9 @@ function topology(mode, uSegments, uClosed) {
         }
     }
 }
+/**
+ * @hidden
+ */
 function transformVertex(vertex, u, options) {
     var aPosition = isDefined(options.aPosition) ? options.aPosition : aPositionDefault;
     var aColor = isDefined(options.aColor) ? options.aColor : void 0;
@@ -33,6 +42,9 @@ function transformVertex(vertex, u, options) {
         vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = Color.copy(aColor(u));
     }
 }
+/**
+ * @hidden
+ */
 export function curvePrimitive(options) {
     var uMin = isDefined(options.uMin) ? mustBeNumber('uMin', options.uMin) : 0;
     var uMax = isDefined(options.uMax) ? mustBeNumber('uMax', options.uMax) : 1;

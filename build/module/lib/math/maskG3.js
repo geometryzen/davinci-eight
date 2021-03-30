@@ -1,6 +1,12 @@
 import { isNumber } from '../checks/isNumber';
 import { isObject } from '../checks/isObject';
+/**
+ * @hidden
+ */
 var scratch = { a: 0, x: 0, y: 0, z: 0, yz: 0, zx: 0, xy: 0, b: 0 };
+/**
+ * @hidden
+ */
 export function maskG3(arg) {
     if (isObject(arg) && 'maskG3' in arg) {
         var duck = arg;

@@ -1,7 +1,10 @@
-import { dataLength } from './dataLength';
 import { expectArg } from '../checks/expectArg';
 import { isDefined } from '../checks/isDefined';
+import { dataLength } from './dataLength';
 import { Simplex } from './Simplex';
+/**
+ * @hidden
+ */
 function stringify(thing, space) {
     var cache = [];
     return JSON.stringify(thing, function (key, value) {
@@ -18,6 +21,7 @@ function stringify(thing, space) {
 }
 /**
  * Returns undefined (void 0) for an empty geometry.
+ * @hidden
  */
 export function simplicesToGeometryMeta(geometry) {
     var kValueOfSimplex = void 0;

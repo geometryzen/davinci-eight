@@ -22,23 +22,77 @@ import { geometryModeFromOptions } from './geometryModeFromOptions';
 import { setAxisAndMeridian } from './setAxisAndMeridian';
 import { setColorOption } from './setColorOption';
 import { setDeprecatedOptions } from './setDeprecatedOptions';
+/**
+ * @hidden
+ */
 var COORD_MIN_DEFAULT = -1;
+/**
+ * @hidden
+ */
 var COORD_MAX_DEFAULT = +1;
+/**
+ * @hidden
+ */
 var GRID_SEGMENTS_DEFAULT = 10;
+/**
+ * @hidden
+ */
 var OPTION_OFFSET = { name: 'offset' };
+/**
+ * @hidden
+ */
 var OPTION_TILT = { name: 'tilt' };
+/**
+ * @hidden
+ */
 var OPTION_STRESS = { name: 'stress' };
+/**
+ * @hidden
+ */
 var OPTION_COLOR = { name: 'color', assertFn: mustBeObject };
+/**
+ * @hidden
+ */
 var OPTION_POSITION_FUNCTION = { name: 'aPosition', assertFn: mustBeFunction };
+/**
+ * @hidden
+ */
 var OPTION_NORMAL_FUNCTION = { name: 'aNormal', assertFn: mustBeFunction };
+/**
+ * @hidden
+ */
 var OPTION_COLOR_FUNCTION = { name: 'aColor', assertFn: mustBeFunction };
+/**
+ * @hidden
+ */
 var OPTION_UMIN = { name: 'uMin', defaultValue: COORD_MIN_DEFAULT, assertFn: mustBeNumber };
+/**
+ * @hidden
+ */
 var OPTION_UMAX = { name: 'uMax', defaultValue: COORD_MAX_DEFAULT, assertFn: mustBeNumber };
+/**
+ * @hidden
+ */
 var OPTION_USEGMENTS = { name: 'uSegments', defaultValue: GRID_SEGMENTS_DEFAULT, assertFn: mustBeInteger };
+/**
+ * @hidden
+ */
 var OPTION_VMIN = { name: 'vMin', defaultValue: COORD_MIN_DEFAULT, assertFn: mustBeNumber };
+/**
+ * @hidden
+ */
 var OPTION_VMAX = { name: 'vMax', defaultValue: COORD_MAX_DEFAULT, assertFn: mustBeNumber };
+/**
+ * @hidden
+ */
 var OPTION_VSEGMENTS = { name: 'vSegments', defaultValue: GRID_SEGMENTS_DEFAULT, assertFn: mustBeInteger };
+/**
+ * @hidden
+ */
 var OPTION_MODE = { name: 'mode', defaultValue: GeometryMode.WIRE, assertFn: mustBeInteger };
+/**
+ * @hidden
+ */
 var OPTIONS = [
     OPTION_OFFSET,
     OPTION_TILT,
@@ -55,6 +109,9 @@ var OPTIONS = [
     OPTION_VSEGMENTS,
     OPTION_MODE
 ];
+/**
+ * @hidden
+ */
 var OPTION_NAMES = OPTIONS.map(function (option) { return option.name; });
 function aPositionDefault(u, v) {
     return vec(u, v, 0);

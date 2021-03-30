@@ -1,6 +1,6 @@
-import { BoxGeometryOptions } from './BoxGeometryOptions';
 import { ContextManager } from '../core/ContextManager';
 import { GeometryElements } from '../core/GeometryElements';
+import { BoxGeometryOptions } from './BoxGeometryOptions';
 /**
  * A convenience class for creating a BoxGeometry.
  */

@@ -3,6 +3,7 @@ import { mustBeGE } from '../checks/mustBeGE';
 import { mustBeInteger } from '../checks/mustBeInteger';
 /**
  * Computes the number of posts to build a fence from the number of segments.
+ * @hidden
  */
 export function numPostsForFence(segmentCount, closed) {
     mustBeInteger('segmentCount', segmentCount);

@@ -1,26 +1,25 @@
-import { applyMixins } from '../utils/applyMixins';
-import { approx } from './approx';
-import { arraysEQ } from './arraysEQ';
-import { b2 } from '../geometries/b2';
-import { b3 } from '../geometries/b3';
-import { dotVectorE2 as dotVector } from './dotVectorE2';
-import { extE2 } from './extE2';
-import { gauss } from './gauss';
-import { GeometricE2 } from './GeometricE2';
+import { VectorN } from '../atoms/VectorN';
 import { isDefined } from '../checks/isDefined';
 import { isNumber } from '../checks/isNumber';
 import { isObject } from '../checks/isObject';
-import { lcoE2 } from './lcoE2';
-import { lock } from '../core/Lockable';
-import { LockableMixin } from '../core/Lockable';
-import { TargetLockedError } from '../core/Lockable';
-import { mulE2 } from './mulE2';
 import { mustBeEQ } from '../checks/mustBeEQ';
 import { mustBeInteger } from '../checks/mustBeInteger';
 import { mustBeNumber } from '../checks/mustBeNumber';
 import { mustBeObject } from '../checks/mustBeObject';
+import { lock, LockableMixin, TargetLockedError } from '../core/Lockable';
+import { b2 } from '../geometries/b2';
+import { b3 } from '../geometries/b3';
 import { notImplemented } from '../i18n/notImplemented';
 import { notSupported } from '../i18n/notSupported';
+import { applyMixins } from '../utils/applyMixins';
+import { approx } from './approx';
+import { arraysEQ } from './arraysEQ';
+import { dotVectorE2 as dotVector } from './dotVectorE2';
+import { extE2 } from './extE2';
+import { gauss } from './gauss';
+import { GeometricE2 } from './GeometricE2';
+import { lcoE2 } from './lcoE2';
+import { mulE2 } from './mulE2';
 import { Pseudo } from './Pseudo';
 import { rcoE2 } from './rcoE2';
 import { rotorFromDirectionsE2 } from './rotorFromDirectionsE2';
@@ -28,44 +27,112 @@ import { scpE2 } from './scpE2';
 import { SpinorE2 } from './SpinorE2';
 import { stringFromCoordinates } from './stringFromCoordinates';
 import { VectorE2 } from './VectorE2';
-import { VectorN } from '../atoms/VectorN';
 import { wedgeXY } from './wedgeXY';
 
 // symbolic constants for the coordinate indices into the data array.
+/**
+ * @hidden
+ */
 const COORD_SCALAR = 0;
+/**
+ * @hidden
+ */
 const COORD_X = 1;
+/**
+ * @hidden
+ */
 const COORD_Y = 2;
+/**
+ * @hidden
+ */
 const COORD_PSEUDO = 3;
 
+/**
+ * @hidden
+ */
 const abs = Math.abs;
+/**
+ * @hidden
+ */
 const atan2 = Math.atan2;
+/**
+ * @hidden
+ */
 const exp = Math.exp;
+/**
+ * @hidden
+ */
 const log = Math.log;
+/**
+ * @hidden
+ */
 const cos = Math.cos;
+/**
+ * @hidden
+ */
 const sin = Math.sin;
+/**
+ * @hidden
+ */
 const sqrt = Math.sqrt;
 
+/**
+ * @hidden
+ */
 const LEFTWARDS_ARROW = "←";
+/**
+ * @hidden
+ */
 const RIGHTWARDS_ARROW = "→";
+/**
+ * @hidden
+ */
 const UPWARDS_ARROW = "↑";
+/**
+ * @hidden
+ */
 const DOWNWARDS_ARROW = "↓";
+/**
+ * @hidden
+ */
 const CLOCKWISE_OPEN_CIRCLE_ARROW = "↻";
+/**
+ * @hidden
+ */
 const ANTICLOCKWISE_OPEN_CIRCLE_ARROW = "↺";
 
+/**
+ * @hidden
+ */
 const ARROW_LABELS = ["1", [LEFTWARDS_ARROW, RIGHTWARDS_ARROW], [DOWNWARDS_ARROW, UPWARDS_ARROW], [CLOCKWISE_OPEN_CIRCLE_ARROW, ANTICLOCKWISE_OPEN_CIRCLE_ARROW]];
+/**
+ * @hidden
+ */
 const COMPASS_LABELS = ["1", ['W', 'E'], ['S', 'N'], [CLOCKWISE_OPEN_CIRCLE_ARROW, ANTICLOCKWISE_OPEN_CIRCLE_ARROW]];
+/**
+ * @hidden
+ */
 const STANDARD_LABELS = ["1", "e1", "e2", "I"];
 
+/**
+ * @hidden
+ */
 const zero = function zero(): [number, number, number, number] {
     return [0, 0, 0, 0];
 };
 
+/**
+ * @hidden
+ */
 const scalar = function scalar(a: number) {
     const coords = zero();
     coords[COORD_SCALAR] = a;
     return coords;
 };
 
+/**
+ * @hidden
+ */
 const vector = function vector(x: number, y: number) {
     const coords = zero();
     coords[COORD_X] = x;
@@ -73,6 +140,9 @@ const vector = function vector(x: number, y: number) {
     return coords;
 };
 
+/**
+ * @hidden
+ */
 const pseudo = function pseudo(b: number) {
     const coords = zero();
     coords[COORD_PSEUDO] = b;
@@ -81,6 +151,7 @@ const pseudo = function pseudo(b: number) {
 
 /**
  * Coordinates corresponding to basis labels.
+ * @hidden
  */
 function coordinates(m: GeometricE2) {
     const coords = zero();
@@ -93,6 +164,7 @@ function coordinates(m: GeometricE2) {
 
 /**
  * Promotes an unknown value to a Geometric2, or returns undefined.
+ * @hidden
  */
 function duckCopy(value: any): Geometric2 {
     if (isObject(value)) {

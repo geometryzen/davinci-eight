@@ -2,15 +2,25 @@
 // https://github.com/davidmerfield/randomColor/
 // Ported to TypeScript by David Geo Holmes
 /**
- * This isn't know to the TypeScript d.ts
+ * This isn't known to the TypeScript d.ts
+ * @hidden
  */
 var MAX_SAFE_INTEGER = Math.pow(2, 53) - 1; // 9007199254740991
 // Seed to get repeatable colors
+/**
+ * @hidden
+ */
 var seed = null;
 // Shared color dictionary
+/**
+ * @hidden
+ */
 var colorDictionary = {};
 // Populate the color dictionary
 loadColorBounds();
+/**
+ * @hidden
+ */
 export function randomColor(options) {
     if (options === void 0) { options = {}; }
     // Check if there is a seed and ensure it's an
@@ -63,6 +73,9 @@ export function randomColor(options) {
     // Then we return the HSB color in the desired format
     return setFormatArray([H, S, B], options);
 }
+/**
+ * @hidden
+ */
 function pickHue(options) {
     var hueRange = getHueRange(options.hue);
     var hue = randomWithin(hueRange);
@@ -73,6 +86,9 @@ function pickHue(options) {
     }
     return hue;
 }
+/**
+ * @hidden
+ */
 function pickSaturation(hue, options) {
     if (options.luminosity === 'random') {
         return randomWithin([0, 100]);
@@ -95,6 +111,9 @@ function pickSaturation(hue, options) {
     }
     return randomWithin([sMin, sMax]);
 }
+/**
+ * @hidden
+ */
 function pickBrightness(H, S, options) {
     var bMin = getMinimumBrightness(H, S), bMax = 100;
     switch (options.luminosity) {
@@ -137,6 +156,9 @@ function setFormatString(hsv: number[], options: { format?: string }): string {
   }
 }
 */
+/**
+ * @hidden
+ */
 function setFormatArray(hsv, options) {
     switch (options.format) {
         case 'hsvArray':
@@ -149,6 +171,9 @@ function setFormatArray(hsv, options) {
             throw new Error();
     }
 }
+/**
+ * @hidden
+ */
 function getMinimumBrightness(H, S) {
     var lowerBounds = getColorInfo(H).lowerBounds;
     for (var i = 0; i < lowerBounds.length - 1; i++) {
@@ -161,6 +186,9 @@ function getMinimumBrightness(H, S) {
     }
     return 0;
 }
+/**
+ * @hidden
+ */
 function getHueRange(colorInput) {
     if (typeof parseInt(colorInput) === 'number') {
         var number = parseInt(colorInput);
@@ -178,9 +206,15 @@ function getHueRange(colorInput) {
     }
     return [0, 360];
 }
+/**
+ * @hidden
+ */
 function getSaturationRange(hue) {
     return getColorInfo(hue).saturationRange;
 }
+/**
+ * @hidden
+ */
 function getColorInfo(hue) {
     // Maps red colors to make picking hue easier
     if (hue >= 334 && hue <= 360) {
@@ -198,6 +232,9 @@ function getColorInfo(hue) {
     }
     throw new Error("Color with hue " + hue + " not found");
 }
+/**
+ * @hidden
+ */
 function randomWithin(range) {
     if (seed === null) {
         return Math.floor(range[0] + Math.random() * (range[1] + 1 - range[0]));
@@ -226,6 +263,9 @@ function HSVtoHex(hsv: number[]): string {
   return hex;
 }
 */
+/**
+ * @hidden
+ */
 function defineColor(name, hueRange, lowerBounds) {
     var sMin = lowerBounds[0][0];
     var sMax = lowerBounds[lowerBounds.length - 1][0];
@@ -238,6 +278,9 @@ function defineColor(name, hueRange, lowerBounds) {
         brightnessRange: [bMin, bMax]
     };
 }
+/**
+ * @hidden
+ */
 function loadColorBounds() {
     defineColor('monochrome', null, [[0, 0], [100, 0]]);
     defineColor('red', [-26, 18], [[20, 100], [30, 92], [40, 89], [50, 85], [60, 78], [70, 70], [80, 60], [90, 55], [100, 50]]);
@@ -248,6 +291,9 @@ function loadColorBounds() {
     defineColor('purple', [258, 282], [[20, 100], [30, 87], [40, 79], [50, 70], [60, 65], [70, 59], [80, 52], [90, 45], [100, 42]]);
     defineColor('pink', [283, 334], [[20, 100], [30, 90], [40, 86], [60, 84], [80, 80], [90, 75], [100, 73]]);
 }
+/**
+ * @hidden
+ */
 function HSVtoRGB(hsv) {
     // this doesn't work for the values of 0 and 360
     // here's the hacky fix
@@ -297,6 +343,9 @@ function HSVtoRGB(hsv) {
     var result = [Math.floor(r * 255), Math.floor(g * 255), Math.floor(b * 255)];
     return result;
 }
+/**
+ * @hidden
+ */
 function HSVtoHSL(hsv) {
     var h = hsv[0], s = hsv[1] / 100, v = hsv[2] / 100, k = (2 - s) * v;
     return [
@@ -305,6 +354,9 @@ function HSVtoHSL(hsv) {
         k / 2 * 100
     ];
 }
+/**
+ * @hidden
+ */
 function stringToInteger(s) {
     var total = 0;
     for (var i = 0; i !== s.length; i++) {

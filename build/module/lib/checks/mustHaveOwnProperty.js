@@ -1,11 +1,17 @@
 import { isDefined } from '../checks/isDefined';
 import { mustBeDefined } from '../checks/mustBeDefined';
 import { mustSatisfy } from '../checks/mustSatisfy';
+/**
+ * @hidden
+ */
 function haveOwnProperty(prop) {
     return function () {
         return "have own property `" + prop + "`";
     };
 }
+/**
+ * @hidden
+ */
 export function mustHaveOwnProperty(name, value, prop, contextBuilder) {
     mustBeDefined('name', name);
     mustBeDefined('prop', prop);

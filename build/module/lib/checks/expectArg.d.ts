@@ -1,3 +1,6 @@
+/**
+ * @hidden
+ */
 export declare function expectArg<T>(name: string, value: T): {
     toSatisfy(condition: boolean, message: string): any;
     toBeBoolean(override?: () => string): any;

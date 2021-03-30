@@ -4,6 +4,7 @@ import { Mesh } from '../core/Mesh';
 import { VectorE3 } from '../math/VectorE3';
 /**
  * Sets the axis and meridian properties from options in the correct order.
+ * @hidden
  */
 export declare function setAxisAndMeridian(mesh: Mesh<Geometry, Material>, options: {
     axis?: VectorE3;

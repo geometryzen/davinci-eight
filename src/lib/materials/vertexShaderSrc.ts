@@ -1,17 +1,23 @@
-import { AttribMetaInfo } from '../core/AttribMetaInfo';
-import { config } from '../config';
-import { getAttribVarName } from '../core/getAttribVarName';
-import { getUniformVarName } from '../core/getUniformVarName';
 import { mustBeBoolean } from '../checks/mustBeBoolean';
 import { mustBeDefined } from '../checks/mustBeDefined';
+import { config } from '../config';
+import { AttribMetaInfo } from '../core/AttribMetaInfo';
+import { getAttribVarName } from '../core/getAttribVarName';
+import { getUniformVarName } from '../core/getUniformVarName';
 import { GraphicsProgramSymbols as GPS } from '../core/GraphicsProgramSymbols';
 import { UniformMetaInfo } from '../core/UniformMetaInfo';
 import { GLSLESVersion } from './glslVersion';
 
+/**
+ * @hidden
+ */
 function getUniformCodeName(uniforms: { [name: string]: UniformMetaInfo }, name: string) {
     return getUniformVarName(uniforms[name], name);
 }
 
+/**
+ * @hidden
+ */
 function getAttributeModifier(version: GLSLESVersion) {
     if (version === GLSLESVersion.ThreeHundred) {
         return "in";
@@ -21,6 +27,9 @@ function getAttributeModifier(version: GLSLESVersion) {
     }
 }
 
+/**
+ * @hidden
+ */
 function getVertexShaderVaryingModifier(version: GLSLESVersion) {
     if (version === GLSLESVersion.ThreeHundred) {
         return "out";
@@ -30,18 +39,46 @@ function getVertexShaderVaryingModifier(version: GLSLESVersion) {
     }
 }
 
+/**
+ * @hidden
+ */
 const SPACE = ' ';
+/**
+ * @hidden
+ */
 const UNIFORM = 'uniform' + SPACE;
+/**
+ * @hidden
+ */
 const COMMA = ',' + SPACE;
+/**
+ * @hidden
+ */
 const SEMICOLON = ';';
+/**
+ * @hidden
+ */
 const LPAREN = '(';
+/**
+ * @hidden
+ */
 const RPAREN = ')';
+/**
+ * @hidden
+ */
 const TIMES = SPACE + '*' + SPACE;
+/**
+ * @hidden
+ */
 const ASSIGN = SPACE + '=' + SPACE;
+/**
+ * @hidden
+ */
 const DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME = "directionalLightCosineFactor";
 
 /**
  * Generates a vertex shader.
+ * @hidden
  */
 export function vertexShaderSrc(attributes: { [name: string]: AttribMetaInfo }, uniforms: { [name: string]: UniformMetaInfo }, vColor: boolean, vCoords: boolean, vLight: boolean, version: GLSLESVersion): string {
 

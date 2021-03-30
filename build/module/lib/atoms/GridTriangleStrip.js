@@ -1,10 +1,13 @@
 import { __extends } from "tslib";
-import { BeginMode } from '../core/BeginMode';
 import { isDefined } from '../checks/isDefined';
-import { GridPrimitive } from './GridPrimitive';
 import { mustBeArray } from '../checks/mustBeArray';
 import { mustBeInteger } from '../checks/mustBeInteger';
+import { BeginMode } from '../core/BeginMode';
+import { GridPrimitive } from './GridPrimitive';
 import { numPostsForFence } from './numPostsForFence';
+/**
+ * @hidden
+ */
 function triangleStripForGrid(uSegments, vSegments, elements) {
     // Make sure that we have somewhere valid to store the result.
     elements = isDefined(elements) ? mustBeArray('elements', elements) : [];

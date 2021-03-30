@@ -1,6 +1,9 @@
-import { dotVectorCartesianE2 } from '../math/dotVectorCartesianE2';
 import { isDefined } from '../checks/isDefined';
 import { isNumber } from '../checks/isNumber';
+import { dotVectorCartesianE2 } from '../math/dotVectorCartesianE2';
+/**
+ * @hidden
+ */
 export function quadVectorE2(vector) {
     if (isDefined(vector)) {
         var x = vector.x;

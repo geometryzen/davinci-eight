@@ -1,10 +1,10 @@
-import { VectorE3 } from '../math/VectorE3';
 import { mustBeDefined } from '../checks/mustBeDefined';
 import { mustBeInteger } from '../checks/mustBeInteger';
 import { mustBeNumber } from '../checks/mustBeNumber';
 import { Spinor3 } from '../math/Spinor3';
 import { SpinorE3 } from '../math/SpinorE3';
 import { Vector3 } from '../math/Vector3';
+import { VectorE3 } from '../math/VectorE3';
 
 /**
  * Computes a list of points corresponding to an arc centered on the origin.
@@ -12,6 +12,7 @@ import { Vector3 } from '../math/Vector3';
  * angle: {number} The angle of the rotation.
  * generator {SpinorE3} The generator of the rotation.
  * segments {number} The number of segments.
+ * @hidden
  */
 export function arc3(begin: VectorE3, angle: number, generator: SpinorE3, segments: number): Vector3[] {
     mustBeDefined('begin', begin);

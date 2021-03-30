@@ -1,6 +1,9 @@
 import { compG3Get as get } from '../math/compG3Get';
 import { mulE3 } from '../math/mulE3';
 import { compG3Set as set } from '../math/compG3Set';
+/**
+ * @hidden
+ */
 export function scpG3(a, b, out) {
     var a0 = get(a, 0);
     var a1 = get(a, 1);

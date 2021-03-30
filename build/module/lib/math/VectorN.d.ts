@@ -1,6 +1,6 @@
 import { Lockable } from '../core/Lockable';
 /**
- *
+ * @hidden
  */
 export declare class VectorN<T> implements Lockable {
     /**

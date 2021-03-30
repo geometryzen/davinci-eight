@@ -1,14 +1,35 @@
 import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
+import { cube } from './cube';
 import { simplicesToGeometryMeta } from './simplicesToGeometryMeta';
 import { simplicesToPrimitive } from './simplicesToPrimitive';
-import { cube } from './cube';
 
+/**
+ * @hidden
+ */
 const SQUARES_PER_CUBE = 6;
+/**
+ * @hidden
+ */
 const TRIANGLES_PER_SQUARE = 2;
+/**
+ * @hidden
+ */
 const VERTICES_PER_SQUARE = 4;
+/**
+ * @hidden
+ */
 const VERTICES_PER_TRIANGLE = 3;
+/**
+ * @hidden
+ */
 const POSITION_COORDS_PER_VERTEX = 3;
+/**
+ * @hidden
+ */
 const NORMAL_COORDS_PER_VERTEX = 3;
+/**
+ * @hidden
+ */
 const TEX_COORDS_PER_VERTEX = 2;
 
 describe("cube", function () {

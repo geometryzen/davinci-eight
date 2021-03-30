@@ -1,9 +1,15 @@
 import { isDefined } from '../checks/isDefined';
 
+/**
+ * @hidden
+ */
 function getContextFailed(contextId: 'webgl2' | 'webgl'): string {
     return `canvas.getContext('${contextId}') failed. Your browser may not support it.`;
 }
 
+/**
+ * @hidden
+ */
 function invalidContextId(contextId: string): string {
     return `${JSON.stringify(contextId)} is not a recognized WebGL contextId. contextId must be 'webgl2' or 'webgl'.`;
 }
@@ -14,6 +20,7 @@ function invalidContextId(contextId: string): string {
  * @param options The arguments to the HTMLCanvasElement.getContext() method.
  * @param contextId An optional override for the context identifier.
  * If the canvas is undefined then an undefined value is returned for the context.
+ * @hidden
  */
 export function initWebGL(canvas: HTMLCanvasElement, options: WebGLContextAttributes, contextId: 'webgl2' | 'webgl' | undefined): { context: WebGL2RenderingContext, contextId: 'webgl2' } | { context: WebGLRenderingContext, contextId: 'webgl' } {
 

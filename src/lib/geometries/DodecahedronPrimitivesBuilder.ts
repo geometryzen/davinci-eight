@@ -1,8 +1,17 @@
 import { PolyhedronBuilder } from '../geometries/PolyhedronBuilder';
 
+/**
+ * @hidden
+ */
 const t = (1 + Math.sqrt(5)) / 2;
+/**
+ * @hidden
+ */
 const r = 1 / t;
 
+/**
+ * @hidden
+ */
 const vertices = [
 
     // (±1, ±1, ±1)
@@ -24,6 +33,9 @@ const vertices = [
     -t, 0, r, t, 0, r
 ];
 
+/**
+ * @hidden
+ */
 const indices = [
     3, 11, 7, 3, 7, 15, 3, 15, 13,
     7, 19, 17, 7, 17, 6, 7, 6, 15,

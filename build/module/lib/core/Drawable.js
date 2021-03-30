@@ -1,18 +1,27 @@
 import { __extends } from "tslib";
 import { exchange } from '../base/exchange';
-import { GraphicsProgramSymbols } from './GraphicsProgramSymbols';
-import { isObject } from '../checks/isObject';
 import { isNull } from '../checks/isNull';
 import { isNumber } from '../checks/isNumber';
+import { isObject } from '../checks/isObject';
 import { isUndefined } from '../checks/isUndefined';
 import { mustBeBoolean } from '../checks/mustBeBoolean';
 import { mustBeNonNullObject } from '../checks/mustBeNonNullObject';
+import { StringShareableMap } from '../collections/StringShareableMap';
+import { ShareableContextConsumer } from '../core/ShareableContextConsumer';
 import { OpacityFacet } from '../facets/OpacityFacet';
 import { PointSizeFacet } from '../facets/PointSizeFacet';
-import { ShareableContextConsumer } from '../core/ShareableContextConsumer';
-import { StringShareableMap } from '../collections/StringShareableMap';
+import { GraphicsProgramSymbols } from './GraphicsProgramSymbols';
+/**
+ * @hidden
+ */
 var OPACITY_FACET_NAME = 'opacity';
+/**
+ * @hidden
+ */
 var POINTSIZE_FACET_NAME = 'pointSize';
+/**
+ * @hidden
+ */
 var DRAWABLE_LOGGING_NAME = 'Drawable';
 /**
  * This class may be used as either a base class or standalone.
@@ -304,6 +313,7 @@ var Drawable = /** @class */ (function (_super) {
 export { Drawable };
 /**
  * Helper function to synchronize and optimize facets.
+ * @hidden
  */
 function synchFacets(material, drawable) {
     if (material) {

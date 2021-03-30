@@ -1,5 +1,8 @@
 import { Color } from './Color';
 
+/**
+ * @hidden
+ */
 const palette: Color[] = [
     // Primary colors
     Color.black,

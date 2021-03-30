@@ -3,6 +3,7 @@ import { computeCount } from './computeCount';
 
 /**
  * Computes the interleaved attribute values array.
+ * @hidden
  */
 export function computeAttributes(attributes: { [name: string]: Attribute }, aNames: string[]): number[] {
     const aNamesLen = aNames.length;

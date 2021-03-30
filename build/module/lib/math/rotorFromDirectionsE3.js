@@ -3,8 +3,17 @@ import { quadVectorE3 as quad } from './quadVectorE3';
 import { wedgeXY } from './wedgeXY';
 import { wedgeYZ } from './wedgeYZ';
 import { wedgeZX } from './wedgeZX';
+/**
+ * @hidden
+ */
 var sqrt = Math.sqrt;
+/**
+ * @hidden
+ */
 var cosPIdiv4 = Math.cos(Math.PI / 4);
+/**
+ * @hidden
+ */
 var sinPIdiv4 = Math.sin(Math.PI / 4);
 /**
  * Sets the output spinor to a rotor representing a rotation from a to b.
@@ -13,6 +22,7 @@ var sinPIdiv4 = Math.sin(Math.PI / 4);
  * the bivector B will be used if specified.
  * Otherwise, sets the output spinor to a random bivector if the vectors are anti-parallel.
  * The result is independent of the magnitudes of a and b.
+ * @hidden
  */
 export function rotorFromDirectionsE3(a, b, B, m) {
     // Optimization for equal vectors.

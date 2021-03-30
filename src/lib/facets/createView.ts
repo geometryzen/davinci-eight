@@ -1,10 +1,10 @@
-import { FacetVisitor } from '../core/FacetVisitor';
-import { Geometric3 } from '../math/Geometric3';
-import { VectorE3 } from '../math/VectorE3';
-import { Matrix4 } from '../math/Matrix4';
-import { View } from './View';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { isUndefined } from '../checks/isUndefined';
+import { FacetVisitor } from '../core/FacetVisitor';
+import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
+import { Geometric3 } from '../math/Geometric3';
+import { Matrix4 } from '../math/Matrix4';
+import { VectorE3 } from '../math/VectorE3';
+import { View } from './View';
 import { viewMatrixFromEyeLookUp } from './viewMatrixFromEyeLookUp';
 
 //
@@ -22,6 +22,9 @@ import { viewMatrixFromEyeLookUp } from './viewMatrixFromEyeLookUp';
 // transforms from the reference frame to the u, v, n frame.
 // The reference frame is n = e3, v = e2, and u = e1.
 //
+/**
+ * @hidden
+ */
 export function createView(options: { viewMatrixName?: string } = {}): View {
 
     /**

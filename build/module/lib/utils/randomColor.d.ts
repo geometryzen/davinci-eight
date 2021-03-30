@@ -1,3 +1,6 @@
+/**
+ * @hidden
+ */
 export declare function randomColor(options?: {
     count?: number;
     format?: string;

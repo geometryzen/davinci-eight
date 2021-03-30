@@ -5,6 +5,7 @@ import { VectorN } from '../math/VectorN';
  * terahedron
  *
  * The tetrahedron is composed of four triangles: abc, bdc, cda, dba.
+ * @hidden
  */
 export function tetrahedron(a, b, c, d, attributes, triangles) {
     if (attributes === void 0) { attributes = {}; }

@@ -1,9 +1,9 @@
-import { AbstractDrawable } from './AbstractDrawable';
 import { ContextManager } from '../core/ContextManager';
 import { Facet } from '../core/Facet';
+import { ShareableContextConsumer } from '../core/ShareableContextConsumer';
+import { AbstractDrawable } from './AbstractDrawable';
 import { Geometry } from './Geometry';
 import { Material } from './Material';
-import { ShareableContextConsumer } from '../core/ShareableContextConsumer';
 /**
  * This class may be used as either a base class or standalone.
  */

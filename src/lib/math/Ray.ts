@@ -5,15 +5,42 @@ import { VectorE3 } from './VectorE3';
 /**
  * scratch variables.
  */
+/**
+ * @hidden
+ */
 const v1 = new Vector3();
+/**
+ * @hidden
+ */
 const v = new Vector3();
+/**
+ * @hidden
+ */
 const segCenter = new Vector3();
+/**
+ * @hidden
+ */
 const segDir = new Vector3();
+/**
+ * @hidden
+ */
 const diff = new Vector3();
+/**
+ * @hidden
+ */
 const edge1 = new Vector3();
+/**
+ * @hidden
+ */
 const edge2 = new Vector3();
+/**
+ * @hidden
+ */
 const normal = new Vector3();
 
+/**
+ *
+ */
 export class Ray {
     origin: Vector3;
     direction: Vector3;

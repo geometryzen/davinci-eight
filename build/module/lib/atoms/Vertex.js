@@ -1,6 +1,9 @@
-import { Coords } from '../math/Coords';
 import { mustBeGE } from '../checks/mustBeGE';
 import { mustBeInteger } from '../checks/mustBeInteger';
+import { Coords } from '../math/Coords';
+/**
+ * @hidden
+ */
 function stringVectorN(name, vector) {
     if (vector) {
         return name + vector.toString();
@@ -9,6 +12,9 @@ function stringVectorN(name, vector) {
         return name;
     }
 }
+/**
+ * @hidden
+ */
 function stringifyVertex(vertex) {
     var attributes = vertex.attributes;
     var attribsKey = Object.keys(attributes).map(function (name) {

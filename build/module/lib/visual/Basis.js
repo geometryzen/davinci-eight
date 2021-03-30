@@ -1,22 +1,43 @@
 import { __extends } from "tslib";
 import { BeginMode } from '../core/BeginMode';
 import { Color } from '../core/Color';
-import { ColorFacet } from '../facets/ColorFacet';
-import { ds } from './Defaults';
 import { GeometryArrays } from '../core/GeometryArrays';
 import { GraphicsProgramSymbols as GPS } from '../core/GraphicsProgramSymbols';
 import { Mesh } from '../core/Mesh';
-import { setColorOption } from './setColorOption';
-import { setDeprecatedOptions } from './setDeprecatedOptions';
+import { ColorFacet } from '../facets/ColorFacet';
+import { Vector3Facet } from '../facets/Vector3Facet';
 import { ShaderMaterial } from '../materials/ShaderMaterial';
 import { Vector3 } from '../math/Vector3';
-import { Vector3Facet } from '../facets/Vector3Facet';
+import { ds } from './Defaults';
+import { setColorOption } from './setColorOption';
+import { setDeprecatedOptions } from './setDeprecatedOptions';
+/**
+ * @hidden
+ */
 var uPointA = 'uPointA';
+/**
+ * @hidden
+ */
 var uPointB = 'uPointB';
+/**
+ * @hidden
+ */
 var uPointC = 'uPointC';
+/**
+ * @hidden
+ */
 var uColorA = 'uColorA';
+/**
+ * @hidden
+ */
 var uColorB = 'uColorB';
+/**
+ * @hidden
+ */
 var uColorC = 'uColorC';
+/**
+ * @hidden
+ */
 var vertexShaderSrc = function () {
     var vs = [
         "attribute float aPointIndex;",
@@ -62,6 +83,9 @@ var vertexShaderSrc = function () {
     ].join('\n');
     return vs;
 };
+/**
+ * @hidden
+ */
 var fragmentShaderSrc = function () {
     var fs = [
         "precision mediump float;",

@@ -2,9 +2,13 @@ import { __extends } from "tslib";
 import { mustBeObject } from '../checks/mustBeObject';
 import { ShareableBase } from '../core/ShareableBase';
 import { Vector2 } from '../math/Vector2';
+/**
+ * @hidden
+ */
 var MODE = { NONE: -1, ROTATE: 0, ZOOM: 1, PAN: 2, TOUCH_ROTATE: 3, TOUCH_ZOOM_PAN: 4 };
 /**
  * The index into the keys array is ROTATE=0, ZOOM=1, PAN=2
+ * @hidden
  */
 var keys = [65 /*A*/, 83 /*S*/, 68 /*D*/];
 /**

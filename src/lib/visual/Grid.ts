@@ -123,24 +123,39 @@ const OPTIONS = [
  */
 const OPTION_NAMES = OPTIONS.map((option) => option.name);
 
+/**
+ * @hidden
+ */
 function aPositionDefault(u: number, v: number): VectorE3 {
     return vec(u, v, 0);
 }
 
+/**
+ * @hidden
+ */
 function aNormalDefault(u: number, v: number): VectorE3 {
     mustBeNumber('u', u);
     mustBeNumber('v', v);
     return vec(0, 0, 1);
 }
 
+/**
+ * @hidden
+ */
 function isFunctionOrNull(x: any): boolean {
     return isFunction(x) || isNull(x);
 }
 
+/**
+ * @hidden
+ */
 function isFunctionOrUndefined(x: any): boolean {
     return isFunction(x) || isUndefined(x);
 }
 
+/**
+ * @hidden
+ */
 function transferGeometryOptions(source: GridOptions, target: GridGeometryOptions): void {
 
     if (isFunctionOrNull(source.aPosition)) {
@@ -185,7 +200,7 @@ function transferGeometryOptions(source: GridOptions, target: GridGeometryOption
 }
 
 /**
- * 
+ * @hidden
  */
 function configGeometry(engine: ContextManager, geoOptions: GridGeometryOptions, grid: Grid): void {
     // Don't use the Geometry cache until we can better differentiate the options.
@@ -207,6 +222,9 @@ function configGeometry(engine: ContextManager, geoOptions: GridGeometryOptions,
     */
 }
 
+/**
+ * @hidden
+ */
 function configPoints(engine: ContextManager, options: GridOptions, grid: Grid) {
     const geoOptions: GridGeometryOptions = { kind: 'GridGeometry' };
     transferGeometryOptions(options, geoOptions);
@@ -251,6 +269,9 @@ function configPoints(engine: ContextManager, options: GridOptions, grid: Grid) 
     }
 }
 
+/**
+ * @hidden
+ */
 function configLines(engine: ContextManager, options: GridOptions, grid: Grid) {
     const geoOptions: GridGeometryOptions = { kind: 'GridGeometry' };
     transferGeometryOptions(options, geoOptions);
@@ -300,6 +321,9 @@ function configLines(engine: ContextManager, options: GridOptions, grid: Grid) {
     }
 }
 
+/**
+ * @hidden
+ */
 function configMesh(engine: ContextManager, options: GridOptions, grid: Grid) {
     const geoOptions: GridGeometryOptions = { kind: 'GridGeometry' };
     transferGeometryOptions(options, geoOptions);

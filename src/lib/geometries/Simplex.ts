@@ -1,28 +1,41 @@
-import { mustBeEQ } from '../checks/mustBeEQ';
-import { mustBeGE } from '../checks/mustBeGE';
-import { mustBeLE } from '../checks/mustBeLE';
-import { mustBeInteger } from '../checks/mustBeInteger';
-import { SimplexMode } from './SimplexMode';
+import { VectorN } from '../atoms/VectorN';
 import { Vertex } from '../atoms/Vertex';
 import { VertexAttributeMap } from '../atoms/VertexAttributeMap';
-import { VectorN } from '../atoms/VectorN';
+import { mustBeEQ } from '../checks/mustBeEQ';
+import { mustBeGE } from '../checks/mustBeGE';
+import { mustBeInteger } from '../checks/mustBeInteger';
+import { mustBeLE } from '../checks/mustBeLE';
 import { VectorN as DefaultVectorN } from '../math/VectorN';
+import { SimplexMode } from './SimplexMode';
 
+/**
+ * @hidden
+ */
 function checkIntegerArg(name: string, n: number, min: number, max: number): number {
     mustBeInteger(name, n);
     mustBeGE(name, n, min);
     mustBeLE(name, n, max);
     return n;
 }
+
+/**
+ * @hidden
+ */
 function checkCountArg(count: number): number {
     // TODO: The count range should depend upon the k value of the simplex.
     return checkIntegerArg('count', count, 0, 7);
 }
 
+/**
+ * @hidden
+ */
 function concatReduce(a: Simplex[], b: Simplex[]): Simplex[] {
     return a.concat(b);
 }
 
+/**
+ * @hidden
+ */
 function lerp(a: number[], b: number[], alpha: number, data: number[] = []): number[] {
     mustBeEQ('a.length', a.length, b.length);
     const dims = a.length;
@@ -34,6 +47,9 @@ function lerp(a: number[], b: number[], alpha: number, data: number[] = []): num
     return data;
 }
 
+/**
+ * @hidden
+ */
 function lerpVertexAttributeMap(a: VertexAttributeMap, b: VertexAttributeMap, alpha: number): VertexAttributeMap {
 
     let attribMap: VertexAttributeMap = {};
@@ -47,10 +63,16 @@ function lerpVertexAttributeMap(a: VertexAttributeMap, b: VertexAttributeMap, al
     return attribMap;
 }
 
+/**
+ * @hidden
+ */
 function lerpVectorN(a: VectorN<number>, b: VectorN<number>, alpha: number): VectorN<number> {
     return new DefaultVectorN<number>(lerp(a.toArray(), b.toArray(), alpha));
 }
 
+/**
+ * @hidden
+ */
 export class Simplex {
     public vertices: Vertex[] = [];
     constructor(k: SimplexMode) {

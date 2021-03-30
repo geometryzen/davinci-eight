@@ -2,6 +2,7 @@ import { SimplexPrimitivesBuilder } from '../geometries/SimplexPrimitivesBuilder
 /**
  * In elementary geometry, a polyhedron is a solid in three dimensions with
  * flat polygonal faces, straight edges and sharp corners or vertices.
+ * @hidden
  */
 export declare class PolyhedronBuilder extends SimplexPrimitivesBuilder {
     /**

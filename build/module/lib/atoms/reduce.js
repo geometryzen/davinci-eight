@@ -1,4 +1,7 @@
 import { BeginMode } from '../core/BeginMode';
+/**
+ * @hidden
+ */
 function copyIndices(src, dest, delta) {
     if (src.indices) {
         var iLen = src.indices.length;
@@ -7,9 +10,15 @@ function copyIndices(src, dest, delta) {
         }
     }
 }
+/**
+ * @hidden
+ */
 function max(xs) {
     return xs.reduce(function (a, b) { return a > b ? a : b; });
 }
+/**
+ * @hidden
+ */
 function joinIndices(previous, current, dest) {
     if (previous.indices) {
         var lastIndex = previous.indices[previous.indices.length - 1];
@@ -22,12 +31,18 @@ function joinIndices(previous, current, dest) {
         }
     }
 }
+/**
+ * @hidden
+ */
 function ensureAttribute(attributes, name, size) {
     if (!attributes[name]) {
         attributes[name] = { values: [], size: size };
     }
     return attributes[name];
 }
+/**
+ * @hidden
+ */
 function copyAttributes(primitive, attributes) {
     var keys = Object.keys(primitive.attributes);
     var kLen = keys.length;
@@ -44,6 +59,7 @@ function copyAttributes(primitive, attributes) {
 }
 /**
  * reduces multiple TRIANGLE_STRIP Primitives to a single TRAINGLE_STRIP Primitive.
+ * @hidden
  */
 export function reduce(primitives) {
     for (var i = 0; i < primitives.length; i++) {

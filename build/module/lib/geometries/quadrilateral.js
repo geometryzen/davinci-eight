@@ -1,4 +1,7 @@
 import { triangle } from '../geometries/triangle';
+/**
+ * @hidden
+ */
 function setAttributes(which, source, target) {
     var names = Object.keys(source);
     var namesLength = names.length;
@@ -22,6 +25,7 @@ function setAttributes(which, source, target) {
  *
  * The quadrilateral is split into two triangles: b-c-a and d-a-c, like a "Z".
  * The zeroth vertex for each triangle is opposite the other triangle.
+ * @hidden
  */
 export function quadrilateral(a, b, c, d, attributes, triangles) {
     if (attributes === void 0) { attributes = {}; }

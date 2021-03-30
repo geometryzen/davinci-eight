@@ -1,11 +1,11 @@
+import { VectorN } from '../atoms/VectorN';
+import { LockableMixin as Lockable } from '../core/Lockable';
 import { BivectorE3 } from './BivectorE3';
 import { CartesianG3 } from './CartesianG3';
 import { GeometricE3 } from './GeometricE3';
-import { LockableMixin as Lockable } from '../core/Lockable';
 import { Scalar } from './Scalar';
 import { SpinorE3 } from './SpinorE3';
 import { VectorE3 } from './VectorE3';
-import { VectorN } from '../atoms/VectorN';
 /**
  *
  */

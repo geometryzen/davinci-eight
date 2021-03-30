@@ -1,8 +1,9 @@
+import { canonicalAxis, canonicalMeridian } from '../core/tiltFromOptions';
 import { Geometric3 } from '../math/Geometric3';
 import { vec } from '../math/R3';
-import { canonicalAxis, canonicalMeridian } from '../core/tiltFromOptions';
 /**
  * This function computes the reference axis of an object.
+ * @hidden
  */
 export function referenceAxis(options, fallback) {
     if (options.tilt) {

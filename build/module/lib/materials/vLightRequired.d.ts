@@ -1,3 +1,6 @@
+/**
+ * @hidden
+ */
 export declare function vLightRequired(attributes: {
     [name: string]: {};
 }, uniforms: {

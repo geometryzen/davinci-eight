@@ -1,9 +1,16 @@
 import { isDefined } from '../checks/isDefined';
+/**
+ * @hidden
+ */
 var ATTITUDE_NAME = 'attitude';
+/**
+ * @hidden
+ */
 var POSITION_NAME = 'position';
 /**
  * Deprecated support for 'position' and 'attitude' in options.
  * Implementations should use the corresponding properties instead.
+ * @hidden
  */
 export function setDeprecatedOptions(mesh, options) {
     if (isDefined(options[POSITION_NAME])) {

@@ -1,7 +1,10 @@
-import { Simplex } from './Simplex';
 import { Vertex } from '../atoms/Vertex';
+import { Simplex } from './Simplex';
 
 // This function has the important side-effect of setting the vertex index property.
+/**
+ * @hidden
+ */
 export function computeUniqueVertices(geometry: Simplex[]): Vertex[] {
 
     let map: { [key: string]: Vertex } = {};

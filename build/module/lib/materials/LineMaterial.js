@@ -8,6 +8,9 @@ import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { GraphicsProgramBuilder } from '../materials/GraphicsProgramBuilder';
 import { glslVersionFromWebGLContextId } from './glslVersionFromWebGLContextId';
 import { ShaderMaterial } from './ShaderMaterial';
+/**
+ * @hidden
+ */
 function defaultOptions(options) {
     if (!options.attributes) {
         options.attributes = {};
@@ -22,6 +25,9 @@ function defaultOptions(options) {
     options.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4';
     options.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
 }
+/**
+ * @hidden
+ */
 function shaderPropertiesCount(options) {
     var count = Object.keys(options).length;
     if (options.version) {
@@ -29,6 +35,9 @@ function shaderPropertiesCount(options) {
     }
     return count;
 }
+/**
+ * @hidden
+ */
 function builder(contextId, options) {
     if (isNull(options) || isUndefined(options)) {
         options = { attributes: {}, uniforms: {} };
@@ -58,13 +67,25 @@ function builder(contextId, options) {
     }
     return gpb;
 }
+/**
+ * @hidden
+ */
 function vertexShaderSrc(contextId, options) {
     return builder(contextId, options).vertexShaderSrc();
 }
+/**
+ * @hidden
+ */
 function fragmentShaderSrc(contextId, options) {
     return builder(contextId, options).fragmentShaderSrc();
 }
+/**
+ * @hidden
+ */
 var LOGGING_NAME_LINE_MATERIAL = 'LineMaterial';
+/**
+ * @hidden
+ */
 function getContextId(contextManager) {
     return mustBeNonNullObject('contextManager', contextManager).contextId;
 }

@@ -13,6 +13,9 @@ import { PolyhedronBuilder } from '../geometries/PolyhedronBuilder';
 // the same, sqrt(8), because the side length of the cube is 2. So we have
 // four equilateral triangles stiched together to form a tetrahedron.
 //
+/**
+ * @hidden
+ */
 var vertices = [
     +1, +1, +1, -1, -1, +1, -1, +1, -1, +1, -1, -1
 ];
@@ -20,9 +23,15 @@ var vertices = [
 // The following 12 indices comprise four triangles.
 // Each triangle is traversed counter-clockwise as seen from the outside. 
 //
+/**
+ * @hidden
+ */
 var indices = [
     2, 1, 0, 0, 3, 2, 1, 3, 0, 2, 3, 1
 ];
+/**
+ * @hidden
+ */
 export function tetrahedronPrimitive(options) {
     if (options === void 0) { options = { kind: 'TetrahedronGeometry' }; }
     var radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : 1.0;

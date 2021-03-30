@@ -1,17 +1,21 @@
 import { __extends } from "tslib";
+import { mustBeInteger } from '../checks/mustBeInteger';
 import { BeginMode } from '../core/BeginMode';
 import { GridPrimitive } from './GridPrimitive';
-import { mustBeInteger } from '../checks/mustBeInteger';
 import { numPostsForFence } from './numPostsForFence';
 /**
  * Computes the vertex index from integer coordinates.
  * Both lengths are included for symmetry!
+ * @hidden
  */
 function vertexIndex(i, j, iLength, jLength) {
     mustBeInteger('iLength', iLength);
     mustBeInteger('jLength', jLength);
     return j * iLength + i;
 }
+/**
+ * @hidden
+ */
 function pointsForGrid(uSegments, uClosed, vSegments, vClosed) {
     var iLength = numPostsForFence(uSegments, uClosed);
     var jLength = numPostsForFence(vSegments, vClosed);

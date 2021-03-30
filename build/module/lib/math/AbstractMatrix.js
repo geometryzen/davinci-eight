@@ -1,12 +1,12 @@
-import { lockable } from '../core/Lockable';
-import { TargetLockedError } from '../core/Lockable';
+import { expectArg } from '../checks/expectArg';
 import { mustBeDefined } from '../checks/mustBeDefined';
 import { mustBeInteger } from '../checks/mustBeInteger';
-import { expectArg } from '../checks/expectArg';
+import { lockable, TargetLockedError } from '../core/Lockable';
 import { readOnly } from '../i18n/readOnly';
 /**
  * Base class for matrices with the expectation that they will be used with WebGL.
  * The underlying data storage is a <code>Float32Array</code>.
+ * @hidden
  */
 var AbstractMatrix = /** @class */ (function () {
     /**

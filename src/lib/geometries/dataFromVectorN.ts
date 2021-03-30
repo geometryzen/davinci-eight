@@ -1,12 +1,13 @@
+import { VectorN } from '../atoms/VectorN';
 import { Geometric2 } from '../math/Geometric2';
 import { Geometric3 } from '../math/Geometric3';
 import { Vector2 } from '../math/Vector2';
 import { Vector3 } from '../math/Vector3';
-import { VectorN } from '../atoms/VectorN';
 
 /**
  * This seems a bit hacky. Maybe we need an abstraction that recognizes the existence of
  * geometric numbers for vertex attributes, but allows us to extract the vector (grade-1) part?
+ * @hidden
  */
 export function dataFromVectorN(source: VectorN<number>): number[] {
     if (source instanceof Geometric3) {

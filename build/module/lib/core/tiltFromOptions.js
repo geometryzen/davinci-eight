@@ -1,16 +1,19 @@
-import { Geometric3 } from '../math/Geometric3';
 import { isDefined } from '../checks/isDefined';
+import { Geometric3 } from '../math/Geometric3';
 import { vec } from '../math/R3';
 /**
  * e2 = vec(0, 1, 0)
+ * @hidden
  */
 export var canonicalAxis = vec(0, 1, 0);
 /**
  * e3 = vec(0, 0, 1)
+ * @hidden
  */
 export var canonicalMeridian = vec(0, 0, 1);
 /**
  * tilt takes precedence over axis and meridian.
+ * @hidden
  */
 export function tiltFromOptions(options) {
     if (isDefined(options.tilt)) {

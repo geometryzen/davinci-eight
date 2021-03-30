@@ -1,10 +1,13 @@
-import { Attribute } from '../core/Attribute';
-import { BeginMode } from '../core/BeginMode';
 import { mustBeArray } from '../checks/mustBeArray';
 import { mustBeInteger } from '../checks/mustBeInteger';
 import { mustBeObject } from '../checks/mustBeObject';
+import { Attribute } from '../core/Attribute';
+import { BeginMode } from '../core/BeginMode';
 import { Primitive } from '../core/Primitive';
 
+/**
+ * @hidden
+ */
 const context = () => { return "DrawPrimitive constructor"; };
 
 /**

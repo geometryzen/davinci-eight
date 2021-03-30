@@ -1,29 +1,54 @@
 import { __extends } from "tslib";
 import { BeginMode } from '../core/BeginMode';
 import { Color } from '../core/Color';
-import { ds } from './Defaults';
-import { Geometric3 } from '../math/Geometric3';
 import { GeometryArrays } from '../core/GeometryArrays';
 import { GraphicsProgramSymbols as GPS } from '../core/GraphicsProgramSymbols';
-import { materialFromOptions } from './materialFromOptions';
 import { Mesh } from '../core/Mesh';
+import { SimplexMode } from '../geometries/SimplexMode';
+import { Geometric3 } from '../math/Geometric3';
+import { vec } from '../math/R3';
+import { ds } from './Defaults';
+import { materialFromOptions } from './materialFromOptions';
 import { offsetFromOptions } from './offsetFromOptions';
 import { setAxisAndMeridian } from './setAxisAndMeridian';
 import { setColorOption } from './setColorOption';
-import { SimplexMode } from '../geometries/SimplexMode';
 import { simplexModeFromOptions } from './simplexModeFromOptions';
 import { tiltFromOptions } from './tiltFromOptions';
-import { vec } from '../math/R3';
+/**
+ * @hidden
+ */
 var NOSE = [0, +1, 0];
+/**
+ * @hidden
+ */
 var LLEG = [-1, -1, 0];
+/**
+ * @hidden
+ */
 var RLEG = [+1, -1, 0];
+/**
+ * @hidden
+ */
 var TAIL = [0, -1, 0];
+/**
+ * @hidden
+ */
 var CENTER = [0, 0, 0];
+/**
+ * @hidden
+ */
 var LEFT = [-0.5, 0, 0];
+/**
+ * @hidden
+ */
 var canonicalAxis = vec(0, 0, 1);
+/**
+ * @hidden
+ */
 function concat(a, b) { return a.concat(b); }
 /**
  * Transform a list of points by applying a tilt rotation and an offset translation.
+ * @hidden
  */
 function transform(xs, options) {
     if (options.tilt || options.offset) {
@@ -49,6 +74,7 @@ function transform(xs, options) {
  * All points lie in the the plane z = 0.
  * The height and width of the triangle are centered on the origin (0, 0).
  * The height and width range from -1 to +1.
+ * @hidden
  */
 function primitive(options) {
     var values = transform([CENTER, LEFT, CENTER, TAIL, NOSE, LLEG, NOSE, RLEG, LLEG, RLEG], options).reduce(concat);
@@ -62,6 +88,7 @@ function primitive(options) {
 /**
  * The geometry of the Bug is static so we use the conventional
  * approach based upon GeometryArrays
+ * @hidden
  */
 var TurtleGeometry = /** @class */ (function (_super) {
     __extends(TurtleGeometry, _super);

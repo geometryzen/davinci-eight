@@ -1,6 +1,9 @@
 import { R3 } from '../math/R3';
 import { SpinorE3 } from '../math/SpinorE3';
 import { VectorE3 } from '../math/VectorE3';
+/**
+ * @hidden
+ */
 export interface AxisOptions {
     /**
      *
@@ -25,5 +28,6 @@ export interface AxisOptions {
 }
 /**
  * This function computes the reference axis of an object.
+ * @hidden
  */
 export declare function referenceAxis(options: AxisOptions, fallback: VectorE3): Readonly<R3>;

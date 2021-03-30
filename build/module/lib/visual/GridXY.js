@@ -1,14 +1,20 @@
 import { __extends } from "tslib";
 import { expectOptions } from '../checks/expectOptions';
-import { GeometryMode } from '../geometries/GeometryMode';
-import { Grid } from './Grid';
 import { isDefined } from '../checks/isDefined';
 import { mustBeFunction } from '../checks/mustBeFunction';
 import { mustBeInteger } from '../checks/mustBeInteger';
 import { mustBeNumber } from '../checks/mustBeNumber';
 import { validate } from '../checks/validate';
+import { GeometryMode } from '../geometries/GeometryMode';
 import { vec } from '../math/R3';
+import { Grid } from './Grid';
+/**
+ * @hidden
+ */
 var ALLOWED_OPTIONS = ['xMin', 'xMax', 'xSegments', 'yMin', 'yMax', 'ySegments', 'z', 'contextManager', 'engine', 'tilt', 'offset', 'mode'];
+/**
+ * @hidden
+ */
 function mapOptions(options) {
     expectOptions(ALLOWED_OPTIONS, Object.keys(options));
     var aPosition;

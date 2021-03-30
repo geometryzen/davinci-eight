@@ -1,15 +1,24 @@
+import { isDefined } from '../checks/isDefined';
+import { mustBeNumber } from '../checks/mustBeNumber';
+import { mustBeObject } from '../checks/mustBeObject';
+import { Primitive } from '../core/Primitive';
+import { vec } from '../math/R3';
+import { Vector3 } from '../math/Vector3';
 import { ArrowBuilder } from '../shapes/ArrowBuilder';
 import { ArrowGeometryOptions } from './ArrowGeometryOptions';
-import { isDefined } from '../checks/isDefined';
-import { mustBeObject } from '../checks/mustBeObject';
-import { mustBeNumber } from '../checks/mustBeNumber';
-import { Primitive } from '../core/Primitive';
-import { Vector3 } from '../math/Vector3';
-import { vec } from '../math/R3';
 
+/**
+ * @hidden
+ */
 const canonicalAxis = vec(0, 1, 0);
+/**
+ * @hidden
+ */
 const canonicalCutLine = vec(0, 0, 1);
 
+/**
+ * @hidden
+ */
 const getAxis = function getAxis(options: ArrowGeometryOptions) {
     if (isDefined(options.axis)) {
         return options.axis;
@@ -19,6 +28,9 @@ const getAxis = function getAxis(options: ArrowGeometryOptions) {
     }
 };
 
+/**
+ * @hidden
+ */
 const getCutLine = function getCutLine(options: ArrowGeometryOptions) {
     if (isDefined(options.meridian)) {
         return options.meridian;
@@ -29,7 +41,7 @@ const getCutLine = function getCutLine(options: ArrowGeometryOptions) {
 };
 
 /**
- * 
+ * @hidden
  */
 export function arrowPrimitive(options: ArrowGeometryOptions = { kind: 'ArrowGeometry' }): Primitive {
     mustBeObject('options', options);
