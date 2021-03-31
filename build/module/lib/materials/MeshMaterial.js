@@ -99,7 +99,7 @@ function getContextId(contextManager) {
     return mustBeNonNullObject('contextManager', contextManager).contextId;
 }
 /**
- *
+ * @hidden
  */
 var MeshMaterial = /** @class */ (function (_super) {
     __extends(MeshMaterial, _super);

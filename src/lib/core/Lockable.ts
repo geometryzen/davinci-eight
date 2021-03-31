@@ -32,7 +32,7 @@ export class TargetUnlockedError extends Error {
 }
 
 /**
- * @hidden
+ *
  */
 export interface Lockable {
     /**

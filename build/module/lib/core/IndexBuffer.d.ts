@@ -3,6 +3,7 @@ import { ShareableContextConsumer } from './ShareableContextConsumer';
 import { Usage } from './Usage';
 /**
  * A wrapper around a WebGLBuffer with binding to ELEMENT_ARRAY_BUFFER.
+ * @hidden
  */
 export declare class IndexBuffer extends ShareableContextConsumer {
     private data;
@@ -13,11 +14,11 @@ export declare class IndexBuffer extends ShareableContextConsumer {
      */
     constructor(contextManager: ContextManager, data: Uint16Array, usage: Usage, levelUp?: number);
     /**
-     *
+     * @hidden
      */
     protected resurrector(levelUp: number): void;
     /**
-     *
+     * @hidden
      */
     protected destructor(levelUp: number): void;
     upload(): void;

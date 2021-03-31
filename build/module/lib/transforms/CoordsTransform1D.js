@@ -1,8 +1,9 @@
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { mustBeBoolean } from '../checks/mustBeBoolean';
+import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { Vector1 } from '../math/Vector1';
 /**
  * Applies coordinates to a line.
+ * @hidden
  */
 var CoordsTransform1D = /** @class */ (function () {
     function CoordsTransform1D(flipU) {

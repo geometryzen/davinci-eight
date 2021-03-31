@@ -1,18 +1,17 @@
 import { Engine } from '../core/Engine';
-import { Group } from './Group';
 import { ImageTexture } from '../core/ImageTexture';
-import { MinecraftHead } from './Minecraft';
-import { MinecraftArmL } from './Minecraft';
-import { MinecraftArmR } from './Minecraft';
-import { MinecraftLegL } from './Minecraft';
-import { MinecraftLegR } from './Minecraft';
-import { MinecraftTorso } from './Minecraft';
+import { Group } from './Group';
+import { MinecraftArmL, MinecraftArmR, MinecraftHead, MinecraftLegL, MinecraftLegR, MinecraftTorso } from './Minecraft';
+/**
+ * @hidden
+ */
 export interface MinecraftFigureOptions {
     height?: number;
     oldSkinLayout?: boolean;
 }
 /**
  * A group of body parts arranged to look like a figure.
+ * @hidden
  */
 export declare class MinecraftFigure extends Group {
     head: MinecraftHead;

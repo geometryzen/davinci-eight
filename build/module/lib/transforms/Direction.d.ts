@@ -1,5 +1,8 @@
-import { Vertex } from '../atoms/Vertex';
 import { Transform } from '../atoms/Transform';
+import { Vertex } from '../atoms/Vertex';
+/**
+ * @hidden
+ */
 export declare class Direction implements Transform {
     /**
      *

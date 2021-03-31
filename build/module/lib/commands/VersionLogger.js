@@ -2,6 +2,7 @@ import { __extends } from "tslib";
 import { ShareableBase } from '../core/ShareableBase';
 /**
  * Displays details about the WegGL version to the console.
+ * @hidden
  */
 var VersionLogger = /** @class */ (function (_super) {
     __extends(VersionLogger, _super);

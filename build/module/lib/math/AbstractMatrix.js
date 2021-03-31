@@ -6,7 +6,6 @@ import { readOnly } from '../i18n/readOnly';
 /**
  * Base class for matrices with the expectation that they will be used with WebGL.
  * The underlying data storage is a <code>Float32Array</code>.
- * @hidden
  */
 var AbstractMatrix = /** @class */ (function () {
     /**

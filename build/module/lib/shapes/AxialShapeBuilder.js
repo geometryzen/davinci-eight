@@ -1,7 +1,7 @@
 import { __extends } from "tslib";
 import { ShapeBuilder } from './ShapeBuilder';
 /**
- *
+ * @hidden
  */
 var AxialShapeBuilder = /** @class */ (function (_super) {
     __extends(AxialShapeBuilder, _super);

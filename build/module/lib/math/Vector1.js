@@ -5,7 +5,7 @@ var log = Math.log;
 var sqrt = Math.sqrt;
 var COORD_X = 0;
 /**
- * @class Vector1
+ * @hidden
  */
 var Vector1 = /** @class */ (function (_super) {
     __extends(Vector1, _super);

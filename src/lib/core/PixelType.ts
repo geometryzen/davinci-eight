@@ -1,5 +1,5 @@
 /**
- * @hidden
+ *
  */
 export enum PixelType {
     UNSIGNED_BYTE = 0x1401,

@@ -3,6 +3,9 @@ import { ContextManager } from '../core/ContextManager';
 import { Facet } from '../core/Facet';
 import { Renderable } from '../core/Renderable';
 import { Geometric3 } from '../math/Geometric3';
+/**
+ * @hidden
+ */
 export declare class Parallelepiped implements Renderable {
     private levelUp;
     name: string;
@@ -29,6 +32,9 @@ export declare class Parallelepiped implements Renderable {
     private refCount;
     private mesh;
     constructor(contextManager: ContextManager, levelUp?: number);
+    /**
+     * @hidden
+     */
     protected destructor(levelUp: number): void;
     render(ambients: Facet[]): void;
     addRef(): number;

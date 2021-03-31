@@ -9,7 +9,13 @@ import { Material } from './Material';
  */
 export declare class Drawable<G extends Geometry, M extends Material> extends ShareableContextConsumer implements AbstractDrawable<G, M> {
     name: string;
+    /**
+     * The (private) reference to an instance that extends Geometry.
+     */
     private _geometry;
+    /**
+     * The (private) reference to an instance that extends Material.
+     */
     private _material;
     private _visible;
     private _transparent;
@@ -19,11 +25,11 @@ export declare class Drawable<G extends Geometry, M extends Material> extends Sh
      */
     constructor(geometry: G, material: M, contextManager: ContextManager, levelUp?: number);
     /**
-     *
+     * @hidden
      */
     protected resurrector(levelUp: number): void;
     /**
-     *
+     * @hidden
      */
     protected destructor(levelUp: number): void;
     get opacity(): number;
@@ -75,6 +81,7 @@ export declare class Drawable<G extends Geometry, M extends Material> extends Sh
     use(): Drawable<G, M>;
     /**
      * Provides a reference counted reference to the geometry property.
+     * Getting the geometry property will cause the
      */
     get geometry(): G;
     set geometry(geometry: G);

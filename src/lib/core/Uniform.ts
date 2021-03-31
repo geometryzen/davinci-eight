@@ -49,10 +49,24 @@ export class Uniform implements ContextProgramConsumer {
         }
     }
 
+    uniform1fv(data: Float32Array, srcOffset?: number, srcLength?: number): void {
+        const gl = this.gl;
+        if (gl) {
+            gl.uniform1fv(this.location, data, srcOffset, srcLength);
+        }
+    }
+
     uniform1i(x: number): void {
         const gl = this.gl;
         if (gl) {
             gl.uniform1i(this.location, x);
+        }
+    }
+
+    uniform1iv(data: Int32Array, srcOffset?: number, srcLength?: number): void {
+        const gl = this.gl;
+        if (gl) {
+            gl.uniform1iv(this.location, data, srcOffset, srcLength);
         }
     }
 
@@ -63,10 +77,24 @@ export class Uniform implements ContextProgramConsumer {
         }
     }
 
+    uniform2fv(data: Float32Array, srcOffset?: number, srcLength?: number): void {
+        const gl = this.gl;
+        if (gl) {
+            gl.uniform2fv(this.location, data, srcOffset, srcLength);
+        }
+    }
+
     uniform2i(x: number, y: number): void {
         const gl = this.gl;
         if (gl) {
             gl.uniform2i(this.location, x, y);
+        }
+    }
+
+    uniform2iv(data: Int32Array, srcOffset?: number, srcLength?: number): void {
+        const gl = this.gl;
+        if (gl) {
+            gl.uniform2iv(this.location, data, srcOffset, srcLength);
         }
     }
 
@@ -77,10 +105,24 @@ export class Uniform implements ContextProgramConsumer {
         }
     }
 
+    uniform3fv(data: Float32Array, srcOffset?: number, srcLength?: number): void {
+        const gl = this.gl;
+        if (gl) {
+            gl.uniform3fv(this.location, data, srcOffset, srcLength);
+        }
+    }
+
     uniform3i(x: number, y: number, z: number): void {
         const gl = this.gl;
         if (gl) {
             gl.uniform3i(this.location, x, y, z);
+        }
+    }
+
+    uniform3iv(data: Int32Array, srcOffset?: number, srcLength?: number): void {
+        const gl = this.gl;
+        if (gl) {
+            gl.uniform3iv(this.location, data, srcOffset, srcLength);
         }
     }
 
@@ -91,10 +133,24 @@ export class Uniform implements ContextProgramConsumer {
         }
     }
 
+    uniform4fv(data: Float32Array, srcOffset?: number, srcLength?: number): void {
+        const gl = this.gl;
+        if (gl) {
+            gl.uniform4fv(this.location, data, srcOffset, srcLength);
+        }
+    }
+
     uniform4i(x: number, y: number, z: number, w: number): void {
         const gl = this.gl;
         if (gl) {
             gl.uniform4i(this.location, x, y, z, w);
+        }
+    }
+
+    uniform4iv(data: Int32Array, srcOffset?: number, srcLength?: number): void {
+        const gl = this.gl;
+        if (gl) {
+            gl.uniform4iv(this.location, data, srcOffset, srcLength);
         }
     }
 
@@ -125,34 +181,6 @@ export class Uniform implements ContextProgramConsumer {
         const gl = this.gl;
         if (gl) {
             gl.uniformMatrix4fv(this.location, transpose, value);
-        }
-    }
-
-    uniform1fv(data: Float32Array): void {
-        const gl = this.gl;
-        if (gl) {
-            gl.uniform1fv(this.location, data);
-        }
-    }
-
-    uniform2fv(data: Float32Array): void {
-        const gl = this.gl;
-        if (gl) {
-            gl.uniform2fv(this.location, data);
-        }
-    }
-
-    uniform3fv(data: Float32Array): void {
-        const gl = this.gl;
-        if (gl) {
-            gl.uniform3fv(this.location, data);
-        }
-    }
-
-    uniform4fv(data: Float32Array): void {
-        const gl = this.gl;
-        if (gl) {
-            gl.uniform4fv(this.location, data);
         }
     }
 

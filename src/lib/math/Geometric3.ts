@@ -1881,6 +1881,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
     /**
      * Implements `this + rhs` as addition.
      * The returned value is locked.
+     * @hidden
      */
     __add__(rhs: number | CartesianG3): Geometric3 | undefined {
         const duckR = maskG3(rhs);
@@ -1898,6 +1899,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
     /**
      * Implements `lhs + this` as addition.
      * The returned value is locked.
+     * @hidden
      */
     __radd__(lhs: number | Geometric3): Geometric3 | undefined {
         if (lhs instanceof Geometric3) {
@@ -1917,6 +1919,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
     /**
      * Implements `this / rhs` as division.
      * The returned value is locked.
+     * @hidden
      */
     __div__(rhs: number | CartesianG3): Geometric3 | undefined {
         const duckR = maskG3(rhs);
@@ -1931,6 +1934,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
     /**
      * Implements `lhs / this` as division.
      * The returned value is locked.
+     * @hidden
      */
     __rdiv__(lhs: number | Geometric3): Geometric3 | undefined {
         if (lhs instanceof Geometric3) {
@@ -1947,6 +1951,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
     /**
      * Implements `this * rhs` as the geometric product.
      * The returned value is locked.
+     * @hidden
      */
     __mul__(rhs: number | CartesianG3): Geometric3 | undefined {
         const duckR = maskG3(rhs);
@@ -1961,6 +1966,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
     /**
      * Implements `lhs * this` as the geometric product.
      * The returned value is locked.
+     * @hidden
      */
     __rmul__(lhs: number | Geometric3): Geometric3 | undefined {
         if (lhs instanceof Geometric3) {
@@ -1977,6 +1983,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
     /**
      * Implements `this - rhs` as subtraction.
      * The returned value is locked.
+     * @hidden
      */
     __sub__(rhs: number | CartesianG3): Geometric3 | undefined {
         const duckR = maskG3(rhs);
@@ -1991,6 +1998,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
     /**
      * Implements `lhs - this` as subtraction.
      * The returned value is locked.
+     * @hidden
      */
     __rsub__(lhs: number | Geometric3): Geometric3 | undefined {
         if (lhs instanceof Geometric3) {
@@ -2007,6 +2015,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
     /**
      * Implements `this ^ rhs` as the extension.
      * The returned value is locked.
+     * @hidden
      */
     __wedge__(rhs: number | Geometric3): Geometric3 | undefined {
         if (rhs instanceof Geometric3) {
@@ -2024,6 +2033,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
     /**
      * Implements `lhs ^ this` as the extension.
      * The returned value is locked.
+     * @hidden
      */
     __rwedge__(lhs: number | Geometric3): Geometric3 | undefined {
         if (lhs instanceof Geometric3) {
@@ -2041,6 +2051,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
     /**
      * Implements `this << rhs` as the left contraction.
      * The returned value is locked.
+     * @hidden
      */
     __lshift__(rhs: number | Geometric3): Geometric3 | undefined {
         if (rhs instanceof Geometric3) {
@@ -2057,6 +2068,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
     /**
      * Implements `lhs << this` as the left contraction.
      * The returned value is locked.
+     * @hidden
      */
     __rlshift__(lhs: number | Geometric3): Geometric3 | undefined {
         if (lhs instanceof Geometric3) {
@@ -2073,6 +2085,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
     /**
      * Implements `this >> rhs` as the right contraction.
      * The returned value is locked.
+     * @hidden
      */
     __rshift__(rhs: number | Geometric3): Geometric3 | undefined {
         if (rhs instanceof Geometric3) {
@@ -2089,6 +2102,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
     /**
      * Implements `lhs >> this` as the right contraction.
      * The returned value is locked.
+     * @hidden
      */
     __rrshift__(lhs: number | Geometric3): Geometric3 | undefined {
         if (lhs instanceof Geometric3) {
@@ -2105,6 +2119,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
     /**
      * Implements `this | rhs` as the scalar product.
      * The returned value is locked.
+     * @hidden
      */
     __vbar__(rhs: number | Geometric3): Geometric3 | undefined {
         if (rhs instanceof Geometric3) {
@@ -2121,6 +2136,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
     /**
      * Implements `lhs | this` as the scalar product.
      * The returned value is locked.
+     * @hidden
      */
     __rvbar__(lhs: number | Geometric3): Geometric3 | undefined {
         if (lhs instanceof Geometric3) {
@@ -2137,6 +2153,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
     /**
      * Implements `!this` as the inverse (if it exists) of `this`.
      * The returned value is locked.
+     * @hidden
      */
     __bang__(): Geometric3 {
         return lock(Geometric3.copy(this).inv());
@@ -2145,6 +2162,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
     /**
      * Implements `+this` as `this`.
      * The returned value is locked.
+     * @hidden
      */
     __pos__(): Geometric3 {
         return lock(Geometric3.copy(this));
@@ -2153,6 +2171,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
     /**
      * Implements `-this` as the negative of `this`.
      * The returned value is locked.
+     * @hidden
      */
     __neg__(): Geometric3 {
         return lock(Geometric3.copy(this).neg());
@@ -2161,6 +2180,7 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
     /**
      * Implements `~this` as the reversion of `this`.
      * The returned value is locked.
+     * @hidden
      */
     __tilde__(): Geometric3 {
         return lock(Geometric3.copy(this).rev());

@@ -14,11 +14,18 @@ function position(canvas, value) {
     canvas.style.pointerEvents = value;
 }
 /**
- *
+ * A wrapper around the HTML canvas element that projects from 3D onto the canvas.
+ * This utility conveniently integrates with the `PerspectiveCamera` to provide an overlay for WebGL.
  */
 var Diagram3D = /** @class */ (function () {
     /**
      *
+     */
+    /**
+     *
+     * @param canvas The canvas elementId or the HTML canvas element.
+     * @param camera Provides the camera (eye, look, and up) parameters.
+     * @param prism Provides the viewport (near, far, fov, and aspect) parameters.
      */
     function Diagram3D(canvas, camera, prism) {
         if (typeof canvas === 'string') {

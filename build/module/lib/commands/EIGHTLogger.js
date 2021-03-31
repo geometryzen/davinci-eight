@@ -3,6 +3,7 @@ import { config } from '../config';
 import { ShareableBase } from '../core/ShareableBase';
 /**
  * Displays details about EIGHT to the console.
+ * @hidden
  */
 var EIGHTLogger = /** @class */ (function (_super) {
     __extends(EIGHTLogger, _super);

@@ -1,34 +1,36 @@
-import { ArrowOptions } from './ArrowOptions';
-import { ArrowGeometry } from '../geometries/ArrowGeometry';
-import { ArrowGeometryOptions } from '../geometries/ArrowGeometryOptions';
+import { isDefined } from '../checks/isDefined';
+import { mustBeNumber } from '../checks/mustBeNumber';
 import { Color } from '../core/Color';
 import { ContextManager } from '../core/ContextManager';
-import { ds } from './Defaults';
+import { Geometry } from '../core/Geometry';
+import { Material } from '../core/Material';
+import { Mesh } from '../core/Mesh';
 import { referenceAxis } from '../core/referenceAxis';
 import { referenceMeridian } from '../core/referenceMeridian';
-import { Geometry } from '../core/Geometry';
-import { isDefined } from '../checks/isDefined';
-import { Material } from '../core/Material';
-import { materialFromOptions } from './materialFromOptions';
-import { mustBeNumber } from '../checks/mustBeNumber';
-import { Mesh } from '../core/Mesh';
+import { ArrowGeometry } from '../geometries/ArrowGeometry';
+import { ArrowGeometryOptions } from '../geometries/ArrowGeometryOptions';
+import { SimplexMode } from '../geometries/SimplexMode';
 import { normVectorE3 } from '../math/normVectorE3';
+import { VectorE3 } from '../math/VectorE3';
+import { ArrowOptions } from './ArrowOptions';
+import { ds } from './Defaults';
+import { materialFromOptions } from './materialFromOptions';
 import { offsetFromOptions } from './offsetFromOptions';
 import { setAxisAndMeridian } from './setAxisAndMeridian';
 import { setColorOption } from './setColorOption';
 import { setDeprecatedOptions } from './setDeprecatedOptions';
-import { SimplexMode } from '../geometries/SimplexMode';
 import { simplexModeFromOptions } from './simplexModeFromOptions';
 import { spinorE3Object } from './spinorE3Object';
 import { vectorE3Object } from './vectorE3Object';
-import { VectorE3 } from '../math/VectorE3';
 
 /**
  * A Mesh in the form of an arrow that may be used to represent a vector quantity.
  */
 export class Arrow extends Mesh<Geometry, Material> {
     /**
-     * 
+     * @param contextManager This will usually be provided by the `Engine`.
+     * @param options 
+     * @param levelUp Leave as zero unless you are extending this class. 
      */
     constructor(contextManager: ContextManager, options: ArrowOptions = {}, levelUp = 0) {
         super(void 0, void 0, contextManager, { axis: referenceAxis(options, ds.axis).direction(), meridian: referenceMeridian(options, ds.meridian).direction() }, levelUp + 1);
@@ -43,17 +45,9 @@ export class Arrow extends Mesh<Geometry, Material> {
 
         geoOptions.radiusCone = 0.08;
 
-        const cachedGeometry = contextManager.getCacheGeometry(geoOptions);
-        if (cachedGeometry && cachedGeometry instanceof ArrowGeometry) {
-            this.geometry = cachedGeometry;
-            cachedGeometry.release();
-        }
-        else {
-            const geometry = new ArrowGeometry(contextManager, geoOptions);
-            this.geometry = geometry;
-            geometry.release();
-            contextManager.putCacheGeometry(geoOptions, geometry);
-        }
+        const geometry = new ArrowGeometry(contextManager, geoOptions);
+        this.geometry = geometry;
+        geometry.release();
 
         const material = materialFromOptions(contextManager, simplexModeFromOptions(options, SimplexMode.TRIANGLE), options);
         this.material = material;
@@ -73,7 +67,7 @@ export class Arrow extends Mesh<Geometry, Material> {
     }
 
     /**
-     * 
+     * @hidden
      */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {

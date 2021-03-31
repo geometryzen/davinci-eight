@@ -1,7 +1,7 @@
 import { CurvePrimitive } from './CurvePrimitive';
 import { Vertex } from './Vertex';
 /**
- *
+ * @hidden
  */
 export declare class LinePoints extends CurvePrimitive {
     /**

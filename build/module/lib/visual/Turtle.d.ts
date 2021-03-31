@@ -28,7 +28,15 @@ export interface TurtleOptions {
  * A 3D visual representation of a turtle.
  */
 export declare class Turtle extends Mesh<Geometry, Material> {
+    /**
+     * @param contextManager This will usually be provided by the `Engine`.
+     * @param options
+     * @param levelUp Leave as zero unless you are extending this class.
+     */
     constructor(contextManager: ContextManager, options?: TurtleOptions, levelUp?: number);
+    /**
+     * @hidden
+     */
     protected destructor(levelUp: number): void;
     get width(): number;
     set width(width: number);

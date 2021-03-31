@@ -182,7 +182,9 @@ function configLines(contextManager: ContextManager, options: CurveOptions, curv
  */
 export class Curve extends Mesh<CurveGeometry, Material> {
     /**
-     * Constructs a Curve.
+     * @param contextManager This will usually be provided by the `Engine`.
+     * @param options 
+     * @param levelUp Leave as zero unless you are extending this class. 
      */
     constructor(contextManager: ContextManager, options: CurveOptions = {}, levelUp = 0) {
         super(void 0, void 0, contextManager, {}, levelUp + 1);
@@ -212,7 +214,7 @@ export class Curve extends Mesh<CurveGeometry, Material> {
     }
 
     /**
-     * 
+     * @hidden
      */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {

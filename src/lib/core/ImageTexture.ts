@@ -5,6 +5,12 @@ import { Texture } from './Texture';
 import { TextureTarget } from './TextureTarget';
 
 export class ImageTexture extends Texture {
+    /**
+     * @param image 
+     * @param target 
+     * @param contextManager 
+     * @param levelUp 
+     */
     constructor(private image: HTMLImageElement, target: TextureTarget, contextManager: ContextManager, levelUp = 0) {
         super(target, contextManager, levelUp + 1);
         this.setLoggingName('ImageTexture');
@@ -13,6 +19,9 @@ export class ImageTexture extends Texture {
         }
     }
 
+    /**
+     * @hidden
+     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();

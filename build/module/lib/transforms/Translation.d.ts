@@ -1,8 +1,9 @@
-import { VectorE3 } from '../math/VectorE3';
-import { Vertex } from '../atoms/Vertex';
 import { Transform } from '../atoms/Transform';
+import { Vertex } from '../atoms/Vertex';
+import { VectorE3 } from '../math/VectorE3';
 /**
  * Applies a translation to the specified attributes of a vertex.
+ * @hidden
  */
 export declare class Translation implements Transform {
     /**

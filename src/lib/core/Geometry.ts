@@ -3,7 +3,6 @@ import { Material } from './Material';
 
 /**
  * Encapsulates one or more buffers and a call to drawArrays or drawElements.
- * @hidden
  */
 export interface Geometry extends ContextConsumer {
     /**

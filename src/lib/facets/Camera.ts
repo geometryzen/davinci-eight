@@ -1,7 +1,7 @@
 import { VectorE3 } from '../math/VectorE3';
 
 /**
- * @hidden
+ * Defines the conventional (eye, look, up) triple.
  */
 export interface Camera {
     /**

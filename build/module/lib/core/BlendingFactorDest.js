@@ -1,3 +1,6 @@
+/**
+ *
+ */
 export var BlendingFactorDest;
 (function (BlendingFactorDest) {
     BlendingFactorDest[BlendingFactorDest["ZERO"] = 0] = "ZERO";

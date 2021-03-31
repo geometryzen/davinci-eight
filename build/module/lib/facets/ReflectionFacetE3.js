@@ -1,9 +1,9 @@
 import { mustBeString } from '../checks/mustBeString';
+import { readOnly } from '../i18n/readOnly';
 import { Geometric3 } from '../math/Geometric3';
 import { Matrix4 } from '../math/Matrix4';
-import { readOnly } from '../i18n/readOnly';
 /**
- *
+ * @hidden
  */
 var ReflectionFacetE3 = /** @class */ (function () {
     /**

@@ -20,7 +20,8 @@ function position(canvas: HTMLCanvasElement, value: 'absolute' | 'relative') {
 }
 
 /**
- * 
+ * A wrapper around the HTML canvas element that projects from 3D onto the canvas.
+ * This utility conveniently integrates with the `PerspectiveCamera` to provide an overlay for WebGL.
  */
 export class Diagram3D {
     /**
@@ -34,9 +35,15 @@ export class Diagram3D {
     /**
      * 
      */
-    public ctx: CanvasRenderingContext2D;
+    public readonly ctx: CanvasRenderingContext2D;
     /**
      * 
+     */
+    /**
+     * 
+     * @param canvas The canvas elementId or the HTML canvas element. 
+     * @param camera Provides the camera (eye, look, and up) parameters.
+     * @param prism Provides the viewport (near, far, fov, and aspect) parameters.
      */
     constructor(canvas: string | HTMLCanvasElement, camera: Camera, prism: Prism) {
         if (typeof canvas === 'string') {

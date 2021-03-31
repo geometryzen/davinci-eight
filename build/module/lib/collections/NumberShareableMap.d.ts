@@ -1,5 +1,8 @@
 import { Shareable } from '../core/Shareable';
 import { ShareableBase } from '../core/ShareableBase';
+/**
+ * @hidden
+ */
 export declare class NumberShareableMap<V extends Shareable> extends ShareableBase {
     private _elements;
     constructor();

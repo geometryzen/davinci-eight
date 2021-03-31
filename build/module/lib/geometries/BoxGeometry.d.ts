@@ -3,6 +3,7 @@ import { GeometryElements } from '../core/GeometryElements';
 import { BoxGeometryOptions } from './BoxGeometryOptions';
 /**
  * A convenience class for creating a BoxGeometry.
+ * @hidden
  */
 export declare class BoxGeometry extends GeometryElements {
     /**

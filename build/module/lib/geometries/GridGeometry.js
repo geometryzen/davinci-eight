@@ -3,6 +3,7 @@ import { GeometryElements } from '../core/GeometryElements';
 import { gridPrimitive } from './gridPrimitive';
 /**
  * A Geometry for representing functions of two scalar parameters.
+ * @hidden
  */
 var GridGeometry = /** @class */ (function (_super) {
     __extends(GridGeometry, _super);

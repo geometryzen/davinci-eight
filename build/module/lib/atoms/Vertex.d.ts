@@ -2,6 +2,7 @@ import { Coords } from '../math/Coords';
 import { VertexAttributeMap } from './VertexAttributeMap';
 /**
  * The data for a vertex in a normalized and uncompressed format that is easy to manipulate.
+ * @hidden
  */
 export declare class Vertex {
     /**

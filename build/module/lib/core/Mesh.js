@@ -72,7 +72,7 @@ var Mesh = /** @class */ (function (_super) {
         return _this;
     }
     /**
-     *
+     * @hidden
      */
     Mesh.prototype.destructor = function (levelUp) {
         if (levelUp === 0) {
@@ -258,29 +258,42 @@ var Mesh = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
+    /**
+     * @param i The row index (zero-based).
+     * @param j The column index (zero-based).
+     * @returns The ij th element of the stress matrix (possibly Kinv * stress * K).
+     */
     Mesh.prototype.getScale = function (i, j) {
         if (this.Kidentity) {
-            var sMatrix = this.stress;
-            return sMatrix.getElement(i, j);
+            return this.stress.getElement(i, j);
         }
         else {
-            var sMatrix = this.stress;
             var cMatrix = this.canonicalScale;
-            cMatrix.copy(this.Kinv).mul(sMatrix).mul(this.K);
+            cMatrix.copy(this.Kinv).mul(this.stress).mul(this.K);
             return cMatrix.getElement(i, j);
         }
     };
+    /**
+     * @hidden
+     */
     Mesh.prototype.getScaleX = function () {
         return this.getScale(0, 0);
     };
+    /**
+     * @hidden
+     */
     Mesh.prototype.getScaleY = function () {
         return this.getScale(1, 1);
     };
+    /**
+     * @hidden
+     */
     Mesh.prototype.getScaleZ = function () {
         return this.getScale(2, 2);
     };
     /**
      * Implementations of setPrincipalScale are expected to call this method.
+     * @hidden
      */
     Mesh.prototype.setScale = function (x, y, z) {
         if (this.Kidentity) {
@@ -326,6 +339,7 @@ var Mesh = /** @class */ (function (_super) {
     /**
      * Implementation of the axis (get) property.
      * Derived classes may overide to perform scaling.
+     * @hidden
      */
     Mesh.prototype.getAxis = function () {
         return this.referenceAxis.rotate(this.attitude);
@@ -333,6 +347,7 @@ var Mesh = /** @class */ (function (_super) {
     /**
      * Implementation of the axis (set) property.
      * Derived classes may overide to perform scaling.
+     * @hidden
      */
     Mesh.prototype.setAxis = function (axis) {
         var squaredNorm = quadVectorE3(axis);
@@ -357,6 +372,9 @@ var Mesh = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
+    /**
+     * @hidden
+     */
     Mesh.prototype.getMeridian = function () {
         return this.referenceMeridian.rotate(this.attitude);
     };

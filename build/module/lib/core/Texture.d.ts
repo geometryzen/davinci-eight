@@ -7,6 +7,12 @@ import { TextureWrapMode } from './TextureWrapMode';
 export declare class Texture extends ShareableContextConsumer {
     private _texture;
     protected _target: TextureTarget;
+    /**
+     *
+     * @param target
+     * @param contextManager
+     * @param levelUp
+     */
     constructor(target: TextureTarget, contextManager: ContextManager, levelUp?: number);
     protected destructor(levelUp: number): void;
     contextFree(): void;

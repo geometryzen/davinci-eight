@@ -5,7 +5,7 @@ import { Pseudo } from './Pseudo';
 import { SpinorE2 } from './SpinorE2';
 import { VectorE2 } from './VectorE2';
 /**
- *
+ * @hidden
  */
 export declare class Geometric2 implements GeometricE2, LockableMixin, VectorN<number> {
     isLocked: () => boolean;

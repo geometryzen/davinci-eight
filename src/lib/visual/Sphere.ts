@@ -32,7 +32,9 @@ const RADIUS_NAME = 'radius';
  */
 export class Sphere extends Mesh<Geometry, Material> {
     /**
-     * 
+     * @param contextManager This will usually be provided by the `Engine`.
+     * @param options 
+     * @param levelUp Leave as zero unless you are extending this class. 
      */
     constructor(contextManager: ContextManager, options: SphereOptions = {}, levelUp = 0) {
         super(void 0, void 0, contextManager, { axis: referenceAxis(options, ds.axis).direction(), meridian: referenceMeridian(options, ds.meridian).direction() }, levelUp + 1);
@@ -56,18 +58,9 @@ export class Sphere extends Mesh<Geometry, Material> {
         geoOptions.tilt = spinorE3Object(options.tilt);
         geoOptions.offset = offsetFromOptions(options);
 
-        const cachedGeometry = contextManager.getCacheGeometry(geoOptions);
-        if (cachedGeometry && cachedGeometry instanceof SphereGeometry) {
-            this.geometry = cachedGeometry;
-            cachedGeometry.release();
-        }
-        else {
-            const geometry = new SphereGeometry(contextManager, geoOptions);
-            this.geometry = geometry;
-            geometry.release();
-            contextManager.putCacheGeometry(geoOptions, geometry);
-        }
-
+        const geometry = new SphereGeometry(contextManager, geoOptions);
+        this.geometry = geometry;
+        geometry.release();
 
         const material = materialFromOptions(contextManager, simplexModeFromOptions(options, SimplexMode.TRIANGLE), options);
         this.material = material;
@@ -85,7 +78,7 @@ export class Sphere extends Mesh<Geometry, Material> {
     }
 
     /**
-     * 
+     * @hidden
      */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {

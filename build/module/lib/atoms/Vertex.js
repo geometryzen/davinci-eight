@@ -25,6 +25,7 @@ function stringifyVertex(vertex) {
 }
 /**
  * The data for a vertex in a normalized and uncompressed format that is easy to manipulate.
+ * @hidden
  */
 var Vertex = /** @class */ (function () {
     /**

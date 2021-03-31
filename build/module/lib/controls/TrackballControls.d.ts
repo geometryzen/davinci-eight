@@ -49,13 +49,16 @@ export declare class TrackballControls extends ViewControls {
         look: VectorE3;
         up: VectorE3;
     }, wnd?: BrowserWindow);
+    /**
+     * @hidden
+     */
     protected destructor(levelUp: number): void;
     /**
-     *
+     * @hidden
      */
     protected rotateCamera(): void;
     /**
-     *
+     * @hidden
      */
     protected panCamera(): void;
 }

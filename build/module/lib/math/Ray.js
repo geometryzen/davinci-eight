@@ -35,7 +35,7 @@ var edge2 = new Vector3();
  */
 var normal = new Vector3();
 /**
- *
+ * @hidden
  */
 var Ray = /** @class */ (function () {
     function Ray(origin, direction) {

@@ -12,7 +12,7 @@ import { ShareableContextConsumer } from '../core/ShareableContextConsumer';
 import { Uniform } from '../core/Uniform';
 import { readOnly } from '../i18n/readOnly';
 /**
- *
+ * @hidden
  */
 var ShaderMaterial = /** @class */ (function (_super) {
     __extends(ShaderMaterial, _super);
@@ -329,16 +329,28 @@ var ShaderMaterial = /** @class */ (function (_super) {
             this.gl.activeTexture(texture);
         }
     };
+    ShaderMaterial.prototype.uniform1f = function (name, x) {
+        var uniformLoc = this.getUniform(name);
+        if (uniformLoc) {
+            uniformLoc.uniform1f(x);
+        }
+    };
+    ShaderMaterial.prototype.uniform1fv = function (name, data, srcOffset, srcLength) {
+        var uniformLoc = this._uniforms[name];
+        if (uniformLoc) {
+            uniformLoc.uniform1fv(data, srcOffset, srcLength);
+        }
+    };
     ShaderMaterial.prototype.uniform1i = function (name, x) {
         var uniformLoc = this.getUniform(name);
         if (uniformLoc) {
             uniformLoc.uniform1i(x);
         }
     };
-    ShaderMaterial.prototype.uniform1f = function (name, x) {
-        var uniformLoc = this.getUniform(name);
+    ShaderMaterial.prototype.uniform1iv = function (name, data, srcOffset, srcLength) {
+        var uniformLoc = this._uniforms[name];
         if (uniformLoc) {
-            uniformLoc.uniform1f(x);
+            uniformLoc.uniform1iv(data, srcOffset, srcLength);
         }
     };
     ShaderMaterial.prototype.uniform2f = function (name, x, y) {
@@ -347,16 +359,70 @@ var ShaderMaterial = /** @class */ (function (_super) {
             uniformLoc.uniform2f(x, y);
         }
     };
+    ShaderMaterial.prototype.uniform2fv = function (name, data, srcOffset, srcLength) {
+        var uniformLoc = this._uniforms[name];
+        if (uniformLoc) {
+            uniformLoc.uniform2fv(data, srcOffset, srcLength);
+        }
+    };
+    ShaderMaterial.prototype.uniform2i = function (name, x, y) {
+        var uniformLoc = this._uniforms[name];
+        if (uniformLoc) {
+            uniformLoc.uniform2i(x, y);
+        }
+    };
+    ShaderMaterial.prototype.uniform2iv = function (name, src, srcOffset, srcLength) {
+        var uniformLoc = this._uniforms[name];
+        if (uniformLoc) {
+            uniformLoc.uniform2iv(src, srcOffset, srcLength);
+        }
+    };
     ShaderMaterial.prototype.uniform3f = function (name, x, y, z) {
         var uniformLoc = this._uniforms[name];
         if (uniformLoc) {
             uniformLoc.uniform3f(x, y, z);
         }
     };
+    ShaderMaterial.prototype.uniform3fv = function (name, data, srcOffset, srcLength) {
+        var uniformLoc = this._uniforms[name];
+        if (uniformLoc) {
+            uniformLoc.uniform3fv(data, srcOffset, srcLength);
+        }
+    };
+    ShaderMaterial.prototype.uniform3i = function (name, x, y, z) {
+        var uniformLoc = this._uniforms[name];
+        if (uniformLoc) {
+            uniformLoc.uniform3i(x, y, z);
+        }
+    };
+    ShaderMaterial.prototype.uniform3iv = function (name, src, srcOffset, srcLength) {
+        var uniformLoc = this._uniforms[name];
+        if (uniformLoc) {
+            uniformLoc.uniform3iv(src, srcOffset, srcLength);
+        }
+    };
     ShaderMaterial.prototype.uniform4f = function (name, x, y, z, w) {
         var uniformLoc = this._uniforms[name];
         if (uniformLoc) {
             uniformLoc.uniform4f(x, y, z, w);
+        }
+    };
+    ShaderMaterial.prototype.uniform4fv = function (name, data, srcOffset, srcLength) {
+        var uniformLoc = this._uniforms[name];
+        if (uniformLoc) {
+            uniformLoc.uniform4fv(data, srcOffset, srcLength);
+        }
+    };
+    ShaderMaterial.prototype.uniform4i = function (name, x, y, z, w) {
+        var uniformLoc = this._uniforms[name];
+        if (uniformLoc) {
+            uniformLoc.uniform4i(x, y, z, w);
+        }
+    };
+    ShaderMaterial.prototype.uniform4iv = function (name, src, srcOffset, srcLength) {
+        var uniformLoc = this._uniforms[name];
+        if (uniformLoc) {
+            uniformLoc.uniform4iv(src, srcOffset, srcLength);
         }
     };
     ShaderMaterial.prototype.uniform = function (name, value) {
@@ -424,24 +490,6 @@ var ShaderMaterial = /** @class */ (function (_super) {
             uniformLoc.matrix4fv(transpose, matrix);
         }
         return this;
-    };
-    ShaderMaterial.prototype.vector2fv = function (name, data) {
-        var uniformLoc = this._uniforms[name];
-        if (uniformLoc) {
-            uniformLoc.uniform2fv(data);
-        }
-    };
-    ShaderMaterial.prototype.vector3fv = function (name, data) {
-        var uniformLoc = this._uniforms[name];
-        if (uniformLoc) {
-            uniformLoc.uniform3fv(data);
-        }
-    };
-    ShaderMaterial.prototype.vector4fv = function (name, data) {
-        var uniformLoc = this._uniforms[name];
-        if (uniformLoc) {
-            uniformLoc.uniform4fv(data);
-        }
     };
     /**
      * @param mode Specifies the type of the primitive being rendered.

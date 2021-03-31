@@ -11,6 +11,7 @@ import { ViewControls } from './ViewControls';
  * A rotor may be calculated that rotates the camera from its old reference frame to the
  * new reference frame. This rotor may also be interpolated for animations.
  * </p>
+ * @hidden
  */
 export declare class OrbitControls extends ViewControls {
     /**

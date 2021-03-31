@@ -1,3 +1,6 @@
+/**
+ * @hidden
+ */
 export declare class EventEmitter<T, V> {
     private _eventRegistry;
     private owner;

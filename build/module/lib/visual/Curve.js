@@ -155,7 +155,9 @@ function configLines(contextManager, options, curve) {
 var Curve = /** @class */ (function (_super) {
     __extends(Curve, _super);
     /**
-     * Constructs a Curve.
+     * @param contextManager This will usually be provided by the `Engine`.
+     * @param options
+     * @param levelUp Leave as zero unless you are extending this class.
      */
     function Curve(contextManager, options, levelUp) {
         if (options === void 0) { options = {}; }
@@ -184,7 +186,7 @@ var Curve = /** @class */ (function (_super) {
         return _this;
     }
     /**
-     *
+     * @hidden
      */
     Curve.prototype.destructor = function (levelUp) {
         if (levelUp === 0) {

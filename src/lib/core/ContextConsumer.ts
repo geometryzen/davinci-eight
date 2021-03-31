@@ -5,7 +5,6 @@ import { Shareable } from './Shareable';
  * a WebGL rendering context. The notification methods for context gain, loss, and free
  * allow the implementation to participate in the dynamic and volatile environment
  * whereupon a browser may reset its WebGL rendering contexts.
- * @hidden
  */
 export interface ContextConsumer extends Shareable {
 

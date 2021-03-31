@@ -53,7 +53,9 @@ function mapOptions(options) {
 var GridYZ = /** @class */ (function (_super) {
     __extends(GridYZ, _super);
     /**
-     * Constructs a GridYZ.
+     * @param contextManager This will usually be provided by the `Engine`.
+     * @param options
+     * @param levelUp Leave as zero unless you are extending this class.
      */
     function GridYZ(contextManager, options, levelUp) {
         if (options === void 0) { options = {}; }
@@ -66,7 +68,7 @@ var GridYZ = /** @class */ (function (_super) {
         return _this;
     }
     /**
-     *
+     * @hidden
      */
     GridYZ.prototype.destructor = function (levelUp) {
         if (levelUp === 0) {

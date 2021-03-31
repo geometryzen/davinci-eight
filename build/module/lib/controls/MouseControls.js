@@ -12,7 +12,7 @@ var MODE = { NONE: -1, ROTATE: 0, ZOOM: 1, PAN: 2, TOUCH_ROTATE: 3, TOUCH_ZOOM_P
  */
 var keys = [65 /*A*/, 83 /*S*/, 68 /*D*/];
 /**
- *
+ * @hidden
  */
 var MouseControls = /** @class */ (function (_super) {
     __extends(MouseControls, _super);

@@ -3,6 +3,7 @@ import { ContextManager } from '../core/ContextManager';
 import { ShareableBase } from '../core/ShareableBase';
 /**
  * disable(capability: Capability): void
+ * @hidden
  */
 export declare class WebGLDisable extends ShareableBase {
     private contextManager;

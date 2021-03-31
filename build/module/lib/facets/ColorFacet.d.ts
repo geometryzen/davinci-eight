@@ -2,24 +2,24 @@ import { Color } from '../core/Color';
 import { Facet } from '../core/Facet';
 import { FacetVisitor } from '../core/FacetVisitor';
 /**
- *
+ * Sets the 'uColor' uniform to the color RGB value.
  */
 export declare class ColorFacet implements Facet {
     uColorName: string;
     /**
-     *
+     * @hidden
      */
     static PROP_RGB: string;
     /**
-     *
+     * @hidden
      */
     static PROP_RED: string;
     /**
-     *
+     * @hidden
      */
     static PROP_GREEN: string;
     /**
-     *
+     * @hidden
      */
     static PROP_BLUE: string;
     /**
@@ -27,7 +27,7 @@ export declare class ColorFacet implements Facet {
      */
     color: Color;
     /**
-     *
+     * @param uColorName The name of the WebL uniform that this facet will affect.
      */
     constructor(uColorName?: string);
     /**
@@ -45,8 +45,8 @@ export declare class ColorFacet implements Facet {
      */
     get b(): number;
     set b(b: number);
-    scaleRGB(α: number): ColorFacet;
-    setRGB(r: number, g: number, b: number): ColorFacet;
+    scaleRGB(α: number): this;
+    setRGB(r: number, g: number, b: number): this;
     /**
      *
      */

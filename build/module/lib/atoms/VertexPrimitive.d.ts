@@ -12,6 +12,7 @@ import { Vertex } from './Vertex';
  * generation and transformation. Topolgy provides a toPrimitive method which results
  * in a more compact representation based upon number[]. An even more compact
  * representation is VertexArrays, which interleaves the vertex.
+ * @hidden
  */
 export declare class VertexPrimitive {
     /**

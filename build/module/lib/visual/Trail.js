@@ -66,7 +66,7 @@ var Trail = /** @class */ (function (_super) {
         return _this;
     }
     /**
-     *
+     * @hidden
      */
     Trail.prototype.destructor = function (levelUp) {
         this.mesh.release();

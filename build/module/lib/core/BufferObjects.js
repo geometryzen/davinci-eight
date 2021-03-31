@@ -1,3 +1,6 @@
+/**
+ * @hidden
+ */
 export var BufferObjects;
 (function (BufferObjects) {
     BufferObjects[BufferObjects["ARRAY_BUFFER"] = 34962] = "ARRAY_BUFFER";

@@ -1,11 +1,11 @@
 import { __extends } from "tslib";
-import { AxialShapeBuilder } from './AxialShapeBuilder';
+import { reduce } from '../atoms/reduce';
+import { mustBeDefined } from '../checks/mustBeDefined';
+import { Vector3 } from '../math/Vector3';
 import { ConicalShellBuilder } from '../shapes/ConicalShellBuilder';
 import { CylindricalShellBuilder } from '../shapes/CylindricalShellBuilder';
-import { mustBeDefined } from '../checks/mustBeDefined';
-import { reduce } from '../atoms/reduce';
 import { RingBuilder } from '../shapes/RingBuilder';
-import { Vector3 } from '../math/Vector3';
+import { AxialShapeBuilder } from './AxialShapeBuilder';
 /**
  * <p>
  * This class does not default the initial <b>axis</b>.
@@ -13,6 +13,7 @@ import { Vector3 } from '../math/Vector3';
  * <p>
  * This class does not default the <b>cutLine</b>.
  * </p>
+ * @hidden
  */
 var ArrowBuilder = /** @class */ (function (_super) {
     __extends(ArrowBuilder, _super);

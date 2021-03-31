@@ -5,6 +5,7 @@ import { ShaderMaterial } from './ShaderMaterial';
 /**
  * A Material that is generated based upon knowledge of parameters and some hints.
  * This is currently not exposed and has limited testing.
+ * @hidden
  */
 export declare class SmartGraphicsProgram extends ShaderMaterial {
     /**

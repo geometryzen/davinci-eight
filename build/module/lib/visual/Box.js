@@ -1,18 +1,18 @@
 import { __extends } from "tslib";
-import { BoxGeometry } from '../geometries/BoxGeometry';
-import { Color } from '../core/Color';
-import { ds } from './Defaults';
 import { isDefined } from '../checks/isDefined';
-import { geometryModeFromOptions } from './geometryModeFromOptions';
-import { materialFromOptions } from './materialFromOptions';
-import { Mesh } from '../core/Mesh';
 import { mustBeNumber } from '../checks/mustBeNumber';
+import { Color } from '../core/Color';
+import { Mesh } from '../core/Mesh';
 import { referenceAxis } from '../core/referenceAxis';
 import { referenceMeridian } from '../core/referenceMeridian';
+import { BoxGeometry } from '../geometries/BoxGeometry';
+import { SimplexMode } from '../geometries/SimplexMode';
+import { ds } from './Defaults';
+import { geometryModeFromOptions } from './geometryModeFromOptions';
+import { materialFromOptions } from './materialFromOptions';
 import { setAxisAndMeridian } from './setAxisAndMeridian';
 import { setColorOption } from './setColorOption';
 import { setDeprecatedOptions } from './setDeprecatedOptions';
-import { SimplexMode } from '../geometries/SimplexMode';
 import { simplexModeFromOptions } from './simplexModeFromOptions';
 import { spinorE3Object } from './spinorE3Object';
 import { vectorE3Object } from './vectorE3Object';
@@ -22,7 +22,9 @@ import { vectorE3Object } from './vectorE3Object';
 var Box = /** @class */ (function (_super) {
     __extends(Box, _super);
     /**
-     *
+     * @param contextManager This will usually be provided by the `Engine`.
+     * @param options
+     * @param levelUp Leave as zero unless you are extending this class.
      */
     function Box(contextManager, options, levelUp) {
         if (options === void 0) { options = {}; }
@@ -41,17 +43,9 @@ var Box = /** @class */ (function (_super) {
         geoOptions.openLeft = options.openLeft;
         geoOptions.openRight = options.openRight;
         geoOptions.openCap = options.openCap;
-        var cachedGeometry = contextManager.getCacheGeometry(geoOptions);
-        if (cachedGeometry && cachedGeometry instanceof BoxGeometry) {
-            _this.geometry = cachedGeometry;
-            cachedGeometry.release();
-        }
-        else {
-            var geometry = new BoxGeometry(contextManager, geoOptions);
-            _this.geometry = geometry;
-            geometry.release();
-            contextManager.putCacheGeometry(geoOptions, geometry);
-        }
+        var geometry = new BoxGeometry(contextManager, geoOptions);
+        _this.geometry = geometry;
+        geometry.release();
         var material = materialFromOptions(contextManager, simplexModeFromOptions(options, SimplexMode.TRIANGLE), options);
         _this.material = material;
         material.release();
@@ -73,7 +67,7 @@ var Box = /** @class */ (function (_super) {
         return _this;
     }
     /**
-     *
+     * @hidden
      */
     Box.prototype.destructor = function (levelUp) {
         if (levelUp === 0) {

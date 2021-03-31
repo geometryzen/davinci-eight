@@ -3,6 +3,7 @@ import { BeginMode } from '../core/BeginMode';
 import { Primitive } from '../core/Primitive';
 /**
  * A convenience class for implementing the Primitive interface.
+ * @hidden
  */
 export declare class DrawPrimitive implements Primitive {
     mode: BeginMode;

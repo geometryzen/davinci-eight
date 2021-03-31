@@ -1,6 +1,6 @@
 import { ShapeBuilder } from './ShapeBuilder';
 /**
- *
+ * @hidden
  */
 export declare class AxialShapeBuilder extends ShapeBuilder {
     /**

@@ -1,5 +1,5 @@
 /**
- *
+ * @hidden
  */
 export interface ContextProgramConsumer {
     contextFree(): void;

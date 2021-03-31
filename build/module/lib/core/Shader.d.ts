@@ -1,7 +1,7 @@
 import { Engine } from './Engine';
 import { ShareableContextConsumer } from './ShareableContextConsumer';
 /**
- *
+ * @hidden
  */
 export declare class Shader extends ShareableContextConsumer {
     private _source;

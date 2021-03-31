@@ -1,10 +1,10 @@
-import { clamp } from '../math/clamp';
-import { Coords } from '../math/Coords';
 import { isDefined } from '../checks/isDefined';
-import { lock, TargetLockedError } from '../core/Lockable';
 import { mustBeGE } from '../checks/mustBeGE';
 import { mustBeLE } from '../checks/mustBeLE';
 import { mustBeNumber } from '../checks/mustBeNumber';
+import { lock, TargetLockedError } from '../core/Lockable';
+import { clamp } from '../math/clamp';
+import { Coords } from '../math/Coords';
 import { principalAngle } from './principalAngle';
 
 /**
@@ -133,6 +133,7 @@ export class Color extends Coords {
 
     /**
      * The red coordinate (component) of this color.
+     * The value is clamped to the range [0,1].
      */
     get r(): number {
         return this.coords[COORD_R];
@@ -155,6 +156,7 @@ export class Color extends Coords {
 
     /**
      * The green coordinate (component) of this color.
+     * The value is clamped to the range [0,1].
      */
     get g(): number {
         return this.coords[COORD_G];
@@ -177,6 +179,7 @@ export class Color extends Coords {
 
     /**
      * The blue coordinate (component) of this color.
+     * The value is clamped to the range [0,1].
      */
     get b(): number {
         return this.coords[COORD_B];
@@ -399,7 +402,7 @@ export class Color extends Coords {
         return new Color(clamp(r, 0, 1), clamp(g, 0, 1), clamp(b, 0, 1));
     }
 
-    private static isInstance(x: any): x is Color {
+    private static isInstance(x: unknown): x is Color {
         return x instanceof Color;
     }
 

@@ -2,7 +2,7 @@ import { BrowserWindow } from '../base/BrowserWindow';
 import { ShareableBase } from '../core/ShareableBase';
 import { Vector2 } from '../math/Vector2';
 /**
- *
+ * @hidden
  */
 export declare class MouseControls extends ShareableBase {
     /**

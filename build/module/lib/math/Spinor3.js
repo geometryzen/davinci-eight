@@ -67,6 +67,7 @@ var sqrt = Math.sqrt;
 var magicCode = Math.random();
 /**
  * A Geometric Number representing the even sub-algebra of G3.
+ * @hidden
  */
 var Spinor3 = /** @class */ (function () {
     /**

@@ -1,12 +1,12 @@
+import { isDefined } from '../checks/isDefined';
+import { isNumber } from '../checks/isNumber';
+import { lock, LockableMixin as Lockable, TargetLockedError } from '../core/Lockable';
+import { readOnly } from '../i18n/readOnly';
 import { applyMixins } from '../utils/applyMixins';
 import { approx } from './approx';
 import { dotVectorE3 } from './dotVectorE3';
-import { lock, LockableMixin as Lockable, TargetLockedError } from '../core/Lockable';
 import { Matrix3 } from './Matrix3';
-import { isDefined } from '../checks/isDefined';
-import { isNumber } from '../checks/isNumber';
 import { randomRange } from './randomRange';
-import { readOnly } from '../i18n/readOnly';
 import { toStringCustom } from './toStringCustom';
 import { wedgeXY } from './wedgeXY';
 import { wedgeYZ } from './wedgeYZ';
@@ -23,7 +23,7 @@ function coordinates(m) {
     return [m.x, m.y, m.z];
 }
 /**
- *
+ * @hidden
  */
 var Vector3 = /** @class */ (function () {
     /**

@@ -459,7 +459,7 @@
      *         super.destructor(levelUp + 1)
      *       }
      *     }
-     *
+     *  @hidden
      */
     var ShareableBase = /** @class */ (function () {
         /**
@@ -476,6 +476,7 @@
             refChange(this._uuid, this._type, +1);
         }
         /**
+         * @hidden
          * Experimental
          *
          * restore (a zombie) to life.
@@ -490,6 +491,7 @@
             refChange(this._uuid, this._type, +1);
         };
         /**
+         * @hidden
          * <p>
          * Outputs a warning to the console that this method should be implemented by the derived class.
          * </p>
@@ -606,6 +608,9 @@
         return ShareableBase;
     }());
 
+    /**
+     * @hidden
+     */
     var WebGLBlendFunc = /** @class */ (function (_super) {
         __extends(WebGLBlendFunc, _super);
         function WebGLBlendFunc(contextManager, sfactor, dfactor) {
@@ -650,6 +655,9 @@
         return value;
     }
 
+    /**
+     * @hidden
+     */
     var WebGLClearColor = /** @class */ (function (_super) {
         __extends(WebGLClearColor, _super);
         function WebGLClearColor(contextManager, r, g, b, a) {
@@ -694,6 +702,7 @@
 
     /**
      * disable(capability: Capability): void
+     * @hidden
      */
     var WebGLDisable = /** @class */ (function (_super) {
         __extends(WebGLDisable, _super);
@@ -722,6 +731,7 @@
 
     /**
      * enable(capability: Capability): void
+     * @hidden
      */
     var WebGLEnable = /** @class */ (function (_super) {
         __extends(WebGLEnable, _super);
@@ -3770,6 +3780,7 @@
         /**
          * Implements `this + rhs` as addition.
          * The returned value is locked.
+         * @hidden
          */
         Geometric3.prototype.__add__ = function (rhs) {
             var duckR = maskG3(rhs);
@@ -3786,6 +3797,7 @@
         /**
          * Implements `lhs + this` as addition.
          * The returned value is locked.
+         * @hidden
          */
         Geometric3.prototype.__radd__ = function (lhs) {
             if (lhs instanceof Geometric3) {
@@ -3804,6 +3816,7 @@
         /**
          * Implements `this / rhs` as division.
          * The returned value is locked.
+         * @hidden
          */
         Geometric3.prototype.__div__ = function (rhs) {
             var duckR = maskG3(rhs);
@@ -3817,6 +3830,7 @@
         /**
          * Implements `lhs / this` as division.
          * The returned value is locked.
+         * @hidden
          */
         Geometric3.prototype.__rdiv__ = function (lhs) {
             if (lhs instanceof Geometric3) {
@@ -3832,6 +3846,7 @@
         /**
          * Implements `this * rhs` as the geometric product.
          * The returned value is locked.
+         * @hidden
          */
         Geometric3.prototype.__mul__ = function (rhs) {
             var duckR = maskG3(rhs);
@@ -3845,6 +3860,7 @@
         /**
          * Implements `lhs * this` as the geometric product.
          * The returned value is locked.
+         * @hidden
          */
         Geometric3.prototype.__rmul__ = function (lhs) {
             if (lhs instanceof Geometric3) {
@@ -3860,6 +3876,7 @@
         /**
          * Implements `this - rhs` as subtraction.
          * The returned value is locked.
+         * @hidden
          */
         Geometric3.prototype.__sub__ = function (rhs) {
             var duckR = maskG3(rhs);
@@ -3873,6 +3890,7 @@
         /**
          * Implements `lhs - this` as subtraction.
          * The returned value is locked.
+         * @hidden
          */
         Geometric3.prototype.__rsub__ = function (lhs) {
             if (lhs instanceof Geometric3) {
@@ -3888,6 +3906,7 @@
         /**
          * Implements `this ^ rhs` as the extension.
          * The returned value is locked.
+         * @hidden
          */
         Geometric3.prototype.__wedge__ = function (rhs) {
             if (rhs instanceof Geometric3) {
@@ -3904,6 +3923,7 @@
         /**
          * Implements `lhs ^ this` as the extension.
          * The returned value is locked.
+         * @hidden
          */
         Geometric3.prototype.__rwedge__ = function (lhs) {
             if (lhs instanceof Geometric3) {
@@ -3920,6 +3940,7 @@
         /**
          * Implements `this << rhs` as the left contraction.
          * The returned value is locked.
+         * @hidden
          */
         Geometric3.prototype.__lshift__ = function (rhs) {
             if (rhs instanceof Geometric3) {
@@ -3935,6 +3956,7 @@
         /**
          * Implements `lhs << this` as the left contraction.
          * The returned value is locked.
+         * @hidden
          */
         Geometric3.prototype.__rlshift__ = function (lhs) {
             if (lhs instanceof Geometric3) {
@@ -3950,6 +3972,7 @@
         /**
          * Implements `this >> rhs` as the right contraction.
          * The returned value is locked.
+         * @hidden
          */
         Geometric3.prototype.__rshift__ = function (rhs) {
             if (rhs instanceof Geometric3) {
@@ -3965,6 +3988,7 @@
         /**
          * Implements `lhs >> this` as the right contraction.
          * The returned value is locked.
+         * @hidden
          */
         Geometric3.prototype.__rrshift__ = function (lhs) {
             if (lhs instanceof Geometric3) {
@@ -3980,6 +4004,7 @@
         /**
          * Implements `this | rhs` as the scalar product.
          * The returned value is locked.
+         * @hidden
          */
         Geometric3.prototype.__vbar__ = function (rhs) {
             if (rhs instanceof Geometric3) {
@@ -3995,6 +4020,7 @@
         /**
          * Implements `lhs | this` as the scalar product.
          * The returned value is locked.
+         * @hidden
          */
         Geometric3.prototype.__rvbar__ = function (lhs) {
             if (lhs instanceof Geometric3) {
@@ -4010,6 +4036,7 @@
         /**
          * Implements `!this` as the inverse (if it exists) of `this`.
          * The returned value is locked.
+         * @hidden
          */
         Geometric3.prototype.__bang__ = function () {
             return lock(Geometric3.copy(this).inv());
@@ -4017,6 +4044,7 @@
         /**
          * Implements `+this` as `this`.
          * The returned value is locked.
+         * @hidden
          */
         Geometric3.prototype.__pos__ = function () {
             return lock(Geometric3.copy(this));
@@ -4024,6 +4052,7 @@
         /**
          * Implements `-this` as the negative of `this`.
          * The returned value is locked.
+         * @hidden
          */
         Geometric3.prototype.__neg__ = function () {
             return lock(Geometric3.copy(this).neg());
@@ -4031,6 +4060,7 @@
         /**
          * Implements `~this` as the reversion of `this`.
          * The returned value is locked.
+         * @hidden
          */
         Geometric3.prototype.__tilde__ = function () {
             return lock(Geometric3.copy(this).rev());
@@ -4436,6 +4466,7 @@
     var magicCode = Math.random();
     /**
      * A Geometric Number representing the even sub-algebra of G3.
+     * @hidden
      */
     var Spinor3 = /** @class */ (function () {
         /**
@@ -5632,7 +5663,6 @@
     /**
      * Base class for matrices with the expectation that they will be used with WebGL.
      * The underlying data storage is a <code>Float32Array</code>.
-     * @hidden
      */
     var AbstractMatrix = /** @class */ (function () {
         /**
@@ -5830,6 +5860,7 @@
      * <tr><td>2</td><td>5</td><td>8</td></tr>
      * </table>
      * </p>
+     * @hidden
      */
     var Matrix3 = /** @class */ (function (_super) {
         __extends(Matrix3, _super);
@@ -6301,7 +6332,7 @@
         return [m.x, m.y, m.z];
     }
     /**
-     *
+     * @hidden
      */
     var Vector3 = /** @class */ (function () {
         /**
@@ -7127,7 +7158,7 @@
         return [m.x, m.y];
     }
     /**
-     *
+     * @hidden
      */
     var Vector2 = /** @class */ (function () {
         /**
@@ -7608,7 +7639,7 @@
      */
     var keys = [65 /*A*/, 83 /*S*/, 68 /*D*/];
     /**
-     *
+     * @hidden
      */
     var MouseControls = /** @class */ (function (_super) {
         __extends(MouseControls, _super);
@@ -7938,7 +7969,7 @@
     }(ShareableBase));
 
     /**
-     *
+     * @hidden
      */
     var ViewControls = /** @class */ (function (_super) {
         __extends(ViewControls, _super);
@@ -7992,6 +8023,9 @@
             _this.setView(view);
             return _this;
         }
+        /**
+         * @hidden
+         */
         ViewControls.prototype.destructor = function (levelUp) {
             _super.prototype.destructor.call(this, levelUp + 1);
         };
@@ -8136,6 +8170,7 @@
      * A rotor may be calculated that rotates the camera from its old reference frame to the
      * new reference frame. This rotor may also be interpolated for animations.
      * </p>
+     * @hidden
      */
     var OrbitControls = /** @class */ (function (_super) {
         __extends(OrbitControls, _super);
@@ -8241,11 +8276,14 @@
             _this.setLoggingName('TrackballControls');
             return _this;
         }
+        /**
+         * @hidden
+         */
         TrackballControls.prototype.destructor = function (levelUp) {
             _super.prototype.destructor.call(this, levelUp + 1);
         };
         /**
-         *
+         * @hidden
          */
         TrackballControls.prototype.rotateCamera = function () {
             if (this.hasView()) {
@@ -8280,7 +8318,7 @@
             }
         };
         /**
-         *
+         * @hidden
          */
         TrackballControls.prototype.panCamera = function () {
             if (this.hasView()) {
@@ -8300,6 +8338,7 @@
 
     /**
      * An object-oriented representation of an <code>attribute</code> in a GLSL shader program.
+     * @hidden
      */
     var Attrib = /** @class */ (function () {
         /**
@@ -8455,6 +8494,9 @@
         BeginMode[BeginMode["TRIANGLE_FAN"] = 6] = "TRIANGLE_FAN";
     })(exports.BeginMode || (exports.BeginMode = {}));
 
+    /**
+     *
+     */
     exports.BlendingFactorDest = void 0;
     (function (BlendingFactorDest) {
         BlendingFactorDest[BlendingFactorDest["ZERO"] = 0] = "ZERO";
@@ -8467,6 +8509,9 @@
         BlendingFactorDest[BlendingFactorDest["ONE_MINUS_DST_ALPHA"] = 773] = "ONE_MINUS_DST_ALPHA";
     })(exports.BlendingFactorDest || (exports.BlendingFactorDest = {}));
 
+    /**
+     *
+     */
     exports.BlendingFactorSrc = void 0;
     (function (BlendingFactorSrc) {
         BlendingFactorSrc[BlendingFactorSrc["ZERO"] = 0] = "ZERO";
@@ -8523,12 +8568,45 @@
         Capability[Capability["SAMPLE_COVERAGE"] = 32928] = "SAMPLE_COVERAGE";
     })(exports.Capability || (exports.Capability = {}));
 
+    /**
+     *
+     */
     exports.ClearBufferMask = void 0;
     (function (ClearBufferMask) {
         ClearBufferMask[ClearBufferMask["DEPTH_BUFFER_BIT"] = 256] = "DEPTH_BUFFER_BIT";
         ClearBufferMask[ClearBufferMask["STENCIL_BUFFER_BIT"] = 1024] = "STENCIL_BUFFER_BIT";
         ClearBufferMask[ClearBufferMask["COLOR_BUFFER_BIT"] = 16384] = "COLOR_BUFFER_BIT";
     })(exports.ClearBufferMask || (exports.ClearBufferMask = {}));
+
+    /**
+     * @hidden
+     */
+    function isGE(value, limit) {
+        return value >= limit;
+    }
+
+    /**
+     * @hidden
+     */
+    function mustBeGE(name, value, limit, contextBuilder) {
+        mustSatisfy(name, isGE(value, limit), function () { return "be greater than or equal to " + limit; }, contextBuilder);
+        return value;
+    }
+
+    /**
+     * @hidden
+     */
+    function isLE(value, limit) {
+        return value <= limit;
+    }
+
+    /**
+     * @hidden
+     */
+    function mustBeLE(name, value, limit, contextBuilder) {
+        mustSatisfy(name, isLE(value, limit), function () { return "be less than or equal to " + limit; }, contextBuilder);
+        return value;
+    }
 
     /**
      * @hidden
@@ -8734,7 +8812,7 @@
     }());
 
     /**
-     *
+     * @hidden
      */
     var Coords = /** @class */ (function (_super) {
         __extends(Coords, _super);
@@ -8782,36 +8860,6 @@
         };
         return Coords;
     }(VectorN));
-
-    /**
-     * @hidden
-     */
-    function isGE(value, limit) {
-        return value >= limit;
-    }
-
-    /**
-     * @hidden
-     */
-    function mustBeGE(name, value, limit, contextBuilder) {
-        mustSatisfy(name, isGE(value, limit), function () { return "be greater than or equal to " + limit; }, contextBuilder);
-        return value;
-    }
-
-    /**
-     * @hidden
-     */
-    function isLE(value, limit) {
-        return value <= limit;
-    }
-
-    /**
-     * @hidden
-     */
-    function mustBeLE(name, value, limit, contextBuilder) {
-        mustSatisfy(name, isLE(value, limit), function () { return "be less than or equal to " + limit; }, contextBuilder);
-        return value;
-    }
 
     /**
      * Converts the angle specified into one in the closed interval [0, Math.PI]
@@ -8866,6 +8914,7 @@
         Object.defineProperty(Color.prototype, "r", {
             /**
              * The red coordinate (component) of this color.
+             * The value is clamped to the range [0,1].
              */
             get: function () {
                 return this.coords[COORD_R];
@@ -8895,6 +8944,7 @@
         Object.defineProperty(Color.prototype, "g", {
             /**
              * The green coordinate (component) of this color.
+             * The value is clamped to the range [0,1].
              */
             get: function () {
                 return this.coords[COORD_G];
@@ -8924,6 +8974,7 @@
         Object.defineProperty(Color.prototype, "b", {
             /**
              * The blue coordinate (component) of this color.
+             * The value is clamped to the range [0,1].
              */
             get: function () {
                 return this.coords[COORD_B];
@@ -9310,7 +9361,7 @@
     }
 
     /**
-     *
+     * @hidden
      */
     var StringShareableMap = /** @class */ (function (_super) {
         __extends(StringShareableMap, _super);
@@ -9404,7 +9455,7 @@
     }(ShareableBase));
 
     /**
-     *
+     * @hidden
      */
     var ShareableContextConsumer = /** @class */ (function (_super) {
         __extends(ShareableContextConsumer, _super);
@@ -9452,7 +9503,7 @@
          */
         ShareableContextConsumer.prototype.subscribe = function (synchUp) {
             if (!this.isSubscribed) {
-                this.contextManager.addContextListener(this);
+                this.contextManager.addContextConsumer(this);
                 this.isSubscribed = true;
                 if (synchUp) {
                     this.synchUp();
@@ -9466,7 +9517,7 @@
          */
         ShareableContextConsumer.prototype.unsubscribe = function (cleanUp) {
             if (this.isSubscribed) {
-                this.contextManager.removeContextListener(this);
+                this.contextManager.removeContextConsumer(this);
                 this.isSubscribed = false;
                 if (cleanUp) {
                     this.cleanUp();
@@ -9517,6 +9568,7 @@
     /**
      * Canonical variable names, which also act as semantic identifiers for name overrides.
      * These names must be stable to avoid breaking custom vertex and fragment shaders.
+     * @hidden
      */
     var GraphicsProgramSymbols = /** @class */ (function () {
         function GraphicsProgramSymbols() {
@@ -9629,7 +9681,7 @@
     }());
 
     /**
-     *
+     * @hidden
      */
     var OpacityFacet = /** @class */ (function () {
         /**
@@ -9652,7 +9704,7 @@
     }());
 
     /**
-     *
+     * @hidden
      */
     var PointSizeFacet = /** @class */ (function () {
         /**
@@ -9712,7 +9764,7 @@
             return _this;
         }
         /**
-         *
+         * @hidden
          */
         Drawable.prototype.resurrector = function (levelUp) {
             _super.prototype.resurrector.call(this, levelUp + 1);
@@ -9722,7 +9774,7 @@
             }
         };
         /**
-         *
+         * @hidden
          */
         Drawable.prototype.destructor = function (levelUp) {
             this.facetMap.release();
@@ -9914,6 +9966,7 @@
         Object.defineProperty(Drawable.prototype, "geometry", {
             /**
              * Provides a reference counted reference to the geometry property.
+             * Getting the geometry property will cause the
              */
             get: function () {
                 return exchange(void 0, this._geometry);
@@ -10052,6 +10105,7 @@
 
     /**
      * GeometryBase
+     * @hidden
      */
     var GeometryBase = /** @class */ (function (_super) {
         __extends(GeometryBase, _super);
@@ -10067,7 +10121,7 @@
             return _this;
         }
         /**
-         *
+         * @hidden
          */
         GeometryBase.prototype.resurrector = function (levelUp) {
             _super.prototype.resurrector.call(this, levelUp + 1);
@@ -10077,7 +10131,7 @@
             }
         };
         /**
-         *
+         * @hidden
          */
         GeometryBase.prototype.destructor = function (levelUp) {
             if (levelUp === 0) {
@@ -10110,6 +10164,7 @@
 
     /**
      * WebGLBuffer usage.
+     * @hidden
      */
     exports.Usage = void 0;
     (function (Usage) {
@@ -10228,14 +10283,6 @@
         }
     }
 
-    var BufferObjects;
-    (function (BufferObjects) {
-        BufferObjects[BufferObjects["ARRAY_BUFFER"] = 34962] = "ARRAY_BUFFER";
-        BufferObjects[BufferObjects["ELEMENT_ARRAY_BUFFER"] = 34963] = "ELEMENT_ARRAY_BUFFER";
-        BufferObjects[BufferObjects["ARRAY_BUFFER_BINDING"] = 34964] = "ARRAY_BUFFER_BINDING";
-        BufferObjects[BufferObjects["ELEMENT_ARRAY_BUFFER_BINDING"] = 34965] = "ELEMENT_ARRAY_BUFFER_BINDING";
-    })(BufferObjects || (BufferObjects = {}));
-
     /**
      * @hidden
      */
@@ -10251,7 +10298,19 @@
     }
 
     /**
+     * @hidden
+     */
+    var BufferObjects;
+    (function (BufferObjects) {
+        BufferObjects[BufferObjects["ARRAY_BUFFER"] = 34962] = "ARRAY_BUFFER";
+        BufferObjects[BufferObjects["ELEMENT_ARRAY_BUFFER"] = 34963] = "ELEMENT_ARRAY_BUFFER";
+        BufferObjects[BufferObjects["ARRAY_BUFFER_BINDING"] = 34964] = "ARRAY_BUFFER_BINDING";
+        BufferObjects[BufferObjects["ELEMENT_ARRAY_BUFFER_BINDING"] = 34965] = "ELEMENT_ARRAY_BUFFER_BINDING";
+    })(BufferObjects || (BufferObjects = {}));
+
+    /**
      * A wrapper around a WebGLBuffer with binding to ARRAY_BUFFER.
+     * @hidden
      */
     var VertexBuffer = /** @class */ (function (_super) {
         __extends(VertexBuffer, _super);
@@ -10349,6 +10408,7 @@
 
     /**
      * A concrete Geometry for supporting drawArrays.
+     * @hidden
      */
     var GeometryArrays = /** @class */ (function (_super) {
         __extends(GeometryArrays, _super);
@@ -10443,6 +10503,7 @@
 
     /**
      * A wrapper around a WebGLBuffer with binding to ELEMENT_ARRAY_BUFFER.
+     * @hidden
      */
     var IndexBuffer = /** @class */ (function (_super) {
         __extends(IndexBuffer, _super);
@@ -10461,7 +10522,7 @@
             return _this;
         }
         /**
-         *
+         * @hidden
          */
         IndexBuffer.prototype.resurrector = function (levelUp) {
             _super.prototype.resurrector.call(this, levelUp + 1);
@@ -10471,7 +10532,7 @@
             }
         };
         /**
-         *
+         * @hidden
          */
         IndexBuffer.prototype.destructor = function (levelUp) {
             if (levelUp === 0) {
@@ -10537,6 +10598,7 @@
 
     /**
      * A Geometry that supports interleaved vertex buffers.
+     * @hidden
      */
     var GeometryElements = /** @class */ (function (_super) {
         __extends(GeometryElements, _super);
@@ -10577,7 +10639,7 @@
             return _this;
         }
         /**
-         *
+         * @hidden
          */
         GeometryElements.prototype.resurrector = function (levelUp) {
             _super.prototype.resurrector.call(this, levelUp + 1);
@@ -10589,7 +10651,7 @@
             }
         };
         /**
-         *
+         * @hidden
          */
         GeometryElements.prototype.destructor = function (levelUp) {
             if (levelUp === 0) {
@@ -10658,6 +10720,9 @@
         return GeometryElements;
     }(GeometryBase));
 
+    /**
+     *
+     */
     exports.PixelFormat = void 0;
     (function (PixelFormat) {
         PixelFormat[PixelFormat["DEPTH_COMPONENT"] = 6402] = "DEPTH_COMPONENT";
@@ -10669,7 +10734,7 @@
     })(exports.PixelFormat || (exports.PixelFormat = {}));
 
     /**
-     *
+     * @hidden
      */
     exports.TextureParameterName = void 0;
     (function (TextureParameterName) {
@@ -10681,6 +10746,12 @@
 
     var Texture = /** @class */ (function (_super) {
         __extends(Texture, _super);
+        /**
+         *
+         * @param target
+         * @param contextManager
+         * @param levelUp
+         */
         function Texture(target, contextManager, levelUp) {
             if (levelUp === void 0) { levelUp = 0; }
             var _this = _super.call(this, contextManager) || this;
@@ -10816,6 +10887,12 @@
 
     var ImageTexture = /** @class */ (function (_super) {
         __extends(ImageTexture, _super);
+        /**
+         * @param image
+         * @param target
+         * @param contextManager
+         * @param levelUp
+         */
         function ImageTexture(image, target, contextManager, levelUp) {
             if (levelUp === void 0) { levelUp = 0; }
             var _this = _super.call(this, target, contextManager, levelUp + 1) || this;
@@ -10826,6 +10903,9 @@
             }
             return _this;
         }
+        /**
+         * @hidden
+         */
         ImageTexture.prototype.destructor = function (levelUp) {
             if (levelUp === 0) {
                 this.cleanUp();
@@ -11004,11 +11084,11 @@
     var canonicalMeridian$1 = vec(0, 0, 1);
 
     /**
-     *
+     * Sets the 'uColor' uniform to the color RGB value.
      */
     var ColorFacet = /** @class */ (function () {
         /**
-         *
+         * @param uColorName The name of the WebL uniform that this facet will affect.
          */
         function ColorFacet(uColorName) {
             if (uColorName === void 0) { uColorName = GraphicsProgramSymbols.UNIFORM_COLOR; }
@@ -11076,26 +11156,26 @@
          *
          */
         ColorFacet.prototype.setUniforms = function (visitor) {
-            var name = this.uColorName;
-            if (name) {
+            var uColorName = this.uColorName;
+            if (uColorName) {
                 var color = this.color;
-                visitor.uniform3f(name, color.r, color.g, color.b);
+                visitor.uniform3f(uColorName, color.r, color.g, color.b);
             }
         };
         /**
-         *
+         * @hidden
          */
         ColorFacet.PROP_RGB = 'rgb';
         /**
-         *
+         * @hidden
          */
         ColorFacet.PROP_RED = 'r';
         /**
-         *
+         * @hidden
          */
         ColorFacet.PROP_GREEN = 'g';
         /**
-         *
+         * @hidden
          */
         ColorFacet.PROP_BLUE = 'b';
         return ColorFacet;
@@ -11721,7 +11801,7 @@
     }(AbstractMatrix));
 
     /**
-     *
+     * @hidden
      */
     var ModelE3 = /** @class */ (function () {
         /**
@@ -11783,7 +11863,7 @@
     }());
 
     /**
-     *
+     * @hidden
      */
     var ModelFacet = /** @class */ (function (_super) {
         __extends(ModelFacet, _super);
@@ -11958,6 +12038,9 @@
         TextureUnit[TextureUnit["ACTIVE_TEXTURE"] = 34016] = "ACTIVE_TEXTURE";
     })(exports.TextureUnit || (exports.TextureUnit = {}));
 
+    /**
+     * A `Facet` implementation
+     */
     var TextureFacet = /** @class */ (function (_super) {
         __extends(TextureFacet, _super);
         function TextureFacet() {
@@ -11984,7 +12067,9 @@
             if (this._texture) {
                 visitor.activeTexture(this.unit);
                 this._texture.bind();
+                // TODO: What is the significance of setting the 'uImage' uniform to zero?
                 visitor.uniform1i(GraphicsProgramSymbols.UNIFORM_IMAGE, 0);
+                // TODO: Is this the correct place to unbind? Should be we have a bindUniforms, unbindUniforms instead of setUniforms?
                 // this._texture.unbind();
             }
         };
@@ -12124,7 +12209,7 @@
             return _this;
         }
         /**
-         *
+         * @hidden
          */
         Mesh.prototype.destructor = function (levelUp) {
             if (levelUp === 0) {
@@ -12310,29 +12395,42 @@
             enumerable: false,
             configurable: true
         });
+        /**
+         * @param i The row index (zero-based).
+         * @param j The column index (zero-based).
+         * @returns The ij th element of the stress matrix (possibly Kinv * stress * K).
+         */
         Mesh.prototype.getScale = function (i, j) {
             if (this.Kidentity) {
-                var sMatrix = this.stress;
-                return sMatrix.getElement(i, j);
+                return this.stress.getElement(i, j);
             }
             else {
-                var sMatrix = this.stress;
                 var cMatrix = this.canonicalScale;
-                cMatrix.copy(this.Kinv).mul(sMatrix).mul(this.K);
+                cMatrix.copy(this.Kinv).mul(this.stress).mul(this.K);
                 return cMatrix.getElement(i, j);
             }
         };
+        /**
+         * @hidden
+         */
         Mesh.prototype.getScaleX = function () {
             return this.getScale(0, 0);
         };
+        /**
+         * @hidden
+         */
         Mesh.prototype.getScaleY = function () {
             return this.getScale(1, 1);
         };
+        /**
+         * @hidden
+         */
         Mesh.prototype.getScaleZ = function () {
             return this.getScale(2, 2);
         };
         /**
          * Implementations of setPrincipalScale are expected to call this method.
+         * @hidden
          */
         Mesh.prototype.setScale = function (x, y, z) {
             if (this.Kidentity) {
@@ -12378,6 +12476,7 @@
         /**
          * Implementation of the axis (get) property.
          * Derived classes may overide to perform scaling.
+         * @hidden
          */
         Mesh.prototype.getAxis = function () {
             return this.referenceAxis.rotate(this.attitude);
@@ -12385,6 +12484,7 @@
         /**
          * Implementation of the axis (set) property.
          * Derived classes may overide to perform scaling.
+         * @hidden
          */
         Mesh.prototype.setAxis = function (axis) {
             var squaredNorm = quadVectorE3(axis);
@@ -12409,6 +12509,9 @@
             enumerable: false,
             configurable: true
         });
+        /**
+         * @hidden
+         */
         Mesh.prototype.getMeridian = function () {
             return this.referenceMeridian.rotate(this.attitude);
         };
@@ -12483,6 +12586,9 @@
         return Mesh;
     }(Drawable));
 
+    /**
+     *
+     */
     exports.PixelType = void 0;
     (function (PixelType) {
         PixelType[PixelType["UNSIGNED_BYTE"] = 5121] = "UNSIGNED_BYTE";
@@ -12888,7 +12994,7 @@
     }
 
     /**
-     *
+     * @hidden
      */
     var Shader = /** @class */ (function (_super) {
         __extends(Shader, _super);
@@ -12953,7 +13059,7 @@
     })(exports.TextureTarget || (exports.TextureTarget = {}));
 
     /**
-     *
+     * @hidden
      */
     exports.TextureWrapMode = void 0;
     (function (TextureWrapMode) {
@@ -12964,6 +13070,7 @@
 
     /**
      * A wrapper around a <code>WebGLUniformLocation</code>.
+     * @hidden
      */
     var Uniform = /** @class */ (function () {
         function Uniform(info) {
@@ -12996,10 +13103,22 @@
                 gl.uniform1f(this.location, x);
             }
         };
+        Uniform.prototype.uniform1fv = function (data, srcOffset, srcLength) {
+            var gl = this.gl;
+            if (gl) {
+                gl.uniform1fv(this.location, data, srcOffset, srcLength);
+            }
+        };
         Uniform.prototype.uniform1i = function (x) {
             var gl = this.gl;
             if (gl) {
                 gl.uniform1i(this.location, x);
+            }
+        };
+        Uniform.prototype.uniform1iv = function (data, srcOffset, srcLength) {
+            var gl = this.gl;
+            if (gl) {
+                gl.uniform1iv(this.location, data, srcOffset, srcLength);
             }
         };
         Uniform.prototype.uniform2f = function (x, y) {
@@ -13008,10 +13127,22 @@
                 gl.uniform2f(this.location, x, y);
             }
         };
+        Uniform.prototype.uniform2fv = function (data, srcOffset, srcLength) {
+            var gl = this.gl;
+            if (gl) {
+                gl.uniform2fv(this.location, data, srcOffset, srcLength);
+            }
+        };
         Uniform.prototype.uniform2i = function (x, y) {
             var gl = this.gl;
             if (gl) {
                 gl.uniform2i(this.location, x, y);
+            }
+        };
+        Uniform.prototype.uniform2iv = function (data, srcOffset, srcLength) {
+            var gl = this.gl;
+            if (gl) {
+                gl.uniform2iv(this.location, data, srcOffset, srcLength);
             }
         };
         Uniform.prototype.uniform3f = function (x, y, z) {
@@ -13020,10 +13151,22 @@
                 gl.uniform3f(this.location, x, y, z);
             }
         };
+        Uniform.prototype.uniform3fv = function (data, srcOffset, srcLength) {
+            var gl = this.gl;
+            if (gl) {
+                gl.uniform3fv(this.location, data, srcOffset, srcLength);
+            }
+        };
         Uniform.prototype.uniform3i = function (x, y, z) {
             var gl = this.gl;
             if (gl) {
                 gl.uniform3i(this.location, x, y, z);
+            }
+        };
+        Uniform.prototype.uniform3iv = function (data, srcOffset, srcLength) {
+            var gl = this.gl;
+            if (gl) {
+                gl.uniform3iv(this.location, data, srcOffset, srcLength);
             }
         };
         Uniform.prototype.uniform4f = function (x, y, z, w) {
@@ -13032,10 +13175,22 @@
                 gl.uniform4f(this.location, x, y, z, w);
             }
         };
+        Uniform.prototype.uniform4fv = function (data, srcOffset, srcLength) {
+            var gl = this.gl;
+            if (gl) {
+                gl.uniform4fv(this.location, data, srcOffset, srcLength);
+            }
+        };
         Uniform.prototype.uniform4i = function (x, y, z, w) {
             var gl = this.gl;
             if (gl) {
                 gl.uniform4i(this.location, x, y, z, w);
+            }
+        };
+        Uniform.prototype.uniform4iv = function (data, srcOffset, srcLength) {
+            var gl = this.gl;
+            if (gl) {
+                gl.uniform4iv(this.location, data, srcOffset, srcLength);
             }
         };
         /**
@@ -13063,30 +13218,6 @@
             var gl = this.gl;
             if (gl) {
                 gl.uniformMatrix4fv(this.location, transpose, value);
-            }
-        };
-        Uniform.prototype.uniform1fv = function (data) {
-            var gl = this.gl;
-            if (gl) {
-                gl.uniform1fv(this.location, data);
-            }
-        };
-        Uniform.prototype.uniform2fv = function (data) {
-            var gl = this.gl;
-            if (gl) {
-                gl.uniform2fv(this.location, data);
-            }
-        };
-        Uniform.prototype.uniform3fv = function (data) {
-            var gl = this.gl;
-            if (gl) {
-                gl.uniform3fv(this.location, data);
-            }
-        };
-        Uniform.prototype.uniform4fv = function (data) {
-            var gl = this.gl;
-            if (gl) {
-                gl.uniform4fv(this.location, data);
             }
         };
         Uniform.prototype.toString = function () {
@@ -13126,6 +13257,7 @@
 
     /**
      * Displays details about EIGHT to the console.
+     * @hidden
      */
     var EIGHTLogger = /** @class */ (function (_super) {
         __extends(EIGHTLogger, _super);
@@ -13154,6 +13286,7 @@
 
     /**
      * Displays details about the WegGL version to the console.
+     * @hidden
      */
     var VersionLogger = /** @class */ (function (_super) {
         __extends(VersionLogger, _super);
@@ -13349,24 +13482,16 @@
         }
     }
     /**
-     * A wrapper around an HTMLCanvasElement providing access to the WebGLRenderingContext
+     * A wrapper around an HTMLCanvasElement providing access to the WebGL rendering context
      * and notifications of context loss and restore. An instance of the Engine will usually
      * be a required parameter for any consumer of WebGL resources.
-     *
-     * <iframe
-     *     title="Engine"
-     *     width="860"
-     *     height="600"
-     *     src="https://www.stemcstudio.com/gists/54644519dcd556bf8bf779bfa084ced3?embed&file=main.ts&hideREADME">
-     * </iframe>
-     *
      */
     var Engine = /** @class */ (function (_super) {
         __extends(Engine, _super);
         /**
-         * @param canvas
+         * @param canvas The canvas element identifier, or canvas element, or WebGL rendering context.
          * @param attributes Allows the context to be configured.
-         * @param dom The document object model that contains the canvas identifier.
+         * @param dom The document object model that contains the canvas.
          */
         function Engine(canvas, attributes, dom) {
             if (attributes === void 0) { attributes = {}; }
@@ -13379,14 +13504,6 @@
              * Actions that are executed when a WebGL rendering context is gained.
              */
             _this._commands = new ShareableArray([]);
-            /**
-             * The cache of Geometry.
-             */
-            _this.geometries = {};
-            /**
-             * The cache of Material.
-             */
-            _this.materials = {};
             _this.setLoggingName('Engine');
             // TODO: Defensive copy and strip off the extra attributes on EngineAttributes just in case the WebGL runtime gets strict and complains.
             _this._attributes = attributes;
@@ -13432,7 +13549,7 @@
             return _this;
         }
         /**
-         *
+         * @hidden
          */
         Engine.prototype.resurrector = function (levelUp) {
             _super.prototype.resurrector.call(this, levelUp + 1);
@@ -13440,7 +13557,7 @@
             this._commands = new ShareableArray([]);
         };
         /**
-         *
+         * @hidden
          */
         Engine.prototype.destructor = function (levelUp) {
             this.stop();
@@ -13453,14 +13570,14 @@
         /**
          *
          */
-        Engine.prototype.addContextListener = function (user) {
-            mustBeNonNullObject('user', user);
-            var index = this._users.indexOf(user);
+        Engine.prototype.addContextConsumer = function (consumer) {
+            mustBeNonNullObject('consumer', consumer);
+            var index = this._users.indexOf(consumer);
             if (index < 0) {
-                this._users.push(user);
+                this._users.push(consumer);
             }
             else {
-                console.warn("user already exists for addContextListener");
+                console.warn("consumer already exists for addContextConsumer");
             }
         };
         Object.defineProperty(Engine.prototype, "canvas", {
@@ -13630,11 +13747,11 @@
             }
         };
         /**
-         * @param user
+         * @param consumer
          */
-        Engine.prototype.removeContextListener = function (user) {
-            mustBeNonNullObject('user', user);
-            var index = this._users.indexOf(user);
+        Engine.prototype.removeContextConsumer = function (consumer) {
+            mustBeNonNullObject('consumer', consumer);
+            var index = this._users.indexOf(consumer);
             if (index >= 0) {
                 this._users.splice(index, 1);
             }
@@ -13798,52 +13915,6 @@
             return this;
         };
         /**
-         *
-         */
-        Engine.prototype.getCacheGeometry = function (geometryKey) {
-            mustBeNonNullObject('geometryKey', geometryKey);
-            mustBeString('geometryKey.kind', geometryKey.kind);
-            var key = JSON.stringify(geometryKey);
-            var geometry = this.geometries[key];
-            if (geometry && geometry.addRef) {
-                geometry.addRef();
-            }
-            return geometry;
-        };
-        /**
-         *
-         */
-        Engine.prototype.putCacheGeometry = function (geometryKey, geometry) {
-            mustBeNonNullObject('geometryKey', geometryKey);
-            mustBeNonNullObject('geometry', geometry);
-            mustBeString('geometryKey.kind', geometryKey.kind);
-            var key = JSON.stringify(geometryKey);
-            this.geometries[key] = geometry;
-        };
-        /**
-         *
-         */
-        Engine.prototype.getCacheMaterial = function (materialKey) {
-            mustBeNonNullObject('materialKey', materialKey);
-            mustBeString('materialKey.kind', materialKey.kind);
-            var key = JSON.stringify(materialKey);
-            var material = this.materials[key];
-            if (material && material.addRef) {
-                material.addRef();
-            }
-            return material;
-        };
-        /**
-         *
-         */
-        Engine.prototype.putCacheMaterial = function (materialKey, material) {
-            mustBeNonNullObject('materialKey', materialKey);
-            mustBeNonNullObject('material', material);
-            mustBeString('materialKey.kind', materialKey.kind);
-            var key = JSON.stringify(materialKey);
-            this.materials[key] = material;
-        };
-        /**
          * Computes the coordinates of a point in the image cube corresponding to device coordinates.
          * @param deviceX The x-coordinate of the device event.
          * @param deviceY The y-coordinate of the device event.
@@ -13864,7 +13935,7 @@
     }(ShareableBase));
 
     /**
-     *
+     * Sets the 'uAmbientLight' uniform to the color RGB value.
      */
     var AmbientLight = /** @class */ (function () {
         /**
@@ -13956,7 +14027,7 @@
         c[0x3] = a22 + b22;
     }
     /**
-     *
+     * @hidden
      */
     var Matrix2 = /** @class */ (function (_super) {
         __extends(Matrix2, _super);
@@ -14289,7 +14360,7 @@
     }(AbstractMatrix));
 
     /**
-     *
+     * @hidden
      */
     var ReflectionFacetE2 = /** @class */ (function () {
         /**
@@ -14332,7 +14403,7 @@
     }());
 
     /**
-     *
+     * @hidden
      */
     var ReflectionFacetE3 = /** @class */ (function () {
         /**
@@ -14368,6 +14439,7 @@
     /**
      * Updates a uniform vec3 shader parameter from a VectorE3.
      * Using a VectorE3 makes assignment easier, which is the dominant use case.
+     * @hidden
      */
     var Vector3Facet = /** @class */ (function () {
         function Vector3Facet(name) {
@@ -14467,7 +14539,7 @@
     }
 
     /**
-     *
+     * @hidden
      */
     var ViewTransform = /** @class */ (function () {
         /**
@@ -14597,7 +14669,7 @@
     }());
 
     /**
-     *
+     * @hidden
      */
     var PerspectiveTransform = /** @class */ (function () {
         /**
@@ -15370,7 +15442,7 @@
         }
     }
     /**
-     *
+     * @hidden
      */
     var Geometric2 = /** @class */ (function () {
         /**
@@ -16696,7 +16768,7 @@
     Geometric2.ZERO.lock();
 
     /**
-     *
+     * @hidden
      */
     var ModelE2 = /** @class */ (function () {
         /**
@@ -16796,6 +16868,7 @@
     }
     /**
      * A convenience class for implementing the Attribute interface.
+     * @hidden
      */
     var DrawAttribute = /** @class */ (function () {
         function DrawAttribute(values, size, type) {
@@ -16814,6 +16887,7 @@
     var context = function () { return "DrawPrimitive constructor"; };
     /**
      * A convenience class for implementing the Primitive interface.
+     * @hidden
      */
     var DrawPrimitive = /** @class */ (function () {
         function DrawPrimitive(mode, indices, attributes) {
@@ -16934,6 +17008,7 @@
     }
     /**
      * The data for a vertex in a normalized and uncompressed format that is easy to manipulate.
+     * @hidden
      */
     var Vertex = /** @class */ (function () {
         /**
@@ -16961,74 +17036,318 @@
         return Vertex;
     }());
 
-    var ShapeBuilder = /** @class */ (function () {
+    /**
+     * Computes the number of posts to build a fence from the number of segments.
+     * @hidden
+     */
+    function numPostsForFence(segmentCount, closed) {
+        mustBeInteger('segmentCount', segmentCount);
+        mustBeGE('segmentCount', segmentCount, 0);
+        mustBeBoolean('closed', closed);
+        return closed ? segmentCount : segmentCount + 1;
+    }
+
+    /**
+     * Computes the number of vertices required to construct a grid.
+     * @hidden
+     */
+    function numVerticesForGrid(uSegments, vSegments) {
+        mustBeInteger('uSegments', uSegments);
+        mustBeInteger('vSegments', vSegments);
+        return (uSegments + 1) * (vSegments + 1);
+    }
+
+    /**
+     * This seems a bit hacky. Maybe we need an abstraction that recognizes the existence of
+     * geometric numbers for vertex attributes, but allows us to extract the vector (grade-1) part?
+     * @hidden
+     */
+    function dataFromVectorN(source) {
+        if (source instanceof Geometric3) {
+            var g3 = source;
+            return [g3.x, g3.y, g3.z];
+        }
+        else if (source instanceof Geometric2) {
+            var g2 = source;
+            return [g2.x, g2.y];
+        }
+        else if (source instanceof Vector3) {
+            var v3 = source;
+            return [v3.x, v3.y, v3.z];
+        }
+        else if (source instanceof Vector2) {
+            var v2 = source;
+            return [v2.x, v2.y];
+        }
+        else {
+            // console.warn("dataFromVectorN(source: VectorN<number>): number[], source.length => " + source.length)
+            return source.toArray();
+        }
+    }
+
+    /**
+     * @hidden
+     */
+    function checkSize(length) {
+        if (length === 1) {
+            return 1;
+        }
+        else if (length === 2) {
+            return 2;
+        }
+        else if (length === 3) {
+            return 3;
+        }
+        else if (length === 4) {
+            return 4;
+        }
+        else {
+            throw new Error("length must be 1, 2, 3, or 4");
+        }
+    }
+    /**
+     * This helper function converts Vertex (VectorN) attributes into the Primitive (number[]) format.
+     * There is some magic in the conversion of various types (Geometric2, Geometric3, Vector2, Vector3)
+     * to number[], but the basic rule is that the vector grade is extracted and used in a way that is
+     * consistent with the linear dimension (2,3), so there should be no surprises.
+     * @hidden
+     */
+    function attributes(elements, vertices) {
+        mustBeArray('elements', elements);
+        var attribs = {};
+        var iLen = vertices.length;
+        for (var i = 0; i < iLen; i++) {
+            var vertex = vertices[i];
+            var names = Object.keys(vertex.attributes);
+            var jLen = names.length;
+            for (var j = 0; j < jLen; j++) {
+                var name_1 = names[j];
+                var data = dataFromVectorN(vertex.attributes[name_1]);
+                var size = checkSize(data.length);
+                var attrib = attribs[name_1];
+                if (!attrib) {
+                    attrib = attribs[name_1] = new DrawAttribute([], size, exports.DataType.FLOAT);
+                }
+                for (var k = 0; k < size; k++) {
+                    attrib.values.push(data[k]);
+                }
+            }
+        }
+        return attribs;
+    }
+    /**
+     * The VertexPrimitive class provides the preferred method for creating geometries.
+     * Classes derived from VertexPrimitive create vertices and pathways through them
+     * with indices such as TRIANGLE_STRIP. (Reversing this procedure from an arbitrary
+     * collection of simplices is an NP problem). The resulting topology can then be
+     * modified by a parameterized function either prior to buffering or in a shader.
+     * VertexPrimitive uses the Vertex structure which is based on VectorN for ease of mesh
+     * generation and transformation. Topolgy provides a toPrimitive method which results
+     * in a more compact representation based upon number[]. An even more compact
+     * representation is VertexArrays, which interleaves the vertex.
+     * @hidden
+     */
+    var VertexPrimitive = /** @class */ (function () {
+        /**
+         * Constructs a VertexPrimitive and initializes the vertices property with the required number of vertices.
+         *
+         * @param mode
+         * @param numVertices
+         * @param numCoordinates The number of coordinates required to label each vertex.
+         */
+        function VertexPrimitive(mode, numVertices, numCoordinates) {
+            this.mode = mustBeInteger('mode', mode);
+            mustBeInteger('numVertices', numVertices);
+            mustBeGE('numVertices', numVertices, 0);
+            mustBeInteger('numCoordinates', numCoordinates);
+            mustBeGE('numCoordinates', numCoordinates, 0);
+            this.vertices = [];
+            for (var i = 0; i < numVertices; i++) {
+                this.vertices.push(new Vertex(numCoordinates));
+            }
+        }
+        VertexPrimitive.prototype.vertexTransform = function (transform) {
+            mustBeNonNullObject('transform', transform);
+            // Derived classes must implement in order to supply correct ranges.
+            throw new Error(notSupported('vertexTransform').message);
+        };
         /**
          *
          */
-        function ShapeBuilder() {
-            /**
-             * The scaling to apply to the geometry in the initial configuration.
-             * This has a slightly strange sounding name because it involves a
-             * reference frame specific transformation.
-             *
-             * This may be replaced by a Matrix3 in future.
-             */
-            this.stress = Vector3.vector(1, 1, 1);
-            /**
-             * The rotor to apply to the geometry (after scale has been applied).
-             */
-            this.tilt = Geometric3.one(false);
-            /**
-             * The translation to apply to the geometry (after tilt has been applied).
-             */
-            this.offset = Vector3.zero();
-            /**
-             *
-             */
-            this.transforms = [];
-            /**
-             * Determines whether to include normals in the geometry.
-             */
-            this.useNormal = true;
-            /**
-             * Determines whether to include positions in the geometry.
-             */
-            this.usePosition = true;
-            /**
-             * Determines whether to include texture coordinates in the geometry.
-             */
-            this.useTextureCoord = false;
-            // Do nothing.
-        }
-        ShapeBuilder.prototype.applyTransforms = function (vertex, i, j, iLength, jLength) {
-            var tLen = this.transforms.length;
-            for (var t = 0; t < tLen; t++) {
-                this.transforms[t].exec(vertex, i, j, iLength, jLength);
-            }
+        VertexPrimitive.prototype.toPrimitive = function () {
+            // Derived classes are responsible for allocating the elements array.
+            var context = function () { return 'toPrimitive'; };
+            mustBeArray('elements', this.elements, context);
+            return new DrawPrimitive(this.mode, this.elements, attributes(this.elements, this.vertices));
         };
-        return ShapeBuilder;
+        return VertexPrimitive;
     }());
 
     /**
-     *
+     * Used for creating a VertexPrimitive for a surface.
+     * The vertices generated have coordinates (u, v) and the traversal creates
+     * counter-clockwise orientation when increasing u is the first direction and
+     * increasing v the second direction.
+     * @hidden
      */
-    var AxialShapeBuilder = /** @class */ (function (_super) {
-        __extends(AxialShapeBuilder, _super);
-        /**
-         *
-         */
-        function AxialShapeBuilder() {
-            var _this = _super.call(this) || this;
-            /**
-             * The sliceAngle is the angle from the cutLine to the end of the slice.
-             * A positive slice angle represents a counter-clockwise rotation around
-             * the symmetry axis direction.
-             */
-            _this.sliceAngle = 2 * Math.PI;
+    var GridPrimitive = /** @class */ (function (_super) {
+        __extends(GridPrimitive, _super);
+        function GridPrimitive(mode, uSegments, vSegments) {
+            var _this = _super.call(this, mode, numVerticesForGrid(uSegments, vSegments), 2) || this;
+            _this._uClosed = false;
+            _this._vClosed = false;
+            _this._uSegments = uSegments;
+            _this._vSegments = vSegments;
             return _this;
         }
-        return AxialShapeBuilder;
-    }(ShapeBuilder));
+        Object.defineProperty(GridPrimitive.prototype, "uSegments", {
+            get: function () {
+                return this._uSegments;
+            },
+            set: function (uSegments) {
+                mustBeInteger('uSegments', uSegments);
+                throw new Error(readOnly('uSegments').message);
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(GridPrimitive.prototype, "uLength", {
+            /**
+             * uLength = uSegments + 1
+             */
+            get: function () {
+                return numPostsForFence(this._uSegments, this._uClosed);
+            },
+            set: function (uLength) {
+                mustBeInteger('uLength', uLength);
+                throw new Error(readOnly('uLength').message);
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(GridPrimitive.prototype, "vSegments", {
+            get: function () {
+                return this._vSegments;
+            },
+            set: function (vSegments) {
+                mustBeInteger('vSegments', vSegments);
+                throw new Error(readOnly('vSegments').message);
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(GridPrimitive.prototype, "vLength", {
+            /**
+             * vLength = vSegments + 1
+             */
+            get: function () {
+                return numPostsForFence(this._vSegments, this._vClosed);
+            },
+            set: function (vLength) {
+                mustBeInteger('vLength', vLength);
+                throw new Error(readOnly('vLength').message);
+            },
+            enumerable: false,
+            configurable: true
+        });
+        GridPrimitive.prototype.vertexTransform = function (transform) {
+            var iLen = this.vertices.length;
+            for (var i = 0; i < iLen; i++) {
+                var vertex = this.vertices[i];
+                var u = vertex.coords.getComponent(0);
+                var v = vertex.coords.getComponent(1);
+                transform.exec(vertex, u, v, this.uLength, this.vLength);
+            }
+        };
+        /**
+         * Derived classes must override.
+         */
+        GridPrimitive.prototype.vertex = function (i, j) {
+            mustBeInteger('i', i);
+            mustBeInteger('j', j);
+            throw new Error(notSupported('vertex').message);
+        };
+        return GridPrimitive;
+    }(VertexPrimitive));
+
+    /**
+     * @hidden
+     */
+    function triangleStripForGrid(uSegments, vSegments, elements) {
+        // Make sure that we have somewhere valid to store the result.
+        elements = isDefined(elements) ? mustBeArray('elements', elements) : [];
+        var uLength = numPostsForFence(uSegments, false /* open */);
+        var lastVertex = uSegments + uLength * vSegments;
+        /**
+         * The number of elements needed if we executed a strip per row.
+         * Remark Notice the asymmetry. Could be a performance impact.
+         */
+        var eSimple = 2 * uLength * vSegments;
+        /**
+         * Index for TRIANGLE_STRIP array.
+         */
+        var j = 0;
+        // FIXME: Loop 0 <= i < eSimple (Edsger W. Dijksta)
+        // For this algorithm, imagine a little vertical loop containing two dots.
+        // The uppermost dot we shall call the `top` and the lowermost the `bottom`.
+        // Advancing i by two each time corresponds to advancing this loop one place to the right.
+        for (var i = 1; i <= eSimple; i += 2) {
+            // const k = (i - 1) / 2 // etc
+            // top element
+            elements[j] = (i - 1) / 2;
+            // bottom element
+            elements[j + 1] = elements[j] + uLength;
+            // check for end of column
+            if (elements[j + 1] % uLength === uSegments) {
+                // Don't add degenerate triangles if we are on either
+                // 1. the last vertex of the first row
+                // 2. the last vertex of the last row.
+                if (elements[j + 1] !== uSegments && elements[j + 1] !== lastVertex) {
+                    // additional vertex degenerate triangle
+                    // The next point is the same as the one before
+                    elements[j + 2] = elements[j + 1];
+                    // additional vertex degenerate triangle
+                    elements[j + 3] = (1 + i) / 2;
+                    // Increment j for the two duplicate vertices
+                    j += 2;
+                }
+            }
+            // Increment j for this step.
+            j += 2;
+        }
+        return elements;
+    }
+    /**
+     * Used for creating TRIANGLE_STRIP primitives.
+     * The vertices generated have coordinates (u, v) and the traversal creates
+     * counter-clockwise orientation when increasing u is the first direction and
+     * increasing v the second direction.
+     * @hidden
+     */
+    var GridTriangleStrip = /** @class */ (function (_super) {
+        __extends(GridTriangleStrip, _super);
+        /**
+         * @param uSegments
+         * @param vSegments
+         */
+        function GridTriangleStrip(uSegments, vSegments) {
+            var _this = _super.call(this, exports.BeginMode.TRIANGLE_STRIP, uSegments, vSegments) || this;
+            _this.elements = triangleStripForGrid(uSegments, vSegments);
+            return _this;
+        }
+        /**
+         *
+         * @param uIndex An integer. 0 <= uIndex < uLength
+         * @param vIndex An integer. 0 <= vIndex < vLength
+         */
+        GridTriangleStrip.prototype.vertex = function (uIndex, vIndex) {
+            mustBeInteger('uIndex', uIndex);
+            mustBeInteger('vIndex', vIndex);
+            // I'm not sure why the indexing here reverses the second index direction.
+            return this.vertices[(this.vSegments - vIndex) * this.uLength + uIndex];
+        };
+        return GridTriangleStrip;
+    }(GridPrimitive));
 
     /**
      * @hidden
@@ -17851,6 +18170,7 @@
 
     /**
      * A `Transform` that calls the `approx` method on a `Vertex` attribute.
+     * @hidden
      */
     var Approximation = /** @class */ (function () {
         /**
@@ -17895,394 +18215,6 @@
         return Approximation;
     }());
 
-    var Direction = /** @class */ (function () {
-        function Direction(sourceName) {
-            this.sourceName = mustBeString('sourceName', sourceName);
-        }
-        Direction.prototype.exec = function (vertex, i, j, iLength, jLength) {
-            var v = vertex.attributes[this.sourceName];
-            if (v) {
-                if (v instanceof Vector3) {
-                    vertex.attributes[this.sourceName] = v.normalize();
-                }
-                else if (v instanceof Spinor3) {
-                    vertex.attributes[this.sourceName] = v.normalize();
-                }
-                else if (v instanceof Vector2) {
-                    vertex.attributes[this.sourceName] = v.normalize();
-                }
-                else if (v instanceof Spinor2) {
-                    vertex.attributes[this.sourceName] = v.normalize();
-                }
-                else if (v instanceof Geometric3) {
-                    vertex.attributes[this.sourceName] = v.normalize();
-                }
-                else if (v instanceof Geometric2) {
-                    vertex.attributes[this.sourceName] = v.normalize();
-                }
-                else {
-                    throw new Error("Expecting " + this.sourceName + " to be a Vector, Spinor, or Geometric");
-                }
-            }
-            else {
-                throw new Error("Vertex attribute " + this.sourceName + " was not found");
-            }
-        };
-        return Direction;
-    }());
-
-    /**
-     * Applies a duality transformation to the specified attributes of a vertex, creating a new attribute.
-     * The convention used is pre-multiplication by the pseudoscalar.
-     */
-    var Duality = /** @class */ (function () {
-        function Duality(sourceName, outputName, changeSign, removeSource) {
-            this.sourceName = mustBeString('sourceName', sourceName);
-            this.outputName = mustBeString('outputName', outputName);
-            this.changeSign = mustBeBoolean('changeSign', changeSign);
-            this.removeSource = mustBeBoolean('removeSource', removeSource);
-        }
-        Duality.prototype.exec = function (vertex, i, j, iLength, jLength) {
-            var v = vertex.attributes[this.sourceName];
-            if (v) {
-                if (v instanceof Vector3) {
-                    var spinor = Spinor3.dual(v, this.changeSign);
-                    vertex.attributes[this.outputName] = spinor;
-                }
-                else if (v instanceof Spinor3) {
-                    var vector = Vector3.dual(v, this.changeSign);
-                    vertex.attributes[this.outputName] = vector;
-                }
-                else if (v instanceof Vector2) {
-                    throw new Error(notImplemented('dual(vector: Vector2)').message);
-                }
-                else if (v instanceof Spinor2) {
-                    throw new Error(notImplemented('dual(spinor: Spinor2)').message);
-                }
-                else {
-                    throw new Error("Expecting " + this.sourceName + " to be a Vector3 or Spinor");
-                }
-                if (this.removeSource) {
-                    delete vertex.attributes[this.sourceName];
-                }
-            }
-            else {
-                throw new Error("Vertex attribute " + this.sourceName + " was not found");
-            }
-        };
-        return Duality;
-    }());
-
-    /**
-     * Computes the number of posts to build a fence from the number of segments.
-     * @hidden
-     */
-    function numPostsForFence(segmentCount, closed) {
-        mustBeInteger('segmentCount', segmentCount);
-        mustBeGE('segmentCount', segmentCount, 0);
-        mustBeBoolean('closed', closed);
-        return closed ? segmentCount : segmentCount + 1;
-    }
-
-    /**
-     * Computes the number of vertices required to construct a grid.
-     * @hidden
-     */
-    function numVerticesForGrid(uSegments, vSegments) {
-        mustBeInteger('uSegments', uSegments);
-        mustBeInteger('vSegments', vSegments);
-        return (uSegments + 1) * (vSegments + 1);
-    }
-
-    /**
-     * This seems a bit hacky. Maybe we need an abstraction that recognizes the existence of
-     * geometric numbers for vertex attributes, but allows us to extract the vector (grade-1) part?
-     * @hidden
-     */
-    function dataFromVectorN(source) {
-        if (source instanceof Geometric3) {
-            var g3 = source;
-            return [g3.x, g3.y, g3.z];
-        }
-        else if (source instanceof Geometric2) {
-            var g2 = source;
-            return [g2.x, g2.y];
-        }
-        else if (source instanceof Vector3) {
-            var v3 = source;
-            return [v3.x, v3.y, v3.z];
-        }
-        else if (source instanceof Vector2) {
-            var v2 = source;
-            return [v2.x, v2.y];
-        }
-        else {
-            // console.warn("dataFromVectorN(source: VectorN<number>): number[], source.length => " + source.length)
-            return source.toArray();
-        }
-    }
-
-    /**
-     * @hidden
-     */
-    function checkSize(length) {
-        if (length === 1) {
-            return 1;
-        }
-        else if (length === 2) {
-            return 2;
-        }
-        else if (length === 3) {
-            return 3;
-        }
-        else if (length === 4) {
-            return 4;
-        }
-        else {
-            throw new Error("length must be 1, 2, 3, or 4");
-        }
-    }
-    /**
-     * This helper function converts Vertex (VectorN) attributes into the Primitive (number[]) format.
-     * There is some magic in the conversion of various types (Geometric2, Geometric3, Vector2, Vector3)
-     * to number[], but the basic rule is that the vector grade is extracted and used in a way that is
-     * consistent with the linear dimension (2,3), so there should be no surprises.
-     * @hidden
-     */
-    function attributes(elements, vertices) {
-        mustBeArray('elements', elements);
-        var attribs = {};
-        var iLen = vertices.length;
-        for (var i = 0; i < iLen; i++) {
-            var vertex = vertices[i];
-            var names = Object.keys(vertex.attributes);
-            var jLen = names.length;
-            for (var j = 0; j < jLen; j++) {
-                var name_1 = names[j];
-                var data = dataFromVectorN(vertex.attributes[name_1]);
-                var size = checkSize(data.length);
-                var attrib = attribs[name_1];
-                if (!attrib) {
-                    attrib = attribs[name_1] = new DrawAttribute([], size, exports.DataType.FLOAT);
-                }
-                for (var k = 0; k < size; k++) {
-                    attrib.values.push(data[k]);
-                }
-            }
-        }
-        return attribs;
-    }
-    /**
-     * The VertexPrimitive class provides the preferred method for creating geometries.
-     * Classes derived from VertexPrimitive create vertices and pathways through them
-     * with indices such as TRIANGLE_STRIP. (Reversing this procedure from an arbitrary
-     * collection of simplices is an NP problem). The resulting topology can then be
-     * modified by a parameterized function either prior to buffering or in a shader.
-     * VertexPrimitive uses the Vertex structure which is based on VectorN for ease of mesh
-     * generation and transformation. Topolgy provides a toPrimitive method which results
-     * in a more compact representation based upon number[]. An even more compact
-     * representation is VertexArrays, which interleaves the vertex.
-     */
-    var VertexPrimitive = /** @class */ (function () {
-        /**
-         * Constructs a VertexPrimitive and initializes the vertices property with the required number of vertices.
-         *
-         * @param mode
-         * @param numVertices
-         * @param numCoordinates The number of coordinates required to label each vertex.
-         */
-        function VertexPrimitive(mode, numVertices, numCoordinates) {
-            this.mode = mustBeInteger('mode', mode);
-            mustBeInteger('numVertices', numVertices);
-            mustBeGE('numVertices', numVertices, 0);
-            mustBeInteger('numCoordinates', numCoordinates);
-            mustBeGE('numCoordinates', numCoordinates, 0);
-            this.vertices = [];
-            for (var i = 0; i < numVertices; i++) {
-                this.vertices.push(new Vertex(numCoordinates));
-            }
-        }
-        VertexPrimitive.prototype.vertexTransform = function (transform) {
-            mustBeNonNullObject('transform', transform);
-            // Derived classes must implement in order to supply correct ranges.
-            throw new Error(notSupported('vertexTransform').message);
-        };
-        /**
-         *
-         */
-        VertexPrimitive.prototype.toPrimitive = function () {
-            // Derived classes are responsible for allocating the elements array.
-            var context = function () { return 'toPrimitive'; };
-            mustBeArray('elements', this.elements, context);
-            return new DrawPrimitive(this.mode, this.elements, attributes(this.elements, this.vertices));
-        };
-        return VertexPrimitive;
-    }());
-
-    /**
-     * Used for creating a VertexPrimitive for a surface.
-     * The vertices generated have coordinates (u, v) and the traversal creates
-     * counter-clockwise orientation when increasing u is the first direction and
-     * increasing v the second direction.
-     */
-    var GridPrimitive = /** @class */ (function (_super) {
-        __extends(GridPrimitive, _super);
-        function GridPrimitive(mode, uSegments, vSegments) {
-            var _this = _super.call(this, mode, numVerticesForGrid(uSegments, vSegments), 2) || this;
-            _this._uClosed = false;
-            _this._vClosed = false;
-            _this._uSegments = uSegments;
-            _this._vSegments = vSegments;
-            return _this;
-        }
-        Object.defineProperty(GridPrimitive.prototype, "uSegments", {
-            get: function () {
-                return this._uSegments;
-            },
-            set: function (uSegments) {
-                mustBeInteger('uSegments', uSegments);
-                throw new Error(readOnly('uSegments').message);
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(GridPrimitive.prototype, "uLength", {
-            /**
-             * uLength = uSegments + 1
-             */
-            get: function () {
-                return numPostsForFence(this._uSegments, this._uClosed);
-            },
-            set: function (uLength) {
-                mustBeInteger('uLength', uLength);
-                throw new Error(readOnly('uLength').message);
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(GridPrimitive.prototype, "vSegments", {
-            get: function () {
-                return this._vSegments;
-            },
-            set: function (vSegments) {
-                mustBeInteger('vSegments', vSegments);
-                throw new Error(readOnly('vSegments').message);
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(GridPrimitive.prototype, "vLength", {
-            /**
-             * vLength = vSegments + 1
-             */
-            get: function () {
-                return numPostsForFence(this._vSegments, this._vClosed);
-            },
-            set: function (vLength) {
-                mustBeInteger('vLength', vLength);
-                throw new Error(readOnly('vLength').message);
-            },
-            enumerable: false,
-            configurable: true
-        });
-        GridPrimitive.prototype.vertexTransform = function (transform) {
-            var iLen = this.vertices.length;
-            for (var i = 0; i < iLen; i++) {
-                var vertex = this.vertices[i];
-                var u = vertex.coords.getComponent(0);
-                var v = vertex.coords.getComponent(1);
-                transform.exec(vertex, u, v, this.uLength, this.vLength);
-            }
-        };
-        /**
-         * Derived classes must override.
-         */
-        GridPrimitive.prototype.vertex = function (i, j) {
-            mustBeInteger('i', i);
-            mustBeInteger('j', j);
-            throw new Error(notSupported('vertex').message);
-        };
-        return GridPrimitive;
-    }(VertexPrimitive));
-
-    /**
-     * @hidden
-     */
-    function triangleStripForGrid(uSegments, vSegments, elements) {
-        // Make sure that we have somewhere valid to store the result.
-        elements = isDefined(elements) ? mustBeArray('elements', elements) : [];
-        var uLength = numPostsForFence(uSegments, false /* open */);
-        var lastVertex = uSegments + uLength * vSegments;
-        /**
-         * The number of elements needed if we executed a strip per row.
-         * Remark Notice the asymmetry. Could be a performance impact.
-         */
-        var eSimple = 2 * uLength * vSegments;
-        /**
-         * Index for TRIANGLE_STRIP array.
-         */
-        var j = 0;
-        // FIXME: Loop 0 <= i < eSimple (Edsger W. Dijksta)
-        // For this algorithm, imagine a little vertical loop containing two dots.
-        // The uppermost dot we shall call the `top` and the lowermost the `bottom`.
-        // Advancing i by two each time corresponds to advancing this loop one place to the right.
-        for (var i = 1; i <= eSimple; i += 2) {
-            // const k = (i - 1) / 2 // etc
-            // top element
-            elements[j] = (i - 1) / 2;
-            // bottom element
-            elements[j + 1] = elements[j] + uLength;
-            // check for end of column
-            if (elements[j + 1] % uLength === uSegments) {
-                // Don't add degenerate triangles if we are on either
-                // 1. the last vertex of the first row
-                // 2. the last vertex of the last row.
-                if (elements[j + 1] !== uSegments && elements[j + 1] !== lastVertex) {
-                    // additional vertex degenerate triangle
-                    // The next point is the same as the one before
-                    elements[j + 2] = elements[j + 1];
-                    // additional vertex degenerate triangle
-                    elements[j + 3] = (1 + i) / 2;
-                    // Increment j for the two duplicate vertices
-                    j += 2;
-                }
-            }
-            // Increment j for this step.
-            j += 2;
-        }
-        return elements;
-    }
-    /**
-     * Used for creating TRIANGLE_STRIP primitives.
-     * The vertices generated have coordinates (u, v) and the traversal creates
-     * counter-clockwise orientation when increasing u is the first direction and
-     * increasing v the second direction.
-     */
-    var GridTriangleStrip = /** @class */ (function (_super) {
-        __extends(GridTriangleStrip, _super);
-        /**
-         * @param uSegments
-         * @param vSegments
-         */
-        function GridTriangleStrip(uSegments, vSegments) {
-            var _this = _super.call(this, exports.BeginMode.TRIANGLE_STRIP, uSegments, vSegments) || this;
-            _this.elements = triangleStripForGrid(uSegments, vSegments);
-            return _this;
-        }
-        /**
-         *
-         * @param uIndex An integer. 0 <= uIndex < uLength
-         * @param vIndex An integer. 0 <= vIndex < vLength
-         */
-        GridTriangleStrip.prototype.vertex = function (uIndex, vIndex) {
-            mustBeInteger('uIndex', uIndex);
-            mustBeInteger('vIndex', vIndex);
-            // I'm not sure why the indexing here reverses the second index direction.
-            return this.vertices[(this.vSegments - vIndex) * this.uLength + uIndex];
-        };
-        return GridTriangleStrip;
-    }(GridPrimitive));
-
     /**
      * @hidden
      */
@@ -18292,7 +18224,7 @@
         out.add(h, ρ2).divByScalar(Math.sqrt(ρ2) * Math.sqrt(1 + ρ2));
     }
     /**
-     *
+     * @hidden
      */
     var ConeTransform = /** @class */ (function () {
         /**
@@ -18361,6 +18293,117 @@
         return ConeTransform;
     }());
 
+    /**
+     * Applies coordinates to a surface.
+     * @hidden
+     */
+    var CoordsTransform2D = /** @class */ (function () {
+        function CoordsTransform2D(flipU, flipV, exchangeUV) {
+            this.flipU = mustBeBoolean('flipU', flipU);
+            this.flipV = mustBeBoolean('flipV', flipV);
+            this.exchageUV = mustBeBoolean('exchangeUV', exchangeUV);
+        }
+        /**
+         * @method exec
+         * @param vertex {Vertex}
+         * @param i {number}
+         * @param j {number}
+         * @param iLength {number}
+         * @param jLength {number}
+         */
+        CoordsTransform2D.prototype.exec = function (vertex, i, j, iLength, jLength) {
+            var u = i / (iLength - 1);
+            var v = j / (jLength - 1);
+            vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS] = new Vector2([u, v]);
+        };
+        return CoordsTransform2D;
+    }());
+
+    /**
+     * @hidden
+     */
+    var Direction = /** @class */ (function () {
+        function Direction(sourceName) {
+            this.sourceName = mustBeString('sourceName', sourceName);
+        }
+        Direction.prototype.exec = function (vertex, i, j, iLength, jLength) {
+            var v = vertex.attributes[this.sourceName];
+            if (v) {
+                if (v instanceof Vector3) {
+                    vertex.attributes[this.sourceName] = v.normalize();
+                }
+                else if (v instanceof Spinor3) {
+                    vertex.attributes[this.sourceName] = v.normalize();
+                }
+                else if (v instanceof Vector2) {
+                    vertex.attributes[this.sourceName] = v.normalize();
+                }
+                else if (v instanceof Spinor2) {
+                    vertex.attributes[this.sourceName] = v.normalize();
+                }
+                else if (v instanceof Geometric3) {
+                    vertex.attributes[this.sourceName] = v.normalize();
+                }
+                else if (v instanceof Geometric2) {
+                    vertex.attributes[this.sourceName] = v.normalize();
+                }
+                else {
+                    throw new Error("Expecting " + this.sourceName + " to be a Vector, Spinor, or Geometric");
+                }
+            }
+            else {
+                throw new Error("Vertex attribute " + this.sourceName + " was not found");
+            }
+        };
+        return Direction;
+    }());
+
+    /**
+     * Applies a duality transformation to the specified attributes of a vertex, creating a new attribute.
+     * The convention used is pre-multiplication by the pseudoscalar.
+     * @hidden
+     */
+    var Duality = /** @class */ (function () {
+        function Duality(sourceName, outputName, changeSign, removeSource) {
+            this.sourceName = mustBeString('sourceName', sourceName);
+            this.outputName = mustBeString('outputName', outputName);
+            this.changeSign = mustBeBoolean('changeSign', changeSign);
+            this.removeSource = mustBeBoolean('removeSource', removeSource);
+        }
+        Duality.prototype.exec = function (vertex, i, j, iLength, jLength) {
+            var v = vertex.attributes[this.sourceName];
+            if (v) {
+                if (v instanceof Vector3) {
+                    var spinor = Spinor3.dual(v, this.changeSign);
+                    vertex.attributes[this.outputName] = spinor;
+                }
+                else if (v instanceof Spinor3) {
+                    var vector = Vector3.dual(v, this.changeSign);
+                    vertex.attributes[this.outputName] = vector;
+                }
+                else if (v instanceof Vector2) {
+                    throw new Error(notImplemented('dual(vector: Vector2)').message);
+                }
+                else if (v instanceof Spinor2) {
+                    throw new Error(notImplemented('dual(spinor: Spinor2)').message);
+                }
+                else {
+                    throw new Error("Expecting " + this.sourceName + " to be a Vector3 or Spinor");
+                }
+                if (this.removeSource) {
+                    delete vertex.attributes[this.sourceName];
+                }
+            }
+            else {
+                throw new Error("Vertex attribute " + this.sourceName + " was not found");
+            }
+        };
+        return Duality;
+    }());
+
+    /**
+     * @hidden
+     */
     var Rotation = /** @class */ (function () {
         function Rotation(R, names) {
             this.R = Spinor3.copy(mustBeObject('R', R));
@@ -18389,6 +18432,9 @@
         return Rotation;
     }());
 
+    /**
+     * @hidden
+     */
     var Scaling = /** @class */ (function () {
         function Scaling(stress, names) {
             this.stress = Vector3.copy(mustBeObject('stress', stress));
@@ -18424,6 +18470,7 @@
 
     /**
      * Applies a translation to the specified attributes of a vertex.
+     * @hidden
      */
     var Translation = /** @class */ (function () {
         function Translation(s, names) {
@@ -18449,32 +18496,79 @@
     }());
 
     /**
-     * Applies coordinates to a surface.
+     * @hidden
      */
-    var CoordsTransform2D = /** @class */ (function () {
-        function CoordsTransform2D(flipU, flipV, exchangeUV) {
-            this.flipU = mustBeBoolean('flipU', flipU);
-            this.flipV = mustBeBoolean('flipV', flipV);
-            this.exchageUV = mustBeBoolean('exchangeUV', exchangeUV);
-        }
+    var ShapeBuilder = /** @class */ (function () {
         /**
-         * @method exec
-         * @param vertex {Vertex}
-         * @param i {number}
-         * @param j {number}
-         * @param iLength {number}
-         * @param jLength {number}
+         *
          */
-        CoordsTransform2D.prototype.exec = function (vertex, i, j, iLength, jLength) {
-            var u = i / (iLength - 1);
-            var v = j / (jLength - 1);
-            vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS] = new Vector2([u, v]);
+        function ShapeBuilder() {
+            /**
+             * The scaling to apply to the geometry in the initial configuration.
+             * This has a slightly strange sounding name because it involves a
+             * reference frame specific transformation.
+             *
+             * This may be replaced by a Matrix3 in future.
+             */
+            this.stress = Vector3.vector(1, 1, 1);
+            /**
+             * The rotor to apply to the geometry (after scale has been applied).
+             */
+            this.tilt = Geometric3.one(false);
+            /**
+             * The translation to apply to the geometry (after tilt has been applied).
+             */
+            this.offset = Vector3.zero();
+            /**
+             *
+             */
+            this.transforms = [];
+            /**
+             * Determines whether to include normals in the geometry.
+             */
+            this.useNormal = true;
+            /**
+             * Determines whether to include positions in the geometry.
+             */
+            this.usePosition = true;
+            /**
+             * Determines whether to include texture coordinates in the geometry.
+             */
+            this.useTextureCoord = false;
+            // Do nothing.
+        }
+        ShapeBuilder.prototype.applyTransforms = function (vertex, i, j, iLength, jLength) {
+            var tLen = this.transforms.length;
+            for (var t = 0; t < tLen; t++) {
+                this.transforms[t].exec(vertex, i, j, iLength, jLength);
+            }
         };
-        return CoordsTransform2D;
+        return ShapeBuilder;
     }());
 
     /**
-     *
+     * @hidden
+     */
+    var AxialShapeBuilder = /** @class */ (function (_super) {
+        __extends(AxialShapeBuilder, _super);
+        /**
+         *
+         */
+        function AxialShapeBuilder() {
+            var _this = _super.call(this) || this;
+            /**
+             * The sliceAngle is the angle from the cutLine to the end of the slice.
+             * A positive slice angle represents a counter-clockwise rotation around
+             * the symmetry axis direction.
+             */
+            _this.sliceAngle = 2 * Math.PI;
+            return _this;
+        }
+        return AxialShapeBuilder;
+    }(ShapeBuilder));
+
+    /**
+     * @hidden
      */
     var ConicalShellBuilder = /** @class */ (function (_super) {
         __extends(ConicalShellBuilder, _super);
@@ -18532,7 +18626,7 @@
     }(AxialShapeBuilder));
 
     /**
-     *
+     * @hidden
      */
     var CylinderTransform = /** @class */ (function () {
         /**
@@ -18567,6 +18661,7 @@
 
     /**
      * This implementation only builds the walls of the cylinder (by wrapping a grid)
+     * @hidden
      */
     var CylindricalShellBuilder = /** @class */ (function (_super) {
         __extends(CylindricalShellBuilder, _super);
@@ -18621,6 +18716,9 @@
         return CylindricalShellBuilder;
     }(AxialShapeBuilder));
 
+    /**
+     * @hidden
+     */
     var RingTransform = /** @class */ (function () {
         /**
          * @param e The axis normal to the plane of the ring.
@@ -18658,6 +18756,7 @@
 
     /**
      * Constructs a one-sided ring using a TRIANGLE_STRIP.
+     * @hidden
      */
     var RingBuilder = /** @class */ (function (_super) {
         __extends(RingBuilder, _super);
@@ -18734,6 +18833,7 @@
      * <p>
      * This class does not default the <b>cutLine</b>.
      * </p>
+     * @hidden
      */
     var ArrowBuilder = /** @class */ (function (_super) {
         __extends(ArrowBuilder, _super);
@@ -18842,6 +18942,7 @@
 
     /**
      * The common low values for a Simplex.
+     * @hidden
      */
     var SimplexMode;
     (function (SimplexMode) {
@@ -19055,6 +19156,7 @@
 
     /**
      * Determines how a Geometry will be rendered.
+     * @hidden
      */
     exports.GeometryMode = void 0;
     (function (GeometryMode) {
@@ -19127,6 +19229,7 @@
      * <p>
      * The cutLine unit vector defaults to <b>e<b><sub>3</sub>
      * </p>
+     * @hidden
      */
     var ArrowGeometry = /** @class */ (function (_super) {
         __extends(ArrowGeometry, _super);
@@ -19261,6 +19364,7 @@
 
     /**
      * A framework, as a base class, for building primitives by applying transformations to vertices.
+     * @hidden
      */
     var PrimitivesBuilder = /** @class */ (function () {
         function PrimitivesBuilder() {
@@ -19324,46 +19428,6 @@
         };
         return PrimitivesBuilder;
     }());
-
-    /**
-     * @hidden
-     */
-    function copyToArray(source, destination, offset) {
-        if (destination === void 0) { destination = []; }
-        if (offset === void 0) { offset = 0; }
-        var length = source.length;
-        for (var i = 0; i < length; i++) {
-            destination[offset + i] = source[i];
-        }
-        return destination;
-    }
-
-    // This function has the important side-effect of setting the vertex index property.
-    /**
-     * @hidden
-     */
-    function computeUniqueVertices(geometry) {
-        var map = {};
-        var vertices = [];
-        function munge(vertex) {
-            var key = vertex.toString();
-            if (map[key]) {
-                var existing = map[key];
-                vertex.index = existing.index;
-            }
-            else {
-                vertex.index = vertices.length;
-                vertices.push(vertex);
-                map[key] = vertex;
-            }
-        }
-        geometry.forEach(function (simplex) {
-            simplex.vertices.forEach(function (vertex) {
-                munge(vertex);
-            });
-        });
-        return vertices;
-    }
 
     /**
      * This seems a bit hacky. Maybe we need an abstraction that recognizes the existence of
@@ -19483,6 +19547,46 @@
         else {
             return void 0;
         }
+    }
+
+    /**
+     * @hidden
+     */
+    function copyToArray(source, destination, offset) {
+        if (destination === void 0) { destination = []; }
+        if (offset === void 0) { offset = 0; }
+        var length = source.length;
+        for (var i = 0; i < length; i++) {
+            destination[offset + i] = source[i];
+        }
+        return destination;
+    }
+
+    // This function has the important side-effect of setting the vertex index property.
+    /**
+     * @hidden
+     */
+    function computeUniqueVertices(geometry) {
+        var map = {};
+        var vertices = [];
+        function munge(vertex) {
+            var key = vertex.toString();
+            if (map[key]) {
+                var existing = map[key];
+                vertex.index = existing.index;
+            }
+            else {
+                vertex.index = vertices.length;
+                vertices.push(vertex);
+                map[key] = vertex;
+            }
+        }
+        geometry.forEach(function (simplex) {
+            simplex.vertices.forEach(function (vertex) {
+                munge(vertex);
+            });
+        });
+        return vertices;
     }
 
     /**
@@ -19615,7 +19719,7 @@
     var sqrt$1 = Math.sqrt;
     var COORD_X = 0;
     /**
-     * @class Vector1
+     * @hidden
      */
     var Vector1 = /** @class */ (function (_super) {
         __extends(Vector1, _super);
@@ -19953,6 +20057,9 @@
         return Vector1;
     }(Coords));
 
+    /**
+     * @hidden
+     */
     var SimplexPrimitivesBuilder = /** @class */ (function (_super) {
         __extends(SimplexPrimitivesBuilder, _super);
         function SimplexPrimitivesBuilder() {
@@ -20417,6 +20524,7 @@
     }
     /**
      * A convenience class for creating a BoxGeometry.
+     * @hidden
      */
     var BoxGeometry = /** @class */ (function (_super) {
         __extends(BoxGeometry, _super);
@@ -20810,6 +20918,7 @@
     }
     /**
      * A geometry for a Cylinder.
+     * @hidden
      */
     var CylinderGeometry = /** @class */ (function (_super) {
         __extends(CylinderGeometry, _super);
@@ -20873,7 +20982,7 @@
     }
 
     /**
-     *
+     * @hidden
      */
     var CurvePrimitive = /** @class */ (function (_super) {
         __extends(CurvePrimitive, _super);
@@ -20953,7 +21062,7 @@
     }
 
     /**
-     *
+     * @hidden
      */
     var LinePoints = /** @class */ (function (_super) {
         __extends(LinePoints, _super);
@@ -20978,6 +21087,9 @@
         return LinePoints;
     }(CurvePrimitive));
 
+    /**
+     * @hidden
+     */
     var LineStrip = /** @class */ (function (_super) {
         __extends(LineStrip, _super);
         /**
@@ -21011,6 +21123,7 @@
 
     /**
      * Determines how a Curve will be rendered.
+     * @hidden
      */
     exports.CurveMode = void 0;
     (function (CurveMode) {
@@ -21087,6 +21200,7 @@
 
     /**
      * A Geometry for representing functions of one scalar parameter.
+     * @hidden
      */
     var CurveGeometry = /** @class */ (function (_super) {
         __extends(CurveGeometry, _super);
@@ -21155,6 +21269,9 @@
         }
         return elements;
     }
+    /**
+     * @hidden
+     */
     var GridLines = /** @class */ (function (_super) {
         __extends(GridLines, _super);
         /**
@@ -21215,7 +21332,7 @@
         return elements;
     }
     /**
-     *
+     * @hidden
      */
     var GridPoints = /** @class */ (function (_super) {
         __extends(GridPoints, _super);
@@ -21351,6 +21468,7 @@
 
     /**
      * A Geometry for representing functions of two scalar parameters.
+     * @hidden
      */
     var GridGeometry = /** @class */ (function (_super) {
         __extends(GridGeometry, _super);
@@ -21891,6 +22009,7 @@
     }
     /**
      * A convenience class for creating sphere geometry elements.
+     * @hidden
      */
     var SphereGeometry = /** @class */ (function (_super) {
         __extends(SphereGeometry, _super);
@@ -22186,6 +22305,7 @@
 
     /**
      * A convenience class for creating a tetrahedron geometry.
+     * @hidden
      */
     var TetrahedronGeometry = /** @class */ (function (_super) {
         __extends(TetrahedronGeometry, _super);
@@ -22259,7 +22379,7 @@
     }
 
     /**
-     *
+     * @hidden
      */
     var ShaderMaterial = /** @class */ (function (_super) {
         __extends(ShaderMaterial, _super);
@@ -22573,16 +22693,28 @@
                 this.gl.activeTexture(texture);
             }
         };
+        ShaderMaterial.prototype.uniform1f = function (name, x) {
+            var uniformLoc = this.getUniform(name);
+            if (uniformLoc) {
+                uniformLoc.uniform1f(x);
+            }
+        };
+        ShaderMaterial.prototype.uniform1fv = function (name, data, srcOffset, srcLength) {
+            var uniformLoc = this._uniforms[name];
+            if (uniformLoc) {
+                uniformLoc.uniform1fv(data, srcOffset, srcLength);
+            }
+        };
         ShaderMaterial.prototype.uniform1i = function (name, x) {
             var uniformLoc = this.getUniform(name);
             if (uniformLoc) {
                 uniformLoc.uniform1i(x);
             }
         };
-        ShaderMaterial.prototype.uniform1f = function (name, x) {
-            var uniformLoc = this.getUniform(name);
+        ShaderMaterial.prototype.uniform1iv = function (name, data, srcOffset, srcLength) {
+            var uniformLoc = this._uniforms[name];
             if (uniformLoc) {
-                uniformLoc.uniform1f(x);
+                uniformLoc.uniform1iv(data, srcOffset, srcLength);
             }
         };
         ShaderMaterial.prototype.uniform2f = function (name, x, y) {
@@ -22591,16 +22723,70 @@
                 uniformLoc.uniform2f(x, y);
             }
         };
+        ShaderMaterial.prototype.uniform2fv = function (name, data, srcOffset, srcLength) {
+            var uniformLoc = this._uniforms[name];
+            if (uniformLoc) {
+                uniformLoc.uniform2fv(data, srcOffset, srcLength);
+            }
+        };
+        ShaderMaterial.prototype.uniform2i = function (name, x, y) {
+            var uniformLoc = this._uniforms[name];
+            if (uniformLoc) {
+                uniformLoc.uniform2i(x, y);
+            }
+        };
+        ShaderMaterial.prototype.uniform2iv = function (name, src, srcOffset, srcLength) {
+            var uniformLoc = this._uniforms[name];
+            if (uniformLoc) {
+                uniformLoc.uniform2iv(src, srcOffset, srcLength);
+            }
+        };
         ShaderMaterial.prototype.uniform3f = function (name, x, y, z) {
             var uniformLoc = this._uniforms[name];
             if (uniformLoc) {
                 uniformLoc.uniform3f(x, y, z);
             }
         };
+        ShaderMaterial.prototype.uniform3fv = function (name, data, srcOffset, srcLength) {
+            var uniformLoc = this._uniforms[name];
+            if (uniformLoc) {
+                uniformLoc.uniform3fv(data, srcOffset, srcLength);
+            }
+        };
+        ShaderMaterial.prototype.uniform3i = function (name, x, y, z) {
+            var uniformLoc = this._uniforms[name];
+            if (uniformLoc) {
+                uniformLoc.uniform3i(x, y, z);
+            }
+        };
+        ShaderMaterial.prototype.uniform3iv = function (name, src, srcOffset, srcLength) {
+            var uniformLoc = this._uniforms[name];
+            if (uniformLoc) {
+                uniformLoc.uniform3iv(src, srcOffset, srcLength);
+            }
+        };
         ShaderMaterial.prototype.uniform4f = function (name, x, y, z, w) {
             var uniformLoc = this._uniforms[name];
             if (uniformLoc) {
                 uniformLoc.uniform4f(x, y, z, w);
+            }
+        };
+        ShaderMaterial.prototype.uniform4fv = function (name, data, srcOffset, srcLength) {
+            var uniformLoc = this._uniforms[name];
+            if (uniformLoc) {
+                uniformLoc.uniform4fv(data, srcOffset, srcLength);
+            }
+        };
+        ShaderMaterial.prototype.uniform4i = function (name, x, y, z, w) {
+            var uniformLoc = this._uniforms[name];
+            if (uniformLoc) {
+                uniformLoc.uniform4i(x, y, z, w);
+            }
+        };
+        ShaderMaterial.prototype.uniform4iv = function (name, src, srcOffset, srcLength) {
+            var uniformLoc = this._uniforms[name];
+            if (uniformLoc) {
+                uniformLoc.uniform4iv(src, srcOffset, srcLength);
             }
         };
         ShaderMaterial.prototype.uniform = function (name, value) {
@@ -22668,24 +22854,6 @@
                 uniformLoc.matrix4fv(transpose, matrix);
             }
             return this;
-        };
-        ShaderMaterial.prototype.vector2fv = function (name, data) {
-            var uniformLoc = this._uniforms[name];
-            if (uniformLoc) {
-                uniformLoc.uniform2fv(data);
-            }
-        };
-        ShaderMaterial.prototype.vector3fv = function (name, data) {
-            var uniformLoc = this._uniforms[name];
-            if (uniformLoc) {
-                uniformLoc.uniform3fv(data);
-            }
-        };
-        ShaderMaterial.prototype.vector4fv = function (name, data) {
-            var uniformLoc = this._uniforms[name];
-            if (uniformLoc) {
-                uniformLoc.uniform4fv(data);
-            }
         };
         /**
          * @param mode Specifies the type of the primitive being rendered.
@@ -22850,6 +23018,9 @@
         return isDefined(uniform.name) ? expectArg('uniform.name', uniform.name).toBeString().value : varName;
     }
 
+    /**
+     * @hidden
+     */
     var GLSLESVersion;
     (function (GLSLESVersion) {
         GLSLESVersion["OneHundred"] = "100";
@@ -23540,6 +23711,7 @@
      * <td>attribute</td><td>vec3</td><td>aPosition</td>
      * </tr>
      * </table>
+     * @hidden
      */
     var LineMaterial = /** @class */ (function (_super) {
         __extends(LineMaterial, _super);
@@ -23668,7 +23840,7 @@
         return mustBeNonNullObject('contextManager', contextManager).contextId;
     }
     /**
-     *
+     * @hidden
      */
     var MeshMaterial = /** @class */ (function (_super) {
         __extends(MeshMaterial, _super);
@@ -23798,7 +23970,7 @@
         return mustBeNonNullObject('contextManager', contextManager).contextId;
     }
     /**
-     *
+     * @hidden
      */
     var PointMaterial = /** @class */ (function (_super) {
         __extends(PointMaterial, _super);
@@ -23937,15 +24109,13 @@
     var tanh = makeUnaryUniversalFunction('tanh', tanhNumber);
 
     /**
-     *
+     * @hidden
      */
     var Vector4 = /** @class */ (function (_super) {
         __extends(Vector4, _super);
         /**
-         * @class Vector4
-         * @constructor
-         * @param data {number[]} Default is [0, 0, 0, 0] corresponding to x, y, z, and w coordinate labels.
-         * @param modified {boolean} Default is false.
+         * @param data Default is [0, 0, 0, 0] corresponding to x, y, z, and w coordinate labels.
+         * @param modified Default is false.
          */
         function Vector4(data, modified) {
             if (data === void 0) { data = [0, 0, 0, 0]; }
@@ -24177,6 +24347,9 @@
         }
     }
 
+    /**
+     * @hidden
+     */
     var NumberShareableMap = /** @class */ (function (_super) {
         __extends(NumberShareableMap, _super);
         function NumberShareableMap() {
@@ -24387,6 +24560,16 @@
     /**
      * @hidden
      */
+    function normVectorE3(vector) {
+        var x = vector.x;
+        var y = vector.y;
+        var z = vector.z;
+        return Math.sqrt(x * x + y * y + z * z);
+    }
+
+    /**
+     * @hidden
+     */
     var INITIAL_AXIS = canonicalAxis$4;
     /**
      * @hidden
@@ -24501,54 +24684,20 @@
         switch (simplexMode) {
             case SimplexMode.POINT: {
                 var matOptions = pointMaterialOptions();
-                var cachedMaterial = contextManager.getCacheMaterial(matOptions);
-                if (cachedMaterial && cachedMaterial instanceof PointMaterial) {
-                    return cachedMaterial;
-                }
-                else {
-                    var material = new PointMaterial(contextManager, matOptions);
-                    contextManager.putCacheMaterial(matOptions, material);
-                    return material;
-                }
+                return new PointMaterial(contextManager, matOptions);
             }
             case SimplexMode.LINE: {
                 var matOptions = lineMaterialOptions();
-                var cachedMaterial = contextManager.getCacheMaterial(matOptions);
-                if (cachedMaterial && cachedMaterial instanceof LineMaterial) {
-                    return cachedMaterial;
-                }
-                else {
-                    var material = new LineMaterial(contextManager, matOptions);
-                    contextManager.putCacheMaterial(matOptions, material);
-                    return material;
-                }
+                return new LineMaterial(contextManager, matOptions);
             }
             case SimplexMode.TRIANGLE: {
                 var matOptions = meshMaterialOptions(behaviors);
-                var cachedMaterial = contextManager.getCacheMaterial(matOptions);
-                if (cachedMaterial && cachedMaterial instanceof MeshMaterial) {
-                    return cachedMaterial;
-                }
-                else {
-                    var material = new MeshMaterial(contextManager, matOptions);
-                    contextManager.putCacheMaterial(matOptions, material);
-                    return material;
-                }
+                return new MeshMaterial(contextManager, matOptions);
             }
             default: {
                 throw new Error("simplexMode not specified for materialFromOptions");
             }
         }
-    }
-
-    /**
-     * @hidden
-     */
-    function normVectorE3(vector) {
-        var x = vector.x;
-        var y = vector.y;
-        var z = vector.z;
-        return Math.sqrt(x * x + y * y + z * z);
     }
 
     /**
@@ -24686,8 +24835,10 @@
     }
 
     /**
-     * Reduce to the VectorE3 to a simple object data structure.
+     * Reduce an implementation of VectorE3 to a simple object data structure (which is a copy).
      * @hidden
+     *
+     * @param vector The implementation to be copied.
      */
     function vectorE3Object(vector) {
         if (vector) {
@@ -24704,7 +24855,9 @@
     var Arrow = /** @class */ (function (_super) {
         __extends(Arrow, _super);
         /**
-         *
+         * @param contextManager This will usually be provided by the `Engine`.
+         * @param options
+         * @param levelUp Leave as zero unless you are extending this class.
          */
         function Arrow(contextManager, options, levelUp) {
             if (options === void 0) { options = {}; }
@@ -24717,17 +24870,9 @@
             geoOptions.axis = vectorE3Object(referenceAxis(options, ds.axis).direction());
             geoOptions.meridian = vectorE3Object(referenceMeridian(options, ds.meridian).direction());
             geoOptions.radiusCone = 0.08;
-            var cachedGeometry = contextManager.getCacheGeometry(geoOptions);
-            if (cachedGeometry && cachedGeometry instanceof ArrowGeometry) {
-                _this.geometry = cachedGeometry;
-                cachedGeometry.release();
-            }
-            else {
-                var geometry = new ArrowGeometry(contextManager, geoOptions);
-                _this.geometry = geometry;
-                geometry.release();
-                contextManager.putCacheGeometry(geoOptions, geometry);
-            }
+            var geometry = new ArrowGeometry(contextManager, geoOptions);
+            _this.geometry = geometry;
+            geometry.release();
             var material = materialFromOptions(contextManager, simplexModeFromOptions(options, SimplexMode.TRIANGLE), options);
             _this.material = material;
             material.release();
@@ -24743,7 +24888,7 @@
             return _this;
         }
         /**
-         *
+         * @hidden
          */
         Arrow.prototype.destructor = function (levelUp) {
             if (levelUp === 0) {
@@ -24881,7 +25026,9 @@
     var Basis = /** @class */ (function (_super) {
         __extends(Basis, _super);
         /**
-         *
+         * @param contextManager This will usually be provided by the `Engine`.
+         * @param options
+         * @param levelUp Leave as zero unless you are extending this class.
          */
         function Basis(contextManager, options, levelUp) {
             if (options === void 0) { options = {}; }
@@ -24926,6 +25073,9 @@
             }
             return _this;
         }
+        /**
+         * @hidden
+         */
         Basis.prototype.destructor = function (levelUp) {
             if (levelUp === 0) {
                 this.cleanUp();
@@ -25038,7 +25188,9 @@
     var Sphere = /** @class */ (function (_super) {
         __extends(Sphere, _super);
         /**
-         *
+         * @param contextManager This will usually be provided by the `Engine`.
+         * @param options
+         * @param levelUp Leave as zero unless you are extending this class.
          */
         function Sphere(contextManager, options, levelUp) {
             if (options === void 0) { options = {}; }
@@ -25059,17 +25211,9 @@
             geoOptions.stress = void 0;
             geoOptions.tilt = spinorE3Object(options.tilt);
             geoOptions.offset = offsetFromOptions(options);
-            var cachedGeometry = contextManager.getCacheGeometry(geoOptions);
-            if (cachedGeometry && cachedGeometry instanceof SphereGeometry) {
-                _this.geometry = cachedGeometry;
-                cachedGeometry.release();
-            }
-            else {
-                var geometry = new SphereGeometry(contextManager, geoOptions);
-                _this.geometry = geometry;
-                geometry.release();
-                contextManager.putCacheGeometry(geoOptions, geometry);
-            }
+            var geometry = new SphereGeometry(contextManager, geoOptions);
+            _this.geometry = geometry;
+            geometry.release();
             var material = materialFromOptions(contextManager, simplexModeFromOptions(options, SimplexMode.TRIANGLE), options);
             _this.material = material;
             material.release();
@@ -25083,7 +25227,7 @@
             return _this;
         }
         /**
-         *
+         * @hidden
          */
         Sphere.prototype.destructor = function (levelUp) {
             if (levelUp === 0) {
@@ -25110,7 +25254,9 @@
     var Box = /** @class */ (function (_super) {
         __extends(Box, _super);
         /**
-         *
+         * @param contextManager This will usually be provided by the `Engine`.
+         * @param options
+         * @param levelUp Leave as zero unless you are extending this class.
          */
         function Box(contextManager, options, levelUp) {
             if (options === void 0) { options = {}; }
@@ -25129,17 +25275,9 @@
             geoOptions.openLeft = options.openLeft;
             geoOptions.openRight = options.openRight;
             geoOptions.openCap = options.openCap;
-            var cachedGeometry = contextManager.getCacheGeometry(geoOptions);
-            if (cachedGeometry && cachedGeometry instanceof BoxGeometry) {
-                _this.geometry = cachedGeometry;
-                cachedGeometry.release();
-            }
-            else {
-                var geometry = new BoxGeometry(contextManager, geoOptions);
-                _this.geometry = geometry;
-                geometry.release();
-                contextManager.putCacheGeometry(geoOptions, geometry);
-            }
+            var geometry = new BoxGeometry(contextManager, geoOptions);
+            _this.geometry = geometry;
+            geometry.release();
             var material = materialFromOptions(contextManager, simplexModeFromOptions(options, SimplexMode.TRIANGLE), options);
             _this.material = material;
             material.release();
@@ -25161,7 +25299,7 @@
             return _this;
         }
         /**
-         *
+         * @hidden
          */
         Box.prototype.destructor = function (levelUp) {
             if (levelUp === 0) {
@@ -25223,7 +25361,9 @@
     var Cylinder = /** @class */ (function (_super) {
         __extends(Cylinder, _super);
         /**
-         *
+         * @param contextManager This will usually be provided by the `Engine`.
+         * @param options
+         * @param levelUp Leave as zero unless you are extending this class.
          */
         function Cylinder(contextManager, options, levelUp) {
             if (options === void 0) { options = {}; }
@@ -25241,17 +25381,9 @@
             geoOptions.openWall = options.openWall;
             geoOptions.heightSegments = options.heightSegments;
             geoOptions.thetaSegments = options.thetaSegments;
-            var cachedGeometry = contextManager.getCacheGeometry(geoOptions);
-            if (cachedGeometry && cachedGeometry instanceof CylinderGeometry) {
-                _this.geometry = cachedGeometry;
-                cachedGeometry.release();
-            }
-            else {
-                var geometry = new CylinderGeometry(contextManager, geoOptions);
-                _this.geometry = geometry;
-                geometry.release();
-                contextManager.putCacheGeometry(geoOptions, geometry);
-            }
+            var geometry = new CylinderGeometry(contextManager, geoOptions);
+            _this.geometry = geometry;
+            geometry.release();
             var material = materialFromOptions(contextManager, simplexModeFromOptions(options, SimplexMode.TRIANGLE), options);
             _this.material = material;
             material.release();
@@ -25268,7 +25400,7 @@
             return _this;
         }
         /**
-         *
+         * @hidden
          */
         Cylinder.prototype.destructor = function (levelUp) {
             if (levelUp === 0) {
@@ -25442,7 +25574,9 @@
     var Curve = /** @class */ (function (_super) {
         __extends(Curve, _super);
         /**
-         * Constructs a Curve.
+         * @param contextManager This will usually be provided by the `Engine`.
+         * @param options
+         * @param levelUp Leave as zero unless you are extending this class.
          */
         function Curve(contextManager, options, levelUp) {
             if (options === void 0) { options = {}; }
@@ -25471,7 +25605,7 @@
             return _this;
         }
         /**
-         *
+         * @hidden
          */
         Curve.prototype.destructor = function (levelUp) {
             if (levelUp === 0) {
@@ -25688,23 +25822,9 @@
      * @hidden
      */
     function configGeometry(engine, geoOptions, grid) {
-        // Don't use the Geometry cache until we can better differentiate the options.
         var geometry = new GridGeometry(engine, geoOptions);
         grid.geometry = geometry;
         geometry.release();
-        /*
-        const cachedGeometry = engine.getCacheGeometry(geoOptions);
-        if (cachedGeometry && cachedGeometry instanceof GridGeometry) {
-            grid.geometry = cachedGeometry;
-            cachedGeometry.release();
-        }
-        else {
-            const geometry = new GridGeometry(engine, geoOptions);
-            grid.geometry = geometry;
-            geometry.release();
-            engine.putCacheGeometry(geoOptions, geometry);
-        }
-        */
     }
     /**
      * @hidden
@@ -25733,17 +25853,9 @@
         matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4';
         matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
         matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_POINT_SIZE] = 'float';
-        var cachedMaterial = engine.getCacheMaterial(matOptions);
-        if (cachedMaterial && cachedMaterial instanceof PointMaterial) {
-            grid.material = cachedMaterial;
-            cachedMaterial.release();
-        }
-        else {
-            var material = new PointMaterial(engine, matOptions);
-            grid.material = material;
-            material.release();
-            engine.putCacheMaterial(matOptions, material);
-        }
+        var material = new PointMaterial(engine, matOptions);
+        grid.material = material;
+        material.release();
     }
     /**
      * @hidden
@@ -25776,17 +25888,9 @@
         matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX] = 'mat4';
         matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4';
         matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
-        var cachedMaterial = engine.getCacheMaterial(matOptions);
-        if (cachedMaterial && cachedMaterial instanceof LineMaterial) {
-            grid.material = cachedMaterial;
-            cachedMaterial.release();
-        }
-        else {
-            var material = new LineMaterial(engine, matOptions);
-            grid.material = material;
-            material.release();
-            engine.putCacheMaterial(matOptions, material);
-        }
+        var material = new LineMaterial(engine, matOptions);
+        grid.material = material;
+        material.release();
     }
     /**
      * @hidden
@@ -25834,17 +25938,9 @@
         matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4';
         matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
         matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT] = 'vec3';
-        var cachedMaterial = engine.getCacheMaterial(matOptions);
-        if (cachedMaterial && cachedMaterial instanceof MeshMaterial) {
-            grid.material = cachedMaterial;
-            cachedMaterial.release();
-        }
-        else {
-            var material = new MeshMaterial(engine, matOptions);
-            grid.material = material;
-            material.release();
-            engine.putCacheMaterial(matOptions, material);
-        }
+        var material = new MeshMaterial(engine, matOptions);
+        grid.material = material;
+        material.release();
     }
     /**
      * A 3D visual representation of a a discrete parameterized surface.
@@ -25852,26 +25948,28 @@
     var Grid = /** @class */ (function (_super) {
         __extends(Grid, _super);
         /**
-         * Constructs a Grid.
+         * @param contextManager This will usually be provided by the `Engine`.
+         * @param options
+         * @param levelUp Leave as zero unless you are extending this class.
          */
-        function Grid(engine, options, levelUp) {
+        function Grid(contextManager, options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
-            var _this = _super.call(this, void 0, void 0, engine, {}, levelUp + 1) || this;
+            var _this = _super.call(this, void 0, void 0, contextManager, {}, levelUp + 1) || this;
             _this.setLoggingName('Grid');
             expectOptions(OPTION_NAMES, Object.keys(options));
             var mode = geometryModeFromOptions(options, exports.GeometryMode.WIRE);
             switch (mode) {
                 case exports.GeometryMode.POINT: {
-                    configPoints(engine, options, _this);
+                    configPoints(contextManager, options, _this);
                     break;
                 }
                 case exports.GeometryMode.WIRE: {
-                    configLines(engine, options, _this);
+                    configLines(contextManager, options, _this);
                     break;
                 }
                 case exports.GeometryMode.MESH: {
-                    configMesh(engine, options, _this);
+                    configMesh(contextManager, options, _this);
                     break;
                 }
                 default: {
@@ -25887,7 +25985,7 @@
             return _this;
         }
         /**
-         *
+         * @hidden
          */
         Grid.prototype.destructor = function (levelUp) {
             if (levelUp === 0) {
@@ -25943,7 +26041,9 @@
     var GridXY = /** @class */ (function (_super) {
         __extends(GridXY, _super);
         /**
-         * Constructs a GridXY
+         * @param contextManager This will usually be provided by the `Engine`.
+         * @param options
+         * @param levelUp Leave as zero unless you are extending this class.
          */
         function GridXY(contextManager, options, levelUp) {
             if (options === void 0) { options = {}; }
@@ -25956,7 +26056,7 @@
             return _this;
         }
         /**
-         *
+         * @hidden
          */
         GridXY.prototype.destructor = function (levelUp) {
             if (levelUp === 0) {
@@ -26012,7 +26112,9 @@
     var GridYZ = /** @class */ (function (_super) {
         __extends(GridYZ, _super);
         /**
-         * Constructs a GridYZ.
+         * @param contextManager This will usually be provided by the `Engine`.
+         * @param options
+         * @param levelUp Leave as zero unless you are extending this class.
          */
         function GridYZ(contextManager, options, levelUp) {
             if (options === void 0) { options = {}; }
@@ -26025,7 +26127,7 @@
             return _this;
         }
         /**
-         *
+         * @hidden
          */
         GridYZ.prototype.destructor = function (levelUp) {
             if (levelUp === 0) {
@@ -26080,6 +26182,11 @@
      */
     var GridZX = /** @class */ (function (_super) {
         __extends(GridZX, _super);
+        /**
+         * @param contextManager This will usually be provided by the `Engine`.
+         * @param options
+         * @param levelUp Leave as zero unless you are extending this class.
+         */
         function GridZX(contextManager, options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
@@ -26090,6 +26197,9 @@
             }
             return _this;
         }
+        /**
+         * @hidden
+         */
         GridZX.prototype.destructor = function (levelUp) {
             if (levelUp === 0) {
                 this.cleanUp();
@@ -26101,6 +26211,7 @@
 
     /**
      * A collection of objects that can be treated as a single Renderable.
+     * @hidden
      */
     var Group = /** @class */ (function (_super) {
         __extends(Group, _super);
@@ -26291,7 +26402,7 @@
         return reduce([outerWalls, innerWalls, cap, base]);
     }
     /**
-     *
+     * @hidden
      */
     var HollowCylinderGeometry = /** @class */ (function (_super) {
         __extends(HollowCylinderGeometry, _super);
@@ -26336,7 +26447,9 @@
     var HollowCylinder = /** @class */ (function (_super) {
         __extends(HollowCylinder, _super);
         /**
-         * Constructs a HollowCylinder.
+         * @param contextManager This will usually be provided by the `Engine`.
+         * @param options
+         * @param levelUp Leave as zero unless you are extending this class.
          */
         function HollowCylinder(contextManager, options, levelUp) {
             if (options === void 0) { options = {}; }
@@ -26351,17 +26464,9 @@
             geoOptions.outerRadius = isDefined(options.outerRadius) ? mustBeNumber('outerRadius', options.outerRadius) : ds.radius;
             geoOptions.innerRadius = isDefined(options.innerRadius) ? mustBeNumber('innerRadius', options.innerRadius) : 0.5 * geoOptions.outerRadius;
             geoOptions.sliceAngle = options.sliceAngle;
-            var cachedGeometry = contextManager.getCacheGeometry(geoOptions);
-            if (cachedGeometry && cachedGeometry instanceof HollowCylinderGeometry) {
-                _this.geometry = cachedGeometry;
-                cachedGeometry.release();
-            }
-            else {
-                var geometry = new HollowCylinderGeometry(contextManager, geoOptions);
-                _this.geometry = geometry;
-                geometry.release();
-                contextManager.putCacheGeometry(geoOptions, geometry);
-            }
+            var geometry = new HollowCylinderGeometry(contextManager, geoOptions);
+            _this.geometry = geometry;
+            geometry.release();
             var mmo = { kind: 'MeshMaterial', attributes: {}, uniforms: {} };
             mmo.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
             mmo.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = 3;
@@ -26374,17 +26479,9 @@
             mmo.uniforms[GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT] = 'vec3';
             mmo.uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR] = 'vec3';
             mmo.uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION] = 'vec3';
-            var cachedMaterial = contextManager.getCacheMaterial(mmo);
-            if (cachedMaterial && cachedMaterial instanceof MeshMaterial) {
-                _this.material = cachedMaterial;
-                cachedMaterial.release();
-            }
-            else {
-                var material = new MeshMaterial(contextManager, mmo);
-                _this.material = material;
-                material.release();
-                contextManager.putCacheMaterial(mmo, material);
-            }
+            var material = new MeshMaterial(contextManager, mmo);
+            _this.material = material;
+            material.release();
             setAxisAndMeridian(_this, options);
             setColorOption(_this, options, Color.gray);
             setDeprecatedOptions(_this, options);
@@ -26397,7 +26494,7 @@
             return _this;
         }
         /**
-         *
+         * @hidden
          */
         HollowCylinder.prototype.destructor = function (levelUp) {
             if (levelUp === 0) {
@@ -26976,7 +27073,7 @@
         return new ShaderMaterial(vs, fs, [], graphics);
     };
     /**
-     *
+     * @hidden
      */
     var MinecraftBodyPart = /** @class */ (function (_super) {
         __extends(MinecraftBodyPart, _super);
@@ -26998,6 +27095,9 @@
         };
         return MinecraftBodyPart;
     }(Mesh));
+    /**
+     * @hidden
+     */
     var MinecraftHead = /** @class */ (function (_super) {
         __extends(MinecraftHead, _super);
         function MinecraftHead(engine, texture, options) {
@@ -27016,6 +27116,9 @@
         };
         return MinecraftHead;
     }(MinecraftBodyPart));
+    /**
+     * @hidden
+     */
     var MinecraftTorso = /** @class */ (function (_super) {
         __extends(MinecraftTorso, _super);
         function MinecraftTorso(engine, texture, options) {
@@ -27034,6 +27137,9 @@
         };
         return MinecraftTorso;
     }(MinecraftBodyPart));
+    /**
+     * @hidden
+     */
     var MinecraftArmL = /** @class */ (function (_super) {
         __extends(MinecraftArmL, _super);
         function MinecraftArmL(engine, texture, options) {
@@ -27052,6 +27158,9 @@
         };
         return MinecraftArmL;
     }(MinecraftBodyPart));
+    /**
+     * @hidden
+     */
     var MinecraftArmR = /** @class */ (function (_super) {
         __extends(MinecraftArmR, _super);
         function MinecraftArmR(engine, texture, options) {
@@ -27070,6 +27179,9 @@
         };
         return MinecraftArmR;
     }(MinecraftBodyPart));
+    /**
+     * @hidden
+     */
     var MinecraftLegL = /** @class */ (function (_super) {
         __extends(MinecraftLegL, _super);
         function MinecraftLegL(engine, texture, options) {
@@ -27088,6 +27200,9 @@
         };
         return MinecraftLegL;
     }(MinecraftBodyPart));
+    /**
+     * @hidden
+     */
     var MinecraftLegR = /** @class */ (function (_super) {
         __extends(MinecraftLegR, _super);
         function MinecraftLegR(engine, texture, options) {
@@ -27107,10 +27222,17 @@
         return MinecraftLegR;
     }(MinecraftBodyPart));
 
+    /**
+     * @hidden
+     */
     var e1 = vec(1, 0, 0);
+    /**
+     * @hidden
+     */
     var e2 = vec(0, 1, 0);
     /**
      * A group of body parts arranged to look like a figure.
+     * @hidden
      */
     var MinecraftFigure = /** @class */ (function (_super) {
         __extends(MinecraftFigure, _super);
@@ -27259,6 +27381,9 @@
     quad(6, 5, 1, 2);
     quad(4, 5, 6, 7);
     quad(5, 4, 0, 1);
+    /**
+     * @hidden
+     */
     var Parallelepiped = /** @class */ (function () {
         function Parallelepiped(contextManager, levelUp) {
             if (levelUp === void 0) { levelUp = 0; }
@@ -27295,6 +27420,9 @@
                 this.contextManager.synchronize(this);
             }
         }
+        /**
+         * @hidden
+         */
         Parallelepiped.prototype.destructor = function (levelUp) {
             if (levelUp === 0) {
                 if (this.contextManager && this.contextManager.gl) {
@@ -27371,6 +27499,11 @@
      */
     var Tetrahedron = /** @class */ (function (_super) {
         __extends(Tetrahedron, _super);
+        /**
+         * @param contextManager This will usually be provided by the `Engine`.
+         * @param options
+         * @param levelUp Leave as zero unless you are extending this class.
+         */
         function Tetrahedron(contextManager, options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
@@ -27381,17 +27514,9 @@
             geoOptions.tilt = spinorE3Object(options.tilt);
             geoOptions.axis = vectorE3Object(referenceAxis(options, ds.axis).direction());
             geoOptions.meridian = vectorE3Object(referenceMeridian(options, ds.meridian).direction());
-            var cachedGeometry = contextManager.getCacheGeometry(geoOptions);
-            if (cachedGeometry && cachedGeometry instanceof TetrahedronGeometry) {
-                _this.geometry = cachedGeometry;
-                cachedGeometry.release();
-            }
-            else {
-                var geometry = new TetrahedronGeometry(contextManager, geoOptions);
-                _this.geometry = geometry;
-                geometry.release();
-                contextManager.putCacheGeometry(geoOptions, geometry);
-            }
+            var geometry = new TetrahedronGeometry(contextManager, geoOptions);
+            _this.geometry = geometry;
+            geometry.release();
             var material = materialFromOptions(contextManager, simplexModeFromOptions(options, SimplexMode.TRIANGLE), options);
             _this.material = material;
             material.release();
@@ -27441,7 +27566,7 @@
      */
     var STRIDE = BYTES_PER_FLOAT * FLOATS_PER_VERTEX;
     /**
-     *
+     * @hidden
      */
     var TrackGeometry = /** @class */ (function () {
         function TrackGeometry(contextManager) {
@@ -27533,6 +27658,11 @@
      */
     var Track = /** @class */ (function (_super) {
         __extends(Track, _super);
+        /**
+         * @param contextManager This will usually be provided by the `Engine`.
+         * @param options
+         * @param levelUp Leave as zero unless you are extending this class.
+         */
         function Track(contextManager, options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
@@ -27556,7 +27686,7 @@
             return _this;
         }
         /**
-         *
+         * @hidden
          */
         Track.prototype.destructor = function (levelUp) {
             if (levelUp === 0) {
@@ -27587,6 +27717,7 @@
 
     /**
      * Modulo Arithmetic (Experimental).
+     * @hidden
      */
     var Modulo = /** @class */ (function () {
         function Modulo() {
@@ -27627,7 +27758,7 @@
     }());
 
     /**
-     *
+     * @hidden
      */
     var TrailConfig = /** @class */ (function () {
         function TrailConfig() {
@@ -27707,7 +27838,7 @@
             return _this;
         }
         /**
-         *
+         * @hidden
          */
         Trail.prototype.destructor = function (levelUp) {
             this.mesh.release();
@@ -27920,6 +28051,7 @@
      * @hidden
      */
     function primitive(options) {
+        // The following points define lines by being taken in pairs.
         var values = transform([CENTER, LEFT, CENTER, TAIL, NOSE, LLEG, NOSE, RLEG, LLEG, RLEG], options).reduce(concat);
         var result = {
             mode: exports.BeginMode.LINES,
@@ -27974,6 +28106,11 @@
      */
     var Turtle = /** @class */ (function (_super) {
         __extends(Turtle, _super);
+        /**
+         * @param contextManager This will usually be provided by the `Engine`.
+         * @param options
+         * @param levelUp Leave as zero unless you are extending this class.
+         */
         function Turtle(contextManager, options, levelUp) {
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
@@ -27985,7 +28122,6 @@
             var geometry = new TurtleGeometry(contextManager, geoOptions);
             _this.geometry = geometry;
             geometry.release();
-            contextManager.putCacheGeometry(geoOptions, geometry);
             var material = materialFromOptions(contextManager, simplexModeFromOptions(options, SimplexMode.LINE), options);
             _this.material = material;
             material.release();
@@ -27998,6 +28134,9 @@
             }
             return _this;
         }
+        /**
+         * @hidden
+         */
         Turtle.prototype.destructor = function (levelUp) {
             if (levelUp === 0) {
                 this.cleanUp();
@@ -28047,11 +28186,18 @@
         canvas.style.pointerEvents = value;
     }
     /**
-     *
+     * A wrapper around the HTML canvas element that projects from 3D onto the canvas.
+     * This utility conveniently integrates with the `PerspectiveCamera` to provide an overlay for WebGL.
      */
     var Diagram3D = /** @class */ (function () {
         /**
          *
+         */
+        /**
+         *
+         * @param canvas The canvas elementId or the HTML canvas element.
+         * @param camera Provides the camera (eye, look, and up) parameters.
+         * @param prism Provides the viewport (near, far, fov, and aspect) parameters.
          */
         function Diagram3D(canvas, camera, prism) {
             if (typeof canvas === 'string') {

@@ -1,6 +1,6 @@
 import { __extends } from "tslib";
-import { arrowPrimitive } from './arrowPrimitive';
 import { GeometryElements } from '../core/GeometryElements';
+import { arrowPrimitive } from './arrowPrimitive';
 /**
  * <p>
  * A convenience class for creating an arrow.
@@ -11,6 +11,7 @@ import { GeometryElements } from '../core/GeometryElements';
  * <p>
  * The cutLine unit vector defaults to <b>e<b><sub>3</sub>
  * </p>
+ * @hidden
  */
 var ArrowGeometry = /** @class */ (function (_super) {
     __extends(ArrowGeometry, _super);

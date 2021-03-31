@@ -2,6 +2,9 @@ import { mustBeArray } from '../checks/mustBeArray';
 import { mustBeObject } from '../checks/mustBeObject';
 import { Spinor3 } from '../math/Spinor3';
 import { Vector3 } from '../math/Vector3';
+/**
+ * @hidden
+ */
 var Scaling = /** @class */ (function () {
     function Scaling(stress, names) {
         this.stress = Vector3.copy(mustBeObject('stress', stress));

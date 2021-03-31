@@ -1,4 +1,7 @@
 import { BrowserDocument } from './BrowserDocument';
+/**
+ * @hidden
+ */
 export interface BrowserHTMLElement extends EventTarget {
     clientLeft: number;
     clientTop: number;

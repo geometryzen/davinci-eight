@@ -1,3 +1,6 @@
+/**
+ *
+ */
 export declare enum BlendingFactorDest {
     ZERO = 0,
     ONE = 1,

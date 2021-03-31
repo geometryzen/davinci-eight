@@ -26,7 +26,9 @@ import { vectorE3Object } from './vectorE3Object';
  */
 export class HollowCylinder extends Mesh<Geometry, Material> {
     /**
-     * Constructs a HollowCylinder.
+     * @param contextManager This will usually be provided by the `Engine`.
+     * @param options 
+     * @param levelUp Leave as zero unless you are extending this class. 
      */
     constructor(contextManager: ContextManager, options: HollowCylinderOptions = {}, levelUp = 0) {
         super(void 0, void 0, contextManager, { axis: referenceAxis(options, ds.axis).direction(), meridian: referenceMeridian(options, ds.meridian).direction() }, levelUp + 1);
@@ -43,17 +45,9 @@ export class HollowCylinder extends Mesh<Geometry, Material> {
         geoOptions.innerRadius = isDefined(options.innerRadius) ? mustBeNumber('innerRadius', options.innerRadius) : 0.5 * geoOptions.outerRadius;
         geoOptions.sliceAngle = options.sliceAngle;
 
-        const cachedGeometry = contextManager.getCacheGeometry(geoOptions);
-        if (cachedGeometry && cachedGeometry instanceof HollowCylinderGeometry) {
-            this.geometry = cachedGeometry;
-            cachedGeometry.release();
-        }
-        else {
-            const geometry = new HollowCylinderGeometry(contextManager, geoOptions);
-            this.geometry = geometry;
-            geometry.release();
-            contextManager.putCacheGeometry(geoOptions, geometry);
-        }
+        const geometry = new HollowCylinderGeometry(contextManager, geoOptions);
+        this.geometry = geometry;
+        geometry.release();
 
         const mmo: MeshMaterialOptionsWithKind = { kind: 'MeshMaterial', attributes: {}, uniforms: {} };
 
@@ -70,17 +64,9 @@ export class HollowCylinder extends Mesh<Geometry, Material> {
         mmo.uniforms[GPS.UNIFORM_DIRECTIONAL_LIGHT_COLOR] = 'vec3';
         mmo.uniforms[GPS.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION] = 'vec3';
 
-        const cachedMaterial = contextManager.getCacheMaterial(mmo);
-        if (cachedMaterial && cachedMaterial instanceof MeshMaterial) {
-            this.material = cachedMaterial;
-            cachedMaterial.release();
-        }
-        else {
-            const material = new MeshMaterial(contextManager, mmo);
-            this.material = material;
-            material.release();
-            contextManager.putCacheMaterial(mmo, material);
-        }
+        const material = new MeshMaterial(contextManager, mmo);
+        this.material = material;
+        material.release();
 
         setAxisAndMeridian(this, options);
         setColorOption(this, options, Color.gray);
@@ -96,7 +82,7 @@ export class HollowCylinder extends Mesh<Geometry, Material> {
     }
 
     /**
-     * 
+     * @hidden
      */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {

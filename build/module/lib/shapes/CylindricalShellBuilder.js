@@ -1,18 +1,19 @@
 import { __extends } from "tslib";
+import { GridTriangleStrip } from '../atoms/GridTriangleStrip';
+import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
+import { Vector3 } from '../math/Vector3';
 import { Approximation } from '../transforms/Approximation';
+import { CoordsTransform2D } from '../transforms/CoordsTransform2D';
+import { CylinderTransform } from '../transforms/CylinderTransform';
 import { Direction } from '../transforms/Direction';
 import { Duality } from '../transforms/Duality';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { GridTriangleStrip } from '../atoms/GridTriangleStrip';
-import { AxialShapeBuilder } from './AxialShapeBuilder';
-import { CylinderTransform } from '../transforms/CylinderTransform';
 import { Rotation } from '../transforms/Rotation';
 import { Scaling } from '../transforms/Scaling';
 import { Translation } from '../transforms/Translation';
-import { CoordsTransform2D } from '../transforms/CoordsTransform2D';
-import { Vector3 } from '../math/Vector3';
+import { AxialShapeBuilder } from './AxialShapeBuilder';
 /**
  * This implementation only builds the walls of the cylinder (by wrapping a grid)
+ * @hidden
  */
 var CylindricalShellBuilder = /** @class */ (function (_super) {
     __extends(CylindricalShellBuilder, _super);

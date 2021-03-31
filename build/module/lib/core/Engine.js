@@ -4,7 +4,6 @@ import { mustBeGE } from '../checks/mustBeGE';
 import { mustBeLE } from '../checks/mustBeLE';
 import { mustBeNonNullObject } from '../checks/mustBeNonNullObject';
 import { mustBeNumber } from '../checks/mustBeNumber';
-import { mustBeString } from '../checks/mustBeString';
 import { mustBeWebGLContextId } from '../checks/mustBeWebGLContextId';
 import { ShareableArray } from '../collections/ShareableArray';
 import { EIGHTLogger } from '../commands/EIGHTLogger';
@@ -29,24 +28,16 @@ function getWindowDocument(window) {
     }
 }
 /**
- * A wrapper around an HTMLCanvasElement providing access to the WebGLRenderingContext
+ * A wrapper around an HTMLCanvasElement providing access to the WebGL rendering context
  * and notifications of context loss and restore. An instance of the Engine will usually
  * be a required parameter for any consumer of WebGL resources.
- *
- * <iframe
- *     title="Engine"
- *     width="860"
- *     height="600"
- *     src="https://www.stemcstudio.com/gists/54644519dcd556bf8bf779bfa084ced3?embed&file=main.ts&hideREADME">
- * </iframe>
- *
  */
 var Engine = /** @class */ (function (_super) {
     __extends(Engine, _super);
     /**
-     * @param canvas
+     * @param canvas The canvas element identifier, or canvas element, or WebGL rendering context.
      * @param attributes Allows the context to be configured.
-     * @param dom The document object model that contains the canvas identifier.
+     * @param dom The document object model that contains the canvas.
      */
     function Engine(canvas, attributes, dom) {
         if (attributes === void 0) { attributes = {}; }
@@ -59,14 +50,6 @@ var Engine = /** @class */ (function (_super) {
          * Actions that are executed when a WebGL rendering context is gained.
          */
         _this._commands = new ShareableArray([]);
-        /**
-         * The cache of Geometry.
-         */
-        _this.geometries = {};
-        /**
-         * The cache of Material.
-         */
-        _this.materials = {};
         _this.setLoggingName('Engine');
         // TODO: Defensive copy and strip off the extra attributes on EngineAttributes just in case the WebGL runtime gets strict and complains.
         _this._attributes = attributes;
@@ -112,7 +95,7 @@ var Engine = /** @class */ (function (_super) {
         return _this;
     }
     /**
-     *
+     * @hidden
      */
     Engine.prototype.resurrector = function (levelUp) {
         _super.prototype.resurrector.call(this, levelUp + 1);
@@ -120,7 +103,7 @@ var Engine = /** @class */ (function (_super) {
         this._commands = new ShareableArray([]);
     };
     /**
-     *
+     * @hidden
      */
     Engine.prototype.destructor = function (levelUp) {
         this.stop();
@@ -133,14 +116,14 @@ var Engine = /** @class */ (function (_super) {
     /**
      *
      */
-    Engine.prototype.addContextListener = function (user) {
-        mustBeNonNullObject('user', user);
-        var index = this._users.indexOf(user);
+    Engine.prototype.addContextConsumer = function (consumer) {
+        mustBeNonNullObject('consumer', consumer);
+        var index = this._users.indexOf(consumer);
         if (index < 0) {
-            this._users.push(user);
+            this._users.push(consumer);
         }
         else {
-            console.warn("user already exists for addContextListener");
+            console.warn("consumer already exists for addContextConsumer");
         }
     };
     Object.defineProperty(Engine.prototype, "canvas", {
@@ -310,11 +293,11 @@ var Engine = /** @class */ (function (_super) {
         }
     };
     /**
-     * @param user
+     * @param consumer
      */
-    Engine.prototype.removeContextListener = function (user) {
-        mustBeNonNullObject('user', user);
-        var index = this._users.indexOf(user);
+    Engine.prototype.removeContextConsumer = function (consumer) {
+        mustBeNonNullObject('consumer', consumer);
+        var index = this._users.indexOf(consumer);
         if (index >= 0) {
             this._users.splice(index, 1);
         }
@@ -479,52 +462,6 @@ var Engine = /** @class */ (function (_super) {
             // FIXME: Broken symmetry?
         }
         return this;
-    };
-    /**
-     *
-     */
-    Engine.prototype.getCacheGeometry = function (geometryKey) {
-        mustBeNonNullObject('geometryKey', geometryKey);
-        mustBeString('geometryKey.kind', geometryKey.kind);
-        var key = JSON.stringify(geometryKey);
-        var geometry = this.geometries[key];
-        if (geometry && geometry.addRef) {
-            geometry.addRef();
-        }
-        return geometry;
-    };
-    /**
-     *
-     */
-    Engine.prototype.putCacheGeometry = function (geometryKey, geometry) {
-        mustBeNonNullObject('geometryKey', geometryKey);
-        mustBeNonNullObject('geometry', geometry);
-        mustBeString('geometryKey.kind', geometryKey.kind);
-        var key = JSON.stringify(geometryKey);
-        this.geometries[key] = geometry;
-    };
-    /**
-     *
-     */
-    Engine.prototype.getCacheMaterial = function (materialKey) {
-        mustBeNonNullObject('materialKey', materialKey);
-        mustBeString('materialKey.kind', materialKey.kind);
-        var key = JSON.stringify(materialKey);
-        var material = this.materials[key];
-        if (material && material.addRef) {
-            material.addRef();
-        }
-        return material;
-    };
-    /**
-     *
-     */
-    Engine.prototype.putCacheMaterial = function (materialKey, material) {
-        mustBeNonNullObject('materialKey', materialKey);
-        mustBeNonNullObject('material', material);
-        mustBeString('materialKey.kind', materialKey.kind);
-        var key = JSON.stringify(materialKey);
-        this.materials[key] = material;
     };
     /**
      * Computes the coordinates of a point in the image cube corresponding to device coordinates.

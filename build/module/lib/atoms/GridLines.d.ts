@@ -1,5 +1,8 @@
 import { GridPrimitive } from './GridPrimitive';
 import { Vertex } from './Vertex';
+/**
+ * @hidden
+ */
 export declare class GridLines extends GridPrimitive {
     /**
      * @param uSegments

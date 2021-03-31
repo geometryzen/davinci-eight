@@ -31,6 +31,9 @@ function klein(u, v) {
     point.y = -2 * (1 - cos(u) / 2) * sin(v);
     return point.scale(0.1);
 }
+/**
+ * @hidden
+ */
 var KleinBottleSimplexGeometry = /** @class */ (function (_super) {
     __extends(KleinBottleSimplexGeometry, _super);
     function KleinBottleSimplexGeometry(uSegments, vSegments) {

@@ -1,10 +1,11 @@
+import { SpinorE3 } from '../math/SpinorE3';
 import { ContextManager } from './ContextManager';
 import { GeometryBase } from './GeometryBase';
 import { Material } from './Material';
 import { Primitive } from './Primitive';
-import { SpinorE3 } from '../math/SpinorE3';
 /**
  * A concrete Geometry for supporting drawArrays.
+ * @hidden
  */
 export declare class GeometryArrays extends GeometryBase {
     /**

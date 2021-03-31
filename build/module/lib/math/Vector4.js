@@ -1,15 +1,13 @@
 import { __extends } from "tslib";
 import { Coords } from '../math/Coords';
 /**
- *
+ * @hidden
  */
 var Vector4 = /** @class */ (function (_super) {
     __extends(Vector4, _super);
     /**
-     * @class Vector4
-     * @constructor
-     * @param data {number[]} Default is [0, 0, 0, 0] corresponding to x, y, z, and w coordinate labels.
-     * @param modified {boolean} Default is false.
+     * @param data Default is [0, 0, 0, 0] corresponding to x, y, z, and w coordinate labels.
+     * @param modified Default is false.
      */
     function Vector4(data, modified) {
         if (data === void 0) { data = [0, 0, 0, 0]; }

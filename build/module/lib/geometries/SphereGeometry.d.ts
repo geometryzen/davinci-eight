@@ -75,6 +75,7 @@ export declare const DEFAULT_ELEVATION_SEGMENTS = 18;
 export declare function computeSphereVerticesAndCoordinates(zenith: VectorE3, meridian: VectorE3, stress: VectorE3, tilt: SpinorE3, offset: VectorE3, azimuthStart: number, azimuthLength: number, azimuthSegments: number, elevationStart: number, elevationLength: number, elevationSegments: number, points: Vector3[], uvs: Vector2[]): void;
 /**
  * A convenience class for creating sphere geometry elements.
+ * @hidden
  */
 export declare class SphereGeometry extends GeometryElements {
     /**

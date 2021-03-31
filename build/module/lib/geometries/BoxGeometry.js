@@ -381,6 +381,7 @@ function boxPrimitive(options) {
 }
 /**
  * A convenience class for creating a BoxGeometry.
+ * @hidden
  */
 var BoxGeometry = /** @class */ (function (_super) {
     __extends(BoxGeometry, _super);

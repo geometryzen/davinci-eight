@@ -32,13 +32,18 @@ const DRAWABLE_LOGGING_NAME = 'Drawable';
 
 /**
  * This class may be used as either a base class or standalone.
- * @hidden
  */
 export class Drawable<G extends Geometry, M extends Material> extends ShareableContextConsumer implements AbstractDrawable<G, M> {
 
     public name: string;
 
+    /**
+     * The (private) reference to an instance that extends Geometry.
+     */
     private _geometry: G;
+    /**
+     * The (private) reference to an instance that extends Material.
+     */
     private _material: M;
     private _visible = true;
     private _transparent = false;
@@ -65,7 +70,7 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
     }
 
     /**
-     * 
+     * @hidden
      */
     protected resurrector(levelUp: number): void {
         super.resurrector(levelUp + 1);
@@ -76,7 +81,7 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
     }
 
     /**
-     * 
+     * @hidden
      */
     protected destructor(levelUp: number): void {
         this.facetMap.release();
@@ -277,6 +282,7 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
 
     /**
      * Provides a reference counted reference to the geometry property.
+     * Getting the geometry property will cause the
      */
     get geometry(): G {
         return exchange(void 0, this._geometry);

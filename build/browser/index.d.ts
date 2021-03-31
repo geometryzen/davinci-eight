@@ -419,7 +419,7 @@ export class Engine extends ShareableBase implements ContextManager {
     /**
      *
      */
-    addContextListener(user: ContextConsumer): void
+    addContextConsumer(consumer: ContextConsumer): void
 
     /**
      * Sets the parameters for blending.
@@ -496,7 +496,7 @@ export class Engine extends ShareableBase implements ContextManager {
     /**
      *
      */
-    removeContextListener(user: ContextConsumer): void
+    removeContextConsumer(user: ContextConsumer): void
 
     /**
      * A convenience method for setting the width and height properties of the
@@ -570,8 +570,8 @@ export interface ContextManager extends Shareable {
     readonly contextId: 'webgl2' | 'webgl'
 
     synchronize(consumer: ContextConsumer): void
-    addContextListener(consumer: ContextConsumer): void
-    removeContextListener(consumer: ContextConsumer): void
+    addContextConsumer(consumer: ContextConsumer): void
+    removeContextConsumer(consumer: ContextConsumer): void
 }
 
 export class ShareableContextConsumer extends ShareableBase implements ContextConsumer {
@@ -5417,7 +5417,7 @@ export interface Prism {
  * HTMLCanvasElement overlay for putting labels and lines on a 3D diagram.
  */
 export class Diagram3D {
-    ctx: CanvasRenderingContext2D
+    readonly ctx: CanvasRenderingContext2D
     canvas: HTMLCanvasElement
     constructor(canvas: string | HTMLCanvasElement, camera: Camera, prism: Prism)
     beginPath(): void

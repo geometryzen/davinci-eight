@@ -1778,6 +1778,7 @@ var Geometric3 = /** @class */ (function () {
     /**
      * Implements `this + rhs` as addition.
      * The returned value is locked.
+     * @hidden
      */
     Geometric3.prototype.__add__ = function (rhs) {
         var duckR = maskG3(rhs);
@@ -1794,6 +1795,7 @@ var Geometric3 = /** @class */ (function () {
     /**
      * Implements `lhs + this` as addition.
      * The returned value is locked.
+     * @hidden
      */
     Geometric3.prototype.__radd__ = function (lhs) {
         if (lhs instanceof Geometric3) {
@@ -1812,6 +1814,7 @@ var Geometric3 = /** @class */ (function () {
     /**
      * Implements `this / rhs` as division.
      * The returned value is locked.
+     * @hidden
      */
     Geometric3.prototype.__div__ = function (rhs) {
         var duckR = maskG3(rhs);
@@ -1825,6 +1828,7 @@ var Geometric3 = /** @class */ (function () {
     /**
      * Implements `lhs / this` as division.
      * The returned value is locked.
+     * @hidden
      */
     Geometric3.prototype.__rdiv__ = function (lhs) {
         if (lhs instanceof Geometric3) {
@@ -1840,6 +1844,7 @@ var Geometric3 = /** @class */ (function () {
     /**
      * Implements `this * rhs` as the geometric product.
      * The returned value is locked.
+     * @hidden
      */
     Geometric3.prototype.__mul__ = function (rhs) {
         var duckR = maskG3(rhs);
@@ -1853,6 +1858,7 @@ var Geometric3 = /** @class */ (function () {
     /**
      * Implements `lhs * this` as the geometric product.
      * The returned value is locked.
+     * @hidden
      */
     Geometric3.prototype.__rmul__ = function (lhs) {
         if (lhs instanceof Geometric3) {
@@ -1868,6 +1874,7 @@ var Geometric3 = /** @class */ (function () {
     /**
      * Implements `this - rhs` as subtraction.
      * The returned value is locked.
+     * @hidden
      */
     Geometric3.prototype.__sub__ = function (rhs) {
         var duckR = maskG3(rhs);
@@ -1881,6 +1888,7 @@ var Geometric3 = /** @class */ (function () {
     /**
      * Implements `lhs - this` as subtraction.
      * The returned value is locked.
+     * @hidden
      */
     Geometric3.prototype.__rsub__ = function (lhs) {
         if (lhs instanceof Geometric3) {
@@ -1896,6 +1904,7 @@ var Geometric3 = /** @class */ (function () {
     /**
      * Implements `this ^ rhs` as the extension.
      * The returned value is locked.
+     * @hidden
      */
     Geometric3.prototype.__wedge__ = function (rhs) {
         if (rhs instanceof Geometric3) {
@@ -1912,6 +1921,7 @@ var Geometric3 = /** @class */ (function () {
     /**
      * Implements `lhs ^ this` as the extension.
      * The returned value is locked.
+     * @hidden
      */
     Geometric3.prototype.__rwedge__ = function (lhs) {
         if (lhs instanceof Geometric3) {
@@ -1928,6 +1938,7 @@ var Geometric3 = /** @class */ (function () {
     /**
      * Implements `this << rhs` as the left contraction.
      * The returned value is locked.
+     * @hidden
      */
     Geometric3.prototype.__lshift__ = function (rhs) {
         if (rhs instanceof Geometric3) {
@@ -1943,6 +1954,7 @@ var Geometric3 = /** @class */ (function () {
     /**
      * Implements `lhs << this` as the left contraction.
      * The returned value is locked.
+     * @hidden
      */
     Geometric3.prototype.__rlshift__ = function (lhs) {
         if (lhs instanceof Geometric3) {
@@ -1958,6 +1970,7 @@ var Geometric3 = /** @class */ (function () {
     /**
      * Implements `this >> rhs` as the right contraction.
      * The returned value is locked.
+     * @hidden
      */
     Geometric3.prototype.__rshift__ = function (rhs) {
         if (rhs instanceof Geometric3) {
@@ -1973,6 +1986,7 @@ var Geometric3 = /** @class */ (function () {
     /**
      * Implements `lhs >> this` as the right contraction.
      * The returned value is locked.
+     * @hidden
      */
     Geometric3.prototype.__rrshift__ = function (lhs) {
         if (lhs instanceof Geometric3) {
@@ -1988,6 +2002,7 @@ var Geometric3 = /** @class */ (function () {
     /**
      * Implements `this | rhs` as the scalar product.
      * The returned value is locked.
+     * @hidden
      */
     Geometric3.prototype.__vbar__ = function (rhs) {
         if (rhs instanceof Geometric3) {
@@ -2003,6 +2018,7 @@ var Geometric3 = /** @class */ (function () {
     /**
      * Implements `lhs | this` as the scalar product.
      * The returned value is locked.
+     * @hidden
      */
     Geometric3.prototype.__rvbar__ = function (lhs) {
         if (lhs instanceof Geometric3) {
@@ -2018,6 +2034,7 @@ var Geometric3 = /** @class */ (function () {
     /**
      * Implements `!this` as the inverse (if it exists) of `this`.
      * The returned value is locked.
+     * @hidden
      */
     Geometric3.prototype.__bang__ = function () {
         return lock(Geometric3.copy(this).inv());
@@ -2025,6 +2042,7 @@ var Geometric3 = /** @class */ (function () {
     /**
      * Implements `+this` as `this`.
      * The returned value is locked.
+     * @hidden
      */
     Geometric3.prototype.__pos__ = function () {
         return lock(Geometric3.copy(this));
@@ -2032,6 +2050,7 @@ var Geometric3 = /** @class */ (function () {
     /**
      * Implements `-this` as the negative of `this`.
      * The returned value is locked.
+     * @hidden
      */
     Geometric3.prototype.__neg__ = function () {
         return lock(Geometric3.copy(this).neg());
@@ -2039,6 +2058,7 @@ var Geometric3 = /** @class */ (function () {
     /**
      * Implements `~this` as the reversion of `this`.
      * The returned value is locked.
+     * @hidden
      */
     Geometric3.prototype.__tilde__ = function () {
         return lock(Geometric3.copy(this).rev());

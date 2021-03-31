@@ -5,6 +5,9 @@ import { Spinor2 } from '../math/Spinor2';
 import { Spinor3 } from '../math/Spinor3';
 import { Vector2 } from '../math/Vector2';
 import { Vector3 } from '../math/Vector3';
+/**
+ * @hidden
+ */
 var Direction = /** @class */ (function () {
     function Direction(sourceName) {
         this.sourceName = mustBeString('sourceName', sourceName);

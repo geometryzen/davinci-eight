@@ -63,7 +63,7 @@ export declare class Trail extends ShareableBase implements Renderable {
      */
     constructor(mesh: Mesh<Geometry, Material>);
     /**
-     *
+     * @hidden
      */
     protected destructor(levelUp: number): void;
     /**

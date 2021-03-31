@@ -16,6 +16,9 @@ function futzParameters(parameters: { amount?: number; bevelEnabled?: boolean, b
     return parameters
 }
 */
+/**
+ * @hidden
+ */
 var TextSimplexGeometry = /** @class */ (function (_super) {
     __extends(TextSimplexGeometry, _super);
     function TextSimplexGeometry(text, face, parameters) {

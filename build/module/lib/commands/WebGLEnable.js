@@ -3,6 +3,7 @@ import { mustBeNumber } from '../checks/mustBeNumber';
 import { ShareableBase } from '../core/ShareableBase';
 /**
  * enable(capability: Capability): void
+ * @hidden
  */
 var WebGLEnable = /** @class */ (function (_super) {
     __extends(WebGLEnable, _super);

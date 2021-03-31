@@ -361,6 +361,20 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
         }
     }
 
+    uniform1f(name: string, x: number): void {
+        const uniformLoc = this.getUniform(name);
+        if (uniformLoc) {
+            uniformLoc.uniform1f(x);
+        }
+    }
+
+    uniform1fv(name: string, data: Float32Array, srcOffset?: number, srcLength?: number): void {
+        const uniformLoc = this._uniforms[name];
+        if (uniformLoc) {
+            uniformLoc.uniform1fv(data, srcOffset, srcLength);
+        }
+    }
+
     uniform1i(name: string, x: number): void {
         const uniformLoc = this.getUniform(name);
         if (uniformLoc) {
@@ -368,10 +382,10 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
         }
     }
 
-    uniform1f(name: string, x: number): void {
-        const uniformLoc = this.getUniform(name);
+    uniform1iv(name: string, data: Int32Array, srcOffset?: number, srcLength?: number): void {
+        const uniformLoc = this._uniforms[name];
         if (uniformLoc) {
-            uniformLoc.uniform1f(x);
+            uniformLoc.uniform1iv(data, srcOffset, srcLength);
         }
     }
 
@@ -382,6 +396,27 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
         }
     }
 
+    uniform2fv(name: string, data: Float32Array, srcOffset?: number, srcLength?: number): void {
+        const uniformLoc = this._uniforms[name];
+        if (uniformLoc) {
+            uniformLoc.uniform2fv(data, srcOffset, srcLength);
+        }
+    }
+
+    uniform2i(name: string, x: number, y: number): void {
+        const uniformLoc = this._uniforms[name];
+        if (uniformLoc) {
+            uniformLoc.uniform2i(x, y);
+        }
+    }
+
+    uniform2iv(name: string, src: Int32Array, srcOffset?: number, srcLength?: number): void {
+        const uniformLoc = this._uniforms[name];
+        if (uniformLoc) {
+            uniformLoc.uniform2iv(src, srcOffset, srcLength);
+        }
+    }
+
     uniform3f(name: string, x: number, y: number, z: number): void {
         const uniformLoc = this._uniforms[name];
         if (uniformLoc) {
@@ -389,10 +424,52 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
         }
     }
 
+    uniform3fv(name: string, data: Float32Array, srcOffset: number, srcLength: number): void {
+        const uniformLoc = this._uniforms[name];
+        if (uniformLoc) {
+            uniformLoc.uniform3fv(data, srcOffset, srcLength);
+        }
+    }
+
+    uniform3i(name: string, x: number, y: number, z: number): void {
+        const uniformLoc = this._uniforms[name];
+        if (uniformLoc) {
+            uniformLoc.uniform3i(x, y, z);
+        }
+    }
+
+    uniform3iv(name: string, src: Int32Array, srcOffset?: number, srcLength?: number): void {
+        const uniformLoc = this._uniforms[name];
+        if (uniformLoc) {
+            uniformLoc.uniform3iv(src, srcOffset, srcLength);
+        }
+    }
+
     uniform4f(name: string, x: number, y: number, z: number, w: number): void {
         const uniformLoc = this._uniforms[name];
         if (uniformLoc) {
             uniformLoc.uniform4f(x, y, z, w);
+        }
+    }
+
+    uniform4fv(name: string, data: Float32Array, srcOffset?: number, srcLength?: number): void {
+        const uniformLoc = this._uniforms[name];
+        if (uniformLoc) {
+            uniformLoc.uniform4fv(data, srcOffset, srcLength);
+        }
+    }
+
+    uniform4i(name: string, x: number, y: number, z: number, w: number): void {
+        const uniformLoc = this._uniforms[name];
+        if (uniformLoc) {
+            uniformLoc.uniform4i(x, y, z, w);
+        }
+    }
+
+    uniform4iv(name: string, src: Int32Array, srcOffset?: number, srcLength?: number): void {
+        const uniformLoc = this._uniforms[name];
+        if (uniformLoc) {
+            uniformLoc.uniform4iv(src, srcOffset, srcLength);
         }
     }
 
@@ -464,26 +541,6 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
         return this;
     }
 
-    vector2fv(name: string, data: Float32Array): void {
-        const uniformLoc = this._uniforms[name];
-        if (uniformLoc) {
-            uniformLoc.uniform2fv(data);
-        }
-    }
-
-    vector3fv(name: string, data: Float32Array): void {
-        const uniformLoc = this._uniforms[name];
-        if (uniformLoc) {
-            uniformLoc.uniform3fv(data);
-        }
-    }
-
-    vector4fv(name: string, data: Float32Array): void {
-        const uniformLoc = this._uniforms[name];
-        if (uniformLoc) {
-            uniformLoc.uniform4fv(data);
-        }
-    }
 
     /**
      * @param mode Specifies the type of the primitive being rendered.

@@ -1,5 +1,8 @@
 import { __extends } from "tslib";
 import { ShareableBase } from '../core/ShareableBase';
+/**
+ * @hidden
+ */
 var WebGLBlendFunc = /** @class */ (function (_super) {
     __extends(WebGLBlendFunc, _super);
     function WebGLBlendFunc(contextManager, sfactor, dfactor) {

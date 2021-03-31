@@ -2,7 +2,6 @@ import { SpinorE3 } from './SpinorE3';
 import { VectorE3 } from './VectorE3';
 /**
  * A vector with cartesian coordinates and immutable.
- * @hidden
  */
 export interface R3 extends VectorE3 {
     readonly x: number;

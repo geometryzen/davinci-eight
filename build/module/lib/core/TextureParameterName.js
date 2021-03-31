@@ -1,5 +1,5 @@
 /**
- *
+ * @hidden
  */
 export var TextureParameterName;
 (function (TextureParameterName) {

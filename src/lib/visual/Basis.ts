@@ -118,7 +118,9 @@ export class Basis extends Mesh<Geometry, Material> {
     private uColorB = new ColorFacet(uColorB);
     private uColorC = new ColorFacet(uColorC);
     /**
-     * 
+     * @param contextManager This will usually be provided by the `Engine`.
+     * @param options 
+     * @param levelUp Leave as zero unless you are extending this class. 
      */
     constructor(contextManager: ContextManager, options: BasisOptions = {}, levelUp = 0) {
         super(void 0, void 0, contextManager, { axis: ds.axis, meridian: ds.meridian }, levelUp + 1);
@@ -163,6 +165,10 @@ export class Basis extends Mesh<Geometry, Material> {
             this.synchUp();
         }
     }
+
+    /**
+     * @hidden
+     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();

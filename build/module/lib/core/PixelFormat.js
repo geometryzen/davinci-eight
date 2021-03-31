@@ -1,3 +1,6 @@
+/**
+ *
+ */
 export var PixelFormat;
 (function (PixelFormat) {
     PixelFormat[PixelFormat["DEPTH_COMPONENT"] = 6402] = "DEPTH_COMPONENT";

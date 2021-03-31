@@ -2,6 +2,9 @@ import { __extends } from "tslib";
 import { SimplexPrimitivesBuilder } from '../geometries/SimplexPrimitivesBuilder';
 import { Spinor3 } from '../math/Spinor3';
 import { Vector2 } from '../math/Vector2';
+/**
+ * @hidden
+ */
 var RevolutionSimplexPrimitivesBuilder = /** @class */ (function (_super) {
     __extends(RevolutionSimplexPrimitivesBuilder, _super);
     function RevolutionSimplexPrimitivesBuilder() {

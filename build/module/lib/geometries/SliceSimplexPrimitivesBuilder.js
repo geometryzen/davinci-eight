@@ -1,5 +1,8 @@
 import { __extends } from "tslib";
 import { SimplexPrimitivesBuilder } from '../geometries/SimplexPrimitivesBuilder';
+/**
+ * @hidden
+ */
 var SliceSimplexPrimitivesBuilder = /** @class */ (function (_super) {
     __extends(SliceSimplexPrimitivesBuilder, _super);
     function SliceSimplexPrimitivesBuilder() {

@@ -3,6 +3,7 @@ import { GeometryElements } from '../core/GeometryElements';
 import { TetrahedronGeometryOptions } from './TetrahedronGeometryOptions';
 /**
  * A convenience class for creating a tetrahedron geometry.
+ * @hidden
  */
 export declare class TetrahedronGeometry extends GeometryElements {
     /**

@@ -8,7 +8,7 @@ import { TextureUnit } from '../core/TextureUnit';
 import { Uniform } from '../core/Uniform';
 import { VertexBuffer } from '../core/VertexBuffer';
 /**
- *
+ * @hidden
  */
 export declare class ShaderMaterial extends ShareableContextConsumer implements Material {
     /**
@@ -119,11 +119,22 @@ export declare class ShaderMaterial extends ShareableContextConsumer implements 
      */
     hasUniform(name: string): boolean;
     activeTexture(texture: TextureUnit): void;
-    uniform1i(name: string, x: number): void;
     uniform1f(name: string, x: number): void;
+    uniform1fv(name: string, data: Float32Array, srcOffset?: number, srcLength?: number): void;
+    uniform1i(name: string, x: number): void;
+    uniform1iv(name: string, data: Int32Array, srcOffset?: number, srcLength?: number): void;
     uniform2f(name: string, x: number, y: number): void;
+    uniform2fv(name: string, data: Float32Array, srcOffset?: number, srcLength?: number): void;
+    uniform2i(name: string, x: number, y: number): void;
+    uniform2iv(name: string, src: Int32Array, srcOffset?: number, srcLength?: number): void;
     uniform3f(name: string, x: number, y: number, z: number): void;
+    uniform3fv(name: string, data: Float32Array, srcOffset: number, srcLength: number): void;
+    uniform3i(name: string, x: number, y: number, z: number): void;
+    uniform3iv(name: string, src: Int32Array, srcOffset?: number, srcLength?: number): void;
     uniform4f(name: string, x: number, y: number, z: number, w: number): void;
+    uniform4fv(name: string, data: Float32Array, srcOffset?: number, srcLength?: number): void;
+    uniform4i(name: string, x: number, y: number, z: number, w: number): void;
+    uniform4iv(name: string, src: Int32Array, srcOffset?: number, srcLength?: number): void;
     uniform(name: string, value: number | number[]): Material;
     /**
      *
@@ -132,9 +143,6 @@ export declare class ShaderMaterial extends ShareableContextConsumer implements 
     matrix2fv(name: string, matrix: Float32Array, transpose?: boolean): this;
     matrix3fv(name: string, matrix: Float32Array, transpose?: boolean): this;
     matrix4fv(name: string, matrix: Float32Array, transpose?: boolean): this;
-    vector2fv(name: string, data: Float32Array): void;
-    vector3fv(name: string, data: Float32Array): void;
-    vector4fv(name: string, data: Float32Array): void;
     /**
      * @param mode Specifies the type of the primitive being rendered.
      * @param first Specifies the starting index in the array of vector points.

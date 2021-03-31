@@ -116,6 +116,9 @@ quad(3, 0, 4, 7);
 quad(6, 5, 1, 2);
 quad(4, 5, 6, 7);
 quad(5, 4, 0, 1);
+/**
+ * @hidden
+ */
 var Parallelepiped = /** @class */ (function () {
     function Parallelepiped(contextManager, levelUp) {
         if (levelUp === void 0) { levelUp = 0; }
@@ -152,6 +155,9 @@ var Parallelepiped = /** @class */ (function () {
             this.contextManager.synchronize(this);
         }
     }
+    /**
+     * @hidden
+     */
     Parallelepiped.prototype.destructor = function (levelUp) {
         if (levelUp === 0) {
             if (this.contextManager && this.contextManager.gl) {

@@ -6,7 +6,7 @@ import { mustBeObject } from '../checks/mustBeObject';
 import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 
 /**
- *
+ * Sets the 'uAmbientLight' uniform to the color RGB value.
  */
 export class AmbientLight implements Facet {
     /**

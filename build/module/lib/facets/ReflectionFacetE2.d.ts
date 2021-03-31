@@ -2,7 +2,7 @@ import { Facet } from '../core/Facet';
 import { FacetVisitor } from '../core/FacetVisitor';
 import { Vector2 } from '../math/Vector2';
 /**
- *
+ * @hidden
  */
 export declare class ReflectionFacetE2 implements Facet {
     /**

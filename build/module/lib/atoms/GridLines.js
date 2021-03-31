@@ -36,6 +36,9 @@ function linesForGrid(uSegments, uClosed, vSegments, vClosed) {
     }
     return elements;
 }
+/**
+ * @hidden
+ */
 var GridLines = /** @class */ (function (_super) {
     __extends(GridLines, _super);
     /**

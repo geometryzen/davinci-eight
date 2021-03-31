@@ -1,8 +1,9 @@
 import { __extends } from "tslib";
-import { readOnly } from '../i18n/readOnly';
 import { ShareableBase } from '../core/ShareableBase';
+import { readOnly } from '../i18n/readOnly';
 /**
  * Displays details about the WegGL version to the console.
+ * @hidden
  */
 var ContextAttributesLogger = /** @class */ (function (_super) {
     __extends(ContextAttributesLogger, _super);

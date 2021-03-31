@@ -73,6 +73,9 @@ export class ViewControls extends MouseControls implements ViewController {
         this.setView(view);
     }
 
+    /**
+     * @hidden
+     */
     protected destructor(levelUp: number): void {
         super.destructor(levelUp + 1);
     }

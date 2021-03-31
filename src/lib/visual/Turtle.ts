@@ -88,6 +88,7 @@ function transform(xs: number[][], options: { tilt?: SpinorE3, offset?: VectorE3
  * @hidden
  */
 function primitive(options: { tilt?: SpinorE3, offset?: VectorE3 }): Primitive {
+    // The following points define lines by being taken in pairs.
     const values = transform([CENTER, LEFT, CENTER, TAIL, NOSE, LLEG, NOSE, RLEG, LLEG, RLEG], options).reduce(concat);
     const result: Primitive = {
         mode: BeginMode.LINES,
@@ -143,7 +144,7 @@ class TurtleGeometry extends GeometryArrays {
 }
 
 /**
- * @hidden
+ *
  */
 export interface TurtleOptions {
     axis?: VectorE3;
@@ -163,6 +164,11 @@ export interface TurtleOptions {
  * A 3D visual representation of a turtle.
  */
 export class Turtle extends Mesh<Geometry, Material> {
+    /**
+     * @param contextManager This will usually be provided by the `Engine`.
+     * @param options 
+     * @param levelUp Leave as zero unless you are extending this class. 
+     */
     constructor(contextManager: ContextManager, options: TurtleOptions = {}, levelUp = 0) {
         super(void 0, void 0, contextManager, { axis: ds.axis, meridian: ds.meridian }, levelUp + 1);
         this.setLoggingName('Turtle');
@@ -173,7 +179,6 @@ export class Turtle extends Mesh<Geometry, Material> {
         const geometry = new TurtleGeometry(contextManager, geoOptions);
         this.geometry = geometry;
         geometry.release();
-        contextManager.putCacheGeometry(geoOptions, geometry);
 
         const material = materialFromOptions(contextManager, simplexModeFromOptions(options, SimplexMode.LINE), options);
         this.material = material;
@@ -190,6 +195,9 @@ export class Turtle extends Mesh<Geometry, Material> {
         }
     }
 
+    /**
+     * @hidden
+     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();

@@ -19,7 +19,7 @@ function add2x2(a, b, c) {
     c[0x3] = a22 + b22;
 }
 /**
- *
+ * @hidden
  */
 var Matrix2 = /** @class */ (function (_super) {
     __extends(Matrix2, _super);

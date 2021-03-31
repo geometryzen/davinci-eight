@@ -5,13 +5,12 @@ import { Capability } from './Capability';
 import { ContextConsumer } from './ContextConsumer';
 import { ContextManager } from './ContextManager';
 import { DepthFunction } from './DepthFunction';
-import { Geometry } from './Geometry';
-import { GeometryKey } from './GeometryKey';
-import { Material } from './Material';
-import { MaterialKey } from './MaterialKey';
 import { PixelFormat } from './PixelFormat';
 import { PixelType } from './PixelType';
 import { ShareableBase } from './ShareableBase';
+/**
+ * @hidden
+ */
 export interface EngineAttributes extends WebGLContextAttributes {
     /**
      * Determines the WebGL context identifier used to get the context from the canvas element.
@@ -27,17 +26,9 @@ export interface EngineAttributes extends WebGLContextAttributes {
     webglLogging?: boolean;
 }
 /**
- * A wrapper around an HTMLCanvasElement providing access to the WebGLRenderingContext
+ * A wrapper around an HTMLCanvasElement providing access to the WebGL rendering context
  * and notifications of context loss and restore. An instance of the Engine will usually
  * be a required parameter for any consumer of WebGL resources.
- *
- * <iframe
- *     title="Engine"
- *     width="860"
- *     height="600"
- *     src="https://www.stemcstudio.com/gists/54644519dcd556bf8bf779bfa084ced3?embed&file=main.ts&hideREADME">
- * </iframe>
- *
  */
 export declare class Engine extends ShareableBase implements ContextManager {
     /**
@@ -64,31 +55,23 @@ export declare class Engine extends ShareableBase implements ContextManager {
      */
     private _commands;
     /**
-     * The cache of Geometry.
-     */
-    private geometries;
-    /**
-     * The cache of Material.
-     */
-    private materials;
-    /**
-     * @param canvas
+     * @param canvas The canvas element identifier, or canvas element, or WebGL rendering context.
      * @param attributes Allows the context to be configured.
-     * @param dom The document object model that contains the canvas identifier.
+     * @param dom The document object model that contains the canvas.
      */
     constructor(canvas?: string | HTMLCanvasElement | WebGL2RenderingContext, attributes?: EngineAttributes, dom?: Document);
     /**
-     *
+     * @hidden
      */
     protected resurrector(levelUp: number): void;
     /**
-     *
+     * @hidden
      */
     protected destructor(levelUp: number): void;
     /**
      *
      */
-    addContextListener(user: ContextConsumer): void;
+    addContextConsumer(consumer: ContextConsumer): void;
     /**
      * The canvas element associated with the WebGLRenderingContext.
      */
@@ -140,9 +123,9 @@ export declare class Engine extends ShareableBase implements ContextManager {
      */
     readPixels(x: number, y: number, width: number, height: number, format: PixelFormat, type: PixelType, pixels: ArrayBufferView): void;
     /**
-     * @param user
+     * @param consumer
      */
-    removeContextListener(user: ContextConsumer): void;
+    removeContextConsumer(consumer: ContextConsumer): void;
     /**
      * A convenience method for setting the width and height properties of the
      * underlying canvas and for setting the viewport to the drawing buffer height and width.
@@ -189,22 +172,6 @@ export declare class Engine extends ShareableBase implements ContextManager {
      * @param consumer
      */
     synchronize(consumer: ContextConsumer): this;
-    /**
-     *
-     */
-    getCacheGeometry<G extends Geometry>(geometryKey: GeometryKey): G;
-    /**
-     *
-     */
-    putCacheGeometry<G extends Geometry>(geometryKey: GeometryKey, geometry: G): void;
-    /**
-     *
-     */
-    getCacheMaterial<M extends Material>(materialKey: MaterialKey): M;
-    /**
-     *
-     */
-    putCacheMaterial<M extends Material>(materialKey: MaterialKey, material: M): void;
     /**
      * Computes the coordinates of a point in the image cube corresponding to device coordinates.
      * @param deviceX The x-coordinate of the device event.

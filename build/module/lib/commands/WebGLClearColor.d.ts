@@ -1,5 +1,8 @@
 import { ContextManager } from '../core/ContextManager';
 import { ShareableBase } from '../core/ShareableBase';
+/**
+ * @hidden
+ */
 export declare class WebGLClearColor extends ShareableBase {
     private contextManager;
     r: number;

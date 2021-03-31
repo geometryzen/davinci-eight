@@ -82,7 +82,7 @@ export class Trail extends ShareableBase implements Renderable {
     }
 
     /**
-     *
+     * @hidden
      */
     protected destructor(levelUp: number): void {
         this.mesh.release();

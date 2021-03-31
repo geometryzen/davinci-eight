@@ -3,6 +3,7 @@ import { Vector3 } from '../math/Vector3';
 /**
  * Updates a uniform vec3 shader parameter from a VectorE3.
  * Using a VectorE3 makes assignment easier, which is the dominant use case.
+ * @hidden
  */
 var Vector3Facet = /** @class */ (function () {
     function Vector3Facet(name) {

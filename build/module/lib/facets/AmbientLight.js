@@ -3,7 +3,7 @@ import { mustBeNumber } from '../checks/mustBeNumber';
 import { mustBeObject } from '../checks/mustBeObject';
 import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 /**
- *
+ * Sets the 'uAmbientLight' uniform to the color RGB value.
  */
 var AmbientLight = /** @class */ (function () {
     /**

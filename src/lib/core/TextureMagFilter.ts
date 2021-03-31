@@ -1,5 +1,5 @@
 /**
- * @hidden
+ *
  */
 export enum TextureMagFilter {
     NEAREST = 0x2600,

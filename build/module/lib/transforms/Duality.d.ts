@@ -1,8 +1,9 @@
-import { Vertex } from '../atoms/Vertex';
 import { Transform } from '../atoms/Transform';
+import { Vertex } from '../atoms/Vertex';
 /**
  * Applies a duality transformation to the specified attributes of a vertex, creating a new attribute.
  * The convention used is pre-multiplication by the pseudoscalar.
+ * @hidden
  */
 export declare class Duality implements Transform {
     /**

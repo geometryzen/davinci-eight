@@ -559,7 +559,7 @@ var makeMaterial = function makeMaterial(graphics) {
     return new ShaderMaterial(vs, fs, [], graphics);
 };
 /**
- *
+ * @hidden
  */
 var MinecraftBodyPart = /** @class */ (function (_super) {
     __extends(MinecraftBodyPart, _super);
@@ -582,6 +582,9 @@ var MinecraftBodyPart = /** @class */ (function (_super) {
     return MinecraftBodyPart;
 }(Mesh));
 export { MinecraftBodyPart };
+/**
+ * @hidden
+ */
 var MinecraftHead = /** @class */ (function (_super) {
     __extends(MinecraftHead, _super);
     function MinecraftHead(engine, texture, options) {
@@ -601,6 +604,9 @@ var MinecraftHead = /** @class */ (function (_super) {
     return MinecraftHead;
 }(MinecraftBodyPart));
 export { MinecraftHead };
+/**
+ * @hidden
+ */
 var MinecraftTorso = /** @class */ (function (_super) {
     __extends(MinecraftTorso, _super);
     function MinecraftTorso(engine, texture, options) {
@@ -620,6 +626,9 @@ var MinecraftTorso = /** @class */ (function (_super) {
     return MinecraftTorso;
 }(MinecraftBodyPart));
 export { MinecraftTorso };
+/**
+ * @hidden
+ */
 var MinecraftArmL = /** @class */ (function (_super) {
     __extends(MinecraftArmL, _super);
     function MinecraftArmL(engine, texture, options) {
@@ -639,6 +648,9 @@ var MinecraftArmL = /** @class */ (function (_super) {
     return MinecraftArmL;
 }(MinecraftBodyPart));
 export { MinecraftArmL };
+/**
+ * @hidden
+ */
 var MinecraftArmR = /** @class */ (function (_super) {
     __extends(MinecraftArmR, _super);
     function MinecraftArmR(engine, texture, options) {
@@ -658,6 +670,9 @@ var MinecraftArmR = /** @class */ (function (_super) {
     return MinecraftArmR;
 }(MinecraftBodyPart));
 export { MinecraftArmR };
+/**
+ * @hidden
+ */
 var MinecraftLegL = /** @class */ (function (_super) {
     __extends(MinecraftLegL, _super);
     function MinecraftLegL(engine, texture, options) {
@@ -677,6 +692,9 @@ var MinecraftLegL = /** @class */ (function (_super) {
     return MinecraftLegL;
 }(MinecraftBodyPart));
 export { MinecraftLegL };
+/**
+ * @hidden
+ */
 var MinecraftLegR = /** @class */ (function (_super) {
     __extends(MinecraftLegR, _super);
     function MinecraftLegR(engine, texture, options) {

@@ -3,7 +3,7 @@ import { Transform } from './Transform';
 import { Vertex } from './Vertex';
 import { VertexPrimitive } from './VertexPrimitive';
 /**
- *
+ * @hidden
  */
 export declare class CurvePrimitive extends VertexPrimitive {
     private _uSegments;

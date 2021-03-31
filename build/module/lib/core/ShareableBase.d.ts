@@ -25,7 +25,7 @@ import { Shareable } from '../core/Shareable';
  *         super.destructor(levelUp + 1)
  *       }
  *     }
- *
+ *  @hidden
  */
 export declare class ShareableBase implements Shareable {
     /**
@@ -49,12 +49,14 @@ export declare class ShareableBase implements Shareable {
      */
     constructor();
     /**
+     * @hidden
      * Experimental
      *
      * restore (a zombie) to life.
      */
     protected resurrector(levelUp: number, grumble?: boolean): void;
     /**
+     * @hidden
      * <p>
      * Outputs a warning to the console that this method should be implemented by the derived class.
      * </p>

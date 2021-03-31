@@ -5,27 +5,27 @@ import { FacetVisitor } from '../core/FacetVisitor';
 import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 
 /**
- * @hidden
+ * Sets the 'uColor' uniform to the color RGB value.
  */
 export class ColorFacet implements Facet {
 
     /**
-     *
+     * @hidden
      */
     public static PROP_RGB = 'rgb';
 
     /**
-     *
+     * @hidden
      */
     public static PROP_RED = 'r';
 
     /**
-     *
+     * @hidden
      */
     public static PROP_GREEN = 'g';
 
     /**
-     *
+     * @hidden
      */
     public static PROP_BLUE = 'b';
 
@@ -35,7 +35,7 @@ export class ColorFacet implements Facet {
     public color = Color.fromRGB(1, 1, 1);
 
     /**
-     *
+     * @param uColorName The name of the WebL uniform that this facet will affect. 
      */
     constructor(public uColorName = GraphicsProgramSymbols.UNIFORM_COLOR) {
     }
@@ -73,14 +73,14 @@ export class ColorFacet implements Facet {
         this.color.b = b;
     }
 
-    scaleRGB(α: number): ColorFacet {
+    scaleRGB(α: number): this {
         this.r *= α;
         this.g *= α;
         this.b *= α;
         return this;
     }
 
-    setRGB(r: number, g: number, b: number): ColorFacet {
+    setRGB(r: number, g: number, b: number): this {
         this.r = r;
         this.g = g;
         this.b = b;
@@ -91,10 +91,10 @@ export class ColorFacet implements Facet {
      *
      */
     setUniforms(visitor: FacetVisitor): void {
-        const name = this.uColorName;
-        if (name) {
+        const uColorName = this.uColorName;
+        if (uColorName) {
             const color = this.color;
-            visitor.uniform3f(name, color.r, color.g, color.b);
+            visitor.uniform3f(uColorName, color.r, color.g, color.b);
         }
     }
 }

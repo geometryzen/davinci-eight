@@ -3,6 +3,7 @@ import { GeometryElements } from '../core/GeometryElements';
 import { GridGeometryOptions } from './GridGeometryOptions';
 /**
  * A Geometry for representing functions of two scalar parameters.
+ * @hidden
  */
 export declare class GridGeometry extends GeometryElements {
     /**

@@ -3,7 +3,6 @@ import { mustBeGE } from '../checks/mustBeGE';
 import { mustBeLE } from '../checks/mustBeLE';
 import { mustBeNonNullObject } from '../checks/mustBeNonNullObject';
 import { mustBeNumber } from '../checks/mustBeNumber';
-import { mustBeString } from '../checks/mustBeString';
 import { mustBeWebGLContextId } from '../checks/mustBeWebGLContextId';
 import { ShareableArray } from '../collections/ShareableArray';
 import { EIGHTLogger } from '../commands/EIGHTLogger';
@@ -20,11 +19,7 @@ import { ClearBufferMask } from './ClearBufferMask';
 import { ContextConsumer } from './ContextConsumer';
 import { ContextManager } from './ContextManager';
 import { DepthFunction } from './DepthFunction';
-import { Geometry } from './Geometry';
-import { GeometryKey } from './GeometryKey';
 import { initWebGL } from './initWebGL';
-import { Material } from './Material';
-import { MaterialKey } from './MaterialKey';
 import { PixelFormat } from './PixelFormat';
 import { PixelType } from './PixelType';
 import { ShareableBase } from './ShareableBase';
@@ -60,17 +55,9 @@ function getWindowDocument(window: Window): Document {
 }
 
 /**
- * A wrapper around an HTMLCanvasElement providing access to the WebGLRenderingContext
+ * A wrapper around an HTMLCanvasElement providing access to the WebGL rendering context
  * and notifications of context loss and restore. An instance of the Engine will usually
  * be a required parameter for any consumer of WebGL resources.
- * 
- * <iframe
- *     title="Engine"
- *     width="860"
- *     height="600"
- *     src="https://www.stemcstudio.com/gists/54644519dcd556bf8bf779bfa084ced3?embed&file=main.ts&hideREADME">
- * </iframe>
- *
  */
 export class Engine extends ShareableBase implements ContextManager {
     /**
@@ -100,17 +87,9 @@ export class Engine extends ShareableBase implements ContextManager {
      */
     private _commands = new ShareableArray<ContextConsumer>([]);
     /**
-     * The cache of Geometry.
-     */
-    private geometries: { [name: string]: Geometry } = {};
-    /**
-     * The cache of Material.
-     */
-    private materials: { [name: string]: Material } = {};
-    /**
-     * @param canvas 
+     * @param canvas The canvas element identifier, or canvas element, or WebGL rendering context.
      * @param attributes Allows the context to be configured.
-     * @param dom The document object model that contains the canvas identifier.
+     * @param dom The document object model that contains the canvas.
      */
     constructor(canvas?: string | HTMLCanvasElement | WebGL2RenderingContext, attributes: EngineAttributes = {}, dom?: Document) {
         super();
@@ -164,7 +143,7 @@ export class Engine extends ShareableBase implements ContextManager {
     }
 
     /**
-     * 
+     * @hidden
      */
     protected resurrector(levelUp: number): void {
         super.resurrector(levelUp + 1);
@@ -173,7 +152,7 @@ export class Engine extends ShareableBase implements ContextManager {
     }
 
     /**
-     *
+     * @hidden
      */
     protected destructor(levelUp: number): void {
         this.stop();
@@ -187,14 +166,14 @@ export class Engine extends ShareableBase implements ContextManager {
     /**
      *
      */
-    addContextListener(user: ContextConsumer): void {
-        mustBeNonNullObject('user', user);
-        const index = this._users.indexOf(user);
+    addContextConsumer(consumer: ContextConsumer): void {
+        mustBeNonNullObject('consumer', consumer);
+        const index = this._users.indexOf(consumer);
         if (index < 0) {
-            this._users.push(user);
+            this._users.push(consumer);
         }
         else {
-            console.warn("user already exists for addContextListener");
+            console.warn("consumer already exists for addContextConsumer");
         }
     }
 
@@ -359,11 +338,11 @@ export class Engine extends ShareableBase implements ContextManager {
     }
 
     /**
-     * @param user
+     * @param consumer
      */
-    removeContextListener(user: ContextConsumer): void {
-        mustBeNonNullObject('user', user);
-        const index = this._users.indexOf(user);
+    removeContextConsumer(consumer: ContextConsumer): void {
+        mustBeNonNullObject('consumer', consumer);
+        const index = this._users.indexOf(consumer);
         if (index >= 0) {
             this._users.splice(index, 1);
         }
@@ -537,56 +516,6 @@ export class Engine extends ShareableBase implements ContextManager {
             // FIXME: Broken symmetry?
         }
         return this;
-    }
-
-    /**
-     * 
-     */
-    getCacheGeometry<G extends Geometry>(geometryKey: GeometryKey): G {
-        mustBeNonNullObject('geometryKey', geometryKey);
-        mustBeString('geometryKey.kind', geometryKey.kind);
-        const key = JSON.stringify(geometryKey);
-        const geometry = this.geometries[key];
-        if (geometry && geometry.addRef) {
-            geometry.addRef();
-        }
-        return <G>geometry;
-    }
-
-    /**
-     * 
-     */
-    putCacheGeometry<G extends Geometry>(geometryKey: GeometryKey, geometry: G): void {
-        mustBeNonNullObject('geometryKey', geometryKey);
-        mustBeNonNullObject('geometry', geometry);
-        mustBeString('geometryKey.kind', geometryKey.kind);
-        const key = JSON.stringify(geometryKey);
-        this.geometries[key] = geometry;
-    }
-
-    /**
-     * 
-     */
-    getCacheMaterial<M extends Material>(materialKey: MaterialKey): M {
-        mustBeNonNullObject('materialKey', materialKey);
-        mustBeString('materialKey.kind', materialKey.kind);
-        const key = JSON.stringify(materialKey);
-        const material = this.materials[key];
-        if (material && material.addRef) {
-            material.addRef();
-        }
-        return <M>material;
-    }
-
-    /**
-     * 
-     */
-    putCacheMaterial<M extends Material>(materialKey: MaterialKey, material: M): void {
-        mustBeNonNullObject('materialKey', materialKey);
-        mustBeNonNullObject('material', material);
-        mustBeString('materialKey.kind', materialKey.kind);
-        const key = JSON.stringify(materialKey);
-        this.materials[key] = material;
     }
 
     /**

@@ -3,6 +3,7 @@ import { UniformGlslType } from '../core/UniformGlslType';
 import { GLSLESVersion } from './glslVersion';
 /**
  * A specification of the attributes and uniforms required in the Material.
+ * @hidden
  */
 export interface MaterialOptions {
     /**

@@ -10,6 +10,7 @@ function getContextId(contextManager) {
 /**
  * A Material that is generated based upon knowledge of parameters and some hints.
  * This is currently not exposed and has limited testing.
+ * @hidden
  */
 var SmartGraphicsProgram = /** @class */ (function (_super) {
     __extends(SmartGraphicsProgram, _super);

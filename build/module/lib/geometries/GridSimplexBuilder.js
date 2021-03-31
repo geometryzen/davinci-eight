@@ -1,12 +1,15 @@
 import { __extends } from "tslib";
-import { Simplex } from './Simplex';
-import { SimplexMode } from './SimplexMode';
-import { SimplexPrimitivesBuilder } from './SimplexPrimitivesBuilder';
+import { mustBeFunction } from '../checks/mustBeFunction';
+import { mustBeInteger } from '../checks/mustBeInteger';
 import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { Vector2 } from '../math/Vector2';
 import { Vector3 } from '../math/Vector3';
-import { mustBeFunction } from '../checks/mustBeFunction';
-import { mustBeInteger } from '../checks/mustBeInteger';
+import { Simplex } from './Simplex';
+import { SimplexMode } from './SimplexMode';
+import { SimplexPrimitivesBuilder } from './SimplexPrimitivesBuilder';
+/**
+ * @hidden
+ */
 var GridSimplexBuilder = /** @class */ (function (_super) {
     __extends(GridSimplexBuilder, _super);
     function GridSimplexBuilder(parametricFunction, uSegments, vSegments) {

@@ -17,6 +17,7 @@ import { Matrix4 } from './Matrix4';
  * <tr><td>2</td><td>5</td><td>8</td></tr>
  * </table>
  * </p>
+ * @hidden
  */
 export declare class Matrix3 extends AbstractMatrix<Matrix3> {
     /**

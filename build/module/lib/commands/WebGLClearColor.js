@@ -1,6 +1,9 @@
 import { __extends } from "tslib";
 import { mustBeNumber } from '../checks/mustBeNumber';
 import { ShareableBase } from '../core/ShareableBase';
+/**
+ * @hidden
+ */
 var WebGLClearColor = /** @class */ (function (_super) {
     __extends(WebGLClearColor, _super);
     function WebGLClearColor(contextManager, r, g, b, a) {

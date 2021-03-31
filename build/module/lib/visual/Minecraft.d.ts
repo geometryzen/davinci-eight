@@ -31,37 +31,58 @@ export interface MinecraftInternalBodyPartOptions {
     offset?: VectorE3;
 }
 /**
- *
+ * @hidden
  */
 export declare class MinecraftBodyPart extends Mesh<Geometry, Material> {
     constructor(engine: Engine, texture: ImageTexture, options: MinecraftInternalBodyPartOptions, levelUp?: number);
     protected destructor(levelUp: number): void;
 }
+/**
+ * @hidden
+ */
 export interface MinecraftBodyPartOptions {
     height?: number;
     oldSkinLayout?: boolean;
     offset?: VectorE3;
 }
+/**
+ * @hidden
+ */
 export declare class MinecraftHead extends MinecraftBodyPart {
     constructor(engine: Engine, texture: ImageTexture, options?: MinecraftBodyPartOptions);
     protected destructor(levelUp: number): void;
 }
+/**
+ * @hidden
+ */
 export declare class MinecraftTorso extends MinecraftBodyPart {
     constructor(engine: Engine, texture: ImageTexture, options?: MinecraftBodyPartOptions);
     protected destructor(levelUp: number): void;
 }
+/**
+ * @hidden
+ */
 export declare class MinecraftArmL extends MinecraftBodyPart {
     constructor(engine: Engine, texture: ImageTexture, options?: MinecraftBodyPartOptions);
     protected destructor(levelUp: number): void;
 }
+/**
+ * @hidden
+ */
 export declare class MinecraftArmR extends MinecraftBodyPart {
     constructor(engine: Engine, texture: ImageTexture, options?: MinecraftBodyPartOptions);
     protected destructor(levelUp: number): void;
 }
+/**
+ * @hidden
+ */
 export declare class MinecraftLegL extends MinecraftBodyPart {
     constructor(engine: Engine, texture: ImageTexture, options?: MinecraftBodyPartOptions);
     protected destructor(levelUp: number): void;
 }
+/**
+ * @hidden
+ */
 export declare class MinecraftLegR extends MinecraftBodyPart {
     constructor(engine: Engine, texture: ImageTexture, options?: MinecraftBodyPartOptions);
     protected destructor(levelUp: number): void;

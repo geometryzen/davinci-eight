@@ -1,10 +1,10 @@
+import { VectorN } from '../atoms/VectorN';
 import { LockableMixin as Lockable } from '../core/Lockable';
 import { Matrix2 } from '../math/Matrix2';
 import { SpinorE2 } from '../math/SpinorE2';
 import { VectorE2 } from '../math/VectorE2';
-import { VectorN } from '../atoms/VectorN';
 /**
- *
+ * @hidden
  */
 export declare class Vector2 implements VectorE2, Lockable, VectorN<number> {
     isLocked: () => boolean;

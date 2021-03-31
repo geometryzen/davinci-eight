@@ -6,6 +6,7 @@ import { CartesianG3 } from './CartesianG3';
 import { VectorE3 } from './VectorE3';
 /**
  * A Geometric Number representing the even sub-algebra of G3.
+ * @hidden
  */
 export declare class Spinor3 implements CartesianG3, SpinorE3, Lockable, VectorN<number> {
     isLocked: () => boolean;

@@ -8,11 +8,13 @@ import { CurveOptions } from './CurveOptions';
  */
 export declare class Curve extends Mesh<CurveGeometry, Material> {
     /**
-     * Constructs a Curve.
+     * @param contextManager This will usually be provided by the `Engine`.
+     * @param options
+     * @param levelUp Leave as zero unless you are extending this class.
      */
     constructor(contextManager: ContextManager, options?: CurveOptions, levelUp?: number);
     /**
-     *
+     * @hidden
      */
     protected destructor(levelUp: number): void;
 }

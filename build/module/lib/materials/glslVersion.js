@@ -1,3 +1,6 @@
+/**
+ * @hidden
+ */
 export var GLSLESVersion;
 (function (GLSLESVersion) {
     GLSLESVersion["OneHundred"] = "100";

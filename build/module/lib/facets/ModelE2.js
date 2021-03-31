@@ -1,6 +1,6 @@
 import { Geometric2 } from '../math/Geometric2';
 /**
- *
+ * @hidden
  */
 var ModelE2 = /** @class */ (function () {
     /**

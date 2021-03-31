@@ -129,6 +129,9 @@ quad(6, 5, 1, 2);
 quad(4, 5, 6, 7);
 quad(5, 4, 0, 1);
 
+/**
+ * @hidden
+ */
 export class Parallelepiped implements Renderable {
     public name: string;
     public opacity = 1;
@@ -166,6 +169,9 @@ export class Parallelepiped implements Renderable {
             this.contextManager.synchronize(this);
         }
     }
+    /**
+     * @hidden
+     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             if (this.contextManager && this.contextManager.gl) {

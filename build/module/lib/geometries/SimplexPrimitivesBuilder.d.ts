@@ -1,10 +1,13 @@
+import { Primitive } from '../core/Primitive';
 import { GeometryMeta } from '../geometries/GeometryMeta';
 import { PrimitivesBuilder } from '../geometries/PrimitivesBuilder';
 import { Simplex } from '../geometries/Simplex';
 import { SimplexMode } from '../geometries/SimplexMode';
-import { Primitive } from '../core/Primitive';
-import { Vector3 } from '../math/Vector3';
 import { Vector2 } from '../math/Vector2';
+import { Vector3 } from '../math/Vector3';
+/**
+ * @hidden
+ */
 export declare class SimplexPrimitivesBuilder extends PrimitivesBuilder {
     data: Simplex[];
     meta: GeometryMeta;

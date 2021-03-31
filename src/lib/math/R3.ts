@@ -7,7 +7,6 @@ import { wedgeZX } from './wedgeZX';
 
 /**
  * A vector with cartesian coordinates and immutable.
- * @hidden
  */
 export interface R3 extends VectorE3 {
     readonly x: number;

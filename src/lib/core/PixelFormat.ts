@@ -1,5 +1,5 @@
 /**
- * @hidden
+ *
  */
 export enum PixelFormat {
     DEPTH_COMPONENT = 0x1902,

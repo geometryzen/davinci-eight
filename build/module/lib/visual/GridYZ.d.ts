@@ -1,6 +1,9 @@
 import { ContextManager } from '../core/ContextManager';
 import { GeometryMode } from '../geometries/GeometryMode';
 import { Grid } from './Grid';
+/**
+ * @hidden
+ */
 export interface GridYZOptions {
     yMin?: number;
     yMax?: number;
@@ -16,11 +19,13 @@ export interface GridYZOptions {
  */
 export declare class GridYZ extends Grid {
     /**
-     * Constructs a GridYZ.
+     * @param contextManager This will usually be provided by the `Engine`.
+     * @param options
+     * @param levelUp Leave as zero unless you are extending this class.
      */
     constructor(contextManager: ContextManager, options?: GridYZOptions, levelUp?: number);
     /**
-     *
+     * @hidden
      */
     protected destructor(levelUp: number): void;
 }

@@ -8,6 +8,7 @@ import { Vector2 } from '../math/Vector2';
 import { Vector3 } from '../math/Vector3';
 /**
  * A `Transform` that calls the `approx` method on a `Vertex` attribute.
+ * @hidden
  */
 var Approximation = /** @class */ (function () {
     /**

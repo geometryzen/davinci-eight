@@ -1,6 +1,6 @@
-import { ArrowGeometryOptions } from './ArrowGeometryOptions';
 import { ContextManager } from '../core/ContextManager';
 import { GeometryElements } from '../core/GeometryElements';
+import { ArrowGeometryOptions } from './ArrowGeometryOptions';
 /**
  * <p>
  * A convenience class for creating an arrow.
@@ -11,6 +11,7 @@ import { GeometryElements } from '../core/GeometryElements';
  * <p>
  * The cutLine unit vector defaults to <b>e<b><sub>3</sub>
  * </p>
+ * @hidden
  */
 export declare class ArrowGeometry extends GeometryElements {
     /**

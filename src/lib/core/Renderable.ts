@@ -4,7 +4,6 @@ import { Facet } from '../core/Facet';
 /**
  * The interface contract for an object that may exist in a Scene.
  * This interface is designed to place very few demands on the implementation.
- * @hidden
  */
 export interface Renderable extends ContextConsumer {
     /**

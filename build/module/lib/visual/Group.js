@@ -1,10 +1,11 @@
 import { __extends } from "tslib";
-import { Geometric3 } from '../math/Geometric3';
-import { Matrix4 } from '../math/Matrix4';
 import { ShareableArray } from '../collections/ShareableArray';
 import { ShareableBase } from '../core/ShareableBase';
+import { Geometric3 } from '../math/Geometric3';
+import { Matrix4 } from '../math/Matrix4';
 /**
  * A collection of objects that can be treated as a single Renderable.
+ * @hidden
  */
 var Group = /** @class */ (function (_super) {
     __extends(Group, _super);

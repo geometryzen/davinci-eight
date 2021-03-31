@@ -1,19 +1,19 @@
 import { __extends } from "tslib";
-import { Color } from '../core/Color';
-import { CylinderGeometry } from '../geometries/CylinderGeometry';
-import { ds } from './Defaults';
-import { geometryModeFromOptions } from './geometryModeFromOptions';
 import { isDefined } from '../checks/isDefined';
-import { materialFromOptions } from './materialFromOptions';
-import { Mesh } from '../core/Mesh';
 import { mustBeNumber } from '../checks/mustBeNumber';
-import { offsetFromOptions } from './offsetFromOptions';
+import { Color } from '../core/Color';
+import { Mesh } from '../core/Mesh';
 import { referenceAxis } from '../core/referenceAxis';
 import { referenceMeridian } from '../core/referenceMeridian';
+import { CylinderGeometry } from '../geometries/CylinderGeometry';
+import { SimplexMode } from '../geometries/SimplexMode';
+import { ds } from './Defaults';
+import { geometryModeFromOptions } from './geometryModeFromOptions';
+import { materialFromOptions } from './materialFromOptions';
+import { offsetFromOptions } from './offsetFromOptions';
 import { setAxisAndMeridian } from './setAxisAndMeridian';
 import { setColorOption } from './setColorOption';
 import { setDeprecatedOptions } from './setDeprecatedOptions';
-import { SimplexMode } from '../geometries/SimplexMode';
 import { simplexModeFromOptions } from './simplexModeFromOptions';
 import { spinorE3Object } from './spinorE3Object';
 import { vectorE3Object } from './vectorE3Object';
@@ -23,7 +23,9 @@ import { vectorE3Object } from './vectorE3Object';
 var Cylinder = /** @class */ (function (_super) {
     __extends(Cylinder, _super);
     /**
-     *
+     * @param contextManager This will usually be provided by the `Engine`.
+     * @param options
+     * @param levelUp Leave as zero unless you are extending this class.
      */
     function Cylinder(contextManager, options, levelUp) {
         if (options === void 0) { options = {}; }
@@ -41,17 +43,9 @@ var Cylinder = /** @class */ (function (_super) {
         geoOptions.openWall = options.openWall;
         geoOptions.heightSegments = options.heightSegments;
         geoOptions.thetaSegments = options.thetaSegments;
-        var cachedGeometry = contextManager.getCacheGeometry(geoOptions);
-        if (cachedGeometry && cachedGeometry instanceof CylinderGeometry) {
-            _this.geometry = cachedGeometry;
-            cachedGeometry.release();
-        }
-        else {
-            var geometry = new CylinderGeometry(contextManager, geoOptions);
-            _this.geometry = geometry;
-            geometry.release();
-            contextManager.putCacheGeometry(geoOptions, geometry);
-        }
+        var geometry = new CylinderGeometry(contextManager, geoOptions);
+        _this.geometry = geometry;
+        geometry.release();
         var material = materialFromOptions(contextManager, simplexModeFromOptions(options, SimplexMode.TRIANGLE), options);
         _this.material = material;
         material.release();
@@ -68,7 +62,7 @@ var Cylinder = /** @class */ (function (_super) {
         return _this;
     }
     /**
-     *
+     * @hidden
      */
     Cylinder.prototype.destructor = function (levelUp) {
         if (levelUp === 0) {

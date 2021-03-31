@@ -1,13 +1,13 @@
+import { VectorN } from '../atoms/VectorN';
+import { LockableMixin as Lockable } from '../core/Lockable';
 import { BivectorE3 } from './BivectorE3';
 import { CartesianG3 } from './CartesianG3';
-import { VectorE3 } from './VectorE3';
-import { LockableMixin as Lockable } from '../core/Lockable';
 import { Matrix3 } from './Matrix3';
 import { Matrix4 } from './Matrix4';
 import { SpinorE3 } from './SpinorE3';
-import { VectorN } from '../atoms/VectorN';
+import { VectorE3 } from './VectorE3';
 /**
- *
+ * @hidden
  */
 export declare class Vector3 implements CartesianG3, VectorE3, Lockable, VectorN<number> {
     isLocked: () => boolean;

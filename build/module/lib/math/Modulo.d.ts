@@ -1,5 +1,6 @@
 /**
  * Modulo Arithmetic (Experimental).
+ * @hidden
  */
 export declare class Modulo {
     private _value;

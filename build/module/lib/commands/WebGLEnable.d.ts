@@ -3,6 +3,7 @@ import { ContextManager } from '../core/ContextManager';
 import { ShareableBase } from '../core/ShareableBase';
 /**
  * enable(capability: Capability): void
+ * @hidden
  */
 export declare class WebGLEnable extends ShareableBase {
     private contextManager;

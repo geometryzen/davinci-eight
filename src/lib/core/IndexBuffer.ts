@@ -24,7 +24,7 @@ export class IndexBuffer extends ShareableContextConsumer {
     }
 
     /**
-     * 
+     * @hidden
      */
     protected resurrector(levelUp: number): void {
         super.resurrector(levelUp + 1);
@@ -35,7 +35,7 @@ export class IndexBuffer extends ShareableContextConsumer {
     }
 
     /**
-     * 
+     * @hidden
      */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {

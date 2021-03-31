@@ -1,5 +1,8 @@
 import { CurvePrimitive } from './CurvePrimitive';
 import { Vertex } from './Vertex';
+/**
+ * @hidden
+ */
 export declare class LineStrip extends CurvePrimitive {
     /**
      * @param uSegments

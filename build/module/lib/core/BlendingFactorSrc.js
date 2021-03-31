@@ -1,3 +1,6 @@
+/**
+ *
+ */
 export var BlendingFactorSrc;
 (function (BlendingFactorSrc) {
     BlendingFactorSrc[BlendingFactorSrc["ZERO"] = 0] = "ZERO";

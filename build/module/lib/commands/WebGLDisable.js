@@ -3,6 +3,7 @@ import { mustBeNumber } from '../checks/mustBeNumber';
 import { ShareableBase } from '../core/ShareableBase';
 /**
  * disable(capability: Capability): void
+ * @hidden
  */
 var WebGLDisable = /** @class */ (function (_super) {
     __extends(WebGLDisable, _super);

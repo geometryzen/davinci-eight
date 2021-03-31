@@ -128,6 +128,11 @@ export interface TrackOptions {
  * 
  */
 export class Track extends Mesh<TrackGeometry, LineMaterial> {
+    /**
+     * @param contextManager This will usually be provided by the `Engine`.
+     * @param options 
+     * @param levelUp Leave as zero unless you are extending this class. 
+     */
     constructor(contextManager: ContextManager, options: TrackOptions = {}, levelUp = 0) {
         // The TrackGeometry cannot be cached because it is dynamic.
         // The LineMaterial can be cached.
@@ -150,7 +155,7 @@ export class Track extends Mesh<TrackGeometry, LineMaterial> {
     }
 
     /**
-     * 
+     * @hidden
      */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {

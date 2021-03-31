@@ -5,6 +5,7 @@ import { VectorE3 } from '../math/VectorE3';
 /**
  * Updates a uniform vec3 shader parameter from a VectorE3.
  * Using a VectorE3 makes assignment easier, which is the dominant use case.
+ * @hidden
  */
 export declare class Vector3Facet implements Facet {
     /**

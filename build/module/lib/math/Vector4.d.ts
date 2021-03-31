@@ -1,16 +1,14 @@
 import { Coords } from '../math/Coords';
-import { VectorE4 } from '../math/VectorE4';
-import { SpinorE4 } from '../math/SpinorE4';
 import { Matrix4 } from '../math/Matrix4';
+import { SpinorE4 } from '../math/SpinorE4';
+import { VectorE4 } from '../math/VectorE4';
 /**
- *
+ * @hidden
  */
 export declare class Vector4 extends Coords {
     /**
-     * @class Vector4
-     * @constructor
-     * @param data {number[]} Default is [0, 0, 0, 0] corresponding to x, y, z, and w coordinate labels.
-     * @param modified {boolean} Default is false.
+     * @param data Default is [0, 0, 0, 0] corresponding to x, y, z, and w coordinate labels.
+     * @param modified Default is false.
      */
     constructor(data?: number[], modified?: boolean);
     /**

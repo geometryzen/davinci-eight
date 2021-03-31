@@ -2,7 +2,7 @@ import { Facet } from '../core/Facet';
 import { FacetVisitor } from '../core/FacetVisitor';
 import { Matrix4 } from '../math/Matrix4';
 /**
- *
+ * @hidden
  */
 export declare class PerspectiveTransform implements Facet {
     /**

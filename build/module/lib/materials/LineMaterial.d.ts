@@ -9,6 +9,7 @@ import { ShaderMaterial } from './ShaderMaterial';
  * <td>attribute</td><td>vec3</td><td>aPosition</td>
  * </tr>
  * </table>
+ * @hidden
  */
 export declare class LineMaterial extends ShaderMaterial {
     /**

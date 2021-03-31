@@ -1,7 +1,7 @@
 import { GridPrimitive } from './GridPrimitive';
 import { Vertex } from './Vertex';
 /**
- *
+ * @hidden
  */
 export declare class GridPoints extends GridPrimitive {
     /**

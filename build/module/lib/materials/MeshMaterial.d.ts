@@ -2,7 +2,7 @@ import { ContextManager } from '../core/ContextManager';
 import { MeshMaterialOptions } from './MeshMaterialOptions';
 import { ShaderMaterial } from './ShaderMaterial';
 /**
- *
+ * @hidden
  */
 export declare class MeshMaterial extends ShaderMaterial {
     /**

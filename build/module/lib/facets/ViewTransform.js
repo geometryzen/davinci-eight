@@ -1,10 +1,10 @@
-import { Geometric3 } from '../math/Geometric3';
 import { GraphicsProgramSymbols as ProgramSymbols } from '../core/GraphicsProgramSymbols';
+import { Geometric3 } from '../math/Geometric3';
 import { Matrix4 } from '../math/Matrix4';
 import { Vector3 } from '../math/Vector3';
 import { viewMatrixFromEyeLookUp } from './viewMatrixFromEyeLookUp';
 /**
- *
+ * @hidden
  */
 var ViewTransform = /** @class */ (function () {
     /**

@@ -1,8 +1,11 @@
 import { __extends } from "tslib";
-import { SimplexPrimitivesBuilder } from '../geometries/SimplexPrimitivesBuilder';
-import { Simplex } from '../geometries/Simplex';
 import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
+import { Simplex } from '../geometries/Simplex';
+import { SimplexPrimitivesBuilder } from '../geometries/SimplexPrimitivesBuilder';
 import { Vector3 } from '../math/Vector3';
+/**
+ * @hidden
+ */
 var Simplex1Geometry = /** @class */ (function (_super) {
     __extends(Simplex1Geometry, _super);
     function Simplex1Geometry() {

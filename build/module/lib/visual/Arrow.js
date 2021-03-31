@@ -1,19 +1,19 @@
 import { __extends } from "tslib";
-import { ArrowGeometry } from '../geometries/ArrowGeometry';
+import { isDefined } from '../checks/isDefined';
+import { mustBeNumber } from '../checks/mustBeNumber';
 import { Color } from '../core/Color';
-import { ds } from './Defaults';
+import { Mesh } from '../core/Mesh';
 import { referenceAxis } from '../core/referenceAxis';
 import { referenceMeridian } from '../core/referenceMeridian';
-import { isDefined } from '../checks/isDefined';
-import { materialFromOptions } from './materialFromOptions';
-import { mustBeNumber } from '../checks/mustBeNumber';
-import { Mesh } from '../core/Mesh';
+import { ArrowGeometry } from '../geometries/ArrowGeometry';
+import { SimplexMode } from '../geometries/SimplexMode';
 import { normVectorE3 } from '../math/normVectorE3';
+import { ds } from './Defaults';
+import { materialFromOptions } from './materialFromOptions';
 import { offsetFromOptions } from './offsetFromOptions';
 import { setAxisAndMeridian } from './setAxisAndMeridian';
 import { setColorOption } from './setColorOption';
 import { setDeprecatedOptions } from './setDeprecatedOptions';
-import { SimplexMode } from '../geometries/SimplexMode';
 import { simplexModeFromOptions } from './simplexModeFromOptions';
 import { spinorE3Object } from './spinorE3Object';
 import { vectorE3Object } from './vectorE3Object';
@@ -23,7 +23,9 @@ import { vectorE3Object } from './vectorE3Object';
 var Arrow = /** @class */ (function (_super) {
     __extends(Arrow, _super);
     /**
-     *
+     * @param contextManager This will usually be provided by the `Engine`.
+     * @param options
+     * @param levelUp Leave as zero unless you are extending this class.
      */
     function Arrow(contextManager, options, levelUp) {
         if (options === void 0) { options = {}; }
@@ -36,17 +38,9 @@ var Arrow = /** @class */ (function (_super) {
         geoOptions.axis = vectorE3Object(referenceAxis(options, ds.axis).direction());
         geoOptions.meridian = vectorE3Object(referenceMeridian(options, ds.meridian).direction());
         geoOptions.radiusCone = 0.08;
-        var cachedGeometry = contextManager.getCacheGeometry(geoOptions);
-        if (cachedGeometry && cachedGeometry instanceof ArrowGeometry) {
-            _this.geometry = cachedGeometry;
-            cachedGeometry.release();
-        }
-        else {
-            var geometry = new ArrowGeometry(contextManager, geoOptions);
-            _this.geometry = geometry;
-            geometry.release();
-            contextManager.putCacheGeometry(geoOptions, geometry);
-        }
+        var geometry = new ArrowGeometry(contextManager, geoOptions);
+        _this.geometry = geometry;
+        geometry.release();
         var material = materialFromOptions(contextManager, simplexModeFromOptions(options, SimplexMode.TRIANGLE), options);
         _this.material = material;
         material.release();
@@ -62,7 +56,7 @@ var Arrow = /** @class */ (function (_super) {
         return _this;
     }
     /**
-     *
+     * @hidden
      */
     Arrow.prototype.destructor = function (levelUp) {
         if (levelUp === 0) {

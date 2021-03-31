@@ -2,7 +2,7 @@ import { ContextConsumer } from './ContextConsumer';
 import { ContextManager } from './ContextManager';
 import { ShareableBase } from './ShareableBase';
 /**
- *
+ * @hidden
  */
 export declare class ShareableContextConsumer extends ShareableBase implements ContextConsumer {
     protected contextManager: ContextManager;

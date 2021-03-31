@@ -1,11 +1,11 @@
-import { applyMixins } from '../utils/applyMixins';
-import { approx } from './approx';
+import { lock, LockableMixin as Lockable, TargetLockedError } from '../core/Lockable';
 import { b2 } from '../geometries/b2';
 import { b3 } from '../geometries/b3';
-import { lock, LockableMixin as Lockable, TargetLockedError } from '../core/Lockable';
 import { notImplemented } from '../i18n/notImplemented';
-import { randomRange } from './randomRange';
 import { stringFromCoordinates } from '../math/stringFromCoordinates';
+import { applyMixins } from '../utils/applyMixins';
+import { approx } from './approx';
+import { randomRange } from './randomRange';
 var sqrt = Math.sqrt;
 var COORD_X = 0;
 var COORD_Y = 1;
@@ -16,7 +16,7 @@ function coordinates(m) {
     return [m.x, m.y];
 }
 /**
- *
+ * @hidden
  */
 var Vector2 = /** @class */ (function () {
     /**

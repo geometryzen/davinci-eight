@@ -3,7 +3,8 @@ import { Prism } from '../facets/Prism';
 import { R3 } from '../math/R3';
 import { VectorE3 } from '../math/VectorE3';
 /**
- *
+ * A wrapper around the HTML canvas element that projects from 3D onto the canvas.
+ * This utility conveniently integrates with the `PerspectiveCamera` to provide an overlay for WebGL.
  */
 export declare class Diagram3D {
     /**
@@ -17,9 +18,15 @@ export declare class Diagram3D {
     /**
      *
      */
-    ctx: CanvasRenderingContext2D;
+    readonly ctx: CanvasRenderingContext2D;
     /**
      *
+     */
+    /**
+     *
+     * @param canvas The canvas elementId or the HTML canvas element.
+     * @param camera Provides the camera (eye, look, and up) parameters.
+     * @param prism Provides the viewport (near, far, fov, and aspect) parameters.
      */
     constructor(canvas: string | HTMLCanvasElement, camera: Camera, prism: Prism);
     get canvas(): HTMLCanvasElement;

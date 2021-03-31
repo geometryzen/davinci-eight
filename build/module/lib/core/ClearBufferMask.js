@@ -1,3 +1,6 @@
+/**
+ *
+ */
 export var ClearBufferMask;
 (function (ClearBufferMask) {
     ClearBufferMask[ClearBufferMask["DEPTH_BUFFER_BIT"] = 256] = "DEPTH_BUFFER_BIT";

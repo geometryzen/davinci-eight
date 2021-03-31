@@ -28,7 +28,7 @@ function pointsForGrid(uSegments, uClosed, vSegments, vClosed) {
     return elements;
 }
 /**
- *
+ * @hidden
  */
 var GridPoints = /** @class */ (function (_super) {
     __extends(GridPoints, _super);

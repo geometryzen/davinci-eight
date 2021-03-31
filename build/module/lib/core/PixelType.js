@@ -1,3 +1,6 @@
+/**
+ *
+ */
 export var PixelType;
 (function (PixelType) {
     PixelType[PixelType["UNSIGNED_BYTE"] = 5121] = "UNSIGNED_BYTE";

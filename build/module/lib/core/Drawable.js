@@ -52,7 +52,7 @@ var Drawable = /** @class */ (function (_super) {
         return _this;
     }
     /**
-     *
+     * @hidden
      */
     Drawable.prototype.resurrector = function (levelUp) {
         _super.prototype.resurrector.call(this, levelUp + 1);
@@ -62,7 +62,7 @@ var Drawable = /** @class */ (function (_super) {
         }
     };
     /**
-     *
+     * @hidden
      */
     Drawable.prototype.destructor = function (levelUp) {
         this.facetMap.release();
@@ -254,6 +254,7 @@ var Drawable = /** @class */ (function (_super) {
     Object.defineProperty(Drawable.prototype, "geometry", {
         /**
          * Provides a reference counted reference to the geometry property.
+         * Getting the geometry property will cause the
          */
         get: function () {
             return exchange(void 0, this._geometry);

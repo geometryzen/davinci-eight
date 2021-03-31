@@ -1,23 +1,23 @@
+import { isDefined } from '../checks/isDefined';
+import { mustBeNumber } from '../checks/mustBeNumber';
 import { Color } from '../core/Color';
 import { ContextManager } from '../core/ContextManager';
-import { CylinderGeometry } from '../geometries/CylinderGeometry';
-import { CylinderGeometryOptions } from '../geometries/CylinderGeometryOptions';
-import { CylinderOptions } from './CylinderOptions';
-import { ds } from './Defaults';
 import { Geometry } from '../core/Geometry';
-import { geometryModeFromOptions } from './geometryModeFromOptions';
-import { isDefined } from '../checks/isDefined';
 import { Material } from '../core/Material';
-import { materialFromOptions } from './materialFromOptions';
 import { Mesh } from '../core/Mesh';
-import { mustBeNumber } from '../checks/mustBeNumber';
-import { offsetFromOptions } from './offsetFromOptions';
 import { referenceAxis } from '../core/referenceAxis';
 import { referenceMeridian } from '../core/referenceMeridian';
+import { CylinderGeometry } from '../geometries/CylinderGeometry';
+import { CylinderGeometryOptions } from '../geometries/CylinderGeometryOptions';
+import { SimplexMode } from '../geometries/SimplexMode';
+import { CylinderOptions } from './CylinderOptions';
+import { ds } from './Defaults';
+import { geometryModeFromOptions } from './geometryModeFromOptions';
+import { materialFromOptions } from './materialFromOptions';
+import { offsetFromOptions } from './offsetFromOptions';
 import { setAxisAndMeridian } from './setAxisAndMeridian';
 import { setColorOption } from './setColorOption';
 import { setDeprecatedOptions } from './setDeprecatedOptions';
-import { SimplexMode } from '../geometries/SimplexMode';
 import { simplexModeFromOptions } from './simplexModeFromOptions';
 import { spinorE3Object } from './spinorE3Object';
 import { vectorE3Object } from './vectorE3Object';
@@ -27,7 +27,9 @@ import { vectorE3Object } from './vectorE3Object';
  */
 export class Cylinder extends Mesh<Geometry, Material> {
     /**
-     * 
+     * @param contextManager This will usually be provided by the `Engine`.
+     * @param options 
+     * @param levelUp Leave as zero unless you are extending this class. 
      */
     constructor(contextManager: ContextManager, options: CylinderOptions = {}, levelUp = 0) {
         super(void 0, void 0, contextManager, { axis: referenceAxis(options, ds.axis).direction(), meridian: referenceMeridian(options, ds.meridian).direction() }, levelUp + 1);
@@ -48,17 +50,9 @@ export class Cylinder extends Mesh<Geometry, Material> {
         geoOptions.heightSegments = options.heightSegments;
         geoOptions.thetaSegments = options.thetaSegments;
 
-        const cachedGeometry = contextManager.getCacheGeometry(geoOptions);
-        if (cachedGeometry && cachedGeometry instanceof CylinderGeometry) {
-            this.geometry = cachedGeometry;
-            cachedGeometry.release();
-        }
-        else {
-            const geometry = new CylinderGeometry(contextManager, geoOptions);
-            this.geometry = geometry;
-            geometry.release();
-            contextManager.putCacheGeometry(geoOptions, geometry);
-        }
+        const geometry = new CylinderGeometry(contextManager, geoOptions);
+        this.geometry = geometry;
+        geometry.release();
 
         const material = materialFromOptions(contextManager, simplexModeFromOptions(options, SimplexMode.TRIANGLE), options);
         this.material = material;
@@ -80,7 +74,7 @@ export class Cylinder extends Mesh<Geometry, Material> {
     }
 
     /**
-     * 
+     * @hidden
      */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {

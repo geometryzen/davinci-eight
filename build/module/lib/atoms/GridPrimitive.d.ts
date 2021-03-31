@@ -7,6 +7,7 @@ import { VertexPrimitive } from './VertexPrimitive';
  * The vertices generated have coordinates (u, v) and the traversal creates
  * counter-clockwise orientation when increasing u is the first direction and
  * increasing v the second direction.
+ * @hidden
  */
 export declare class GridPrimitive extends VertexPrimitive {
     private _uSegments;

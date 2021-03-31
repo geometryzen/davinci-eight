@@ -1,18 +1,18 @@
 import { __extends } from "tslib";
+import { GridTriangleStrip } from '../atoms/GridTriangleStrip';
+import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
+import { Vector3 } from '../math/Vector3';
 import { Approximation } from '../transforms/Approximation';
+import { ConeTransform } from '../transforms/ConeTransform';
+import { CoordsTransform2D } from '../transforms/CoordsTransform2D';
 import { Direction } from '../transforms/Direction';
 import { Duality } from '../transforms/Duality';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { GridTriangleStrip } from '../atoms/GridTriangleStrip';
-import { AxialShapeBuilder } from './AxialShapeBuilder';
-import { ConeTransform } from '../transforms/ConeTransform';
 import { Rotation } from '../transforms/Rotation';
 import { Scaling } from '../transforms/Scaling';
 import { Translation } from '../transforms/Translation';
-import { CoordsTransform2D } from '../transforms/CoordsTransform2D';
-import { Vector3 } from '../math/Vector3';
+import { AxialShapeBuilder } from './AxialShapeBuilder';
 /**
- *
+ * @hidden
  */
 var ConicalShellBuilder = /** @class */ (function (_super) {
     __extends(ConicalShellBuilder, _super);

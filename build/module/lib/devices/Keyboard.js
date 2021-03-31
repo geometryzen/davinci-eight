@@ -18,6 +18,9 @@ function makeKeyUpHandler(keyboard, handler) {
         handler.keyUp(event);
     };
 }
+/**
+ * @hidden
+ */
 var Keyboard = /** @class */ (function (_super) {
     __extends(Keyboard, _super);
     function Keyboard(handler, document) {

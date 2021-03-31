@@ -52,7 +52,7 @@ function hollowCylinderPrimitive(options) {
     return reduce([outerWalls, innerWalls, cap, base]);
 }
 /**
- *
+ * @hidden
  */
 var HollowCylinderGeometry = /** @class */ (function (_super) {
     __extends(HollowCylinderGeometry, _super);

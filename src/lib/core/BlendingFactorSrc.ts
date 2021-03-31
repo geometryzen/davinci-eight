@@ -1,5 +1,5 @@
 /**
- * @hidden
+ *
  */
 export enum BlendingFactorSrc {
     ZERO = 0,

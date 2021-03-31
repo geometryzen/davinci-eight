@@ -53,7 +53,7 @@ export class ShareableContextConsumer extends ShareableBase implements ContextCo
      */
     private subscribe(synchUp: boolean): void {
         if (!this.isSubscribed) {
-            this.contextManager.addContextListener(this);
+            this.contextManager.addContextConsumer(this);
             this.isSubscribed = true;
             if (synchUp) {
                 this.synchUp();
@@ -68,7 +68,7 @@ export class ShareableContextConsumer extends ShareableBase implements ContextCo
      */
     private unsubscribe(cleanUp: boolean): void {
         if (this.isSubscribed) {
-            this.contextManager.removeContextListener(this);
+            this.contextManager.removeContextConsumer(this);
             this.isSubscribed = false;
             if (cleanUp) {
                 this.cleanUp();

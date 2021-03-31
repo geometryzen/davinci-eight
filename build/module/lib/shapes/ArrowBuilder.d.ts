@@ -1,6 +1,6 @@
-import { AxialShapeBuilder } from './AxialShapeBuilder';
 import { Primitive } from '../core/Primitive';
 import { VectorE3 } from '../math/VectorE3';
+import { AxialShapeBuilder } from './AxialShapeBuilder';
 /**
  * <p>
  * This class does not default the initial <b>axis</b>.
@@ -8,6 +8,7 @@ import { VectorE3 } from '../math/VectorE3';
  * <p>
  * This class does not default the <b>cutLine</b>.
  * </p>
+ * @hidden
  */
 export declare class ArrowBuilder extends AxialShapeBuilder {
     heightCone: number;

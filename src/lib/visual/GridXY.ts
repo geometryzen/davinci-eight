@@ -71,7 +71,9 @@ function mapOptions(options: GridXYOptions): GridOptions {
  */
 export class GridXY extends Grid {
     /**
-     * Constructs a GridXY
+     * @param contextManager This will usually be provided by the `Engine`.
+     * @param options 
+     * @param levelUp Leave as zero unless you are extending this class. 
      */
     constructor(contextManager: ContextManager, options: GridXYOptions = {}, levelUp = 0) {
         super(contextManager, mapOptions(options), levelUp + 1);
@@ -82,7 +84,7 @@ export class GridXY extends Grid {
     }
 
     /**
-     * 
+     * @hidden
      */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {

@@ -1,9 +1,9 @@
-import { Geometric3 } from '../math/Geometric3';
-import { Matrix4 } from '../math/Matrix4';
 import { Facet } from '../core/Facet';
 import { FacetVisitor } from '../core/FacetVisitor';
+import { Geometric3 } from '../math/Geometric3';
+import { Matrix4 } from '../math/Matrix4';
 /**
- *
+ * @hidden
  */
 export declare class ViewTransform implements Facet {
     /**

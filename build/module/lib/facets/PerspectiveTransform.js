@@ -1,10 +1,10 @@
-import { GraphicsProgramSymbols as ProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { Matrix4 } from '../math/Matrix4';
 import { mustBeGE } from '../checks/mustBeGE';
 import { mustBeLE } from '../checks/mustBeLE';
 import { mustBeNumber } from '../checks/mustBeNumber';
+import { GraphicsProgramSymbols as ProgramSymbols } from '../core/GraphicsProgramSymbols';
+import { Matrix4 } from '../math/Matrix4';
 /**
- *
+ * @hidden
  */
 var PerspectiveTransform = /** @class */ (function () {
     /**

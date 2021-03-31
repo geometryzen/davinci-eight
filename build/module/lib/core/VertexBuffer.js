@@ -1,9 +1,10 @@
 import { __extends } from "tslib";
-import { BufferObjects } from './BufferObjects';
 import { mustBeUndefined } from '../checks/mustBeUndefined';
+import { BufferObjects } from './BufferObjects';
 import { ShareableContextConsumer } from './ShareableContextConsumer';
 /**
  * A wrapper around a WebGLBuffer with binding to ARRAY_BUFFER.
+ * @hidden
  */
 var VertexBuffer = /** @class */ (function (_super) {
     __extends(VertexBuffer, _super);

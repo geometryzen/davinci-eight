@@ -1,5 +1,5 @@
 /**
- * @hidden
+ *
  */
 export enum TextureUnit {
     TEXTURE0 = 0x84C0,

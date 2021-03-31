@@ -5,6 +5,7 @@ import { Vertex } from './Vertex';
  * The vertices generated have coordinates (u, v) and the traversal creates
  * counter-clockwise orientation when increasing u is the first direction and
  * increasing v the second direction.
+ * @hidden
  */
 export declare class GridTriangleStrip extends GridPrimitive {
     /**

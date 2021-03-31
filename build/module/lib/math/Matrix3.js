@@ -40,6 +40,7 @@ function add3x3(a, b, c) {
  * <tr><td>2</td><td>5</td><td>8</td></tr>
  * </table>
  * </p>
+ * @hidden
  */
 var Matrix3 = /** @class */ (function (_super) {
     __extends(Matrix3, _super);

@@ -39,6 +39,7 @@ var X = Vector3.zero();
  * A rotor may be calculated that rotates the camera from its old reference frame to the
  * new reference frame. This rotor may also be interpolated for animations.
  * </p>
+ * @hidden
  */
 var OrbitControls = /** @class */ (function (_super) {
     __extends(OrbitControls, _super);

@@ -27,7 +27,9 @@ var RADIUS_NAME = 'radius';
 var Sphere = /** @class */ (function (_super) {
     __extends(Sphere, _super);
     /**
-     *
+     * @param contextManager This will usually be provided by the `Engine`.
+     * @param options
+     * @param levelUp Leave as zero unless you are extending this class.
      */
     function Sphere(contextManager, options, levelUp) {
         if (options === void 0) { options = {}; }
@@ -48,17 +50,9 @@ var Sphere = /** @class */ (function (_super) {
         geoOptions.stress = void 0;
         geoOptions.tilt = spinorE3Object(options.tilt);
         geoOptions.offset = offsetFromOptions(options);
-        var cachedGeometry = contextManager.getCacheGeometry(geoOptions);
-        if (cachedGeometry && cachedGeometry instanceof SphereGeometry) {
-            _this.geometry = cachedGeometry;
-            cachedGeometry.release();
-        }
-        else {
-            var geometry = new SphereGeometry(contextManager, geoOptions);
-            _this.geometry = geometry;
-            geometry.release();
-            contextManager.putCacheGeometry(geoOptions, geometry);
-        }
+        var geometry = new SphereGeometry(contextManager, geoOptions);
+        _this.geometry = geometry;
+        geometry.release();
         var material = materialFromOptions(contextManager, simplexModeFromOptions(options, SimplexMode.TRIANGLE), options);
         _this.material = material;
         material.release();
@@ -72,7 +66,7 @@ var Sphere = /** @class */ (function (_super) {
         return _this;
     }
     /**
-     *
+     * @hidden
      */
     Sphere.prototype.destructor = function (levelUp) {
         if (levelUp === 0) {

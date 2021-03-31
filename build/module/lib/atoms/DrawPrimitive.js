@@ -7,6 +7,7 @@ import { mustBeObject } from '../checks/mustBeObject';
 var context = function () { return "DrawPrimitive constructor"; };
 /**
  * A convenience class for implementing the Primitive interface.
+ * @hidden
  */
 var DrawPrimitive = /** @class */ (function () {
     function DrawPrimitive(mode, indices, attributes) {

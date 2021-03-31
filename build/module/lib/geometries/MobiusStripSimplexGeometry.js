@@ -33,6 +33,9 @@ function mobius(u, v) {
     point.z = s * sin(t / 2);
     return point;
 }
+/**
+ * @hidden
+ */
 var MobiusStripSimplexGeometry = /** @class */ (function (_super) {
     __extends(MobiusStripSimplexGeometry, _super);
     function MobiusStripSimplexGeometry(uSegments, vSegments) {

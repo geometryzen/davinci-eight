@@ -8,11 +8,13 @@ import { GridOptions } from './GridOptions';
  */
 export declare class Grid extends Mesh<Geometry, Material> {
     /**
-     * Constructs a Grid.
+     * @param contextManager This will usually be provided by the `Engine`.
+     * @param options
+     * @param levelUp Leave as zero unless you are extending this class.
      */
-    constructor(engine: ContextManager, options?: GridOptions, levelUp?: number);
+    constructor(contextManager: ContextManager, options?: GridOptions, levelUp?: number);
     /**
-     *
+     * @hidden
      */
     protected destructor(levelUp: number): void;
 }

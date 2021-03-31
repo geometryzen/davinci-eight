@@ -1,4 +1,7 @@
 import { SliceSimplexPrimitivesBuilder } from '../geometries/SliceSimplexPrimitivesBuilder';
+/**
+ * @hidden
+ */
 export declare class RingSimplexGeometry extends SliceSimplexPrimitivesBuilder {
     a: number;
     b: number;

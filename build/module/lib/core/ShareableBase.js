@@ -31,7 +31,7 @@ import { uuid4 } from './uuid4';
  *         super.destructor(levelUp + 1)
  *       }
  *     }
- *
+ *  @hidden
  */
 var ShareableBase = /** @class */ (function () {
     /**
@@ -48,6 +48,7 @@ var ShareableBase = /** @class */ (function () {
         refChange(this._uuid, this._type, +1);
     }
     /**
+     * @hidden
      * Experimental
      *
      * restore (a zombie) to life.
@@ -62,6 +63,7 @@ var ShareableBase = /** @class */ (function () {
         refChange(this._uuid, this._type, +1);
     };
     /**
+     * @hidden
      * <p>
      * Outputs a warning to the console that this method should be implemented by the derived class.
      * </p>

@@ -1,5 +1,8 @@
-import { View } from './View';
 import { VectorE3 } from '../math/VectorE3';
+import { View } from './View';
+/**
+ * @hidden
+ */
 export interface Frustum extends View {
     left: number;
     right: number;

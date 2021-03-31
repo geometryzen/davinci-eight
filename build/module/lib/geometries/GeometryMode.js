@@ -1,5 +1,6 @@
 /**
  * Determines how a Geometry will be rendered.
+ * @hidden
  */
 export var GeometryMode;
 (function (GeometryMode) {

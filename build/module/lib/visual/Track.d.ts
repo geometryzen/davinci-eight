@@ -6,7 +6,7 @@ import { LineMaterial } from '../materials/LineMaterial';
 import { Matrix4 } from '../math/Matrix4';
 import { VectorE3 } from '../math/VectorE3';
 /**
- *
+ * @hidden
  */
 export declare class TrackGeometry implements Geometry {
     private contextManager;
@@ -36,6 +36,9 @@ export declare class TrackGeometry implements Geometry {
      */
     erase(): void;
 }
+/**
+ * @hidden
+ */
 export interface TrackOptions {
     color?: {
         r: 0;
@@ -47,9 +50,14 @@ export interface TrackOptions {
  *
  */
 export declare class Track extends Mesh<TrackGeometry, LineMaterial> {
+    /**
+     * @param contextManager This will usually be provided by the `Engine`.
+     * @param options
+     * @param levelUp Leave as zero unless you are extending this class.
+     */
     constructor(contextManager: ContextManager, options?: TrackOptions, levelUp?: number);
     /**
-     *
+     * @hidden
      */
     protected destructor(levelUp: number): void;
     /**

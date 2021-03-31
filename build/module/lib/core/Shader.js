@@ -1,11 +1,11 @@
 import { __extends } from "tslib";
-import { makeWebGLShader } from './makeWebGLShader';
 import { mustBeNumber } from '../checks/mustBeNumber';
 import { mustBeString } from '../checks/mustBeString';
 import { mustBeUndefined } from '../checks/mustBeUndefined';
+import { makeWebGLShader } from './makeWebGLShader';
 import { ShareableContextConsumer } from './ShareableContextConsumer';
 /**
- *
+ * @hidden
  */
 var Shader = /** @class */ (function (_super) {
     __extends(Shader, _super);

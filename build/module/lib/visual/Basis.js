@@ -103,7 +103,9 @@ var fragmentShaderSrc = function () {
 var Basis = /** @class */ (function (_super) {
     __extends(Basis, _super);
     /**
-     *
+     * @param contextManager This will usually be provided by the `Engine`.
+     * @param options
+     * @param levelUp Leave as zero unless you are extending this class.
      */
     function Basis(contextManager, options, levelUp) {
         if (options === void 0) { options = {}; }
@@ -148,6 +150,9 @@ var Basis = /** @class */ (function (_super) {
         }
         return _this;
     }
+    /**
+     * @hidden
+     */
     Basis.prototype.destructor = function (levelUp) {
         if (levelUp === 0) {
             this.cleanUp();

@@ -22,7 +22,7 @@ export declare class TargetUnlockedError extends Error {
     constructor(operationName: string);
 }
 /**
- * @hidden
+ *
  */
 export interface Lockable {
     /**

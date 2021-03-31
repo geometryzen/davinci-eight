@@ -1,6 +1,9 @@
-import { SpinorE3 } from '../math/SpinorE3';
-import { Vertex } from '../atoms/Vertex';
 import { Transform } from '../atoms/Transform';
+import { Vertex } from '../atoms/Vertex';
+import { SpinorE3 } from '../math/SpinorE3';
+/**
+ * @hidden
+ */
 export declare class Rotation implements Transform {
     private R;
     private names;

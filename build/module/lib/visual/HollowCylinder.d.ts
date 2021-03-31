@@ -8,11 +8,13 @@ import { HollowCylinderOptions } from './HollowCylinderOptions';
  */
 export declare class HollowCylinder extends Mesh<Geometry, Material> {
     /**
-     * Constructs a HollowCylinder.
+     * @param contextManager This will usually be provided by the `Engine`.
+     * @param options
+     * @param levelUp Leave as zero unless you are extending this class.
      */
     constructor(contextManager: ContextManager, options?: HollowCylinderOptions, levelUp?: number);
     /**
-     *
+     * @hidden
      */
     protected destructor(levelUp: number): void;
     /**

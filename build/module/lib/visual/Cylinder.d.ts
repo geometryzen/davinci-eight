@@ -1,18 +1,20 @@
 import { ContextManager } from '../core/ContextManager';
-import { CylinderOptions } from './CylinderOptions';
 import { Geometry } from '../core/Geometry';
 import { Material } from '../core/Material';
 import { Mesh } from '../core/Mesh';
+import { CylinderOptions } from './CylinderOptions';
 /**
  * A 3D visual representation of a cylinder.
  */
 export declare class Cylinder extends Mesh<Geometry, Material> {
     /**
-     *
+     * @param contextManager This will usually be provided by the `Engine`.
+     * @param options
+     * @param levelUp Leave as zero unless you are extending this class.
      */
     constructor(contextManager: ContextManager, options?: CylinderOptions, levelUp?: number);
     /**
-     *
+     * @hidden
      */
     protected destructor(levelUp: number): void;
     /**

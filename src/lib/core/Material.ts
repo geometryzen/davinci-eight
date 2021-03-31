@@ -7,8 +7,7 @@ import { Uniform } from './Uniform';
 import { VertexBuffer } from './VertexBuffer';
 
 /**
- * Material is an object-oriented wrapper around a WebGLProgram
- * @hidden
+ * Material is an object-oriented wrapper around a WebGLProgram.
  */
 export interface Material extends FacetVisitor, ContextConsumer {
     /**

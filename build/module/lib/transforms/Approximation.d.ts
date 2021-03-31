@@ -1,7 +1,8 @@
-import { Vertex } from '../atoms/Vertex';
 import { Transform } from '../atoms/Transform';
+import { Vertex } from '../atoms/Vertex';
 /**
  * A `Transform` that calls the `approx` method on a `Vertex` attribute.
+ * @hidden
  */
 export declare class Approximation implements Transform {
     /**

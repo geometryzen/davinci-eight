@@ -203,23 +203,9 @@ function transferGeometryOptions(source: GridOptions, target: GridGeometryOption
  * @hidden
  */
 function configGeometry(engine: ContextManager, geoOptions: GridGeometryOptions, grid: Grid): void {
-    // Don't use the Geometry cache until we can better differentiate the options.
     const geometry = new GridGeometry(engine, geoOptions);
     grid.geometry = geometry;
     geometry.release();
-    /*
-    const cachedGeometry = engine.getCacheGeometry(geoOptions);
-    if (cachedGeometry && cachedGeometry instanceof GridGeometry) {
-        grid.geometry = cachedGeometry;
-        cachedGeometry.release();
-    }
-    else {
-        const geometry = new GridGeometry(engine, geoOptions);
-        grid.geometry = geometry;
-        geometry.release();
-        engine.putCacheGeometry(geoOptions, geometry);
-    }
-    */
 }
 
 /**
@@ -256,17 +242,9 @@ function configPoints(engine: ContextManager, options: GridOptions, grid: Grid) 
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_POINT_SIZE] = 'float';
 
-    const cachedMaterial = engine.getCacheMaterial(matOptions);
-    if (cachedMaterial && cachedMaterial instanceof PointMaterial) {
-        grid.material = cachedMaterial;
-        cachedMaterial.release();
-    }
-    else {
-        const material = new PointMaterial(engine, matOptions);
-        grid.material = material;
-        material.release();
-        engine.putCacheMaterial(matOptions, material);
-    }
+    const material = new PointMaterial(engine, matOptions);
+    grid.material = material;
+    material.release();
 }
 
 /**
@@ -308,17 +286,9 @@ function configLines(engine: ContextManager, options: GridOptions, grid: Grid) {
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4';
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
 
-    const cachedMaterial = engine.getCacheMaterial(matOptions);
-    if (cachedMaterial && cachedMaterial instanceof LineMaterial) {
-        grid.material = cachedMaterial;
-        cachedMaterial.release();
-    }
-    else {
-        const material = new LineMaterial(engine, matOptions);
-        grid.material = material;
-        material.release();
-        engine.putCacheMaterial(matOptions, material);
-    }
+    const material = new LineMaterial(engine, matOptions);
+    grid.material = material;
+    material.release();
 }
 
 /**
@@ -379,17 +349,9 @@ function configMesh(engine: ContextManager, options: GridOptions, grid: Grid) {
 
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT] = 'vec3';
 
-    const cachedMaterial = engine.getCacheMaterial(matOptions);
-    if (cachedMaterial && cachedMaterial instanceof MeshMaterial) {
-        grid.material = cachedMaterial;
-        cachedMaterial.release();
-    }
-    else {
-        const material = new MeshMaterial(engine, matOptions);
-        grid.material = material;
-        material.release();
-        engine.putCacheMaterial(matOptions, material);
-    }
+    const material = new MeshMaterial(engine, matOptions);
+    grid.material = material;
+    material.release();
 }
 
 /**
@@ -397,25 +359,27 @@ function configMesh(engine: ContextManager, options: GridOptions, grid: Grid) {
  */
 export class Grid extends Mesh<Geometry, Material> {
     /**
-     * Constructs a Grid.
+     * @param contextManager This will usually be provided by the `Engine`.
+     * @param options 
+     * @param levelUp Leave as zero unless you are extending this class. 
      */
-    constructor(engine: ContextManager, options: GridOptions = {}, levelUp = 0) {
-        super(void 0, void 0, engine, {}, levelUp + 1);
+    constructor(contextManager: ContextManager, options: GridOptions = {}, levelUp = 0) {
+        super(void 0, void 0, contextManager, {}, levelUp + 1);
         this.setLoggingName('Grid');
         expectOptions(OPTION_NAMES, Object.keys(options));
 
         const mode = geometryModeFromOptions(options, GeometryMode.WIRE);
         switch (mode) {
             case GeometryMode.POINT: {
-                configPoints(engine, options, this);
+                configPoints(contextManager, options, this);
                 break;
             }
             case GeometryMode.WIRE: {
-                configLines(engine, options, this);
+                configLines(contextManager, options, this);
                 break;
             }
             case GeometryMode.MESH: {
-                configMesh(engine, options, this);
+                configMesh(contextManager, options, this);
                 break;
             }
             default: {
@@ -433,7 +397,7 @@ export class Grid extends Mesh<Geometry, Material> {
     }
 
     /**
-     * 
+     * @hidden
      */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {

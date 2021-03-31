@@ -3,6 +3,7 @@ import { GeometryElements } from '../core/GeometryElements';
 import { curvePrimitive } from './curvePrimitive';
 /**
  * A Geometry for representing functions of one scalar parameter.
+ * @hidden
  */
 var CurveGeometry = /** @class */ (function (_super) {
     __extends(CurveGeometry, _super);

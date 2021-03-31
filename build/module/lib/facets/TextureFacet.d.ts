@@ -3,6 +3,9 @@ import { FacetVisitor } from '../core/FacetVisitor';
 import { ShareableBase } from '../core/ShareableBase';
 import { Texture } from '../core/Texture';
 import { TextureUnit } from '../core/TextureUnit';
+/**
+ * A `Facet` implementation
+ */
 export declare class TextureFacet extends ShareableBase implements Facet {
     private _texture;
     unit: TextureUnit;

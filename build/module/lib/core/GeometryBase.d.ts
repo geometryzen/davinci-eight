@@ -4,6 +4,7 @@ import { Material } from './Material';
 import { ShareableContextConsumer } from './ShareableContextConsumer';
 /**
  * GeometryBase
+ * @hidden
  */
 export declare class GeometryBase extends ShareableContextConsumer implements Geometry {
     /**
@@ -11,11 +12,11 @@ export declare class GeometryBase extends ShareableContextConsumer implements Ge
      */
     constructor(contextManager: ContextManager, levelUp: number);
     /**
-     *
+     * @hidden
      */
     protected resurrector(levelUp: number): void;
     /**
-     *
+     * @hidden
      */
     protected destructor(levelUp: number): void;
     /**

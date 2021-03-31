@@ -1,6 +1,6 @@
 import { VectorN } from './VectorN';
 /**
- *
+ * @hidden
  */
 export declare class Coords extends VectorN<number> {
     /**

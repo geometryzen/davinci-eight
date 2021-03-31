@@ -1,7 +1,8 @@
-import { Vertex } from '../atoms/Vertex';
 import { Transform } from '../atoms/Transform';
+import { Vertex } from '../atoms/Vertex';
 /**
  * Applies coordinates to a line.
+ * @hidden
  */
 export declare class CoordsTransform1D implements Transform {
     flipU: boolean;

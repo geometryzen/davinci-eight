@@ -2,7 +2,7 @@ import { Transform } from '../atoms/Transform';
 import { Vertex } from '../atoms/Vertex';
 import { Vector3 } from '../math/Vector3';
 /**
- *
+ * @hidden
  */
 export declare class ConeTransform implements Transform {
     /**

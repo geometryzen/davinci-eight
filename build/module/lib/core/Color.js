@@ -1,11 +1,11 @@
 import { __extends } from "tslib";
-import { clamp } from '../math/clamp';
-import { Coords } from '../math/Coords';
 import { isDefined } from '../checks/isDefined';
-import { lock, TargetLockedError } from '../core/Lockable';
 import { mustBeGE } from '../checks/mustBeGE';
 import { mustBeLE } from '../checks/mustBeLE';
 import { mustBeNumber } from '../checks/mustBeNumber';
+import { lock, TargetLockedError } from '../core/Lockable';
+import { clamp } from '../math/clamp';
+import { Coords } from '../math/Coords';
 import { principalAngle } from './principalAngle';
 /**
  * @hidden
@@ -44,6 +44,7 @@ var Color = /** @class */ (function (_super) {
     Object.defineProperty(Color.prototype, "r", {
         /**
          * The red coordinate (component) of this color.
+         * The value is clamped to the range [0,1].
          */
         get: function () {
             return this.coords[COORD_R];
@@ -73,6 +74,7 @@ var Color = /** @class */ (function (_super) {
     Object.defineProperty(Color.prototype, "g", {
         /**
          * The green coordinate (component) of this color.
+         * The value is clamped to the range [0,1].
          */
         get: function () {
             return this.coords[COORD_G];
@@ -102,6 +104,7 @@ var Color = /** @class */ (function (_super) {
     Object.defineProperty(Color.prototype, "b", {
         /**
          * The blue coordinate (component) of this color.
+         * The value is clamped to the range [0,1].
          */
         get: function () {
             return this.coords[COORD_B];

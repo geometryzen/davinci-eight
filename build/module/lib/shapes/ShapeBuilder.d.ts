@@ -1,7 +1,10 @@
+import { Transform } from '../atoms/Transform';
+import { Vertex } from '../atoms/Vertex';
 import { Geometric3 } from '../math/Geometric3';
 import { Vector3 } from '../math/Vector3';
-import { Vertex } from '../atoms/Vertex';
-import { Transform } from '../atoms/Transform';
+/**
+ * @hidden
+ */
 export declare class ShapeBuilder {
     /**
      * The scaling to apply to the geometry in the initial configuration.

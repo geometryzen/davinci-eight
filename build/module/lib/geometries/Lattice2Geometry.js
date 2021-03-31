@@ -1,3 +1,6 @@
+/**
+ * @hidden
+ */
 var Lattice2Geometry = /** @class */ (function () {
     function Lattice2Geometry() {
     }

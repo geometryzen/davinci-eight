@@ -10,6 +10,12 @@ import { TextureWrapMode } from './TextureWrapMode';
 export class Texture extends ShareableContextConsumer {
     private _texture: WebGLTexture;
     protected _target: TextureTarget;
+    /**
+     * 
+     * @param target 
+     * @param contextManager 
+     * @param levelUp 
+     */
     constructor(target: TextureTarget, contextManager: ContextManager, levelUp = 0) {
         super(contextManager);
         this.setLoggingName('Texture');

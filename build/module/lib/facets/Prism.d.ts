@@ -1,3 +1,6 @@
+/**
+ * Defines the conventional (near, far, fov, and aspect) quadruple that define a viewport.
+ */
 export interface Prism {
     /**
      * The distance to the near plane of the viewport.

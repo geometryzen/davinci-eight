@@ -1,5 +1,5 @@
 /**
- *
+ * @hidden
  */
 export var TextureWrapMode;
 (function (TextureWrapMode) {

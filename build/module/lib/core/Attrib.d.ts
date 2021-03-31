@@ -3,6 +3,7 @@ import { ContextProgramConsumer } from '../core/ContextProgramConsumer';
 import { DataType } from '../core/DataType';
 /**
  * An object-oriented representation of an <code>attribute</code> in a GLSL shader program.
+ * @hidden
  */
 export declare class Attrib implements ContextProgramConsumer {
     /**

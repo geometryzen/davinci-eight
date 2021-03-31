@@ -1,5 +1,5 @@
 /**
- *
+ * @hidden
  */
 export declare class TrailConfig {
     /**

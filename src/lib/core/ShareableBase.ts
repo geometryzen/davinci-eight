@@ -63,6 +63,7 @@ export class ShareableBase implements Shareable {
     }
 
     /**
+     * @hidden
      * Experimental
      * 
      * restore (a zombie) to life.
@@ -77,6 +78,7 @@ export class ShareableBase implements Shareable {
     }
 
     /**
+     * @hidden
      * <p>
      * Outputs a warning to the console that this method should be implemented by the derived class.
      * </p>

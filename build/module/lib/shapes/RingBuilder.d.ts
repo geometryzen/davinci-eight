@@ -1,8 +1,9 @@
-import { AxialShapeBuilder } from './AxialShapeBuilder';
 import { Primitive } from '../core/Primitive';
 import { Vector3 } from '../math/Vector3';
+import { AxialShapeBuilder } from './AxialShapeBuilder';
 /**
  * Constructs a one-sided ring using a TRIANGLE_STRIP.
+ * @hidden
  */
 export declare class RingBuilder extends AxialShapeBuilder {
     /**

@@ -54,11 +54,14 @@ var TrackballControls = /** @class */ (function (_super) {
         _this.setLoggingName('TrackballControls');
         return _this;
     }
+    /**
+     * @hidden
+     */
     TrackballControls.prototype.destructor = function (levelUp) {
         _super.prototype.destructor.call(this, levelUp + 1);
     };
     /**
-     *
+     * @hidden
      */
     TrackballControls.prototype.rotateCamera = function () {
         if (this.hasView()) {
@@ -93,7 +96,7 @@ var TrackballControls = /** @class */ (function (_super) {
         }
     };
     /**
-     *
+     * @hidden
      */
     TrackballControls.prototype.panCamera = function () {
         if (this.hasView()) {

@@ -1,5 +1,5 @@
 /**
- *
+ * @hidden
  */
 var TrailConfig = /** @class */ (function () {
     function TrailConfig() {

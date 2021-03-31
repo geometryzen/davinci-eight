@@ -2,6 +2,9 @@ import { mustBeNumber } from '../checks/mustBeNumber';
 import { mustBeString } from '../checks/mustBeString';
 import { Spinor3 } from '../math/Spinor3';
 import { Vector3 } from '../math/Vector3';
+/**
+ * @hidden
+ */
 var RingTransform = /** @class */ (function () {
     /**
      * @param e The axis normal to the plane of the ring.

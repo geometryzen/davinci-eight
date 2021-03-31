@@ -70,6 +70,11 @@ function mapOptions(options: GridZXOptions): GridOptions {
  * A #d visual representation of a grid in the zx plane.
  */
 export class GridZX extends Grid {
+    /**
+     * @param contextManager This will usually be provided by the `Engine`.
+     * @param options 
+     * @param levelUp Leave as zero unless you are extending this class. 
+     */
     constructor(contextManager: ContextManager, options: GridZXOptions = {}, levelUp = 0) {
         super(contextManager, mapOptions(options), levelUp + 1);
         this.setLoggingName('GridZX');
@@ -77,6 +82,10 @@ export class GridZX extends Grid {
             this.synchUp();
         }
     }
+
+    /**
+     * @hidden
+     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp();

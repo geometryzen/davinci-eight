@@ -16,9 +16,14 @@ export declare class Basis extends Mesh<Geometry, Material> {
     private uColorB;
     private uColorC;
     /**
-     *
+     * @param contextManager This will usually be provided by the `Engine`.
+     * @param options
+     * @param levelUp Leave as zero unless you are extending this class.
      */
     constructor(contextManager: ContextManager, options?: BasisOptions, levelUp?: number);
+    /**
+     * @hidden
+     */
     protected destructor(levelUp: number): void;
     get a(): Vector3;
     get b(): Vector3;

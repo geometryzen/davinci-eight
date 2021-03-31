@@ -1,4 +1,7 @@
 import { VectorE3 } from '../math/VectorE3';
+/**
+ * Defines the conventional (eye, look, up) triple.
+ */
 export interface Camera {
     /**
      * The position of the camera, a position vector.

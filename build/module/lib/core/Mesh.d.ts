@@ -49,7 +49,7 @@ export declare class Mesh<G extends Geometry, M extends Material> extends Drawab
      */
     constructor(geometry: G, material: M, contextManager: ContextManager, options?: MeshOptions, levelUp?: number);
     /**
-     *
+     * @hidden
      */
     protected destructor(levelUp: number): void;
     /**
@@ -87,22 +87,39 @@ export declare class Mesh<G extends Geometry, M extends Material> extends Drawab
      */
     private get stress();
     private set stress(value);
+    /**
+     * @param i The row index (zero-based).
+     * @param j The column index (zero-based).
+     * @returns The ij th element of the stress matrix (possibly Kinv * stress * K).
+     */
     private getScale;
+    /**
+     * @hidden
+     */
     protected getScaleX(): number;
+    /**
+     * @hidden
+     */
     protected getScaleY(): number;
+    /**
+     * @hidden
+     */
     protected getScaleZ(): number;
     /**
      * Implementations of setPrincipalScale are expected to call this method.
+     * @hidden
      */
     protected setScale(x: number, y: number, z: number): void;
     /**
      * Implementation of the axis (get) property.
      * Derived classes may overide to perform scaling.
+     * @hidden
      */
     protected getAxis(): Readonly<R3>;
     /**
      * Implementation of the axis (set) property.
      * Derived classes may overide to perform scaling.
+     * @hidden
      */
     protected setAxis(axis: VectorE3): void;
     /**
@@ -110,6 +127,9 @@ export declare class Mesh<G extends Geometry, M extends Material> extends Drawab
      */
     get axis(): VectorE3;
     set axis(axis: VectorE3);
+    /**
+     * @hidden
+     */
     protected getMeridian(): Readonly<R3>;
     /**
      * The current meridian (unit vector) of the mesh.

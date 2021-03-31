@@ -4,6 +4,7 @@ import { notSupported } from '../i18n/notSupported';
 import { ShareableContextConsumer } from './ShareableContextConsumer';
 /**
  * GeometryBase
+ * @hidden
  */
 var GeometryBase = /** @class */ (function (_super) {
     __extends(GeometryBase, _super);
@@ -19,7 +20,7 @@ var GeometryBase = /** @class */ (function (_super) {
         return _this;
     }
     /**
-     *
+     * @hidden
      */
     GeometryBase.prototype.resurrector = function (levelUp) {
         _super.prototype.resurrector.call(this, levelUp + 1);
@@ -29,7 +30,7 @@ var GeometryBase = /** @class */ (function (_super) {
         }
     };
     /**
-     *
+     * @hidden
      */
     GeometryBase.prototype.destructor = function (levelUp) {
         if (levelUp === 0) {

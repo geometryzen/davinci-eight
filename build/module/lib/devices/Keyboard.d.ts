@@ -1,5 +1,8 @@
 import { ShareableBase } from '../core/ShareableBase';
 import { IKeyboardHandler } from '../devices/IKeyboardHandler';
+/**
+ * @hidden
+ */
 export declare class Keyboard extends ShareableBase {
     private handler;
     private document;

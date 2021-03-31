@@ -195,7 +195,7 @@ function duckCopy(value: any): Geometric2 {
 }
 
 /**
- * 
+ * @hidden
  */
 export class Geometric2 implements GeometricE2, LockableMixin, VectorN<number> {
     // Lockable

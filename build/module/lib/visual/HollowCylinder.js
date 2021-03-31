@@ -21,7 +21,9 @@ import { vectorE3Object } from './vectorE3Object';
 var HollowCylinder = /** @class */ (function (_super) {
     __extends(HollowCylinder, _super);
     /**
-     * Constructs a HollowCylinder.
+     * @param contextManager This will usually be provided by the `Engine`.
+     * @param options
+     * @param levelUp Leave as zero unless you are extending this class.
      */
     function HollowCylinder(contextManager, options, levelUp) {
         if (options === void 0) { options = {}; }
@@ -36,17 +38,9 @@ var HollowCylinder = /** @class */ (function (_super) {
         geoOptions.outerRadius = isDefined(options.outerRadius) ? mustBeNumber('outerRadius', options.outerRadius) : ds.radius;
         geoOptions.innerRadius = isDefined(options.innerRadius) ? mustBeNumber('innerRadius', options.innerRadius) : 0.5 * geoOptions.outerRadius;
         geoOptions.sliceAngle = options.sliceAngle;
-        var cachedGeometry = contextManager.getCacheGeometry(geoOptions);
-        if (cachedGeometry && cachedGeometry instanceof HollowCylinderGeometry) {
-            _this.geometry = cachedGeometry;
-            cachedGeometry.release();
-        }
-        else {
-            var geometry = new HollowCylinderGeometry(contextManager, geoOptions);
-            _this.geometry = geometry;
-            geometry.release();
-            contextManager.putCacheGeometry(geoOptions, geometry);
-        }
+        var geometry = new HollowCylinderGeometry(contextManager, geoOptions);
+        _this.geometry = geometry;
+        geometry.release();
         var mmo = { kind: 'MeshMaterial', attributes: {}, uniforms: {} };
         mmo.attributes[GPS.ATTRIBUTE_POSITION] = 3;
         mmo.attributes[GPS.ATTRIBUTE_NORMAL] = 3;
@@ -59,17 +53,9 @@ var HollowCylinder = /** @class */ (function (_super) {
         mmo.uniforms[GPS.UNIFORM_AMBIENT_LIGHT] = 'vec3';
         mmo.uniforms[GPS.UNIFORM_DIRECTIONAL_LIGHT_COLOR] = 'vec3';
         mmo.uniforms[GPS.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION] = 'vec3';
-        var cachedMaterial = contextManager.getCacheMaterial(mmo);
-        if (cachedMaterial && cachedMaterial instanceof MeshMaterial) {
-            _this.material = cachedMaterial;
-            cachedMaterial.release();
-        }
-        else {
-            var material = new MeshMaterial(contextManager, mmo);
-            _this.material = material;
-            material.release();
-            contextManager.putCacheMaterial(mmo, material);
-        }
+        var material = new MeshMaterial(contextManager, mmo);
+        _this.material = material;
+        material.release();
         setAxisAndMeridian(_this, options);
         setColorOption(_this, options, Color.gray);
         setDeprecatedOptions(_this, options);
@@ -82,7 +68,7 @@ var HollowCylinder = /** @class */ (function (_super) {
         return _this;
     }
     /**
-     *
+     * @hidden
      */
     HollowCylinder.prototype.destructor = function (levelUp) {
         if (levelUp === 0) {

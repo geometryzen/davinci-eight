@@ -1,3 +1,6 @@
+/**
+ *
+ */
 export declare enum PixelType {
     UNSIGNED_BYTE = 5121,
     UNSIGNED_SHORT_4_4_4_4 = 32819,

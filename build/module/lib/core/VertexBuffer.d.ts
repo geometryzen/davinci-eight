@@ -3,6 +3,7 @@ import { ShareableContextConsumer } from './ShareableContextConsumer';
 import { Usage } from './Usage';
 /**
  * A wrapper around a WebGLBuffer with binding to ARRAY_BUFFER.
+ * @hidden
  */
 export declare class VertexBuffer extends ShareableContextConsumer {
     private data;

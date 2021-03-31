@@ -4,12 +4,6 @@
 
 [![npm downloads](https://img.shields.io/npm/dm/davinci-eight.svg)](https://npm-stat.com/charts.html?package=davinci-eight&from=2020-06-01) 
 
-<!--
-[![Build Status](https://travis-ci.org/geometryzen/davinci-eight.svg)](https://travis-ci.org/geometryzen/davinci-eight) 
--->
-
-[![devDependency status](https://david-dm.org/geometryzen/davinci-eight/dev-status.svg)](https://david-dm.org/geometryzen/davinci-eight?type=dev)
-
 davinci-eight is a WebGL library for mathematical physics using Geometric Algebra
 
 Example: [__https://www.stemcstudio.com/gists/54644519dcd556bf8bf779bfa084ced3__](https://stemcstudio.com/gists/54644519dcd556bf8bf779bfa084ced3)
@@ -58,5 +52,5 @@ In particular, you may see the word `default` frequently. This is because the EI
 Just click through the `default` links to get past them.
 
 ## License
-Copyright (c) 2014-2020 David Holmes
+Copyright (c) 2014-2021 David Holmes
 Licensed under the MIT license.

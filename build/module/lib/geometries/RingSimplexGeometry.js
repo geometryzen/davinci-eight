@@ -120,6 +120,9 @@ function makeEmpty(vertices, radialSegments, thetaSegments, data) {
         }
     }
 }
+/**
+ * @hidden
+ */
 var RingSimplexGeometry = /** @class */ (function (_super) {
     __extends(RingSimplexGeometry, _super);
     function RingSimplexGeometry(a, b, sliceAngle) {

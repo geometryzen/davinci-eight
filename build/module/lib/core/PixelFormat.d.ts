@@ -1,3 +1,6 @@
+/**
+ *
+ */
 export declare enum PixelFormat {
     DEPTH_COMPONENT = 6402,
     ALPHA = 6406,

@@ -1,14 +1,17 @@
 import { __extends } from "tslib";
 import { mustBeBoolean } from '../checks/mustBeBoolean';
 import { mustBeInteger } from '../checks/mustBeInteger';
+import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { PrimitivesBuilder } from '../geometries/PrimitivesBuilder';
 import { Simplex } from '../geometries/Simplex';
 import { SimplexMode } from '../geometries/SimplexMode';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { simplicesToPrimitive } from '../geometries/simplicesToPrimitive';
 import { simplicesToGeometryMeta } from '../geometries/simplicesToGeometryMeta';
+import { simplicesToPrimitive } from '../geometries/simplicesToPrimitive';
 import { Vector1 } from '../math/Vector1';
 import { Vector3 } from '../math/Vector3';
+/**
+ * @hidden
+ */
 var SimplexPrimitivesBuilder = /** @class */ (function (_super) {
     __extends(SimplexPrimitivesBuilder, _super);
     function SimplexPrimitivesBuilder() {

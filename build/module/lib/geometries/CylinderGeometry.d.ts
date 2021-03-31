@@ -3,6 +3,7 @@ import { GeometryElements } from '../core/GeometryElements';
 import { CylinderGeometryOptions } from './CylinderGeometryOptions';
 /**
  * A geometry for a Cylinder.
+ * @hidden
  */
 export declare class CylinderGeometry extends GeometryElements {
     /**

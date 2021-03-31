@@ -2,7 +2,7 @@ import { __extends } from "tslib";
 import { mustBeNonNullObject } from '../checks/mustBeNonNullObject';
 import { ShareableBase } from './ShareableBase';
 /**
- *
+ * @hidden
  */
 var ShareableContextConsumer = /** @class */ (function (_super) {
     __extends(ShareableContextConsumer, _super);
@@ -50,7 +50,7 @@ var ShareableContextConsumer = /** @class */ (function (_super) {
      */
     ShareableContextConsumer.prototype.subscribe = function (synchUp) {
         if (!this.isSubscribed) {
-            this.contextManager.addContextListener(this);
+            this.contextManager.addContextConsumer(this);
             this.isSubscribed = true;
             if (synchUp) {
                 this.synchUp();
@@ -64,7 +64,7 @@ var ShareableContextConsumer = /** @class */ (function (_super) {
      */
     ShareableContextConsumer.prototype.unsubscribe = function (cleanUp) {
         if (this.isSubscribed) {
-            this.contextManager.removeContextListener(this);
+            this.contextManager.removeContextConsumer(this);
             this.isSubscribed = false;
             if (cleanUp) {
                 this.cleanUp();

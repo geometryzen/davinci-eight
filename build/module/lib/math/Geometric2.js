@@ -179,7 +179,7 @@ function duckCopy(value) {
     }
 }
 /**
- *
+ * @hidden
  */
 var Geometric2 = /** @class */ (function () {
     /**

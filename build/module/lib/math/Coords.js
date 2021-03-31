@@ -1,7 +1,7 @@
 import { __extends } from "tslib";
 import { VectorN } from './VectorN';
 /**
- *
+ * @hidden
  */
 var Coords = /** @class */ (function (_super) {
     __extends(Coords, _super);

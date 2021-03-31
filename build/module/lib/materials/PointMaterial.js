@@ -91,7 +91,7 @@ function getContextId(contextManager) {
     return mustBeNonNullObject('contextManager', contextManager).contextId;
 }
 /**
- *
+ * @hidden
  */
 var PointMaterial = /** @class */ (function (_super) {
     __extends(PointMaterial, _super);

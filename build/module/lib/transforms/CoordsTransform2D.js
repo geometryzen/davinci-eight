@@ -1,8 +1,9 @@
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { mustBeBoolean } from '../checks/mustBeBoolean';
+import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { Vector2 } from '../math/Vector2';
 /**
  * Applies coordinates to a surface.
+ * @hidden
  */
 var CoordsTransform2D = /** @class */ (function () {
     function CoordsTransform2D(flipU, flipV, exchangeUV) {

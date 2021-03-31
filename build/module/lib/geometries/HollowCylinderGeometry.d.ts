@@ -2,7 +2,7 @@ import { ContextManager } from '../core/ContextManager';
 import { GeometryElements } from '../core/GeometryElements';
 import { HollowCylinderGeometryOptions } from './HollowCylinderGeometryOptions';
 /**
- *
+ * @hidden
  */
 export declare class HollowCylinderGeometry extends GeometryElements {
     /**

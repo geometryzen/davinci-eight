@@ -1,15 +1,16 @@
 import { __extends } from "tslib";
 import { mustBeInteger } from '../checks/mustBeInteger';
-import { numPostsForFence } from './numPostsForFence';
-import { numVerticesForGrid } from './numVerticesForGrid';
 import { notSupported } from '../i18n/notSupported';
 import { readOnly } from '../i18n/readOnly';
+import { numPostsForFence } from './numPostsForFence';
+import { numVerticesForGrid } from './numVerticesForGrid';
 import { VertexPrimitive } from './VertexPrimitive';
 /**
  * Used for creating a VertexPrimitive for a surface.
  * The vertices generated have coordinates (u, v) and the traversal creates
  * counter-clockwise orientation when increasing u is the first direction and
  * increasing v the second direction.
+ * @hidden
  */
 var GridPrimitive = /** @class */ (function (_super) {
     __extends(GridPrimitive, _super);

@@ -1,7 +1,7 @@
 import { mustBeInteger } from '../checks/mustBeInteger';
 import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 /**
- *
+ * @hidden
  */
 var PointSizeFacet = /** @class */ (function () {
     /**

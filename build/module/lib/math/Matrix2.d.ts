@@ -1,7 +1,7 @@
 import { AbstractMatrix } from '../math/AbstractMatrix';
 import { VectorE1 } from '../math/VectorE1';
 /**
- *
+ * @hidden
  */
 export declare class Matrix2 extends AbstractMatrix<Matrix2> {
     /**

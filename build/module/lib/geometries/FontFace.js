@@ -1,3 +1,6 @@
+/**
+ * @hidden
+ */
 var FontFace = /** @class */ (function () {
     function FontFace() {
         // Do nothing.

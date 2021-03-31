@@ -2,6 +2,7 @@ import { mustBeObject } from '../checks/mustBeObject';
 import { Vector3 } from '../math/Vector3';
 /**
  * Applies a translation to the specified attributes of a vertex.
+ * @hidden
  */
 var Translation = /** @class */ (function () {
     function Translation(s, names) {

@@ -1,3 +1,6 @@
+/**
+ * @hidden
+ */
 var Glyph = /** @class */ (function () {
     function Glyph() {
         // Do nothing.

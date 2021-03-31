@@ -3,6 +3,7 @@ import { GeometryElements } from '../core/GeometryElements';
 import { tetrahedronPrimitive } from './tetrahedronPrimitive';
 /**
  * A convenience class for creating a tetrahedron geometry.
+ * @hidden
  */
 var TetrahedronGeometry = /** @class */ (function (_super) {
     __extends(TetrahedronGeometry, _super);

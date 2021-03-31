@@ -183,23 +183,9 @@ function transferGeometryOptions(source, target) {
  * @hidden
  */
 function configGeometry(engine, geoOptions, grid) {
-    // Don't use the Geometry cache until we can better differentiate the options.
     var geometry = new GridGeometry(engine, geoOptions);
     grid.geometry = geometry;
     geometry.release();
-    /*
-    const cachedGeometry = engine.getCacheGeometry(geoOptions);
-    if (cachedGeometry && cachedGeometry instanceof GridGeometry) {
-        grid.geometry = cachedGeometry;
-        cachedGeometry.release();
-    }
-    else {
-        const geometry = new GridGeometry(engine, geoOptions);
-        grid.geometry = geometry;
-        geometry.release();
-        engine.putCacheGeometry(geoOptions, geometry);
-    }
-    */
 }
 /**
  * @hidden
@@ -230,17 +216,9 @@ function configPoints(engine, options, grid) {
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4';
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_POINT_SIZE] = 'float';
-    var cachedMaterial = engine.getCacheMaterial(matOptions);
-    if (cachedMaterial && cachedMaterial instanceof PointMaterial) {
-        grid.material = cachedMaterial;
-        cachedMaterial.release();
-    }
-    else {
-        var material = new PointMaterial(engine, matOptions);
-        grid.material = material;
-        material.release();
-        engine.putCacheMaterial(matOptions, material);
-    }
+    var material = new PointMaterial(engine, matOptions);
+    grid.material = material;
+    material.release();
 }
 /**
  * @hidden
@@ -275,17 +253,9 @@ function configLines(engine, options, grid) {
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX] = 'mat4';
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4';
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
-    var cachedMaterial = engine.getCacheMaterial(matOptions);
-    if (cachedMaterial && cachedMaterial instanceof LineMaterial) {
-        grid.material = cachedMaterial;
-        cachedMaterial.release();
-    }
-    else {
-        var material = new LineMaterial(engine, matOptions);
-        grid.material = material;
-        material.release();
-        engine.putCacheMaterial(matOptions, material);
-    }
+    var material = new LineMaterial(engine, matOptions);
+    grid.material = material;
+    material.release();
 }
 /**
  * @hidden
@@ -337,17 +307,9 @@ function configMesh(engine, options, grid) {
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4';
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT] = 'vec3';
-    var cachedMaterial = engine.getCacheMaterial(matOptions);
-    if (cachedMaterial && cachedMaterial instanceof MeshMaterial) {
-        grid.material = cachedMaterial;
-        cachedMaterial.release();
-    }
-    else {
-        var material = new MeshMaterial(engine, matOptions);
-        grid.material = material;
-        material.release();
-        engine.putCacheMaterial(matOptions, material);
-    }
+    var material = new MeshMaterial(engine, matOptions);
+    grid.material = material;
+    material.release();
 }
 /**
  * A 3D visual representation of a a discrete parameterized surface.
@@ -355,26 +317,28 @@ function configMesh(engine, options, grid) {
 var Grid = /** @class */ (function (_super) {
     __extends(Grid, _super);
     /**
-     * Constructs a Grid.
+     * @param contextManager This will usually be provided by the `Engine`.
+     * @param options
+     * @param levelUp Leave as zero unless you are extending this class.
      */
-    function Grid(engine, options, levelUp) {
+    function Grid(contextManager, options, levelUp) {
         if (options === void 0) { options = {}; }
         if (levelUp === void 0) { levelUp = 0; }
-        var _this = _super.call(this, void 0, void 0, engine, {}, levelUp + 1) || this;
+        var _this = _super.call(this, void 0, void 0, contextManager, {}, levelUp + 1) || this;
         _this.setLoggingName('Grid');
         expectOptions(OPTION_NAMES, Object.keys(options));
         var mode = geometryModeFromOptions(options, GeometryMode.WIRE);
         switch (mode) {
             case GeometryMode.POINT: {
-                configPoints(engine, options, _this);
+                configPoints(contextManager, options, _this);
                 break;
             }
             case GeometryMode.WIRE: {
-                configLines(engine, options, _this);
+                configLines(contextManager, options, _this);
                 break;
             }
             case GeometryMode.MESH: {
-                configMesh(engine, options, _this);
+                configMesh(contextManager, options, _this);
                 break;
             }
             default: {
@@ -390,7 +354,7 @@ var Grid = /** @class */ (function (_super) {
         return _this;
     }
     /**
-     *
+     * @hidden
      */
     Grid.prototype.destructor = function (levelUp) {
         if (levelUp === 0) {

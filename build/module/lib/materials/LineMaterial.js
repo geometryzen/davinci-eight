@@ -97,6 +97,7 @@ function getContextId(contextManager) {
  * <td>attribute</td><td>vec3</td><td>aPosition</td>
  * </tr>
  * </table>
+ * @hidden
  */
 var LineMaterial = /** @class */ (function (_super) {
     __extends(LineMaterial, _super);

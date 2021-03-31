@@ -2,6 +2,7 @@ import { mustBeGE } from '../checks/mustBeGE';
 import { mustBeInteger } from '../checks/mustBeInteger';
 /**
  * Modulo Arithmetic (Experimental).
+ * @hidden
  */
 var Modulo = /** @class */ (function () {
     function Modulo() {

@@ -1,5 +1,6 @@
 /**
  * WebGLBuffer usage.
+ * @hidden
  */
 export var Usage;
 (function (Usage) {

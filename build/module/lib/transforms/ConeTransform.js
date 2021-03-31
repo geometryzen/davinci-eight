@@ -12,7 +12,7 @@ function coneNormal(ρ, h, out) {
     out.add(h, ρ2).divByScalar(Math.sqrt(ρ2) * Math.sqrt(1 + ρ2));
 }
 /**
- *
+ * @hidden
  */
 var ConeTransform = /** @class */ (function () {
     /**

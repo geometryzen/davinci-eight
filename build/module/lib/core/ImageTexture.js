@@ -4,6 +4,12 @@ import { PixelFormat } from './PixelFormat';
 import { Texture } from './Texture';
 var ImageTexture = /** @class */ (function (_super) {
     __extends(ImageTexture, _super);
+    /**
+     * @param image
+     * @param target
+     * @param contextManager
+     * @param levelUp
+     */
     function ImageTexture(image, target, contextManager, levelUp) {
         if (levelUp === void 0) { levelUp = 0; }
         var _this = _super.call(this, target, contextManager, levelUp + 1) || this;
@@ -14,6 +20,9 @@ var ImageTexture = /** @class */ (function (_super) {
         }
         return _this;
     }
+    /**
+     * @hidden
+     */
     ImageTexture.prototype.destructor = function (levelUp) {
         if (levelUp === 0) {
             this.cleanUp();

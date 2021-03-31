@@ -1,14 +1,14 @@
 import { __extends } from "tslib";
-import { mustBeGE } from '../checks/mustBeGE';
-import { mustBeLT } from '../checks/mustBeLT';
 import { mustBeBoolean } from '../checks/mustBeBoolean';
+import { mustBeGE } from '../checks/mustBeGE';
 import { mustBeInteger } from '../checks/mustBeInteger';
+import { mustBeLT } from '../checks/mustBeLT';
+import { readOnly } from '../i18n/readOnly';
 import { numPostsForFence } from './numPostsForFence';
 import { numVerticesForCurve } from './numVerticesForCurve';
-import { readOnly } from '../i18n/readOnly';
 import { VertexPrimitive } from './VertexPrimitive';
 /**
- *
+ * @hidden
  */
 var CurvePrimitive = /** @class */ (function (_super) {
     __extends(CurvePrimitive, _super);

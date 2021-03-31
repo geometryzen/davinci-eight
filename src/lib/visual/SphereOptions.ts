@@ -4,7 +4,6 @@ import { VectorE3 } from '../math/VectorE3';
 
 /**
  * The options for creating a Sphere.
- * @hidden
  */
 export interface SphereOptions {
     /**

@@ -1,8 +1,8 @@
 import { __extends } from "tslib";
-import { MouseControls } from './MouseControls';
 import { Vector3 } from '../math/Vector3';
+import { MouseControls } from './MouseControls';
 /**
- *
+ * @hidden
  */
 var ViewControls = /** @class */ (function (_super) {
     __extends(ViewControls, _super);
@@ -56,6 +56,9 @@ var ViewControls = /** @class */ (function (_super) {
         _this.setView(view);
         return _this;
     }
+    /**
+     * @hidden
+     */
     ViewControls.prototype.destructor = function (levelUp) {
         _super.prototype.destructor.call(this, levelUp + 1);
     };

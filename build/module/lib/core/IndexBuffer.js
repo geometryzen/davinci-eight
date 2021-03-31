@@ -1,9 +1,10 @@
 import { __extends } from "tslib";
-import { BufferObjects } from './BufferObjects';
 import { mustBeUndefined } from '../checks/mustBeUndefined';
+import { BufferObjects } from './BufferObjects';
 import { ShareableContextConsumer } from './ShareableContextConsumer';
 /**
  * A wrapper around a WebGLBuffer with binding to ELEMENT_ARRAY_BUFFER.
+ * @hidden
  */
 var IndexBuffer = /** @class */ (function (_super) {
     __extends(IndexBuffer, _super);
@@ -22,7 +23,7 @@ var IndexBuffer = /** @class */ (function (_super) {
         return _this;
     }
     /**
-     *
+     * @hidden
      */
     IndexBuffer.prototype.resurrector = function (levelUp) {
         _super.prototype.resurrector.call(this, levelUp + 1);
@@ -32,7 +33,7 @@ var IndexBuffer = /** @class */ (function (_super) {
         }
     };
     /**
-     *
+     * @hidden
      */
     IndexBuffer.prototype.destructor = function (levelUp) {
         if (levelUp === 0) {

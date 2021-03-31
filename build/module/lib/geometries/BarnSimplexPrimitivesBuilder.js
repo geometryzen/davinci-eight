@@ -6,6 +6,9 @@ import { Simplex } from '../geometries/Simplex';
 import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { triangle } from '../geometries/triangle';
 import { Geometric3 } from '../math/Geometric3';
+/**
+ * @hidden
+ */
 var BarnSimplexPrimitivesBuilder = /** @class */ (function (_super) {
     __extends(BarnSimplexPrimitivesBuilder, _super);
     function BarnSimplexPrimitivesBuilder() {

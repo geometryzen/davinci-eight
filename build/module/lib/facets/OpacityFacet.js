@@ -3,7 +3,7 @@ import { mustBeLE } from '../checks/mustBeLE';
 import { mustBeNumber } from '../checks/mustBeNumber';
 import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 /**
- *
+ * @hidden
  */
 var OpacityFacet = /** @class */ (function () {
     /**

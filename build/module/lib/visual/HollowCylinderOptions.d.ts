@@ -1,5 +1,8 @@
-import { VectorE3 } from '../math/VectorE3';
 import { SpinorE3 } from '../math/SpinorE3';
+import { VectorE3 } from '../math/VectorE3';
+/**
+ *
+ */
 export interface HollowCylinderOptions {
     /**
      * The symmetry axis and the height of the cylinder.

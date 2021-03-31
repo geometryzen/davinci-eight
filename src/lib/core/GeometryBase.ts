@@ -20,8 +20,9 @@ export class GeometryBase extends ShareableContextConsumer implements Geometry {
             this.synchUp();
         }
     }
+
     /**
-     * 
+     * @hidden 
      */
     protected resurrector(levelUp: number): void {
         super.resurrector(levelUp + 1);
@@ -30,8 +31,9 @@ export class GeometryBase extends ShareableContextConsumer implements Geometry {
             this.synchUp();
         }
     }
+
     /**
-     * 
+     * @hidden
      */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
@@ -39,6 +41,7 @@ export class GeometryBase extends ShareableContextConsumer implements Geometry {
         }
         super.destructor(levelUp + 1);
     }
+
     /**
      * 
      */
@@ -46,6 +49,7 @@ export class GeometryBase extends ShareableContextConsumer implements Geometry {
         mustBeDefined('material', material);
         throw new Error(notSupported(`bind(material: Material)`).message);
     }
+
     /**
      * 
      */
@@ -53,6 +57,7 @@ export class GeometryBase extends ShareableContextConsumer implements Geometry {
         mustBeDefined('material', material);
         throw new Error(notSupported(`unbind(material: Material)`).message);
     }
+
     /**
      * 
      */

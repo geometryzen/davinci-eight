@@ -4,6 +4,12 @@ import { ShareableContextConsumer } from './ShareableContextConsumer';
 import { TextureParameterName } from './TextureParameterName';
 var Texture = /** @class */ (function (_super) {
     __extends(Texture, _super);
+    /**
+     *
+     * @param target
+     * @param contextManager
+     * @param levelUp
+     */
     function Texture(target, contextManager, levelUp) {
         if (levelUp === void 0) { levelUp = 0; }
         var _this = _super.call(this, contextManager) || this;

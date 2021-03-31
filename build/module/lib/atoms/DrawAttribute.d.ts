@@ -3,6 +3,7 @@ import { AttributeSizeType } from '../core/AttributeSizeType';
 import { DataType } from '../core/DataType';
 /**
  * A convenience class for implementing the Attribute interface.
+ * @hidden
  */
 export declare class DrawAttribute implements Attribute {
     readonly values: number[];

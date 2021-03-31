@@ -1,5 +1,5 @@
 /**
- *
+ * @hidden
  */
 export declare enum TextureWrapMode {
     REPEAT = 10497,

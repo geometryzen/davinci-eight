@@ -1,6 +1,6 @@
 import { UniformGlslType } from './UniformGlslType';
 /**
- *
+ * @hidden
  */
 export interface UniformMetaInfo {
     /**

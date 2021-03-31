@@ -1,5 +1,8 @@
 import { __extends } from "tslib";
 import { ShareableBase } from '../core/ShareableBase';
+/**
+ * @hidden
+ */
 var NumberShareableMap = /** @class */ (function (_super) {
     __extends(NumberShareableMap, _super);
     function NumberShareableMap() {

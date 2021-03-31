@@ -518,6 +518,7 @@ function spherePrimitive(options) {
 }
 /**
  * A convenience class for creating sphere geometry elements.
+ * @hidden
  */
 var SphereGeometry = /** @class */ (function (_super) {
     __extends(SphereGeometry, _super);

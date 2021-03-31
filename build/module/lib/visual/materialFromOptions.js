@@ -70,39 +70,15 @@ export function materialFromOptions(contextManager, simplexMode, behaviors) {
     switch (simplexMode) {
         case SimplexMode.POINT: {
             var matOptions = pointMaterialOptions();
-            var cachedMaterial = contextManager.getCacheMaterial(matOptions);
-            if (cachedMaterial && cachedMaterial instanceof PointMaterial) {
-                return cachedMaterial;
-            }
-            else {
-                var material = new PointMaterial(contextManager, matOptions);
-                contextManager.putCacheMaterial(matOptions, material);
-                return material;
-            }
+            return new PointMaterial(contextManager, matOptions);
         }
         case SimplexMode.LINE: {
             var matOptions = lineMaterialOptions();
-            var cachedMaterial = contextManager.getCacheMaterial(matOptions);
-            if (cachedMaterial && cachedMaterial instanceof LineMaterial) {
-                return cachedMaterial;
-            }
-            else {
-                var material = new LineMaterial(contextManager, matOptions);
-                contextManager.putCacheMaterial(matOptions, material);
-                return material;
-            }
+            return new LineMaterial(contextManager, matOptions);
         }
         case SimplexMode.TRIANGLE: {
             var matOptions = meshMaterialOptions(behaviors);
-            var cachedMaterial = contextManager.getCacheMaterial(matOptions);
-            if (cachedMaterial && cachedMaterial instanceof MeshMaterial) {
-                return cachedMaterial;
-            }
-            else {
-                var material = new MeshMaterial(contextManager, matOptions);
-                contextManager.putCacheMaterial(matOptions, material);
-                return material;
-            }
+            return new MeshMaterial(contextManager, matOptions);
         }
         default: {
             throw new Error("simplexMode not specified for materialFromOptions");

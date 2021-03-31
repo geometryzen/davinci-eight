@@ -5,7 +5,7 @@ import { Geometry } from './Geometry';
 import { Material } from './Material';
 
 /**
- * @hidden
+ *
  */
 export interface AbstractMesh<G extends Geometry, M extends Material> extends AbstractDrawable<G, M> {
     /**

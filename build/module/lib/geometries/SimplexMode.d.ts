@@ -1,5 +1,6 @@
 /**
  * The common low values for a Simplex.
+ * @hidden
  */
 export declare enum SimplexMode {
     EMPTY = -1,

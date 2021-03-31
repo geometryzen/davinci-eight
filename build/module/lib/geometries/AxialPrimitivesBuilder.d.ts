@@ -1,4 +1,7 @@
 import { PrimitivesBuilder } from '../geometries/PrimitivesBuilder';
+/**
+ * @hidden
+ */
 export declare class AxialPrimitivesBuilder extends PrimitivesBuilder {
     /**
      * The sliceAngle is the angle from the cutLine to the end of the slice.

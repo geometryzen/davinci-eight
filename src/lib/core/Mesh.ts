@@ -35,7 +35,6 @@ const MODEL_FACET_NAME = 'model';
 
 /**
  * The standard pairing of a Geometry and a Material.
- * @hidden
  */
 export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M> implements AbstractMesh<G, M> {
     /**
@@ -106,7 +105,7 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
     }
 
     /**
-     * 
+     * @hidden 
      */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
@@ -272,33 +271,46 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
         }
     }
 
+    /**
+     * @param i The row index (zero-based). 
+     * @param j The column index (zero-based).
+     * @returns The ij th element of the stress matrix (possibly Kinv * stress * K).
+     */
     private getScale(i: number, j: number): number {
         if (this.Kidentity) {
-            const sMatrix = this.stress;
-            return sMatrix.getElement(i, j);
+            return this.stress.getElement(i, j);
         }
         else {
-            const sMatrix = this.stress;
             const cMatrix = this.canonicalScale;
-            cMatrix.copy(this.Kinv).mul(sMatrix).mul(this.K);
+            cMatrix.copy(this.Kinv).mul(this.stress).mul(this.K);
             return cMatrix.getElement(i, j);
         }
     }
 
+    /**
+     * @hidden
+     */
     protected getScaleX(): number {
         return this.getScale(0, 0);
     }
 
+    /**
+     * @hidden
+     */
     protected getScaleY(): number {
         return this.getScale(1, 1);
     }
 
+    /**
+     * @hidden
+     */
     protected getScaleZ(): number {
         return this.getScale(2, 2);
     }
 
     /**
      * Implementations of setPrincipalScale are expected to call this method.
+     * @hidden
      */
     protected setScale(x: number, y: number, z: number): void {
         if (this.Kidentity) {
@@ -345,6 +357,7 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
     /**
      * Implementation of the axis (get) property.
      * Derived classes may overide to perform scaling.
+     * @hidden
      */
     protected getAxis(): Readonly<R3> {
         return this.referenceAxis.rotate(this.attitude);
@@ -353,6 +366,7 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
     /**
      * Implementation of the axis (set) property.
      * Derived classes may overide to perform scaling.
+     * @hidden
      */
     protected setAxis(axis: VectorE3): void {
         const squaredNorm = quadVectorE3(axis);
@@ -375,6 +389,9 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
         this.setAxis(axis);
     }
 
+    /**
+     * @hidden
+     */
     protected getMeridian(): Readonly<R3> {
         return this.referenceMeridian.rotate(this.attitude);
     }

@@ -4,7 +4,7 @@ import { SpinorE1 } from '../math/SpinorE1';
 import { VectorE0 } from '../math/VectorE0';
 import { VectorE1 } from '../math/VectorE1';
 /**
- * @class Vector1
+ * @hidden
  */
 export declare class Vector1 extends Coords implements VectorE1 {
     /**

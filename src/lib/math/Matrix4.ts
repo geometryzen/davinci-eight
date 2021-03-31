@@ -47,7 +47,6 @@ function add4x4(a: Float32Array, b: Float32Array, c: Float32Array): void {
  * A 4x4 (square) matrix of numbers.
  *
  * An adapter for a `Float32Array`.
- * @hidden
  */
 export class Matrix4 extends AbstractMatrix<Matrix4> {
 

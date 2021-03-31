@@ -1,11 +1,12 @@
 import { __extends } from "tslib";
-import { GeometryBase } from './GeometryBase';
 import { mustBeNonNullObject } from '../checks/mustBeNonNullObject';
+import { GeometryBase } from './GeometryBase';
 import { Usage } from './Usage';
 import { vertexArraysFromPrimitive } from './vertexArraysFromPrimitive';
 import { VertexBuffer } from './VertexBuffer';
 /**
  * A concrete Geometry for supporting drawArrays.
+ * @hidden
  */
 var GeometryArrays = /** @class */ (function (_super) {
     __extends(GeometryArrays, _super);

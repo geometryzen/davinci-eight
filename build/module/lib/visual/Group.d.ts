@@ -1,10 +1,10 @@
 import { Facet } from '../core/Facet';
-import { Geometric3 } from '../math/Geometric3';
-import { Matrix4 } from '../math/Matrix4';
 import { Renderable } from '../core/Renderable';
 import { ShareableBase } from '../core/ShareableBase';
+import { Geometric3 } from '../math/Geometric3';
+import { Matrix4 } from '../math/Matrix4';
 /**
- *
+ * @hidden
  */
 export interface GroupMember extends Renderable {
     X: Geometric3;
@@ -13,6 +13,7 @@ export interface GroupMember extends Renderable {
 }
 /**
  * A collection of objects that can be treated as a single Renderable.
+ * @hidden
  */
 export declare class Group extends ShareableBase implements GroupMember {
     /**

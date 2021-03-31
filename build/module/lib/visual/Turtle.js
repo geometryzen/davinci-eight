@@ -77,6 +77,7 @@ function transform(xs, options) {
  * @hidden
  */
 function primitive(options) {
+    // The following points define lines by being taken in pairs.
     var values = transform([CENTER, LEFT, CENTER, TAIL, NOSE, LLEG, NOSE, RLEG, LLEG, RLEG], options).reduce(concat);
     var result = {
         mode: BeginMode.LINES,
@@ -131,6 +132,11 @@ var TurtleGeometry = /** @class */ (function (_super) {
  */
 var Turtle = /** @class */ (function (_super) {
     __extends(Turtle, _super);
+    /**
+     * @param contextManager This will usually be provided by the `Engine`.
+     * @param options
+     * @param levelUp Leave as zero unless you are extending this class.
+     */
     function Turtle(contextManager, options, levelUp) {
         if (options === void 0) { options = {}; }
         if (levelUp === void 0) { levelUp = 0; }
@@ -142,7 +148,6 @@ var Turtle = /** @class */ (function (_super) {
         var geometry = new TurtleGeometry(contextManager, geoOptions);
         _this.geometry = geometry;
         geometry.release();
-        contextManager.putCacheGeometry(geoOptions, geometry);
         var material = materialFromOptions(contextManager, simplexModeFromOptions(options, SimplexMode.LINE), options);
         _this.material = material;
         material.release();
@@ -155,6 +160,9 @@ var Turtle = /** @class */ (function (_super) {
         }
         return _this;
     }
+    /**
+     * @hidden
+     */
     Turtle.prototype.destructor = function (levelUp) {
         if (levelUp === 0) {
             this.cleanUp();

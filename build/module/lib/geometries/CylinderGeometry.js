@@ -331,6 +331,7 @@ function baseOptions(options) {
 }
 /**
  * A geometry for a Cylinder.
+ * @hidden
  */
 var CylinderGeometry = /** @class */ (function (_super) {
     __extends(CylinderGeometry, _super);

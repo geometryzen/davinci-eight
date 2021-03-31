@@ -3,7 +3,7 @@ import { FacetVisitor } from '../core/FacetVisitor';
 import { Matrix4 } from '../math/Matrix4';
 import { ModelE3 } from './ModelE3';
 /**
- *
+ * @hidden
  */
 export declare class ModelFacet extends ModelE3 implements Facet {
     /**

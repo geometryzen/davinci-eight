@@ -2,6 +2,9 @@ import { __extends } from "tslib";
 import { SliceSimplexPrimitivesBuilder } from '../geometries/SliceSimplexPrimitivesBuilder';
 import { Vector2 } from '../math/Vector2';
 import { Vector3 } from '../math/Vector3';
+/**
+ * @hidden
+ */
 var ConeSimplexGeometry = /** @class */ (function (_super) {
     __extends(ConeSimplexGeometry, _super);
     function ConeSimplexGeometry(radius, height, axis, radiusTop, openCap, openBase, thetaStart) {

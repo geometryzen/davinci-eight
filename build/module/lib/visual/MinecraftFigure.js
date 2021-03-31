@@ -1,18 +1,20 @@
 import { __extends } from "tslib";
-import { Group } from './Group';
 import { isBoolean } from '../checks/isBoolean';
 import { isNumber } from '../checks/isNumber';
-import { MinecraftHead } from './Minecraft';
-import { MinecraftArmL } from './Minecraft';
-import { MinecraftArmR } from './Minecraft';
-import { MinecraftLegL } from './Minecraft';
-import { MinecraftLegR } from './Minecraft';
-import { MinecraftTorso } from './Minecraft';
 import { vec } from '../math/R3';
+import { Group } from './Group';
+import { MinecraftArmL, MinecraftArmR, MinecraftHead, MinecraftLegL, MinecraftLegR, MinecraftTorso } from './Minecraft';
+/**
+ * @hidden
+ */
 var e1 = vec(1, 0, 0);
+/**
+ * @hidden
+ */
 var e2 = vec(0, 1, 0);
 /**
  * A group of body parts arranged to look like a figure.
+ * @hidden
  */
 var MinecraftFigure = /** @class */ (function (_super) {
     __extends(MinecraftFigure, _super);

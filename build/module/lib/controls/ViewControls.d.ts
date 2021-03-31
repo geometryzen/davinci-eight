@@ -1,10 +1,10 @@
 import { BrowserWindow } from '../base/BrowserWindow';
-import { MouseControls } from './MouseControls';
 import { Vector3 } from '../math/Vector3';
 import { VectorE3 } from '../math/VectorE3';
+import { MouseControls } from './MouseControls';
 import { ViewController } from './ViewController';
 /**
- *
+ * @hidden
  */
 export declare class ViewControls extends MouseControls implements ViewController {
     /**
@@ -60,6 +60,9 @@ export declare class ViewControls extends MouseControls implements ViewControlle
         look: VectorE3;
         up: VectorE3;
     }, wnd?: BrowserWindow);
+    /**
+     * @hidden
+     */
     protected destructor(levelUp: number): void;
     /**
      * @returns

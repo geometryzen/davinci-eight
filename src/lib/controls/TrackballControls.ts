@@ -55,12 +55,15 @@ export class TrackballControls extends ViewControls {
     this.setLoggingName('TrackballControls');
   }
 
+  /**
+   * @hidden
+   */
   protected destructor(levelUp: number): void {
     super.destructor(levelUp + 1);
   }
 
   /**
-   *
+   * @hidden
    */
   protected rotateCamera(): void {
     if (this.hasView()) {
@@ -96,7 +99,7 @@ export class TrackballControls extends ViewControls {
   }
 
   /**
-   *
+   * @hidden
    */
   protected panCamera(): void {
     if (this.hasView()) {

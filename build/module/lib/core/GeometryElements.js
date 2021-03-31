@@ -1,17 +1,18 @@
 import { __extends } from "tslib";
-import { DataType } from './DataType';
-import { GeometryBase } from './GeometryBase';
-import { IndexBuffer } from './IndexBuffer';
 import { isArray } from '../checks/isArray';
 import { isNull } from '../checks/isNull';
 import { isUndefined } from '../checks/isUndefined';
 import { mustBeArray } from '../checks/mustBeArray';
 import { mustBeNonNullObject } from '../checks/mustBeNonNullObject';
+import { DataType } from './DataType';
+import { GeometryBase } from './GeometryBase';
+import { IndexBuffer } from './IndexBuffer';
+import { Usage } from './Usage';
 import { vertexArraysFromPrimitive } from './vertexArraysFromPrimitive';
 import { VertexBuffer } from './VertexBuffer';
-import { Usage } from './Usage';
 /**
  * A Geometry that supports interleaved vertex buffers.
+ * @hidden
  */
 var GeometryElements = /** @class */ (function (_super) {
     __extends(GeometryElements, _super);
@@ -52,7 +53,7 @@ var GeometryElements = /** @class */ (function (_super) {
         return _this;
     }
     /**
-     *
+     * @hidden
      */
     GeometryElements.prototype.resurrector = function (levelUp) {
         _super.prototype.resurrector.call(this, levelUp + 1);
@@ -64,7 +65,7 @@ var GeometryElements = /** @class */ (function (_super) {
         }
     };
     /**
-     *
+     * @hidden
      */
     GeometryElements.prototype.destructor = function (levelUp) {
         if (levelUp === 0) {

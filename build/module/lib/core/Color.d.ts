@@ -74,6 +74,7 @@ export declare class Color extends Coords {
     constructor(r: number, g: number, b: number);
     /**
      * The red coordinate (component) of this color.
+     * The value is clamped to the range [0,1].
      */
     get r(): number;
     set r(r: number);
@@ -81,6 +82,7 @@ export declare class Color extends Coords {
     set red(red: number);
     /**
      * The green coordinate (component) of this color.
+     * The value is clamped to the range [0,1].
      */
     get g(): number;
     set g(g: number);
@@ -88,6 +90,7 @@ export declare class Color extends Coords {
     set green(green: number);
     /**
      * The blue coordinate (component) of this color.
+     * The value is clamped to the range [0,1].
      */
     get b(): number;
     set b(b: number);

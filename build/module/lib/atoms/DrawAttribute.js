@@ -35,6 +35,7 @@ function checkSize(size, values) {
 }
 /**
  * A convenience class for implementing the Attribute interface.
+ * @hidden
  */
 var DrawAttribute = /** @class */ (function () {
     function DrawAttribute(values, size, type) {

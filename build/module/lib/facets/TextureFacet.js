@@ -3,6 +3,9 @@ import { exchange } from '../base/exchange';
 import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
 import { ShareableBase } from '../core/ShareableBase';
 import { TextureUnit } from '../core/TextureUnit';
+/**
+ * A `Facet` implementation
+ */
 var TextureFacet = /** @class */ (function (_super) {
     __extends(TextureFacet, _super);
     function TextureFacet() {
@@ -29,7 +32,9 @@ var TextureFacet = /** @class */ (function (_super) {
         if (this._texture) {
             visitor.activeTexture(this.unit);
             this._texture.bind();
+            // TODO: What is the significance of setting the 'uImage' uniform to zero?
             visitor.uniform1i(GraphicsProgramSymbols.UNIFORM_IMAGE, 0);
+            // TODO: Is this the correct place to unbind? Should be we have a bindUniforms, unbindUniforms instead of setUniforms?
             // this._texture.unbind();
         }
     };
