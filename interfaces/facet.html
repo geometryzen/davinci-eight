@@ -2744,7 +2744,8 @@ img {
 			<div class="tsd-comment tsd-typography">
 				<div class="lead">
 					<p>A <code>facet</code> is an adapter between a domain concept and a <code>uniform</code> value parameter in a WebGL shader program.
-					An object implementing the <code>Facet</code> interface is capable of setting uniform values on a <code>FacetVisitor</code>.</p>
+						An object implementing the <code>Facet</code> interface is capable of setting uniform values on a <code>FacetVisitor</code> (which is
+					usually implemented by a <code>Material</code>).</p>
 				</div>
 			</div>
 		</section>
@@ -2756,11 +2757,6 @@ img {
 					<ul class="tsd-hierarchy">
 						<li>
 							<span class="target">Facet</span>
-							<ul class="tsd-hierarchy">
-								<li>
-									<a href="view.html" class="tsd-signature-type">View</a>
-								</li>
-							</ul>
 						</li>
 					</ul>
 				</li>
@@ -2772,16 +2768,8 @@ img {
 				<li><a href="../classes/ambientlight.html" class="tsd-signature-type">AmbientLight</a></li>
 				<li><a href="../classes/colorfacet.html" class="tsd-signature-type">ColorFacet</a></li>
 				<li><a href="../classes/directionallight.html" class="tsd-signature-type">DirectionalLight</a></li>
-				<li><a href="../classes/modelfacet.html" class="tsd-signature-type">ModelFacet</a></li>
-				<li><a href="../classes/opacityfacet.html" class="tsd-signature-type">OpacityFacet</a></li>
 				<li><a href="../classes/perspectivecamera.html" class="tsd-signature-type">PerspectiveCamera</a></li>
-				<li><a href="../classes/perspectivetransform.html" class="tsd-signature-type">PerspectiveTransform</a></li>
-				<li><a href="../classes/pointsizefacet.html" class="tsd-signature-type">PointSizeFacet</a></li>
-				<li><a href="../classes/reflectionfacete2.html" class="tsd-signature-type">ReflectionFacetE2</a></li>
-				<li><a href="../classes/reflectionfacete3.html" class="tsd-signature-type">ReflectionFacetE3</a></li>
 				<li><a href="../classes/texturefacet.html" class="tsd-signature-type">TextureFacet</a></li>
-				<li><a href="../classes/vector3facet.html" class="tsd-signature-type">Vector3Facet</a></li>
-				<li><a href="../classes/viewtransform.html" class="tsd-signature-type">ViewTransform</a></li>
 			</ul>
 		</section>
 		<section class="tsd-panel-group tsd-index-group">
@@ -2812,7 +2800,7 @@ img {
 						<aside class="tsd-sources">
 							<p>Inherited from <a href="shareable.html">Shareable</a>.<a href="shareable.html#addref">addRef</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/40e77a4fa/src/lib/core/Shareable.ts#L12">src/lib/core/Shareable.ts:12</a></li>
+								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a858921b9/src/lib/core/Shareable.ts#L12">src/lib/core/Shareable.ts:12</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2821,7 +2809,7 @@ img {
 							</div>
 						</div>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-						<p>The new reference count. This value is intended to be used only for test purposes.</p>
+						<p>The new reference count. This value is intended to be used only for testing purposes.</p>
 					</li>
 				</ul>
 			</section>
@@ -2836,7 +2824,7 @@ img {
 						<aside class="tsd-sources">
 							<p>Inherited from <a href="shareable.html">Shareable</a>.<a href="shareable.html#release">release</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/40e77a4fa/src/lib/core/Shareable.ts#L20">src/lib/core/Shareable.ts:20</a></li>
+								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a858921b9/src/lib/core/Shareable.ts#L20">src/lib/core/Shareable.ts:20</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2845,7 +2833,7 @@ img {
 							</div>
 						</div>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-						<p>The new reference count. This value is intended to be used only for test purposes.</p>
+						<p>The new reference count. This value is intended to be used only for testing purposes.</p>
 					</li>
 				</ul>
 			</section>
@@ -2859,13 +2847,21 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/40e77a4fa/src/lib/core/Facet.ts#L9">src/lib/core/Facet.ts:9</a></li>
+								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a858921b9/src/lib/core/Facet.ts#L14">src/lib/core/Facet.ts:14</a></li>
 							</ul>
 						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Sets one of more uniform values on the <code>FacetVisitor</code>.</p>
+							</div>
+						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
 								<h5>visitor: <a href="facetvisitor.html" class="tsd-signature-type">FacetVisitor</a></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>A visitor to the <code>Facet</code>, usually a <code>Material</code> implementation.</p>
+								</div>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -2884,7 +2880,6 @@ img {
 						<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
 					</ul>
 					<ul class="tsd-legend">
-						<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
 						<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
 						<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
 						<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>

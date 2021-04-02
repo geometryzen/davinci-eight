@@ -2734,9 +2734,6 @@ img {
 				<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a href="trail.html#addref" class="tsd-kind-icon">add<wbr>Ref</a>
 				</li>
-				<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
-					<a href="trail.html#destructor" class="tsd-kind-icon">destructor</a>
-				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class">
 					<a href="trail.html#draw" class="tsd-kind-icon">draw</a>
 				</li>
@@ -2757,9 +2754,6 @@ img {
 				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class">
 					<a href="trail.html#render" class="tsd-kind-icon">render</a>
-				</li>
-				<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-					<a href="trail.html#resurrector" class="tsd-kind-icon">resurrector</a>
 				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a href="trail.html#setloggingname" class="tsd-kind-icon">set<wbr>Logging<wbr>Name</a>
@@ -2786,28 +2780,28 @@ img {
 							</p>
 				</div>
 				<pre><code><span class="hljs-comment">// The trail is constructed, at any time, on an existing mesh.</span>
-<span class="hljs-keyword">const</span> trail = <span class="hljs-keyword">new</span> EIGHT.Trail(mesh)
+const trail = new EIGHT<span class="hljs-selector-class">.Trail</span>(mesh)
 
 <span class="hljs-comment">// Configure the Trail object, or use the defaults.</span>
-trail.<span class="hljs-built_in">config</span>.enabled = <span class="hljs-literal">true</span>
-trail.<span class="hljs-built_in">config</span>.interval = <span class="hljs-number">30</span>
-trail.<span class="hljs-built_in">config</span>.retain = <span class="hljs-number">5</span>
+trail<span class="hljs-selector-class">.config</span><span class="hljs-selector-class">.enabled</span> = true
+trail<span class="hljs-selector-class">.config</span><span class="hljs-selector-class">.interval</span> = <span class="hljs-number">30</span>
+trail<span class="hljs-selector-class">.config</span><span class="hljs-selector-class">.retain</span> = <span class="hljs-number">5</span>
 
 <span class="hljs-comment">// Take a snapshot of the ball position and attitude, usually each animation frame.</span>
-trail.snapshot()
+trail<span class="hljs-selector-class">.snapshot</span>()
 
 <span class="hljs-comment">// Draw the trail during the animation frame.</span>
-trail.draw(ambients)
+trail<span class="hljs-selector-class">.draw</span>(ambients)
 
 <span class="hljs-comment">// Release the trail when no longer required, usually in the window.onunload function.</span>
-trail.<span class="hljs-built_in">release</span>()</code></pre>
+trail<span class="hljs-selector-class">.release</span>()</code></pre>
 			</div>
 		</section>
 		<section class="tsd-panel tsd-hierarchy">
 			<h3>Hierarchy</h3>
 			<ul class="tsd-hierarchy">
 				<li>
-					<a href="shareablebase.html" class="tsd-signature-type">ShareableBase</a>
+					<span class="tsd-signature-type">ShareableBase</span>
 					<ul class="tsd-hierarchy">
 						<li>
 							<span class="target">Trail</span>
@@ -2843,7 +2837,6 @@ trail.<span class="hljs-built_in">release</span>()</code></pre>
 						<h3>Methods</h3>
 						<ul class="tsd-index-list">
 							<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="trail.html#addref" class="tsd-kind-icon">add<wbr>Ref</a></li>
-							<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected"><a href="trail.html#destructor" class="tsd-kind-icon">destructor</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="trail.html#draw" class="tsd-kind-icon">draw</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="trail.html#erase" class="tsd-kind-icon">erase</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="trail.html#foreach" class="tsd-kind-icon">for<wbr>Each</a></li>
@@ -2851,7 +2844,6 @@ trail.<span class="hljs-built_in">release</span>()</code></pre>
 							<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="trail.html#iszombie" class="tsd-kind-icon">is<wbr>Zombie</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="trail.html#release" class="tsd-kind-icon">release</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="trail.html#render" class="tsd-kind-icon">render</a></li>
-							<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="trail.html#resurrector" class="tsd-kind-icon">resurrector</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="trail.html#setloggingname" class="tsd-kind-icon">set<wbr>Logging<wbr>Name</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="trail.html#snapshot" class="tsd-kind-icon">snapshot</a></li>
 						</ul>
@@ -2870,9 +2862,9 @@ trail.<span class="hljs-built_in">release</span>()</code></pre>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
-							<p>Overrides <a href="shareablebase.html">ShareableBase</a>.<a href="shareablebase.html#constructor">constructor</a></p>
+							<p>Overrides ShareableBase.__constructor</p>
 							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/40e77a4fa/src/lib/visual/Trail.ts#L71">src/lib/visual/Trail.ts:71</a></li>
+								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a858921b9/src/lib/visual/Trail.ts#L71">src/lib/visual/Trail.ts:71</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2896,10 +2888,10 @@ trail.<span class="hljs-built_in">release</span>()</code></pre>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 				<a name="config" class="tsd-anchor"></a>
 				<h3>config</h3>
-				<div class="tsd-signature tsd-kind-icon">config<span class="tsd-signature-symbol">:</span> <a href="trailconfig.html" class="tsd-signature-type">TrailConfig</a><span class="tsd-signature-symbol"> = new TrailConfig()</span></div>
+				<div class="tsd-signature tsd-kind-icon">config<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">TrailConfig</span><span class="tsd-signature-symbol"> = new TrailConfig()</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/40e77a4fa/src/lib/visual/Trail.ts#L67">src/lib/visual/Trail.ts:67</a></li>
+						<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a858921b9/src/lib/visual/Trail.ts#L67">src/lib/visual/Trail.ts:67</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -2921,9 +2913,9 @@ trail.<span class="hljs-built_in">release</span>()</code></pre>
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<p>Implementation of <a href="../interfaces/renderable.html">Renderable</a>.<a href="../interfaces/renderable.html#addref">addRef</a></p>
-							<p>Inherited from <a href="shareablebase.html">ShareableBase</a>.<a href="shareablebase.html#addref">addRef</a></p>
+							<p>Inherited from ShareableBase.addRef</p>
 							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/40e77a4fa/src/lib/core/ShareableBase.ts#L131">src/lib/core/ShareableBase.ts:131</a></li>
+								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a858921b9/src/lib/core/ShareableBase.ts#L133">src/lib/core/ShareableBase.ts:133</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2938,30 +2930,6 @@ trail.<span class="hljs-built_in">release</span>()</code></pre>
 					</li>
 				</ul>
 			</section>
-			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
-				<a name="destructor" class="tsd-anchor"></a>
-				<h3><span class="tsd-flag ts-flagProtected">Protected</span> destructor</h3>
-				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
-					<li class="tsd-signature tsd-kind-icon">destructor<span class="tsd-signature-symbol">(</span>levelUp<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-				</ul>
-				<ul class="tsd-descriptions">
-					<li class="tsd-description">
-						<aside class="tsd-sources">
-							<p>Overrides <a href="shareablebase.html">ShareableBase</a>.<a href="shareablebase.html#destructor">destructor</a></p>
-							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/40e77a4fa/src/lib/visual/Trail.ts#L87">src/lib/visual/Trail.ts:87</a></li>
-							</ul>
-						</aside>
-						<h4 class="tsd-parameters-title">Parameters</h4>
-						<ul class="tsd-parameters">
-							<li>
-								<h5>levelUp: <span class="tsd-signature-type">number</span></h5>
-							</li>
-						</ul>
-						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-					</li>
-				</ul>
-			</section>
 			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 				<a name="draw" class="tsd-anchor"></a>
 				<h3>draw</h3>
@@ -2972,7 +2940,7 @@ trail.<span class="hljs-built_in">release</span>()</code></pre>
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/40e77a4fa/src/lib/visual/Trail.ts#L96">src/lib/visual/Trail.ts:96</a></li>
+								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a858921b9/src/lib/visual/Trail.ts#L96">src/lib/visual/Trail.ts:96</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3002,7 +2970,7 @@ trail.<span class="hljs-built_in">release</span>()</code></pre>
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/40e77a4fa/src/lib/visual/Trail.ts#L104">src/lib/visual/Trail.ts:104</a></li>
+								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a858921b9/src/lib/visual/Trail.ts#L104">src/lib/visual/Trail.ts:104</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3018,23 +2986,23 @@ trail.<span class="hljs-built_in">release</span>()</code></pre>
 				<a name="foreach" class="tsd-anchor"></a>
 				<h3>for<wbr>Each</h3>
 				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-					<li class="tsd-signature tsd-kind-icon">for<wbr>Each<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>alpha<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, X<span class="tsd-signature-symbol">: </span><a href="vector3.html" class="tsd-signature-type">Vector3</a>, R<span class="tsd-signature-symbol">: </span><a href="spinor3.html" class="tsd-signature-type">Spinor3</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					<li class="tsd-signature tsd-kind-icon">for<wbr>Each<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>alpha<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, X<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vector3</span>, R<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Spinor3</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/40e77a4fa/src/lib/visual/Trail.ts#L110">src/lib/visual/Trail.ts:110</a></li>
+								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a858921b9/src/lib/visual/Trail.ts#L110">src/lib/visual/Trail.ts:110</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
-								<h5>callback: <span class="tsd-signature-symbol">(</span>alpha<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, X<span class="tsd-signature-symbol">: </span><a href="vector3.html" class="tsd-signature-type">Vector3</a>, R<span class="tsd-signature-symbol">: </span><a href="spinor3.html" class="tsd-signature-type">Spinor3</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">any</span></h5>
+								<h5>callback: <span class="tsd-signature-symbol">(</span>alpha<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, X<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vector3</span>, R<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Spinor3</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">any</span></h5>
 								<ul class="tsd-parameters">
 									<li class="tsd-parameter-signature">
 										<ul class="tsd-signatures tsd-kind-type-literal">
-											<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>alpha<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, X<span class="tsd-signature-symbol">: </span><a href="vector3.html" class="tsd-signature-type">Vector3</a>, R<span class="tsd-signature-symbol">: </span><a href="spinor3.html" class="tsd-signature-type">Spinor3</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+											<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>alpha<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, X<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vector3</span>, R<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Spinor3</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
 										</ul>
 										<ul class="tsd-descriptions">
 											<li class="tsd-description">
@@ -3044,10 +3012,10 @@ trail.<span class="hljs-built_in">release</span>()</code></pre>
 														<h5>alpha: <span class="tsd-signature-type">number</span></h5>
 													</li>
 													<li>
-														<h5>X: <a href="vector3.html" class="tsd-signature-type">Vector3</a></h5>
+														<h5>X: <span class="tsd-signature-type">Vector3</span></h5>
 													</li>
 													<li>
-														<h5>R: <a href="spinor3.html" class="tsd-signature-type">Spinor3</a></h5>
+														<h5>R: <span class="tsd-signature-type">Spinor3</span></h5>
 													</li>
 												</ul>
 												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -3070,9 +3038,9 @@ trail.<span class="hljs-built_in">release</span>()</code></pre>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
-							<p>Inherited from <a href="shareablebase.html">ShareableBase</a>.<a href="shareablebase.html#getloggingname">getLoggingName</a></p>
+							<p>Inherited from ShareableBase.getLoggingName</p>
 							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/40e77a4fa/src/lib/core/ShareableBase.ts#L146">src/lib/core/ShareableBase.ts:146</a></li>
+								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a858921b9/src/lib/core/ShareableBase.ts#L148">src/lib/core/ShareableBase.ts:148</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3093,9 +3061,9 @@ trail.<span class="hljs-built_in">release</span>()</code></pre>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
-							<p>Inherited from <a href="shareablebase.html">ShareableBase</a>.<a href="shareablebase.html#iszombie">isZombie</a></p>
+							<p>Inherited from ShareableBase.isZombie</p>
 							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/40e77a4fa/src/lib/core/ShareableBase.ts#L120">src/lib/core/ShareableBase.ts:120</a></li>
+								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a858921b9/src/lib/core/ShareableBase.ts#L122">src/lib/core/ShareableBase.ts:122</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3118,9 +3086,9 @@ trail.<span class="hljs-built_in">release</span>()</code></pre>
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<p>Implementation of <a href="../interfaces/renderable.html">Renderable</a>.<a href="../interfaces/renderable.html#release">release</a></p>
-							<p>Inherited from <a href="shareablebase.html">ShareableBase</a>.<a href="shareablebase.html#release">release</a></p>
+							<p>Inherited from ShareableBase.release</p>
 							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/40e77a4fa/src/lib/core/ShareableBase.ts#L179">src/lib/core/ShareableBase.ts:179</a></li>
+								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a858921b9/src/lib/core/ShareableBase.ts#L181">src/lib/core/ShareableBase.ts:181</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3146,7 +3114,7 @@ trail.<span class="hljs-built_in">release</span>()</code></pre>
 						<aside class="tsd-sources">
 							<p>Implementation of <a href="../interfaces/renderable.html">Renderable</a>.<a href="../interfaces/renderable.html#render">render</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/40e77a4fa/src/lib/visual/Trail.ts#L127">src/lib/visual/Trail.ts:127</a></li>
+								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a858921b9/src/lib/visual/Trail.ts#L127">src/lib/visual/Trail.ts:127</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3165,39 +3133,6 @@ trail.<span class="hljs-built_in">release</span>()</code></pre>
 				</ul>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-				<a name="resurrector" class="tsd-anchor"></a>
-				<h3><span class="tsd-flag ts-flagProtected">Protected</span> resurrector</h3>
-				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-					<li class="tsd-signature tsd-kind-icon">resurrector<span class="tsd-signature-symbol">(</span>levelUp<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, grumble<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-				</ul>
-				<ul class="tsd-descriptions">
-					<li class="tsd-description">
-						<aside class="tsd-sources">
-							<p>Inherited from <a href="shareablebase.html">ShareableBase</a>.<a href="shareablebase.html#resurrector">resurrector</a></p>
-							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/40e77a4fa/src/lib/core/ShareableBase.ts#L70">src/lib/core/ShareableBase.ts:70</a></li>
-							</ul>
-						</aside>
-						<div class="tsd-comment tsd-typography">
-							<div class="lead">
-								<p>Experimental</p>
-							</div>
-							<p>restore (a zombie) to life.</p>
-						</div>
-						<h4 class="tsd-parameters-title">Parameters</h4>
-						<ul class="tsd-parameters">
-							<li>
-								<h5>levelUp: <span class="tsd-signature-type">number</span></h5>
-							</li>
-							<li>
-								<h5><span class="tsd-flag ts-flagDefault value">Default value</span> grumble: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
-							</li>
-						</ul>
-						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 				<a name="setloggingname" class="tsd-anchor"></a>
 				<h3><span class="tsd-flag ts-flagProtected">Protected</span> set<wbr>Logging<wbr>Name</h3>
 				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
@@ -3206,9 +3141,9 @@ trail.<span class="hljs-built_in">release</span>()</code></pre>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
-							<p>Inherited from <a href="shareablebase.html">ShareableBase</a>.<a href="shareablebase.html#setloggingname">setLoggingName</a></p>
+							<p>Inherited from ShareableBase.setLoggingName</p>
 							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/40e77a4fa/src/lib/core/ShareableBase.ts#L164">src/lib/core/ShareableBase.ts:164</a></li>
+								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a858921b9/src/lib/core/ShareableBase.ts#L166">src/lib/core/ShareableBase.ts:166</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3245,7 +3180,7 @@ trail.<span class="hljs-built_in">release</span>()</code></pre>
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/40e77a4fa/src/lib/visual/Trail.ts#L184">src/lib/visual/Trail.ts:184</a></li>
+								<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a858921b9/src/lib/visual/Trail.ts#L184">src/lib/visual/Trail.ts:184</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3275,7 +3210,6 @@ trail.<span class="hljs-built_in">release</span>()</code></pre>
 						<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
 					</ul>
 					<ul class="tsd-legend">
-						<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
 						<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
 						<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
 						<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
