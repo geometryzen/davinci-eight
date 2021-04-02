@@ -126,9 +126,9 @@
     var Eight = /** @class */ (function () {
         function Eight() {
             this.GITHUB = "https://github.com/geometryzen/davinci-eight";
-            this.LAST_MODIFIED = "2020-08-19";
+            this.LAST_MODIFIED = "2021-04-02";
             this.MARKETING_NAME = "DaVinci eight";
-            this.VERSION = '8.4.3';
+            this.VERSION = '8.4.4';
         }
         Eight.prototype.log = function (message) {
             console.log(message);
@@ -9503,7 +9503,7 @@
          */
         ShareableContextConsumer.prototype.subscribe = function (synchUp) {
             if (!this.isSubscribed) {
-                this.contextManager.addContextConsumer(this);
+                this.contextManager.addContextListener(this);
                 this.isSubscribed = true;
                 if (synchUp) {
                     this.synchUp();
@@ -9517,7 +9517,7 @@
          */
         ShareableContextConsumer.prototype.unsubscribe = function (cleanUp) {
             if (this.isSubscribed) {
-                this.contextManager.removeContextConsumer(this);
+                this.contextManager.removeContextListener(this);
                 this.isSubscribed = false;
                 if (cleanUp) {
                     this.cleanUp();
@@ -13570,14 +13570,14 @@
         /**
          *
          */
-        Engine.prototype.addContextConsumer = function (consumer) {
+        Engine.prototype.addContextListener = function (consumer) {
             mustBeNonNullObject('consumer', consumer);
             var index = this._users.indexOf(consumer);
             if (index < 0) {
                 this._users.push(consumer);
             }
             else {
-                console.warn("consumer already exists for addContextConsumer");
+                console.warn("consumer already exists for addContextListener");
             }
         };
         Object.defineProperty(Engine.prototype, "canvas", {
@@ -13749,7 +13749,7 @@
         /**
          * @param consumer
          */
-        Engine.prototype.removeContextConsumer = function (consumer) {
+        Engine.prototype.removeContextListener = function (consumer) {
             mustBeNonNullObject('consumer', consumer);
             var index = this._users.indexOf(consumer);
             if (index >= 0) {

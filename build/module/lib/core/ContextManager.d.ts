@@ -19,9 +19,9 @@ export interface ContextManager extends Shareable {
     /**
      *
      */
-    addContextConsumer(consumer: ContextConsumer): void;
+    addContextListener(consumer: ContextConsumer): void;
     /**
      *
      */
-    removeContextConsumer(consumer: ContextConsumer): void;
+    removeContextListener(consumer: ContextConsumer): void;
 }

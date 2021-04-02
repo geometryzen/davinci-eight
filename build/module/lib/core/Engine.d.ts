@@ -71,7 +71,7 @@ export declare class Engine extends ShareableBase implements ContextManager {
     /**
      *
      */
-    addContextConsumer(consumer: ContextConsumer): void;
+    addContextListener(consumer: ContextConsumer): void;
     /**
      * The canvas element associated with the WebGLRenderingContext.
      */
@@ -125,7 +125,7 @@ export declare class Engine extends ShareableBase implements ContextManager {
     /**
      * @param consumer
      */
-    removeContextConsumer(consumer: ContextConsumer): void;
+    removeContextListener(consumer: ContextConsumer): void;
     /**
      * A convenience method for setting the width and height properties of the
      * underlying canvas and for setting the viewport to the drawing buffer height and width.

@@ -166,14 +166,14 @@ export class Engine extends ShareableBase implements ContextManager {
     /**
      *
      */
-    addContextConsumer(consumer: ContextConsumer): void {
+    addContextListener(consumer: ContextConsumer): void {
         mustBeNonNullObject('consumer', consumer);
         const index = this._users.indexOf(consumer);
         if (index < 0) {
             this._users.push(consumer);
         }
         else {
-            console.warn("consumer already exists for addContextConsumer");
+            console.warn("consumer already exists for addContextListener");
         }
     }
 
@@ -340,7 +340,7 @@ export class Engine extends ShareableBase implements ContextManager {
     /**
      * @param consumer
      */
-    removeContextConsumer(consumer: ContextConsumer): void {
+    removeContextListener(consumer: ContextConsumer): void {
         mustBeNonNullObject('consumer', consumer);
         const index = this._users.indexOf(consumer);
         if (index >= 0) {

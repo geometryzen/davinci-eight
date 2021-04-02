@@ -1,4 +1,4 @@
-// Type definitions for davinci-eight 8.4.3
+// Type definitions for davinci-eight 8.4.4
 // Project: https://github.com/geometryzen/davinci-eight
 // Definitions by: David Geo Holmes david.geo.holmes@gmail.com https://www.stemcstudio.com
 //
@@ -419,7 +419,7 @@ export class Engine extends ShareableBase implements ContextManager {
     /**
      *
      */
-    addContextConsumer(consumer: ContextConsumer): void
+    addContextListener(consumer: ContextConsumer): void
 
     /**
      * Sets the parameters for blending.
@@ -496,7 +496,7 @@ export class Engine extends ShareableBase implements ContextManager {
     /**
      *
      */
-    removeContextConsumer(user: ContextConsumer): void
+    removeContextListener(user: ContextConsumer): void
 
     /**
      * A convenience method for setting the width and height properties of the
@@ -570,8 +570,8 @@ export interface ContextManager extends Shareable {
     readonly contextId: 'webgl2' | 'webgl'
 
     synchronize(consumer: ContextConsumer): void
-    addContextConsumer(consumer: ContextConsumer): void
-    removeContextConsumer(consumer: ContextConsumer): void
+    addContextListener(consumer: ContextConsumer): void
+    removeContextListener(consumer: ContextConsumer): void
 }
 
 export class ShareableContextConsumer extends ShareableBase implements ContextConsumer {

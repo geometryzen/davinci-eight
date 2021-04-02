@@ -116,14 +116,14 @@ var Engine = /** @class */ (function (_super) {
     /**
      *
      */
-    Engine.prototype.addContextConsumer = function (consumer) {
+    Engine.prototype.addContextListener = function (consumer) {
         mustBeNonNullObject('consumer', consumer);
         var index = this._users.indexOf(consumer);
         if (index < 0) {
             this._users.push(consumer);
         }
         else {
-            console.warn("consumer already exists for addContextConsumer");
+            console.warn("consumer already exists for addContextListener");
         }
     };
     Object.defineProperty(Engine.prototype, "canvas", {
@@ -295,7 +295,7 @@ var Engine = /** @class */ (function (_super) {
     /**
      * @param consumer
      */
-    Engine.prototype.removeContextConsumer = function (consumer) {
+    Engine.prototype.removeContextListener = function (consumer) {
         mustBeNonNullObject('consumer', consumer);
         var index = this._users.indexOf(consumer);
         if (index >= 0) {

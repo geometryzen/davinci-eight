@@ -4,9 +4,9 @@
 var Eight = /** @class */ (function () {
     function Eight() {
         this.GITHUB = "https://github.com/geometryzen/davinci-eight";
-        this.LAST_MODIFIED = "2020-08-19";
+        this.LAST_MODIFIED = "2021-04-02";
         this.MARKETING_NAME = "DaVinci eight";
-        this.VERSION = '8.4.3';
+        this.VERSION = '8.4.4';
     }
     Eight.prototype.log = function (message) {
         console.log(message);
