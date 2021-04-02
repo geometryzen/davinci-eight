@@ -128,7 +128,7 @@
             this.GITHUB = "https://github.com/geometryzen/davinci-eight";
             this.LAST_MODIFIED = "2021-04-02";
             this.MARKETING_NAME = "DaVinci eight";
-            this.VERSION = '8.4.4';
+            this.VERSION = '8.4.5';
         }
         Eight.prototype.log = function (message) {
             console.log(message);

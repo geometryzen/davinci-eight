@@ -17,13 +17,13 @@ export class Eight {
     /**
      * The semantic version number of this library, i.e., (major.minor.patch) format.
      */
-    readonly VERSION: "8.4.4";
+    readonly VERSION: "8.4.5";
 
     constructor() {
         this.GITHUB = "https://github.com/geometryzen/davinci-eight";
         this.LAST_MODIFIED = "2021-04-02";
         this.MARKETING_NAME = "DaVinci eight";
-        this.VERSION = '8.4.4';
+        this.VERSION = '8.4.5';
     }
 
     log(message?: any): void {
