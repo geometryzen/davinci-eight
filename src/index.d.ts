@@ -1,4 +1,4 @@
-// Type definitions for davinci-eight 8.4.7
+// Type definitions for davinci-eight 8.4.8
 // Project: https://github.com/geometryzen/davinci-eight
 // Definitions by: David Geo Holmes david.geo.holmes@gmail.com https://www.stemcstudio.com
 //
@@ -4250,6 +4250,13 @@ export class Arrow extends Mesh<Geometry, Material> {
 
 export class ArrowFH implements Renderable {
     constructor(contextManager: ContextManager, options?: ArrowOptions, levelUp?: number)
+    color: Color
+    X: Geometric3
+    position: Geometric3
+    R: Geometric3
+    attitude: Geometric3
+    vector: VectorE3;
+    length: number;
     name?: string
     transparent?: boolean
     render(ambients: Facet[]): void

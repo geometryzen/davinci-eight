@@ -1,4 +1,5 @@
 import { Facet } from '../..';
+import { Color } from '../core/Color';
 import { ContextManager } from '../core/ContextManager';
 import { Renderable } from '../core/Renderable';
 import { Geometric3 } from '../math/Geometric3';
@@ -52,4 +53,6 @@ export declare class ArrowFH implements Renderable {
     set attitude(attitude: Geometric3);
     get axis(): VectorE3;
     set axis(axis: VectorE3);
+    get color(): Color;
+    set color(color: Color);
 }

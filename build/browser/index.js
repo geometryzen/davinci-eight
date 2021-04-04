@@ -762,7 +762,7 @@
             this.GITHUB = "https://github.com/geometryzen/davinci-eight";
             this.LAST_MODIFIED = "2021-04-04";
             this.MARKETING_NAME = "DaVinci eight";
-            this.VERSION = '8.4.7';
+            this.VERSION = '8.4.8';
         }
         Eight.prototype.log = function (message) {
             console.log(message);
@@ -25934,6 +25934,17 @@
             },
             set: function (axis) {
                 this.tail.axis = axis;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(ArrowFH.prototype, "color", {
+            get: function () {
+                return this.head.color;
+            },
+            set: function (color) {
+                this.head.color = color;
+                this.tail.color = color;
             },
             enumerable: false,
             configurable: true

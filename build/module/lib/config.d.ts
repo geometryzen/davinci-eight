@@ -17,7 +17,7 @@ export declare class Eight {
     /**
      * The semantic version number of this library, i.e., (major.minor.patch) format.
      */
-    readonly VERSION: "8.4.7";
+    readonly VERSION: "8.4.8";
     constructor();
     log(message?: any): void;
     info(message?: any): void;

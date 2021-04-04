@@ -151,6 +151,17 @@ var ArrowFH = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(ArrowFH.prototype, "color", {
+        get: function () {
+            return this.head.color;
+        },
+        set: function (color) {
+            this.head.color = color;
+            this.tail.color = color;
+        },
+        enumerable: false,
+        configurable: true
+    });
     return ArrowFH;
 }());
 export { ArrowFH };
