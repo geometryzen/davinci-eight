@@ -3,8 +3,11 @@ import { Vector3 } from '../math/Vector3';
 import { AxialShapeBuilder } from './AxialShapeBuilder';
 /**
  * @hidden
+ * Generates a conical shell primitive.
+ * This builder does not generate the ring that sits between the cone and the shaft.
+ * Used by the ArrowBuilder to construct the arrow head.
  */
-export declare class ConicalShellBuilder extends AxialShapeBuilder {
+export declare class ConeBuilder extends AxialShapeBuilder {
     /**
      *
      */

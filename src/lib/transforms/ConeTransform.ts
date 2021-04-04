@@ -59,6 +59,14 @@ export class ConeTransform implements Transform {
         this.aTangent = mustBeString('aTangent', aTangent);
     }
 
+    /**
+     * 
+     * @param vertex (output)
+     * @param i (input)
+     * @param j (input)
+     * @param iLength (input)
+     * @param jLength (input)
+     */
     exec(vertex: Vertex, i: number, j: number, iLength: number, jLength: number): void {
         // Let e be the unit vector in the symmetry axis of the cone.
         // Let ρ be a point on the base of the cone.

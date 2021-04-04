@@ -3,21 +3,14 @@ import { mustBeDefined } from '../checks/mustBeDefined';
 import { Primitive } from '../core/Primitive';
 import { Vector3 } from '../math/Vector3';
 import { VectorE3 } from '../math/VectorE3';
-import { ConeBuilder } from './ConeBuilder';
-import { CylindricalShellBuilder } from '../shapes/CylindricalShellBuilder';
 import { RingBuilder } from '../shapes/RingBuilder';
 import { AxialShapeBuilder } from './AxialShapeBuilder';
+import { ConeBuilder } from './ConeBuilder';
 
 /**
- * <p>
- * This class does not default the initial <b>axis</b>.
- * </p>
- * <p>
- * This class does not default the <b>cutLine</b>.
- * </p>
  * @hidden
  */
-export class ArrowBuilder extends AxialShapeBuilder {
+export class ArrowHeadBuilder extends AxialShapeBuilder {
 
     public heightCone = 0.20;
 
@@ -64,12 +57,6 @@ export class ArrowBuilder extends AxialShapeBuilder {
         neck.rotate(this.tilt);
 
         /**
-         * The tail is the the position of the blunt end of the arrow.
-         */
-        const tail = Vector3.copy(this.offset);
-        tail.rotate(this.tilt);
-
-        /**
          * The `cone` forms the head of the arrow.
          */
         const cone = new ConeBuilder();
@@ -101,38 +88,6 @@ export class ArrowBuilder extends AxialShapeBuilder {
         ring.usePosition = this.usePosition;
         ring.useTextureCoord = this.useTextureCoord;
 
-        /**
-         * The `shaft` is the slim part of the arrow.
-         */
-        const shaft = new CylindricalShellBuilder();
-        shaft.height.copy(this.e).normalize().scale(heightShaft);
-        shaft.cutLine.copy(this.cutLine).normalize().scale(this.radiusShaft);
-        shaft.clockwise = this.clockwise;
-        shaft.tilt.mul(this.tilt);
-        shaft.offset.copy(tail);
-        shaft.sliceAngle = this.sliceAngle;
-        shaft.thetaSegments = this.thetaSegments;
-        shaft.useNormal = this.useNormal;
-        shaft.usePosition = this.usePosition;
-        shaft.useTextureCoord = this.useTextureCoord;
-
-        /**
-         * The `plug` fills the end of the shaft.
-         */
-        const plug = new RingBuilder();
-        plug.e.copy(back);
-        plug.cutLine.copy(this.cutLine);
-        plug.clockwise = !this.clockwise;
-        plug.innerRadius = 0;
-        plug.outerRadius = this.radiusShaft;
-        plug.tilt.mul(this.tilt);
-        plug.offset.copy(tail);
-        plug.sliceAngle = this.sliceAngle;
-        plug.thetaSegments = this.thetaSegments;
-        plug.useNormal = this.useNormal;
-        plug.usePosition = this.usePosition;
-        plug.useTextureCoord = this.useTextureCoord;
-
-        return reduce([cone.toPrimitive(), ring.toPrimitive(), shaft.toPrimitive(), plug.toPrimitive()]);
+        return reduce([cone.toPrimitive(), ring.toPrimitive()]);
     }
 }

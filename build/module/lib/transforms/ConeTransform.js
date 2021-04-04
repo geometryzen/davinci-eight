@@ -44,6 +44,14 @@ var ConeTransform = /** @class */ (function () {
         this.aPosition = mustBeString('aPosition', aPosition);
         this.aTangent = mustBeString('aTangent', aTangent);
     }
+    /**
+     *
+     * @param vertex (output)
+     * @param i (input)
+     * @param j (input)
+     * @param iLength (input)
+     * @param jLength (input)
+     */
     ConeTransform.prototype.exec = function (vertex, i, j, iLength, jLength) {
         // Let e be the unit vector in the symmetry axis of the cone.
         // Let ρ be a point on the base of the cone.

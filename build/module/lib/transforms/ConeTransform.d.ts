@@ -33,5 +33,13 @@ export declare class ConeTransform implements Transform {
      * @param aTangent The name to use for the tangent plane attribute.
      */
     constructor(clockwise: boolean, sliceAngle: number, aPosition: string, aTangent: string);
+    /**
+     *
+     * @param vertex (output)
+     * @param i (input)
+     * @param j (input)
+     * @param iLength (input)
+     * @param jLength (input)
+     */
     exec(vertex: Vertex, i: number, j: number, iLength: number, jLength: number): void;
 }

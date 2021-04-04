@@ -8,7 +8,7 @@ import { Vector3 } from '../math/Vector3';
  * A framework, as a base class, for building primitives by applying transformations to vertices.
  * @hidden
  */
-export class PrimitivesBuilder {
+export abstract class PrimitivesBuilder {
 
     /**
      * 

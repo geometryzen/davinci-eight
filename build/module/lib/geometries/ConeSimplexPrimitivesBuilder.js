@@ -1,13 +1,13 @@
 import { __extends } from "tslib";
-import { SliceSimplexPrimitivesBuilder } from '../geometries/SliceSimplexPrimitivesBuilder';
+import { SliceSimplexPrimitivesBuilder } from './SliceSimplexPrimitivesBuilder';
 import { Vector2 } from '../math/Vector2';
 import { Vector3 } from '../math/Vector3';
 /**
  * @hidden
  */
-var ConeSimplexGeometry = /** @class */ (function (_super) {
-    __extends(ConeSimplexGeometry, _super);
-    function ConeSimplexGeometry(radius, height, axis, radiusTop, openCap, openBase, thetaStart) {
+var ConeSimplexPrimitivesBuilder = /** @class */ (function (_super) {
+    __extends(ConeSimplexPrimitivesBuilder, _super);
+    function ConeSimplexPrimitivesBuilder(radius, height, axis, radiusTop, openCap, openBase, thetaStart) {
         if (radius === void 0) { radius = 0.5; }
         if (height === void 0) { height = 1; }
         if (radiusTop === void 0) { radiusTop = 0.0; }
@@ -23,7 +23,7 @@ var ConeSimplexGeometry = /** @class */ (function (_super) {
         _this.thetaStart = thetaStart;
         return _this;
     }
-    ConeSimplexGeometry.prototype.regenerate = function () {
+    ConeSimplexPrimitivesBuilder.prototype.regenerate = function () {
         var radiusBottom = this.radius;
         var radiusTop = this.radiusTop;
         var height = this.height;
@@ -125,6 +125,6 @@ var ConeSimplexGeometry = /** @class */ (function (_super) {
         //    this.computeFaceNormals();
         //    this.computeVertexNormals();
     };
-    return ConeSimplexGeometry;
+    return ConeSimplexPrimitivesBuilder;
 }(SliceSimplexPrimitivesBuilder));
-export { ConeSimplexGeometry };
+export { ConeSimplexPrimitivesBuilder };

@@ -17,7 +17,17 @@ export interface ArrowOptions {
         b: number;
     };
     /**
-     *
+     * The height of the cone that constitutes the arrow head.
+     * Default is 0.20
+     */
+    heightCone?: number;
+    /**
+     * The height of the cylinder that constitutes the arrow tail.
+     * Default is 0.80
+     */
+    heightShaft?: number;
+    /**
+     * length = heightCone + heightShaft
      */
     length?: number;
     /**
@@ -37,6 +47,11 @@ export interface ArrowOptions {
      * Default is 0.08
      */
     radiusCone?: number;
+    /**
+     * The radius of the cylinder that constitutes the arrow tail.
+     * Default is 0.01
+     */
+    radiusShaft?: number;
     /**
      * The number of segments, in the azimuth plane, used to construct the arrow.
      * Default is 16.

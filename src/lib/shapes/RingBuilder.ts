@@ -14,6 +14,8 @@ import { AxialShapeBuilder } from './AxialShapeBuilder';
 
 /**
  * Constructs a one-sided ring using a TRIANGLE_STRIP.
+ * A ring can be thought of as a disc with a hole in the middle.
+ * Used by the ArrowBuilder and the HollowCylinderGeometry.
  * @hidden
  */
 export class RingBuilder extends AxialShapeBuilder {

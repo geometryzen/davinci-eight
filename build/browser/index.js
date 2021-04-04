@@ -4,6 +4,275 @@
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.EIGHT = {}));
 }(this, (function (exports) { 'use strict';
 
+    /**
+     * @hidden
+     */
+    function isVectorN(values) {
+        return Array.isArray(values);
+    }
+    /**
+     * @hidden
+     */
+    function checkValues(values) {
+        if (!isVectorN(values)) {
+            throw new Error("values must be a number[]");
+        }
+        return values;
+    }
+    /**
+     * @hidden
+     */
+    function isExactMultipleOf(numer, denom) {
+        return numer % denom === 0;
+    }
+    /**
+     * @hidden
+     */
+    function checkSize$1(size, values) {
+        if (typeof size === 'number') {
+            if (!isExactMultipleOf(values.length, size)) {
+                throw new Error("values.length must be an exact multiple of size");
+            }
+        }
+        else {
+            throw new Error("size must be a number");
+        }
+        return size;
+    }
+    /**
+     * A convenience class for implementing the Attribute interface.
+     * @hidden
+     */
+    var DrawAttribute = /** @class */ (function () {
+        function DrawAttribute(values, size, type) {
+            // mustBeArray('values', values)
+            // mustBeInteger('size', size)
+            this.values = checkValues(values);
+            this.size = checkSize$1(size, values);
+            this.type = type;
+        }
+        return DrawAttribute;
+    }());
+
+    /**
+     * @hidden
+     */
+    function isArray(x) {
+        return Object.prototype.toString.call(x) === '[object Array]';
+    }
+
+    /**
+     * throws name + " must " + message + [" in " + context] + "."
+     * @hidden
+     */
+    function mustSatisfy(name, condition, messageBuilder, contextBuilder) {
+        if (!condition) {
+            var message = messageBuilder ? messageBuilder() : "satisfy some condition";
+            var context = contextBuilder ? " in " + contextBuilder() : "";
+            throw new Error(name + " must " + message + context + ".");
+        }
+    }
+
+    /**
+     * @hidden
+     */
+    function beAnArray() {
+        return "be an array";
+    }
+    /**
+     * @hidden
+     */
+    function mustBeArray(name, value, contextBuilder) {
+        mustSatisfy(name, isArray(value), beAnArray, contextBuilder);
+        return value;
+    }
+
+    /**
+     * @hidden
+     */
+    function isNumber(x) {
+        return (typeof x === 'number');
+    }
+
+    /**
+     * @hidden
+     */
+    function isInteger(x) {
+        // % coerces its operand to numbers so a type guard is required.
+        // Note that ECMAScript 6 provides Number.isInteger().
+        return isNumber(x) && x % 1 === 0;
+    }
+
+    /**
+     * @hidden
+     */
+    function beAnInteger() {
+        return "be an integer";
+    }
+    /**
+     * @hidden
+     */
+    function mustBeInteger(name, value, contextBuilder) {
+        mustSatisfy(name, isInteger(value), beAnInteger, contextBuilder);
+        return value;
+    }
+
+    /**
+     * @hidden
+     */
+    function isObject(x) {
+        return (typeof x === 'object');
+    }
+
+    /**
+     * @hidden
+     */
+    function beObject$1() {
+        return "be an `object`";
+    }
+    /**
+     * @hidden
+     */
+    function mustBeObject(name, value, contextBuilder) {
+        mustSatisfy(name, isObject(value), beObject$1, contextBuilder);
+        return value;
+    }
+
+    /**
+     * @hidden
+     */
+    var context = function () { return "DrawPrimitive constructor"; };
+    /**
+     * A convenience class for implementing the Primitive interface.
+     * @hidden
+     */
+    var DrawPrimitive = /** @class */ (function () {
+        function DrawPrimitive(mode, indices, attributes) {
+            this.attributes = {};
+            this.mode = mustBeInteger('mode', mode, context);
+            this.indices = mustBeArray('indices', indices, context);
+            this.attributes = mustBeObject('attributes', attributes, context);
+        }
+        return DrawPrimitive;
+    }());
+
+    /**
+     * The enumerated modes of drawing WebGL primitives.
+     * (POINTS, LINES, LINE_LOOP, LINE_STRIP, TRIANGLES, TRIANGLE_STRIP,TRIANGLE_FAN)
+     *
+     * https://www.khronos.org/registry/webgl/specs/1.0/
+     */
+    exports.BeginMode = void 0;
+    (function (BeginMode) {
+        BeginMode[BeginMode["POINTS"] = 0] = "POINTS";
+        BeginMode[BeginMode["LINES"] = 1] = "LINES";
+        BeginMode[BeginMode["LINE_LOOP"] = 2] = "LINE_LOOP";
+        BeginMode[BeginMode["LINE_STRIP"] = 3] = "LINE_STRIP";
+        BeginMode[BeginMode["TRIANGLES"] = 4] = "TRIANGLES";
+        BeginMode[BeginMode["TRIANGLE_STRIP"] = 5] = "TRIANGLE_STRIP";
+        BeginMode[BeginMode["TRIANGLE_FAN"] = 6] = "TRIANGLE_FAN";
+    })(exports.BeginMode || (exports.BeginMode = {}));
+
+    /**
+     * @hidden
+     */
+    function copyIndices(src, dest, delta) {
+        if (src.indices) {
+            var iLen = src.indices.length;
+            for (var i = 0; i < iLen; i++) {
+                dest.push(src.indices[i] + delta);
+            }
+        }
+    }
+    /**
+     * @hidden
+     */
+    function max(xs) {
+        return xs.reduce(function (a, b) { return a > b ? a : b; });
+    }
+    /**
+     * @hidden
+     */
+    function joinIndices(previous, current, dest) {
+        if (previous.indices) {
+            var lastIndex = previous.indices[previous.indices.length - 1];
+            if (current.indices) {
+                var nextIndex = current.indices[0] + max(previous.indices) + 1;
+                // Make this triangle degenerate.
+                dest.push(lastIndex);
+                // Join to the next triangle strip.
+                dest.push(nextIndex);
+            }
+        }
+    }
+    /**
+     * @hidden
+     */
+    function ensureAttribute(attributes, name, size) {
+        if (!attributes[name]) {
+            attributes[name] = { values: [], size: size };
+        }
+        return attributes[name];
+    }
+    /**
+     * @hidden
+     */
+    function copyAttributes(primitive, attributes) {
+        var keys = Object.keys(primitive.attributes);
+        var kLen = keys.length;
+        for (var k = 0; k < kLen; k++) {
+            var key = keys[k];
+            var srcAttrib = primitive.attributes[key];
+            var dstAttrib = ensureAttribute(attributes, key, srcAttrib.size);
+            var svalues = srcAttrib.values;
+            var vLen = svalues.length;
+            for (var v = 0; v < vLen; v++) {
+                dstAttrib.values.push(svalues[v]);
+            }
+        }
+    }
+    /**
+     * reduces multiple TRIANGLE_STRIP Primitives to a single TRAINGLE_STRIP Primitive.
+     * @hidden
+     */
+    function reduce(primitives) {
+        for (var i = 0; i < primitives.length; i++) {
+            var primitive = primitives[i];
+            if (primitive.mode !== exports.BeginMode.TRIANGLE_STRIP) {
+                throw new Error("mode (" + primitive.mode + ") must be TRIANGLE_STRIP");
+            }
+        }
+        return primitives.reduce(function (previous, current) {
+            var indices = [];
+            copyIndices(previous, indices, 0);
+            joinIndices(previous, current, indices);
+            copyIndices(current, indices, max(previous.indices) + 1);
+            var attributes = {};
+            copyAttributes(previous, attributes);
+            copyAttributes(current, attributes);
+            return {
+                mode: exports.BeginMode.TRIANGLE_STRIP,
+                indices: indices,
+                attributes: attributes
+            };
+        });
+    }
+
+    /**
+     * @hidden
+     */
+    function isGE(value, limit) {
+        return value >= limit;
+    }
+
+    /**
+     * @hidden
+     */
+    function mustBeGE(name, value, limit, contextBuilder) {
+        mustSatisfy(name, isGE(value, limit), function () { return "be greater than or equal to " + limit; }, contextBuilder);
+        return value;
+    }
+
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation.
 
@@ -45,20 +314,415 @@
     /**
      * @hidden
      */
-    function isEQ(value, limit) {
-        return value === limit;
+    function isUndefined(arg) {
+        return (typeof arg === 'undefined');
     }
 
     /**
-     * throws name + " must " + message + [" in " + context] + "."
+     * Sets the lock on the argument and returns the same argument.
      * @hidden
      */
-    function mustSatisfy(name, condition, messageBuilder, contextBuilder) {
-        if (!condition) {
-            var message = messageBuilder ? messageBuilder() : "satisfy some condition";
-            var context = contextBuilder ? " in " + contextBuilder() : "";
-            throw new Error(name + " must " + message + context + ".");
+    function lock(m) {
+        m.lock();
+        return m;
+    }
+    /**
+     * @hidden
+     */
+    var TargetLockedError = /** @class */ (function (_super) {
+        __extends(TargetLockedError, _super);
+        /**
+         * `operationName` is the name of the operation, without parentheses or parameters.
+         */
+        function TargetLockedError(operationName) {
+            return _super.call(this, "target of operation '" + operationName + "' must be mutable.") || this;
         }
+        return TargetLockedError;
+    }(Error));
+    /**
+     * @hidden
+     */
+    /** @class */ ((function (_super) {
+        __extends(TargetUnlockedError, _super);
+        /**
+         * `operationName` is the name of the operation, without parentheses.
+         */
+        function TargetUnlockedError(operationName) {
+            return _super.call(this, "target of operation '" + operationName + "' must be immutable.") || this;
+        }
+        return TargetUnlockedError;
+    })(Error));
+    /**
+     * @hidden
+     */
+    function lockable() {
+        var lock_ = void 0;
+        var that = {
+            isLocked: function () {
+                return typeof lock_ === 'number';
+            },
+            lock: function () {
+                if (that.isLocked()) {
+                    throw new Error("already locked");
+                }
+                else {
+                    lock_ = Math.random();
+                    return lock_;
+                }
+            },
+            unlock: function (token) {
+                if (typeof token !== 'number') {
+                    throw new Error("token must be a number.");
+                }
+                if (!that.isLocked()) {
+                    throw new Error("not locked");
+                }
+                else if (lock_ === token) {
+                    lock_ = void 0;
+                }
+                else {
+                    throw new Error("unlock denied");
+                }
+            }
+        };
+        return that;
+    }
+    /**
+     * Lockable Mixin
+     * @hidden
+     */
+    var LockableMixin = /** @class */ (function () {
+        function LockableMixin() {
+        }
+        LockableMixin.prototype.isLocked = function () {
+            return typeof this['lock_'] === 'number';
+        };
+        LockableMixin.prototype.lock = function () {
+            if (this.isLocked()) {
+                throw new Error("already locked");
+            }
+            else {
+                this['lock_'] = Math.random();
+                return this['lock_'];
+            }
+        };
+        LockableMixin.prototype.unlock = function (token) {
+            if (typeof token !== 'number') {
+                throw new Error("token must be a number.");
+            }
+            if (!this.isLocked()) {
+                throw new Error("not locked");
+            }
+            else if (this['lock_'] === token) {
+                this['lock_'] = void 0;
+            }
+            else {
+                throw new Error("unlock denied");
+            }
+        };
+        return LockableMixin;
+    }());
+
+    /**
+     * @hidden
+     */
+    function pushString(T) {
+        return "push(value: " + T + "): number";
+    }
+    /**
+     * @hidden
+     */
+    function popString(T) {
+        return "pop(): " + T;
+    }
+    /**
+     * @hidden
+     */
+    function verboten(operation) {
+        return operation + " is not allowed for a fixed size vector";
+    }
+    /**
+     * @hidden
+     */
+    function verbotenPush() {
+        return verboten(pushString('T'));
+    }
+    /**
+     * @hidden
+     */
+    function verbotenPop() {
+        return verboten(popString('T'));
+    }
+    /**
+     * @hidden
+     */
+    var VectorN = /** @class */ (function () {
+        /**
+         *
+         * @param data
+         * @param modified
+         * @param size
+         */
+        function VectorN(data, modified, size) {
+            if (modified === void 0) { modified = false; }
+            /**
+             *
+             */
+            this.lock_ = lockable();
+            this.modified_ = modified;
+            if (isDefined(size)) {
+                this.size_ = size;
+                this.data_ = data;
+                mustSatisfy('data.length', data.length === size, function () { return "" + size; });
+            }
+            else {
+                this.size_ = void 0;
+                this.data_ = data;
+            }
+        }
+        VectorN.prototype.isLocked = function () {
+            return this.lock_.isLocked();
+        };
+        VectorN.prototype.lock = function () {
+            return this.lock_.lock();
+        };
+        VectorN.prototype.unlock = function (token) {
+            return this.lock_.unlock(token);
+        };
+        Object.defineProperty(VectorN.prototype, "coords", {
+            /**
+             *
+             */
+            get: function () {
+                return this.data_;
+            },
+            set: function (data) {
+                if (this.isLocked()) {
+                    throw new TargetLockedError('coords');
+                }
+                this.data_ = data;
+                this.modified_ = true;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(VectorN.prototype, "modified", {
+            get: function () {
+                return this.modified_;
+            },
+            set: function (modified) {
+                this.modified_ = modified;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(VectorN.prototype, "length", {
+            /**
+             *
+             */
+            get: function () {
+                return this.coords.length;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        /**
+         *
+         */
+        VectorN.prototype.clone = function () {
+            return new VectorN(this.data_, this.modified_, this.size_);
+        };
+        /**
+         * @param index
+         */
+        VectorN.prototype.getComponent = function (index) {
+            return this.coords[index];
+        };
+        /**
+         *
+         */
+        VectorN.prototype.pop = function () {
+            if (this.isLocked()) {
+                throw new TargetLockedError('pop');
+            }
+            if (isUndefined(this.size_)) {
+                return this.coords.pop();
+            }
+            else {
+                throw new Error(verbotenPop());
+            }
+        };
+        /**
+         * @param value
+         * @returns
+         */
+        VectorN.prototype.push = function (value) {
+            if (this.isLocked()) {
+                throw new TargetLockedError('push');
+            }
+            if (isUndefined(this.size_)) {
+                var data = this.coords;
+                var newLength = data.push(value);
+                this.coords = data;
+                return newLength;
+            }
+            else {
+                throw new Error(verbotenPush());
+            }
+        };
+        /**
+         * @param index
+         * @param value
+         */
+        VectorN.prototype.setComponent = function (index, value) {
+            if (this.isLocked()) {
+                throw new TargetLockedError('setComponent');
+            }
+            var coords = this.coords;
+            var previous = coords[index];
+            if (value !== previous) {
+                coords[index] = value;
+                this.coords = coords;
+                this.modified_ = true;
+            }
+        };
+        /**
+         * @param array
+         * @param offset
+         * @returns
+         */
+        VectorN.prototype.toArray = function (array, offset) {
+            if (array === void 0) { array = []; }
+            if (offset === void 0) { offset = 0; }
+            var data = this.coords;
+            var length = data.length;
+            for (var i = 0; i < length; i++) {
+                array[offset + i] = data[i];
+            }
+            return array;
+        };
+        /**
+         * @returns
+         */
+        VectorN.prototype.toLocaleString = function () {
+            return this.coords.toLocaleString();
+        };
+        /**
+         * @returns
+         */
+        VectorN.prototype.toString = function () {
+            return this.coords.toString();
+        };
+        return VectorN;
+    }());
+
+    /**
+     * @hidden
+     */
+    var Coords = /** @class */ (function (_super) {
+        __extends(Coords, _super);
+        /**
+         *
+         */
+        function Coords(coords, modified, size) {
+            return _super.call(this, coords, modified, size) || this;
+        }
+        /**
+         * Sets any coordinate whose absolute value is less than pow(10, -n) times the absolute value of the largest coordinate to zero.
+         * @param n The exponent used to determine which components are set to zero.
+         * @returns approx(this)
+         */
+        Coords.prototype.approx = function (n) {
+            var max = 0;
+            var coords = this.coords;
+            var iLen = coords.length;
+            for (var i = 0; i < iLen; i++) {
+                max = Math.max(max, Math.abs(coords[i]));
+            }
+            var threshold = max * Math.pow(10, -n);
+            for (var i = 0; i < iLen; i++) {
+                if (Math.abs(coords[i]) < threshold) {
+                    coords[i] = 0;
+                }
+            }
+        };
+        /**
+         *
+         */
+        Coords.prototype.equals = function (other) {
+            if (other instanceof Coords) {
+                var iLen = this.coords.length;
+                for (var i = 0; i < iLen; i++) {
+                    if (this.coords[i] !== other.coords[i]) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            else {
+                return false;
+            }
+        };
+        return Coords;
+    }(VectorN));
+
+    /**
+     * @hidden
+     */
+    function stringVectorN(name, vector) {
+        if (vector) {
+            return name + vector.toString();
+        }
+        else {
+            return name;
+        }
+    }
+    /**
+     * @hidden
+     */
+    function stringifyVertex(vertex) {
+        var attributes = vertex.attributes;
+        var attribsKey = Object.keys(attributes).map(function (name) {
+            var vector = attributes[name];
+            return stringVectorN(name, vector);
+        }).join(' ');
+        return attribsKey;
+    }
+    /**
+     * The data for a vertex in a normalized and uncompressed format that is easy to manipulate.
+     * @hidden
+     */
+    var Vertex = /** @class */ (function () {
+        /**
+         * @param numCoordinates The number of coordinates (dimensionality).
+         */
+        function Vertex(numCoordinates) {
+            /**
+             * The attribute data for this vertex.
+             */
+            this.attributes = {};
+            mustBeInteger('numCoordinates', numCoordinates);
+            mustBeGE('numCoordinates', numCoordinates, 0);
+            var data = [];
+            for (var i = 0; i < numCoordinates; i++) {
+                data.push(0);
+            }
+            this.coords = new Coords(data, false, numCoordinates);
+        }
+        /**
+         * @returns A string representation of this vertex.
+         */
+        Vertex.prototype.toString = function () {
+            return stringifyVertex(this);
+        };
+        return Vertex;
+    }());
+
+    /**
+     * @hidden
+     */
+    function isEQ(value, limit) {
+        return value === limit;
     }
 
     /**
@@ -66,36 +730,6 @@
      */
     function mustBeEQ(name, value, limit, contextBuilder) {
         mustSatisfy(name, isEQ(value, limit), function () { return "be equal to " + limit; }, contextBuilder);
-        return value;
-    }
-
-    /**
-     * @hidden
-     */
-    function isNumber(x) {
-        return (typeof x === 'number');
-    }
-
-    /**
-     * @hidden
-     */
-    function isInteger(x) {
-        // % coerces its operand to numbers so a type guard is required.
-        // Note that ECMAScript 6 provides Number.isInteger().
-        return isNumber(x) && x % 1 === 0;
-    }
-
-    /**
-     * @hidden
-     */
-    function beAnInteger() {
-        return "be an integer";
-    }
-    /**
-     * @hidden
-     */
-    function mustBeInteger(name, value, contextBuilder) {
-        mustSatisfy(name, isInteger(value), beAnInteger, contextBuilder);
         return value;
     }
 
@@ -128,7 +762,7 @@
             this.GITHUB = "https://github.com/geometryzen/davinci-eight";
             this.LAST_MODIFIED = "2021-04-04";
             this.MARKETING_NAME = "DaVinci eight";
-            this.VERSION = '8.4.6';
+            this.VERSION = '8.4.7';
         }
         Eight.prototype.log = function (message) {
             console.log(message);
@@ -611,6 +1245,392 @@
     /**
      * @hidden
      */
+    var NumberShareableMap = /** @class */ (function (_super) {
+        __extends(NumberShareableMap, _super);
+        function NumberShareableMap() {
+            var _this = _super.call(this) || this;
+            _this._elements = {};
+            _this.setLoggingName('NumberShareableMap');
+            return _this;
+        }
+        NumberShareableMap.prototype.destructor = function (levelUp) {
+            this.forEach(function (key, value) {
+                if (value) {
+                    value.release();
+                }
+            });
+            this._elements = void 0;
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        NumberShareableMap.prototype.exists = function (key) {
+            var element = this._elements[key];
+            return element ? true : false;
+        };
+        NumberShareableMap.prototype.get = function (key) {
+            var element = this.getWeakRef(key);
+            if (element) {
+                element.addRef();
+            }
+            return element;
+        };
+        NumberShareableMap.prototype.getWeakRef = function (index) {
+            return this._elements[index];
+        };
+        NumberShareableMap.prototype.put = function (key, value) {
+            if (value) {
+                value.addRef();
+            }
+            this.putWeakRef(key, value);
+        };
+        NumberShareableMap.prototype.putWeakRef = function (key, value) {
+            var elements = this._elements;
+            var existing = elements[key];
+            if (existing) {
+                existing.release();
+            }
+            elements[key] = value;
+        };
+        NumberShareableMap.prototype.forEach = function (callback) {
+            var keys = this.keys;
+            for (var i = 0, iLength = keys.length; i < iLength; i++) {
+                var key = keys[i];
+                var value = this._elements[key];
+                callback(key, value);
+            }
+        };
+        Object.defineProperty(NumberShareableMap.prototype, "keys", {
+            get: function () {
+                // FIXME: cache? Maybe, clients may use this to iterate. forEach is too slow.
+                return Object.keys(this._elements).map(function (keyString) { return parseFloat(keyString); });
+            },
+            enumerable: false,
+            configurable: true
+        });
+        NumberShareableMap.prototype.remove = function (key) {
+            // Strong or Weak doesn't matter because the value is `undefined`.
+            this.put(key, void 0);
+            delete this._elements[key];
+        };
+        return NumberShareableMap;
+    }(ShareableBase));
+
+    /**
+     * @hidden
+     */
+    function readOnly(name) {
+        mustBeString('name', name);
+        var message = {
+            get message() {
+                return "Property `" + name + "` is readonly.";
+            }
+        };
+        return message;
+    }
+
+    /**
+     * Essentially constructs the ShareableArray without incrementing the
+     * reference count of the elements, and without creating zombies.
+     * @hidden
+     */
+    function transferOwnership(data) {
+        if (data) {
+            var result = new ShareableArray(data);
+            // The result has now taken ownership of the elements, so we can release.
+            for (var i = 0, iLength = data.length; i < iLength; i++) {
+                var element = data[i];
+                if (element && element.release) {
+                    element.release();
+                }
+            }
+            return result;
+        }
+        else {
+            return void 0;
+        }
+    }
+    /**
+     * <p>
+     * Collection class for maintaining an array of types derived from Shareable.
+     * </p>
+     * <p>
+     * Provides a safer way to maintain reference counts than a native array.
+     * </p>
+     * @hidden
+     */
+    var ShareableArray = /** @class */ (function (_super) {
+        __extends(ShareableArray, _super);
+        /**
+         *
+         */
+        function ShareableArray(elements) {
+            if (elements === void 0) { elements = []; }
+            var _this = _super.call(this) || this;
+            _this.setLoggingName('ShareableArray');
+            _this._elements = elements;
+            for (var i = 0, l = _this._elements.length; i < l; i++) {
+                var element = _this._elements[i];
+                if (element.addRef) {
+                    element.addRef();
+                }
+            }
+            return _this;
+        }
+        /**
+         *
+         */
+        ShareableArray.prototype.destructor = function (levelUp) {
+            for (var i = 0, l = this._elements.length; i < l; i++) {
+                var element = this._elements[i];
+                if (element.release) {
+                    element.release();
+                }
+            }
+            this._elements = void 0;
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        /**
+         *
+         */
+        ShareableArray.prototype.find = function (match) {
+            var result = new ShareableArray([]);
+            var elements = this._elements;
+            var iLen = elements.length;
+            for (var i = 0; i < iLen; i++) {
+                var candidate = elements[i];
+                if (match(candidate)) {
+                    result.push(candidate);
+                }
+            }
+            return result;
+        };
+        /**
+         *
+         */
+        ShareableArray.prototype.findOne = function (match) {
+            var elements = this._elements;
+            for (var i = 0, iLength = elements.length; i < iLength; i++) {
+                var candidate = elements[i];
+                if (match(candidate)) {
+                    if (candidate.addRef) {
+                        candidate.addRef();
+                    }
+                    return candidate;
+                }
+            }
+            return void 0;
+        };
+        /**
+         * Gets the element at the specified index, incrementing the reference count.
+         */
+        ShareableArray.prototype.get = function (index) {
+            var element = this.getWeakRef(index);
+            if (element) {
+                if (element.addRef) {
+                    element.addRef();
+                }
+            }
+            return element;
+        };
+        /**
+         * Gets the element at the specified index, without incrementing the reference count.
+         */
+        ShareableArray.prototype.getWeakRef = function (index) {
+            return this._elements[index];
+        };
+        /**
+         *
+         */
+        ShareableArray.prototype.indexOf = function (searchElement, fromIndex) {
+            return this._elements.indexOf(searchElement, fromIndex);
+        };
+        Object.defineProperty(ShareableArray.prototype, "length", {
+            /**
+             *
+             */
+            get: function () {
+                if (this._elements) {
+                    return this._elements.length;
+                }
+                else {
+                    console.warn("ShareableArray is now a zombie, length is undefined");
+                    return void 0;
+                }
+            },
+            set: function (unused) {
+                throw new Error(readOnly('length').message);
+            },
+            enumerable: false,
+            configurable: true
+        });
+        /**
+         * The slice() method returns a shallow copy of a portion of an array into a new array object.
+         *
+         * It does not remove elements from the original array.
+         */
+        ShareableArray.prototype.slice = function (begin, end) {
+            return new ShareableArray(this._elements.slice(begin, end));
+        };
+        /**
+         * The splice() method changes the content of an array by removing existing elements and/or adding new elements.
+         */
+        ShareableArray.prototype.splice = function (index, deleteCount) {
+            // The release burdon is on the caller now.
+            return transferOwnership(this._elements.splice(index, deleteCount));
+        };
+        /**
+         *
+         */
+        ShareableArray.prototype.shift = function () {
+            // No need to addRef because ownership is being transferred to caller.
+            return this._elements.shift();
+        };
+        /**
+         * Traverse without Reference Counting
+         */
+        ShareableArray.prototype.forEach = function (callback) {
+            return this._elements.forEach(callback);
+        };
+        /**
+         * Pushes <code>element</code> onto the tail of the list and increments the element reference count.
+         */
+        ShareableArray.prototype.push = function (element) {
+            if (element) {
+                if (element.addRef) {
+                    element.addRef();
+                }
+            }
+            return this.pushWeakRef(element);
+        };
+        /**
+         * Pushes <code>element</code> onto the tail of the list <em>without</em> incrementing the <code>element</code> reference count.
+         */
+        ShareableArray.prototype.pushWeakRef = function (element) {
+            return this._elements.push(element);
+        };
+        /**
+         *
+         */
+        ShareableArray.prototype.pop = function () {
+            // No need to addRef because ownership is being transferred to caller.
+            return this._elements.pop();
+        };
+        /**
+         *
+         */
+        ShareableArray.prototype.unshift = function (element) {
+            if (element.addRef) {
+                element.addRef();
+            }
+            return this.unshiftWeakRef(element);
+        };
+        /**
+         * <p>
+         * <code>unshift</code> <em>without</em> incrementing the <code>element</code> reference count.
+         * </p>
+         */
+        ShareableArray.prototype.unshiftWeakRef = function (element) {
+            return this._elements.unshift(element);
+        };
+        return ShareableArray;
+    }(ShareableBase));
+
+    /**
+     * @hidden
+     */
+    var StringShareableMap = /** @class */ (function (_super) {
+        __extends(StringShareableMap, _super);
+        /**
+         * A map of string to V extends Shareable.
+         */
+        function StringShareableMap() {
+            var _this = _super.call(this) || this;
+            _this.elements = {};
+            _this.setLoggingName('StringShareableMap');
+            return _this;
+        }
+        StringShareableMap.prototype.destructor = function (levelUp) {
+            var _this = this;
+            this.forEach(function (key) {
+                _this.putWeakRef(key, void 0);
+            });
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        /**
+         * Determines whether the key exists in the map with a defined value.
+         */
+        StringShareableMap.prototype.exists = function (key) {
+            var element = this.elements[key];
+            return element ? true : false;
+        };
+        StringShareableMap.prototype.get = function (key) {
+            var element = this.elements[key];
+            if (element) {
+                if (element.addRef) {
+                    element.addRef();
+                }
+                return element;
+            }
+            else {
+                return void 0;
+            }
+        };
+        StringShareableMap.prototype.getWeakRef = function (key) {
+            return this.elements[key];
+        };
+        StringShareableMap.prototype.put = function (key, value) {
+            if (value && value.addRef) {
+                value.addRef();
+            }
+            this.putWeakRef(key, value);
+        };
+        StringShareableMap.prototype.putWeakRef = function (key, value) {
+            var elements = this.elements;
+            var existing = elements[key];
+            if (existing) {
+                if (existing.release) {
+                    existing.release();
+                }
+            }
+            elements[key] = value;
+        };
+        StringShareableMap.prototype.forEach = function (callback) {
+            var keys = this.keys;
+            for (var i = 0, iLength = keys.length; i < iLength; i++) {
+                var key = keys[i];
+                callback(key, this.elements[key]);
+            }
+        };
+        Object.defineProperty(StringShareableMap.prototype, "keys", {
+            get: function () {
+                return Object.keys(this.elements);
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(StringShareableMap.prototype, "values", {
+            get: function () {
+                var values = [];
+                var keys = this.keys;
+                for (var i = 0, iLength = keys.length; i < iLength; i++) {
+                    var key = keys[i];
+                    values.push(this.elements[key]);
+                }
+                return values;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        StringShareableMap.prototype.remove = function (key) {
+            var value = this.elements[key];
+            delete this.elements[key];
+            return value;
+        };
+        return StringShareableMap;
+    }(ShareableBase));
+
+    /**
+     * @hidden
+     */
     var WebGLBlendFunc = /** @class */ (function (_super) {
         __extends(WebGLBlendFunc, _super);
         function WebGLBlendFunc(contextManager, sfactor, dfactor) {
@@ -759,111 +1779,6 @@
     }(ShareableBase));
 
     /**
-     * Sets the lock on the argument and returns the same argument.
-     * @hidden
-     */
-    function lock(m) {
-        m.lock();
-        return m;
-    }
-    /**
-     * @hidden
-     */
-    var TargetLockedError = /** @class */ (function (_super) {
-        __extends(TargetLockedError, _super);
-        /**
-         * `operationName` is the name of the operation, without parentheses or parameters.
-         */
-        function TargetLockedError(operationName) {
-            return _super.call(this, "target of operation '" + operationName + "' must be mutable.") || this;
-        }
-        return TargetLockedError;
-    }(Error));
-    /**
-     * @hidden
-     */
-    /** @class */ ((function (_super) {
-        __extends(TargetUnlockedError, _super);
-        /**
-         * `operationName` is the name of the operation, without parentheses.
-         */
-        function TargetUnlockedError(operationName) {
-            return _super.call(this, "target of operation '" + operationName + "' must be immutable.") || this;
-        }
-        return TargetUnlockedError;
-    })(Error));
-    /**
-     * @hidden
-     */
-    function lockable() {
-        var lock_ = void 0;
-        var that = {
-            isLocked: function () {
-                return typeof lock_ === 'number';
-            },
-            lock: function () {
-                if (that.isLocked()) {
-                    throw new Error("already locked");
-                }
-                else {
-                    lock_ = Math.random();
-                    return lock_;
-                }
-            },
-            unlock: function (token) {
-                if (typeof token !== 'number') {
-                    throw new Error("token must be a number.");
-                }
-                if (!that.isLocked()) {
-                    throw new Error("not locked");
-                }
-                else if (lock_ === token) {
-                    lock_ = void 0;
-                }
-                else {
-                    throw new Error("unlock denied");
-                }
-            }
-        };
-        return that;
-    }
-    /**
-     * Lockable Mixin
-     * @hidden
-     */
-    var LockableMixin = /** @class */ (function () {
-        function LockableMixin() {
-        }
-        LockableMixin.prototype.isLocked = function () {
-            return typeof this['lock_'] === 'number';
-        };
-        LockableMixin.prototype.lock = function () {
-            if (this.isLocked()) {
-                throw new Error("already locked");
-            }
-            else {
-                this['lock_'] = Math.random();
-                return this['lock_'];
-            }
-        };
-        LockableMixin.prototype.unlock = function (token) {
-            if (typeof token !== 'number') {
-                throw new Error("token must be a number.");
-            }
-            if (!this.isLocked()) {
-                throw new Error("not locked");
-            }
-            else if (this['lock_'] === token) {
-                this['lock_'] = void 0;
-            }
-            else {
-                throw new Error("unlock denied");
-            }
-        };
-        return LockableMixin;
-    }());
-
-    /**
      * @hidden
      */
     function applyMixins(derivedCtor, baseCtors) {
@@ -896,13 +1811,6 @@
      */
     function isNull(x) {
         return x === null;
-    }
-
-    /**
-     * @hidden
-     */
-    function isUndefined(arg) {
-        return (typeof arg === 'undefined');
     }
 
     /**
@@ -1283,13 +2191,6 @@
      */
     function isScalarG3(m) {
         return m.x === 0 && m.y === 0 && m.z === 0 && m.xy === 0 && m.yz === 0 && m.zx === 0 && m.b === 0;
-    }
-
-    /**
-     * @hidden
-     */
-    function isObject(x) {
-        return (typeof x === 'object');
     }
 
     /**
@@ -1891,27 +2792,6 @@
         var xy = m.xy;
         var b = m.b;
         return a * a + x * x + y * y + z * z + yz * yz + zx * zx + xy * xy + b * b;
-    }
-
-    /**
-     * @hidden
-     */
-    function isArray(x) {
-        return Object.prototype.toString.call(x) === '[object Array]';
-    }
-
-    /**
-     * @hidden
-     */
-    function beAnArray() {
-        return "be an array";
-    }
-    /**
-     * @hidden
-     */
-    function mustBeArray(name, value, contextBuilder) {
-        mustSatisfy(name, isArray(value), beAnArray, contextBuilder);
-        return value;
     }
 
     /**
@@ -4322,33 +5202,6 @@
         // intermediate calculation
         R.one().add(u$1.mul(e1$1)).add(v$1.mul(e2$2)).add(n$1.mul(e3$1));
         R.normalize();
-    }
-
-    /**
-     * @hidden
-     */
-    function beObject$1() {
-        return "be an `object`";
-    }
-    /**
-     * @hidden
-     */
-    function mustBeObject(name, value, contextBuilder) {
-        mustSatisfy(name, isObject(value), beObject$1, contextBuilder);
-        return value;
-    }
-
-    /**
-     * @hidden
-     */
-    function readOnly(name) {
-        mustBeString('name', name);
-        var message = {
-            get message() {
-                return "Property `" + name + "` is readonly.";
-            }
-        };
-        return message;
     }
 
     /**
@@ -8479,23 +9332,6 @@
     }());
 
     /**
-     * The enumerated modes of drawing WebGL primitives.
-     * (POINTS, LINES, LINE_LOOP, LINE_STRIP, TRIANGLES, TRIANGLE_STRIP,TRIANGLE_FAN)
-     *
-     * https://www.khronos.org/registry/webgl/specs/1.0/
-     */
-    exports.BeginMode = void 0;
-    (function (BeginMode) {
-        BeginMode[BeginMode["POINTS"] = 0] = "POINTS";
-        BeginMode[BeginMode["LINES"] = 1] = "LINES";
-        BeginMode[BeginMode["LINE_LOOP"] = 2] = "LINE_LOOP";
-        BeginMode[BeginMode["LINE_STRIP"] = 3] = "LINE_STRIP";
-        BeginMode[BeginMode["TRIANGLES"] = 4] = "TRIANGLES";
-        BeginMode[BeginMode["TRIANGLE_STRIP"] = 5] = "TRIANGLE_STRIP";
-        BeginMode[BeginMode["TRIANGLE_FAN"] = 6] = "TRIANGLE_FAN";
-    })(exports.BeginMode || (exports.BeginMode = {}));
-
-    /**
      *
      */
     exports.BlendingFactorDest = void 0;
@@ -8582,21 +9418,6 @@
     /**
      * @hidden
      */
-    function isGE(value, limit) {
-        return value >= limit;
-    }
-
-    /**
-     * @hidden
-     */
-    function mustBeGE(name, value, limit, contextBuilder) {
-        mustSatisfy(name, isGE(value, limit), function () { return "be greater than or equal to " + limit; }, contextBuilder);
-        return value;
-    }
-
-    /**
-     * @hidden
-     */
     function isLE(value, limit) {
         return value <= limit;
     }
@@ -8618,249 +9439,6 @@
         mustBeNumber('max', max);
         return (x < min) ? min : ((x > max) ? max : x);
     }
-
-    /**
-     * @hidden
-     */
-    function pushString(T) {
-        return "push(value: " + T + "): number";
-    }
-    /**
-     * @hidden
-     */
-    function popString(T) {
-        return "pop(): " + T;
-    }
-    /**
-     * @hidden
-     */
-    function verboten(operation) {
-        return operation + " is not allowed for a fixed size vector";
-    }
-    /**
-     * @hidden
-     */
-    function verbotenPush() {
-        return verboten(pushString('T'));
-    }
-    /**
-     * @hidden
-     */
-    function verbotenPop() {
-        return verboten(popString('T'));
-    }
-    /**
-     * @hidden
-     */
-    var VectorN = /** @class */ (function () {
-        /**
-         *
-         * @param data
-         * @param modified
-         * @param size
-         */
-        function VectorN(data, modified, size) {
-            if (modified === void 0) { modified = false; }
-            /**
-             *
-             */
-            this.lock_ = lockable();
-            this.modified_ = modified;
-            if (isDefined(size)) {
-                this.size_ = size;
-                this.data_ = data;
-                mustSatisfy('data.length', data.length === size, function () { return "" + size; });
-            }
-            else {
-                this.size_ = void 0;
-                this.data_ = data;
-            }
-        }
-        VectorN.prototype.isLocked = function () {
-            return this.lock_.isLocked();
-        };
-        VectorN.prototype.lock = function () {
-            return this.lock_.lock();
-        };
-        VectorN.prototype.unlock = function (token) {
-            return this.lock_.unlock(token);
-        };
-        Object.defineProperty(VectorN.prototype, "coords", {
-            /**
-             *
-             */
-            get: function () {
-                return this.data_;
-            },
-            set: function (data) {
-                if (this.isLocked()) {
-                    throw new TargetLockedError('coords');
-                }
-                this.data_ = data;
-                this.modified_ = true;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(VectorN.prototype, "modified", {
-            get: function () {
-                return this.modified_;
-            },
-            set: function (modified) {
-                this.modified_ = modified;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(VectorN.prototype, "length", {
-            /**
-             *
-             */
-            get: function () {
-                return this.coords.length;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        /**
-         *
-         */
-        VectorN.prototype.clone = function () {
-            return new VectorN(this.data_, this.modified_, this.size_);
-        };
-        /**
-         * @param index
-         */
-        VectorN.prototype.getComponent = function (index) {
-            return this.coords[index];
-        };
-        /**
-         *
-         */
-        VectorN.prototype.pop = function () {
-            if (this.isLocked()) {
-                throw new TargetLockedError('pop');
-            }
-            if (isUndefined(this.size_)) {
-                return this.coords.pop();
-            }
-            else {
-                throw new Error(verbotenPop());
-            }
-        };
-        /**
-         * @param value
-         * @returns
-         */
-        VectorN.prototype.push = function (value) {
-            if (this.isLocked()) {
-                throw new TargetLockedError('push');
-            }
-            if (isUndefined(this.size_)) {
-                var data = this.coords;
-                var newLength = data.push(value);
-                this.coords = data;
-                return newLength;
-            }
-            else {
-                throw new Error(verbotenPush());
-            }
-        };
-        /**
-         * @param index
-         * @param value
-         */
-        VectorN.prototype.setComponent = function (index, value) {
-            if (this.isLocked()) {
-                throw new TargetLockedError('setComponent');
-            }
-            var coords = this.coords;
-            var previous = coords[index];
-            if (value !== previous) {
-                coords[index] = value;
-                this.coords = coords;
-                this.modified_ = true;
-            }
-        };
-        /**
-         * @param array
-         * @param offset
-         * @returns
-         */
-        VectorN.prototype.toArray = function (array, offset) {
-            if (array === void 0) { array = []; }
-            if (offset === void 0) { offset = 0; }
-            var data = this.coords;
-            var length = data.length;
-            for (var i = 0; i < length; i++) {
-                array[offset + i] = data[i];
-            }
-            return array;
-        };
-        /**
-         * @returns
-         */
-        VectorN.prototype.toLocaleString = function () {
-            return this.coords.toLocaleString();
-        };
-        /**
-         * @returns
-         */
-        VectorN.prototype.toString = function () {
-            return this.coords.toString();
-        };
-        return VectorN;
-    }());
-
-    /**
-     * @hidden
-     */
-    var Coords = /** @class */ (function (_super) {
-        __extends(Coords, _super);
-        /**
-         *
-         */
-        function Coords(coords, modified, size) {
-            return _super.call(this, coords, modified, size) || this;
-        }
-        /**
-         * Sets any coordinate whose absolute value is less than pow(10, -n) times the absolute value of the largest coordinate to zero.
-         * @param n The exponent used to determine which components are set to zero.
-         * @returns approx(this)
-         */
-        Coords.prototype.approx = function (n) {
-            var max = 0;
-            var coords = this.coords;
-            var iLen = coords.length;
-            for (var i = 0; i < iLen; i++) {
-                max = Math.max(max, Math.abs(coords[i]));
-            }
-            var threshold = max * Math.pow(10, -n);
-            for (var i = 0; i < iLen; i++) {
-                if (Math.abs(coords[i]) < threshold) {
-                    coords[i] = 0;
-                }
-            }
-        };
-        /**
-         *
-         */
-        Coords.prototype.equals = function (other) {
-            if (other instanceof Coords) {
-                var iLen = this.coords.length;
-                for (var i = 0; i < iLen; i++) {
-                    if (this.coords[i] !== other.coords[i]) {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            else {
-                return false;
-            }
-        };
-        return Coords;
-    }(VectorN));
 
     /**
      * Converts the angle specified into one in the closed interval [0, Math.PI]
@@ -9307,6 +9885,46 @@
     })(exports.DataType || (exports.DataType = {}));
 
     /**
+     * An enumeration specifying the depth comparison function, which sets the conditions
+     * under which the pixel will be drawn. The default value is LESS.
+     */
+    exports.DepthFunction = void 0;
+    (function (DepthFunction) {
+        /**
+         * never pass
+         */
+        DepthFunction[DepthFunction["NEVER"] = 512] = "NEVER";
+        /**
+         * pass if the incoming value is less than the depth buffer value
+         */
+        DepthFunction[DepthFunction["LESS"] = 513] = "LESS";
+        /**
+         * pass if the incoming value equals the the depth buffer value
+         */
+        DepthFunction[DepthFunction["EQUAL"] = 514] = "EQUAL";
+        /**
+         * pass if the incoming value is less than or equal to the depth buffer value
+         */
+        DepthFunction[DepthFunction["LEQUAL"] = 515] = "LEQUAL";
+        /**
+         * pass if the incoming value is greater than the depth buffer value
+         */
+        DepthFunction[DepthFunction["GREATER"] = 516] = "GREATER";
+        /**
+         * pass if the incoming value is not equal to the depth buffer value
+         */
+        DepthFunction[DepthFunction["NOTEQUAL"] = 517] = "NOTEQUAL";
+        /**
+         * pass if the incoming value is greater than or equal to the depth buffer value
+         */
+        DepthFunction[DepthFunction["GEQUAL"] = 518] = "GEQUAL";
+        /**
+         * always pass
+         */
+        DepthFunction[DepthFunction["ALWAYS"] = 519] = "ALWAYS";
+    })(exports.DepthFunction || (exports.DepthFunction = {}));
+
+    /**
      * exchange(thing to release, thing to addRef)
      * @hidden
      */
@@ -9360,100 +9978,6 @@
         mustSatisfy(name, isObject(value) && !isNull(value), beObject, contextBuilder);
         return value;
     }
-
-    /**
-     * @hidden
-     */
-    var StringShareableMap = /** @class */ (function (_super) {
-        __extends(StringShareableMap, _super);
-        /**
-         * A map of string to V extends Shareable.
-         */
-        function StringShareableMap() {
-            var _this = _super.call(this) || this;
-            _this.elements = {};
-            _this.setLoggingName('StringShareableMap');
-            return _this;
-        }
-        StringShareableMap.prototype.destructor = function (levelUp) {
-            var _this = this;
-            this.forEach(function (key) {
-                _this.putWeakRef(key, void 0);
-            });
-            _super.prototype.destructor.call(this, levelUp + 1);
-        };
-        /**
-         * Determines whether the key exists in the map with a defined value.
-         */
-        StringShareableMap.prototype.exists = function (key) {
-            var element = this.elements[key];
-            return element ? true : false;
-        };
-        StringShareableMap.prototype.get = function (key) {
-            var element = this.elements[key];
-            if (element) {
-                if (element.addRef) {
-                    element.addRef();
-                }
-                return element;
-            }
-            else {
-                return void 0;
-            }
-        };
-        StringShareableMap.prototype.getWeakRef = function (key) {
-            return this.elements[key];
-        };
-        StringShareableMap.prototype.put = function (key, value) {
-            if (value && value.addRef) {
-                value.addRef();
-            }
-            this.putWeakRef(key, value);
-        };
-        StringShareableMap.prototype.putWeakRef = function (key, value) {
-            var elements = this.elements;
-            var existing = elements[key];
-            if (existing) {
-                if (existing.release) {
-                    existing.release();
-                }
-            }
-            elements[key] = value;
-        };
-        StringShareableMap.prototype.forEach = function (callback) {
-            var keys = this.keys;
-            for (var i = 0, iLength = keys.length; i < iLength; i++) {
-                var key = keys[i];
-                callback(key, this.elements[key]);
-            }
-        };
-        Object.defineProperty(StringShareableMap.prototype, "keys", {
-            get: function () {
-                return Object.keys(this.elements);
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(StringShareableMap.prototype, "values", {
-            get: function () {
-                var values = [];
-                var keys = this.keys;
-                for (var i = 0, iLength = keys.length; i < iLength; i++) {
-                    var key = keys[i];
-                    values.push(this.elements[key]);
-                }
-                return values;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        StringShareableMap.prototype.remove = function (key) {
-            var value = this.elements[key];
-            delete this.elements[key];
-            return value;
-        };
-        return StringShareableMap;
-    }(ShareableBase));
 
     /**
      * @hidden
@@ -10052,44 +10576,895 @@
     }
 
     /**
-     * An enumeration specifying the depth comparison function, which sets the conditions
-     * under which the pixel will be drawn. The default value is LESS.
+     * @hidden
      */
-    exports.DepthFunction = void 0;
-    (function (DepthFunction) {
+    function beContextId() {
+        return "be 'webgl2' or 'webgl'";
+    }
+    /**
+     * @hidden
+     */
+    function isWebGLContextId(x) {
+        switch (x) {
+            case 'webgl2': return true;
+            case 'webgl': return true;
+            default: return false;
+        }
+    }
+    /**
+     * @hidden
+     */
+    function mustBeWebGLContextId(name, value, contextBuilder) {
+        if (isWebGLContextId(value)) {
+            return value;
+        }
+        else {
+            mustSatisfy(name, false, beContextId, contextBuilder);
+            return value;
+        }
+    }
+
+    /**
+     * Displays details about EIGHT to the console.
+     * @hidden
+     */
+    var EIGHTLogger = /** @class */ (function (_super) {
+        __extends(EIGHTLogger, _super);
+        function EIGHTLogger() {
+            var _this = _super.call(this) || this;
+            _this.setLoggingName('EIGHTLogger');
+            return _this;
+        }
+        EIGHTLogger.prototype.destructor = function (levelUp) {
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        EIGHTLogger.prototype.contextFree = function () {
+            // Does nothing.
+        };
         /**
-         * never pass
+         * Logs the namespace, version, GitHub URL, and last modified date to the console.
          */
-        DepthFunction[DepthFunction["NEVER"] = 512] = "NEVER";
+        EIGHTLogger.prototype.contextGain = function () {
+            console.log(config.MARKETING_NAME + " " + config.VERSION + " (" + config.GITHUB + ") " + config.LAST_MODIFIED);
+        };
+        EIGHTLogger.prototype.contextLost = function () {
+            // Do nothing.
+        };
+        return EIGHTLogger;
+    }(ShareableBase));
+
+    /**
+     * Displays details about the WegGL version to the console.
+     * @hidden
+     */
+    var VersionLogger = /** @class */ (function (_super) {
+        __extends(VersionLogger, _super);
+        function VersionLogger(contextManager) {
+            var _this = _super.call(this) || this;
+            _this.contextManager = contextManager;
+            _this.setLoggingName("VersionLogger");
+            return _this;
+        }
+        VersionLogger.prototype.destructor = function (levelUp) {
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        VersionLogger.prototype.contextFree = function () {
+            // Do nothing.
+        };
+        VersionLogger.prototype.contextGain = function () {
+            var gl = this.contextManager.gl;
+            console.log(gl.getParameter(gl.VERSION));
+        };
+        VersionLogger.prototype.contextLost = function () {
+            // Do nothing.
+        };
+        return VersionLogger;
+    }(ShareableBase));
+
+    /**
+     * @hidden
+     */
+    function vectorCopy(vector) {
+        return vec(vector.x, vector.y, vector.z);
+    }
+    /**
+     * @hidden
+     */
+    function vectorFromCoords(x, y, z) {
+        return vec(x, y, z);
+    }
+    /**
+     * @hidden
+     */
+    function vec(x, y, z) {
+        var dot = function dot(rhs) {
+            return x * rhs.x + y * rhs.y + z * rhs.z;
+        };
+        var magnitude = function () {
+            return Math.sqrt(x * x + y * y + z * z);
+        };
+        var projectionOnto = function projectionOnto(b) {
+            var bx = b.x;
+            var by = b.y;
+            var bz = b.z;
+            var scp = x * bx + y * by + z * bz;
+            var quad = bx * bx + by * by + bz * bz;
+            var k = scp / quad;
+            return vec(k * bx, k * by, k * bz);
+        };
+        var rejectionFrom = function rejectionFrom(b) {
+            var bx = b.x;
+            var by = b.y;
+            var bz = b.z;
+            var scp = x * bx + y * by + z * bz;
+            var quad = bx * bx + by * by + bz * bz;
+            var k = scp / quad;
+            return vec(x - k * bx, y - k * by, z - k * bz);
+        };
+        var rotate = function rotate(R) {
+            var a = R.xy;
+            var b = R.yz;
+            var c = R.zx;
+            var α = R.a;
+            var ix = α * x - c * z + a * y;
+            var iy = α * y - a * x + b * z;
+            var iz = α * z - b * y + c * x;
+            var iα = b * x + c * y + a * z;
+            return vec(ix * α + iα * b + iy * a - iz * c, iy * α + iα * c + iz * b - ix * a, iz * α + iα * a + ix * c - iy * b);
+        };
+        var scale = function scale(α) {
+            return vec(α * x, α * y, α * z);
+        };
+        var that = {
+            get x() {
+                return x;
+            },
+            get y() {
+                return y;
+            },
+            get z() {
+                return z;
+            },
+            add: function (rhs) {
+                return vec(x + rhs.x, y + rhs.y, z + rhs.z);
+            },
+            cross: function (rhs) {
+                var yz = wedgeYZ(x, y, z, rhs.x, rhs.y, rhs.z);
+                var zx = wedgeZX(x, y, z, rhs.x, rhs.y, rhs.z);
+                var xy = wedgeXY(x, y, z, rhs.x, rhs.y, rhs.z);
+                return vec(yz, zx, xy);
+            },
+            direction: function () {
+                var magnitude = Math.sqrt(x * x + y * y + z * z);
+                if (magnitude !== 0) {
+                    return vec(x / magnitude, y / magnitude, z / magnitude);
+                }
+                else {
+                    // direction is ambiguous (undefined) for the zero vector.
+                    return void 0;
+                }
+            },
+            dot: dot,
+            magnitude: magnitude,
+            projectionOnto: projectionOnto,
+            rejectionFrom: rejectionFrom,
+            rotate: rotate,
+            scale: scale,
+            sub: function (rhs) {
+                return vec(x - rhs.x, y - rhs.y, z - rhs.z);
+            },
+            __add__: function (rhs) {
+                return vec(x + rhs.x, y + rhs.y, z + rhs.z);
+            },
+            __radd__: function (lhs) {
+                return vec(lhs.x + x, lhs.y + y, lhs.z + z);
+            },
+            __sub__: function (rhs) {
+                return vec(x - rhs.x, y - rhs.y, z - rhs.z);
+            },
+            __rsub__: function (lhs) {
+                return vec(lhs.x - x, lhs.y - y, lhs.z - z);
+            },
+            __mul__: function (rhs) {
+                mustBeNumber('rhs', rhs);
+                return vec(x * rhs, y * rhs, z * rhs);
+            },
+            __rmul__: function (lhs) {
+                mustBeNumber('lhs', lhs);
+                return vec(lhs * x, lhs * y, lhs * z);
+            },
+            __pos__: function () {
+                return that;
+            },
+            __neg__: function () {
+                return vec(-x, -y, -z);
+            },
+            toString: function () {
+                return "[" + x + ", " + y + ", " + z + "]";
+            }
+        };
+        return Object.freeze(that);
+    }
+
+    /**
+     * @hidden
+     */
+    var BufferObjects;
+    (function (BufferObjects) {
+        BufferObjects[BufferObjects["ARRAY_BUFFER"] = 34962] = "ARRAY_BUFFER";
+        BufferObjects[BufferObjects["ELEMENT_ARRAY_BUFFER"] = 34963] = "ELEMENT_ARRAY_BUFFER";
+        BufferObjects[BufferObjects["ARRAY_BUFFER_BINDING"] = 34964] = "ARRAY_BUFFER_BINDING";
+        BufferObjects[BufferObjects["ELEMENT_ARRAY_BUFFER_BINDING"] = 34965] = "ELEMENT_ARRAY_BUFFER_BINDING";
+    })(BufferObjects || (BufferObjects = {}));
+
+    /**
+     *
+     */
+    exports.PixelFormat = void 0;
+    (function (PixelFormat) {
+        PixelFormat[PixelFormat["DEPTH_COMPONENT"] = 6402] = "DEPTH_COMPONENT";
+        PixelFormat[PixelFormat["ALPHA"] = 6406] = "ALPHA";
+        PixelFormat[PixelFormat["RGB"] = 6407] = "RGB";
+        PixelFormat[PixelFormat["RGBA"] = 6408] = "RGBA";
+        PixelFormat[PixelFormat["LUMINANCE"] = 6409] = "LUMINANCE";
+        PixelFormat[PixelFormat["LUMINANCE_ALPHA"] = 6410] = "LUMINANCE_ALPHA";
+    })(exports.PixelFormat || (exports.PixelFormat = {}));
+
+    /**
+     *
+     */
+    exports.PixelType = void 0;
+    (function (PixelType) {
+        PixelType[PixelType["UNSIGNED_BYTE"] = 5121] = "UNSIGNED_BYTE";
+        PixelType[PixelType["UNSIGNED_SHORT_4_4_4_4"] = 32819] = "UNSIGNED_SHORT_4_4_4_4";
+        PixelType[PixelType["UNSIGNED_SHORT_5_5_5_1"] = 32820] = "UNSIGNED_SHORT_5_5_5_1";
+        PixelType[PixelType["UNSIGNED_SHORT_5_6_5"] = 33635] = "UNSIGNED_SHORT_5_6_5";
+    })(exports.PixelType || (exports.PixelType = {}));
+
+    /**
+     * WebGLBuffer usage.
+     * @hidden
+     */
+    exports.Usage = void 0;
+    (function (Usage) {
         /**
-         * pass if the incoming value is less than the depth buffer value
+         * Contents of the buffer are likely to not be used often.
+         * Contents are written to the buffer, but not read.
          */
-        DepthFunction[DepthFunction["LESS"] = 513] = "LESS";
+        Usage[Usage["STREAM_DRAW"] = 35040] = "STREAM_DRAW";
         /**
-         * pass if the incoming value equals the the depth buffer value
+         * Contents of the buffer are likely to be used often and not change often.
+         * Contents are written to the buffer, but not read.
          */
-        DepthFunction[DepthFunction["EQUAL"] = 514] = "EQUAL";
+        Usage[Usage["STATIC_DRAW"] = 35044] = "STATIC_DRAW";
         /**
-         * pass if the incoming value is less than or equal to the depth buffer value
+         * Contents of the buffer are likely to be used often and change often.
+         * Contents are written to the buffer, but not read.
          */
-        DepthFunction[DepthFunction["LEQUAL"] = 515] = "LEQUAL";
+        Usage[Usage["DYNAMIC_DRAW"] = 35048] = "DYNAMIC_DRAW";
+    })(exports.Usage || (exports.Usage = {}));
+
+    /**
+     * Verify that the enums match the values in the WebGL rendering context.
+     * @hidden
+     */
+    function checkEnums(gl) {
+        // BeginMode
+        mustBeEQ('LINE_LOOP', exports.BeginMode.LINE_LOOP, gl.LINE_LOOP);
+        mustBeEQ('LINE_STRIP', exports.BeginMode.LINE_STRIP, gl.LINE_STRIP);
+        mustBeEQ('LINES', exports.BeginMode.LINES, gl.LINES);
+        mustBeEQ('POINTS', exports.BeginMode.POINTS, gl.POINTS);
+        mustBeEQ('TRIANGLE_FAN', exports.BeginMode.TRIANGLE_FAN, gl.TRIANGLE_FAN);
+        mustBeEQ('TRIANGLE_STRIP', exports.BeginMode.TRIANGLE_STRIP, gl.TRIANGLE_STRIP);
+        mustBeEQ('TRIANGLES', exports.BeginMode.TRIANGLES, gl.TRIANGLES);
+        // BlendingFactorDest
+        mustBeEQ('ZERO', exports.BlendingFactorDest.ZERO, gl.ZERO);
+        mustBeEQ('ONE', exports.BlendingFactorDest.ONE, gl.ONE);
+        mustBeEQ('SRC_COLOR', exports.BlendingFactorDest.SRC_COLOR, gl.SRC_COLOR);
+        mustBeEQ('ONE_MINUS_SRC_COLOR', exports.BlendingFactorDest.ONE_MINUS_SRC_COLOR, gl.ONE_MINUS_SRC_COLOR);
+        mustBeEQ('SRC_ALPHA', exports.BlendingFactorDest.SRC_ALPHA, gl.SRC_ALPHA);
+        mustBeEQ('ONE_MINUS_SRC_ALPHA', exports.BlendingFactorDest.ONE_MINUS_SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+        mustBeEQ('DST_ALPHA', exports.BlendingFactorDest.DST_ALPHA, gl.DST_ALPHA);
+        mustBeEQ('ONE_MINUS_DST_ALPHA', exports.BlendingFactorDest.ONE_MINUS_DST_ALPHA, gl.ONE_MINUS_DST_ALPHA);
+        // BlendingFactorSrc
+        mustBeEQ('ZERO', exports.BlendingFactorSrc.ZERO, gl.ZERO);
+        mustBeEQ('ONE', exports.BlendingFactorSrc.ONE, gl.ONE);
+        mustBeEQ('DST_COLOR', exports.BlendingFactorSrc.DST_COLOR, gl.DST_COLOR);
+        mustBeEQ('ONE_MINUS_DST_COLOR', exports.BlendingFactorSrc.ONE_MINUS_DST_COLOR, gl.ONE_MINUS_DST_COLOR);
+        mustBeEQ('SRC_ALPHA_SATURATE', exports.BlendingFactorSrc.SRC_ALPHA_SATURATE, gl.SRC_ALPHA_SATURATE);
+        mustBeEQ('SRC_ALPHA', exports.BlendingFactorSrc.SRC_ALPHA, gl.SRC_ALPHA);
+        mustBeEQ('ONE_MINUS_SRC_ALPHA', exports.BlendingFactorSrc.ONE_MINUS_SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+        mustBeEQ('DST_ALPHA', exports.BlendingFactorSrc.DST_ALPHA, gl.DST_ALPHA);
+        mustBeEQ('ONE_MINUS_DST_ALPHA', exports.BlendingFactorSrc.ONE_MINUS_DST_ALPHA, gl.ONE_MINUS_DST_ALPHA);
+        // BufferObjects
+        mustBeEQ('ARRAY_BUFFER', BufferObjects.ARRAY_BUFFER, gl.ARRAY_BUFFER);
+        mustBeEQ('ARRAY_BUFFER_BINDING', BufferObjects.ARRAY_BUFFER_BINDING, gl.ARRAY_BUFFER_BINDING);
+        mustBeEQ('ELEMENT_ARRAY_BUFFER', BufferObjects.ELEMENT_ARRAY_BUFFER, gl.ELEMENT_ARRAY_BUFFER);
+        mustBeEQ('ELEMENT_ARRAY_BUFFER_BINDING', BufferObjects.ELEMENT_ARRAY_BUFFER_BINDING, gl.ELEMENT_ARRAY_BUFFER_BINDING);
+        // Capability
+        mustBeEQ('CULL_FACE', exports.Capability.CULL_FACE, gl.CULL_FACE);
+        mustBeEQ('BLEND', exports.Capability.BLEND, gl.BLEND);
+        mustBeEQ('DITHER', exports.Capability.DITHER, gl.DITHER);
+        mustBeEQ('STENCIL_TEST', exports.Capability.STENCIL_TEST, gl.STENCIL_TEST);
+        mustBeEQ('DEPTH_TEST', exports.Capability.DEPTH_TEST, gl.DEPTH_TEST);
+        mustBeEQ('SCISSOR_TEST', exports.Capability.SCISSOR_TEST, gl.SCISSOR_TEST);
+        mustBeEQ('POLYGON_OFFSET_FILL', exports.Capability.POLYGON_OFFSET_FILL, gl.POLYGON_OFFSET_FILL);
+        mustBeEQ('SAMPLE_ALPHA_TO_COVERAGE', exports.Capability.SAMPLE_ALPHA_TO_COVERAGE, gl.SAMPLE_ALPHA_TO_COVERAGE);
+        mustBeEQ('SAMPLE_COVERAGE', exports.Capability.SAMPLE_COVERAGE, gl.SAMPLE_COVERAGE);
+        // ClearBufferMask
+        mustBeEQ('COLOR_BUFFER_BIT', exports.ClearBufferMask.COLOR_BUFFER_BIT, gl.COLOR_BUFFER_BIT);
+        mustBeEQ('DEPTH_BUFFER_BIT', exports.ClearBufferMask.DEPTH_BUFFER_BIT, gl.DEPTH_BUFFER_BIT);
+        mustBeEQ('STENCIL_BUFFER_BIT', exports.ClearBufferMask.STENCIL_BUFFER_BIT, gl.STENCIL_BUFFER_BIT);
+        // DepthFunction
+        mustBeEQ('ALWAYS', exports.DepthFunction.ALWAYS, gl.ALWAYS);
+        mustBeEQ('EQUAL', exports.DepthFunction.EQUAL, gl.EQUAL);
+        mustBeEQ('GEQUAL', exports.DepthFunction.GEQUAL, gl.GEQUAL);
+        mustBeEQ('GREATER', exports.DepthFunction.GREATER, gl.GREATER);
+        mustBeEQ('LEQUAL', exports.DepthFunction.LEQUAL, gl.LEQUAL);
+        mustBeEQ('LESS', exports.DepthFunction.LESS, gl.LESS);
+        mustBeEQ('NEVER', exports.DepthFunction.NEVER, gl.NEVER);
+        mustBeEQ('NOTEQUAL', exports.DepthFunction.NOTEQUAL, gl.NOTEQUAL);
+        // PixelFormat
+        mustBeEQ('DEPTH_COMPONENT', exports.PixelFormat.DEPTH_COMPONENT, gl.DEPTH_COMPONENT);
+        mustBeEQ('ALPHA', exports.PixelFormat.ALPHA, gl.ALPHA);
+        mustBeEQ('RGB', exports.PixelFormat.RGB, gl.RGB);
+        mustBeEQ('RGBA', exports.PixelFormat.RGBA, gl.RGBA);
+        mustBeEQ('LUMINANCE', exports.PixelFormat.LUMINANCE, gl.LUMINANCE);
+        mustBeEQ('LUMINANCE_ALPHA', exports.PixelFormat.LUMINANCE_ALPHA, gl.LUMINANCE_ALPHA);
+        // PixelType
+        mustBeEQ('UNSIGNED_BYTE', exports.PixelType.UNSIGNED_BYTE, gl.UNSIGNED_BYTE);
+        mustBeEQ('UNSIGNED_SHORT_4_4_4_4', exports.PixelType.UNSIGNED_SHORT_4_4_4_4, gl.UNSIGNED_SHORT_4_4_4_4);
+        mustBeEQ('UNSIGNED_SHORT_5_5_5_1', exports.PixelType.UNSIGNED_SHORT_5_5_5_1, gl.UNSIGNED_SHORT_5_5_5_1);
+        mustBeEQ('UNSIGNED_SHORT_5_6_5', exports.PixelType.UNSIGNED_SHORT_5_6_5, gl.UNSIGNED_SHORT_5_6_5);
+        // Usage
+        mustBeEQ('STREAM_DRAW', exports.Usage.STREAM_DRAW, gl.STREAM_DRAW);
+        mustBeEQ('STATIC_DRAW', exports.Usage.STATIC_DRAW, gl.STATIC_DRAW);
+        mustBeEQ('DYNAMIC_DRAW', exports.Usage.DYNAMIC_DRAW, gl.DYNAMIC_DRAW);
+        return gl;
+    }
+
+    /**
+     * @hidden
+     */
+    function getContextFailed(contextId) {
+        return "canvas.getContext('" + contextId + "') failed. Your browser may not support it.";
+    }
+    /**
+     * @hidden
+     */
+    function invalidContextId(contextId) {
+        return JSON.stringify(contextId) + " is not a recognized WebGL contextId. contextId must be 'webgl2' or 'webgl'.";
+    }
+    /**
+     * Returns a WebGL rendering context given a canvas element.
+     * @param canvas The canvas element.
+     * @param options The arguments to the HTMLCanvasElement.getContext() method.
+     * @param contextId An optional override for the context identifier.
+     * If the canvas is undefined then an undefined value is returned for the context.
+     * @hidden
+     */
+    function initWebGL(canvas, options, contextId) {
+        // We'll be hyper-functional. An undefined canvas begets an undefined context.
+        // Clients must check their context output or canvas input.
+        if (isDefined(canvas)) {
+            if (contextId) {
+                switch (contextId) {
+                    case 'webgl2': {
+                        var context = canvas.getContext(contextId, options);
+                        if (context) {
+                            return { context: context, contextId: contextId };
+                        }
+                        else {
+                            throw new Error(getContextFailed(contextId));
+                        }
+                    }
+                    case 'webgl': {
+                        var context = canvas.getContext(contextId, options);
+                        if (context) {
+                            return { context: context, contextId: contextId };
+                        }
+                        else {
+                            throw new Error(getContextFailed(contextId));
+                        }
+                    }
+                    default: {
+                        // From a type-safety perspective, this should never happen.
+                        throw new Error(invalidContextId(contextId));
+                    }
+                }
+            }
+            else {
+                try {
+                    var candidateContextId = 'webgl2';
+                    var context = canvas.getContext(candidateContextId, options);
+                    if (context) {
+                        return { context: context, contextId: candidateContextId };
+                    }
+                    else {
+                        throw new Error(getContextFailed(candidateContextId));
+                    }
+                }
+                catch (e) {
+                    var candidateContextId = 'webgl';
+                    var context = canvas.getContext(candidateContextId, options);
+                    if (context) {
+                        return { context: context, contextId: candidateContextId };
+                    }
+                    else {
+                        throw new Error(getContextFailed(candidateContextId));
+                    }
+                }
+            }
+        }
+        else {
+            // An undefined canvas results in an undefined context.
+            return void 0;
+        }
+    }
+
+    /**
+     * @hidden
+     */
+    function getWindowDocument(window) {
+        if (window) {
+            return window.document;
+        }
+        else {
+            return void 0;
+        }
+    }
+    /**
+     * A wrapper around an HTMLCanvasElement providing access to the WebGL rendering context
+     * and notifications of context loss and restore. An instance of the Engine will usually
+     * be a required parameter for any consumer of WebGL resources.
+     */
+    var Engine = /** @class */ (function (_super) {
+        __extends(Engine, _super);
         /**
-         * pass if the incoming value is greater than the depth buffer value
+         * @param canvas The canvas element identifier, or canvas element, or WebGL rendering context.
+         * @param attributes Allows the context to be configured.
+         * @param dom The document object model that contains the canvas.
          */
-        DepthFunction[DepthFunction["GREATER"] = 516] = "GREATER";
+        function Engine(canvas, attributes, dom) {
+            if (attributes === void 0) { attributes = {}; }
+            var _this = _super.call(this) || this;
+            // Remark: We only hold weak references to users so that the lifetime of resource
+            // objects is not affected by the fact that they are listening for gl events.
+            // Users should automatically add themselves upon construction and remove upon release.
+            _this._users = [];
+            /**
+             * Actions that are executed when a WebGL rendering context is gained.
+             */
+            _this._commands = new ShareableArray([]);
+            _this.setLoggingName('Engine');
+            // TODO: Defensive copy and strip off the extra attributes on EngineAttributes just in case the WebGL runtime gets strict and complains.
+            _this._attributes = attributes;
+            if (isDefined(attributes.contextId)) {
+                _this._overrideContextId = mustBeWebGLContextId("attributes.contextId", attributes.contextId);
+            }
+            if (attributes.eightLogging) {
+                _this._commands.pushWeakRef(new EIGHTLogger());
+            }
+            if (attributes.webglLogging) {
+                _this._commands.pushWeakRef(new VersionLogger(_this));
+            }
+            _this._webGLContextLost = function (event) {
+                if (isDefined(_this._gl)) {
+                    event.preventDefault();
+                    _this._gl = void 0;
+                    _this._users.forEach(function (user) {
+                        user.contextLost();
+                    });
+                }
+            };
+            _this._webGLContextRestored = function (event) {
+                if (isDefined(_this._gl)) {
+                    if (_this._gl.canvas instanceof HTMLCanvasElement) {
+                        event.preventDefault();
+                        var result = initWebGL(_this._gl.canvas, attributes, _this._overrideContextId);
+                        _this._gl = checkEnums(result.context);
+                        _this._contextId = result.contextId;
+                        _this._users.forEach(function (user) {
+                            user.contextGain();
+                        });
+                    }
+                }
+            };
+            if (canvas) {
+                if (dom) {
+                    _this.start(canvas, dom);
+                }
+                else {
+                    _this.start(canvas, getWindowDocument(window));
+                }
+            }
+            return _this;
+        }
         /**
-         * pass if the incoming value is not equal to the depth buffer value
+         * @hidden
          */
-        DepthFunction[DepthFunction["NOTEQUAL"] = 517] = "NOTEQUAL";
+        Engine.prototype.resurrector = function (levelUp) {
+            _super.prototype.resurrector.call(this, levelUp + 1);
+            this.setLoggingName('Engine');
+            this._commands = new ShareableArray([]);
+        };
         /**
-         * pass if the incoming value is greater than or equal to the depth buffer value
+         * @hidden
          */
-        DepthFunction[DepthFunction["GEQUAL"] = 518] = "GEQUAL";
+        Engine.prototype.destructor = function (levelUp) {
+            this.stop();
+            while (this._users.length > 0) {
+                this._users.pop();
+            }
+            this._commands.release();
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
         /**
-         * always pass
+         *
          */
-        DepthFunction[DepthFunction["ALWAYS"] = 519] = "ALWAYS";
-    })(exports.DepthFunction || (exports.DepthFunction = {}));
+        Engine.prototype.addContextListener = function (consumer) {
+            mustBeNonNullObject('consumer', consumer);
+            var index = this._users.indexOf(consumer);
+            if (index < 0) {
+                this._users.push(consumer);
+            }
+            else {
+                console.warn("consumer already exists for addContextListener");
+            }
+        };
+        Object.defineProperty(Engine.prototype, "canvas", {
+            /**
+             * The canvas element associated with the WebGLRenderingContext.
+             */
+            get: function () {
+                if (this._gl) {
+                    if (this._gl.canvas instanceof HTMLCanvasElement) {
+                        return this._gl.canvas;
+                    }
+                    else {
+                        // OffscreenCanvas or undefined.
+                        return void 0;
+                    }
+                }
+                else {
+                    return void 0;
+                }
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(Engine.prototype, "drawingBufferHeight", {
+            get: function () {
+                if (this._gl) {
+                    return this._gl.drawingBufferHeight;
+                }
+                else {
+                    return void 0;
+                }
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(Engine.prototype, "drawingBufferWidth", {
+            get: function () {
+                if (this._gl) {
+                    return this._gl.drawingBufferWidth;
+                }
+                else {
+                    return void 0;
+                }
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Engine.prototype.blendFunc = function (sfactor, dfactor) {
+            var gl = this._gl;
+            if (gl) {
+                gl.blendFunc(sfactor, dfactor);
+            }
+            return this;
+        };
+        /**
+         * <p>
+         * Sets the graphics buffers to values preselected by clearColor, clearDepth or clearStencil.
+         * </p>
+         */
+        Engine.prototype.clear = function (mask) {
+            if (mask === void 0) { mask = exports.ClearBufferMask.COLOR_BUFFER_BIT | exports.ClearBufferMask.DEPTH_BUFFER_BIT; }
+            var gl = this._gl;
+            if (gl) {
+                gl.clear(mask);
+            }
+            return this;
+        };
+        /**
+         * Specifies color values to use by the <code>clear</code> method to clear the color buffer.
+         */
+        Engine.prototype.clearColor = function (red, green, blue, alpha) {
+            this._commands.pushWeakRef(new WebGLClearColor(this, red, green, blue, alpha));
+            var gl = this._gl;
+            if (gl) {
+                gl.clearColor(red, green, blue, alpha);
+            }
+            return this;
+        };
+        /**
+         * Specifies the clear value for the depth buffer.
+         * This specifies what depth value to use when calling the clear() method.
+         * The value is clamped between 0 and 1.
+         *
+         * @param depth Specifies the depth value used when the depth buffer is cleared.
+         * The default value is 1.
+         */
+        Engine.prototype.clearDepth = function (depth) {
+            var gl = this._gl;
+            if (gl) {
+                gl.clearDepth(depth);
+            }
+            return this;
+        };
+        /**
+         * @param s Specifies the index used when the stencil buffer is cleared.
+         * The default value is 0.
+         */
+        Engine.prototype.clearStencil = function (s) {
+            var gl = this._gl;
+            if (gl) {
+                gl.clearStencil(s);
+            }
+            return this;
+        };
+        Engine.prototype.depthFunc = function (func) {
+            var gl = this._gl;
+            if (gl) {
+                gl.depthFunc(func);
+            }
+            return this;
+        };
+        Engine.prototype.depthMask = function (flag) {
+            var gl = this._gl;
+            if (gl) {
+                gl.depthMask(flag);
+            }
+            return this;
+        };
+        /**
+         * Disables the specified WebGL capability.
+         */
+        Engine.prototype.disable = function (capability) {
+            this._commands.pushWeakRef(new WebGLDisable(this, capability));
+            if (this._gl) {
+                this._gl.disable(capability);
+            }
+            return this;
+        };
+        /**
+         * Enables the specified WebGL capability.
+         */
+        Engine.prototype.enable = function (capability) {
+            this._commands.pushWeakRef(new WebGLEnable(this, capability));
+            if (this._gl) {
+                this._gl.enable(capability);
+            }
+            return this;
+        };
+        Object.defineProperty(Engine.prototype, "gl", {
+            /**
+             * The underlying WebGL rendering context.
+             */
+            get: function () {
+                if (this._gl) {
+                    return this._gl;
+                }
+                else {
+                    return void 0;
+                }
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(Engine.prototype, "contextId", {
+            get: function () {
+                return this._contextId;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        /**
+         *
+         */
+        Engine.prototype.readPixels = function (x, y, width, height, format, type, pixels) {
+            if (this._gl) {
+                this._gl.readPixels(x, y, width, height, format, type, pixels);
+            }
+        };
+        /**
+         * @param consumer
+         */
+        Engine.prototype.removeContextListener = function (consumer) {
+            mustBeNonNullObject('consumer', consumer);
+            var index = this._users.indexOf(consumer);
+            if (index >= 0) {
+                this._users.splice(index, 1);
+            }
+        };
+        /**
+         * A convenience method for setting the width and height properties of the
+         * underlying canvas and for setting the viewport to the drawing buffer height and width.
+         */
+        Engine.prototype.size = function (width, height) {
+            this.canvas.width = mustBeNumber('width', width);
+            this.canvas.height = mustBeNumber('height', height);
+            return this.viewport(0, 0, this.gl.drawingBufferWidth, this.gl.drawingBufferHeight);
+        };
+        /**
+         * The viewport width and height are clamped to a range that is
+         * implementation dependent.
+         *
+         * @returns e.g. Int32Array[16384, 16384]
+         */
+        Engine.prototype.getMaxViewportDims = function () {
+            var gl = this._gl;
+            if (gl) {
+                return gl.getParameter(gl.MAX_VIEWPORT_DIMS);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * Returns the current viewport settings.
+         *
+         * @returns e.g. Int32Array[x, y, width, height]
+         */
+        Engine.prototype.getViewport = function () {
+            var gl = this._gl;
+            if (gl) {
+                return gl.getParameter(gl.VIEWPORT);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * Defines what part of the canvas will be used in rendering the drawing buffer.
+         *
+         * @param x
+         * @param y
+         * @param width
+         * @param height
+         */
+        Engine.prototype.viewport = function (x, y, width, height) {
+            var gl = this._gl;
+            if (gl) {
+                gl.viewport(x, y, width, height);
+            }
+            return this;
+        };
+        /**
+         * Initializes the <code>WebGLRenderingContext</code> for the specified <code>HTMLCanvasElement</code>.
+         *
+         * @param canvas The HTML canvas element or canvas element identifier.
+         * @param dom The document object model that contains the canvas identifier.
+         */
+        Engine.prototype.start = function (canvas, dom) {
+            if (typeof canvas === 'string') {
+                if (dom) {
+                    var canvasElement = dom.getElementById(canvas);
+                    if (canvasElement) {
+                        // Recursive call but this time the canvas is an HTML canvas element.
+                        return this.start(canvasElement, dom);
+                    }
+                    else {
+                        throw new Error("canvas argument must be a canvas element id or an HTMLCanvasElement.");
+                    }
+                }
+                else {
+                    // Recursive call but this time the document object model is defined.
+                    return this.start(canvas, getWindowDocument(window));
+                }
+            }
+            else if (canvas instanceof HTMLCanvasElement) {
+                if (isDefined(this._gl)) {
+                    // We'll just be idempotent and ignore the call because we've already been started.
+                    // To use the canvas might conflict with one we have dynamically created.
+                    console.warn(this.getLoggingName() + " Ignoring start() because already started.");
+                    return this;
+                }
+                else {
+                    // TODO: Really should strip
+                    var result = initWebGL(canvas, this._attributes, this._overrideContextId);
+                    this._gl = checkEnums(result.context);
+                    this._contextId = result.contextId;
+                    this.emitStartEvent();
+                    canvas.addEventListener('webglcontextlost', this._webGLContextLost, false);
+                    canvas.addEventListener('webglcontextrestored', this._webGLContextRestored, false);
+                }
+                return this;
+            }
+            else {
+                if (isDefined(canvas)) {
+                    this._gl = checkEnums(canvas);
+                }
+                return this;
+            }
+        };
+        /**
+         *
+         */
+        Engine.prototype.stop = function () {
+            if (isDefined(this._gl)) {
+                this._gl.canvas.removeEventListener('webglcontextrestored', this._webGLContextRestored, false);
+                this._gl.canvas.removeEventListener('webglcontextlost', this._webGLContextLost, false);
+                if (this._gl) {
+                    this.emitStopEvent();
+                    this._gl = void 0;
+                }
+            }
+            return this;
+        };
+        Engine.prototype.emitStartEvent = function () {
+            var _this = this;
+            this._users.forEach(function (user) {
+                _this.emitContextGain(user);
+            });
+            this._commands.forEach(function (command) {
+                _this.emitContextGain(command);
+            });
+        };
+        Engine.prototype.emitContextGain = function (consumer) {
+            if (this._gl.isContextLost()) {
+                consumer.contextLost();
+            }
+            else {
+                consumer.contextGain();
+            }
+        };
+        Engine.prototype.emitStopEvent = function () {
+            var _this = this;
+            this._users.forEach(function (user) {
+                _this.emitContextFree(user);
+            });
+            this._commands.forEach(function (command) {
+                _this.emitContextFree(command);
+            });
+        };
+        Engine.prototype.emitContextFree = function (consumer) {
+            if (this._gl.isContextLost()) {
+                consumer.contextLost();
+            }
+            else {
+                consumer.contextFree();
+            }
+        };
+        /**
+         * @param consumer
+         */
+        Engine.prototype.synchronize = function (consumer) {
+            if (this._gl) {
+                this.emitContextGain(consumer);
+            }
+            return this;
+        };
+        /**
+         * Computes the coordinates of a point in the image cube corresponding to device coordinates.
+         * @param deviceX The x-coordinate of the device event.
+         * @param deviceY The y-coordinate of the device event.
+         * @param imageZ The optional value to use as the resulting depth coordinate.
+         */
+        Engine.prototype.deviceToImageCoords = function (deviceX, deviceY, imageZ) {
+            if (imageZ === void 0) { imageZ = 0; }
+            mustBeNumber('deviceX', deviceX);
+            mustBeNumber('deviceY', deviceY);
+            mustBeNumber('imageZ', imageZ);
+            mustBeGE('imageZ', imageZ, -1);
+            mustBeLE('imageZ', imageZ, +1);
+            var imageX = ((2 * deviceX) / this.canvas.width) - 1;
+            var imageY = 1 - (2 * deviceY) / this.canvas.height;
+            return vectorFromCoords(imageX, imageY, imageZ);
+        };
+        return Engine;
+    }(ShareableBase));
 
     /**
      * @hidden
@@ -10162,29 +11537,6 @@
         };
         return GeometryBase;
     }(ShareableContextConsumer));
-
-    /**
-     * WebGLBuffer usage.
-     * @hidden
-     */
-    exports.Usage = void 0;
-    (function (Usage) {
-        /**
-         * Contents of the buffer are likely to not be used often.
-         * Contents are written to the buffer, but not read.
-         */
-        Usage[Usage["STREAM_DRAW"] = 35040] = "STREAM_DRAW";
-        /**
-         * Contents of the buffer are likely to be used often and not change often.
-         * Contents are written to the buffer, but not read.
-         */
-        Usage[Usage["STATIC_DRAW"] = 35044] = "STATIC_DRAW";
-        /**
-         * Contents of the buffer are likely to be used often and change often.
-         * Contents are written to the buffer, but not read.
-         */
-        Usage[Usage["DYNAMIC_DRAW"] = 35048] = "DYNAMIC_DRAW";
-    })(exports.Usage || (exports.Usage = {}));
 
     /**
      * Computes the number of elements represented by the attribute values.
@@ -10297,17 +11649,6 @@
         mustSatisfy(name, isUndefined(value), beUndefined, contextBuilder);
         return value;
     }
-
-    /**
-     * @hidden
-     */
-    var BufferObjects;
-    (function (BufferObjects) {
-        BufferObjects[BufferObjects["ARRAY_BUFFER"] = 34962] = "ARRAY_BUFFER";
-        BufferObjects[BufferObjects["ELEMENT_ARRAY_BUFFER"] = 34963] = "ELEMENT_ARRAY_BUFFER";
-        BufferObjects[BufferObjects["ARRAY_BUFFER_BINDING"] = 34964] = "ARRAY_BUFFER_BINDING";
-        BufferObjects[BufferObjects["ELEMENT_ARRAY_BUFFER_BINDING"] = 34965] = "ELEMENT_ARRAY_BUFFER_BINDING";
-    })(BufferObjects || (BufferObjects = {}));
 
     /**
      * A wrapper around a WebGLBuffer with binding to ARRAY_BUFFER.
@@ -10722,19 +12063,6 @@
     }(GeometryBase));
 
     /**
-     *
-     */
-    exports.PixelFormat = void 0;
-    (function (PixelFormat) {
-        PixelFormat[PixelFormat["DEPTH_COMPONENT"] = 6402] = "DEPTH_COMPONENT";
-        PixelFormat[PixelFormat["ALPHA"] = 6406] = "ALPHA";
-        PixelFormat[PixelFormat["RGB"] = 6407] = "RGB";
-        PixelFormat[PixelFormat["RGBA"] = 6408] = "RGBA";
-        PixelFormat[PixelFormat["LUMINANCE"] = 6409] = "LUMINANCE";
-        PixelFormat[PixelFormat["LUMINANCE_ALPHA"] = 6410] = "LUMINANCE_ALPHA";
-    })(exports.PixelFormat || (exports.PixelFormat = {}));
-
-    /**
      * @hidden
      */
     exports.TextureParameterName = void 0;
@@ -10947,131 +12275,6 @@
         };
         return ImageTexture;
     }(Texture));
-
-    /**
-     * @hidden
-     */
-    function vectorCopy(vector) {
-        return vec(vector.x, vector.y, vector.z);
-    }
-    /**
-     * @hidden
-     */
-    function vectorFromCoords(x, y, z) {
-        return vec(x, y, z);
-    }
-    /**
-     * @hidden
-     */
-    function vec(x, y, z) {
-        var dot = function dot(rhs) {
-            return x * rhs.x + y * rhs.y + z * rhs.z;
-        };
-        var magnitude = function () {
-            return Math.sqrt(x * x + y * y + z * z);
-        };
-        var projectionOnto = function projectionOnto(b) {
-            var bx = b.x;
-            var by = b.y;
-            var bz = b.z;
-            var scp = x * bx + y * by + z * bz;
-            var quad = bx * bx + by * by + bz * bz;
-            var k = scp / quad;
-            return vec(k * bx, k * by, k * bz);
-        };
-        var rejectionFrom = function rejectionFrom(b) {
-            var bx = b.x;
-            var by = b.y;
-            var bz = b.z;
-            var scp = x * bx + y * by + z * bz;
-            var quad = bx * bx + by * by + bz * bz;
-            var k = scp / quad;
-            return vec(x - k * bx, y - k * by, z - k * bz);
-        };
-        var rotate = function rotate(R) {
-            var a = R.xy;
-            var b = R.yz;
-            var c = R.zx;
-            var α = R.a;
-            var ix = α * x - c * z + a * y;
-            var iy = α * y - a * x + b * z;
-            var iz = α * z - b * y + c * x;
-            var iα = b * x + c * y + a * z;
-            return vec(ix * α + iα * b + iy * a - iz * c, iy * α + iα * c + iz * b - ix * a, iz * α + iα * a + ix * c - iy * b);
-        };
-        var scale = function scale(α) {
-            return vec(α * x, α * y, α * z);
-        };
-        var that = {
-            get x() {
-                return x;
-            },
-            get y() {
-                return y;
-            },
-            get z() {
-                return z;
-            },
-            add: function (rhs) {
-                return vec(x + rhs.x, y + rhs.y, z + rhs.z);
-            },
-            cross: function (rhs) {
-                var yz = wedgeYZ(x, y, z, rhs.x, rhs.y, rhs.z);
-                var zx = wedgeZX(x, y, z, rhs.x, rhs.y, rhs.z);
-                var xy = wedgeXY(x, y, z, rhs.x, rhs.y, rhs.z);
-                return vec(yz, zx, xy);
-            },
-            direction: function () {
-                var magnitude = Math.sqrt(x * x + y * y + z * z);
-                if (magnitude !== 0) {
-                    return vec(x / magnitude, y / magnitude, z / magnitude);
-                }
-                else {
-                    // direction is ambiguous (undefined) for the zero vector.
-                    return void 0;
-                }
-            },
-            dot: dot,
-            magnitude: magnitude,
-            projectionOnto: projectionOnto,
-            rejectionFrom: rejectionFrom,
-            rotate: rotate,
-            scale: scale,
-            sub: function (rhs) {
-                return vec(x - rhs.x, y - rhs.y, z - rhs.z);
-            },
-            __add__: function (rhs) {
-                return vec(x + rhs.x, y + rhs.y, z + rhs.z);
-            },
-            __radd__: function (lhs) {
-                return vec(lhs.x + x, lhs.y + y, lhs.z + z);
-            },
-            __sub__: function (rhs) {
-                return vec(x - rhs.x, y - rhs.y, z - rhs.z);
-            },
-            __rsub__: function (lhs) {
-                return vec(lhs.x - x, lhs.y - y, lhs.z - z);
-            },
-            __mul__: function (rhs) {
-                mustBeNumber('rhs', rhs);
-                return vec(x * rhs, y * rhs, z * rhs);
-            },
-            __rmul__: function (lhs) {
-                mustBeNumber('lhs', lhs);
-                return vec(lhs * x, lhs * y, lhs * z);
-            },
-            __pos__: function () {
-                return that;
-            },
-            __neg__: function () {
-                return vec(-x, -y, -z);
-            },
-            toString: function () {
-                return "[" + x + ", " + y + ", " + z + "]";
-            }
-        };
-        return Object.freeze(that);
-    }
 
     /**
      * e2 = vec(0, 1, 0)
@@ -12483,9 +13686,12 @@
             return this.referenceAxis.rotate(this.attitude);
         };
         /**
-         * Implementation of the axis (set) property.
-         * Derived classes may overide to perform scaling.
          * @hidden
+         * Implementation of the axis (set) property.
+         * The result is independent of the magnitude of the `axis` parameter.
+         * Derived classes may overide to perform scaling.
+         *
+         * @param axis
          */
         Mesh.prototype.setAxis = function (axis) {
             var squaredNorm = quadVectorE3(axis);
@@ -12586,224 +13792,6 @@
         });
         return Mesh;
     }(Drawable));
-
-    /**
-     *
-     */
-    exports.PixelType = void 0;
-    (function (PixelType) {
-        PixelType[PixelType["UNSIGNED_BYTE"] = 5121] = "UNSIGNED_BYTE";
-        PixelType[PixelType["UNSIGNED_SHORT_4_4_4_4"] = 32819] = "UNSIGNED_SHORT_4_4_4_4";
-        PixelType[PixelType["UNSIGNED_SHORT_5_5_5_1"] = 32820] = "UNSIGNED_SHORT_5_5_5_1";
-        PixelType[PixelType["UNSIGNED_SHORT_5_6_5"] = 33635] = "UNSIGNED_SHORT_5_6_5";
-    })(exports.PixelType || (exports.PixelType = {}));
-
-    /**
-     * Essentially constructs the ShareableArray without incrementing the
-     * reference count of the elements, and without creating zombies.
-     * @hidden
-     */
-    function transferOwnership(data) {
-        if (data) {
-            var result = new ShareableArray(data);
-            // The result has now taken ownership of the elements, so we can release.
-            for (var i = 0, iLength = data.length; i < iLength; i++) {
-                var element = data[i];
-                if (element && element.release) {
-                    element.release();
-                }
-            }
-            return result;
-        }
-        else {
-            return void 0;
-        }
-    }
-    /**
-     * <p>
-     * Collection class for maintaining an array of types derived from Shareable.
-     * </p>
-     * <p>
-     * Provides a safer way to maintain reference counts than a native array.
-     * </p>
-     * @hidden
-     */
-    var ShareableArray = /** @class */ (function (_super) {
-        __extends(ShareableArray, _super);
-        /**
-         *
-         */
-        function ShareableArray(elements) {
-            if (elements === void 0) { elements = []; }
-            var _this = _super.call(this) || this;
-            _this.setLoggingName('ShareableArray');
-            _this._elements = elements;
-            for (var i = 0, l = _this._elements.length; i < l; i++) {
-                var element = _this._elements[i];
-                if (element.addRef) {
-                    element.addRef();
-                }
-            }
-            return _this;
-        }
-        /**
-         *
-         */
-        ShareableArray.prototype.destructor = function (levelUp) {
-            for (var i = 0, l = this._elements.length; i < l; i++) {
-                var element = this._elements[i];
-                if (element.release) {
-                    element.release();
-                }
-            }
-            this._elements = void 0;
-            _super.prototype.destructor.call(this, levelUp + 1);
-        };
-        /**
-         *
-         */
-        ShareableArray.prototype.find = function (match) {
-            var result = new ShareableArray([]);
-            var elements = this._elements;
-            var iLen = elements.length;
-            for (var i = 0; i < iLen; i++) {
-                var candidate = elements[i];
-                if (match(candidate)) {
-                    result.push(candidate);
-                }
-            }
-            return result;
-        };
-        /**
-         *
-         */
-        ShareableArray.prototype.findOne = function (match) {
-            var elements = this._elements;
-            for (var i = 0, iLength = elements.length; i < iLength; i++) {
-                var candidate = elements[i];
-                if (match(candidate)) {
-                    if (candidate.addRef) {
-                        candidate.addRef();
-                    }
-                    return candidate;
-                }
-            }
-            return void 0;
-        };
-        /**
-         * Gets the element at the specified index, incrementing the reference count.
-         */
-        ShareableArray.prototype.get = function (index) {
-            var element = this.getWeakRef(index);
-            if (element) {
-                if (element.addRef) {
-                    element.addRef();
-                }
-            }
-            return element;
-        };
-        /**
-         * Gets the element at the specified index, without incrementing the reference count.
-         */
-        ShareableArray.prototype.getWeakRef = function (index) {
-            return this._elements[index];
-        };
-        /**
-         *
-         */
-        ShareableArray.prototype.indexOf = function (searchElement, fromIndex) {
-            return this._elements.indexOf(searchElement, fromIndex);
-        };
-        Object.defineProperty(ShareableArray.prototype, "length", {
-            /**
-             *
-             */
-            get: function () {
-                if (this._elements) {
-                    return this._elements.length;
-                }
-                else {
-                    console.warn("ShareableArray is now a zombie, length is undefined");
-                    return void 0;
-                }
-            },
-            set: function (unused) {
-                throw new Error(readOnly('length').message);
-            },
-            enumerable: false,
-            configurable: true
-        });
-        /**
-         * The slice() method returns a shallow copy of a portion of an array into a new array object.
-         *
-         * It does not remove elements from the original array.
-         */
-        ShareableArray.prototype.slice = function (begin, end) {
-            return new ShareableArray(this._elements.slice(begin, end));
-        };
-        /**
-         * The splice() method changes the content of an array by removing existing elements and/or adding new elements.
-         */
-        ShareableArray.prototype.splice = function (index, deleteCount) {
-            // The release burdon is on the caller now.
-            return transferOwnership(this._elements.splice(index, deleteCount));
-        };
-        /**
-         *
-         */
-        ShareableArray.prototype.shift = function () {
-            // No need to addRef because ownership is being transferred to caller.
-            return this._elements.shift();
-        };
-        /**
-         * Traverse without Reference Counting
-         */
-        ShareableArray.prototype.forEach = function (callback) {
-            return this._elements.forEach(callback);
-        };
-        /**
-         * Pushes <code>element</code> onto the tail of the list and increments the element reference count.
-         */
-        ShareableArray.prototype.push = function (element) {
-            if (element) {
-                if (element.addRef) {
-                    element.addRef();
-                }
-            }
-            return this.pushWeakRef(element);
-        };
-        /**
-         * Pushes <code>element</code> onto the tail of the list <em>without</em> incrementing the <code>element</code> reference count.
-         */
-        ShareableArray.prototype.pushWeakRef = function (element) {
-            return this._elements.push(element);
-        };
-        /**
-         *
-         */
-        ShareableArray.prototype.pop = function () {
-            // No need to addRef because ownership is being transferred to caller.
-            return this._elements.pop();
-        };
-        /**
-         *
-         */
-        ShareableArray.prototype.unshift = function (element) {
-            if (element.addRef) {
-                element.addRef();
-            }
-            return this.unshiftWeakRef(element);
-        };
-        /**
-         * <p>
-         * <code>unshift</code> <em>without</em> incrementing the <code>element</code> reference count.
-         * </p>
-         */
-        ShareableArray.prototype.unshiftWeakRef = function (element) {
-            return this._elements.unshift(element);
-        };
-        return ShareableArray;
-    }(ShareableBase));
 
     /**
      * A collection of Renderable objects.
@@ -13230,710 +14218,186 @@
     /**
      * @hidden
      */
-    function beContextId() {
-        return "be 'webgl2' or 'webgl'";
+    function pointerEvents(canvas, value) {
+        canvas.style.pointerEvents = value;
     }
     /**
      * @hidden
      */
-    function isWebGLContextId(x) {
-        switch (x) {
-            case 'webgl2': return true;
-            case 'webgl': return true;
-            default: return false;
-        }
+    function position(canvas, value) {
+        canvas.style.pointerEvents = value;
     }
     /**
-     * @hidden
+     * A wrapper around the HTML canvas element that projects from 3D onto the canvas.
+     * This utility conveniently integrates with the `PerspectiveCamera` to provide an overlay for WebGL.
      */
-    function mustBeWebGLContextId(name, value, contextBuilder) {
-        if (isWebGLContextId(value)) {
-            return value;
-        }
-        else {
-            mustSatisfy(name, false, beContextId, contextBuilder);
-            return value;
-        }
-    }
-
-    /**
-     * Displays details about EIGHT to the console.
-     * @hidden
-     */
-    var EIGHTLogger = /** @class */ (function (_super) {
-        __extends(EIGHTLogger, _super);
-        function EIGHTLogger() {
-            var _this = _super.call(this) || this;
-            _this.setLoggingName('EIGHTLogger');
-            return _this;
-        }
-        EIGHTLogger.prototype.destructor = function (levelUp) {
-            _super.prototype.destructor.call(this, levelUp + 1);
-        };
-        EIGHTLogger.prototype.contextFree = function () {
-            // Does nothing.
-        };
-        /**
-         * Logs the namespace, version, GitHub URL, and last modified date to the console.
-         */
-        EIGHTLogger.prototype.contextGain = function () {
-            console.log(config.MARKETING_NAME + " " + config.VERSION + " (" + config.GITHUB + ") " + config.LAST_MODIFIED);
-        };
-        EIGHTLogger.prototype.contextLost = function () {
-            // Do nothing.
-        };
-        return EIGHTLogger;
-    }(ShareableBase));
-
-    /**
-     * Displays details about the WegGL version to the console.
-     * @hidden
-     */
-    var VersionLogger = /** @class */ (function (_super) {
-        __extends(VersionLogger, _super);
-        function VersionLogger(contextManager) {
-            var _this = _super.call(this) || this;
-            _this.contextManager = contextManager;
-            _this.setLoggingName("VersionLogger");
-            return _this;
-        }
-        VersionLogger.prototype.destructor = function (levelUp) {
-            _super.prototype.destructor.call(this, levelUp + 1);
-        };
-        VersionLogger.prototype.contextFree = function () {
-            // Do nothing.
-        };
-        VersionLogger.prototype.contextGain = function () {
-            var gl = this.contextManager.gl;
-            console.log(gl.getParameter(gl.VERSION));
-        };
-        VersionLogger.prototype.contextLost = function () {
-            // Do nothing.
-        };
-        return VersionLogger;
-    }(ShareableBase));
-
-    /**
-     * Verify that the enums match the values in the WebGL rendering context.
-     * @hidden
-     */
-    function checkEnums(gl) {
-        // BeginMode
-        mustBeEQ('LINE_LOOP', exports.BeginMode.LINE_LOOP, gl.LINE_LOOP);
-        mustBeEQ('LINE_STRIP', exports.BeginMode.LINE_STRIP, gl.LINE_STRIP);
-        mustBeEQ('LINES', exports.BeginMode.LINES, gl.LINES);
-        mustBeEQ('POINTS', exports.BeginMode.POINTS, gl.POINTS);
-        mustBeEQ('TRIANGLE_FAN', exports.BeginMode.TRIANGLE_FAN, gl.TRIANGLE_FAN);
-        mustBeEQ('TRIANGLE_STRIP', exports.BeginMode.TRIANGLE_STRIP, gl.TRIANGLE_STRIP);
-        mustBeEQ('TRIANGLES', exports.BeginMode.TRIANGLES, gl.TRIANGLES);
-        // BlendingFactorDest
-        mustBeEQ('ZERO', exports.BlendingFactorDest.ZERO, gl.ZERO);
-        mustBeEQ('ONE', exports.BlendingFactorDest.ONE, gl.ONE);
-        mustBeEQ('SRC_COLOR', exports.BlendingFactorDest.SRC_COLOR, gl.SRC_COLOR);
-        mustBeEQ('ONE_MINUS_SRC_COLOR', exports.BlendingFactorDest.ONE_MINUS_SRC_COLOR, gl.ONE_MINUS_SRC_COLOR);
-        mustBeEQ('SRC_ALPHA', exports.BlendingFactorDest.SRC_ALPHA, gl.SRC_ALPHA);
-        mustBeEQ('ONE_MINUS_SRC_ALPHA', exports.BlendingFactorDest.ONE_MINUS_SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-        mustBeEQ('DST_ALPHA', exports.BlendingFactorDest.DST_ALPHA, gl.DST_ALPHA);
-        mustBeEQ('ONE_MINUS_DST_ALPHA', exports.BlendingFactorDest.ONE_MINUS_DST_ALPHA, gl.ONE_MINUS_DST_ALPHA);
-        // BlendingFactorSrc
-        mustBeEQ('ZERO', exports.BlendingFactorSrc.ZERO, gl.ZERO);
-        mustBeEQ('ONE', exports.BlendingFactorSrc.ONE, gl.ONE);
-        mustBeEQ('DST_COLOR', exports.BlendingFactorSrc.DST_COLOR, gl.DST_COLOR);
-        mustBeEQ('ONE_MINUS_DST_COLOR', exports.BlendingFactorSrc.ONE_MINUS_DST_COLOR, gl.ONE_MINUS_DST_COLOR);
-        mustBeEQ('SRC_ALPHA_SATURATE', exports.BlendingFactorSrc.SRC_ALPHA_SATURATE, gl.SRC_ALPHA_SATURATE);
-        mustBeEQ('SRC_ALPHA', exports.BlendingFactorSrc.SRC_ALPHA, gl.SRC_ALPHA);
-        mustBeEQ('ONE_MINUS_SRC_ALPHA', exports.BlendingFactorSrc.ONE_MINUS_SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-        mustBeEQ('DST_ALPHA', exports.BlendingFactorSrc.DST_ALPHA, gl.DST_ALPHA);
-        mustBeEQ('ONE_MINUS_DST_ALPHA', exports.BlendingFactorSrc.ONE_MINUS_DST_ALPHA, gl.ONE_MINUS_DST_ALPHA);
-        // BufferObjects
-        mustBeEQ('ARRAY_BUFFER', BufferObjects.ARRAY_BUFFER, gl.ARRAY_BUFFER);
-        mustBeEQ('ARRAY_BUFFER_BINDING', BufferObjects.ARRAY_BUFFER_BINDING, gl.ARRAY_BUFFER_BINDING);
-        mustBeEQ('ELEMENT_ARRAY_BUFFER', BufferObjects.ELEMENT_ARRAY_BUFFER, gl.ELEMENT_ARRAY_BUFFER);
-        mustBeEQ('ELEMENT_ARRAY_BUFFER_BINDING', BufferObjects.ELEMENT_ARRAY_BUFFER_BINDING, gl.ELEMENT_ARRAY_BUFFER_BINDING);
-        // Capability
-        mustBeEQ('CULL_FACE', exports.Capability.CULL_FACE, gl.CULL_FACE);
-        mustBeEQ('BLEND', exports.Capability.BLEND, gl.BLEND);
-        mustBeEQ('DITHER', exports.Capability.DITHER, gl.DITHER);
-        mustBeEQ('STENCIL_TEST', exports.Capability.STENCIL_TEST, gl.STENCIL_TEST);
-        mustBeEQ('DEPTH_TEST', exports.Capability.DEPTH_TEST, gl.DEPTH_TEST);
-        mustBeEQ('SCISSOR_TEST', exports.Capability.SCISSOR_TEST, gl.SCISSOR_TEST);
-        mustBeEQ('POLYGON_OFFSET_FILL', exports.Capability.POLYGON_OFFSET_FILL, gl.POLYGON_OFFSET_FILL);
-        mustBeEQ('SAMPLE_ALPHA_TO_COVERAGE', exports.Capability.SAMPLE_ALPHA_TO_COVERAGE, gl.SAMPLE_ALPHA_TO_COVERAGE);
-        mustBeEQ('SAMPLE_COVERAGE', exports.Capability.SAMPLE_COVERAGE, gl.SAMPLE_COVERAGE);
-        // ClearBufferMask
-        mustBeEQ('COLOR_BUFFER_BIT', exports.ClearBufferMask.COLOR_BUFFER_BIT, gl.COLOR_BUFFER_BIT);
-        mustBeEQ('DEPTH_BUFFER_BIT', exports.ClearBufferMask.DEPTH_BUFFER_BIT, gl.DEPTH_BUFFER_BIT);
-        mustBeEQ('STENCIL_BUFFER_BIT', exports.ClearBufferMask.STENCIL_BUFFER_BIT, gl.STENCIL_BUFFER_BIT);
-        // DepthFunction
-        mustBeEQ('ALWAYS', exports.DepthFunction.ALWAYS, gl.ALWAYS);
-        mustBeEQ('EQUAL', exports.DepthFunction.EQUAL, gl.EQUAL);
-        mustBeEQ('GEQUAL', exports.DepthFunction.GEQUAL, gl.GEQUAL);
-        mustBeEQ('GREATER', exports.DepthFunction.GREATER, gl.GREATER);
-        mustBeEQ('LEQUAL', exports.DepthFunction.LEQUAL, gl.LEQUAL);
-        mustBeEQ('LESS', exports.DepthFunction.LESS, gl.LESS);
-        mustBeEQ('NEVER', exports.DepthFunction.NEVER, gl.NEVER);
-        mustBeEQ('NOTEQUAL', exports.DepthFunction.NOTEQUAL, gl.NOTEQUAL);
-        // PixelFormat
-        mustBeEQ('DEPTH_COMPONENT', exports.PixelFormat.DEPTH_COMPONENT, gl.DEPTH_COMPONENT);
-        mustBeEQ('ALPHA', exports.PixelFormat.ALPHA, gl.ALPHA);
-        mustBeEQ('RGB', exports.PixelFormat.RGB, gl.RGB);
-        mustBeEQ('RGBA', exports.PixelFormat.RGBA, gl.RGBA);
-        mustBeEQ('LUMINANCE', exports.PixelFormat.LUMINANCE, gl.LUMINANCE);
-        mustBeEQ('LUMINANCE_ALPHA', exports.PixelFormat.LUMINANCE_ALPHA, gl.LUMINANCE_ALPHA);
-        // PixelType
-        mustBeEQ('UNSIGNED_BYTE', exports.PixelType.UNSIGNED_BYTE, gl.UNSIGNED_BYTE);
-        mustBeEQ('UNSIGNED_SHORT_4_4_4_4', exports.PixelType.UNSIGNED_SHORT_4_4_4_4, gl.UNSIGNED_SHORT_4_4_4_4);
-        mustBeEQ('UNSIGNED_SHORT_5_5_5_1', exports.PixelType.UNSIGNED_SHORT_5_5_5_1, gl.UNSIGNED_SHORT_5_5_5_1);
-        mustBeEQ('UNSIGNED_SHORT_5_6_5', exports.PixelType.UNSIGNED_SHORT_5_6_5, gl.UNSIGNED_SHORT_5_6_5);
-        // Usage
-        mustBeEQ('STREAM_DRAW', exports.Usage.STREAM_DRAW, gl.STREAM_DRAW);
-        mustBeEQ('STATIC_DRAW', exports.Usage.STATIC_DRAW, gl.STATIC_DRAW);
-        mustBeEQ('DYNAMIC_DRAW', exports.Usage.DYNAMIC_DRAW, gl.DYNAMIC_DRAW);
-        return gl;
-    }
-
-    /**
-     * @hidden
-     */
-    function getContextFailed(contextId) {
-        return "canvas.getContext('" + contextId + "') failed. Your browser may not support it.";
-    }
-    /**
-     * @hidden
-     */
-    function invalidContextId(contextId) {
-        return JSON.stringify(contextId) + " is not a recognized WebGL contextId. contextId must be 'webgl2' or 'webgl'.";
-    }
-    /**
-     * Returns a WebGL rendering context given a canvas element.
-     * @param canvas The canvas element.
-     * @param options The arguments to the HTMLCanvasElement.getContext() method.
-     * @param contextId An optional override for the context identifier.
-     * If the canvas is undefined then an undefined value is returned for the context.
-     * @hidden
-     */
-    function initWebGL(canvas, options, contextId) {
-        // We'll be hyper-functional. An undefined canvas begets an undefined context.
-        // Clients must check their context output or canvas input.
-        if (isDefined(canvas)) {
-            if (contextId) {
-                switch (contextId) {
-                    case 'webgl2': {
-                        var context = canvas.getContext(contextId, options);
-                        if (context) {
-                            return { context: context, contextId: contextId };
-                        }
-                        else {
-                            throw new Error(getContextFailed(contextId));
-                        }
-                    }
-                    case 'webgl': {
-                        var context = canvas.getContext(contextId, options);
-                        if (context) {
-                            return { context: context, contextId: contextId };
-                        }
-                        else {
-                            throw new Error(getContextFailed(contextId));
-                        }
-                    }
-                    default: {
-                        // From a type-safety perspective, this should never happen.
-                        throw new Error(invalidContextId(contextId));
-                    }
-                }
-            }
-            else {
-                try {
-                    var candidateContextId = 'webgl2';
-                    var context = canvas.getContext(candidateContextId, options);
-                    if (context) {
-                        return { context: context, contextId: candidateContextId };
-                    }
-                    else {
-                        throw new Error(getContextFailed(candidateContextId));
-                    }
-                }
-                catch (e) {
-                    var candidateContextId = 'webgl';
-                    var context = canvas.getContext(candidateContextId, options);
-                    if (context) {
-                        return { context: context, contextId: candidateContextId };
-                    }
-                    else {
-                        throw new Error(getContextFailed(candidateContextId));
-                    }
-                }
-            }
-        }
-        else {
-            // An undefined canvas results in an undefined context.
-            return void 0;
-        }
-    }
-
-    /**
-     * @hidden
-     */
-    function getWindowDocument(window) {
-        if (window) {
-            return window.document;
-        }
-        else {
-            return void 0;
-        }
-    }
-    /**
-     * A wrapper around an HTMLCanvasElement providing access to the WebGL rendering context
-     * and notifications of context loss and restore. An instance of the Engine will usually
-     * be a required parameter for any consumer of WebGL resources.
-     */
-    var Engine = /** @class */ (function (_super) {
-        __extends(Engine, _super);
-        /**
-         * @param canvas The canvas element identifier, or canvas element, or WebGL rendering context.
-         * @param attributes Allows the context to be configured.
-         * @param dom The document object model that contains the canvas.
-         */
-        function Engine(canvas, attributes, dom) {
-            if (attributes === void 0) { attributes = {}; }
-            var _this = _super.call(this) || this;
-            // Remark: We only hold weak references to users so that the lifetime of resource
-            // objects is not affected by the fact that they are listening for gl events.
-            // Users should automatically add themselves upon construction and remove upon release.
-            _this._users = [];
-            /**
-             * Actions that are executed when a WebGL rendering context is gained.
-             */
-            _this._commands = new ShareableArray([]);
-            _this.setLoggingName('Engine');
-            // TODO: Defensive copy and strip off the extra attributes on EngineAttributes just in case the WebGL runtime gets strict and complains.
-            _this._attributes = attributes;
-            if (isDefined(attributes.contextId)) {
-                _this._overrideContextId = mustBeWebGLContextId("attributes.contextId", attributes.contextId);
-            }
-            if (attributes.eightLogging) {
-                _this._commands.pushWeakRef(new EIGHTLogger());
-            }
-            if (attributes.webglLogging) {
-                _this._commands.pushWeakRef(new VersionLogger(_this));
-            }
-            _this._webGLContextLost = function (event) {
-                if (isDefined(_this._gl)) {
-                    event.preventDefault();
-                    _this._gl = void 0;
-                    _this._users.forEach(function (user) {
-                        user.contextLost();
-                    });
-                }
-            };
-            _this._webGLContextRestored = function (event) {
-                if (isDefined(_this._gl)) {
-                    if (_this._gl.canvas instanceof HTMLCanvasElement) {
-                        event.preventDefault();
-                        var result = initWebGL(_this._gl.canvas, attributes, _this._overrideContextId);
-                        _this._gl = checkEnums(result.context);
-                        _this._contextId = result.contextId;
-                        _this._users.forEach(function (user) {
-                            user.contextGain();
-                        });
-                    }
-                }
-            };
-            if (canvas) {
-                if (dom) {
-                    _this.start(canvas, dom);
-                }
-                else {
-                    _this.start(canvas, getWindowDocument(window));
-                }
-            }
-            return _this;
-        }
-        /**
-         * @hidden
-         */
-        Engine.prototype.resurrector = function (levelUp) {
-            _super.prototype.resurrector.call(this, levelUp + 1);
-            this.setLoggingName('Engine');
-            this._commands = new ShareableArray([]);
-        };
-        /**
-         * @hidden
-         */
-        Engine.prototype.destructor = function (levelUp) {
-            this.stop();
-            while (this._users.length > 0) {
-                this._users.pop();
-            }
-            this._commands.release();
-            _super.prototype.destructor.call(this, levelUp + 1);
-        };
+    var Diagram3D = /** @class */ (function () {
         /**
          *
          */
-        Engine.prototype.addContextListener = function (consumer) {
-            mustBeNonNullObject('consumer', consumer);
-            var index = this._users.indexOf(consumer);
-            if (index < 0) {
-                this._users.push(consumer);
-            }
-            else {
-                console.warn("consumer already exists for addContextListener");
-            }
-        };
-        Object.defineProperty(Engine.prototype, "canvas", {
-            /**
-             * The canvas element associated with the WebGLRenderingContext.
-             */
-            get: function () {
-                if (this._gl) {
-                    if (this._gl.canvas instanceof HTMLCanvasElement) {
-                        return this._gl.canvas;
-                    }
-                    else {
-                        // OffscreenCanvas or undefined.
-                        return void 0;
-                    }
-                }
-                else {
-                    return void 0;
-                }
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(Engine.prototype, "drawingBufferHeight", {
-            get: function () {
-                if (this._gl) {
-                    return this._gl.drawingBufferHeight;
-                }
-                else {
-                    return void 0;
-                }
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(Engine.prototype, "drawingBufferWidth", {
-            get: function () {
-                if (this._gl) {
-                    return this._gl.drawingBufferWidth;
-                }
-                else {
-                    return void 0;
-                }
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Engine.prototype.blendFunc = function (sfactor, dfactor) {
-            var gl = this._gl;
-            if (gl) {
-                gl.blendFunc(sfactor, dfactor);
-            }
-            return this;
-        };
-        /**
-         * <p>
-         * Sets the graphics buffers to values preselected by clearColor, clearDepth or clearStencil.
-         * </p>
-         */
-        Engine.prototype.clear = function (mask) {
-            if (mask === void 0) { mask = exports.ClearBufferMask.COLOR_BUFFER_BIT | exports.ClearBufferMask.DEPTH_BUFFER_BIT; }
-            var gl = this._gl;
-            if (gl) {
-                gl.clear(mask);
-            }
-            return this;
-        };
-        /**
-         * Specifies color values to use by the <code>clear</code> method to clear the color buffer.
-         */
-        Engine.prototype.clearColor = function (red, green, blue, alpha) {
-            this._commands.pushWeakRef(new WebGLClearColor(this, red, green, blue, alpha));
-            var gl = this._gl;
-            if (gl) {
-                gl.clearColor(red, green, blue, alpha);
-            }
-            return this;
-        };
-        /**
-         * Specifies the clear value for the depth buffer.
-         * This specifies what depth value to use when calling the clear() method.
-         * The value is clamped between 0 and 1.
-         *
-         * @param depth Specifies the depth value used when the depth buffer is cleared.
-         * The default value is 1.
-         */
-        Engine.prototype.clearDepth = function (depth) {
-            var gl = this._gl;
-            if (gl) {
-                gl.clearDepth(depth);
-            }
-            return this;
-        };
-        /**
-         * @param s Specifies the index used when the stencil buffer is cleared.
-         * The default value is 0.
-         */
-        Engine.prototype.clearStencil = function (s) {
-            var gl = this._gl;
-            if (gl) {
-                gl.clearStencil(s);
-            }
-            return this;
-        };
-        Engine.prototype.depthFunc = function (func) {
-            var gl = this._gl;
-            if (gl) {
-                gl.depthFunc(func);
-            }
-            return this;
-        };
-        Engine.prototype.depthMask = function (flag) {
-            var gl = this._gl;
-            if (gl) {
-                gl.depthMask(flag);
-            }
-            return this;
-        };
-        /**
-         * Disables the specified WebGL capability.
-         */
-        Engine.prototype.disable = function (capability) {
-            this._commands.pushWeakRef(new WebGLDisable(this, capability));
-            if (this._gl) {
-                this._gl.disable(capability);
-            }
-            return this;
-        };
-        /**
-         * Enables the specified WebGL capability.
-         */
-        Engine.prototype.enable = function (capability) {
-            this._commands.pushWeakRef(new WebGLEnable(this, capability));
-            if (this._gl) {
-                this._gl.enable(capability);
-            }
-            return this;
-        };
-        Object.defineProperty(Engine.prototype, "gl", {
-            /**
-             * The underlying WebGL rendering context.
-             */
-            get: function () {
-                if (this._gl) {
-                    return this._gl;
-                }
-                else {
-                    return void 0;
-                }
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(Engine.prototype, "contextId", {
-            get: function () {
-                return this._contextId;
-            },
-            enumerable: false,
-            configurable: true
-        });
         /**
          *
+         * @param canvas The canvas elementId or the HTML canvas element.
+         * @param camera Provides the camera (eye, look, and up) parameters.
+         * @param prism Provides the viewport (near, far, fov, and aspect) parameters.
          */
-        Engine.prototype.readPixels = function (x, y, width, height, format, type, pixels) {
-            if (this._gl) {
-                this._gl.readPixels(x, y, width, height, format, type, pixels);
-            }
-        };
-        /**
-         * @param consumer
-         */
-        Engine.prototype.removeContextListener = function (consumer) {
-            mustBeNonNullObject('consumer', consumer);
-            var index = this._users.indexOf(consumer);
-            if (index >= 0) {
-                this._users.splice(index, 1);
-            }
-        };
-        /**
-         * A convenience method for setting the width and height properties of the
-         * underlying canvas and for setting the viewport to the drawing buffer height and width.
-         */
-        Engine.prototype.size = function (width, height) {
-            this.canvas.width = mustBeNumber('width', width);
-            this.canvas.height = mustBeNumber('height', height);
-            return this.viewport(0, 0, this.gl.drawingBufferWidth, this.gl.drawingBufferHeight);
-        };
-        /**
-         * The viewport width and height are clamped to a range that is
-         * implementation dependent.
-         *
-         * @returns e.g. Int32Array[16384, 16384]
-         */
-        Engine.prototype.getMaxViewportDims = function () {
-            var gl = this._gl;
-            if (gl) {
-                return gl.getParameter(gl.MAX_VIEWPORT_DIMS);
-            }
-            else {
-                return void 0;
-            }
-        };
-        /**
-         * Returns the current viewport settings.
-         *
-         * @returns e.g. Int32Array[x, y, width, height]
-         */
-        Engine.prototype.getViewport = function () {
-            var gl = this._gl;
-            if (gl) {
-                return gl.getParameter(gl.VIEWPORT);
-            }
-            else {
-                return void 0;
-            }
-        };
-        /**
-         * Defines what part of the canvas will be used in rendering the drawing buffer.
-         *
-         * @param x
-         * @param y
-         * @param width
-         * @param height
-         */
-        Engine.prototype.viewport = function (x, y, width, height) {
-            var gl = this._gl;
-            if (gl) {
-                gl.viewport(x, y, width, height);
-            }
-            return this;
-        };
-        /**
-         * Initializes the <code>WebGLRenderingContext</code> for the specified <code>HTMLCanvasElement</code>.
-         *
-         * @param canvas The HTML canvas element or canvas element identifier.
-         * @param dom The document object model that contains the canvas identifier.
-         */
-        Engine.prototype.start = function (canvas, dom) {
+        function Diagram3D(canvas, camera, prism) {
             if (typeof canvas === 'string') {
-                if (dom) {
-                    var canvasElement = dom.getElementById(canvas);
-                    if (canvasElement) {
-                        // Recursive call but this time the canvas is an HTML canvas element.
-                        return this.start(canvasElement, dom);
-                    }
-                    else {
-                        throw new Error("canvas argument must be a canvas element id or an HTMLCanvasElement.");
-                    }
-                }
-                else {
-                    // Recursive call but this time the document object model is defined.
-                    return this.start(canvas, getWindowDocument(window));
-                }
+                var canvasElement = document.getElementById(canvas);
+                this.ctx = canvasElement.getContext('2d');
+                pointerEvents(canvasElement, 'none');
+                position(canvasElement, 'absolute');
             }
             else if (canvas instanceof HTMLCanvasElement) {
-                if (isDefined(this._gl)) {
-                    // We'll just be idempotent and ignore the call because we've already been started.
-                    // To use the canvas might conflict with one we have dynamically created.
-                    console.warn(this.getLoggingName() + " Ignoring start() because already started.");
-                    return this;
+                this.ctx = canvas.getContext('2d');
+                pointerEvents(canvas, 'none');
+                position(canvas, 'absolute');
+            }
+            else {
+                throw new Error("canvas must either be a canvas Id or an HTMLCanvasElement.");
+            }
+            this.ctx.strokeStyle = "#FFFFFF";
+            this.ctx.fillStyle = '#FFFFFF';
+            this.ctx.font = '24px Helvetica';
+            if (isDefined(camera)) {
+                if (isDefined(prism)) {
+                    this.camera = camera;
+                    this.prism = prism;
                 }
                 else {
-                    // TODO: Really should strip
-                    var result = initWebGL(canvas, this._attributes, this._overrideContextId);
-                    this._gl = checkEnums(result.context);
-                    this._contextId = result.contextId;
-                    this.emitStartEvent();
-                    canvas.addEventListener('webglcontextlost', this._webGLContextLost, false);
-                    canvas.addEventListener('webglcontextrestored', this._webGLContextRestored, false);
-                }
-                return this;
-            }
-            else {
-                if (isDefined(canvas)) {
-                    this._gl = checkEnums(canvas);
-                }
-                return this;
-            }
-        };
-        /**
-         *
-         */
-        Engine.prototype.stop = function () {
-            if (isDefined(this._gl)) {
-                this._gl.canvas.removeEventListener('webglcontextrestored', this._webGLContextRestored, false);
-                this._gl.canvas.removeEventListener('webglcontextlost', this._webGLContextLost, false);
-                if (this._gl) {
-                    this.emitStopEvent();
-                    this._gl = void 0;
+                    this.camera = camera;
+                    this.prism = prism;
                 }
             }
-            return this;
+        }
+        Object.defineProperty(Diagram3D.prototype, "canvas", {
+            get: function () {
+                return this.ctx.canvas;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(Diagram3D.prototype, "fillStyle", {
+            get: function () {
+                return this.ctx.fillStyle;
+            },
+            set: function (fillStyle) {
+                this.ctx.fillStyle = fillStyle;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Diagram3D.prototype.beginPath = function () {
+            this.ctx.beginPath();
         };
-        Engine.prototype.emitStartEvent = function () {
-            var _this = this;
-            this._users.forEach(function (user) {
-                _this.emitContextGain(user);
-            });
-            this._commands.forEach(function (command) {
-                _this.emitContextGain(command);
-            });
+        Diagram3D.prototype.clear = function () {
+            this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
         };
-        Engine.prototype.emitContextGain = function (consumer) {
-            if (this._gl.isContextLost()) {
-                consumer.contextLost();
-            }
-            else {
-                consumer.contextGain();
-            }
+        Diagram3D.prototype.closePath = function () {
+            this.ctx.closePath();
         };
-        Engine.prototype.emitStopEvent = function () {
-            var _this = this;
-            this._users.forEach(function (user) {
-                _this.emitContextFree(user);
-            });
-            this._commands.forEach(function (command) {
-                _this.emitContextFree(command);
-            });
+        Diagram3D.prototype.fill = function (fillRule /*CanvasFillRule*/) {
+            this.ctx.fill(fillRule);
         };
-        Engine.prototype.emitContextFree = function (consumer) {
-            if (this._gl.isContextLost()) {
-                consumer.contextLost();
-            }
-            else {
-                consumer.contextFree();
-            }
+        Diagram3D.prototype.fillText = function (text, X, maxWidth) {
+            var coords = canvasCoords(X, this.camera, this.prism, this.ctx.canvas.width, this.ctx.canvas.height);
+            this.ctx.fillText(text, coords.x, coords.y, maxWidth);
         };
+        Diagram3D.prototype.moveTo = function (X) {
+            var coords = canvasCoords(X, this.camera, this.prism, this.ctx.canvas.width, this.ctx.canvas.height);
+            this.ctx.moveTo(coords.x, coords.y);
+        };
+        Diagram3D.prototype.lineTo = function (X) {
+            var coords = canvasCoords(X, this.camera, this.prism, this.ctx.canvas.width, this.ctx.canvas.height);
+            this.ctx.lineTo(coords.x, coords.y);
+        };
+        Diagram3D.prototype.stroke = function () {
+            this.ctx.stroke();
+        };
+        Diagram3D.prototype.strokeText = function (text, X, maxWidth) {
+            var coords = canvasCoords(X, this.camera, this.prism, this.ctx.canvas.width, this.ctx.canvas.height);
+            this.ctx.strokeText(text, coords.x, coords.y, maxWidth);
+        };
+        return Diagram3D;
+    }());
+    /**
+     * @hidden
+     */
+    function canvasCoords(X, camera, prism, width, height) {
+        var cameraCoords = view(X, camera.eye, camera.look, camera.up);
+        var near = prism.near;
+        var far = prism.far;
+        var fov = prism.fov;
+        var aspect = prism.aspect;
+        var imageCoords = perspective(cameraCoords, near, far, fov, aspect);
+        // Convert image coordinates to screen/device coordinates.
+        var x = (imageCoords.x + 1) * width / 2;
+        var y = (1 - imageCoords.y) * height / 2;
+        return { x: x, y: y };
+    }
+    /**
+     * View transformation converts world coordinates to camera frame coordinates.
+     * We first compute the camera frame (u, v, w, eye), then solve the equation
+     * X = x * u + y * v * z * n + eye
+     * @hidden
+     *
+     * @param X The world vector.
+     * @param eye The position of the camera.
+     * @param look The point that the camera is aimed at.
+     * @param up The approximate up direction.
+     * @returns The coordinates in the camera (u, v, w) basis.
+     * @hidden
+     */
+    function view(X, eye, look, up) {
         /**
-         * @param consumer
+         * Unit vector towards the camera holder (similar to e3).
+         * Some texts call this the w-vector, so that (u, v, w) is a right-handed frame.
          */
-        Engine.prototype.synchronize = function (consumer) {
-            if (this._gl) {
-                this.emitContextGain(consumer);
-            }
-            return this;
-        };
+        var n = vectorCopy(eye).sub(look).direction();
         /**
-         * Computes the coordinates of a point in the image cube corresponding to device coordinates.
-         * @param deviceX The x-coordinate of the device event.
-         * @param deviceY The y-coordinate of the device event.
-         * @param imageZ The optional value to use as the resulting depth coordinate.
+         * Unit vector to the right (similar to e1).
          */
-        Engine.prototype.deviceToImageCoords = function (deviceX, deviceY, imageZ) {
-            if (imageZ === void 0) { imageZ = 0; }
-            mustBeNumber('deviceX', deviceX);
-            mustBeNumber('deviceY', deviceY);
-            mustBeNumber('imageZ', imageZ);
-            mustBeGE('imageZ', imageZ, -1);
-            mustBeLE('imageZ', imageZ, +1);
-            var imageX = ((2 * deviceX) / this.canvas.width) - 1;
-            var imageY = 1 - (2 * deviceY) / this.canvas.height;
-            return vectorFromCoords(imageX, imageY, imageZ);
-        };
-        return Engine;
-    }(ShareableBase));
+        var u = vectorCopy(up).cross(n).direction();
+        /**
+         * Unit vector upwards (similar to e2).
+         */
+        var v = n.cross(u);
+        var du = -dotVectorE3(eye, u);
+        var dv = -dotVectorE3(eye, v);
+        var dn = -dotVectorE3(eye, n);
+        var x = dotVectorE3(X, u) + du;
+        var y = dotVectorE3(X, v) + dv;
+        var z = dotVectorE3(X, n) + dn;
+        return vectorFromCoords(x, y, z);
+    }
+    /**
+     * Perspective transformation projects camera coordinates onto the image space.
+     * The near plane corresponds to -1. The far plane corresponds to +1.
+     *
+     * @param X The coordinates in the camera frame.
+     * @param n The distance from the camera eye to the near plane onto which X is projected.
+     * @param f The distance to the far plane.
+     * @param α The angle subtended at the apex of the pyramid in the vw-plane.
+     * @param aspect The ratio of the width to the height (width divided by height).
+     * @hidden
+     */
+    function perspective(X, n, f, α, aspect) {
+        /**
+         * The camera coordinates (u, v, w).
+         */
+        var u = X.x;
+        var v = X.y;
+        var w = X.z;
+        /**
+         * tangent of one half the field of view angle.
+         */
+        var t = Math.tan(α / 2);
+        var negW = -w;
+        var x = u / (negW * aspect * t);
+        var y = v / (negW * t);
+        var z = ((f + n) * w + 2 * f * n) / (w * (f - n));
+        return vectorFromCoords(x, y, z);
+    }
 
     /**
      * Sets the 'uAmbientLight' uniform to the color RGB value.
@@ -14001,1034 +14465,6 @@
         };
         return DirectionalLight;
     }());
-
-    /**
-     * Computes the determinant of a 2x2 (square) matrix where the elements are assumed to be in column-major order.
-     * @hidden
-     */
-    function det2x2(m) {
-        var n11 = m[0x0];
-        var n12 = m[0x2];
-        var n21 = m[0x1];
-        var n22 = m[0x3];
-        return n11 * n22 - n12 * n21;
-    }
-
-    /**
-     * @hidden
-     */
-    function add2x2(a, b, c) {
-        var a11 = a[0x0], a12 = a[0x2];
-        var a21 = a[0x1], a22 = a[0x3];
-        var b11 = b[0x0], b12 = b[0x2];
-        var b21 = b[0x1], b22 = b[0x3];
-        c[0x0] = a11 + b11;
-        c[0x2] = a12 + b12;
-        c[0x1] = a21 + b21;
-        c[0x3] = a22 + b22;
-    }
-    /**
-     * @hidden
-     */
-    var Matrix2 = /** @class */ (function (_super) {
-        __extends(Matrix2, _super);
-        /**
-         * 2x2 (square) matrix of numbers.
-         * Constructs a Matrix2 by wrapping a Float32Array.
-         * The elements are stored in column-major order:
-         * 0 2
-         * 1 3
-         *
-         * @param elements The elements of the matrix in column-major order.
-         */
-        function Matrix2(elements) {
-            return _super.call(this, elements, 2) || this;
-        }
-        Matrix2.prototype.add = function (rhs) {
-            if (this.isLocked()) {
-                throw new TargetLockedError('add');
-            }
-            return this.add2(this, rhs);
-        };
-        Matrix2.prototype.add2 = function (a, b) {
-            add2x2(a.elements, b.elements, this.elements);
-            return this;
-        };
-        Matrix2.prototype.clone = function () {
-            var te = this.elements;
-            var m11 = te[0];
-            var m21 = te[1];
-            var m12 = te[2];
-            var m22 = te[3];
-            return new Matrix2(new Float32Array([0, 0, 0, 0])).set(m11, m12, m21, m22);
-        };
-        /**
-         * Computes the determinant.
-         */
-        Matrix2.prototype.det = function () {
-            return det2x2(this.elements);
-        };
-        /**
-         * Sets this matrix to its inverse.
-         */
-        Matrix2.prototype.inv = function () {
-            var te = this.elements;
-            var a = te[0];
-            var c = te[1];
-            var b = te[2];
-            var d = te[3];
-            var det = this.det();
-            return this.set(d, -b, -c, a).scale(1 / det);
-        };
-        /**
-         * Determines whether this matrix is the identity matrix for multiplication.
-         */
-        Matrix2.prototype.isOne = function () {
-            var te = this.elements;
-            var a = te[0];
-            var c = te[1];
-            var b = te[2];
-            var d = te[3];
-            return (a === 1 && b === 0 && c === 0 && d === 1);
-        };
-        /**
-         * Determines whether this matrix is the identity matrix for addition.
-         */
-        Matrix2.prototype.isZero = function () {
-            var te = this.elements;
-            var a = te[0];
-            var c = te[1];
-            var b = te[2];
-            var d = te[3];
-            return (a === 0 && b === 0 && c === 0 && d === 0);
-        };
-        Matrix2.prototype.mul = function (rhs) {
-            return this.mul2(this, rhs);
-        };
-        Matrix2.prototype.mul2 = function (a, b) {
-            var ae = a.elements;
-            var a11 = ae[0];
-            var a21 = ae[1];
-            var a12 = ae[2];
-            var a22 = ae[3];
-            var be = b.elements;
-            var b11 = be[0];
-            var b21 = be[1];
-            var b12 = be[2];
-            var b22 = be[3];
-            var m11 = a11 * b11 + a12 * b21;
-            var m12 = a11 * b12 + a12 * b22;
-            var m21 = a21 * b11 + a22 * b21;
-            var m22 = a21 * b12 + a22 * b22;
-            return this.set(m11, m12, m21, m22);
-        };
-        /**
-         * Sets this matrix to its additive inverse.
-         */
-        Matrix2.prototype.neg = function () {
-            return this.scale(-1);
-        };
-        /**
-         * Sets this matrix to the identity element for multiplication, 1.
-         */
-        Matrix2.prototype.one = function () {
-            return this.set(1, 0, 0, 1);
-        };
-        /**
-         * Sets this matrix to the transformation for a
-         * reflection in the line normal to the unit vector <code>n</code>.
-         *
-         * this ⟼ reflection(<b>n</b>) = I - 2 * <b>n</b><sup>T</sup> * <b>n</b>
-         *
-         */
-        Matrix2.prototype.reflection = function (n) {
-            var nx = mustBeNumber('n.x', n.x);
-            var xx = 1 - 2 * nx * nx;
-            return this.set(xx, 0, 0, 1);
-        };
-        /**
-         * Returns the row for the specified index.
-         * @param i the zero-based index of the row.
-         */
-        Matrix2.prototype.row = function (i) {
-            var te = this.elements;
-            return [te[0 + i], te[2 + i]];
-        };
-        /**
-         * Multiplies this matrix by the scale factor, α.
-         */
-        Matrix2.prototype.scale = function (α) {
-            var te = this.elements;
-            var m11 = te[0] * α;
-            var m21 = te[1] * α;
-            var m12 = te[2] * α;
-            var m22 = te[3] * α;
-            return this.set(m11, m12, m21, m22);
-        };
-        /**
-         * Sets all elements of this matrix to the supplied row-major values m11, ..., m22.
-         * @method set
-         * @param m11 {number}
-         * @param m12 {number}
-         * @param m21 {number}
-         * @param m22 {number}
-         * @return {Matrix2}
-         * @chainable
-         */
-        Matrix2.prototype.set = function (m11, m12, m21, m22) {
-            var te = this.elements;
-            // The elements are stored in column-major order.
-            te[0x0] = m11;
-            te[0x2] = m12;
-            te[0x1] = m21;
-            te[0x3] = m22;
-            return this;
-        };
-        /**
-         * @method sub
-         * @param rhs {Matrix2}
-         * @return {Matrix2}
-         * @chainable
-         */
-        Matrix2.prototype.sub = function (rhs) {
-            var te = this.elements;
-            var t11 = te[0];
-            var t21 = te[1];
-            var t12 = te[2];
-            var t22 = te[3];
-            var re = rhs.elements;
-            var r11 = re[0];
-            var r21 = re[1];
-            var r12 = re[2];
-            var r22 = re[3];
-            var m11 = t11 - r11;
-            var m21 = t21 - r21;
-            var m12 = t12 - r12;
-            var m22 = t22 - r22;
-            return this.set(m11, m12, m21, m22);
-        };
-        /**
-         * @method toExponential
-         * @param [fractionDigits] {number}
-         * @return {string}
-         */
-        Matrix2.prototype.toExponential = function (fractionDigits) {
-            var text = [];
-            for (var i = 0; i < this.dimensions; i++) {
-                text.push(this.row(i).map(function (element, index) { return element.toExponential(fractionDigits); }).join(' '));
-            }
-            return text.join('\n');
-        };
-        /**
-         * @method toFixed
-         * @param [fractionDigits] {number}
-         * @return {string}
-         */
-        Matrix2.prototype.toFixed = function (fractionDigits) {
-            if (isDefined(fractionDigits)) {
-                mustBeInteger('fractionDigits', fractionDigits);
-            }
-            var text = [];
-            for (var i = 0; i < this.dimensions; i++) {
-                text.push(this.row(i).map(function (element, index) { return element.toFixed(fractionDigits); }).join(' '));
-            }
-            return text.join('\n');
-        };
-        /**
-         * @method toPrecision
-         * @param [precision] {number}
-         * @return {string}
-         */
-        Matrix2.prototype.toPrecision = function (precision) {
-            if (isDefined(precision)) {
-                mustBeInteger('precision', precision);
-            }
-            var text = [];
-            for (var i = 0; i < this.dimensions; i++) {
-                text.push(this.row(i).map(function (element, index) { return element.toPrecision(precision); }).join(' '));
-            }
-            return text.join('\n');
-        };
-        /**
-         * @method toString
-         * @param [radix] {number}
-         * @return {string}
-         */
-        Matrix2.prototype.toString = function (radix) {
-            var text = [];
-            for (var i = 0, iLength = this.dimensions; i < iLength; i++) {
-                text.push(this.row(i).map(function (element, index) { return element.toString(radix); }).join(' '));
-            }
-            return text.join('\n');
-        };
-        /**
-         * @method translation
-         * @param d {VectorE1}
-         * @return {Matrix2}
-         * @chainable
-         */
-        Matrix2.prototype.translation = function (d) {
-            var x = d.x;
-            return this.set(1, x, 0, 1);
-        };
-        /**
-         * Sets this matrix to the identity element for addition, 0.
-         */
-        Matrix2.prototype.zero = function () {
-            return this.set(0, 0, 0, 0);
-        };
-        Matrix2.prototype.__add__ = function (rhs) {
-            if (rhs instanceof Matrix2) {
-                return lock(this.clone().add(rhs));
-            }
-            // TODO: Interpret this as I * rhs?
-            //        else if (typeof rhs === 'number') {
-            //            return this.clone().scale(rhs);
-            //        }
-            else {
-                return void 0;
-            }
-        };
-        Matrix2.prototype.__radd__ = function (lhs) {
-            if (lhs instanceof Matrix2) {
-                return lock(lhs.clone().add(this));
-            }
-            // TODO: Interpret this as I * rhs?
-            //        else if (typeof rhs === 'number') {
-            //            return this.clone().scale(rhs);
-            //        }
-            else {
-                return void 0;
-            }
-        };
-        Matrix2.prototype.__mul__ = function (rhs) {
-            if (rhs instanceof Matrix2) {
-                return lock(this.clone().mul(rhs));
-            }
-            else if (typeof rhs === 'number') {
-                return lock(this.clone().scale(rhs));
-            }
-            else {
-                return void 0;
-            }
-        };
-        Matrix2.prototype.__rmul__ = function (lhs) {
-            if (lhs instanceof Matrix2) {
-                return lock(lhs.clone().mul(this));
-            }
-            else if (typeof lhs === 'number') {
-                return lock(this.clone().scale(lhs));
-            }
-            else {
-                return void 0;
-            }
-        };
-        Matrix2.prototype.__pos__ = function () {
-            return lock(this.clone());
-        };
-        Matrix2.prototype.__neg__ = function () {
-            return lock(this.clone().scale(-1));
-        };
-        Matrix2.prototype.__sub__ = function (rhs) {
-            if (rhs instanceof Matrix2) {
-                return lock(this.clone().sub(rhs));
-            }
-            // TODO: Interpret this as I * rhs?
-            //        else if (typeof rhs === 'number') {
-            //            return this.clone().scale(rhs);
-            //        }
-            else {
-                return void 0;
-            }
-        };
-        Matrix2.prototype.__rsub__ = function (lhs) {
-            if (lhs instanceof Matrix2) {
-                return lock(lhs.clone().sub(this));
-            }
-            else {
-                return void 0;
-            }
-        };
-        /**
-         *
-         */
-        Matrix2.reflection = function (n) {
-            return Matrix2.zero.clone().reflection(n);
-        };
-        Matrix2.one = lock(new Matrix2(new Float32Array([1, 0, 0, 1])));
-        Matrix2.zero = lock(new Matrix2(new Float32Array([0, 0, 0, 0])));
-        return Matrix2;
-    }(AbstractMatrix));
-
-    /**
-     * @hidden
-     */
-    var ReflectionFacetE2 = /** @class */ (function () {
-        /**
-         * @param name The name of the uniform variable.
-         */
-        function ReflectionFacetE2(name) {
-            /**
-             *
-             */
-            this.matrix = Matrix2.one.clone();
-            this.name = mustBeString('name', name);
-            // The mathematics of the reflection causes a zero vector to be the identity transformation.
-            this._normal = new Vector2().zero();
-            this._normal.modified = true;
-        }
-        Object.defineProperty(ReflectionFacetE2.prototype, "normal", {
-            /**
-             *
-             */
-            get: function () {
-                return this._normal;
-            },
-            set: function (unused) {
-                throw new Error(readOnly('normal').message);
-            },
-            enumerable: false,
-            configurable: true
-        });
-        /**
-         *
-         */
-        ReflectionFacetE2.prototype.setUniforms = function (visitor) {
-            if (this._normal.modified) {
-                this.matrix.reflection(this._normal);
-                this._normal.modified = false;
-            }
-            visitor.matrix2fv(this.name, this.matrix.elements, false);
-        };
-        return ReflectionFacetE2;
-    }());
-
-    /**
-     * @hidden
-     */
-    var ReflectionFacetE3 = /** @class */ (function () {
-        /**
-         * @param name {string} The name of the uniform variable.
-         */
-        function ReflectionFacetE3(name) {
-            this.matrix = Matrix4.one.clone();
-            this.name = mustBeString('name', name);
-            // The mathematics of the reflection causes a zero vector to be the identity transformation.
-            this._normal = Geometric3.zero(false);
-            this._normal.modified = true;
-        }
-        Object.defineProperty(ReflectionFacetE3.prototype, "normal", {
-            get: function () {
-                return this._normal;
-            },
-            set: function (unused) {
-                throw new Error(readOnly('normal').message);
-            },
-            enumerable: false,
-            configurable: true
-        });
-        ReflectionFacetE3.prototype.setUniforms = function (visitor) {
-            if (this._normal.modified) {
-                this.matrix.reflection(this._normal);
-                this._normal.modified = false;
-            }
-            visitor.matrix4fv(this.name, this.matrix.elements, false);
-        };
-        return ReflectionFacetE3;
-    }());
-
-    /**
-     * Updates a uniform vec3 shader parameter from a VectorE3.
-     * Using a VectorE3 makes assignment easier, which is the dominant use case.
-     * @hidden
-     */
-    var Vector3Facet = /** @class */ (function () {
-        function Vector3Facet(name) {
-            /**
-             * Intentionally provide access to the mutable property.
-             * The value property provides interoperability with other types.
-             */
-            this.vector = Vector3.vector(0, 0, 0);
-            this._name = mustBeString('name', name);
-        }
-        Object.defineProperty(Vector3Facet.prototype, "name", {
-            get: function () {
-                return this._name;
-            },
-            set: function (value) {
-                this._name = mustBeString('name', value);
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(Vector3Facet.prototype, "value", {
-            get: function () {
-                return this.vector;
-            },
-            set: function (value) {
-                this.vector.copy(value);
-            },
-            enumerable: false,
-            configurable: true
-        });
-        /**
-         *
-         */
-        Vector3Facet.prototype.setUniforms = function (visitor) {
-            var v = this.vector;
-            visitor.uniform3f(this._name, v.x, v.y, v.z);
-        };
-        return Vector3Facet;
-    }());
-
-    // Assume single-threaded to avoid temporary object creation.
-    /**
-     * @hidden
-     */
-    var n = new Vector3();
-    /**
-     * @hidden
-     */
-    var u = new Vector3();
-    /**
-     * @hidden
-     */
-    var v = new Vector3();
-    /**
-     * @hidden
-     */
-    function viewArrayFromEyeLookUp(eye, look, up, matrix) {
-        var m = isDefined(matrix) ? matrix : new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-        mustSatisfy('matrix', m.length === 16, function () { return 'matrix must have length 16'; });
-        n.copy(eye).sub(look);
-        if (n.x === 0 && n.y === 0 && n.z === 0) {
-            // view direction is ambiguous.
-            n.z = 1;
-        }
-        else {
-            n.normalize();
-        }
-        n.approx(12).normalize();
-        u.copy(up).cross(n).approx(12).normalize();
-        v.copy(n).cross(u).approx(12).normalize();
-        m[0x0] = u.x;
-        m[0x4] = u.y;
-        m[0x8] = u.z;
-        m[0xC] = -Vector3.dot(eye, u);
-        m[0x1] = v.x;
-        m[0x5] = v.y;
-        m[0x9] = v.z;
-        m[0xD] = -Vector3.dot(eye, v);
-        m[0x2] = n.x;
-        m[0x6] = n.y;
-        m[0xA] = n.z;
-        m[0xE] = -Vector3.dot(eye, n);
-        m[0x3] = 0.0;
-        m[0x7] = 0.0;
-        m[0xB] = 0.0;
-        m[0xF] = 1;
-        return m;
-    }
-
-    /**
-     * @hidden
-     */
-    function viewMatrixFromEyeLookUp(eye, look, up, matrix) {
-        var m = isDefined(matrix) ? matrix : Matrix4.one.clone();
-        viewArrayFromEyeLookUp(eye, look, up, m.elements);
-        return m;
-    }
-
-    /**
-     * @hidden
-     */
-    var ViewTransform = /** @class */ (function () {
-        /**
-         *
-         */
-        function ViewTransform() {
-            /**
-             *
-             */
-            this._eye = Geometric3.vector(0, 0, 1);
-            /**
-             *
-             */
-            this._look = Geometric3.vector(0, 0, 0);
-            /**
-             *
-             */
-            this._up = Geometric3.vector(0, 1, 0);
-            /**
-             *
-             */
-            this._matrix = Matrix4.one.clone();
-            /**
-             *
-             */
-            this.matrixName = GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX;
-            this._eye.modified = true;
-            this._look.modified = true;
-            this._up.modified = true;
-        }
-        /**
-         *
-         */
-        ViewTransform.prototype.cameraToWorldCoords = function (cameraCoords) {
-            // TODO: Pick the coordinates of n, u, v out of the matrix?
-            var n = Vector3.copy(this.eye).sub(this.look).normalize();
-            var u = Vector3.copy(this.up).cross(n).normalize();
-            var v = Vector3.copy(n).cross(u).normalize();
-            var u0 = cameraCoords[0];
-            var u1 = cameraCoords[1];
-            var u2 = cameraCoords[2];
-            return this.eye.clone().addVector(u, u0).addVector(v, u1).addVector(n, u2);
-        };
-        /**
-         *
-         */
-        ViewTransform.prototype.setUniforms = function (visitor) {
-            this.refreshMatrix();
-            visitor.matrix4fv(this.matrixName, this._matrix.elements, false);
-        };
-        Object.defineProperty(ViewTransform.prototype, "viewMatrixUniformName", {
-            /**
-             * The name of the uniform mat4 variable in the vertex shader that receives the view matrix value.
-             * The default name is `uView`.
-             */
-            get: function () {
-                return this.matrixName;
-            },
-            set: function (name) {
-                this.matrixName = name;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(ViewTransform.prototype, "eye", {
-            /**
-             * The position of the camera, a vector.
-             */
-            get: function () {
-                return this._eye;
-            },
-            set: function (eye) {
-                this._eye.copyVector(eye);
-                this.refreshMatrix();
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(ViewTransform.prototype, "look", {
-            /**
-             * The point that is being looked at.
-             */
-            get: function () {
-                return this._look;
-            },
-            set: function (look) {
-                this._look.copyVector(look);
-                this.refreshMatrix();
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(ViewTransform.prototype, "up", {
-            /**
-             * The approximate up direction.
-             */
-            get: function () {
-                return this._up;
-            },
-            set: function (up) {
-                this._up.copyVector(up);
-                this.refreshMatrix();
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(ViewTransform.prototype, "matrix", {
-            get: function () {
-                // This is a bit of a hack because what we really need is for changes to the
-                // eye, look, and up vectors to fire events. This is because it is possible
-                // to mutate these vectors.
-                this.refreshMatrix();
-                return this._matrix;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        ViewTransform.prototype.refreshMatrix = function () {
-            if (this._eye.modified || this._look.modified || this._up.modified) {
-                viewMatrixFromEyeLookUp(this._eye, this._look, this._up, this._matrix);
-                this._eye.modified = false;
-                this._look.modified = false;
-                this._up.modified = false;
-            }
-        };
-        return ViewTransform;
-    }());
-
-    /**
-     * @hidden
-     */
-    var PerspectiveTransform = /** @class */ (function () {
-        /**
-         *
-         */
-        function PerspectiveTransform(fov, aspect, near, far) {
-            if (fov === void 0) { fov = 45 * Math.PI / 180; }
-            if (aspect === void 0) { aspect = 1; }
-            if (near === void 0) { near = 0.1; }
-            if (far === void 0) { far = 1000; }
-            /**
-             *
-             */
-            this.matrix = Matrix4.one.clone();
-            /**
-             *
-             */
-            this.matrixName = GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX;
-            this._fov = fov;
-            this._aspect = aspect;
-            this._near = near;
-            this._far = far;
-            this.refreshMatrix();
-        }
-        Object.defineProperty(PerspectiveTransform.prototype, "aspect", {
-            /**
-             * The aspect ratio (width / height) of the camera viewport.
-             */
-            get: function () {
-                return this._aspect;
-            },
-            set: function (aspect) {
-                if (this._aspect !== aspect) {
-                    mustBeNumber('aspect', aspect);
-                    mustBeGE('aspect', aspect, 0);
-                    this._aspect = aspect;
-                    this.refreshMatrix();
-                }
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PerspectiveTransform.prototype, "fov", {
-            /**
-             * The field of view is the (planar) angle (magnitude) in the camera horizontal plane that encloses object that can be seen.
-             * Measured in radians.
-             */
-            get: function () {
-                return this._fov;
-            },
-            set: function (fov) {
-                if (this._fov !== fov) {
-                    mustBeNumber('fov', fov);
-                    mustBeGE('fov', fov, 0);
-                    mustBeLE('fov', fov, Math.PI);
-                    this._fov = fov;
-                    this.refreshMatrix();
-                }
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PerspectiveTransform.prototype, "near", {
-            /**
-             * The distance to the near plane.
-             */
-            get: function () {
-                return this._near;
-            },
-            set: function (near) {
-                if (this._near !== near) {
-                    mustBeNumber('near', near);
-                    mustBeGE('near', near, 0);
-                    this._near = near;
-                    this.refreshMatrix();
-                }
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PerspectiveTransform.prototype, "far", {
-            /**
-             * The distance to the far plane.
-             */
-            get: function () {
-                return this._far;
-            },
-            set: function (far) {
-                if (this._far !== far) {
-                    mustBeNumber('far', far);
-                    mustBeGE('far', far, 0);
-                    this._far = far;
-                    this.refreshMatrix();
-                }
-            },
-            enumerable: false,
-            configurable: true
-        });
-        /**
-         *
-         */
-        PerspectiveTransform.prototype.setUniforms = function (visitor) {
-            visitor.matrix4fv(this.matrixName, this.matrix.elements, false);
-        };
-        Object.defineProperty(PerspectiveTransform.prototype, "projectionMatrixUniformName", {
-            /**
-             * The name of the uniform mat4 variable in the vertex shader that receives the projection matrix value.
-             * The default name is `uProjection`.
-             */
-            get: function () {
-                return this.matrixName;
-            },
-            set: function (name) {
-                this.matrixName = name;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        /**
-         * Converts from image cube coordinates to camera coordinates.
-         * This method performs the inverse of the perspective transformation.
-         */
-        PerspectiveTransform.prototype.imageToCameraCoords = function (x, y, z) {
-            /**
-             * Near plane distance.
-             */
-            var n = this.near;
-            /**
-             * Far plane distance.
-             */
-            var f = this.far;
-            /**
-             * Difference of f and n.
-             */
-            var d = f - n;
-            /**
-             * Sum of f and n.
-             */
-            var s = f + n;
-            /**
-             * Homogeneous coordinates weight.
-             */
-            var weight = (s - d * z) / (2 * f * n);
-            var t = Math.tan(this.fov / 2);
-            var u = this.aspect * t * x / weight;
-            var v = t * y / weight;
-            var w = -1 / weight;
-            return [u, v, w];
-        };
-        /**
-         *
-         */
-        PerspectiveTransform.prototype.refreshMatrix = function () {
-            this.matrix.perspective(this._fov, this._aspect, this._near, this._far);
-        };
-        return PerspectiveTransform;
-    }());
-
-    /**
-     * <p>
-     * The <code>PerspectiveCamera</code> provides projection matrix and view matrix uniforms to the
-     * current <code>Material</code>.
-     * </p>
-     * <p>
-     * The <code>PerspectiveCamera</code> plays the role of a host in the <em>Visitor</em> pattern.
-     * The <code>FacetVistor</code> will normally be a <code>Material</code> implementation. The  accepting
-     * method is called <code>setUniforms</code>.
-     * <p>
-     *
-     *     const ambients: Facet[] = []
-     *
-     *     const camera = new EIGHT.PerspectiveCamera()
-     *     camera.aspect = canvas.clientWidth / canvas.clientHeight
-     *     camera.eye = Geometric3.copyVector(R3.e3)
-     *     ambients.push(camera)
-     *
-     *     scene.draw(ambients)
-     *
-     * <p>The camera is initially positioned at <b>e</b><sub>3</sub>.</p>
-     */
-    var PerspectiveCamera = /** @class */ (function () {
-        /**
-         *
-         * @param fov The field of view.
-         * @param aspect The aspect is the ratio width / height.
-         * @param near The distance of the near plane from the camera.
-         * @param far The distance of the far plane from the camera.
-         */
-        function PerspectiveCamera(fov, aspect, near, far) {
-            if (fov === void 0) { fov = 45 * Math.PI / 180; }
-            if (aspect === void 0) { aspect = 1; }
-            if (near === void 0) { near = 0.1; }
-            if (far === void 0) { far = 1000; }
-            this.P = new PerspectiveTransform(fov, aspect, near, far);
-            this.V = new ViewTransform();
-        }
-        /**
-         * Converts from image cube coordinates to world coordinates.
-         * @param imageX The x-coordinate in the image cube. -1 <= x <= +1.
-         * @param imageY The y-coordinate in the image cube. -1 <= y <= +1.
-         * @param imageZ The z-coordinate in the image cube. -1 <= z <= +1.
-         */
-        PerspectiveCamera.prototype.imageToWorldCoords = function (imageX, imageY, imageZ) {
-            var cameraCoords = this.P.imageToCameraCoords(imageX, imageY, imageZ);
-            return Geometric3.fromVector(this.V.cameraToWorldCoords(cameraCoords));
-        };
-        /**
-         *
-         */
-        PerspectiveCamera.prototype.setUniforms = function (visitor) {
-            this.V.setUniforms(visitor);
-            this.P.setUniforms(visitor);
-        };
-        Object.defineProperty(PerspectiveCamera.prototype, "aspect", {
-            /**
-             * The aspect ratio (width / height) of the camera viewport.
-             */
-            get: function () {
-                return this.P.aspect;
-            },
-            set: function (aspect) {
-                this.P.aspect = aspect;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PerspectiveCamera.prototype, "eye", {
-            /**
-             * The position of the camera, a vector.
-             */
-            get: function () {
-                return this.V.eye;
-            },
-            set: function (eye) {
-                this.V.eye.copyVector(eye);
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PerspectiveCamera.prototype, "fov", {
-            /**
-             * The field of view is the (planar) angle (magnitude) in the camera horizontal plane that encloses object that can be seen.
-             * Measured in radians.
-             */
-            get: function () {
-                return this.P.fov;
-            },
-            set: function (value) {
-                this.P.fov = value;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PerspectiveCamera.prototype, "look", {
-            /**
-             * The point that is being looked at.
-             */
-            get: function () {
-                return this.V.look;
-            },
-            set: function (look) {
-                this.V.look.copyVector(look);
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PerspectiveCamera.prototype, "near", {
-            /**
-             * The distance to the near plane.
-             */
-            get: function () {
-                return this.P.near;
-            },
-            set: function (near) {
-                this.P.near = near;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PerspectiveCamera.prototype, "far", {
-            /**
-             * The distance to the far plane.
-             */
-            get: function () {
-                return this.P.far;
-            },
-            set: function (far) {
-                this.P.far = far;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PerspectiveCamera.prototype, "up", {
-            /**
-             * The approximate up direction.
-             */
-            get: function () {
-                return this.V.up;
-            },
-            set: function (up) {
-                this.V.up.copyVector(up);
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PerspectiveCamera.prototype, "projectionMatrixUniformName", {
-            /**
-             * The name of the uniform mat4 variable in the vertex shader that receives the projection matrix value.
-             * The default name is `uProjection`.
-             */
-            get: function () {
-                return this.P.projectionMatrixUniformName;
-            },
-            set: function (name) {
-                this.P.projectionMatrixUniformName = name;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PerspectiveCamera.prototype, "projectionMatrix", {
-            get: function () {
-                return this.P.matrix;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PerspectiveCamera.prototype, "viewMatrixUniformName", {
-            /**
-             * The name of the uniform mat4 variable in the vertex shader that receives the view matrix value.
-             * The default name is `uView`.
-             */
-            get: function () {
-                return this.V.viewMatrixUniformName;
-            },
-            set: function (name) {
-                this.V.viewMatrixUniformName = name;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PerspectiveCamera.prototype, "viewMatrix", {
-            get: function () {
-                return this.V.matrix;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        return PerspectiveCamera;
-    }());
-
-    /**
-     * @hidden
-     */
-    function perspectiveMatrix(fov, aspect, near, far, matrix) {
-        var m = isDefined(matrix) ? matrix : Matrix4.one.clone();
-        perspectiveArray(fov, aspect, near, far, m.elements);
-        return m;
-    }
 
     /**
      * @hidden
@@ -16835,206 +16271,1029 @@
     /**
      * @hidden
      */
-    function isVectorN(values) {
-        return Array.isArray(values);
-    }
-    /**
-     * @hidden
-     */
-    function checkValues(values) {
-        if (!isVectorN(values)) {
-            throw new Error("values must be a number[]");
-        }
-        return values;
-    }
-    /**
-     * @hidden
-     */
-    function isExactMultipleOf(numer, denom) {
-        return numer % denom === 0;
-    }
-    /**
-     * @hidden
-     */
-    function checkSize$1(size, values) {
-        if (typeof size === 'number') {
-            if (!isExactMultipleOf(values.length, size)) {
-                throw new Error("values.length must be an exact multiple of size");
-            }
-        }
-        else {
-            throw new Error("size must be a number");
-        }
-        return size;
-    }
-    /**
-     * A convenience class for implementing the Attribute interface.
-     * @hidden
-     */
-    var DrawAttribute = /** @class */ (function () {
-        function DrawAttribute(values, size, type) {
-            // mustBeArray('values', values)
-            // mustBeInteger('size', size)
-            this.values = checkValues(values);
-            this.size = checkSize$1(size, values);
-            this.type = type;
-        }
-        return DrawAttribute;
-    }());
-
-    /**
-     * @hidden
-     */
-    var context = function () { return "DrawPrimitive constructor"; };
-    /**
-     * A convenience class for implementing the Primitive interface.
-     * @hidden
-     */
-    var DrawPrimitive = /** @class */ (function () {
-        function DrawPrimitive(mode, indices, attributes) {
-            this.attributes = {};
-            this.mode = mustBeInteger('mode', mode, context);
-            this.indices = mustBeArray('indices', indices, context);
-            this.attributes = mustBeObject('attributes', attributes, context);
-        }
-        return DrawPrimitive;
-    }());
-
-    /**
-     * @hidden
-     */
-    function copyIndices(src, dest, delta) {
-        if (src.indices) {
-            var iLen = src.indices.length;
-            for (var i = 0; i < iLen; i++) {
-                dest.push(src.indices[i] + delta);
-            }
-        }
-    }
-    /**
-     * @hidden
-     */
-    function max(xs) {
-        return xs.reduce(function (a, b) { return a > b ? a : b; });
-    }
-    /**
-     * @hidden
-     */
-    function joinIndices(previous, current, dest) {
-        if (previous.indices) {
-            var lastIndex = previous.indices[previous.indices.length - 1];
-            if (current.indices) {
-                var nextIndex = current.indices[0] + max(previous.indices) + 1;
-                // Make this triangle degenerate.
-                dest.push(lastIndex);
-                // Join to the next triangle strip.
-                dest.push(nextIndex);
-            }
-        }
-    }
-    /**
-     * @hidden
-     */
-    function ensureAttribute(attributes, name, size) {
-        if (!attributes[name]) {
-            attributes[name] = { values: [], size: size };
-        }
-        return attributes[name];
-    }
-    /**
-     * @hidden
-     */
-    function copyAttributes(primitive, attributes) {
-        var keys = Object.keys(primitive.attributes);
-        var kLen = keys.length;
-        for (var k = 0; k < kLen; k++) {
-            var key = keys[k];
-            var srcAttrib = primitive.attributes[key];
-            var dstAttrib = ensureAttribute(attributes, key, srcAttrib.size);
-            var svalues = srcAttrib.values;
-            var vLen = svalues.length;
-            for (var v = 0; v < vLen; v++) {
-                dstAttrib.values.push(svalues[v]);
-            }
-        }
-    }
-    /**
-     * reduces multiple TRIANGLE_STRIP Primitives to a single TRAINGLE_STRIP Primitive.
-     * @hidden
-     */
-    function reduce(primitives) {
-        for (var i = 0; i < primitives.length; i++) {
-            var primitive = primitives[i];
-            if (primitive.mode !== exports.BeginMode.TRIANGLE_STRIP) {
-                throw new Error("mode (" + primitive.mode + ") must be TRIANGLE_STRIP");
-            }
-        }
-        return primitives.reduce(function (previous, current) {
-            var indices = [];
-            copyIndices(previous, indices, 0);
-            joinIndices(previous, current, indices);
-            copyIndices(current, indices, max(previous.indices) + 1);
-            var attributes = {};
-            copyAttributes(previous, attributes);
-            copyAttributes(current, attributes);
-            return {
-                mode: exports.BeginMode.TRIANGLE_STRIP,
-                indices: indices,
-                attributes: attributes
-            };
-        });
-    }
-
-    /**
-     * @hidden
-     */
-    function stringVectorN(name, vector) {
-        if (vector) {
-            return name + vector.toString();
-        }
-        else {
-            return name;
-        }
-    }
-    /**
-     * @hidden
-     */
-    function stringifyVertex(vertex) {
-        var attributes = vertex.attributes;
-        var attribsKey = Object.keys(attributes).map(function (name) {
-            var vector = attributes[name];
-            return stringVectorN(name, vector);
-        }).join(' ');
-        return attribsKey;
-    }
-    /**
-     * The data for a vertex in a normalized and uncompressed format that is easy to manipulate.
-     * @hidden
-     */
-    var Vertex = /** @class */ (function () {
+    var PerspectiveTransform = /** @class */ (function () {
         /**
-         * @param numCoordinates The number of coordinates (dimensionality).
+         *
          */
-        function Vertex(numCoordinates) {
+        function PerspectiveTransform(fov, aspect, near, far) {
+            if (fov === void 0) { fov = 45 * Math.PI / 180; }
+            if (aspect === void 0) { aspect = 1; }
+            if (near === void 0) { near = 0.1; }
+            if (far === void 0) { far = 1000; }
             /**
-             * The attribute data for this vertex.
+             *
              */
-            this.attributes = {};
-            mustBeInteger('numCoordinates', numCoordinates);
-            mustBeGE('numCoordinates', numCoordinates, 0);
-            var data = [];
-            for (var i = 0; i < numCoordinates; i++) {
-                data.push(0);
-            }
-            this.coords = new Coords(data, false, numCoordinates);
+            this.matrix = Matrix4.one.clone();
+            /**
+             *
+             */
+            this.matrixName = GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX;
+            this._fov = fov;
+            this._aspect = aspect;
+            this._near = near;
+            this._far = far;
+            this.refreshMatrix();
+        }
+        Object.defineProperty(PerspectiveTransform.prototype, "aspect", {
+            /**
+             * The aspect ratio (width / height) of the camera viewport.
+             */
+            get: function () {
+                return this._aspect;
+            },
+            set: function (aspect) {
+                if (this._aspect !== aspect) {
+                    mustBeNumber('aspect', aspect);
+                    mustBeGE('aspect', aspect, 0);
+                    this._aspect = aspect;
+                    this.refreshMatrix();
+                }
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PerspectiveTransform.prototype, "fov", {
+            /**
+             * The field of view is the (planar) angle (magnitude) in the camera horizontal plane that encloses object that can be seen.
+             * Measured in radians.
+             */
+            get: function () {
+                return this._fov;
+            },
+            set: function (fov) {
+                if (this._fov !== fov) {
+                    mustBeNumber('fov', fov);
+                    mustBeGE('fov', fov, 0);
+                    mustBeLE('fov', fov, Math.PI);
+                    this._fov = fov;
+                    this.refreshMatrix();
+                }
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PerspectiveTransform.prototype, "near", {
+            /**
+             * The distance to the near plane.
+             */
+            get: function () {
+                return this._near;
+            },
+            set: function (near) {
+                if (this._near !== near) {
+                    mustBeNumber('near', near);
+                    mustBeGE('near', near, 0);
+                    this._near = near;
+                    this.refreshMatrix();
+                }
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PerspectiveTransform.prototype, "far", {
+            /**
+             * The distance to the far plane.
+             */
+            get: function () {
+                return this._far;
+            },
+            set: function (far) {
+                if (this._far !== far) {
+                    mustBeNumber('far', far);
+                    mustBeGE('far', far, 0);
+                    this._far = far;
+                    this.refreshMatrix();
+                }
+            },
+            enumerable: false,
+            configurable: true
+        });
+        /**
+         *
+         */
+        PerspectiveTransform.prototype.setUniforms = function (visitor) {
+            visitor.matrix4fv(this.matrixName, this.matrix.elements, false);
+        };
+        Object.defineProperty(PerspectiveTransform.prototype, "projectionMatrixUniformName", {
+            /**
+             * The name of the uniform mat4 variable in the vertex shader that receives the projection matrix value.
+             * The default name is `uProjection`.
+             */
+            get: function () {
+                return this.matrixName;
+            },
+            set: function (name) {
+                this.matrixName = name;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        /**
+         * Converts from image cube coordinates to camera coordinates.
+         * This method performs the inverse of the perspective transformation.
+         */
+        PerspectiveTransform.prototype.imageToCameraCoords = function (x, y, z) {
+            /**
+             * Near plane distance.
+             */
+            var n = this.near;
+            /**
+             * Far plane distance.
+             */
+            var f = this.far;
+            /**
+             * Difference of f and n.
+             */
+            var d = f - n;
+            /**
+             * Sum of f and n.
+             */
+            var s = f + n;
+            /**
+             * Homogeneous coordinates weight.
+             */
+            var weight = (s - d * z) / (2 * f * n);
+            var t = Math.tan(this.fov / 2);
+            var u = this.aspect * t * x / weight;
+            var v = t * y / weight;
+            var w = -1 / weight;
+            return [u, v, w];
+        };
+        /**
+         *
+         */
+        PerspectiveTransform.prototype.refreshMatrix = function () {
+            this.matrix.perspective(this._fov, this._aspect, this._near, this._far);
+        };
+        return PerspectiveTransform;
+    }());
+
+    // Assume single-threaded to avoid temporary object creation.
+    /**
+     * @hidden
+     */
+    var n = new Vector3();
+    /**
+     * @hidden
+     */
+    var u = new Vector3();
+    /**
+     * @hidden
+     */
+    var v = new Vector3();
+    /**
+     * @hidden
+     */
+    function viewArrayFromEyeLookUp(eye, look, up, matrix) {
+        var m = isDefined(matrix) ? matrix : new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+        mustSatisfy('matrix', m.length === 16, function () { return 'matrix must have length 16'; });
+        n.copy(eye).sub(look);
+        if (n.x === 0 && n.y === 0 && n.z === 0) {
+            // view direction is ambiguous.
+            n.z = 1;
+        }
+        else {
+            n.normalize();
+        }
+        n.approx(12).normalize();
+        u.copy(up).cross(n).approx(12).normalize();
+        v.copy(n).cross(u).approx(12).normalize();
+        m[0x0] = u.x;
+        m[0x4] = u.y;
+        m[0x8] = u.z;
+        m[0xC] = -Vector3.dot(eye, u);
+        m[0x1] = v.x;
+        m[0x5] = v.y;
+        m[0x9] = v.z;
+        m[0xD] = -Vector3.dot(eye, v);
+        m[0x2] = n.x;
+        m[0x6] = n.y;
+        m[0xA] = n.z;
+        m[0xE] = -Vector3.dot(eye, n);
+        m[0x3] = 0.0;
+        m[0x7] = 0.0;
+        m[0xB] = 0.0;
+        m[0xF] = 1;
+        return m;
+    }
+
+    /**
+     * @hidden
+     */
+    function viewMatrixFromEyeLookUp(eye, look, up, matrix) {
+        var m = isDefined(matrix) ? matrix : Matrix4.one.clone();
+        viewArrayFromEyeLookUp(eye, look, up, m.elements);
+        return m;
+    }
+
+    /**
+     * @hidden
+     */
+    var ViewTransform = /** @class */ (function () {
+        /**
+         *
+         */
+        function ViewTransform() {
+            /**
+             *
+             */
+            this._eye = Geometric3.vector(0, 0, 1);
+            /**
+             *
+             */
+            this._look = Geometric3.vector(0, 0, 0);
+            /**
+             *
+             */
+            this._up = Geometric3.vector(0, 1, 0);
+            /**
+             *
+             */
+            this._matrix = Matrix4.one.clone();
+            /**
+             *
+             */
+            this.matrixName = GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX;
+            this._eye.modified = true;
+            this._look.modified = true;
+            this._up.modified = true;
         }
         /**
-         * @returns A string representation of this vertex.
+         *
          */
-        Vertex.prototype.toString = function () {
-            return stringifyVertex(this);
+        ViewTransform.prototype.cameraToWorldCoords = function (cameraCoords) {
+            // TODO: Pick the coordinates of n, u, v out of the matrix?
+            var n = Vector3.copy(this.eye).sub(this.look).normalize();
+            var u = Vector3.copy(this.up).cross(n).normalize();
+            var v = Vector3.copy(n).cross(u).normalize();
+            var u0 = cameraCoords[0];
+            var u1 = cameraCoords[1];
+            var u2 = cameraCoords[2];
+            return this.eye.clone().addVector(u, u0).addVector(v, u1).addVector(n, u2);
         };
-        return Vertex;
+        /**
+         *
+         */
+        ViewTransform.prototype.setUniforms = function (visitor) {
+            this.refreshMatrix();
+            visitor.matrix4fv(this.matrixName, this._matrix.elements, false);
+        };
+        Object.defineProperty(ViewTransform.prototype, "viewMatrixUniformName", {
+            /**
+             * The name of the uniform mat4 variable in the vertex shader that receives the view matrix value.
+             * The default name is `uView`.
+             */
+            get: function () {
+                return this.matrixName;
+            },
+            set: function (name) {
+                this.matrixName = name;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(ViewTransform.prototype, "eye", {
+            /**
+             * The position of the camera, a vector.
+             */
+            get: function () {
+                return this._eye;
+            },
+            set: function (eye) {
+                this._eye.copyVector(eye);
+                this.refreshMatrix();
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(ViewTransform.prototype, "look", {
+            /**
+             * The point that is being looked at.
+             */
+            get: function () {
+                return this._look;
+            },
+            set: function (look) {
+                this._look.copyVector(look);
+                this.refreshMatrix();
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(ViewTransform.prototype, "up", {
+            /**
+             * The approximate up direction.
+             */
+            get: function () {
+                return this._up;
+            },
+            set: function (up) {
+                this._up.copyVector(up);
+                this.refreshMatrix();
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(ViewTransform.prototype, "matrix", {
+            get: function () {
+                // This is a bit of a hack because what we really need is for changes to the
+                // eye, look, and up vectors to fire events. This is because it is possible
+                // to mutate these vectors.
+                this.refreshMatrix();
+                return this._matrix;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        ViewTransform.prototype.refreshMatrix = function () {
+            if (this._eye.modified || this._look.modified || this._up.modified) {
+                viewMatrixFromEyeLookUp(this._eye, this._look, this._up, this._matrix);
+                this._eye.modified = false;
+                this._look.modified = false;
+                this._up.modified = false;
+            }
+        };
+        return ViewTransform;
+    }());
+
+    /**
+     * <p>
+     * The <code>PerspectiveCamera</code> provides projection matrix and view matrix uniforms to the
+     * current <code>Material</code>.
+     * </p>
+     * <p>
+     * The <code>PerspectiveCamera</code> plays the role of a host in the <em>Visitor</em> pattern.
+     * The <code>FacetVistor</code> will normally be a <code>Material</code> implementation. The  accepting
+     * method is called <code>setUniforms</code>.
+     * <p>
+     *
+     *     const ambients: Facet[] = []
+     *
+     *     const camera = new EIGHT.PerspectiveCamera()
+     *     camera.aspect = canvas.clientWidth / canvas.clientHeight
+     *     camera.eye = Geometric3.copyVector(R3.e3)
+     *     ambients.push(camera)
+     *
+     *     scene.draw(ambients)
+     *
+     * <p>The camera is initially positioned at <b>e</b><sub>3</sub>.</p>
+     */
+    var PerspectiveCamera = /** @class */ (function () {
+        /**
+         *
+         * @param fov The field of view.
+         * @param aspect The aspect is the ratio width / height.
+         * @param near The distance of the near plane from the camera.
+         * @param far The distance of the far plane from the camera.
+         */
+        function PerspectiveCamera(fov, aspect, near, far) {
+            if (fov === void 0) { fov = 45 * Math.PI / 180; }
+            if (aspect === void 0) { aspect = 1; }
+            if (near === void 0) { near = 0.1; }
+            if (far === void 0) { far = 1000; }
+            this.P = new PerspectiveTransform(fov, aspect, near, far);
+            this.V = new ViewTransform();
+        }
+        /**
+         * Converts from image cube coordinates to world coordinates.
+         * @param imageX The x-coordinate in the image cube. -1 <= x <= +1.
+         * @param imageY The y-coordinate in the image cube. -1 <= y <= +1.
+         * @param imageZ The z-coordinate in the image cube. -1 <= z <= +1.
+         */
+        PerspectiveCamera.prototype.imageToWorldCoords = function (imageX, imageY, imageZ) {
+            var cameraCoords = this.P.imageToCameraCoords(imageX, imageY, imageZ);
+            return Geometric3.fromVector(this.V.cameraToWorldCoords(cameraCoords));
+        };
+        /**
+         *
+         */
+        PerspectiveCamera.prototype.setUniforms = function (visitor) {
+            this.V.setUniforms(visitor);
+            this.P.setUniforms(visitor);
+        };
+        Object.defineProperty(PerspectiveCamera.prototype, "aspect", {
+            /**
+             * The aspect ratio (width / height) of the camera viewport.
+             */
+            get: function () {
+                return this.P.aspect;
+            },
+            set: function (aspect) {
+                this.P.aspect = aspect;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PerspectiveCamera.prototype, "eye", {
+            /**
+             * The position of the camera, a vector.
+             */
+            get: function () {
+                return this.V.eye;
+            },
+            set: function (eye) {
+                this.V.eye.copyVector(eye);
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PerspectiveCamera.prototype, "fov", {
+            /**
+             * The field of view is the (planar) angle (magnitude) in the camera horizontal plane that encloses object that can be seen.
+             * Measured in radians.
+             */
+            get: function () {
+                return this.P.fov;
+            },
+            set: function (value) {
+                this.P.fov = value;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PerspectiveCamera.prototype, "look", {
+            /**
+             * The point that is being looked at.
+             */
+            get: function () {
+                return this.V.look;
+            },
+            set: function (look) {
+                this.V.look.copyVector(look);
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PerspectiveCamera.prototype, "near", {
+            /**
+             * The distance to the near plane.
+             */
+            get: function () {
+                return this.P.near;
+            },
+            set: function (near) {
+                this.P.near = near;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PerspectiveCamera.prototype, "far", {
+            /**
+             * The distance to the far plane.
+             */
+            get: function () {
+                return this.P.far;
+            },
+            set: function (far) {
+                this.P.far = far;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PerspectiveCamera.prototype, "up", {
+            /**
+             * The approximate up direction.
+             */
+            get: function () {
+                return this.V.up;
+            },
+            set: function (up) {
+                this.V.up.copyVector(up);
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PerspectiveCamera.prototype, "projectionMatrixUniformName", {
+            /**
+             * The name of the uniform mat4 variable in the vertex shader that receives the projection matrix value.
+             * The default name is `uProjection`.
+             */
+            get: function () {
+                return this.P.projectionMatrixUniformName;
+            },
+            set: function (name) {
+                this.P.projectionMatrixUniformName = name;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PerspectiveCamera.prototype, "projectionMatrix", {
+            get: function () {
+                return this.P.matrix;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PerspectiveCamera.prototype, "viewMatrixUniformName", {
+            /**
+             * The name of the uniform mat4 variable in the vertex shader that receives the view matrix value.
+             * The default name is `uView`.
+             */
+            get: function () {
+                return this.V.viewMatrixUniformName;
+            },
+            set: function (name) {
+                this.V.viewMatrixUniformName = name;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PerspectiveCamera.prototype, "viewMatrix", {
+            get: function () {
+                return this.V.matrix;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        return PerspectiveCamera;
+    }());
+
+    /**
+     * @hidden
+     */
+    function perspectiveMatrix(fov, aspect, near, far, matrix) {
+        var m = isDefined(matrix) ? matrix : Matrix4.one.clone();
+        perspectiveArray(fov, aspect, near, far, m.elements);
+        return m;
+    }
+
+    /**
+     * Computes the determinant of a 2x2 (square) matrix where the elements are assumed to be in column-major order.
+     * @hidden
+     */
+    function det2x2(m) {
+        var n11 = m[0x0];
+        var n12 = m[0x2];
+        var n21 = m[0x1];
+        var n22 = m[0x3];
+        return n11 * n22 - n12 * n21;
+    }
+
+    /**
+     * @hidden
+     */
+    function add2x2(a, b, c) {
+        var a11 = a[0x0], a12 = a[0x2];
+        var a21 = a[0x1], a22 = a[0x3];
+        var b11 = b[0x0], b12 = b[0x2];
+        var b21 = b[0x1], b22 = b[0x3];
+        c[0x0] = a11 + b11;
+        c[0x2] = a12 + b12;
+        c[0x1] = a21 + b21;
+        c[0x3] = a22 + b22;
+    }
+    /**
+     * @hidden
+     */
+    var Matrix2 = /** @class */ (function (_super) {
+        __extends(Matrix2, _super);
+        /**
+         * 2x2 (square) matrix of numbers.
+         * Constructs a Matrix2 by wrapping a Float32Array.
+         * The elements are stored in column-major order:
+         * 0 2
+         * 1 3
+         *
+         * @param elements The elements of the matrix in column-major order.
+         */
+        function Matrix2(elements) {
+            return _super.call(this, elements, 2) || this;
+        }
+        Matrix2.prototype.add = function (rhs) {
+            if (this.isLocked()) {
+                throw new TargetLockedError('add');
+            }
+            return this.add2(this, rhs);
+        };
+        Matrix2.prototype.add2 = function (a, b) {
+            add2x2(a.elements, b.elements, this.elements);
+            return this;
+        };
+        Matrix2.prototype.clone = function () {
+            var te = this.elements;
+            var m11 = te[0];
+            var m21 = te[1];
+            var m12 = te[2];
+            var m22 = te[3];
+            return new Matrix2(new Float32Array([0, 0, 0, 0])).set(m11, m12, m21, m22);
+        };
+        /**
+         * Computes the determinant.
+         */
+        Matrix2.prototype.det = function () {
+            return det2x2(this.elements);
+        };
+        /**
+         * Sets this matrix to its inverse.
+         */
+        Matrix2.prototype.inv = function () {
+            var te = this.elements;
+            var a = te[0];
+            var c = te[1];
+            var b = te[2];
+            var d = te[3];
+            var det = this.det();
+            return this.set(d, -b, -c, a).scale(1 / det);
+        };
+        /**
+         * Determines whether this matrix is the identity matrix for multiplication.
+         */
+        Matrix2.prototype.isOne = function () {
+            var te = this.elements;
+            var a = te[0];
+            var c = te[1];
+            var b = te[2];
+            var d = te[3];
+            return (a === 1 && b === 0 && c === 0 && d === 1);
+        };
+        /**
+         * Determines whether this matrix is the identity matrix for addition.
+         */
+        Matrix2.prototype.isZero = function () {
+            var te = this.elements;
+            var a = te[0];
+            var c = te[1];
+            var b = te[2];
+            var d = te[3];
+            return (a === 0 && b === 0 && c === 0 && d === 0);
+        };
+        Matrix2.prototype.mul = function (rhs) {
+            return this.mul2(this, rhs);
+        };
+        Matrix2.prototype.mul2 = function (a, b) {
+            var ae = a.elements;
+            var a11 = ae[0];
+            var a21 = ae[1];
+            var a12 = ae[2];
+            var a22 = ae[3];
+            var be = b.elements;
+            var b11 = be[0];
+            var b21 = be[1];
+            var b12 = be[2];
+            var b22 = be[3];
+            var m11 = a11 * b11 + a12 * b21;
+            var m12 = a11 * b12 + a12 * b22;
+            var m21 = a21 * b11 + a22 * b21;
+            var m22 = a21 * b12 + a22 * b22;
+            return this.set(m11, m12, m21, m22);
+        };
+        /**
+         * Sets this matrix to its additive inverse.
+         */
+        Matrix2.prototype.neg = function () {
+            return this.scale(-1);
+        };
+        /**
+         * Sets this matrix to the identity element for multiplication, 1.
+         */
+        Matrix2.prototype.one = function () {
+            return this.set(1, 0, 0, 1);
+        };
+        /**
+         * Sets this matrix to the transformation for a
+         * reflection in the line normal to the unit vector <code>n</code>.
+         *
+         * this ⟼ reflection(<b>n</b>) = I - 2 * <b>n</b><sup>T</sup> * <b>n</b>
+         *
+         */
+        Matrix2.prototype.reflection = function (n) {
+            var nx = mustBeNumber('n.x', n.x);
+            var xx = 1 - 2 * nx * nx;
+            return this.set(xx, 0, 0, 1);
+        };
+        /**
+         * Returns the row for the specified index.
+         * @param i the zero-based index of the row.
+         */
+        Matrix2.prototype.row = function (i) {
+            var te = this.elements;
+            return [te[0 + i], te[2 + i]];
+        };
+        /**
+         * Multiplies this matrix by the scale factor, α.
+         */
+        Matrix2.prototype.scale = function (α) {
+            var te = this.elements;
+            var m11 = te[0] * α;
+            var m21 = te[1] * α;
+            var m12 = te[2] * α;
+            var m22 = te[3] * α;
+            return this.set(m11, m12, m21, m22);
+        };
+        /**
+         * Sets all elements of this matrix to the supplied row-major values m11, ..., m22.
+         * @method set
+         * @param m11 {number}
+         * @param m12 {number}
+         * @param m21 {number}
+         * @param m22 {number}
+         * @return {Matrix2}
+         * @chainable
+         */
+        Matrix2.prototype.set = function (m11, m12, m21, m22) {
+            var te = this.elements;
+            // The elements are stored in column-major order.
+            te[0x0] = m11;
+            te[0x2] = m12;
+            te[0x1] = m21;
+            te[0x3] = m22;
+            return this;
+        };
+        /**
+         * @method sub
+         * @param rhs {Matrix2}
+         * @return {Matrix2}
+         * @chainable
+         */
+        Matrix2.prototype.sub = function (rhs) {
+            var te = this.elements;
+            var t11 = te[0];
+            var t21 = te[1];
+            var t12 = te[2];
+            var t22 = te[3];
+            var re = rhs.elements;
+            var r11 = re[0];
+            var r21 = re[1];
+            var r12 = re[2];
+            var r22 = re[3];
+            var m11 = t11 - r11;
+            var m21 = t21 - r21;
+            var m12 = t12 - r12;
+            var m22 = t22 - r22;
+            return this.set(m11, m12, m21, m22);
+        };
+        /**
+         * @method toExponential
+         * @param [fractionDigits] {number}
+         * @return {string}
+         */
+        Matrix2.prototype.toExponential = function (fractionDigits) {
+            var text = [];
+            for (var i = 0; i < this.dimensions; i++) {
+                text.push(this.row(i).map(function (element, index) { return element.toExponential(fractionDigits); }).join(' '));
+            }
+            return text.join('\n');
+        };
+        /**
+         * @method toFixed
+         * @param [fractionDigits] {number}
+         * @return {string}
+         */
+        Matrix2.prototype.toFixed = function (fractionDigits) {
+            if (isDefined(fractionDigits)) {
+                mustBeInteger('fractionDigits', fractionDigits);
+            }
+            var text = [];
+            for (var i = 0; i < this.dimensions; i++) {
+                text.push(this.row(i).map(function (element, index) { return element.toFixed(fractionDigits); }).join(' '));
+            }
+            return text.join('\n');
+        };
+        /**
+         * @method toPrecision
+         * @param [precision] {number}
+         * @return {string}
+         */
+        Matrix2.prototype.toPrecision = function (precision) {
+            if (isDefined(precision)) {
+                mustBeInteger('precision', precision);
+            }
+            var text = [];
+            for (var i = 0; i < this.dimensions; i++) {
+                text.push(this.row(i).map(function (element, index) { return element.toPrecision(precision); }).join(' '));
+            }
+            return text.join('\n');
+        };
+        /**
+         * @method toString
+         * @param [radix] {number}
+         * @return {string}
+         */
+        Matrix2.prototype.toString = function (radix) {
+            var text = [];
+            for (var i = 0, iLength = this.dimensions; i < iLength; i++) {
+                text.push(this.row(i).map(function (element, index) { return element.toString(radix); }).join(' '));
+            }
+            return text.join('\n');
+        };
+        /**
+         * @method translation
+         * @param d {VectorE1}
+         * @return {Matrix2}
+         * @chainable
+         */
+        Matrix2.prototype.translation = function (d) {
+            var x = d.x;
+            return this.set(1, x, 0, 1);
+        };
+        /**
+         * Sets this matrix to the identity element for addition, 0.
+         */
+        Matrix2.prototype.zero = function () {
+            return this.set(0, 0, 0, 0);
+        };
+        Matrix2.prototype.__add__ = function (rhs) {
+            if (rhs instanceof Matrix2) {
+                return lock(this.clone().add(rhs));
+            }
+            // TODO: Interpret this as I * rhs?
+            //        else if (typeof rhs === 'number') {
+            //            return this.clone().scale(rhs);
+            //        }
+            else {
+                return void 0;
+            }
+        };
+        Matrix2.prototype.__radd__ = function (lhs) {
+            if (lhs instanceof Matrix2) {
+                return lock(lhs.clone().add(this));
+            }
+            // TODO: Interpret this as I * rhs?
+            //        else if (typeof rhs === 'number') {
+            //            return this.clone().scale(rhs);
+            //        }
+            else {
+                return void 0;
+            }
+        };
+        Matrix2.prototype.__mul__ = function (rhs) {
+            if (rhs instanceof Matrix2) {
+                return lock(this.clone().mul(rhs));
+            }
+            else if (typeof rhs === 'number') {
+                return lock(this.clone().scale(rhs));
+            }
+            else {
+                return void 0;
+            }
+        };
+        Matrix2.prototype.__rmul__ = function (lhs) {
+            if (lhs instanceof Matrix2) {
+                return lock(lhs.clone().mul(this));
+            }
+            else if (typeof lhs === 'number') {
+                return lock(this.clone().scale(lhs));
+            }
+            else {
+                return void 0;
+            }
+        };
+        Matrix2.prototype.__pos__ = function () {
+            return lock(this.clone());
+        };
+        Matrix2.prototype.__neg__ = function () {
+            return lock(this.clone().scale(-1));
+        };
+        Matrix2.prototype.__sub__ = function (rhs) {
+            if (rhs instanceof Matrix2) {
+                return lock(this.clone().sub(rhs));
+            }
+            // TODO: Interpret this as I * rhs?
+            //        else if (typeof rhs === 'number') {
+            //            return this.clone().scale(rhs);
+            //        }
+            else {
+                return void 0;
+            }
+        };
+        Matrix2.prototype.__rsub__ = function (lhs) {
+            if (lhs instanceof Matrix2) {
+                return lock(lhs.clone().sub(this));
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         *
+         */
+        Matrix2.reflection = function (n) {
+            return Matrix2.zero.clone().reflection(n);
+        };
+        Matrix2.one = lock(new Matrix2(new Float32Array([1, 0, 0, 1])));
+        Matrix2.zero = lock(new Matrix2(new Float32Array([0, 0, 0, 0])));
+        return Matrix2;
+    }(AbstractMatrix));
+
+    /**
+     * @hidden
+     */
+    var ReflectionFacetE2 = /** @class */ (function () {
+        /**
+         * @param name The name of the uniform variable.
+         */
+        function ReflectionFacetE2(name) {
+            /**
+             *
+             */
+            this.matrix = Matrix2.one.clone();
+            this.name = mustBeString('name', name);
+            // The mathematics of the reflection causes a zero vector to be the identity transformation.
+            this._normal = new Vector2().zero();
+            this._normal.modified = true;
+        }
+        Object.defineProperty(ReflectionFacetE2.prototype, "normal", {
+            /**
+             *
+             */
+            get: function () {
+                return this._normal;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('normal').message);
+            },
+            enumerable: false,
+            configurable: true
+        });
+        /**
+         *
+         */
+        ReflectionFacetE2.prototype.setUniforms = function (visitor) {
+            if (this._normal.modified) {
+                this.matrix.reflection(this._normal);
+                this._normal.modified = false;
+            }
+            visitor.matrix2fv(this.name, this.matrix.elements, false);
+        };
+        return ReflectionFacetE2;
+    }());
+
+    /**
+     * @hidden
+     */
+    var ReflectionFacetE3 = /** @class */ (function () {
+        /**
+         * @param name {string} The name of the uniform variable.
+         */
+        function ReflectionFacetE3(name) {
+            this.matrix = Matrix4.one.clone();
+            this.name = mustBeString('name', name);
+            // The mathematics of the reflection causes a zero vector to be the identity transformation.
+            this._normal = Geometric3.zero(false);
+            this._normal.modified = true;
+        }
+        Object.defineProperty(ReflectionFacetE3.prototype, "normal", {
+            get: function () {
+                return this._normal;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('normal').message);
+            },
+            enumerable: false,
+            configurable: true
+        });
+        ReflectionFacetE3.prototype.setUniforms = function (visitor) {
+            if (this._normal.modified) {
+                this.matrix.reflection(this._normal);
+                this._normal.modified = false;
+            }
+            visitor.matrix4fv(this.name, this.matrix.elements, false);
+        };
+        return ReflectionFacetE3;
+    }());
+
+    /**
+     * Updates a uniform vec3 shader parameter from a VectorE3.
+     * Using a VectorE3 makes assignment easier, which is the dominant use case.
+     * @hidden
+     */
+    var Vector3Facet = /** @class */ (function () {
+        function Vector3Facet(name) {
+            /**
+             * Intentionally provide access to the mutable property.
+             * The value property provides interoperability with other types.
+             */
+            this.vector = Vector3.vector(0, 0, 0);
+            this._name = mustBeString('name', name);
+        }
+        Object.defineProperty(Vector3Facet.prototype, "name", {
+            get: function () {
+                return this._name;
+            },
+            set: function (value) {
+                this._name = mustBeString('name', value);
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(Vector3Facet.prototype, "value", {
+            get: function () {
+                return this.vector;
+            },
+            set: function (value) {
+                this.vector.copy(value);
+            },
+            enumerable: false,
+            configurable: true
+        });
+        /**
+         *
+         */
+        Vector3Facet.prototype.setUniforms = function (visitor) {
+            var v = this.vector;
+            visitor.uniform3f(this._name, v.x, v.y, v.z);
+        };
+        return Vector3Facet;
     }());
 
     /**
@@ -18257,6 +18516,14 @@
             this.aPosition = mustBeString('aPosition', aPosition);
             this.aTangent = mustBeString('aTangent', aTangent);
         }
+        /**
+         *
+         * @param vertex (output)
+         * @param i (input)
+         * @param j (input)
+         * @param iLength (input)
+         * @param jLength (input)
+         */
         ConeTransform.prototype.exec = function (vertex, i, j, iLength, jLength) {
             // Let e be the unit vector in the symmetry axis of the cone.
             // Let ρ be a point on the base of the cone.
@@ -18570,10 +18837,13 @@
 
     /**
      * @hidden
+     * Generates a conical shell primitive.
+     * This builder does not generate the ring that sits between the cone and the shaft.
+     * Used by the ArrowBuilder to construct the arrow head.
      */
-    var ConicalShellBuilder = /** @class */ (function (_super) {
-        __extends(ConicalShellBuilder, _super);
-        function ConicalShellBuilder() {
+    var ConeBuilder = /** @class */ (function (_super) {
+        __extends(ConeBuilder, _super);
+        function ConeBuilder() {
             var _this = _super.call(this) || this;
             /**
              *
@@ -18591,7 +18861,7 @@
         /**
          *
          */
-        ConicalShellBuilder.prototype.toPrimitive = function () {
+        ConeBuilder.prototype.toPrimitive = function () {
             // Define local constants so that names in shader programs will reflect the current program symbols.
             var aPosition = GraphicsProgramSymbols.ATTRIBUTE_POSITION;
             var aTangent = GraphicsProgramSymbols.ATTRIBUTE_TANGENT;
@@ -18623,7 +18893,7 @@
             }
             return grid.toPrimitive();
         };
-        return ConicalShellBuilder;
+        return ConeBuilder;
     }(AxialShapeBuilder));
 
     /**
@@ -18757,6 +19027,8 @@
 
     /**
      * Constructs a one-sided ring using a TRIANGLE_STRIP.
+     * A ring can be thought of as a disc with a hole in the middle.
+     * Used by the ArrowBuilder and the HollowCylinderGeometry.
      * @hidden
      */
     var RingBuilder = /** @class */ (function (_super) {
@@ -18879,7 +19151,7 @@
             /**
              * The `cone` forms the head of the arrow.
              */
-            var cone = new ConicalShellBuilder();
+            var cone = new ConeBuilder();
             cone.height.copy(this.e).scale(this.heightCone);
             cone.cutLine.copy(this.cutLine).scale(this.radiusCone);
             cone.clockwise = this.clockwise;
@@ -18940,6 +19212,332 @@
         };
         return ArrowBuilder;
     }(AxialShapeBuilder));
+
+    /**
+     * @hidden
+     */
+    var ArrowHeadBuilder = /** @class */ (function (_super) {
+        __extends(ArrowHeadBuilder, _super);
+        /**
+         *
+         * @param axis The direction of the arrow. The argument is normalized to a unit vector.
+         * @param cutLine The direction of the start of the arrow slice. The argument is normalized to a unit vector.
+         * @param clockwise The orientation
+         */
+        function ArrowHeadBuilder(axis, cutLine, clockwise) {
+            var _this = _super.call(this) || this;
+            _this.heightCone = 0.20;
+            _this.radiusCone = 0.08;
+            _this.radiusShaft = 0.01;
+            _this.thetaSegments = 16;
+            mustBeDefined('axis', axis);
+            mustBeDefined('cutLine', cutLine);
+            _this.e = Vector3.copy(axis).normalize();
+            _this.cutLine = Vector3.copy(cutLine).normalize();
+            _this.clockwise = clockwise;
+            return _this;
+        }
+        /**
+         *
+         */
+        ArrowHeadBuilder.prototype.toPrimitive = function () {
+            var heightShaft = 1 - this.heightCone;
+            /**
+             * The opposite direction to the axis.
+             */
+            var back = Vector3.copy(this.e).neg();
+            /**
+             * The neck is the place where the cone meets the shaft.
+             */
+            var neck = Vector3.copy(this.e).scale(heightShaft).add(this.offset);
+            neck.rotate(this.tilt);
+            /**
+             * The `cone` forms the head of the arrow.
+             */
+            var cone = new ConeBuilder();
+            cone.height.copy(this.e).scale(this.heightCone);
+            cone.cutLine.copy(this.cutLine).scale(this.radiusCone);
+            cone.clockwise = this.clockwise;
+            cone.tilt.mul(this.tilt);
+            cone.offset.copy(neck);
+            cone.sliceAngle = this.sliceAngle;
+            cone.thetaSegments = this.thetaSegments;
+            cone.useNormal = this.useNormal;
+            cone.usePosition = this.usePosition;
+            cone.useTextureCoord = this.useTextureCoord;
+            /**
+             * The `ring` fills the space between the cone and the shaft.
+             */
+            var ring = new RingBuilder();
+            ring.e.copy(back);
+            ring.cutLine.copy(this.cutLine);
+            ring.clockwise = !this.clockwise;
+            ring.innerRadius = this.radiusShaft;
+            ring.outerRadius = this.radiusCone;
+            ring.tilt.mul(this.tilt);
+            ring.offset.copy(neck);
+            ring.sliceAngle = this.sliceAngle;
+            ring.thetaSegments = this.thetaSegments;
+            ring.useNormal = this.useNormal;
+            ring.usePosition = this.usePosition;
+            ring.useTextureCoord = this.useTextureCoord;
+            return reduce([cone.toPrimitive(), ring.toPrimitive()]);
+        };
+        return ArrowHeadBuilder;
+    }(AxialShapeBuilder));
+
+    /**
+     * @hidden
+     */
+    var ArrowTailBuilder = /** @class */ (function (_super) {
+        __extends(ArrowTailBuilder, _super);
+        /**
+         *
+         * @param axis The direction of the arrow. The argument is normalized to a unit vector.
+         * @param cutLine The direction of the start of the arrow slice. The argument is normalized to a unit vector.
+         * @param clockwise The orientation
+         */
+        function ArrowTailBuilder(axis, cutLine, clockwise) {
+            var _this = _super.call(this) || this;
+            _this.heightShaft = 0.80;
+            _this.radiusShaft = 0.01;
+            _this.thetaSegments = 16;
+            mustBeDefined('axis', axis);
+            mustBeDefined('cutLine', cutLine);
+            _this.e = Vector3.copy(axis).normalize();
+            _this.cutLine = Vector3.copy(cutLine).normalize();
+            _this.clockwise = clockwise;
+            return _this;
+        }
+        /**
+         *
+         */
+        ArrowTailBuilder.prototype.toPrimitive = function () {
+            /**
+             * The opposite direction to the axis.
+             */
+            var back = Vector3.copy(this.e).neg();
+            /**
+             * The tail is the the position of the blunt end of the arrow.
+             */
+            var tail = Vector3.copy(this.offset);
+            tail.rotate(this.tilt);
+            /**
+             * The `shaft` is the slim part of the arrow.
+             */
+            var shaft = new CylindricalShellBuilder();
+            shaft.height.copy(this.e).normalize().scale(this.heightShaft);
+            shaft.cutLine.copy(this.cutLine).normalize().scale(this.radiusShaft);
+            shaft.clockwise = this.clockwise;
+            shaft.tilt.mul(this.tilt);
+            shaft.offset.copy(tail);
+            shaft.sliceAngle = this.sliceAngle;
+            shaft.thetaSegments = this.thetaSegments;
+            shaft.useNormal = this.useNormal;
+            shaft.usePosition = this.usePosition;
+            shaft.useTextureCoord = this.useTextureCoord;
+            /**
+             * The `plug` fills the end of the shaft.
+             */
+            var plug = new RingBuilder();
+            plug.e.copy(back);
+            plug.cutLine.copy(this.cutLine);
+            plug.clockwise = !this.clockwise;
+            plug.innerRadius = 0;
+            plug.outerRadius = this.radiusShaft;
+            plug.tilt.mul(this.tilt);
+            plug.offset.copy(tail);
+            plug.sliceAngle = this.sliceAngle;
+            plug.thetaSegments = this.thetaSegments;
+            plug.useNormal = this.useNormal;
+            plug.usePosition = this.usePosition;
+            plug.useTextureCoord = this.useTextureCoord;
+            return reduce([shaft.toPrimitive(), plug.toPrimitive()]);
+        };
+        return ArrowTailBuilder;
+    }(AxialShapeBuilder));
+
+    /**
+     * @hidden
+     * The canonical axis is e2.
+     */
+    var canonicalAxis$3 = vec(0, 1, 0);
+    /**
+     * @hidden
+     * The canonical cut line is e3.
+     */
+    var canonicalCutLine = vec(0, 0, 1);
+    /**
+     * @hidden
+     * Used by the ArrowBuilder to define an axis.
+     * @param options Contains an optional `axis` property
+     * @returns the `axis` property (if it is defined), otherwise, the canonical axis, e2.
+     */
+    var getAxis$1 = function getAxis(options) {
+        if (isDefined(options.axis)) {
+            return options.axis;
+        }
+        else {
+            return canonicalAxis$3;
+        }
+    };
+    /**
+     * @hidden
+     * Used by the ArrowBuilder to define a cut line (meridian).
+     * @param options Contains an optional `meridian` property.
+     * @returns the `meridian` property (if it is defined), otherwise, the canonical cut line, e3.
+     */
+    var getCutLine = function getCutLine(options) {
+        if (isDefined(options.meridian)) {
+            return options.meridian;
+        }
+        else {
+            return canonicalCutLine;
+        }
+    };
+    /**
+     * @hidden
+     * Used by the ArrowGeometry constructor.
+     */
+    function arrowPrimitive(options) {
+        if (options === void 0) { options = { kind: 'ArrowGeometry' }; }
+        mustBeObject('options', options);
+        var builder = new ArrowBuilder(getAxis$1(options), getCutLine(options), false);
+        if (isDefined(options.radiusCone)) {
+            builder.radiusCone = mustBeNumber("options.radiusCone", options.radiusCone);
+        }
+        if (isDefined(options.thetaSegments)) {
+            builder.thetaSegments = mustBeInteger("options.thetaSegments", options.thetaSegments);
+        }
+        builder.stress.copy(isDefined(options.stress) ? options.stress : Vector3.vector(1, 1, 1));
+        builder.offset.copy(isDefined(options.offset) ? options.offset : Vector3.zero());
+        return builder.toPrimitive();
+    }
+    /**
+     * @hidden
+     */
+    function arrowHeadPrimitive(options) {
+        if (options === void 0) { options = {}; }
+        mustBeObject('options', options);
+        var builder = new ArrowHeadBuilder(getAxis$1(options), getCutLine(options), false);
+        if (isDefined(options.heightCone)) {
+            builder.heightCone = mustBeNumber("options.heightCone", options.heightCone);
+        }
+        if (isDefined(options.radiusCone)) {
+            builder.radiusCone = mustBeNumber("options.radiusCone", options.radiusCone);
+        }
+        if (isDefined(options.thetaSegments)) {
+            builder.thetaSegments = mustBeInteger("options.thetaSegments", options.thetaSegments);
+        }
+        builder.stress.copy(isDefined(options.stress) ? options.stress : Vector3.vector(1, 1, 1));
+        builder.offset.copy(isDefined(options.offset) ? options.offset : Vector3.zero());
+        return builder.toPrimitive();
+    }
+    /**
+     * @hidden
+     */
+    function arrowTailPrimitive(options) {
+        if (options === void 0) { options = {}; }
+        mustBeObject('options', options);
+        var builder = new ArrowTailBuilder(getAxis$1(options), getCutLine(options), false);
+        if (isDefined(options.heightShaft)) {
+            builder.heightShaft = mustBeNumber("options.heightShaft", options.heightShaft);
+        }
+        if (isDefined(options.radiusShaft)) {
+            builder.radiusShaft = mustBeNumber("options.radiusShaft", options.radiusShaft);
+        }
+        if (isDefined(options.thetaSegments)) {
+            builder.thetaSegments = mustBeInteger("options.thetaSegments", options.thetaSegments);
+        }
+        builder.stress.copy(isDefined(options.stress) ? options.stress : Vector3.vector(1, 1, 1));
+        builder.offset.copy(isDefined(options.offset) ? options.offset : Vector3.zero());
+        return builder.toPrimitive();
+    }
+
+    /**
+     * <p>
+     * A convenience class for creating an arrow.
+     * </p>
+     * <p>
+     * The initial axis unit vector defaults to <b>e<b><sub>2</sub>
+     * </p>
+     * <p>
+     * The cutLine unit vector defaults to <b>e<b><sub>3</sub>
+     * </p>
+     * @hidden
+     */
+    var ArrowGeometry = /** @class */ (function (_super) {
+        __extends(ArrowGeometry, _super);
+        /**
+         *
+         */
+        function ArrowGeometry(contextManager, options, levelUp) {
+            if (options === void 0) { options = { kind: 'ArrowGeometry' }; }
+            if (levelUp === void 0) { levelUp = 0; }
+            var _this = _super.call(this, contextManager, arrowPrimitive(options), options, levelUp + 1) || this;
+            _this.setLoggingName('ArrowGeometry');
+            if (levelUp === 0) {
+                _this.synchUp();
+            }
+            return _this;
+        }
+        /**
+         *
+         */
+        ArrowGeometry.prototype.resurrector = function (levelUp) {
+            _super.prototype.resurrector.call(this, levelUp + 1);
+            this.setLoggingName('ArrowGeometry');
+            if (levelUp === 0) {
+                this.synchUp();
+            }
+        };
+        /**
+         *
+         */
+        ArrowGeometry.prototype.destructor = function (levelUp) {
+            if (levelUp === 0) {
+                this.cleanUp();
+            }
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        return ArrowGeometry;
+    }(GeometryElements));
+
+    /**
+     * @hidden
+     */
+    function computeFaceNormals(simplex, positionName, normalName) {
+        if (positionName === void 0) { positionName = GraphicsProgramSymbols.ATTRIBUTE_POSITION; }
+        if (normalName === void 0) { normalName = GraphicsProgramSymbols.ATTRIBUTE_NORMAL; }
+        var vertex0 = simplex.vertices[0].attributes;
+        var vertex1 = simplex.vertices[1].attributes;
+        var vertex2 = simplex.vertices[2].attributes;
+        var pos0 = vertex0[positionName];
+        var pos1 = vertex1[positionName];
+        var pos2 = vertex2[positionName];
+        var x0 = pos0.getComponent(0);
+        var y0 = pos0.getComponent(1);
+        var z0 = pos0.getComponent(2);
+        var x1 = pos1.getComponent(0);
+        var y1 = pos1.getComponent(1);
+        var z1 = pos1.getComponent(2);
+        var x2 = pos2.getComponent(0);
+        var y2 = pos2.getComponent(1);
+        var z2 = pos2.getComponent(2);
+        var ax = x2 - x1;
+        var ay = y2 - y1;
+        var az = z2 - z1;
+        var bx = x0 - x1;
+        var by = y0 - y1;
+        var bz = z0 - z1;
+        var x = wedgeYZ(ax, ay, az, bx, by, bz);
+        var y = wedgeZX(ax, ay, az, bx, by, bz);
+        var z = wedgeXY(ax, ay, az, bx, by);
+        var normal = new Vector3([x, y, z]).normalize();
+        vertex0[normalName] = normal;
+        vertex1[normalName] = normal;
+        vertex2[normalName] = normal;
+    }
 
     /**
      * The common low values for a Simplex.
@@ -19154,168 +19752,6 @@
         };
         return Simplex;
     }());
-
-    /**
-     * Determines how a Geometry will be rendered.
-     * @hidden
-     */
-    exports.GeometryMode = void 0;
-    (function (GeometryMode) {
-        /**
-         *
-         */
-        GeometryMode[GeometryMode["POINT"] = 0] = "POINT";
-        /**
-         *
-         */
-        GeometryMode[GeometryMode["WIRE"] = 1] = "WIRE";
-        /**
-         *
-         */
-        GeometryMode[GeometryMode["MESH"] = 2] = "MESH";
-    })(exports.GeometryMode || (exports.GeometryMode = {}));
-
-    /**
-     * @hidden
-     * The canonical axis is e2.
-     */
-    var canonicalAxis$3 = vec(0, 1, 0);
-    /**
-     * @hidden
-     * The canonical cut line is e3.
-     */
-    var canonicalCutLine = vec(0, 0, 1);
-    /**
-     * @hidden
-     * Used by the ArrowBuilder to define an axis.
-     * @param options Contains an optional `axis` property
-     * @returns the `axis` property (if it is defined), otherwise, the canonical axis, e2.
-     */
-    var getAxis$1 = function getAxis(options) {
-        if (isDefined(options.axis)) {
-            return options.axis;
-        }
-        else {
-            return canonicalAxis$3;
-        }
-    };
-    /**
-     * @hidden
-     * Used by the ArrowBuilder to define a cut line (meridian).
-     * @param options Contains an optional `meridian` property.
-     * @returns the `meridian` property (if it is defined), otherwise, the canonical cut line, e3.
-     */
-    var getCutLine = function getCutLine(options) {
-        if (isDefined(options.meridian)) {
-            return options.meridian;
-        }
-        else {
-            return canonicalCutLine;
-        }
-    };
-    /**
-     * @hidden
-     * Used by the ArrowGeometry constructor.
-     */
-    function arrowPrimitive(options) {
-        if (options === void 0) { options = { kind: 'ArrowGeometry' }; }
-        mustBeObject('options', options);
-        var builder = new ArrowBuilder(getAxis$1(options), getCutLine(options), false);
-        if (isDefined(options.radiusCone)) {
-            builder.radiusCone = mustBeNumber("options.radiusCone", options.radiusCone);
-        }
-        if (isDefined(options.thetaSegments)) {
-            builder.thetaSegments = mustBeInteger("options.thetaSegments", options.thetaSegments);
-        }
-        builder.stress.copy(isDefined(options.stress) ? options.stress : Vector3.vector(1, 1, 1));
-        builder.offset.copy(isDefined(options.offset) ? options.offset : Vector3.zero());
-        return builder.toPrimitive();
-    }
-
-    /**
-     * <p>
-     * A convenience class for creating an arrow.
-     * </p>
-     * <p>
-     * The initial axis unit vector defaults to <b>e<b><sub>2</sub>
-     * </p>
-     * <p>
-     * The cutLine unit vector defaults to <b>e<b><sub>3</sub>
-     * </p>
-     * @hidden
-     */
-    var ArrowGeometry = /** @class */ (function (_super) {
-        __extends(ArrowGeometry, _super);
-        /**
-         *
-         */
-        function ArrowGeometry(contextManager, options, levelUp) {
-            if (options === void 0) { options = { kind: 'ArrowGeometry' }; }
-            if (levelUp === void 0) { levelUp = 0; }
-            var _this = _super.call(this, contextManager, arrowPrimitive(options), options, levelUp + 1) || this;
-            _this.setLoggingName('ArrowGeometry');
-            if (levelUp === 0) {
-                _this.synchUp();
-            }
-            return _this;
-        }
-        /**
-         *
-         */
-        ArrowGeometry.prototype.resurrector = function (levelUp) {
-            _super.prototype.resurrector.call(this, levelUp + 1);
-            this.setLoggingName('ArrowGeometry');
-            if (levelUp === 0) {
-                this.synchUp();
-            }
-        };
-        /**
-         *
-         */
-        ArrowGeometry.prototype.destructor = function (levelUp) {
-            if (levelUp === 0) {
-                this.cleanUp();
-            }
-            _super.prototype.destructor.call(this, levelUp + 1);
-        };
-        return ArrowGeometry;
-    }(GeometryElements));
-
-    /**
-     * @hidden
-     */
-    function computeFaceNormals(simplex, positionName, normalName) {
-        if (positionName === void 0) { positionName = GraphicsProgramSymbols.ATTRIBUTE_POSITION; }
-        if (normalName === void 0) { normalName = GraphicsProgramSymbols.ATTRIBUTE_NORMAL; }
-        var vertex0 = simplex.vertices[0].attributes;
-        var vertex1 = simplex.vertices[1].attributes;
-        var vertex2 = simplex.vertices[2].attributes;
-        var pos0 = vertex0[positionName];
-        var pos1 = vertex1[positionName];
-        var pos2 = vertex2[positionName];
-        var x0 = pos0.getComponent(0);
-        var y0 = pos0.getComponent(1);
-        var z0 = pos0.getComponent(2);
-        var x1 = pos1.getComponent(0);
-        var y1 = pos1.getComponent(1);
-        var z1 = pos1.getComponent(2);
-        var x2 = pos2.getComponent(0);
-        var y2 = pos2.getComponent(1);
-        var z2 = pos2.getComponent(2);
-        var ax = x2 - x1;
-        var ay = y2 - y1;
-        var az = z2 - z1;
-        var bx = x0 - x1;
-        var by = y0 - y1;
-        var bz = z0 - z1;
-        var x = wedgeYZ(ax, ay, az, bx, by, bz);
-        var y = wedgeZX(ax, ay, az, bx, by, bz);
-        var z = wedgeXY(ax, ay, az, bx, by);
-        var normal = new Vector3([x, y, z]).normalize();
-        vertex0[normalName] = normal;
-        vertex1[normalName] = normal;
-        vertex2[normalName] = normal;
-    }
 
     /**
      * @hidden
@@ -20179,6 +20615,26 @@
     }(PrimitivesBuilder));
 
     /**
+     * Determines how a Geometry will be rendered.
+     * @hidden
+     */
+    exports.GeometryMode = void 0;
+    (function (GeometryMode) {
+        /**
+         *
+         */
+        GeometryMode[GeometryMode["POINT"] = 0] = "POINT";
+        /**
+         *
+         */
+        GeometryMode[GeometryMode["WIRE"] = 1] = "WIRE";
+        /**
+         *
+         */
+        GeometryMode[GeometryMode["MESH"] = 2] = "MESH";
+    })(exports.GeometryMode || (exports.GeometryMode = {}));
+
+    /**
      * @hidden
      */
     var canonicalAxis$2 = vec(0, 1, 0);
@@ -20577,6 +21033,285 @@
     }(GeometryElements));
 
     /**
+     * @hidden
+     */
+    function isLT(value, limit) {
+        return value < limit;
+    }
+
+    /**
+     * @hidden
+     */
+    function mustBeLT(name, value, limit, contextBuilder) {
+        mustSatisfy(name, isLT(value, limit), function () { return "be less than " + limit; }, contextBuilder);
+        return value;
+    }
+
+    /**
+     * Computes the number of vertices required to construct a curve.
+     * @hidden
+     */
+    function numVerticesForCurve(uSegments) {
+        mustBeInteger('uSegments', uSegments);
+        return uSegments + 1;
+    }
+
+    /**
+     * @hidden
+     */
+    var CurvePrimitive = /** @class */ (function (_super) {
+        __extends(CurvePrimitive, _super);
+        /**
+         * @param mode
+         * @param uSegments
+         * @param uClosed
+         */
+        function CurvePrimitive(mode, uSegments, uClosed) {
+            var _this = _super.call(this, mode, numVerticesForCurve(uSegments), 1) || this;
+            mustBeInteger('uSegments', uSegments);
+            mustBeGE('uSegments', uSegments, 0);
+            mustBeBoolean('uClosed', uClosed);
+            _this._uSegments = uSegments;
+            _this._uClosed = uClosed;
+            var uLength = _this.uLength;
+            for (var uIndex = 0; uIndex < uLength; uIndex++) {
+                var coords = _this.vertex(uIndex).coords;
+                coords.setComponent(0, uIndex);
+            }
+            return _this;
+        }
+        Object.defineProperty(CurvePrimitive.prototype, "uSegments", {
+            get: function () {
+                return this._uSegments;
+            },
+            set: function (uSegments) {
+                mustBeInteger('uSegments', uSegments);
+                throw new Error(readOnly('uSegments').message);
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(CurvePrimitive.prototype, "uLength", {
+            /**
+             * uLength = uSegments + 1
+             */
+            get: function () {
+                return numPostsForFence(this._uSegments, this._uClosed);
+            },
+            set: function (uLength) {
+                mustBeInteger('uLength', uLength);
+                throw new Error(readOnly('uLength').message);
+            },
+            enumerable: false,
+            configurable: true
+        });
+        CurvePrimitive.prototype.vertexTransform = function (transform) {
+            var iLen = this.vertices.length;
+            for (var i = 0; i < iLen; i++) {
+                var vertex = this.vertices[i];
+                var u = vertex.coords.getComponent(0);
+                transform.exec(vertex, u, 0, this.uLength, 0);
+            }
+        };
+        CurvePrimitive.prototype.vertex = function (uIndex) {
+            mustBeInteger('uIndex', uIndex);
+            mustBeGE('uIndex', uIndex, 0);
+            mustBeLT('uIndex', uIndex, this.uLength);
+            return this.vertices[uIndex];
+        };
+        return CurvePrimitive;
+    }(VertexPrimitive));
+
+    /**
+     * @hidden
+     */
+    function elementsForCurve(uSegments, uClosed, elements) {
+        // Make sure that we have somewhere valid to store the result.
+        elements = isDefined(elements) ? mustBeArray('elements', elements) : [];
+        // The number of fence posts depends upon whether the curve is open or closed.
+        var uLength = numPostsForFence(uSegments, uClosed);
+        for (var u = 0; u < uLength; u++) {
+            elements.push(u);
+        }
+        return elements;
+    }
+
+    /**
+     * @hidden
+     */
+    var LinePoints = /** @class */ (function (_super) {
+        __extends(LinePoints, _super);
+        /**
+         * @param uSegments
+         */
+        function LinePoints(uSegments) {
+            var _this = _super.call(this, exports.BeginMode.POINTS, uSegments, false) || this;
+            _this.elements = elementsForCurve(uSegments, false);
+            return _this;
+        }
+        /**
+         *
+         * @param uIndex An integer. 0 <= uIndex < uLength
+         */
+        LinePoints.prototype.vertex = function (uIndex) {
+            mustBeInteger('uIndex', uIndex);
+            mustBeGE('uIndex', uIndex, 0);
+            mustBeLT('uIndex', uIndex, this.uLength);
+            return this.vertices[uIndex];
+        };
+        return LinePoints;
+    }(CurvePrimitive));
+
+    /**
+     * @hidden
+     */
+    var LineStrip = /** @class */ (function (_super) {
+        __extends(LineStrip, _super);
+        /**
+         * @param uSegments
+         */
+        function LineStrip(uSegments) {
+            var _this = _super.call(this, exports.BeginMode.LINE_STRIP, uSegments, false) || this;
+            // We are rendering a LINE_STRIP so the figure will not be closed.
+            _this.elements = elementsForCurve(uSegments, false);
+            return _this;
+        }
+        /**
+         *
+         * @param uIndex An integer. 0 <= uIndex < uLength
+         */
+        LineStrip.prototype.vertex = function (uIndex) {
+            mustBeInteger('uIndex', uIndex);
+            mustBeGE('uIndex', uIndex, 0);
+            mustBeLT('uIndex', uIndex, this.uLength);
+            return this.vertices[uIndex];
+        };
+        return LineStrip;
+    }(CurvePrimitive));
+
+    /**
+     * @hidden
+     */
+    function isFunction(x) {
+        return (typeof x === 'function');
+    }
+
+    /**
+     * Determines how a Curve will be rendered.
+     * @hidden
+     */
+    exports.CurveMode = void 0;
+    (function (CurveMode) {
+        /**
+         *
+         */
+        CurveMode[CurveMode["POINTS"] = 0] = "POINTS";
+        /**
+         *
+         */
+        CurveMode[CurveMode["LINES"] = 1] = "LINES";
+    })(exports.CurveMode || (exports.CurveMode = {}));
+
+    /**
+     * @hidden
+     */
+    function aPositionDefault$2(u) {
+        return Vector3.vector(u, 0, 0);
+    }
+    /**
+     * @hidden
+     */
+    function topology$1(mode, uSegments, uClosed) {
+        switch (mode) {
+            case exports.CurveMode.POINTS: {
+                return new LinePoints(uSegments);
+            }
+            case exports.CurveMode.LINES: {
+                return new LineStrip(uSegments);
+            }
+            default: {
+                throw new Error("mode must be POINTS or LINES");
+            }
+        }
+    }
+    /**
+     * @hidden
+     */
+    function transformVertex$1(vertex, u, options) {
+        var aPosition = isDefined(options.aPosition) ? options.aPosition : aPositionDefault$2;
+        var aColor = isDefined(options.aColor) ? options.aColor : void 0;
+        if (isFunction(aPosition)) {
+            vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = Vector3.copy(aPosition(u));
+        }
+        if (isFunction(aColor)) {
+            vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = Color.copy(aColor(u));
+        }
+    }
+    /**
+     * @hidden
+     */
+    function curvePrimitive(options) {
+        var uMin = isDefined(options.uMin) ? mustBeNumber('uMin', options.uMin) : 0;
+        var uMax = isDefined(options.uMax) ? mustBeNumber('uMax', options.uMax) : 1;
+        var uSegments = isDefined(options.uSegments) ? options.uSegments : 1;
+        var mode = isDefined(options.mode) ? options.mode : exports.CurveMode.LINES;
+        // Working on the assumption that the grid is open in both directions.
+        var curve = topology$1(mode, uSegments);
+        var iLen = curve.uLength;
+        if (uSegments > 0) {
+            for (var i = 0; i < iLen; i++) {
+                var vertex = curve.vertex(i);
+                var u = uMin + (uMax - uMin) * i / uSegments;
+                transformVertex$1(vertex, u, options);
+            }
+        }
+        else {
+            var vertex = curve.vertex(0);
+            var u = (uMin + uMax) / 2;
+            transformVertex$1(vertex, u, options);
+        }
+        return curve.toPrimitive();
+    }
+
+    /**
+     * A Geometry for representing functions of one scalar parameter.
+     * @hidden
+     */
+    var CurveGeometry = /** @class */ (function (_super) {
+        __extends(CurveGeometry, _super);
+        function CurveGeometry(contextManager, options, levelUp) {
+            if (options === void 0) { options = { kind: 'CurveGeometry' }; }
+            if (levelUp === void 0) { levelUp = 0; }
+            var _this = _super.call(this, contextManager, curvePrimitive(options), options, levelUp + 1) || this;
+            _this.setLoggingName('CurveGeometry');
+            if (levelUp === 0) {
+                _this.synchUp();
+            }
+            return _this;
+        }
+        /**
+         *
+         */
+        CurveGeometry.prototype.resurrector = function (levelUp) {
+            _super.prototype.resurrector.call(this, levelUp + 1);
+            this.setLoggingName('CurveGeometry');
+            if (levelUp === 0) {
+                this.synchUp();
+            }
+        };
+        /**
+         *
+         */
+        CurveGeometry.prototype.destructor = function (levelUp) {
+            if (levelUp === 0) {
+                this.cleanUp();
+            }
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        return CurveGeometry;
+    }(GeometryElements));
+
+    /**
      * Computes a list of points corresponding to an arc centered on the origin.
      * begin {VectorE3} The begin position.
      * angle: {number} The angle of the rotation.
@@ -20968,285 +21703,6 @@
             _super.prototype.destructor.call(this, levelUp + 1);
         };
         return CylinderGeometry;
-    }(GeometryElements));
-
-    /**
-     * @hidden
-     */
-    function isLT(value, limit) {
-        return value < limit;
-    }
-
-    /**
-     * @hidden
-     */
-    function mustBeLT(name, value, limit, contextBuilder) {
-        mustSatisfy(name, isLT(value, limit), function () { return "be less than " + limit; }, contextBuilder);
-        return value;
-    }
-
-    /**
-     * Computes the number of vertices required to construct a curve.
-     * @hidden
-     */
-    function numVerticesForCurve(uSegments) {
-        mustBeInteger('uSegments', uSegments);
-        return uSegments + 1;
-    }
-
-    /**
-     * @hidden
-     */
-    var CurvePrimitive = /** @class */ (function (_super) {
-        __extends(CurvePrimitive, _super);
-        /**
-         * @param mode
-         * @param uSegments
-         * @param uClosed
-         */
-        function CurvePrimitive(mode, uSegments, uClosed) {
-            var _this = _super.call(this, mode, numVerticesForCurve(uSegments), 1) || this;
-            mustBeInteger('uSegments', uSegments);
-            mustBeGE('uSegments', uSegments, 0);
-            mustBeBoolean('uClosed', uClosed);
-            _this._uSegments = uSegments;
-            _this._uClosed = uClosed;
-            var uLength = _this.uLength;
-            for (var uIndex = 0; uIndex < uLength; uIndex++) {
-                var coords = _this.vertex(uIndex).coords;
-                coords.setComponent(0, uIndex);
-            }
-            return _this;
-        }
-        Object.defineProperty(CurvePrimitive.prototype, "uSegments", {
-            get: function () {
-                return this._uSegments;
-            },
-            set: function (uSegments) {
-                mustBeInteger('uSegments', uSegments);
-                throw new Error(readOnly('uSegments').message);
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(CurvePrimitive.prototype, "uLength", {
-            /**
-             * uLength = uSegments + 1
-             */
-            get: function () {
-                return numPostsForFence(this._uSegments, this._uClosed);
-            },
-            set: function (uLength) {
-                mustBeInteger('uLength', uLength);
-                throw new Error(readOnly('uLength').message);
-            },
-            enumerable: false,
-            configurable: true
-        });
-        CurvePrimitive.prototype.vertexTransform = function (transform) {
-            var iLen = this.vertices.length;
-            for (var i = 0; i < iLen; i++) {
-                var vertex = this.vertices[i];
-                var u = vertex.coords.getComponent(0);
-                transform.exec(vertex, u, 0, this.uLength, 0);
-            }
-        };
-        CurvePrimitive.prototype.vertex = function (uIndex) {
-            mustBeInteger('uIndex', uIndex);
-            mustBeGE('uIndex', uIndex, 0);
-            mustBeLT('uIndex', uIndex, this.uLength);
-            return this.vertices[uIndex];
-        };
-        return CurvePrimitive;
-    }(VertexPrimitive));
-
-    /**
-     * @hidden
-     */
-    function elementsForCurve(uSegments, uClosed, elements) {
-        // Make sure that we have somewhere valid to store the result.
-        elements = isDefined(elements) ? mustBeArray('elements', elements) : [];
-        // The number of fence posts depends upon whether the curve is open or closed.
-        var uLength = numPostsForFence(uSegments, uClosed);
-        for (var u = 0; u < uLength; u++) {
-            elements.push(u);
-        }
-        return elements;
-    }
-
-    /**
-     * @hidden
-     */
-    var LinePoints = /** @class */ (function (_super) {
-        __extends(LinePoints, _super);
-        /**
-         * @param uSegments
-         */
-        function LinePoints(uSegments) {
-            var _this = _super.call(this, exports.BeginMode.POINTS, uSegments, false) || this;
-            _this.elements = elementsForCurve(uSegments, false);
-            return _this;
-        }
-        /**
-         *
-         * @param uIndex An integer. 0 <= uIndex < uLength
-         */
-        LinePoints.prototype.vertex = function (uIndex) {
-            mustBeInteger('uIndex', uIndex);
-            mustBeGE('uIndex', uIndex, 0);
-            mustBeLT('uIndex', uIndex, this.uLength);
-            return this.vertices[uIndex];
-        };
-        return LinePoints;
-    }(CurvePrimitive));
-
-    /**
-     * @hidden
-     */
-    var LineStrip = /** @class */ (function (_super) {
-        __extends(LineStrip, _super);
-        /**
-         * @param uSegments
-         */
-        function LineStrip(uSegments) {
-            var _this = _super.call(this, exports.BeginMode.LINE_STRIP, uSegments, false) || this;
-            // We are rendering a LINE_STRIP so the figure will not be closed.
-            _this.elements = elementsForCurve(uSegments, false);
-            return _this;
-        }
-        /**
-         *
-         * @param uIndex An integer. 0 <= uIndex < uLength
-         */
-        LineStrip.prototype.vertex = function (uIndex) {
-            mustBeInteger('uIndex', uIndex);
-            mustBeGE('uIndex', uIndex, 0);
-            mustBeLT('uIndex', uIndex, this.uLength);
-            return this.vertices[uIndex];
-        };
-        return LineStrip;
-    }(CurvePrimitive));
-
-    /**
-     * @hidden
-     */
-    function isFunction(x) {
-        return (typeof x === 'function');
-    }
-
-    /**
-     * Determines how a Curve will be rendered.
-     * @hidden
-     */
-    exports.CurveMode = void 0;
-    (function (CurveMode) {
-        /**
-         *
-         */
-        CurveMode[CurveMode["POINTS"] = 0] = "POINTS";
-        /**
-         *
-         */
-        CurveMode[CurveMode["LINES"] = 1] = "LINES";
-    })(exports.CurveMode || (exports.CurveMode = {}));
-
-    /**
-     * @hidden
-     */
-    function aPositionDefault$2(u) {
-        return Vector3.vector(u, 0, 0);
-    }
-    /**
-     * @hidden
-     */
-    function topology$1(mode, uSegments, uClosed) {
-        switch (mode) {
-            case exports.CurveMode.POINTS: {
-                return new LinePoints(uSegments);
-            }
-            case exports.CurveMode.LINES: {
-                return new LineStrip(uSegments);
-            }
-            default: {
-                throw new Error("mode must be POINTS or LINES");
-            }
-        }
-    }
-    /**
-     * @hidden
-     */
-    function transformVertex$1(vertex, u, options) {
-        var aPosition = isDefined(options.aPosition) ? options.aPosition : aPositionDefault$2;
-        var aColor = isDefined(options.aColor) ? options.aColor : void 0;
-        if (isFunction(aPosition)) {
-            vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = Vector3.copy(aPosition(u));
-        }
-        if (isFunction(aColor)) {
-            vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = Color.copy(aColor(u));
-        }
-    }
-    /**
-     * @hidden
-     */
-    function curvePrimitive(options) {
-        var uMin = isDefined(options.uMin) ? mustBeNumber('uMin', options.uMin) : 0;
-        var uMax = isDefined(options.uMax) ? mustBeNumber('uMax', options.uMax) : 1;
-        var uSegments = isDefined(options.uSegments) ? options.uSegments : 1;
-        var mode = isDefined(options.mode) ? options.mode : exports.CurveMode.LINES;
-        // Working on the assumption that the grid is open in both directions.
-        var curve = topology$1(mode, uSegments);
-        var iLen = curve.uLength;
-        if (uSegments > 0) {
-            for (var i = 0; i < iLen; i++) {
-                var vertex = curve.vertex(i);
-                var u = uMin + (uMax - uMin) * i / uSegments;
-                transformVertex$1(vertex, u, options);
-            }
-        }
-        else {
-            var vertex = curve.vertex(0);
-            var u = (uMin + uMax) / 2;
-            transformVertex$1(vertex, u, options);
-        }
-        return curve.toPrimitive();
-    }
-
-    /**
-     * A Geometry for representing functions of one scalar parameter.
-     * @hidden
-     */
-    var CurveGeometry = /** @class */ (function (_super) {
-        __extends(CurveGeometry, _super);
-        function CurveGeometry(contextManager, options, levelUp) {
-            if (options === void 0) { options = { kind: 'CurveGeometry' }; }
-            if (levelUp === void 0) { levelUp = 0; }
-            var _this = _super.call(this, contextManager, curvePrimitive(options), options, levelUp + 1) || this;
-            _this.setLoggingName('CurveGeometry');
-            if (levelUp === 0) {
-                _this.synchUp();
-            }
-            return _this;
-        }
-        /**
-         *
-         */
-        CurveGeometry.prototype.resurrector = function (levelUp) {
-            _super.prototype.resurrector.call(this, levelUp + 1);
-            this.setLoggingName('CurveGeometry');
-            if (levelUp === 0) {
-                this.synchUp();
-            }
-        };
-        /**
-         *
-         */
-        CurveGeometry.prototype.destructor = function (levelUp) {
-            if (levelUp === 0) {
-                this.cleanUp();
-            }
-            _super.prototype.destructor.call(this, levelUp + 1);
-        };
-        return CurveGeometry;
     }(GeometryElements));
 
     /**
@@ -22360,6 +22816,700 @@
     /**
      * @hidden
      */
+    function beFunction() {
+        return "be a function";
+    }
+    /**
+     * @hidden
+     */
+    function mustBeFunction(name, value, contextBuilder) {
+        mustSatisfy(name, isFunction(value), beFunction, contextBuilder);
+        return value;
+    }
+
+    /**
+     * A utility for loading Texture resources from a URL.
+     *
+     *     const loader = new EIGHT.TextureLoader(engine)
+     *     loader.loadImageTexture('img/textures/solar-system/2k_earth_daymap.jpg', function(texture) {
+     *       texture.minFilter = EIGHT.TextureMinFilter.NEAREST;
+     *       const geometry = new EIGHT.SphereGeometry(engine, {azimuthSegments: 64, elevationSegments: 32})
+     *       const material = new EIGHT.HTMLScriptsMaterial(engine, ['vs', 'fs'])
+     *       sphere = new EIGHT.Mesh(geometry, material, engine)
+     *       geometry.release()
+     *       material.release()
+     *       sphere.texture = texture
+     *       texture.release()
+     *       scene.add(sphere)
+     *     })
+     */
+    var TextureLoader = /** @class */ (function () {
+        /**
+         * @param contextManager
+         */
+        function TextureLoader(contextManager) {
+            this.contextManager = contextManager;
+            mustBeNonNullObject('contextManager', contextManager);
+        }
+        /**
+         *
+         * @param url The Uniform Resource Locator of the image.
+         * @param options
+         */
+        TextureLoader.prototype.imageTexture = function (url, options) {
+            var _this = this;
+            if (options === void 0) { options = {}; }
+            mustBeString('url', url);
+            if (isDefined(options.crossOrigin)) {
+                mustBeString('options.crossOrigin', options.crossOrigin);
+            }
+            return new Promise(function (response, reject) {
+                var image = new Image();
+                image.onload = function () {
+                    var texture = new ImageTexture(image, exports.TextureTarget.TEXTURE_2D, _this.contextManager);
+                    texture.bind();
+                    texture.upload();
+                    texture.unbind();
+                    response(texture);
+                };
+                image.onerror = function (event, source, lineno, colno, error) {
+                    console.log("event=" + event + ": " + typeof event + ", source=" + source + ", lineno=" + lineno + ", colno=" + colno + ", error=" + error);
+                    reject(new Error("Error occurred while loading image. Cause: " + error));
+                };
+                // How to issue a CORS request for an image coming from another domain.
+                // The image is fetched from the server without any credentials, i.e., cookies.
+                if (isDefined(options.crossOrigin)) {
+                    image.crossOrigin = options.crossOrigin;
+                }
+                image.src = url;
+            });
+        };
+        /**
+         * @deprecated
+         * @param url The Uniform Resource Locator of the image.
+         * @param onLoad
+         * @param onError
+         * @param options
+         */
+        TextureLoader.prototype.loadImageTexture = function (url, onLoad, onError, options) {
+            if (options === void 0) { options = {}; }
+            console.warn("loadImageTexture() is deprecated. Please use imageTexture().");
+            mustBeFunction('onLoad', onLoad);
+            if (isDefined(onError)) {
+                mustBeFunction('onError', onError);
+            }
+            this.imageTexture(url, options)
+                .then(function (texture) {
+                onLoad(texture);
+            })
+                .catch(function (err) {
+                if (isFunction(onError)) {
+                    onError();
+                }
+            });
+        };
+        return TextureLoader;
+    }());
+
+    /**
+     * Policy for how an attribute variable name is determined.
+     * @hidden
+     */
+    function getAttribVarName(attribute, varName) {
+        mustBeObject('attribute', attribute);
+        mustBeString('varName', varName);
+        return isDefined(attribute.name) ? mustBeString('attribute.name', attribute.name) : varName;
+    }
+
+    /**
+     * Policy for how a uniform variable name is determined.
+     * @hidden
+     */
+    function getUniformVarName(uniform, varName) {
+        expectArg('uniform', uniform).toBeObject();
+        expectArg('varName', varName).toBeString();
+        return isDefined(uniform.name) ? expectArg('uniform.name', uniform.name).toBeString().value : varName;
+    }
+
+    /**
+     * @hidden
+     */
+    var GLSLESVersion;
+    (function (GLSLESVersion) {
+        GLSLESVersion["OneHundred"] = "100";
+        GLSLESVersion["ThreeHundred"] = "300";
+    })(GLSLESVersion || (GLSLESVersion = {}));
+
+    /**
+     * @hidden
+     */
+    function getUniformCodeName$1(uniforms, name) {
+        return getUniformVarName(uniforms[name], name);
+    }
+    /**
+     * @hidden
+     */
+    function getFragColorVarName(version) {
+        if (version === GLSLESVersion.ThreeHundred) {
+            return "fragColor";
+        }
+        else {
+            return "gl_FragColor";
+        }
+    }
+    /**
+     * @hidden
+     */
+    function getFragmentShaderVaryingModifier(version) {
+        if (version === GLSLESVersion.ThreeHundred) {
+            return "in";
+        }
+        else {
+            return "varying";
+        }
+    }
+    /**
+     * @hidden
+     */
+    function getTexture2D(version) {
+        if (version === GLSLESVersion.ThreeHundred) {
+            return "texture";
+        }
+        else {
+            return "texture2D";
+        }
+    }
+    /**
+     * @hidden
+     */
+    function emitFragmentFloatPrecision(version) {
+        if (version === GLSLESVersion.ThreeHundred) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    /**
+     * @hidden
+     */
+    var SPACE$1 = ' ';
+    /**
+     * @hidden
+     */
+    var UNIFORM$1 = 'uniform' + SPACE$1;
+    /**
+     * @hidden
+     */
+    var SEMICOLON$1 = ';';
+    /**
+     * Generates a fragment shader
+     * @hidden
+     */
+    function fragmentShaderSrc$6(attributes, uniforms, vColor, vCoords, vLight, version) {
+        mustBeDefined('attributes', attributes);
+        mustBeDefined('uniforms', uniforms);
+        mustBeBoolean(GraphicsProgramSymbols.VARYING_COLOR, vColor);
+        mustBeBoolean(GraphicsProgramSymbols.VARYING_COORDS, vCoords);
+        mustBeBoolean(GraphicsProgramSymbols.VARYING_LIGHT, vLight);
+        mustBeDefined('version', version);
+        var lines = [];
+        if (version === GLSLESVersion.ThreeHundred) {
+            lines.push("#version 300 es");
+        }
+        lines.push("// fragment shader generated by " + config.MARKETING_NAME + " " + config.VERSION);
+        // Only the fragment shader requires an explicit precision for floats.
+        // For fragment shaders, highp might not be available, which can be tested using the GL_FRAGMENT_PRECISION_HIGH macro.
+        if (emitFragmentFloatPrecision(version)) {
+            lines.push("#ifdef GL_FRAGMENT_PRECISION_HIGH");
+            lines.push("precision highp float;");
+            lines.push("#else");
+            lines.push("precision mediump float;");
+            lines.push("#endif");
+        }
+        if (vColor) {
+            lines.push(getFragmentShaderVaryingModifier(version) + " highp vec4 " + GraphicsProgramSymbols.VARYING_COLOR + ";");
+        }
+        if (vCoords) {
+            lines.push(getFragmentShaderVaryingModifier(version) + " highp vec2 " + GraphicsProgramSymbols.VARYING_COORDS + ";");
+        }
+        if (vLight) {
+            lines.push(getFragmentShaderVaryingModifier(version) + " highp vec3 " + GraphicsProgramSymbols.VARYING_LIGHT + ";");
+        }
+        for (var uName in uniforms) {
+            if (uniforms.hasOwnProperty(uName)) {
+                switch (uniforms[uName].glslType) {
+                    case 'sampler2D': {
+                        lines.push(UNIFORM$1 + uniforms[uName].glslType + SPACE$1 + getUniformCodeName$1(uniforms, uName) + SEMICOLON$1);
+                        break;
+                    }
+                }
+            }
+        }
+        // The color output variable must be declared explicitly.
+        if (version === GLSLESVersion.ThreeHundred) {
+            lines.push("out vec4 " + getFragColorVarName(version) + ";");
+        }
+        lines.push("void main(void) {");
+        if (vLight) {
+            if (vColor) {
+                if (vCoords && uniforms[GraphicsProgramSymbols.UNIFORM_IMAGE]) {
+                    lines.push("  " + getFragColorVarName(version) + " = " + getTexture2D(version) + "(" + GraphicsProgramSymbols.UNIFORM_IMAGE + ", " + GraphicsProgramSymbols.VARYING_COORDS + ") * vec4(" + GraphicsProgramSymbols.VARYING_COLOR + ".xyz * " + GraphicsProgramSymbols.VARYING_LIGHT + ", " + GraphicsProgramSymbols.VARYING_COLOR + ".a);");
+                }
+                else {
+                    lines.push("  " + getFragColorVarName(version) + " = vec4(" + GraphicsProgramSymbols.VARYING_COLOR + ".xyz * " + GraphicsProgramSymbols.VARYING_LIGHT + ", " + GraphicsProgramSymbols.VARYING_COLOR + ".a);");
+                }
+            }
+            else {
+                if (vCoords && uniforms[GraphicsProgramSymbols.UNIFORM_IMAGE]) {
+                    lines.push("  " + getFragColorVarName(version) + " = " + getTexture2D(version) + "(" + GraphicsProgramSymbols.UNIFORM_IMAGE + ", " + GraphicsProgramSymbols.VARYING_COORDS + ") * vec4(" + GraphicsProgramSymbols.VARYING_LIGHT + ", 1.0);");
+                }
+                else {
+                    lines.push("  " + getFragColorVarName(version) + " = vec4(" + GraphicsProgramSymbols.VARYING_LIGHT + ", 1.0);");
+                }
+            }
+        }
+        else {
+            if (vColor) {
+                if (vCoords && uniforms[GraphicsProgramSymbols.UNIFORM_IMAGE]) {
+                    lines.push("  " + getFragColorVarName(version) + " = " + getTexture2D(version) + "(" + GraphicsProgramSymbols.UNIFORM_IMAGE + ", " + GraphicsProgramSymbols.VARYING_COORDS + ") * " + GraphicsProgramSymbols.VARYING_COLOR + ";");
+                }
+                else {
+                    lines.push("  " + getFragColorVarName(version) + " = " + GraphicsProgramSymbols.VARYING_COLOR + ";");
+                }
+            }
+            else {
+                if (vCoords && uniforms[GraphicsProgramSymbols.UNIFORM_IMAGE]) {
+                    lines.push("  " + getFragColorVarName(version) + " = " + getTexture2D(version) + "(" + GraphicsProgramSymbols.UNIFORM_IMAGE + ", " + GraphicsProgramSymbols.VARYING_COORDS + ");");
+                }
+                else {
+                    lines.push("  " + getFragColorVarName(version) + " = vec4(1.0, 1.0, 1.0, 1.0);");
+                }
+            }
+        }
+        lines.push("}");
+        lines.push("");
+        var code = lines.join("\n");
+        return code;
+    }
+
+    /**
+     * @hidden
+     */
+    function sizeType(size) {
+        mustBeInteger('size', size);
+        switch (size) {
+            case 1: {
+                return 'float';
+            }
+            case 2: {
+                return 'vec2';
+            }
+            case 3: {
+                return 'vec3';
+            }
+            case 4: {
+                return 'vec4';
+            }
+            default: {
+                throw new Error("Can't compute the GLSL attribute type from size " + size);
+            }
+        }
+    }
+    /**
+     * @hidden
+     */
+    function glslAttribType(key, size) {
+        mustBeString('key', key);
+        mustBeInteger('size', size);
+        switch (key) {
+            case GraphicsProgramSymbols.ATTRIBUTE_COLOR: {
+                // No need to hard-code to 'vec3' anymore.
+                return sizeType(size);
+            }
+            default: {
+                return sizeType(size);
+            }
+        }
+    }
+
+    /**
+     * @hidden
+     */
+    function vColorRequired(attributes, uniforms) {
+        return !!attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] || !!uniforms[GraphicsProgramSymbols.UNIFORM_COLOR];
+    }
+
+    /**
+     * @hidden
+     */
+    function vCoordsRequired(attributes, uniforms) {
+        mustBeDefined('attributes', attributes);
+        mustBeDefined('uniforms', uniforms);
+        return !!attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS];
+    }
+
+    /**
+     * @hidden
+     */
+    function getUniformCodeName(uniforms, name) {
+        return getUniformVarName(uniforms[name], name);
+    }
+    /**
+     * @hidden
+     */
+    function getAttributeModifier(version) {
+        if (version === GLSLESVersion.ThreeHundred) {
+            return "in";
+        }
+        else {
+            return "attribute";
+        }
+    }
+    /**
+     * @hidden
+     */
+    function getVertexShaderVaryingModifier(version) {
+        if (version === GLSLESVersion.ThreeHundred) {
+            return "out";
+        }
+        else {
+            return "varying";
+        }
+    }
+    /**
+     * @hidden
+     */
+    var SPACE = ' ';
+    /**
+     * @hidden
+     */
+    var UNIFORM = 'uniform' + SPACE;
+    /**
+     * @hidden
+     */
+    var COMMA = ',' + SPACE;
+    /**
+     * @hidden
+     */
+    var SEMICOLON = ';';
+    /**
+     * @hidden
+     */
+    var LPAREN = '(';
+    /**
+     * @hidden
+     */
+    var RPAREN = ')';
+    /**
+     * @hidden
+     */
+    var TIMES = SPACE + '*' + SPACE;
+    /**
+     * @hidden
+     */
+    var ASSIGN = SPACE + '=' + SPACE;
+    /**
+     * @hidden
+     */
+    var DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME = "directionalLightCosineFactor";
+    /**
+     * Generates a vertex shader.
+     * @hidden
+     */
+    function vertexShaderSrc$6(attributes, uniforms, vColor, vCoords, vLight, version) {
+        mustBeDefined('attributes', attributes);
+        mustBeDefined('uniforms', uniforms);
+        mustBeBoolean(GraphicsProgramSymbols.VARYING_COLOR, vColor);
+        mustBeBoolean(GraphicsProgramSymbols.VARYING_COORDS, vCoords);
+        mustBeBoolean(GraphicsProgramSymbols.VARYING_LIGHT, vLight);
+        mustBeDefined('version', version);
+        var lines = [];
+        if (version === GLSLESVersion.ThreeHundred) {
+            lines.push("#version 300 es");
+        }
+        lines.push("// vertex shader generated by " + config.MARKETING_NAME + " " + config.VERSION);
+        // The precision is implicitly highp for vertex shaders.
+        // So there is no need to add preamble for changing the precision unless
+        // we want to lower the precision.
+        for (var aName in attributes) {
+            if (attributes.hasOwnProperty(aName)) {
+                lines.push(getAttributeModifier(version) + " " + attributes[aName].glslType + " " + getAttribVarName(attributes[aName], aName) + ";");
+            }
+        }
+        for (var uName in uniforms) {
+            if (uniforms.hasOwnProperty(uName)) {
+                switch (uniforms[uName].glslType) {
+                    case 'sampler2D': {
+                        break;
+                    }
+                    default: {
+                        lines.push(UNIFORM + uniforms[uName].glslType + SPACE + getUniformCodeName(uniforms, uName) + SEMICOLON);
+                    }
+                }
+            }
+        }
+        if (vColor) {
+            lines.push(getVertexShaderVaryingModifier(version) + " highp vec4 " + GraphicsProgramSymbols.VARYING_COLOR + ";");
+        }
+        if (vCoords) {
+            lines.push(getVertexShaderVaryingModifier(version) + " highp vec2 " + GraphicsProgramSymbols.VARYING_COORDS + ";");
+        }
+        if (vLight) {
+            lines.push(getVertexShaderVaryingModifier(version) + " highp vec3 " + GraphicsProgramSymbols.VARYING_LIGHT + ";");
+        }
+        lines.push("void main(void) {");
+        var glPosition = [];
+        glPosition.unshift(SEMICOLON);
+        if (attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION]) {
+            switch (attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION].glslType) {
+                case 'float': {
+                    // This case would be unusual; just providing an x-coordinate.
+                    // We must provide defaults for the y-, z-, and w-coordinates.
+                    glPosition.unshift(RPAREN);
+                    glPosition.unshift('1.0');
+                    glPosition.unshift(COMMA);
+                    glPosition.unshift('0.0');
+                    glPosition.unshift(COMMA);
+                    glPosition.unshift('0.0');
+                    glPosition.unshift(COMMA);
+                    glPosition.unshift(getAttribVarName(attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION], GraphicsProgramSymbols.ATTRIBUTE_POSITION));
+                    glPosition.unshift(LPAREN);
+                    glPosition.unshift('vec4');
+                    break;
+                }
+                case 'vec2': {
+                    // This case happens when the user wants to work in 2D.
+                    // We must provide a value for the homogeneous w-coordinate,
+                    // as well as the z-coordinate.
+                    glPosition.unshift(RPAREN);
+                    glPosition.unshift('1.0');
+                    glPosition.unshift(COMMA);
+                    glPosition.unshift('0.0');
+                    glPosition.unshift(COMMA);
+                    glPosition.unshift(getAttribVarName(attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION], GraphicsProgramSymbols.ATTRIBUTE_POSITION));
+                    glPosition.unshift(LPAREN);
+                    glPosition.unshift('vec4');
+                    break;
+                }
+                case 'vec3': {
+                    // This is probably the most common case, 3D but only x-, y-, z-coordinates.
+                    // We must provide a value for the homogeneous w-coordinate.
+                    glPosition.unshift(RPAREN);
+                    glPosition.unshift('1.0');
+                    glPosition.unshift(COMMA);
+                    glPosition.unshift(getAttribVarName(attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION], GraphicsProgramSymbols.ATTRIBUTE_POSITION));
+                    glPosition.unshift(LPAREN);
+                    glPosition.unshift('vec4');
+                    break;
+                }
+                case 'vec4': {
+                    // This happens when the use is working in homodeneous coordinates.
+                    // We don't need to use the constructor function at all.
+                    glPosition.unshift(getAttribVarName(attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION], GraphicsProgramSymbols.ATTRIBUTE_POSITION));
+                    break;
+                }
+            }
+        }
+        else {
+            glPosition.unshift("vec4(0.0, 0.0, 0.0, 1.0)");
+        }
+        // Reflections are applied first.
+        if (uniforms[GraphicsProgramSymbols.UNIFORM_REFLECTION_ONE_MATRIX]) {
+            glPosition.unshift(TIMES);
+            glPosition.unshift(getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_REFLECTION_ONE_MATRIX));
+        }
+        if (uniforms[GraphicsProgramSymbols.UNIFORM_REFLECTION_TWO_MATRIX]) {
+            glPosition.unshift(TIMES);
+            glPosition.unshift(getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_REFLECTION_TWO_MATRIX));
+        }
+        if (uniforms[GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX]) {
+            glPosition.unshift(TIMES);
+            glPosition.unshift(getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX));
+        }
+        if (uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX]) {
+            glPosition.unshift(TIMES);
+            glPosition.unshift(getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX));
+        }
+        if (uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX]) {
+            glPosition.unshift(TIMES);
+            glPosition.unshift(getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX));
+        }
+        glPosition.unshift(ASSIGN);
+        glPosition.unshift("gl_Position");
+        glPosition.unshift('  ');
+        lines.push(glPosition.join(''));
+        if (uniforms[GraphicsProgramSymbols.UNIFORM_POINT_SIZE]) {
+            lines.push("  gl_PointSize = " + getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_POINT_SIZE) + ";");
+        }
+        if (vColor) {
+            if (attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR]) {
+                var colorAttribVarName = getAttribVarName(attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR], GraphicsProgramSymbols.ATTRIBUTE_COLOR);
+                switch (attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR].glslType) {
+                    case 'vec4': {
+                        lines.push("  " + GraphicsProgramSymbols.VARYING_COLOR + " = " + colorAttribVarName + SEMICOLON);
+                        break;
+                    }
+                    case 'vec3': {
+                        if (uniforms[GraphicsProgramSymbols.UNIFORM_OPACITY]) {
+                            lines.push("  " + GraphicsProgramSymbols.VARYING_COLOR + " = vec4(" + colorAttribVarName + ", " + getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_OPACITY) + ");");
+                        }
+                        else {
+                            lines.push("  " + GraphicsProgramSymbols.VARYING_COLOR + " = vec4(" + colorAttribVarName + ", 1.0);");
+                        }
+                        break;
+                    }
+                    default: {
+                        throw new Error("Unexpected type for color attribute: " + attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR].glslType);
+                    }
+                }
+            }
+            else if (uniforms[GraphicsProgramSymbols.UNIFORM_COLOR]) {
+                var colorUniformVarName = getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_COLOR);
+                switch (uniforms[GraphicsProgramSymbols.UNIFORM_COLOR].glslType) {
+                    case 'vec4': {
+                        lines.push("  vColor = " + colorUniformVarName + SEMICOLON);
+                        break;
+                    }
+                    case 'vec3': {
+                        if (uniforms[GraphicsProgramSymbols.UNIFORM_OPACITY]) {
+                            lines.push("  " + GraphicsProgramSymbols.VARYING_COLOR + " = vec4(" + colorUniformVarName + ", " + getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_OPACITY) + ");");
+                        }
+                        else {
+                            lines.push("  " + GraphicsProgramSymbols.VARYING_COLOR + " = vec4(" + colorUniformVarName + ", 1.0);");
+                        }
+                        break;
+                    }
+                    default: {
+                        throw new Error("Unexpected type for color uniform: " + uniforms[GraphicsProgramSymbols.UNIFORM_COLOR].glslType);
+                    }
+                }
+            }
+            else {
+                lines.push("  " + GraphicsProgramSymbols.VARYING_COLOR + " = vec4(1.0, 1.0, 1.0, 1.0);");
+            }
+        }
+        if (vCoords) {
+            lines.push("  " + GraphicsProgramSymbols.VARYING_COORDS + " = " + GraphicsProgramSymbols.ATTRIBUTE_COORDS + ";");
+        }
+        if (vLight) {
+            if (uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR] && uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION] && uniforms[GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX] && attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL]) {
+                lines.push("  vec3 L = normalize(" + getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION) + ");");
+                lines.push("  vec3 N = normalize(" + getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX) + " * " + getAttribVarName(attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL], GraphicsProgramSymbols.ATTRIBUTE_NORMAL) + ");");
+                lines.push("  // The minus sign arises because L is the light direction, so we need dot(N, -L) = -dot(N, L)");
+                lines.push("  float " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " = max(-dot(N, L), 0.0);");
+                if (uniforms[GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT]) {
+                    lines.push("  " + GraphicsProgramSymbols.VARYING_LIGHT + " = " + getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT) + " + " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " * " + getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR) + ";");
+                }
+                else {
+                    lines.push("  " + GraphicsProgramSymbols.VARYING_LIGHT + " = " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " * " + getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR) + ";");
+                }
+            }
+            else {
+                if (uniforms[GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT]) {
+                    lines.push("  " + GraphicsProgramSymbols.VARYING_LIGHT + " = " + getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT) + ";");
+                }
+                else {
+                    lines.push("  " + GraphicsProgramSymbols.VARYING_LIGHT + " = vec3(1.0, 1.0, 1.0);");
+                }
+            }
+        }
+        lines.push("}");
+        lines.push("");
+        var code = lines.join("\n");
+        return code;
+    }
+
+    /**
+     * @hidden
+     */
+    function vLightRequired(attributes, uniforms) {
+        mustBeDefined('attributes', attributes);
+        mustBeDefined('uniforms', uniforms);
+        return !!uniforms[GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT] || (!!uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR] && !!uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR]);
+    }
+
+    /**
+     * @hidden
+     */
+    function computeAttribParams(values) {
+        var result = {};
+        var keys = Object.keys(values);
+        var keysLength = keys.length;
+        for (var i = 0; i < keysLength; i++) {
+            var key = keys[i];
+            var attribute = values[key];
+            mustBeInteger('size', attribute.size);
+            var varName = getAttribVarName(attribute, key);
+            result[varName] = { glslType: glslAttribType(key, attribute.size) };
+        }
+        return result;
+    }
+    /**
+     * GraphicsProgramBuilder is the builder pattern for generating vertex and fragment shader source code.
+     * @hidden
+     */
+    var GraphicsProgramBuilder = /** @class */ (function () {
+        /**
+         * @param primitive
+         */
+        function GraphicsProgramBuilder(primitive) {
+            this.aMeta = {};
+            this.uParams = {};
+            this._version = GLSLESVersion.OneHundred;
+            if (primitive) {
+                var attributes = primitive.attributes;
+                var keys = Object.keys(attributes);
+                for (var i = 0, iLength = keys.length; i < iLength; i++) {
+                    var key = keys[i];
+                    var attribute = attributes[key];
+                    this.attribute(key, attribute.size);
+                }
+            }
+        }
+        GraphicsProgramBuilder.prototype.attribute = function (name, size) {
+            mustBeString('name', name);
+            mustBeInteger('size', size);
+            this.aMeta[name] = { size: size };
+            return this;
+        };
+        GraphicsProgramBuilder.prototype.uniform = function (name, glslType) {
+            mustBeString('name', name);
+            mustBeString('glslType', glslType);
+            this.uParams[name] = { glslType: glslType };
+            return this;
+        };
+        GraphicsProgramBuilder.prototype.version = function (version) {
+            mustBeDefined("version", version);
+            this._version = version;
+            return this;
+        };
+        /**
+         * Computes vertex shader source code consistent with the state of this builder.
+         */
+        GraphicsProgramBuilder.prototype.vertexShaderSrc = function () {
+            var aParams = computeAttribParams(this.aMeta);
+            var vColor = vColorRequired(aParams, this.uParams);
+            var vCoords = vCoordsRequired(aParams, this.uParams);
+            var vLight = vLightRequired(aParams, this.uParams);
+            return vertexShaderSrc$6(aParams, this.uParams, vColor, vCoords, vLight, this._version);
+        };
+        /**
+         * Computes fragment shader source code consistent with the state of this builder.
+         */
+        GraphicsProgramBuilder.prototype.fragmentShaderSrc = function () {
+            var aParams = computeAttribParams(this.aMeta);
+            var vColor = vColorRequired(aParams, this.uParams);
+            var vCoords = vCoordsRequired(aParams, this.uParams);
+            var vLight = vLightRequired(aParams, this.uParams);
+            return fragmentShaderSrc$6(aParams, this.uParams, vColor, vCoords, vLight, this._version);
+        };
+        return GraphicsProgramBuilder;
+    }());
+
+    /**
+     * @hidden
+     */
     function makeWebGLProgram(ctx, vertexShaderSrc, fragmentShaderSrc, attribs) {
         // create our shaders
         var vs = makeWebGLShader(ctx, vertexShaderSrc, ctx.VERTEX_SHADER);
@@ -22911,7 +24061,7 @@
     /**
      * @hidden
      */
-    function vertexShaderSrc$6(vsId, dom) {
+    function vertexShaderSrc$5(vsId, dom) {
         mustBeString('vsId', vsId);
         mustBeObject('dom', dom);
         return getHTMLElementById(vsId, dom).textContent;
@@ -22919,7 +24069,7 @@
     /**
      * @hidden
      */
-    function fragmentShaderSrc$6(fsId, dom) {
+    function fragmentShaderSrc$5(fsId, dom) {
         mustBeString('fsId', fsId);
         mustBeObject('dom', dom);
         return getHTMLElementById(fsId, dom).textContent;
@@ -22982,7 +24132,7 @@
             if (attribs === void 0) { attribs = []; }
             if (dom === void 0) { dom = window.document; }
             if (levelUp === void 0) { levelUp = 0; }
-            var _this = _super.call(this, vertexShaderSrc$6(detectShaderType(scriptIds, dom)[0], dom), fragmentShaderSrc$6(detectShaderType(scriptIds, dom)[1], dom), attribs, contextManager, levelUp + 1) || this;
+            var _this = _super.call(this, vertexShaderSrc$5(detectShaderType(scriptIds, dom)[0], dom), fragmentShaderSrc$5(detectShaderType(scriptIds, dom)[1], dom), attribs, contextManager, levelUp + 1) || this;
             _this.setLoggingName('HTMLScriptsMaterial');
             if (levelUp === 0) {
                 _this.synchUp();
@@ -23010,602 +24160,6 @@
         };
         return HTMLScriptsMaterial;
     }(ShaderMaterial));
-
-    /**
-     * Policy for how an attribute variable name is determined.
-     * @hidden
-     */
-    function getAttribVarName(attribute, varName) {
-        mustBeObject('attribute', attribute);
-        mustBeString('varName', varName);
-        return isDefined(attribute.name) ? mustBeString('attribute.name', attribute.name) : varName;
-    }
-
-    /**
-     * Policy for how a uniform variable name is determined.
-     * @hidden
-     */
-    function getUniformVarName(uniform, varName) {
-        expectArg('uniform', uniform).toBeObject();
-        expectArg('varName', varName).toBeString();
-        return isDefined(uniform.name) ? expectArg('uniform.name', uniform.name).toBeString().value : varName;
-    }
-
-    /**
-     * @hidden
-     */
-    var GLSLESVersion;
-    (function (GLSLESVersion) {
-        GLSLESVersion["OneHundred"] = "100";
-        GLSLESVersion["ThreeHundred"] = "300";
-    })(GLSLESVersion || (GLSLESVersion = {}));
-
-    /**
-     * @hidden
-     */
-    function getUniformCodeName$1(uniforms, name) {
-        return getUniformVarName(uniforms[name], name);
-    }
-    /**
-     * @hidden
-     */
-    function getFragColorVarName(version) {
-        if (version === GLSLESVersion.ThreeHundred) {
-            return "fragColor";
-        }
-        else {
-            return "gl_FragColor";
-        }
-    }
-    /**
-     * @hidden
-     */
-    function getFragmentShaderVaryingModifier(version) {
-        if (version === GLSLESVersion.ThreeHundred) {
-            return "in";
-        }
-        else {
-            return "varying";
-        }
-    }
-    /**
-     * @hidden
-     */
-    function getTexture2D(version) {
-        if (version === GLSLESVersion.ThreeHundred) {
-            return "texture";
-        }
-        else {
-            return "texture2D";
-        }
-    }
-    /**
-     * @hidden
-     */
-    function emitFragmentFloatPrecision(version) {
-        if (version === GLSLESVersion.ThreeHundred) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-    /**
-     * @hidden
-     */
-    var SPACE$1 = ' ';
-    /**
-     * @hidden
-     */
-    var UNIFORM$1 = 'uniform' + SPACE$1;
-    /**
-     * @hidden
-     */
-    var SEMICOLON$1 = ';';
-    /**
-     * Generates a fragment shader
-     * @hidden
-     */
-    function fragmentShaderSrc$5(attributes, uniforms, vColor, vCoords, vLight, version) {
-        mustBeDefined('attributes', attributes);
-        mustBeDefined('uniforms', uniforms);
-        mustBeBoolean(GraphicsProgramSymbols.VARYING_COLOR, vColor);
-        mustBeBoolean(GraphicsProgramSymbols.VARYING_COORDS, vCoords);
-        mustBeBoolean(GraphicsProgramSymbols.VARYING_LIGHT, vLight);
-        mustBeDefined('version', version);
-        var lines = [];
-        if (version === GLSLESVersion.ThreeHundred) {
-            lines.push("#version 300 es");
-        }
-        lines.push("// fragment shader generated by " + config.MARKETING_NAME + " " + config.VERSION);
-        // Only the fragment shader requires an explicit precision for floats.
-        // For fragment shaders, highp might not be available, which can be tested using the GL_FRAGMENT_PRECISION_HIGH macro.
-        if (emitFragmentFloatPrecision(version)) {
-            lines.push("#ifdef GL_FRAGMENT_PRECISION_HIGH");
-            lines.push("precision highp float;");
-            lines.push("#else");
-            lines.push("precision mediump float;");
-            lines.push("#endif");
-        }
-        if (vColor) {
-            lines.push(getFragmentShaderVaryingModifier(version) + " highp vec4 " + GraphicsProgramSymbols.VARYING_COLOR + ";");
-        }
-        if (vCoords) {
-            lines.push(getFragmentShaderVaryingModifier(version) + " highp vec2 " + GraphicsProgramSymbols.VARYING_COORDS + ";");
-        }
-        if (vLight) {
-            lines.push(getFragmentShaderVaryingModifier(version) + " highp vec3 " + GraphicsProgramSymbols.VARYING_LIGHT + ";");
-        }
-        for (var uName in uniforms) {
-            if (uniforms.hasOwnProperty(uName)) {
-                switch (uniforms[uName].glslType) {
-                    case 'sampler2D': {
-                        lines.push(UNIFORM$1 + uniforms[uName].glslType + SPACE$1 + getUniformCodeName$1(uniforms, uName) + SEMICOLON$1);
-                        break;
-                    }
-                }
-            }
-        }
-        // The color output variable must be declared explicitly.
-        if (version === GLSLESVersion.ThreeHundred) {
-            lines.push("out vec4 " + getFragColorVarName(version) + ";");
-        }
-        lines.push("void main(void) {");
-        if (vLight) {
-            if (vColor) {
-                if (vCoords && uniforms[GraphicsProgramSymbols.UNIFORM_IMAGE]) {
-                    lines.push("  " + getFragColorVarName(version) + " = " + getTexture2D(version) + "(" + GraphicsProgramSymbols.UNIFORM_IMAGE + ", " + GraphicsProgramSymbols.VARYING_COORDS + ") * vec4(" + GraphicsProgramSymbols.VARYING_COLOR + ".xyz * " + GraphicsProgramSymbols.VARYING_LIGHT + ", " + GraphicsProgramSymbols.VARYING_COLOR + ".a);");
-                }
-                else {
-                    lines.push("  " + getFragColorVarName(version) + " = vec4(" + GraphicsProgramSymbols.VARYING_COLOR + ".xyz * " + GraphicsProgramSymbols.VARYING_LIGHT + ", " + GraphicsProgramSymbols.VARYING_COLOR + ".a);");
-                }
-            }
-            else {
-                if (vCoords && uniforms[GraphicsProgramSymbols.UNIFORM_IMAGE]) {
-                    lines.push("  " + getFragColorVarName(version) + " = " + getTexture2D(version) + "(" + GraphicsProgramSymbols.UNIFORM_IMAGE + ", " + GraphicsProgramSymbols.VARYING_COORDS + ") * vec4(" + GraphicsProgramSymbols.VARYING_LIGHT + ", 1.0);");
-                }
-                else {
-                    lines.push("  " + getFragColorVarName(version) + " = vec4(" + GraphicsProgramSymbols.VARYING_LIGHT + ", 1.0);");
-                }
-            }
-        }
-        else {
-            if (vColor) {
-                if (vCoords && uniforms[GraphicsProgramSymbols.UNIFORM_IMAGE]) {
-                    lines.push("  " + getFragColorVarName(version) + " = " + getTexture2D(version) + "(" + GraphicsProgramSymbols.UNIFORM_IMAGE + ", " + GraphicsProgramSymbols.VARYING_COORDS + ") * " + GraphicsProgramSymbols.VARYING_COLOR + ";");
-                }
-                else {
-                    lines.push("  " + getFragColorVarName(version) + " = " + GraphicsProgramSymbols.VARYING_COLOR + ";");
-                }
-            }
-            else {
-                if (vCoords && uniforms[GraphicsProgramSymbols.UNIFORM_IMAGE]) {
-                    lines.push("  " + getFragColorVarName(version) + " = " + getTexture2D(version) + "(" + GraphicsProgramSymbols.UNIFORM_IMAGE + ", " + GraphicsProgramSymbols.VARYING_COORDS + ");");
-                }
-                else {
-                    lines.push("  " + getFragColorVarName(version) + " = vec4(1.0, 1.0, 1.0, 1.0);");
-                }
-            }
-        }
-        lines.push("}");
-        lines.push("");
-        var code = lines.join("\n");
-        return code;
-    }
-
-    /**
-     * @hidden
-     */
-    function sizeType(size) {
-        mustBeInteger('size', size);
-        switch (size) {
-            case 1: {
-                return 'float';
-            }
-            case 2: {
-                return 'vec2';
-            }
-            case 3: {
-                return 'vec3';
-            }
-            case 4: {
-                return 'vec4';
-            }
-            default: {
-                throw new Error("Can't compute the GLSL attribute type from size " + size);
-            }
-        }
-    }
-    /**
-     * @hidden
-     */
-    function glslAttribType(key, size) {
-        mustBeString('key', key);
-        mustBeInteger('size', size);
-        switch (key) {
-            case GraphicsProgramSymbols.ATTRIBUTE_COLOR: {
-                // No need to hard-code to 'vec3' anymore.
-                return sizeType(size);
-            }
-            default: {
-                return sizeType(size);
-            }
-        }
-    }
-
-    /**
-     * @hidden
-     */
-    function vColorRequired(attributes, uniforms) {
-        return !!attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] || !!uniforms[GraphicsProgramSymbols.UNIFORM_COLOR];
-    }
-
-    /**
-     * @hidden
-     */
-    function vCoordsRequired(attributes, uniforms) {
-        mustBeDefined('attributes', attributes);
-        mustBeDefined('uniforms', uniforms);
-        return !!attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS];
-    }
-
-    /**
-     * @hidden
-     */
-    function getUniformCodeName(uniforms, name) {
-        return getUniformVarName(uniforms[name], name);
-    }
-    /**
-     * @hidden
-     */
-    function getAttributeModifier(version) {
-        if (version === GLSLESVersion.ThreeHundred) {
-            return "in";
-        }
-        else {
-            return "attribute";
-        }
-    }
-    /**
-     * @hidden
-     */
-    function getVertexShaderVaryingModifier(version) {
-        if (version === GLSLESVersion.ThreeHundred) {
-            return "out";
-        }
-        else {
-            return "varying";
-        }
-    }
-    /**
-     * @hidden
-     */
-    var SPACE = ' ';
-    /**
-     * @hidden
-     */
-    var UNIFORM = 'uniform' + SPACE;
-    /**
-     * @hidden
-     */
-    var COMMA = ',' + SPACE;
-    /**
-     * @hidden
-     */
-    var SEMICOLON = ';';
-    /**
-     * @hidden
-     */
-    var LPAREN = '(';
-    /**
-     * @hidden
-     */
-    var RPAREN = ')';
-    /**
-     * @hidden
-     */
-    var TIMES = SPACE + '*' + SPACE;
-    /**
-     * @hidden
-     */
-    var ASSIGN = SPACE + '=' + SPACE;
-    /**
-     * @hidden
-     */
-    var DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME = "directionalLightCosineFactor";
-    /**
-     * Generates a vertex shader.
-     * @hidden
-     */
-    function vertexShaderSrc$5(attributes, uniforms, vColor, vCoords, vLight, version) {
-        mustBeDefined('attributes', attributes);
-        mustBeDefined('uniforms', uniforms);
-        mustBeBoolean(GraphicsProgramSymbols.VARYING_COLOR, vColor);
-        mustBeBoolean(GraphicsProgramSymbols.VARYING_COORDS, vCoords);
-        mustBeBoolean(GraphicsProgramSymbols.VARYING_LIGHT, vLight);
-        mustBeDefined('version', version);
-        var lines = [];
-        if (version === GLSLESVersion.ThreeHundred) {
-            lines.push("#version 300 es");
-        }
-        lines.push("// vertex shader generated by " + config.MARKETING_NAME + " " + config.VERSION);
-        // The precision is implicitly highp for vertex shaders.
-        // So there is no need to add preamble for changing the precision unless
-        // we want to lower the precision.
-        for (var aName in attributes) {
-            if (attributes.hasOwnProperty(aName)) {
-                lines.push(getAttributeModifier(version) + " " + attributes[aName].glslType + " " + getAttribVarName(attributes[aName], aName) + ";");
-            }
-        }
-        for (var uName in uniforms) {
-            if (uniforms.hasOwnProperty(uName)) {
-                switch (uniforms[uName].glslType) {
-                    case 'sampler2D': {
-                        break;
-                    }
-                    default: {
-                        lines.push(UNIFORM + uniforms[uName].glslType + SPACE + getUniformCodeName(uniforms, uName) + SEMICOLON);
-                    }
-                }
-            }
-        }
-        if (vColor) {
-            lines.push(getVertexShaderVaryingModifier(version) + " highp vec4 " + GraphicsProgramSymbols.VARYING_COLOR + ";");
-        }
-        if (vCoords) {
-            lines.push(getVertexShaderVaryingModifier(version) + " highp vec2 " + GraphicsProgramSymbols.VARYING_COORDS + ";");
-        }
-        if (vLight) {
-            lines.push(getVertexShaderVaryingModifier(version) + " highp vec3 " + GraphicsProgramSymbols.VARYING_LIGHT + ";");
-        }
-        lines.push("void main(void) {");
-        var glPosition = [];
-        glPosition.unshift(SEMICOLON);
-        if (attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION]) {
-            switch (attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION].glslType) {
-                case 'float': {
-                    // This case would be unusual; just providing an x-coordinate.
-                    // We must provide defaults for the y-, z-, and w-coordinates.
-                    glPosition.unshift(RPAREN);
-                    glPosition.unshift('1.0');
-                    glPosition.unshift(COMMA);
-                    glPosition.unshift('0.0');
-                    glPosition.unshift(COMMA);
-                    glPosition.unshift('0.0');
-                    glPosition.unshift(COMMA);
-                    glPosition.unshift(getAttribVarName(attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION], GraphicsProgramSymbols.ATTRIBUTE_POSITION));
-                    glPosition.unshift(LPAREN);
-                    glPosition.unshift('vec4');
-                    break;
-                }
-                case 'vec2': {
-                    // This case happens when the user wants to work in 2D.
-                    // We must provide a value for the homogeneous w-coordinate,
-                    // as well as the z-coordinate.
-                    glPosition.unshift(RPAREN);
-                    glPosition.unshift('1.0');
-                    glPosition.unshift(COMMA);
-                    glPosition.unshift('0.0');
-                    glPosition.unshift(COMMA);
-                    glPosition.unshift(getAttribVarName(attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION], GraphicsProgramSymbols.ATTRIBUTE_POSITION));
-                    glPosition.unshift(LPAREN);
-                    glPosition.unshift('vec4');
-                    break;
-                }
-                case 'vec3': {
-                    // This is probably the most common case, 3D but only x-, y-, z-coordinates.
-                    // We must provide a value for the homogeneous w-coordinate.
-                    glPosition.unshift(RPAREN);
-                    glPosition.unshift('1.0');
-                    glPosition.unshift(COMMA);
-                    glPosition.unshift(getAttribVarName(attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION], GraphicsProgramSymbols.ATTRIBUTE_POSITION));
-                    glPosition.unshift(LPAREN);
-                    glPosition.unshift('vec4');
-                    break;
-                }
-                case 'vec4': {
-                    // This happens when the use is working in homodeneous coordinates.
-                    // We don't need to use the constructor function at all.
-                    glPosition.unshift(getAttribVarName(attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION], GraphicsProgramSymbols.ATTRIBUTE_POSITION));
-                    break;
-                }
-            }
-        }
-        else {
-            glPosition.unshift("vec4(0.0, 0.0, 0.0, 1.0)");
-        }
-        // Reflections are applied first.
-        if (uniforms[GraphicsProgramSymbols.UNIFORM_REFLECTION_ONE_MATRIX]) {
-            glPosition.unshift(TIMES);
-            glPosition.unshift(getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_REFLECTION_ONE_MATRIX));
-        }
-        if (uniforms[GraphicsProgramSymbols.UNIFORM_REFLECTION_TWO_MATRIX]) {
-            glPosition.unshift(TIMES);
-            glPosition.unshift(getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_REFLECTION_TWO_MATRIX));
-        }
-        if (uniforms[GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX]) {
-            glPosition.unshift(TIMES);
-            glPosition.unshift(getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX));
-        }
-        if (uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX]) {
-            glPosition.unshift(TIMES);
-            glPosition.unshift(getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX));
-        }
-        if (uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX]) {
-            glPosition.unshift(TIMES);
-            glPosition.unshift(getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX));
-        }
-        glPosition.unshift(ASSIGN);
-        glPosition.unshift("gl_Position");
-        glPosition.unshift('  ');
-        lines.push(glPosition.join(''));
-        if (uniforms[GraphicsProgramSymbols.UNIFORM_POINT_SIZE]) {
-            lines.push("  gl_PointSize = " + getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_POINT_SIZE) + ";");
-        }
-        if (vColor) {
-            if (attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR]) {
-                var colorAttribVarName = getAttribVarName(attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR], GraphicsProgramSymbols.ATTRIBUTE_COLOR);
-                switch (attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR].glslType) {
-                    case 'vec4': {
-                        lines.push("  " + GraphicsProgramSymbols.VARYING_COLOR + " = " + colorAttribVarName + SEMICOLON);
-                        break;
-                    }
-                    case 'vec3': {
-                        if (uniforms[GraphicsProgramSymbols.UNIFORM_OPACITY]) {
-                            lines.push("  " + GraphicsProgramSymbols.VARYING_COLOR + " = vec4(" + colorAttribVarName + ", " + getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_OPACITY) + ");");
-                        }
-                        else {
-                            lines.push("  " + GraphicsProgramSymbols.VARYING_COLOR + " = vec4(" + colorAttribVarName + ", 1.0);");
-                        }
-                        break;
-                    }
-                    default: {
-                        throw new Error("Unexpected type for color attribute: " + attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR].glslType);
-                    }
-                }
-            }
-            else if (uniforms[GraphicsProgramSymbols.UNIFORM_COLOR]) {
-                var colorUniformVarName = getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_COLOR);
-                switch (uniforms[GraphicsProgramSymbols.UNIFORM_COLOR].glslType) {
-                    case 'vec4': {
-                        lines.push("  vColor = " + colorUniformVarName + SEMICOLON);
-                        break;
-                    }
-                    case 'vec3': {
-                        if (uniforms[GraphicsProgramSymbols.UNIFORM_OPACITY]) {
-                            lines.push("  " + GraphicsProgramSymbols.VARYING_COLOR + " = vec4(" + colorUniformVarName + ", " + getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_OPACITY) + ");");
-                        }
-                        else {
-                            lines.push("  " + GraphicsProgramSymbols.VARYING_COLOR + " = vec4(" + colorUniformVarName + ", 1.0);");
-                        }
-                        break;
-                    }
-                    default: {
-                        throw new Error("Unexpected type for color uniform: " + uniforms[GraphicsProgramSymbols.UNIFORM_COLOR].glslType);
-                    }
-                }
-            }
-            else {
-                lines.push("  " + GraphicsProgramSymbols.VARYING_COLOR + " = vec4(1.0, 1.0, 1.0, 1.0);");
-            }
-        }
-        if (vCoords) {
-            lines.push("  " + GraphicsProgramSymbols.VARYING_COORDS + " = " + GraphicsProgramSymbols.ATTRIBUTE_COORDS + ";");
-        }
-        if (vLight) {
-            if (uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR] && uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION] && uniforms[GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX] && attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL]) {
-                lines.push("  vec3 L = normalize(" + getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION) + ");");
-                lines.push("  vec3 N = normalize(" + getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX) + " * " + getAttribVarName(attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL], GraphicsProgramSymbols.ATTRIBUTE_NORMAL) + ");");
-                lines.push("  // The minus sign arises because L is the light direction, so we need dot(N, -L) = -dot(N, L)");
-                lines.push("  float " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " = max(-dot(N, L), 0.0);");
-                if (uniforms[GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT]) {
-                    lines.push("  " + GraphicsProgramSymbols.VARYING_LIGHT + " = " + getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT) + " + " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " * " + getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR) + ";");
-                }
-                else {
-                    lines.push("  " + GraphicsProgramSymbols.VARYING_LIGHT + " = " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " * " + getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR) + ";");
-                }
-            }
-            else {
-                if (uniforms[GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT]) {
-                    lines.push("  " + GraphicsProgramSymbols.VARYING_LIGHT + " = " + getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT) + ";");
-                }
-                else {
-                    lines.push("  " + GraphicsProgramSymbols.VARYING_LIGHT + " = vec3(1.0, 1.0, 1.0);");
-                }
-            }
-        }
-        lines.push("}");
-        lines.push("");
-        var code = lines.join("\n");
-        return code;
-    }
-
-    /**
-     * @hidden
-     */
-    function vLightRequired(attributes, uniforms) {
-        mustBeDefined('attributes', attributes);
-        mustBeDefined('uniforms', uniforms);
-        return !!uniforms[GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT] || (!!uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR] && !!uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR]);
-    }
-
-    /**
-     * @hidden
-     */
-    function computeAttribParams(values) {
-        var result = {};
-        var keys = Object.keys(values);
-        var keysLength = keys.length;
-        for (var i = 0; i < keysLength; i++) {
-            var key = keys[i];
-            var attribute = values[key];
-            mustBeInteger('size', attribute.size);
-            var varName = getAttribVarName(attribute, key);
-            result[varName] = { glslType: glslAttribType(key, attribute.size) };
-        }
-        return result;
-    }
-    /**
-     * GraphicsProgramBuilder is the builder pattern for generating vertex and fragment shader source code.
-     * @hidden
-     */
-    var GraphicsProgramBuilder = /** @class */ (function () {
-        /**
-         * @param primitive
-         */
-        function GraphicsProgramBuilder(primitive) {
-            this.aMeta = {};
-            this.uParams = {};
-            this._version = GLSLESVersion.OneHundred;
-            if (primitive) {
-                var attributes = primitive.attributes;
-                var keys = Object.keys(attributes);
-                for (var i = 0, iLength = keys.length; i < iLength; i++) {
-                    var key = keys[i];
-                    var attribute = attributes[key];
-                    this.attribute(key, attribute.size);
-                }
-            }
-        }
-        GraphicsProgramBuilder.prototype.attribute = function (name, size) {
-            mustBeString('name', name);
-            mustBeInteger('size', size);
-            this.aMeta[name] = { size: size };
-            return this;
-        };
-        GraphicsProgramBuilder.prototype.uniform = function (name, glslType) {
-            mustBeString('name', name);
-            mustBeString('glslType', glslType);
-            this.uParams[name] = { glslType: glslType };
-            return this;
-        };
-        GraphicsProgramBuilder.prototype.version = function (version) {
-            mustBeDefined("version", version);
-            this._version = version;
-            return this;
-        };
-        /**
-         * Computes vertex shader source code consistent with the state of this builder.
-         */
-        GraphicsProgramBuilder.prototype.vertexShaderSrc = function () {
-            var aParams = computeAttribParams(this.aMeta);
-            var vColor = vColorRequired(aParams, this.uParams);
-            var vCoords = vCoordsRequired(aParams, this.uParams);
-            var vLight = vLightRequired(aParams, this.uParams);
-            return vertexShaderSrc$5(aParams, this.uParams, vColor, vCoords, vLight, this._version);
-        };
-        /**
-         * Computes fragment shader source code consistent with the state of this builder.
-         */
-        GraphicsProgramBuilder.prototype.fragmentShaderSrc = function () {
-            var aParams = computeAttribParams(this.aMeta);
-            var vColor = vColorRequired(aParams, this.uParams);
-            var vCoords = vCoordsRequired(aParams, this.uParams);
-            var vLight = vLightRequired(aParams, this.uParams);
-            return fragmentShaderSrc$5(aParams, this.uParams, vColor, vCoords, vLight, this._version);
-        };
-        return GraphicsProgramBuilder;
-    }());
 
     /**
      * Returns a GLSL version (usually for the purpose of automatically writing shaders).
@@ -24347,94 +24901,6 @@
     /**
      * @hidden
      */
-    function getCanvasElementById(elementId, dom) {
-        if (dom === void 0) { dom = window.document; }
-        mustBeString('elementId', elementId);
-        mustBeObject('document', dom);
-        var element = dom.getElementById(elementId);
-        if (element instanceof HTMLCanvasElement) {
-            return element;
-        }
-        else {
-            throw new Error(elementId + " is not an HTMLCanvasElement.");
-        }
-    }
-
-    /**
-     * @hidden
-     */
-    var NumberShareableMap = /** @class */ (function (_super) {
-        __extends(NumberShareableMap, _super);
-        function NumberShareableMap() {
-            var _this = _super.call(this) || this;
-            _this._elements = {};
-            _this.setLoggingName('NumberShareableMap');
-            return _this;
-        }
-        NumberShareableMap.prototype.destructor = function (levelUp) {
-            this.forEach(function (key, value) {
-                if (value) {
-                    value.release();
-                }
-            });
-            this._elements = void 0;
-            _super.prototype.destructor.call(this, levelUp + 1);
-        };
-        NumberShareableMap.prototype.exists = function (key) {
-            var element = this._elements[key];
-            return element ? true : false;
-        };
-        NumberShareableMap.prototype.get = function (key) {
-            var element = this.getWeakRef(key);
-            if (element) {
-                element.addRef();
-            }
-            return element;
-        };
-        NumberShareableMap.prototype.getWeakRef = function (index) {
-            return this._elements[index];
-        };
-        NumberShareableMap.prototype.put = function (key, value) {
-            if (value) {
-                value.addRef();
-            }
-            this.putWeakRef(key, value);
-        };
-        NumberShareableMap.prototype.putWeakRef = function (key, value) {
-            var elements = this._elements;
-            var existing = elements[key];
-            if (existing) {
-                existing.release();
-            }
-            elements[key] = value;
-        };
-        NumberShareableMap.prototype.forEach = function (callback) {
-            var keys = this.keys;
-            for (var i = 0, iLength = keys.length; i < iLength; i++) {
-                var key = keys[i];
-                var value = this._elements[key];
-                callback(key, value);
-            }
-        };
-        Object.defineProperty(NumberShareableMap.prototype, "keys", {
-            get: function () {
-                // FIXME: cache? Maybe, clients may use this to iterate. forEach is too slow.
-                return Object.keys(this._elements).map(function (keyString) { return parseFloat(keyString); });
-            },
-            enumerable: false,
-            configurable: true
-        });
-        NumberShareableMap.prototype.remove = function (key) {
-            // Strong or Weak doesn't matter because the value is `undefined`.
-            this.put(key, void 0);
-            delete this._elements[key];
-        };
-        return NumberShareableMap;
-    }(ShareableBase));
-
-    /**
-     * @hidden
-     */
     function defaultSetUp() {
         // Do nothing yet.
     }
@@ -24572,6 +25038,23 @@
 
     /**
      * @hidden
+     */
+    function getCanvasElementById(elementId, dom) {
+        if (dom === void 0) { dom = window.document; }
+        mustBeString('elementId', elementId);
+        mustBeObject('document', dom);
+        var element = dom.getElementById(elementId);
+        if (element instanceof HTMLCanvasElement) {
+            return element;
+        }
+        else {
+            throw new Error(elementId + " is not an HTMLCanvasElement.");
+        }
+    }
+
+    /**
+     * @hidden
+     * @returns The Euclidean magnitude of the vector.
      */
     function normVectorE3(vector) {
         var x = vector.x;
@@ -24882,8 +25365,8 @@
             geoOptions.tilt = spinorE3Object(options.tilt);
             geoOptions.axis = vectorE3Object(referenceAxis(options, ds.axis).direction());
             geoOptions.meridian = vectorE3Object(referenceMeridian(options, ds.meridian).direction());
-            geoOptions.radiusCone = radiusConeFromOptions(options, 0.08);
-            geoOptions.thetaSegments = thetaSegmentsFromOptions(options, 16);
+            geoOptions.radiusCone = radiusConeFromOptions$1(options, 0.08);
+            geoOptions.thetaSegments = thetaSegmentsFromOptions$2(options, 16);
             var geometry = new ArrowGeometry(contextManager, geoOptions);
             _this.geometry = geometry;
             geometry.release();
@@ -24947,10 +25430,342 @@
         });
         return Arrow;
     }(Mesh));
+    function radiusConeFromOptions$1(options, defaultValue) {
+        if (options) {
+            if (typeof options.radiusCone === 'number') {
+                return options.radiusCone;
+            }
+            else {
+                return defaultValue;
+            }
+        }
+        else {
+            return defaultValue;
+        }
+    }
+    function thetaSegmentsFromOptions$2(options, defaultValue) {
+        if (options) {
+            if (typeof options.thetaSegments === 'number') {
+                return options.thetaSegments;
+            }
+            else {
+                return defaultValue;
+            }
+        }
+        else {
+            return defaultValue;
+        }
+    }
+
+    /**
+     * @hidden
+     */
+    var ArrowHeadGeometry = /** @class */ (function (_super) {
+        __extends(ArrowHeadGeometry, _super);
+        /**
+         *
+         */
+        function ArrowHeadGeometry(contextManager, options, levelUp) {
+            if (options === void 0) { options = {}; }
+            if (levelUp === void 0) { levelUp = 0; }
+            var _this = _super.call(this, contextManager, arrowHeadPrimitive(options), options, levelUp + 1) || this;
+            _this.setLoggingName('ArrowHeadGeometry');
+            if (levelUp === 0) {
+                _this.synchUp();
+            }
+            return _this;
+        }
+        /**
+         *
+         */
+        ArrowHeadGeometry.prototype.resurrector = function (levelUp) {
+            _super.prototype.resurrector.call(this, levelUp + 1);
+            this.setLoggingName('ArrowHeadGeometry');
+            if (levelUp === 0) {
+                this.synchUp();
+            }
+        };
+        /**
+         *
+         */
+        ArrowHeadGeometry.prototype.destructor = function (levelUp) {
+            if (levelUp === 0) {
+                this.cleanUp();
+            }
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        return ArrowHeadGeometry;
+    }(GeometryElements));
+
+    /**
+     * @hidden
+     */
+    var ArrowHead = /** @class */ (function (_super) {
+        __extends(ArrowHead, _super);
+        /**
+         * @param contextManager This will usually be provided by the `Engine`.
+         * @param options
+         * @param levelUp Leave as zero unless you are extending this class.
+         */
+        function ArrowHead(contextManager, options, levelUp) {
+            if (options === void 0) { options = {}; }
+            if (levelUp === void 0) { levelUp = 0; }
+            var _this = _super.call(this, void 0, void 0, contextManager, { axis: referenceAxis(options, ds.axis).direction(), meridian: referenceMeridian(options, ds.meridian).direction() }, levelUp + 1) || this;
+            _this.setLoggingName('Arrow');
+            var geoOptions = {};
+            geoOptions.offset = offsetFromOptions(options);
+            geoOptions.tilt = spinorE3Object(options.tilt);
+            geoOptions.axis = vectorE3Object(referenceAxis(options, ds.axis).direction());
+            geoOptions.meridian = vectorE3Object(referenceMeridian(options, ds.meridian).direction());
+            geoOptions.heightCone = heightConeFromOptions(options, 0.20);
+            geoOptions.radiusCone = radiusConeFromOptions(options, 0.08);
+            geoOptions.thetaSegments = thetaSegmentsFromOptions$1(options, 16);
+            var geometry = new ArrowHeadGeometry(contextManager, geoOptions);
+            _this.geometry = geometry;
+            geometry.release();
+            var material = materialFromOptions(contextManager, simplexModeFromOptions(options, SimplexMode.TRIANGLE), options);
+            _this.material = material;
+            material.release();
+            setAxisAndMeridian(_this, options);
+            setColorOption(_this, options, Color.gray);
+            setDeprecatedOptions(_this, options);
+            if (isDefined(options.length)) {
+                _this.length = mustBeNumber('length', options.length);
+            }
+            if (levelUp === 0) {
+                _this.synchUp();
+            }
+            return _this;
+        }
+        /**
+         * @hidden
+         */
+        ArrowHead.prototype.destructor = function (levelUp) {
+            if (levelUp === 0) {
+                this.cleanUp();
+            }
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        Object.defineProperty(ArrowHead.prototype, "vector", {
+            /**
+             * The vector that is represented by the Arrow.
+             *
+             * magnitude(Arrow.vector) = Arrow.length
+             * direction(Arrow.vector) = Arrow.axis
+             * Arrow.vector = Arrow.length * Arrow.axis
+             */
+            get: function () {
+                return _super.prototype.getAxis.call(this).scale(this.length);
+            },
+            set: function (axis) {
+                this.length = normVectorE3(axis);
+                // Don't try to set the direction for the zero vector.
+                if (this.length !== 0) {
+                    this.setAxis(axis);
+                }
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(ArrowHead.prototype, "length", {
+            /**
+             * The length of the Arrow.
+             * This property determines the scaling of the Arrow in all directions.
+             */
+            get: function () {
+                return this.getScaleX();
+            },
+            set: function (length) {
+                this.setScale(length, length, length);
+            },
+            enumerable: false,
+            configurable: true
+        });
+        return ArrowHead;
+    }(Mesh));
+    function heightConeFromOptions(options, defaultValue) {
+        if (options) {
+            if (typeof options.heightCone === 'number') {
+                return options.heightCone;
+            }
+            else {
+                return defaultValue;
+            }
+        }
+        else {
+            return defaultValue;
+        }
+    }
     function radiusConeFromOptions(options, defaultValue) {
         if (options) {
             if (typeof options.radiusCone === 'number') {
                 return options.radiusCone;
+            }
+            else {
+                return defaultValue;
+            }
+        }
+        else {
+            return defaultValue;
+        }
+    }
+    function thetaSegmentsFromOptions$1(options, defaultValue) {
+        if (options) {
+            if (typeof options.thetaSegments === 'number') {
+                return options.thetaSegments;
+            }
+            else {
+                return defaultValue;
+            }
+        }
+        else {
+            return defaultValue;
+        }
+    }
+
+    /**
+     * @hidden
+     */
+    var ArrowTailGeometry = /** @class */ (function (_super) {
+        __extends(ArrowTailGeometry, _super);
+        /**
+         *
+         */
+        function ArrowTailGeometry(contextManager, options, levelUp) {
+            if (options === void 0) { options = {}; }
+            if (levelUp === void 0) { levelUp = 0; }
+            var _this = _super.call(this, contextManager, arrowTailPrimitive(options), options, levelUp + 1) || this;
+            _this.setLoggingName('ArrowTailGeometry');
+            if (levelUp === 0) {
+                _this.synchUp();
+            }
+            return _this;
+        }
+        /**
+         *
+         */
+        ArrowTailGeometry.prototype.resurrector = function (levelUp) {
+            _super.prototype.resurrector.call(this, levelUp + 1);
+            this.setLoggingName('ArrowTailGeometry');
+            if (levelUp === 0) {
+                this.synchUp();
+            }
+        };
+        /**
+         *
+         */
+        ArrowTailGeometry.prototype.destructor = function (levelUp) {
+            if (levelUp === 0) {
+                this.cleanUp();
+            }
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        return ArrowTailGeometry;
+    }(GeometryElements));
+
+    /**
+     * @hidden
+     */
+    var ArrowTail = /** @class */ (function (_super) {
+        __extends(ArrowTail, _super);
+        /**
+         * @param contextManager This will usually be provided by the `Engine`.
+         * @param options
+         * @param levelUp Leave as zero unless you are extending this class.
+         */
+        function ArrowTail(contextManager, options, levelUp) {
+            if (options === void 0) { options = {}; }
+            if (levelUp === void 0) { levelUp = 0; }
+            var _this = _super.call(this, void 0, void 0, contextManager, { axis: referenceAxis(options, ds.axis).direction(), meridian: referenceMeridian(options, ds.meridian).direction() }, levelUp + 1) || this;
+            _this.setLoggingName('Arrow');
+            var geoOptions = {};
+            geoOptions.offset = offsetFromOptions(options);
+            geoOptions.tilt = spinorE3Object(options.tilt);
+            geoOptions.axis = vectorE3Object(referenceAxis(options, ds.axis).direction());
+            geoOptions.meridian = vectorE3Object(referenceMeridian(options, ds.meridian).direction());
+            geoOptions.heightShaft = heightShaftFromOptions(options, 0.80);
+            geoOptions.radiusShaft = radiusShaftFromOptions(options, 0.01);
+            geoOptions.thetaSegments = thetaSegmentsFromOptions(options, 16);
+            var geometry = new ArrowTailGeometry(contextManager, geoOptions);
+            _this.geometry = geometry;
+            geometry.release();
+            var material = materialFromOptions(contextManager, simplexModeFromOptions(options, SimplexMode.TRIANGLE), options);
+            _this.material = material;
+            material.release();
+            setAxisAndMeridian(_this, options);
+            setColorOption(_this, options, Color.gray);
+            setDeprecatedOptions(_this, options);
+            if (isDefined(options.length)) {
+                _this.length = mustBeNumber('length', options.length);
+            }
+            if (levelUp === 0) {
+                _this.synchUp();
+            }
+            return _this;
+        }
+        /**
+         * @hidden
+         */
+        ArrowTail.prototype.destructor = function (levelUp) {
+            if (levelUp === 0) {
+                this.cleanUp();
+            }
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        Object.defineProperty(ArrowTail.prototype, "vector", {
+            /**
+             * The vector that is represented by the Arrow.
+             *
+             * magnitude(Arrow.vector) = Arrow.length
+             * direction(Arrow.vector) = Arrow.axis
+             * Arrow.vector = Arrow.length * Arrow.axis
+             */
+            get: function () {
+                return _super.prototype.getAxis.call(this).scale(this.length);
+            },
+            set: function (axis) {
+                this.length = normVectorE3(axis);
+                // Don't try to set the direction for the zero vector.
+                if (this.length !== 0) {
+                    this.setAxis(axis);
+                }
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(ArrowTail.prototype, "length", {
+            /**
+             * The length of the Arrow.
+             * This property determines the scaling of the Arrow in all directions.
+             */
+            get: function () {
+                return this.getScaleX();
+            },
+            set: function (length) {
+                this.setScale(length, length, length);
+            },
+            enumerable: false,
+            configurable: true
+        });
+        return ArrowTail;
+    }(Mesh));
+    function heightShaftFromOptions(options, defaultValue) {
+        if (options) {
+            if (typeof options.heightShaft === 'number') {
+                return options.heightShaft;
+            }
+            else {
+                return defaultValue;
+            }
+        }
+        else {
+            return defaultValue;
+        }
+    }
+    function radiusShaftFromOptions(options, defaultValue) {
+        if (options) {
+            if (typeof options.radiusShaft === 'number') {
+                return options.radiusShaft;
             }
             else {
                 return defaultValue;
@@ -24973,6 +25788,158 @@
             return defaultValue;
         }
     }
+
+    /**
+     * An arrow with a fixed head and variable length.
+     */
+    var ArrowFH = /** @class */ (function () {
+        /**
+         * @param contextManager This will usually be provided by the `Engine`.
+         * @param options
+         * @param levelUp Leave as zero unless you are extending this class.
+         */
+        function ArrowFH(contextManager, options, levelUp) {
+            if (options === void 0) { options = {}; }
+            if (levelUp === void 0) { levelUp = 0; }
+            this.$vector = Geometric3.zero(false);
+            this.head = new ArrowHead(contextManager, options, levelUp);
+            this.tail = new ArrowTail(contextManager, options, levelUp);
+            this.$vector.copyVector(this.head.vector).addVector(this.tail.vector);
+            this.$vectorLock = this.$vector.lock();
+        }
+        ArrowFH.prototype.render = function (ambients) {
+            this.head.render(ambients);
+            this.tail.render(ambients);
+        };
+        ArrowFH.prototype.contextFree = function () {
+            this.head.contextFree();
+            this.tail.contextFree();
+        };
+        ArrowFH.prototype.contextGain = function () {
+            this.head.contextGain();
+            this.tail.contextGain();
+        };
+        ArrowFH.prototype.contextLost = function () {
+            this.head.contextLost();
+            this.tail.contextLost();
+        };
+        ArrowFH.prototype.addRef = function () {
+            this.head.addRef();
+            return this.tail.addRef();
+        };
+        ArrowFH.prototype.release = function () {
+            this.head.release();
+            return this.tail.release();
+        };
+        Object.defineProperty(ArrowFH.prototype, "vector", {
+            /**
+             * The vector that is represented by the Arrow.
+             *
+             * magnitude(Arrow.vector) = Arrow.length
+             * direction(Arrow.vector) = Arrow.axis
+             * Arrow.vector = Arrow.length * Arrow.axis
+             */
+            get: function () {
+                return this.$vector;
+            },
+            set: function (vector) {
+                this.length = normVectorE3(vector);
+                // Don't try to set the direction for the zero vector.
+                if (this.length !== 0) {
+                    this.head.axis = vector;
+                    this.tail.axis = vector;
+                }
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(ArrowFH.prototype, "length", {
+            /**
+             * The length of the Arrow.
+             * This property determines the scaling of the Arrow in all directions.
+             */
+            get: function () {
+                return this.head.length + this.tail.length;
+            },
+            set: function (length) {
+                var h = length * 0.2;
+                var t = length * 0.8;
+                this.head.length = h;
+                this.tail.length = t;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        ArrowFH.prototype.isZombie = function () {
+            if (this.head.isZombie()) {
+                if (this.tail.isZombie()) {
+                    return true;
+                }
+                else {
+                    throw new Error();
+                }
+            }
+            else {
+                if (this.tail.isZombie()) {
+                    throw new Error();
+                }
+                else {
+                    return false;
+                }
+            }
+        };
+        Object.defineProperty(ArrowFH.prototype, "X", {
+            get: function () {
+                return this.tail.X;
+            },
+            set: function (X) {
+                this.tail.X = X;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(ArrowFH.prototype, "position", {
+            get: function () {
+                return this.tail.position;
+            },
+            set: function (position) {
+                this.tail.position = position;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(ArrowFH.prototype, "R", {
+            get: function () {
+                return this.tail.R;
+            },
+            set: function (R) {
+                this.tail.R = R;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(ArrowFH.prototype, "attitude", {
+            get: function () {
+                return this.tail.attitude;
+            },
+            set: function (attitude) {
+                this.tail.attitude = attitude;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(ArrowFH.prototype, "axis", {
+            get: function () {
+                return this.tail.axis;
+            },
+            set: function (axis) {
+                this.tail.axis = axis;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        return ArrowFH;
+    }());
 
     /**
      * @hidden
@@ -25219,76 +26186,6 @@
     }
 
     /**
-     * @hidden
-     */
-    var RADIUS_NAME = 'radius';
-    /**
-     *
-     */
-    var Sphere = /** @class */ (function (_super) {
-        __extends(Sphere, _super);
-        /**
-         * @param contextManager This will usually be provided by the `Engine`.
-         * @param options
-         * @param levelUp Leave as zero unless you are extending this class.
-         */
-        function Sphere(contextManager, options, levelUp) {
-            if (options === void 0) { options = {}; }
-            if (levelUp === void 0) { levelUp = 0; }
-            var _this = _super.call(this, void 0, void 0, contextManager, { axis: referenceAxis(options, ds.axis).direction(), meridian: referenceMeridian(options, ds.meridian).direction() }, levelUp + 1) || this;
-            _this.setLoggingName('Sphere');
-            var geoMode = geometryModeFromOptions(options);
-            var geoOptions = { kind: 'SphereGeometry' };
-            geoOptions.mode = geoMode;
-            geoOptions.azimuthSegments = options.azimuthSegments;
-            geoOptions.azimuthStart = options.azimuthStart;
-            geoOptions.azimuthLength = options.azimuthLength;
-            geoOptions.elevationLength = options.elevationLength;
-            geoOptions.elevationSegments = options.elevationSegments;
-            geoOptions.elevationStart = options.elevationStart;
-            geoOptions.axis = vectorE3Object(referenceAxis(options, ds.axis).direction());
-            geoOptions.meridian = vectorE3Object(referenceMeridian(options, ds.meridian).direction());
-            geoOptions.stress = void 0;
-            geoOptions.tilt = spinorE3Object(options.tilt);
-            geoOptions.offset = offsetFromOptions(options);
-            var geometry = new SphereGeometry(contextManager, geoOptions);
-            _this.geometry = geometry;
-            geometry.release();
-            var material = materialFromOptions(contextManager, simplexModeFromOptions(options, SimplexMode.TRIANGLE), options);
-            _this.material = material;
-            material.release();
-            setAxisAndMeridian(_this, options);
-            setColorOption(_this, options, options.textured ? Color.white : Color.gray);
-            setDeprecatedOptions(_this, options);
-            _this.radius = isDefined(options.radius) ? mustBeNumber(RADIUS_NAME, options.radius) : ds.radius;
-            if (levelUp === 0) {
-                _this.synchUp();
-            }
-            return _this;
-        }
-        /**
-         * @hidden
-         */
-        Sphere.prototype.destructor = function (levelUp) {
-            if (levelUp === 0) {
-                this.cleanUp();
-            }
-            _super.prototype.destructor.call(this, levelUp + 1);
-        };
-        Object.defineProperty(Sphere.prototype, "radius", {
-            get: function () {
-                return this.getScaleX();
-            },
-            set: function (radius) {
-                this.setScale(radius, radius, radius);
-            },
-            enumerable: false,
-            configurable: true
-        });
-        return Sphere;
-    }(Mesh));
-
-    /**
      * A 3D visual representation of a box.
      */
     var Box = /** @class */ (function (_super) {
@@ -25393,91 +26290,6 @@
             configurable: true
         });
         return Box;
-    }(Mesh));
-
-    /**
-     * A 3D visual representation of a cylinder.
-     */
-    var Cylinder = /** @class */ (function (_super) {
-        __extends(Cylinder, _super);
-        /**
-         * @param contextManager This will usually be provided by the `Engine`.
-         * @param options
-         * @param levelUp Leave as zero unless you are extending this class.
-         */
-        function Cylinder(contextManager, options, levelUp) {
-            if (options === void 0) { options = {}; }
-            if (levelUp === void 0) { levelUp = 0; }
-            var _this = _super.call(this, void 0, void 0, contextManager, { axis: referenceAxis(options, ds.axis).direction(), meridian: referenceMeridian(options, ds.meridian).direction() }, levelUp + 1) || this;
-            _this.setLoggingName('Cylinder');
-            var geoOptions = { kind: 'CylinderGeometry' };
-            geoOptions.mode = geometryModeFromOptions(options);
-            geoOptions.offset = offsetFromOptions(options);
-            geoOptions.tilt = spinorE3Object(options.tilt);
-            geoOptions.axis = vectorE3Object(referenceAxis(options, ds.axis).direction());
-            geoOptions.meridian = vectorE3Object(referenceMeridian(options, ds.meridian).direction());
-            geoOptions.openCap = options.openCap;
-            geoOptions.openBase = options.openBase;
-            geoOptions.openWall = options.openWall;
-            geoOptions.heightSegments = options.heightSegments;
-            geoOptions.thetaSegments = options.thetaSegments;
-            var geometry = new CylinderGeometry(contextManager, geoOptions);
-            _this.geometry = geometry;
-            geometry.release();
-            var material = materialFromOptions(contextManager, simplexModeFromOptions(options, SimplexMode.TRIANGLE), options);
-            _this.material = material;
-            material.release();
-            setAxisAndMeridian(_this, options);
-            setColorOption(_this, options, options.textured ? Color.white : Color.gray);
-            setDeprecatedOptions(_this, options);
-            _this.radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : ds.radius;
-            if (isDefined(options.length)) {
-                _this.length = mustBeNumber('length', options.length);
-            }
-            if (levelUp === 0) {
-                _this.synchUp();
-            }
-            return _this;
-        }
-        /**
-         * @hidden
-         */
-        Cylinder.prototype.destructor = function (levelUp) {
-            if (levelUp === 0) {
-                this.cleanUp();
-            }
-            _super.prototype.destructor.call(this, levelUp + 1);
-        };
-        Object.defineProperty(Cylinder.prototype, "length", {
-            /**
-             * The length of the cylinder, a scalar. Defaults to 1.
-             */
-            get: function () {
-                return this.getScaleY();
-            },
-            set: function (length) {
-                var x = this.getScaleX();
-                var z = this.getScaleZ();
-                this.setScale(x, length, z);
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(Cylinder.prototype, "radius", {
-            /**
-             * The radius of the cylinder, a scalar. Defaults to 1.
-             */
-            get: function () {
-                return this.getScaleX();
-            },
-            set: function (radius) {
-                var y = this.getScaleY();
-                this.setScale(radius, y, radius);
-            },
-            enumerable: false,
-            configurable: true
-        });
-        return Cylinder;
     }(Mesh));
 
     /**
@@ -25657,6 +26469,91 @@
     }(Mesh));
 
     /**
+     * A 3D visual representation of a cylinder.
+     */
+    var Cylinder = /** @class */ (function (_super) {
+        __extends(Cylinder, _super);
+        /**
+         * @param contextManager This will usually be provided by the `Engine`.
+         * @param options
+         * @param levelUp Leave as zero unless you are extending this class.
+         */
+        function Cylinder(contextManager, options, levelUp) {
+            if (options === void 0) { options = {}; }
+            if (levelUp === void 0) { levelUp = 0; }
+            var _this = _super.call(this, void 0, void 0, contextManager, { axis: referenceAxis(options, ds.axis).direction(), meridian: referenceMeridian(options, ds.meridian).direction() }, levelUp + 1) || this;
+            _this.setLoggingName('Cylinder');
+            var geoOptions = { kind: 'CylinderGeometry' };
+            geoOptions.mode = geometryModeFromOptions(options);
+            geoOptions.offset = offsetFromOptions(options);
+            geoOptions.tilt = spinorE3Object(options.tilt);
+            geoOptions.axis = vectorE3Object(referenceAxis(options, ds.axis).direction());
+            geoOptions.meridian = vectorE3Object(referenceMeridian(options, ds.meridian).direction());
+            geoOptions.openCap = options.openCap;
+            geoOptions.openBase = options.openBase;
+            geoOptions.openWall = options.openWall;
+            geoOptions.heightSegments = options.heightSegments;
+            geoOptions.thetaSegments = options.thetaSegments;
+            var geometry = new CylinderGeometry(contextManager, geoOptions);
+            _this.geometry = geometry;
+            geometry.release();
+            var material = materialFromOptions(contextManager, simplexModeFromOptions(options, SimplexMode.TRIANGLE), options);
+            _this.material = material;
+            material.release();
+            setAxisAndMeridian(_this, options);
+            setColorOption(_this, options, options.textured ? Color.white : Color.gray);
+            setDeprecatedOptions(_this, options);
+            _this.radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : ds.radius;
+            if (isDefined(options.length)) {
+                _this.length = mustBeNumber('length', options.length);
+            }
+            if (levelUp === 0) {
+                _this.synchUp();
+            }
+            return _this;
+        }
+        /**
+         * @hidden
+         */
+        Cylinder.prototype.destructor = function (levelUp) {
+            if (levelUp === 0) {
+                this.cleanUp();
+            }
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        Object.defineProperty(Cylinder.prototype, "length", {
+            /**
+             * The length of the cylinder, a scalar. Defaults to 1.
+             */
+            get: function () {
+                return this.getScaleY();
+            },
+            set: function (length) {
+                var x = this.getScaleX();
+                var z = this.getScaleZ();
+                this.setScale(x, length, z);
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(Cylinder.prototype, "radius", {
+            /**
+             * The radius of the cylinder, a scalar. Defaults to 1.
+             */
+            get: function () {
+                return this.getScaleX();
+            },
+            set: function (radius) {
+                var y = this.getScaleY();
+                this.setScale(radius, y, radius);
+            },
+            enumerable: false,
+            configurable: true
+        });
+        return Cylinder;
+    }(Mesh));
+
+    /**
      * Determines whether the actual options supplied are expected.
      *
      * Usage:
@@ -25674,20 +26571,6 @@
                 throw new Error(actual + " is not one of the expected options: " + JSON.stringify(expects, null, 2) + ".");
             }
         }
-    }
-
-    /**
-     * @hidden
-     */
-    function beFunction() {
-        return "be a function";
-    }
-    /**
-     * @hidden
-     */
-    function mustBeFunction(name, value, contextBuilder) {
-        mustSatisfy(name, isFunction(value), beFunction, contextBuilder);
-        return value;
     }
 
     /**
@@ -27535,6 +28418,76 @@
     }());
 
     /**
+     * @hidden
+     */
+    var RADIUS_NAME = 'radius';
+    /**
+     *
+     */
+    var Sphere = /** @class */ (function (_super) {
+        __extends(Sphere, _super);
+        /**
+         * @param contextManager This will usually be provided by the `Engine`.
+         * @param options
+         * @param levelUp Leave as zero unless you are extending this class.
+         */
+        function Sphere(contextManager, options, levelUp) {
+            if (options === void 0) { options = {}; }
+            if (levelUp === void 0) { levelUp = 0; }
+            var _this = _super.call(this, void 0, void 0, contextManager, { axis: referenceAxis(options, ds.axis).direction(), meridian: referenceMeridian(options, ds.meridian).direction() }, levelUp + 1) || this;
+            _this.setLoggingName('Sphere');
+            var geoMode = geometryModeFromOptions(options);
+            var geoOptions = { kind: 'SphereGeometry' };
+            geoOptions.mode = geoMode;
+            geoOptions.azimuthSegments = options.azimuthSegments;
+            geoOptions.azimuthStart = options.azimuthStart;
+            geoOptions.azimuthLength = options.azimuthLength;
+            geoOptions.elevationLength = options.elevationLength;
+            geoOptions.elevationSegments = options.elevationSegments;
+            geoOptions.elevationStart = options.elevationStart;
+            geoOptions.axis = vectorE3Object(referenceAxis(options, ds.axis).direction());
+            geoOptions.meridian = vectorE3Object(referenceMeridian(options, ds.meridian).direction());
+            geoOptions.stress = void 0;
+            geoOptions.tilt = spinorE3Object(options.tilt);
+            geoOptions.offset = offsetFromOptions(options);
+            var geometry = new SphereGeometry(contextManager, geoOptions);
+            _this.geometry = geometry;
+            geometry.release();
+            var material = materialFromOptions(contextManager, simplexModeFromOptions(options, SimplexMode.TRIANGLE), options);
+            _this.material = material;
+            material.release();
+            setAxisAndMeridian(_this, options);
+            setColorOption(_this, options, options.textured ? Color.white : Color.gray);
+            setDeprecatedOptions(_this, options);
+            _this.radius = isDefined(options.radius) ? mustBeNumber(RADIUS_NAME, options.radius) : ds.radius;
+            if (levelUp === 0) {
+                _this.synchUp();
+            }
+            return _this;
+        }
+        /**
+         * @hidden
+         */
+        Sphere.prototype.destructor = function (levelUp) {
+            if (levelUp === 0) {
+                this.cleanUp();
+            }
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        Object.defineProperty(Sphere.prototype, "radius", {
+            get: function () {
+                return this.getScaleX();
+            },
+            set: function (radius) {
+                this.setScale(radius, radius, radius);
+            },
+            enumerable: false,
+            configurable: true
+        });
+        return Sphere;
+    }(Mesh));
+
+    /**
      * A 3D visual representation of a tetrahedron.
      */
     var Tetrahedron = /** @class */ (function (_super) {
@@ -28213,277 +29166,9 @@
         return Turtle;
     }(Mesh));
 
-    /**
-     * @hidden
-     */
-    function pointerEvents(canvas, value) {
-        canvas.style.pointerEvents = value;
-    }
-    /**
-     * @hidden
-     */
-    function position(canvas, value) {
-        canvas.style.pointerEvents = value;
-    }
-    /**
-     * A wrapper around the HTML canvas element that projects from 3D onto the canvas.
-     * This utility conveniently integrates with the `PerspectiveCamera` to provide an overlay for WebGL.
-     */
-    var Diagram3D = /** @class */ (function () {
-        /**
-         *
-         */
-        /**
-         *
-         * @param canvas The canvas elementId or the HTML canvas element.
-         * @param camera Provides the camera (eye, look, and up) parameters.
-         * @param prism Provides the viewport (near, far, fov, and aspect) parameters.
-         */
-        function Diagram3D(canvas, camera, prism) {
-            if (typeof canvas === 'string') {
-                var canvasElement = document.getElementById(canvas);
-                this.ctx = canvasElement.getContext('2d');
-                pointerEvents(canvasElement, 'none');
-                position(canvasElement, 'absolute');
-            }
-            else if (canvas instanceof HTMLCanvasElement) {
-                this.ctx = canvas.getContext('2d');
-                pointerEvents(canvas, 'none');
-                position(canvas, 'absolute');
-            }
-            else {
-                throw new Error("canvas must either be a canvas Id or an HTMLCanvasElement.");
-            }
-            this.ctx.strokeStyle = "#FFFFFF";
-            this.ctx.fillStyle = '#FFFFFF';
-            this.ctx.font = '24px Helvetica';
-            if (isDefined(camera)) {
-                if (isDefined(prism)) {
-                    this.camera = camera;
-                    this.prism = prism;
-                }
-                else {
-                    this.camera = camera;
-                    this.prism = prism;
-                }
-            }
-        }
-        Object.defineProperty(Diagram3D.prototype, "canvas", {
-            get: function () {
-                return this.ctx.canvas;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(Diagram3D.prototype, "fillStyle", {
-            get: function () {
-                return this.ctx.fillStyle;
-            },
-            set: function (fillStyle) {
-                this.ctx.fillStyle = fillStyle;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Diagram3D.prototype.beginPath = function () {
-            this.ctx.beginPath();
-        };
-        Diagram3D.prototype.clear = function () {
-            this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-        };
-        Diagram3D.prototype.closePath = function () {
-            this.ctx.closePath();
-        };
-        Diagram3D.prototype.fill = function (fillRule /*CanvasFillRule*/) {
-            this.ctx.fill(fillRule);
-        };
-        Diagram3D.prototype.fillText = function (text, X, maxWidth) {
-            var coords = canvasCoords(X, this.camera, this.prism, this.ctx.canvas.width, this.ctx.canvas.height);
-            this.ctx.fillText(text, coords.x, coords.y, maxWidth);
-        };
-        Diagram3D.prototype.moveTo = function (X) {
-            var coords = canvasCoords(X, this.camera, this.prism, this.ctx.canvas.width, this.ctx.canvas.height);
-            this.ctx.moveTo(coords.x, coords.y);
-        };
-        Diagram3D.prototype.lineTo = function (X) {
-            var coords = canvasCoords(X, this.camera, this.prism, this.ctx.canvas.width, this.ctx.canvas.height);
-            this.ctx.lineTo(coords.x, coords.y);
-        };
-        Diagram3D.prototype.stroke = function () {
-            this.ctx.stroke();
-        };
-        Diagram3D.prototype.strokeText = function (text, X, maxWidth) {
-            var coords = canvasCoords(X, this.camera, this.prism, this.ctx.canvas.width, this.ctx.canvas.height);
-            this.ctx.strokeText(text, coords.x, coords.y, maxWidth);
-        };
-        return Diagram3D;
-    }());
-    /**
-     * @hidden
-     */
-    function canvasCoords(X, camera, prism, width, height) {
-        var cameraCoords = view(X, camera.eye, camera.look, camera.up);
-        var near = prism.near;
-        var far = prism.far;
-        var fov = prism.fov;
-        var aspect = prism.aspect;
-        var imageCoords = perspective(cameraCoords, near, far, fov, aspect);
-        // Convert image coordinates to screen/device coordinates.
-        var x = (imageCoords.x + 1) * width / 2;
-        var y = (1 - imageCoords.y) * height / 2;
-        return { x: x, y: y };
-    }
-    /**
-     * View transformation converts world coordinates to camera frame coordinates.
-     * We first compute the camera frame (u, v, w, eye), then solve the equation
-     * X = x * u + y * v * z * n + eye
-     * @hidden
-     *
-     * @param X The world vector.
-     * @param eye The position of the camera.
-     * @param look The point that the camera is aimed at.
-     * @param up The approximate up direction.
-     * @returns The coordinates in the camera (u, v, w) basis.
-     * @hidden
-     */
-    function view(X, eye, look, up) {
-        /**
-         * Unit vector towards the camera holder (similar to e3).
-         * Some texts call this the w-vector, so that (u, v, w) is a right-handed frame.
-         */
-        var n = vectorCopy(eye).sub(look).direction();
-        /**
-         * Unit vector to the right (similar to e1).
-         */
-        var u = vectorCopy(up).cross(n).direction();
-        /**
-         * Unit vector upwards (similar to e2).
-         */
-        var v = n.cross(u);
-        var du = -dotVectorE3(eye, u);
-        var dv = -dotVectorE3(eye, v);
-        var dn = -dotVectorE3(eye, n);
-        var x = dotVectorE3(X, u) + du;
-        var y = dotVectorE3(X, v) + dv;
-        var z = dotVectorE3(X, n) + dn;
-        return vectorFromCoords(x, y, z);
-    }
-    /**
-     * Perspective transformation projects camera coordinates onto the image space.
-     * The near plane corresponds to -1. The far plane corresponds to +1.
-     *
-     * @param X The coordinates in the camera frame.
-     * @param n The distance from the camera eye to the near plane onto which X is projected.
-     * @param f The distance to the far plane.
-     * @param α The angle subtended at the apex of the pyramid in the vw-plane.
-     * @param aspect The ratio of the width to the height (width divided by height).
-     * @hidden
-     */
-    function perspective(X, n, f, α, aspect) {
-        /**
-         * The camera coordinates (u, v, w).
-         */
-        var u = X.x;
-        var v = X.y;
-        var w = X.z;
-        /**
-         * tangent of one half the field of view angle.
-         */
-        var t = Math.tan(α / 2);
-        var negW = -w;
-        var x = u / (negW * aspect * t);
-        var y = v / (negW * t);
-        var z = ((f + n) * w + 2 * f * n) / (w * (f - n));
-        return vectorFromCoords(x, y, z);
-    }
-
-    /**
-     * A utility for loading Texture resources from a URL.
-     *
-     *     const loader = new EIGHT.TextureLoader(engine)
-     *     loader.loadImageTexture('img/textures/solar-system/2k_earth_daymap.jpg', function(texture) {
-     *       texture.minFilter = EIGHT.TextureMinFilter.NEAREST;
-     *       const geometry = new EIGHT.SphereGeometry(engine, {azimuthSegments: 64, elevationSegments: 32})
-     *       const material = new EIGHT.HTMLScriptsMaterial(engine, ['vs', 'fs'])
-     *       sphere = new EIGHT.Mesh(geometry, material, engine)
-     *       geometry.release()
-     *       material.release()
-     *       sphere.texture = texture
-     *       texture.release()
-     *       scene.add(sphere)
-     *     })
-     */
-    var TextureLoader = /** @class */ (function () {
-        /**
-         * @param contextManager
-         */
-        function TextureLoader(contextManager) {
-            this.contextManager = contextManager;
-            mustBeNonNullObject('contextManager', contextManager);
-        }
-        /**
-         *
-         * @param url The Uniform Resource Locator of the image.
-         * @param options
-         */
-        TextureLoader.prototype.imageTexture = function (url, options) {
-            var _this = this;
-            if (options === void 0) { options = {}; }
-            mustBeString('url', url);
-            if (isDefined(options.crossOrigin)) {
-                mustBeString('options.crossOrigin', options.crossOrigin);
-            }
-            return new Promise(function (response, reject) {
-                var image = new Image();
-                image.onload = function () {
-                    var texture = new ImageTexture(image, exports.TextureTarget.TEXTURE_2D, _this.contextManager);
-                    texture.bind();
-                    texture.upload();
-                    texture.unbind();
-                    response(texture);
-                };
-                image.onerror = function (event, source, lineno, colno, error) {
-                    console.log("event=" + event + ": " + typeof event + ", source=" + source + ", lineno=" + lineno + ", colno=" + colno + ", error=" + error);
-                    reject(new Error("Error occurred while loading image. Cause: " + error));
-                };
-                // How to issue a CORS request for an image coming from another domain.
-                // The image is fetched from the server without any credentials, i.e., cookies.
-                if (isDefined(options.crossOrigin)) {
-                    image.crossOrigin = options.crossOrigin;
-                }
-                image.src = url;
-            });
-        };
-        /**
-         * @deprecated
-         * @param url The Uniform Resource Locator of the image.
-         * @param onLoad
-         * @param onError
-         * @param options
-         */
-        TextureLoader.prototype.loadImageTexture = function (url, onLoad, onError, options) {
-            if (options === void 0) { options = {}; }
-            console.warn("loadImageTexture() is deprecated. Please use imageTexture().");
-            mustBeFunction('onLoad', onLoad);
-            if (isDefined(onError)) {
-                mustBeFunction('onError', onError);
-            }
-            this.imageTexture(url, options)
-                .then(function (texture) {
-                onLoad(texture);
-            })
-                .catch(function (err) {
-                if (isFunction(onError)) {
-                    onError();
-                }
-            });
-        };
-        return TextureLoader;
-    }());
-
     exports.AmbientLight = AmbientLight;
     exports.Arrow = Arrow;
-    exports.ArrowBuilder = ArrowBuilder;
+    exports.ArrowFH = ArrowFH;
     exports.ArrowGeometry = ArrowGeometry;
     exports.Attrib = Attrib;
     exports.Basis = Basis;
@@ -28491,12 +29176,10 @@
     exports.BoxGeometry = BoxGeometry;
     exports.Color = Color;
     exports.ColorFacet = ColorFacet;
-    exports.ConicalShellBuilder = ConicalShellBuilder;
     exports.Curve = Curve;
     exports.CurveGeometry = CurveGeometry;
     exports.Cylinder = Cylinder;
     exports.CylinderGeometry = CylinderGeometry;
-    exports.CylindricalShellBuilder = CylindricalShellBuilder;
     exports.Diagram3D = Diagram3D;
     exports.DirectionalLight = DirectionalLight;
     exports.DrawAttribute = DrawAttribute;
@@ -28544,7 +29227,6 @@
     exports.PointSizeFacet = PointSizeFacet;
     exports.ReflectionFacetE2 = ReflectionFacetE2;
     exports.ReflectionFacetE3 = ReflectionFacetE3;
-    exports.RingBuilder = RingBuilder;
     exports.Scene = Scene;
     exports.Shader = Shader;
     exports.ShaderMaterial = ShaderMaterial;

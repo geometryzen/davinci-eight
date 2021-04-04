@@ -1,5 +1,6 @@
 /**
  * @hidden
+ * @returns The Euclidean magnitude of the vector.
  */
 export function normVectorE3(vector) {
     var x = vector.x;

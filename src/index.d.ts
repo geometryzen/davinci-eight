@@ -1,4 +1,4 @@
-// Type definitions for davinci-eight 8.4.6
+// Type definitions for davinci-eight 8.4.7
 // Project: https://github.com/geometryzen/davinci-eight
 // Definitions by: David Geo Holmes david.geo.holmes@gmail.com https://www.stemcstudio.com
 //
@@ -3327,88 +3327,6 @@ export class GeometryElements extends ShareableContextConsumer implements Geomet
 }
 
 /**
- * Merges a list of Primitive(s) into a single Primitive to minimize WebGL calls.
- * (Experimental)
- */
-export function reduce(primitives: Primitive[]): Primitive
-
-export class ConicalShellBuilder {
-    height: Vector3
-    cutLine: Vector3
-    clockwise: boolean
-    offset: Vector3
-    radius: number
-    radialSegments: number
-    sliceAngle: number
-    stress: Vector3
-    thetaSegments: number
-    /**
-     * The spinor that rotates from the canonical frame to the reference frame.
-     */
-    tilt: Spinor3
-    useNormal: boolean
-    usePosition: boolean
-    useTextureCoord: boolean
-    toPrimitive(): Primitive
-}
-
-export class CylindricalShellBuilder {
-    /**
-     * Axis of symmetry and the height vector.
-     */
-    height: Vector3
-    /**
-     * Initial cut line and the radius vector.
-     */
-    cutLine: Vector3
-    /**
-     * Determines the orientation of the slice from the cut line.
-     */
-    clockwise: boolean
-    /**
-     * Determines the direction of normal vectors.
-     */
-    convex: boolean
-    offset: Vector3
-    radialSegments: number
-    sliceAngle: number
-    stress: Vector3
-    thetaSegments: number
-    /**
-     * The spinor that rotates from the canonical frame to the reference frame.
-     */
-    tilt: Spinor3
-    useNormal: boolean
-    usePosition: boolean
-    useTextureCoord: boolean
-    toPrimitive(): Primitive
-}
-
-export class RingBuilder {
-    /**
-     * The direction normal to the plane of the ring.
-     */
-    e: Vector3
-    cutLine: Vector3
-    clockwise: boolean
-    innerRadius: number
-    offset: Vector3
-    outerRadius: number
-    radialSegments: number
-    sliceAngle: number
-    stress: Vector3
-    thetaSegments: number
-    /**
-     * The spinor that rotates from the canonical frame to the reference frame.
-     */
-    tilt: Spinor3
-    useNormal: boolean
-    usePosition: boolean
-    useTextureCoord: boolean
-    toPrimitive(): Primitive
-}
-
-/**
  * Determines how a Geometry will be rendered.
  */
 export enum GeometryMode {
@@ -4328,6 +4246,18 @@ export class Arrow extends Mesh<Geometry, Material> {
      * 
      */
     protected destructor(levelUp: number): void
+}
+
+export class ArrowFH implements Renderable {
+    constructor(contextManager: ContextManager, options?: ArrowOptions, levelUp?: number)
+    name?: string
+    transparent?: boolean
+    render(ambients: Facet[]): void
+    contextFree?(): void
+    contextGain?(): void
+    contextLost?(): void
+    addRef?(): number
+    release?(): number
 }
 
 /**

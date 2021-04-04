@@ -1,9 +1,9 @@
-import { SliceSimplexPrimitivesBuilder } from '../geometries/SliceSimplexPrimitivesBuilder';
+import { SliceSimplexPrimitivesBuilder } from './SliceSimplexPrimitivesBuilder';
 import { VectorE3 } from '../math/VectorE3';
 /**
  * @hidden
  */
-export declare class ConeSimplexGeometry extends SliceSimplexPrimitivesBuilder {
+export declare class ConeSimplexPrimitivesBuilder extends SliceSimplexPrimitivesBuilder {
     radiusTop: number;
     radius: number;
     height: number;

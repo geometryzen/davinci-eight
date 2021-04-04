@@ -115,10 +115,10 @@ describe("Arrow", function () {
             const engine = new Engine();
             const arrow = new Arrow(engine);
             arrow.vector = vectorCopy(arrow.axis).scale(3);
-            expect(arrow.length).toBe(3);
-            expect(arrow.vector.x).toBe(3 * ds.axis.x);
-            expect(arrow.vector.y).toBe(3 * ds.axis.y);
-            expect(arrow.vector.z).toBe(3 * ds.axis.z);
+            expect(arrow.length).toBeCloseTo(3, 10, "arrow.length");
+            expect(arrow.vector.x).toBeCloseTo(3 * ds.axis.x, 10, "arrow.vector.x");
+            expect(arrow.vector.y).toBeCloseTo(3 * ds.axis.y, 10, "arrow.vector.y");
+            expect(arrow.vector.z).toBeCloseTo(3 * ds.axis.z, 10, "arrow.vector.z");
             arrow.release();
             engine.release();
         });

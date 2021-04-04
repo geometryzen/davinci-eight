@@ -2,31 +2,23 @@ import { __extends } from "tslib";
 import { reduce } from '../atoms/reduce';
 import { mustBeDefined } from '../checks/mustBeDefined';
 import { Vector3 } from '../math/Vector3';
-import { ConeBuilder } from './ConeBuilder';
-import { CylindricalShellBuilder } from '../shapes/CylindricalShellBuilder';
-import { RingBuilder } from '../shapes/RingBuilder';
+import { CylindricalShellBuilder } from './CylindricalShellBuilder';
+import { RingBuilder } from './RingBuilder';
 import { AxialShapeBuilder } from './AxialShapeBuilder';
 /**
- * <p>
- * This class does not default the initial <b>axis</b>.
- * </p>
- * <p>
- * This class does not default the <b>cutLine</b>.
- * </p>
  * @hidden
  */
-var ArrowBuilder = /** @class */ (function (_super) {
-    __extends(ArrowBuilder, _super);
+var ArrowTailBuilder = /** @class */ (function (_super) {
+    __extends(ArrowTailBuilder, _super);
     /**
      *
      * @param axis The direction of the arrow. The argument is normalized to a unit vector.
      * @param cutLine The direction of the start of the arrow slice. The argument is normalized to a unit vector.
      * @param clockwise The orientation
      */
-    function ArrowBuilder(axis, cutLine, clockwise) {
+    function ArrowTailBuilder(axis, cutLine, clockwise) {
         var _this = _super.call(this) || this;
-        _this.heightCone = 0.20;
-        _this.radiusCone = 0.08;
+        _this.heightShaft = 0.80;
         _this.radiusShaft = 0.01;
         _this.thetaSegments = 16;
         mustBeDefined('axis', axis);
@@ -39,57 +31,21 @@ var ArrowBuilder = /** @class */ (function (_super) {
     /**
      *
      */
-    ArrowBuilder.prototype.toPrimitive = function () {
-        var heightShaft = 1 - this.heightCone;
+    ArrowTailBuilder.prototype.toPrimitive = function () {
         /**
          * The opposite direction to the axis.
          */
         var back = Vector3.copy(this.e).neg();
-        /**
-         * The neck is the place where the cone meets the shaft.
-         */
-        var neck = Vector3.copy(this.e).scale(heightShaft).add(this.offset);
-        neck.rotate(this.tilt);
         /**
          * The tail is the the position of the blunt end of the arrow.
          */
         var tail = Vector3.copy(this.offset);
         tail.rotate(this.tilt);
         /**
-         * The `cone` forms the head of the arrow.
-         */
-        var cone = new ConeBuilder();
-        cone.height.copy(this.e).scale(this.heightCone);
-        cone.cutLine.copy(this.cutLine).scale(this.radiusCone);
-        cone.clockwise = this.clockwise;
-        cone.tilt.mul(this.tilt);
-        cone.offset.copy(neck);
-        cone.sliceAngle = this.sliceAngle;
-        cone.thetaSegments = this.thetaSegments;
-        cone.useNormal = this.useNormal;
-        cone.usePosition = this.usePosition;
-        cone.useTextureCoord = this.useTextureCoord;
-        /**
-         * The `ring` fills the space between the cone and the shaft.
-         */
-        var ring = new RingBuilder();
-        ring.e.copy(back);
-        ring.cutLine.copy(this.cutLine);
-        ring.clockwise = !this.clockwise;
-        ring.innerRadius = this.radiusShaft;
-        ring.outerRadius = this.radiusCone;
-        ring.tilt.mul(this.tilt);
-        ring.offset.copy(neck);
-        ring.sliceAngle = this.sliceAngle;
-        ring.thetaSegments = this.thetaSegments;
-        ring.useNormal = this.useNormal;
-        ring.usePosition = this.usePosition;
-        ring.useTextureCoord = this.useTextureCoord;
-        /**
          * The `shaft` is the slim part of the arrow.
          */
         var shaft = new CylindricalShellBuilder();
-        shaft.height.copy(this.e).normalize().scale(heightShaft);
+        shaft.height.copy(this.e).normalize().scale(this.heightShaft);
         shaft.cutLine.copy(this.cutLine).normalize().scale(this.radiusShaft);
         shaft.clockwise = this.clockwise;
         shaft.tilt.mul(this.tilt);
@@ -115,8 +71,8 @@ var ArrowBuilder = /** @class */ (function (_super) {
         plug.useNormal = this.useNormal;
         plug.usePosition = this.usePosition;
         plug.useTextureCoord = this.useTextureCoord;
-        return reduce([cone.toPrimitive(), ring.toPrimitive(), shaft.toPrimitive(), plug.toPrimitive()]);
+        return reduce([shaft.toPrimitive(), plug.toPrimitive()]);
     };
-    return ArrowBuilder;
+    return ArrowTailBuilder;
 }(AxialShapeBuilder));
-export { ArrowBuilder };
+export { ArrowTailBuilder };

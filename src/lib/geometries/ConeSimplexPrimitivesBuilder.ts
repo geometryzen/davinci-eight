@@ -1,4 +1,4 @@
-import { SliceSimplexPrimitivesBuilder } from '../geometries/SliceSimplexPrimitivesBuilder';
+import { SliceSimplexPrimitivesBuilder } from './SliceSimplexPrimitivesBuilder';
 import { Vector2 } from '../math/Vector2';
 import { Vector3 } from '../math/Vector3';
 import { VectorE3 } from '../math/VectorE3';
@@ -6,7 +6,7 @@ import { VectorE3 } from '../math/VectorE3';
 /**
  * @hidden
  */
-export class ConeSimplexGeometry extends SliceSimplexPrimitivesBuilder {
+export class ConeSimplexPrimitivesBuilder extends SliceSimplexPrimitivesBuilder {
     public radiusTop: number;
     public radius: number;
     public height: number;

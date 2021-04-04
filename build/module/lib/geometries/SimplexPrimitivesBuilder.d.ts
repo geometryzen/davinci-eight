@@ -8,7 +8,7 @@ import { Vector3 } from '../math/Vector3';
 /**
  * @hidden
  */
-export declare class SimplexPrimitivesBuilder extends PrimitivesBuilder {
+export declare abstract class SimplexPrimitivesBuilder extends PrimitivesBuilder {
     data: Simplex[];
     meta: GeometryMeta;
     private _k;

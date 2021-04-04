@@ -95,7 +95,5 @@ describe("GridTriangleStrip", function () {
                 expect(typeof vertex.attributes).toBe('object');
             });
         });
-
     });
-
 });

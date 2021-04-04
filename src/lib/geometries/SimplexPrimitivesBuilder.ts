@@ -15,7 +15,7 @@ import { Vector3 } from '../math/Vector3';
 /**
  * @hidden
  */
-export class SimplexPrimitivesBuilder extends PrimitivesBuilder {
+export abstract class SimplexPrimitivesBuilder extends PrimitivesBuilder {
     public data: Simplex[] = [];
     public meta: GeometryMeta;
     private _k = new Vector1([SimplexMode.TRIANGLE]);

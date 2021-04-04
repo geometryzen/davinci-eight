@@ -364,9 +364,12 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
     }
 
     /**
-     * Implementation of the axis (set) property.
-     * Derived classes may overide to perform scaling.
      * @hidden
+     * Implementation of the axis (set) property.
+     * The result is independent of the magnitude of the `axis` parameter.
+     * Derived classes may overide to perform scaling.
+     * 
+     * @param axis 
      */
     protected setAxis(axis: VectorE3): void {
         const squaredNorm = quadVectorE3(axis);

@@ -5,6 +5,8 @@ import { mustBeObject } from '../checks/mustBeObject';
 import { vec } from '../math/R3';
 import { Vector3 } from '../math/Vector3';
 import { ArrowBuilder } from '../shapes/ArrowBuilder';
+import { ArrowHeadBuilder } from '../shapes/ArrowHeadBuilder';
+import { ArrowTailBuilder } from '../shapes/ArrowTailBuilder';
 /**
  * @hidden
  * The canonical axis is e2.
@@ -53,6 +55,46 @@ export function arrowPrimitive(options) {
     var builder = new ArrowBuilder(getAxis(options), getCutLine(options), false);
     if (isDefined(options.radiusCone)) {
         builder.radiusCone = mustBeNumber("options.radiusCone", options.radiusCone);
+    }
+    if (isDefined(options.thetaSegments)) {
+        builder.thetaSegments = mustBeInteger("options.thetaSegments", options.thetaSegments);
+    }
+    builder.stress.copy(isDefined(options.stress) ? options.stress : Vector3.vector(1, 1, 1));
+    builder.offset.copy(isDefined(options.offset) ? options.offset : Vector3.zero());
+    return builder.toPrimitive();
+}
+/**
+ * @hidden
+ */
+export function arrowHeadPrimitive(options) {
+    if (options === void 0) { options = {}; }
+    mustBeObject('options', options);
+    var builder = new ArrowHeadBuilder(getAxis(options), getCutLine(options), false);
+    if (isDefined(options.heightCone)) {
+        builder.heightCone = mustBeNumber("options.heightCone", options.heightCone);
+    }
+    if (isDefined(options.radiusCone)) {
+        builder.radiusCone = mustBeNumber("options.radiusCone", options.radiusCone);
+    }
+    if (isDefined(options.thetaSegments)) {
+        builder.thetaSegments = mustBeInteger("options.thetaSegments", options.thetaSegments);
+    }
+    builder.stress.copy(isDefined(options.stress) ? options.stress : Vector3.vector(1, 1, 1));
+    builder.offset.copy(isDefined(options.offset) ? options.offset : Vector3.zero());
+    return builder.toPrimitive();
+}
+/**
+ * @hidden
+ */
+export function arrowTailPrimitive(options) {
+    if (options === void 0) { options = {}; }
+    mustBeObject('options', options);
+    var builder = new ArrowTailBuilder(getAxis(options), getCutLine(options), false);
+    if (isDefined(options.heightShaft)) {
+        builder.heightShaft = mustBeNumber("options.heightShaft", options.heightShaft);
+    }
+    if (isDefined(options.radiusShaft)) {
+        builder.radiusShaft = mustBeNumber("options.radiusShaft", options.radiusShaft);
     }
     if (isDefined(options.thetaSegments)) {
         builder.thetaSegments = mustBeInteger("options.thetaSegments", options.thetaSegments);
