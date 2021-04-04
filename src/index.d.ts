@@ -1,4 +1,4 @@
-// Type definitions for davinci-eight 8.4.5
+// Type definitions for davinci-eight 8.4.6
 // Project: https://github.com/geometryzen/davinci-eight
 // Definitions by: David Geo Holmes david.geo.holmes@gmail.com https://www.stemcstudio.com
 //
@@ -4297,6 +4297,10 @@ export interface ArrowOptions {
      * The reference meridian.
      */
     meridian?: VectorE3
+    /**
+     * The number of segments in the azimuthal plane (zx or e3e1) when the arrow is in the default configuration.
+     */
+    thetaSegments?: number
     /**
      * The spinor that rotates from the canonical frame to the reference frame.
      */

@@ -32,7 +32,7 @@ export class Arrow extends Mesh<Geometry, Material> {
      * @param options 
      * @param levelUp Leave as zero unless you are extending this class. 
      */
-    constructor(contextManager: ContextManager, options: ArrowOptions = {}, levelUp = 0) {
+    constructor(contextManager: ContextManager, options: Partial<ArrowOptions> = {}, levelUp = 0) {
         super(void 0, void 0, contextManager, { axis: referenceAxis(options, ds.axis).direction(), meridian: referenceMeridian(options, ds.meridian).direction() }, levelUp + 1);
         this.setLoggingName('Arrow');
 
@@ -43,7 +43,8 @@ export class Arrow extends Mesh<Geometry, Material> {
         geoOptions.axis = vectorE3Object(referenceAxis(options, ds.axis).direction());
         geoOptions.meridian = vectorE3Object(referenceMeridian(options, ds.meridian).direction());
 
-        geoOptions.radiusCone = 0.08;
+        geoOptions.radiusCone = radiusConeFromOptions(options, 0.08);
+        geoOptions.thetaSegments = thetaSegmentsFromOptions(options, 16);
 
         const geometry = new ArrowGeometry(contextManager, geoOptions);
         this.geometry = geometry;
@@ -103,5 +104,29 @@ export class Arrow extends Mesh<Geometry, Material> {
     }
     set length(length: number) {
         this.setScale(length, length, length);
+    }
+}
+
+function radiusConeFromOptions(options: Partial<Pick<ArrowOptions, 'radiusCone'>>, defaultValue: number): number {
+    if (options) {
+        if (typeof options.radiusCone === 'number') {
+            return options.radiusCone;
+        } else {
+            return defaultValue;
+        }
+    } else {
+        return defaultValue;
+    }
+}
+
+function thetaSegmentsFromOptions(options: Partial<Pick<ArrowOptions, 'thetaSegments'>>, defaultValue: number): number {
+    if (options) {
+        if (typeof options.thetaSegments === 'number') {
+            return options.thetaSegments;
+        } else {
+            return defaultValue;
+        }
+    } else {
+        return defaultValue;
     }
 }

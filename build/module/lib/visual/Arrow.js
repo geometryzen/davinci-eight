@@ -37,7 +37,8 @@ var Arrow = /** @class */ (function (_super) {
         geoOptions.tilt = spinorE3Object(options.tilt);
         geoOptions.axis = vectorE3Object(referenceAxis(options, ds.axis).direction());
         geoOptions.meridian = vectorE3Object(referenceMeridian(options, ds.meridian).direction());
-        geoOptions.radiusCone = 0.08;
+        geoOptions.radiusCone = radiusConeFromOptions(options, 0.08);
+        geoOptions.thetaSegments = thetaSegmentsFromOptions(options, 16);
         var geometry = new ArrowGeometry(contextManager, geoOptions);
         _this.geometry = geometry;
         geometry.release();
@@ -102,3 +103,29 @@ var Arrow = /** @class */ (function (_super) {
     return Arrow;
 }(Mesh));
 export { Arrow };
+function radiusConeFromOptions(options, defaultValue) {
+    if (options) {
+        if (typeof options.radiusCone === 'number') {
+            return options.radiusCone;
+        }
+        else {
+            return defaultValue;
+        }
+    }
+    else {
+        return defaultValue;
+    }
+}
+function thetaSegmentsFromOptions(options, defaultValue) {
+    if (options) {
+        if (typeof options.thetaSegments === 'number') {
+            return options.thetaSegments;
+        }
+        else {
+            return defaultValue;
+        }
+    }
+    else {
+        return defaultValue;
+    }
+}

@@ -13,7 +13,7 @@ export declare class Arrow extends Mesh<Geometry, Material> {
      * @param options
      * @param levelUp Leave as zero unless you are extending this class.
      */
-    constructor(contextManager: ContextManager, options?: ArrowOptions, levelUp?: number);
+    constructor(contextManager: ContextManager, options?: Partial<ArrowOptions>, levelUp?: number);
     /**
      * @hidden
      */

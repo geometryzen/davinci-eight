@@ -126,9 +126,9 @@
     var Eight = /** @class */ (function () {
         function Eight() {
             this.GITHUB = "https://github.com/geometryzen/davinci-eight";
-            this.LAST_MODIFIED = "2021-04-02";
+            this.LAST_MODIFIED = "2021-04-04";
             this.MARKETING_NAME = "DaVinci eight";
-            this.VERSION = '8.4.5';
+            this.VERSION = '8.4.6';
         }
         Eight.prototype.log = function (message) {
             console.log(message);
@@ -8480,6 +8480,7 @@
 
     /**
      * The enumerated modes of drawing WebGL primitives.
+     * (POINTS, LINES, LINE_LOOP, LINE_STRIP, TRIANGLES, TRIANGLE_STRIP,TRIANGLE_FAN)
      *
      * https://www.khronos.org/registry/webgl/specs/1.0/
      */
@@ -19176,14 +19177,19 @@
 
     /**
      * @hidden
+     * The canonical axis is e2.
      */
     var canonicalAxis$3 = vec(0, 1, 0);
     /**
      * @hidden
+     * The canonical cut line is e3.
      */
     var canonicalCutLine = vec(0, 0, 1);
     /**
      * @hidden
+     * Used by the ArrowBuilder to define an axis.
+     * @param options Contains an optional `axis` property
+     * @returns the `axis` property (if it is defined), otherwise, the canonical axis, e2.
      */
     var getAxis$1 = function getAxis(options) {
         if (isDefined(options.axis)) {
@@ -19195,6 +19201,9 @@
     };
     /**
      * @hidden
+     * Used by the ArrowBuilder to define a cut line (meridian).
+     * @param options Contains an optional `meridian` property.
+     * @returns the `meridian` property (if it is defined), otherwise, the canonical cut line, e3.
      */
     var getCutLine = function getCutLine(options) {
         if (isDefined(options.meridian)) {
@@ -19206,6 +19215,7 @@
     };
     /**
      * @hidden
+     * Used by the ArrowGeometry constructor.
      */
     function arrowPrimitive(options) {
         if (options === void 0) { options = { kind: 'ArrowGeometry' }; }
@@ -19213,6 +19223,9 @@
         var builder = new ArrowBuilder(getAxis$1(options), getCutLine(options), false);
         if (isDefined(options.radiusCone)) {
             builder.radiusCone = mustBeNumber("options.radiusCone", options.radiusCone);
+        }
+        if (isDefined(options.thetaSegments)) {
+            builder.thetaSegments = mustBeInteger("options.thetaSegments", options.thetaSegments);
         }
         builder.stress.copy(isDefined(options.stress) ? options.stress : Vector3.vector(1, 1, 1));
         builder.offset.copy(isDefined(options.offset) ? options.offset : Vector3.zero());
@@ -24869,7 +24882,8 @@
             geoOptions.tilt = spinorE3Object(options.tilt);
             geoOptions.axis = vectorE3Object(referenceAxis(options, ds.axis).direction());
             geoOptions.meridian = vectorE3Object(referenceMeridian(options, ds.meridian).direction());
-            geoOptions.radiusCone = 0.08;
+            geoOptions.radiusCone = radiusConeFromOptions(options, 0.08);
+            geoOptions.thetaSegments = thetaSegmentsFromOptions(options, 16);
             var geometry = new ArrowGeometry(contextManager, geoOptions);
             _this.geometry = geometry;
             geometry.release();
@@ -24933,6 +24947,32 @@
         });
         return Arrow;
     }(Mesh));
+    function radiusConeFromOptions(options, defaultValue) {
+        if (options) {
+            if (typeof options.radiusCone === 'number') {
+                return options.radiusCone;
+            }
+            else {
+                return defaultValue;
+            }
+        }
+        else {
+            return defaultValue;
+        }
+    }
+    function thetaSegmentsFromOptions(options, defaultValue) {
+        if (options) {
+            if (typeof options.thetaSegments === 'number') {
+                return options.thetaSegments;
+            }
+            else {
+                return defaultValue;
+            }
+        }
+        else {
+            return defaultValue;
+        }
+    }
 
     /**
      * @hidden

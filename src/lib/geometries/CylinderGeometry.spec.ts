@@ -15,6 +15,8 @@ describe("CylinderGeometry", function () {
                 const cylinder = new CylinderGeometry(engine);
                 cylinder.release();
                 engine.release();
+                // TODO
+                expect(true).toBeTrue();
             });
         });
     });

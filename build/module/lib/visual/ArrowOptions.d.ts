@@ -33,6 +33,17 @@ export interface ArrowOptions {
      */
     offset?: VectorE3;
     /**
+     * The radius of the cone that constitutes the arrow head.
+     * Default is 0.08
+     */
+    radiusCone?: number;
+    /**
+     * The number of segments, in the azimuth plane, used to construct the arrow.
+     * Default is 16.
+     * Minimum is 3.
+     */
+    thetaSegments?: number;
+    /**
      *
      */
     tilt?: SpinorE3;

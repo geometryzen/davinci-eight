@@ -9,5 +9,7 @@ describe("HollowCylinder", function () {
         cylinder.release();
         //        expect(cylinder.isZombie()).toBe(true);
         engine.release();
+        // TODO
+        expect(true).toBeTrue();
     });
 });
