@@ -17,6 +17,7 @@ export declare class ArrowFH implements Renderable {
     private $positionLock;
     private readonly $attitude;
     private $attitudeLock;
+    private $isHeadVisible;
     /**
      * @param contextManager This will usually be provided by the `Engine`.
      * @param options

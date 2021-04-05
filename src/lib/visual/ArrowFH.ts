@@ -21,6 +21,7 @@ export class ArrowFH implements Renderable {
     private $positionLock: number;
     private readonly $attitude: Geometric3 = Geometric3.zero(false);
     private $attitudeLock: number;
+    private $isHeadVisible = true;
     /**
      * @param contextManager This will usually be provided by the `Engine`.
      * @param options 
@@ -41,7 +42,9 @@ export class ArrowFH implements Renderable {
     name?: string;
     transparent?: boolean;
     render(ambients: Facet[]): void {
-        this.head.render(ambients);
+        if (this.$isHeadVisible) {
+            this.head.render(ambients);
+        }
         this.tail.render(ambients);
     }
     contextFree?(): void {
@@ -85,9 +88,17 @@ export class ArrowFH implements Renderable {
         return this.head.heightCone + this.tail.heightShaft;
     }
     set length(length: number) {
-        const heightShaft = length - this.head.heightCone;
-        this.tail.heightShaft = heightShaft;
-        this.updateHeadPosition();
+        if (length > 0) {
+            const heightShaft = length - this.head.heightCone;
+            if (heightShaft >= 0) {
+                this.$isHeadVisible = true;
+                this.tail.heightShaft = heightShaft;
+                this.updateHeadPosition();
+            } else {
+                this.$isHeadVisible = false;
+                this.tail.heightShaft = length;
+            }
+        }
     }
 
     isZombie(): boolean {

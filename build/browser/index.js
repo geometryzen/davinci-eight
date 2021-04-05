@@ -762,7 +762,7 @@
             this.GITHUB = "https://github.com/geometryzen/davinci-eight";
             this.LAST_MODIFIED = "2021-04-04";
             this.MARKETING_NAME = "DaVinci eight";
-            this.VERSION = "8.4.20";
+            this.VERSION = "8.4.21";
         }
         Eight.prototype.log = function (message) {
             console.log(message);
@@ -25781,6 +25781,7 @@
             this.$vector = Geometric3.zero(false);
             this.$position = Geometric3.zero(false);
             this.$attitude = Geometric3.zero(false);
+            this.$isHeadVisible = true;
             this.head = new ArrowHead(contextManager, options, levelUp);
             this.tail = new ArrowTail(contextManager, options, levelUp);
             this.$vector.copyVector(this.head.vector).addVector(this.tail.vector);
@@ -25793,7 +25794,9 @@
             this.updateHeadPosition();
         }
         ArrowFH.prototype.render = function (ambients) {
-            this.head.render(ambients);
+            if (this.$isHeadVisible) {
+                this.head.render(ambients);
+            }
             this.tail.render(ambients);
         };
         ArrowFH.prototype.contextFree = function () {
@@ -25840,9 +25843,18 @@
                 return this.head.heightCone + this.tail.heightShaft;
             },
             set: function (length) {
-                var heightShaft = length - this.head.heightCone;
-                this.tail.heightShaft = heightShaft;
-                this.updateHeadPosition();
+                if (length > 0) {
+                    var heightShaft = length - this.head.heightCone;
+                    if (heightShaft >= 0) {
+                        this.$isHeadVisible = true;
+                        this.tail.heightShaft = heightShaft;
+                        this.updateHeadPosition();
+                    }
+                    else {
+                        this.$isHeadVisible = false;
+                        this.tail.heightShaft = length;
+                    }
+                }
             },
             enumerable: false,
             configurable: true
