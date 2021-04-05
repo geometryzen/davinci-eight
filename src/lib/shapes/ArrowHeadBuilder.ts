@@ -44,7 +44,6 @@ export class ArrowHeadBuilder extends AxialShapeBuilder {
      */
     toPrimitive(): Primitive {
 
-        const heightShaft = 1 - this.heightCone;
         /**
          * The opposite direction to the axis.
          */
@@ -53,7 +52,7 @@ export class ArrowHeadBuilder extends AxialShapeBuilder {
         /**
          * The neck is the place where the cone meets the shaft. 
          */
-        const neck = Vector3.copy(this.e).scale(heightShaft).add(this.offset);
+        const neck = Vector3.copy(this.offset);
         neck.rotate(this.tilt);
 
         /**

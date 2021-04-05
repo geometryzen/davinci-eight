@@ -762,7 +762,7 @@
             this.GITHUB = "https://github.com/geometryzen/davinci-eight";
             this.LAST_MODIFIED = "2021-04-04";
             this.MARKETING_NAME = "DaVinci eight";
-            this.VERSION = "8.4.16";
+            this.VERSION = "8.4.17";
         }
         Eight.prototype.log = function (message) {
             console.log(message);
@@ -19241,7 +19241,6 @@
          *
          */
         ArrowHeadBuilder.prototype.toPrimitive = function () {
-            var heightShaft = 1 - this.heightCone;
             /**
              * The opposite direction to the axis.
              */
@@ -19249,7 +19248,7 @@
             /**
              * The neck is the place where the cone meets the shaft.
              */
-            var neck = Vector3.copy(this.e).scale(heightShaft).add(this.offset);
+            var neck = Vector3.copy(this.offset);
             neck.rotate(this.tilt);
             /**
              * The `cone` forms the head of the arrow.
