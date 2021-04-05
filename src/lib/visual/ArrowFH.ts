@@ -1,4 +1,4 @@
-import { Facet } from '../..';
+import { Facet } from '../core/Facet';
 import { Color } from '../core/Color';
 import { ContextManager } from '../core/ContextManager';
 import { Renderable } from '../core/Renderable';
@@ -21,86 +21,100 @@ export class ArrowFH implements Renderable {
     private $positionLock: number;
     private readonly $attitude: Geometric3 = Geometric3.zero(false);
     private $attitudeLock: number;
+    private readonly $color: Color = Color.fromRGB(1, 1, 1);
+    private $colorLock: number;
     private $isHeadVisible = true;
     /**
      * @param contextManager This will usually be provided by the `Engine`.
      * @param options 
-     * @param levelUp Leave as zero unless you are extending this class. 
      */
-    constructor(contextManager: ContextManager, options: Partial<ArrowOptions> = {}, levelUp = 0) {
-        this.head = new ArrowHead(contextManager, options, levelUp);
-        this.tail = new ArrowTail(contextManager, options, levelUp);
+    constructor(contextManager: ContextManager, options: Partial<ArrowOptions> = {}) {
+        this.head = new ArrowHead(contextManager, options);
+        this.tail = new ArrowTail(contextManager, options);
+
         this.$vector.copyVector(this.head.vector).addVector(this.tail.vector);
         this.$vectorLock = this.$vector.lock();
+
         this.$position.copyVector(this.tail.position);
         this.$positionLock = this.$position.lock();
+
         this.$attitude.copySpinor(this.tail.attitude);
         this.$attitudeLock = this.$attitude.lock();
+
+        this.$color.copy(this.tail.color);
+        this.$colorLock = this.$color.lock();
+
         this.updateHeadAttitude();
         this.updateHeadPosition();
     }
-    name?: string;
-    transparent?: boolean;
+    name: string;
+    transparent: boolean;
     render(ambients: Facet[]): void {
         if (this.$isHeadVisible) {
             this.head.render(ambients);
         }
         this.tail.render(ambients);
     }
-    contextFree?(): void {
+    /**
+     * @hidden
+     */
+    contextFree(): void {
         this.head.contextFree();
         this.tail.contextFree();
     }
-    contextGain?(): void {
+    /**
+     * @hidden
+     */
+    contextGain(): void {
         this.head.contextGain();
         this.tail.contextGain();
     }
-    contextLost?(): void {
+    /**
+     * @hidden
+     */
+    contextLost(): void {
         this.head.contextLost();
         this.tail.contextLost();
     }
-    addRef?(): number {
+    addRef(): number {
         this.head.addRef();
         return this.tail.addRef();
     }
-    release?(): number {
+    release(): number {
         this.head.release();
         return this.tail.release();
     }
-
-    get vector(): VectorE3 {
+    /**
+     * The vector from the tail of the arrow to the head of the arrow.
+     */
+    get vector(): Geometric3 {
         return this.$vector;
     }
-    set vector(vector: VectorE3) {
+    set vector(vector: Geometric3) {
         this.$vector.unlock(this.$vectorLock);
         this.$vector.copyVector(vector);
         this.$vectorLock = this.$vector.lock();
-        this.length = normVectorE3(vector);
+        const magnitude = normVectorE3(vector);
+        const heightShaft = magnitude - this.head.heightCone;
+        if (heightShaft >= 0) {
+            this.$isHeadVisible = true;
+            this.tail.heightShaft = heightShaft;
+            this.updateHeadPosition();
+        } else {
+            this.$isHeadVisible = false;
+            this.tail.heightShaft = magnitude;
+        }
         // Don't try to set the direction for the zero vector.
-        if (this.length !== 0) {
+        if (magnitude > 0) {
             this.head.axis = vector;
             this.tail.axis = vector;
         }
         this.updateHeadPosition();
     }
 
-    get length() {
-        return this.head.heightCone + this.tail.heightShaft;
-    }
-    set length(length: number) {
-        if (length >= 0) {
-            const heightShaft = length - this.head.heightCone;
-            if (heightShaft >= 0) {
-                this.$isHeadVisible = true;
-                this.tail.heightShaft = heightShaft;
-                this.updateHeadPosition();
-            } else {
-                this.$isHeadVisible = false;
-                this.tail.heightShaft = length;
-            }
-        }
-    }
-
+    /**
+     * @hidden
+     */
     isZombie(): boolean {
         if (this.head.isZombie()) {
             if (this.tail.isZombie()) {
@@ -116,41 +130,49 @@ export class ArrowFH implements Renderable {
             }
         }
     }
+    /**
+     * Alias for `position`.
+     */
     get X(): Geometric3 {
         return this.$position;
     }
     set X(X: Geometric3) {
         this.setPosition(X);
     }
+    /**
+     * The position (vector).
+     */
     get position(): Geometric3 {
         return this.$position;
     }
     set position(position: Geometric3) {
         this.setPosition(position);
     }
+    /**
+     * Alias for `attitude`.
+     */
     get R(): Geometric3 {
         return this.$attitude;
     }
     set R(R: Geometric3) {
         this.setAttitude(R);
     }
+    /**
+     * The attitude (spinor).
+     */
     get attitude(): Geometric3 {
         return this.$attitude;
     }
     set attitude(attitude: Geometric3) {
         this.setAttitude(attitude);
     }
-    get axis(): VectorE3 {
-        return this.tail.axis;
-    }
-    set axis(axis: VectorE3) {
-        this.head.axis = axis;
-        this.tail.axis = axis;
-    }
     get color(): Color {
-        return this.head.color;
+        return this.$color;
     }
     set color(color: Color) {
+        this.$color.unlock(this.$colorLock);
+        this.$color.copy(color);
+        this.$colorLock = this.$color.lock();
         this.head.color = color;
         this.tail.color = color;
     }

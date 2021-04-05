@@ -1,5 +1,3 @@
-import { isDefined } from '../checks/isDefined';
-import { mustBeNumber } from '../checks/mustBeNumber';
 import { Color } from '../core/Color';
 import { ContextManager } from '../core/ContextManager';
 import { Material } from '../core/Material';

@@ -23,7 +23,7 @@ export class Eight {
         this.GITHUB = "https://github.com/geometryzen/davinci-eight";
         this.LAST_MODIFIED = "2021-04-04";
         this.MARKETING_NAME = "DaVinci eight";
-        this.VERSION = "8.4.22";
+        this.VERSION = "8.4.23";
     }
 
     log(message?: any): void {

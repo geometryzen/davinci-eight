@@ -1,8 +1,5 @@
-import { isDefined } from '../checks/isDefined';
-import { mustBeNumber } from '../checks/mustBeNumber';
 import { Color } from '../core/Color';
 import { ContextManager } from '../core/ContextManager';
-import { Geometry } from '../core/Geometry';
 import { Material } from '../core/Material';
 import { Mesh } from '../core/Mesh';
 import { referenceAxis } from '../core/referenceAxis';
