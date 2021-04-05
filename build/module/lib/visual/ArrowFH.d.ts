@@ -31,19 +31,8 @@ export declare class ArrowFH implements Renderable {
     contextLost?(): void;
     addRef?(): number;
     release?(): number;
-    /**
-     * The vector that is represented by the Arrow.
-     *
-     * magnitude(Arrow.vector) = Arrow.length
-     * direction(Arrow.vector) = Arrow.axis
-     * Arrow.vector = Arrow.length * Arrow.axis
-     */
     get vector(): VectorE3;
     set vector(vector: VectorE3);
-    /**
-     * The length of the Arrow.
-     * This property determines the scaling of the Arrow in all directions.
-     */
     get length(): number;
     set length(length: number);
     isZombie(): boolean;
@@ -61,5 +50,6 @@ export declare class ArrowFH implements Renderable {
     set color(color: Color);
     private setPosition;
     private setAttitude;
-    private moveHead;
+    private updateHeadPosition;
+    private updateHeadAttitude;
 }

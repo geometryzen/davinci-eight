@@ -63,13 +63,6 @@ export class ArrowFH implements Renderable {
         return this.tail.release();
     }
 
-    /**
-     * The vector that is represented by the Arrow.
-     * 
-     * magnitude(Arrow.vector) = Arrow.length
-     * direction(Arrow.vector) = Arrow.axis
-     * Arrow.vector = Arrow.length * Arrow.axis
-     */
     get vector(): VectorE3 {
         return this.$vector;
     }
@@ -83,12 +76,9 @@ export class ArrowFH implements Renderable {
             this.head.axis = vector;
             this.tail.axis = vector;
         }
+        this.updateHeadPosition();
     }
 
-    /**
-     * The length of the Arrow.
-     * This property determines the scaling of the Arrow in all directions.
-     */
     get length() {
         return this.head.heightCone + this.tail.heightShaft;
     }
@@ -98,7 +88,9 @@ export class ArrowFH implements Renderable {
         const t = length * 0.8;
         this.head.heightCone = h;
         this.tail.heightShaft = t;
+        this.updateHeadPosition();
     }
+
     isZombie(): boolean {
         if (this.head.isZombie()) {
             if (this.tail.isZombie()) {
@@ -157,17 +149,20 @@ export class ArrowFH implements Renderable {
         this.$position.copyVector(position);
         this.$positionLock = this.$position.lock();
         this.tail.position = position;
-        this.moveHead();
+        this.updateHeadPosition();
     }
     private setAttitude(attitude: Geometric3): void {
         this.$attitude.unlock(this.$attitudeLock);
         this.$attitude.copySpinor(attitude);
         this.$attitudeLock = this.$attitude.lock();
         this.tail.attitude = attitude;
-        this.moveHead();
+        this.updateHeadPosition();
+        this.updateHeadAttitude();
     }
-    private moveHead(): void {
-        this.head.attitude = this.tail.attitude;
+    private updateHeadPosition(): void {
         this.head.position.copyVector(this.tail.position).addVector(this.tail.vector);
+    }
+    private updateHeadAttitude(): void {
+        this.head.attitude = this.tail.attitude;
     }
 }

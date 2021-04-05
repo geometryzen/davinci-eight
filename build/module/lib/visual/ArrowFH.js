@@ -51,13 +51,6 @@ var ArrowFH = /** @class */ (function () {
         return this.tail.release();
     };
     Object.defineProperty(ArrowFH.prototype, "vector", {
-        /**
-         * The vector that is represented by the Arrow.
-         *
-         * magnitude(Arrow.vector) = Arrow.length
-         * direction(Arrow.vector) = Arrow.axis
-         * Arrow.vector = Arrow.length * Arrow.axis
-         */
         get: function () {
             return this.$vector;
         },
@@ -71,15 +64,12 @@ var ArrowFH = /** @class */ (function () {
                 this.head.axis = vector;
                 this.tail.axis = vector;
             }
+            this.updateHeadPosition();
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(ArrowFH.prototype, "length", {
-        /**
-         * The length of the Arrow.
-         * This property determines the scaling of the Arrow in all directions.
-         */
         get: function () {
             return this.head.heightCone + this.tail.heightShaft;
         },
@@ -89,6 +79,7 @@ var ArrowFH = /** @class */ (function () {
             var t = length * 0.8;
             this.head.heightCone = h;
             this.tail.heightShaft = t;
+            this.updateHeadPosition();
         },
         enumerable: false,
         configurable: true
@@ -178,18 +169,21 @@ var ArrowFH = /** @class */ (function () {
         this.$position.copyVector(position);
         this.$positionLock = this.$position.lock();
         this.tail.position = position;
-        this.moveHead();
+        this.updateHeadPosition();
     };
     ArrowFH.prototype.setAttitude = function (attitude) {
         this.$attitude.unlock(this.$attitudeLock);
         this.$attitude.copySpinor(attitude);
         this.$attitudeLock = this.$attitude.lock();
         this.tail.attitude = attitude;
-        this.moveHead();
+        this.updateHeadPosition();
+        this.updateHeadAttitude();
     };
-    ArrowFH.prototype.moveHead = function () {
-        this.head.attitude = this.tail.attitude;
+    ArrowFH.prototype.updateHeadPosition = function () {
         this.head.position.copyVector(this.tail.position).addVector(this.tail.vector);
+    };
+    ArrowFH.prototype.updateHeadAttitude = function () {
+        this.head.attitude = this.tail.attitude;
     };
     return ArrowFH;
 }());
