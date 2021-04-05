@@ -86,12 +86,12 @@ export class ArrowTail extends Mesh<ArrowTailGeometry, Material> {
     }
 
     get heightShaft() {
-        const s = this.getScaleX();
+        const s = this.getScaleY();
         return s * this.$heightShaft;
     }
     set heightShaft(heightShaft: number) {
         const s = heightShaft / this.$heightShaft;
-        this.setScale(s, s, s);
+        this.setScale(1, s, 1);
     }
 }
 

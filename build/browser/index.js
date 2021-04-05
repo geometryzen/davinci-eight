@@ -762,7 +762,7 @@
             this.GITHUB = "https://github.com/geometryzen/davinci-eight";
             this.LAST_MODIFIED = "2021-04-04";
             this.MARKETING_NAME = "DaVinci eight";
-            this.VERSION = "8.4.19";
+            this.VERSION = "8.4.20";
         }
         Eight.prototype.log = function (message) {
             console.log(message);
@@ -25714,12 +25714,12 @@
         });
         Object.defineProperty(ArrowTail.prototype, "heightShaft", {
             get: function () {
-                var s = this.getScaleX();
+                var s = this.getScaleY();
                 return s * this.$heightShaft;
             },
             set: function (heightShaft) {
                 var s = heightShaft / this.$heightShaft;
-                this.setScale(s, s, s);
+                this.setScale(1, s, 1);
             },
             enumerable: false,
             configurable: true
