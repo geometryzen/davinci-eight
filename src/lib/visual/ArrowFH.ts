@@ -85,11 +85,8 @@ export class ArrowFH implements Renderable {
         return this.head.heightCone + this.tail.heightShaft;
     }
     set length(length: number) {
-        // TODO
-        const h = length * 0.2;
-        const t = length * 0.8;
-        this.head.heightCone = h;
-        this.tail.heightShaft = t;
+        const heightShaft = length - this.head.heightCone;
+        this.tail.heightShaft = heightShaft;
         this.updateHeadPosition();
     }
 

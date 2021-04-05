@@ -76,11 +76,8 @@ var ArrowFH = /** @class */ (function () {
             return this.head.heightCone + this.tail.heightShaft;
         },
         set: function (length) {
-            // TODO
-            var h = length * 0.2;
-            var t = length * 0.8;
-            this.head.heightCone = h;
-            this.tail.heightShaft = t;
+            var heightShaft = length - this.head.heightCone;
+            this.tail.heightShaft = heightShaft;
             this.updateHeadPosition();
         },
         enumerable: false,
