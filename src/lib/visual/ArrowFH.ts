@@ -17,6 +17,8 @@ export class ArrowFH implements Renderable {
     private readonly tail: ArrowTail;
     private readonly $vector: Geometric3 = Geometric3.zero(false);
     private readonly $vectorLock: number;
+    private readonly $position: Geometric3 = Geometric3.zero(false);
+    private $positionLock: number;
     private readonly $attitude: Geometric3 = Geometric3.zero(false);
     private $attitudeLock: number;
     /**
@@ -29,6 +31,8 @@ export class ArrowFH implements Renderable {
         this.tail = new ArrowTail(contextManager, options, levelUp);
         this.$vector.copyVector(this.head.vector).addVector(this.tail.vector);
         this.$vectorLock = this.$vector.lock();
+        this.$position.copyVector(this.tail.position);
+        this.$positionLock = this.$position.lock();
         this.$attitude.copySpinor(this.tail.attitude);
         this.$attitudeLock = this.$attitude.lock();
     }
@@ -108,15 +112,13 @@ export class ArrowFH implements Renderable {
         }
     }
     get X(): Geometric3 {
-        // TODO: Mutability is a problem.
-        return this.tail.X;
+        return this.$position;
     }
     set X(X: Geometric3) {
         this.setPosition(X);
     }
     get position(): Geometric3 {
-        // TODO: Mutability is a problem.
-        return this.tail.position;
+        return this.$position;
     }
     set position(position: Geometric3) {
         this.setPosition(position);
@@ -148,6 +150,9 @@ export class ArrowFH implements Renderable {
         this.tail.color = color;
     }
     private setPosition(position: Geometric3): void {
+        this.$position.unlock(this.$positionLock);
+        this.$position.copyVector(position);
+        this.$positionLock = this.$position.lock();
         this.tail.position = position;
         this.moveHead();
     }

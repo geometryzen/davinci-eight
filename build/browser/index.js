@@ -762,7 +762,7 @@
             this.GITHUB = "https://github.com/geometryzen/davinci-eight";
             this.LAST_MODIFIED = "2021-04-04";
             this.MARKETING_NAME = "DaVinci eight";
-            this.VERSION = "8.4.13";
+            this.VERSION = "8.4.14";
         }
         Eight.prototype.log = function (message) {
             console.log(message);
@@ -25780,11 +25780,14 @@
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
             this.$vector = Geometric3.zero(false);
+            this.$position = Geometric3.zero(false);
             this.$attitude = Geometric3.zero(false);
             this.head = new ArrowHead(contextManager, options, levelUp);
             this.tail = new ArrowTail(contextManager, options, levelUp);
             this.$vector.copyVector(this.head.vector).addVector(this.tail.vector);
             this.$vectorLock = this.$vector.lock();
+            this.$position.copyVector(this.tail.position);
+            this.$positionLock = this.$position.lock();
             this.$attitude.copySpinor(this.tail.attitude);
             this.$attitudeLock = this.$attitude.lock();
         }
@@ -25872,8 +25875,7 @@
         };
         Object.defineProperty(ArrowFH.prototype, "X", {
             get: function () {
-                // TODO: Mutability is a problem.
-                return this.tail.X;
+                return this.$position;
             },
             set: function (X) {
                 this.setPosition(X);
@@ -25883,8 +25885,7 @@
         });
         Object.defineProperty(ArrowFH.prototype, "position", {
             get: function () {
-                // TODO: Mutability is a problem.
-                return this.tail.position;
+                return this.$position;
             },
             set: function (position) {
                 this.setPosition(position);
@@ -25935,6 +25936,9 @@
             configurable: true
         });
         ArrowFH.prototype.setPosition = function (position) {
+            this.$position.unlock(this.$positionLock);
+            this.$position.copyVector(position);
+            this.$positionLock = this.$position.lock();
             this.tail.position = position;
             this.moveHead();
         };
