@@ -88,7 +88,7 @@ export class ArrowFH implements Renderable {
         return this.head.heightCone + this.tail.heightShaft;
     }
     set length(length: number) {
-        if (length > 0) {
+        if (length >= 0) {
             const heightShaft = length - this.head.heightCone;
             if (heightShaft >= 0) {
                 this.$isHeadVisible = true;

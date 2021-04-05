@@ -79,7 +79,7 @@ var ArrowFH = /** @class */ (function () {
             return this.head.heightCone + this.tail.heightShaft;
         },
         set: function (length) {
-            if (length > 0) {
+            if (length >= 0) {
                 var heightShaft = length - this.head.heightCone;
                 if (heightShaft >= 0) {
                     this.$isHeadVisible = true;
