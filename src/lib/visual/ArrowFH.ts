@@ -35,6 +35,8 @@ export class ArrowFH implements Renderable {
         this.$positionLock = this.$position.lock();
         this.$attitude.copySpinor(this.tail.attitude);
         this.$attitudeLock = this.$attitude.lock();
+        this.updateHeadAttitude();
+        this.updateHeadPosition();
     }
     name?: string;
     transparent?: boolean;

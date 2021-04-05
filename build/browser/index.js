@@ -762,7 +762,7 @@
             this.GITHUB = "https://github.com/geometryzen/davinci-eight";
             this.LAST_MODIFIED = "2021-04-04";
             this.MARKETING_NAME = "DaVinci eight";
-            this.VERSION = "8.4.17";
+            this.VERSION = "8.4.18";
         }
         Eight.prototype.log = function (message) {
             console.log(message);
@@ -25789,6 +25789,8 @@
             this.$positionLock = this.$position.lock();
             this.$attitude.copySpinor(this.tail.attitude);
             this.$attitudeLock = this.$attitude.lock();
+            this.updateHeadAttitude();
+            this.updateHeadPosition();
         }
         ArrowFH.prototype.render = function (ambients) {
             this.head.render(ambients);

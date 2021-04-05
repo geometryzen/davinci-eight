@@ -25,6 +25,8 @@ var ArrowFH = /** @class */ (function () {
         this.$positionLock = this.$position.lock();
         this.$attitude.copySpinor(this.tail.attitude);
         this.$attitudeLock = this.$attitude.lock();
+        this.updateHeadAttitude();
+        this.updateHeadPosition();
     }
     ArrowFH.prototype.render = function (ambients) {
         this.head.render(ambients);
