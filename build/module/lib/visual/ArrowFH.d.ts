@@ -57,4 +57,7 @@ export declare class ArrowFH implements Renderable {
     set axis(axis: VectorE3);
     get color(): Color;
     set color(color: Color);
+    private setPosition;
+    private setAttitude;
+    private moveHead;
 }

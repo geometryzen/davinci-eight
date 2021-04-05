@@ -111,8 +111,7 @@ var ArrowFH = /** @class */ (function () {
             return this.tail.X;
         },
         set: function (X) {
-            this.head.X.copyVector(X).addVector(this.tail.vector);
-            this.tail.X = X;
+            this.setPosition(X);
         },
         enumerable: false,
         configurable: true
@@ -123,8 +122,7 @@ var ArrowFH = /** @class */ (function () {
             return this.tail.position;
         },
         set: function (position) {
-            this.head.position.copyVector(position).addVector(this.tail.vector);
-            this.tail.position = position;
+            this.setPosition(position);
         },
         enumerable: false,
         configurable: true
@@ -134,10 +132,7 @@ var ArrowFH = /** @class */ (function () {
             return this.$attitude;
         },
         set: function (R) {
-            this.$attitude.unlock(this.$attitudeLock);
-            this.$attitude.copySpinor(R);
-            this.$attitudeLock = this.$attitude.lock();
-            this.tail.R = R;
+            this.setAttitude(R);
         },
         enumerable: false,
         configurable: true
@@ -147,10 +142,7 @@ var ArrowFH = /** @class */ (function () {
             return this.$attitude;
         },
         set: function (attitude) {
-            this.$attitude.unlock(this.$attitudeLock);
-            this.$attitude.copySpinor(attitude);
-            this.$attitudeLock = this.$attitude.lock();
-            this.tail.attitude = attitude;
+            this.setAttitude(attitude);
         },
         enumerable: false,
         configurable: true
@@ -177,6 +169,21 @@ var ArrowFH = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    ArrowFH.prototype.setPosition = function (position) {
+        this.tail.position = position;
+        this.moveHead();
+    };
+    ArrowFH.prototype.setAttitude = function (attitude) {
+        this.$attitude.unlock(this.$attitudeLock);
+        this.$attitude.copySpinor(attitude);
+        this.$attitudeLock = this.$attitude.lock();
+        this.tail.attitude = attitude;
+        this.moveHead();
+    };
+    ArrowFH.prototype.moveHead = function () {
+        this.head.attitude = this.tail.attitude;
+        this.head.position.copyVector(this.tail.position).addVector(this.tail.vector);
+    };
     return ArrowFH;
 }());
 export { ArrowFH };

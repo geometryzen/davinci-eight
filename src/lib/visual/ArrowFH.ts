@@ -112,34 +112,26 @@ export class ArrowFH implements Renderable {
         return this.tail.X;
     }
     set X(X: Geometric3) {
-        this.head.X.copyVector(X).addVector(this.tail.vector);
-        this.tail.X = X;
+        this.setPosition(X);
     }
     get position(): Geometric3 {
         // TODO: Mutability is a problem.
         return this.tail.position;
     }
     set position(position: Geometric3) {
-        this.head.position.copyVector(position).addVector(this.tail.vector);
-        this.tail.position = position;
+        this.setPosition(position);
     }
     get R(): Geometric3 {
         return this.$attitude;
     }
     set R(R: Geometric3) {
-        this.$attitude.unlock(this.$attitudeLock);
-        this.$attitude.copySpinor(R);
-        this.$attitudeLock = this.$attitude.lock();
-        this.tail.R = R;
+        this.setAttitude(R);
     }
     get attitude(): Geometric3 {
         return this.$attitude;
     }
     set attitude(attitude: Geometric3) {
-        this.$attitude.unlock(this.$attitudeLock);
-        this.$attitude.copySpinor(attitude);
-        this.$attitudeLock = this.$attitude.lock();
-        this.tail.attitude = attitude;
+        this.setAttitude(attitude);
     }
     get axis(): VectorE3 {
         return this.tail.axis;
@@ -154,5 +146,20 @@ export class ArrowFH implements Renderable {
     set color(color: Color) {
         this.head.color = color;
         this.tail.color = color;
+    }
+    private setPosition(position: Geometric3): void {
+        this.tail.position = position;
+        this.moveHead();
+    }
+    private setAttitude(attitude: Geometric3): void {
+        this.$attitude.unlock(this.$attitudeLock);
+        this.$attitude.copySpinor(attitude);
+        this.$attitudeLock = this.$attitude.lock();
+        this.tail.attitude = attitude;
+        this.moveHead();
+    }
+    private moveHead(): void {
+        this.head.attitude = this.tail.attitude;
+        this.head.position.copyVector(this.tail.position).addVector(this.tail.vector);
     }
 }
