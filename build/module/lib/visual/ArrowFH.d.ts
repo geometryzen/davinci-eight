@@ -13,6 +13,8 @@ export declare class ArrowFH implements Renderable {
     private readonly tail;
     private readonly $vector;
     private readonly $vectorLock;
+    private readonly $attitude;
+    private $attitudeLock;
     /**
      * @param contextManager This will usually be provided by the `Engine`.
      * @param options

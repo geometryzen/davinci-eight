@@ -762,7 +762,7 @@
             this.GITHUB = "https://github.com/geometryzen/davinci-eight";
             this.LAST_MODIFIED = "2021-04-04";
             this.MARKETING_NAME = "DaVinci eight";
-            this.VERSION = "8.4.11";
+            this.VERSION = "8.4.12";
         }
         Eight.prototype.log = function (message) {
             console.log(message);
@@ -25780,10 +25780,13 @@
             if (options === void 0) { options = {}; }
             if (levelUp === void 0) { levelUp = 0; }
             this.$vector = Geometric3.zero(false);
+            this.$attitude = Geometric3.zero(false);
             this.head = new ArrowHead(contextManager, options, levelUp);
             this.tail = new ArrowTail(contextManager, options, levelUp);
             this.$vector.copyVector(this.head.vector).addVector(this.tail.vector);
             this.$vectorLock = this.$vector.lock();
+            this.$attitude.copySpinor(this.tail.attitude);
+            this.$attitudeLock = this.$attitude.lock();
         }
         ArrowFH.prototype.render = function (ambients) {
             this.head.render(ambients);
@@ -25869,6 +25872,7 @@
         };
         Object.defineProperty(ArrowFH.prototype, "X", {
             get: function () {
+                // TODO: Mutability is a problem.
                 return this.tail.X;
             },
             set: function (X) {
@@ -25880,6 +25884,7 @@
         });
         Object.defineProperty(ArrowFH.prototype, "position", {
             get: function () {
+                // TODO: Mutability is a problem.
                 return this.tail.position;
             },
             set: function (position) {
@@ -25891,9 +25896,12 @@
         });
         Object.defineProperty(ArrowFH.prototype, "R", {
             get: function () {
-                return this.tail.R;
+                return this.$attitude;
             },
             set: function (R) {
+                this.$attitude.unlock(this.$attitudeLock);
+                this.$attitude.copySpinor(R);
+                this.$attitudeLock = this.$attitude.lock();
                 this.tail.R = R;
             },
             enumerable: false,
@@ -25901,9 +25909,12 @@
         });
         Object.defineProperty(ArrowFH.prototype, "attitude", {
             get: function () {
-                return this.tail.attitude;
+                return this.$attitude;
             },
             set: function (attitude) {
+                this.$attitude.unlock(this.$attitudeLock);
+                this.$attitude.copySpinor(attitude);
+                this.$attitudeLock = this.$attitude.lock();
                 this.tail.attitude = attitude;
             },
             enumerable: false,

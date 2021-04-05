@@ -17,6 +17,8 @@ export class ArrowFH implements Renderable {
     private readonly tail: ArrowTail;
     private readonly $vector: Geometric3 = Geometric3.zero(false);
     private readonly $vectorLock: number;
+    private readonly $attitude: Geometric3 = Geometric3.zero(false);
+    private $attitudeLock: number;
     /**
      * @param contextManager This will usually be provided by the `Engine`.
      * @param options 
@@ -27,6 +29,8 @@ export class ArrowFH implements Renderable {
         this.tail = new ArrowTail(contextManager, options, levelUp);
         this.$vector.copyVector(this.head.vector).addVector(this.tail.vector);
         this.$vectorLock = this.$vector.lock();
+        this.$attitude.copySpinor(this.tail.attitude);
+        this.$attitudeLock = this.$attitude.lock();
     }
     name?: string;
     transparent?: boolean;
@@ -104,6 +108,7 @@ export class ArrowFH implements Renderable {
         }
     }
     get X(): Geometric3 {
+        // TODO: Mutability is a problem.
         return this.tail.X;
     }
     set X(X: Geometric3) {
@@ -111,6 +116,7 @@ export class ArrowFH implements Renderable {
         this.tail.X = X;
     }
     get position(): Geometric3 {
+        // TODO: Mutability is a problem.
         return this.tail.position;
     }
     set position(position: Geometric3) {
@@ -118,15 +124,21 @@ export class ArrowFH implements Renderable {
         this.tail.position = position;
     }
     get R(): Geometric3 {
-        return this.tail.R;
+        return this.$attitude;
     }
     set R(R: Geometric3) {
+        this.$attitude.unlock(this.$attitudeLock);
+        this.$attitude.copySpinor(R);
+        this.$attitudeLock = this.$attitude.lock();
         this.tail.R = R;
     }
     get attitude(): Geometric3 {
-        return this.tail.attitude;
+        return this.$attitude;
     }
     set attitude(attitude: Geometric3) {
+        this.$attitude.unlock(this.$attitudeLock);
+        this.$attitude.copySpinor(attitude);
+        this.$attitudeLock = this.$attitude.lock();
         this.tail.attitude = attitude;
     }
     get axis(): VectorE3 {
