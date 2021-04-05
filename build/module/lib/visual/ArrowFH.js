@@ -62,6 +62,9 @@ var ArrowFH = /** @class */ (function () {
             return this.$vector;
         },
         set: function (vector) {
+            this.$vector.unlock(this.$vectorLock);
+            this.$vector.copyVector(vector);
+            this.$vectorLock = this.$vector.lock();
             this.length = normVectorE3(vector);
             // Don't try to set the direction for the zero vector.
             if (this.length !== 0) {

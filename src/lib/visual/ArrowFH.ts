@@ -16,7 +16,7 @@ export class ArrowFH implements Renderable {
     private readonly head: ArrowHead;
     private readonly tail: ArrowTail;
     private readonly $vector: Geometric3 = Geometric3.zero(false);
-    private readonly $vectorLock: number;
+    private $vectorLock: number;
     private readonly $position: Geometric3 = Geometric3.zero(false);
     private $positionLock: number;
     private readonly $attitude: Geometric3 = Geometric3.zero(false);
@@ -74,6 +74,9 @@ export class ArrowFH implements Renderable {
         return this.$vector;
     }
     set vector(vector: VectorE3) {
+        this.$vector.unlock(this.$vectorLock);
+        this.$vector.copyVector(vector);
+        this.$vectorLock = this.$vector.lock();
         this.length = normVectorE3(vector);
         // Don't try to set the direction for the zero vector.
         if (this.length !== 0) {

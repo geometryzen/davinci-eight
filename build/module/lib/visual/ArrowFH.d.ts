@@ -12,7 +12,7 @@ export declare class ArrowFH implements Renderable {
     private readonly head;
     private readonly tail;
     private readonly $vector;
-    private readonly $vectorLock;
+    private $vectorLock;
     private readonly $position;
     private $positionLock;
     private readonly $attitude;
