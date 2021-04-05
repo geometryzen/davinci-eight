@@ -31,7 +31,7 @@ export class ArrowHead extends Mesh<ArrowHeadGeometry, Material> {
      * @param options 
      * @param levelUp Leave as zero unless you are extending this class. 
      */
-    constructor(contextManager: ContextManager, options: Partial<ArrowOptions> = {}, levelUp = 0) {
+    constructor(contextManager: ContextManager, options: Partial<Pick<ArrowOptions, 'axis' | 'color' | 'heightCone' | 'mode' | 'offset' | 'radiusCone' | 'textured' | 'thetaSegments' | 'tilt'>> = {}, levelUp = 0) {
         super(void 0, void 0, contextManager, { axis: referenceAxis(options, ds.axis).direction(), meridian: referenceMeridian(options, ds.meridian).direction() }, levelUp + 1);
         this.setLoggingName('Arrow');
 
@@ -58,8 +58,8 @@ export class ArrowHead extends Mesh<ArrowHeadGeometry, Material> {
         setColorOption(this, options, Color.gray);
         setDeprecatedOptions(this, options);
 
-        if (isDefined(options.length)) {
-            this.length = mustBeNumber('length', options.length);
+        if (isDefined(options.heightCone)) {
+            this.heightCone = mustBeNumber('heightCone', options.heightCone);
         }
 
         if (levelUp === 0) {
@@ -85,25 +85,22 @@ export class ArrowHead extends Mesh<ArrowHeadGeometry, Material> {
      * Arrow.vector = Arrow.length * Arrow.axis
      */
     get vector(): VectorE3 {
-        return super.getAxis().scale(this.length);
+        return super.getAxis().scale(this.heightCone);
     }
-    set vector(axis: VectorE3) {
-        this.length = normVectorE3(axis);
+    set vector(vector: VectorE3) {
+        this.heightCone = normVectorE3(vector);
         // Don't try to set the direction for the zero vector.
-        if (this.length !== 0) {
-            this.setAxis(axis);
+        if (this.heightCone !== 0) {
+            this.setAxis(vector);
         }
     }
 
-    /**
-     * The length of the Arrow.
-     * This property determines the scaling of the Arrow in all directions.
-     */
-    get length() {
+    get heightCone() {
+        // It does not matter whether we use X,Y, or Z; they are all the same.
         return this.getScaleX();
     }
-    set length(length: number) {
-        this.setScale(length, length, length);
+    set heightCone(heightCone: number) {
+        this.setScale(heightCone, heightCone, heightCone);
     }
 }
 

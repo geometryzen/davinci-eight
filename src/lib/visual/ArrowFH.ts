@@ -79,12 +79,12 @@ export class ArrowFH implements Renderable {
      * This property determines the scaling of the Arrow in all directions.
      */
     get length() {
-        return this.head.length + this.tail.length;
+        return this.head.heightCone + this.tail.length;
     }
     set length(length: number) {
         const h = length * 0.2;
         const t = length * 0.8;
-        this.head.length = h;
+        this.head.heightCone = h;
         this.tail.length = t;
     }
     isZombie(): boolean {

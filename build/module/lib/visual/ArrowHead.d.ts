@@ -13,7 +13,7 @@ export declare class ArrowHead extends Mesh<ArrowHeadGeometry, Material> {
      * @param options
      * @param levelUp Leave as zero unless you are extending this class.
      */
-    constructor(contextManager: ContextManager, options?: Partial<ArrowOptions>, levelUp?: number);
+    constructor(contextManager: ContextManager, options?: Partial<Pick<ArrowOptions, 'axis' | 'color' | 'heightCone' | 'mode' | 'offset' | 'radiusCone' | 'textured' | 'thetaSegments' | 'tilt'>>, levelUp?: number);
     /**
      * @hidden
      */
@@ -26,11 +26,7 @@ export declare class ArrowHead extends Mesh<ArrowHeadGeometry, Material> {
      * Arrow.vector = Arrow.length * Arrow.axis
      */
     get vector(): VectorE3;
-    set vector(axis: VectorE3);
-    /**
-     * The length of the Arrow.
-     * This property determines the scaling of the Arrow in all directions.
-     */
-    get length(): number;
-    set length(length: number);
+    set vector(vector: VectorE3);
+    get heightCone(): number;
+    set heightCone(heightCone: number);
 }

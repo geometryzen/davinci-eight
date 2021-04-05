@@ -762,7 +762,7 @@
             this.GITHUB = "https://github.com/geometryzen/davinci-eight";
             this.LAST_MODIFIED = "2021-04-04";
             this.MARKETING_NAME = "DaVinci eight";
-            this.VERSION = '8.4.8';
+            this.VERSION = '8.4.9';
         }
         Eight.prototype.log = function (message) {
             console.log(message);
@@ -25529,8 +25529,8 @@
             setAxisAndMeridian(_this, options);
             setColorOption(_this, options, Color.gray);
             setDeprecatedOptions(_this, options);
-            if (isDefined(options.length)) {
-                _this.length = mustBeNumber('length', options.length);
+            if (isDefined(options.heightCone)) {
+                _this.heightCone = mustBeNumber('heightCone', options.heightCone);
             }
             if (levelUp === 0) {
                 _this.synchUp();
@@ -25555,28 +25555,25 @@
              * Arrow.vector = Arrow.length * Arrow.axis
              */
             get: function () {
-                return _super.prototype.getAxis.call(this).scale(this.length);
+                return _super.prototype.getAxis.call(this).scale(this.heightCone);
             },
-            set: function (axis) {
-                this.length = normVectorE3(axis);
+            set: function (vector) {
+                this.heightCone = normVectorE3(vector);
                 // Don't try to set the direction for the zero vector.
-                if (this.length !== 0) {
-                    this.setAxis(axis);
+                if (this.heightCone !== 0) {
+                    this.setAxis(vector);
                 }
             },
             enumerable: false,
             configurable: true
         });
-        Object.defineProperty(ArrowHead.prototype, "length", {
-            /**
-             * The length of the Arrow.
-             * This property determines the scaling of the Arrow in all directions.
-             */
+        Object.defineProperty(ArrowHead.prototype, "heightCone", {
             get: function () {
+                // It does not matter whether we use X,Y, or Z; they are all the same.
                 return this.getScaleX();
             },
-            set: function (length) {
-                this.setScale(length, length, length);
+            set: function (heightCone) {
+                this.setScale(heightCone, heightCone, heightCone);
             },
             enumerable: false,
             configurable: true
@@ -25859,12 +25856,12 @@
              * This property determines the scaling of the Arrow in all directions.
              */
             get: function () {
-                return this.head.length + this.tail.length;
+                return this.head.heightCone + this.tail.length;
             },
             set: function (length) {
                 var h = length * 0.2;
                 var t = length * 0.8;
-                this.head.length = h;
+                this.head.heightCone = h;
                 this.tail.length = t;
             },
             enumerable: false,

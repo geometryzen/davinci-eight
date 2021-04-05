@@ -49,8 +49,8 @@ var ArrowHead = /** @class */ (function (_super) {
         setAxisAndMeridian(_this, options);
         setColorOption(_this, options, Color.gray);
         setDeprecatedOptions(_this, options);
-        if (isDefined(options.length)) {
-            _this.length = mustBeNumber('length', options.length);
+        if (isDefined(options.heightCone)) {
+            _this.heightCone = mustBeNumber('heightCone', options.heightCone);
         }
         if (levelUp === 0) {
             _this.synchUp();
@@ -75,28 +75,25 @@ var ArrowHead = /** @class */ (function (_super) {
          * Arrow.vector = Arrow.length * Arrow.axis
          */
         get: function () {
-            return _super.prototype.getAxis.call(this).scale(this.length);
+            return _super.prototype.getAxis.call(this).scale(this.heightCone);
         },
-        set: function (axis) {
-            this.length = normVectorE3(axis);
+        set: function (vector) {
+            this.heightCone = normVectorE3(vector);
             // Don't try to set the direction for the zero vector.
-            if (this.length !== 0) {
-                this.setAxis(axis);
+            if (this.heightCone !== 0) {
+                this.setAxis(vector);
             }
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(ArrowHead.prototype, "length", {
-        /**
-         * The length of the Arrow.
-         * This property determines the scaling of the Arrow in all directions.
-         */
+    Object.defineProperty(ArrowHead.prototype, "heightCone", {
         get: function () {
+            // It does not matter whether we use X,Y, or Z; they are all the same.
             return this.getScaleX();
         },
-        set: function (length) {
-            this.setScale(length, length, length);
+        set: function (heightCone) {
+            this.setScale(heightCone, heightCone, heightCone);
         },
         enumerable: false,
         configurable: true
