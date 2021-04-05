@@ -107,12 +107,14 @@ export class ArrowFH implements Renderable {
         return this.tail.X;
     }
     set X(X: Geometric3) {
+        this.head.X.copyVector(X).addVector(this.tail.vector);
         this.tail.X = X;
     }
     get position(): Geometric3 {
         return this.tail.position;
     }
     set position(position: Geometric3) {
+        this.head.position.copyVector(position).addVector(this.tail.vector);
         this.tail.position = position;
     }
     get R(): Geometric3 {
@@ -131,6 +133,7 @@ export class ArrowFH implements Renderable {
         return this.tail.axis;
     }
     set axis(axis: VectorE3) {
+        this.head.axis = axis;
         this.tail.axis = axis;
     }
     get color(): Color {

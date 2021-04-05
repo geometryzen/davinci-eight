@@ -107,6 +107,7 @@ var ArrowFH = /** @class */ (function () {
             return this.tail.X;
         },
         set: function (X) {
+            this.head.X.copyVector(X).addVector(this.tail.vector);
             this.tail.X = X;
         },
         enumerable: false,
@@ -117,6 +118,7 @@ var ArrowFH = /** @class */ (function () {
             return this.tail.position;
         },
         set: function (position) {
+            this.head.position.copyVector(position).addVector(this.tail.vector);
             this.tail.position = position;
         },
         enumerable: false,
@@ -147,6 +149,7 @@ var ArrowFH = /** @class */ (function () {
             return this.tail.axis;
         },
         set: function (axis) {
+            this.head.axis = axis;
             this.tail.axis = axis;
         },
         enumerable: false,
