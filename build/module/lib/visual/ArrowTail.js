@@ -1,6 +1,4 @@
 import { __extends } from "tslib";
-import { isDefined } from '../checks/isDefined';
-import { mustBeNumber } from '../checks/mustBeNumber';
 import { Color } from '../core/Color';
 import { Mesh } from '../core/Mesh';
 import { referenceAxis } from '../core/referenceAxis';
@@ -37,7 +35,8 @@ var ArrowTail = /** @class */ (function (_super) {
         geoOptions.tilt = spinorE3Object(options.tilt);
         geoOptions.axis = vectorE3Object(referenceAxis(options, ds.axis).direction());
         geoOptions.meridian = vectorE3Object(referenceMeridian(options, ds.meridian).direction());
-        geoOptions.heightShaft = heightShaftFromOptions(options, 0.80);
+        _this.$heightShaft = heightShaftFromOptions(options, 0.80);
+        geoOptions.heightShaft = _this.$heightShaft;
         geoOptions.radiusShaft = radiusShaftFromOptions(options, 0.01);
         geoOptions.thetaSegments = thetaSegmentsFromOptions(options, 16);
         var geometry = new ArrowTailGeometry(contextManager, geoOptions);
@@ -49,9 +48,6 @@ var ArrowTail = /** @class */ (function (_super) {
         setAxisAndMeridian(_this, options);
         setColorOption(_this, options, Color.gray);
         setDeprecatedOptions(_this, options);
-        if (isDefined(options.length)) {
-            _this.length = mustBeNumber('length', options.length);
-        }
         if (levelUp === 0) {
             _this.synchUp();
         }
@@ -67,36 +63,27 @@ var ArrowTail = /** @class */ (function (_super) {
         _super.prototype.destructor.call(this, levelUp + 1);
     };
     Object.defineProperty(ArrowTail.prototype, "vector", {
-        /**
-         * The vector that is represented by the Arrow.
-         *
-         * magnitude(Arrow.vector) = Arrow.length
-         * direction(Arrow.vector) = Arrow.axis
-         * Arrow.vector = Arrow.length * Arrow.axis
-         */
         get: function () {
-            return _super.prototype.getAxis.call(this).scale(this.length);
+            return _super.prototype.getAxis.call(this).scale(this.heightShaft);
         },
-        set: function (axis) {
-            this.length = normVectorE3(axis);
+        set: function (vector) {
+            this.heightShaft = normVectorE3(vector);
             // Don't try to set the direction for the zero vector.
-            if (this.length !== 0) {
-                this.setAxis(axis);
+            if (this.heightShaft !== 0) {
+                this.setAxis(vector);
             }
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(ArrowTail.prototype, "length", {
-        /**
-         * The length of the Arrow.
-         * This property determines the scaling of the Arrow in all directions.
-         */
+    Object.defineProperty(ArrowTail.prototype, "heightShaft", {
         get: function () {
-            return this.getScaleX();
+            var s = this.getScaleX();
+            return s * this.$heightShaft;
         },
-        set: function (length) {
-            this.setScale(length, length, length);
+        set: function (heightShaft) {
+            var s = heightShaft / this.$heightShaft;
+            this.setScale(s, s, s);
         },
         enumerable: false,
         configurable: true

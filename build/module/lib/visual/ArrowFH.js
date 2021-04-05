@@ -72,13 +72,14 @@ var ArrowFH = /** @class */ (function () {
          * This property determines the scaling of the Arrow in all directions.
          */
         get: function () {
-            return this.head.heightCone + this.tail.length;
+            return this.head.heightCone + this.tail.heightShaft;
         },
         set: function (length) {
+            // TODO
             var h = length * 0.2;
             var t = length * 0.8;
             this.head.heightCone = h;
-            this.tail.length = t;
+            this.tail.heightShaft = t;
         },
         enumerable: false,
         configurable: true

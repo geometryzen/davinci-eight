@@ -26,6 +26,7 @@ import { vectorE3Object } from './vectorE3Object';
  * @hidden
  */
 export class ArrowHead extends Mesh<ArrowHeadGeometry, Material> {
+    private readonly $heightCone: number;
     /**
      * @param contextManager This will usually be provided by the `Engine`.
      * @param options 
@@ -42,7 +43,9 @@ export class ArrowHead extends Mesh<ArrowHeadGeometry, Material> {
         geoOptions.axis = vectorE3Object(referenceAxis(options, ds.axis).direction());
         geoOptions.meridian = vectorE3Object(referenceMeridian(options, ds.meridian).direction());
 
-        geoOptions.heightCone = heightConeFromOptions(options, 0.20);
+        this.$heightCone = heightConeFromOptions(options, 0.20);
+
+        geoOptions.heightCone = this.$heightCone;
         geoOptions.radiusCone = radiusConeFromOptions(options, 0.08);
         geoOptions.thetaSegments = thetaSegmentsFromOptions(options, 16);
 
@@ -57,10 +60,6 @@ export class ArrowHead extends Mesh<ArrowHeadGeometry, Material> {
         setAxisAndMeridian(this, options);
         setColorOption(this, options, Color.gray);
         setDeprecatedOptions(this, options);
-
-        if (isDefined(options.heightCone)) {
-            this.heightCone = mustBeNumber('heightCone', options.heightCone);
-        }
 
         if (levelUp === 0) {
             this.synchUp();
@@ -77,13 +76,6 @@ export class ArrowHead extends Mesh<ArrowHeadGeometry, Material> {
         super.destructor(levelUp + 1);
     }
 
-    /**
-     * The vector that is represented by the Arrow.
-     * 
-     * magnitude(Arrow.vector) = Arrow.length
-     * direction(Arrow.vector) = Arrow.axis
-     * Arrow.vector = Arrow.length * Arrow.axis
-     */
     get vector(): VectorE3 {
         return super.getAxis().scale(this.heightCone);
     }
@@ -96,11 +88,12 @@ export class ArrowHead extends Mesh<ArrowHeadGeometry, Material> {
     }
 
     get heightCone() {
-        // It does not matter whether we use X,Y, or Z; they are all the same.
-        return this.getScaleX();
+        const s = this.getScaleX();
+        return s * this.$heightCone;
     }
     set heightCone(heightCone: number) {
-        this.setScale(heightCone, heightCone, heightCone);
+        const s = heightCone / this.$heightCone;
+        this.setScale(s, s, s);
     }
 }
 

@@ -8,6 +8,7 @@ import { ArrowOptions } from './ArrowOptions';
  * @hidden
  */
 export declare class ArrowHead extends Mesh<ArrowHeadGeometry, Material> {
+    private readonly $heightCone;
     /**
      * @param contextManager This will usually be provided by the `Engine`.
      * @param options
@@ -18,13 +19,6 @@ export declare class ArrowHead extends Mesh<ArrowHeadGeometry, Material> {
      * @hidden
      */
     protected destructor(levelUp: number): void;
-    /**
-     * The vector that is represented by the Arrow.
-     *
-     * magnitude(Arrow.vector) = Arrow.length
-     * direction(Arrow.vector) = Arrow.axis
-     * Arrow.vector = Arrow.length * Arrow.axis
-     */
     get vector(): VectorE3;
     set vector(vector: VectorE3);
     get heightCone(): number;

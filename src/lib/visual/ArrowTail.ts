@@ -25,12 +25,13 @@ import { vectorE3Object } from './vectorE3Object';
  * @hidden
  */
 export class ArrowTail extends Mesh<ArrowTailGeometry, Material> {
+    private readonly $heightShaft: number;
     /**
      * @param contextManager This will usually be provided by the `Engine`.
      * @param options 
      * @param levelUp Leave as zero unless you are extending this class. 
      */
-    constructor(contextManager: ContextManager, options: Partial<ArrowOptions> = {}, levelUp = 0) {
+    constructor(contextManager: ContextManager, options: Partial<Pick<ArrowOptions, 'axis' | 'color' | 'heightShaft' | 'mode' | 'offset' | 'radiusShaft' | 'textured' | 'thetaSegments' | 'tilt'>> = {}, levelUp = 0) {
         super(void 0, void 0, contextManager, { axis: referenceAxis(options, ds.axis).direction(), meridian: referenceMeridian(options, ds.meridian).direction() }, levelUp + 1);
         this.setLoggingName('Arrow');
 
@@ -41,7 +42,8 @@ export class ArrowTail extends Mesh<ArrowTailGeometry, Material> {
         geoOptions.axis = vectorE3Object(referenceAxis(options, ds.axis).direction());
         geoOptions.meridian = vectorE3Object(referenceMeridian(options, ds.meridian).direction());
 
-        geoOptions.heightShaft = heightShaftFromOptions(options, 0.80);
+        this.$heightShaft = heightShaftFromOptions(options, 0.80);
+        geoOptions.heightShaft = this.$heightShaft;
         geoOptions.radiusShaft = radiusShaftFromOptions(options, 0.01);
         geoOptions.thetaSegments = thetaSegmentsFromOptions(options, 16);
 
@@ -56,10 +58,6 @@ export class ArrowTail extends Mesh<ArrowTailGeometry, Material> {
         setAxisAndMeridian(this, options);
         setColorOption(this, options, Color.gray);
         setDeprecatedOptions(this, options);
-
-        if (isDefined(options.length)) {
-            this.length = mustBeNumber('length', options.length);
-        }
 
         if (levelUp === 0) {
             this.synchUp();
@@ -76,33 +74,24 @@ export class ArrowTail extends Mesh<ArrowTailGeometry, Material> {
         super.destructor(levelUp + 1);
     }
 
-    /**
-     * The vector that is represented by the Arrow.
-     * 
-     * magnitude(Arrow.vector) = Arrow.length
-     * direction(Arrow.vector) = Arrow.axis
-     * Arrow.vector = Arrow.length * Arrow.axis
-     */
     get vector(): VectorE3 {
-        return super.getAxis().scale(this.length);
+        return super.getAxis().scale(this.heightShaft);
     }
-    set vector(axis: VectorE3) {
-        this.length = normVectorE3(axis);
+    set vector(vector: VectorE3) {
+        this.heightShaft = normVectorE3(vector);
         // Don't try to set the direction for the zero vector.
-        if (this.length !== 0) {
-            this.setAxis(axis);
+        if (this.heightShaft !== 0) {
+            this.setAxis(vector);
         }
     }
 
-    /**
-     * The length of the Arrow.
-     * This property determines the scaling of the Arrow in all directions.
-     */
-    get length() {
-        return this.getScaleX();
+    get heightShaft() {
+        const s = this.getScaleX();
+        return s * this.$heightShaft;
     }
-    set length(length: number) {
-        this.setScale(length, length, length);
+    set heightShaft(heightShaft: number) {
+        const s = heightShaft / this.$heightShaft;
+        this.setScale(s, s, s);
     }
 }
 

@@ -1,6 +1,4 @@
 import { __extends } from "tslib";
-import { isDefined } from '../checks/isDefined';
-import { mustBeNumber } from '../checks/mustBeNumber';
 import { Color } from '../core/Color';
 import { Mesh } from '../core/Mesh';
 import { referenceAxis } from '../core/referenceAxis';
@@ -37,7 +35,8 @@ var ArrowHead = /** @class */ (function (_super) {
         geoOptions.tilt = spinorE3Object(options.tilt);
         geoOptions.axis = vectorE3Object(referenceAxis(options, ds.axis).direction());
         geoOptions.meridian = vectorE3Object(referenceMeridian(options, ds.meridian).direction());
-        geoOptions.heightCone = heightConeFromOptions(options, 0.20);
+        _this.$heightCone = heightConeFromOptions(options, 0.20);
+        geoOptions.heightCone = _this.$heightCone;
         geoOptions.radiusCone = radiusConeFromOptions(options, 0.08);
         geoOptions.thetaSegments = thetaSegmentsFromOptions(options, 16);
         var geometry = new ArrowHeadGeometry(contextManager, geoOptions);
@@ -49,9 +48,6 @@ var ArrowHead = /** @class */ (function (_super) {
         setAxisAndMeridian(_this, options);
         setColorOption(_this, options, Color.gray);
         setDeprecatedOptions(_this, options);
-        if (isDefined(options.heightCone)) {
-            _this.heightCone = mustBeNumber('heightCone', options.heightCone);
-        }
         if (levelUp === 0) {
             _this.synchUp();
         }
@@ -67,13 +63,6 @@ var ArrowHead = /** @class */ (function (_super) {
         _super.prototype.destructor.call(this, levelUp + 1);
     };
     Object.defineProperty(ArrowHead.prototype, "vector", {
-        /**
-         * The vector that is represented by the Arrow.
-         *
-         * magnitude(Arrow.vector) = Arrow.length
-         * direction(Arrow.vector) = Arrow.axis
-         * Arrow.vector = Arrow.length * Arrow.axis
-         */
         get: function () {
             return _super.prototype.getAxis.call(this).scale(this.heightCone);
         },
@@ -89,11 +78,12 @@ var ArrowHead = /** @class */ (function (_super) {
     });
     Object.defineProperty(ArrowHead.prototype, "heightCone", {
         get: function () {
-            // It does not matter whether we use X,Y, or Z; they are all the same.
-            return this.getScaleX();
+            var s = this.getScaleX();
+            return s * this.$heightCone;
         },
         set: function (heightCone) {
-            this.setScale(heightCone, heightCone, heightCone);
+            var s = heightCone / this.$heightCone;
+            this.setScale(s, s, s);
         },
         enumerable: false,
         configurable: true

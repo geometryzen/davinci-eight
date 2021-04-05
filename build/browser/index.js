@@ -762,7 +762,7 @@
             this.GITHUB = "https://github.com/geometryzen/davinci-eight";
             this.LAST_MODIFIED = "2021-04-04";
             this.MARKETING_NAME = "DaVinci eight";
-            this.VERSION = '8.4.9';
+            this.VERSION = '8.4.10';
         }
         Eight.prototype.log = function (message) {
             console.log(message);
@@ -25517,7 +25517,8 @@
             geoOptions.tilt = spinorE3Object(options.tilt);
             geoOptions.axis = vectorE3Object(referenceAxis(options, ds.axis).direction());
             geoOptions.meridian = vectorE3Object(referenceMeridian(options, ds.meridian).direction());
-            geoOptions.heightCone = heightConeFromOptions(options, 0.20);
+            _this.$heightCone = heightConeFromOptions(options, 0.20);
+            geoOptions.heightCone = _this.$heightCone;
             geoOptions.radiusCone = radiusConeFromOptions(options, 0.08);
             geoOptions.thetaSegments = thetaSegmentsFromOptions$1(options, 16);
             var geometry = new ArrowHeadGeometry(contextManager, geoOptions);
@@ -25529,9 +25530,6 @@
             setAxisAndMeridian(_this, options);
             setColorOption(_this, options, Color.gray);
             setDeprecatedOptions(_this, options);
-            if (isDefined(options.heightCone)) {
-                _this.heightCone = mustBeNumber('heightCone', options.heightCone);
-            }
             if (levelUp === 0) {
                 _this.synchUp();
             }
@@ -25547,13 +25545,6 @@
             _super.prototype.destructor.call(this, levelUp + 1);
         };
         Object.defineProperty(ArrowHead.prototype, "vector", {
-            /**
-             * The vector that is represented by the Arrow.
-             *
-             * magnitude(Arrow.vector) = Arrow.length
-             * direction(Arrow.vector) = Arrow.axis
-             * Arrow.vector = Arrow.length * Arrow.axis
-             */
             get: function () {
                 return _super.prototype.getAxis.call(this).scale(this.heightCone);
             },
@@ -25569,11 +25560,12 @@
         });
         Object.defineProperty(ArrowHead.prototype, "heightCone", {
             get: function () {
-                // It does not matter whether we use X,Y, or Z; they are all the same.
-                return this.getScaleX();
+                var s = this.getScaleX();
+                return s * this.$heightCone;
             },
             set: function (heightCone) {
-                this.setScale(heightCone, heightCone, heightCone);
+                var s = heightCone / this.$heightCone;
+                this.setScale(s, s, s);
             },
             enumerable: false,
             configurable: true
@@ -25680,7 +25672,8 @@
             geoOptions.tilt = spinorE3Object(options.tilt);
             geoOptions.axis = vectorE3Object(referenceAxis(options, ds.axis).direction());
             geoOptions.meridian = vectorE3Object(referenceMeridian(options, ds.meridian).direction());
-            geoOptions.heightShaft = heightShaftFromOptions(options, 0.80);
+            _this.$heightShaft = heightShaftFromOptions(options, 0.80);
+            geoOptions.heightShaft = _this.$heightShaft;
             geoOptions.radiusShaft = radiusShaftFromOptions(options, 0.01);
             geoOptions.thetaSegments = thetaSegmentsFromOptions(options, 16);
             var geometry = new ArrowTailGeometry(contextManager, geoOptions);
@@ -25692,9 +25685,6 @@
             setAxisAndMeridian(_this, options);
             setColorOption(_this, options, Color.gray);
             setDeprecatedOptions(_this, options);
-            if (isDefined(options.length)) {
-                _this.length = mustBeNumber('length', options.length);
-            }
             if (levelUp === 0) {
                 _this.synchUp();
             }
@@ -25710,36 +25700,27 @@
             _super.prototype.destructor.call(this, levelUp + 1);
         };
         Object.defineProperty(ArrowTail.prototype, "vector", {
-            /**
-             * The vector that is represented by the Arrow.
-             *
-             * magnitude(Arrow.vector) = Arrow.length
-             * direction(Arrow.vector) = Arrow.axis
-             * Arrow.vector = Arrow.length * Arrow.axis
-             */
             get: function () {
-                return _super.prototype.getAxis.call(this).scale(this.length);
+                return _super.prototype.getAxis.call(this).scale(this.heightShaft);
             },
-            set: function (axis) {
-                this.length = normVectorE3(axis);
+            set: function (vector) {
+                this.heightShaft = normVectorE3(vector);
                 // Don't try to set the direction for the zero vector.
-                if (this.length !== 0) {
-                    this.setAxis(axis);
+                if (this.heightShaft !== 0) {
+                    this.setAxis(vector);
                 }
             },
             enumerable: false,
             configurable: true
         });
-        Object.defineProperty(ArrowTail.prototype, "length", {
-            /**
-             * The length of the Arrow.
-             * This property determines the scaling of the Arrow in all directions.
-             */
+        Object.defineProperty(ArrowTail.prototype, "heightShaft", {
             get: function () {
-                return this.getScaleX();
+                var s = this.getScaleX();
+                return s * this.$heightShaft;
             },
-            set: function (length) {
-                this.setScale(length, length, length);
+            set: function (heightShaft) {
+                var s = heightShaft / this.$heightShaft;
+                this.setScale(s, s, s);
             },
             enumerable: false,
             configurable: true
@@ -25856,13 +25837,14 @@
              * This property determines the scaling of the Arrow in all directions.
              */
             get: function () {
-                return this.head.heightCone + this.tail.length;
+                return this.head.heightCone + this.tail.heightShaft;
             },
             set: function (length) {
+                // TODO
                 var h = length * 0.2;
                 var t = length * 0.8;
                 this.head.heightCone = h;
-                this.tail.length = t;
+                this.tail.heightShaft = t;
             },
             enumerable: false,
             configurable: true

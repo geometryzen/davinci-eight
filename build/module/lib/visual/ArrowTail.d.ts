@@ -8,29 +8,19 @@ import { ArrowOptions } from './ArrowOptions';
  * @hidden
  */
 export declare class ArrowTail extends Mesh<ArrowTailGeometry, Material> {
+    private readonly $heightShaft;
     /**
      * @param contextManager This will usually be provided by the `Engine`.
      * @param options
      * @param levelUp Leave as zero unless you are extending this class.
      */
-    constructor(contextManager: ContextManager, options?: Partial<ArrowOptions>, levelUp?: number);
+    constructor(contextManager: ContextManager, options?: Partial<Pick<ArrowOptions, 'axis' | 'color' | 'heightShaft' | 'mode' | 'offset' | 'radiusShaft' | 'textured' | 'thetaSegments' | 'tilt'>>, levelUp?: number);
     /**
      * @hidden
      */
     protected destructor(levelUp: number): void;
-    /**
-     * The vector that is represented by the Arrow.
-     *
-     * magnitude(Arrow.vector) = Arrow.length
-     * direction(Arrow.vector) = Arrow.axis
-     * Arrow.vector = Arrow.length * Arrow.axis
-     */
     get vector(): VectorE3;
-    set vector(axis: VectorE3);
-    /**
-     * The length of the Arrow.
-     * This property determines the scaling of the Arrow in all directions.
-     */
-    get length(): number;
-    set length(length: number);
+    set vector(vector: VectorE3);
+    get heightShaft(): number;
+    set heightShaft(heightShaft: number);
 }
