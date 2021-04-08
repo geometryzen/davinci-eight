@@ -38,9 +38,9 @@ export function getViewAttitude(eye: VectorE3, look: VectorE3, up: VectorE3, R: 
     // n = direction(X - look)
     n.copyVector(eye).subVector(look).normalize();
     // u = -(dual(up) >> n) (right contraction turns vector in opposite sense to bivector)
-    u.copyVector(up).dual(u).rco(n).neg();
+    u.copyVector(up).dual().rco(n);
     // v = dual(u ^ n)
-    v.copy(u).ext(n).dual(v);
+    v.copy(u).ext(n).dual().neg();
     // We recover the rotor as follows:
     // R = ψ / sqrt(ψ * ~ψ), where ψ = 1 + u * e1 + v * e2 + n * e3
     // We can use e1, e2, e3 as the reciprocal vectors because in an orthogonal

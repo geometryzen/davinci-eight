@@ -50,8 +50,8 @@ var ConeBuilder = /** @class */ (function (_super) {
         this.transforms.push(new Scaling(this.stress, [aPosition, aTangent]));
         this.transforms.push(new Rotation(this.tilt, [aPosition, aTangent]));
         this.transforms.push(new Translation(this.offset, [aPosition]));
-        // Use a duality transformation with a sign change to convert the tangent planes to vectors.
-        this.transforms.push(new Duality(aTangent, aNormal, true, true));
+        // Use a duality transformation to convert the tangent planes to vectors.
+        this.transforms.push(new Duality(aTangent, aNormal, true));
         // Normalize the normal vectors.
         this.transforms.push(new Direction(aNormal));
         // Discard insignificant coordinates.

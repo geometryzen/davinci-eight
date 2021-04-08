@@ -707,18 +707,15 @@ var Geometric3 = /** @class */ (function () {
     };
     /**
      * Sets this multivector to the generalized vector cross product with another multivector.
-     * <p>
-     * <code>this ⟼ -I * (this ^ m)</code>
-     * </p>
+     *
+     * this ⟼ dual(this ^ m)
      */
     Geometric3.prototype.cross = function (m) {
         if (this.isLocked()) {
             return lock(this.clone().cross(m));
         }
         else {
-            this.ext(m);
-            this.dual(this).neg();
-            return this;
+            return this.ext(m).dual();
         }
     };
     /**
@@ -863,36 +860,28 @@ var Geometric3 = /** @class */ (function () {
             return this;
         }
     };
-    /**
-     * this ⟼ dual(m) = I * m
-     */
-    Geometric3.prototype.dual = function (m) {
+    Geometric3.prototype.dual = function () {
         if (this.isLocked()) {
-            return this.clone().dual(m);
+            return lock(this.clone().dual());
         }
         else {
-            if (m) {
-                var w = -m.b;
-                var x = -m.yz;
-                var y = -m.zx;
-                var z = -m.xy;
-                var yz = m.x;
-                var zx = m.y;
-                var xy = m.z;
-                var β = m.a;
-                this.a = w;
-                this.x = x;
-                this.y = y;
-                this.z = z;
-                this.yz = yz;
-                this.zx = zx;
-                this.xy = xy;
-                this.b = β;
-                return this;
-            }
-            else {
-                return this.dual(this);
-            }
+            var a = this.b;
+            var x = this.yz;
+            var y = this.zx;
+            var z = this.xy;
+            var yz = -this.x;
+            var zx = -this.y;
+            var xy = -this.z;
+            var b = -this.a;
+            this.a = a;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.yz = yz;
+            this.zx = zx;
+            this.xy = xy;
+            this.b = b;
+            return this;
         }
     };
     /**

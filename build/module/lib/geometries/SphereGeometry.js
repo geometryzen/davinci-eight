@@ -111,7 +111,7 @@ export function computeSphereVerticesAndCoordinates(zenith, meridian, stress, ti
     mustBeNumber('elevationStart', elevationStart);
     mustBeNumber('elevationLength', elevationLength);
     mustBeInteger('elevationSegments', elevationSegments);
-    var generator = Spinor3.dual(zenith, false);
+    var generator = Spinor3.dual(zenith, true);
     var iLength = elevationSegments + 1;
     var jLength = azimuthSegments + 1;
     for (var i = 0; i < iLength; i++) {

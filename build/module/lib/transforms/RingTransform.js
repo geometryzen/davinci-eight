@@ -19,7 +19,7 @@ var RingTransform = /** @class */ (function () {
         this.innerRadius = mustBeNumber('a', a);
         this.outerRadius = mustBeNumber('b', b);
         this.sliceAngle = mustBeNumber('sliceAngle', sliceAngle);
-        this.generator = Spinor3.dual(e, clockwise);
+        this.generator = Spinor3.dual(e, !clockwise);
         this.cutLine = Vector3.copy(cutLine).normalize();
         this.aPosition = mustBeString('aPosition', aPosition);
         this.aTangent = mustBeString('aTangent', aTangent);
@@ -33,7 +33,7 @@ var RingTransform = /** @class */ (function () {
         var a = this.outerRadius;
         var rotor = this.generator.clone().scale(-this.sliceAngle * u / 2).exp();
         var position = Vector3.copy(this.cutLine).rotate(rotor).scale(b + (a - b) * v);
-        var tangent = Spinor3.dual(this.e, false);
+        var tangent = Spinor3.dual(this.e, true);
         vertex.attributes[this.aPosition] = position;
         vertex.attributes[this.aTangent] = tangent;
     };

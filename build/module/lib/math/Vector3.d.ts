@@ -343,10 +343,9 @@ export declare class Vector3 implements CartesianG3, VectorE3, Lockable, VectorN
     static copy(vector: VectorE3): Vector3;
     /**
      * Constructs a vector which is the dual of the supplied bivector, B.
-     * The convention used is dual(m) = I * m.
-     * If a sign change is desired from this convention, set changeSign to true.
+     * dual(B) = B << inv(I)
      */
-    static dual(B: BivectorE3, changeSign?: boolean): Vector3;
+    static dual(B: BivectorE3): Vector3;
     static e1(): Vector3;
     static e2(): Vector3;
     static e3(): Vector3;

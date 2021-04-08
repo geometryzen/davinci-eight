@@ -32,7 +32,7 @@ export class RingTransform implements Transform {
         this.innerRadius = mustBeNumber('a', a);
         this.outerRadius = mustBeNumber('b', b);
         this.sliceAngle = mustBeNumber('sliceAngle', sliceAngle);
-        this.generator = Spinor3.dual(e, clockwise);
+        this.generator = Spinor3.dual(e, !clockwise);
         this.cutLine = Vector3.copy(cutLine).normalize();
         this.aPosition = mustBeString('aPosition', aPosition);
         this.aTangent = mustBeString('aTangent', aTangent);
@@ -49,7 +49,7 @@ export class RingTransform implements Transform {
         const a = this.outerRadius;
         const rotor = this.generator.clone().scale(-this.sliceAngle * u / 2).exp();
         const position = Vector3.copy(this.cutLine).rotate(rotor).scale(b + (a - b) * v);
-        const tangent = Spinor3.dual(this.e, false);
+        const tangent = Spinor3.dual(this.e, true);
         vertex.attributes[this.aPosition] = position;
         vertex.attributes[this.aTangent] = tangent;
     }

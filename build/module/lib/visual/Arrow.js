@@ -76,11 +76,11 @@ var Arrow = /** @class */ (function (_super) {
         get: function () {
             return _super.prototype.getAxis.call(this).scale(this.length);
         },
-        set: function (axis) {
-            this.length = normVectorE3(axis);
+        set: function (vector) {
+            this.length = normVectorE3(vector);
             // Don't try to set the direction for the zero vector.
             if (this.length !== 0) {
-                this.setAxis(axis);
+                this.setAxis(vector);
             }
         },
         enumerable: false,

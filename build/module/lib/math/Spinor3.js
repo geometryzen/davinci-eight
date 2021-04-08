@@ -410,21 +410,18 @@ var Spinor3 = /** @class */ (function () {
         return this;
     };
     /**
-     * <p>
-     * <code>this ⟼ dual(v) = I * v</code>
-     * </p>
+     * this ⟼ dual(v) = v <<< inv(I)
      *
      * @method dual
-     * @param v {VectorE3} The vector whose dual will be used to set this spinor.
-     * @param changeSign {boolean}
-     * @return {Spinor3} <code>this</code>
+     * @param v The vector whose dual will be used to set this spinor.
+     * @param changeSign Changes the sign from the usual convention for a right-handed pseudoscalar.
      * @chainable
      */
     Spinor3.prototype.dual = function (v, changeSign) {
         this.a = 0;
-        this.yz = v.x;
-        this.zx = v.y;
-        this.xy = v.z;
+        this.yz = -v.x;
+        this.zx = -v.y;
+        this.xy = -v.z;
         if (changeSign) {
             this.neg();
         }
@@ -1046,11 +1043,10 @@ var Spinor3 = /** @class */ (function () {
         return s;
     };
     /**
-     * Computes I * v, the dual of v.
+     * Computes dual(V) = v << inv(I).
      *
      * @param v
      * @param changeSign
-     * @returns I * v
      */
     Spinor3.dual = function (v, changeSign) {
         return Spinor3.zero.clone().dual(v, changeSign);

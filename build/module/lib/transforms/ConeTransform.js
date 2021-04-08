@@ -84,7 +84,7 @@ var ConeTransform = /** @class */ (function () {
         vertex.attributes[this.aPosition] = x;
         var normal = Vector3.zero();
         coneNormal(ρ, this.h, normal);
-        vertex.attributes[this.aTangent] = Spinor3.dual(normal, false);
+        vertex.attributes[this.aTangent] = Spinor3.dual(normal, true);
     };
     return ConeTransform;
 }());

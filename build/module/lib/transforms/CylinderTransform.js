@@ -14,7 +14,7 @@ var CylinderTransform = /** @class */ (function () {
     function CylinderTransform(height, cutLine, clockwise, sliceAngle, orientation, aPosition, aTangent) {
         this.height = Vector3.copy(height);
         this.cutLine = Vector3.copy(cutLine);
-        this.generator = Spinor3.dual(this.height.clone().normalize(), clockwise);
+        this.generator = Spinor3.dual(this.height.clone().normalize(), !clockwise);
         this.sliceAngle = mustBeNumber('sliceAngle', sliceAngle);
         this.orientation = mustBeNumber('orientation', orientation);
         this.aPosition = mustBeString('aPosition', aPosition);
@@ -31,7 +31,7 @@ var CylinderTransform = /** @class */ (function () {
          */
         var ρ = Vector3.copy(this.cutLine).rotate(rotor);
         vertex.attributes[this.aPosition] = ρ.clone().add(this.height, v);
-        vertex.attributes[this.aTangent] = Spinor3.dual(ρ, false).scale(this.orientation);
+        vertex.attributes[this.aTangent] = Spinor3.dual(ρ, true).scale(this.orientation);
     };
     return CylinderTransform;
 }());

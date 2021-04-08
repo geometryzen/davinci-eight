@@ -143,7 +143,7 @@ var RingSimplexGeometry = /** @class */ (function (_super) {
         var radialSegments = this.flatSegments;
         var thetaSegments = this.curvedSegments;
         // TODO: The generator does not have to be dual to the axis
-        var generator = Spinor3.dual(this.e, false);
+        var generator = Spinor3.dual(this.e, true);
         var vertices = [];
         var uvs = [];
         computeVertices(this.a, this.b, this.e, this.cutLine, this.sliceAngle, generator, radialSegments, thetaSegments, vertices, uvs);

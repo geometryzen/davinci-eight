@@ -171,7 +171,7 @@ function side(tilt, offset, basis, uSegments, vSegments) {
     // The normal will be the same for all vertices in the side, so we compute it once here.
     // Perform the stress ant tilt transformations on the tangent bivector before computing the normal.
     var tangent = Spinor3.wedge(basis[0], basis[1]).rotate(tilt);
-    var normal = Vector3.dual(tangent, true).normalize();
+    var normal = Vector3.dual(tangent).normalize();
     var aNeg = Vector3.copy(basis[0]).scale(-0.5);
     var aPos = Vector3.copy(basis[0]).scale(+0.5);
     var bNeg = Vector3.copy(basis[1]).scale(-0.5);

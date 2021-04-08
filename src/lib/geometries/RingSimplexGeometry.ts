@@ -158,7 +158,7 @@ export class RingSimplexGeometry extends SliceSimplexPrimitivesBuilder {
         const radialSegments = this.flatSegments;
         const thetaSegments = this.curvedSegments;
         // TODO: The generator does not have to be dual to the axis
-        const generator: SpinorE3 = Spinor3.dual(this.e, false);
+        const generator: SpinorE3 = Spinor3.dual(this.e, true);
 
         const vertices: Vector3[] = [];
         const uvs: Vector2[] = [];

@@ -1,10 +1,32 @@
 import { Geometric2 } from './Geometric2';
 
+// const zero = Geometric2.zero;
+const one = Geometric2.one(true);
+// const two = Geometric2.one(true).scale(2);
+const e1 = Geometric2.e1(true);
+const e2 = Geometric2.e2(true);
+const e12 = Geometric2.e1(false).mul(e2);
+e12.lock();
+const I = e12;
+const elements = [one, e1, e2, e12];
+
 /**
  * The decimal place up to which the numbers should agree.
  * Make this as large as possible while avoiding rounding errors.
  */
 const PRECISION = 14;
+
+/**
+ * @hidden
+ */
+function checkEQ(result: Geometric2, comp: Geometric2): void {
+    expect(result.a).toBe(comp.a, `result.a=${result.a}, comp.a=${comp.a}`);
+    expect(result.x).toBe(comp.x, `result.x=${result.x}, comp.x=${comp.x}`);
+    expect(result.y).toBe(comp.y, `result.y=${result.y}, comp.y=${comp.y}`);
+    expect(result.b).toBe(comp.b, `result.b=${result.b}, comp.b=${comp.b}`);
+    expect(result.isLocked()).toBe(comp.isLocked(), `isLocked, result=${result.isLocked()}, comp=${comp.isLocked()}`);
+    // expect(result.isMutable()).toBe(comp.isMutable(), `isMutable, result=${result.isMutable()}, comp=${comp.isMutable()}`);
+}
 
 describe("Geometric2", function () {
     describe("constructor()", function () {
@@ -159,6 +181,21 @@ describe("Geometric2", function () {
             expect(ans.x).toBe(0);
             expect(ans.y).toBe(0);
             expect(ans.b).toBe(0);
+        });
+    });
+
+    describe("dual", function () {
+        it("", function () {
+            checkEQ(one.dual(), I.neg());
+            checkEQ(e1.dual(), e2.neg());
+            checkEQ(e2.dual(), e1);
+            checkEQ(I.dual(), one);
+        });
+        it("dual(Ak) = Ak << inv(I)", function () {
+            for (const element of elements) {
+                checkEQ(element.dual(), element.lco(I.rev()));
+                checkEQ(element.dual(), element.lco(I.inv()));
+            }
         });
     });
 

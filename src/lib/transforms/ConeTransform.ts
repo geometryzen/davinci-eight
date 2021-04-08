@@ -106,6 +106,6 @@ export class ConeTransform implements Transform {
         const normal = Vector3.zero();
         coneNormal(ρ, this.h, normal);
 
-        vertex.attributes[this.aTangent] = Spinor3.dual(normal, false);
+        vertex.attributes[this.aTangent] = Spinor3.dual(normal, true);
     }
 }

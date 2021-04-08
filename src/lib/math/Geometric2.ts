@@ -565,19 +565,24 @@ export class Geometric2 implements GeometricE2, LockableMixin, VectorN<number> {
     }
 
     /**
-     * this ⟼ dual(m) = I * m
+     *
      */
-    dual(m: GeometricE2): this {
-        let w = -m.b;
-        let x = +m.y;
-        let y = -m.x;
-        let β = +m.a;
+    dual(): Geometric2 {
+        if (this.isLocked()) {
+            return lock(this.clone().dual());
+        }
+        else {
+            const a = this.b;
+            const y = -this.x;
+            const x = this.y;
+            const b = -this.a;
 
-        this.a = w;
-        this.x = x;
-        this.y = y;
-        this.b = β;
-        return this;
+            this.a = a;
+            this.x = x;
+            this.y = y;
+            this.b = b;
+            return this;
+        }
     }
 
     /**
@@ -638,32 +643,36 @@ export class Geometric2 implements GeometricE2, LockableMixin, VectorN<number> {
     /**
      * Sets this multivector to its inverse, if it exists.
      */
-    inv(): this {
-        // We convert the mutivector/geometric product into a tensor
-        // representation with the consequence that inverting the multivector
-        // is equivalent to solving a matrix equation, AX = b for X.
-        const α = this.a;
-        const x = this.x;
-        const y = this.y;
-        const β = this.b;
+    inv(): Geometric2 {
+        if (this.isLocked()) {
+            return lock(this.clone().inv());
+        } else {
+            // We convert the mutivector/geometric product into a tensor
+            // representation with the consequence that inverting the multivector
+            // is equivalent to solving a matrix equation, AX = b for X.
+            const α = this.a;
+            const x = this.x;
+            const y = this.y;
+            const β = this.b;
 
-        const A = [
-            [α, x, y, -β],
-            [x, α, β, -y],
-            [y, -β, α, x],
-            [β, -y, x, α]
-        ];
+            const A = [
+                [α, x, y, -β],
+                [x, α, β, -y],
+                [y, -β, α, x],
+                [β, -y, x, α]
+            ];
 
-        const b = [1, 0, 0, 0];
+            const b = [1, 0, 0, 0];
 
-        const X = gauss(A, b);
+            const X = gauss(A, b);
 
-        this.a = X[0];
-        this.x = X[1];
-        this.y = X[2];
-        this.b = X[3];
+            this.a = X[0];
+            this.x = X[1];
+            this.y = X[2];
+            this.b = X[3];
 
-        return this;
+            return this;
+        }
     }
 
     /**
@@ -683,8 +692,12 @@ export class Geometric2 implements GeometricE2, LockableMixin, VectorN<number> {
     /**
      * this ⟼ this << m
      */
-    lco(m: GeometricE2): this {
-        return this.lco2(this, m);
+    lco(m: GeometricE2): Geometric2 {
+        if (this.isLocked()) {
+            return lock(this.clone().lco(m));
+        } else {
+            return this.lco2(this, m);
+        }
     }
 
     /**
@@ -758,8 +771,12 @@ export class Geometric2 implements GeometricE2, LockableMixin, VectorN<number> {
     /**
      * this ⟼ this * m
      */
-    mul(m: GeometricE2): this {
-        return this.mul2(this, m);
+    mul(m: GeometricE2): Geometric2 {
+        if (this.isLocked()) {
+            return lock(this.clone().mul(m));
+        } else {
+            return this.mul2(this, m);
+        }
     }
 
     /**
@@ -784,12 +801,16 @@ export class Geometric2 implements GeometricE2, LockableMixin, VectorN<number> {
     /**
      * this ⟼ -1 * this
      */
-    neg(): this {
-        this.a = -this.a;
-        this.x = -this.x;
-        this.y = -this.y;
-        this.b = -this.b;
-        return this;
+    neg(): Geometric2 {
+        if (this.isLocked()) {
+            return lock(this.clone().neg());
+        } else {
+            this.a = -this.a;
+            this.x = -this.x;
+            this.y = -this.y;
+            this.b = -this.b;
+            return this;
+        }
     }
 
     /**
@@ -903,13 +924,17 @@ export class Geometric2 implements GeometricE2, LockableMixin, VectorN<number> {
     /**
      * this ⟼ rev(this)
      */
-    rev(): this {
-        // reverse has a ++-- structure.
-        this.a = this.a;
-        this.x = this.x;
-        this.y = this.y;
-        this.b = -this.b;
-        return this;
+    rev(): Geometric2 {
+        if (this.isLocked()) {
+            return lock(this.clone().rev());
+        } else {
+            // reverse has a ++-- structure.
+            this.a = this.a;
+            this.x = this.x;
+            this.y = this.y;
+            this.b = -this.b;
+            return this;
+        }
     }
 
     /**

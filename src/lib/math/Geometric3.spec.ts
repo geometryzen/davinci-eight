@@ -24,18 +24,22 @@ const e3 = Geometric3.E3;
  * @hidden
  */
 const e23 = e2.clone().mul(e3);
+e23.lock();
 /**
  * @hidden
  */
 const e31 = e3.clone().mul(e1);
+e31.lock();
 /**
  * @hidden
  */
 const e12 = e1.clone().mul(e2);
+e12.lock();
 /**
  * @hidden
  */
 const I = e1.clone().mul(e2).mul(e3);
+I.lock();
 
 /**
  * @hidden
@@ -72,6 +76,21 @@ function reflectSpec(M: Geometric3, n: VectorE3) {
   };
   return spec;
 }
+/**
+ * @hidden
+ */
+function checkEQ(result: Geometric3, comp: Geometric3): void {
+  expect(result.a).toBe(comp.a, `result.a=${result.a}, comp.a=${comp.a}`);
+  expect(result.x).toBe(comp.x, `result.x=${result.x}, comp.x=${comp.x}`);
+  expect(result.y).toBe(comp.y, `result.y=${result.y}, comp.y=${comp.y}`);
+  expect(result.z).toBe(comp.z, `result.z=${result.z}, comp.t=${comp.z}`);
+  expect(result.xy).toBe(comp.xy, `result.xy=${result.xy}, comp.xy=${comp.xy}`);
+  expect(result.yz).toBe(comp.yz, `result.yz=${result.yz}, comp.yz=${comp.yz}`);
+  expect(result.zx).toBe(comp.zx, `result.zx=${result.zx}, comp.zx=${comp.zx}`);
+  expect(result.b).toBe(comp.b, `result.b=${result.b}, comp.b=${comp.b}`);
+  expect(result.isLocked()).toBe(comp.isLocked(), `isLocked, result=${result.isLocked()}, comp=${comp.isLocked()}`);
+  // expect(result.isMutable()).toBe(comp.isMutable(), `isMutable, result=${result.isMutable()}, comp=${comp.isMutable()}`);
+}
 
 /**
  * The decimal place up to which the numbers should agree.
@@ -81,6 +100,25 @@ function reflectSpec(M: Geometric3, n: VectorE3) {
 const PRECISION = 14;
 
 describe("Geometric3", function () {
+  describe("cross", function () {
+    it("should be consistent with a right-handed pseudoscalar.", function () {
+      checkEQ(e1.cross(e2), e3);
+      checkEQ(e2.cross(e3), e1);
+      checkEQ(e3.cross(e1), e2);
+    });
+  });
+  describe("dual", function () {
+    it("should be consistent with a right-handed pseudoscalar.", function () {
+      checkEQ(one.dual(), I.neg());
+      checkEQ(e1.dual(), e23.neg());
+      checkEQ(e2.dual(), e31.neg());
+      checkEQ(e3.dual(), e12.neg());
+      checkEQ(e12.dual(), e3);
+      checkEQ(e23.dual(), e1);
+      checkEQ(e31.dual(), e2);
+      checkEQ(I.dual(), one);
+    });
+  });
   describe("equals", function () {
     it("(M) should be equal to M", function () {
       const zero: Geometric3 = Geometric3.ZERO;

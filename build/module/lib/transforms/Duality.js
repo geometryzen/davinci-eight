@@ -11,21 +11,20 @@ import { Vector3 } from '../math/Vector3';
  * @hidden
  */
 var Duality = /** @class */ (function () {
-    function Duality(sourceName, outputName, changeSign, removeSource) {
+    function Duality(sourceName, outputName, removeSource) {
         this.sourceName = mustBeString('sourceName', sourceName);
         this.outputName = mustBeString('outputName', outputName);
-        this.changeSign = mustBeBoolean('changeSign', changeSign);
         this.removeSource = mustBeBoolean('removeSource', removeSource);
     }
     Duality.prototype.exec = function (vertex, i, j, iLength, jLength) {
         var v = vertex.attributes[this.sourceName];
         if (v) {
             if (v instanceof Vector3) {
-                var spinor = Spinor3.dual(v, this.changeSign);
+                var spinor = Spinor3.dual(v, false);
                 vertex.attributes[this.outputName] = spinor;
             }
             else if (v instanceof Spinor3) {
-                var vector = Vector3.dual(v, this.changeSign);
+                var vector = Vector3.dual(v);
                 vertex.attributes[this.outputName] = vector;
             }
             else if (v instanceof Vector2) {

@@ -67,7 +67,7 @@ function computeWallVertices(height, radius, clockwise, stress, tilt, offset, an
             // Starting with a point on the wall of the regular cylinder...
             var point = arcPoints[j];
             // Compute the tangent bivector before moving the point up the wall, it need not be normalized.
-            var tangent = Spinor3.dual(point, false);
+            var tangent = Spinor3.dual(point, true);
             // Add the displacement up the wall to get the point to the correct height.
             point.add(dispH);
             // Subject the point to the stress, tilt, offset transformations.
@@ -112,7 +112,7 @@ var CylinderSimplexPrimitivesBuilder = /** @class */ (function (_super) {
         this.data = [];
         var heightSegments = this.flatSegments;
         var thetaSegments = this.curvedSegments;
-        var generator = Spinor3.dual(Vector3.copy(this.height).normalize(), false);
+        var generator = Spinor3.dual(Vector3.copy(this.height).normalize(), true);
         var heightHalf = 1 / 2;
         var points = [];
         var tangents = [];
@@ -139,10 +139,10 @@ var CylinderSimplexPrimitivesBuilder = /** @class */ (function (_super) {
                     var v3 = vertices[i + 1][j + 1];
                     var v4 = vertices[i][j + 1];
                     // Compute the normals and normalize them
-                    var n1 = Vector3.dual(tangents[v1], true).normalize();
-                    var n2 = Vector3.dual(tangents[v2], true).normalize();
-                    var n3 = Vector3.dual(tangents[v3], true).normalize();
-                    var n4 = Vector3.dual(tangents[v4], true).normalize();
+                    var n1 = Vector3.dual(tangents[v1]).normalize();
+                    var n2 = Vector3.dual(tangents[v2]).normalize();
+                    var n3 = Vector3.dual(tangents[v3]).normalize();
+                    var n4 = Vector3.dual(tangents[v4]).normalize();
                     var uv1 = uvs[i][j].clone();
                     var uv2 = uvs[i + 1][j].clone();
                     var uv3 = uvs[i + 1][j + 1].clone();
@@ -174,8 +174,8 @@ var CylinderSimplexPrimitivesBuilder = /** @class */ (function (_super) {
         if (!this.openCap) {
             // Push an extra point for the center of the cap.
             var top_1 = Vector3.copy(this.height).scale(heightHalf).add(this.offset);
-            var tangent = Spinor3.dual(Vector3.copy(this.height).normalize(), false).stress(this.stress).rotate(this.tilt);
-            var normal = Vector3.dual(tangent, true);
+            var tangent = Spinor3.dual(Vector3.copy(this.height).normalize(), true).stress(this.stress).rotate(this.tilt);
+            var normal = Vector3.dual(tangent);
             points.push(top_1);
             for (var j = 0; j < thetaSegments; j++) {
                 var v1 = vertices[heightSegments][j + 1];
@@ -211,8 +211,8 @@ var CylinderSimplexPrimitivesBuilder = /** @class */ (function (_super) {
         if (!this.openBase) {
             // Push an extra point for the center of the base.
             var bottom = Vector3.copy(this.height).scale(-heightHalf).add(this.offset);
-            var tangent = Spinor3.dual(Vector3.copy(this.height).normalize(), false).neg().stress(this.stress).rotate(this.tilt);
-            var normal = Vector3.dual(tangent, true);
+            var tangent = Spinor3.dual(Vector3.copy(this.height).normalize(), true).neg().stress(this.stress).rotate(this.tilt);
+            var normal = Vector3.dual(tangent);
             points.push(bottom);
             for (var j = 0; j < thetaSegments; j++) {
                 var v1 = vertices[0][j];

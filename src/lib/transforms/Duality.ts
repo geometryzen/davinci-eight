@@ -26,19 +26,13 @@ export class Duality implements Transform {
     private outputName: string;
 
     /**
-     * Determines whether to change the sign from the dual(m) = I * m convention.
-     */
-    private changeSign: boolean;
-
-    /**
      * Determines whether to remove the source attribute.
      */
     private removeSource: boolean;
 
-    constructor(sourceName: string, outputName: string, changeSign: boolean, removeSource: boolean) {
+    constructor(sourceName: string, outputName: string, removeSource: boolean) {
         this.sourceName = mustBeString('sourceName', sourceName);
         this.outputName = mustBeString('outputName', outputName);
-        this.changeSign = mustBeBoolean('changeSign', changeSign);
         this.removeSource = mustBeBoolean('removeSource', removeSource);
     }
 
@@ -46,11 +40,11 @@ export class Duality implements Transform {
         const v = vertex.attributes[this.sourceName];
         if (v) {
             if (v instanceof Vector3) {
-                const spinor = Spinor3.dual(v, this.changeSign);
+                const spinor = Spinor3.dual(v, false);
                 vertex.attributes[this.outputName] = spinor;
             }
             else if (v instanceof Spinor3) {
-                const vector = Vector3.dual(v, this.changeSign);
+                const vector = Vector3.dual(v);
                 vertex.attributes[this.outputName] = vector;
             }
             else if (v instanceof Vector2) {

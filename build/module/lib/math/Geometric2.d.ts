@@ -145,9 +145,9 @@ export declare class Geometric2 implements GeometricE2, LockableMixin, VectorN<n
      */
     divByScalar(α: number): this;
     /**
-     * this ⟼ dual(m) = I * m
+     *
      */
-    dual(m: GeometricE2): this;
+    dual(): Geometric2;
     /**
      *
      */
@@ -167,7 +167,7 @@ export declare class Geometric2 implements GeometricE2, LockableMixin, VectorN<n
     /**
      * Sets this multivector to its inverse, if it exists.
      */
-    inv(): this;
+    inv(): Geometric2;
     /**
      *
      */
@@ -179,7 +179,7 @@ export declare class Geometric2 implements GeometricE2, LockableMixin, VectorN<n
     /**
      * this ⟼ this << m
      */
-    lco(m: GeometricE2): this;
+    lco(m: GeometricE2): Geometric2;
     /**
      * this ⟼ a << b
      */
@@ -207,7 +207,7 @@ export declare class Geometric2 implements GeometricE2, LockableMixin, VectorN<n
     /**
      * this ⟼ this * m
      */
-    mul(m: GeometricE2): this;
+    mul(m: GeometricE2): Geometric2;
     /**
      * this ⟼ a * b
      */
@@ -215,7 +215,7 @@ export declare class Geometric2 implements GeometricE2, LockableMixin, VectorN<n
     /**
      * this ⟼ -1 * this
      */
-    neg(): this;
+    neg(): Geometric2;
     /**
      * this ⟼ sqrt(this * conj(this))
      */
@@ -253,7 +253,7 @@ export declare class Geometric2 implements GeometricE2, LockableMixin, VectorN<n
     /**
      * this ⟼ rev(this)
      */
-    rev(): this;
+    rev(): Geometric2;
     /**
      *
      */

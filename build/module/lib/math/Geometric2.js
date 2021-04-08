@@ -512,18 +512,23 @@ var Geometric2 = /** @class */ (function () {
         return this;
     };
     /**
-     * this ⟼ dual(m) = I * m
+     *
      */
-    Geometric2.prototype.dual = function (m) {
-        var w = -m.b;
-        var x = +m.y;
-        var y = -m.x;
-        var β = +m.a;
-        this.a = w;
-        this.x = x;
-        this.y = y;
-        this.b = β;
-        return this;
+    Geometric2.prototype.dual = function () {
+        if (this.isLocked()) {
+            return lock(this.clone().dual());
+        }
+        else {
+            var a = this.b;
+            var y = -this.x;
+            var x = this.y;
+            var b = -this.a;
+            this.a = a;
+            this.x = x;
+            this.y = y;
+            this.b = b;
+            return this;
+        }
     };
     /**
      *
@@ -580,26 +585,31 @@ var Geometric2 = /** @class */ (function () {
      * Sets this multivector to its inverse, if it exists.
      */
     Geometric2.prototype.inv = function () {
-        // We convert the mutivector/geometric product into a tensor
-        // representation with the consequence that inverting the multivector
-        // is equivalent to solving a matrix equation, AX = b for X.
-        var α = this.a;
-        var x = this.x;
-        var y = this.y;
-        var β = this.b;
-        var A = [
-            [α, x, y, -β],
-            [x, α, β, -y],
-            [y, -β, α, x],
-            [β, -y, x, α]
-        ];
-        var b = [1, 0, 0, 0];
-        var X = gauss(A, b);
-        this.a = X[0];
-        this.x = X[1];
-        this.y = X[2];
-        this.b = X[3];
-        return this;
+        if (this.isLocked()) {
+            return lock(this.clone().inv());
+        }
+        else {
+            // We convert the mutivector/geometric product into a tensor
+            // representation with the consequence that inverting the multivector
+            // is equivalent to solving a matrix equation, AX = b for X.
+            var α = this.a;
+            var x = this.x;
+            var y = this.y;
+            var β = this.b;
+            var A = [
+                [α, x, y, -β],
+                [x, α, β, -y],
+                [y, -β, α, x],
+                [β, -y, x, α]
+            ];
+            var b = [1, 0, 0, 0];
+            var X = gauss(A, b);
+            this.a = X[0];
+            this.x = X[1];
+            this.y = X[2];
+            this.b = X[3];
+            return this;
+        }
     };
     /**
      *
@@ -617,7 +627,12 @@ var Geometric2 = /** @class */ (function () {
      * this ⟼ this << m
      */
     Geometric2.prototype.lco = function (m) {
-        return this.lco2(this, m);
+        if (this.isLocked()) {
+            return lock(this.clone().lco(m));
+        }
+        else {
+            return this.lco2(this, m);
+        }
     };
     /**
      * this ⟼ a << b
@@ -686,7 +701,12 @@ var Geometric2 = /** @class */ (function () {
      * this ⟼ this * m
      */
     Geometric2.prototype.mul = function (m) {
-        return this.mul2(this, m);
+        if (this.isLocked()) {
+            return lock(this.clone().mul(m));
+        }
+        else {
+            return this.mul2(this, m);
+        }
     };
     /**
      * this ⟼ a * b
@@ -710,11 +730,16 @@ var Geometric2 = /** @class */ (function () {
      * this ⟼ -1 * this
      */
     Geometric2.prototype.neg = function () {
-        this.a = -this.a;
-        this.x = -this.x;
-        this.y = -this.y;
-        this.b = -this.b;
-        return this;
+        if (this.isLocked()) {
+            return lock(this.clone().neg());
+        }
+        else {
+            this.a = -this.a;
+            this.x = -this.x;
+            this.y = -this.y;
+            this.b = -this.b;
+            return this;
+        }
     };
     /**
      * this ⟼ sqrt(this * conj(this))
@@ -816,12 +841,17 @@ var Geometric2 = /** @class */ (function () {
      * this ⟼ rev(this)
      */
     Geometric2.prototype.rev = function () {
-        // reverse has a ++-- structure.
-        this.a = this.a;
-        this.x = this.x;
-        this.y = this.y;
-        this.b = -this.b;
-        return this;
+        if (this.isLocked()) {
+            return lock(this.clone().rev());
+        }
+        else {
+            // reverse has a ++-- structure.
+            this.a = this.a;
+            this.x = this.x;
+            this.y = this.y;
+            this.b = -this.b;
+            return this;
+        }
     };
     /**
      *

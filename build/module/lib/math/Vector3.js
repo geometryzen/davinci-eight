@@ -686,17 +686,10 @@ var Vector3 = /** @class */ (function () {
     };
     /**
      * Constructs a vector which is the dual of the supplied bivector, B.
-     * The convention used is dual(m) = I * m.
-     * If a sign change is desired from this convention, set changeSign to true.
+     * dual(B) = B << inv(I)
      */
-    Vector3.dual = function (B, changeSign) {
-        if (changeSign === void 0) { changeSign = false; }
-        if (changeSign) {
-            return new Vector3([B.yz, B.zx, B.xy]);
-        }
-        else {
-            return new Vector3([-B.yz, -B.zx, -B.xy]);
-        }
+    Vector3.dual = function (B) {
+        return new Vector3([B.yz, B.zx, B.xy]);
     };
     Vector3.e1 = function () {
         return new Vector3([1, 0, 0]);

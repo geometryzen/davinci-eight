@@ -26,7 +26,7 @@ export declare class Arrow extends Mesh<Geometry, Material> {
      * Arrow.vector = Arrow.length * Arrow.axis
      */
     get vector(): VectorE3;
-    set vector(axis: VectorE3);
+    set vector(vector: VectorE3);
     /**
      * The length of the Arrow.
      * This property determines the scaling of the Arrow in all directions.

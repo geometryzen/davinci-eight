@@ -98,7 +98,7 @@ export class ArrowSimplexPrimitivesBuilder extends RevolutionSimplexPrimitivesBu
             const points = data.map(function (point: number[]) {
                 return new Vector3([point[i], point[j], point[k]]);
             });
-            const generator = Spinor3.dual(nearest(direction), false);
+            const generator = Spinor3.dual(nearest(direction), true);
             return { "points": points, "generator": generator };
         };
         const direction = Vector3.copy(this.vector).normalize();

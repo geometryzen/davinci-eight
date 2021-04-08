@@ -1,4 +1,4 @@
-// Type definitions for davinci-eight 8.4.23
+// Type definitions for davinci-eight 8.4.24
 // Project: https://github.com/geometryzen/davinci-eight
 // Definitions by: David Geo Holmes david.geo.holmes@gmail.com https://www.stemcstudio.com
 //
@@ -1490,12 +1490,9 @@ export class Geometric2 extends VectorN<number> implements GeometricE2 {
     divByScalar(α: number): Geometric2
 
     /**
-     * 
-     * this ⟼ dual(m) = I * m
-     * 
-     * Notice that the dual of a vector is related to the spinor by the right-hand rule.
+     * this ⟼ dual(m) = this << inv(I)
      */
-    dual(m: GeometricE2): Geometric2
+    dual(): Geometric2
 
     equals(M: GeometricE2): boolean
 
@@ -2088,12 +2085,9 @@ export class Geometric3 extends VectorN<number> implements GeometricE3 {
     divByVector(v: VectorE3): this
 
     /**
-     * this ⟼ dual(m) = I * m
-     * 
-     * Notice that the dual of a vector is related to the bivector by the right-hand rule.
-     * m The vector whose dual will be used to set this spinor.
+     * dual(blade) = blade << inv(I) = lco(blade, inv(I))
      */
-    dual(m: VectorE3): this
+    dual(): Geometric3
 
     /**
      * this ⟼ exp(this)
@@ -2551,7 +2545,7 @@ export class Spinor3 extends VectorN<number> implements SpinorE3 {
     divByScalar(α: number): Spinor3
 
     /**
-     * this ⟼ dual(v) = I * v
+     * this ⟼ dual(v) = v << inv(I)
      */
     dual(v: VectorE3, changeSign: boolean): Spinor3
 
@@ -2745,7 +2739,7 @@ export class Vector3 extends VectorN<number> implements VectorE3 {
     static dot(a: VectorE3, b: VectorE3): number
     /**
      * Constructs a vector which is the dual of the supplied bivector, B.
-     * The convention used is dual(m) = I * m.
+     * The convention used is dual(B) = B << inv(I).
      * If a sign change is desired from this convention,
      * set changeSign to true.
      */

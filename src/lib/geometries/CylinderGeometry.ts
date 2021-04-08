@@ -79,7 +79,7 @@ function computeWallVertices(height: VectorE3, radius: VectorE3, clockwise: bool
             // Starting with a point on the wall of the regular cylinder...
             const point = arcPoints[j];
             // Compute the tangent bivector before moving the point up the wall, it need not be normalized.
-            const tangent = Spinor3.dual(point, false);
+            const tangent = Spinor3.dual(point, true);
             // Add the displacement up the wall to get the point to the correct height.
             point.add(dispH);
 
@@ -145,7 +145,7 @@ class CylinderSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
         this.data = [];
         const heightSegments = this.flatSegments;
         const thetaSegments = this.curvedSegments;
-        const generator: SpinorE3 = Spinor3.dual(Vector3.copy(this.height).normalize(), false);
+        const generator: SpinorE3 = Spinor3.dual(Vector3.copy(this.height).normalize(), true);
 
         const heightHalf = 1 / 2;
 
@@ -178,10 +178,10 @@ class CylinderSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
                     const v4: number = vertices[i][j + 1];
 
                     // Compute the normals and normalize them
-                    const n1 = Vector3.dual(tangents[v1], true).normalize();
-                    const n2 = Vector3.dual(tangents[v2], true).normalize();
-                    const n3 = Vector3.dual(tangents[v3], true).normalize();
-                    const n4 = Vector3.dual(tangents[v4], true).normalize();
+                    const n1 = Vector3.dual(tangents[v1]).normalize();
+                    const n2 = Vector3.dual(tangents[v2]).normalize();
+                    const n3 = Vector3.dual(tangents[v3]).normalize();
+                    const n4 = Vector3.dual(tangents[v4]).normalize();
 
                     const uv1 = uvs[i][j].clone();
                     const uv2 = uvs[i + 1][j].clone();
@@ -215,8 +215,8 @@ class CylinderSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
         if (!this.openCap) {
             // Push an extra point for the center of the cap.
             const top = Vector3.copy(this.height).scale(heightHalf).add(this.offset);
-            const tangent = Spinor3.dual(Vector3.copy(this.height).normalize(), false).stress(this.stress).rotate(this.tilt);
-            const normal = Vector3.dual(tangent, true);
+            const tangent = Spinor3.dual(Vector3.copy(this.height).normalize(), true).stress(this.stress).rotate(this.tilt);
+            const normal = Vector3.dual(tangent);
             points.push(top);
             for (let j = 0; j < thetaSegments; j++) {
                 const v1: number = vertices[heightSegments][j + 1];
@@ -253,8 +253,8 @@ class CylinderSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
         if (!this.openBase) {
             // Push an extra point for the center of the base.
             const bottom = Vector3.copy(this.height).scale(-heightHalf).add(this.offset);
-            const tangent = Spinor3.dual(Vector3.copy(this.height).normalize(), false).neg().stress(this.stress).rotate(this.tilt);
-            const normal = Vector3.dual(tangent, true);
+            const tangent = Spinor3.dual(Vector3.copy(this.height).normalize(), true).neg().stress(this.stress).rotate(this.tilt);
+            const normal = Vector3.dual(tangent);
             points.push(bottom);
             for (let j = 0; j < thetaSegments; j++) {
                 const v1: number = vertices[0][j];

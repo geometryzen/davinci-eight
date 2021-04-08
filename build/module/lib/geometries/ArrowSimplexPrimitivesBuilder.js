@@ -94,7 +94,7 @@ var ArrowSimplexPrimitivesBuilder = /** @class */ (function (_super) {
             var points = data.map(function (point) {
                 return new Vector3([point[i], point[j], point[k]]);
             });
-            var generator = Spinor3.dual(nearest(direction), false);
+            var generator = Spinor3.dual(nearest(direction), true);
             return { "points": points, "generator": generator };
         };
         var direction = Vector3.copy(this.vector).normalize();

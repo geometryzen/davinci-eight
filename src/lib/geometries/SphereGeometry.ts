@@ -137,7 +137,7 @@ export function computeSphereVerticesAndCoordinates(
     mustBeNumber('elevationLength', elevationLength);
     mustBeInteger('elevationSegments', elevationSegments);
 
-    const generator: Spinor3 = Spinor3.dual(zenith, false);
+    const generator: Spinor3 = Spinor3.dual(zenith, true);
     const iLength = elevationSegments + 1;
     const jLength = azimuthSegments + 1;
 

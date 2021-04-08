@@ -1,4 +1,13 @@
+import { dotVectorCartesianE3 } from './dotVectorCartesianE3';
+import { Spinor3 } from './Spinor3';
 import { Vector3 } from './Vector3';
+
+const e1 = Vector3.e1();
+e1.lock();
+const e2 = Vector3.e2();
+e2.lock();
+const e3 = Vector3.e3();
+e3.lock();
 
 describe("Vector3", function () {
     describe("constructor", function () {
@@ -217,6 +226,35 @@ describe("Vector3", function () {
                 expect(a.x).toBe(1);
                 expect(a.y).toBe(2);
                 expect(a.z).toBe(3);
+            });
+        });
+    });
+    describe("dual", function () {
+        describe("e12", function () {
+            it("should use right hand rule for bivector to vector.", function () {
+                const e12 = Spinor3.wedge(e1, e2);
+                const v = Vector3.dual(e12);
+                expect(v.x).toBe(e3.x);
+                expect(v.y).toBe(e3.y);
+                expect(v.z).toBe(e3.z);
+            });
+        });
+        describe("e23", function () {
+            it("should use right hand rule for bivector to vector.", function () {
+                const e23 = Spinor3.wedge(e2, e3);
+                const v = Vector3.dual(e23);
+                expect(v.x).toBe(e1.x);
+                expect(v.y).toBe(e1.y);
+                expect(v.z).toBe(e1.z);
+            });
+        });
+        describe("e31", function () {
+            it("should use right hand rule for bivector to vector.", function () {
+                const e31 = Spinor3.wedge(e3, e1);
+                const v = Vector3.dual(e31);
+                expect(v.x).toBe(e2.x);
+                expect(v.y).toBe(e2.y);
+                expect(v.z).toBe(e2.z);
             });
         });
     });

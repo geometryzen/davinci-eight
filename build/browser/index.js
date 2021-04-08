@@ -760,9 +760,9 @@
     var Eight = /** @class */ (function () {
         function Eight() {
             this.GITHUB = "https://github.com/geometryzen/davinci-eight";
-            this.LAST_MODIFIED = "2021-04-04";
+            this.LAST_MODIFIED = "2021-04-08";
             this.MARKETING_NAME = "DaVinci eight";
-            this.VERSION = "8.4.23";
+            this.VERSION = "8.4.24";
         }
         Eight.prototype.log = function (message) {
             console.log(message);
@@ -3589,18 +3589,15 @@
         };
         /**
          * Sets this multivector to the generalized vector cross product with another multivector.
-         * <p>
-         * <code>this ⟼ -I * (this ^ m)</code>
-         * </p>
+         *
+         * this ⟼ dual(this ^ m)
          */
         Geometric3.prototype.cross = function (m) {
             if (this.isLocked()) {
                 return lock(this.clone().cross(m));
             }
             else {
-                this.ext(m);
-                this.dual(this).neg();
-                return this;
+                return this.ext(m).dual();
             }
         };
         /**
@@ -3745,36 +3742,28 @@
                 return this;
             }
         };
-        /**
-         * this ⟼ dual(m) = I * m
-         */
-        Geometric3.prototype.dual = function (m) {
+        Geometric3.prototype.dual = function () {
             if (this.isLocked()) {
-                return this.clone().dual(m);
+                return lock(this.clone().dual());
             }
             else {
-                if (m) {
-                    var w = -m.b;
-                    var x = -m.yz;
-                    var y = -m.zx;
-                    var z = -m.xy;
-                    var yz = m.x;
-                    var zx = m.y;
-                    var xy = m.z;
-                    var β = m.a;
-                    this.a = w;
-                    this.x = x;
-                    this.y = y;
-                    this.z = z;
-                    this.yz = yz;
-                    this.zx = zx;
-                    this.xy = xy;
-                    this.b = β;
-                    return this;
-                }
-                else {
-                    return this.dual(this);
-                }
+                var a = this.b;
+                var x = this.yz;
+                var y = this.zx;
+                var z = this.xy;
+                var yz = -this.x;
+                var zx = -this.y;
+                var xy = -this.z;
+                var b = -this.a;
+                this.a = a;
+                this.x = x;
+                this.y = y;
+                this.z = z;
+                this.yz = yz;
+                this.zx = zx;
+                this.xy = xy;
+                this.b = b;
+                return this;
             }
         };
         /**
@@ -5191,9 +5180,9 @@
         // n = direction(X - look)
         n$1.copyVector(eye).subVector(look).normalize();
         // u = -(dual(up) >> n) (right contraction turns vector in opposite sense to bivector)
-        u$1.copyVector(up).dual(u$1).rco(n$1).neg();
+        u$1.copyVector(up).dual().rco(n$1);
         // v = dual(u ^ n)
-        v$1.copy(u$1).ext(n$1).dual(v$1);
+        v$1.copy(u$1).ext(n$1).dual().neg();
         // We recover the rotor as follows:
         // R = ψ / sqrt(ψ * ~ψ), where ψ = 1 + u * e1 + v * e2 + n * e3
         // We can use e1, e2, e3 as the reciprocal vectors because in an orthogonal
@@ -5662,21 +5651,18 @@
             return this;
         };
         /**
-         * <p>
-         * <code>this ⟼ dual(v) = I * v</code>
-         * </p>
+         * this ⟼ dual(v) = v <<< inv(I)
          *
          * @method dual
-         * @param v {VectorE3} The vector whose dual will be used to set this spinor.
-         * @param changeSign {boolean}
-         * @return {Spinor3} <code>this</code>
+         * @param v The vector whose dual will be used to set this spinor.
+         * @param changeSign Changes the sign from the usual convention for a right-handed pseudoscalar.
          * @chainable
          */
         Spinor3.prototype.dual = function (v, changeSign) {
             this.a = 0;
-            this.yz = v.x;
-            this.zx = v.y;
-            this.xy = v.z;
+            this.yz = -v.x;
+            this.zx = -v.y;
+            this.xy = -v.z;
             if (changeSign) {
                 this.neg();
             }
@@ -6298,11 +6284,10 @@
             return s;
         };
         /**
-         * Computes I * v, the dual of v.
+         * Computes dual(V) = v << inv(I).
          *
          * @param v
          * @param changeSign
-         * @returns I * v
          */
         Spinor3.dual = function (v, changeSign) {
             return Spinor3.zero.clone().dual(v, changeSign);
@@ -7848,17 +7833,10 @@
         };
         /**
          * Constructs a vector which is the dual of the supplied bivector, B.
-         * The convention used is dual(m) = I * m.
-         * If a sign change is desired from this convention, set changeSign to true.
+         * dual(B) = B << inv(I)
          */
-        Vector3.dual = function (B, changeSign) {
-            if (changeSign === void 0) { changeSign = false; }
-            if (changeSign) {
-                return new Vector3([B.yz, B.zx, B.xy]);
-            }
-            else {
-                return new Vector3([-B.yz, -B.zx, -B.xy]);
-            }
+        Vector3.dual = function (B) {
+            return new Vector3([B.yz, B.zx, B.xy]);
         };
         Vector3.e1 = function () {
             return new Vector3([1, 0, 0]);
@@ -15212,18 +15190,23 @@
             return this;
         };
         /**
-         * this ⟼ dual(m) = I * m
+         *
          */
-        Geometric2.prototype.dual = function (m) {
-            var w = -m.b;
-            var x = +m.y;
-            var y = -m.x;
-            var β = +m.a;
-            this.a = w;
-            this.x = x;
-            this.y = y;
-            this.b = β;
-            return this;
+        Geometric2.prototype.dual = function () {
+            if (this.isLocked()) {
+                return lock(this.clone().dual());
+            }
+            else {
+                var a = this.b;
+                var y = -this.x;
+                var x = this.y;
+                var b = -this.a;
+                this.a = a;
+                this.x = x;
+                this.y = y;
+                this.b = b;
+                return this;
+            }
         };
         /**
          *
@@ -15280,26 +15263,31 @@
          * Sets this multivector to its inverse, if it exists.
          */
         Geometric2.prototype.inv = function () {
-            // We convert the mutivector/geometric product into a tensor
-            // representation with the consequence that inverting the multivector
-            // is equivalent to solving a matrix equation, AX = b for X.
-            var α = this.a;
-            var x = this.x;
-            var y = this.y;
-            var β = this.b;
-            var A = [
-                [α, x, y, -β],
-                [x, α, β, -y],
-                [y, -β, α, x],
-                [β, -y, x, α]
-            ];
-            var b = [1, 0, 0, 0];
-            var X = gauss(A, b);
-            this.a = X[0];
-            this.x = X[1];
-            this.y = X[2];
-            this.b = X[3];
-            return this;
+            if (this.isLocked()) {
+                return lock(this.clone().inv());
+            }
+            else {
+                // We convert the mutivector/geometric product into a tensor
+                // representation with the consequence that inverting the multivector
+                // is equivalent to solving a matrix equation, AX = b for X.
+                var α = this.a;
+                var x = this.x;
+                var y = this.y;
+                var β = this.b;
+                var A = [
+                    [α, x, y, -β],
+                    [x, α, β, -y],
+                    [y, -β, α, x],
+                    [β, -y, x, α]
+                ];
+                var b = [1, 0, 0, 0];
+                var X = gauss(A, b);
+                this.a = X[0];
+                this.x = X[1];
+                this.y = X[2];
+                this.b = X[3];
+                return this;
+            }
         };
         /**
          *
@@ -15317,7 +15305,12 @@
          * this ⟼ this << m
          */
         Geometric2.prototype.lco = function (m) {
-            return this.lco2(this, m);
+            if (this.isLocked()) {
+                return lock(this.clone().lco(m));
+            }
+            else {
+                return this.lco2(this, m);
+            }
         };
         /**
          * this ⟼ a << b
@@ -15386,7 +15379,12 @@
          * this ⟼ this * m
          */
         Geometric2.prototype.mul = function (m) {
-            return this.mul2(this, m);
+            if (this.isLocked()) {
+                return lock(this.clone().mul(m));
+            }
+            else {
+                return this.mul2(this, m);
+            }
         };
         /**
          * this ⟼ a * b
@@ -15410,11 +15408,16 @@
          * this ⟼ -1 * this
          */
         Geometric2.prototype.neg = function () {
-            this.a = -this.a;
-            this.x = -this.x;
-            this.y = -this.y;
-            this.b = -this.b;
-            return this;
+            if (this.isLocked()) {
+                return lock(this.clone().neg());
+            }
+            else {
+                this.a = -this.a;
+                this.x = -this.x;
+                this.y = -this.y;
+                this.b = -this.b;
+                return this;
+            }
         };
         /**
          * this ⟼ sqrt(this * conj(this))
@@ -15516,12 +15519,17 @@
          * this ⟼ rev(this)
          */
         Geometric2.prototype.rev = function () {
-            // reverse has a ++-- structure.
-            this.a = this.a;
-            this.x = this.x;
-            this.y = this.y;
-            this.b = -this.b;
-            return this;
+            if (this.isLocked()) {
+                return lock(this.clone().rev());
+            }
+            else {
+                // reverse has a ++-- structure.
+                this.a = this.a;
+                this.x = this.x;
+                this.y = this.y;
+                this.b = -this.b;
+                return this;
+            }
         };
         /**
          *
@@ -18556,7 +18564,7 @@
             vertex.attributes[this.aPosition] = x;
             var normal = Vector3.zero();
             coneNormal(ρ, this.h, normal);
-            vertex.attributes[this.aTangent] = Spinor3.dual(normal, false);
+            vertex.attributes[this.aTangent] = Spinor3.dual(normal, true);
         };
         return ConeTransform;
     }());
@@ -18632,21 +18640,20 @@
      * @hidden
      */
     var Duality = /** @class */ (function () {
-        function Duality(sourceName, outputName, changeSign, removeSource) {
+        function Duality(sourceName, outputName, removeSource) {
             this.sourceName = mustBeString('sourceName', sourceName);
             this.outputName = mustBeString('outputName', outputName);
-            this.changeSign = mustBeBoolean('changeSign', changeSign);
             this.removeSource = mustBeBoolean('removeSource', removeSource);
         }
         Duality.prototype.exec = function (vertex, i, j, iLength, jLength) {
             var v = vertex.attributes[this.sourceName];
             if (v) {
                 if (v instanceof Vector3) {
-                    var spinor = Spinor3.dual(v, this.changeSign);
+                    var spinor = Spinor3.dual(v, false);
                     vertex.attributes[this.outputName] = spinor;
                 }
                 else if (v instanceof Spinor3) {
-                    var vector = Vector3.dual(v, this.changeSign);
+                    var vector = Vector3.dual(v);
                     vertex.attributes[this.outputName] = vector;
                 }
                 else if (v instanceof Vector2) {
@@ -18874,8 +18881,8 @@
             this.transforms.push(new Scaling(this.stress, [aPosition, aTangent]));
             this.transforms.push(new Rotation(this.tilt, [aPosition, aTangent]));
             this.transforms.push(new Translation(this.offset, [aPosition]));
-            // Use a duality transformation with a sign change to convert the tangent planes to vectors.
-            this.transforms.push(new Duality(aTangent, aNormal, true, true));
+            // Use a duality transformation to convert the tangent planes to vectors.
+            this.transforms.push(new Duality(aTangent, aNormal, true));
             // Normalize the normal vectors.
             this.transforms.push(new Direction(aNormal));
             // Discard insignificant coordinates.
@@ -18908,7 +18915,7 @@
         function CylinderTransform(height, cutLine, clockwise, sliceAngle, orientation, aPosition, aTangent) {
             this.height = Vector3.copy(height);
             this.cutLine = Vector3.copy(cutLine);
-            this.generator = Spinor3.dual(this.height.clone().normalize(), clockwise);
+            this.generator = Spinor3.dual(this.height.clone().normalize(), !clockwise);
             this.sliceAngle = mustBeNumber('sliceAngle', sliceAngle);
             this.orientation = mustBeNumber('orientation', orientation);
             this.aPosition = mustBeString('aPosition', aPosition);
@@ -18925,7 +18932,7 @@
              */
             var ρ = Vector3.copy(this.cutLine).rotate(rotor);
             vertex.attributes[this.aPosition] = ρ.clone().add(this.height, v);
-            vertex.attributes[this.aTangent] = Spinor3.dual(ρ, false).scale(this.orientation);
+            vertex.attributes[this.aTangent] = Spinor3.dual(ρ, true).scale(this.orientation);
         };
         return CylinderTransform;
     }());
@@ -18965,8 +18972,8 @@
             this.transforms.push(new Scaling(this.stress, [aPosition, aTangent]));
             this.transforms.push(new Rotation(this.tilt, [aPosition, aTangent]));
             this.transforms.push(new Translation(this.offset, [aPosition]));
-            // Use a duality transformation with a sign change to convert the tangent planes to vectors.
-            this.transforms.push(new Duality(aTangent, aNormal, true, true));
+            // Use a duality transformation to convert the tangent planes to vectors.
+            this.transforms.push(new Duality(aTangent, aNormal, true));
             // Normalize the normal vectors.
             this.transforms.push(new Direction(aNormal));
             // Discard insignificant coordinates.
@@ -19004,7 +19011,7 @@
             this.innerRadius = mustBeNumber('a', a);
             this.outerRadius = mustBeNumber('b', b);
             this.sliceAngle = mustBeNumber('sliceAngle', sliceAngle);
-            this.generator = Spinor3.dual(e, clockwise);
+            this.generator = Spinor3.dual(e, !clockwise);
             this.cutLine = Vector3.copy(cutLine).normalize();
             this.aPosition = mustBeString('aPosition', aPosition);
             this.aTangent = mustBeString('aTangent', aTangent);
@@ -19018,7 +19025,7 @@
             var a = this.outerRadius;
             var rotor = this.generator.clone().scale(-this.sliceAngle * u / 2).exp();
             var position = Vector3.copy(this.cutLine).rotate(rotor).scale(b + (a - b) * v);
-            var tangent = Spinor3.dual(this.e, false);
+            var tangent = Spinor3.dual(this.e, true);
             vertex.attributes[this.aPosition] = position;
             vertex.attributes[this.aTangent] = tangent;
         };
@@ -19078,7 +19085,7 @@
             this.transforms.push(new Rotation(this.tilt, [aPosition, aTangent]));
             this.transforms.push(new Translation(this.offset, [aPosition]));
             // Use a duality transformation with a sign change to convert the tangent planes to vectors.
-            this.transforms.push(new Duality(aTangent, aNormal, true, true));
+            this.transforms.push(new Duality(aTangent, aNormal, true));
             // Normalize the normal vectors.
             this.transforms.push(new Direction(aNormal));
             // Discard insignificant coordinates.
@@ -20782,7 +20789,7 @@
         // The normal will be the same for all vertices in the side, so we compute it once here.
         // Perform the stress ant tilt transformations on the tangent bivector before computing the normal.
         var tangent = Spinor3.wedge(basis[0], basis[1]).rotate(tilt);
-        var normal = Vector3.dual(tangent, true).normalize();
+        var normal = Vector3.dual(tangent).normalize();
         var aNeg = Vector3.copy(basis[0]).scale(-0.5);
         var aPos = Vector3.copy(basis[0]).scale(+0.5);
         var bNeg = Vector3.copy(basis[1]).scale(-0.5);
@@ -21401,7 +21408,7 @@
                 // Starting with a point on the wall of the regular cylinder...
                 var point = arcPoints[j];
                 // Compute the tangent bivector before moving the point up the wall, it need not be normalized.
-                var tangent = Spinor3.dual(point, false);
+                var tangent = Spinor3.dual(point, true);
                 // Add the displacement up the wall to get the point to the correct height.
                 point.add(dispH);
                 // Subject the point to the stress, tilt, offset transformations.
@@ -21446,7 +21453,7 @@
             this.data = [];
             var heightSegments = this.flatSegments;
             var thetaSegments = this.curvedSegments;
-            var generator = Spinor3.dual(Vector3.copy(this.height).normalize(), false);
+            var generator = Spinor3.dual(Vector3.copy(this.height).normalize(), true);
             var heightHalf = 1 / 2;
             var points = [];
             var tangents = [];
@@ -21473,10 +21480,10 @@
                         var v3 = vertices[i + 1][j + 1];
                         var v4 = vertices[i][j + 1];
                         // Compute the normals and normalize them
-                        var n1 = Vector3.dual(tangents[v1], true).normalize();
-                        var n2 = Vector3.dual(tangents[v2], true).normalize();
-                        var n3 = Vector3.dual(tangents[v3], true).normalize();
-                        var n4 = Vector3.dual(tangents[v4], true).normalize();
+                        var n1 = Vector3.dual(tangents[v1]).normalize();
+                        var n2 = Vector3.dual(tangents[v2]).normalize();
+                        var n3 = Vector3.dual(tangents[v3]).normalize();
+                        var n4 = Vector3.dual(tangents[v4]).normalize();
                         var uv1 = uvs[i][j].clone();
                         var uv2 = uvs[i + 1][j].clone();
                         var uv3 = uvs[i + 1][j + 1].clone();
@@ -21508,8 +21515,8 @@
             if (!this.openCap) {
                 // Push an extra point for the center of the cap.
                 var top_1 = Vector3.copy(this.height).scale(heightHalf).add(this.offset);
-                var tangent = Spinor3.dual(Vector3.copy(this.height).normalize(), false).stress(this.stress).rotate(this.tilt);
-                var normal = Vector3.dual(tangent, true);
+                var tangent = Spinor3.dual(Vector3.copy(this.height).normalize(), true).stress(this.stress).rotate(this.tilt);
+                var normal = Vector3.dual(tangent);
                 points.push(top_1);
                 for (var j = 0; j < thetaSegments; j++) {
                     var v1 = vertices[heightSegments][j + 1];
@@ -21545,8 +21552,8 @@
             if (!this.openBase) {
                 // Push an extra point for the center of the base.
                 var bottom = Vector3.copy(this.height).scale(-heightHalf).add(this.offset);
-                var tangent = Spinor3.dual(Vector3.copy(this.height).normalize(), false).neg().stress(this.stress).rotate(this.tilt);
-                var normal = Vector3.dual(tangent, true);
+                var tangent = Spinor3.dual(Vector3.copy(this.height).normalize(), true).neg().stress(this.stress).rotate(this.tilt);
+                var normal = Vector3.dual(tangent);
                 points.push(bottom);
                 for (var j = 0; j < thetaSegments; j++) {
                     var v1 = vertices[0][j];
@@ -22070,7 +22077,7 @@
         mustBeNumber('elevationStart', elevationStart);
         mustBeNumber('elevationLength', elevationLength);
         mustBeInteger('elevationSegments', elevationSegments);
-        var generator = Spinor3.dual(zenith, false);
+        var generator = Spinor3.dual(zenith, true);
         var iLength = elevationSegments + 1;
         var jLength = azimuthSegments + 1;
         for (var i = 0; i < iLength; i++) {
@@ -25403,11 +25410,11 @@
             get: function () {
                 return _super.prototype.getAxis.call(this).scale(this.length);
             },
-            set: function (axis) {
-                this.length = normVectorE3(axis);
+            set: function (vector) {
+                this.length = normVectorE3(vector);
                 // Don't try to set the direction for the zero vector.
                 if (this.length !== 0) {
-                    this.setAxis(axis);
+                    this.setAxis(vector);
                 }
             },
             enumerable: false,

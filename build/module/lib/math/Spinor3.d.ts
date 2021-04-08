@@ -173,14 +173,11 @@ export declare class Spinor3 implements CartesianG3, SpinorE3, Lockable, VectorN
      */
     divByScalar(α: number): Spinor3;
     /**
-     * <p>
-     * <code>this ⟼ dual(v) = I * v</code>
-     * </p>
+     * this ⟼ dual(v) = v <<< inv(I)
      *
      * @method dual
-     * @param v {VectorE3} The vector whose dual will be used to set this spinor.
-     * @param changeSign {boolean}
-     * @return {Spinor3} <code>this</code>
+     * @param v The vector whose dual will be used to set this spinor.
+     * @param changeSign Changes the sign from the usual convention for a right-handed pseudoscalar.
      * @chainable
      */
     dual(v: VectorE3, changeSign: boolean): Spinor3;
@@ -522,11 +519,10 @@ export declare class Spinor3 implements CartesianG3, SpinorE3, Lockable, VectorN
      */
     static copy(spinor: SpinorE3): Spinor3;
     /**
-     * Computes I * v, the dual of v.
+     * Computes dual(V) = v << inv(I).
      *
      * @param v
      * @param changeSign
-     * @returns I * v
      */
     static dual(v: VectorE3, changeSign: boolean): Spinor3;
     static fromBivector(B: BivectorE3): Spinor3;

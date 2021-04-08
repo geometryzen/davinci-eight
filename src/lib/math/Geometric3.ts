@@ -731,18 +731,15 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
 
     /**
      * Sets this multivector to the generalized vector cross product with another multivector.
-     * <p>
-     * <code>this ⟼ -I * (this ^ m)</code>
-     * </p>
+     *
+     * this ⟼ dual(this ^ m)
      */
     cross(m: GeometricE3): Geometric3 {
         if (this.isLocked()) {
             return lock(this.clone().cross(m));
         }
         else {
-            this.ext(m);
-            this.dual(this).neg();
-            return this;
+            return this.ext(m).dual();
         }
     }
 
@@ -899,38 +896,30 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
         }
     }
 
-    /**
-     * this ⟼ dual(m) = I * m
-     */
-    dual(m?: GeometricE3): Geometric3 {
+    dual(): Geometric3 {
         if (this.isLocked()) {
-            return this.clone().dual(m);
+            return lock(this.clone().dual());
         }
         else {
-            if (m) {
-                const w = -m.b;
-                const x = -m.yz;
-                const y = -m.zx;
-                const z = -m.xy;
-                const yz = m.x;
-                const zx = m.y;
-                const xy = m.z;
-                const β = m.a;
+            const a = this.b;
+            const x = this.yz;
+            const y = this.zx;
+            const z = this.xy;
+            const yz = -this.x;
+            const zx = -this.y;
+            const xy = -this.z;
+            const b = -this.a;
 
-                this.a = w;
-                this.x = x;
-                this.y = y;
-                this.z = z;
-                this.yz = yz;
-                this.zx = zx;
-                this.xy = xy;
-                this.b = β;
+            this.a = a;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.yz = yz;
+            this.zx = zx;
+            this.xy = xy;
+            this.b = b;
 
-                return this;
-            }
-            else {
-                return this.dual(this);
-            }
+            return this;
         }
     }
 

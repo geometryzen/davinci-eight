@@ -3,8 +3,19 @@ import { Spinor3 } from './Spinor3';
 import { Vector3 } from './Vector3';
 
 const e1 = Vector3.vector(1, 0, 0);
+e1.lock();
 const e2 = Vector3.vector(0, 1, 0);
+e2.lock();
 const e3 = Vector3.vector(0, 0, 1);
+e3.lock();
+const e12 = Spinor3.wedge(e1, e2);
+e12.lock();
+const e23 = Spinor3.wedge(e2, e3);
+e23.lock();
+const e31 = Spinor3.wedge(e3, e1);
+e31.lock();
+const e32 = Spinor3.wedge(e3, e2);
+e32.lock();
 
 describe("Spinor3", function () {
     describe("constructor", function () {
@@ -51,7 +62,16 @@ describe("Spinor3", function () {
             expect(m.modified).toBe(false);
         });
     });
-
+    describe("dual", function () {
+        describe("e1", function () {
+            it("", function () {
+                const B = Spinor3.dual(e1, false);
+                expect(B.xy).toBe(e32.xy);
+                expect(B.yz).toBe(e32.yz);
+                expect(B.zx).toBe(e32.zx);
+            });
+        });
+    });
     describe("isOne", function () {
         it("1 => true", function () {
             expect(Spinor3.one.isOne()).toBeTruthy();

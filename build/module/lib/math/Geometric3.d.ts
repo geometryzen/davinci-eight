@@ -235,9 +235,8 @@ export declare class Geometric3 implements CartesianG3, GeometricE3, Lockable, V
     copyVector(vector: VectorE3): this;
     /**
      * Sets this multivector to the generalized vector cross product with another multivector.
-     * <p>
-     * <code>this ⟼ -I * (this ^ m)</code>
-     * </p>
+     *
+     * this ⟼ dual(this ^ m)
      */
     cross(m: GeometricE3): Geometric3;
     /**
@@ -266,10 +265,7 @@ export declare class Geometric3 implements CartesianG3, GeometricE3, Lockable, V
      * this ⟼ a / b
      */
     div2(a: SpinorE3, b: SpinorE3): this;
-    /**
-     * this ⟼ dual(m) = I * m
-     */
-    dual(m?: GeometricE3): Geometric3;
+    dual(): Geometric3;
     /**
      * @param other
      * @returns
