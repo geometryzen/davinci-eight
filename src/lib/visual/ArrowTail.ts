@@ -93,6 +93,12 @@ export class ArrowTail extends Mesh<ArrowTailGeometry, Material> {
     }
 }
 
+/**
+ * @hidden
+ * @param options 
+ * @param defaultValue 
+ * @returns 
+ */
 function heightShaftFromOptions(options: Partial<Pick<ArrowOptions, 'heightShaft'>>, defaultValue: number): number {
     if (options) {
         if (typeof options.heightShaft === 'number') {
@@ -105,6 +111,12 @@ function heightShaftFromOptions(options: Partial<Pick<ArrowOptions, 'heightShaft
     }
 }
 
+/**
+ * @hidden
+ * @param options 
+ * @param defaultValue 
+ * @returns 
+ */
 function radiusShaftFromOptions(options: Partial<Pick<ArrowOptions, 'radiusShaft'>>, defaultValue: number): number {
     if (options) {
         if (typeof options.radiusShaft === 'number') {
@@ -117,6 +129,12 @@ function radiusShaftFromOptions(options: Partial<Pick<ArrowOptions, 'radiusShaft
     }
 }
 
+/**
+ * @hidden
+ * @param options 
+ * @param defaultValue 
+ * @returns 
+ */
 function thetaSegmentsFromOptions(options: Partial<Pick<ArrowOptions, 'thetaSegments'>>, defaultValue: number): number {
     if (options) {
         if (typeof options.thetaSegments === 'number') {

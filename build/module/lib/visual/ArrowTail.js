@@ -91,6 +91,12 @@ var ArrowTail = /** @class */ (function (_super) {
     return ArrowTail;
 }(Mesh));
 export { ArrowTail };
+/**
+ * @hidden
+ * @param options
+ * @param defaultValue
+ * @returns
+ */
 function heightShaftFromOptions(options, defaultValue) {
     if (options) {
         if (typeof options.heightShaft === 'number') {
@@ -104,6 +110,12 @@ function heightShaftFromOptions(options, defaultValue) {
         return defaultValue;
     }
 }
+/**
+ * @hidden
+ * @param options
+ * @param defaultValue
+ * @returns
+ */
 function radiusShaftFromOptions(options, defaultValue) {
     if (options) {
         if (typeof options.radiusShaft === 'number') {
@@ -117,6 +129,12 @@ function radiusShaftFromOptions(options, defaultValue) {
         return defaultValue;
     }
 }
+/**
+ * @hidden
+ * @param options
+ * @param defaultValue
+ * @returns
+ */
 function thetaSegmentsFromOptions(options, defaultValue) {
     if (options) {
         if (typeof options.thetaSegments === 'number') {

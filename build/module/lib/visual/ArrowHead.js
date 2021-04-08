@@ -91,6 +91,12 @@ var ArrowHead = /** @class */ (function (_super) {
     return ArrowHead;
 }(Mesh));
 export { ArrowHead };
+/**
+ * @hidden
+ * @param options
+ * @param defaultValue
+ * @returns
+ */
 function heightConeFromOptions(options, defaultValue) {
     if (options) {
         if (typeof options.heightCone === 'number') {
@@ -104,6 +110,12 @@ function heightConeFromOptions(options, defaultValue) {
         return defaultValue;
     }
 }
+/**
+ * @hidden
+ * @param options
+ * @param defaultValue
+ * @returns
+ */
 function radiusConeFromOptions(options, defaultValue) {
     if (options) {
         if (typeof options.radiusCone === 'number') {
@@ -117,6 +129,12 @@ function radiusConeFromOptions(options, defaultValue) {
         return defaultValue;
     }
 }
+/**
+ * @hidden
+ * @param options
+ * @param defaultValue
+ * @returns
+ */
 function thetaSegmentsFromOptions(options, defaultValue) {
     if (options) {
         if (typeof options.thetaSegments === 'number') {

@@ -2,18 +2,39 @@ import { Geometric3 } from './Geometric3';
 import { Spinor3 } from './Spinor3';
 import { Vector3 } from './Vector3';
 
+/**
+ * @hidden
+ */
 const e1 = Vector3.vector(1, 0, 0);
 e1.lock();
+/**
+ * @hidden
+ */
 const e2 = Vector3.vector(0, 1, 0);
 e2.lock();
+/**
+ * @hidden
+ */
 const e3 = Vector3.vector(0, 0, 1);
 e3.lock();
+/**
+ * @hidden
+ */
 const e12 = Spinor3.wedge(e1, e2);
 e12.lock();
+/**
+ * @hidden
+ */
 const e23 = Spinor3.wedge(e2, e3);
 e23.lock();
+/**
+ * @hidden
+ */
 const e31 = Spinor3.wedge(e3, e1);
 e31.lock();
+/**
+ * @hidden
+ */
 const e32 = Spinor3.wedge(e3, e2);
 e32.lock();
 

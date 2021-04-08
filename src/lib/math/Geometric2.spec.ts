@@ -8,6 +8,9 @@ const e2 = Geometric2.e2(true);
 const e12 = Geometric2.e1(false).mul(e2);
 e12.lock();
 const I = e12;
+/**
+ * @hidden
+ */
 const elements = [one, e1, e2, e12];
 
 /**

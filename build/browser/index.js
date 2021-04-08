@@ -762,7 +762,7 @@
             this.GITHUB = "https://github.com/geometryzen/davinci-eight";
             this.LAST_MODIFIED = "2021-04-08";
             this.MARKETING_NAME = "DaVinci eight";
-            this.VERSION = "8.4.24";
+            this.VERSION = "8.4.25";
         }
         Eight.prototype.log = function (message) {
             console.log(message);
@@ -25578,6 +25578,12 @@
         });
         return ArrowHead;
     }(Mesh));
+    /**
+     * @hidden
+     * @param options
+     * @param defaultValue
+     * @returns
+     */
     function heightConeFromOptions(options, defaultValue) {
         if (options) {
             if (typeof options.heightCone === 'number') {
@@ -25591,6 +25597,12 @@
             return defaultValue;
         }
     }
+    /**
+     * @hidden
+     * @param options
+     * @param defaultValue
+     * @returns
+     */
     function radiusConeFromOptions(options, defaultValue) {
         if (options) {
             if (typeof options.radiusCone === 'number') {
@@ -25604,6 +25616,12 @@
             return defaultValue;
         }
     }
+    /**
+     * @hidden
+     * @param options
+     * @param defaultValue
+     * @returns
+     */
     function thetaSegmentsFromOptions$1(options, defaultValue) {
         if (options) {
             if (typeof options.thetaSegments === 'number') {
@@ -25733,6 +25751,12 @@
         });
         return ArrowTail;
     }(Mesh));
+    /**
+     * @hidden
+     * @param options
+     * @param defaultValue
+     * @returns
+     */
     function heightShaftFromOptions(options, defaultValue) {
         if (options) {
             if (typeof options.heightShaft === 'number') {
@@ -25746,6 +25770,12 @@
             return defaultValue;
         }
     }
+    /**
+     * @hidden
+     * @param options
+     * @param defaultValue
+     * @returns
+     */
     function radiusShaftFromOptions(options, defaultValue) {
         if (options) {
             if (typeof options.radiusShaft === 'number') {
@@ -25759,6 +25789,12 @@
             return defaultValue;
         }
     }
+    /**
+     * @hidden
+     * @param options
+     * @param defaultValue
+     * @returns
+     */
     function thetaSegmentsFromOptions(options, defaultValue) {
         if (options) {
             if (typeof options.thetaSegments === 'number') {

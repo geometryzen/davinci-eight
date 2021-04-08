@@ -94,6 +94,12 @@ export class ArrowHead extends Mesh<ArrowHeadGeometry, Material> {
     }
 }
 
+/**
+ * @hidden
+ * @param options 
+ * @param defaultValue 
+ * @returns 
+ */
 function heightConeFromOptions(options: Partial<Pick<ArrowOptions, 'heightCone'>>, defaultValue: number): number {
     if (options) {
         if (typeof options.heightCone === 'number') {
@@ -106,6 +112,12 @@ function heightConeFromOptions(options: Partial<Pick<ArrowOptions, 'heightCone'>
     }
 }
 
+/**
+ * @hidden
+ * @param options 
+ * @param defaultValue 
+ * @returns 
+ */
 function radiusConeFromOptions(options: Partial<Pick<ArrowOptions, 'radiusCone'>>, defaultValue: number): number {
     if (options) {
         if (typeof options.radiusCone === 'number') {
@@ -118,6 +130,12 @@ function radiusConeFromOptions(options: Partial<Pick<ArrowOptions, 'radiusCone'>
     }
 }
 
+/**
+ * @hidden
+ * @param options 
+ * @param defaultValue 
+ * @returns 
+ */
 function thetaSegmentsFromOptions(options: Partial<Pick<ArrowOptions, 'thetaSegments'>>, defaultValue: number): number {
     if (options) {
         if (typeof options.thetaSegments === 'number') {
