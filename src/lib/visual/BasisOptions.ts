@@ -4,7 +4,7 @@ import { VectorE3 } from '../math/VectorE3';
 /**
  *
  */
-export interface BasisOptions {
+export interface BasisOptions extends Record<string, unknown> {
     /**
      * 
      */

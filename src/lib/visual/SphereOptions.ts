@@ -5,7 +5,7 @@ import { VectorE3 } from '../math/VectorE3';
 /**
  * The options for creating a Sphere.
  */
-export interface SphereOptions {
+export interface SphereOptions extends Record<string, unknown> {
     /**
      *
      */

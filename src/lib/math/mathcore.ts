@@ -14,7 +14,7 @@ function isCallableMethod(x: any, name: string) {
 function makeUnaryUniversalFunction(methodName: string, primitiveFunction: (x: number) => number) {
     return function <T>(x: T): T {
         if (isCallableMethod(x, methodName)) {
-            return x[methodName]();
+            return (x as any)[methodName]();
         }
         else if (typeof x === 'number') {
             return primitiveFunction(x) as any;

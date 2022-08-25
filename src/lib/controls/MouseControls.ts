@@ -120,9 +120,9 @@ export class MouseControls extends ShareableBase {
     private mouseOnCircle = new Vector2();
     private mouseOnScreen = new Vector2();
     private mousedown: (event: MouseEvent) => any;
-    private mousemove: (event: MouseEvent) => any;
+    private mousemove: (event: MouseEvent) => unknown;
     private mouseup: (event: MouseEvent) => any;
-    private mousewheel: (event: MouseWheelEvent) => any;
+    private mousewheel: (event: MouseEvent) => any;
     private keydown: (event: KeyboardEvent) => any;
     private keyup: (event: KeyboardEvent) => any;
     private contextmenu: (event: PointerEvent) => any;
@@ -164,8 +164,8 @@ export class MouseControls extends ShareableBase {
                 this.panStart.copy(this.mouseOnScreen);
                 this.panEnd.copy(this.mouseOnScreen);
             }
-            this.wnd.document.addEventListener('mousemove', this.mousemove, false);
-            this.wnd.document.addEventListener('mouseup', this.mouseup, false);
+            this.wnd.document.addEventListener('mousemove', this.mousemove as EventListener, false);
+            this.wnd.document.addEventListener('mouseup', this.mouseup as EventListener, false);
         };
 
         /**
@@ -202,14 +202,14 @@ export class MouseControls extends ShareableBase {
             event.preventDefault();
             event.stopPropagation();
             this.mode = MODE.NONE;
-            this.wnd.document.removeEventListener('mousemove', this.mousemove);
-            this.wnd.document.removeEventListener('mouseup', this.mouseup);
+            this.wnd.document.removeEventListener('mousemove', this.mousemove as EventListener);
+            this.wnd.document.removeEventListener('mouseup', this.mouseup as EventListener);
         };
 
         /**
          *
          */
-        this.mousewheel = (event: MouseWheelEvent) => {
+        this.mousewheel = (event: MouseEvent) => {
             if (!this.enabled) {
                 return;
             }
@@ -217,8 +217,8 @@ export class MouseControls extends ShareableBase {
             event.stopPropagation();
 
             let delta = 0;
-            if (event['wheelDelta']) { // WebKit / Opera / Explorer 9
-                delta = event['wheelDelta'] / 40;
+            if ((event as any)['wheelDelta']) { // WebKit / Opera / Explorer 9
+                delta = (event as any)['wheelDelta'] / 40;
             }
             else if (event.detail) { // Firefox
                 delta = event.detail / 3;
@@ -233,7 +233,7 @@ export class MouseControls extends ShareableBase {
             if (!this.enabled) {
                 return;
             }
-            this.wnd.removeEventListener('keydown', this.keydown, false);
+            this.wnd.removeEventListener('keydown', this.keydown as EventListener, false);
             this.prevMode = this.mode;
             if (this.mode !== MODE.NONE) {
                 // If we are already in a mode then keydown can't change it.
@@ -262,7 +262,7 @@ export class MouseControls extends ShareableBase {
                 return;
             }
             this.mode = this.prevMode;
-            this.wnd.addEventListener('keydown', this.keydown, false);
+            this.wnd.addEventListener('keydown', this.keydown as EventListener, false);
         };
     }
 
@@ -293,11 +293,11 @@ export class MouseControls extends ShareableBase {
         }
         this.domElement = domElement;
         this.disableContextMenu();
-        this.domElement.addEventListener('mousedown', this.mousedown, false);
-        this.domElement.addEventListener('mousewheel', this.mousewheel, false);
-        this.domElement.addEventListener('DOMMouseScroll', this.mousewheel, false); // Firefox
-        this.wnd.addEventListener('keydown', this.keydown, false);
-        this.wnd.addEventListener('keyup', this.keyup, false);
+        this.domElement.addEventListener('mousedown', this.mousedown as EventListener, false);
+        this.domElement.addEventListener('mousewheel', this.mousewheel as EventListener, false);
+        this.domElement.addEventListener('DOMMouseScroll', this.mousewheel as EventListener, false); // Firefox
+        this.wnd.addEventListener('keydown', this.keydown as EventListener, false);
+        this.wnd.addEventListener('keyup', this.keyup as EventListener, false);
 
         this.handleResize();
     }
@@ -308,12 +308,12 @@ export class MouseControls extends ShareableBase {
     public unsubscribe(): void {
         if (this.domElement) {
             this.enableContextMenu();
-            this.domElement.removeEventListener('mousedown', this.mousedown, false);
-            this.domElement.removeEventListener('mousewheel', this.mousewheel, false);
-            this.domElement.removeEventListener('DOMMouseScroll', this.mousewheel, false); // Firefox
+            this.domElement.removeEventListener('mousedown', this.mousedown as EventListener, false);
+            this.domElement.removeEventListener('mousewheel', this.mousewheel as EventListener, false);
+            this.domElement.removeEventListener('DOMMouseScroll', this.mousewheel as EventListener, false); // Firefox
             this.domElement = void 0;
-            this.wnd.removeEventListener('keydown', this.keydown, false);
-            this.wnd.removeEventListener('keyup', this.keyup, false);
+            this.wnd.removeEventListener('keydown', this.keydown as EventListener, false);
+            this.wnd.removeEventListener('keyup', this.keyup as EventListener, false);
         }
     }
 
@@ -323,7 +323,7 @@ export class MouseControls extends ShareableBase {
                 this.contextmenu = (event: PointerEvent) => {
                     event.preventDefault();
                 };
-                this.domElement.addEventListener('contextmenu', this.contextmenu, false);
+                this.domElement.addEventListener('contextmenu', this.contextmenu as EventListener, false);
             }
         }
     }
@@ -331,7 +331,7 @@ export class MouseControls extends ShareableBase {
     public enableContextMenu(): void {
         if (this.domElement) {
             if (this.contextmenu) {
-                this.domElement.removeEventListener('contextmenu', this.contextmenu, false);
+                this.domElement.removeEventListener('contextmenu', this.contextmenu as EventListener, false);
                 this.contextmenu = void 0;
             }
         }

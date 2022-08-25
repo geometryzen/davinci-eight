@@ -283,9 +283,9 @@ describe("computeVerticesAndPoints", function () {
 
         {
             const point = pts[1];
-            expect(point.x).toBeCloseTo(meridian.x, PRECISION, "meridian.x");
-            expect(point.y).toBeCloseTo(meridian.y, PRECISION, "meridian.y");
-            expect(point.z).toBeCloseTo(meridian.z, PRECISION, "meridian.z");
+            expect(point.x).toBeCloseTo(meridian.x, PRECISION);
+            expect(point.y).toBeCloseTo(meridian.y, PRECISION);
+            expect(point.z).toBeCloseTo(meridian.z, PRECISION);
         }
 
         {
@@ -295,8 +295,8 @@ describe("computeVerticesAndPoints", function () {
         }
         {
             const uv = uvs[1];
-            expect(uv.x).toBe(0, "uvs[1].x");
-            expect(uv.y).toBe(0.5, "uvs[1].y");
+            expect(uv.x).toBe(0);
+            expect(uv.y).toBe(0.5);
         }
     });
     it("uv coordinates in graphics (default) convention (zenith=e2, meridian=e1)", function () {
@@ -339,37 +339,37 @@ describe("computeVerticesAndPoints", function () {
 
         {
             const point = pts[5];
-            expect(point.x).toBeCloseTo(0, PRECISION, "meridian.x");
-            expect(point.y).toBeCloseTo(0, PRECISION, "meridian.y");
-            expect(point.z).toBeCloseTo(1, PRECISION, "meridian.z");
+            expect(point.x).toBeCloseTo(0, PRECISION);
+            expect(point.y).toBeCloseTo(0, PRECISION);
+            expect(point.z).toBeCloseTo(1, PRECISION);
         }
 
         {
             const point = pts[6];
-            expect(point.x).toBeCloseTo(1, PRECISION, "meridian.x");
-            expect(point.y).toBeCloseTo(0, PRECISION, "meridian.y");
-            expect(point.z).toBeCloseTo(0, PRECISION, "meridian.z");
+            expect(point.x).toBeCloseTo(1, PRECISION);
+            expect(point.y).toBeCloseTo(0, PRECISION);
+            expect(point.z).toBeCloseTo(0, PRECISION);
         }
 
         {
             const point = pts[7];
-            expect(point.x).toBeCloseTo(0, PRECISION, "meridian.x");
-            expect(point.y).toBeCloseTo(0, PRECISION, "meridian.y");
-            expect(point.z).toBeCloseTo(-1, PRECISION, "meridian.z");
+            expect(point.x).toBeCloseTo(0, PRECISION);
+            expect(point.y).toBeCloseTo(0, PRECISION);
+            expect(point.z).toBeCloseTo(-1, PRECISION);
         }
 
         {
             const point = pts[8];
-            expect(point.x).toBeCloseTo(-1, PRECISION, "meridian.x");
-            expect(point.y).toBeCloseTo(0, PRECISION, "meridian.y");
-            expect(point.z).toBeCloseTo(0, PRECISION, "meridian.z");
+            expect(point.x).toBeCloseTo(-1, PRECISION);
+            expect(point.y).toBeCloseTo(0, PRECISION);
+            expect(point.z).toBeCloseTo(0, PRECISION);
         }
 
         {
             const point = pts[9];
-            expect(point.x).toBeCloseTo(0, PRECISION, "meridian.x");
-            expect(point.y).toBeCloseTo(0, PRECISION, "meridian.y");
-            expect(point.z).toBeCloseTo(1, PRECISION, "meridian.z");
+            expect(point.x).toBeCloseTo(0, PRECISION);
+            expect(point.y).toBeCloseTo(0, PRECISION);
+            expect(point.z).toBeCloseTo(1, PRECISION);
         }
 
         {
@@ -387,92 +387,92 @@ describe("computeVerticesAndPoints", function () {
         {
             const i = 0;
             const uv = uvs[i];
-            expect(uv.x).toBe(0, `uvs[${i}].x`);
-            expect(uv.y).toBe(0, `uvs[${i}].y`);
+            expect(uv.x).toBe(0);
+            expect(uv.y).toBe(0);
         }
         {
             const i = 1;
             const uv = uvs[i];
-            expect(uv.x).toBe(0.25, `uvs[${i}].x`);
-            expect(uv.y).toBe(0, `uvs[${i}].y`);
+            expect(uv.x).toBe(0.25);
+            expect(uv.y).toBe(0);
         }
         {
             const i = 2;
             const uv = uvs[i];
-            expect(uv.x).toBe(0.5, `uvs[${i}].x`);
-            expect(uv.y).toBe(0, `uvs[${i}].y`);
+            expect(uv.x).toBe(0.5);
+            expect(uv.y).toBe(0);
         }
         {
             const i = 3;
             const uv = uvs[i];
-            expect(uv.x).toBe(0.75, `uvs[${i}].x`);
-            expect(uv.y).toBe(0, `uvs[${i}].y`);
+            expect(uv.x).toBe(0.75);
+            expect(uv.y).toBe(0);
         }
         {
             const i = 4;
             const uv = uvs[i];
-            expect(uv.x).toBe(1, `uvs[${i}].x`);
-            expect(uv.y).toBe(0, `uvs[${i}].y`);
+            expect(uv.x).toBe(1);
+            expect(uv.y).toBe(0);
         }
         {
             const i = 5;
             const uv = uvs[i];
-            expect(uv.x).toBe(0, `uvs[${i}].x`);
-            expect(uv.y).toBe(0.5, `uvs[${i}].y`);
+            expect(uv.x).toBe(0);
+            expect(uv.y).toBe(0.5);
         }
         {
             const i = 6;
             const uv = uvs[i];
-            expect(uv.x).toBe(0.25, `uvs[${i}].x`);
-            expect(uv.y).toBe(0.5, `uvs[${i}].y`);
+            expect(uv.x).toBe(0.25);
+            expect(uv.y).toBe(0.5);
         }
         {
             const i = 7;
             const uv = uvs[i];
-            expect(uv.x).toBe(0.5, `uvs[${i}].x`);
-            expect(uv.y).toBe(0.5, `uvs[${i}].y`);
+            expect(uv.x).toBe(0.5);
+            expect(uv.y).toBe(0.5);
         }
         {
             const i = 8;
             const uv = uvs[i];
-            expect(uv.x).toBe(0.75, `uvs[${i}].x`);
-            expect(uv.y).toBe(0.5, `uvs[${i}].y`);
+            expect(uv.x).toBe(0.75);
+            expect(uv.y).toBe(0.5);
         }
         {
             const i = 9;
             const uv = uvs[i];
-            expect(uv.x).toBe(1, `uvs[${i}].x`);
-            expect(uv.y).toBe(0.5, `uvs[${i}].y`);
+            expect(uv.x).toBe(1);
+            expect(uv.y).toBe(0.5);
         }
         {
             const i = 10;
             const uv = uvs[i];
-            expect(uv.x).toBe(0, `uvs[${i}].x`);
-            expect(uv.y).toBe(1, `uvs[${i}].y`);
+            expect(uv.x).toBe(0);
+            expect(uv.y).toBe(1);
         }
         {
             const i = 11;
             const uv = uvs[i];
-            expect(uv.x).toBe(0.25, `uvs[${i}].x`);
-            expect(uv.y).toBe(1, `uvs[${i}].y`);
+            expect(uv.x).toBe(0.25);
+            expect(uv.y).toBe(1);
         }
         {
             const i = 12;
             const uv = uvs[i];
-            expect(uv.x).toBe(0.5, `uvs[${i}].x`);
-            expect(uv.y).toBe(1, `uvs[${i}].y`);
+            expect(uv.x).toBe(0.5);
+            expect(uv.y).toBe(1);
         }
         {
             const i = 13;
             const uv = uvs[i];
-            expect(uv.x).toBe(0.75, `uvs[${i}].x`);
-            expect(uv.y).toBe(1, `uvs[${i}].y`);
+            expect(uv.x).toBe(0.75);
+            expect(uv.y).toBe(1);
         }
         {
             const i = 14;
             const uv = uvs[i];
-            expect(uv.x).toBe(1, `uvs[${i}].x`);
-            expect(uv.y).toBe(1, `uvs[${i}].y`);
+            expect(uv.x).toBe(1);
+            expect(uv.y).toBe(1);
         }
     });
     it("uv coordinates in mathematics convention (zenith=e3, meridian=e1)", function () {
@@ -515,37 +515,37 @@ describe("computeVerticesAndPoints", function () {
 
         {
             const point = pts[5];
-            expect(point.x).toBeCloseTo(MATHEMATICS_MERIDIAN.x, PRECISION, "meridian.x");
-            expect(point.y).toBeCloseTo(MATHEMATICS_MERIDIAN.y, PRECISION, "meridian.y");
-            expect(point.z).toBeCloseTo(MATHEMATICS_MERIDIAN.z, PRECISION, "meridian.z");
+            expect(point.x).toBeCloseTo(MATHEMATICS_MERIDIAN.x, PRECISION);
+            expect(point.y).toBeCloseTo(MATHEMATICS_MERIDIAN.y, PRECISION);
+            expect(point.z).toBeCloseTo(MATHEMATICS_MERIDIAN.z, PRECISION);
         }
 
         {
             const expected = MATHEMATICS_ZENITH.cross(MATHEMATICS_MERIDIAN);
             const point = pts[6];
-            expect(point.x).toBeCloseTo(expected.x, PRECISION, "meridian.x");
-            expect(point.y).toBeCloseTo(expected.y, PRECISION, "meridian.y");
-            expect(point.z).toBeCloseTo(expected.z, PRECISION, "meridian.z");
+            expect(point.x).toBeCloseTo(expected.x, PRECISION);
+            expect(point.y).toBeCloseTo(expected.y, PRECISION);
+            expect(point.z).toBeCloseTo(expected.z, PRECISION);
         }
 
         {
             const point = pts[7];
-            expect(point.x).toBeCloseTo(-MATHEMATICS_MERIDIAN.x, PRECISION, "meridian.x");
-            expect(point.y).toBeCloseTo(-MATHEMATICS_MERIDIAN.y, PRECISION, "meridian.y");
-            expect(point.z).toBeCloseTo(-MATHEMATICS_MERIDIAN.z, PRECISION, "meridian.z");
+            expect(point.x).toBeCloseTo(-MATHEMATICS_MERIDIAN.x, PRECISION);
+            expect(point.y).toBeCloseTo(-MATHEMATICS_MERIDIAN.y, PRECISION);
+            expect(point.z).toBeCloseTo(-MATHEMATICS_MERIDIAN.z, PRECISION);
         }
         {
             const expected = MATHEMATICS_MERIDIAN.cross(MATHEMATICS_ZENITH);
             const point = pts[8];
-            expect(point.x).toBeCloseTo(expected.x, PRECISION, "meridian.x");
-            expect(point.y).toBeCloseTo(expected.y, PRECISION, "meridian.y");
-            expect(point.z).toBeCloseTo(expected.z, PRECISION, "meridian.z");
+            expect(point.x).toBeCloseTo(expected.x, PRECISION);
+            expect(point.y).toBeCloseTo(expected.y, PRECISION);
+            expect(point.z).toBeCloseTo(expected.z, PRECISION);
         }
         {
             const point = pts[9];
-            expect(point.x).toBeCloseTo(MATHEMATICS_MERIDIAN.x, PRECISION, "meridian.x");
-            expect(point.y).toBeCloseTo(MATHEMATICS_MERIDIAN.y, PRECISION, "meridian.y");
-            expect(point.z).toBeCloseTo(MATHEMATICS_MERIDIAN.z, PRECISION, "meridian.z");
+            expect(point.x).toBeCloseTo(MATHEMATICS_MERIDIAN.x, PRECISION);
+            expect(point.y).toBeCloseTo(MATHEMATICS_MERIDIAN.y, PRECISION);
+            expect(point.z).toBeCloseTo(MATHEMATICS_MERIDIAN.z, PRECISION);
         }
 
         {
@@ -564,92 +564,92 @@ describe("computeVerticesAndPoints", function () {
         {
             const i = 0;
             const uv = uvs[i];
-            expect(uv.x).toBe(0, `uvs[${i}].x`);
-            expect(uv.y).toBe(0, `uvs[${i}].y`);
+            expect(uv.x).toBe(0);
+            expect(uv.y).toBe(0);
         }
         {
             const i = 1;
             const uv = uvs[i];
-            expect(uv.x).toBe(0.25, `uvs[${i}].x`);
-            expect(uv.y).toBe(0, `uvs[${i}].y`);
+            expect(uv.x).toBe(0.25);
+            expect(uv.y).toBe(0);
         }
         {
             const i = 2;
             const uv = uvs[i];
-            expect(uv.x).toBe(0.5, `uvs[${i}].x`);
-            expect(uv.y).toBe(0, `uvs[${i}].y`);
+            expect(uv.x).toBe(0.5);
+            expect(uv.y).toBe(0);
         }
         {
             const i = 3;
             const uv = uvs[i];
-            expect(uv.x).toBe(0.75, `uvs[${i}].x`);
-            expect(uv.y).toBe(0, `uvs[${i}].y`);
+            expect(uv.x).toBe(0.75);
+            expect(uv.y).toBe(0);
         }
         {
             const i = 4;
             const uv = uvs[i];
-            expect(uv.x).toBe(1, `uvs[${i}].x`);
-            expect(uv.y).toBe(0, `uvs[${i}].y`);
+            expect(uv.x).toBe(1);
+            expect(uv.y).toBe(0);
         }
         {
             const i = 5;
             const uv = uvs[i];
-            expect(uv.x).toBe(0, `uvs[${i}].x`);
-            expect(uv.y).toBe(0.5, `uvs[${i}].y`);
+            expect(uv.x).toBe(0);
+            expect(uv.y).toBe(0.5);
         }
         {
             const i = 6;
             const uv = uvs[i];
-            expect(uv.x).toBe(0.25, `uvs[${i}].x`);
-            expect(uv.y).toBe(0.5, `uvs[${i}].y`);
+            expect(uv.x).toBe(0.25);
+            expect(uv.y).toBe(0.5);
         }
         {
             const i = 7;
             const uv = uvs[i];
-            expect(uv.x).toBe(0.5, `uvs[${i}].x`);
-            expect(uv.y).toBe(0.5, `uvs[${i}].y`);
+            expect(uv.x).toBe(0.5);
+            expect(uv.y).toBe(0.5);
         }
         {
             const i = 8;
             const uv = uvs[i];
-            expect(uv.x).toBe(0.75, `uvs[${i}].x`);
-            expect(uv.y).toBe(0.5, `uvs[${i}].y`);
+            expect(uv.x).toBe(0.75);
+            expect(uv.y).toBe(0.5);
         }
         {
             const i = 9;
             const uv = uvs[i];
-            expect(uv.x).toBe(1, `uvs[${i}].x`);
-            expect(uv.y).toBe(0.5, `uvs[${i}].y`);
+            expect(uv.x).toBe(1);
+            expect(uv.y).toBe(0.5);
         }
         {
             const i = 10;
             const uv = uvs[i];
-            expect(uv.x).toBe(0, `uvs[${i}].x`);
-            expect(uv.y).toBe(1, `uvs[${i}].y`);
+            expect(uv.x).toBe(0);
+            expect(uv.y).toBe(1);
         }
         {
             const i = 11;
             const uv = uvs[i];
-            expect(uv.x).toBe(0.25, `uvs[${i}].x`);
-            expect(uv.y).toBe(1, `uvs[${i}].y`);
+            expect(uv.x).toBe(0.25);
+            expect(uv.y).toBe(1);
         }
         {
             const i = 12;
             const uv = uvs[i];
-            expect(uv.x).toBe(0.5, `uvs[${i}].x`);
-            expect(uv.y).toBe(1, `uvs[${i}].y`);
+            expect(uv.x).toBe(0.5);
+            expect(uv.y).toBe(1);
         }
         {
             const i = 13;
             const uv = uvs[i];
-            expect(uv.x).toBe(0.75, `uvs[${i}].x`);
-            expect(uv.y).toBe(1, `uvs[${i}].y`);
+            expect(uv.x).toBe(0.75);
+            expect(uv.y).toBe(1);
         }
         {
             const i = 14;
             const uv = uvs[i];
-            expect(uv.x).toBe(1, `uvs[${i}].x`);
-            expect(uv.y).toBe(1, `uvs[${i}].y`);
+            expect(uv.x).toBe(1);
+            expect(uv.y).toBe(1);
         }
         */
     });
@@ -692,37 +692,37 @@ describe("computeVerticesAndPoints", function () {
 
         {
             const point = pts[5];
-            expect(point.x).toBeCloseTo(0, PRECISION, "meridian.x");
-            expect(point.y).toBeCloseTo(0, PRECISION, "meridian.y");
-            expect(point.z).toBeCloseTo(1, PRECISION, "meridian.z");
+            expect(point.x).toBeCloseTo(0, PRECISION);
+            expect(point.y).toBeCloseTo(0, PRECISION);
+            expect(point.z).toBeCloseTo(1, PRECISION);
         }
 
         {
             const point = pts[6];
-            expect(point.x).toBeCloseTo(1, PRECISION, "meridian.x");
-            expect(point.y).toBeCloseTo(0, PRECISION, "meridian.y");
-            expect(point.z).toBeCloseTo(0, PRECISION, "meridian.z");
+            expect(point.x).toBeCloseTo(1, PRECISION);
+            expect(point.y).toBeCloseTo(0, PRECISION);
+            expect(point.z).toBeCloseTo(0, PRECISION);
         }
 
         {
             const point = pts[7];
-            expect(point.x).toBeCloseTo(0, PRECISION, "meridian.x");
-            expect(point.y).toBeCloseTo(0, PRECISION, "meridian.y");
-            expect(point.z).toBeCloseTo(-1, PRECISION, "meridian.z");
+            expect(point.x).toBeCloseTo(0, PRECISION);
+            expect(point.y).toBeCloseTo(0, PRECISION);
+            expect(point.z).toBeCloseTo(-1, PRECISION);
         }
 
         {
             const point = pts[8];
-            expect(point.x).toBeCloseTo(-1, PRECISION, "meridian.x");
-            expect(point.y).toBeCloseTo(0, PRECISION, "meridian.y");
-            expect(point.z).toBeCloseTo(0, PRECISION, "meridian.z");
+            expect(point.x).toBeCloseTo(-1, PRECISION);
+            expect(point.y).toBeCloseTo(0, PRECISION);
+            expect(point.z).toBeCloseTo(0, PRECISION);
         }
 
         {
             const point = pts[9];
-            expect(point.x).toBeCloseTo(0, PRECISION, "meridian.x");
-            expect(point.y).toBeCloseTo(0, PRECISION, "meridian.y");
-            expect(point.z).toBeCloseTo(1, PRECISION, "meridian.z");
+            expect(point.x).toBeCloseTo(0, PRECISION);
+            expect(point.y).toBeCloseTo(0, PRECISION);
+            expect(point.z).toBeCloseTo(1, PRECISION);
         }
 
         // The x-component of the uv coordinate varies from 0 at the meridian to 1 back at the meridian,
@@ -732,62 +732,62 @@ describe("computeVerticesAndPoints", function () {
         {
             const i = 0;
             const uv = uvs[i];
-            expect(uv.x).toBe(0, `uvs[${i}].x`);
-            expect(uv.y).toBe(0, `uvs[${i}].y`);
+            expect(uv.x).toBe(0);
+            expect(uv.y).toBe(0);
         }
         {
             const i = 1;
             const uv = uvs[i];
-            expect(uv.x).toBe(0.25, `uvs[${i}].x`);
-            expect(uv.y).toBe(0, `uvs[${i}].y`);
+            expect(uv.x).toBe(0.25);
+            expect(uv.y).toBe(0);
         }
         {
             const i = 2;
             const uv = uvs[i];
-            expect(uv.x).toBe(0.5, `uvs[${i}].x`);
-            expect(uv.y).toBe(0, `uvs[${i}].y`);
+            expect(uv.x).toBe(0.5);
+            expect(uv.y).toBe(0);
         }
         {
             const i = 3;
             const uv = uvs[i];
-            expect(uv.x).toBe(0.75, `uvs[${i}].x`);
-            expect(uv.y).toBe(0, `uvs[${i}].y`);
+            expect(uv.x).toBe(0.75);
+            expect(uv.y).toBe(0);
         }
         {
             const i = 4;
             const uv = uvs[i];
-            expect(uv.x).toBe(1, `uvs[${i}].x`);
-            expect(uv.y).toBe(0, `uvs[${i}].y`);
+            expect(uv.x).toBe(1);
+            expect(uv.y).toBe(0);
         }
         {
             const i = 5;
             const uv = uvs[i];
-            expect(uv.x).toBe(0, `uvs[${i}].x`);
-            expect(uv.y).toBe(0.5, `uvs[${i}].y`);
+            expect(uv.x).toBe(0);
+            expect(uv.y).toBe(0.5);
         }
         {
             const i = 6;
             const uv = uvs[i];
-            expect(uv.x).toBe(0.25, `uvs[${i}].x`);
-            expect(uv.y).toBe(0.5, `uvs[${i}].y`);
+            expect(uv.x).toBe(0.25);
+            expect(uv.y).toBe(0.5);
         }
         {
             const i = 7;
             const uv = uvs[i];
-            expect(uv.x).toBe(0.5, `uvs[${i}].x`);
-            expect(uv.y).toBe(0.5, `uvs[${i}].y`);
+            expect(uv.x).toBe(0.5);
+            expect(uv.y).toBe(0.5);
         }
         {
             const i = 8;
             const uv = uvs[i];
-            expect(uv.x).toBe(0.75, `uvs[${i}].x`);
-            expect(uv.y).toBe(0.5, `uvs[${i}].y`);
+            expect(uv.x).toBe(0.75);
+            expect(uv.y).toBe(0.5);
         }
         {
             const i = 9;
             const uv = uvs[i];
-            expect(uv.x).toBe(1, `uvs[${i}].x`);
-            expect(uv.y).toBe(0.5, `uvs[${i}].y`);
+            expect(uv.x).toBe(1);
+            expect(uv.y).toBe(0.5);
         }
     });
     it("uv coordinates, quadrant, in graphics (default) convention (zenith=e2, meridian=e1)", function () {
@@ -817,28 +817,28 @@ describe("computeVerticesAndPoints", function () {
         expect(uvs.length).toBe(4);
         {
             const point = pts[0];
-            expect(point.x).toBeCloseTo(zenith.x, PRECISION, "meridian.x");
-            expect(point.y).toBeCloseTo(zenith.y, PRECISION, "meridian.y");
-            expect(point.z).toBeCloseTo(zenith.z, PRECISION, "meridian.z");
+            expect(point.x).toBeCloseTo(zenith.x, PRECISION);
+            expect(point.y).toBeCloseTo(zenith.y, PRECISION);
+            expect(point.z).toBeCloseTo(zenith.z, PRECISION);
         }
         {
             const point = pts[1];
-            expect(point.x).toBeCloseTo(zenith.x, PRECISION, "meridian.x");
-            expect(point.y).toBeCloseTo(zenith.y, PRECISION, "meridian.y");
-            expect(point.z).toBeCloseTo(zenith.z, PRECISION, "meridian.z");
+            expect(point.x).toBeCloseTo(zenith.x, PRECISION);
+            expect(point.y).toBeCloseTo(zenith.y, PRECISION);
+            expect(point.z).toBeCloseTo(zenith.z, PRECISION);
         }
         {
             const point = pts[2];
-            expect(point.x).toBeCloseTo(meridian.x, PRECISION, "meridian.x");
-            expect(point.y).toBeCloseTo(meridian.y, PRECISION, "meridian.y");
-            expect(point.z).toBeCloseTo(meridian.z, PRECISION, "meridian.z");
+            expect(point.x).toBeCloseTo(meridian.x, PRECISION);
+            expect(point.y).toBeCloseTo(meridian.y, PRECISION);
+            expect(point.z).toBeCloseTo(meridian.z, PRECISION);
         }
         {
             const expected = zenith.cross(meridian);
             const point = pts[3];
-            expect(point.x).toBeCloseTo(expected.x, PRECISION, "meridian.x");
-            expect(point.y).toBeCloseTo(expected.y, PRECISION, "meridian.y");
-            expect(point.z).toBeCloseTo(expected.z, PRECISION, "meridian.z");
+            expect(point.x).toBeCloseTo(expected.x, PRECISION);
+            expect(point.y).toBeCloseTo(expected.y, PRECISION);
+            expect(point.z).toBeCloseTo(expected.z, PRECISION);
         }
 
         // The x-component of the uv coordinate varies from 0 at the meridian to 1 back at the meridian,
@@ -847,26 +847,26 @@ describe("computeVerticesAndPoints", function () {
         {
             const i = 0;
             const uv = uvs[i];
-            expect(uv.x).toBe(0, `uvs[${i}].x`);
-            expect(uv.y).toBe(0, `uvs[${i}].y`);
+            expect(uv.x).toBe(0);
+            expect(uv.y).toBe(0);
         }
         {
             const i = 1;
             const uv = uvs[i];
-            expect(uv.x).toBe(0.25, `uvs[${i}].x`);
-            expect(uv.y).toBe(0, `uvs[${i}].y`);
+            expect(uv.x).toBe(0.25);
+            expect(uv.y).toBe(0);
         }
         {
             const i = 2;
             const uv = uvs[i];
-            expect(uv.x).toBe(0, `uvs[${i}].x`);
-            expect(uv.y).toBe(0.5, `uvs[${i}].y`);
+            expect(uv.x).toBe(0);
+            expect(uv.y).toBe(0.5);
         }
         {
             const i = 3;
             const uv = uvs[i];
-            expect(uv.x).toBe(0.25, `uvs[${i}].x`);
-            expect(uv.y).toBe(0.5, `uvs[${i}].y`);
+            expect(uv.x).toBe(0.25);
+            expect(uv.y).toBe(0.5);
         }
     });
 });

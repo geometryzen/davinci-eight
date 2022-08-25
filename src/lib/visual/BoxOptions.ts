@@ -5,7 +5,7 @@ import { VectorE3 } from '../math/VectorE3';
 /**
  *
  */
-export interface BoxOptions {
+export interface BoxOptions extends Record<string, unknown> {
     /**
      * 
      */

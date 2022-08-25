@@ -13,7 +13,12 @@ describe("mustBeWebGLContextId", function () {
             fail();
         }
         catch (e) {
-            expect(e.message).toBe("contextId must be 'webgl2' or 'webgl'.");
+            if (e instanceof Error) {
+                expect(e.message).toBe("contextId must be 'webgl2' or 'webgl'.");
+            }
+            else {
+                fail();
+            }
         }
     });
 });

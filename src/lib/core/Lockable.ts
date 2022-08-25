@@ -97,7 +97,7 @@ export function lockable(): Lockable {
 export class LockableMixin implements Lockable {
 
     public isLocked(): boolean {
-        return typeof this['lock_'] === 'number';
+        return typeof (this as any)['lock_'] === 'number';
     }
 
     public lock(): number {
@@ -105,8 +105,8 @@ export class LockableMixin implements Lockable {
             throw new Error("already locked");
         }
         else {
-            this['lock_'] = Math.random();
-            return this['lock_'];
+            (this as any)['lock_'] = Math.random();
+            return (this as any)['lock_'];
         }
     }
 
@@ -117,8 +117,8 @@ export class LockableMixin implements Lockable {
         if (!this.isLocked()) {
             throw new Error("not locked");
         }
-        else if (this['lock_'] === token) {
-            this['lock_'] = void 0;
+        else if ((this as any)['lock_'] === token) {
+            (this as any)['lock_'] = void 0;
         }
         else {
             throw new Error("unlock denied");

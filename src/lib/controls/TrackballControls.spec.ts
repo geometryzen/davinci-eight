@@ -1,8 +1,8 @@
 import { BrowserDocument } from '../base/BrowserDocument';
 import { BrowserHTMLElement } from '../base/BrowserHTMLElement';
 import { BrowserWindow } from '../base/BrowserWindow';
-import { PerspectiveCamera } from '../facets/PerspectiveCamera';
 import { refChange } from '../core/refChange';
+import { PerspectiveCamera } from '../facets/PerspectiveCamera';
 import { Vector3 } from '../math/Vector3';
 import { TrackballControls } from './TrackballControls';
 
@@ -35,9 +35,11 @@ class MockElement implements BrowserHTMLElement {
 class MockDocument implements BrowserDocument {
     public documentElement: BrowserHTMLElement;
     public listening: { [type: string]: EventListener } = {};
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     addEventListener(type: string, listener: EventListener, useCapture?: boolean): void {
         this.listening[type] = listener;
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     removeEventListener(type: string, listener: EventListener, useCapture?: boolean): void {
         delete this.listening[type];
     }
@@ -53,12 +55,14 @@ class MockWindow implements BrowserWindow {
     public document = new MockDocument();
     public listening: { [type: string]: EventListener } = {};
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     addEventListener(type: string, listener: EventListener, useCapture?: boolean): void {
         this.listening[type] = listener;
     }
     cancelAnimationFrame(handle: number): void {
         return window.cancelAnimationFrame(handle);
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     removeEventListener(type: string, listener: EventListener, useCapture?: boolean): void {
         delete this.listening[type];
     }
@@ -78,7 +82,7 @@ describe("TrackballControls", function () {
         refChange('start');
         const camera = new PerspectiveCamera();
         const mockWindow = new MockWindow();
-        const controls = new TrackballControls(camera, mockWindow);
+        const controls = new TrackballControls(camera, mockWindow as unknown as Window);
         expect(controls.isZombie()).toBeFalsy();
         controls.release();
         expect(controls.isZombie()).toBeTruthy();
@@ -97,7 +101,7 @@ describe("TrackballControls", function () {
         expect(camera.look.toString()).toBe(zero.toString());
         expect(camera.up.toString()).toBe(e2.toString());
         const mockWindow = new MockWindow();
-        const controls = new TrackballControls(camera, mockWindow);
+        const controls = new TrackballControls(camera, mockWindow as unknown as Window);
 
         controls.move(0, 0);
 
@@ -117,7 +121,7 @@ describe("TrackballControls", function () {
     describe("move(+0.25, 0)", function () {
         const camera = new PerspectiveCamera();
         const mockWindow = new MockWindow();
-        const controls = new TrackballControls(camera, mockWindow);
+        const controls = new TrackballControls(camera, mockWindow as unknown as Window);
 
         controls.move(+0.25, 0);
 
@@ -138,7 +142,7 @@ describe("TrackballControls", function () {
     describe("move(-0.25, 0)", function () {
         const camera = new PerspectiveCamera();
         const mockWindow = new MockWindow();
-        const controls = new TrackballControls(camera, mockWindow);
+        const controls = new TrackballControls(camera, mockWindow as unknown as Window);
 
         controls.move(-0.25, 0);
 
@@ -159,7 +163,7 @@ describe("TrackballControls", function () {
     describe("move(0, +0.25)", function () {
         const camera = new PerspectiveCamera();
         const mockWindow = new MockWindow();
-        const controls = new TrackballControls(camera, mockWindow);
+        const controls = new TrackballControls(camera, mockWindow as unknown as Window);
 
         controls.move(0, +0.25);
 
@@ -180,7 +184,7 @@ describe("TrackballControls", function () {
     describe("move(0, -0.25)", function () {
         const camera = new PerspectiveCamera();
         const mockWindow = new MockWindow();
-        const controls = new TrackballControls(camera, mockWindow);
+        const controls = new TrackballControls(camera, mockWindow as unknown as Window);
 
         controls.move(0, -0.25);
 

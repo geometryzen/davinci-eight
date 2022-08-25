@@ -23,11 +23,11 @@ const PRECISION = 14;
  * @hidden
  */
 function checkEQ(result: Geometric2, comp: Geometric2): void {
-    expect(result.a).toBe(comp.a, `result.a=${result.a}, comp.a=${comp.a}`);
-    expect(result.x).toBe(comp.x, `result.x=${result.x}, comp.x=${comp.x}`);
-    expect(result.y).toBe(comp.y, `result.y=${result.y}, comp.y=${comp.y}`);
-    expect(result.b).toBe(comp.b, `result.b=${result.b}, comp.b=${comp.b}`);
-    expect(result.isLocked()).toBe(comp.isLocked(), `isLocked, result=${result.isLocked()}, comp=${comp.isLocked()}`);
+    expect(result.a).toBe(comp.a);
+    expect(result.x).toBe(comp.x);
+    expect(result.y).toBe(comp.y);
+    expect(result.b).toBe(comp.b);
+    expect(result.isLocked()).toBe(comp.isLocked());
     // expect(result.isMutable()).toBe(comp.isMutable(), `isMutable, result=${result.isMutable()}, comp=${comp.isMutable()}`);
 }
 

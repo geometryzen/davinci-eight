@@ -1,7 +1,11 @@
 {
-    "mode": "file",
+    "entryPoints": [
+        "src/index.ts"
+    ],
     "out": "docs",
-    "excludeNotExported": true,
+    "exclude": [
+        "src/**/*.spec.ts"
+    ],
     "excludePrivate": true,
-    "theme": "minimal"
+    "theme": "default"
 }

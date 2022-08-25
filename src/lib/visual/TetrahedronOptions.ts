@@ -4,7 +4,7 @@ import { VectorE3 } from '../math/VectorE3';
 /**
  *
  */
-export interface TetrahedronOptions {
+export interface TetrahedronOptions extends Record<string, unknown> {
     /**
      * 
      */

@@ -4,7 +4,7 @@ import { VectorE3 } from '../math/VectorE3';
 /**
  *
  */
-export interface GridOptions {
+export interface GridOptions extends Record<string, unknown> {
     /**
      * <p>
      * A parametric function determining the positions of points in the grid.

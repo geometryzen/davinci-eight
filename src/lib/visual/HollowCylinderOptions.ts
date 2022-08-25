@@ -4,7 +4,7 @@ import { VectorE3 } from '../math/VectorE3';
 /**
  *
  */
-export interface HollowCylinderOptions {
+export interface HollowCylinderOptions extends Record<string, unknown> {
     /**
      * The symmetry axis and the height of the cylinder.
      */

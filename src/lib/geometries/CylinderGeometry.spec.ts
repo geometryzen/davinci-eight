@@ -16,7 +16,7 @@ describe("CylinderGeometry", function () {
                 cylinder.release();
                 engine.release();
                 // TODO
-                expect(true).toBeTrue();
+                // expect(true).toBeTrue();
             });
         });
     });

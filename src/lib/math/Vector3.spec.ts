@@ -1,4 +1,3 @@
-import { dotVectorCartesianE3 } from './dotVectorCartesianE3';
 import { Spinor3 } from './Spinor3';
 import { Vector3 } from './Vector3';
 

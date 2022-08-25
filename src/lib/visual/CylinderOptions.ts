@@ -5,7 +5,7 @@ import { VectorE3 } from '../math/VectorE3';
 /**
  *
  */
-export interface CylinderOptions {
+export interface CylinderOptions extends Record<string, unknown> {
     /**
      * Defaults to e2.
      */

@@ -1,32 +1,26 @@
 {
     "compilerOptions": {
-        "target": "es5",
-        "rootDir": "src",
-        "moduleResolution": "node",
-        "declaration": false,
-        "importHelpers": true,
-        "inlineSourceMap": false,
-        "listFiles": false,
-        "traceResolution": false,
-        "pretty": true,
-        "strictNullChecks": false,
-        "forceConsistentCasingInFileNames": true,
-        "noFallthroughCasesInSwitch": true,
+        "target": "es6",
+        "module": "es6",
+        "sourceMap": true,
+        "outDir": "build",
+        "strict": true,
         "noImplicitAny": true,
-        "suppressImplicitAnyIndexErrors": true,
         "noImplicitReturns": true,
         "noImplicitThis": true,
-        "noUnusedLocals": false,
+        "noUnusedLocals": true,
         "noUnusedParameters": false,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "lib": [
-            "es2015",
-            "dom"
-        ]
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true,
+        "strictNullChecks": false,
+        "declaration": true,
+        "declarationDir": "types",
+        "emitDeclarationOnly": true
     },
-    "include": [
-        "src/**/*.ts"
-    ],
-    "compileOnSave": false
+    "lib": [
+        "es2015",
+        "dom"
+    ]
 }

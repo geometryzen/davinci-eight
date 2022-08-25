@@ -1,10 +1,9 @@
-import { Facet } from '../core/Facet';
 import { Color } from '../core/Color';
 import { ContextManager } from '../core/ContextManager';
+import { Facet } from '../core/Facet';
 import { Renderable } from '../core/Renderable';
 import { Geometric3 } from '../math/Geometric3';
 import { normVectorE3 } from '../math/normVectorE3';
-import { VectorE3 } from '../math/VectorE3';
 import { ArrowHead } from './ArrowHead';
 import { ArrowOptions } from './ArrowOptions';
 import { ArrowTail } from './ArrowTail';
