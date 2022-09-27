@@ -1,0 +1,879 @@
+<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>Cylinder | davinci-eight</title><meta name="description" content="Documentation for davinci-eight"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script async src="../assets/search.js" id="search-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
+<div class="tsd-toolbar-contents container">
+<div class="table-cell" id="tsd-search" data-base="..">
+<div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M15.7824 13.833L12.6666 10.7177C12.5259 10.5771 12.3353 10.499 12.1353 10.499H11.6259C12.4884 9.39596 13.001 8.00859 13.001 6.49937C13.001 2.90909 10.0914 0 6.50048 0C2.90959 0 0 2.90909 0 6.49937C0 10.0896 2.90959 12.9987 6.50048 12.9987C8.00996 12.9987 9.39756 12.4863 10.5008 11.6239V12.1332C10.5008 12.3332 10.5789 12.5238 10.7195 12.6644L13.8354 15.7797C14.1292 16.0734 14.6042 16.0734 14.8948 15.7797L15.7793 14.8954C16.0731 14.6017 16.0731 14.1267 15.7824 13.833ZM6.50048 10.499C4.29094 10.499 2.50018 8.71165 2.50018 6.49937C2.50018 4.29021 4.28781 2.49976 6.50048 2.49976C8.71001 2.49976 10.5008 4.28708 10.5008 6.49937C10.5008 8.70852 8.71314 10.499 6.50048 10.499Z" fill="var(--color-text)"></path></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div>
+<ul class="results">
+<li class="state loading">Preparing search index...</li>
+<li class="state failure">The search index is not available</li></ul><a href="../index.html" class="title">davinci-eight</a></div>
+<div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="2" fill="var(--color-text)"></rect><rect x="1" y="7" width="14" height="2" fill="var(--color-text)"></rect><rect x="1" y="11" width="14" height="2" fill="var(--color-text)"></rect></svg></a></div></div></header>
+<div class="container container-main">
+<div class="col-8 col-content">
+<div class="tsd-page-title">
+<ul class="tsd-breadcrumb">
+<li><a href="../modules.html">davinci-eight</a></li>
+<li><a href="Cylinder.html">Cylinder</a></li></ul>
+<h1>Class Cylinder</h1></div>
+<section class="tsd-panel tsd-comment">
+<div class="tsd-comment tsd-typography"><p>A 3D visual representation of a cylinder.</p>
+</div></section>
+<section class="tsd-panel tsd-hierarchy">
+<h4>Hierarchy</h4>
+<ul class="tsd-hierarchy">
+<li><a href="Mesh.html" class="tsd-signature-type" data-tsd-kind="Class">Mesh</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Geometry</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Material</span><span class="tsd-signature-symbol">&gt;</span>
+<ul class="tsd-hierarchy">
+<li><span class="target">Cylinder</span></li></ul></li></ul></section><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/visual/Cylinder.ts#L28">lib/visual/Cylinder.ts:28</a></li></ul></aside>
+<section class="tsd-panel-group tsd-index-group">
+<section class="tsd-panel tsd-index-panel">
+<details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
+<h5 class="tsd-index-heading uppercase" role="button" aria-expanded="false" tabIndex=0><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1.5 5.50969L8 11.6609L14.5 5.50969L12.5466 3.66086L8 7.96494L3.45341 3.66086L1.5 5.50969Z" fill="var(--color-text)"></path></svg> Index</h5></summary>
+<div class="tsd-accordion-details">
+<section class="tsd-index-section">
+<h3 class="tsd-index-heading">Constructors</h3>
+<div class="tsd-index-list"><a href="Cylinder.html#constructor" class="tsd-index-link tsd-kind-constructor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="#4D7FFF" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12" id="icon-512-path"></rect><path d="M11.898 16.1201C11.098 16.1201 10.466 15.8961 10.002 15.4481C9.53803 15.0001 9.30603 14.3841 9.30603 13.6001V9.64012C9.30603 8.85612 9.53803 8.24012 10.002 7.79212C10.466 7.34412 11.098 7.12012 11.898 7.12012C12.682 7.12012 13.306 7.34812 13.77 7.80412C14.234 8.25212 14.466 8.86412 14.466 9.64012H13.386C13.386 9.14412 13.254 8.76412 12.99 8.50012C12.734 8.22812 12.37 8.09212 11.898 8.09212C11.426 8.09212 11.054 8.22412 10.782 8.48812C10.518 8.75212 10.386 9.13212 10.386 9.62812V13.6001C10.386 14.0961 10.518 14.4801 10.782 14.7521C11.054 15.0161 11.426 15.1481 11.898 15.1481C12.37 15.1481 12.734 15.0161 12.99 14.7521C13.254 14.4801 13.386 14.0961 13.386 13.6001H14.466C14.466 14.3761 14.234 14.9921 13.77 15.4481C13.306 15.8961 12.682 16.1201 11.898 16.1201Z" fill="var(--color-text)" id="icon-512-text"></path></svg><span>constructor</span></a>
+</div></section>
+<section class="tsd-index-section">
+<h3 class="tsd-index-heading">Properties</h3>
+<div class="tsd-index-list"><a href="Cylinder.html#contextManager" class="tsd-index-link tsd-kind-property tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="#FF984D" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12" id="icon-1024-path"></rect><path d="M9.354 16V7.24H12.174C12.99 7.24 13.638 7.476 14.118 7.948C14.606 8.412 14.85 9.036 14.85 9.82C14.85 10.604 14.606 11.232 14.118 11.704C13.638 12.168 12.99 12.4 12.174 12.4H10.434V16H9.354ZM10.434 11.428H12.174C12.646 11.428 13.022 11.284 13.302 10.996C13.59 10.7 13.734 10.308 13.734 9.82C13.734 9.324 13.59 8.932 13.302 8.644C13.022 8.356 12.646 8.212 12.174 8.212H10.434V11.428Z" fill="var(--color-text)" id="icon-1024-text"></path></svg><span>context<wbr/>Manager</span></a>
+<a href="Cylinder.html#name" class="tsd-index-link tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>name</span></a>
+<a href="Cylinder.html#referenceAxis" class="tsd-index-link tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>reference<wbr/>Axis</span></a>
+<a href="Cylinder.html#referenceMeridian" class="tsd-index-link tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>reference<wbr/>Meridian</span></a>
+</div></section>
+<section class="tsd-index-section">
+<h3 class="tsd-index-heading">Accessors</h3>
+<div class="tsd-index-list"><a href="Cylinder.html#R" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="#FF4D4D" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12" id="icon-262144-path"></rect><path d="M8.85 16L11.13 7.24H12.582L14.85 16H13.758L13.182 13.672H10.53L9.954 16H8.85ZM10.746 12.76H12.954L12.282 10.06C12.154 9.548 12.054 9.12 11.982 8.776C11.91 8.432 11.866 8.208 11.85 8.104C11.834 8.208 11.79 8.432 11.718 8.776C11.646 9.12 11.546 9.544 11.418 10.048L10.746 12.76Z" fill="var(--color-text)" id="icon-262144-text"></path></svg><span>R</span></a>
+<a href="Cylinder.html#X" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>X</span></a>
+<a href="Cylinder.html#attitude" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>attitude</span></a>
+<a href="Cylinder.html#axis" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>axis</span></a>
+<a href="Cylinder.html#color" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>color</span></a>
+<a href="Cylinder.html#geometry" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>geometry</span></a>
+<a href="Cylinder.html#gl" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>gl</span></a>
+<a href="Cylinder.html#length" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>length</span></a>
+<a href="Cylinder.html#material" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>material</span></a>
+<a href="Cylinder.html#meridian" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>meridian</span></a>
+<a href="Cylinder.html#modelMatrixUniformName" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>model<wbr/>Matrix<wbr/>Uniform<wbr/>Name</span></a>
+<a href="Cylinder.html#normalMatrixUniformName" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>normal<wbr/>Matrix<wbr/>Uniform<wbr/>Name</span></a>
+<a href="Cylinder.html#opacity" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>opacity</span></a>
+<a href="Cylinder.html#pointSize" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>point<wbr/>Size</span></a>
+<a href="Cylinder.html#position" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>position</span></a>
+<a href="Cylinder.html#radius" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>radius</span></a>
+<a href="Cylinder.html#texture" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>texture</span></a>
+<a href="Cylinder.html#transparent" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>transparent</span></a>
+<a href="Cylinder.html#visible" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>visible</span></a>
+</div></section>
+<section class="tsd-index-section">
+<h3 class="tsd-index-heading">Methods</h3>
+<div class="tsd-index-list"><a href="Cylinder.html#addRef" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="#FF4DB8" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12" id="icon-2048-path"></rect><path d="M9.162 16V7.24H10.578L11.514 10.072C11.602 10.328 11.674 10.584 11.73 10.84C11.794 11.088 11.842 11.28 11.874 11.416C11.906 11.28 11.954 11.088 12.018 10.84C12.082 10.584 12.154 10.324 12.234 10.06L13.122 7.24H14.538V16H13.482V12.82C13.482 12.468 13.49 12.068 13.506 11.62C13.53 11.172 13.558 10.716 13.59 10.252C13.622 9.78 13.654 9.332 13.686 8.908C13.726 8.476 13.762 8.1 13.794 7.78L12.366 12.16H11.334L9.894 7.78C9.934 8.092 9.97 8.456 10.002 8.872C10.042 9.28 10.078 9.716 10.11 10.18C10.142 10.636 10.166 11.092 10.182 11.548C10.206 12.004 10.218 12.428 10.218 12.82V16H9.162Z" fill="var(--color-text)" id="icon-2048-text"></path></svg><span>add<wbr/>Ref</span></a>
+<a href="Cylinder.html#bind" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>bind</span></a>
+<a href="Cylinder.html#cleanUp" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>clean<wbr/>Up</span></a>
+<a href="Cylinder.html#contextFree" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>context<wbr/>Free</span></a>
+<a href="Cylinder.html#contextGain" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>context<wbr/>Gain</span></a>
+<a href="Cylinder.html#contextLost" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>context<wbr/>Lost</span></a>
+<a href="Cylinder.html#draw" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>draw</span></a>
+<a href="Cylinder.html#getFacet" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Facet</span></a>
+<a href="Cylinder.html#getLoggingName" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Logging<wbr/>Name</span></a>
+<a href="Cylinder.html#isZombie" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>is<wbr/>Zombie</span></a>
+<a href="Cylinder.html#release" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>release</span></a>
+<a href="Cylinder.html#removeFacet" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>remove<wbr/>Facet</span></a>
+<a href="Cylinder.html#render" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>render</span></a>
+<a href="Cylinder.html#setAmbients" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>set<wbr/>Ambients</span></a>
+<a href="Cylinder.html#setFacet" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>set<wbr/>Facet</span></a>
+<a href="Cylinder.html#setLoggingName" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>set<wbr/>Logging<wbr/>Name</span></a>
+<a href="Cylinder.html#setUniforms" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>set<wbr/>Uniforms</span></a>
+<a href="Cylinder.html#synchUp" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>synch<wbr/>Up</span></a>
+<a href="Cylinder.html#unbind" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>unbind</span></a>
+<a href="Cylinder.html#use" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>use</span></a>
+</div></section></div></details></section></section>
+<section class="tsd-panel-group tsd-member-group">
+<h2>Constructors</h2>
+<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class"><a id="constructor" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>constructor</span><a href="#constructor" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" id="icon-anchor-a"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" id="icon-anchor-b"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" id="icon-anchor-c"></path></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="constructor.new_Cylinder">new <wbr/>Cylinder<span class="tsd-signature-symbol">(</span>contextManager<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ContextManager</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/CylinderOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">CylinderOptions</a>, levelUp<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Cylinder.html" class="tsd-signature-type" data-tsd-kind="Class">Cylinder</a><a href="#constructor.new_Cylinder" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>contextManager: <span class="tsd-signature-type">ContextManager</span></h5>
+<div class="tsd-comment tsd-typography"><p>This will usually be provided by the <code>Engine</code>.</p>
+</div></li>
+<li>
+<h5>options: <a href="../interfaces/CylinderOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">CylinderOptions</a><span class="tsd-signature-symbol"> = {}</span></h5></li>
+<li>
+<h5>levelUp: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></h5>
+<div class="tsd-comment tsd-typography"><p>Leave as zero unless you are extending this class.</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <a href="Cylinder.html" class="tsd-signature-type" data-tsd-kind="Class">Cylinder</a></h4><aside class="tsd-sources">
+<p>Overrides <a href="Mesh.html">Mesh</a>.<a href="Mesh.html#constructor">constructor</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/visual/Cylinder.ts#L34">lib/visual/Cylinder.ts:34</a></li></ul></aside></li></ul></section></section>
+<section class="tsd-panel-group tsd-member-group">
+<h2>Properties</h2>
+<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="contextManager" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>context<wbr/>Manager</span><a href="#contextManager" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<div class="tsd-signature">context<wbr/>Manager<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ContextManager</span></div><aside class="tsd-sources">
+<p>Inherited from <a href="Mesh.html">Mesh</a>.<a href="Mesh.html#contextManager">contextManager</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/ShareableContextConsumer.ts#L21">lib/core/ShareableContextConsumer.ts:21</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a id="name" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>name</span><a href="#name" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<div class="tsd-signature">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
+<p>Inherited from <a href="Mesh.html">Mesh</a>.<a href="Mesh.html#name">name</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Drawable.ts#L38">lib/core/Drawable.ts:38</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a id="referenceAxis" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagReadonly">Readonly</code> <span>reference<wbr/>Axis</span><a href="#referenceAxis" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<div class="tsd-signature">reference<wbr/>Axis<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Readonly</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">R3</span><span class="tsd-signature-symbol">&gt;</span></div>
+<div class="tsd-comment tsd-typography"><p>The reference frame axis.</p>
+</div><aside class="tsd-sources">
+<p>Inherited from <a href="Mesh.html">Mesh</a>.<a href="Mesh.html#referenceAxis">referenceAxis</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Mesh.ts#L43">lib/core/Mesh.ts:43</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a id="referenceMeridian" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagReadonly">Readonly</code> <span>reference<wbr/>Meridian</span><a href="#referenceMeridian" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<div class="tsd-signature">reference<wbr/>Meridian<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Readonly</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">R3</span><span class="tsd-signature-symbol">&gt;</span></div>
+<div class="tsd-comment tsd-typography"><p>The reference frame meridian.</p>
+</div><aside class="tsd-sources">
+<p>Inherited from <a href="Mesh.html">Mesh</a>.<a href="Mesh.html#referenceMeridian">referenceMeridian</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Mesh.ts#L47">lib/core/Mesh.ts:47</a></li></ul></aside></section></section>
+<section class="tsd-panel-group tsd-member-group">
+<h2>Accessors</h2>
+<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="R" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>R</span><a href="#R" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature" id="R.R-1"><span class="tsd-signature-symbol">get</span> R<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Geometric3.html" class="tsd-signature-type" data-tsd-kind="Class">Geometric3</a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Attitude (spinor). This is an alias for the attitude property.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <a href="Geometric3.html" class="tsd-signature-type" data-tsd-kind="Class">Geometric3</a></h4><aside class="tsd-sources">
+<p>Inherited from Mesh.R</p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Mesh.ts#L142">lib/core/Mesh.ts:142</a></li></ul></aside></li>
+<li class="tsd-signature" id="R.R-2"><span class="tsd-signature-symbol">set</span> R<span class="tsd-signature-symbol">(</span>spinor<span class="tsd-signature-symbol">: </span><a href="Geometric3.html" class="tsd-signature-type" data-tsd-kind="Class">Geometric3</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>spinor: <a href="Geometric3.html" class="tsd-signature-type" data-tsd-kind="Class">Geometric3</a></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<p>Inherited from Mesh.R</p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Mesh.ts#L151">lib/core/Mesh.ts:151</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="X" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>X</span><a href="#X" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature" id="X.X-1"><span class="tsd-signature-symbol">get</span> X<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Geometric3.html" class="tsd-signature-type" data-tsd-kind="Class">Geometric3</a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Position (vector). This is an alias for the position property.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <a href="Geometric3.html" class="tsd-signature-type" data-tsd-kind="Class">Geometric3</a></h4><aside class="tsd-sources">
+<p>Inherited from Mesh.X</p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Mesh.ts#L211">lib/core/Mesh.ts:211</a></li></ul></aside></li>
+<li class="tsd-signature" id="X.X-2"><span class="tsd-signature-symbol">set</span> X<span class="tsd-signature-symbol">(</span>vector<span class="tsd-signature-symbol">: </span><a href="Geometric3.html" class="tsd-signature-type" data-tsd-kind="Class">Geometric3</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>vector: <a href="Geometric3.html" class="tsd-signature-type" data-tsd-kind="Class">Geometric3</a></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<p>Inherited from Mesh.X</p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Mesh.ts#L220">lib/core/Mesh.ts:220</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="attitude" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>attitude</span><a href="#attitude" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature" id="attitude.attitude-1"><span class="tsd-signature-symbol">get</span> attitude<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Geometric3.html" class="tsd-signature-type" data-tsd-kind="Class">Geometric3</a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Attitude (spinor). This is an alias for the R property.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <a href="Geometric3.html" class="tsd-signature-type" data-tsd-kind="Class">Geometric3</a></h4><aside class="tsd-sources">
+<p>Inherited from Mesh.attitude</p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Mesh.ts#L120">lib/core/Mesh.ts:120</a></li></ul></aside></li>
+<li class="tsd-signature" id="attitude.attitude-2"><span class="tsd-signature-symbol">set</span> attitude<span class="tsd-signature-symbol">(</span>spinor<span class="tsd-signature-symbol">: </span><a href="Geometric3.html" class="tsd-signature-type" data-tsd-kind="Class">Geometric3</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>spinor: <a href="Geometric3.html" class="tsd-signature-type" data-tsd-kind="Class">Geometric3</a></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<p>Inherited from Mesh.attitude</p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Mesh.ts#L129">lib/core/Mesh.ts:129</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="axis" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>axis</span><a href="#axis" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature" id="axis.axis-1"><span class="tsd-signature-symbol">get</span> axis<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">VectorE3</span></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>The current axis (unit vector) of the mesh.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">VectorE3</span></h4><aside class="tsd-sources">
+<p>Inherited from Mesh.axis</p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Mesh.ts#L388">lib/core/Mesh.ts:388</a></li></ul></aside></li>
+<li class="tsd-signature" id="axis.axis-2"><span class="tsd-signature-symbol">set</span> axis<span class="tsd-signature-symbol">(</span>axis<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">VectorE3</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>axis: <span class="tsd-signature-type">VectorE3</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<p>Inherited from Mesh.axis</p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Mesh.ts#L391">lib/core/Mesh.ts:391</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="color" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>color</span><a href="#color" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature" id="color.color-1"><span class="tsd-signature-symbol">get</span> color<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Color.html" class="tsd-signature-type" data-tsd-kind="Class">Color</a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Color</p>
+</div>
+<h4 class="tsd-returns-title">Returns <a href="Color.html" class="tsd-signature-type" data-tsd-kind="Class">Color</a></h4><aside class="tsd-sources">
+<p>Inherited from Mesh.color</p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Mesh.ts#L164">lib/core/Mesh.ts:164</a></li></ul></aside></li>
+<li class="tsd-signature" id="color.color-2"><span class="tsd-signature-symbol">set</span> color<span class="tsd-signature-symbol">(</span>color<span class="tsd-signature-symbol">: </span><a href="Color.html" class="tsd-signature-type" data-tsd-kind="Class">Color</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>color: <a href="Color.html" class="tsd-signature-type" data-tsd-kind="Class">Color</a></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<p>Inherited from Mesh.color</p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Mesh.ts#L173">lib/core/Mesh.ts:173</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="geometry" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>geometry</span><a href="#geometry" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature" id="geometry.geometry-1"><span class="tsd-signature-symbol">get</span> geometry<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">G</span></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Provides a reference counted reference to the geometry property.
+Getting the geometry property will cause the</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type" data-tsd-kind="Type parameter">G</span></h4><aside class="tsd-sources">
+<p>Inherited from Mesh.geometry</p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Drawable.ts#L287">lib/core/Drawable.ts:287</a></li></ul></aside></li>
+<li class="tsd-signature" id="geometry.geometry-2"><span class="tsd-signature-symbol">set</span> geometry<span class="tsd-signature-symbol">(</span>geometry<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">G</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>geometry: <span class="tsd-signature-type" data-tsd-kind="Type parameter">G</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<p>Inherited from Mesh.geometry</p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Drawable.ts#L290">lib/core/Drawable.ts:290</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="gl" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>gl</span><a href="#gl" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature" id="gl.gl-1"><span class="tsd-signature-symbol">get</span> gl<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">WebGLRenderingContext</span></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Provides access to the underlying WebGL context.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">WebGLRenderingContext</span></h4><aside class="tsd-sources">
+<p>Inherited from Mesh.gl</p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/ShareableContextConsumer.ts#L118">lib/core/ShareableContextConsumer.ts:118</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="length" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>length</span><a href="#length" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
+<li class="tsd-signature" id="length.length-1"><span class="tsd-signature-symbol">get</span> length<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>The length of the cylinder, a scalar. Defaults to 1.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/visual/Cylinder.ts#L89">lib/visual/Cylinder.ts:89</a></li></ul></aside></li>
+<li class="tsd-signature" id="length.length-2"><span class="tsd-signature-symbol">set</span> length<span class="tsd-signature-symbol">(</span>length<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>length: <span class="tsd-signature-type">number</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/visual/Cylinder.ts#L92">lib/visual/Cylinder.ts:92</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="material" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>material</span><a href="#material" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature" id="material.material-1"><span class="tsd-signature-symbol">get</span> material<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">M</span></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Provides a reference counted reference to the material property.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type" data-tsd-kind="Type parameter">M</span></h4><aside class="tsd-sources">
+<p>Inherited from Mesh.material</p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Drawable.ts#L297">lib/core/Drawable.ts:297</a></li></ul></aside></li>
+<li class="tsd-signature" id="material.material-2"><span class="tsd-signature-symbol">set</span> material<span class="tsd-signature-symbol">(</span>material<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">M</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>material: <span class="tsd-signature-type" data-tsd-kind="Type parameter">M</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<p>Inherited from Mesh.material</p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Drawable.ts#L300">lib/core/Drawable.ts:300</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="meridian" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>meridian</span><a href="#meridian" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature" id="meridian.meridian-1"><span class="tsd-signature-symbol">get</span> meridian<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">VectorE3</span></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>The current meridian (unit vector) of the mesh.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">VectorE3</span></h4><aside class="tsd-sources">
+<p>Inherited from Mesh.meridian</p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Mesh.ts#L405">lib/core/Mesh.ts:405</a></li></ul></aside></li>
+<li class="tsd-signature" id="meridian.meridian-2"><span class="tsd-signature-symbol">set</span> meridian<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">VectorE3</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>value: <span class="tsd-signature-type">VectorE3</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<p>Inherited from Mesh.meridian</p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Mesh.ts#L408">lib/core/Mesh.ts:408</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="modelMatrixUniformName" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>model<wbr/>Matrix<wbr/>Uniform<wbr/>Name</span><a href="#modelMatrixUniformName" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature" id="modelMatrixUniformName.modelMatrixUniformName-1"><span class="tsd-signature-symbol">get</span> modelMatrixUniformName<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>The name of the uniform mat4 variable in the vertex shader that receives the model matrix value.
+The default name is <code>uModel</code>.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
+<p>Inherited from Mesh.modelMatrixUniformName</p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Mesh.ts#L419">lib/core/Mesh.ts:419</a></li></ul></aside></li>
+<li class="tsd-signature" id="modelMatrixUniformName.modelMatrixUniformName-2"><span class="tsd-signature-symbol">set</span> modelMatrixUniformName<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>name: <span class="tsd-signature-type">string</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<p>Inherited from Mesh.modelMatrixUniformName</p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Mesh.ts#L428">lib/core/Mesh.ts:428</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="normalMatrixUniformName" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>normal<wbr/>Matrix<wbr/>Uniform<wbr/>Name</span><a href="#normalMatrixUniformName" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature" id="normalMatrixUniformName.normalMatrixUniformName-1"><span class="tsd-signature-symbol">get</span> normalMatrixUniformName<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>The name of the uniform mat3 variable in the vertex shader that receives the normal matrix value.
+The default name is <code>uNormal</code>.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
+<p>Inherited from Mesh.normalMatrixUniformName</p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Mesh.ts#L442">lib/core/Mesh.ts:442</a></li></ul></aside></li>
+<li class="tsd-signature" id="normalMatrixUniformName.normalMatrixUniformName-2"><span class="tsd-signature-symbol">set</span> normalMatrixUniformName<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>name: <span class="tsd-signature-type">string</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<p>Inherited from Mesh.normalMatrixUniformName</p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Mesh.ts#L451">lib/core/Mesh.ts:451</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="opacity" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>opacity</span><a href="#opacity" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature" id="opacity.opacity-1"><span class="tsd-signature-symbol">get</span> opacity<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+<li class="tsd-description">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
+<p>Inherited from Mesh.opacity</p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Drawable.ts#L98">lib/core/Drawable.ts:98</a></li></ul></aside></li>
+<li class="tsd-signature" id="opacity.opacity-2"><span class="tsd-signature-symbol">set</span> opacity<span class="tsd-signature-symbol">(</span>newOpacity<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>newOpacity: <span class="tsd-signature-type">number</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<p>Inherited from Mesh.opacity</p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Drawable.ts#L107">lib/core/Drawable.ts:107</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="pointSize" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>point<wbr/>Size</span><a href="#pointSize" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature" id="pointSize.pointSize-1"><span class="tsd-signature-symbol">get</span> pointSize<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+<li class="tsd-description">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
+<p>Inherited from Mesh.pointSize</p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Drawable.ts#L125">lib/core/Drawable.ts:125</a></li></ul></aside></li>
+<li class="tsd-signature" id="pointSize.pointSize-2"><span class="tsd-signature-symbol">set</span> pointSize<span class="tsd-signature-symbol">(</span>newPointSize<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>newPointSize: <span class="tsd-signature-type">number</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<p>Inherited from Mesh.pointSize</p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Drawable.ts#L134">lib/core/Drawable.ts:134</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="position" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>position</span><a href="#position" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature" id="position.position-1"><span class="tsd-signature-symbol">get</span> position<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Geometric3.html" class="tsd-signature-type" data-tsd-kind="Class">Geometric3</a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Position (vector). This is an alias for the X property.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <a href="Geometric3.html" class="tsd-signature-type" data-tsd-kind="Class">Geometric3</a></h4><aside class="tsd-sources">
+<p>Inherited from Mesh.position</p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Mesh.ts#L233">lib/core/Mesh.ts:233</a></li></ul></aside></li>
+<li class="tsd-signature" id="position.position-2"><span class="tsd-signature-symbol">set</span> position<span class="tsd-signature-symbol">(</span>vector<span class="tsd-signature-symbol">: </span><a href="Geometric3.html" class="tsd-signature-type" data-tsd-kind="Class">Geometric3</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>vector: <a href="Geometric3.html" class="tsd-signature-type" data-tsd-kind="Class">Geometric3</a></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<p>Inherited from Mesh.position</p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Mesh.ts#L242">lib/core/Mesh.ts:242</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="radius" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>radius</span><a href="#radius" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
+<li class="tsd-signature" id="radius.radius-1"><span class="tsd-signature-symbol">get</span> radius<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>The radius of the cylinder, a scalar. Defaults to 1.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/visual/Cylinder.ts#L101">lib/visual/Cylinder.ts:101</a></li></ul></aside></li>
+<li class="tsd-signature" id="radius.radius-2"><span class="tsd-signature-symbol">set</span> radius<span class="tsd-signature-symbol">(</span>radius<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>radius: <span class="tsd-signature-type">number</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/visual/Cylinder.ts#L104">lib/visual/Cylinder.ts:104</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="texture" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>texture</span><a href="#texture" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature" id="texture.texture-1"><span class="tsd-signature-symbol">get</span> texture<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Texture.html" class="tsd-signature-type" data-tsd-kind="Class">Texture</a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Texture (image).</p>
+</div>
+<h4 class="tsd-returns-title">Returns <a href="Texture.html" class="tsd-signature-type" data-tsd-kind="Class">Texture</a></h4><aside class="tsd-sources">
+<p>Inherited from Mesh.texture</p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Mesh.ts#L186">lib/core/Mesh.ts:186</a></li></ul></aside></li>
+<li class="tsd-signature" id="texture.texture-2"><span class="tsd-signature-symbol">set</span> texture<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="Texture.html" class="tsd-signature-type" data-tsd-kind="Class">Texture</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>value: <a href="Texture.html" class="tsd-signature-type" data-tsd-kind="Class">Texture</a></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<p>Inherited from Mesh.texture</p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Mesh.ts#L197">lib/core/Mesh.ts:197</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="transparent" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>transparent</span><a href="#transparent" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature" id="transparent.transparent-1"><span class="tsd-signature-symbol">get</span> transparent<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography">
+<h3>Default</h3><p>false</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
+<p>Inherited from Mesh.transparent</p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Drawable.ts#L319">lib/core/Drawable.ts:319</a></li></ul></aside></li>
+<li class="tsd-signature" id="transparent.transparent-2"><span class="tsd-signature-symbol">set</span> transparent<span class="tsd-signature-symbol">(</span>transparent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>transparent: <span class="tsd-signature-type">boolean</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<p>Inherited from Mesh.transparent</p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Drawable.ts#L322">lib/core/Drawable.ts:322</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="visible" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>visible</span><a href="#visible" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature" id="visible.visible-1"><span class="tsd-signature-symbol">get</span> visible<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography">
+<h3>Default</h3><p>true</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
+<p>Inherited from Mesh.visible</p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Drawable.ts#L308">lib/core/Drawable.ts:308</a></li></ul></aside></li>
+<li class="tsd-signature" id="visible.visible-2"><span class="tsd-signature-symbol">set</span> visible<span class="tsd-signature-symbol">(</span>visible<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>visible: <span class="tsd-signature-type">boolean</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<p>Inherited from Mesh.visible</p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Drawable.ts#L311">lib/core/Drawable.ts:311</a></li></ul></aside></li></ul></section></section>
+<section class="tsd-panel-group tsd-member-group">
+<h2>Methods</h2>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="addRef" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>add<wbr/>Ref</span><a href="#addRef" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature tsd-anchor-link" id="addRef.addRef-1">add<wbr/>Ref<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><a href="#addRef.addRef-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>
+Notifies this instance that something is referencing it.
+</p>
+<h3>Returns</h3><p>The new value of the reference count.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
+<p>Inherited from <a href="Mesh.html">Mesh</a>.<a href="Mesh.html#addRef">addRef</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/ShareableBase.ts#L133">lib/core/ShareableBase.ts:133</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="bind" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>bind</span><a href="#bind" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature tsd-anchor-link" id="bind.bind-1">bind<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Drawable.html" class="tsd-signature-type" data-tsd-kind="Class">Drawable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Geometry</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Material</span><span class="tsd-signature-symbol">&gt;</span><a href="#bind.bind-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>A convenience method for calling geometry.bind(material).</p>
+</div>
+<h4 class="tsd-returns-title">Returns <a href="Drawable.html" class="tsd-signature-type" data-tsd-kind="Class">Drawable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Geometry</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Material</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<p>Inherited from <a href="Mesh.html">Mesh</a>.<a href="Mesh.html#bind">bind</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Drawable.ts#L155">lib/core/Drawable.ts:155</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="cleanUp" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>clean<wbr/>Up</span><a href="#cleanUp" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature tsd-anchor-link" id="cleanUp.cleanUp-1">clean<wbr/>Up<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#cleanUp.cleanUp-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<p>Inherited from <a href="Mesh.html">Mesh</a>.<a href="Mesh.html#cleanUp">cleanUp</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/ShareableContextConsumer.ts#L89">lib/core/ShareableContextConsumer.ts:89</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="contextFree" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>context<wbr/>Free</span><a href="#contextFree" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature tsd-anchor-link" id="contextFree.contextFree-1">context<wbr/>Free<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#contextFree.contextFree-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<p>Inherited from <a href="Mesh.html">Mesh</a>.<a href="Mesh.html#contextFree">contextFree</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Drawable.ts#L187">lib/core/Drawable.ts:187</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="contextGain" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>context<wbr/>Gain</span><a href="#contextGain" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature tsd-anchor-link" id="contextGain.contextGain-1">context<wbr/>Gain<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#contextGain.contextGain-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<p>Inherited from <a href="Mesh.html">Mesh</a>.<a href="Mesh.html#contextGain">contextGain</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Drawable.ts#L199">lib/core/Drawable.ts:199</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="contextLost" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>context<wbr/>Lost</span><a href="#contextLost" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature tsd-anchor-link" id="contextLost.contextLost-1">context<wbr/>Lost<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#contextLost.contextLost-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<p>Inherited from <a href="Mesh.html">Mesh</a>.<a href="Mesh.html#contextLost">contextLost</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Drawable.ts#L212">lib/core/Drawable.ts:212</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="draw" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>draw</span><a href="#draw" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature tsd-anchor-link" id="draw.draw-1">draw<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Drawable.html" class="tsd-signature-type" data-tsd-kind="Class">Drawable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Geometry</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Material</span><span class="tsd-signature-symbol">&gt;</span><a href="#draw.draw-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<h4 class="tsd-returns-title">Returns <a href="Drawable.html" class="tsd-signature-type" data-tsd-kind="Class">Drawable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Geometry</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Material</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<p>Inherited from <a href="Mesh.html">Mesh</a>.<a href="Mesh.html#draw">draw</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Drawable.ts#L178">lib/core/Drawable.ts:178</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="getFacet" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>get<wbr/>Facet</span><a href="#getFacet" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature tsd-anchor-link" id="getFacet.getFacet-1">get<wbr/>Facet<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/Facet.html" class="tsd-signature-type" data-tsd-kind="Interface">Facet</a><a href="#getFacet.getFacet-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>name: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>The name of the Facet.</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <a href="../interfaces/Facet.html" class="tsd-signature-type" data-tsd-kind="Interface">Facet</a></h4><aside class="tsd-sources">
+<p>Inherited from <a href="Mesh.html">Mesh</a>.<a href="Mesh.html#getFacet">getFacet</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Drawable.ts#L227">lib/core/Drawable.ts:227</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="getLoggingName" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>get<wbr/>Logging<wbr/>Name</span><a href="#getLoggingName" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature tsd-anchor-link" id="getLoggingName.getLoggingName-1">get<wbr/>Logging<wbr/>Name<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><a href="#getLoggingName.getLoggingName-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Returns the name that was assigned by the call to the setLoggingName method.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
+<p>Inherited from <a href="Mesh.html">Mesh</a>.<a href="Mesh.html#getLoggingName">getLoggingName</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/ShareableBase.ts#L148">lib/core/ShareableBase.ts:148</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="isZombie" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>is<wbr/>Zombie</span><a href="#isZombie" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature tsd-anchor-link" id="isZombie.isZombie-1">is<wbr/>Zombie<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><a href="#isZombie.isZombie-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>An object is a zombie if it has been released by all who have held references.
+In some cases it may be possible to recycle a zombie.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
+<p>Inherited from <a href="Mesh.html">Mesh</a>.<a href="Mesh.html#isZombie">isZombie</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/ShareableBase.ts#L122">lib/core/ShareableBase.ts:122</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="release" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>release</span><a href="#release" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature tsd-anchor-link" id="release.release-1">release<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><a href="#release.release-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>
+Notifies this instance that something is dereferencing it.
+</p>
+<h3>Returns</h3><p>The new value of the reference count.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
+<p>Inherited from <a href="Mesh.html">Mesh</a>.<a href="Mesh.html#release">release</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/ShareableBase.ts#L181">lib/core/ShareableBase.ts:181</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="removeFacet" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>remove<wbr/>Facet</span><a href="#removeFacet" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature tsd-anchor-link" id="removeFacet.removeFacet-1">remove<wbr/>Facet<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/Facet.html" class="tsd-signature-type" data-tsd-kind="Interface">Facet</a><a href="#removeFacet.removeFacet-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>name: <span class="tsd-signature-type">string</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <a href="../interfaces/Facet.html" class="tsd-signature-type" data-tsd-kind="Interface">Facet</a></h4><aside class="tsd-sources">
+<p>Inherited from <a href="Mesh.html">Mesh</a>.<a href="Mesh.html#removeFacet">removeFacet</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Drawable.ts#L261">lib/core/Drawable.ts:261</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="render" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>render</span><a href="#render" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature tsd-anchor-link" id="render.render-1">render<span class="tsd-signature-symbol">(</span>ambients<span class="tsd-signature-symbol">: </span><a href="../interfaces/Facet.html" class="tsd-signature-type" data-tsd-kind="Interface">Facet</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Drawable.html" class="tsd-signature-type" data-tsd-kind="Class">Drawable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Geometry</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Material</span><span class="tsd-signature-symbol">&gt;</span><a href="#render.render-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>A convenience method for performing all of the methods required for rendering.
+The following methods are called in order.
+use()
+bind()
+setAmbients(ambients)
+setUniforms()
+draw()
+unbind()
+In particle simulations it may be useful to call the underlying methods directly.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>ambients: <a href="../interfaces/Facet.html" class="tsd-signature-type" data-tsd-kind="Interface">Facet</a><span class="tsd-signature-symbol">[]</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <a href="Drawable.html" class="tsd-signature-type" data-tsd-kind="Class">Drawable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Geometry</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Material</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<p>Inherited from <a href="Mesh.html">Mesh</a>.<a href="Mesh.html#render">render</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Drawable.ts#L242">lib/core/Drawable.ts:242</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="setAmbients" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>set<wbr/>Ambients</span><a href="#setAmbients" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature tsd-anchor-link" id="setAmbients.setAmbients-1">set<wbr/>Ambients<span class="tsd-signature-symbol">(</span>ambients<span class="tsd-signature-symbol">: </span><a href="../interfaces/Facet.html" class="tsd-signature-type" data-tsd-kind="Interface">Facet</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Drawable.html" class="tsd-signature-type" data-tsd-kind="Class">Drawable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Geometry</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Material</span><span class="tsd-signature-symbol">&gt;</span><a href="#setAmbients.setAmbients-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Updates the Material uniforms from the ambient Facets argument.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>ambients: <a href="../interfaces/Facet.html" class="tsd-signature-type" data-tsd-kind="Interface">Facet</a><span class="tsd-signature-symbol">[]</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <a href="Drawable.html" class="tsd-signature-type" data-tsd-kind="Class">Drawable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Geometry</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Material</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<p>Inherited from <a href="Mesh.html">Mesh</a>.<a href="Mesh.html#setAmbients">setAmbients</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Drawable.ts#L252">lib/core/Drawable.ts:252</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="setFacet" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>set<wbr/>Facet</span><a href="#setFacet" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature tsd-anchor-link" id="setFacet.setFacet-1">set<wbr/>Facet<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, facet<span class="tsd-signature-symbol">: </span><a href="../interfaces/Facet.html" class="tsd-signature-type" data-tsd-kind="Interface">Facet</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#setFacet.setFacet-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>name: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>The name of the Facet.</p>
+</div></li>
+<li>
+<h5>facet: <a href="../interfaces/Facet.html" class="tsd-signature-type" data-tsd-kind="Interface">Facet</a></h5>
+<div class="tsd-comment tsd-typography"><p>The Facet.</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<p>Inherited from <a href="Mesh.html">Mesh</a>.<a href="Mesh.html#setFacet">setFacet</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Drawable.ts#L269">lib/core/Drawable.ts:269</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="setLoggingName" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>set<wbr/>Logging<wbr/>Name</span><a href="#setLoggingName" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited">
+<li class="tsd-signature tsd-anchor-link" id="setLoggingName.setLoggingName-1">set<wbr/>Logging<wbr/>Name<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#setLoggingName.setLoggingName-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>This method is for use within constructors.</p>
+<p>Immediately after a call to the super class constructor, make a call to setLoggingName.
+This will have the effect of refining the name used for reporting reference counts.</p>
+<p>This method has the secondary purpose of enabling a tally of the number of classes
+in the constructor chain. This enables the runtime architecture to verify that destructor
+chains are consistent with constructor chains, which is a good practice for cleaning up resources.</p>
+<p>Notice that this method is intentionally protected to discourage it from being called outside of the constructor.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>name: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>This will usually be set to the name of the class.</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<p>Inherited from <a href="Mesh.html">Mesh</a>.<a href="Mesh.html#setLoggingName">setLoggingName</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/ShareableBase.ts#L166">lib/core/ShareableBase.ts:166</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="setUniforms" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>set<wbr/>Uniforms</span><a href="#setUniforms" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature tsd-anchor-link" id="setUniforms.setUniforms-1">set<wbr/>Uniforms<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Drawable.html" class="tsd-signature-type" data-tsd-kind="Class">Drawable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Geometry</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Material</span><span class="tsd-signature-symbol">&gt;</span><a href="#setUniforms.setUniforms-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Sets the Material uniforms from the Facets of this composite object.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <a href="Drawable.html" class="tsd-signature-type" data-tsd-kind="Class">Drawable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Geometry</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Material</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<p>Inherited from <a href="Mesh.html">Mesh</a>.<a href="Mesh.html#setUniforms">setUniforms</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Drawable.ts#L163">lib/core/Drawable.ts:163</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="synchUp" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>synch<wbr/>Up</span><a href="#synchUp" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature tsd-anchor-link" id="synchUp.synchUp-1">synch<wbr/>Up<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#synchUp.synchUp-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<p>Inherited from <a href="Mesh.html">Mesh</a>.<a href="Mesh.html#synchUp">synchUp</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/ShareableContextConsumer.ts#L82">lib/core/ShareableContextConsumer.ts:82</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="unbind" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>unbind</span><a href="#unbind" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature tsd-anchor-link" id="unbind.unbind-1">unbind<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Drawable.html" class="tsd-signature-type" data-tsd-kind="Class">Drawable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Geometry</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Material</span><span class="tsd-signature-symbol">&gt;</span><a href="#unbind.unbind-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<h4 class="tsd-returns-title">Returns <a href="Drawable.html" class="tsd-signature-type" data-tsd-kind="Class">Drawable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Geometry</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Material</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<p>Inherited from <a href="Mesh.html">Mesh</a>.<a href="Mesh.html#unbind">unbind</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Drawable.ts#L273">lib/core/Drawable.ts:273</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="use" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>use</span><a href="#use" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature tsd-anchor-link" id="use.use-1">use<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Drawable.html" class="tsd-signature-type" data-tsd-kind="Class">Drawable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Geometry</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Material</span><span class="tsd-signature-symbol">&gt;</span><a href="#use.use-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<h4 class="tsd-returns-title">Returns <a href="Drawable.html" class="tsd-signature-type" data-tsd-kind="Class">Drawable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Geometry</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Material</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<p>Inherited from <a href="Mesh.html">Mesh</a>.<a href="Mesh.html#use">use</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/08394e114/src/lib/core/Drawable.ts#L278">lib/core/Drawable.ts:278</a></li></ul></aside></li></ul></section></section></div>
+<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+<div class="tsd-navigation settings">
+<details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
+<h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.93896 8.531L12 15.591L19.061 8.531L16.939 6.409L12 11.349L7.06098 6.409L4.93896 8.531Z" fill="var(--color-text)"></path></svg> Settings</h3></summary>
+<div class="tsd-accordion-details">
+<div class="tsd-filter-visibility">
+<h4 class="uppercase">Member Visibility</h4><form>
+<ul id="tsd-filter-options">
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></form></div>
+<div class="tsd-theme-toggle">
+<h4 class="uppercase">Theme</h4><select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div>
+<nav class="tsd-navigation primary">
+<details class="tsd-index-accordion" open><summary class="tsd-accordion-summary">
+<h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.93896 8.531L12 15.591L19.061 8.531L16.939 6.409L12 11.349L7.06098 6.409L4.93896 8.531Z" fill="var(--color-text)"></path></svg> Modules</h3></summary>
+<div class="tsd-accordion-details">
+<ul>
+<li><a href="../modules.html">davinci-<wbr/>eight</a>
+<ul></ul></li></ul></div></details></nav>
+<nav class="tsd-navigation secondary menu-sticky">
+<ul>
+<li class="current tsd-kind-class"><a href="Cylinder.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-class)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6" id="icon-128-path"></rect><path d="M11.898 16.1201C11.098 16.1201 10.466 15.8961 10.002 15.4481C9.53803 15.0001 9.30603 14.3841 9.30603 13.6001V9.64012C9.30603 8.85612 9.53803 8.24012 10.002 7.79212C10.466 7.34412 11.098 7.12012 11.898 7.12012C12.682 7.12012 13.306 7.34812 13.77 7.80412C14.234 8.25212 14.466 8.86412 14.466 9.64012H13.386C13.386 9.14412 13.254 8.76412 12.99 8.50012C12.734 8.22812 12.37 8.09212 11.898 8.09212C11.426 8.09212 11.054 8.22412 10.782 8.48812C10.518 8.75212 10.386 9.13212 10.386 9.62812V13.6001C10.386 14.0961 10.518 14.4801 10.782 14.7521C11.054 15.0161 11.426 15.1481 11.898 15.1481C12.37 15.1481 12.734 15.0161 12.99 14.7521C13.254 14.4801 13.386 14.0961 13.386 13.6001H14.466C14.466 14.3761 14.234 14.9921 13.77 15.4481C13.306 15.8961 12.682 16.1201 11.898 16.1201Z" fill="var(--color-text)" id="icon-128-text"></path></svg><span>Cylinder</span></a>
+<ul>
+<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="Cylinder.html#constructor" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-512-path"></use><use href="#icon-512-text"></use></svg>constructor</a></li>
+<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a href="Cylinder.html#contextManager" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>context<wbr/>Manager</a></li>
+<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#name" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>name</a></li>
+<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#referenceAxis" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>reference<wbr/>Axis</a></li>
+<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#referenceMeridian" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>reference<wbr/>Meridian</a></li>
+<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#R" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>R</a></li>
+<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#X" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>X</a></li>
+<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#attitude" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>attitude</a></li>
+<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#axis" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>axis</a></li>
+<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#color" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>color</a></li>
+<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#geometry" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>geometry</a></li>
+<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#gl" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>gl</a></li>
+<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="Cylinder.html#length" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>length</a></li>
+<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#material" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>material</a></li>
+<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#meridian" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>meridian</a></li>
+<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#modelMatrixUniformName" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>model<wbr/>Matrix<wbr/>Uniform<wbr/>Name</a></li>
+<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#normalMatrixUniformName" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>normal<wbr/>Matrix<wbr/>Uniform<wbr/>Name</a></li>
+<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#opacity" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>opacity</a></li>
+<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#pointSize" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>point<wbr/>Size</a></li>
+<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#position" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>position</a></li>
+<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="Cylinder.html#radius" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>radius</a></li>
+<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#texture" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>texture</a></li>
+<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#transparent" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>transparent</a></li>
+<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#visible" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>visible</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#addRef" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>add<wbr/>Ref</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#bind" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>bind</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#cleanUp" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>clean<wbr/>Up</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#contextFree" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>context<wbr/>Free</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#contextGain" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>context<wbr/>Gain</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#contextLost" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>context<wbr/>Lost</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#draw" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>draw</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#getFacet" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Facet</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#getLoggingName" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Logging<wbr/>Name</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#isZombie" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>is<wbr/>Zombie</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#release" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>release</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#removeFacet" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>remove<wbr/>Facet</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#render" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>render</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#setAmbients" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>set<wbr/>Ambients</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#setFacet" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>set<wbr/>Facet</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a href="Cylinder.html#setLoggingName" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>set<wbr/>Logging<wbr/>Name</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#setUniforms" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>set<wbr/>Uniforms</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#synchUp" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>synch<wbr/>Up</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#unbind" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>unbind</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="Cylinder.html#use" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>use</a></li></ul></li></ul></nav></div></div>
+<div class="container tsd-generator">
+<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div>
+<div class="overlay"></div><script src="../assets/main.js"></script></body></html>
