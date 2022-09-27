@@ -34,6 +34,7 @@ export { GraphicsProgramSymbols } from './lib/core/GraphicsProgramSymbols';
 export { ImageTexture } from './lib/core/ImageTexture';
 export { IndexBuffer } from './lib/core/IndexBuffer';
 export { Mesh } from './lib/core/Mesh';
+export { MeshOptions } from './lib/core/MeshOptions';
 export { PixelFormat } from './lib/core/PixelFormat';
 export { PixelType } from './lib/core/PixelType';
 export { refChange } from './lib/core/refChange';
@@ -85,6 +86,7 @@ export { SphereGeometry } from './lib/geometries/SphereGeometry';
 export { TetrahedronGeometry } from './lib/geometries/TetrahedronGeometry';
 // loaders
 export { TextureLoader } from './lib/loaders/TextureLoader';
+export { TextureLoaderOptions } from './lib/loaders/TextureLoaderOptions';
 export { GraphicsProgramBuilder } from './lib/materials/GraphicsProgramBuilder';
 // materials
 export { HTMLScriptsMaterial } from './lib/materials/HTMLScriptsMaterial';

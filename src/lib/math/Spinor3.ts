@@ -1,13 +1,11 @@
-import { VectorN } from '../atoms/VectorN';
 import { mustBeInteger } from '../checks/mustBeInteger';
 import { mustBeNumber } from '../checks/mustBeNumber';
 import { mustBeObject } from '../checks/mustBeObject';
-import { lock, LockableMixin as Lockable, TargetLockedError } from '../core/Lockable';
+import { lock, TargetLockedError } from '../core/Lockable';
 import { readOnly } from '../i18n/readOnly';
 import { SpinorE3 } from '../math/SpinorE3';
 import { approx } from './approx';
 import { BivectorE3 } from './BivectorE3';
-import { CartesianG3 } from './CartesianG3';
 import { dotVectorCartesianE3 } from './dotVectorCartesianE3';
 import { mulSpinorE3alpha } from './mulSpinorE3alpha';
 import { mulSpinorE3XY } from './mulSpinorE3XY';
@@ -76,9 +74,8 @@ const magicCode = Math.random();
 
 /**
  * A Geometric Number representing the even sub-algebra of G3.
- * @hidden
  */
-export class Spinor3 implements CartesianG3, SpinorE3, Lockable, VectorN<number> {
+export class Spinor3 {
     // Lockable
     public isLocked(): boolean {
         return typeof (this as any)['lock_'] === 'number';

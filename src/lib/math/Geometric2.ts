@@ -1,4 +1,3 @@
-import { VectorN } from '../atoms/VectorN';
 import { isDefined } from '../checks/isDefined';
 import { isNumber } from '../checks/isNumber';
 import { isObject } from '../checks/isObject';
@@ -6,7 +5,7 @@ import { mustBeEQ } from '../checks/mustBeEQ';
 import { mustBeInteger } from '../checks/mustBeInteger';
 import { mustBeNumber } from '../checks/mustBeNumber';
 import { mustBeObject } from '../checks/mustBeObject';
-import { lock, LockableMixin, TargetLockedError } from '../core/Lockable';
+import { lock, TargetLockedError } from '../core/Lockable';
 import { b2 } from '../geometries/b2';
 import { b3 } from '../geometries/b3';
 import { notImplemented } from '../i18n/notImplemented';
@@ -196,7 +195,7 @@ function duckCopy(value: any): Geometric2 {
 /**
  * @hidden
  */
-export class Geometric2 implements GeometricE2, LockableMixin, VectorN<number> {
+export class Geometric2 {
     // Lockable
     public isLocked(): boolean {
         return typeof (this as any)['lock_'] === 'number';

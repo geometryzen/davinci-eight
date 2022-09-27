@@ -1,8 +1,7 @@
-import { VectorN } from '../atoms/VectorN';
 import { mustBeInteger } from '../checks/mustBeInteger';
 import { mustBeNumber } from '../checks/mustBeNumber';
 import { mustBeObject } from '../checks/mustBeObject';
-import { lock, LockableMixin as Lockable, TargetLockedError } from '../core/Lockable';
+import { lock, TargetLockedError } from '../core/Lockable';
 import { notSupported } from '../i18n/notSupported';
 import { dotVectorCartesianE2 } from '../math/dotVectorCartesianE2';
 import { quadSpinorE2 as quadSpinor } from '../math/quadSpinorE2';
@@ -69,7 +68,7 @@ const sqrt = Math.sqrt;
 /**
  * @hidden
  */
-export class Spinor2 implements SpinorE2, Lockable, VectorN<number> {
+export class Spinor2 {
     // Lockable
     public isLocked(): boolean {
         return typeof (this as any)['lock_'] === 'number';

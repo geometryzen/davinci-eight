@@ -1,7 +1,6 @@
-import { VectorN } from '../atoms/VectorN';
 import { mustBeEQ } from '../checks/mustBeEQ';
 import { mustBeInteger } from '../checks/mustBeInteger';
-import { lock, LockableMixin as Lockable, TargetLockedError } from '../core/Lockable';
+import { lock, TargetLockedError } from '../core/Lockable';
 import { approx } from './approx';
 import { arraysEQ } from './arraysEQ';
 import { BivectorE3 } from './BivectorE3';
@@ -183,7 +182,7 @@ const cosines: number[] = [];
 /**
  *
  */
-export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<number> {
+export class Geometric3 {
     // Lockable
     public isLocked(): boolean {
         return typeof (this as any)['lock_'] === 'number';

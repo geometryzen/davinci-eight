@@ -1,11 +1,9 @@
-import { VectorN } from '../atoms/VectorN';
 import { isDefined } from '../checks/isDefined';
 import { isNumber } from '../checks/isNumber';
-import { lock, LockableMixin as Lockable, TargetLockedError } from '../core/Lockable';
+import { lock, TargetLockedError } from '../core/Lockable';
 import { readOnly } from '../i18n/readOnly';
 import { approx } from './approx';
 import { BivectorE3 } from './BivectorE3';
-import { CartesianG3 } from './CartesianG3';
 import { dotVectorE3 } from './dotVectorE3';
 import { Matrix3 } from './Matrix3';
 import { Matrix4 } from './Matrix4';
@@ -34,7 +32,7 @@ function coordinates(m: VectorE3): number[] {
 /**
  * @hidden
  */
-export class Vector3 implements CartesianG3, VectorE3, Lockable, VectorN<number> {
+export class Vector3 {
     // Lockable
     public isLocked(): boolean {
         return typeof (this as any)['lock_'] === 'number';

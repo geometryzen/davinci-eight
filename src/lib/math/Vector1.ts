@@ -13,7 +13,7 @@ const COORD_X = 0;
 /**
  * @hidden
  */
-export class Vector1 extends Coords implements VectorE1 {
+export class Vector1 extends Coords {
 
     /**
      * @class Vector1
@@ -52,6 +52,7 @@ export class Vector1 extends Coords implements VectorE1 {
         return this;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     scp(v: VectorE1) {
         return this;
     }
@@ -120,6 +121,7 @@ export class Vector1 extends Coords implements VectorE1 {
         this.x = 1 / this.x;
         return this;
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     lco(v: VectorE1) {
         return this;
     }
@@ -165,6 +167,7 @@ export class Vector1 extends Coords implements VectorE1 {
     rev() {
         return this;
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     rco(v: VectorE1) {
         return this;
     }
@@ -230,11 +233,12 @@ export class Vector1 extends Coords implements VectorE1 {
         return this.divByScalar(this.magnitude());
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     mul2(a: VectorE1, b: VectorE1) {
         return this;
     }
     quad() {
-        let x = this.x;
+        const x = this.x;
         this.x = x * x;
         return this;
     }
@@ -242,18 +246,21 @@ export class Vector1 extends Coords implements VectorE1 {
         return this.x * this.x;
     }
     quadranceTo(position: VectorE1) {
-        let dx = this.x - position.x;
+        const dx = this.x - position.x;
         return dx * dx;
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     reflect(n: VectorE1): Vector1 {
         // FIXME: TODO
         return this;
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     reflection(n: VectorE0): Vector1 {
         // FIXME: TODO
         return this;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     rotate(rotor: SpinorE1): Vector1 {
         return this;
     }
@@ -296,15 +303,19 @@ export class Vector1 extends Coords implements VectorE1 {
         array[offset] = this.x;
         return array;
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     toExponential(fractionDigits?: number): string {
         return "TODO: Vector1.toExponential";
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     toFixed(fractionDigits?: number): string {
         return "TODO: Vector1.toFixed";
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     toPrecision(precision?: number): string {
         return "TODO: Vector1.toPrecision";
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     toString(radix?: number): string {
         return "TODO: Vector1.toString";
     }
@@ -315,6 +326,7 @@ export class Vector1 extends Coords implements VectorE1 {
      * @return {Vector1}
      * @chainable
      */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     translation(d: VectorE0): Vector1 {
         return this.one();
     }
@@ -327,6 +339,7 @@ export class Vector1 extends Coords implements VectorE1 {
     clone() {
         return new Vector1([this.x]);
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ext(v: VectorE1) {
         return this;
     }

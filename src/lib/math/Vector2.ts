@@ -1,5 +1,4 @@
-import { VectorN } from '../atoms/VectorN';
-import { lock, LockableMixin as Lockable, TargetLockedError } from '../core/Lockable';
+import { lock, TargetLockedError } from '../core/Lockable';
 import { b2 } from '../geometries/b2';
 import { b3 } from '../geometries/b3';
 import { notImplemented } from '../i18n/notImplemented';
@@ -25,7 +24,7 @@ function coordinates(m: VectorE2): number[] {
 /**
  * @hidden
  */
-export class Vector2 implements VectorE2, Lockable, VectorN<number> {
+export class Vector2 {
     // Lockable
     public isLocked(): boolean {
         return typeof (this as any)['lock_'] === 'number';

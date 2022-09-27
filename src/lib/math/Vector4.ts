@@ -113,8 +113,7 @@ export class Vector4 extends Coords {
 
     /**
      * @method approx
-     * @param n {number}
-     * @return {Vector4}
+     * @param n
      * @chainable
      */
     approx(n: number): Vector4 {
@@ -167,10 +166,12 @@ export class Vector4 extends Coords {
         this.w *= α;
         return this;
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     reflect(n: VectorE4) {
         // TODO
         return this;
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     rotate(rotor: SpinorE4) {
         // TODO
         return this;
@@ -203,15 +204,19 @@ export class Vector4 extends Coords {
     squaredNorm(): number {
         throw new Error("TODO: Vector4.squaredNorm()");
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     toExponential(fractionDigits?: number): string {
         return "TODO Vector4.toExponential";
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     toFixed(fractionDigits?: number): string {
         return "TODO Vector4.toFixed";
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     toPrecision(precision?: number): string {
         return "TODO Vector4.toFixed";
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     toString(radix?: number): string {
         return "TODO Vector4.toString";
     }
