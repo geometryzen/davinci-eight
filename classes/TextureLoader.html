@@ -15,15 +15,13 @@
 <h1>Class TextureLoader</h1></div>
 <section class="tsd-panel tsd-comment">
 <div class="tsd-comment tsd-typography"><p>A utility for loading Texture resources from a URL.</p>
-<pre><code><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-2">loader</span><span class="hl-1"> = </span><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-2">EIGHT</span><span class="hl-1">.</span><span class="hl-4">TextureLoader</span><span class="hl-1">(</span><span class="hl-5">engine</span><span class="hl-1">)</span><br/><span class="hl-5">loader</span><span class="hl-1">.</span><span class="hl-4">loadImageTexture</span><span class="hl-1">(</span><span class="hl-6">&#39;img/textures/solar-system/2k_earth_daymap.jpg&#39;</span><span class="hl-1">, </span><span class="hl-0">function</span><span class="hl-1">(</span><span class="hl-5">texture</span><span class="hl-1">) {</span><br/><span class="hl-1">  </span><span class="hl-5">texture</span><span class="hl-1">.</span><span class="hl-5">minFilter</span><span class="hl-1"> = </span><span class="hl-2">EIGHT</span><span class="hl-1">.</span><span class="hl-5">TextureMinFilter</span><span class="hl-1">.</span><span class="hl-2">NEAREST</span><span class="hl-1">;</span><br/><span class="hl-1">  </span><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-2">geometry</span><span class="hl-1"> = </span><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-2">EIGHT</span><span class="hl-1">.</span><span class="hl-4">SphereGeometry</span><span class="hl-1">(</span><span class="hl-5">engine</span><span class="hl-1">, {</span><span class="hl-5">azimuthSegments:</span><span class="hl-1"> </span><span class="hl-7">64</span><span class="hl-1">, </span><span class="hl-5">elevationSegments:</span><span class="hl-1"> </span><span class="hl-7">32</span><span class="hl-1">})</span><br/><span class="hl-1">  </span><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-2">material</span><span class="hl-1"> = </span><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-2">EIGHT</span><span class="hl-1">.</span><span class="hl-4">HTMLScriptsMaterial</span><span class="hl-1">(</span><span class="hl-5">engine</span><span class="hl-1">, [</span><span class="hl-6">&#39;vs&#39;</span><span class="hl-1">, </span><span class="hl-6">&#39;fs&#39;</span><span class="hl-1">])</span><br/><span class="hl-1">  </span><span class="hl-5">sphere</span><span class="hl-1"> = </span><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-2">EIGHT</span><span class="hl-1">.</span><span class="hl-4">Mesh</span><span class="hl-1">(</span><span class="hl-5">geometry</span><span class="hl-1">, </span><span class="hl-5">material</span><span class="hl-1">, </span><span class="hl-5">engine</span><span class="hl-1">)</span><br/><span class="hl-1">  </span><span class="hl-5">geometry</span><span class="hl-1">.</span><span class="hl-4">release</span><span class="hl-1">()</span><br/><span class="hl-1">  </span><span class="hl-5">material</span><span class="hl-1">.</span><span class="hl-4">release</span><span class="hl-1">()</span><br/><span class="hl-1">  </span><span class="hl-5">sphere</span><span class="hl-1">.</span><span class="hl-5">texture</span><span class="hl-1"> = </span><span class="hl-5">texture</span><br/><span class="hl-1">  </span><span class="hl-5">texture</span><span class="hl-1">.</span><span class="hl-4">release</span><span class="hl-1">()</span><br/><span class="hl-1">  </span><span class="hl-5">scene</span><span class="hl-1">.</span><span class="hl-4">add</span><span class="hl-1">(</span><span class="hl-5">sphere</span><span class="hl-1">)</span><br/><span class="hl-1">})</span>
-</code></pre>
 </div></section>
 <section class="tsd-panel tsd-hierarchy">
 <h4>Hierarchy</h4>
 <ul class="tsd-hierarchy">
 <li><span class="target">TextureLoader</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a11d2f100/src/lib/loaders/TextureLoader.ts#L27">lib/loaders/TextureLoader.ts:27</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/2ff977038/src/lib/loaders/TextureLoader.ts#L14">src/lib/loaders/TextureLoader.ts:14</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -43,16 +41,16 @@
 <section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class"><a id="constructor" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>constructor</span><a href="#constructor" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" id="icon-anchor-a"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" id="icon-anchor-b"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" id="icon-anchor-c"></path></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-<li class="tsd-signature tsd-anchor-link" id="constructor.new_TextureLoader">new <wbr/>Texture<wbr/>Loader<span class="tsd-signature-symbol">(</span>contextManager<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ContextManager</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="TextureLoader.html" class="tsd-signature-type" data-tsd-kind="Class">TextureLoader</a><a href="#constructor.new_TextureLoader" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="constructor.new_TextureLoader">new <wbr/>Texture<wbr/>Loader<span class="tsd-signature-symbol">(</span>contextManager<span class="tsd-signature-symbol">: </span><a href="../interfaces/ContextManager.html" class="tsd-signature-type" data-tsd-kind="Interface">ContextManager</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="TextureLoader.html" class="tsd-signature-type" data-tsd-kind="Class">TextureLoader</a><a href="#constructor.new_TextureLoader" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5>contextManager: <span class="tsd-signature-type">ContextManager</span></h5></li></ul></div>
+<h5>contextManager: <a href="../interfaces/ContextManager.html" class="tsd-signature-type" data-tsd-kind="Interface">ContextManager</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="TextureLoader.html" class="tsd-signature-type" data-tsd-kind="Class">TextureLoader</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a11d2f100/src/lib/loaders/TextureLoader.ts#L31">lib/loaders/TextureLoader.ts:31</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/2ff977038/src/lib/loaders/TextureLoader.ts#L18">src/lib/loaders/TextureLoader.ts:18</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="imageTexture" class="tsd-anchor"></a>
@@ -71,7 +69,7 @@
 <h5>options: <a href="../interfaces/TextureLoaderOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">TextureLoaderOptions</a><span class="tsd-signature-symbol"> = {}</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="ImageTexture.html" class="tsd-signature-type" data-tsd-kind="Class">ImageTexture</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a11d2f100/src/lib/loaders/TextureLoader.ts#L40">lib/loaders/TextureLoader.ts:40</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/2ff977038/src/lib/loaders/TextureLoader.ts#L27">src/lib/loaders/TextureLoader.ts:27</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="loadImageTexture" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>load<wbr/>Image<wbr/>Texture</span><a href="#loadImageTexture" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -111,7 +109,7 @@
 <h5>options: <a href="../interfaces/TextureLoaderOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">TextureLoaderOptions</a><span class="tsd-signature-symbol"> = {}</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/a11d2f100/src/lib/loaders/TextureLoader.ts#L74">lib/loaders/TextureLoader.ts:74</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/2ff977038/src/lib/loaders/TextureLoader.ts#L61">src/lib/loaders/TextureLoader.ts:61</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
