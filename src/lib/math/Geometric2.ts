@@ -11,7 +11,6 @@ import { b2 } from '../geometries/b2';
 import { b3 } from '../geometries/b3';
 import { notImplemented } from '../i18n/notImplemented';
 import { notSupported } from '../i18n/notSupported';
-import { applyMixins } from '../utils/applyMixins';
 import { approx } from './approx';
 import { arraysEQ } from './arraysEQ';
 import { dotVectorE2 as dotVector } from './dotVectorE2';
@@ -199,9 +198,34 @@ function duckCopy(value: any): Geometric2 {
  */
 export class Geometric2 implements GeometricE2, LockableMixin, VectorN<number> {
     // Lockable
-    isLocked: () => boolean;
-    lock: () => number;
-    unlock: (token: number) => void;
+    public isLocked(): boolean {
+        return typeof (this as any)['lock_'] === 'number';
+    }
+
+    public lock(): number {
+        if (this.isLocked()) {
+            throw new Error("already locked");
+        }
+        else {
+            (this as any)['lock_'] = Math.random();
+            return (this as any)['lock_'];
+        }
+    }
+
+    public unlock(token: number): void {
+        if (typeof token !== 'number') {
+            throw new Error("token must be a number.");
+        }
+        if (!this.isLocked()) {
+            throw new Error("not locked");
+        }
+        else if ((this as any)['lock_'] === token) {
+            (this as any)['lock_'] = void 0;
+        }
+        else {
+            throw new Error("unlock denied");
+        }
+    }
 
     /**
      * 
@@ -860,10 +884,10 @@ export class Geometric2 implements GeometricE2, LockableMixin, VectorN<number> {
      *
      */
     quadraticBezier(t: number, controlPoint: GeometricE2, endPoint: GeometricE2): this {
-        let α = b2(t, this.a, controlPoint.a, endPoint.a);
-        let x = b2(t, this.x, controlPoint.x, endPoint.x);
-        let y = b2(t, this.y, controlPoint.y, endPoint.y);
-        let β = b2(t, this.b, controlPoint.b, endPoint.b);
+        const α = b2(t, this.a, controlPoint.a, endPoint.a);
+        const x = b2(t, this.x, controlPoint.x, endPoint.x);
+        const y = b2(t, this.y, controlPoint.y, endPoint.y);
+        const β = b2(t, this.b, controlPoint.b, endPoint.b);
         this.a = α;
         this.x = x;
         this.y = y;
@@ -929,9 +953,9 @@ export class Geometric2 implements GeometricE2, LockableMixin, VectorN<number> {
             return lock(this.clone().rev());
         } else {
             // reverse has a ++-- structure.
-            this.a = this.a;
-            this.x = this.x;
-            this.y = this.y;
+            // this.a = this.a;
+            // this.x = this.x;
+            // this.y = this.y;
             this.b = -this.b;
             return this;
         }
@@ -1656,7 +1680,6 @@ export class Geometric2 implements GeometricE2, LockableMixin, VectorN<number> {
         return lock ? Geometric2.ZERO : new Geometric2(zero());
     }
 }
-applyMixins(Geometric2, [LockableMixin]);
 Geometric2.E1.lock();
 Geometric2.E2.lock();
 Geometric2.ONE.lock();

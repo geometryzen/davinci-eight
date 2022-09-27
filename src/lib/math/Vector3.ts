@@ -3,7 +3,6 @@ import { isDefined } from '../checks/isDefined';
 import { isNumber } from '../checks/isNumber';
 import { lock, LockableMixin as Lockable, TargetLockedError } from '../core/Lockable';
 import { readOnly } from '../i18n/readOnly';
-import { applyMixins } from '../utils/applyMixins';
 import { approx } from './approx';
 import { BivectorE3 } from './BivectorE3';
 import { CartesianG3 } from './CartesianG3';
@@ -37,9 +36,34 @@ function coordinates(m: VectorE3): number[] {
  */
 export class Vector3 implements CartesianG3, VectorE3, Lockable, VectorN<number> {
     // Lockable
-    isLocked: () => boolean;
-    lock: () => number;
-    unlock: (token: number) => void;
+    public isLocked(): boolean {
+        return typeof (this as any)['lock_'] === 'number';
+    }
+
+    public lock(): number {
+        if (this.isLocked()) {
+            throw new Error("already locked");
+        }
+        else {
+            (this as any)['lock_'] = Math.random();
+            return (this as any)['lock_'];
+        }
+    }
+
+    public unlock(token: number): void {
+        if (typeof token !== 'number') {
+            throw new Error("token must be a number.");
+        }
+        if (!this.isLocked()) {
+            throw new Error("not locked");
+        }
+        else if ((this as any)['lock_'] === token) {
+            (this as any)['lock_'] = void 0;
+        }
+        else {
+            throw new Error("unlock denied");
+        }
+    }
 
     /**
      * 
@@ -375,9 +399,9 @@ export class Vector3 implements CartesianG3, VectorE3, Lockable, VectorN<number>
      * @return {Vector3} <code>this</code>
      * @chainable
      */
-    divByScalar(α: number) {
+    divByScalar(α: number): this {
         if (α !== 0) {
-            let invScalar = 1 / α;
+            const invScalar = 1 / α;
             this.x *= invScalar;
             this.y *= invScalar;
             this.z *= invScalar;
@@ -726,6 +750,7 @@ export class Vector3 implements CartesianG3, VectorE3, Lockable, VectorN<number>
         }
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     __rdiv__(lhs: any): Vector3 {
         return void 0;
     }
@@ -827,4 +852,3 @@ export class Vector3 implements CartesianG3, VectorE3, Lockable, VectorN<number>
         return new Vector3([0, 0, 0]);
     }
 }
-applyMixins(Vector3, [Lockable]);

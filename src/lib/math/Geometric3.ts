@@ -2,7 +2,6 @@ import { VectorN } from '../atoms/VectorN';
 import { mustBeEQ } from '../checks/mustBeEQ';
 import { mustBeInteger } from '../checks/mustBeInteger';
 import { lock, LockableMixin as Lockable, TargetLockedError } from '../core/Lockable';
-import { applyMixins } from '../utils/applyMixins';
 import { approx } from './approx';
 import { arraysEQ } from './arraysEQ';
 import { BivectorE3 } from './BivectorE3';
@@ -186,9 +185,34 @@ const cosines: number[] = [];
  */
 export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<number> {
     // Lockable
-    isLocked: () => boolean;
-    lock: () => number;
-    unlock: (token: number) => void;
+    public isLocked(): boolean {
+        return typeof (this as any)['lock_'] === 'number';
+    }
+
+    public lock(): number {
+        if (this.isLocked()) {
+            throw new Error("already locked");
+        }
+        else {
+            (this as any)['lock_'] = Math.random();
+            return (this as any)['lock_'];
+        }
+    }
+
+    public unlock(token: number): void {
+        if (typeof token !== 'number') {
+            throw new Error("token must be a number.");
+        }
+        if (!this.isLocked()) {
+            throw new Error("not locked");
+        }
+        else if ((this as any)['lock_'] === token) {
+            (this as any)['lock_'] = void 0;
+        }
+        else {
+            throw new Error("unlock denied");
+        }
+    }
 
     /**
      * 
@@ -2402,7 +2426,6 @@ export class Geometric3 implements CartesianG3, GeometricE3, Lockable, VectorN<n
         return lock ? Geometric3.ZERO : new Geometric3(zero());
     }
 }
-applyMixins(Geometric3, [Lockable]);
 Geometric3.E1.lock();
 Geometric3.E2.lock();
 Geometric3.E3.lock();

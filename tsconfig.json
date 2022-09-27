@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "target": "es6",
+        "target": "es2022",
         "module": "es6",
         "sourceMap": true,
         "outDir": "build",

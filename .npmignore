@@ -12,7 +12,8 @@ typedoc.json
 /dist/cjs/lib/**/*.*
 /dist/esm/index.d.ts
 /dist/esm/lib/**/*.*
-/dist/system/**/*.*
+/dist/system/index.d.ts
+/dist/system/lib/**/*.*
 /dist/umd/index.d.ts
 /dist/umd/lib/**/*.*
 /node_modules

@@ -5,7 +5,6 @@ import { mustBeObject } from '../checks/mustBeObject';
 import { lock, LockableMixin as Lockable, TargetLockedError } from '../core/Lockable';
 import { readOnly } from '../i18n/readOnly';
 import { SpinorE3 } from '../math/SpinorE3';
-import { applyMixins } from '../utils/applyMixins';
 import { approx } from './approx';
 import { BivectorE3 } from './BivectorE3';
 import { CartesianG3 } from './CartesianG3';
@@ -81,9 +80,34 @@ const magicCode = Math.random();
  */
 export class Spinor3 implements CartesianG3, SpinorE3, Lockable, VectorN<number> {
     // Lockable
-    isLocked: () => boolean;
-    lock: () => number;
-    unlock: (token: number) => void;
+    public isLocked(): boolean {
+        return typeof (this as any)['lock_'] === 'number';
+    }
+
+    public lock(): number {
+        if (this.isLocked()) {
+            throw new Error("already locked");
+        }
+        else {
+            (this as any)['lock_'] = Math.random();
+            return (this as any)['lock_'];
+        }
+    }
+
+    public unlock(token: number): void {
+        if (typeof token !== 'number') {
+            throw new Error("token must be a number.");
+        }
+        if (!this.isLocked()) {
+            throw new Error("not locked");
+        }
+        else if ((this as any)['lock_'] === token) {
+            (this as any)['lock_'] = void 0;
+        }
+        else {
+            throw new Error("unlock denied");
+        }
+    }
 
     /**
      * 
@@ -363,6 +387,7 @@ export class Spinor3 implements CartesianG3, SpinorE3, Lockable, VectorN<number>
     /**
      * Intentionally undocumented.
      */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     copyVector(vector: VectorE3): Spinor3 {
         return this.zero();
     }
@@ -393,14 +418,14 @@ export class Spinor3 implements CartesianG3, SpinorE3, Lockable, VectorN<number>
      * @chainable
      */
     div2(a: SpinorE3, b: SpinorE3) {
-        let a0 = a.a;
-        let a1 = a.yz;
-        let a2 = a.zx;
-        let a3 = a.xy;
-        let b0 = b.a;
-        let b1 = b.yz;
-        let b2 = b.zx;
-        let b3 = b.xy;
+        const a0 = a.a;
+        const a1 = a.yz;
+        const a2 = a.zx;
+        const a3 = a.xy;
+        const b0 = b.a;
+        const b1 = b.yz;
+        const b2 = b.zx;
+        const b3 = b.xy;
         // Compare this to the product for Quaternions
         // How does this compare to Geometric3
         // It would be interesting to DRY this out.
@@ -529,6 +554,7 @@ export class Spinor3 implements CartesianG3, SpinorE3, Lockable, VectorN<number>
     /**
      *
      */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     lco2(a: SpinorE3, b: SpinorE3): Spinor3 {
         // FIXME: How to leverage? Maybe break up? Don't want performance hit.
         // scpG3(a, b, this)
@@ -579,17 +605,17 @@ export class Spinor3 implements CartesianG3, SpinorE3, Lockable, VectorN<number>
      */
     log(): this {
         // FIXME: Wrong
-        let w = this.a;
-        let x = this.yz;
-        let y = this.zx;
-        let z = this.xy;
+        const w = this.a;
+        const x = this.yz;
+        const y = this.zx;
+        const z = this.xy;
         // FIXME: DRY
-        let bb = x * x + y * y + z * z;
-        let Vector2 = sqrt(bb);
-        let R0 = Math.abs(w);
-        let R = sqrt(w * w + bb);
+        const bb = x * x + y * y + z * z;
+        const Vector2 = sqrt(bb);
+        const R0 = Math.abs(w);
+        const R = sqrt(w * w + bb);
         this.a = Math.log(R);
-        let θ = Math.atan2(Vector2, R0) / Vector2;
+        const θ = Math.atan2(Vector2, R0) / Vector2;
         // The angle, θ, produced by atan2 will be in the range [-π, +π]
         this.yz = x * θ;
         this.zx = y * θ;
@@ -694,7 +720,7 @@ export class Spinor3 implements CartesianG3, SpinorE3, Lockable, VectorN<number>
      * @chainable
      */
     norm(): Spinor3 {
-        let norm = this.magnitudeSansUnits();
+        const norm = this.magnitudeSansUnits();
         return this.zero().addScalar(norm);
     }
 
@@ -782,6 +808,7 @@ export class Spinor3 implements CartesianG3, SpinorE3, Lockable, VectorN<number>
         return this.rco2(this, rhs);
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     rco2(a: SpinorE3, b: SpinorE3): Spinor3 {
         // FIXME: How to leverage? Maybe break up? Don't want performance hit.
         // scpG3(a, b, this)
@@ -892,6 +919,7 @@ export class Spinor3 implements CartesianG3, SpinorE3, Lockable, VectorN<number>
         return this.scp2(this, rhs);
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     scp2(a: SpinorE3, b: SpinorE3): Spinor3 {
         // FIXME: How to leverage? Maybe break up? Don't want performance hit.
         // scpG3(a, b, this)
@@ -1094,6 +1122,7 @@ export class Spinor3 implements CartesianG3, SpinorE3, Lockable, VectorN<number>
         return this.ext2(this, rhs);
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ext2(a: SpinorE3, b: SpinorE3): Spinor3 {
         // FIXME: How to leverage? Maybe break up? Don't want performance hit.
         // scpG3(a, b, this)
@@ -1226,7 +1255,6 @@ export class Spinor3 implements CartesianG3, SpinorE3, Lockable, VectorN<number>
      */
     static readonly zero = Spinor3.spinor(0, 0, 0, 0);
 }
-applyMixins(Spinor3, [Lockable]);
 
 Spinor3.one.lock();
 Spinor3.zero.lock();

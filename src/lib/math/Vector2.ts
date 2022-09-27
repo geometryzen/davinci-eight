@@ -7,7 +7,6 @@ import { Matrix2 } from '../math/Matrix2';
 import { SpinorE2 } from '../math/SpinorE2';
 import { stringFromCoordinates } from '../math/stringFromCoordinates';
 import { VectorE2 } from '../math/VectorE2';
-import { applyMixins } from '../utils/applyMixins';
 import { approx } from './approx';
 import { randomRange } from './randomRange';
 
@@ -28,9 +27,34 @@ function coordinates(m: VectorE2): number[] {
  */
 export class Vector2 implements VectorE2, Lockable, VectorN<number> {
     // Lockable
-    isLocked: () => boolean;
-    lock: () => number;
-    unlock: (token: number) => void;
+    public isLocked(): boolean {
+        return typeof (this as any)['lock_'] === 'number';
+    }
+
+    public lock(): number {
+        if (this.isLocked()) {
+            throw new Error("already locked");
+        }
+        else {
+            (this as any)['lock_'] = Math.random();
+            return (this as any)['lock_'];
+        }
+    }
+
+    public unlock(token: number): void {
+        if (typeof token !== 'number') {
+            throw new Error("token must be a number.");
+        }
+        if (!this.isLocked()) {
+            throw new Error("not locked");
+        }
+        else if ((this as any)['lock_'] === token) {
+            (this as any)['lock_'] = void 0;
+        }
+        else {
+            throw new Error("unlock denied");
+        }
+    }
 
     /**
      * 
@@ -351,6 +375,7 @@ export class Vector2 implements VectorE2, Lockable, VectorN<number> {
         return this;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     reflect(n: VectorE2): Vector2 {
         throw new Error(notImplemented('reflect').message);
     }
@@ -539,5 +564,4 @@ export class Vector2 implements VectorE2, Lockable, VectorN<number> {
 
     static readonly zero = Vector2.vector(0, 0);
 }
-applyMixins(Vector2, [Lockable]);
 Vector2.zero.lock();

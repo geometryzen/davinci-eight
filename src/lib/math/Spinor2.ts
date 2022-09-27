@@ -10,7 +10,6 @@ import { rotorFromDirectionsE2 } from '../math/rotorFromDirectionsE2';
 import { SpinorE2 } from '../math/SpinorE2';
 import { VectorE2 } from '../math/VectorE2';
 import { wedgeXY } from '../math/wedgeXY';
-import { applyMixins } from '../utils/applyMixins';
 import { approx } from './approx';
 import { Pseudo } from './Pseudo';
 
@@ -72,9 +71,34 @@ const sqrt = Math.sqrt;
  */
 export class Spinor2 implements SpinorE2, Lockable, VectorN<number> {
     // Lockable
-    isLocked: () => boolean;
-    lock: () => number;
-    unlock: (token: number) => void;
+    public isLocked(): boolean {
+        return typeof (this as any)['lock_'] === 'number';
+    }
+
+    public lock(): number {
+        if (this.isLocked()) {
+            throw new Error("already locked");
+        }
+        else {
+            (this as any)['lock_'] = Math.random();
+            return (this as any)['lock_'];
+        }
+    }
+
+    public unlock(token: number): void {
+        if (typeof token !== 'number') {
+            throw new Error("token must be a number.");
+        }
+        if (!this.isLocked()) {
+            throw new Error("not locked");
+        }
+        else if ((this as any)['lock_'] === token) {
+            (this as any)['lock_'] = void 0;
+        }
+        else {
+            throw new Error("unlock denied");
+        }
+    }
 
     /**
      * 
@@ -283,6 +307,7 @@ export class Spinor2 implements SpinorE2, Lockable, VectorN<number> {
     /**
      * Intentionally undocumented.
      */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     copyVector(vector: VectorE2): Spinor2 {
         // The spinor has no vector components.
         return this.zero();
@@ -320,11 +345,11 @@ export class Spinor2 implements SpinorE2, Lockable, VectorN<number> {
      * @chainable
      */
     div2(a: SpinorE2, b: SpinorE2): Spinor2 {
-        let a0 = a.a;
-        let a1 = a.b;
-        let b0 = b.a;
-        let b1 = b.b;
-        let quadB = quadSpinor(b);
+        const a0 = a.a;
+        const a1 = a.b;
+        const b0 = b.a;
+        const b1 = b.b;
+        const quadB = quadSpinor(b);
         this.a = (a0 * b0 + a1 * b1) / quadB;
         this.xy = (a1 * b0 - a0 * b1) / quadB;
         return this;
@@ -404,6 +429,7 @@ export class Spinor2 implements SpinorE2, Lockable, VectorN<number> {
         return this.lco2(this, rhs);
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     lco2(a: SpinorE2, b: SpinorE2) {
         // FIXME: How to leverage? Maybe break up? Don't want performance hit.
         // scpG2(a, b, this)
@@ -510,11 +536,11 @@ export class Spinor2 implements SpinorE2, Lockable, VectorN<number> {
      * @return {Spinor2} <code>this</code>
      * @chainable
      */
-    mul2(a: SpinorE2, b: SpinorE2) {
-        let a0 = a.a;
-        let a1 = a.b;
-        let b0 = b.a;
-        let b1 = b.b;
+    mul2(a: SpinorE2, b: SpinorE2): this {
+        const a0 = a.a;
+        const a1 = a.b;
+        const b0 = b.a;
+        const b1 = b.b;
         this.a = a0 * b0 - a1 * b1;
         this.xy = a0 * b1 + a1 * b0;
         return this;
@@ -606,6 +632,7 @@ export class Spinor2 implements SpinorE2, Lockable, VectorN<number> {
         return this.rco2(this, rhs);
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     rco2(a: SpinorE2, b: SpinorE2): Spinor2 {
         // FIXME: How to leverage? Maybe break up? Don't want performance hit.
         // scpG2(a, b, this)
@@ -649,6 +676,7 @@ export class Spinor2 implements SpinorE2, Lockable, VectorN<number> {
      * @return {Spinor2} <code>this</code>
      * @chainable
      */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     rotate(rotor: SpinorE2): Spinor2 {
         console.warn("Spinor2.rotate is not implemented");
         return this;
@@ -678,8 +706,8 @@ export class Spinor2 implements SpinorE2, Lockable, VectorN<number> {
      * @returns <code>this</code>
      */
     rotorFromGeneratorAngle(B: SpinorE2, θ: number) {
-        let φ = θ / 2;
-        let s = sin(φ);
+        const φ = θ / 2;
+        const s = sin(φ);
         this.xy = -B.b * s;
         this.a = cos(φ);
         return this;
@@ -694,6 +722,7 @@ export class Spinor2 implements SpinorE2, Lockable, VectorN<number> {
         return this.scp2(this, rhs);
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     scp2(a: SpinorE2, b: SpinorE2): Spinor2 {
         // FIXME: How to leverage? Maybe break up? Don't want performance hit.
         // scpG2(a, b, this)
@@ -714,6 +743,7 @@ export class Spinor2 implements SpinorE2, Lockable, VectorN<number> {
         return this;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     stress(σ: VectorE2): Spinor2 {
         throw new Error(notSupported('stress').message);
     }
@@ -805,16 +835,19 @@ export class Spinor2 implements SpinorE2, Lockable, VectorN<number> {
         return coordinates(this);
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     toExponential(fractionDigits?: number): string {
         // FIXME: Do like others.
         return this.toString();
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     toFixed(fractionDigits?: number): string {
         // FIXME: Do like others.
         return this.toString();
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     toPrecision(precision?: number): string {
         // FIXME: Do like others.
         return this.toString();
@@ -824,6 +857,7 @@ export class Spinor2 implements SpinorE2, Lockable, VectorN<number> {
      * @method toString
      * @return {string} A non-normative string representation of the target.
      */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     toString(radix?: number): string {
         return "Spinor2({β: " + this.xy + ", w: " + this.a + "})";
     }
@@ -832,6 +866,7 @@ export class Spinor2 implements SpinorE2, Lockable, VectorN<number> {
         return this.ext2(this, rhs);
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ext2(a: SpinorE2, b: SpinorE2): Spinor2 {
         // FIXME: How to leverage? Maybe break up? Don't want performance hit.
         // scpG2(a, b, this)
@@ -883,4 +918,3 @@ export class Spinor2 implements SpinorE2, Lockable, VectorN<number> {
         return new Spinor2([0, 0], false);
     }
 }
-applyMixins(Spinor2, [Lockable]);
