@@ -1,6 +1,5 @@
 /**
  * Determines how a Geometry will be rendered.
- * @hidden
  */
 export enum GeometryMode {
     /**

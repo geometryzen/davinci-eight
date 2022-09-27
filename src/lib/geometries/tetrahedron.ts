@@ -9,6 +9,7 @@ import { VectorN } from '../math/VectorN';
  * The tetrahedron is composed of four triangles: abc, bdc, cda, dba.
  * @hidden
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function tetrahedron(a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, d: VectorN<number>, attributes: { [name: string]: VectorN<number>[] } = {}, triangles: Simplex[] = []): Simplex[] {
 
     expectArg('a', a).toSatisfy(a instanceof VectorN, "a must be a VectorN");
@@ -16,9 +17,9 @@ export function tetrahedron(a: VectorN<number>, b: VectorN<number>, c: VectorN<n
     expectArg('c', c).toSatisfy(c instanceof VectorN, "c must be a VectorN");
     expectArg('d', d).toSatisfy(d instanceof VectorN, "d must be a VectorN");
 
-    let triatts: { [name: string]: VectorN<number>[] } = {};
-    let points = [a, b, c, d];
-    let faces: Simplex[] = [];
+    const triatts: { [name: string]: VectorN<number>[] } = {};
+    const points = [a, b, c, d];
+    const faces: Simplex[] = [];
 
     triangle(points[0], points[1], points[2], triatts, triangles);
     faces.push(triangles[triangles.length - 1]);

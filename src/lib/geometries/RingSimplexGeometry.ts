@@ -144,6 +144,7 @@ export class RingSimplexGeometry extends SliceSimplexPrimitivesBuilder {
     public b: number;
     private e = Vector3.vector(0, 1, 0);
     private cutLine = Vector3.vector(0, 0, 1);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     constructor(a = 1, b = 0, sliceAngle?: number) {
         super();
         this.a = a;

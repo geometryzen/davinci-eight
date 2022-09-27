@@ -3,14 +3,14 @@
  */
 export function mergeStringMapList<T>(ms: { [name: string]: T }[]): { [name: string]: T } {
 
-    let result: { [name: string]: T } = {};
+    const result: { [name: string]: T } = {};
 
     ms.forEach(function (m) {
-        let keys = Object.keys(m);
-        let keysLength = keys.length;
+        const keys = Object.keys(m);
+        const keysLength = keys.length;
         for (let i = 0; i < keysLength; i++) {
-            let key = keys[i];
-            let value = m[key];
+            const key = keys[i];
+            const value = m[key];
             result[key] = value;
         }
     });

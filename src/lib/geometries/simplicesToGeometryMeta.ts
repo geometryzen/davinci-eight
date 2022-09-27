@@ -11,7 +11,7 @@ import { Simplex } from './Simplex';
  * @hidden
  */
 function stringify(thing: any, space: any): string {
-    let cache: any[] = [];
+    const cache: any[] = [];
     return JSON.stringify(thing, function (key: string, value: any) {
         if (typeof value === 'object' && value !== null) {
             if (cache.indexOf(value) !== -1) {
@@ -31,26 +31,26 @@ function stringify(thing: any, space: any): string {
  */
 export function simplicesToGeometryMeta(geometry: Simplex[]): GeometryMeta {
     let kValueOfSimplex: number = void 0;
-    let knowns: { [key: string]: { size: AttributeSizeType } } = {};
-    let geometryLen = geometry.length;
+    const knowns: { [key: string]: { size: AttributeSizeType } } = {};
+    const geometryLen = geometry.length;
     for (let i = 0; i < geometryLen; i++) {
-        let simplex: Simplex = geometry[i];
+        const simplex: Simplex = geometry[i];
         if (!(simplex instanceof Simplex)) {
             expectArg('simplex', simplex).toSatisfy(false, "Every element must be a Simplex @ simplicesToGeometryMeta(). Found " + stringify(simplex, 2));
         }
-        let vertices: Vertex[] = simplex.vertices;
+        const vertices: Vertex[] = simplex.vertices;
         // TODO: Check consistency of k-values.
         kValueOfSimplex = simplex.k;
         for (let j = 0, vsLen = vertices.length; j < vsLen; j++) {
-            let vertex: Vertex = vertices[j];
-            let attributes = vertex.attributes;
-            let keys: string[] = Object.keys(attributes);
-            let keysLen = keys.length;
+            const vertex: Vertex = vertices[j];
+            const attributes = vertex.attributes;
+            const keys: string[] = Object.keys(attributes);
+            const keysLen = keys.length;
             for (let k = 0; k < keysLen; k++) {
-                let key = keys[k];
-                let value: VectorN<number> = attributes[key];
-                let dLength = dataLength(value);
-                let known = knowns[key];
+                const key = keys[k];
+                const value: VectorN<number> = attributes[key];
+                const dLength = dataLength(value);
+                const known = knowns[key];
                 if (known) {
                     if (known.size !== dLength) {
                         throw new Error("Something is rotten in Denmark!");
@@ -64,7 +64,7 @@ export function simplicesToGeometryMeta(geometry: Simplex[]): GeometryMeta {
     }
     // isDefined is necessary because k = -1, 0, 1, 2, 3, ... are legal and 0 is falsey.
     if (isDefined(kValueOfSimplex)) {
-        let info: GeometryMeta = {
+        const info: GeometryMeta = {
             get attributes() {
                 return knowns;
             },

@@ -1,12 +1,13 @@
-// commands
 // atoms
 export { DrawAttribute } from './lib/atoms/DrawAttribute';
 export { DrawPrimitive } from './lib/atoms/DrawPrimitive';
 export { reduce } from './lib/atoms/reduce';
 export { Vertex } from './lib/atoms/Vertex';
+// collections
 export { NumberShareableMap } from './lib/collections/NumberShareableMap';
 export { ShareableArray } from './lib/collections/ShareableArray';
 export { StringShareableMap } from './lib/collections/StringShareableMap';
+// commands
 export { WebGLBlendFunc } from './lib/commands/WebGLBlendFunc';
 export { WebGLClearColor } from './lib/commands/WebGLClearColor';
 export { WebGLDisable } from './lib/commands/WebGLDisable';
@@ -15,29 +16,40 @@ export { WebGLEnable } from './lib/commands/WebGLEnable';
 export { OrbitControls } from './lib/controls/OrbitControls';
 export { TrackballControls } from './lib/controls/TrackballControls';
 // core
+export { AbstractDrawable } from './lib/core/AbstractDrawable';
+export { AbstractMesh } from './lib/core/AbstractMesh';
 export { Attrib } from './lib/core/Attrib';
+export { Attribute } from './lib/core/Attribute';
+export { AttributeSizeType } from './lib/core/AttributeSizeType';
 export { BeginMode } from './lib/core/BeginMode';
 export { BlendingFactorDest } from './lib/core/BlendingFactorDest';
 export { BlendingFactorSrc } from './lib/core/BlendingFactorSrc';
 export { Capability } from './lib/core/Capability';
 export { ClearBufferMask } from './lib/core/ClearBufferMask';
 export { Color } from './lib/core/Color';
+export { ContextConsumer } from './lib/core/ContextConsumer';
+export { ContextManager } from './lib/core/ContextManager';
+export { ContextProgramConsumer } from './lib/core/ContextProgramConsumer';
 export { DataType } from './lib/core/DataType';
 export { DepthFunction } from './lib/core/DepthFunction';
 export { Drawable } from './lib/core/Drawable';
-export { Engine } from './lib/core/Engine';
+export { Engine, EngineAttributes } from './lib/core/Engine';
 export { Facet } from './lib/core/Facet';
 export { FacetVisitor } from './lib/core/FacetVisitor';
+export { Geometry } from './lib/core/Geometry';
 export { GeometryArrays } from './lib/core/GeometryArrays';
 export { GeometryElements } from './lib/core/GeometryElements';
 export { GraphicsProgramSymbols } from './lib/core/GraphicsProgramSymbols';
 export { ImageTexture } from './lib/core/ImageTexture';
 export { IndexBuffer } from './lib/core/IndexBuffer';
+export { Material } from './lib/core/Material';
 export { Mesh } from './lib/core/Mesh';
 export { MeshOptions } from './lib/core/MeshOptions';
 export { PixelFormat } from './lib/core/PixelFormat';
 export { PixelType } from './lib/core/PixelType';
+export { Primitive } from './lib/core/Primitive';
 export { refChange } from './lib/core/refChange';
+export { Renderable } from './lib/core/Renderable';
 export { Scene } from './lib/core/Scene';
 export { Shader } from './lib/core/Shader';
 export { Shareable } from './lib/core/Shareable';
@@ -50,6 +62,7 @@ export { TextureTarget } from './lib/core/TextureTarget';
 export { TextureUnit } from './lib/core/TextureUnit';
 export { TextureWrapMode } from './lib/core/TextureWrapMode';
 export { Uniform } from './lib/core/Uniform';
+export { UniformGlslType } from './lib/core/UniformGlslType';
 export { Usage } from './lib/core/Usage';
 export { VertexArrays } from './lib/core/VertexArrays';
 export { vertexArraysFromPrimitive } from './lib/core/vertexArraysFromPrimitive';
@@ -58,6 +71,7 @@ export { VertexBuffer } from './lib/core/VertexBuffer';
 export { Diagram3D } from './lib/diagram/Diagram3D';
 // facets and animation targets
 export { AmbientLight } from './lib/facets/AmbientLight';
+export { Camera } from './lib/facets/Camera';
 export { ColorFacet } from './lib/facets/ColorFacet';
 export { DirectionalLight } from './lib/facets/DirectionalLight';
 export { frustumMatrix } from './lib/facets/frustumMatrix';
@@ -68,45 +82,60 @@ export { PerspectiveCamera } from './lib/facets/PerspectiveCamera';
 export { perspectiveMatrix } from './lib/facets/perspectiveMatrix';
 export { PerspectiveTransform } from './lib/facets/PerspectiveTransform';
 export { PointSizeFacet } from './lib/facets/PointSizeFacet';
+export { Prism } from './lib/facets/Prism';
 export { ReflectionFacetE2 } from './lib/facets/ReflectionFacetE2';
 export { ReflectionFacetE3 } from './lib/facets/ReflectionFacetE3';
 export { Vector3Facet } from './lib/facets/Vector3Facet';
 export { viewMatrixFromEyeLookUp } from './lib/facets/viewMatrixFromEyeLookUp';
 export { ViewTransform } from './lib/facets/ViewTransform';
+// geometries
 export { ArrowGeometry } from './lib/geometries/ArrowGeometry';
 export { BoxGeometry } from './lib/geometries/BoxGeometry';
 export { CurveGeometry } from './lib/geometries/CurveGeometry';
+export { CurveGeometryOptions } from './lib/geometries/CurveGeometryOptions';
 export { CurveMode } from './lib/geometries/CurveMode';
 export { CylinderGeometry } from './lib/geometries/CylinderGeometry';
 export { GeometryMode } from './lib/geometries/GeometryMode';
 export { GridGeometry } from './lib/geometries/GridGeometry';
-// geometries
 export { Simplex } from './lib/geometries/Simplex';
 export { SphereGeometry } from './lib/geometries/SphereGeometry';
 export { TetrahedronGeometry } from './lib/geometries/TetrahedronGeometry';
 // loaders
 export { TextureLoader } from './lib/loaders/TextureLoader';
 export { TextureLoaderOptions } from './lib/loaders/TextureLoaderOptions';
-export { GraphicsProgramBuilder } from './lib/materials/GraphicsProgramBuilder';
 // materials
+export { GLSLESVersion } from './lib/materials/glslVersion';
+export { GraphicsProgramBuilder } from './lib/materials/GraphicsProgramBuilder';
 export { HTMLScriptsMaterial } from './lib/materials/HTMLScriptsMaterial';
 export { LineMaterial } from './lib/materials/LineMaterial';
+export { LineMaterialOptions } from './lib/materials/LineMaterialOptions';
 export { MeshMaterial } from './lib/materials/MeshMaterial';
 export { PointMaterial } from './lib/materials/PointMaterial';
 export { ShaderMaterial } from './lib/materials/ShaderMaterial';
+// math
+export { BivectorE3 } from './lib/math/BivectorE3';
 export { Geometric2 } from './lib/math/Geometric2';
 export { Geometric3 } from './lib/math/Geometric3';
-// math
+export { GeometricE3 } from './lib/math/GeometricE3';
 export { acos, asin, atan, cos, cosh, exp, log, norm, quad, sin, sinh, sqrt, tan, tanh } from './lib/math/mathcore';
 export { Matrix2 } from './lib/math/Matrix2';
 export { Matrix3 } from './lib/math/Matrix3';
 export { Matrix4 } from './lib/math/Matrix4';
+export { R3 } from './lib/math/R3';
+export { Scalar } from './lib/math/Scalar';
 export { Spinor2 } from './lib/math/Spinor2';
 export { Spinor3 } from './lib/math/Spinor3';
+export { SpinorE2 } from './lib/math/SpinorE2';
+export { SpinorE3 } from './lib/math/SpinorE3';
+export { SpinorE4 } from './lib/math/SpinorE4';
 export { Vector1 } from './lib/math/Vector1';
 export { Vector2 } from './lib/math/Vector2';
 export { Vector3 } from './lib/math/Vector3';
 export { Vector4 } from './lib/math/Vector4';
+export { VectorE1 } from './lib/math/VectorE1';
+export { VectorE2 } from './lib/math/VectorE2';
+export { VectorE3 } from './lib/math/VectorE3';
+export { VectorE4 } from './lib/math/VectorE4';
 export { VectorN } from './lib/math/VectorN';
 // animation
 export { animation } from './lib/utils/animation';
@@ -139,7 +168,8 @@ export { Sphere } from './lib/visual/Sphere';
 export { SphereOptions } from './lib/visual/SphereOptions';
 export { Tetrahedron } from './lib/visual/Tetrahedron';
 export { TetrahedronOptions } from './lib/visual/TetrahedronOptions';
-export { Track, TrackOptions } from './lib/visual/Track';
+export { Track, TrackGeometry, TrackOptions } from './lib/visual/Track';
 export { Trail } from './lib/visual/Trail';
+export { TrailConfig } from './lib/visual/TrailConfig';
 export { Turtle, TurtleOptions } from './lib/visual/Turtle';
 

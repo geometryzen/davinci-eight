@@ -12,7 +12,7 @@ import { Grid } from './Grid';
 import { GridOptions } from './GridOptions';
 
 /**
- * @hidden
+ *
  */
 export interface GridYZOptions {
     yMin?: number;

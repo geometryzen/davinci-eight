@@ -23,6 +23,7 @@ function aPositionDefault(u: number): VectorE3 {
 /**
  * @hidden
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function topology(mode: CurveMode, uSegments: number, uClosed: boolean): CurvePrimitive {
     switch (mode) {
         case CurveMode.POINTS: {

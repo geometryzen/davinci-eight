@@ -1,6 +1,5 @@
 /**
  * Cartesian coordinates of a bivector using the standard basis.
- * @hidden
  */
 export interface BivectorE3 {
     /**

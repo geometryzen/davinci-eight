@@ -6,10 +6,10 @@
  * @hidden
  */
 interface ColorEntry {
-  hueRange: number[];
-  lowerBounds: number[][];
-  saturationRange: number[];
-  brightnessRange: number[];
+    hueRange: number[];
+    lowerBounds: number[][];
+    saturationRange: number[];
+    brightnessRange: number[];
 }
 
 /**
@@ -38,61 +38,61 @@ loadColorBounds();
  */
 export function randomColor(options: { count?: number, format?: string, hue?: string, luminosity?: string, seed?: any } = {}): number[] {
 
-  // Check if there is a seed and ensure it's an
-  // integer. Otherwise, reset the seed value.
-  if (options.seed && options.seed === parseInt(options.seed, 10)) {
-    seed = options.seed;
+    // Check if there is a seed and ensure it's an
+    // integer. Otherwise, reset the seed value.
+    if (options.seed && options.seed === parseInt(options.seed, 10)) {
+        seed = options.seed;
 
-    // A string was passed as a seed
-  }
-  else if (typeof options.seed === 'string') {
-    seed = stringToInteger(options.seed);
-    // Something was passed as a seed but it wasn't an integer or string
-  }
-  else if (options.seed !== undefined && options.seed !== null) {
-    throw new TypeError('The seed value must be an integer');
-    // No seed, reset the value outside.
-  }
-  else {
-    seed = null;
-  }
-
-  /*
-  // Check if we need to generate multiple colors
-  if (options.count !== null && options.count !== undefined) {
-
-    const totalColors = options.count
-    const colors: number[] = [];
-
-    options.count = null;
-
-    while (totalColors > colors.length) {
-
-      // Since we're generating multiple colors,
-      // incremement the seed. Otherwise we'd just
-      // generate the same color each time...
-      if (seed && options.seed) options.seed += 1;
-
-      colors.push(randomColor(options));
+        // A string was passed as a seed
+    }
+    else if (typeof options.seed === 'string') {
+        seed = stringToInteger(options.seed);
+        // Something was passed as a seed but it wasn't an integer or string
+    }
+    else if (options.seed !== undefined && options.seed !== null) {
+        throw new TypeError('The seed value must be an integer');
+        // No seed, reset the value outside.
+    }
+    else {
+        seed = null;
     }
 
-    options.count = totalColors;
+    /*
+    // Check if we need to generate multiple colors
+    if (options.count !== null && options.count !== undefined) {
+  
+      const totalColors = options.count
+      const colors: number[] = [];
+  
+      options.count = null;
+  
+      while (totalColors > colors.length) {
+  
+        // Since we're generating multiple colors,
+        // incremement the seed. Otherwise we'd just
+        // generate the same color each time...
+        if (seed && options.seed) options.seed += 1;
+  
+        colors.push(randomColor(options));
+      }
+  
+      options.count = totalColors;
+  
+      return colors;
+    }
+    */
 
-    return colors;
-  }
-  */
+    // First we pick a hue (H)
+    const H = pickHue(options);
 
-  // First we pick a hue (H)
-  const H = pickHue(options);
+    // Then use H to determine saturation (S)
+    const S = pickSaturation(H, options);
 
-  // Then use H to determine saturation (S)
-  const S = pickSaturation(H, options);
+    // Then use S and H to determine brightness (B).
+    const B = pickBrightness(H, S, options);
 
-  // Then use S and H to determine brightness (B).
-  const B = pickBrightness(H, S, options);
-
-  // Then we return the HSB color in the desired format
-  return setFormatArray([H, S, B], options);
+    // Then we return the HSB color in the desired format
+    return setFormatArray([H, S, B], options);
 }
 
 /**
@@ -100,14 +100,14 @@ export function randomColor(options: { count?: number, format?: string, hue?: st
  */
 function pickHue(options: { hue?: string }): number {
 
-  const hueRange = getHueRange(options.hue);
-  let hue = randomWithin(hueRange);
+    const hueRange = getHueRange(options.hue);
+    let hue = randomWithin(hueRange);
 
-  // Instead of storing red as two seperate ranges,
-  // we group them, using negative numbers
-  if (hue < 0) { hue = 360 + hue; }
+    // Instead of storing red as two seperate ranges,
+    // we group them, using negative numbers
+    if (hue < 0) { hue = 360 + hue; }
 
-  return hue;
+    return hue;
 }
 
 /**
@@ -115,35 +115,35 @@ function pickHue(options: { hue?: string }): number {
  */
 function pickSaturation(hue: number, options: { hue?: string; luminosity?: string }) {
 
-  if (options.luminosity === 'random') {
-    return randomWithin([0, 100]);
-  }
+    if (options.luminosity === 'random') {
+        return randomWithin([0, 100]);
+    }
 
-  if (options.hue === 'monochrome') {
-    return 0;
-  }
+    if (options.hue === 'monochrome') {
+        return 0;
+    }
 
-  const saturationRange = getSaturationRange(hue);
+    const saturationRange = getSaturationRange(hue);
 
-  let sMin = saturationRange[0],
-    sMax = saturationRange[1];
+    let sMin = saturationRange[0],
+        sMax = saturationRange[1];
 
-  switch (options.luminosity) {
+    switch (options.luminosity) {
 
-    case 'bright':
-      sMin = 55;
-      break;
+        case 'bright':
+            sMin = 55;
+            break;
 
-    case 'dark':
-      sMin = sMax - 10;
-      break;
+        case 'dark':
+            sMin = sMax - 10;
+            break;
 
-    case 'light':
-      sMax = 55;
-      break;
-  }
+        case 'light':
+            sMax = 55;
+            break;
+    }
 
-  return randomWithin([sMin, sMax]);
+    return randomWithin([sMin, sMax]);
 }
 
 /**
@@ -151,26 +151,26 @@ function pickSaturation(hue: number, options: { hue?: string; luminosity?: strin
  */
 function pickBrightness(H: number, S: number, options: { luminosity?: string }): number {
 
-  let bMin = getMinimumBrightness(H, S),
-    bMax = 100;
+    let bMin = getMinimumBrightness(H, S),
+        bMax = 100;
 
-  switch (options.luminosity) {
+    switch (options.luminosity) {
 
-    case 'dark':
-      bMax = bMin + 20;
-      break;
+        case 'dark':
+            bMax = bMin + 20;
+            break;
 
-    case 'light':
-      bMin = (bMax + bMin) / 2;
-      break;
+        case 'light':
+            bMin = (bMax + bMin) / 2;
+            break;
 
-    case 'random':
-      bMin = 0;
-      bMax = 100;
-      break;
-  }
+        case 'random':
+            bMin = 0;
+            bMax = 100;
+            break;
+    }
 
-  return randomWithin([bMin, bMax]);
+    return randomWithin([bMin, bMax]);
 }
 
 /*
@@ -205,20 +205,20 @@ function setFormatString(hsv: number[], options: { format?: string }): string {
  */
 function setFormatArray(hsv: number[], options: { format?: string }): number[] {
 
-  switch (options.format) {
+    switch (options.format) {
 
-    case 'hsvArray':
-      return hsv;
+        case 'hsvArray':
+            return hsv;
 
-    case 'hslArray':
-      return HSVtoHSL(hsv);
+        case 'hslArray':
+            return HSVtoHSL(hsv);
 
-    case 'rgbArray':
-      return HSVtoRGB(hsv);
+        case 'rgbArray':
+            return HSVtoRGB(hsv);
 
-    default:
-      throw new Error();
-  }
+        default:
+            throw new Error();
+    }
 }
 
 /**
@@ -226,27 +226,27 @@ function setFormatArray(hsv: number[], options: { format?: string }): number[] {
  */
 function getMinimumBrightness(H: number, S: number): number {
 
-  const lowerBounds = getColorInfo(H).lowerBounds;
+    const lowerBounds = getColorInfo(H).lowerBounds;
 
-  for (let i = 0; i < lowerBounds.length - 1; i++) {
+    for (let i = 0; i < lowerBounds.length - 1; i++) {
 
-    const s1 = lowerBounds[i][0],
-      v1 = lowerBounds[i][1];
+        const s1 = lowerBounds[i][0],
+            v1 = lowerBounds[i][1];
 
-    const s2 = lowerBounds[i + 1][0],
-      v2 = lowerBounds[i + 1][1];
+        const s2 = lowerBounds[i + 1][0],
+            v2 = lowerBounds[i + 1][1];
 
-    if (S >= s1 && S <= s2) {
+        if (S >= s1 && S <= s2) {
 
-      const m = (v2 - v1) / (s2 - s1),
-        b = v1 - m * s1;
+            const m = (v2 - v1) / (s2 - s1),
+                b = v1 - m * s1;
 
-      return m * S + b;
+            return m * S + b;
+        }
+
     }
 
-  }
-
-  return 0;
+    return 0;
 }
 
 /**
@@ -254,32 +254,32 @@ function getMinimumBrightness(H: number, S: number): number {
  */
 function getHueRange(colorInput: string): number[] {
 
-  if (typeof parseInt(colorInput) === 'number') {
+    if (typeof parseInt(colorInput) === 'number') {
 
-    const number = parseInt(colorInput);
+        const number = parseInt(colorInput);
 
-    if (number < 360 && number > 0) {
-      return [number, number];
+        if (number < 360 && number > 0) {
+            return [number, number];
+        }
+
     }
 
-  }
+    if (typeof colorInput === 'string') {
 
-  if (typeof colorInput === 'string') {
-
-    if (colorDictionary[colorInput]) {
-      const color = colorDictionary[colorInput];
-      if (color.hueRange) { return color.hueRange; }
+        if (colorDictionary[colorInput]) {
+            const color = colorDictionary[colorInput];
+            if (color.hueRange) { return color.hueRange; }
+        }
     }
-  }
 
-  return [0, 360];
+    return [0, 360];
 }
 
 /**
  * @hidden
  */
 function getSaturationRange(hue: number): number[] {
-  return getColorInfo(hue).saturationRange;
+    return getColorInfo(hue).saturationRange;
 }
 
 /**
@@ -287,39 +287,40 @@ function getSaturationRange(hue: number): number[] {
  */
 function getColorInfo(hue: number): ColorEntry {
 
-  // Maps red colors to make picking hue easier
-  if (hue >= 334 && hue <= 360) {
-    hue -= 360;
-  }
-
-  for (let colorName in colorDictionary) {
-    if (colorDictionary.hasOwnProperty(colorName)) {
-      const color = colorDictionary[colorName];
-      if (color.hueRange &&
-        hue >= color.hueRange[0] &&
-        hue <= color.hueRange[1]) {
-        return colorDictionary[colorName];
-      }
+    // Maps red colors to make picking hue easier
+    if (hue >= 334 && hue <= 360) {
+        hue -= 360;
     }
-  }
-  throw new Error(`Color with hue ${hue} not found`);
+
+    for (const colorName in colorDictionary) {
+        // eslint-disable-next-line no-prototype-builtins
+        if (colorDictionary.hasOwnProperty(colorName)) {
+            const color = colorDictionary[colorName];
+            if (color.hueRange &&
+                hue >= color.hueRange[0] &&
+                hue <= color.hueRange[1]) {
+                return colorDictionary[colorName];
+            }
+        }
+    }
+    throw new Error(`Color with hue ${hue} not found`);
 }
 
 /**
  * @hidden
  */
 function randomWithin(range: number[]): number {
-  if (seed === null) {
-    return Math.floor(range[0] + Math.random() * (range[1] + 1 - range[0]));
-  }
-  else {
-    // Seeded random algorithm from http://indiegamr.com/generate-repeatable-random-numbers-in-js/
-    const max = range[1] || 1;
-    const min = range[0] || 0;
-    seed = (seed * 9301 + 49297) % 233280;
-    const rnd = seed / 233280.0;
-    return Math.floor(min + rnd * (max - min));
-  }
+    if (seed === null) {
+        return Math.floor(range[0] + Math.random() * (range[1] + 1 - range[0]));
+    }
+    else {
+        // Seeded random algorithm from http://indiegamr.com/generate-repeatable-random-numbers-in-js/
+        const max = range[1] || 1;
+        const min = range[0] || 0;
+        seed = (seed * 9301 + 49297) % 233280;
+        const rnd = seed / 233280.0;
+        return Math.floor(min + rnd * (max - min));
+    }
 }
 
 /*
@@ -343,18 +344,18 @@ function HSVtoHex(hsv: number[]): string {
  */
 function defineColor(name: string, hueRange: number[], lowerBounds: number[][]): void {
 
-  const sMin = lowerBounds[0][0];
-  const sMax = lowerBounds[lowerBounds.length - 1][0];
+    const sMin = lowerBounds[0][0];
+    const sMax = lowerBounds[lowerBounds.length - 1][0];
 
-  const bMin = lowerBounds[lowerBounds.length - 1][1];
-  const bMax = lowerBounds[0][1];
+    const bMin = lowerBounds[lowerBounds.length - 1][1];
+    const bMax = lowerBounds[0][1];
 
-  colorDictionary[name] = {
-    hueRange: hueRange,
-    lowerBounds: lowerBounds,
-    saturationRange: [sMin, sMax],
-    brightnessRange: [bMin, bMax]
-  };
+    colorDictionary[name] = {
+        hueRange: hueRange,
+        lowerBounds: lowerBounds,
+        saturationRange: [sMin, sMax],
+        brightnessRange: [bMin, bMax]
+    };
 }
 
 /**
@@ -362,53 +363,53 @@ function defineColor(name: string, hueRange: number[], lowerBounds: number[][]):
  */
 function loadColorBounds() {
 
-  defineColor(
-    'monochrome',
-    null,
-    [[0, 0], [100, 0]]
-  );
+    defineColor(
+        'monochrome',
+        null,
+        [[0, 0], [100, 0]]
+    );
 
-  defineColor(
-    'red',
-    [-26, 18],
-    [[20, 100], [30, 92], [40, 89], [50, 85], [60, 78], [70, 70], [80, 60], [90, 55], [100, 50]]
-  );
+    defineColor(
+        'red',
+        [-26, 18],
+        [[20, 100], [30, 92], [40, 89], [50, 85], [60, 78], [70, 70], [80, 60], [90, 55], [100, 50]]
+    );
 
-  defineColor(
-    'orange',
-    [19, 46],
-    [[20, 100], [30, 93], [40, 88], [50, 86], [60, 85], [70, 70], [100, 70]]
-  );
+    defineColor(
+        'orange',
+        [19, 46],
+        [[20, 100], [30, 93], [40, 88], [50, 86], [60, 85], [70, 70], [100, 70]]
+    );
 
-  defineColor(
-    'yellow',
-    [47, 62],
-    [[25, 100], [40, 94], [50, 89], [60, 86], [70, 84], [80, 82], [90, 80], [100, 75]]
-  );
+    defineColor(
+        'yellow',
+        [47, 62],
+        [[25, 100], [40, 94], [50, 89], [60, 86], [70, 84], [80, 82], [90, 80], [100, 75]]
+    );
 
-  defineColor(
-    'green',
-    [63, 178],
-    [[30, 100], [40, 90], [50, 85], [60, 81], [70, 74], [80, 64], [90, 50], [100, 40]]
-  );
+    defineColor(
+        'green',
+        [63, 178],
+        [[30, 100], [40, 90], [50, 85], [60, 81], [70, 74], [80, 64], [90, 50], [100, 40]]
+    );
 
-  defineColor(
-    'blue',
-    [179, 257],
-    [[20, 100], [30, 86], [40, 80], [50, 74], [60, 60], [70, 52], [80, 44], [90, 39], [100, 35]]
-  );
+    defineColor(
+        'blue',
+        [179, 257],
+        [[20, 100], [30, 86], [40, 80], [50, 74], [60, 60], [70, 52], [80, 44], [90, 39], [100, 35]]
+    );
 
-  defineColor(
-    'purple',
-    [258, 282],
-    [[20, 100], [30, 87], [40, 79], [50, 70], [60, 65], [70, 59], [80, 52], [90, 45], [100, 42]]
-  );
+    defineColor(
+        'purple',
+        [258, 282],
+        [[20, 100], [30, 87], [40, 79], [50, 70], [60, 65], [70, 59], [80, 52], [90, 45], [100, 42]]
+    );
 
-  defineColor(
-    'pink',
-    [283, 334],
-    [[20, 100], [30, 90], [40, 86], [60, 84], [80, 80], [90, 75], [100, 73]]
-  );
+    defineColor(
+        'pink',
+        [283, 334],
+        [[20, 100], [30, 90], [40, 86], [60, 84], [80, 80], [90, 75], [100, 73]]
+    );
 }
 
 /**
@@ -416,63 +417,63 @@ function loadColorBounds() {
  */
 function HSVtoRGB(hsv: number[]): number[] {
 
-  // this doesn't work for the values of 0 and 360
-  // here's the hacky fix
-  let h = hsv[0];
-  if (h === 0) { h = 1; }
-  if (h === 360) { h = 359; }
+    // this doesn't work for the values of 0 and 360
+    // here's the hacky fix
+    let h = hsv[0];
+    if (h === 0) { h = 1; }
+    if (h === 360) { h = 359; }
 
-  // Rebase the h,s,v values
-  h = h / 360;
-  const s = hsv[1] / 100,
-    v = hsv[2] / 100;
+    // Rebase the h,s,v values
+    h = h / 360;
+    const s = hsv[1] / 100,
+        v = hsv[2] / 100;
 
-  let h_i = Math.floor(h * 6),
-    f = h * 6 - h_i,
-    p = v * (1 - s),
-    q = v * (1 - f * s),
-    t = v * (1 - (1 - f) * s),
-    r = 256,
-    g = 256,
-    b = 256;
+    const h_i = Math.floor(h * 6);
+    const f = h * 6 - h_i;
+    const p = v * (1 - s);
+    const q = v * (1 - f * s);
+    const t = v * (1 - (1 - f) * s);
+    let r = 256;
+    let g = 256;
+    let b = 256;
 
-  switch (h_i) {
-    case 0: r = v; g = t; b = p; break;
-    case 1: r = q; g = v; b = p; break;
-    case 2: r = p; g = v; b = t; break;
-    case 3: r = p; g = q; b = v; break;
-    case 4: r = t; g = p; b = v; break;
-    case 5: r = v; g = p; b = q; break;
-  }
+    switch (h_i) {
+        case 0: r = v; g = t; b = p; break;
+        case 1: r = q; g = v; b = p; break;
+        case 2: r = p; g = v; b = t; break;
+        case 3: r = p; g = q; b = v; break;
+        case 4: r = t; g = p; b = v; break;
+        case 5: r = v; g = p; b = q; break;
+    }
 
-  const result = [Math.floor(r * 255), Math.floor(g * 255), Math.floor(b * 255)];
-  return result;
+    const result = [Math.floor(r * 255), Math.floor(g * 255), Math.floor(b * 255)];
+    return result;
 }
 
 /**
  * @hidden
  */
 function HSVtoHSL(hsv: number[]): number[] {
-  const h = hsv[0],
-    s = hsv[1] / 100,
-    v = hsv[2] / 100,
-    k = (2 - s) * v;
+    const h = hsv[0],
+        s = hsv[1] / 100,
+        v = hsv[2] / 100,
+        k = (2 - s) * v;
 
-  return [
-    h,
-    Math.round(s * v / (k < 1 ? k : 2 - k) * 10000) / 100,
-    k / 2 * 100
-  ];
+    return [
+        h,
+        Math.round(s * v / (k < 1 ? k : 2 - k) * 10000) / 100,
+        k / 2 * 100
+    ];
 }
 
 /**
  * @hidden
  */
 function stringToInteger(s: string): number {
-  let total = 0;
-  for (let i = 0; i !== s.length; i++) {
-    if (total >= MAX_SAFE_INTEGER) break;
-    total += s.charCodeAt(i);
-  }
-  return total;
+    let total = 0;
+    for (let i = 0; i !== s.length; i++) {
+        if (total >= MAX_SAFE_INTEGER) break;
+        total += s.charCodeAt(i);
+    }
+    return total;
 }

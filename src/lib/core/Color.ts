@@ -285,14 +285,17 @@ export class Color extends Coords {
         }
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public toExponential(fractionDigits?: number): string {
         return this.toString();
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public toFixed(fractionDigits?: number): string {
         return this.toString();
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public toPrecision(precision?: number): string {
         return this.toString();
     }

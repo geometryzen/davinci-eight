@@ -1,6 +1,5 @@
 /**
  * WebGLBuffer usage.
- * @hidden
  */
 export enum Usage {
     /**

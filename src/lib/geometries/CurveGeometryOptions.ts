@@ -4,7 +4,7 @@ import { CurveMode } from './CurveMode';
 import { GeometryOptions } from './GeometryOptions';
 
 /**
- * @hidden
+ *
  */
 export interface CurveGeometryOptions extends GeometryOptions, GeometryKey {
 

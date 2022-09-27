@@ -1,7 +1,6 @@
 
 /**
  * Determines how a Curve will be rendered.
- * @hidden
  */
 export enum CurveMode {
     /**

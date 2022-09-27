@@ -49,7 +49,6 @@ function add3x3(a: Float32Array, b: Float32Array, c: Float32Array): void {
  * <tr><td>2</td><td>5</td><td>8</td></tr>
  * </table>
  * </p>
- * @hidden
  */
 export class Matrix3 extends AbstractMatrix<Matrix3> {
 
@@ -151,10 +150,10 @@ export class Matrix3 extends AbstractMatrix<Matrix3> {
      *
      */
     isOne(): boolean {
-        let te = this.elements;
-        let m11 = te[0x0], m12 = te[0x3], m13 = te[0x6];
-        let m21 = te[0x1], m22 = te[0x4], m23 = te[0x7];
-        let m31 = te[0x2], m32 = te[0x5], m33 = te[0x8];
+        const te = this.elements;
+        const m11 = te[0x0], m12 = te[0x3], m13 = te[0x6];
+        const m21 = te[0x1], m22 = te[0x4], m23 = te[0x7];
+        const m31 = te[0x2], m32 = te[0x5], m33 = te[0x8];
         return (m11 === 1 && m12 === 0 && m13 === 0 && m21 === 0 && m22 === 1 && m23 === 0 && m31 === 0 && m32 === 0 && m33 === 1);
     }
 
@@ -162,10 +161,10 @@ export class Matrix3 extends AbstractMatrix<Matrix3> {
      *
      */
     isZero(): boolean {
-        let te = this.elements;
-        let m11 = te[0x0], m12 = te[0x3], m13 = te[0x6];
-        let m21 = te[0x1], m22 = te[0x4], m23 = te[0x7];
-        let m31 = te[0x2], m32 = te[0x5], m33 = te[0x8];
+        const te = this.elements;
+        const m11 = te[0x0], m12 = te[0x3], m13 = te[0x6];
+        const m21 = te[0x1], m22 = te[0x4], m23 = te[0x7];
+        const m31 = te[0x2], m32 = te[0x5], m33 = te[0x8];
         return (m11 === 0 && m12 === 0 && m13 === 0 && m21 === 0 && m22 === 0 && m23 === 0 && m31 === 0 && m32 === 0 && m33 === 0);
     }
 
@@ -365,6 +364,7 @@ export class Matrix3 extends AbstractMatrix<Matrix3> {
     toExponential(fractionDigits?: number): string {
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             text.push(this.row(i).map(function (element: number, index: number) { return element.toExponential(fractionDigits); }).join(' '));
         }
         return text.join('\n');
@@ -376,6 +376,7 @@ export class Matrix3 extends AbstractMatrix<Matrix3> {
     toFixed(fractionDigits?: number): string {
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             text.push(this.row(i).map(function (element: number, index: number) { return element.toFixed(fractionDigits); }).join(' '));
         }
         return text.join('\n');
@@ -387,6 +388,7 @@ export class Matrix3 extends AbstractMatrix<Matrix3> {
     toPrecision(precision?: number): string {
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             text.push(this.row(i).map(function (element: number, index: number) { return element.toPrecision(precision); }).join(' '));
         }
         return text.join('\n');
@@ -398,6 +400,7 @@ export class Matrix3 extends AbstractMatrix<Matrix3> {
     toString(radix?: number): string {
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             text.push(this.row(i).map(function (element: number, index: number) { return element.toString(radix); }).join(' '));
         }
         return text.join('\n');

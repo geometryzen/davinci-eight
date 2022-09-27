@@ -5,7 +5,6 @@ import { curvePrimitive } from './curvePrimitive';
 
 /**
  * A Geometry for representing functions of one scalar parameter.
- * @hidden
  */
 export class CurveGeometry extends GeometryElements {
 

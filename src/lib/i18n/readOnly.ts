@@ -6,7 +6,7 @@ import { LocalizableMessage } from '../i18n/LocalizableMessage';
  */
 export function readOnly(name: string): LocalizableMessage {
     mustBeString('name', name);
-    let message: LocalizableMessage = {
+    const message: LocalizableMessage = {
         get message(): string {
             return "Property `" + name + "` is readonly.";
         }

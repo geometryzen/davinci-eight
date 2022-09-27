@@ -31,7 +31,6 @@ function transferOwnership<T extends Shareable>(data: T[]): ShareableArray<T> {
  * <p>
  * Provides a safer way to maintain reference counts than a native array.
  * </p>
- * @hidden
  */
 export class ShareableArray<T extends Shareable> extends ShareableBase {
 

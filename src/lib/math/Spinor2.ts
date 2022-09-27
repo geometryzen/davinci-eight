@@ -274,11 +274,10 @@ export class Spinor2 {
      * <code>this ⟼ copy(spinor)</code>
      * </p>
      * @method copy
-     * @param spinor {SpinorE2}
-     * @return {Spinor2} <code>this</code>
+     * @param spinor
      * @chainable
      */
-    copy(spinor: SpinorE2) {
+    copy(spinor: SpinorE2): this {
         mustBeObject('spinor', spinor);
         this.xy = mustBeNumber('spinor.b', spinor.b);
         this.a = mustBeNumber('spinor.a', spinor.a);
@@ -288,8 +287,8 @@ export class Spinor2 {
     /**
      * Sets this spinor to the value of the scalar, <code>α</code>.
      * @method copyScalar
-     * @param α {number} The scalar to be copied.
-     * @return {Spinor2}
+     * @param α The scalar to be copied.
+     * @return
      * @chainable
      */
     copyScalar(α: number): Spinor2 {
@@ -325,11 +324,10 @@ export class Spinor2 {
      * <code>this ⟼ this / s</code>
      * </p>
      * @method div
-     * @param s {SpinorE2}
-     * @return {Spinor2} <code>this</code>
+     * @param s
      * @chainable
      */
-    div(s: SpinorE2): Spinor2 {
+    div(s: SpinorE2): this {
         return this.div2(this, s);
     }
 
@@ -338,12 +336,11 @@ export class Spinor2 {
      * <code>this ⟼ a / b</code>
      * </p>
      * @method div2
-     * @param a {SpinorE2}
-     * @param b {SpinorE2}
-     * @return {Spinor2} <code>this</code>
+     * @param a
+     * @param b
      * @chainable
      */
-    div2(a: SpinorE2, b: SpinorE2): Spinor2 {
+    div2(a: SpinorE2, b: SpinorE2): this {
         const a0 = a.a;
         const a1 = a.b;
         const b0 = b.a;
@@ -359,11 +356,10 @@ export class Spinor2 {
      * <code>this ⟼ this / α</code>
      * </p>
      * @method divByScalar
-     * @param α {number}
-     * @return {Spinor2} <code>this</code>
+     * @param α
      * @chainable
      */
-    divByScalar(α: number): Spinor2 {
+    divByScalar(α: number): this {
         this.xy /= α;
         this.a /= α;
         return this;
@@ -402,23 +398,21 @@ export class Spinor2 {
      * @return {Spinor2} <code>this</code>
      * @chainable
      */
-    inv() {
+    inv(): this {
         this.conj();
         this.divByScalar(this.quaditude());
         return this;
     }
 
     /**
-     * @method isOne
-     * @return {boolean}
+     *
      */
     isOne(): boolean {
         return this.a === 1 && this.b === 0;
     }
 
     /**
-     * @method isZero
-     * @return {boolean}
+     *
      */
     isZero(): boolean {
         return this.a === 0 && this.b === 0;
@@ -440,12 +434,11 @@ export class Spinor2 {
      * <code>this ⟼ this + α * (target - this)</code>
      * </p>
      * @method lerp
-     * @param target {SpinorE2}
-     * @param α {number}
-     * @return {Spinor2} <code>this</code>
+     * @param target
+     * @param α
      * @chainable
      */
-    lerp(target: SpinorE2, α: number) {
+    lerp(target: SpinorE2, α: number): this {
         const Vector2 = Spinor2.copy(target);
         const Vector1 = this.clone();
         const R = Vector2.mul(Vector1.inv());
@@ -461,13 +454,12 @@ export class Spinor2 {
      * <code>this ⟼ a + α * (b - a)</code>
      * <p>
      * @method lerp2
-     * @param a {SpinorE2}
-     * @param b {SpinorE2}
-     * @param α {number}
-     * @return {Spinor2} <code>this</code>
+     * @param a
+     * @param b
+     * @param α
      * @chainable
      */
-    lerp2(a: SpinorE2, b: SpinorE2, α: number) {
+    lerp2(a: SpinorE2, b: SpinorE2, α: number): this {
         this.sub2(b, a).scale(α).add(a);
         return this;
     }
@@ -504,9 +496,6 @@ export class Spinor2 {
      * <p>
      * This method does not change this spinor.
      * </p>
-     *
-     * @method magnitude
-     * @return {number}
      */
     magnitude(): number {
         return sqrt(this.quaditude());
@@ -517,11 +506,10 @@ export class Spinor2 {
      * <code>this ⟼ this * s</code>
      * </p>
      * @method mul
-     * @param s {SpinorE2}
-     * @return {Spinor2} <code>this</code>
+     * @param s
      * @chainable
      */
-    mul(s: SpinorE2): Spinor2 {
+    mul(s: SpinorE2): this {
         return this.mul2(this, s);
     }
 
@@ -530,9 +518,8 @@ export class Spinor2 {
      * <code>this ⟼ a * b</code>
      * </p>
      * @method mul2
-     * @param a {SpinorE2}
-     * @param b {SpinorE2}
-     * @return {Spinor2} <code>this</code>
+     * @param a
+     * @param b
      * @chainable
      */
     mul2(a: SpinorE2, b: SpinorE2): this {
@@ -671,8 +658,8 @@ export class Spinor2 {
      * <code>this = ⟼ rotor * this * rev(rotor)</code>
      * </p>
      * @method rotate
-     * @param rotor {SpinorE2}
-     * @return {Spinor2} <code>this</code>
+     * @param rotor
+     * @return <code>this</code>
      * @chainable
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -686,12 +673,12 @@ export class Spinor2 {
      * Sets this multivector to a rotation from vector <code>a</code> to vector <code>b</code>.
      * </p>
      * @method rotorFromDirections
-     * @param a {VectorE2} The <em>from</em> vector.
-     * @param b {VectorE2} The <em>to</em> vector.
-     * @return {Spinor2} <code>this</code> The rotor representing a rotation from a to b.
+     * @param a The <em>from</em> vector.
+     * @param b The <em>to</em> vector.
+     * @return The rotor representing a rotation from a to b.
      * @chainable
      */
-    rotorFromDirections(a: VectorE2, b: VectorE2): Spinor2 {
+    rotorFromDirections(a: VectorE2, b: VectorE2): this {
         rotorFromDirectionsE2(a, b, this);
         return this;
     }
@@ -732,10 +719,9 @@ export class Spinor2 {
      * <code>this ⟼ this * α</code>
      * </p>
      * @method scale
-     * @param α {number}
-     * @return {Spinor2} <code>this</code>
+     * @param α
      */
-    scale(α: number): Spinor2 {
+    scale(α: number): this {
         mustBeNumber('α', α);
         this.xy *= α;
         this.a *= α;
@@ -753,12 +739,11 @@ export class Spinor2 {
      * <code>this ⟼ this - s * α</code>
      * </p>
      * @method sub
-     * @param s {SpinorE2}
-     * @param [α = 1] {number}
-     * @return {Spinor2} <code>this</code>
+     * @param s
+     * @param α
      * @chainable
      */
-    sub(s: SpinorE2, α = 1): Spinor2 {
+    sub(s: SpinorE2, α = 1): this {
         mustBeObject('s', s);
         mustBeNumber('α', α);
         this.xy -= s.b * α;
@@ -770,12 +755,11 @@ export class Spinor2 {
      * <code>this ⟼ a - b</code>
      * </p>
      * @method sub2
-     * @param a {SpinorE2}
-     * @param b {SpinorE2}
-     * @return {Spinor2} <code>this</code>
+     * @param a
+     * @param b
      * @chainable
      */
-    sub2(a: SpinorE2, b: SpinorE2): Spinor2 {
+    sub2(a: SpinorE2, b: SpinorE2): this {
         this.xy = a.b - b.b;
         this.a = a.a - b.a;
         return this;
@@ -787,11 +771,10 @@ export class Spinor2 {
      * Sets this Spinor2 to the geometric product a * b of the vector arguments.
      *
      * @method versor
-     * @param a {VectorE2}
-     * @param b {VectorE2}
-     * @return {Spinor2}
+     * @param a
+     * @param b
      */
-    versor(a: VectorE2, b: VectorE2) {
+    versor(a: VectorE2, b: VectorE2): this {
 
         const ax = a.x;
         const ay = a.y;
@@ -854,7 +837,7 @@ export class Spinor2 {
 
     /**
      * @method toString
-     * @return {string} A non-normative string representation of the target.
+     * @return A non-normative string representation of the target.
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     toString(radix?: number): string {

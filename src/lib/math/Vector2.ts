@@ -22,7 +22,7 @@ function coordinates(m: VectorE2): number[] {
 }
 
 /**
- * @hidden
+ *
  */
 export class Vector2 {
     // Lockable
@@ -153,11 +153,10 @@ export class Vector2 {
      * </p>
      *
      * @method applyMatrix
-     * @param σ {Matrix2}
-     * @return {Vector2} <code>this</code>
+     * @param σ
      * @chainable
      */
-    applyMatrix(σ: Matrix2): Vector2 {
+    applyMatrix(σ: Matrix2): this {
         const x = this.x;
         const y = this.y;
 
@@ -171,8 +170,7 @@ export class Vector2 {
 
     /**
      * @method approx
-     * @param n {number}
-     * @return {Vector2}
+     * @param n
      * @chainable
      */
     approx(n: number): Vector2 {
@@ -191,8 +189,7 @@ export class Vector2 {
 
     /**
      * @method copy
-     * @param v {VectorE2}
-     * @return {Vector2}
+     * @param v
      * @chainable
      */
     copy(v: VectorE2): Vector2 {
@@ -203,10 +200,9 @@ export class Vector2 {
 
     /**
      * @method cubicBezier
-     * @param t {number}
-     * @param controlBegin {VectorE2}
-     * @param endPoint {VectorE2}
-     * @return {Vector2}
+     * @param t
+     * @param controlBegin
+     * @param endPoint
      * @chainable
      */
     cubicBezier(t: number, controlBegin: VectorE2, controlEnd: VectorE2, endPoint: VectorE2): Vector2 {
@@ -218,21 +214,18 @@ export class Vector2 {
     }
 
     /**
-     * @method distanceTo
-     * @param point {VectorE2}
-     * @return {number}
+     * @param point
      */
-    distanceTo(position: VectorE2) {
+    distanceTo(position: VectorE2): number {
         return sqrt(this.quadranceTo(position));
     }
 
     /**
      * @method sub
-     * @param v {VectorE2}
-     * @return {Vector2}
+     * @param v
      * @chainable
      */
-    sub(v: VectorE2): Vector2 {
+    sub(v: VectorE2): this {
         this.x -= v.x;
         this.y -= v.y;
         return this;
@@ -247,9 +240,8 @@ export class Vector2 {
 
     /**
      * @method sub2
-     * @param a {VectorE2}
-     * @param b {VectorE2}
-     * @return {Vector2}
+     * @param a
+     * @param b
      * @chainable
      */
     sub2(a: VectorE2, b: VectorE2): Vector2 {
@@ -259,12 +251,9 @@ export class Vector2 {
     }
 
     /**
-     * @method scale
-     * @param α {number}
-     * @return {Vector2}
-     * @chainable
+     * @param α
      */
-    scale(α: number): Vector2 {
+    scale(α: number): this {
         this.x *= α;
         this.y *= α;
         return this;
@@ -272,11 +261,10 @@ export class Vector2 {
 
     /**
      * @method divByScalar
-     * @param α {number}
-     * @return {Vector2}
+     * @param α
      * @chainable
      */
-    divByScalar(α: number) {
+    divByScalar(α: number): this {
         this.x /= α;
         this.y /= α;
         return this;
@@ -337,9 +325,6 @@ export class Vector2 {
 
     /**
      * Computes the <em>square root</em> of the <em>squared norm</em>.
-     *
-     * @method magnitude
-     * @return {number}
      */
     magnitude(): number {
         return sqrt(this.squaredNorm());
@@ -361,10 +346,9 @@ export class Vector2 {
 
     /**
      * @method quadraticBezier
-     * @param t {number}
-     * @param controlPoint {VectorE2}
-     * @param endPoint {VectorE2}
-     * @return {Vector2}
+     * @param t
+     * @param controlPoint
+     * @param endPoint
      */
     quadraticBezier(t: number, controlPoint: VectorE2, endPoint: VectorE2): Vector2 {
         const x = b2(t, this.x, controlPoint.x, endPoint.x);
@@ -381,11 +365,10 @@ export class Vector2 {
 
     /**
      * @method rotate
-     * @param spinor {SpinorE2}
-     * @return {Vector2}
+     * @param spinor
      * @chainable
      */
-    rotate(spinor: SpinorE2): Vector2 {
+    rotate(spinor: SpinorE2): this {
         const x = this.x;
         const y = this.y;
 
@@ -405,9 +388,8 @@ export class Vector2 {
      * this ⟼ this + (v - this) * α
      *
      * @method lerp
-     * @param v {VectorE2}
-     * @param α {number}
-     * @return {Vector2}
+     * @param v
+     * @param α
      * @chainable 
      */
     lerp(v: VectorE2, α: number): Vector2 {
@@ -422,9 +404,9 @@ export class Vector2 {
      * </p>
      *
      * @method lerp2
-     * @param a {VectorE2}
-     * @param b {VectorE2}
-     * @param α {number}
+     * @param a
+     * @param b
+     * @param α
      * @return {Vector2} <code>this</code>
      * @chainable
      */
@@ -439,10 +421,9 @@ export class Vector2 {
 
     /**
      * @method stress
-     * @param σ {VectorE2}
-     * @return {Vector2}
+     * @param σ
      */
-    stress(σ: VectorE2) {
+    stress(σ: VectorE2): this {
         this.x *= σ.x;
         this.y *= σ.y;
         return this;
@@ -457,8 +438,7 @@ export class Vector2 {
 
     /**
      * @method toExponential
-     * @param [fractionDigits] {number}
-     * @return {string}
+     * @param fractionDigits
      */
     toExponential(fractionDigits?: number): string {
         const coordToString = function (coord: number): string { return coord.toExponential(fractionDigits); };
@@ -467,8 +447,7 @@ export class Vector2 {
 
     /**
      * @method toFixed
-     * @param [fractionDigits] {number}
-     * @return {string}
+     * @param fractionDigits
      */
     toFixed(fractionDigits?: number): string {
         const coordToString = function (coord: number): string { return coord.toFixed(fractionDigits); };
@@ -477,8 +456,7 @@ export class Vector2 {
 
     /**
      * @method toPrecision
-     * @param [precision] {number}
-     * @return {string}
+     * @param precision
      */
     toPrecision(precision?: number): string {
         const coordToString = function (coord: number): string { return coord.toPrecision(precision); };
@@ -487,8 +465,7 @@ export class Vector2 {
 
     /**
      * @method toString
-     * @param [radix] {number}
-     * @return {string}
+     * @param radix
      */
     toString(radix?: number): string {
         const coordToString = function (coord: number): string { return coord.toString(radix); };
@@ -524,8 +501,7 @@ export class Vector2 {
     /**
      * @method copy
      *
-     * @param vector {VectorE2}
-     * @return {Vector2}
+     * @param vector
      * @static
      * @chainable
      */
@@ -535,10 +511,9 @@ export class Vector2 {
 
     /**
      * @method lerp
-     * @param a {VectorE2}
-     * @param b {VectorE2}
-     * @param α {number}
-     * @return {Vector2} <code>a + α * (b - a)</code>
+     * @param a
+     * @param b
+     * @return <code>a + α * (b - a)</code>
      * @static
      * @chainable
      */

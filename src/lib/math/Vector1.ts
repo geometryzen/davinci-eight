@@ -18,8 +18,8 @@ export class Vector1 extends Coords {
     /**
      * @class Vector1
      * @constructor
-     * @param data {number[]} Default is [0].
-     * @param modified {boolean} Default is false.
+     * @param data Default is [0].
+     * @param modified Default is false.
      */
     constructor(data = [0], modified = false) {
         super(data, modified, 1);
@@ -63,11 +63,10 @@ export class Vector1 extends Coords {
      * </p>
      *
      * @method applyMatrix
-     * @param σ {Matrix1}
-     * @return {Vector1} <code>this</code>
+     * @param σ
      * @chainable
      */
-    applyMatrix(σ: Matrix1): Vector1 {
+    applyMatrix(σ: Matrix1): this {
         const x = this.x;
 
         const e = σ.elements;
@@ -79,8 +78,7 @@ export class Vector1 extends Coords {
 
     /**
      * @method approx
-     * @param n {number}
-     * @return {Vector1}
+     * @param n
      * @chainable
      */
     approx(n: number): Vector1 {
@@ -203,17 +201,15 @@ export class Vector1 extends Coords {
      * @method neg
      * @return {Vector1} <code>this</code>
      */
-    neg() {
+    neg(): this {
         this.x = -this.x;
         return this;
     }
 
     /**
-     * @method distanceTo
-     * @param point {VectorE1}
-     * @return {number}
+     * @param position
      */
-    distanceTo(position: VectorE1) {
+    distanceTo(position: VectorE1): number {
         return sqrt(this.quadranceTo(position));
     }
     dot(v: VectorE1) {
@@ -222,8 +218,6 @@ export class Vector1 extends Coords {
 
     /**
      * Computes the <em>square root</em> of the <em>squared norm</em>.
-     * @method magnitude
-     * @return {number}
      */
     magnitude(): number {
         return sqrt(this.squaredNorm());
@@ -268,12 +262,11 @@ export class Vector1 extends Coords {
     /**
      * this ⟼ this + α * (v - this)</code>
      * @method lerp
-     * @param v {VectorE1}
-     * @param α {number}
-     * @return {MutanbleNumber}
+     * @param v
+     * @param α
      * @chainable
      */
-    lerp(v: VectorE1, α: number) {
+    lerp(v: VectorE1, α: number): this {
         this.x += (v.x - this.x) * α;
         return this;
     }
@@ -282,9 +275,9 @@ export class Vector1 extends Coords {
      * <code>this ⟼ a + α * (b - a)</code>
      * </p>
      * @method lerp2
-     * @param a {Vector1}
-     * @param b {Vector1}
-     * @param α {number}
+     * @param a
+     * @param b
+     * @param α
      * @return {Vector1}
      * @chainable
      */
@@ -322,8 +315,7 @@ export class Vector1 extends Coords {
 
     /**
      * @method translation
-     * @param d {VectorE0}
-     * @return {Vector1}
+     * @param d
      * @chainable
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

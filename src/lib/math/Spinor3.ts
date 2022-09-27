@@ -281,7 +281,7 @@ export class Spinor3 {
      * @param α
      * @returns this + α 
      */
-    addScalar(α: number): Spinor3 {
+    addScalar(α: number): this {
         mustBeNumber('α', α);
         this.a += α;
         return this;
@@ -336,11 +336,10 @@ export class Spinor3 {
      * </p>
      *
      * @method copy
-     * @param source {SpinorE3}
-     * @return {Spinor3} <code>this</code>
+     * @param source
      * @chainable
      */
-    copy(source: SpinorE3): Spinor3 {
+    copy(source: SpinorE3): this {
         if (source) {
             this.yz = source.yz;
             this.zx = source.zx;
@@ -366,8 +365,7 @@ export class Spinor3 {
      * Sets this spinor to the value of the scalar, <code>α</code>.
      *
      * @method copyScalar
-     * @param α {number} The scalar to be copied.
-     * @return {Spinor3}
+     * @param α The scalar to be copied.
      * @chainable
      */
     copyScalar(α: number): Spinor3 {
@@ -395,11 +393,10 @@ export class Spinor3 {
      * </p>
      *
      * @method div
-     * @param s {SpinorE3}
-     * @return {Spinor3} <code>this</code>
+     * @param s
      * @chainable
      */
-    div(s: SpinorE3): Spinor3 {
+    div(s: SpinorE3): this {
         return this.div2(this, s);
     }
 
@@ -409,12 +406,11 @@ export class Spinor3 {
      * </p>
      *
      * @method div2
-     * @param a {SpinorE3}
-     * @param b {SpinorE3}
-     * @return {Spinor3} <code>this</code>
+     * @param a
+     * @param b
      * @chainable
      */
-    div2(a: SpinorE3, b: SpinorE3) {
+    div2(a: SpinorE3, b: SpinorE3): this {
         const a0 = a.a;
         const a1 = a.yz;
         const a2 = a.zx;
@@ -439,11 +435,10 @@ export class Spinor3 {
      * </p>
      *
      * @method divByScalar
-     * @param α {number}
-     * @return {Spinor3} <code>this</code>
+     * @param α
      * @chainable
      */
-    divByScalar(α: number): Spinor3 {
+    divByScalar(α: number): this {
         this.yz /= α;
         this.zx /= α;
         this.xy /= α;
@@ -512,27 +507,23 @@ export class Spinor3 {
      * <code>this ⟼ conj(this) / quad(this)</code>
      * </p>
      *
-     * @method inv
-     * @return {Spinor3} <code>this</code>
      * @chainable
      */
-    inv(): Spinor3 {
+    inv(): this {
         this.conj();
         this.divByScalar(this.squaredNormSansUnits());
         return this;
     }
 
     /**
-     * @method isOne
-     * @return {boolean} 
+     *
      */
     isOne(): boolean {
         return this.a === 1 && this.xy === 0 && this.yz === 0 && this.zx === 0;
     }
 
     /**
-     * @method isZero
-     * @return {boolean} 
+     *
      */
     isZero(): boolean {
         return this.a === 0 && this.xy === 0 && this.yz === 0 && this.zx === 0;
@@ -540,8 +531,7 @@ export class Spinor3 {
 
     /**
      * @method lco
-     * @param rhs {Spinor3}
-     * @return {Spinor3}
+     * @param rhs
      * @chainable
      */
     lco(rhs: SpinorE3): Spinor3 {
@@ -564,12 +554,11 @@ export class Spinor3 {
      * </p>
      *
      * @method lerp
-     * @param target {SpinorE3}
-     * @param α {number}
-     * @return {Spinor3} <code>this</code>
+     * @param target
+     * @param α
      * @chainable
      */
-    lerp(target: SpinorE3, α: number): Spinor3 {
+    lerp(target: SpinorE3, α: number): this {
         const Vector2 = Spinor3.copy(target);
         const Vector1 = this.clone();
         const R = Vector2.mul(Vector1.inv());
@@ -586,13 +575,12 @@ export class Spinor3 {
      * <p>
      *
      * @method lerp2
-     * @param a {SpinorE3}
-     * @param b {SpinorE3}
-     * @param α {number}
-     * @return {Spinor3} <code>this</code>
+     * @param a
+     * @param b
+     * @param α
      * @chainable
      */
-    lerp2(a: SpinorE3, b: SpinorE3, α: number): Spinor3 {
+    lerp2(a: SpinorE3, b: SpinorE3, α: number): this {
         this.sub2(b, a).scale(α).add(a);
         return this;
     }
@@ -627,9 +615,6 @@ export class Spinor3 {
      * <p>
      * This method does not change this multivector.
      * </p>
-     *
-     * @method magnitude
-     * @return {number}
      */
     magnitude(): number {
         return sqrt(this.squaredNormSansUnits());
@@ -648,11 +633,10 @@ export class Spinor3 {
      * </p>
      *
      * @method mul
-     * @param rhs {SpinorE3}
-     * @return {Spinor3} <code>this</code>
+     * @param rhs
      * @chainable
      */
-    mul(rhs: SpinorE3): Spinor3 {
+    mul(rhs: SpinorE3): this {
 
         const α = mulSpinorE3alpha(this, rhs);
         const yz = mulSpinorE3YZ(this, rhs);
@@ -673,12 +657,11 @@ export class Spinor3 {
      * </p>
      *
      * @method mul2
-     * @param a {SpinorE3}
-     * @param b {SpinorE3}
-     * @return {Spinor3} <code>this</code>
+     * @param a
+     * @param b
      * @chainable
      */
-    mul2(a: SpinorE3, b: SpinorE3): Spinor3 {
+    mul2(a: SpinorE3, b: SpinorE3): this {
 
         const α = mulSpinorE3alpha(a, b);
         const yz = mulSpinorE3YZ(a, b);
@@ -694,12 +677,9 @@ export class Spinor3 {
     }
 
     /**
-     * @method neg
-     *
-     * @return {Spinor3} <code>this</code>
      * @chainable
      */
-    neg(): Spinor3 {
+    neg(): this {
         this.a = -this.a;
         this.yz = -this.yz;
         this.zx = -this.zx;
@@ -712,11 +692,9 @@ export class Spinor3 {
      * <code>this ⟼ sqrt(this * conj(this))</code>
      * </p>
      *
-     * @method norm
-     * @return {Spinor3} <code>this</code>
      * @chainable
      */
-    norm(): Spinor3 {
+    norm(): this {
         const norm = this.magnitudeSansUnits();
         return this.zero().addScalar(norm);
     }
@@ -725,12 +703,9 @@ export class Spinor3 {
      * <p>
      * <code>this ⟼ this / magnitude(this)</code>
      * </p>
-     *
-     * @method normalize
-     * @return {Spinor3} <code>this</code>
      * @chainable
      */
-    normalize(): Spinor3 {
+    normalize(): this {
         const m = this.magnitude();
         this.yz = this.yz / m;
         this.zx = this.zx / m;
@@ -742,11 +717,9 @@ export class Spinor3 {
 
     /**
      * Sets this spinor to the identity element for multiplication, <b>1</b>.
-     *
-     * @return {Spinor3} <code>this</code>
      * @chainable
      */
-    one() {
+    one(): this {
         this.a = 1;
         this.yz = 0;
         this.zx = 0;
@@ -760,10 +733,9 @@ export class Spinor3 {
      * </p>
      *
      * @method quad
-     * @return {Spinor3} <code>this</code>
      * @chainable
      */
-    quad(): Spinor3 {
+    quad(): this {
         const squaredNorm = this.squaredNormSansUnits();
         return this.zero().addScalar(squaredNorm);
     }
@@ -772,9 +744,6 @@ export class Spinor3 {
      * <p>
      * This method does not change this multivector.
      * </p>
-     *
-     * @method squaredNorm
-     * @return {number}
      */
     squaredNorm(): number {
         return quadSpinor(this);
@@ -789,8 +758,7 @@ export class Spinor3 {
 
     /**
      * @method stress
-     * @param σ {VectorE3}
-     * @return {Spinor3}
+     * @param σ
      * @chainable
      */
     stress(σ: VectorE3): Spinor3 {
@@ -816,12 +784,9 @@ export class Spinor3 {
      * <p>
      * <code>this = (w, B) ⟼ (w, -B)</code>
      * </p>
-     *
-     * @method rev
-     * @return {Spinor3} <code>this</code>
      * @chainable
      */
-    rev(): Spinor3 {
+    rev(): this {
         this.yz *= - 1;
         this.zx *= - 1;
         this.xy *= - 1;
@@ -833,11 +798,10 @@ export class Spinor3 {
      * The geometric formula for bivector reflection is B' = n * B * n.
      *
      * @method reflect
-     * @param n {VectorE3}
-     * @return {Spinor3} <code>this</code>
+     * @param n
      * @chainable
      */
-    reflect(n: VectorE3) {
+    reflect(n: VectorE3): this {
         const w = this.a;
         const yz = this.yz;
         const zx = this.zx;
@@ -860,11 +824,10 @@ export class Spinor3 {
      * </p>
      *
      * @method rotate
-     * @param R {SpinorE3}
-     * @return {Spinor3} <code>this</code>
+     * @param R
      * @chainable
      */
-    rotate(R: SpinorE3): Spinor3 {
+    rotate(R: SpinorE3): this {
         // R * this * rev(R) = R * rev(R * rev(this));
         this.rev();
         this.mul2(R, this);
@@ -880,12 +843,12 @@ export class Spinor3 {
      * </p>
      *
      * @method rotorFromDirections
-     * @param a {VectorE3} The <em>from</em> vector.
-     * @param b {VectorE3} The <em>to</em> vector.
-     * @return {Spinor3} <code>this</code> The rotor representing a rotation from a to b.
+     * @param a The <em>from</em> vector.
+     * @param b The <em>to</em> vector.
+     * @return The rotor representing a rotation from a to b.
      * @chainable
      */
-    rotorFromDirections(a: VectorE3, b: VectorE3): Spinor3 {
+    rotorFromDirections(a: VectorE3, b: VectorE3): this {
         return this.rotorFromVectorToVector(a, b, void 0);
     }
 
@@ -907,7 +870,7 @@ export class Spinor3 {
         return this;
     }
 
-    rotorFromVectorToVector(a: VectorE3, b: VectorE3, B: BivectorE3): Spinor3 {
+    rotorFromVectorToVector(a: VectorE3, b: VectorE3, B: BivectorE3): this {
         rotorFromDirections(a, b, B, this);
         return this;
     }
@@ -929,8 +892,7 @@ export class Spinor3 {
      * </p>
      *
      * @method scale
-     * @param α {number}
-     * @return {Spinor3} <code>this</code>
+     * @param α
      * @chainable
      */
     scale(α: number): Spinor3 {
@@ -948,12 +910,11 @@ export class Spinor3 {
      * </p>
      *
      * @method sub
-     * @param s {SpinorE3}
-     * @param [α = 1] {number}
-     * @return {Spinor3} <code>this</code>
+     * @param s
+     * @param α
      * @chainable
      */
-    sub(s: SpinorE3, α = 1): Spinor3 {
+    sub(s: SpinorE3, α = 1): this {
         mustBeObject('s', s);
         mustBeNumber('α', α);
         this.yz -= s.yz * α;
@@ -969,12 +930,11 @@ export class Spinor3 {
      * </p>
      *
      * @method sub2
-     * @param a {SpinorE3}
-     * @param b {SpinorE3}
-     * @return {Spinor3} <code>this</code>
+     * @param a
+     * @param b
      * @chainable
      */
-    sub2(a: SpinorE3, b: SpinorE3): Spinor3 {
+    sub2(a: SpinorE3, b: SpinorE3): this {
         this.yz = a.yz - b.yz;
         this.zx = a.zx - b.zx;
         this.xy = a.xy - b.xy;
@@ -1017,9 +977,8 @@ export class Spinor3 {
      * Sets this Spinor3 to the exterior product, a ^ b, of the vector arguments.
      *
      * @method wedge
-     * @param a {VectorE3}
-     * @param b {VectorE3}
-     * @return {Spinor3}
+     * @param a
+     * @param b
      * @chainable
      */
     wedge(a: VectorE3, b: VectorE3): Spinor3 {
@@ -1041,8 +1000,7 @@ export class Spinor3 {
 
     /**
      * @method grade
-     * @param grade {number}
-     * @return {Spinor3}
+     * @param grade
      * @chainable
      */
     grade(grade: number): this {
@@ -1077,8 +1035,8 @@ export class Spinor3 {
 
     /**
      * @method toExponential
-     * @param [fractionDigits] {number}
-     * @return {string}
+     * @param fractionDigits
+     * @return
      */
     toExponential(fractionDigits?: number): string {
         const coordToString = function (coord: number): string { return coord.toExponential(fractionDigits); };
@@ -1087,8 +1045,7 @@ export class Spinor3 {
 
     /**
      * @method toFixed
-     * @param [fractionDigits] {number}
-     * @return {string}
+     * @param fractionDigits
      */
     toFixed(fractionDigits?: number): string {
         const coordToString = function (coord: number): string { return coord.toFixed(fractionDigits); };
@@ -1097,8 +1054,8 @@ export class Spinor3 {
 
     /**
      * @method toPrecision
-     * @param [position] {number}
-     * @return {string}
+     * @param position
+     * @return
      */
     toPrecision(position?: number): string {
         const coordToString = function (coord: number): string { return coord.toPrecision(position); };
@@ -1107,8 +1064,8 @@ export class Spinor3 {
 
     /**
      * @method toString
-     * @param [radix] {number}
-     * @return {string} A non-normative string representation of the target.
+     * @param radix
+     * @return A non-normative string representation of the target.
      */
     toString(radix?: number): string {
         const coordToString = function (coord: number): string { return coord.toString(radix); };
@@ -1128,10 +1085,8 @@ export class Spinor3 {
 
     /**
      * Sets this spinor to the identity element for addition, <b>0</b>.
-     *
-     * @return {Spinor3} <code>this</code>
      */
-    zero(): Spinor3 {
+    zero(): this {
         this.a = 0;
         this.yz = 0;
         this.zx = 0;

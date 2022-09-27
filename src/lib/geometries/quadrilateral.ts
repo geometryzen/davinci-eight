@@ -6,8 +6,8 @@ import { triangle } from '../geometries/triangle';
  * @hidden
  */
 function setAttributes(which: number[], source: { [name: string]: VectorN<number>[] }, target: { [name: string]: VectorN<number>[] }) {
-    let names: string[] = Object.keys(source);
-    let namesLength: number = names.length;
+    const names: string[] = Object.keys(source);
+    const namesLength: number = names.length;
     let i: number;
     let name: string;
     let values: VectorN<number>[];

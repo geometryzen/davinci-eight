@@ -14,10 +14,11 @@ function haveOwnProperty(prop: string) {
 /**
  * @hidden
  */
-export function mustHaveOwnProperty(name: string, value: {}, prop: string, contextBuilder?: () => string): void {
+export function mustHaveOwnProperty(name: string, value: Record<string, unknown>, prop: string, contextBuilder?: () => string): void {
     mustBeDefined('name', name);
     mustBeDefined('prop', prop);
     if (isDefined(value)) {
+        // eslint-disable-next-line no-prototype-builtins
         if (!value.hasOwnProperty(prop)) {
             mustSatisfy(name, false, haveOwnProperty(prop), contextBuilder);
         }

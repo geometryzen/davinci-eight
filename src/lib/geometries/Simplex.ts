@@ -40,7 +40,7 @@ function lerp(a: number[], b: number[], alpha: number, data: number[] = []): num
     mustBeEQ('a.length', a.length, b.length);
     const dims = a.length;
     let i: number;
-    let beta = 1 - alpha;
+    const beta = 1 - alpha;
     for (i = 0; i < dims; i++) {
         data.push(beta * a[i] + alpha * b[i]);
     }
@@ -52,12 +52,12 @@ function lerp(a: number[], b: number[], alpha: number, data: number[] = []): num
  */
 function lerpVertexAttributeMap(a: VertexAttributeMap, b: VertexAttributeMap, alpha: number): VertexAttributeMap {
 
-    let attribMap: VertexAttributeMap = {};
+    const attribMap: VertexAttributeMap = {};
 
-    let keys = Object.keys(a);
-    let keysLength = keys.length;
+    const keys = Object.keys(a);
+    const keysLength = keys.length;
     for (let k = 0; k < keysLength; k++) {
-        let key = keys[k];
+        const key = keys[k];
         attribMap[key] = lerpVectorN(a[key], b[key], alpha);
     }
     return attribMap;
@@ -127,31 +127,31 @@ export class Simplex {
         }
     }
     private static subdivideMap(simplex: Simplex): Simplex[] {
-        let divs: Simplex[] = [];
-        let vertices = simplex.vertices;
-        let k = simplex.k;
+        const divs: Simplex[] = [];
+        const vertices = simplex.vertices;
+        const k = simplex.k;
         if (k === SimplexMode.TRIANGLE) {
-            let a = vertices[0].attributes;
-            let b = vertices[1].attributes;
-            let c = vertices[2].attributes;
+            const a = vertices[0].attributes;
+            const b = vertices[1].attributes;
+            const c = vertices[2].attributes;
 
-            let m1 = lerpVertexAttributeMap(a, b, 0.5);
-            let m2 = lerpVertexAttributeMap(b, c, 0.5);
-            let m3 = lerpVertexAttributeMap(c, a, 0.5);
+            const m1 = lerpVertexAttributeMap(a, b, 0.5);
+            const m2 = lerpVertexAttributeMap(b, c, 0.5);
+            const m3 = lerpVertexAttributeMap(c, a, 0.5);
 
-            let face1 = new Simplex(k);
+            const face1 = new Simplex(k);
             face1.vertices[0].attributes = c;
             face1.vertices[1].attributes = m3;
             face1.vertices[2].attributes = m2;
-            let face2 = new Simplex(k);
+            const face2 = new Simplex(k);
             face2.vertices[0].attributes = a;
             face2.vertices[1].attributes = m1;
             face2.vertices[2].attributes = m3;
-            let face3 = new Simplex(k);
+            const face3 = new Simplex(k);
             face3.vertices[0].attributes = b;
             face3.vertices[1].attributes = m2;
             face3.vertices[2].attributes = m1;
-            let face4 = new Simplex(k);
+            const face4 = new Simplex(k);
             face4.vertices[0].attributes = m1;
             face4.vertices[1].attributes = m2;
             face4.vertices[2].attributes = m3;
@@ -162,15 +162,15 @@ export class Simplex {
             divs.push(face4);
         }
         else if (k === SimplexMode.LINE) {
-            let a = vertices[0].attributes;
-            let b = vertices[1].attributes;
+            const a = vertices[0].attributes;
+            const b = vertices[1].attributes;
 
-            let m = lerpVertexAttributeMap(a, b, 0.5);
+            const m = lerpVertexAttributeMap(a, b, 0.5);
 
-            let line1 = new Simplex(k);
+            const line1 = new Simplex(k);
             line1.vertices[0].attributes = a;
             line1.vertices[1].attributes = m;
-            let line2 = new Simplex(k);
+            const line2 = new Simplex(k);
             line2.vertices[0].attributes = m;
             line2.vertices[1].attributes = b;
 

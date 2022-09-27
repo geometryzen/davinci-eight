@@ -4,7 +4,7 @@ import { SpinorE4 } from '../math/SpinorE4';
 import { VectorE4 } from '../math/VectorE4';
 
 /**
- * @hidden
+ *
  */
 export class Vector4 extends Coords {
 

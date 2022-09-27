@@ -36,6 +36,7 @@ export class Duality implements Transform {
         this.removeSource = mustBeBoolean('removeSource', removeSource);
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     exec(vertex: Vertex, i: number, j: number, iLength: number, jLength: number): void {
         const v = vertex.attributes[this.sourceName];
         if (v) {

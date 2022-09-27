@@ -1,6 +1,6 @@
 /**
  * @hidden
  */
-export function isFunction(x: unknown): x is Function {
+export function isFunction(x: unknown): boolean {
     return (typeof x === 'function');
 }

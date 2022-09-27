@@ -6,7 +6,6 @@ import { Usage } from './Usage';
 
 /**
  * A wrapper around a WebGLBuffer with binding to ARRAY_BUFFER.
- * @hidden
  */
 export class VertexBuffer extends ShareableContextConsumer {
     /**

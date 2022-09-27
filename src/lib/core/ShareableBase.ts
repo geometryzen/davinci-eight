@@ -11,29 +11,6 @@ import { uuid4 } from './uuid4';
  * <p>
  * Convenient base class for derived classes implementing <code>Shareable</code>.
  * </p>
- *
- *
- *     class MyShareableClass extends ShareableBase {
- *       constructor() {
- *         // First thing you do is call super to invoke constructors up the chain.
- *         super()
- *         // Setting the logging name is both a good practice and increments the tally
- *         // of constructors in the constructor chain. The runtime architecture will
- *         // verify that the number of destructor calls matches these logging name calls.
- *         this.setLoggingName('MyShareableClass')
- *         // Finally, your initialization code here.
- *         // addRef and shared resources, maybe create owned resources.
- *       }
- *       protected destructor(levelUp: number): void {
- *         // Firstly, your termination code here.
- *         // Release any shared resources and/or delete any owned resources.
- *         // Last thing you do is to call the super destructor, incrementing the level.
- *         // The runtime architecture will verify that the destructor count matches the
- *         // constructor count.
- *         super.destructor(levelUp + 1)
- *       }
- *     }
- *  @hidden
  */
 export class ShareableBase implements Shareable {
     /**

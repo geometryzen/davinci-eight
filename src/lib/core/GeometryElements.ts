@@ -19,7 +19,6 @@ import { VertexBuffer } from './VertexBuffer';
 
 /**
  * A Geometry that supports interleaved vertex buffers.
- * @hidden
  */
 export class GeometryElements extends GeometryBase {
     /**

@@ -25,7 +25,7 @@ import { PixelType } from './PixelType';
 import { ShareableBase } from './ShareableBase';
 
 /**
- * @hidden
+ *
  */
 export interface EngineAttributes extends WebGLContextAttributes {
     /**

@@ -110,13 +110,6 @@ function getContextId(contextManager: ContextManager): 'webgl2' | 'webgl' {
 
 /**
  * Generates a WebGLProgram suitable for use with LINES, and LINE_STRIP.
- *
- * <table>
- * <tr>
- * <td>attribute</td><td>vec3</td><td>aPosition</td>
- * </tr>
- * </table>
- * @hidden
  */
 export class LineMaterial extends ShaderMaterial {
 

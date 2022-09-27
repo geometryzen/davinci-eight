@@ -30,7 +30,7 @@ function coordinates(m: VectorE3): number[] {
 }
 
 /**
- * @hidden
+ *
  */
 export class Vector3 {
     // Lockable
@@ -242,8 +242,7 @@ export class Vector3 {
      * </p>
      *
      * @method reflect
-     * @param n {VectorE3}
-     * @return {Vector3} <code>this</code>
+     * @param n
      * @chainable
      */
     reflect(n: VectorE3): this {
@@ -314,7 +313,7 @@ export class Vector3 {
     /**
      * Copies the coordinate values into this <code>Vector3</code>.
      *
-     * @param coordinates {number[]}
+     * @param coordinates
      * @returns
      */
     copyCoordinates(coordinates: number[]): this {
@@ -331,8 +330,7 @@ export class Vector3 {
      * </p>
      *
      * @method cross
-     * @param v {VectorE3}
-     * @return {Vector3} <code>this</code>
+     * @param v
      * @chainable
      */
     cross(v: VectorE3): Vector3 {
@@ -359,8 +357,7 @@ export class Vector3 {
 
     /**
      * @method distanceTo
-     * @param point {VectorE3}
-     * @return {number}
+     * @param point
      */
     distanceTo(point: VectorE3): number {
         if (isDefined(point)) {
@@ -373,8 +370,7 @@ export class Vector3 {
 
     /**
      * @method quadranceTo
-     * @param point {VectorE3}
-     * @return {number}
+     * @param point
      */
     quadranceTo(point: VectorE3): number {
         if (isDefined(point)) {
@@ -392,9 +388,6 @@ export class Vector3 {
      * <p>
      * <code>this ⟼ this / α</code>
      * </p>
-     * @method divByScalar
-     * @param α {number}
-     * @return {Vector3} <code>this</code>
      * @chainable
      */
     divByScalar(α: number): this {
@@ -414,8 +407,7 @@ export class Vector3 {
 
     /**
      * @method dot
-     * @param v {VectorE3}
-     * @return {number}
+     * @param v
      */
     dot(v: VectorE3): number {
         return Vector3.dot(this, v);
@@ -430,9 +422,8 @@ export class Vector3 {
      * If changeSign is <code>true</code>, the direction of the resulting vector is reversed.
      *
      * @method dual
-     * @param B {SpinorE3}
-     * @param changeSign {boolean}
-     * @return {Vector3}
+     * @param B
+     * @param changeSign
      * @chainable
      */
     dual(B: SpinorE3, changeSign: boolean): Vector3 {
@@ -450,9 +441,7 @@ export class Vector3 {
     }
 
     /**
-     * @method equals
-     * @param other {any}
-     * @return {boolean}
+     * @param other
      */
     equals(other: any): boolean {
         if (other instanceof Vector3) {
@@ -464,8 +453,7 @@ export class Vector3 {
     }
 
     /**
-     * @method isZero
-     * @return {boolean}
+     *
      */
     isZero(): boolean {
         return this.x === 0 && this.y === 0 && this.z === 0;
@@ -473,9 +461,6 @@ export class Vector3 {
 
     /**
      * Computes the <em>square root</em> of the <em>squared norm</em>.
-     *
-     * @method magnitude
-     * @return {number}
      */
     magnitude(): number {
         return sqrt(this.squaredNorm());
@@ -499,8 +484,8 @@ export class Vector3 {
      * </p>
      *
      * @method lerp
-     * @param target {VectorE3}
-     * @param α {number}
+     * @param target
+     * @param α
      * @return {Vector3} <code>this</code>
      * @chainable
      */
@@ -516,13 +501,12 @@ export class Vector3 {
      * <code>this ⟼ a + α * (b - a)</code>
      * </p>
      * @method lerp2
-     * @param a {VectorE3}
-     * @param b {VectorE3}
-     * @param α {number}
-     * @return {Vector3} <code>this</code>
+     * @param a
+     * @param b
+     * @param α
      * @chainable
      */
-    lerp2(a: VectorE3, b: VectorE3, α: number) {
+    lerp2(a: VectorE3, b: VectorE3, α: number): this {
         this.copy(a).lerp(b, α);
         return this;
     }
@@ -551,8 +535,7 @@ export class Vector3 {
      * <code>this ⟼ this * α</code>
      * </p>
      *
-     * @method scale
-     * @param α {number} 
+     * @param α
      */
     scale(α: number): Vector3 {
         this.x *= α;
@@ -563,10 +546,9 @@ export class Vector3 {
 
     /**
      * @method stress
-     * @param σ {VectorE3}
-     * @return Vector3
+     * @param σ
      */
-    stress(σ: VectorE3) {
+    stress(σ: VectorE3): this {
         this.x *= σ.x;
         this.y *= σ.y;
         this.z *= σ.z;
@@ -578,11 +560,9 @@ export class Vector3 {
      * <code>this ⟼ this</code>, with components modified.
      * </p>
      *
-     * @method set
-     * @param x {number}
-     * @param y {number}
-     * @param z {number}
-     * @return {Vector3} <code>this</code>
+     * @param x
+     * @param y
+     * @param z
      * @chainable
      */
     setXYZ(x: number, y: number, z: number): this {
@@ -596,7 +576,7 @@ export class Vector3 {
      * Returns the (Euclidean) inner product of this vector with itself.
      *
      * @method squaredNorm
-     * @return {number} <code>this ⋅ this</code> or <code>norm(this) * norm(this)</code>
+     * @return <code>this ⋅ this</code> or <code>norm(this) * norm(this)</code>
      */
     squaredNorm(): number {
         // quad = scp(v, rev(v)) = scp(v, v)
@@ -610,8 +590,8 @@ export class Vector3 {
      * </p>
      *
      * @method sub
-     * @param v {VectorE3}
-     * @param [α = 1] {number}
+     * @param v
+     * @param α
      * @return {Vector3} <code>this</code>
      * @chainable
      */
@@ -763,8 +743,7 @@ export class Vector3 {
 
     /**
      * @method copy
-     * @param vector {VectorE3}
-     * @return {Vector3}
+     * @param vector
      * @static
      * @chainable
      */
@@ -801,9 +780,9 @@ export class Vector3 {
 
     /**
      * @method lerp
-     * @param a {VectorE3}
-     * @param b {VectorE3}
-     * @param α {number}
+     * @param a
+     * @param b
+     * @param α
      * @return {Vector3} <code>a + α * (b - a)</code>
      * @static
      * @chainable

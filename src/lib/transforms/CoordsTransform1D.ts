@@ -14,6 +14,7 @@ export class CoordsTransform1D implements Transform {
         this.flipU = mustBeBoolean('flipU', flipU);
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     exec(vertex: Vertex, i: number, j: number, iLength: number, jLength: number): void {
         const u = i / (iLength - 1);
         vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS] = new Vector1([u]);

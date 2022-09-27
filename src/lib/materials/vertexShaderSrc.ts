@@ -97,12 +97,14 @@ export function vertexShaderSrc(attributes: { [name: string]: AttribMetaInfo }, 
     // The precision is implicitly highp for vertex shaders.
     // So there is no need to add preamble for changing the precision unless
     // we want to lower the precision.
-    for (let aName in attributes) {
+    for (const aName in attributes) {
+        // eslint-disable-next-line no-prototype-builtins
         if (attributes.hasOwnProperty(aName)) {
             lines.push(`${getAttributeModifier(version)} ${attributes[aName].glslType} ${getAttribVarName(attributes[aName], aName)};`);
         }
     }
-    for (let uName in uniforms) {
+    for (const uName in uniforms) {
+        // eslint-disable-next-line no-prototype-builtins
         if (uniforms.hasOwnProperty(uName)) {
             switch (uniforms[uName].glslType) {
                 case 'sampler2D': {
@@ -124,7 +126,7 @@ export function vertexShaderSrc(attributes: { [name: string]: AttribMetaInfo }, 
         lines.push(`${getVertexShaderVaryingModifier(version)} highp vec3 ${GPS.VARYING_LIGHT};`);
     }
     lines.push("void main(void) {");
-    let glPosition: string[] = [];
+    const glPosition: string[] = [];
     glPosition.unshift(SEMICOLON);
 
     if (attributes[GPS.ATTRIBUTE_POSITION]) {
@@ -213,7 +215,7 @@ export function vertexShaderSrc(attributes: { [name: string]: AttribMetaInfo }, 
 
     if (vColor) {
         if (attributes[GPS.ATTRIBUTE_COLOR]) {
-            let colorAttribVarName = getAttribVarName(attributes[GPS.ATTRIBUTE_COLOR], GPS.ATTRIBUTE_COLOR);
+            const colorAttribVarName = getAttribVarName(attributes[GPS.ATTRIBUTE_COLOR], GPS.ATTRIBUTE_COLOR);
             switch (attributes[GPS.ATTRIBUTE_COLOR].glslType) {
                 case 'vec4': {
                     lines.push(`  ${GPS.VARYING_COLOR} = ` + colorAttribVarName + SEMICOLON);
@@ -234,7 +236,7 @@ export function vertexShaderSrc(attributes: { [name: string]: AttribMetaInfo }, 
             }
         }
         else if (uniforms[GPS.UNIFORM_COLOR]) {
-            let colorUniformVarName = getUniformCodeName(uniforms, GPS.UNIFORM_COLOR);
+            const colorUniformVarName = getUniformCodeName(uniforms, GPS.UNIFORM_COLOR);
             switch (uniforms[GPS.UNIFORM_COLOR].glslType) {
                 case 'vec4': {
                     lines.push("  vColor = " + colorUniformVarName + SEMICOLON);

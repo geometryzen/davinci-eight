@@ -85,11 +85,10 @@ export class PolyhedronBuilder extends SimplexPrimitivesBuilder {
 
     /**
      * 
-     * param vertices {number} An array of 3 * N numbers representing N vertices.
-     * param indices {number} An array of 3 * M numbers representing M triangles.
-     *
-     * param radius The distance of the polyhedron points from the origin.
-     * param detail The number of times to subdivide the triangles in the faces.
+     * @param vertices An array of 3 * N numbers representing N vertices.
+     * @param indices An array of 3 * M numbers representing M triangles.
+     * @param radius The distance of the polyhedron points from the origin.
+     * @param detail The number of times to subdivide the triangles in the faces.
      */
     constructor(vertices: number[], indices: number[], radius = 1, detail = 0) {
         super();

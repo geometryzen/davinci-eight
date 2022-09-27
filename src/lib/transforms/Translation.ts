@@ -25,6 +25,7 @@ export class Translation implements Transform {
         this.names = names;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     exec(vertex: Vertex, i: number, j: number, iLength: number, jLength: number): void {
         const nLength = this.names.length;
         for (let k = 0; k < nLength; k++) {

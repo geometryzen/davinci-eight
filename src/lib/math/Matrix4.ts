@@ -200,14 +200,14 @@ export class Matrix4 extends AbstractMatrix<Matrix4> {
      * @param far
      */
     frustum(left: number, right: number, bottom: number, top: number, near: number, far: number): this {
-        let te = this.elements;
-        let x = 2 * near / (right - left);
-        let y = 2 * near / (top - bottom);
+        const te = this.elements;
+        const x = 2 * near / (right - left);
+        const y = 2 * near / (top - bottom);
 
-        let a = (right + left) / (right - left);
-        let b = (top + bottom) / (top - bottom);
-        let c = - (far + near) / (far - near);
-        let d = - 2 * far * near / (far - near);
+        const a = (right + left) / (right - left);
+        const b = (top + bottom) / (top - bottom);
+        const c = - (far + near) / (far - near);
+        const d = - 2 * far * near / (far - near);
 
         te[0] = x; te[4] = 0; te[8] = a; te[12] = 0;
         te[1] = 0; te[5] = y; te[9] = b; te[13] = 0;
@@ -352,7 +352,7 @@ export class Matrix4 extends AbstractMatrix<Matrix4> {
      * @param i the zero-based index of the row.
      */
     row(i: number): Array<number> {
-        let te = this.elements;
+        const te = this.elements;
         return [te[0 + i], te[4 + i], te[8 + i], te[12 + i]];
     }
 
@@ -418,6 +418,7 @@ export class Matrix4 extends AbstractMatrix<Matrix4> {
     toExponential(fractionDigits?: number): string {
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             text.push(this.row(i).map(function (element: number, index: number) { return element.toExponential(fractionDigits); }).join(' '));
         }
         return text.join('\n');
@@ -429,6 +430,7 @@ export class Matrix4 extends AbstractMatrix<Matrix4> {
     toFixed(fractionDigits?: number): string {
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             text.push(this.row(i).map(function (element: number, index: number) { return element.toFixed(fractionDigits); }).join(' '));
         }
         return text.join('\n');
@@ -440,6 +442,7 @@ export class Matrix4 extends AbstractMatrix<Matrix4> {
     toPrecision(fractionDigits?: number): string {
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             text.push(this.row(i).map(function (element: number, index: number) { return element.toPrecision(fractionDigits); }).join(' '));
         }
         return text.join('\n');
@@ -451,6 +454,7 @@ export class Matrix4 extends AbstractMatrix<Matrix4> {
     toString(radix?: number): string {
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             text.push(this.row(i).map(function (element: number, index: number) { return element.toString(radix); }).join(' '));
         }
         return text.join('\n');

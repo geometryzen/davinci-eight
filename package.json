@@ -1,6 +1,6 @@
 {
     "name": "davinci-eight",
-    "version": "8.4.39",
+    "version": "8.4.42",
     "description": "WebGL library for mathematical physics using Geometric Algebra",
     "author": {
         "name": "David Geo Holmes",
@@ -43,8 +43,8 @@
         "docs": "npm run docs:typedoc && open-cli docs/index.html",
         "docs:typedoc": "rm -rf docs && typedoc --options typedoc.json",
         "pages": "npm run docs:typedoc && gh-pages -d docs",
-        "pretest":"npm run build",
-        "prepublishOnly": "npm run build && npm run test",
+        "pretest": "npm run build",
+        "prepublishOnly": "npm run build && npm run test && npm run lint && npm run pages",
         "server": "live-server"
     },
     "devDependencies": {

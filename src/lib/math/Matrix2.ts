@@ -7,7 +7,7 @@ import { det2x2 } from '../math/det2x2';
 import { VectorE1 } from '../math/VectorE1';
 
 /**
- * @hidden
+ *
  */
 function add2x2(a: Float32Array, b: Float32Array, c: Float32Array): void {
 
@@ -25,7 +25,7 @@ function add2x2(a: Float32Array, b: Float32Array, c: Float32Array): void {
 }
 
 /**
- * @hidden
+ *
  */
 export class Matrix2 extends AbstractMatrix<Matrix2> {
 
@@ -185,14 +185,13 @@ export class Matrix2 extends AbstractMatrix<Matrix2> {
     /**
      * Sets all elements of this matrix to the supplied row-major values m11, ..., m22.
      * @method set
-     * @param m11 {number}
-     * @param m12 {number}
-     * @param m21 {number}
-     * @param m22 {number}
-     * @return {Matrix2}
+     * @param m11
+     * @param m12
+     * @param m21
+     * @param m22
      * @chainable
      */
-    set(m11: number, m12: number, m21: number, m22: number): Matrix2 {
+    set(m11: number, m12: number, m21: number, m22: number): this {
         const te = this.elements;
         // The elements are stored in column-major order.
         te[0x0] = m11; te[0x2] = m12;
@@ -202,11 +201,10 @@ export class Matrix2 extends AbstractMatrix<Matrix2> {
 
     /**
      * @method sub
-     * @param rhs {Matrix2}
-     * @return {Matrix2}
+     * @param rhs
      * @chainable
      */
-    sub(rhs: Matrix2): Matrix2 {
+    sub(rhs: Matrix2): this {
         const te = this.elements;
         const t11 = te[0];
         const t21 = te[1];
@@ -228,12 +226,13 @@ export class Matrix2 extends AbstractMatrix<Matrix2> {
 
     /**
      * @method toExponential
-     * @param [fractionDigits] {number}
-     * @return {string}
+     * @param fractionDigits
+     * @return
      */
     toExponential(fractionDigits?: number): string {
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             text.push(this.row(i).map(function (element: number, index: number) { return element.toExponential(fractionDigits); }).join(' '));
         }
         return text.join('\n');
@@ -241,8 +240,8 @@ export class Matrix2 extends AbstractMatrix<Matrix2> {
 
     /**
      * @method toFixed
-     * @param [fractionDigits] {number}
-     * @return {string}
+     * @param fractionDigits
+     * @return
      */
     toFixed(fractionDigits?: number): string {
         if (isDefined(fractionDigits)) {
@@ -250,6 +249,7 @@ export class Matrix2 extends AbstractMatrix<Matrix2> {
         }
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             text.push(this.row(i).map(function (element: number, index: number) { return element.toFixed(fractionDigits); }).join(' '));
         }
         return text.join('\n');
@@ -257,8 +257,8 @@ export class Matrix2 extends AbstractMatrix<Matrix2> {
 
     /**
      * @method toPrecision
-     * @param [precision] {number}
-     * @return {string}
+     * @param precision
+     * @return
      */
     toPrecision(precision?: number): string {
         if (isDefined(precision)) {
@@ -266,6 +266,7 @@ export class Matrix2 extends AbstractMatrix<Matrix2> {
         }
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             text.push(this.row(i).map(function (element: number, index: number) { return element.toPrecision(precision); }).join(' '));
         }
         return text.join('\n');
@@ -273,12 +274,12 @@ export class Matrix2 extends AbstractMatrix<Matrix2> {
 
     /**
      * @method toString
-     * @param [radix] {number}
-     * @return {string}
+     * @param radix
      */
     toString(radix?: number): string {
         const text: string[] = [];
         for (let i = 0, iLength = this.dimensions; i < iLength; i++) {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             text.push(this.row(i).map(function (element: number, index: number) { return element.toString(radix); }).join(' '));
         }
         return text.join('\n');
@@ -286,11 +287,10 @@ export class Matrix2 extends AbstractMatrix<Matrix2> {
 
     /**
      * @method translation
-     * @param d {VectorE1}
-     * @return {Matrix2}
+     * @param d
      * @chainable
      */
-    translation(d: VectorE1): Matrix2 {
+    translation(d: VectorE1): this {
         const x = d.x;
         return this.set(
             1, x,

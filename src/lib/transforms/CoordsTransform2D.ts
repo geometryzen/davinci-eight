@@ -20,11 +20,11 @@ export class CoordsTransform2D implements Transform {
 
     /**
      * @method exec
-     * @param vertex {Vertex}
-     * @param i {number}
-     * @param j {number}
-     * @param iLength {number}
-     * @param jLength {number}
+     * @param vertex
+     * @param i
+     * @param j
+     * @param iLength
+     * @param jLength
      */
     exec(vertex: Vertex, i: number, j: number, iLength: number, jLength: number): void {
         const u = i / (iLength - 1);

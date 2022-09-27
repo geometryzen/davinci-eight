@@ -7,13 +7,13 @@ import { Simplex } from './Simplex';
  */
 export function computeUniqueVertices(geometry: Simplex[]): Vertex[] {
 
-    let map: { [key: string]: Vertex } = {};
-    let vertices: Vertex[] = [];
+    const map: { [key: string]: Vertex } = {};
+    const vertices: Vertex[] = [];
 
     function munge(vertex: Vertex) {
-        let key = vertex.toString();
+        const key = vertex.toString();
         if (map[key]) {
-            let existing = map[key];
+            const existing = map[key];
             vertex.index = existing.index;
         }
         else {

@@ -24,12 +24,12 @@ export class NumberShareableMap<V extends Shareable> extends ShareableBase {
     }
 
     exists(key: number): boolean {
-        let element = this._elements[key];
+        const element = this._elements[key];
         return element ? true : false;
     }
 
     get(key: number): V {
-        let element = this.getWeakRef(key);
+        const element = this.getWeakRef(key);
         if (element) {
             element.addRef();
         }
@@ -57,10 +57,10 @@ export class NumberShareableMap<V extends Shareable> extends ShareableBase {
     }
 
     forEach(callback: (key: number, value: V) => void) {
-        let keys: number[] = this.keys;
+        const keys: number[] = this.keys;
         for (let i = 0, iLength = keys.length; i < iLength; i++) {
-            let key: number = keys[i];
-            let value = this._elements[key];
+            const key: number = keys[i];
+            const value = this._elements[key];
             callback(key, value);
         }
     }

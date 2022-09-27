@@ -17,7 +17,7 @@ import { VertexBuffer } from '../core/VertexBuffer';
 import { readOnly } from '../i18n/readOnly';
 
 /**
- * @hidden
+ *
  */
 export class ShaderMaterial extends ShareableContextConsumer implements Material {
 
@@ -128,12 +128,14 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
             }
 
             // TODO: This would be more efficient over the array.
-            for (let aName in this._attributesByName) {
+            for (const aName in this._attributesByName) {
+                // eslint-disable-next-line no-prototype-builtins
                 if (this._attributesByName.hasOwnProperty(aName)) {
                     this._attributesByName[aName].contextGain(gl, this._program);
                 }
             }
-            for (let uName in this._uniforms) {
+            for (const uName in this._uniforms) {
+                // eslint-disable-next-line no-prototype-builtins
                 if (this._uniforms.hasOwnProperty(uName)) {
                     this._uniforms[uName].contextGain(gl, this._program);
                 }
@@ -149,11 +151,13 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
         this._program = void 0;
         for (const aName in this._attributesByName) {
             // TODO: This would be better over the array.
+            // eslint-disable-next-line no-prototype-builtins
             if (this._attributesByName.hasOwnProperty(aName)) {
                 this._attributesByName[aName].contextLost();
             }
         }
         for (const uName in this._uniforms) {
+            // eslint-disable-next-line no-prototype-builtins
             if (this._uniforms.hasOwnProperty(uName)) {
                 this._uniforms[uName].contextLost();
             }
@@ -181,12 +185,14 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
             this._program = void 0;
         }
         // TODO
-        for (let aName in this._attributesByName) {
+        for (const aName in this._attributesByName) {
+            // eslint-disable-next-line no-prototype-builtins
             if (this._attributesByName.hasOwnProperty(aName)) {
                 this._attributesByName[aName].contextFree();
             }
         }
-        for (let uName in this._uniforms) {
+        for (const uName in this._uniforms) {
+            // eslint-disable-next-line no-prototype-builtins
             if (this._uniforms.hasOwnProperty(uName)) {
                 this._uniforms[uName].contextFree();
             }

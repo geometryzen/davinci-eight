@@ -32,9 +32,11 @@ class MockElement implements BrowserHTMLElement {
 class MockDocument implements BrowserDocument {
     public documentElement: BrowserHTMLElement;
     public listening: { [type: string]: EventListener } = {};
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     addEventListener(type: string, listener: EventListener, useCapture?: boolean): void {
         this.listening[type] = listener;
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     removeEventListener(type: string, listener: EventListener, useCapture?: boolean): void {
         delete this.listening[type];
     }
@@ -53,12 +55,14 @@ class MockWindow implements BrowserWindow {
     public document = new MockDocument();
     public listening: { [type: string]: EventListener } = {};
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     addEventListener(type: string, listener: EventListener, useCapture?: boolean): void {
         this.listening[type] = listener;
     }
     cancelAnimationFrame(handle: number): void {
         return window.cancelAnimationFrame(handle);
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     removeEventListener(type: string, listener: EventListener, useCapture?: boolean): void {
         delete this.listening[type];
     }

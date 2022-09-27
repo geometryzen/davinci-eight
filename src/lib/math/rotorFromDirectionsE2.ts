@@ -32,9 +32,9 @@ export function rotorFromDirectionsE2(a: VectorE2, b: VectorE2, m: Output): void
     const dotBA = dotVectorE2(b, a);
     const denom = sqrt(2 * (quadB * quadA + BA * dotBA));
     if (denom !== 0) {
-        m = m.versor(b, a);
-        m = m.addScalar(BA);
-        m = m.divByScalar(denom);
+        m.versor(b, a);
+        m.addScalar(BA);
+        m.divByScalar(denom);
     }
     else {
         // The denominator is zero when |a||b| + a << b = 0.

@@ -4,7 +4,6 @@ import { BeginMode } from './BeginMode';
 /**
  * The data corresponding to a drawArrays or drawElements call to the WebGL API.
  * This data is not interleaved.
- * @hidden
  */
 export interface Primitive {
     /**

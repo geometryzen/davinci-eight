@@ -73,7 +73,10 @@ export function animation(animate: (time: number) => void, options: WindowAnimat
         */
     };
 
-    let frameRequestCallback: FrameRequestCallback;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    let frameRequestCallback: FrameRequestCallback = function (time: number) {
+        // Do nothing.
+    };
 
     // The public API is a classic stopwatch.
     // The states are INITIAL, RUNNING, PAUSED.

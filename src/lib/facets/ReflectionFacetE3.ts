@@ -18,7 +18,7 @@ export class ReflectionFacetE3 implements Facet {
     private name: string;
 
     /**
-     * @param name {string} The name of the uniform variable.
+     * @param name The name of the uniform variable.
      */
     constructor(name: string) {
         this.name = mustBeString('name', name);

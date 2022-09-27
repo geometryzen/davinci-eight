@@ -14,7 +14,8 @@ export class Simplex1Geometry extends SimplexPrimitivesBuilder {
         this.calculate();
     }
     public calculate(): void {
-        const pos: Vector3[] = [0, 1].map(function (index) { return void 0; });
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const pos: Vector3[] = [0, 1].map(function (index: number) { return void 0; });
         pos[0] = this.tail;
         pos[1] = this.head;
 
