@@ -1,4 +1,5 @@
 import { Geometric3 } from './Geometric3';
+import { ignoreNegativeZero } from './ignoreNegativeZero';
 import { Spinor3 } from './Spinor3';
 import { Vector3 } from './Vector3';
 
@@ -87,9 +88,9 @@ describe("Spinor3", function () {
         describe("e1", function () {
             it("", function () {
                 const B = Spinor3.dual(e1, false);
-                expect(B.xy).toBe(e32.xy);
+                expect(ignoreNegativeZero(B.xy)).toBe(ignoreNegativeZero(e32.xy));
                 expect(B.yz).toBe(e32.yz);
-                expect(B.zx).toBe(e32.zx);
+                expect(ignoreNegativeZero(B.zx)).toBe(ignoreNegativeZero(e32.zx));
             });
         });
     });

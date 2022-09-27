@@ -7,6 +7,7 @@ check_publish_env.js
 deploy.sh
 register.js
 typedoc.json
+/coverage/
 /docs/**/*.*
 /dist/cjs/index.d.ts
 /dist/cjs/lib/**/*.*
@@ -27,6 +28,7 @@ typedoc.json
 .travis.yml
 CHANGELOG.md
 CONTRIBUTING.md
+jest.config.js
 rollup.config.js
 tsconfig.json
 tsconfig.main.json

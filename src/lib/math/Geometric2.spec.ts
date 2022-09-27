@@ -1,4 +1,5 @@
 import { Geometric2 } from './Geometric2';
+import { ignoreNegativeZero } from './ignoreNegativeZero';
 
 // const zero = Geometric2.zero;
 const one = Geometric2.one(true);
@@ -23,10 +24,10 @@ const PRECISION = 14;
  * @hidden
  */
 function checkEQ(result: Geometric2, comp: Geometric2): void {
-    expect(result.a).toBe(comp.a);
-    expect(result.x).toBe(comp.x);
-    expect(result.y).toBe(comp.y);
-    expect(result.b).toBe(comp.b);
+    expect(ignoreNegativeZero(result.a)).toBe(ignoreNegativeZero(comp.a));
+    expect(ignoreNegativeZero(result.x)).toBe(ignoreNegativeZero(comp.x));
+    expect(ignoreNegativeZero(result.y)).toBe(ignoreNegativeZero(comp.y));
+    expect(ignoreNegativeZero(result.b)).toBe(ignoreNegativeZero(comp.b));
     expect(result.isLocked()).toBe(comp.isLocked());
     // expect(result.isMutable()).toBe(comp.isMutable(), `isMutable, result=${result.isMutable()}, comp=${comp.isMutable()}`);
 }
@@ -239,17 +240,17 @@ describe("Geometric2", function () {
             const e2: Geometric2 = Geometric2.e2();
             const inv = e2.clone().inv();
             expect(inv.a).toBe(0);
-            expect(inv.x).toBe(0);
+            expect(ignoreNegativeZero(inv.x)).toBe(0);
             expect(inv.y).toBe(1);
-            expect(inv.b).toBe(0);
+            expect(ignoreNegativeZero(inv.b)).toBe(0);
         });
         it("(2 * e2) should be 0.5 * e2", function () {
             const e2: Geometric2 = Geometric2.e2();
             const inv = e2.clone().scale(2).inv();
             expect(inv.a).toBe(0);
-            expect(inv.x).toBe(0);
+            expect(ignoreNegativeZero(inv.x)).toBe(0);
             expect(inv.y).toBe(0.5);
-            expect(inv.b).toBe(0);
+            expect(ignoreNegativeZero(inv.b)).toBe(0);
         });
         it("(I) should be -I", function () {
             const e1: Geometric2 = Geometric2.e1();
@@ -257,7 +258,7 @@ describe("Geometric2", function () {
             const I = e1.clone().mul(e2);
             const inv = I.clone().inv();
             expect(inv.a).toBe(0);
-            expect(inv.x).toBe(0);
+            expect(ignoreNegativeZero(inv.x)).toBe(0);
             expect(inv.y).toBe(0);
             expect(inv.b).toBe(-1);
         });
@@ -267,7 +268,7 @@ describe("Geometric2", function () {
             const I = e1.clone().mul(e2);
             const inv = I.clone().scale(2).inv();
             expect(inv.a).toBe(0);
-            expect(inv.x).toBe(0);
+            expect(ignoreNegativeZero(inv.x)).toBe(0);
             expect(inv.y).toBe(0);
             expect(inv.b).toBe(-0.5);
         });

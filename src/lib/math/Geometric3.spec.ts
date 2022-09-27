@@ -1,5 +1,6 @@
 import { BivectorE3 } from "./BivectorE3";
 import { Geometric3 } from "./Geometric3";
+import { ignoreNegativeZero } from "./ignoreNegativeZero";
 import { Spinor3 } from "./Spinor3";
 import { Vector3 } from "./Vector3";
 import { VectorE3 } from "./VectorE3";
@@ -84,10 +85,10 @@ function checkEQ(result: Geometric3, comp: Geometric3): void {
     expect(result.x).toBe(comp.x);
     expect(result.y).toBe(comp.y);
     expect(result.z).toBe(comp.z);
-    expect(result.xy).toBe(comp.xy);
-    expect(result.yz).toBe(comp.yz);
-    expect(result.zx).toBe(comp.zx);
-    expect(result.b).toBe(comp.b);
+    expect(ignoreNegativeZero(result.xy)).toBe(ignoreNegativeZero(comp.xy));
+    expect(ignoreNegativeZero(result.yz)).toBe(ignoreNegativeZero(comp.yz));
+    expect(ignoreNegativeZero(result.zx)).toBe(ignoreNegativeZero(comp.zx));
+    expect(ignoreNegativeZero(result.b)).toBe(ignoreNegativeZero(comp.b));
     expect(result.isLocked()).toBe(comp.isLocked());
     // expect(result.isMutable()).toBe(comp.isMutable(), `isMutable, result=${result.isMutable()}, comp=${comp.isMutable()}`);
 }
