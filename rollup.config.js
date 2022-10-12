@@ -1,6 +1,5 @@
 /* eslint-disable no-undef */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
 import dts from 'rollup-plugin-dts';
@@ -38,12 +37,6 @@ export default [
                 plugins: [terser()]
             },
             {
-                file: pkg.main,
-                format: 'cjs',
-                sourcemap: true,
-                name: 'EIGHT'
-            },
-            {
                 file: pkg.module,
                 format: 'esm',
                 sourcemap: true
@@ -65,7 +58,6 @@ export default [
         plugins: [
             external(),
             resolve(),
-            commonjs(),
             typescript({ tsconfig: './tsconfig.json' })
         ]
     },

@@ -15,6 +15,7 @@ export { WebGLEnable } from './lib/commands/WebGLEnable';
 // controls
 export { OrbitControls } from './lib/controls/OrbitControls';
 export { TrackballControls } from './lib/controls/TrackballControls';
+export { ViewController } from './lib/controls/ViewController';
 // core
 export { AbstractDrawable } from './lib/core/AbstractDrawable';
 export { AbstractMesh } from './lib/core/AbstractMesh';
@@ -69,7 +70,7 @@ export { vertexArraysFromPrimitive } from './lib/core/vertexArraysFromPrimitive'
 export { VertexBuffer } from './lib/core/VertexBuffer';
 // diagram
 export { Diagram3D } from './lib/diagram/Diagram3D';
-// facets and animation targets
+// facets
 export { AmbientLight } from './lib/facets/AmbientLight';
 export { Camera } from './lib/facets/Camera';
 export { ColorFacet } from './lib/facets/ColorFacet';
@@ -137,9 +138,8 @@ export { VectorE2 } from './lib/math/VectorE2';
 export { VectorE3 } from './lib/math/VectorE3';
 export { VectorE4 } from './lib/math/VectorE4';
 export { VectorN } from './lib/math/VectorN';
-// animation
-export { animation } from './lib/utils/animation';
 // utils
+export { animation } from './lib/utils/animation';
 export { getCanvasElementById } from './lib/utils/getCanvasElementById';
 // visual
 export { Arrow } from './lib/visual/Arrow';
