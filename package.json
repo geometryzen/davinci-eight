@@ -1,6 +1,6 @@
 {
     "name": "davinci-eight",
-    "version": "8.4.50",
+    "version": "8.4.51",
     "description": "WebGL library for mathematical physics using Geometric Algebra",
     "exports": {
         ".": {
