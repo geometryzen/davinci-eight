@@ -22,21 +22,6 @@ export default [
         input: 'src/index.ts',
         output: [
             {
-                banner,
-                file: pkg.browser,
-                format: 'umd',
-                sourcemap: true,
-                name: "EIGHT",
-            },
-            {
-                banner,
-                file: './dist/umd/index.min.js',
-                format: 'umd',
-                sourcemap: true,
-                name: "EIGHT",
-                plugins: [terser()]
-            },
-            {
                 file: pkg.module,
                 format: 'esm',
                 sourcemap: true

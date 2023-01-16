@@ -7,23 +7,13 @@ export class Eight {
      */
     readonly GITHUB: string;
     /**
-     * The last modification date in YYYY-MM-DD format.
-     */
-    readonly LAST_MODIFIED: string;
-    /**
      * The name used for marketing purposes.
      */
     readonly MARKETING_NAME: string;
-    /**
-     * The semantic version number of this library, i.e., (major.minor.patch) format.
-     */
-    readonly VERSION: string;
 
     constructor() {
         this.GITHUB = "https://github.com/geometryzen/davinci-eight";
-        this.LAST_MODIFIED = "2023-01-06";
         this.MARKETING_NAME = "DaVinci Eight";
-        this.VERSION = "8.4.50";
     }
 
     log(message?: any): void {

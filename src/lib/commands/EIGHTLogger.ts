@@ -7,27 +7,27 @@ import { ShareableBase } from '../core/ShareableBase';
  */
 export class EIGHTLogger extends ShareableBase {
 
-  constructor() {
-    super();
-    this.setLoggingName('EIGHTLogger');
-  }
+    constructor() {
+        super();
+        this.setLoggingName('EIGHTLogger');
+    }
 
-  protected destructor(levelUp: number): void {
-    super.destructor(levelUp + 1);
-  }
+    protected destructor(levelUp: number): void {
+        super.destructor(levelUp + 1);
+    }
 
-  contextFree(): void {
-    // Does nothing.
-  }
+    contextFree(): void {
+        // Does nothing.
+    }
 
-  /**
-   * Logs the namespace, version, GitHub URL, and last modified date to the console.
-   */
-  contextGain(): void {
-    console.log(`${config.MARKETING_NAME} ${config.VERSION} (${config.GITHUB}) ${config.LAST_MODIFIED}`);
-  }
+    /**
+     * Logs the namespace, version, GitHub URL, and last modified date to the console.
+     */
+    contextGain(): void {
+        console.log(`${config.MARKETING_NAME} (${config.GITHUB})`);
+    }
 
-  contextLost(): void {
-    // Do nothing.
-  }
+    contextLost(): void {
+        // Do nothing.
+    }
 }

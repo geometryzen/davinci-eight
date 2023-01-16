@@ -1,5 +1,8 @@
 {
     "compilerOptions": {
+        "declaration": true,
+        "declarationDir": "types",
+        "emitDeclarationOnly": true,
         "target": "es2022",
         "module": "es6",
         "sourceMap": true,
@@ -15,9 +18,6 @@
         "forceConsistentCasingInFileNames": true,
         "skipLibCheck": true,
         "strictNullChecks": false,
-        "declaration": true,
-        "declarationDir": "types",
-        "emitDeclarationOnly": true
     },
     "lib": [
         "es2015",
