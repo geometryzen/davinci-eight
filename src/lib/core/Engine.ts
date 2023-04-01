@@ -312,6 +312,13 @@ export class Engine extends ShareableBase implements ContextManager {
         return this;
     }
 
+    finish(): this {
+        if (this._gl) {
+            this._gl.finish();
+        }
+        return this;
+    }
+
     /**
      * The underlying WebGL rendering context.
      */
