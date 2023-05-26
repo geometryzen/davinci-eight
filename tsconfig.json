@@ -4,7 +4,7 @@
         "declarationDir": "types",
         "emitDeclarationOnly": true,
         "target": "es2022",
-        "module": "es6",
+        "module": "esnext",
         "sourceMap": true,
         "outDir": "build",
         "strict": true,
@@ -16,9 +16,15 @@
         "moduleResolution": "node",
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
+        "removeComments": true,
+        "resolveJsonModule": true,
         "skipLibCheck": true,
         "strictNullChecks": false,
     },
+    "include": [
+        "src/**/*.ts",
+        "rollup.config.mts"
+    ],
     "lib": [
         "es2015",
         "dom"
