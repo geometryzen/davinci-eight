@@ -9,6 +9,7 @@ import { LockableMixin } from './Lockable';
  * Notice that isLocked is now a standard function.
  * @hidden
  */
+// eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 class HAL {
     changeMe(): void {
         if (this.isLocked()) {
@@ -16,6 +17,7 @@ class HAL {
         }
     }
 }
+// eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 interface HAL extends LockableMixin { }
 // applyMixins(HAL, [LockableMixin]);
 

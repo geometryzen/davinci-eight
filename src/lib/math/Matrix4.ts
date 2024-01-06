@@ -315,7 +315,7 @@ export class Matrix4 extends AbstractMatrix<Matrix4> {
      *
      * this ⟼ rotation(spinor)
      *
-     * @param attitude  The spinor from which the rotation will be computed.
+     * @param spinor  The spinor from which the rotation will be computed.
      */
     rotation(spinor: SpinorE3): this {
         // The correspondence between quaternions and spinors is

@@ -214,7 +214,7 @@ export class Vector2 {
     }
 
     /**
-     * @param point
+     * @param position
      */
     distanceTo(position: VectorE2): number {
         return sqrt(this.quadranceTo(position));
