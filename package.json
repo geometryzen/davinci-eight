@@ -1,6 +1,6 @@
 {
     "name": "g3o",
-    "version": "0.9.0",
+    "version": "8.4.55",
     "description": "WebGL library for mathematical physics using Geometric Algebra",
     "exports": {
         ".": {
