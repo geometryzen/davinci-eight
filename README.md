@@ -1,14 +1,14 @@
-# davinci-eight
+# g3o
 
-[![version](https://img.shields.io/npm/v/davinci-eight.svg)](https://www.npmjs.com/package/davinci-eight) 
+[![version](https://img.shields.io/npm/v/g3o.svg)](https://www.npmjs.com/package/g3o) 
 
-[![npm downloads](https://img.shields.io/npm/dm/davinci-eight.svg)](https://npm-stat.com/charts.html?package=davinci-eight&from=2020-06-01) 
+[![npm downloads](https://img.shields.io/npm/dm/g3o.svg)](https://npm-stat.com/charts.html?package=g3o&from=2020-06-01) 
 
-davinci-eight is a WebGL library for mathematical physics using Geometric Algebra
+g3o is a WebGL library for mathematical physics using Geometric Algebra
 
 Example: [__https://www.stemcstudio.com/gists/54644519dcd556bf8bf779bfa084ced3__](https://stemcstudio.com/gists/54644519dcd556bf8bf779bfa084ced3)
 
-davinci-eight is designed and developed according to the following principles:
+g3o is designed and developed according to the following principles:
 
 1. Designed foremost to support Mathematical Physics using Geometric Algebra.
 2. Manage WebGL shader complexity rather than trying to hide it.
@@ -35,7 +35,7 @@ More simply, geometry makes more sense when it is done using Geometric Algebra!
 
 ## API Documentation
 
-Typedoc here: [__https://geometryzen.github.io/davinci-eight__](https://geometryzen.github.io/davinci-eight)
+Typedoc here: [__https://geometryzen.github.io/g3o-eight__](https://geometryzen.github.io/g3o)
 
 The `Globals` or top-level components represent only a small portion of what is available in the EIGHT library.
 Drilling into the top-level componets will reveal a reusable structure for implementing your own components.

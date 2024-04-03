@@ -18,16 +18,16 @@ npm install --global sorcery
 
 Open a terminal window.
 
-Clone the davinci-eight repo:
+Clone the g3o-eight repo:
 
 ```bash
-git clone git://github.com/geometryzen/davinci-eight.git
+git clone git://github.com/geometryzen/g3o-eight.git
 ```
 
 Change to the repo directory:
 
 ```bash
-cd davinci-eight
+cd g3o-eight
 ```
 
 Install NPM:
