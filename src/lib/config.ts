@@ -12,8 +12,8 @@ export class Eight {
     readonly MARKETING_NAME: string;
 
     constructor() {
-        this.GITHUB = "https://github.com/geometryzen/g3o";
-        this.MARKETING_NAME = "g30";
+        this.GITHUB = "https://github.com/geometryzen/davinci-eight";
+        this.MARKETING_NAME = "davinci-eight";
     }
 
     log(message?: any): void {
