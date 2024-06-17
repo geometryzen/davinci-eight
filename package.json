@@ -69,8 +69,6 @@
         "docs": "npm run docs:typedoc && open-cli docs/index.html",
         "docs:typedoc": "rm -rf docs && typedoc --options typedoc.json",
         "pages": "npm run docs:typedoc && gh-pages -d docs",
-        "pretest": "npm run build",
-        "prepublishOnly": "npm run build && npm run test && npm run lint && npx package-check && npm run pages",
         "release": "release-it",
         "server": "live-server"
     },
