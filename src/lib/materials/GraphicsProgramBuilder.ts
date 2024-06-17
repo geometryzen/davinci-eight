@@ -1,30 +1,30 @@
-import { mustBeDefined } from '../checks/mustBeDefined';
-import { mustBeInteger } from '../checks/mustBeInteger';
-import { mustBeString } from '../checks/mustBeString';
-import { AttributeGlslType } from '../core/AttributeGlslType';
-import { AttributeSizeType } from '../core/AttributeSizeType';
-import { getAttribVarName } from '../core/getAttribVarName';
-import { Primitive } from '../core/Primitive';
-import { UniformGlslType } from '../core/UniformGlslType';
-import { fragmentShaderSrc } from './fragmentShaderSrc';
-import { glslAttribType } from './glslAttribType';
-import { GLSLESVersion } from './glslVersion';
-import { vColorRequired } from './vColorRequired';
-import { vCoordsRequired } from './vCoordsRequired';
-import { vertexShaderSrc } from './vertexShaderSrc';
-import { vLightRequired } from './vLightRequired';
+import { mustBeDefined } from "../checks/mustBeDefined";
+import { mustBeInteger } from "../checks/mustBeInteger";
+import { mustBeString } from "../checks/mustBeString";
+import { AttributeGlslType } from "../core/AttributeGlslType";
+import { AttributeSizeType } from "../core/AttributeSizeType";
+import { getAttribVarName } from "../core/getAttribVarName";
+import { Primitive } from "../core/Primitive";
+import { UniformGlslType } from "../core/UniformGlslType";
+import { fragmentShaderSrc } from "./fragmentShaderSrc";
+import { glslAttribType } from "./glslAttribType";
+import { GLSLESVersion } from "./glslVersion";
+import { vColorRequired } from "./vColorRequired";
+import { vCoordsRequired } from "./vCoordsRequired";
+import { vertexShaderSrc } from "./vertexShaderSrc";
+import { vLightRequired } from "./vLightRequired";
 
 /**
  * @hidden
  */
-function computeAttribParams(values: { [key: string]: { size: AttributeSizeType, name?: string } }) {
-    const result: { [key: string]: { glslType: AttributeGlslType, name?: string } } = {};
+function computeAttribParams(values: { [key: string]: { size: AttributeSizeType; name?: string } }) {
+    const result: { [key: string]: { glslType: AttributeGlslType; name?: string } } = {};
     const keys = Object.keys(values);
     const keysLength = keys.length;
     for (let i = 0; i < keysLength; i++) {
         const key = keys[i];
         const attribute = values[key];
-        mustBeInteger('size', attribute.size);
+        mustBeInteger("size", attribute.size);
         const varName = getAttribVarName(attribute, key);
         result[varName] = { glslType: glslAttribType(key, attribute.size) };
     }
@@ -36,8 +36,7 @@ function computeAttribParams(values: { [key: string]: { size: AttributeSizeType,
  * @hidden
  */
 export class GraphicsProgramBuilder {
-
-    private aMeta: { [key: string]: { size: AttributeSizeType; } } = {};
+    private aMeta: { [key: string]: { size: AttributeSizeType } } = {};
 
     private uParams: { [key: string]: { glslType: UniformGlslType; name?: string } } = {};
 
@@ -59,15 +58,15 @@ export class GraphicsProgramBuilder {
     }
 
     public attribute(name: string, size: AttributeSizeType): this {
-        mustBeString('name', name);
-        mustBeInteger('size', size);
+        mustBeString("name", name);
+        mustBeInteger("size", size);
         this.aMeta[name] = { size };
         return this;
     }
 
     public uniform(name: string, glslType: UniformGlslType): this {
-        mustBeString('name', name);
-        mustBeString('glslType', glslType);
+        mustBeString("name", name);
+        mustBeString("glslType", glslType);
         this.uParams[name] = { glslType };
         return this;
     }

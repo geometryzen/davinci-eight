@@ -1,7 +1,7 @@
-import { FontFace } from '../geometries/FontFace';
+import { FontFace } from "../geometries/FontFace";
 // import generateTextShapes from '../geometries/generateTextShapes';
 // import ExtrudeSimplexGeometry from '../geometries/ExtrudeSimplexGeometry')
-import { SimplexPrimitivesBuilder } from '../geometries/SimplexPrimitivesBuilder';
+import { SimplexPrimitivesBuilder } from "../geometries/SimplexPrimitivesBuilder";
 
 /*
 function futzParameters(parameters: { amount?: number; bevelEnabled?: boolean, bevelSize?: number, bevelThickness?: number; height?: number }) {
@@ -21,9 +21,9 @@ function futzParameters(parameters: { amount?: number; bevelEnabled?: boolean, b
 /**
  * @hidden
  */
-export class TextSimplexGeometry extends /*Extrude*/SimplexPrimitivesBuilder {
+export class TextSimplexGeometry extends /*Extrude*/ SimplexPrimitivesBuilder {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    constructor(text: string, face: FontFace, parameters: { amount?: number; bevelEnabled?: boolean, bevelSize?: number, bevelThickness?: number; height?: number }) {
+    constructor(text: string, face: FontFace, parameters: { amount?: number; bevelEnabled?: boolean; bevelSize?: number; bevelThickness?: number; height?: number }) {
         super();
         // var shapes = generateTextShapes(text, face, parameters)
         //    super(generateTextShapes(text, parameters), parameters, 'TextSimplexGeometry')

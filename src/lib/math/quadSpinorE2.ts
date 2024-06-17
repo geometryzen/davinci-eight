@@ -1,6 +1,6 @@
-import { isDefined } from '../checks/isDefined';
-import { isNumber } from '../checks/isNumber';
-import { SpinorE2 } from '../math/SpinorE2';
+import { isDefined } from "../checks/isDefined";
+import { isNumber } from "../checks/isNumber";
+import { SpinorE2 } from "../math/SpinorE2";
 
 /**
  * @hidden
@@ -11,12 +11,10 @@ export function quadSpinorE2(s: SpinorE2): number {
         const β = s.b;
         if (isNumber(α) && isNumber(β)) {
             return α * α + β * β;
-        }
-        else {
+        } else {
             return void 0;
         }
-    }
-    else {
+    } else {
         return void 0;
     }
 }

@@ -1,5 +1,5 @@
-import { isDefined } from '../checks/isDefined';
-import { config } from '../config';
+import { isDefined } from "../checks/isDefined";
+import { config } from "../config";
 
 /**
  * @hidden
@@ -25,7 +25,7 @@ let traceName: string = void 0;
 /**
  * @hidden
  */
-const LOGGING_NAME_REF_CHANGE = 'refChange';
+const LOGGING_NAME_REF_CHANGE = "refChange";
 
 /**
  * @hidden
@@ -110,8 +110,7 @@ function dump(): number {
         config.warn("Memory Leak!");
         config.warn(outstandingMessage(outstanding));
         config.warn(JSON.stringify(statistics, null, 2));
-    }
-    else {
+    } else {
         if (chatty) {
             config.log(outstandingMessage(outstanding));
         }
@@ -132,13 +131,11 @@ export function refChange(uuid: string, name?: string, change = 0): number {
                 const element = statistics[uuid];
                 if (element) {
                     log(change + " on " + uuid + " @ " + name);
-                }
-                else {
+                } else {
                     log(change + " on " + uuid + " @ " + name);
                 }
             }
-        }
-        else {
+        } else {
             // trace everything
             log(change + " on " + uuid + " @ " + name);
         }
@@ -148,55 +145,45 @@ export function refChange(uuid: string, name?: string, change = 0): number {
         if (!element) {
             element = { refCount: 0, name: name, zombie: false };
             statistics[uuid] = element;
-        }
-        else {
+        } else {
             // It's more efficient to synchronize the name than by using a change of zero.
             element.name = name;
         }
         element.refCount += change;
-    }
-    else if (change === -1) {
+    } else if (change === -1) {
         const element = statistics[uuid];
         if (element) {
             element.refCount += change;
             if (element.refCount === 0) {
                 element.zombie = true;
-            }
-            else if (element.refCount < 0) {
+            } else if (element.refCount < 0) {
                 error(`refCount < 0 for ${name}`);
             }
-        }
-        else {
+        } else {
             error(change + " on " + uuid + " @ " + name);
         }
-    }
-    else if (change === 0) {
+    } else if (change === 0) {
         // When the value of change is zero, the uuid is either a command or a method on an exisiting uuid.
         const message = isDefined(name) ? `${uuid} @ ${name}` : uuid;
-        if (uuid === 'stop') {
+        if (uuid === "stop") {
             if (chatty) {
                 log(message);
             }
             return stop();
-        }
-        else {
-            if (uuid === 'dump') {
+        } else {
+            if (uuid === "dump") {
                 return dump();
-            }
-            else if (uuid === 'verbose') {
+            } else if (uuid === "verbose") {
                 chatty = true;
-            }
-            else if (uuid === 'quiet') {
+            } else if (uuid === "quiet") {
                 chatty = false;
-            }
-            else if (uuid === 'start') {
+            } else if (uuid === "start") {
                 if (chatty) {
                     log(message);
                 }
                 skip = false;
                 trace = false;
-            }
-            else if (uuid === 'reset') {
+            } else if (uuid === "reset") {
                 if (chatty) {
                     log(message);
                 }
@@ -205,21 +192,18 @@ export function refChange(uuid: string, name?: string, change = 0): number {
                 skip = true;
                 trace = false;
                 traceName = void 0;
-            }
-            else if (uuid === 'trace') {
+            } else if (uuid === "trace") {
                 if (chatty) {
                     log(message);
                 }
                 skip = false;
                 trace = true;
                 traceName = name;
-            }
-            else {
+            } else {
                 throw new Error(prefix(`Unexpected command uuid => ${uuid}, name => ${name}`));
             }
         }
-    }
-    else {
+    } else {
         throw new Error(prefix("change must be +1 or -1 for normal recording, or 0 for logging to the console."));
     }
     return void 0;

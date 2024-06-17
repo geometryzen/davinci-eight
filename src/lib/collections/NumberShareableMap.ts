@@ -1,16 +1,15 @@
-import { Shareable } from '../core/Shareable';
-import { ShareableBase } from '../core/ShareableBase';
+import { Shareable } from "../core/Shareable";
+import { ShareableBase } from "../core/ShareableBase";
 
 /**
  * @hidden
  */
 export class NumberShareableMap<V extends Shareable> extends ShareableBase {
-
     private _elements: { [key: number]: V } = {};
 
     constructor() {
         super();
-        this.setLoggingName('NumberShareableMap');
+        this.setLoggingName("NumberShareableMap");
     }
 
     protected destructor(levelUp: number): void {
@@ -67,7 +66,9 @@ export class NumberShareableMap<V extends Shareable> extends ShareableBase {
 
     get keys(): number[] {
         // FIXME: cache? Maybe, clients may use this to iterate. forEach is too slow.
-        return Object.keys(this._elements).map(function (keyString) { return parseFloat(keyString); });
+        return Object.keys(this._elements).map(function (keyString) {
+            return parseFloat(keyString);
+        });
     }
 
     remove(key: number): void {

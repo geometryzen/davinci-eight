@@ -1,4 +1,4 @@
-import { Color } from './Color';
+import { Color } from "./Color";
 
 /**
  * @hidden
@@ -50,7 +50,7 @@ describe("Color", function () {
             const g = Math.random();
             const b = Math.random();
             const color = new Color(r, g, b);
-            expect(typeof color.isLocked()).toBe('boolean');
+            expect(typeof color.isLocked()).toBe("boolean");
             expect(color.isLocked()).toBeFalsy();
         });
     });
@@ -69,7 +69,7 @@ describe("Color", function () {
         const token = color.lock();
         it("should return a token", function () {
             expect(color.isLocked()).toBeTruthy();
-            expect(typeof token).toBe('number');
+            expect(typeof token).toBe("number");
         });
         it("should prevent component mutation", function () {
             expect(function () {

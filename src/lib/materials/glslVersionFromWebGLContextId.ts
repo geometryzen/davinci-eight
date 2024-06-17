@@ -1,4 +1,4 @@
-import { GLSLESVersion } from './glslVersion';
+import { GLSLESVersion } from "./glslVersion";
 
 /**
  * Returns a GLSL version (usually for the purpose of automatically writing shaders).
@@ -9,14 +9,15 @@ import { GLSLESVersion } from './glslVersion';
  * @param contextId The context identifier, usually determined from a ContextManager.
  * @hidden
  */
-export function glslVersionFromWebGLContextId(override: GLSLESVersion | undefined | null, contextId: 'webgl2' | 'webgl' | undefined | null): GLSLESVersion {
+export function glslVersionFromWebGLContextId(override: GLSLESVersion | undefined | null, contextId: "webgl2" | "webgl" | undefined | null): GLSLESVersion {
     if (override) {
         return override;
-    }
-    else {
+    } else {
         switch (contextId) {
-            case 'webgl2': return GLSLESVersion.ThreeHundred;
-            case 'webgl': return GLSLESVersion.OneHundred;
+            case "webgl2":
+                return GLSLESVersion.ThreeHundred;
+            case "webgl":
+                return GLSLESVersion.OneHundred;
             default: {
                 // In the majority of examples, the WebGL rendering context will be initialized
                 // before we construct the shaders and so it will be rare that we end up here.

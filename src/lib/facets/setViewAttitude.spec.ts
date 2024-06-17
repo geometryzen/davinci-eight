@@ -1,7 +1,7 @@
-import { Geometric3 } from '../math/Geometric3';
-import { Vector3 } from '../math/Vector3';
-import { setViewAttitude } from './setViewAttitude';
-import { Spinor3 } from '../math/Spinor3';
+import { Geometric3 } from "../math/Geometric3";
+import { Vector3 } from "../math/Vector3";
+import { setViewAttitude } from "./setViewAttitude";
+import { Spinor3 } from "../math/Spinor3";
 
 const zero = Vector3.vector(0, 0, 0);
 const e1 = Vector3.vector(1, 0, 0);

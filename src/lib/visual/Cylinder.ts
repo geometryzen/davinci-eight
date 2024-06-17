@@ -1,26 +1,26 @@
-import { isDefined } from '../checks/isDefined';
-import { mustBeNumber } from '../checks/mustBeNumber';
-import { Color } from '../core/Color';
-import { ContextManager } from '../core/ContextManager';
-import { Geometry } from '../core/Geometry';
-import { Material } from '../core/Material';
-import { Mesh } from '../core/Mesh';
-import { referenceAxis } from '../core/referenceAxis';
-import { referenceMeridian } from '../core/referenceMeridian';
-import { CylinderGeometry } from '../geometries/CylinderGeometry';
-import { CylinderGeometryOptions } from '../geometries/CylinderGeometryOptions';
-import { SimplexMode } from '../geometries/SimplexMode';
-import { CylinderOptions } from './CylinderOptions';
-import { ds } from './Defaults';
-import { geometryModeFromOptions } from './geometryModeFromOptions';
-import { materialFromOptions } from './materialFromOptions';
-import { offsetFromOptions } from './offsetFromOptions';
-import { setAxisAndMeridian } from './setAxisAndMeridian';
-import { setColorOption } from './setColorOption';
-import { setDeprecatedOptions } from './setDeprecatedOptions';
-import { simplexModeFromOptions } from './simplexModeFromOptions';
-import { spinorE3Object } from './spinorE3Object';
-import { vectorE3Object } from './vectorE3Object';
+import { isDefined } from "../checks/isDefined";
+import { mustBeNumber } from "../checks/mustBeNumber";
+import { Color } from "../core/Color";
+import { ContextManager } from "../core/ContextManager";
+import { Geometry } from "../core/Geometry";
+import { Material } from "../core/Material";
+import { Mesh } from "../core/Mesh";
+import { referenceAxis } from "../core/referenceAxis";
+import { referenceMeridian } from "../core/referenceMeridian";
+import { CylinderGeometry } from "../geometries/CylinderGeometry";
+import { CylinderGeometryOptions } from "../geometries/CylinderGeometryOptions";
+import { SimplexMode } from "../geometries/SimplexMode";
+import { CylinderOptions } from "./CylinderOptions";
+import { ds } from "./Defaults";
+import { geometryModeFromOptions } from "./geometryModeFromOptions";
+import { materialFromOptions } from "./materialFromOptions";
+import { offsetFromOptions } from "./offsetFromOptions";
+import { setAxisAndMeridian } from "./setAxisAndMeridian";
+import { setColorOption } from "./setColorOption";
+import { setDeprecatedOptions } from "./setDeprecatedOptions";
+import { simplexModeFromOptions } from "./simplexModeFromOptions";
+import { spinorE3Object } from "./spinorE3Object";
+import { vectorE3Object } from "./vectorE3Object";
 
 /**
  * A 3D visual representation of a cylinder.
@@ -28,14 +28,14 @@ import { vectorE3Object } from './vectorE3Object';
 export class Cylinder extends Mesh<Geometry, Material> {
     /**
      * @param contextManager This will usually be provided by the `Engine`.
-     * @param options 
-     * @param levelUp Leave as zero unless you are extending this class. 
+     * @param options
+     * @param levelUp Leave as zero unless you are extending this class.
      */
     constructor(contextManager: ContextManager, options: CylinderOptions = {}, levelUp = 0) {
         super(void 0, void 0, contextManager, { axis: referenceAxis(options, ds.axis).direction(), meridian: referenceMeridian(options, ds.meridian).direction() }, levelUp + 1);
-        this.setLoggingName('Cylinder');
+        this.setLoggingName("Cylinder");
 
-        const geoOptions: CylinderGeometryOptions = { kind: 'CylinderGeometry' };
+        const geoOptions: CylinderGeometryOptions = { kind: "CylinderGeometry" };
         geoOptions.mode = geometryModeFromOptions(options);
 
         geoOptions.offset = offsetFromOptions(options);
@@ -62,10 +62,10 @@ export class Cylinder extends Mesh<Geometry, Material> {
         setColorOption(this, options, options.textured ? Color.white : Color.gray);
         setDeprecatedOptions(this, options);
 
-        this.radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : ds.radius;
+        this.radius = isDefined(options.radius) ? mustBeNumber("radius", options.radius) : ds.radius;
 
         if (isDefined(options.length)) {
-            this.length = mustBeNumber('length', options.length);
+            this.length = mustBeNumber("length", options.length);
         }
 
         if (levelUp === 0) {

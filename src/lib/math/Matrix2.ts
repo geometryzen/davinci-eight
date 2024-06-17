@@ -1,21 +1,24 @@
-import { isDefined } from '../checks/isDefined';
-import { mustBeInteger } from '../checks/mustBeInteger';
-import { mustBeNumber } from '../checks/mustBeNumber';
-import { lock, TargetLockedError } from '../core/Lockable';
-import { AbstractMatrix } from '../math/AbstractMatrix';
-import { det2x2 } from '../math/det2x2';
-import { VectorE1 } from '../math/VectorE1';
+import { isDefined } from "../checks/isDefined";
+import { mustBeInteger } from "../checks/mustBeInteger";
+import { mustBeNumber } from "../checks/mustBeNumber";
+import { lock, TargetLockedError } from "../core/Lockable";
+import { AbstractMatrix } from "../math/AbstractMatrix";
+import { det2x2 } from "../math/det2x2";
+import { VectorE1 } from "../math/VectorE1";
 
 /**
  *
  */
 function add2x2(a: Float32Array, b: Float32Array, c: Float32Array): void {
+    const a11 = a[0x0],
+        a12 = a[0x2];
+    const a21 = a[0x1],
+        a22 = a[0x3];
 
-    const a11 = a[0x0], a12 = a[0x2];
-    const a21 = a[0x1], a22 = a[0x3];
-
-    const b11 = b[0x0], b12 = b[0x2];
-    const b21 = b[0x1], b22 = b[0x3];
+    const b11 = b[0x0],
+        b12 = b[0x2];
+    const b21 = b[0x1],
+        b22 = b[0x3];
 
     c[0x0] = a11 + b11;
     c[0x2] = a12 + b12;
@@ -28,7 +31,6 @@ function add2x2(a: Float32Array, b: Float32Array, c: Float32Array): void {
  *
  */
 export class Matrix2 extends AbstractMatrix<Matrix2> {
-
     /**
      * 2x2 (square) matrix of numbers.
      * Constructs a Matrix2 by wrapping a Float32Array.
@@ -44,7 +46,7 @@ export class Matrix2 extends AbstractMatrix<Matrix2> {
 
     add(rhs: Matrix2): Matrix2 {
         if (this.isLocked()) {
-            throw new TargetLockedError('add');
+            throw new TargetLockedError("add");
         }
         return this.add2(this, rhs);
     }
@@ -92,7 +94,7 @@ export class Matrix2 extends AbstractMatrix<Matrix2> {
         const c = te[1];
         const b = te[2];
         const d = te[3];
-        return (a === 1 && b === 0 && c === 0 && d === 1);
+        return a === 1 && b === 0 && c === 0 && d === 1;
     }
 
     /**
@@ -104,7 +106,7 @@ export class Matrix2 extends AbstractMatrix<Matrix2> {
         const c = te[1];
         const b = te[2];
         const d = te[3];
-        return (a === 0 && b === 0 && c === 0 && d === 0);
+        return a === 0 && b === 0 && c === 0 && d === 0;
     }
 
     mul(rhs: Matrix2): Matrix2 {
@@ -153,8 +155,7 @@ export class Matrix2 extends AbstractMatrix<Matrix2> {
      *
      */
     reflection(n: VectorE1): Matrix2 {
-
-        const nx = mustBeNumber('n.x', n.x);
+        const nx = mustBeNumber("n.x", n.x);
 
         const xx = 1 - 2 * nx * nx;
 
@@ -194,8 +195,10 @@ export class Matrix2 extends AbstractMatrix<Matrix2> {
     set(m11: number, m12: number, m21: number, m22: number): this {
         const te = this.elements;
         // The elements are stored in column-major order.
-        te[0x0] = m11; te[0x2] = m12;
-        te[0x1] = m21; te[0x3] = m22;
+        te[0x0] = m11;
+        te[0x2] = m12;
+        te[0x1] = m21;
+        te[0x3] = m22;
         return this;
     }
 
@@ -233,9 +236,15 @@ export class Matrix2 extends AbstractMatrix<Matrix2> {
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            text.push(this.row(i).map(function (element: number, index: number) { return element.toExponential(fractionDigits); }).join(' '));
+            text.push(
+                this.row(i)
+                    .map(function (element: number, index: number) {
+                        return element.toExponential(fractionDigits);
+                    })
+                    .join(" ")
+            );
         }
-        return text.join('\n');
+        return text.join("\n");
     }
 
     /**
@@ -245,14 +254,20 @@ export class Matrix2 extends AbstractMatrix<Matrix2> {
      */
     toFixed(fractionDigits?: number): string {
         if (isDefined(fractionDigits)) {
-            mustBeInteger('fractionDigits', fractionDigits);
+            mustBeInteger("fractionDigits", fractionDigits);
         }
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            text.push(this.row(i).map(function (element: number, index: number) { return element.toFixed(fractionDigits); }).join(' '));
+            text.push(
+                this.row(i)
+                    .map(function (element: number, index: number) {
+                        return element.toFixed(fractionDigits);
+                    })
+                    .join(" ")
+            );
         }
-        return text.join('\n');
+        return text.join("\n");
     }
 
     /**
@@ -262,14 +277,20 @@ export class Matrix2 extends AbstractMatrix<Matrix2> {
      */
     toPrecision(precision?: number): string {
         if (isDefined(precision)) {
-            mustBeInteger('precision', precision);
+            mustBeInteger("precision", precision);
         }
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            text.push(this.row(i).map(function (element: number, index: number) { return element.toPrecision(precision); }).join(' '));
+            text.push(
+                this.row(i)
+                    .map(function (element: number, index: number) {
+                        return element.toPrecision(precision);
+                    })
+                    .join(" ")
+            );
         }
-        return text.join('\n');
+        return text.join("\n");
     }
 
     /**
@@ -280,9 +301,15 @@ export class Matrix2 extends AbstractMatrix<Matrix2> {
         const text: string[] = [];
         for (let i = 0, iLength = this.dimensions; i < iLength; i++) {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            text.push(this.row(i).map(function (element: number, index: number) { return element.toString(radix); }).join(' '));
+            text.push(
+                this.row(i)
+                    .map(function (element: number, index: number) {
+                        return element.toString(radix);
+                    })
+                    .join(" ")
+            );
         }
-        return text.join('\n');
+        return text.join("\n");
     }
 
     /**
@@ -292,9 +319,7 @@ export class Matrix2 extends AbstractMatrix<Matrix2> {
      */
     translation(d: VectorE1): this {
         const x = d.x;
-        return this.set(
-            1, x,
-            0, 1);
+        return this.set(1, x, 0, 1);
     }
 
     /**
@@ -333,11 +358,9 @@ export class Matrix2 extends AbstractMatrix<Matrix2> {
     __mul__(rhs: any): Matrix2 {
         if (rhs instanceof Matrix2) {
             return lock(this.clone().mul(rhs));
-        }
-        else if (typeof rhs === 'number') {
+        } else if (typeof rhs === "number") {
             return lock(this.clone().scale(rhs));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -345,11 +368,9 @@ export class Matrix2 extends AbstractMatrix<Matrix2> {
     __rmul__(lhs: any): Matrix2 {
         if (lhs instanceof Matrix2) {
             return lock(lhs.clone().mul(this));
-        }
-        else if (typeof lhs === 'number') {
+        } else if (typeof lhs === "number") {
             return lock(this.clone().scale(lhs));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -378,8 +399,7 @@ export class Matrix2 extends AbstractMatrix<Matrix2> {
     __rsub__(lhs: any): Matrix2 {
         if (lhs instanceof Matrix2) {
             return lock(lhs.clone().sub(this));
-        }
-        else {
+        } else {
             return void 0;
         }
     }

@@ -2,7 +2,6 @@
  * @hidden
  */
 export function mergeStringMapList<T>(ms: { [name: string]: T }[]): { [name: string]: T } {
-
     const result: { [name: string]: T } = {};
 
     ms.forEach(function (m) {

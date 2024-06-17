@@ -1,10 +1,10 @@
-import { mustBeDefined } from '../checks/mustBeDefined';
-import { mustBeInteger } from '../checks/mustBeInteger';
-import { mustBeNumber } from '../checks/mustBeNumber';
-import { Spinor3 } from '../math/Spinor3';
-import { SpinorE3 } from '../math/SpinorE3';
-import { Vector3 } from '../math/Vector3';
-import { VectorE3 } from '../math/VectorE3';
+import { mustBeDefined } from "../checks/mustBeDefined";
+import { mustBeInteger } from "../checks/mustBeInteger";
+import { mustBeNumber } from "../checks/mustBeNumber";
+import { Spinor3 } from "../math/Spinor3";
+import { SpinorE3 } from "../math/SpinorE3";
+import { Vector3 } from "../math/Vector3";
+import { VectorE3 } from "../math/VectorE3";
 
 /**
  * Computes a list of points corresponding to an arc centered on the origin.
@@ -15,10 +15,10 @@ import { VectorE3 } from '../math/VectorE3';
  * @hidden
  */
 export function arc3(begin: VectorE3, angle: number, generator: SpinorE3, segments: number): Vector3[] {
-    mustBeDefined('begin', begin);
-    mustBeNumber('angle', angle);
-    mustBeDefined('generator', generator);
-    mustBeInteger('segments', segments);
+    mustBeDefined("begin", begin);
+    mustBeNumber("angle", angle);
+    mustBeDefined("generator", generator);
+    mustBeInteger("segments", segments);
 
     if (isNaN(begin.x) || isNaN(begin.y) || isNaN(begin.z)) {
         throw new Error(`arc3(begin=${begin.toString()})`);
@@ -37,7 +37,9 @@ export function arc3(begin: VectorE3, angle: number, generator: SpinorE3, segmen
     /**
      * The rotor that advances us through one segment.
      */
-    const rotor = Spinor3.copy(generator).scale((-angle / 2) / segments).exp();
+    const rotor = Spinor3.copy(generator)
+        .scale(-angle / 2 / segments)
+        .exp();
 
     points.push(point.clone());
 

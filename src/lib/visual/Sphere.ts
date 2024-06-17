@@ -1,31 +1,31 @@
-import { isDefined } from '../checks/isDefined';
-import { mustBeNumber } from '../checks/mustBeNumber';
-import { Color } from '../core/Color';
-import { ContextManager } from '../core/ContextManager';
-import { Geometry } from '../core/Geometry';
-import { Material } from '../core/Material';
-import { Mesh } from '../core/Mesh';
-import { referenceAxis } from '../core/referenceAxis';
-import { referenceMeridian } from '../core/referenceMeridian';
-import { SimplexMode } from '../geometries/SimplexMode';
-import { SphereGeometry } from '../geometries/SphereGeometry';
-import { SphereGeometryOptions } from '../geometries/SphereGeometryOptions';
-import { ds } from './Defaults';
-import { geometryModeFromOptions } from './geometryModeFromOptions';
-import { materialFromOptions } from './materialFromOptions';
-import { offsetFromOptions } from './offsetFromOptions';
-import { setAxisAndMeridian } from './setAxisAndMeridian';
-import { setColorOption } from './setColorOption';
-import { setDeprecatedOptions } from './setDeprecatedOptions';
-import { simplexModeFromOptions } from './simplexModeFromOptions';
-import { SphereOptions } from './SphereOptions';
-import { spinorE3Object } from './spinorE3Object';
-import { vectorE3Object } from './vectorE3Object';
+import { isDefined } from "../checks/isDefined";
+import { mustBeNumber } from "../checks/mustBeNumber";
+import { Color } from "../core/Color";
+import { ContextManager } from "../core/ContextManager";
+import { Geometry } from "../core/Geometry";
+import { Material } from "../core/Material";
+import { Mesh } from "../core/Mesh";
+import { referenceAxis } from "../core/referenceAxis";
+import { referenceMeridian } from "../core/referenceMeridian";
+import { SimplexMode } from "../geometries/SimplexMode";
+import { SphereGeometry } from "../geometries/SphereGeometry";
+import { SphereGeometryOptions } from "../geometries/SphereGeometryOptions";
+import { ds } from "./Defaults";
+import { geometryModeFromOptions } from "./geometryModeFromOptions";
+import { materialFromOptions } from "./materialFromOptions";
+import { offsetFromOptions } from "./offsetFromOptions";
+import { setAxisAndMeridian } from "./setAxisAndMeridian";
+import { setColorOption } from "./setColorOption";
+import { setDeprecatedOptions } from "./setDeprecatedOptions";
+import { simplexModeFromOptions } from "./simplexModeFromOptions";
+import { SphereOptions } from "./SphereOptions";
+import { spinorE3Object } from "./spinorE3Object";
+import { vectorE3Object } from "./vectorE3Object";
 
 /**
  * @hidden
  */
-const RADIUS_NAME = 'radius';
+const RADIUS_NAME = "radius";
 
 /**
  *
@@ -33,16 +33,16 @@ const RADIUS_NAME = 'radius';
 export class Sphere extends Mesh<Geometry, Material> {
     /**
      * @param contextManager This will usually be provided by the `Engine`.
-     * @param options 
-     * @param levelUp Leave as zero unless you are extending this class. 
+     * @param options
+     * @param levelUp Leave as zero unless you are extending this class.
      */
     constructor(contextManager: ContextManager, options: SphereOptions = {}, levelUp = 0) {
         super(void 0, void 0, contextManager, { axis: referenceAxis(options, ds.axis).direction(), meridian: referenceMeridian(options, ds.meridian).direction() }, levelUp + 1);
-        this.setLoggingName('Sphere');
+        this.setLoggingName("Sphere");
 
         const geoMode = geometryModeFromOptions(options);
 
-        const geoOptions: SphereGeometryOptions = { kind: 'SphereGeometry' };
+        const geoOptions: SphereGeometryOptions = { kind: "SphereGeometry" };
 
         geoOptions.mode = geoMode;
         geoOptions.azimuthSegments = options.azimuthSegments;

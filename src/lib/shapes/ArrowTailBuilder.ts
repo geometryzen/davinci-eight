@@ -1,18 +1,17 @@
-import { reduce } from '../atoms/reduce';
-import { mustBeDefined } from '../checks/mustBeDefined';
-import { Primitive } from '../core/Primitive';
-import { Vector3 } from '../math/Vector3';
-import { VectorE3 } from '../math/VectorE3';
-import { CylindricalShellBuilder } from './CylindricalShellBuilder';
-import { RingBuilder } from './RingBuilder';
-import { AxialShapeBuilder } from './AxialShapeBuilder';
+import { reduce } from "../atoms/reduce";
+import { mustBeDefined } from "../checks/mustBeDefined";
+import { Primitive } from "../core/Primitive";
+import { Vector3 } from "../math/Vector3";
+import { VectorE3 } from "../math/VectorE3";
+import { CylindricalShellBuilder } from "./CylindricalShellBuilder";
+import { RingBuilder } from "./RingBuilder";
+import { AxialShapeBuilder } from "./AxialShapeBuilder";
 
 /**
  * @hidden
  */
 export class ArrowTailBuilder extends AxialShapeBuilder {
-
-    public heightShaft = 0.80;
+    public heightShaft = 0.8;
     public radiusShaft = 0.01;
 
     public thetaSegments = 16;
@@ -29,8 +28,8 @@ export class ArrowTailBuilder extends AxialShapeBuilder {
      */
     constructor(axis: VectorE3, cutLine: VectorE3, clockwise: boolean) {
         super();
-        mustBeDefined('axis', axis);
-        mustBeDefined('cutLine', cutLine);
+        mustBeDefined("axis", axis);
+        mustBeDefined("cutLine", cutLine);
         this.e = Vector3.copy(axis).normalize();
         this.cutLine = Vector3.copy(cutLine).normalize();
         this.clockwise = clockwise;
@@ -40,7 +39,6 @@ export class ArrowTailBuilder extends AxialShapeBuilder {
      *
      */
     toPrimitive(): Primitive {
-
         /**
          * The opposite direction to the axis.
          */

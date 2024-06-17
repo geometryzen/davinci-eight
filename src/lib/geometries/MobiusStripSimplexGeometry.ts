@@ -1,5 +1,5 @@
-import { GridSimplexBuilder } from '../geometries/GridSimplexBuilder';
-import { Vector3 } from '../math/Vector3';
+import { GridSimplexBuilder } from "../geometries/GridSimplexBuilder";
+import { Vector3 } from "../math/Vector3";
 
 /**
  * @hidden
@@ -29,7 +29,7 @@ function mobius(u: number, v: number): Vector3 {
     const w = 0.05;
 
     const s = (2 * u - 1) * w; // [-w, w]
-    const t = 2 * pi * v;     // [0, 2pi]
+    const t = 2 * pi * v; // [0, 2pi]
 
     point.x = (R + s * cos(t / 2)) * cos(t);
     point.y = (R + s * cos(t / 2)) * sin(t);

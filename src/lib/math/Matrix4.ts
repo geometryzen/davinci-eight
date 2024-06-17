@@ -1,46 +1,69 @@
-import { lock, TargetLockedError } from '../core/Lockable';
-import { perspectiveArray } from '../facets/perspectiveArray';
-import { AbstractMatrix } from '../math/AbstractMatrix';
-import { inv4x4 } from '../math/inv4x4';
-import { mul4x4 } from '../math/mul4x4';
-import { SpinorE3 } from '../math/SpinorE3';
-import { VectorE3 } from '../math/VectorE3';
-import { det4x4 } from './det4x4';
+import { lock, TargetLockedError } from "../core/Lockable";
+import { perspectiveArray } from "../facets/perspectiveArray";
+import { AbstractMatrix } from "../math/AbstractMatrix";
+import { inv4x4 } from "../math/inv4x4";
+import { mul4x4 } from "../math/mul4x4";
+import { SpinorE3 } from "../math/SpinorE3";
+import { VectorE3 } from "../math/VectorE3";
+import { det4x4 } from "./det4x4";
 
 /**
  * @hidden
  */
 function add4x4(a: Float32Array, b: Float32Array, c: Float32Array): void {
+    const a11 = a[0x0],
+        a12 = a[0x4],
+        a13 = a[0x8],
+        a14 = a[0xc];
+    const a21 = a[0x1],
+        a22 = a[0x5],
+        a23 = a[0x9],
+        a24 = a[0xd];
+    const a31 = a[0x2],
+        a32 = a[0x6],
+        a33 = a[0xa],
+        a34 = a[0xe];
+    const a41 = a[0x3],
+        a42 = a[0x7],
+        a43 = a[0xb],
+        a44 = a[0xf];
 
-    const a11 = a[0x0], a12 = a[0x4], a13 = a[0x8], a14 = a[0xC];
-    const a21 = a[0x1], a22 = a[0x5], a23 = a[0x9], a24 = a[0xD];
-    const a31 = a[0x2], a32 = a[0x6], a33 = a[0xA], a34 = a[0xE];
-    const a41 = a[0x3], a42 = a[0x7], a43 = a[0xB], a44 = a[0xF];
-
-    const b11 = b[0x0], b12 = b[0x4], b13 = b[0x8], b14 = b[0xC];
-    const b21 = b[0x1], b22 = b[0x5], b23 = b[0x9], b24 = b[0xD];
-    const b31 = b[0x2], b32 = b[0x6], b33 = b[0xA], b34 = b[0xE];
-    const b41 = b[0x3], b42 = b[0x7], b43 = b[0xB], b44 = b[0xF];
+    const b11 = b[0x0],
+        b12 = b[0x4],
+        b13 = b[0x8],
+        b14 = b[0xc];
+    const b21 = b[0x1],
+        b22 = b[0x5],
+        b23 = b[0x9],
+        b24 = b[0xd];
+    const b31 = b[0x2],
+        b32 = b[0x6],
+        b33 = b[0xa],
+        b34 = b[0xe];
+    const b41 = b[0x3],
+        b42 = b[0x7],
+        b43 = b[0xb],
+        b44 = b[0xf];
 
     c[0x0] = a11 + b11;
     c[0x4] = a12 + b12;
     c[0x8] = a13 + b13;
-    c[0xC] = a14 + b14;
+    c[0xc] = a14 + b14;
 
     c[0x1] = a21 + b21;
     c[0x5] = a22 + b22;
     c[0x9] = a23 + b23;
-    c[0xD] = a24 + b24;
+    c[0xd] = a24 + b24;
 
     c[0x2] = a31 + b31;
     c[0x6] = a32 + b32;
-    c[0xA] = a33 + b33;
-    c[0xE] = a34 + b34;
+    c[0xa] = a33 + b33;
+    c[0xe] = a34 + b34;
 
     c[0x3] = a41 + b41;
     c[0x7] = a42 + b42;
-    c[0xB] = a43 + b43;
-    c[0xF] = a44 + b44;
+    c[0xb] = a43 + b43;
+    c[0xf] = a44 + b44;
 }
 
 /**
@@ -49,7 +72,6 @@ function add4x4(a: Float32Array, b: Float32Array, c: Float32Array): void {
  * An adapter for a `Float32Array`.
  */
 export class Matrix4 extends AbstractMatrix<Matrix4> {
-
     // The correspondence between the elements property index and the matrix entries is...
     //
     //  0  4  8 12
@@ -57,7 +79,7 @@ export class Matrix4 extends AbstractMatrix<Matrix4> {
     //  2  6 10 14
     //  3  7 11 15
     /**
-     * 
+     *
      */
     constructor(elements: Float32Array) {
         super(elements, 4);
@@ -101,7 +123,7 @@ export class Matrix4 extends AbstractMatrix<Matrix4> {
      */
     add(rhs: Matrix4): this {
         if (this.isLocked()) {
-            throw new TargetLockedError('add');
+            throw new TargetLockedError("add");
         }
         return this.add2(this, rhs);
     }
@@ -166,10 +188,22 @@ export class Matrix4 extends AbstractMatrix<Matrix4> {
      */
     scale(s: number): this {
         const te = this.elements;
-        te[0] *= s; te[4] *= s; te[8] *= s; te[12] *= s;
-        te[1] *= s; te[5] *= s; te[9] *= s; te[13] *= s;
-        te[2] *= s; te[6] *= s; te[10] *= s; te[14] *= s;
-        te[3] *= s; te[7] *= s; te[11] *= s; te[15] *= s;
+        te[0] *= s;
+        te[4] *= s;
+        te[8] *= s;
+        te[12] *= s;
+        te[1] *= s;
+        te[5] *= s;
+        te[9] *= s;
+        te[13] *= s;
+        te[2] *= s;
+        te[6] *= s;
+        te[10] *= s;
+        te[14] *= s;
+        te[3] *= s;
+        te[7] *= s;
+        te[11] *= s;
+        te[15] *= s;
         return this;
     }
 
@@ -180,13 +214,25 @@ export class Matrix4 extends AbstractMatrix<Matrix4> {
         const te: Float32Array = this.elements;
         let tmp: number;
 
-        tmp = te[1]; te[1] = te[4]; te[4] = tmp;
-        tmp = te[2]; te[2] = te[8]; te[8] = tmp;
-        tmp = te[6]; te[6] = te[9]; te[9] = tmp;
+        tmp = te[1];
+        te[1] = te[4];
+        te[4] = tmp;
+        tmp = te[2];
+        te[2] = te[8];
+        te[8] = tmp;
+        tmp = te[6];
+        te[6] = te[9];
+        te[9] = tmp;
 
-        tmp = te[3]; te[3] = te[12]; te[12] = tmp;
-        tmp = te[7]; te[7] = te[13]; te[13] = tmp;
-        tmp = te[11]; te[11] = te[14]; te[14] = tmp;
+        tmp = te[3];
+        te[3] = te[12];
+        te[12] = tmp;
+        tmp = te[7];
+        te[7] = te[13];
+        te[13] = tmp;
+        tmp = te[11];
+        te[11] = te[14];
+        te[14] = tmp;
 
         return this;
     }
@@ -201,18 +247,30 @@ export class Matrix4 extends AbstractMatrix<Matrix4> {
      */
     frustum(left: number, right: number, bottom: number, top: number, near: number, far: number): this {
         const te = this.elements;
-        const x = 2 * near / (right - left);
-        const y = 2 * near / (top - bottom);
+        const x = (2 * near) / (right - left);
+        const y = (2 * near) / (top - bottom);
 
         const a = (right + left) / (right - left);
         const b = (top + bottom) / (top - bottom);
-        const c = - (far + near) / (far - near);
-        const d = - 2 * far * near / (far - near);
+        const c = -(far + near) / (far - near);
+        const d = (-2 * far * near) / (far - near);
 
-        te[0] = x; te[4] = 0; te[8] = a; te[12] = 0;
-        te[1] = 0; te[5] = y; te[9] = b; te[13] = 0;
-        te[2] = 0; te[6] = 0; te[10] = c; te[14] = d;
-        te[3] = 0; te[7] = 0; te[11] = -1; te[15] = 0;
+        te[0] = x;
+        te[4] = 0;
+        te[8] = a;
+        te[12] = 0;
+        te[1] = 0;
+        te[5] = y;
+        te[9] = b;
+        te[13] = 0;
+        te[2] = 0;
+        te[6] = 0;
+        te[10] = c;
+        te[14] = d;
+        te[3] = 0;
+        te[7] = 0;
+        te[11] = -1;
+        te[15] = 0;
 
         return this;
     }
@@ -232,21 +290,18 @@ export class Matrix4 extends AbstractMatrix<Matrix4> {
      * @param angle
      */
     rotationAxis(axis: VectorE3, angle: number): this {
-
         // Based on http://www.gamedev.net/reference/articles/article1199.asp
 
         const c = Math.cos(angle);
         const s = Math.sin(angle);
         const t = 1 - c;
-        const x = axis.x, y = axis.y, z = axis.z;
-        const tx = t * x, ty = t * y;
+        const x = axis.x,
+            y = axis.y,
+            z = axis.z;
+        const tx = t * x,
+            ty = t * y;
 
-        return this.set(
-            tx * x + c, tx * y - s * z, tx * z + s * y, 0,
-            tx * y + s * z, ty * y + c, ty * z - s * x, 0,
-            tx * z - s * y, ty * z + s * x, t * z * z + c, 0,
-            0, 0, 0, 1
-        );
+        return this.set(tx * x + c, tx * y - s * z, tx * z + s * y, 0, tx * y + s * z, ty * y + c, ty * z - s * x, 0, tx * z - s * y, ty * z + s * x, t * z * z + c, 0, 0, 0, 0, 1);
     }
 
     /**
@@ -292,12 +347,7 @@ export class Matrix4 extends AbstractMatrix<Matrix4> {
         const yy = 1 - 2 * ny * ny;
         const zz = 1 - 2 * nz * nz;
 
-        this.set(
-            xx, aa, bb, 0,
-            aa, yy, cc, 0,
-            bb, cc, zz, 0,
-            0, 0, 0, 1
-        );
+        this.set(xx, aa, bb, 0, aa, yy, cc, 0, bb, cc, zz, 0, 0, 0, 0, 1);
         return this;
     }
 
@@ -338,12 +388,7 @@ export class Matrix4 extends AbstractMatrix<Matrix4> {
         const wy = α * y2;
         const wz = α * z2;
 
-        this.set(
-            1 - yy - zz, xy - wz, xz + wy, 0,
-            xy + wz, 1 - xx - zz, yz - wx, 0,
-            xz - wy, yz + wx, 1 - xx - yy, 0,
-            0, 0, 0, 1
-        );
+        this.set(1 - yy - zz, xy - wz, xz + wy, 0, xy + wz, 1 - xx - zz, yz - wx, 0, xz - wy, yz + wx, 1 - xx - yy, 0, 0, 0, 0, 1);
 
         return this;
     }
@@ -360,7 +405,7 @@ export class Matrix4 extends AbstractMatrix<Matrix4> {
      *
      */
     scaleXYZ(scale: VectorE3): this {
-        // We treat the scale operation as pre-multiplication: 
+        // We treat the scale operation as pre-multiplication:
         // |x 0 0 0|   |m[0] m[4] m[8] m[C]|   |x * m[0] x * m[4] x * m[8] x * m[C]|
         // |0 y 0 0| * |m[1] m[5] m[9] m[D]| = |y * m[1] y * m[5] y * m[9] y * m[D]|
         // |0 0 z 0|   |m[2] m[6] m[A] m[E]|   |z * m[2] z * m[6] z * m[A] z * m[E]|
@@ -384,30 +429,25 @@ export class Matrix4 extends AbstractMatrix<Matrix4> {
     /**
      *
      */
-    public set(
-        n11: number,
-        n12: number,
-        n13: number,
-        n14: number,
-        n21: number,
-        n22: number,
-        n23: number,
-        n24: number,
-        n31: number,
-        n32: number,
-        n33: number,
-        n34: number,
-        n41: number,
-        n42: number,
-        n43: number,
-        n44: number): this {
-
+    public set(n11: number, n12: number, n13: number, n14: number, n21: number, n22: number, n23: number, n24: number, n31: number, n32: number, n33: number, n34: number, n41: number, n42: number, n43: number, n44: number): this {
         const te = this.elements;
 
-        te[0x0] = n11; te[0x4] = n12; te[0x8] = n13; te[0xC] = n14;
-        te[0x1] = n21; te[0x5] = n22; te[0x9] = n23; te[0xD] = n24;
-        te[0x2] = n31; te[0x6] = n32; te[0xA] = n33; te[0xE] = n34;
-        te[0x3] = n41; te[0x7] = n42; te[0xB] = n43; te[0xF] = n44;
+        te[0x0] = n11;
+        te[0x4] = n12;
+        te[0x8] = n13;
+        te[0xc] = n14;
+        te[0x1] = n21;
+        te[0x5] = n22;
+        te[0x9] = n23;
+        te[0xd] = n24;
+        te[0x2] = n31;
+        te[0x6] = n32;
+        te[0xa] = n33;
+        te[0xe] = n34;
+        te[0x3] = n41;
+        te[0x7] = n42;
+        te[0xb] = n43;
+        te[0xf] = n44;
 
         return this;
     }
@@ -419,9 +459,15 @@ export class Matrix4 extends AbstractMatrix<Matrix4> {
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            text.push(this.row(i).map(function (element: number, index: number) { return element.toExponential(fractionDigits); }).join(' '));
+            text.push(
+                this.row(i)
+                    .map(function (element: number, index: number) {
+                        return element.toExponential(fractionDigits);
+                    })
+                    .join(" ")
+            );
         }
-        return text.join('\n');
+        return text.join("\n");
     }
 
     /**
@@ -431,9 +477,15 @@ export class Matrix4 extends AbstractMatrix<Matrix4> {
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            text.push(this.row(i).map(function (element: number, index: number) { return element.toFixed(fractionDigits); }).join(' '));
+            text.push(
+                this.row(i)
+                    .map(function (element: number, index: number) {
+                        return element.toFixed(fractionDigits);
+                    })
+                    .join(" ")
+            );
         }
-        return text.join('\n');
+        return text.join("\n");
     }
 
     /**
@@ -443,9 +495,15 @@ export class Matrix4 extends AbstractMatrix<Matrix4> {
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            text.push(this.row(i).map(function (element: number, index: number) { return element.toPrecision(fractionDigits); }).join(' '));
+            text.push(
+                this.row(i)
+                    .map(function (element: number, index: number) {
+                        return element.toPrecision(fractionDigits);
+                    })
+                    .join(" ")
+            );
         }
-        return text.join('\n');
+        return text.join("\n");
     }
 
     /**
@@ -455,9 +513,15 @@ export class Matrix4 extends AbstractMatrix<Matrix4> {
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            text.push(this.row(i).map(function (element: number, index: number) { return element.toString(radix); }).join(' '));
+            text.push(
+                this.row(i)
+                    .map(function (element: number, index: number) {
+                        return element.toString(radix);
+                    })
+                    .join(" ")
+            );
         }
-        return text.join('\n');
+        return text.join("\n");
     }
 
     /**
@@ -474,11 +538,7 @@ export class Matrix4 extends AbstractMatrix<Matrix4> {
         const x = displacement.x;
         const y = displacement.y;
         const z = displacement.z;
-        return this.set(
-            1, 0, 0, x,
-            0, 1, 0, y,
-            0, 0, 1, z,
-            0, 0, 0, 1);
+        return this.set(1, 0, 0, x, 0, 1, 0, y, 0, 0, 1, z, 0, 0, 0, 1);
     }
 
     /**
@@ -491,11 +551,9 @@ export class Matrix4 extends AbstractMatrix<Matrix4> {
     public __mul__(rhs: Matrix4 | number): Matrix4 {
         if (rhs instanceof Matrix4) {
             return lock(Matrix4.one.clone().mul2(this, rhs));
-        }
-        else if (typeof rhs === 'number') {
+        } else if (typeof rhs === "number") {
             return lock(this.clone().scale(rhs));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -503,11 +561,9 @@ export class Matrix4 extends AbstractMatrix<Matrix4> {
     public __rmul__(lhs: Matrix4 | number): Matrix4 {
         if (lhs instanceof Matrix4) {
             return lock(Matrix4.one.clone().mul2(lhs, this));
-        }
-        else if (typeof lhs === 'number') {
+        } else if (typeof lhs === "number") {
             return lock(this.clone().scale(lhs));
-        }
-        else {
+        } else {
             return void 0;
         }
     }

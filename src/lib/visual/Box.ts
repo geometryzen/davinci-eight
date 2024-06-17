@@ -1,25 +1,25 @@
-import { isDefined } from '../checks/isDefined';
-import { mustBeNumber } from '../checks/mustBeNumber';
-import { Color } from '../core/Color';
-import { ContextManager } from '../core/ContextManager';
-import { Geometry } from '../core/Geometry';
-import { Material } from '../core/Material';
-import { Mesh } from '../core/Mesh';
-import { referenceAxis } from '../core/referenceAxis';
-import { referenceMeridian } from '../core/referenceMeridian';
-import { BoxGeometry } from '../geometries/BoxGeometry';
-import { BoxGeometryOptions } from '../geometries/BoxGeometryOptions';
-import { SimplexMode } from '../geometries/SimplexMode';
-import { BoxOptions } from './BoxOptions';
-import { ds } from './Defaults';
-import { geometryModeFromOptions } from './geometryModeFromOptions';
-import { materialFromOptions } from './materialFromOptions';
-import { setAxisAndMeridian } from './setAxisAndMeridian';
-import { setColorOption } from './setColorOption';
-import { setDeprecatedOptions } from './setDeprecatedOptions';
-import { simplexModeFromOptions } from './simplexModeFromOptions';
-import { spinorE3Object } from './spinorE3Object';
-import { vectorE3Object } from './vectorE3Object';
+import { isDefined } from "../checks/isDefined";
+import { mustBeNumber } from "../checks/mustBeNumber";
+import { Color } from "../core/Color";
+import { ContextManager } from "../core/ContextManager";
+import { Geometry } from "../core/Geometry";
+import { Material } from "../core/Material";
+import { Mesh } from "../core/Mesh";
+import { referenceAxis } from "../core/referenceAxis";
+import { referenceMeridian } from "../core/referenceMeridian";
+import { BoxGeometry } from "../geometries/BoxGeometry";
+import { BoxGeometryOptions } from "../geometries/BoxGeometryOptions";
+import { SimplexMode } from "../geometries/SimplexMode";
+import { BoxOptions } from "./BoxOptions";
+import { ds } from "./Defaults";
+import { geometryModeFromOptions } from "./geometryModeFromOptions";
+import { materialFromOptions } from "./materialFromOptions";
+import { setAxisAndMeridian } from "./setAxisAndMeridian";
+import { setColorOption } from "./setColorOption";
+import { setDeprecatedOptions } from "./setDeprecatedOptions";
+import { simplexModeFromOptions } from "./simplexModeFromOptions";
+import { spinorE3Object } from "./spinorE3Object";
+import { vectorE3Object } from "./vectorE3Object";
 
 /**
  * A 3D visual representation of a box.
@@ -27,15 +27,15 @@ import { vectorE3Object } from './vectorE3Object';
 export class Box extends Mesh<Geometry, Material> {
     /**
      * @param contextManager This will usually be provided by the `Engine`.
-     * @param options 
-     * @param levelUp Leave as zero unless you are extending this class. 
+     * @param options
+     * @param levelUp Leave as zero unless you are extending this class.
      */
     constructor(contextManager: ContextManager, options: BoxOptions = {}, levelUp = 0) {
         super(void 0, void 0, contextManager, { axis: referenceAxis(options, ds.axis).direction(), meridian: referenceMeridian(options, ds.meridian).direction() }, levelUp + 1);
 
-        this.setLoggingName('Box');
+        this.setLoggingName("Box");
 
-        const geoOptions: BoxGeometryOptions = { kind: 'BoxGeometry' };
+        const geoOptions: BoxGeometryOptions = { kind: "BoxGeometry" };
         geoOptions.mode = geometryModeFromOptions(options);
 
         geoOptions.offset = vectorE3Object(options.offset);
@@ -63,13 +63,13 @@ export class Box extends Mesh<Geometry, Material> {
         setDeprecatedOptions(this, options);
 
         if (isDefined(options.width)) {
-            this.width = mustBeNumber('width', options.width);
+            this.width = mustBeNumber("width", options.width);
         }
         if (isDefined(options.height)) {
-            this.height = mustBeNumber('height', options.height);
+            this.height = mustBeNumber("height", options.height);
         }
         if (isDefined(options.depth)) {
-            this.depth = mustBeNumber('depth', options.depth);
+            this.depth = mustBeNumber("depth", options.depth);
         }
 
         if (levelUp === 0) {

@@ -1,21 +1,21 @@
-import { isDefined } from '../checks/isDefined';
-import { Camera } from '../facets/Camera';
-import { Prism } from '../facets/Prism';
-import { dotVectorE3 } from '../math/dotVectorE3';
-import { R3, vectorCopy, vectorFromCoords } from '../math/R3';
-import { VectorE3 } from '../math/VectorE3';
+import { isDefined } from "../checks/isDefined";
+import { Camera } from "../facets/Camera";
+import { Prism } from "../facets/Prism";
+import { dotVectorE3 } from "../math/dotVectorE3";
+import { R3, vectorCopy, vectorFromCoords } from "../math/R3";
+import { VectorE3 } from "../math/VectorE3";
 
 /**
  * @hidden
  */
-function pointerEvents(canvas: HTMLCanvasElement, value: 'auto' | 'none') {
+function pointerEvents(canvas: HTMLCanvasElement, value: "auto" | "none") {
     canvas.style.pointerEvents = value;
 }
 
 /**
  * @hidden
  */
-function position(canvas: HTMLCanvasElement, value: 'absolute' | 'relative') {
+function position(canvas: HTMLCanvasElement, value: "absolute" | "relative") {
     canvas.style.pointerEvents = value;
 }
 
@@ -25,50 +25,47 @@ function position(canvas: HTMLCanvasElement, value: 'absolute' | 'relative') {
  */
 export class Diagram3D {
     /**
-     * 
+     *
      */
     private camera: Camera;
     /**
-     * 
+     *
      */
     private prism: Prism;
     /**
-     * 
+     *
      */
     public readonly ctx: CanvasRenderingContext2D;
     /**
-     * 
+     *
      */
     /**
-     * 
-     * @param canvas The canvas elementId or the HTML canvas element. 
+     *
+     * @param canvas The canvas elementId or the HTML canvas element.
      * @param camera Provides the camera (eye, look, and up) parameters.
      * @param prism Provides the viewport (near, far, fov, and aspect) parameters.
      */
     constructor(canvas: string | HTMLCanvasElement, camera: Camera, prism: Prism) {
-        if (typeof canvas === 'string') {
+        if (typeof canvas === "string") {
             const canvasElement = <HTMLCanvasElement>document.getElementById(canvas);
-            this.ctx = canvasElement.getContext('2d');
-            pointerEvents(canvasElement, 'none');
-            position(canvasElement, 'absolute');
-        }
-        else if (canvas instanceof HTMLCanvasElement) {
-            this.ctx = canvas.getContext('2d');
-            pointerEvents(canvas, 'none');
-            position(canvas, 'absolute');
-        }
-        else {
+            this.ctx = canvasElement.getContext("2d");
+            pointerEvents(canvasElement, "none");
+            position(canvasElement, "absolute");
+        } else if (canvas instanceof HTMLCanvasElement) {
+            this.ctx = canvas.getContext("2d");
+            pointerEvents(canvas, "none");
+            position(canvas, "absolute");
+        } else {
             throw new Error("canvas must either be a canvas Id or an HTMLCanvasElement.");
         }
         this.ctx.strokeStyle = "#FFFFFF";
-        this.ctx.fillStyle = '#FFFFFF';
-        this.ctx.font = '24px Helvetica';
+        this.ctx.fillStyle = "#FFFFFF";
+        this.ctx.font = "24px Helvetica";
         if (isDefined(camera)) {
             if (isDefined(prism)) {
                 this.camera = camera;
                 this.prism = prism;
-            }
-            else {
+            } else {
                 this.camera = camera;
                 this.prism = prism;
             }
@@ -92,7 +89,7 @@ export class Diagram3D {
     closePath(): void {
         this.ctx.closePath();
     }
-    fill(fillRule?: "nonzero" | "evenodd"/*CanvasFillRule*/): void {
+    fill(fillRule?: "nonzero" | "evenodd" /*CanvasFillRule*/): void {
         this.ctx.fill(fillRule);
     }
     fillText(text: string, X: VectorE3, maxWidth?: number): void {
@@ -119,7 +116,7 @@ export class Diagram3D {
 /**
  * @hidden
  */
-export function canvasCoords(X: VectorE3, camera: { eye: VectorE3; look: VectorE3; up: VectorE3 }, prism: { near: number, far: number, fov: number, aspect: number }, width: number, height: number): { x: number; y: number } {
+export function canvasCoords(X: VectorE3, camera: { eye: VectorE3; look: VectorE3; up: VectorE3 }, prism: { near: number; far: number; fov: number; aspect: number }, width: number, height: number): { x: number; y: number } {
     const cameraCoords = view(X, camera.eye, camera.look, camera.up);
     const near = prism.near;
     const far = prism.far;
@@ -127,8 +124,8 @@ export function canvasCoords(X: VectorE3, camera: { eye: VectorE3; look: VectorE
     const aspect = prism.aspect;
     const imageCoords = perspective(cameraCoords, near, far, fov, aspect);
     // Convert image coordinates to screen/device coordinates.
-    const x = (imageCoords.x + 1) * width / 2;
-    const y = (1 - imageCoords.y) * height / 2;
+    const x = ((imageCoords.x + 1) * width) / 2;
+    const y = ((1 - imageCoords.y) * height) / 2;
     return { x, y };
 }
 
@@ -137,7 +134,7 @@ export function canvasCoords(X: VectorE3, camera: { eye: VectorE3; look: VectorE
  * We first compute the camera frame (u, v, w, eye), then solve the equation
  * X = x * u + y * v * z * n + eye
  * @hidden
- * 
+ *
  * @param X The world vector.
  * @param eye The position of the camera.
  * @param look The point that the camera is aimed at.
@@ -160,9 +157,9 @@ export function view(X: VectorE3, eye: VectorE3, look: VectorE3, up: VectorE3): 
      */
     const v = n.cross(u);
 
-    const du = - dotVectorE3(eye, u);
-    const dv = - dotVectorE3(eye, v);
-    const dn = - dotVectorE3(eye, n);
+    const du = -dotVectorE3(eye, u);
+    const dv = -dotVectorE3(eye, v);
+    const dn = -dotVectorE3(eye, n);
 
     const x = dotVectorE3(X, u) + du;
     const y = dotVectorE3(X, v) + dv;
@@ -174,7 +171,7 @@ export function view(X: VectorE3, eye: VectorE3, look: VectorE3, up: VectorE3): 
 /**
  * Perspective transformation projects camera coordinates onto the image space.
  * The near plane corresponds to -1. The far plane corresponds to +1.
- * 
+ *
  * @param X The coordinates in the camera frame.
  * @param n The distance from the camera eye to the near plane onto which X is projected.
  * @param f The distance to the far plane.

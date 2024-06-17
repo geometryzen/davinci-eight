@@ -1,12 +1,12 @@
-import { isDefined } from '../checks/isDefined';
-import { isFunction } from '../checks/isFunction';
-import { mustBeFunction } from '../checks/mustBeFunction';
-import { mustBeNonNullObject } from '../checks/mustBeNonNullObject';
-import { mustBeString } from '../checks/mustBeString';
-import { ContextManager } from '../core/ContextManager';
-import { ImageTexture } from '../core/ImageTexture';
-import { TextureTarget } from '../core/TextureTarget';
-import { TextureLoaderOptions } from './TextureLoaderOptions';
+import { isDefined } from "../checks/isDefined";
+import { isFunction } from "../checks/isFunction";
+import { mustBeFunction } from "../checks/mustBeFunction";
+import { mustBeNonNullObject } from "../checks/mustBeNonNullObject";
+import { mustBeString } from "../checks/mustBeString";
+import { ContextManager } from "../core/ContextManager";
+import { ImageTexture } from "../core/ImageTexture";
+import { TextureTarget } from "../core/TextureTarget";
+import { TextureLoaderOptions } from "./TextureLoaderOptions";
 
 /**
  * A utility for loading Texture resources from a URL.
@@ -16,18 +16,18 @@ export class TextureLoader {
      * @param contextManager
      */
     constructor(private contextManager: ContextManager) {
-        mustBeNonNullObject('contextManager', contextManager);
+        mustBeNonNullObject("contextManager", contextManager);
     }
 
     /**
-     * 
+     *
      * @param url The Uniform Resource Locator of the image.
-     * @param options 
+     * @param options
      */
     imageTexture(url: string, options: TextureLoaderOptions = {}): Promise<ImageTexture> {
-        mustBeString('url', url);
+        mustBeString("url", url);
         if (isDefined(options.crossOrigin)) {
-            mustBeString('options.crossOrigin', options.crossOrigin);
+            mustBeString("options.crossOrigin", options.crossOrigin);
         }
         return new Promise<ImageTexture>((response, reject) => {
             const image = new Image();
@@ -60,9 +60,9 @@ export class TextureLoader {
      */
     loadImageTexture(url: string, onLoad: (texture: ImageTexture) => any, onError?: () => any, options: TextureLoaderOptions = {}): void {
         console.warn("loadImageTexture() is deprecated. Please use imageTexture().");
-        mustBeFunction('onLoad', onLoad);
+        mustBeFunction("onLoad", onLoad);
         if (isDefined(onError)) {
-            mustBeFunction('onError', onError);
+            mustBeFunction("onError", onError);
         }
         this.imageTexture(url, options)
             .then((texture) => {

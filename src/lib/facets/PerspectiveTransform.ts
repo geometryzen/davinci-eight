@@ -1,43 +1,43 @@
-import { mustBeGE } from '../checks/mustBeGE';
-import { mustBeLE } from '../checks/mustBeLE';
-import { mustBeNumber } from '../checks/mustBeNumber';
-import { Facet } from '../core/Facet';
-import { FacetVisitor } from '../core/FacetVisitor';
-import { GraphicsProgramSymbols as ProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { Matrix4 } from '../math/Matrix4';
+import { mustBeGE } from "../checks/mustBeGE";
+import { mustBeLE } from "../checks/mustBeLE";
+import { mustBeNumber } from "../checks/mustBeNumber";
+import { Facet } from "../core/Facet";
+import { FacetVisitor } from "../core/FacetVisitor";
+import { GraphicsProgramSymbols as ProgramSymbols } from "../core/GraphicsProgramSymbols";
+import { Matrix4 } from "../math/Matrix4";
 
 /**
  * @hidden
  */
 export class PerspectiveTransform implements Facet {
     /**
-     * 
+     *
      */
     private _aspect: number;
     /**
-     * 
+     *
      */
     private _fov: number;
     /**
-     * 
+     *
      */
     private _near: number;
     /**
-     * 
+     *
      */
     private _far: number;
     /**
-     * 
+     *
      */
     public matrix = Matrix4.one.clone();
     /**
-     * 
+     *
      */
     private matrixName = ProgramSymbols.UNIFORM_PROJECTION_MATRIX;
     /**
-     * 
+     *
      */
-    constructor(fov = 45 * Math.PI / 180, aspect = 1, near = 0.1, far = 1000) {
+    constructor(fov = (45 * Math.PI) / 180, aspect = 1, near = 0.1, far = 1000) {
         this._fov = fov;
         this._aspect = aspect;
         this._near = near;
@@ -52,13 +52,12 @@ export class PerspectiveTransform implements Facet {
     }
     set aspect(aspect: number) {
         if (this._aspect !== aspect) {
-            mustBeNumber('aspect', aspect);
-            mustBeGE('aspect', aspect, 0);
+            mustBeNumber("aspect", aspect);
+            mustBeGE("aspect", aspect, 0);
             this._aspect = aspect;
             this.refreshMatrix();
         }
     }
-
 
     /**
      * The field of view is the (planar) angle (magnitude) in the camera horizontal plane that encloses object that can be seen.
@@ -69,14 +68,13 @@ export class PerspectiveTransform implements Facet {
     }
     set fov(fov: number) {
         if (this._fov !== fov) {
-            mustBeNumber('fov', fov);
-            mustBeGE('fov', fov, 0);
-            mustBeLE('fov', fov, Math.PI);
+            mustBeNumber("fov", fov);
+            mustBeGE("fov", fov, 0);
+            mustBeLE("fov", fov, Math.PI);
             this._fov = fov;
             this.refreshMatrix();
         }
     }
-
 
     /**
      * The distance to the near plane.
@@ -86,8 +84,8 @@ export class PerspectiveTransform implements Facet {
     }
     set near(near: number) {
         if (this._near !== near) {
-            mustBeNumber('near', near);
-            mustBeGE('near', near, 0);
+            mustBeNumber("near", near);
+            mustBeGE("near", near, 0);
             this._near = near;
             this.refreshMatrix();
         }
@@ -101,15 +99,15 @@ export class PerspectiveTransform implements Facet {
     }
     set far(far: number) {
         if (this._far !== far) {
-            mustBeNumber('far', far);
-            mustBeGE('far', far, 0);
+            mustBeNumber("far", far);
+            mustBeGE("far", far, 0);
             this._far = far;
             this.refreshMatrix();
         }
     }
 
     /**
-     * 
+     *
      */
     setUniforms(visitor: FacetVisitor): void {
         visitor.matrix4fv(this.matrixName, this.matrix.elements, false);
@@ -152,14 +150,14 @@ export class PerspectiveTransform implements Facet {
          */
         const weight = (s - d * z) / (2 * f * n);
         const t = Math.tan(this.fov / 2);
-        const u = this.aspect * t * x / weight;
-        const v = t * y / weight;
+        const u = (this.aspect * t * x) / weight;
+        const v = (t * y) / weight;
         const w = -1 / weight;
         return [u, v, w];
     }
 
     /**
-     * 
+     *
      */
     private refreshMatrix(): void {
         this.matrix.perspective(this._fov, this._aspect, this._near, this._far);

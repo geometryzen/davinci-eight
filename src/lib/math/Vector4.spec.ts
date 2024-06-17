@@ -1,7 +1,6 @@
-import { Vector4 } from './Vector4';
+import { Vector4 } from "./Vector4";
 
 describe("Vector4", function () {
-
     describe("constructor", function () {
         const data = [Math.random(), Math.random(), Math.random(), Math.random()];
         const vec = new Vector4(data, false);
@@ -130,5 +129,4 @@ describe("Vector4", function () {
             expect(b.w).toBe(b.w);
         });
     });
-
 });

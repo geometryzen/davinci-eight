@@ -2,5 +2,5 @@
  * @hidden
  */
 export function isDefined<T>(arg: T): arg is T {
-    return (typeof arg !== 'undefined');
+    return typeof arg !== "undefined";
 }

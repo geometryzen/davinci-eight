@@ -1,7 +1,7 @@
-import { BlendingFactorDest } from '../core/BlendingFactorDest';
-import { BlendingFactorSrc } from '../core/BlendingFactorSrc';
-import { ContextManager } from '../core/ContextManager';
-import { ShareableBase } from '../core/ShareableBase';
+import { BlendingFactorDest } from "../core/BlendingFactorDest";
+import { BlendingFactorSrc } from "../core/BlendingFactorSrc";
+import { ContextManager } from "../core/ContextManager";
+import { ShareableBase } from "../core/ShareableBase";
 
 /**
  * @hidden
@@ -10,9 +10,13 @@ export class WebGLBlendFunc extends ShareableBase {
     public sfactor: BlendingFactorSrc;
     public dfactor: BlendingFactorDest;
 
-    constructor(private contextManager: ContextManager, sfactor: BlendingFactorSrc, dfactor: BlendingFactorDest) {
+    constructor(
+        private contextManager: ContextManager,
+        sfactor: BlendingFactorSrc,
+        dfactor: BlendingFactorDest
+    ) {
         super();
-        this.setLoggingName('WebGLBlendFunc');
+        this.setLoggingName("WebGLBlendFunc");
         this.sfactor = sfactor;
         this.dfactor = dfactor;
     }

@@ -1,4 +1,4 @@
-import { VectorN } from './VectorN';
+import { VectorN } from "./VectorN";
 
 describe("VectorN", function () {
     describe("constructor", function () {

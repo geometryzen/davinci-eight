@@ -1,19 +1,19 @@
-import { isDefined } from '../checks/isDefined';
-import { mustBeArray } from '../checks/mustBeArray';
-import { mustBeInteger } from '../checks/mustBeInteger';
-import { BeginMode } from '../core/BeginMode';
-import { GridPrimitive } from './GridPrimitive';
-import { numPostsForFence } from './numPostsForFence';
-import { Vertex } from './Vertex';
+import { isDefined } from "../checks/isDefined";
+import { mustBeArray } from "../checks/mustBeArray";
+import { mustBeInteger } from "../checks/mustBeInteger";
+import { BeginMode } from "../core/BeginMode";
+import { GridPrimitive } from "./GridPrimitive";
+import { numPostsForFence } from "./numPostsForFence";
+import { Vertex } from "./Vertex";
 
 /**
  * @hidden
  */
 function triangleStripForGrid(uSegments: number, vSegments: number, elements?: number[]): number[] {
     // Make sure that we have somewhere valid to store the result.
-    elements = isDefined(elements) ? mustBeArray('elements', elements) : [];
+    elements = isDefined(elements) ? mustBeArray("elements", elements) : [];
 
-    const uLength = numPostsForFence(uSegments, false/* open */);
+    const uLength = numPostsForFence(uSegments, false /* open */);
     const lastVertex = uSegments + uLength * vSegments;
     /**
      * The number of elements needed if we executed a strip per row.
@@ -63,7 +63,6 @@ function triangleStripForGrid(uSegments: number, vSegments: number, elements?: n
  * @hidden
  */
 export class GridTriangleStrip extends GridPrimitive {
-
     /**
      * @param uSegments
      * @param vSegments
@@ -79,8 +78,8 @@ export class GridTriangleStrip extends GridPrimitive {
      * @param vIndex An integer. 0 <= vIndex < vLength
      */
     vertex(uIndex: number, vIndex: number): Vertex {
-        mustBeInteger('uIndex', uIndex);
-        mustBeInteger('vIndex', vIndex);
+        mustBeInteger("uIndex", uIndex);
+        mustBeInteger("vIndex", vIndex);
         // I'm not sure why the indexing here reverses the second index direction.
         return this.vertices[(this.vSegments - vIndex) * this.uLength + uIndex];
     }

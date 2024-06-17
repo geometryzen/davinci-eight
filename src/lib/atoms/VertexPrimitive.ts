@@ -1,18 +1,18 @@
-import { mustBeArray } from '../checks/mustBeArray';
-import { mustBeGE } from '../checks/mustBeGE';
-import { mustBeInteger } from '../checks/mustBeInteger';
-import { mustBeNonNullObject } from '../checks/mustBeNonNullObject';
-import { Attribute } from '../core/Attribute';
-import { AttributeSizeType } from '../core/AttributeSizeType';
-import { BeginMode } from '../core/BeginMode';
-import { DataType } from '../core/DataType';
-import { Primitive } from '../core/Primitive';
-import { dataFromVectorN } from '../geometries/dataFromVectorN';
-import { notSupported } from '../i18n/notSupported';
-import { DrawAttribute } from './DrawAttribute';
-import { DrawPrimitive } from './DrawPrimitive';
-import { Transform } from './Transform';
-import { Vertex } from './Vertex';
+import { mustBeArray } from "../checks/mustBeArray";
+import { mustBeGE } from "../checks/mustBeGE";
+import { mustBeInteger } from "../checks/mustBeInteger";
+import { mustBeNonNullObject } from "../checks/mustBeNonNullObject";
+import { Attribute } from "../core/Attribute";
+import { AttributeSizeType } from "../core/AttributeSizeType";
+import { BeginMode } from "../core/BeginMode";
+import { DataType } from "../core/DataType";
+import { Primitive } from "../core/Primitive";
+import { dataFromVectorN } from "../geometries/dataFromVectorN";
+import { notSupported } from "../i18n/notSupported";
+import { DrawAttribute } from "./DrawAttribute";
+import { DrawPrimitive } from "./DrawPrimitive";
+import { Transform } from "./Transform";
+import { Vertex } from "./Vertex";
 
 /**
  * @hidden
@@ -20,17 +20,13 @@ import { Vertex } from './Vertex';
 function checkSize(length: number): AttributeSizeType {
     if (length === 1) {
         return 1;
-    }
-    else if (length === 2) {
+    } else if (length === 2) {
         return 2;
-    }
-    else if (length === 3) {
+    } else if (length === 3) {
         return 3;
-    }
-    else if (length === 4) {
+    } else if (length === 4) {
         return 4;
-    }
-    else {
+    } else {
         throw new Error("length must be 1, 2, 3, or 4");
     }
 }
@@ -43,12 +39,11 @@ function checkSize(length: number): AttributeSizeType {
  * @hidden
  */
 function attributes(elements: number[], vertices: Vertex[]): { [name: string]: Attribute } {
-    mustBeArray('elements', elements);
+    mustBeArray("elements", elements);
     const attribs: { [name: string]: Attribute } = {};
 
     const iLen = vertices.length;
     for (let i = 0; i < iLen; i++) {
-
         const vertex: Vertex = vertices[i];
 
         const names: string[] = Object.keys(vertex.attributes);
@@ -102,11 +97,11 @@ export class VertexPrimitive {
      * @param numCoordinates The number of coordinates required to label each vertex.
      */
     constructor(mode: BeginMode, numVertices: number, numCoordinates: number) {
-        this.mode = mustBeInteger('mode', mode);
-        mustBeInteger('numVertices', numVertices);
-        mustBeGE('numVertices', numVertices, 0);
-        mustBeInteger('numCoordinates', numCoordinates);
-        mustBeGE('numCoordinates', numCoordinates, 0);
+        this.mode = mustBeInteger("mode", mode);
+        mustBeInteger("numVertices", numVertices);
+        mustBeGE("numVertices", numVertices, 0);
+        mustBeInteger("numCoordinates", numCoordinates);
+        mustBeGE("numCoordinates", numCoordinates, 0);
         this.vertices = [];
         for (let i = 0; i < numVertices; i++) {
             this.vertices.push(new Vertex(numCoordinates));
@@ -114,9 +109,9 @@ export class VertexPrimitive {
     }
 
     public vertexTransform(transform: Transform): void {
-        mustBeNonNullObject('transform', transform);
+        mustBeNonNullObject("transform", transform);
         // Derived classes must implement in order to supply correct ranges.
-        throw new Error(notSupported('vertexTransform').message);
+        throw new Error(notSupported("vertexTransform").message);
     }
 
     /**
@@ -124,8 +119,10 @@ export class VertexPrimitive {
      */
     public toPrimitive(): Primitive {
         // Derived classes are responsible for allocating the elements array.
-        const context = () => { return 'toPrimitive'; };
-        mustBeArray('elements', this.elements, context);
+        const context = () => {
+            return "toPrimitive";
+        };
+        mustBeArray("elements", this.elements, context);
         return new DrawPrimitive(this.mode, this.elements, attributes(this.elements, this.vertices));
     }
 }

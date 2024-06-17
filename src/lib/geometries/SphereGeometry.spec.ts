@@ -1,11 +1,25 @@
-import { Engine } from '../core/Engine';
-import { refChange } from '../core/refChange';
-import { vec } from '../math/R3';
+import { Engine } from "../core/Engine";
+import { refChange } from "../core/refChange";
+import { vec } from "../math/R3";
 // import { Spinor3 } from '../math/Spinor3';
-import { Vector2 } from '../math/Vector2';
-import { Vector3 } from '../math/Vector3';
-import { computeSphereVerticesAndCoordinates, DEFAULT_AZIMUTH_LENGTH, DEFAULT_AZIMUTH_SEGMENTS, DEFAULT_AZIMUTH_START, DEFAULT_ELEVATION_LENGTH, DEFAULT_ELEVATION_SEGMENTS, DEFAULT_ELEVATION_START, DEFAULT_MERIDIAN, DEFAULT_OFFSET, DEFAULT_STRESS, DEFAULT_TILT, DEFAULT_ZENITH, SphereGeometry } from './SphereGeometry';
-import { SphereGeometryOptions } from './SphereGeometryOptions';
+import { Vector2 } from "../math/Vector2";
+import { Vector3 } from "../math/Vector3";
+import {
+    computeSphereVerticesAndCoordinates,
+    DEFAULT_AZIMUTH_LENGTH,
+    DEFAULT_AZIMUTH_SEGMENTS,
+    DEFAULT_AZIMUTH_START,
+    DEFAULT_ELEVATION_LENGTH,
+    DEFAULT_ELEVATION_SEGMENTS,
+    DEFAULT_ELEVATION_START,
+    DEFAULT_MERIDIAN,
+    DEFAULT_OFFSET,
+    DEFAULT_STRESS,
+    DEFAULT_TILT,
+    DEFAULT_ZENITH,
+    SphereGeometry
+} from "./SphereGeometry";
+import { SphereGeometryOptions } from "./SphereGeometryOptions";
 
 // import Spinor3 from '../math/Spinor3';
 // import Vector3 from '../math/Vector3';
@@ -34,60 +48,59 @@ const MATHEMATICS_MERIDIAN = vec(1, 0, 0);
  */
 const MATHEMATICS_NADIR = vec(0, 0, -1);
 
-
 describe("SphereGeometry", function () {
     it("new-release", function () {
-        refChange('quiet');
-        refChange('reset');
-        refChange('quiet');
-        refChange('start');
+        refChange("quiet");
+        refChange("reset");
+        refChange("quiet");
+        refChange("start");
         const engine = new Engine();
         const geometry = new SphereGeometry(engine);
         expect(geometry.isZombie()).toBe(false);
         geometry.release();
         expect(geometry.isZombie()).toBe(true);
         engine.release();
-        refChange('stop');
-        const outstanding = refChange('dump');
+        refChange("stop");
+        const outstanding = refChange("dump");
         expect(outstanding).toBe(0);
-        refChange('quiet');
-        refChange('reset');
+        refChange("quiet");
+        refChange("reset");
     });
     it("constructor-destructor", function () {
-        refChange('quiet');
-        refChange('reset');
-        refChange('quiet');
-        refChange('start');
+        refChange("quiet");
+        refChange("reset");
+        refChange("quiet");
+        refChange("start");
         const engine = new Engine();
         const options: SphereGeometryOptions = {};
         const geometry = new SphereGeometry(engine, options);
         geometry.release();
         engine.release();
         expect(geometry.isZombie()).toBe(true);
-        refChange('stop');
-        refChange('dump');
+        refChange("stop");
+        refChange("dump");
     });
     it("resurrector-destructor", function () {
-        refChange('quiet');
-        refChange('reset');
-        refChange('quiet');
-        refChange('start');
+        refChange("quiet");
+        refChange("reset");
+        refChange("quiet");
+        refChange("start");
         const engine = new Engine();
         const options: SphereGeometryOptions = {};
         const geometry = new SphereGeometry(engine, options);
         geometry.release();
         engine.release();
-        refChange('stop');
-        refChange('dump');
-        refChange('reset');
-        refChange('quiet');
-        refChange('start');
+        refChange("stop");
+        refChange("dump");
+        refChange("reset");
+        refChange("quiet");
+        refChange("start");
         expect(geometry.isZombie()).toBe(true);
         geometry.addRef();
         geometry.release();
-        refChange('stop');
-        refChange('dump');
-        refChange('reset');
+        refChange("stop");
+        refChange("dump");
+        refChange("reset");
     });
 });
 describe("computeVerticesAndPoints", function () {

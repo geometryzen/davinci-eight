@@ -1,13 +1,12 @@
-import { Coords } from '../math/Coords';
-import { Matrix4 } from '../math/Matrix4';
-import { SpinorE4 } from '../math/SpinorE4';
-import { VectorE4 } from '../math/VectorE4';
+import { Coords } from "../math/Coords";
+import { Matrix4 } from "../math/Matrix4";
+import { SpinorE4 } from "../math/SpinorE4";
+import { VectorE4 } from "../math/VectorE4";
 
 /**
  *
  */
 export class Vector4 extends Coords {
-
     /**
      * @param data Default is [0, 0, 0, 0] corresponding to x, y, z, and w coordinate labels.
      * @param modified Default is false.
@@ -95,7 +94,6 @@ export class Vector4 extends Coords {
      * @chainable
      */
     applyMatrix(σ: Matrix4): Vector4 {
-
         const x = this.x;
         const y = this.y;
         const z = this.z;
@@ -103,10 +101,10 @@ export class Vector4 extends Coords {
 
         const e = σ.elements;
 
-        this.x = e[0x0] * x + e[0x4] * y + e[0x8] * z + e[0xC] * w;
-        this.y = e[0x1] * x + e[0x5] * y + e[0x9] * z + e[0xD] * w;
-        this.z = e[0x2] * x + e[0x6] * y + e[0xA] * z + e[0xE] * w;
-        this.w = e[0x3] * x + e[0x7] * y + e[0xB] * z + e[0xF] * w;
+        this.x = e[0x0] * x + e[0x4] * y + e[0x8] * z + e[0xc] * w;
+        this.y = e[0x1] * x + e[0x5] * y + e[0x9] * z + e[0xd] * w;
+        this.z = e[0x2] * x + e[0x6] * y + e[0xa] * z + e[0xe] * w;
+        this.w = e[0x3] * x + e[0x7] * y + e[0xb] * z + e[0xf] * w;
 
         return this;
     }

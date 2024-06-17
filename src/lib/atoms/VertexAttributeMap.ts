@@ -1,4 +1,4 @@
-import { VectorN } from './VectorN';
+import { VectorN } from "./VectorN";
 
 /**
  * A mapping from the name of an attribute to VectorN parameterized by number.

@@ -1,8 +1,8 @@
-import { Transform } from '../atoms/Transform';
-import { Vertex } from '../atoms/Vertex';
-import { mustBeBoolean } from '../checks/mustBeBoolean';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { Vector1 } from '../math/Vector1';
+import { Transform } from "../atoms/Transform";
+import { Vertex } from "../atoms/Vertex";
+import { mustBeBoolean } from "../checks/mustBeBoolean";
+import { GraphicsProgramSymbols } from "../core/GraphicsProgramSymbols";
+import { Vector1 } from "../math/Vector1";
 
 /**
  * Applies coordinates to a line.
@@ -11,7 +11,7 @@ import { Vector1 } from '../math/Vector1';
 export class CoordsTransform1D implements Transform {
     public flipU: boolean;
     constructor(flipU: boolean) {
-        this.flipU = mustBeBoolean('flipU', flipU);
+        this.flipU = mustBeBoolean("flipU", flipU);
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

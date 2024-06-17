@@ -1,28 +1,32 @@
-import { VectorN } from '../atoms/VectorN';
-import { Vertex } from '../atoms/Vertex';
-import { expectArg } from '../checks/expectArg';
-import { isDefined } from '../checks/isDefined';
-import { AttributeSizeType } from '../core/AttributeSizeType';
-import { dataLength } from './dataLength';
-import { GeometryMeta } from './GeometryMeta';
-import { Simplex } from './Simplex';
+import { VectorN } from "../atoms/VectorN";
+import { Vertex } from "../atoms/Vertex";
+import { expectArg } from "../checks/expectArg";
+import { isDefined } from "../checks/isDefined";
+import { AttributeSizeType } from "../core/AttributeSizeType";
+import { dataLength } from "./dataLength";
+import { GeometryMeta } from "./GeometryMeta";
+import { Simplex } from "./Simplex";
 
 /**
  * @hidden
  */
 function stringify(thing: any, space: any): string {
     const cache: any[] = [];
-    return JSON.stringify(thing, function (key: string, value: any) {
-        if (typeof value === 'object' && value !== null) {
-            if (cache.indexOf(value) !== -1) {
-                // Circular reference found, discard key
-                return;
+    return JSON.stringify(
+        thing,
+        function (key: string, value: any) {
+            if (typeof value === "object" && value !== null) {
+                if (cache.indexOf(value) !== -1) {
+                    // Circular reference found, discard key
+                    return;
+                }
+                // Store value in our collection
+                cache.push(value);
             }
-            // Store value in our collection
-            cache.push(value);
-        }
-        return value;
-    }, space);
+            return value;
+        },
+        space
+    );
 }
 
 /**
@@ -36,7 +40,7 @@ export function simplicesToGeometryMeta(geometry: Simplex[]): GeometryMeta {
     for (let i = 0; i < geometryLen; i++) {
         const simplex: Simplex = geometry[i];
         if (!(simplex instanceof Simplex)) {
-            expectArg('simplex', simplex).toSatisfy(false, "Every element must be a Simplex @ simplicesToGeometryMeta(). Found " + stringify(simplex, 2));
+            expectArg("simplex", simplex).toSatisfy(false, "Every element must be a Simplex @ simplicesToGeometryMeta(). Found " + stringify(simplex, 2));
         }
         const vertices: Vertex[] = simplex.vertices;
         // TODO: Check consistency of k-values.
@@ -55,8 +59,7 @@ export function simplicesToGeometryMeta(geometry: Simplex[]): GeometryMeta {
                     if (known.size !== dLength) {
                         throw new Error("Something is rotten in Denmark!");
                     }
-                }
-                else {
+                } else {
                     knowns[key] = { size: dLength };
                 }
             }
@@ -73,8 +76,7 @@ export function simplicesToGeometryMeta(geometry: Simplex[]): GeometryMeta {
             }
         };
         return info;
-    }
-    else {
+    } else {
         return void 0;
     }
 }

@@ -1,5 +1,5 @@
-import { isArray } from '../checks/isArray';
-import { mustSatisfy } from '../checks/mustSatisfy';
+import { isArray } from "../checks/isArray";
+import { mustSatisfy } from "../checks/mustSatisfy";
 
 /**
  * @hidden

@@ -1,5 +1,5 @@
-import { isDefined } from '../checks/isDefined';
-import { mustSatisfy } from '../checks/mustSatisfy';
+import { isDefined } from "../checks/isDefined";
+import { mustSatisfy } from "../checks/mustSatisfy";
 
 /**
  * @hidden

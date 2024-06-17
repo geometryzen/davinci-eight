@@ -1,4 +1,4 @@
-import { Matrix4 } from './Matrix4';
+import { Matrix4 } from "./Matrix4";
 
 describe("Matrix4", function () {
     describe("elements", function () {

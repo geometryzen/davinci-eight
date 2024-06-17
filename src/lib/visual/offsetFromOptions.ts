@@ -1,5 +1,5 @@
-import { Geometric3 } from '../math/Geometric3';
-import { VectorE3 } from '../math/VectorE3';
+import { Geometric3 } from "../math/Geometric3";
+import { VectorE3 } from "../math/VectorE3";
 
 /**
  * Reduce to the vectorE3 data structure.
@@ -10,8 +10,7 @@ import { VectorE3 } from '../math/VectorE3';
 function simplify(vector: VectorE3): VectorE3 {
     if (vector.x !== 0 || vector.y !== 0 || vector.z !== 0) {
         return { x: vector.x, y: vector.y, z: vector.z };
-    }
-    else {
+    } else {
         return void 0;
     }
 }
@@ -23,8 +22,7 @@ function simplify(vector: VectorE3): VectorE3 {
 export function offsetFromOptions(options: { offset?: VectorE3 }): VectorE3 {
     if (options.offset) {
         return simplify(options.offset);
-    }
-    else {
+    } else {
         return simplify(Geometric3.ZERO);
     }
 }

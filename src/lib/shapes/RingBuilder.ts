@@ -1,16 +1,16 @@
-import { GridTriangleStrip } from '../atoms/GridTriangleStrip';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { Primitive } from '../core/Primitive';
-import { Vector3 } from '../math/Vector3';
-import { Approximation } from '../transforms/Approximation';
-import { CoordsTransform2D } from '../transforms/CoordsTransform2D';
-import { Direction } from '../transforms/Direction';
-import { Duality } from '../transforms/Duality';
-import { RingTransform } from '../transforms/RingTransform';
-import { Rotation } from '../transforms/Rotation';
-import { Scaling } from '../transforms/Scaling';
-import { Translation } from '../transforms/Translation';
-import { AxialShapeBuilder } from './AxialShapeBuilder';
+import { GridTriangleStrip } from "../atoms/GridTriangleStrip";
+import { GraphicsProgramSymbols } from "../core/GraphicsProgramSymbols";
+import { Primitive } from "../core/Primitive";
+import { Vector3 } from "../math/Vector3";
+import { Approximation } from "../transforms/Approximation";
+import { CoordsTransform2D } from "../transforms/CoordsTransform2D";
+import { Direction } from "../transforms/Direction";
+import { Duality } from "../transforms/Duality";
+import { RingTransform } from "../transforms/RingTransform";
+import { Rotation } from "../transforms/Rotation";
+import { Scaling } from "../transforms/Scaling";
+import { Translation } from "../transforms/Translation";
+import { AxialShapeBuilder } from "./AxialShapeBuilder";
 
 /**
  * Constructs a one-sided ring using a TRIANGLE_STRIP.
@@ -19,7 +19,6 @@ import { AxialShapeBuilder } from './AxialShapeBuilder';
  * @hidden
  */
 export class RingBuilder extends AxialShapeBuilder {
-
     /**
      * The radius of the hole in the ring.
      */

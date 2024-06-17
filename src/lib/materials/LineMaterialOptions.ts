@@ -1,7 +1,6 @@
-import { MaterialOptions } from './MaterialOptions';
+import { MaterialOptions } from "./MaterialOptions";
 
 /**
  *
  */
-export interface LineMaterialOptions extends MaterialOptions {
-}
+export interface LineMaterialOptions extends MaterialOptions {}

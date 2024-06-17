@@ -1,20 +1,19 @@
-import { mustBeBoolean } from '../checks/mustBeBoolean';
-import { mustBeGE } from '../checks/mustBeGE';
-import { mustBeInteger } from '../checks/mustBeInteger';
-import { mustBeLT } from '../checks/mustBeLT';
-import { BeginMode } from '../core/BeginMode';
-import { readOnly } from '../i18n/readOnly';
-import { numPostsForFence } from './numPostsForFence';
-import { numVerticesForCurve } from './numVerticesForCurve';
-import { Transform } from './Transform';
-import { Vertex } from './Vertex';
-import { VertexPrimitive } from './VertexPrimitive';
+import { mustBeBoolean } from "../checks/mustBeBoolean";
+import { mustBeGE } from "../checks/mustBeGE";
+import { mustBeInteger } from "../checks/mustBeInteger";
+import { mustBeLT } from "../checks/mustBeLT";
+import { BeginMode } from "../core/BeginMode";
+import { readOnly } from "../i18n/readOnly";
+import { numPostsForFence } from "./numPostsForFence";
+import { numVerticesForCurve } from "./numVerticesForCurve";
+import { Transform } from "./Transform";
+import { Vertex } from "./Vertex";
+import { VertexPrimitive } from "./VertexPrimitive";
 
 /**
  * @hidden
  */
 export class CurvePrimitive extends VertexPrimitive {
-
     private _uSegments: number;
 
     private _uClosed: boolean;
@@ -26,9 +25,9 @@ export class CurvePrimitive extends VertexPrimitive {
      */
     constructor(mode: BeginMode, uSegments: number, uClosed: boolean) {
         super(mode, numVerticesForCurve(uSegments), 1);
-        mustBeInteger('uSegments', uSegments);
-        mustBeGE('uSegments', uSegments, 0);
-        mustBeBoolean('uClosed', uClosed);
+        mustBeInteger("uSegments", uSegments);
+        mustBeGE("uSegments", uSegments, 0);
+        mustBeBoolean("uClosed", uClosed);
         this._uSegments = uSegments;
         this._uClosed = uClosed;
         const uLength = this.uLength;
@@ -42,8 +41,8 @@ export class CurvePrimitive extends VertexPrimitive {
         return this._uSegments;
     }
     set uSegments(uSegments: number) {
-        mustBeInteger('uSegments', uSegments);
-        throw new Error(readOnly('uSegments').message);
+        mustBeInteger("uSegments", uSegments);
+        throw new Error(readOnly("uSegments").message);
     }
 
     /**
@@ -53,8 +52,8 @@ export class CurvePrimitive extends VertexPrimitive {
         return numPostsForFence(this._uSegments, this._uClosed);
     }
     set uLength(uLength: number) {
-        mustBeInteger('uLength', uLength);
-        throw new Error(readOnly('uLength').message);
+        mustBeInteger("uLength", uLength);
+        throw new Error(readOnly("uLength").message);
     }
 
     public vertexTransform(transform: Transform): void {
@@ -67,9 +66,9 @@ export class CurvePrimitive extends VertexPrimitive {
     }
 
     public vertex(uIndex: number): Vertex {
-        mustBeInteger('uIndex', uIndex);
-        mustBeGE('uIndex', uIndex, 0);
-        mustBeLT('uIndex', uIndex, this.uLength);
+        mustBeInteger("uIndex", uIndex);
+        mustBeGE("uIndex", uIndex, 0);
+        mustBeLT("uIndex", uIndex, this.uLength);
         return this.vertices[uIndex];
     }
 }

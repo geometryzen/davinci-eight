@@ -1,14 +1,13 @@
-import { BrowserWindow } from '../base/BrowserWindow';
-import { Vector3 } from '../math/Vector3';
-import { VectorE3 } from '../math/VectorE3';
-import { MouseControls } from './MouseControls';
-import { ViewController } from './ViewController';
+import { BrowserWindow } from "../base/BrowserWindow";
+import { Vector3 } from "../math/Vector3";
+import { VectorE3 } from "../math/VectorE3";
+import { MouseControls } from "./MouseControls";
+import { ViewController } from "./ViewController";
 
 /**
  * @hidden
  */
 export class ViewControls extends MouseControls implements ViewController {
-
     /**
      *
      * @default 1
@@ -46,7 +45,7 @@ export class ViewControls extends MouseControls implements ViewController {
      * The view that is being controlled.
      * We work only with coordinates to minimize requirements for interoperability.
      */
-    private view: { eye: { x: number; y: number; z: number }, look: { x: number; y: number; z: number }, up: { x: number; y: number; z: number } };
+    private view: { eye: { x: number; y: number; z: number }; look: { x: number; y: number; z: number }; up: { x: number; y: number; z: number } };
 
     /**
      *
@@ -67,9 +66,9 @@ export class ViewControls extends MouseControls implements ViewController {
      * @param view
      * @param wnd
      */
-    constructor(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }, wnd: BrowserWindow = window) {
+    constructor(view: { eye: VectorE3; look: VectorE3; up: VectorE3 }, wnd: BrowserWindow = window) {
         super(wnd);
-        this.setLoggingName('ViewControls');
+        this.setLoggingName("ViewControls");
         this.setView(view);
     }
 
@@ -166,11 +165,10 @@ export class ViewControls extends MouseControls implements ViewController {
     /**
      * @param view
      */
-    public setView(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }): void {
+    public setView(view: { eye: VectorE3; look: VectorE3; up: VectorE3 }): void {
         if (view) {
             this.view = view;
-        }
-        else {
+        } else {
             this.view = void 0;
         }
         this.synchronize();
@@ -185,8 +183,7 @@ export class ViewControls extends MouseControls implements ViewController {
             this.eye0.copy(view.eye);
             this.look0.copy(view.look);
             this.up0.copy(view.up);
-        }
-        else {
+        } else {
             this.eye0.setXYZ(0, 0, 1);
             this.look0.zero();
             this.up0.setXYZ(0, 1, 0);

@@ -1,8 +1,8 @@
-import { mustBeString } from '../checks/mustBeString';
-import { Facet } from '../core/Facet';
-import { FacetVisitor } from '../core/FacetVisitor';
-import { Vector3 } from '../math/Vector3';
-import { VectorE3 } from '../math/VectorE3';
+import { mustBeString } from "../checks/mustBeString";
+import { Facet } from "../core/Facet";
+import { FacetVisitor } from "../core/FacetVisitor";
+import { Vector3 } from "../math/Vector3";
+import { VectorE3 } from "../math/VectorE3";
 
 /**
  * Updates a uniform vec3 shader parameter from a VectorE3.
@@ -21,14 +21,14 @@ export class Vector3Facet implements Facet {
     public vector = Vector3.vector(0, 0, 0);
 
     constructor(name: string) {
-        this._name = mustBeString('name', name);
+        this._name = mustBeString("name", name);
     }
 
     get name(): string {
         return this._name;
     }
     set name(value: string) {
-        this._name = mustBeString('name', value);
+        this._name = mustBeString("name", value);
     }
 
     get value(): VectorE3 {
@@ -39,7 +39,7 @@ export class Vector3Facet implements Facet {
     }
 
     /**
-     * 
+     *
      */
     setUniforms(visitor: FacetVisitor): void {
         const v = this.vector;

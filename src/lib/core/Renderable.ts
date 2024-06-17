@@ -1,5 +1,5 @@
-import { ContextConsumer } from '../core/ContextConsumer';
-import { Facet } from '../core/Facet';
+import { ContextConsumer } from "../core/ContextConsumer";
+import { Facet } from "../core/Facet";
 
 /**
  * The interface contract for an object that may exist in a Scene.

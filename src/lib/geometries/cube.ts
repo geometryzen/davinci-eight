@@ -1,9 +1,9 @@
-import { VectorN } from '../atoms/VectorN';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { quadrilateral } from '../geometries/quadrilateral';
-import { Simplex } from '../geometries/Simplex';
-import { Vector2 } from '../math/Vector2';
-import { Vector3 } from '../math/Vector3';
+import { VectorN } from "../atoms/VectorN";
+import { GraphicsProgramSymbols } from "../core/GraphicsProgramSymbols";
+import { quadrilateral } from "../geometries/quadrilateral";
+import { Simplex } from "../geometries/Simplex";
+import { Vector2 } from "../math/Vector2";
+import { Vector3 } from "../math/Vector3";
 
 /**
  * cube as Simplex[]
@@ -18,7 +18,6 @@ import { Vector3 } from '../math/Vector3';
  * @hidden
  */
 export function cube(size = 1): Simplex[] {
-
     const s = size / 2;
 
     const vec0 = new Vector3([+s, +s, +s]);
@@ -51,5 +50,7 @@ export function cube(size = 1): Simplex[] {
 
     // TODO: Fix up the opposing property so that the cube is fully linked together.
 
-    return squares.reduce(function (a: Simplex[], b: Simplex[]) { return a.concat(b); }, []);
+    return squares.reduce(function (a: Simplex[], b: Simplex[]) {
+        return a.concat(b);
+    }, []);
 }

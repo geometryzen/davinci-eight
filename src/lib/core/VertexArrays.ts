@@ -1,12 +1,11 @@
-import { BeginMode } from './BeginMode';
-import { VertexAttribPointer } from './VertexAttribPointer';
+import { BeginMode } from "./BeginMode";
+import { VertexAttribPointer } from "./VertexAttribPointer";
 
 /**
  * Geometry data that has been interleaved for efficiency.
  * @hidden
  */
 export interface VertexArrays {
-
     /**
      *
      */

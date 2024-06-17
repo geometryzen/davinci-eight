@@ -1,8 +1,8 @@
-import { BrowserWindow } from '../base/BrowserWindow';
-import { expectArg } from '../checks/expectArg';
-import { mustBeNumber } from '../checks/mustBeNumber';
-import { WindowAnimationRunner } from '../utils/WindowAnimationRunner';
-import { WindowAnimationOptions } from './WindowAnimationOptions';
+import { BrowserWindow } from "../base/BrowserWindow";
+import { expectArg } from "../checks/expectArg";
+import { mustBeNumber } from "../checks/mustBeNumber";
+import { WindowAnimationRunner } from "../utils/WindowAnimationRunner";
+import { WindowAnimationOptions } from "./WindowAnimationOptions";
 
 /**
  * @hidden
@@ -25,7 +25,7 @@ function defaultTearDown(animateException: any): void {
  * @hidden
  */
 function defaultTerminate(time: number): boolean {
-    mustBeNumber('time', time);
+    mustBeNumber("time", time);
     // Never ending, because whenever asked we say nee.
     return false;
 }
@@ -34,17 +34,16 @@ function defaultTerminate(time: number): boolean {
  * @hidden
  */
 export function animation(animate: (time: number) => void, options: WindowAnimationOptions = {}): WindowAnimationRunner {
-
     const STATE_INITIAL = 1;
     const STATE_RUNNING = 2;
     const STATE_PAUSED = 3;
 
-    const $window: BrowserWindow = expectArg('options.window', options.window || window).toNotBeNull().value;
-    const setUp: () => void = expectArg('options.setUp', options.setUp || defaultSetUp).value;
-    const tearDown: (animateException: any) => void = expectArg('options.tearDown', options.tearDown || defaultTearDown).value;
-    const terminate: (time: number) => boolean = expectArg('options.terminate', options.terminate || defaultTerminate).toNotBeNull().value;
+    const $window: BrowserWindow = expectArg("options.window", options.window || window).toNotBeNull().value;
+    const setUp: () => void = expectArg("options.setUp", options.setUp || defaultSetUp).value;
+    const tearDown: (animateException: any) => void = expectArg("options.tearDown", options.tearDown || defaultTearDown).value;
+    const terminate: (time: number) => boolean = expectArg("options.terminate", options.terminate || defaultTerminate).toNotBeNull().value;
 
-    let stopSignal = false;       // 27 is Esc
+    let stopSignal = false; // 27 is Esc
     //  let pauseKeyPressed = false  // 19
     //  let enterKeyPressed = false  // 13
     let startTime: number;
@@ -84,7 +83,7 @@ export function animation(animate: (time: number) => void, options: WindowAnimat
         start() {
             if (!publicAPI.isRunning) {
                 setUp();
-                $window.document.addEventListener('keydown', onDocumentKeyDown as EventListener, false);
+                $window.document.addEventListener("keydown", onDocumentKeyDown as EventListener, false);
                 state = STATE_RUNNING;
                 requestID = $window.requestAnimationFrame(frameRequestCallback);
             }
@@ -131,26 +130,22 @@ export function animation(animate: (time: number) => void, options: WindowAnimat
             if (publicAPI.isRunning) {
                 state = STATE_PAUSED;
                 startTime = void 0;
-            }
-            else {
+            } else {
                 // TODO: Can we recover?
                 console.error("stopSignal received while not running.");
             }
-            $window.document.removeEventListener('keydown', onDocumentKeyDown as EventListener, false);
+            $window.document.removeEventListener("keydown", onDocumentKeyDown as EventListener, false);
             try {
                 tearDown(animateException);
-            }
-            catch (e) {
+            } catch (e) {
                 console.warn("Exception raised during tearDown function: " + e);
             }
-        }
-        else {
+        } else {
             requestID = $window.requestAnimationFrame(frameRequestCallback);
             // If an exception happens, cache it to be reported later and simulate a stopSignal.
             try {
                 animate(elapsed / MILLIS_PER_SECOND);
-            }
-            catch (e) {
+            } catch (e) {
                 animateException = e;
                 stopSignal = true;
             }

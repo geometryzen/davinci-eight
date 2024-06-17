@@ -1,9 +1,9 @@
-import { mustBeString } from '../checks/mustBeString';
-import { Facet } from '../core/Facet';
-import { FacetVisitor } from '../core/FacetVisitor';
-import { readOnly } from '../i18n/readOnly';
-import { Matrix2 } from '../math/Matrix2';
-import { Vector2 } from '../math/Vector2';
+import { mustBeString } from "../checks/mustBeString";
+import { Facet } from "../core/Facet";
+import { FacetVisitor } from "../core/FacetVisitor";
+import { readOnly } from "../i18n/readOnly";
+import { Matrix2 } from "../math/Matrix2";
+import { Vector2 } from "../math/Vector2";
 
 /**
  * @hidden
@@ -14,7 +14,7 @@ export class ReflectionFacetE2 implements Facet {
      */
     public _normal: Vector2;
     /**
-     * 
+     *
      */
     private matrix = Matrix2.one.clone();
     private name: string;
@@ -23,7 +23,7 @@ export class ReflectionFacetE2 implements Facet {
      * @param name The name of the uniform variable.
      */
     constructor(name: string) {
-        this.name = mustBeString('name', name);
+        this.name = mustBeString("name", name);
         // The mathematics of the reflection causes a zero vector to be the identity transformation.
         this._normal = new Vector2().zero();
         this._normal.modified = true;
@@ -36,7 +36,7 @@ export class ReflectionFacetE2 implements Facet {
         return this._normal;
     }
     set normal(unused) {
-        throw new Error(readOnly('normal').message);
+        throw new Error(readOnly("normal").message);
     }
 
     /**

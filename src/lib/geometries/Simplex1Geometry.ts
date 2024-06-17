@@ -1,7 +1,7 @@
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { Simplex } from '../geometries/Simplex';
-import { SimplexPrimitivesBuilder } from '../geometries/SimplexPrimitivesBuilder';
-import { Vector3 } from '../math/Vector3';
+import { GraphicsProgramSymbols } from "../core/GraphicsProgramSymbols";
+import { Simplex } from "../geometries/Simplex";
+import { SimplexPrimitivesBuilder } from "../geometries/SimplexPrimitivesBuilder";
+import { Vector3 } from "../math/Vector3";
 
 /**
  * @hidden
@@ -15,7 +15,9 @@ export class Simplex1Geometry extends SimplexPrimitivesBuilder {
     }
     public calculate(): void {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const pos: Vector3[] = [0, 1].map(function (index: number) { return void 0; });
+        const pos: Vector3[] = [0, 1].map(function (index: number) {
+            return void 0;
+        });
         pos[0] = this.tail;
         pos[1] = this.head;
 
@@ -26,7 +28,9 @@ export class Simplex1Geometry extends SimplexPrimitivesBuilder {
             }
             return simplex;
         }
-        this.data = [[0, 1]].map(function (line: number[]) { return simplex(line); });
+        this.data = [[0, 1]].map(function (line: number[]) {
+            return simplex(line);
+        });
         // Compute the meta data.
         this.check();
     }

@@ -1,11 +1,11 @@
-import { BivectorE3 as Bivector } from './BivectorE3';
-import { dotVectorE3 as dot } from './dotVectorE3';
-import { quadVectorE3 as quad } from './quadVectorE3';
-import { SpinorE3 as Spinor } from './SpinorE3';
-import { VectorE3 as Vector } from './VectorE3';
-import { wedgeXY } from './wedgeXY';
-import { wedgeYZ } from './wedgeYZ';
-import { wedgeZX } from './wedgeZX';
+import { BivectorE3 as Bivector } from "./BivectorE3";
+import { dotVectorE3 as dot } from "./dotVectorE3";
+import { quadVectorE3 as quad } from "./quadVectorE3";
+import { SpinorE3 as Spinor } from "./SpinorE3";
+import { VectorE3 as Vector } from "./VectorE3";
+import { wedgeXY } from "./wedgeXY";
+import { wedgeYZ } from "./wedgeYZ";
+import { wedgeZX } from "./wedgeZX";
 
 /**
  * @hidden
@@ -21,7 +21,7 @@ const cosPIdiv4 = Math.cos(Math.PI / 4);
 const sinPIdiv4 = Math.sin(Math.PI / 4);
 
 /**
- * @hidden 
+ * @hidden
  */
 export interface MutableSpinor extends Spinor {
     /**
@@ -152,7 +152,7 @@ export function rotorFromDirectionsE3(a: Vector, b: Vector, B: Bivector | undefi
         return;
     }
     // Optimizations when the plane of rotation is ambiguous and a default bivector is not defined.
-    if (typeof B === 'undefined') {
+    if (typeof B === "undefined") {
         if (a.x === 1 && a.y === 0 && a.z === 0 && b.x === -1 && b.y === 0 && b.z === 0) {
             // +e1 to -e1.
             m.zero();
@@ -201,8 +201,7 @@ export function rotorFromDirectionsE3(a: Vector, b: Vector, B: Bivector | undefi
         m = m.versor(b, a);
         m = m.addScalar(BA);
         m = m.divByScalar(denom);
-    }
-    else {
+    } else {
         // The denominator is zero when |a||b| + a << b = 0.
         // If θ is the angle between a and b, then  cos(θ) = (a << b) /|a||b| = -1
         // Then a and b are anti-parallel.
@@ -211,8 +210,7 @@ export function rotorFromDirectionsE3(a: Vector, b: Vector, B: Bivector | undefi
         // it into a rotor that achieves the 180-degree rotation.
         if (B) {
             m.rotorFromGeneratorAngle(B, Math.PI);
-        }
-        else {
+        } else {
             const rx = Math.random();
             const ry = Math.random();
             const rz = Math.random();

@@ -1,14 +1,14 @@
-import { mustBeNonNullObject } from '../checks/mustBeNonNullObject';
-import { SpinorE3 } from '../math/SpinorE3';
-import { BeginMode } from './BeginMode';
-import { ContextManager } from './ContextManager';
-import { GeometryBase } from './GeometryBase';
-import { Material } from './Material';
-import { Primitive } from './Primitive';
-import { Usage } from './Usage';
-import { vertexArraysFromPrimitive } from './vertexArraysFromPrimitive';
-import { VertexAttribPointer } from './VertexAttribPointer';
-import { VertexBuffer } from './VertexBuffer';
+import { mustBeNonNullObject } from "../checks/mustBeNonNullObject";
+import { SpinorE3 } from "../math/SpinorE3";
+import { BeginMode } from "./BeginMode";
+import { ContextManager } from "./ContextManager";
+import { GeometryBase } from "./GeometryBase";
+import { Material } from "./Material";
+import { Primitive } from "./Primitive";
+import { Usage } from "./Usage";
+import { vertexArraysFromPrimitive } from "./vertexArraysFromPrimitive";
+import { VertexAttribPointer } from "./VertexAttribPointer";
+import { VertexBuffer } from "./VertexBuffer";
 
 /**
  * A concrete Geometry for supporting drawArrays.
@@ -37,20 +37,20 @@ export class GeometryArrays extends GeometryBase {
      */
     private stride: number;
     /**
-     * 
+     *
      */
     private pointers: VertexAttribPointer[];
     /**
-     * 
+     *
      */
     private vbo: VertexBuffer;
     /**
-     * 
+     *
      */
     constructor(contextManager: ContextManager, primitive: Primitive, options: { order?: string[]; tilt?: SpinorE3 } = {}, levelUp = 0) {
         super(contextManager, levelUp + 1);
-        mustBeNonNullObject('primitive', primitive);
-        this.setLoggingName('GeometryArrays');
+        mustBeNonNullObject("primitive", primitive);
+        this.setLoggingName("GeometryArrays");
         // FIXME: order as an option
         const vertexArrays = vertexArraysFromPrimitive(primitive, options.order);
         this.mode = vertexArrays.mode;
@@ -66,11 +66,11 @@ export class GeometryArrays extends GeometryBase {
     }
 
     /**
-     * 
+     *
      */
     protected resurrector(levelUp: number): void {
         super.resurrector(levelUp + 1);
-        this.setLoggingName('GeometryArrays');
+        this.setLoggingName("GeometryArrays");
         this.vbo.addRef();
         if (levelUp === 0) {
             this.synchUp();
@@ -78,7 +78,7 @@ export class GeometryArrays extends GeometryBase {
     }
 
     /**
-     * 
+     *
      */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {

@@ -1,7 +1,7 @@
-import { BeginMode } from '../core/BeginMode';
-import { Vector2 } from '../math/Vector2';
-import { GridTriangleStrip } from './GridTriangleStrip';
-import { reduce } from './reduce';
+import { BeginMode } from "../core/BeginMode";
+import { Vector2 } from "../math/Vector2";
+import { GridTriangleStrip } from "./GridTriangleStrip";
+import { reduce } from "./reduce";
 
 /**
  * @hidden
@@ -13,7 +13,7 @@ function makeGrid(uSegments: number, vSegments: number, uOffset: number, vOffset
         const jLength = grid.vLength;
         for (let j = 0; j < jLength; j++) {
             const vertex = grid.vertex(i, j);
-            vertex.attributes['uvs'] = new Vector2([i + uOffset, j + vOffset]);
+            vertex.attributes["uvs"] = new Vector2([i + uOffset, j + vOffset]);
         }
     }
     return grid;
@@ -38,7 +38,7 @@ describe("reduce", function () {
         });
         it("should copy attributes", function () {
             expect(compact.attributes).toBeDefined();
-            const uvs = compact.attributes['uvs'];
+            const uvs = compact.attributes["uvs"];
             expect(uvs).toBeDefined();
         });
     });
@@ -62,7 +62,7 @@ describe("reduce", function () {
         });
         it("should copy attributes", function () {
             expect(compact.attributes).toBeDefined();
-            const uvs = compact.attributes['uvs'];
+            const uvs = compact.attributes["uvs"];
             expect(uvs).toBeDefined();
         });
     });

@@ -1,9 +1,9 @@
-import { mustBeNumber } from '../checks/mustBeNumber';
-import { mustBeString } from '../checks/mustBeString';
-import { mustBeUndefined } from '../checks/mustBeUndefined';
-import { Engine } from './Engine';
-import { makeWebGLShader } from './makeWebGLShader';
-import { ShareableContextConsumer } from './ShareableContextConsumer';
+import { mustBeNumber } from "../checks/mustBeNumber";
+import { mustBeString } from "../checks/mustBeString";
+import { mustBeUndefined } from "../checks/mustBeUndefined";
+import { Engine } from "./Engine";
+import { makeWebGLShader } from "./makeWebGLShader";
+import { ShareableContextConsumer } from "./ShareableContextConsumer";
 
 /**
  * @hidden
@@ -14,9 +14,9 @@ export class Shader extends ShareableContextConsumer {
     private _shader: WebGLShader;
     constructor(source: string, type: number, engine: Engine) {
         super(engine);
-        this.setLoggingName('Shader');
-        this._source = mustBeString('source', source);
-        this._shaderType = mustBeNumber('type', type);
+        this.setLoggingName("Shader");
+        this._source = mustBeString("source", source);
+        this._shaderType = mustBeNumber("type", type);
     }
 
     destructor(levelUp: number): void {

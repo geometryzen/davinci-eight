@@ -1,43 +1,42 @@
-import { Facet } from '../core/Facet';
-import { FacetVisitor } from '../core/FacetVisitor';
-import { GraphicsProgramSymbols as ProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { Geometric3 } from '../math/Geometric3';
-import { Matrix4 } from '../math/Matrix4';
-import { Vector3 } from '../math/Vector3';
-import { viewMatrixFromEyeLookUp } from './viewMatrixFromEyeLookUp';
+import { Facet } from "../core/Facet";
+import { FacetVisitor } from "../core/FacetVisitor";
+import { GraphicsProgramSymbols as ProgramSymbols } from "../core/GraphicsProgramSymbols";
+import { Geometric3 } from "../math/Geometric3";
+import { Matrix4 } from "../math/Matrix4";
+import { Vector3 } from "../math/Vector3";
+import { viewMatrixFromEyeLookUp } from "./viewMatrixFromEyeLookUp";
 
 /**
  * @hidden
  */
 export class ViewTransform implements Facet {
-
     /**
-     * 
+     *
      */
     private _eye = Geometric3.vector(0, 0, 1);
 
     /**
-     * 
+     *
      */
     private _look = Geometric3.vector(0, 0, 0);
 
     /**
-     * 
+     *
      */
     private _up = Geometric3.vector(0, 1, 0);
 
     /**
-     * 
+     *
      */
     private _matrix = Matrix4.one.clone();
 
     /**
-     * 
+     *
      */
     private matrixName = ProgramSymbols.UNIFORM_VIEW_MATRIX;
 
     /**
-     * 
+     *
      */
     constructor() {
         this._eye.modified = true;

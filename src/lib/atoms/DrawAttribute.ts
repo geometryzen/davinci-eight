@@ -1,6 +1,6 @@
-import { Attribute } from '../core/Attribute';
-import { AttributeSizeType } from '../core/AttributeSizeType';
-import { DataType } from '../core/DataType';
+import { Attribute } from "../core/Attribute";
+import { AttributeSizeType } from "../core/AttributeSizeType";
+import { DataType } from "../core/DataType";
 
 /**
  * @hidden
@@ -30,12 +30,11 @@ function isExactMultipleOf(numer: number, denom: number): boolean {
  * @hidden
  */
 function checkSize(size: AttributeSizeType, values: number[]): AttributeSizeType {
-    if (typeof size === 'number') {
+    if (typeof size === "number") {
         if (!isExactMultipleOf(values.length, size)) {
             throw new Error("values.length must be an exact multiple of size");
         }
-    }
-    else {
+    } else {
         throw new Error("size must be a number");
     }
     return size;

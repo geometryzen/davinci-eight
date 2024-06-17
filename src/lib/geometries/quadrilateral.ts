@@ -1,6 +1,6 @@
-import { VectorN } from '../atoms/VectorN';
-import { Simplex } from '../geometries/Simplex';
-import { triangle } from '../geometries/triangle';
+import { VectorN } from "../atoms/VectorN";
+import { Simplex } from "../geometries/Simplex";
+import { triangle } from "../geometries/triangle";
 
 /**
  * @hidden
@@ -14,7 +14,9 @@ function setAttributes(which: number[], source: { [name: string]: VectorN<number
     for (i = 0; i < namesLength; i++) {
         name = names[i];
         values = source[name];
-        target[name] = which.map(function (index: number) { return values[index]; });
+        target[name] = which.map(function (index: number) {
+            return values[index];
+        });
     }
 }
 
@@ -22,7 +24,7 @@ function setAttributes(which: number[], source: { [name: string]: VectorN<number
  * quadrilateral
  *
  *  b-------a
- *  |       | 
+ *  |       |
  *  |       |
  *  |       |
  *  c-------d
@@ -32,7 +34,6 @@ function setAttributes(which: number[], source: { [name: string]: VectorN<number
  * @hidden
  */
 export function quadrilateral(a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, d: VectorN<number>, attributes: { [name: string]: VectorN<number>[] } = {}, triangles: Simplex[] = []): Simplex[] {
-
     const triatts: { [name: string]: VectorN<number>[] } = {};
 
     setAttributes([1, 2, 0], attributes, triatts);

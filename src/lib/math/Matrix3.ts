@@ -1,25 +1,36 @@
-import { mustBeNumber } from '../checks/mustBeNumber';
-import { lock, TargetLockedError } from '../core/Lockable';
-import { AbstractMatrix } from '../math/AbstractMatrix';
-import { det3x3 } from '../math/det3x3';
-import { inv3x3 } from '../math/inv3x3';
-import { mul3x3 } from '../math/mul3x3';
-import { SpinorE2 } from '../math/SpinorE2';
-import { VectorE2 } from '../math/VectorE2';
-import { Matrix4 } from './Matrix4';
+import { mustBeNumber } from "../checks/mustBeNumber";
+import { lock, TargetLockedError } from "../core/Lockable";
+import { AbstractMatrix } from "../math/AbstractMatrix";
+import { det3x3 } from "../math/det3x3";
+import { inv3x3 } from "../math/inv3x3";
+import { mul3x3 } from "../math/mul3x3";
+import { SpinorE2 } from "../math/SpinorE2";
+import { VectorE2 } from "../math/VectorE2";
+import { Matrix4 } from "./Matrix4";
 
 /**
  * @hidden
  */
 function add3x3(a: Float32Array, b: Float32Array, c: Float32Array): void {
+    const a11 = a[0x0],
+        a12 = a[0x3],
+        a13 = a[0x6];
+    const a21 = a[0x1],
+        a22 = a[0x4],
+        a23 = a[0x7];
+    const a31 = a[0x2],
+        a32 = a[0x5],
+        a33 = a[0x8];
 
-    const a11 = a[0x0], a12 = a[0x3], a13 = a[0x6];
-    const a21 = a[0x1], a22 = a[0x4], a23 = a[0x7];
-    const a31 = a[0x2], a32 = a[0x5], a33 = a[0x8];
-
-    const b11 = b[0x0], b12 = b[0x3], b13 = b[0x6];
-    const b21 = b[0x1], b22 = b[0x4], b23 = b[0x7];
-    const b31 = b[0x2], b32 = b[0x5], b33 = b[0x8];
+    const b11 = b[0x0],
+        b12 = b[0x3],
+        b13 = b[0x6];
+    const b21 = b[0x1],
+        b22 = b[0x4],
+        b23 = b[0x7];
+    const b31 = b[0x2],
+        b32 = b[0x5],
+        b33 = b[0x8];
 
     c[0x0] = a11 + b11;
     c[0x3] = a12 + b12;
@@ -51,7 +62,6 @@ function add3x3(a: Float32Array, b: Float32Array, c: Float32Array): void {
  * </p>
  */
 export class Matrix3 extends AbstractMatrix<Matrix3> {
-
     /**
      * @param elements
      */
@@ -64,7 +74,7 @@ export class Matrix3 extends AbstractMatrix<Matrix3> {
      */
     add(rhs: Matrix3): this {
         if (this.isLocked()) {
-            throw new TargetLockedError('add');
+            throw new TargetLockedError("add");
         }
         return this.add2(this, rhs);
     }
@@ -100,20 +110,19 @@ export class Matrix3 extends AbstractMatrix<Matrix3> {
      * @param throwOnSingular
      */
     private invertUpperLeft(matrix: Matrix4, throwOnSingular = false): this {
-
         const me = matrix.elements;
         const te = this.elements;
 
         // Compute the determinants of the minors.
         // This is the Laplacian development by minors.
-        te[0] = me[0xA] * me[5] - me[6] * me[9];
-        te[1] = - me[0xA] * me[1] + me[2] * me[9];
+        te[0] = me[0xa] * me[5] - me[6] * me[9];
+        te[1] = -me[0xa] * me[1] + me[2] * me[9];
         te[2] = me[6] * me[1] - me[2] * me[5];
-        te[3] = - me[10] * me[4] + me[6] * me[8];
+        te[3] = -me[10] * me[4] + me[6] * me[8];
         te[4] = me[10] * me[0] - me[2] * me[8];
-        te[5] = - me[6] * me[0] + me[2] * me[4];
+        te[5] = -me[6] * me[0] + me[2] * me[4];
         te[6] = me[9] * me[4] - me[5] * me[8];
-        te[7] = - me[9] * me[0] + me[1] * me[8];
+        te[7] = -me[9] * me[0] + me[1] * me[8];
         te[8] = me[5] * me[0] - me[1] * me[4];
 
         const det = me[0] * te[0] + me[1] * te[3] + me[2] * te[6];
@@ -124,15 +133,13 @@ export class Matrix3 extends AbstractMatrix<Matrix3> {
                 // FIXME: At this point we have mutated this matrix.
                 // It would be better to leave it unchanged.
                 throw new Error(msg);
-            }
-            else {
+            } else {
                 console.warn(msg);
                 // We set to the identity matrix to minimize the damage when used in a WebGL shader.
                 this.one();
             }
             return this;
-        }
-        else {
+        } else {
             this.scale(1 / det);
             return this;
         }
@@ -151,10 +158,16 @@ export class Matrix3 extends AbstractMatrix<Matrix3> {
      */
     isOne(): boolean {
         const te = this.elements;
-        const m11 = te[0x0], m12 = te[0x3], m13 = te[0x6];
-        const m21 = te[0x1], m22 = te[0x4], m23 = te[0x7];
-        const m31 = te[0x2], m32 = te[0x5], m33 = te[0x8];
-        return (m11 === 1 && m12 === 0 && m13 === 0 && m21 === 0 && m22 === 1 && m23 === 0 && m31 === 0 && m32 === 0 && m33 === 1);
+        const m11 = te[0x0],
+            m12 = te[0x3],
+            m13 = te[0x6];
+        const m21 = te[0x1],
+            m22 = te[0x4],
+            m23 = te[0x7];
+        const m31 = te[0x2],
+            m32 = te[0x5],
+            m33 = te[0x8];
+        return m11 === 1 && m12 === 0 && m13 === 0 && m21 === 0 && m22 === 1 && m23 === 0 && m31 === 0 && m32 === 0 && m33 === 1;
     }
 
     /**
@@ -162,10 +175,16 @@ export class Matrix3 extends AbstractMatrix<Matrix3> {
      */
     isZero(): boolean {
         const te = this.elements;
-        const m11 = te[0x0], m12 = te[0x3], m13 = te[0x6];
-        const m21 = te[0x1], m22 = te[0x4], m23 = te[0x7];
-        const m31 = te[0x2], m32 = te[0x5], m33 = te[0x8];
-        return (m11 === 0 && m12 === 0 && m13 === 0 && m21 === 0 && m22 === 0 && m23 === 0 && m31 === 0 && m32 === 0 && m33 === 0);
+        const m11 = te[0x0],
+            m12 = te[0x3],
+            m13 = te[0x6];
+        const m21 = te[0x1],
+            m22 = te[0x4],
+            m23 = te[0x7];
+        const m31 = te[0x2],
+            m32 = te[0x5],
+            m33 = te[0x8];
+        return m11 === 0 && m12 === 0 && m13 === 0 && m21 === 0 && m22 === 0 && m23 === 0 && m31 === 0 && m32 === 0 && m33 === 0;
     }
 
     /**
@@ -204,7 +223,7 @@ export class Matrix3 extends AbstractMatrix<Matrix3> {
      * Sets this 3x3 matrix to the matrix required to properly transform normal vectors
      * (pseudo or axial vectors) based upon the 4x4 matrix used to transform polar vectors.
      * </p>
-     * 
+     *
      * @param m
      */
     normalFromMatrix4(m: Matrix4): this {
@@ -230,20 +249,15 @@ export class Matrix3 extends AbstractMatrix<Matrix3> {
      * @param n
      */
     reflection(n: VectorE2): this {
-
-        const nx = mustBeNumber('n.x', n.x);
-        const ny = mustBeNumber('n.y', n.y);
+        const nx = mustBeNumber("n.x", n.x);
+        const ny = mustBeNumber("n.y", n.y);
 
         const aa = -2 * nx * ny;
 
         const xx = 1 - 2 * nx * nx;
         const yy = 1 - 2 * ny * ny;
 
-        this.set(
-            xx, aa, 0,
-            aa, yy, 0,
-            0, 0, 1
-        );
+        this.set(xx, aa, 0, aa, yy, 0, 0, 0, 1);
         return this;
     }
 
@@ -280,9 +294,15 @@ export class Matrix3 extends AbstractMatrix<Matrix3> {
      */
     scale(s: number): this {
         const m = this.elements;
-        m[0] *= s; m[3] *= s; m[6] *= s;
-        m[1] *= s; m[4] *= s; m[7] *= s;
-        m[2] *= s; m[5] *= s; m[8] *= s;
+        m[0] *= s;
+        m[3] *= s;
+        m[6] *= s;
+        m[1] *= s;
+        m[4] *= s;
+        m[7] *= s;
+        m[2] *= s;
+        m[5] *= s;
+        m[8] *= s;
         return this;
     }
 
@@ -307,15 +327,18 @@ export class Matrix3 extends AbstractMatrix<Matrix3> {
      * @param n32
      * @param n33
      */
-    set(n11: number, n12: number, n13: number,
-        n21: number, n22: number, n23: number,
-        n31: number, n32: number, n33: number): this {
-
+    set(n11: number, n12: number, n13: number, n21: number, n22: number, n23: number, n31: number, n32: number, n33: number): this {
         const te = this.elements;
 
-        te[0] = n11; te[3] = n12; te[6] = n13;
-        te[1] = n21; te[4] = n22; te[7] = n23;
-        te[2] = n31; te[5] = n32; te[8] = n33;
+        te[0] = n11;
+        te[3] = n12;
+        te[6] = n13;
+        te[1] = n21;
+        te[4] = n22;
+        te[7] = n23;
+        te[2] = n31;
+        te[5] = n32;
+        te[8] = n33;
 
         return this;
     }
@@ -365,9 +388,15 @@ export class Matrix3 extends AbstractMatrix<Matrix3> {
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            text.push(this.row(i).map(function (element: number, index: number) { return element.toExponential(fractionDigits); }).join(' '));
+            text.push(
+                this.row(i)
+                    .map(function (element: number, index: number) {
+                        return element.toExponential(fractionDigits);
+                    })
+                    .join(" ")
+            );
         }
-        return text.join('\n');
+        return text.join("\n");
     }
 
     /**
@@ -377,9 +406,15 @@ export class Matrix3 extends AbstractMatrix<Matrix3> {
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            text.push(this.row(i).map(function (element: number, index: number) { return element.toFixed(fractionDigits); }).join(' '));
+            text.push(
+                this.row(i)
+                    .map(function (element: number, index: number) {
+                        return element.toFixed(fractionDigits);
+                    })
+                    .join(" ")
+            );
         }
-        return text.join('\n');
+        return text.join("\n");
     }
 
     /**
@@ -389,9 +424,15 @@ export class Matrix3 extends AbstractMatrix<Matrix3> {
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            text.push(this.row(i).map(function (element: number, index: number) { return element.toPrecision(precision); }).join(' '));
+            text.push(
+                this.row(i)
+                    .map(function (element: number, index: number) {
+                        return element.toPrecision(precision);
+                    })
+                    .join(" ")
+            );
         }
-        return text.join('\n');
+        return text.join("\n");
     }
 
     /**
@@ -401,9 +442,15 @@ export class Matrix3 extends AbstractMatrix<Matrix3> {
         const text: string[] = [];
         for (let i = 0; i < this.dimensions; i++) {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            text.push(this.row(i).map(function (element: number, index: number) { return element.toString(radix); }).join(' '));
+            text.push(
+                this.row(i)
+                    .map(function (element: number, index: number) {
+                        return element.toString(radix);
+                    })
+                    .join(" ")
+            );
         }
-        return text.join('\n');
+        return text.join("\n");
     }
 
     /**
@@ -416,10 +463,7 @@ export class Matrix3 extends AbstractMatrix<Matrix3> {
     translation(d: VectorE2): this {
         const x = d.x;
         const y = d.y;
-        return this.set(
-            1, 0, x,
-            0, 1, y,
-            0, 0, 1);
+        return this.set(1, 0, x, 0, 1, y, 0, 0, 1);
     }
 
     /**
@@ -429,9 +473,15 @@ export class Matrix3 extends AbstractMatrix<Matrix3> {
         let tmp: number;
         const m = this.elements;
 
-        tmp = m[1]; m[1] = m[3]; m[3] = tmp;
-        tmp = m[2]; m[2] = m[6]; m[6] = tmp;
-        tmp = m[5]; m[5] = m[7]; m[7] = tmp;
+        tmp = m[1];
+        m[1] = m[3];
+        m[3] = tmp;
+        tmp = m[2];
+        m[2] = m[6];
+        m[6] = tmp;
+        tmp = m[5];
+        m[5] = m[7];
+        m[7] = tmp;
 
         return this;
     }
@@ -472,11 +522,9 @@ export class Matrix3 extends AbstractMatrix<Matrix3> {
     __mul__(rhs: any): Matrix3 {
         if (rhs instanceof Matrix3) {
             return this.clone().mul(rhs);
-        }
-        else if (typeof rhs === 'number') {
+        } else if (typeof rhs === "number") {
             return this.clone().scale(rhs);
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -484,11 +532,9 @@ export class Matrix3 extends AbstractMatrix<Matrix3> {
     __rmul__(lhs: any): Matrix3 {
         if (lhs instanceof Matrix3) {
             return lhs.clone().mul(this);
-        }
-        else if (typeof lhs === 'number') {
+        } else if (typeof lhs === "number") {
             return this.clone().scale(lhs);
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -517,8 +563,7 @@ export class Matrix3 extends AbstractMatrix<Matrix3> {
     __rsub__(lhs: any): Matrix3 {
         if (lhs instanceof Matrix3) {
             return lhs.clone().sub(this);
-        }
-        else {
+        } else {
             return void 0;
         }
     }

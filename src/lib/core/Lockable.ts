@@ -60,29 +60,25 @@ export function lockable(): Lockable {
     let lock_: number = void 0;
     const that: Lockable = {
         isLocked() {
-            return typeof lock_ === 'number';
+            return typeof lock_ === "number";
         },
         lock(): number {
             if (that.isLocked()) {
                 throw new Error("already locked");
-            }
-            else {
+            } else {
                 lock_ = Math.random();
                 return lock_;
             }
-
         },
         unlock(token: number): void {
-            if (typeof token !== 'number') {
+            if (typeof token !== "number") {
                 throw new Error("token must be a number.");
             }
             if (!that.isLocked()) {
                 throw new Error("not locked");
-            }
-            else if (lock_ === token) {
+            } else if (lock_ === token) {
                 lock_ = void 0;
-            }
-            else {
+            } else {
                 throw new Error("unlock denied");
             }
         }
@@ -95,32 +91,28 @@ export function lockable(): Lockable {
  * @hidden
  */
 export class LockableMixin implements Lockable {
-
     public isLocked(): boolean {
-        return typeof (this as any)['lock_'] === 'number';
+        return typeof (this as any)["lock_"] === "number";
     }
 
     public lock(): number {
         if (this.isLocked()) {
             throw new Error("already locked");
-        }
-        else {
-            (this as any)['lock_'] = Math.random();
-            return (this as any)['lock_'];
+        } else {
+            (this as any)["lock_"] = Math.random();
+            return (this as any)["lock_"];
         }
     }
 
     public unlock(token: number): void {
-        if (typeof token !== 'number') {
+        if (typeof token !== "number") {
             throw new Error("token must be a number.");
         }
         if (!this.isLocked()) {
             throw new Error("not locked");
-        }
-        else if ((this as any)['lock_'] === token) {
-            (this as any)['lock_'] = void 0;
-        }
-        else {
+        } else if ((this as any)["lock_"] === token) {
+            (this as any)["lock_"] = void 0;
+        } else {
             throw new Error("unlock denied");
         }
     }

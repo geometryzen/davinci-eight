@@ -1,4 +1,4 @@
-import { Shareable } from '../core/Shareable';
+import { Shareable } from "../core/Shareable";
 
 /**
  * exchange(thing to release, thing to addRef)
@@ -13,8 +13,7 @@ export function exchange<T extends Shareable>(mine: T, yours: T): T {
             mine.release();
         }
         return yours;
-    }
-    else {
+    } else {
         // Keep mine, it's the same as yours anyway.
         return mine;
     }

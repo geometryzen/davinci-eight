@@ -1,11 +1,11 @@
-import { isDefined } from '../checks/isDefined';
-import { mustBeGE } from '../checks/mustBeGE';
-import { mustBeLE } from '../checks/mustBeLE';
-import { mustBeNumber } from '../checks/mustBeNumber';
-import { lock, TargetLockedError } from '../core/Lockable';
-import { clamp } from '../math/clamp';
-import { Coords } from '../math/Coords';
-import { principalAngle } from './principalAngle';
+import { isDefined } from "../checks/isDefined";
+import { mustBeGE } from "../checks/mustBeGE";
+import { mustBeLE } from "../checks/mustBeLE";
+import { mustBeNumber } from "../checks/mustBeNumber";
+import { lock, TargetLockedError } from "../core/Lockable";
+import { clamp } from "../math/clamp";
+import { Coords } from "../math/Coords";
+import { principalAngle } from "./principalAngle";
 
 /**
  * @hidden
@@ -32,7 +32,6 @@ const rgb255 = function rgb255(red: number, green: number, blue: number): Color 
  * A mutable type representing a color through its RGB components.
  */
 export class Color extends Coords {
-
     /**
      *
      */
@@ -79,56 +78,56 @@ export class Color extends Coords {
     static gray: Color;
 
     /**
-     * 
+     *
      */
     static blueviolet: Color;
 
     /**
-     * 
+     *
      */
     static chartreuse: Color;
 
     /**
-     * 
+     *
      */
     static cobalt: Color;
 
     /**
-     * 
+     *
      */
     static hotpink: Color;
 
     /**
-     * 
+     *
      */
     static lime: Color;
 
     /**
-     * 
+     *
      */
     static slateblue: Color;
 
     /**
-     * 
+     *
      */
     static springgreen: Color;
 
     /**
-     * 
+     *
      */
     static teal: Color;
 
     constructor(r: number, g: number, b: number) {
         super([r, g, b], false, 3);
 
-        mustBeGE('r', r, 0);
-        mustBeLE('r', r, 1);
+        mustBeGE("r", r, 0);
+        mustBeLE("r", r, 1);
 
-        mustBeGE('g', g, 0);
-        mustBeLE('g', g, 1);
+        mustBeGE("g", g, 0);
+        mustBeLE("g", g, 1);
 
-        mustBeGE('b', b, 0);
-        mustBeLE('b', b, 1);
+        mustBeGE("b", b, 0);
+        mustBeLE("b", b, 1);
     }
 
     /**
@@ -140,7 +139,7 @@ export class Color extends Coords {
     }
     set r(r: number) {
         if (this.isLocked()) {
-            throw new TargetLockedError('set r');
+            throw new TargetLockedError("set r");
         }
         this.coords[COORD_R] = clamp(r, 0, 1);
     }
@@ -149,7 +148,7 @@ export class Color extends Coords {
     }
     set red(red: number) {
         if (this.isLocked()) {
-            throw new TargetLockedError('set red');
+            throw new TargetLockedError("set red");
         }
         this.coords[COORD_R] = clamp(red, 0, 1);
     }
@@ -163,7 +162,7 @@ export class Color extends Coords {
     }
     set g(g: number) {
         if (this.isLocked()) {
-            throw new TargetLockedError('set g');
+            throw new TargetLockedError("set g");
         }
         this.coords[COORD_G] = clamp(g, 0, 1);
     }
@@ -172,7 +171,7 @@ export class Color extends Coords {
     }
     set green(green: number) {
         if (this.isLocked()) {
-            throw new TargetLockedError('set green');
+            throw new TargetLockedError("set green");
         }
         this.coords[COORD_G] = clamp(green, 0, 1);
     }
@@ -186,7 +185,7 @@ export class Color extends Coords {
     }
     set b(b: number) {
         if (this.isLocked()) {
-            throw new TargetLockedError('set b');
+            throw new TargetLockedError("set b");
         }
         this.coords[COORD_B] = clamp(b, 0, 1);
     }
@@ -195,7 +194,7 @@ export class Color extends Coords {
     }
     set blue(blue: number) {
         if (this.isLocked()) {
-            throw new TargetLockedError('set blue');
+            throw new TargetLockedError("set blue");
         }
         this.coords[COORD_B] = clamp(blue, 0, 1);
     }
@@ -208,8 +207,7 @@ export class Color extends Coords {
     public approx(n: number): Color {
         if (this.isLocked()) {
             return lock(this.clone().approx(n));
-        }
-        else {
+        } else {
             super.approx(n);
             return this;
         }
@@ -229,14 +227,13 @@ export class Color extends Coords {
      */
     public copy(color: { r: number; g: number; b: number }): this {
         if (this.isLocked()) {
-            throw new TargetLockedError('copy');
+            throw new TargetLockedError("copy");
         }
         if (isDefined(color)) {
             this.r = color.r;
             this.g = color.g;
             this.b = color.b;
-        }
-        else {
+        } else {
             // We can choose what to do based upon a global setting?
             this.r = Math.random();
             this.g = Math.random();
@@ -254,8 +251,7 @@ export class Color extends Coords {
     public lerp(target: { r: number; g: number; b: number }, α: number): Color {
         if (this.isLocked()) {
             return lock(this.clone().lerp(target, α));
-        }
-        else {
+        } else {
             this.r += (target.r - this.r) * α;
             this.g += (target.g - this.g) * α;
             this.b += (target.b - this.b) * α;
@@ -271,13 +267,12 @@ export class Color extends Coords {
     }
 
     /**
-     * 
+     *
      */
     public scale(α: number): Color {
         if (this.isLocked()) {
             return lock(this.clone().scale(α));
-        }
-        else {
+        } else {
             this.r = this.r * α;
             this.g = this.g * α;
             this.b = this.b * α;
@@ -322,9 +317,9 @@ export class Color extends Coords {
      * @returns
      */
     public static luminance(r: number, g: number, b: number): number {
-        mustBeNumber('r', r);
-        mustBeNumber('g', g);
-        mustBeNumber('b', b);
+        mustBeNumber("r", r);
+        mustBeNumber("g", g);
+        mustBeNumber("b", b);
         const pow = Math.pow;
         const γ = 2.2;
         return 0.2126 * pow(r, γ) + 0.7152 * pow(b, γ) + 0.0722 * pow(b, γ);
@@ -353,9 +348,9 @@ export class Color extends Coords {
      * @returns
      */
     public static fromHSL(H: number, S: number, L: number): Color {
-        mustBeNumber('H', H);
-        mustBeNumber('S', S);
-        mustBeNumber('L', L);
+        mustBeNumber("H", H);
+        mustBeNumber("S", S);
+        mustBeNumber("L", L);
         const C = (1 - Math.abs(2 * L - 1)) * S;
         /**
          * This function captures C and L
@@ -366,26 +361,20 @@ export class Color extends Coords {
             return new Color(R + m, G + m, B + m);
         }
         const sextant = ((principalAngle(H) / Math.PI) * 3) % 6;
-        const X = C * (1 - Math.abs(sextant % 2 - 1));
+        const X = C * (1 - Math.abs((sextant % 2) - 1));
         if (sextant >= 0 && sextant < 1) {
-            return matchLightness(C, X/*C*(sextant-0)*/, 0);
-        }
-        else if (sextant >= 1 && sextant < 2) {
-            return matchLightness(X/*C*(2-sextant)*/, C, 0);
-        }
-        else if (sextant >= 2 && sextant < 3) {
+            return matchLightness(C, X /*C*(sextant-0)*/, 0);
+        } else if (sextant >= 1 && sextant < 2) {
+            return matchLightness(X /*C*(2-sextant)*/, C, 0);
+        } else if (sextant >= 2 && sextant < 3) {
             return matchLightness(0, C, C * (sextant - 2));
-        }
-        else if (sextant >= 3 && sextant < 4) {
+        } else if (sextant >= 3 && sextant < 4) {
             return matchLightness(0, C * (4 - sextant), C);
-        }
-        else if (sextant >= 4 && sextant < 5) {
+        } else if (sextant >= 4 && sextant < 5) {
             return matchLightness(X, 0, C);
-        }
-        else if (sextant >= 5 && sextant < 6) {
+        } else if (sextant >= 5 && sextant < 6) {
             return matchLightness(C, 0, X);
-        }
-        else {
+        } else {
             return matchLightness(0, 0, 0);
         }
     }
@@ -393,15 +382,15 @@ export class Color extends Coords {
     /**
      * Constructs a new mutable instance of Color from the rgb components.
      * The components are clamped to the range [0, 1].
-     * 
+     *
      * @param r The red component.
      * @param g The green component.
      * @param b The blue component.
      */
     public static fromRGB(r: number, g: number, b: number): Color {
-        mustBeNumber('r', r);
-        mustBeNumber('g', g);
-        mustBeNumber('b', b);
+        mustBeNumber("r", r);
+        mustBeNumber("g", g);
+        mustBeNumber("b", b);
         return new Color(clamp(r, 0, 1), clamp(g, 0, 1), clamp(b, 0, 1));
     }
 
@@ -422,8 +411,7 @@ export class Color extends Coords {
     public static mustBe(name: string, color: Color): Color {
         if (Color.isInstance(color)) {
             return color;
-        }
-        else {
+        } else {
             throw new Error(`${name} must be a Color.`);
         }
     }
@@ -482,42 +470,41 @@ Color.white = lock(new Color(1, 1, 1));
 Color.gray = lock(new Color(0.5, 0.5, 0.5));
 
 /**
- * 
+ *
  */
 Color.blueviolet = lock(rgb255(138, 43, 226));
 
 /**
- * 
+ *
  */
 Color.chartreuse = lock(rgb255(127, 255, 0));
 
 /**
- * 
+ *
  */
 Color.cobalt = lock(rgb255(61, 89, 171));
 
 /**
- * 
+ *
  */
 Color.hotpink = lock(rgb255(255, 105, 180));
 
 /**
- * 
+ *
  */
 Color.lime = lock(rgb255(0, 255, 0));
 
 /**
- * 
+ *
  */
 Color.slateblue = lock(rgb255(113, 113, 198));
 
 /**
- * 
+ *
  */
 Color.springgreen = lock(rgb255(0, 255, 127));
 
 /**
- * 
+ *
  */
 Color.teal = lock(rgb255(56, 142, 142));
-

@@ -1,17 +1,16 @@
-import { mustBeObject } from '../checks/mustBeObject';
-import { Facet } from '../core/Facet';
-import { FacetVisitor } from '../core/FacetVisitor';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { readOnly } from '../i18n/readOnly';
-import { Matrix3 } from '../math/Matrix3';
-import { Matrix4 } from '../math/Matrix4';
-import { ModelE3 } from './ModelE3';
+import { mustBeObject } from "../checks/mustBeObject";
+import { Facet } from "../core/Facet";
+import { FacetVisitor } from "../core/FacetVisitor";
+import { GraphicsProgramSymbols } from "../core/GraphicsProgramSymbols";
+import { readOnly } from "../i18n/readOnly";
+import { Matrix3 } from "../math/Matrix3";
+import { Matrix4 } from "../math/Matrix4";
+import { ModelE3 } from "./ModelE3";
 
 /**
  * @hidden
  */
 export class ModelFacet extends ModelE3 implements Facet {
-
     /**
      * @default diag(1, 1, 1, 1)
      */
@@ -59,7 +58,7 @@ export class ModelFacet extends ModelE3 implements Facet {
         return this.matS;
     }
     set stress(stress: Matrix4) {
-        mustBeObject('stress', stress);
+        mustBeObject("stress", stress);
         this.matS.copy(stress);
     }
 
@@ -70,7 +69,7 @@ export class ModelFacet extends ModelE3 implements Facet {
         return this._matM;
     }
     set matrix(unused: Matrix4) {
-        throw new Error(readOnly('matrix').message);
+        throw new Error(readOnly("matrix").message);
     }
 
     /**
@@ -123,8 +122,7 @@ export class ModelFacet extends ModelE3 implements Facet {
             this._matM.copy(this.matT).mul(this.matR).mul(this.matS);
             if (this._matM.det() !== 0) {
                 this._matN.normalFromMatrix4(this._matM);
-            }
-            else {
+            } else {
                 // If the scaling matrix determinant is zero, so too will be the matrix M.
                 // If M is singular then it will not be possible to compute the matrix for transforming normals.
                 // In any case, the geometry not be visible.

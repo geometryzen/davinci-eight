@@ -1,11 +1,11 @@
-import { mustBeBoolean } from '../checks/mustBeBoolean';
-import { mustBeDefined } from '../checks/mustBeDefined';
-import { config } from '../config';
-import { AttribMetaInfo } from '../core/AttribMetaInfo';
-import { getUniformVarName } from '../core/getUniformVarName';
-import { GraphicsProgramSymbols as GPS } from '../core/GraphicsProgramSymbols';
-import { UniformMetaInfo } from '../core/UniformMetaInfo';
-import { GLSLESVersion } from './glslVersion';
+import { mustBeBoolean } from "../checks/mustBeBoolean";
+import { mustBeDefined } from "../checks/mustBeDefined";
+import { config } from "../config";
+import { AttribMetaInfo } from "../core/AttribMetaInfo";
+import { getUniformVarName } from "../core/getUniformVarName";
+import { GraphicsProgramSymbols as GPS } from "../core/GraphicsProgramSymbols";
+import { UniformMetaInfo } from "../core/UniformMetaInfo";
+import { GLSLESVersion } from "./glslVersion";
 
 /**
  * @hidden
@@ -20,8 +20,7 @@ function getUniformCodeName(uniforms: { [name: string]: UniformMetaInfo }, name:
 function getFragColorVarName(version: GLSLESVersion) {
     if (version === GLSLESVersion.ThreeHundred) {
         return "fragColor";
-    }
-    else {
+    } else {
         return "gl_FragColor";
     }
 }
@@ -32,12 +31,10 @@ function getFragColorVarName(version: GLSLESVersion) {
 function getFragmentShaderVaryingModifier(version: GLSLESVersion) {
     if (version === GLSLESVersion.ThreeHundred) {
         return "in";
-    }
-    else {
+    } else {
         return "varying";
     }
 }
-
 
 /**
  * @hidden
@@ -45,8 +42,7 @@ function getFragmentShaderVaryingModifier(version: GLSLESVersion) {
 function getTexture2D(version: GLSLESVersion) {
     if (version === GLSLESVersion.ThreeHundred) {
         return "texture";
-    }
-    else {
+    } else {
         return "texture2D";
     }
 }
@@ -57,8 +53,7 @@ function getTexture2D(version: GLSLESVersion) {
 function emitFragmentFloatPrecision(version: GLSLESVersion): boolean {
     if (version === GLSLESVersion.ThreeHundred) {
         return true;
-    }
-    else {
+    } else {
         return false;
     }
 }
@@ -66,28 +61,27 @@ function emitFragmentFloatPrecision(version: GLSLESVersion): boolean {
 /**
  * @hidden
  */
-const SPACE = ' ';
+const SPACE = " ";
 /**
  * @hidden
  */
-const UNIFORM = 'uniform' + SPACE;
+const UNIFORM = "uniform" + SPACE;
 /**
  * @hidden
  */
-const SEMICOLON = ';';
+const SEMICOLON = ";";
 
 /**
  * Generates a fragment shader
  * @hidden
  */
 export function fragmentShaderSrc(attributes: { [name: string]: AttribMetaInfo }, uniforms: { [name: string]: UniformMetaInfo }, vColor: boolean, vCoords: boolean, vLight: boolean, version: GLSLESVersion) {
-
-    mustBeDefined('attributes', attributes);
-    mustBeDefined('uniforms', uniforms);
+    mustBeDefined("attributes", attributes);
+    mustBeDefined("uniforms", uniforms);
     mustBeBoolean(GPS.VARYING_COLOR, vColor);
     mustBeBoolean(GPS.VARYING_COORDS, vCoords);
     mustBeBoolean(GPS.VARYING_LIGHT, vLight);
-    mustBeDefined('version', version);
+    mustBeDefined("version", version);
 
     const lines: string[] = [];
     if (version === GLSLESVersion.ThreeHundred) {
@@ -118,7 +112,7 @@ export function fragmentShaderSrc(attributes: { [name: string]: AttribMetaInfo }
         // eslint-disable-next-line no-prototype-builtins
         if (uniforms.hasOwnProperty(uName)) {
             switch (uniforms[uName].glslType) {
-                case 'sampler2D': {
+                case "sampler2D": {
                     lines.push(UNIFORM + uniforms[uName].glslType + SPACE + getUniformCodeName(uniforms, uName) + SEMICOLON);
                     break;
                 }
@@ -139,34 +133,27 @@ export function fragmentShaderSrc(attributes: { [name: string]: AttribMetaInfo }
         if (vColor) {
             if (vCoords && uniforms[GPS.UNIFORM_IMAGE]) {
                 lines.push(`  ${getFragColorVarName(version)} = ${getTexture2D(version)}(${GPS.UNIFORM_IMAGE}, ${GPS.VARYING_COORDS}) * vec4(${GPS.VARYING_COLOR}.xyz * ${GPS.VARYING_LIGHT}, ${GPS.VARYING_COLOR}.a);`);
-            }
-            else {
+            } else {
                 lines.push(`  ${getFragColorVarName(version)} = vec4(${GPS.VARYING_COLOR}.xyz * ${GPS.VARYING_LIGHT}, ${GPS.VARYING_COLOR}.a);`);
             }
-        }
-        else {
+        } else {
             if (vCoords && uniforms[GPS.UNIFORM_IMAGE]) {
                 lines.push(`  ${getFragColorVarName(version)} = ${getTexture2D(version)}(${GPS.UNIFORM_IMAGE}, ${GPS.VARYING_COORDS}) * vec4(${GPS.VARYING_LIGHT}, 1.0);`);
-            }
-            else {
+            } else {
                 lines.push(`  ${getFragColorVarName(version)} = vec4(${GPS.VARYING_LIGHT}, 1.0);`);
             }
         }
-    }
-    else {
+    } else {
         if (vColor) {
             if (vCoords && uniforms[GPS.UNIFORM_IMAGE]) {
                 lines.push(`  ${getFragColorVarName(version)} = ${getTexture2D(version)}(${GPS.UNIFORM_IMAGE}, ${GPS.VARYING_COORDS}) * ${GPS.VARYING_COLOR};`);
-            }
-            else {
+            } else {
                 lines.push(`  ${getFragColorVarName(version)} = ${GPS.VARYING_COLOR};`);
             }
-        }
-        else {
+        } else {
             if (vCoords && uniforms[GPS.UNIFORM_IMAGE]) {
                 lines.push(`  ${getFragColorVarName(version)} = ${getTexture2D(version)}(${GPS.UNIFORM_IMAGE}, ${GPS.VARYING_COORDS});`);
-            }
-            else {
+            } else {
                 lines.push(`  ${getFragColorVarName(version)} = vec4(1.0, 1.0, 1.0, 1.0);`);
             }
         }

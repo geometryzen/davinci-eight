@@ -1,4 +1,4 @@
-import { ViewTransform } from './ViewTransform';
+import { ViewTransform } from "./ViewTransform";
 
 describe("ViewTransform", function () {
     describe("constructor", function () {

@@ -1,24 +1,24 @@
-import { ContextManager } from './ContextManager';
-import { mustBeUndefined } from '../checks/mustBeUndefined';
-import { ShareableContextConsumer } from './ShareableContextConsumer';
-import { TextureMagFilter } from './TextureMagFilter';
-import { TextureMinFilter } from './TextureMinFilter';
-import { TextureParameterName } from './TextureParameterName';
-import { TextureTarget } from './TextureTarget';
-import { TextureWrapMode } from './TextureWrapMode';
+import { ContextManager } from "./ContextManager";
+import { mustBeUndefined } from "../checks/mustBeUndefined";
+import { ShareableContextConsumer } from "./ShareableContextConsumer";
+import { TextureMagFilter } from "./TextureMagFilter";
+import { TextureMinFilter } from "./TextureMinFilter";
+import { TextureParameterName } from "./TextureParameterName";
+import { TextureTarget } from "./TextureTarget";
+import { TextureWrapMode } from "./TextureWrapMode";
 
 export class Texture extends ShareableContextConsumer {
     private _texture: WebGLTexture;
     protected _target: TextureTarget;
     /**
-     * 
-     * @param target 
-     * @param contextManager 
-     * @param levelUp 
+     *
+     * @param target
+     * @param contextManager
+     * @param levelUp
      */
     constructor(target: TextureTarget, contextManager: ContextManager, levelUp = 0) {
         super(contextManager);
-        this.setLoggingName('Texture');
+        this.setLoggingName("Texture");
         this._target = target;
         if (levelUp === 0) {
             this.synchUp();
@@ -59,8 +59,7 @@ export class Texture extends ShareableContextConsumer {
     bind(): void {
         if (this.gl) {
             this.gl.bindTexture(this._target, this._texture);
-        }
-        else {
+        } else {
             console.warn(`${this.getLoggingName()}.bind() missing WebGL rendering context.`);
         }
     }
@@ -71,70 +70,65 @@ export class Texture extends ShareableContextConsumer {
     unbind(): void {
         if (this.gl) {
             this.gl.bindTexture(this._target, null);
-        }
-        else {
+        } else {
             console.warn(`${this.getLoggingName()}.unbind() missing WebGL rendering context.`);
         }
     }
 
     get minFilter(): TextureMinFilter {
-        throw new Error('minFilter is write-only');
+        throw new Error("minFilter is write-only");
     }
     set minFilter(filter: TextureMinFilter) {
         if (this.gl) {
             this.bind();
             this.gl.texParameteri(this._target, TextureParameterName.TEXTURE_MIN_FILTER, filter);
             this.unbind();
-        }
-        else {
+        } else {
             console.warn(`${this.getLoggingName()}.minFilter missing WebGL rendering context.`);
         }
     }
 
     get magFilter(): TextureMagFilter {
-        throw new Error('magFilter is write-only');
+        throw new Error("magFilter is write-only");
     }
     set magFilter(filter: TextureMagFilter) {
         if (this.gl) {
             this.bind();
             this.gl.texParameteri(this._target, TextureParameterName.TEXTURE_MAG_FILTER, filter);
             this.unbind();
-        }
-        else {
+        } else {
             console.warn(`${this.getLoggingName()}.magFilter missing WebGL rendering context.`);
         }
     }
 
     get wrapS(): TextureWrapMode {
-        throw new Error('wrapS is write-only');
+        throw new Error("wrapS is write-only");
     }
     set wrapS(mode: TextureWrapMode) {
         if (this.gl) {
             this.bind();
             this.gl.texParameteri(this._target, TextureParameterName.TEXTURE_WRAP_S, mode);
             this.unbind();
-        }
-        else {
+        } else {
             console.warn(`${this.getLoggingName()}.wrapS missing WebGL rendering context.`);
         }
     }
 
     get wrapT(): TextureWrapMode {
-        throw new Error('wrapT is write-only');
+        throw new Error("wrapT is write-only");
     }
     set wrapT(mode: TextureWrapMode) {
         if (this.gl) {
             this.bind();
             this.gl.texParameteri(this._target, TextureParameterName.TEXTURE_WRAP_T, mode);
             this.unbind();
-        }
-        else {
+        } else {
             console.warn(`${this.getLoggingName()}.wrapT missing WebGL rendering context.`);
         }
     }
 
     /**
-     * 
+     *
      */
     upload(): void {
         throw new Error(`${this.getLoggingName()}.upload() must be implemented.`);

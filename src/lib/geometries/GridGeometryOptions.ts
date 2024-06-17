@@ -1,7 +1,7 @@
-import { GeometryKey } from '../core/GeometryKey';
-import { VectorE3 } from '../math/VectorE3';
-import { GeometryMode } from './GeometryMode';
-import { GeometryOptions } from './GeometryOptions';
+import { GeometryKey } from "../core/GeometryKey";
+import { VectorE3 } from "../math/VectorE3";
+import { GeometryMode } from "./GeometryMode";
+import { GeometryOptions } from "./GeometryOptions";
 
 /**
  * @hidden
@@ -56,7 +56,7 @@ export interface GridGeometryOptions extends GeometryOptions, GeometryKey {
      */
     vSegments?: number;
     /**
-     * 
+     *
      */
     vClosed?: boolean;
 }

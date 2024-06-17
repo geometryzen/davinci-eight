@@ -1,16 +1,16 @@
-import { mustBeInteger } from '../checks/mustBeInteger';
-import { mustBeNumber } from '../checks/mustBeNumber';
-import { mustBeObject } from '../checks/mustBeObject';
-import { lock, TargetLockedError } from '../core/Lockable';
-import { notSupported } from '../i18n/notSupported';
-import { dotVectorCartesianE2 } from '../math/dotVectorCartesianE2';
-import { quadSpinorE2 as quadSpinor } from '../math/quadSpinorE2';
-import { rotorFromDirectionsE2 } from '../math/rotorFromDirectionsE2';
-import { SpinorE2 } from '../math/SpinorE2';
-import { VectorE2 } from '../math/VectorE2';
-import { wedgeXY } from '../math/wedgeXY';
-import { approx } from './approx';
-import { Pseudo } from './Pseudo';
+import { mustBeInteger } from "../checks/mustBeInteger";
+import { mustBeNumber } from "../checks/mustBeNumber";
+import { mustBeObject } from "../checks/mustBeObject";
+import { lock, TargetLockedError } from "../core/Lockable";
+import { notSupported } from "../i18n/notSupported";
+import { dotVectorCartesianE2 } from "../math/dotVectorCartesianE2";
+import { quadSpinorE2 as quadSpinor } from "../math/quadSpinorE2";
+import { rotorFromDirectionsE2 } from "../math/rotorFromDirectionsE2";
+import { SpinorE2 } from "../math/SpinorE2";
+import { VectorE2 } from "../math/VectorE2";
+import { wedgeXY } from "../math/wedgeXY";
+import { approx } from "./approx";
+import { Pseudo } from "./Pseudo";
 
 // Symbolic constants for the coordinate indices into the coords array.
 /**
@@ -71,46 +71,43 @@ const sqrt = Math.sqrt;
 export class Spinor2 {
     // Lockable
     public isLocked(): boolean {
-        return typeof (this as any)['lock_'] === 'number';
+        return typeof (this as any)["lock_"] === "number";
     }
 
     public lock(): number {
         if (this.isLocked()) {
             throw new Error("already locked");
-        }
-        else {
-            (this as any)['lock_'] = Math.random();
-            return (this as any)['lock_'];
+        } else {
+            (this as any)["lock_"] = Math.random();
+            return (this as any)["lock_"];
         }
     }
 
     public unlock(token: number): void {
-        if (typeof token !== 'number') {
+        if (typeof token !== "number") {
             throw new Error("token must be a number.");
         }
         if (!this.isLocked()) {
             throw new Error("not locked");
-        }
-        else if ((this as any)['lock_'] === token) {
-            (this as any)['lock_'] = void 0;
-        }
-        else {
+        } else if ((this as any)["lock_"] === token) {
+            (this as any)["lock_"] = void 0;
+        } else {
             throw new Error("unlock denied");
         }
     }
 
     /**
-     * 
+     *
      */
     private coords_: number[];
 
     /**
-     * 
+     *
      */
     private modified_: boolean;
 
     /**
-     * 
+     *
      */
     constructor(coords: number[] = one(), modified = false) {
         this.coords_ = coords;
@@ -126,7 +123,7 @@ export class Spinor2 {
     }
     set modified(modified: boolean) {
         if (this.isLocked()) {
-            throw new TargetLockedError('set modified');
+            throw new TargetLockedError("set modified");
         }
         this.modified_ = modified;
     }
@@ -143,9 +140,9 @@ export class Spinor2 {
     }
     set xy(xy: number) {
         if (this.isLocked()) {
-            throw new TargetLockedError('xy');
+            throw new TargetLockedError("xy");
         }
-        mustBeNumber('xy', xy);
+        mustBeNumber("xy", xy);
         const coords = this.coords_;
         this.modified_ = this.modified_ || coords[COORD_PSEUDO] !== xy;
         coords[COORD_PSEUDO] = xy;
@@ -159,9 +156,9 @@ export class Spinor2 {
     }
     set a(α: number) {
         if (this.isLocked()) {
-            throw new TargetLockedError('a');
+            throw new TargetLockedError("a");
         }
-        mustBeNumber('α', α);
+        mustBeNumber("α", α);
         const coords = this.coords_;
         this.modified_ = this.modified_ || coords[COORD_SCALAR] !== α;
         coords[COORD_SCALAR] = α;
@@ -175,9 +172,9 @@ export class Spinor2 {
     }
     set b(b: number) {
         if (this.isLocked()) {
-            throw new TargetLockedError('b');
+            throw new TargetLockedError("b");
         }
-        mustBeNumber('b', b);
+        mustBeNumber("b", b);
         const coords = this.coords_;
         this.modified_ = this.modified_ || coords[COORD_PSEUDO] !== b;
         coords[COORD_PSEUDO] = b;
@@ -192,8 +189,8 @@ export class Spinor2 {
      * @return this
      */
     add(spinor: SpinorE2, α = 1): Spinor2 {
-        mustBeObject('spinor', spinor);
-        mustBeNumber('α', α);
+        mustBeObject("spinor", spinor);
+        mustBeNumber("α", α);
         this.xy += spinor.b * α;
         this.a += spinor.a * α;
         return this;
@@ -217,7 +214,7 @@ export class Spinor2 {
      * Intentionally undocumented.
      */
     addPseudo(β: number): Spinor2 {
-        mustBeNumber('β', β);
+        mustBeNumber("β", β);
         return this;
     }
 
@@ -228,7 +225,7 @@ export class Spinor2 {
      * @return this
      */
     addScalar(α: number): Spinor2 {
-        mustBeNumber('α', α);
+        mustBeNumber("α", α);
         this.a += α;
         return this;
     }
@@ -261,7 +258,7 @@ export class Spinor2 {
      * The Clifford conjugate.
      * The multiplier for the grade x is (-1) raised to the power x * (x + 1) / 2
      * The pattern of grades is +--++--+
-     * 
+     *
      * @returns conj(this)
      */
     conj() {
@@ -278,9 +275,9 @@ export class Spinor2 {
      * @chainable
      */
     copy(spinor: SpinorE2): this {
-        mustBeObject('spinor', spinor);
-        this.xy = mustBeNumber('spinor.b', spinor.b);
-        this.a = mustBeNumber('spinor.a', spinor.a);
+        mustBeObject("spinor", spinor);
+        this.xy = mustBeNumber("spinor.b", spinor.b);
+        this.a = mustBeNumber("spinor.a", spinor.a);
         return this;
     }
 
@@ -375,7 +372,6 @@ export class Spinor2 {
      * @chainable
      */
     exp() {
-
         const α = this.a;
         const β = this.b;
 
@@ -466,14 +462,13 @@ export class Spinor2 {
 
     /**
      * this ⟼ log(this)
-     * 
+     *
      * @returns log(this)
      */
     log(): Spinor2 {
         if (this.isLocked()) {
             return lock(this.clone().log());
-        }
-        else {
+        } else {
             // FIXME: This is wrong see Geometric2.
             const w = this.a;
             const z = this.xy;
@@ -634,7 +629,7 @@ export class Spinor2 {
      * @chainable
      */
     rev(): Spinor2 {
-        this.xy *= - 1;
+        this.xy *= -1;
         return this;
     }
 
@@ -649,7 +644,7 @@ export class Spinor2 {
         const ny = n.y;
         const nn = nx * nx + ny * ny;
         this.a = nn * w;
-        this.xy = - nn * β;
+        this.xy = -nn * β;
         return this;
     }
 
@@ -722,7 +717,7 @@ export class Spinor2 {
      * @param α
      */
     scale(α: number): this {
-        mustBeNumber('α', α);
+        mustBeNumber("α", α);
         this.xy *= α;
         this.a *= α;
         return this;
@@ -730,9 +725,8 @@ export class Spinor2 {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     stress(σ: VectorE2): Spinor2 {
-        throw new Error(notSupported('stress').message);
+        throw new Error(notSupported("stress").message);
     }
-
 
     /**
      * <p>
@@ -744,8 +738,8 @@ export class Spinor2 {
      * @chainable
      */
     sub(s: SpinorE2, α = 1): this {
-        mustBeObject('s', s);
-        mustBeNumber('α', α);
+        mustBeObject("s", s);
+        mustBeNumber("α", α);
         this.xy -= s.b * α;
         this.a -= s.a * α;
         return this;
@@ -775,7 +769,6 @@ export class Spinor2 {
      * @param b
      */
     versor(a: VectorE2, b: VectorE2): this {
-
         const ax = a.x;
         const ay = a.y;
         const bx = b.x;
@@ -792,7 +785,7 @@ export class Spinor2 {
         if (this.isLocked()) {
             return lock(this.clone().grade(i));
         }
-        mustBeInteger('i', i);
+        mustBeInteger("i", i);
         switch (i) {
             case 0: {
                 this.xy = 0;
@@ -811,7 +804,7 @@ export class Spinor2 {
     }
 
     /**
-     * 
+     *
      */
     toArray(): number[] {
         return coordinates(this);
@@ -894,7 +887,7 @@ export class Spinor2 {
     }
 
     /**
-     * 
+     *
      */
     static zero(): Spinor2 {
         return new Spinor2([0, 0], false);

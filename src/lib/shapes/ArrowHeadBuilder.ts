@@ -1,18 +1,17 @@
-import { reduce } from '../atoms/reduce';
-import { mustBeDefined } from '../checks/mustBeDefined';
-import { Primitive } from '../core/Primitive';
-import { Vector3 } from '../math/Vector3';
-import { VectorE3 } from '../math/VectorE3';
-import { RingBuilder } from '../shapes/RingBuilder';
-import { AxialShapeBuilder } from './AxialShapeBuilder';
-import { ConeBuilder } from './ConeBuilder';
+import { reduce } from "../atoms/reduce";
+import { mustBeDefined } from "../checks/mustBeDefined";
+import { Primitive } from "../core/Primitive";
+import { Vector3 } from "../math/Vector3";
+import { VectorE3 } from "../math/VectorE3";
+import { RingBuilder } from "../shapes/RingBuilder";
+import { AxialShapeBuilder } from "./AxialShapeBuilder";
+import { ConeBuilder } from "./ConeBuilder";
 
 /**
  * @hidden
  */
 export class ArrowHeadBuilder extends AxialShapeBuilder {
-
-    public heightCone = 0.20;
+    public heightCone = 0.2;
 
     public radiusCone = 0.08;
 
@@ -32,8 +31,8 @@ export class ArrowHeadBuilder extends AxialShapeBuilder {
      */
     constructor(axis: VectorE3, cutLine: VectorE3, clockwise: boolean) {
         super();
-        mustBeDefined('axis', axis);
-        mustBeDefined('cutLine', cutLine);
+        mustBeDefined("axis", axis);
+        mustBeDefined("cutLine", cutLine);
         this.e = Vector3.copy(axis).normalize();
         this.cutLine = Vector3.copy(cutLine).normalize();
         this.clockwise = clockwise;
@@ -43,14 +42,13 @@ export class ArrowHeadBuilder extends AxialShapeBuilder {
      *
      */
     toPrimitive(): Primitive {
-
         /**
          * The opposite direction to the axis.
          */
         const back = Vector3.copy(this.e).neg();
 
         /**
-         * The neck is the place where the cone meets the shaft. 
+         * The neck is the place where the cone meets the shaft.
          */
         const neck = Vector3.copy(this.offset);
         neck.rotate(this.tilt);

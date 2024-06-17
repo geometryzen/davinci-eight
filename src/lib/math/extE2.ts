@@ -12,22 +12,26 @@ export function extE2(a0: number, a1: number, a2: number, a3: number, b0: number
     b3 = +b3;
     index = index | 0;
     let x = 0.0;
-    switch (~(~index)) {
-        case 0: {
-            x = +(a0 * b0);
-        }
+    switch (~~index) {
+        case 0:
+            {
+                x = +(a0 * b0);
+            }
             break;
-        case 1: {
-            x = +(a0 * b1 + a1 * b0);
-        }
+        case 1:
+            {
+                x = +(a0 * b1 + a1 * b0);
+            }
             break;
-        case 2: {
-            x = +(a0 * b2 + a2 * b0);
-        }
+        case 2:
+            {
+                x = +(a0 * b2 + a2 * b0);
+            }
             break;
-        case 3: {
-            x = +(a0 * b3 + a1 * b2 - a2 * b1 + a3 * b0);
-        }
+        case 3:
+            {
+                x = +(a0 * b3 + a1 * b2 - a2 * b1 + a3 * b0);
+            }
             break;
         default: {
             throw new Error("index must be in the range [0..3]");

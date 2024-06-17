@@ -1,5 +1,5 @@
-import { Engine } from '../core/Engine';
-import { CylinderGeometry } from './CylinderGeometry';
+import { Engine } from "../core/Engine";
+import { CylinderGeometry } from "./CylinderGeometry";
 // import CylinderGeometryOptions from './CylinderGeometryOptions';
 // import vec from '../math/R3';
 

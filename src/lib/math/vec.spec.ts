@@ -1,5 +1,5 @@
-import { R3 } from './R3';
-import { vec } from './R3';
+import { R3 } from "./R3";
+import { vec } from "./R3";
 
 const e1: Readonly<R3> = vec(1, 0, 0);
 const e2: Readonly<R3> = vec(0, 1, 0);

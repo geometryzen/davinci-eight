@@ -1,7 +1,7 @@
-import { mustBeNumber } from '../checks/mustBeNumber';
-import { Capability } from '../core/Capability';
-import { ContextManager } from '../core/ContextManager';
-import { ShareableBase } from '../core/ShareableBase';
+import { mustBeNumber } from "../checks/mustBeNumber";
+import { Capability } from "../core/Capability";
+import { ContextManager } from "../core/ContextManager";
+import { ShareableBase } from "../core/ShareableBase";
 
 /**
  * enable(capability: Capability): void
@@ -10,10 +10,13 @@ import { ShareableBase } from '../core/ShareableBase';
 export class WebGLEnable extends ShareableBase {
     private _capability: Capability;
 
-    constructor(private contextManager: ContextManager, capability: Capability) {
+    constructor(
+        private contextManager: ContextManager,
+        capability: Capability
+    ) {
         super();
-        this.setLoggingName('WebGLEnable');
-        this._capability = mustBeNumber('capability', capability);
+        this.setLoggingName("WebGLEnable");
+        this._capability = mustBeNumber("capability", capability);
     }
 
     protected destructor(levelUp: number): void {

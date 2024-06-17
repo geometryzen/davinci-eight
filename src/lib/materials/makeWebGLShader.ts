@@ -1,4 +1,3 @@
-
 /**
  * Utilities for the construction of WebGLShader code.
  */
@@ -13,14 +12,12 @@ export function makeWebGLShader(gl: WebGLRenderingContext, source: string, type:
     const compiled = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
     if (compiled) {
         return shader;
-    }
-    else {
+    } else {
         if (!gl.isContextLost()) {
             const message = gl.getShaderInfoLog(shader);
             gl.deleteShader(shader);
             throw new Error("Error compiling shader: " + message);
-        }
-        else {
+        } else {
             throw new Error("Context lost while compiling shader");
         }
     }

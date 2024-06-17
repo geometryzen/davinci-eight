@@ -1,21 +1,21 @@
-import { GeometryKey } from '../core/GeometryKey';
-import { GeometryMode } from './GeometryMode';
-import { GeometryOptions } from './GeometryOptions';
+import { GeometryKey } from "../core/GeometryKey";
+import { GeometryMode } from "./GeometryMode";
+import { GeometryOptions } from "./GeometryOptions";
 
 /**
  * @hidden
  */
 export interface CylinderGeometryOptions extends GeometryOptions, GeometryKey {
     /**
-     * 
+     *
      */
     heightSegments?: number;
     /**
-     * 
+     *
      */
     length?: number;
     /**
-     * 
+     *
      */
     mode?: GeometryMode;
     /**
@@ -31,11 +31,11 @@ export interface CylinderGeometryOptions extends GeometryOptions, GeometryKey {
      */
     openWall?: boolean;
     /**
-     * 
+     *
      */
     radius?: number;
     /**
-     * 
+     *
      */
     thetaSegments?: number;
 }

@@ -1,14 +1,14 @@
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { arc3 } from '../geometries/arc3';
-import { Simplex } from '../geometries/Simplex';
-import { SimplexMode } from '../geometries/SimplexMode';
-import { SimplexPrimitivesBuilder } from '../geometries/SimplexPrimitivesBuilder';
-import { SliceSimplexPrimitivesBuilder } from '../geometries/SliceSimplexPrimitivesBuilder';
-import { Spinor3 } from '../math/Spinor3';
-import { SpinorE3 } from '../math/SpinorE3';
-import { Vector2 } from '../math/Vector2';
-import { Vector3 } from '../math/Vector3';
-import { VectorE3 } from '../math/VectorE3';
+import { GraphicsProgramSymbols } from "../core/GraphicsProgramSymbols";
+import { arc3 } from "../geometries/arc3";
+import { Simplex } from "../geometries/Simplex";
+import { SimplexMode } from "../geometries/SimplexMode";
+import { SimplexPrimitivesBuilder } from "../geometries/SimplexPrimitivesBuilder";
+import { SliceSimplexPrimitivesBuilder } from "../geometries/SliceSimplexPrimitivesBuilder";
+import { Spinor3 } from "../math/Spinor3";
+import { SpinorE3 } from "../math/SpinorE3";
+import { Vector2 } from "../math/Vector2";
+import { Vector3 } from "../math/Vector3";
+import { VectorE3 } from "../math/VectorE3";
 
 /**
  * @hidden
@@ -61,19 +61,19 @@ function makeTriangles(vertices: Vector3[], uvs: Vector2[], axis: VectorE3, radi
         for (let j = 0; j < thetaSegments; j++) {
             /**
              * The index of the corner of the quadrilateral with the lowest value of i and j.
-             * This corresponds to the smallest radius and smallest angle counterclockwise. 
+             * This corresponds to the smallest radius and smallest angle counterclockwise.
              */
             const quadIndex = startLineIndex + j;
 
             let v0 = quadIndex;
-            let v1 = quadIndex + thetaSegments + 1;  // Move outwards one segment.
-            let v2 = quadIndex + thetaSegments + 2;  // Then move one segment along the radius.
+            let v1 = quadIndex + thetaSegments + 1; // Move outwards one segment.
+            let v2 = quadIndex + thetaSegments + 2; // Then move one segment along the radius.
 
             geometry.triangle([vertices[v0], vertices[v1], vertices[v2]], [Vector3.copy(axis), Vector3.copy(axis), Vector3.copy(axis)], [uvs[v0].clone(), uvs[v1].clone(), uvs[v2].clone()]);
 
             v0 = quadIndex; // Start at the same corner
             v1 = quadIndex + thetaSegments + 2; // Move diagonally outwards and along radial
-            v2 = quadIndex + 1;  // Then move radially inwards
+            v2 = quadIndex + 1; // Then move radially inwards
 
             geometry.triangle([vertices[v0], vertices[v1], vertices[v2]], [Vector3.copy(axis), Vector3.copy(axis), Vector3.copy(axis)], [uvs[v0].clone(), uvs[v1].clone(), uvs[v2].clone()]);
         }
@@ -96,7 +96,7 @@ function makeLineSegments(vertices: Vector3[], radialSegments: number, thetaSegm
             simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(i + 1, j, thetaSegments)];
             data.push(simplex);
         }
-        // TODO: We probably don't need these lines when the thing is closed 
+        // TODO: We probably don't need these lines when the thing is closed
         const simplex = new Simplex(SimplexMode.LINE);
         simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, thetaSegments, thetaSegments)];
         simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(i + 1, thetaSegments, thetaSegments)];

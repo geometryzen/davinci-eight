@@ -1,7 +1,7 @@
-import { BeginMode } from '../core/BeginMode';
-import { vertexArraysFromPrimitive } from '../core/vertexArraysFromPrimitive';
-import { CoordsTransform1D } from '../transforms/CoordsTransform1D';
-import { LineStrip } from './LineStrip';
+import { BeginMode } from "../core/BeginMode";
+import { vertexArraysFromPrimitive } from "../core/vertexArraysFromPrimitive";
+import { CoordsTransform1D } from "../transforms/CoordsTransform1D";
+import { LineStrip } from "./LineStrip";
 
 describe("LineStrip", function () {
     // TODO: Should we support -1 like simplices as an empty LINE STRIP?
@@ -56,14 +56,14 @@ describe("LineStrip", function () {
                 expect(vas.indices[3]).toBe(3);
                 expect(vas.indices[4]).toBe(4);
                 expect(vas.attributes.length).toBe(5);
-                expect(vas.attributes[0]).toBe(0.00);
+                expect(vas.attributes[0]).toBe(0.0);
                 expect(vas.attributes[1]).toBe(0.25);
-                expect(vas.attributes[2]).toBe(0.50);
+                expect(vas.attributes[2]).toBe(0.5);
                 expect(vas.attributes[3]).toBe(0.75);
-                expect(vas.attributes[4]).toBe(1.00);
+                expect(vas.attributes[4]).toBe(1.0);
                 expect(vas.stride).toBe(4);
                 expect(vas.pointers.length).toBe(1);
-                expect(vas.pointers[0].name).toBe('aCoords');
+                expect(vas.pointers[0].name).toBe("aCoords");
                 expect(vas.pointers[0].size).toBe(1);
                 expect(vas.pointers[0].normalized).toBe(true);
                 expect(vas.pointers[0].offset).toBe(0);

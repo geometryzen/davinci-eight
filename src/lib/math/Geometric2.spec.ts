@@ -1,5 +1,5 @@
-import { Geometric2 } from './Geometric2';
-import { ignoreNegativeZero } from './ignoreNegativeZero';
+import { Geometric2 } from "./Geometric2";
+import { ignoreNegativeZero } from "./ignoreNegativeZero";
 
 // const zero = Geometric2.zero;
 const one = Geometric2.one(true);

@@ -1,7 +1,7 @@
-import { isDefined } from '../checks/isDefined';
-import { Vector3 } from '../math/Vector3';
-import { VectorE3 } from '../math/VectorE3';
-import { BoxOptions } from './BoxOptions';
+import { isDefined } from "../checks/isDefined";
+import { Vector3 } from "../math/Vector3";
+import { VectorE3 } from "../math/VectorE3";
+import { BoxOptions } from "./BoxOptions";
 
 /**
  * @hidden

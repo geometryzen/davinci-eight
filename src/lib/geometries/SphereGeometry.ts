@@ -1,25 +1,25 @@
-import { isInteger } from '../checks/isInteger';
-import { isNumber } from '../checks/isNumber';
-import { isUndefined } from '../checks/isUndefined';
-import { mustBeDefined } from '../checks/mustBeDefined';
-import { mustBeGE } from '../checks/mustBeGE';
-import { mustBeInteger } from '../checks/mustBeInteger';
-import { mustBeNumber } from '../checks/mustBeNumber';
-import { ContextManager } from '../core/ContextManager';
-import { GeometryElements } from '../core/GeometryElements';
-import { Primitive } from '../core/Primitive';
-import { arc3 } from '../geometries/arc3';
-import { SimplexPrimitivesBuilder } from '../geometries/SimplexPrimitivesBuilder';
-import { Geometric3 } from '../math/Geometric3';
-import { vec } from '../math/R3';
-import { Spinor3 } from '../math/Spinor3';
-import { SpinorE3 } from '../math/SpinorE3';
-import { Vector2 } from '../math/Vector2';
-import { Vector3 } from '../math/Vector3';
-import { VectorE3 } from '../math/VectorE3';
-import { GeometryMode } from './GeometryMode';
-import { SimplexMode } from './SimplexMode';
-import { SphereGeometryOptions } from './SphereGeometryOptions';
+import { isInteger } from "../checks/isInteger";
+import { isNumber } from "../checks/isNumber";
+import { isUndefined } from "../checks/isUndefined";
+import { mustBeDefined } from "../checks/mustBeDefined";
+import { mustBeGE } from "../checks/mustBeGE";
+import { mustBeInteger } from "../checks/mustBeInteger";
+import { mustBeNumber } from "../checks/mustBeNumber";
+import { ContextManager } from "../core/ContextManager";
+import { GeometryElements } from "../core/GeometryElements";
+import { Primitive } from "../core/Primitive";
+import { arc3 } from "../geometries/arc3";
+import { SimplexPrimitivesBuilder } from "../geometries/SimplexPrimitivesBuilder";
+import { Geometric3 } from "../math/Geometric3";
+import { vec } from "../math/R3";
+import { Spinor3 } from "../math/Spinor3";
+import { SpinorE3 } from "../math/SpinorE3";
+import { Vector2 } from "../math/Vector2";
+import { Vector3 } from "../math/Vector3";
+import { VectorE3 } from "../math/VectorE3";
+import { GeometryMode } from "./GeometryMode";
+import { SimplexMode } from "./SimplexMode";
+import { SphereGeometryOptions } from "./SphereGeometryOptions";
 
 /**
  * @hidden
@@ -91,18 +91,18 @@ export const DEFAULT_ELEVATION_SEGMENTS = 18;
 const DEFAULT_RADIUS = 1;
 
 /**
- * 
- * @param stress 
- * @param tilt 
- * @param offset 
- * @param azimuthStart 
- * @param azimuthLength 
+ *
+ * @param stress
+ * @param tilt
+ * @param offset
+ * @param azimuthStart
+ * @param azimuthLength
  * @param azimuthSegments Must be an integer.
- * @param elevationStart 
- * @param elevationLength 
- * @param elevationSegments Must be an integer. 
- * @param points 
- * @param uvs 
+ * @param elevationStart
+ * @param elevationLength
+ * @param elevationSegments Must be an integer.
+ * @param points
+ * @param uvs
  * @hidden
  */
 export function computeSphereVerticesAndCoordinates(
@@ -120,22 +120,22 @@ export function computeSphereVerticesAndCoordinates(
     points: Vector3[],
     uvs: Vector2[]
 ) {
-    mustBeDefined('points', points);
-    mustBeDefined('uvs', uvs);
+    mustBeDefined("points", points);
+    mustBeDefined("uvs", uvs);
 
-    mustBeDefined('zenith', zenith);
-    mustBeDefined('meridian', meridian);
-    mustBeDefined('stress', stress);
-    mustBeDefined('tilt', tilt);
-    mustBeDefined('offset', offset);
+    mustBeDefined("zenith", zenith);
+    mustBeDefined("meridian", meridian);
+    mustBeDefined("stress", stress);
+    mustBeDefined("tilt", tilt);
+    mustBeDefined("offset", offset);
 
-    mustBeNumber('azimuthStart', azimuthStart);
-    mustBeNumber('azimuthLength', azimuthLength);
-    mustBeInteger('azimuthSegments', azimuthSegments);
+    mustBeNumber("azimuthStart", azimuthStart);
+    mustBeNumber("azimuthLength", azimuthLength);
+    mustBeInteger("azimuthSegments", azimuthSegments);
 
-    mustBeNumber('elevationStart', elevationStart);
-    mustBeNumber('elevationLength', elevationLength);
-    mustBeInteger('elevationSegments', elevationSegments);
+    mustBeNumber("elevationStart", elevationStart);
+    mustBeNumber("elevationLength", elevationLength);
+    mustBeInteger("elevationSegments", elevationSegments);
 
     const generator: Spinor3 = Spinor3.dual(zenith, true);
     const iLength = elevationSegments + 1;
@@ -143,14 +143,16 @@ export function computeSphereVerticesAndCoordinates(
 
     for (let i = 0; i < iLength; i++) {
         /**
-         * The elevation angle, zero at the zenith, PI/2 at the quator, PI at the nadir. 
+         * The elevation angle, zero at the zenith, PI/2 at the quator, PI at the nadir.
          */
         const theta: number = elevationStart + (elevationSegments ? i / elevationSegments : 0) * elevationLength;
         /**
          * arcRadius assumes that we have a unit sphere.
          */
         const arcRadius = Math.sin(theta);
-        const R = Geometric3.fromSpinor(generator).scale(-azimuthStart / 2).exp();
+        const R = Geometric3.fromSpinor(generator)
+            .scale(-azimuthStart / 2)
+            .exp();
         const begin = Geometric3.fromVector(meridian).rotate(R).scale(arcRadius);
 
         const arcPoints: Vector3[] = arc3(begin, azimuthLength, generator, azimuthSegments);
@@ -170,8 +172,8 @@ export function computeSphereVerticesAndCoordinates(
             point.stress(stress).rotate(tilt).add(offset);
             points.push(point);
             /**
-             * The azimuth angle, zero at the meridian, increasing eastwards to TAU back at the meridian. 
-             * Computed in order to compute the texture coordinate. 
+             * The azimuth angle, zero at the meridian, increasing eastwards to TAU back at the meridian.
+             * Computed in order to compute the texture coordinate.
              */
             const phi = azimuthStart + (azimuthSegments ? j / azimuthSegments : 0) * azimuthLength;
             /**
@@ -196,10 +198,14 @@ function quadIndex(i: number, j: number, innerSegments: number): number {
  */
 function vertexIndex(qIndex: number, n: number, innerSegments: number): number {
     switch (n) {
-        case 0: return qIndex + 1;
-        case 1: return qIndex;
-        case 2: return qIndex + innerSegments + 1;
-        case 3: return qIndex + innerSegments + 2;
+        case 0:
+            return qIndex + 1;
+        case 1:
+            return qIndex;
+        case 2:
+            return qIndex + innerSegments + 1;
+        case 3:
+            return qIndex + innerSegments + 2;
     }
     throw new Error(`n must be in the range [0, 3]`);
 }
@@ -374,7 +380,7 @@ class SphereSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
         return this.stress.x;
     }
     set radius(radius: number) {
-        mustBeNumber('radius', radius);
+        mustBeNumber("radius", radius);
         this.stress.x = radius;
         this.stress.y = radius;
         this.stress.z = radius;
@@ -387,22 +393,13 @@ class SphereSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
         return this;
     }
     protected regenerate(): void {
-
         this.data = [];
 
         // Output. Could this be {[name:string]:VertexN<number>}[]
         const points: Vector3[] = [];
         const uvs: Vector2[] = [];
 
-        computeSphereVerticesAndCoordinates(
-            this.zenith,
-            this.meridian,
-            this.stress,
-            this.tilt,
-            this.offset,
-            this.azimuthStart, this.azimuthLength, this.azimuthSegments,
-            this.elevationStart, this.elevationLength, this.elevationSegments,
-            points, uvs);
+        computeSphereVerticesAndCoordinates(this.zenith, this.meridian, this.stress, this.tilt, this.offset, this.azimuthStart, this.azimuthLength, this.azimuthSegments, this.elevationStart, this.elevationLength, this.elevationSegments, points, uvs);
 
         switch (this.k) {
             case SimplexMode.EMPTY: {
@@ -433,19 +430,16 @@ class SphereSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
 /**
  * @hidden
  */
-function spherePrimitive(options: SphereGeometryOptions = { kind: 'SphereGeometry' }): Primitive {
-
+function spherePrimitive(options: SphereGeometryOptions = { kind: "SphereGeometry" }): Primitive {
     const builder = new SphereSimplexPrimitivesBuilder();
 
     // Radius
     if (isNumber(options.radius)) {
         builder.radius = options.radius;
-    }
-    else if (isUndefined(options.radius)) {
+    } else if (isUndefined(options.radius)) {
         builder.radius = DEFAULT_RADIUS;
-    }
-    else {
-        mustBeNumber('radius', options.radius);
+    } else {
+        mustBeNumber("radius", options.radius);
     }
 
     if (isInteger(options.mode)) {
@@ -466,115 +460,95 @@ function spherePrimitive(options: SphereGeometryOptions = { kind: 'SphereGeometr
                 throw new Error(`options.mode must be POINT=${GeometryMode.POINT} or WIRE=${GeometryMode.WIRE} or MESH=${GeometryMode.MESH}.`);
             }
         }
-    }
-    else if (isUndefined(options.mode)) {
+    } else if (isUndefined(options.mode)) {
         builder.k = SimplexMode.TRIANGLE;
-    }
-    else {
-        mustBeInteger('mode', options.mode);
+    } else {
+        mustBeInteger("mode", options.mode);
     }
 
     // Azimuth Start
     if (isNumber(options.azimuthStart)) {
         builder.azimuthStart = options.azimuthStart;
-    }
-    else if (isUndefined(options.azimuthStart)) {
+    } else if (isUndefined(options.azimuthStart)) {
         builder.azimuthStart = DEFAULT_AZIMUTH_START;
-    }
-    else {
-        mustBeNumber('azimuthStart', options.azimuthStart);
+    } else {
+        mustBeNumber("azimuthStart", options.azimuthStart);
     }
     // Azimuth Length
     if (isNumber(options.azimuthLength)) {
         builder.azimuthLength = options.azimuthLength;
-    }
-    else if (isUndefined(options.azimuthLength)) {
+    } else if (isUndefined(options.azimuthLength)) {
         builder.azimuthLength = DEFAULT_AZIMUTH_LENGTH;
-    }
-    else {
-        mustBeNumber('azimuthLength', options.azimuthLength);
+    } else {
+        mustBeNumber("azimuthLength", options.azimuthLength);
     }
     // Azimuth Segments
     if (isInteger(options.azimuthSegments)) {
-        builder.azimuthSegments = mustBeGE('azimuthSegements', options.azimuthSegments, 3);
-    }
-    else if (isUndefined(options.azimuthSegments)) {
+        builder.azimuthSegments = mustBeGE("azimuthSegements", options.azimuthSegments, 3);
+    } else if (isUndefined(options.azimuthSegments)) {
         builder.azimuthSegments = DEFAULT_AZIMUTH_SEGMENTS;
-    }
-    else {
-        mustBeInteger('azimuthSegments', options.azimuthSegments);
+    } else {
+        mustBeInteger("azimuthSegments", options.azimuthSegments);
     }
     // Elevation Start
     if (isNumber(options.elevationStart)) {
         builder.elevationStart = options.elevationStart;
-    }
-    else if (isUndefined(options.elevationStart)) {
+    } else if (isUndefined(options.elevationStart)) {
         builder.elevationStart = DEFAULT_ELEVATION_START;
-    }
-    else {
-        mustBeNumber('elevationStart', options.elevationStart);
+    } else {
+        mustBeNumber("elevationStart", options.elevationStart);
     }
     // Elevation Length
     if (isNumber(options.elevationLength)) {
         builder.elevationLength = options.elevationLength;
-    }
-    else if (isUndefined(options.elevationLength)) {
+    } else if (isUndefined(options.elevationLength)) {
         builder.elevationLength = DEFAULT_ELEVATION_LENGTH;
-    }
-    else {
-        mustBeNumber('elevationLength', options.elevationLength);
+    } else {
+        mustBeNumber("elevationLength", options.elevationLength);
     }
     // Elevation Segments
     if (isInteger(options.elevationSegments)) {
-        builder.elevationSegments = mustBeGE('elevationSegments', options.elevationSegments, 2);
-    }
-    else if (isUndefined(options.elevationSegments)) {
+        builder.elevationSegments = mustBeGE("elevationSegments", options.elevationSegments, 2);
+    } else if (isUndefined(options.elevationSegments)) {
         builder.elevationSegments = DEFAULT_ELEVATION_SEGMENTS;
-    }
-    else {
-        mustBeInteger('elevationSegments', options.elevationSegments);
+    } else {
+        mustBeInteger("elevationSegments", options.elevationSegments);
     }
 
     if (options.axis) {
         builder.zenith.copy(options.axis);
-    }
-    else {
+    } else {
         builder.zenith.copy(DEFAULT_ZENITH);
     }
 
     if (options.meridian) {
         builder.meridian.copy(options.meridian);
-    }
-    else {
+    } else {
         builder.meridian.copy(DEFAULT_MERIDIAN);
     }
 
     if (options.stress) {
         builder.stress.copy(options.stress);
-    }
-    else {
+    } else {
         builder.stress.copy(DEFAULT_STRESS);
     }
 
     if (options.tilt) {
         builder.tilt.copy(options.tilt);
-    }
-    else {
+    } else {
         builder.tilt.copy(DEFAULT_TILT);
     }
 
     if (options.offset) {
         builder.offset.copy(options.offset);
-    }
-    else {
+    } else {
         builder.offset.copy(DEFAULT_OFFSET);
     }
 
     const primitives = builder.toPrimitives();
     if (primitives.length === 1) {
         return primitives[0];
-    }
-    else {
+    } else {
         throw new Error("Expecting SphereSimplexPrimitivesBuilder to return one Primitive.");
     }
 }
@@ -585,27 +559,27 @@ function spherePrimitive(options: SphereGeometryOptions = { kind: 'SphereGeometr
  */
 export class SphereGeometry extends GeometryElements {
     /**
-     * 
+     *
      */
-    constructor(contextManager: ContextManager, options: SphereGeometryOptions = { kind: 'SphereGeometry' }, levelUp = 0) {
+    constructor(contextManager: ContextManager, options: SphereGeometryOptions = { kind: "SphereGeometry" }, levelUp = 0) {
         super(contextManager, spherePrimitive(options), options, levelUp + 1);
-        this.setLoggingName('SphereGeometry');
+        this.setLoggingName("SphereGeometry");
         if (levelUp === 0) {
             this.synchUp();
         }
     }
     /**
-     * 
+     *
      */
     protected resurrector(levelUp: number): void {
         super.resurrector(levelUp + 1);
-        this.setLoggingName('SphereGeometry');
+        this.setLoggingName("SphereGeometry");
         if (levelUp === 0) {
             this.synchUp();
         }
     }
     /**
-     * 
+     *
      */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {

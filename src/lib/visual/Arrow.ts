@@ -1,27 +1,27 @@
-import { isDefined } from '../checks/isDefined';
-import { mustBeNumber } from '../checks/mustBeNumber';
-import { Color } from '../core/Color';
-import { ContextManager } from '../core/ContextManager';
-import { Geometry } from '../core/Geometry';
-import { Material } from '../core/Material';
-import { Mesh } from '../core/Mesh';
-import { referenceAxis } from '../core/referenceAxis';
-import { referenceMeridian } from '../core/referenceMeridian';
-import { ArrowGeometry } from '../geometries/ArrowGeometry';
-import { ArrowGeometryOptions } from '../geometries/ArrowGeometryOptions';
-import { SimplexMode } from '../geometries/SimplexMode';
-import { normVectorE3 } from '../math/normVectorE3';
-import { VectorE3 } from '../math/VectorE3';
-import { ArrowOptions } from './ArrowOptions';
-import { ds } from './Defaults';
-import { materialFromOptions } from './materialFromOptions';
-import { offsetFromOptions } from './offsetFromOptions';
-import { setAxisAndMeridian } from './setAxisAndMeridian';
-import { setColorOption } from './setColorOption';
-import { setDeprecatedOptions } from './setDeprecatedOptions';
-import { simplexModeFromOptions } from './simplexModeFromOptions';
-import { spinorE3Object } from './spinorE3Object';
-import { vectorE3Object } from './vectorE3Object';
+import { isDefined } from "../checks/isDefined";
+import { mustBeNumber } from "../checks/mustBeNumber";
+import { Color } from "../core/Color";
+import { ContextManager } from "../core/ContextManager";
+import { Geometry } from "../core/Geometry";
+import { Material } from "../core/Material";
+import { Mesh } from "../core/Mesh";
+import { referenceAxis } from "../core/referenceAxis";
+import { referenceMeridian } from "../core/referenceMeridian";
+import { ArrowGeometry } from "../geometries/ArrowGeometry";
+import { ArrowGeometryOptions } from "../geometries/ArrowGeometryOptions";
+import { SimplexMode } from "../geometries/SimplexMode";
+import { normVectorE3 } from "../math/normVectorE3";
+import { VectorE3 } from "../math/VectorE3";
+import { ArrowOptions } from "./ArrowOptions";
+import { ds } from "./Defaults";
+import { materialFromOptions } from "./materialFromOptions";
+import { offsetFromOptions } from "./offsetFromOptions";
+import { setAxisAndMeridian } from "./setAxisAndMeridian";
+import { setColorOption } from "./setColorOption";
+import { setDeprecatedOptions } from "./setDeprecatedOptions";
+import { simplexModeFromOptions } from "./simplexModeFromOptions";
+import { spinorE3Object } from "./spinorE3Object";
+import { vectorE3Object } from "./vectorE3Object";
 
 /**
  * A Mesh in the form of an arrow that may be used to represent a vector quantity.
@@ -29,14 +29,14 @@ import { vectorE3Object } from './vectorE3Object';
 export class Arrow extends Mesh<Geometry, Material> {
     /**
      * @param contextManager This will usually be provided by the `Engine`.
-     * @param options 
-     * @param levelUp Leave as zero unless you are extending this class. 
+     * @param options
+     * @param levelUp Leave as zero unless you are extending this class.
      */
     constructor(contextManager: ContextManager, options: Partial<ArrowOptions> = {}, levelUp = 0) {
         super(void 0, void 0, contextManager, { axis: referenceAxis(options, ds.axis).direction(), meridian: referenceMeridian(options, ds.meridian).direction() }, levelUp + 1);
-        this.setLoggingName('Arrow');
+        this.setLoggingName("Arrow");
 
-        const geoOptions: ArrowGeometryOptions = { kind: 'ArrowGeometry' };
+        const geoOptions: ArrowGeometryOptions = { kind: "ArrowGeometry" };
 
         geoOptions.offset = offsetFromOptions(options);
         geoOptions.tilt = spinorE3Object(options.tilt);
@@ -59,7 +59,7 @@ export class Arrow extends Mesh<Geometry, Material> {
         setDeprecatedOptions(this, options);
 
         if (isDefined(options.length)) {
-            this.length = mustBeNumber('length', options.length);
+            this.length = mustBeNumber("length", options.length);
         }
 
         if (levelUp === 0) {
@@ -79,7 +79,7 @@ export class Arrow extends Mesh<Geometry, Material> {
 
     /**
      * The vector that is represented by the Arrow.
-     * 
+     *
      * magnitude(Arrow.vector) = Arrow.length
      * direction(Arrow.vector) = Arrow.axis
      * Arrow.vector = Arrow.length * Arrow.axis
@@ -107,9 +107,9 @@ export class Arrow extends Mesh<Geometry, Material> {
     }
 }
 
-function radiusConeFromOptions(options: Partial<Pick<ArrowOptions, 'radiusCone'>>, defaultValue: number): number {
+function radiusConeFromOptions(options: Partial<Pick<ArrowOptions, "radiusCone">>, defaultValue: number): number {
     if (options) {
-        if (typeof options.radiusCone === 'number') {
+        if (typeof options.radiusCone === "number") {
             return options.radiusCone;
         } else {
             return defaultValue;
@@ -119,9 +119,9 @@ function radiusConeFromOptions(options: Partial<Pick<ArrowOptions, 'radiusCone'>
     }
 }
 
-function thetaSegmentsFromOptions(options: Partial<Pick<ArrowOptions, 'thetaSegments'>>, defaultValue: number): number {
+function thetaSegmentsFromOptions(options: Partial<Pick<ArrowOptions, "thetaSegments">>, defaultValue: number): number {
     if (options) {
-        if (typeof options.thetaSegments === 'number') {
+        if (typeof options.thetaSegments === "number") {
             return options.thetaSegments;
         } else {
             return defaultValue;

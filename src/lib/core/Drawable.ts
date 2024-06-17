@@ -1,40 +1,39 @@
-import { exchange } from '../base/exchange';
-import { isNull } from '../checks/isNull';
-import { isNumber } from '../checks/isNumber';
-import { isObject } from '../checks/isObject';
-import { isUndefined } from '../checks/isUndefined';
-import { mustBeBoolean } from '../checks/mustBeBoolean';
-import { mustBeNonNullObject } from '../checks/mustBeNonNullObject';
-import { StringShareableMap } from '../collections/StringShareableMap';
-import { ContextManager } from '../core/ContextManager';
-import { Facet } from '../core/Facet';
-import { ShareableContextConsumer } from '../core/ShareableContextConsumer';
-import { OpacityFacet } from '../facets/OpacityFacet';
-import { PointSizeFacet } from '../facets/PointSizeFacet';
-import { AbstractDrawable } from './AbstractDrawable';
-import { Geometry } from './Geometry';
-import { GraphicsProgramSymbols } from './GraphicsProgramSymbols';
-import { Material } from './Material';
+import { exchange } from "../base/exchange";
+import { isNull } from "../checks/isNull";
+import { isNumber } from "../checks/isNumber";
+import { isObject } from "../checks/isObject";
+import { isUndefined } from "../checks/isUndefined";
+import { mustBeBoolean } from "../checks/mustBeBoolean";
+import { mustBeNonNullObject } from "../checks/mustBeNonNullObject";
+import { StringShareableMap } from "../collections/StringShareableMap";
+import { ContextManager } from "../core/ContextManager";
+import { Facet } from "../core/Facet";
+import { ShareableContextConsumer } from "../core/ShareableContextConsumer";
+import { OpacityFacet } from "../facets/OpacityFacet";
+import { PointSizeFacet } from "../facets/PointSizeFacet";
+import { AbstractDrawable } from "./AbstractDrawable";
+import { Geometry } from "./Geometry";
+import { GraphicsProgramSymbols } from "./GraphicsProgramSymbols";
+import { Material } from "./Material";
 
 /**
  * @hidden
  */
-const OPACITY_FACET_NAME = 'opacity';
+const OPACITY_FACET_NAME = "opacity";
 /**
  * @hidden
  */
-const POINTSIZE_FACET_NAME = 'pointSize';
+const POINTSIZE_FACET_NAME = "pointSize";
 
 /**
  * @hidden
  */
-const DRAWABLE_LOGGING_NAME = 'Drawable';
+const DRAWABLE_LOGGING_NAME = "Drawable";
 
 /**
  * This class may be used as either a base class or standalone.
  */
 export class Drawable<G extends Geometry, M extends Material> extends ShareableContextConsumer implements AbstractDrawable<G, M> {
-
     public name: string;
 
     /**
@@ -50,10 +49,10 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
     private facetMap = new StringShareableMap<Facet>();
 
     /**
-     * 
+     *
      */
     constructor(geometry: G, material: M, contextManager: ContextManager, levelUp = 0) {
-        super(mustBeNonNullObject('contextManager', contextManager));
+        super(mustBeNonNullObject("contextManager", contextManager));
         this.setLoggingName(DRAWABLE_LOGGING_NAME);
         if (isObject(geometry)) {
             // The assignment takes care of the addRef.
@@ -99,8 +98,7 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
         const facet = <OpacityFacet>this.getFacet(OPACITY_FACET_NAME);
         if (facet) {
             return facet.opacity;
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -109,15 +107,12 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
             const facet = <OpacityFacet>this.getFacet(OPACITY_FACET_NAME);
             if (facet) {
                 facet.opacity = newOpacity;
-            }
-            else {
+            } else {
                 this.setFacet(OPACITY_FACET_NAME, new OpacityFacet(newOpacity));
             }
-        }
-        else if (isUndefined(newOpacity) || isNull(newOpacity)) {
+        } else if (isUndefined(newOpacity) || isNull(newOpacity)) {
             this.removeFacet(OPACITY_FACET_NAME);
-        }
-        else {
+        } else {
             throw new TypeError("opacity must be a number, undefined, or null.");
         }
     }
@@ -126,8 +121,7 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
         const facet = <PointSizeFacet>this.getFacet(POINTSIZE_FACET_NAME);
         if (facet) {
             return facet.pointSize;
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -136,15 +130,12 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
             const facet = <PointSizeFacet>this.getFacet(POINTSIZE_FACET_NAME);
             if (facet) {
                 facet.pointSize = newPointSize;
-            }
-            else {
+            } else {
                 this.setFacet(POINTSIZE_FACET_NAME, new PointSizeFacet(newPointSize));
             }
-        }
-        else if (isUndefined(newPointSize) || isNull(newPointSize)) {
+        } else if (isUndefined(newPointSize) || isNull(newPointSize)) {
             this.removeFacet(POINTSIZE_FACET_NAME);
-        }
-        else {
+        } else {
             throw new TypeError("pointSize must be a number, undefined, or null.");
         }
     }
@@ -173,7 +164,7 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
     }
 
     /**
-     * 
+     *
      */
     draw(): Drawable<G, M> {
         if (this._visible) {
@@ -309,7 +300,9 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
         return this._visible;
     }
     set visible(visible: boolean) {
-        mustBeBoolean('visible', visible, () => { return this.getLoggingName(); });
+        mustBeBoolean("visible", visible, () => {
+            return this.getLoggingName();
+        });
         this._visible = visible;
     }
 
@@ -320,7 +313,9 @@ export class Drawable<G extends Geometry, M extends Material> extends ShareableC
         return this._transparent;
     }
     set transparent(transparent: boolean) {
-        mustBeBoolean('transparent', transparent, () => { return this.getLoggingName(); });
+        mustBeBoolean("transparent", transparent, () => {
+            return this.getLoggingName();
+        });
         this._transparent = transparent;
     }
 }
@@ -336,8 +331,7 @@ function synchFacets<G extends Geometry, M extends Material>(material: M, drawab
             if (!isNumber(drawable.opacity)) {
                 drawable.opacity = 1.0;
             }
-        }
-        else {
+        } else {
             drawable.removeFacet(OPACITY_FACET_NAME);
         }
 
@@ -346,8 +340,7 @@ function synchFacets<G extends Geometry, M extends Material>(material: M, drawab
             if (!isNumber(drawable.pointSize)) {
                 drawable.pointSize = 2;
             }
-        }
-        else {
+        } else {
             drawable.removeFacet(POINTSIZE_FACET_NAME);
         }
     }

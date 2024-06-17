@@ -1,10 +1,10 @@
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { Simplex } from '../geometries/Simplex';
-import { SimplexMode } from '../geometries/SimplexMode';
-import { SimplexPrimitivesBuilder } from '../geometries/SimplexPrimitivesBuilder';
-import { Vector2 } from '../math/Vector2';
-import { Vector3 } from '../math/Vector3';
-import { VectorE3 } from '../math/VectorE3';
+import { GraphicsProgramSymbols } from "../core/GraphicsProgramSymbols";
+import { Simplex } from "../geometries/Simplex";
+import { SimplexMode } from "../geometries/SimplexMode";
+import { SimplexPrimitivesBuilder } from "../geometries/SimplexPrimitivesBuilder";
+import { Vector2 } from "../math/Vector2";
+import { Vector3 } from "../math/Vector3";
+import { VectorE3 } from "../math/VectorE3";
 
 /**
  * Scratch variables to avoid creating temporary objects.
@@ -52,7 +52,7 @@ function prepare(point: VectorE3, points: Vector3[]): VectorE3 {
     const something: any = vertex;
     // This is a bit ugly from a type-safety perspective.
     // We could avoid it by working with a Vertex object instead.
-    something['uv'] = new Vector2([u, 1 - v]);
+    something["uv"] = new Vector2([u, 1 - v]);
     return vertex;
 }
 
@@ -61,8 +61,8 @@ function prepare(point: VectorE3, points: Vector3[]): VectorE3 {
  * @hidden
  */
 function correctUV(uv: Vector2, vector: VectorE3, azimuth: number): Vector2 {
-    if ((azimuth < 0) && (uv.x === 1)) uv = new Vector2([uv.x - 1, uv.y]);
-    if ((vector.x === 0) && (vector.z === 0)) uv = new Vector2([azimuth / 2 / Math.PI + 0.5, uv.y]);
+    if (azimuth < 0 && uv.x === 1) uv = new Vector2([uv.x - 1, uv.y]);
+    if (vector.x === 0 && vector.z === 0) uv = new Vector2([azimuth / 2 / Math.PI + 0.5, uv.y]);
     return uv.clone();
 }
 
@@ -82,9 +82,8 @@ function normal(v1: VectorE3, v2: VectorE3, v3: VectorE3): Vector3 {
  * @hidden
  */
 export class PolyhedronBuilder extends SimplexPrimitivesBuilder {
-
     /**
-     * 
+     *
      * @param vertices An array of 3 * N numbers representing N vertices.
      * @param indices An array of 3 * M numbers representing M triangles.
      * @param radius The distance of the polyhedron points from the origin.
@@ -125,7 +124,6 @@ export class PolyhedronBuilder extends SimplexPrimitivesBuilder {
             subdivide(faces[i], detail, points, this);
         }
 
-
         // Handle case when face straddles the seam
         /*
             for ( var i = 0, faceVertexUvsZeroLength = this.faceVertexUvs[ 0 ].length; i < faceVertexUvsZeroLength; i++ ) {
@@ -165,19 +163,17 @@ export class PolyhedronBuilder extends SimplexPrimitivesBuilder {
             return { x, y, z };
         }
 
-
         // Approximate a curved face with recursively sub-divided triangles.
         function make(v1: VectorE3, v2: VectorE3, v3: VectorE3, builder: SimplexPrimitivesBuilder) {
-
             const azi: number = azimuth(centroid(v1, v2, v3));
             const something1: any = v1;
             const something2: any = v2;
             const something3: any = v3;
 
             // This is a bit ugly from a type-safety perspective.
-            const uv1 = correctUV(something1['uv'], v1, azi);
-            const uv2 = correctUV(something2['uv'], v2, azi);
-            const uv3 = correctUV(something3['uv'], v3, azi);
+            const uv1 = correctUV(something1["uv"], v1, azi);
+            const uv2 = correctUV(something2["uv"], v2, azi);
+            const uv3 = correctUV(something3["uv"], v3, azi);
 
             const n = normal(v1, v2, v3);
 
@@ -196,7 +192,6 @@ export class PolyhedronBuilder extends SimplexPrimitivesBuilder {
 
         // Subdivide a face to the required detail level.
         function subdivide(face: Simplex, detail: number, points: Vector3[], builder: SimplexPrimitivesBuilder) {
-
             const cols = Math.pow(2, detail);
             const a: VectorE3 = prepare(<Vector3>face.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION], points);
             const b: VectorE3 = prepare(<Vector3>face.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION], points);
@@ -206,7 +201,6 @@ export class PolyhedronBuilder extends SimplexPrimitivesBuilder {
             // Construct all of the vertices for this subdivision.
 
             for (let i = 0; i <= cols; i++) {
-
                 v[i] = [];
 
                 const aj: VectorE3 = prepare(Vector3.copy(a).lerp(c, i / cols), points);
@@ -214,16 +208,12 @@ export class PolyhedronBuilder extends SimplexPrimitivesBuilder {
                 const rows = cols - i;
 
                 for (let j = 0; j <= rows; j++) {
-
                     if (j === 0 && i === cols) {
                         v[i][j] = aj;
-                    }
-                    else {
+                    } else {
                         v[i][j] = prepare(Vector3.copy(aj).lerp(bj, j / rows), points);
                     }
-
                 }
-
             }
 
             // Construct all of the faces.
@@ -232,8 +222,7 @@ export class PolyhedronBuilder extends SimplexPrimitivesBuilder {
                     const k = Math.floor(j / 2);
                     if (j % 2 === 0) {
                         make(v[i][k + 1], v[i + 1][k], v[i][k], builder);
-                    }
-                    else {
+                    } else {
                         make(v[i][k + 1], v[i + 1][k + 1], v[i + 1][k], builder);
                     }
                 }

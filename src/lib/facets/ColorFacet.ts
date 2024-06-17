@@ -1,33 +1,32 @@
-import { mustBeNumber } from '../checks/mustBeNumber';
-import { Color } from '../core/Color';
-import { Facet } from '../core/Facet';
-import { FacetVisitor } from '../core/FacetVisitor';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
+import { mustBeNumber } from "../checks/mustBeNumber";
+import { Color } from "../core/Color";
+import { Facet } from "../core/Facet";
+import { FacetVisitor } from "../core/FacetVisitor";
+import { GraphicsProgramSymbols } from "../core/GraphicsProgramSymbols";
 
 /**
  * Sets the 'uColor' uniform to the color RGB value.
  */
 export class ColorFacet implements Facet {
+    /**
+     * @hidden
+     */
+    public static PROP_RGB = "rgb";
 
     /**
      * @hidden
      */
-    public static PROP_RGB = 'rgb';
+    public static PROP_RED = "r";
 
     /**
      * @hidden
      */
-    public static PROP_RED = 'r';
+    public static PROP_GREEN = "g";
 
     /**
      * @hidden
      */
-    public static PROP_GREEN = 'g';
-
-    /**
-     * @hidden
-     */
-    public static PROP_BLUE = 'b';
+    public static PROP_BLUE = "b";
 
     /**
      *
@@ -35,10 +34,9 @@ export class ColorFacet implements Facet {
     public color = Color.fromRGB(1, 1, 1);
 
     /**
-     * @param uColorName The name of the WebL uniform that this facet will affect. 
+     * @param uColorName The name of the WebL uniform that this facet will affect.
      */
-    constructor(public uColorName = GraphicsProgramSymbols.UNIFORM_COLOR) {
-    }
+    constructor(public uColorName = GraphicsProgramSymbols.UNIFORM_COLOR) {}
 
     /**
      * The red component of the color.
@@ -47,7 +45,7 @@ export class ColorFacet implements Facet {
         return this.color.r;
     }
     set r(r: number) {
-        mustBeNumber('r', r);
+        mustBeNumber("r", r);
         this.color.r = r;
     }
 
@@ -58,7 +56,7 @@ export class ColorFacet implements Facet {
         return this.color.g;
     }
     set g(g: number) {
-        mustBeNumber('g', g);
+        mustBeNumber("g", g);
         this.color.g = g;
     }
 
@@ -69,7 +67,7 @@ export class ColorFacet implements Facet {
         return this.color.b;
     }
     set b(b: number) {
-        mustBeNumber('b', b);
+        mustBeNumber("b", b);
         this.color.b = b;
     }
 

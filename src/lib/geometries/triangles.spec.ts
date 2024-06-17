@@ -1,9 +1,9 @@
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { Vector3 } from '../math/Vector3';
-import { Simplex } from './Simplex';
-import { simplicesToGeometryMeta } from './simplicesToGeometryMeta';
-import { simplicesToPrimitive } from './simplicesToPrimitive';
-import { triangle } from './triangle';
+import { GraphicsProgramSymbols } from "../core/GraphicsProgramSymbols";
+import { Vector3 } from "../math/Vector3";
+import { Simplex } from "./Simplex";
+import { simplicesToGeometryMeta } from "./simplicesToGeometryMeta";
+import { simplicesToPrimitive } from "./simplicesToPrimitive";
+import { triangle } from "./triangle";
 
 /**
  * @hidden
@@ -19,7 +19,7 @@ describe("simplicesToPrimitive", function () {
         it("should create empty arrays", function () {
             const geometry: Simplex[] = [];
             const geoInfo = simplicesToGeometryMeta(geometry);
-            expect(typeof geoInfo).toBe('undefined');
+            expect(typeof geoInfo).toBe("undefined");
         });
     });
 

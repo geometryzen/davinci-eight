@@ -3,5 +3,5 @@
  * @hidden
  */
 export interface MaterialKey {
-    kind: 'PointMaterial' | 'LineMaterial' | 'MeshMaterial';
+    kind: "PointMaterial" | "LineMaterial" | "MeshMaterial";
 }

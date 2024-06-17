@@ -1,5 +1,5 @@
-import { canonicalAxis, canonicalMeridian } from '../core/tiltFromOptions';
-import { R3 } from '../math/R3';
+import { canonicalAxis, canonicalMeridian } from "../core/tiltFromOptions";
+import { R3 } from "../math/R3";
 
 /**
  * @hidden

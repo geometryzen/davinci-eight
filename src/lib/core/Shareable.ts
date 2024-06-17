@@ -2,7 +2,6 @@
  *
  */
 export interface Shareable {
-
     /**
      *
      * Increments the reference count of an Shareable instance.

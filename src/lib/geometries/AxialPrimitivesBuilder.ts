@@ -1,10 +1,9 @@
-import { PrimitivesBuilder } from '../geometries/PrimitivesBuilder';
+import { PrimitivesBuilder } from "../geometries/PrimitivesBuilder";
 
 /**
  * @hidden
  */
 export class AxialPrimitivesBuilder extends PrimitivesBuilder {
-
     /**
      * The sliceAngle is the angle from the cutLine to the end of the slice.
      * A positive slice angle represents a counter-clockwise rotation around

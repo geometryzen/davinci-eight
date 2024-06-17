@@ -1,7 +1,7 @@
-import { mustBeNonNullObject } from '../checks/mustBeNonNullObject';
-import { ContextConsumer } from './ContextConsumer';
-import { ContextManager } from './ContextManager';
-import { ShareableBase } from './ShareableBase';
+import { mustBeNonNullObject } from "../checks/mustBeNonNullObject";
+import { ContextConsumer } from "./ContextConsumer";
+import { ContextManager } from "./ContextManager";
+import { ShareableBase } from "./ShareableBase";
 
 /**
  * @hidden
@@ -20,25 +20,25 @@ export class ShareableContextConsumer extends ShareableBase implements ContextCo
      */
     constructor(protected contextManager: ContextManager) {
         super();
-        // The buck stops here so we must assert the existence of the contextManager. 
-        mustBeNonNullObject('contextManager', contextManager);
-        this.setLoggingName('ShareableContextConsumer');
+        // The buck stops here so we must assert the existence of the contextManager.
+        mustBeNonNullObject("contextManager", contextManager);
+        this.setLoggingName("ShareableContextConsumer");
         contextManager.addRef();
         this.subscribe(false);
     }
 
     /**
-     * 
+     *
      */
     protected resurrector(levelUp: number): void {
         super.resurrector(levelUp + 1);
-        this.setLoggingName('ShareableContextConsumer');
+        this.setLoggingName("ShareableContextConsumer");
         this.contextManager.addRef();
         this.subscribe(false);
     }
 
     /**
-     * 
+     *
      */
     protected destructor(levelUp: number): void {
         this.unsubscribe(false);
@@ -90,12 +90,10 @@ export class ShareableContextConsumer extends ShareableBase implements ContextCo
         if (this.gl) {
             if (this.gl.isContextLost()) {
                 this.contextLost();
-            }
-            else {
+            } else {
                 this.contextFree();
             }
-        }
-        else {
+        } else {
             // There is no contextProvider so resources should already be clean.
         }
     }

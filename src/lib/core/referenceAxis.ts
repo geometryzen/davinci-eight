@@ -1,15 +1,15 @@
-import { canonicalAxis, canonicalMeridian } from '../core/tiltFromOptions';
-import { Geometric3 } from '../math/Geometric3';
-import { R3, vec } from '../math/R3';
-import { SpinorE3 } from '../math/SpinorE3';
-import { VectorE3 } from '../math/VectorE3';
+import { canonicalAxis, canonicalMeridian } from "../core/tiltFromOptions";
+import { Geometric3 } from "../math/Geometric3";
+import { R3, vec } from "../math/R3";
+import { SpinorE3 } from "../math/SpinorE3";
+import { VectorE3 } from "../math/VectorE3";
 
 /**
  * @hidden
  */
 export interface AxisOptions {
     /**
-     * 
+     *
      */
     axis?: VectorE3;
     /**
@@ -17,7 +17,7 @@ export interface AxisOptions {
      */
     height?: VectorE3 | number;
     /**
-     * 
+     *
      */
     meridian?: VectorE3;
     /**
@@ -25,7 +25,7 @@ export interface AxisOptions {
      */
     cutLine?: VectorE3;
     /**
-     * 
+     *
      */
     tilt?: SpinorE3;
 }
@@ -38,30 +38,25 @@ export function referenceAxis(options: AxisOptions, fallback: VectorE3): Readonl
     if (options.tilt) {
         const axis = Geometric3.fromVector(canonicalAxis).rotate(options.tilt);
         return vec(axis.x, axis.y, axis.z);
-    }
-    else if (options.axis) {
+    } else if (options.axis) {
         const axis = options.axis;
         return vec(axis.x, axis.y, axis.z).direction();
-    }
-    else if (typeof options.height === 'object') {
+    } else if (typeof options.height === "object") {
         console.warn("height is deprecated. Please use axis instead.");
         const axis = options.height;
         return vec(axis.x, axis.y, axis.z).direction();
-    }
-    else if (options.meridian) {
+    } else if (options.meridian) {
         const B = Geometric3.dualOfVector(canonicalAxis);
         const tilt = Geometric3.rotorFromVectorToVector(canonicalMeridian, options.meridian, B);
         const axis = Geometric3.fromVector(canonicalAxis).rotate(tilt);
         return vec(axis.x, axis.y, axis.z).direction();
-    }
-    else if (options.cutLine) {
+    } else if (options.cutLine) {
         console.warn("cutLine is deprecated. Please use meridian instead.");
         const B = Geometric3.dualOfVector(canonicalAxis);
         const tilt = Geometric3.rotorFromVectorToVector(canonicalMeridian, options.cutLine, B);
         const axis = Geometric3.fromVector(canonicalAxis).rotate(tilt);
         return vec(axis.x, axis.y, axis.z).direction();
-    }
-    else {
+    } else {
         return vec(fallback.x, fallback.y, fallback.z);
     }
 }

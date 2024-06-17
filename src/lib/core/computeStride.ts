@@ -1,11 +1,10 @@
-import { Attribute } from './Attribute';
+import { Attribute } from "./Attribute";
 
 /**
  * Computes the stride for a given collection of attributes.
  * @hidden
  */
 export function computeStride(attributes: { [name: string]: Attribute }, aNames: string[]): number {
-
     const aNamesLen = aNames.length;
 
     let stride = 0;

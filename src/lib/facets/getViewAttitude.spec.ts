@@ -1,6 +1,6 @@
-import { getViewAttitude } from './getViewAttitude';
-import { Vector3 } from '../math/Vector3';
-import { Spinor3 } from '../math/Spinor3';
+import { getViewAttitude } from "./getViewAttitude";
+import { Vector3 } from "../math/Vector3";
+import { Spinor3 } from "../math/Spinor3";
 
 const zero = Vector3.vector(0, 0, 0);
 const e1 = Vector3.vector(1, 0, 0);

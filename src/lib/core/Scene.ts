@@ -1,21 +1,20 @@
-import { Facet } from '../core/Facet';
-import { ContextManager } from '../core/ContextManager';
-import { mustBeNonNullObject } from '../checks/mustBeNonNullObject';
-import { Renderable } from '../core/Renderable';
-import { ShareableArray } from '../collections/ShareableArray';
-import { ShareableContextConsumer } from '../core/ShareableContextConsumer';
+import { Facet } from "../core/Facet";
+import { ContextManager } from "../core/ContextManager";
+import { mustBeNonNullObject } from "../checks/mustBeNonNullObject";
+import { Renderable } from "../core/Renderable";
+import { ShareableArray } from "../collections/ShareableArray";
+import { ShareableContextConsumer } from "../core/ShareableContextConsumer";
 
 /**
  * A collection of Renderable objects.
  */
 export class Scene extends ShareableContextConsumer implements Renderable {
-
     private _drawables: ShareableArray<Renderable>;
 
     constructor(contextManager: ContextManager, levelUp = 0) {
         super(contextManager);
-        this.setLoggingName('Scene');
-        mustBeNonNullObject('contextManager', contextManager);
+        this.setLoggingName("Scene");
+        mustBeNonNullObject("contextManager", contextManager);
         this._drawables = new ShareableArray<Renderable>([]);
         if (levelUp === 0) {
             this.synchUp();
@@ -32,12 +31,12 @@ export class Scene extends ShareableContextConsumer implements Renderable {
     }
 
     add(drawable: Renderable): void {
-        mustBeNonNullObject('drawable', drawable);
+        mustBeNonNullObject("drawable", drawable);
         this._drawables.push(drawable);
     }
 
     contains(drawable: Renderable): boolean {
-        mustBeNonNullObject('drawable', drawable);
+        mustBeNonNullObject("drawable", drawable);
         return this._drawables.indexOf(drawable) >= 0;
     }
 
@@ -73,8 +72,7 @@ export class Scene extends ShareableContextConsumer implements Renderable {
                 const d = ds.getWeakRef(i);
                 if (d.transparent) {
                     passTwo = true;
-                }
-                else {
+                } else {
                     passOne = true;
                 }
             }
@@ -100,8 +98,7 @@ export class Scene extends ShareableContextConsumer implements Renderable {
                         }
                     }
                     gl.depthMask(previousMask);
-                }
-                else {
+                } else {
                     // There must be non-transparent objects, render them.
                     for (let i = 0; i < iLen; i++) {
                         const d = ds.getWeakRef(i);
@@ -123,15 +120,19 @@ export class Scene extends ShareableContextConsumer implements Renderable {
     }
 
     findOneByName(name: string): Renderable {
-        return this.findOne(function (drawable) { return drawable.name === name; });
+        return this.findOne(function (drawable) {
+            return drawable.name === name;
+        });
     }
 
     findByName(name: string): ShareableArray<Renderable> {
-        return this.find(function (drawable) { return drawable.name === name; });
+        return this.find(function (drawable) {
+            return drawable.name === name;
+        });
     }
 
     remove(drawable: Renderable): void {
-        mustBeNonNullObject('drawable', drawable);
+        mustBeNonNullObject("drawable", drawable);
         const index = this._drawables.indexOf(drawable);
         if (index >= 0) {
             this._drawables.splice(index, 1).release();

@@ -1,4 +1,4 @@
-import { VectorE3 } from '../math/VectorE3';
+import { VectorE3 } from "../math/VectorE3";
 
 /**
  *
@@ -26,7 +26,7 @@ export interface ViewController {
      *
      * @param view
      */
-    setView(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }): void;
+    setView(view: { eye: VectorE3; look: VectorE3; up: VectorE3 }): void;
 
     /**
      * <p>

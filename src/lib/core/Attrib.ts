@@ -1,7 +1,7 @@
-import { ContextManager } from '../core/ContextManager';
-import { ContextProgramConsumer } from '../core/ContextProgramConsumer';
-import { DataType } from '../core/DataType';
-import { readOnly } from '../i18n/readOnly';
+import { ContextManager } from "../core/ContextManager";
+import { ContextProgramConsumer } from "../core/ContextProgramConsumer";
+import { DataType } from "../core/DataType";
+import { readOnly } from "../i18n/readOnly";
 
 /**
  * An object-oriented representation of an <code>attribute</code> in a GLSL shader program.
@@ -24,12 +24,12 @@ export class Attrib implements ContextProgramConsumer {
      */
     private _gl: WebGL2RenderingContext | WebGLRenderingContext;
     /**
-     * 
+     *
      */
     private suppressWarnings = true;
 
     /**
-     * 
+     *
      */
     constructor(contextManager: ContextManager, info: WebGLActiveInfo) {
         this._name = info.name;
@@ -43,7 +43,7 @@ export class Attrib implements ContextProgramConsumer {
         return this._index;
     }
     set index(unused) {
-        throw new Error(readOnly('index').message);
+        throw new Error(readOnly("index").message);
     }
 
     /**
@@ -97,8 +97,7 @@ export class Attrib implements ContextProgramConsumer {
         // when we are in the animation loop.
         if (this._gl) {
             this._gl.vertexAttribPointer(this._index, size, type, normalized, stride, offset);
-        }
-        else {
+        } else {
             if (!this.suppressWarnings) {
                 console.warn(`vertexAttribPointer(index = ${this._index}, size = ${size}, type = ${type}, normalized = ${normalized}, stride = ${stride}, offset = ${offset})`);
             }
@@ -113,8 +112,7 @@ export class Attrib implements ContextProgramConsumer {
     enable(): void {
         if (this._gl) {
             this._gl.enableVertexAttribArray(this._index);
-        }
-        else {
+        } else {
             if (!this.suppressWarnings) {
                 console.warn(`enableVertexAttribArray(index = ${this._index})`);
             }
@@ -129,8 +127,7 @@ export class Attrib implements ContextProgramConsumer {
     disable(): void {
         if (this._gl) {
             this._gl.disableVertexAttribArray(this._index);
-        }
-        else {
+        } else {
             if (!this.suppressWarnings) {
                 console.warn(`disableVertexAttribArray(index = ${this._index})`);
             }
@@ -145,8 +142,7 @@ export class Attrib implements ContextProgramConsumer {
         if (this._gl) {
             // The API docs don't permit the pname attribute to be anything other than VERTEX_ATTRIB_ARRAY_POINTER.
             return this._gl.getVertexAttribOffset(this._index, this._gl.VERTEX_ATTRIB_ARRAY_POINTER);
-        }
-        else {
+        } else {
             if (!this.suppressWarnings) {
                 console.warn(`getVertexAttribOffset(index = ${this._index}, VERTEX_ATTRIB_ARRAY_POINTER)`);
             }
@@ -158,6 +154,6 @@ export class Attrib implements ContextProgramConsumer {
      * Returns a non-normative string representation of the GLSL attribute.
      */
     toString(): string {
-        return ['attribute', this._name].join(' ');
+        return ["attribute", this._name].join(" ");
     }
 }

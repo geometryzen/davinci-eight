@@ -1,4 +1,4 @@
-import { Geometric2 } from '../math/Geometric2';
+import { Geometric2 } from "../math/Geometric2";
 
 /**
  * @hidden
@@ -7,14 +7,12 @@ function domElement(): HTMLElement {
     const documentElement = document.documentElement;
     if (documentElement) {
         return documentElement;
-    }
-    else {
+    } else {
         const body = document.body;
         const html = body.parentNode;
         if (html) {
             return <HTMLHtmlElement>html;
-        }
-        else {
+        } else {
             return body;
         }
     }
@@ -32,8 +30,7 @@ export function scrolled(out: Geometric2): void {
     if (window.pageXOffset !== void 0 && window.pageYOffset !== void 0) {
         out.x = window.pageXOffset;
         out.y = window.pageYOffset;
-    }
-    else {
+    } else {
         const domE = domElement();
         out.x = domE.scrollLeft;
         out.y = domE.scrollTop;

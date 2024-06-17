@@ -1,4 +1,3 @@
-
 /**
  * @hidden
  */
@@ -21,38 +20,46 @@ export function lcoE3(a0: number, a1: number, a2: number, a3: number, a4: number
     b7 = +b7;
     index = index | 0;
     let x = 0.0;
-    switch (~(~index)) {
-        case 0: {
-            x = +(a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7);
-        }
+    switch (~~index) {
+        case 0:
+            {
+                x = +(a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7);
+            }
             break;
-        case 1: {
-            x = +(a0 * b1 - a2 * b4 + a3 * b6 - a5 * b7);
-        }
+        case 1:
+            {
+                x = +(a0 * b1 - a2 * b4 + a3 * b6 - a5 * b7);
+            }
             break;
-        case 2: {
-            x = +(a0 * b2 + a1 * b4 - a3 * b5 - a6 * b7);
-        }
+        case 2:
+            {
+                x = +(a0 * b2 + a1 * b4 - a3 * b5 - a6 * b7);
+            }
             break;
-        case 3: {
-            x = +(a0 * b3 - a1 * b6 + a2 * b5 - a4 * b7);
-        }
+        case 3:
+            {
+                x = +(a0 * b3 - a1 * b6 + a2 * b5 - a4 * b7);
+            }
             break;
-        case 4: {
-            x = +(a0 * b4 + a3 * b7);
-        }
+        case 4:
+            {
+                x = +(a0 * b4 + a3 * b7);
+            }
             break;
-        case 5: {
-            x = +(a0 * b5 + a1 * b7);
-        }
+        case 5:
+            {
+                x = +(a0 * b5 + a1 * b7);
+            }
             break;
-        case 6: {
-            x = +(a0 * b6 + a2 * b7);
-        }
+        case 6:
+            {
+                x = +(a0 * b6 + a2 * b7);
+            }
             break;
-        case 7: {
-            x = +(a0 * b7);
-        }
+        case 7:
+            {
+                x = +(a0 * b7);
+            }
             break;
         default: {
             throw new Error("index must be in the range [0..7]");

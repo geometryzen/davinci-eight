@@ -2,7 +2,7 @@
  *
  */
 export enum TextureTarget {
-    TEXTURE_2D = 0x0DE1,
+    TEXTURE_2D = 0x0de1,
     TEXTURE = 0x1702
 }
 

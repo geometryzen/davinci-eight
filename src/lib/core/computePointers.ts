@@ -1,6 +1,6 @@
-import { Attribute } from './Attribute';
-import { DataType } from './DataType';
-import { VertexAttribPointer } from './VertexAttribPointer';
+import { Attribute } from "./Attribute";
+import { DataType } from "./DataType";
+import { VertexAttribPointer } from "./VertexAttribPointer";
 
 /**
  * @hidden

@@ -1,28 +1,30 @@
-import { DrawAttribute } from '../atoms/DrawAttribute';
-import { DrawPrimitive } from '../atoms/DrawPrimitive';
-import { VectorN } from '../atoms/VectorN';
-import { Vertex } from '../atoms/Vertex';
-import { expectArg } from '../checks/expectArg';
-import { copyToArray } from '../collections/copyToArray';
-import { Attribute } from '../core/Attribute';
-import { AttributeSizeType } from '../core/AttributeSizeType';
-import { BeginMode } from '../core/BeginMode';
-import { DataType } from '../core/DataType';
-import { Primitive } from '../core/Primitive';
-import { VectorN as DefaultVectorN } from '../math/VectorN';
-import { computeUniqueVertices } from './computeUniqueVertices';
-import { dataFromVectorN } from './dataFromVectorN';
-import { GeometryMeta } from './GeometryMeta';
-import { Simplex } from './Simplex';
-import { SimplexMode } from './SimplexMode';
-import { simplicesToGeometryMeta } from './simplicesToGeometryMeta';
+import { DrawAttribute } from "../atoms/DrawAttribute";
+import { DrawPrimitive } from "../atoms/DrawPrimitive";
+import { VectorN } from "../atoms/VectorN";
+import { Vertex } from "../atoms/Vertex";
+import { expectArg } from "../checks/expectArg";
+import { copyToArray } from "../collections/copyToArray";
+import { Attribute } from "../core/Attribute";
+import { AttributeSizeType } from "../core/AttributeSizeType";
+import { BeginMode } from "../core/BeginMode";
+import { DataType } from "../core/DataType";
+import { Primitive } from "../core/Primitive";
+import { VectorN as DefaultVectorN } from "../math/VectorN";
+import { computeUniqueVertices } from "./computeUniqueVertices";
+import { dataFromVectorN } from "./dataFromVectorN";
+import { GeometryMeta } from "./GeometryMeta";
+import { Simplex } from "./Simplex";
+import { SimplexMode } from "./SimplexMode";
+import { simplicesToGeometryMeta } from "./simplicesToGeometryMeta";
 
 /**
  * @hidden
  */
 function numberList(size: number, value: number): number[] {
     const data: number[] = [];
-    for (let i = 0; i < size; i++) { data.push(value); }
+    for (let i = 0; i < size; i++) {
+        data.push(value);
+    }
     return data;
 }
 
@@ -30,14 +32,13 @@ function numberList(size: number, value: number): number[] {
  * @hidden
  */
 function attribName(name: string, attribMap?: { [name: string]: { name?: string } }): string {
-    expectArg('name', name).toBeString();
-    expectArg('attribMap', attribMap).toBeObject();
+    expectArg("name", name).toBeString();
+    expectArg("attribMap", attribMap).toBeObject();
     const meta = attribMap[name];
     if (meta) {
         const alias = meta.name;
         return alias ? alias : name;
-    }
-    else {
+    } else {
         throw new Error("Unable to compute name; missing attribute specification for " + name);
     }
 }
@@ -46,16 +47,15 @@ function attribName(name: string, attribMap?: { [name: string]: { name?: string 
  * @hidden
  */
 function attribSize(key: string, attribMap?: { [key: string]: { size: AttributeSizeType } }): AttributeSizeType {
-    expectArg('key', key).toBeString();
-    expectArg('attribMap', attribMap).toBeObject();
+    expectArg("key", key).toBeString();
+    expectArg("attribMap", attribMap).toBeObject();
     const meta = attribMap[key];
     if (meta) {
         const size = meta.size;
         // TODO: Override the message...
-        expectArg('size', size).toBeNumber();
+        expectArg("size", size).toBeNumber();
         return meta.size;
-    }
-    else {
+    } else {
         throw new Error("Unable to compute size; missing attribute specification for " + key);
     }
 }
@@ -71,14 +71,13 @@ function concat(a: number[], b: number[]): number[] {
  * @hidden
  */
 export function simplicesToPrimitive(simplices: Simplex[], geometryMeta?: GeometryMeta): Primitive {
-    expectArg('simplices', simplices).toBeObject();
+    expectArg("simplices", simplices).toBeObject();
 
     const actuals: GeometryMeta = simplicesToGeometryMeta(simplices);
 
     if (geometryMeta) {
-        expectArg('geometryMeta', geometryMeta).toBeObject();
-    }
-    else {
+        expectArg("geometryMeta", geometryMeta).toBeObject();
+    } else {
         geometryMeta = actuals;
     }
 
@@ -88,7 +87,7 @@ export function simplicesToPrimitive(simplices: Simplex[], geometryMeta?: Geomet
     const keys = Object.keys(attribMap);
     const keysLen = keys.length;
 
-    // Side effect is to set the index property, but it will be be the same as the array index. 
+    // Side effect is to set the index property, but it will be be the same as the array index.
     const vertices: Vertex[] = computeUniqueVertices(simplices);
     const vsLength = vertices.length;
     // Each simplex produces as many indices as vertices.
@@ -110,7 +109,7 @@ export function simplicesToPrimitive(simplices: Simplex[], geometryMeta?: Geomet
         const vertex = vertices[i];
         const vertexAttribs = vertex.attributes;
         if (vertex.index !== i) {
-            expectArg('vertex.index', i).toSatisfy(false, "vertex.index must equal loop index, i");
+            expectArg("vertex.index", i).toSatisfy(false, "vertex.index must equal loop index, i");
         }
         for (let k = 0; k < keysLen; k++) {
             const output = outputs[k];

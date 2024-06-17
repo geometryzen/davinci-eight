@@ -1,12 +1,12 @@
-import { reduce } from '../atoms/reduce';
-import { mustBeDefined } from '../checks/mustBeDefined';
-import { Primitive } from '../core/Primitive';
-import { Vector3 } from '../math/Vector3';
-import { VectorE3 } from '../math/VectorE3';
-import { ConeBuilder } from './ConeBuilder';
-import { CylindricalShellBuilder } from '../shapes/CylindricalShellBuilder';
-import { RingBuilder } from '../shapes/RingBuilder';
-import { AxialShapeBuilder } from './AxialShapeBuilder';
+import { reduce } from "../atoms/reduce";
+import { mustBeDefined } from "../checks/mustBeDefined";
+import { Primitive } from "../core/Primitive";
+import { Vector3 } from "../math/Vector3";
+import { VectorE3 } from "../math/VectorE3";
+import { ConeBuilder } from "./ConeBuilder";
+import { CylindricalShellBuilder } from "../shapes/CylindricalShellBuilder";
+import { RingBuilder } from "../shapes/RingBuilder";
+import { AxialShapeBuilder } from "./AxialShapeBuilder";
 
 /**
  * <p>
@@ -18,8 +18,7 @@ import { AxialShapeBuilder } from './AxialShapeBuilder';
  * @hidden
  */
 export class ArrowBuilder extends AxialShapeBuilder {
-
-    public heightCone = 0.20;
+    public heightCone = 0.2;
 
     public radiusCone = 0.08;
 
@@ -39,8 +38,8 @@ export class ArrowBuilder extends AxialShapeBuilder {
      */
     constructor(axis: VectorE3, cutLine: VectorE3, clockwise: boolean) {
         super();
-        mustBeDefined('axis', axis);
-        mustBeDefined('cutLine', cutLine);
+        mustBeDefined("axis", axis);
+        mustBeDefined("cutLine", cutLine);
         this.e = Vector3.copy(axis).normalize();
         this.cutLine = Vector3.copy(cutLine).normalize();
         this.clockwise = clockwise;
@@ -50,7 +49,6 @@ export class ArrowBuilder extends AxialShapeBuilder {
      *
      */
     toPrimitive(): Primitive {
-
         const heightShaft = 1 - this.heightCone;
         /**
          * The opposite direction to the axis.
@@ -58,7 +56,7 @@ export class ArrowBuilder extends AxialShapeBuilder {
         const back = Vector3.copy(this.e).neg();
 
         /**
-         * The neck is the place where the cone meets the shaft. 
+         * The neck is the place where the cone meets the shaft.
          */
         const neck = Vector3.copy(this.e).scale(heightShaft).add(this.offset);
         neck.rotate(this.tilt);

@@ -1,6 +1,6 @@
-import { Geometric3 } from '../math/Geometric3';
-import { SpinorE3 } from '../math/SpinorE3';
-import { Vector3 } from '../math/Vector3';
+import { Geometric3 } from "../math/Geometric3";
+import { SpinorE3 } from "../math/SpinorE3";
+import { Vector3 } from "../math/Vector3";
 
 /**
  * @hidden

@@ -1,4 +1,4 @@
-import { GeometricE2 } from '../math/GeometricE2';
+import { GeometricE2 } from "../math/GeometricE2";
 
 /**
  * @hidden

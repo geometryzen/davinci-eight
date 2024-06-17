@@ -1,6 +1,6 @@
-import { Shareable } from '../core/Shareable';
-import { ShareableBase } from '../core/ShareableBase';
-import { readOnly } from '../i18n/readOnly';
+import { Shareable } from "../core/Shareable";
+import { ShareableBase } from "../core/ShareableBase";
+import { readOnly } from "../i18n/readOnly";
 
 /**
  * Essentially constructs the ShareableArray without incrementing the
@@ -18,8 +18,7 @@ function transferOwnership<T extends Shareable>(data: T[]): ShareableArray<T> {
             }
         }
         return result;
-    }
-    else {
+    } else {
         return void 0;
     }
 }
@@ -33,7 +32,6 @@ function transferOwnership<T extends Shareable>(data: T[]): ShareableArray<T> {
  * </p>
  */
 export class ShareableArray<T extends Shareable> extends ShareableBase {
-
     /**
      *
      */
@@ -44,7 +42,7 @@ export class ShareableArray<T extends Shareable> extends ShareableBase {
      */
     constructor(elements: T[] = []) {
         super();
-        this.setLoggingName('ShareableArray');
+        this.setLoggingName("ShareableArray");
         this._elements = elements;
         for (let i = 0, l = this._elements.length; i < l; i++) {
             const element = this._elements[i];
@@ -134,14 +132,13 @@ export class ShareableArray<T extends Shareable> extends ShareableBase {
     get length(): number {
         if (this._elements) {
             return this._elements.length;
-        }
-        else {
+        } else {
             console.warn("ShareableArray is now a zombie, length is undefined");
             return void 0;
         }
     }
     set length(unused: number) {
-        throw new Error(readOnly('length').message);
+        throw new Error(readOnly("length").message);
     }
 
     /**

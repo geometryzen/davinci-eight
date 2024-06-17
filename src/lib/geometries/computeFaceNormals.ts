@@ -1,10 +1,10 @@
-import { VectorN } from '../atoms/VectorN';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { Simplex } from '../geometries/Simplex';
-import { Vector3 } from '../math/Vector3';
-import { wedgeXY } from '../math/wedgeXY';
-import { wedgeYZ } from '../math/wedgeYZ';
-import { wedgeZX } from '../math/wedgeZX';
+import { VectorN } from "../atoms/VectorN";
+import { GraphicsProgramSymbols } from "../core/GraphicsProgramSymbols";
+import { Simplex } from "../geometries/Simplex";
+import { Vector3 } from "../math/Vector3";
+import { wedgeXY } from "../math/wedgeXY";
+import { wedgeYZ } from "../math/wedgeYZ";
+import { wedgeZX } from "../math/wedgeZX";
 
 /**
  * @hidden

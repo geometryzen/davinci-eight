@@ -1,4 +1,4 @@
-import { UniformGlslType } from './UniformGlslType';
+import { UniformGlslType } from "./UniformGlslType";
 
 /**
  * @hidden

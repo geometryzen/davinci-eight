@@ -1,8 +1,8 @@
-import { mustBeGE } from '../checks/mustBeGE';
-import { mustBeInteger } from '../checks/mustBeInteger';
-import { Coords } from '../math/Coords';
-import { VectorN } from './VectorN';
-import { VertexAttributeMap } from './VertexAttributeMap';
+import { mustBeGE } from "../checks/mustBeGE";
+import { mustBeInteger } from "../checks/mustBeInteger";
+import { Coords } from "../math/Coords";
+import { VectorN } from "./VectorN";
+import { VertexAttributeMap } from "./VertexAttributeMap";
 
 /**
  * @hidden
@@ -10,8 +10,7 @@ import { VertexAttributeMap } from './VertexAttributeMap';
 function stringVectorN(name: string, vector: VectorN<number>): string {
     if (vector) {
         return name + vector.toString();
-    }
-    else {
+    } else {
         return name;
     }
 }
@@ -21,10 +20,12 @@ function stringVectorN(name: string, vector: VectorN<number>): string {
  */
 function stringifyVertex(vertex: Vertex): string {
     const attributes: VertexAttributeMap = vertex.attributes;
-    const attribsKey = Object.keys(attributes).map(function (name: string) {
-        const vector: VectorN<number> = attributes[name];
-        return stringVectorN(name, vector);
-    }).join(' ');
+    const attribsKey = Object.keys(attributes)
+        .map(function (name: string) {
+            const vector: VectorN<number> = attributes[name];
+            return stringVectorN(name, vector);
+        })
+        .join(" ");
     return attribsKey;
 }
 
@@ -33,7 +34,6 @@ function stringifyVertex(vertex: Vertex): string {
  * @hidden
  */
 export class Vertex {
-
     /**
      * The attribute data for this vertex.
      */
@@ -53,8 +53,8 @@ export class Vertex {
      * @param numCoordinates The number of coordinates (dimensionality).
      */
     constructor(numCoordinates: number) {
-        mustBeInteger('numCoordinates', numCoordinates);
-        mustBeGE('numCoordinates', numCoordinates, 0);
+        mustBeInteger("numCoordinates", numCoordinates);
+        mustBeGE("numCoordinates", numCoordinates, 0);
         const data: number[] = [];
         for (let i = 0; i < numCoordinates; i++) {
             data.push(0);

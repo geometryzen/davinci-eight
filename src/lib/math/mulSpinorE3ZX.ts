@@ -1,4 +1,4 @@
-import { SpinorE3 } from './SpinorE3';
+import { SpinorE3 } from "./SpinorE3";
 
 /**
  * @hidden

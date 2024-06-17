@@ -1,13 +1,13 @@
-import { lock, TargetLockedError } from '../core/Lockable';
-import { b2 } from '../geometries/b2';
-import { b3 } from '../geometries/b3';
-import { notImplemented } from '../i18n/notImplemented';
-import { Matrix2 } from '../math/Matrix2';
-import { SpinorE2 } from '../math/SpinorE2';
-import { stringFromCoordinates } from '../math/stringFromCoordinates';
-import { VectorE2 } from '../math/VectorE2';
-import { approx } from './approx';
-import { randomRange } from './randomRange';
+import { lock, TargetLockedError } from "../core/Lockable";
+import { b2 } from "../geometries/b2";
+import { b3 } from "../geometries/b3";
+import { notImplemented } from "../i18n/notImplemented";
+import { Matrix2 } from "../math/Matrix2";
+import { SpinorE2 } from "../math/SpinorE2";
+import { stringFromCoordinates } from "../math/stringFromCoordinates";
+import { VectorE2 } from "../math/VectorE2";
+import { approx } from "./approx";
+import { randomRange } from "./randomRange";
 
 const sqrt = Math.sqrt;
 
@@ -27,41 +27,38 @@ function coordinates(m: VectorE2): number[] {
 export class Vector2 {
     // Lockable
     public isLocked(): boolean {
-        return typeof (this as any)['lock_'] === 'number';
+        return typeof (this as any)["lock_"] === "number";
     }
 
     public lock(): number {
         if (this.isLocked()) {
             throw new Error("already locked");
-        }
-        else {
-            (this as any)['lock_'] = Math.random();
-            return (this as any)['lock_'];
+        } else {
+            (this as any)["lock_"] = Math.random();
+            return (this as any)["lock_"];
         }
     }
 
     public unlock(token: number): void {
-        if (typeof token !== 'number') {
+        if (typeof token !== "number") {
             throw new Error("token must be a number.");
         }
         if (!this.isLocked()) {
             throw new Error("not locked");
-        }
-        else if ((this as any)['lock_'] === token) {
-            (this as any)['lock_'] = void 0;
-        }
-        else {
+        } else if ((this as any)["lock_"] === token) {
+            (this as any)["lock_"] = void 0;
+        } else {
             throw new Error("unlock denied");
         }
     }
 
     /**
-     * 
+     *
      */
     private coords_: number[];
 
     /**
-     * 
+     *
      */
     private modified_: boolean;
 
@@ -83,7 +80,7 @@ export class Vector2 {
     }
     set modified(modified: boolean) {
         if (this.isLocked()) {
-            throw new TargetLockedError('set modified');
+            throw new TargetLockedError("set modified");
         }
         this.modified_ = modified;
     }
@@ -91,8 +88,6 @@ export class Vector2 {
     getComponent(i: number): number {
         return this.coords_[i];
     }
-
-
 
     /**
      *
@@ -102,7 +97,7 @@ export class Vector2 {
     }
     set x(value: number) {
         if (this.isLocked()) {
-            throw new TargetLockedError('set x');
+            throw new TargetLockedError("set x");
         }
         const coords = this.coords_;
         this.modified_ = this.modified_ || coords[COORD_X] !== value;
@@ -118,7 +113,7 @@ export class Vector2 {
 
     set y(value: number) {
         if (this.isLocked()) {
-            throw new TargetLockedError('set y');
+            throw new TargetLockedError("set y");
         }
         const coords = this.coords_;
         this.modified_ = this.modified_ || coords[COORD_Y] !== value;
@@ -303,8 +298,8 @@ export class Vector2 {
         return this;
     }
     roundToZero() {
-        this.x = (this.x < 0) ? Math.ceil(this.x) : Math.floor(this.x);
-        this.y = (this.y < 0) ? Math.ceil(this.y) : Math.floor(this.y);
+        this.x = this.x < 0 ? Math.ceil(this.x) : Math.floor(this.x);
+        this.y = this.y < 0 ? Math.ceil(this.y) : Math.floor(this.y);
         return this;
     }
 
@@ -360,7 +355,7 @@ export class Vector2 {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     reflect(n: VectorE2): Vector2 {
-        throw new Error(notImplemented('reflect').message);
+        throw new Error(notImplemented("reflect").message);
     }
 
     /**
@@ -390,7 +385,7 @@ export class Vector2 {
      * @method lerp
      * @param v
      * @param α
-     * @chainable 
+     * @chainable
      */
     lerp(v: VectorE2, α: number): Vector2 {
         this.x += (v.x - this.x) * α;
@@ -416,7 +411,7 @@ export class Vector2 {
     }
 
     equals(v: VectorE2): boolean {
-        return ((v.x === this.x) && (v.y === this.y));
+        return v.x === this.x && v.y === this.y;
     }
 
     /**
@@ -430,7 +425,7 @@ export class Vector2 {
     }
 
     /**
-     * 
+     *
      */
     toArray(): number[] {
         return coordinates(this);
@@ -441,8 +436,10 @@ export class Vector2 {
      * @param fractionDigits
      */
     toExponential(fractionDigits?: number): string {
-        const coordToString = function (coord: number): string { return coord.toExponential(fractionDigits); };
-        return stringFromCoordinates(this.coords_, coordToString, ['e1', 'e2']);
+        const coordToString = function (coord: number): string {
+            return coord.toExponential(fractionDigits);
+        };
+        return stringFromCoordinates(this.coords_, coordToString, ["e1", "e2"]);
     }
 
     /**
@@ -450,8 +447,10 @@ export class Vector2 {
      * @param fractionDigits
      */
     toFixed(fractionDigits?: number): string {
-        const coordToString = function (coord: number): string { return coord.toFixed(fractionDigits); };
-        return stringFromCoordinates(this.coords_, coordToString, ['e1', 'e2']);
+        const coordToString = function (coord: number): string {
+            return coord.toFixed(fractionDigits);
+        };
+        return stringFromCoordinates(this.coords_, coordToString, ["e1", "e2"]);
     }
 
     /**
@@ -459,8 +458,10 @@ export class Vector2 {
      * @param precision
      */
     toPrecision(precision?: number): string {
-        const coordToString = function (coord: number): string { return coord.toPrecision(precision); };
-        return stringFromCoordinates(this.coords_, coordToString, ['e1', 'e2']);
+        const coordToString = function (coord: number): string {
+            return coord.toPrecision(precision);
+        };
+        return stringFromCoordinates(this.coords_, coordToString, ["e1", "e2"]);
     }
 
     /**
@@ -468,8 +469,10 @@ export class Vector2 {
      * @param radix
      */
     toString(radix?: number): string {
-        const coordToString = function (coord: number): string { return coord.toString(radix); };
-        return stringFromCoordinates(this.coords_, coordToString, ['e1', 'e2']);
+        const coordToString = function (coord: number): string {
+            return coord.toString(radix);
+        };
+        return stringFromCoordinates(this.coords_, coordToString, ["e1", "e2"]);
     }
 
     fromArray(array: number[], offset = 0) {
@@ -478,7 +481,7 @@ export class Vector2 {
         return this;
     }
 
-    fromAttribute(attribute: { itemSize: number, array: number[] }, index: number, offset = 0) {
+    fromAttribute(attribute: { itemSize: number; array: number[] }, index: number, offset = 0) {
         index = index * attribute.itemSize + offset;
         this.x = attribute.array[index];
         this.y = attribute.array[index + 1];

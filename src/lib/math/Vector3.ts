@@ -1,26 +1,26 @@
-import { isDefined } from '../checks/isDefined';
-import { isNumber } from '../checks/isNumber';
-import { lock, TargetLockedError } from '../core/Lockable';
-import { readOnly } from '../i18n/readOnly';
-import { approx } from './approx';
-import { BivectorE3 } from './BivectorE3';
-import { dotVectorE3 } from './dotVectorE3';
-import { Matrix3 } from './Matrix3';
-import { Matrix4 } from './Matrix4';
-import { randomRange } from './randomRange';
-import { SpinorE3 } from './SpinorE3';
-import { toStringCustom } from './toStringCustom';
-import { VectorE3 } from './VectorE3';
-import { wedgeXY } from './wedgeXY';
-import { wedgeYZ } from './wedgeYZ';
-import { wedgeZX } from './wedgeZX';
+import { isDefined } from "../checks/isDefined";
+import { isNumber } from "../checks/isNumber";
+import { lock, TargetLockedError } from "../core/Lockable";
+import { readOnly } from "../i18n/readOnly";
+import { approx } from "./approx";
+import { BivectorE3 } from "./BivectorE3";
+import { dotVectorE3 } from "./dotVectorE3";
+import { Matrix3 } from "./Matrix3";
+import { Matrix4 } from "./Matrix4";
+import { randomRange } from "./randomRange";
+import { SpinorE3 } from "./SpinorE3";
+import { toStringCustom } from "./toStringCustom";
+import { VectorE3 } from "./VectorE3";
+import { wedgeXY } from "./wedgeXY";
+import { wedgeYZ } from "./wedgeYZ";
+import { wedgeZX } from "./wedgeZX";
 
 const sqrt = Math.sqrt;
 
 const COORD_X = 0;
 const COORD_Y = 1;
 const COORD_Z = 2;
-const BASIS_LABELS = ['e1', 'e2', 'e3'];
+const BASIS_LABELS = ["e1", "e2", "e3"];
 
 /**
  * Coordinates corresponding to basis labels.
@@ -35,41 +35,38 @@ function coordinates(m: VectorE3): number[] {
 export class Vector3 {
     // Lockable
     public isLocked(): boolean {
-        return typeof (this as any)['lock_'] === 'number';
+        return typeof (this as any)["lock_"] === "number";
     }
 
     public lock(): number {
         if (this.isLocked()) {
             throw new Error("already locked");
-        }
-        else {
-            (this as any)['lock_'] = Math.random();
-            return (this as any)['lock_'];
+        } else {
+            (this as any)["lock_"] = Math.random();
+            return (this as any)["lock_"];
         }
     }
 
     public unlock(token: number): void {
-        if (typeof token !== 'number') {
+        if (typeof token !== "number") {
             throw new Error("token must be a number.");
         }
         if (!this.isLocked()) {
             throw new Error("not locked");
-        }
-        else if ((this as any)['lock_'] === token) {
-            (this as any)['lock_'] = void 0;
-        }
-        else {
+        } else if ((this as any)["lock_"] === token) {
+            (this as any)["lock_"] = void 0;
+        } else {
             throw new Error("unlock denied");
         }
     }
 
     /**
-     * 
+     *
      */
     private coords_: number[];
 
     /**
-     * 
+     *
      */
     private modified_: boolean;
 
@@ -101,7 +98,7 @@ export class Vector3 {
     }
     set modified(modified: boolean) {
         if (this.isLocked()) {
-            throw new TargetLockedError('set modified');
+            throw new TargetLockedError("set modified");
         }
         this.modified_ = modified;
     }
@@ -118,7 +115,7 @@ export class Vector3 {
     }
     set x(value: number) {
         if (this.isLocked()) {
-            throw new TargetLockedError('set x');
+            throw new TargetLockedError("set x");
         }
         const coords = this.coords_;
         this.modified_ = this.modified_ || coords[COORD_X] !== value;
@@ -133,7 +130,7 @@ export class Vector3 {
     }
     set y(value: number) {
         if (this.isLocked()) {
-            throw new TargetLockedError('set y');
+            throw new TargetLockedError("set y");
         }
         const coords = this.coords_;
         this.modified_ = this.modified_ || coords[COORD_Y] !== value;
@@ -148,7 +145,7 @@ export class Vector3 {
     }
     set z(value: number) {
         if (this.isLocked()) {
-            throw new TargetLockedError('set z');
+            throw new TargetLockedError("set z");
         }
         const coords = this.coords_;
         this.modified_ = this.modified_ || coords[COORD_Z] !== value;
@@ -162,7 +159,7 @@ export class Vector3 {
         return this.isZero() ? 0x0 : 0x2;
     }
     set maskG3(unused: number) {
-        throw new Error(readOnly('maskG3').message);
+        throw new Error(readOnly("maskG3").message);
     }
 
     /**
@@ -216,14 +213,15 @@ export class Vector3 {
      * @chainable
      */
     applyMatrix4(σ: Matrix4): Vector3 {
-
-        const x = this.x, y = this.y, z = this.z;
+        const x = this.x,
+            y = this.y,
+            z = this.z;
 
         const e = σ.elements;
 
-        this.x = e[0x0] * x + e[0x4] * y + e[0x8] * z + e[0xC];
-        this.y = e[0x1] * x + e[0x5] * y + e[0x9] * z + e[0xD];
-        this.z = e[0x2] * x + e[0x6] * y + e[0xA] * z + e[0xE];
+        this.x = e[0x0] * x + e[0x4] * y + e[0x8] * z + e[0xc];
+        this.y = e[0x1] * x + e[0x5] * y + e[0x9] * z + e[0xd];
+        this.z = e[0x2] * x + e[0x6] * y + e[0xa] * z + e[0xe];
 
         return this;
     }
@@ -304,8 +302,7 @@ export class Vector3 {
             this.y = source.y;
             this.z = source.z;
             return this;
-        }
-        else {
+        } else {
             throw new Error("source for copy must be a vector");
         }
     }
@@ -345,9 +342,12 @@ export class Vector3 {
      * @returns a x b
      */
     cross2(a: VectorE3, b: VectorE3): Vector3 {
-
-        const ax = a.x, ay = a.y, az = a.z;
-        const bx = b.x, by = b.y, bz = b.z;
+        const ax = a.x,
+            ay = a.y,
+            az = a.z;
+        const bx = b.x,
+            by = b.y,
+            bz = b.z;
 
         this.x = wedgeYZ(ax, ay, az, bx, by, bz);
         this.y = wedgeZX(ax, ay, az, bx, by, bz);
@@ -362,8 +362,7 @@ export class Vector3 {
     distanceTo(point: VectorE3): number {
         if (isDefined(point)) {
             return sqrt(this.quadranceTo(point));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -378,8 +377,7 @@ export class Vector3 {
             const dy = this.y - point.y;
             const dz = this.z - point.z;
             return dx * dx + dy * dy + dz * dz;
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -396,8 +394,7 @@ export class Vector3 {
             this.x *= invScalar;
             this.y *= invScalar;
             this.z *= invScalar;
-        }
-        else {
+        } else {
             this.x = 0;
             this.y = 0;
             this.z = 0;
@@ -431,8 +428,7 @@ export class Vector3 {
             this.x = B.yz;
             this.y = B.zx;
             this.z = B.xy;
-        }
-        else {
+        } else {
             this.x = -B.yz;
             this.y = -B.zx;
             this.z = -B.xy;
@@ -446,8 +442,7 @@ export class Vector3 {
     equals(other: any): boolean {
         if (other instanceof Vector3) {
             return this.x === other.x && this.y === other.y && this.z === other.z;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -524,8 +519,7 @@ export class Vector3 {
         const m = this.magnitude();
         if (m !== 0) {
             return this.divByScalar(m);
-        }
-        else {
+        } else {
             return this.zero();
         }
     }
@@ -610,7 +604,7 @@ export class Vector3 {
     }
 
     /**
-     * 
+     *
      */
     toArray(): number[] {
         return coordinates(this);
@@ -621,7 +615,9 @@ export class Vector3 {
      * @returns
      */
     toExponential(fractionDigits?: number): string {
-        const coordToString = function (coord: number): string { return coord.toExponential(fractionDigits); };
+        const coordToString = function (coord: number): string {
+            return coord.toExponential(fractionDigits);
+        };
         return toStringCustom(coordinates(this), coordToString, BASIS_LABELS);
     }
 
@@ -630,7 +626,9 @@ export class Vector3 {
      * @returns
      */
     toFixed(fractionDigits?: number): string {
-        const coordToString = function (coord: number): string { return coord.toFixed(fractionDigits); };
+        const coordToString = function (coord: number): string {
+            return coord.toFixed(fractionDigits);
+        };
         return toStringCustom(coordinates(this), coordToString, BASIS_LABELS);
     }
 
@@ -639,7 +637,9 @@ export class Vector3 {
      * @returns
      */
     toPrecision(precision?: number): string {
-        const coordToString = function (coord: number): string { return coord.toPrecision(precision); };
+        const coordToString = function (coord: number): string {
+            return coord.toPrecision(precision);
+        };
         return toStringCustom(coordinates(this), coordToString, BASIS_LABELS);
     }
 
@@ -648,7 +648,9 @@ export class Vector3 {
      * @returns
      */
     toString(radix?: number): string {
-        const coordToString = function (coord: number): string { return coord.toString(radix); };
+        const coordToString = function (coord: number): string {
+            return coord.toString(radix);
+        };
         return toStringCustom(coordinates(this), coordToString, BASIS_LABELS);
     }
 
@@ -665,8 +667,7 @@ export class Vector3 {
     __add__(rhs: Vector3): Vector3 {
         if (rhs instanceof Vector3) {
             return lock(this.clone().add(rhs, 1.0));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -674,8 +675,7 @@ export class Vector3 {
     __radd__(lhs: Vector3): Vector3 {
         if (lhs instanceof Vector3) {
             return lock(lhs.clone().add(this, 1.0));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -683,8 +683,7 @@ export class Vector3 {
     __sub__(rhs: Vector3): Vector3 {
         if (rhs instanceof Vector3) {
             return lock(this.clone().sub(rhs));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -692,8 +691,7 @@ export class Vector3 {
     __rsub__(lhs: Vector3): Vector3 {
         if (lhs instanceof Vector3) {
             return lock(lhs.clone().sub(this, 1.0));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -701,20 +699,17 @@ export class Vector3 {
     __mul__(rhs: number): Vector3 {
         if (isNumber(rhs)) {
             return lock(this.clone().scale(rhs));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
 
     __rmul__(lhs: number | Matrix3): Vector3 {
-        if (typeof lhs === 'number') {
+        if (typeof lhs === "number") {
             return lock(this.clone().scale(lhs));
-        }
-        else if (lhs instanceof Matrix3) {
+        } else if (lhs instanceof Matrix3) {
             return lock(this.clone().applyMatrix(lhs));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -722,8 +717,7 @@ export class Vector3 {
     __div__(rhs: number): Vector3 {
         if (isNumber(rhs)) {
             return lock(this.clone().divByScalar(rhs));
-        }
-        else {
+        } else {
             return void 0;
         }
     }

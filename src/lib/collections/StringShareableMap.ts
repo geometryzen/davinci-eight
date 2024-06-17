@@ -1,11 +1,10 @@
-import { Shareable } from '../core/Shareable';
-import { ShareableBase } from '../core/ShareableBase';
+import { Shareable } from "../core/Shareable";
+import { ShareableBase } from "../core/ShareableBase";
 
 /**
  * @hidden
  */
 export class StringShareableMap<V extends Shareable> extends ShareableBase implements Shareable {
-
     private elements: { [key: string]: V } = {};
 
     /**
@@ -13,7 +12,7 @@ export class StringShareableMap<V extends Shareable> extends ShareableBase imple
      */
     constructor() {
         super();
-        this.setLoggingName('StringShareableMap');
+        this.setLoggingName("StringShareableMap");
     }
 
     protected destructor(levelUp: number): void {
@@ -38,8 +37,7 @@ export class StringShareableMap<V extends Shareable> extends ShareableBase imple
                 element.addRef();
             }
             return element;
-        }
-        else {
+        } else {
             return void 0;
         }
     }

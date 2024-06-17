@@ -1,12 +1,12 @@
-import { Color } from '../core/Color';
-import { ContextManager } from '../core/ContextManager';
-import { Facet } from '../core/Facet';
-import { Renderable } from '../core/Renderable';
-import { Geometric3 } from '../math/Geometric3';
-import { normVectorE3 } from '../math/normVectorE3';
-import { ArrowHead } from './ArrowHead';
-import { ArrowOptions } from './ArrowOptions';
-import { ArrowTail } from './ArrowTail';
+import { Color } from "../core/Color";
+import { ContextManager } from "../core/ContextManager";
+import { Facet } from "../core/Facet";
+import { Renderable } from "../core/Renderable";
+import { Geometric3 } from "../math/Geometric3";
+import { normVectorE3 } from "../math/normVectorE3";
+import { ArrowHead } from "./ArrowHead";
+import { ArrowOptions } from "./ArrowOptions";
+import { ArrowTail } from "./ArrowTail";
 
 /**
  * An arrow with a fixed head and variable length.
@@ -25,7 +25,7 @@ export class ArrowFH implements Renderable {
     private $isHeadVisible = true;
     /**
      * @param contextManager This will usually be provided by the `Engine`.
-     * @param options 
+     * @param options
      */
     constructor(contextManager: ContextManager, options: Partial<ArrowOptions> = {}) {
         this.head = new ArrowHead(contextManager, options);

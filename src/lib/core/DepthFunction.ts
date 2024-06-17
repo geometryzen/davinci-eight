@@ -3,7 +3,6 @@
  * under which the pixel will be drawn. The default value is LESS.
  */
 export enum DepthFunction {
-
     /**
      * never pass
      */

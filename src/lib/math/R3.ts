@@ -1,9 +1,9 @@
-import { mustBeNumber } from '../checks/mustBeNumber';
-import { SpinorE3 } from './SpinorE3';
-import { VectorE3 } from './VectorE3';
-import { wedgeXY } from './wedgeXY';
-import { wedgeYZ } from './wedgeYZ';
-import { wedgeZX } from './wedgeZX';
+import { mustBeNumber } from "../checks/mustBeNumber";
+import { SpinorE3 } from "./SpinorE3";
+import { VectorE3 } from "./VectorE3";
+import { wedgeXY } from "./wedgeXY";
+import { wedgeYZ } from "./wedgeYZ";
+import { wedgeZX } from "./wedgeZX";
 
 /**
  * A vector with cartesian coordinates and immutable.
@@ -90,10 +90,7 @@ export function vec(x: number, y: number, z: number): Readonly<R3> {
         const iz = α * z - b * y + c * x;
         const iα = b * x + c * y + a * z;
 
-        return vec(
-            ix * α + iα * b + iy * a - iz * c,
-            iy * α + iα * c + iz * b - ix * a,
-            iz * α + iα * a + ix * c - iy * b);
+        return vec(ix * α + iα * b + iy * a - iz * c, iy * α + iα * c + iz * b - ix * a, iz * α + iα * a + ix * c - iy * b);
     };
     const scale = function scale(α: number): Readonly<R3> {
         return vec(α * x, α * y, α * z);
@@ -121,8 +118,7 @@ export function vec(x: number, y: number, z: number): Readonly<R3> {
             const magnitude = Math.sqrt(x * x + y * y + z * z);
             if (magnitude !== 0) {
                 return vec(x / magnitude, y / magnitude, z / magnitude);
-            }
-            else {
+            } else {
                 // direction is ambiguous (undefined) for the zero vector.
                 return void 0;
             }
@@ -149,11 +145,11 @@ export function vec(x: number, y: number, z: number): Readonly<R3> {
             return vec(lhs.x - x, lhs.y - y, lhs.z - z);
         },
         __mul__(rhs: number): Readonly<R3> {
-            mustBeNumber('rhs', rhs);
+            mustBeNumber("rhs", rhs);
             return vec(x * rhs, y * rhs, z * rhs);
         },
         __rmul__(lhs: number): Readonly<R3> {
-            mustBeNumber('lhs', lhs);
+            mustBeNumber("lhs", lhs);
             return vec(lhs * x, lhs * y, lhs * z);
         },
         __pos__(): Readonly<R3> {

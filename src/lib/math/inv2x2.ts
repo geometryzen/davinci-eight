@@ -3,9 +3,10 @@
  * @hidden
  */
 export function inv2x2(me: Float32Array, te: Float32Array): void {
-
-    const n11 = me[0x0], n12 = me[0x2];
-    const n21 = me[0x1], n22 = me[0x3];
+    const n11 = me[0x0],
+        n12 = me[0x2];
+    const n21 = me[0x1],
+        n22 = me[0x3];
 
     // Row 1
     const o11 = n22;
@@ -19,6 +20,8 @@ export function inv2x2(me: Float32Array, te: Float32Array): void {
 
     const α = 1 / det;
 
-    te[0x0] = o11 * α; te[0x4] = o12;
-    te[0x1] = o21 * α; te[0x5] = o22;
+    te[0x0] = o11 * α;
+    te[0x4] = o12;
+    te[0x1] = o21 * α;
+    te[0x5] = o22;
 }

@@ -1,5 +1,5 @@
-import { GeometryMode } from '../geometries/GeometryMode';
-import { VectorE3 } from '../math/VectorE3';
+import { GeometryMode } from "../geometries/GeometryMode";
+import { VectorE3 } from "../math/VectorE3";
 
 /**
  *
@@ -25,7 +25,7 @@ export interface GridOptions extends Record<string, unknown> {
      */
     aNormal?: (u: number, v: number) => VectorE3;
     /**
-     * 
+     *
      */
     axis?: VectorE3;
     /**
@@ -33,11 +33,11 @@ export interface GridOptions extends Record<string, unknown> {
      */
     aColor?: (u: number, v: number) => { r: number; g: number; b: number };
     /**
-     * 
+     *
      */
     color?: { r: number; g: number; b: number };
     /**
-     * 
+     *
      */
     mode?: GeometryMode;
     /**

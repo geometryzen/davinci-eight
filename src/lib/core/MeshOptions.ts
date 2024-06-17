@@ -1,4 +1,4 @@
-import { VectorE3 } from '../math/VectorE3';
+import { VectorE3 } from "../math/VectorE3";
 
 /**
  *

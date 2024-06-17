@@ -1,30 +1,30 @@
-import { ContextManager } from '../core/ContextManager';
-import { ShareableBase } from '../core/ShareableBase';
+import { ContextManager } from "../core/ContextManager";
+import { ShareableBase } from "../core/ShareableBase";
 
 /**
  * Displays details about the WegGL version to the console.
  * @hidden
  */
 export class VersionLogger extends ShareableBase {
-  constructor(private contextManager: ContextManager) {
-    super();
-    this.setLoggingName("VersionLogger");
-  }
+    constructor(private contextManager: ContextManager) {
+        super();
+        this.setLoggingName("VersionLogger");
+    }
 
-  protected destructor(levelUp: number): void {
-    super.destructor(levelUp + 1);
-  }
+    protected destructor(levelUp: number): void {
+        super.destructor(levelUp + 1);
+    }
 
-  contextFree(): void {
-    // Do nothing.
-  }
+    contextFree(): void {
+        // Do nothing.
+    }
 
-  contextGain(): void {
-    const gl = this.contextManager.gl;
-    console.log(gl.getParameter(gl.VERSION));
-  }
+    contextGain(): void {
+        const gl = this.contextManager.gl;
+        console.log(gl.getParameter(gl.VERSION));
+    }
 
-  contextLost(): void {
-    // Do nothing.
-  }
+    contextLost(): void {
+        // Do nothing.
+    }
 }

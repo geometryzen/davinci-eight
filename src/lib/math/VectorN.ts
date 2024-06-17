@@ -1,7 +1,7 @@
-import { isDefined } from '../checks/isDefined';
-import { isUndefined } from '../checks/isUndefined';
-import { mustSatisfy } from '../checks/mustSatisfy';
-import { Lockable, lockable, TargetLockedError } from '../core/Lockable';
+import { isDefined } from "../checks/isDefined";
+import { isUndefined } from "../checks/isUndefined";
+import { mustSatisfy } from "../checks/mustSatisfy";
+import { Lockable, lockable, TargetLockedError } from "../core/Lockable";
 
 /**
  * @hidden
@@ -28,14 +28,14 @@ function verboten(operation: string): string {
  * @hidden
  */
 function verbotenPush(): string {
-    return verboten(pushString('T'));
+    return verboten(pushString("T"));
 }
 
 /**
  * @hidden
  */
 function verbotenPop(): string {
-    return verboten(popString('T'));
+    return verboten(popString("T"));
 }
 
 /**
@@ -43,7 +43,7 @@ function verbotenPop(): string {
  */
 export class VectorN<T> implements Lockable {
     /**
-     * 
+     *
      */
     private readonly lock_ = lockable();
     /**
@@ -72,9 +72,10 @@ export class VectorN<T> implements Lockable {
         if (isDefined(size)) {
             this.size_ = size;
             this.data_ = data;
-            mustSatisfy('data.length', data.length === size, () => { return `${size}`; });
-        }
-        else {
+            mustSatisfy("data.length", data.length === size, () => {
+                return `${size}`;
+            });
+        } else {
             this.size_ = void 0;
             this.data_ = data;
         }
@@ -100,7 +101,7 @@ export class VectorN<T> implements Lockable {
     }
     set coords(data: T[]) {
         if (this.isLocked()) {
-            throw new TargetLockedError('coords');
+            throw new TargetLockedError("coords");
         }
         this.data_ = data;
         this.modified_ = true;
@@ -139,12 +140,11 @@ export class VectorN<T> implements Lockable {
      */
     pop(): T {
         if (this.isLocked()) {
-            throw new TargetLockedError('pop');
+            throw new TargetLockedError("pop");
         }
         if (isUndefined(this.size_)) {
             return this.coords.pop();
-        }
-        else {
+        } else {
             throw new Error(verbotenPop());
         }
     }
@@ -155,15 +155,14 @@ export class VectorN<T> implements Lockable {
      */
     push(value: T): number {
         if (this.isLocked()) {
-            throw new TargetLockedError('push');
+            throw new TargetLockedError("push");
         }
         if (isUndefined(this.size_)) {
             const data = this.coords;
             const newLength = data.push(value);
             this.coords = data;
             return newLength;
-        }
-        else {
+        } else {
             throw new Error(verbotenPush());
         }
     }
@@ -174,7 +173,7 @@ export class VectorN<T> implements Lockable {
      */
     setComponent(index: number, value: T): void {
         if (this.isLocked()) {
-            throw new TargetLockedError('setComponent');
+            throw new TargetLockedError("setComponent");
         }
         const coords: T[] = this.coords;
         const previous = coords[index];

@@ -1,7 +1,7 @@
-import { dotVectorE2 } from './dotVectorE2';
-import { quadVectorE2 } from './quadVectorE2';
-import { SpinorE2 } from './SpinorE2';
-import { VectorE2 } from './VectorE2';
+import { dotVectorE2 } from "./dotVectorE2";
+import { quadVectorE2 } from "./quadVectorE2";
+import { SpinorE2 } from "./SpinorE2";
+import { VectorE2 } from "./VectorE2";
 
 /**
  * @hidden
@@ -35,8 +35,7 @@ export function rotorFromDirectionsE2(a: VectorE2, b: VectorE2, m: Output): void
         m.versor(b, a);
         m.addScalar(BA);
         m.divByScalar(denom);
-    }
-    else {
+    } else {
         // The denominator is zero when |a||b| + a << b = 0.
         // If θ is the angle between a and b, then  cos(θ) = (a << b) /|a||b| = -1
         // Then a and b are anti-parallel.

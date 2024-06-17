@@ -1,12 +1,12 @@
-import { VectorN } from '../atoms/VectorN';
-import { Vertex } from '../atoms/Vertex';
-import { VertexAttributeMap } from '../atoms/VertexAttributeMap';
-import { mustBeEQ } from '../checks/mustBeEQ';
-import { mustBeGE } from '../checks/mustBeGE';
-import { mustBeInteger } from '../checks/mustBeInteger';
-import { mustBeLE } from '../checks/mustBeLE';
-import { VectorN as DefaultVectorN } from '../math/VectorN';
-import { SimplexMode } from './SimplexMode';
+import { VectorN } from "../atoms/VectorN";
+import { Vertex } from "../atoms/Vertex";
+import { VertexAttributeMap } from "../atoms/VertexAttributeMap";
+import { mustBeEQ } from "../checks/mustBeEQ";
+import { mustBeGE } from "../checks/mustBeGE";
+import { mustBeInteger } from "../checks/mustBeInteger";
+import { mustBeLE } from "../checks/mustBeLE";
+import { VectorN as DefaultVectorN } from "../math/VectorN";
+import { SimplexMode } from "./SimplexMode";
 
 /**
  * @hidden
@@ -23,7 +23,7 @@ function checkIntegerArg(name: string, n: number, min: number, max: number): num
  */
 function checkCountArg(count: number): number {
     // TODO: The count range should depend upon the k value of the simplex.
-    return checkIntegerArg('count', count, 0, 7);
+    return checkIntegerArg("count", count, 0, 7);
 }
 
 /**
@@ -37,7 +37,7 @@ function concatReduce(a: Simplex[], b: Simplex[]): Simplex[] {
  * @hidden
  */
 function lerp(a: number[], b: number[], alpha: number, data: number[] = []): number[] {
-    mustBeEQ('a.length', a.length, b.length);
+    mustBeEQ("a.length", a.length, b.length);
     const dims = a.length;
     let i: number;
     const beta = 1 - alpha;
@@ -51,7 +51,6 @@ function lerp(a: number[], b: number[], alpha: number, data: number[] = []): num
  * @hidden
  */
 function lerpVertexAttributeMap(a: VertexAttributeMap, b: VertexAttributeMap, alpha: number): VertexAttributeMap {
-
     const attribMap: VertexAttributeMap = {};
 
     const keys = Object.keys(a);
@@ -76,7 +75,7 @@ function lerpVectorN(a: VectorN<number>, b: VectorN<number>, alpha: number): Vec
 export class Simplex {
     public vertices: Vertex[] = [];
     constructor(k: SimplexMode) {
-        mustBeInteger('k', k);
+        mustBeInteger("k", k);
         const numVertices: number = k + 1;
         const numCoordinates = 0;
         for (let i = 0; i < numVertices; i++) {
@@ -87,7 +86,9 @@ export class Simplex {
         return this.vertices.length - 1;
     }
     public static indices(simplex: Simplex): number[] {
-        return simplex.vertices.map(function (vertex) { return vertex.index; });
+        return simplex.vertices.map(function (vertex) {
+            return vertex.index;
+        });
     }
     private static boundaryMap(simplex: Simplex): Simplex[] {
         const vertices = simplex.vertices;
@@ -105,23 +106,19 @@ export class Simplex {
             line20.vertices[0].attributes = vertices[2].attributes;
             line20.vertices[1].attributes = vertices[0].attributes;
             return [line01, line12, line20];
-        }
-        else if (k === SimplexMode.LINE) {
+        } else if (k === SimplexMode.LINE) {
             const point0 = new Simplex(k - 1);
             point0.vertices[0].attributes = simplex.vertices[0].attributes;
 
             const point1 = new Simplex(k - 1);
             point1.vertices[0].attributes = simplex.vertices[1].attributes;
             return [point0, point1];
-        }
-        else if (k === SimplexMode.POINT) {
+        } else if (k === SimplexMode.POINT) {
             // For consistency, we get one empty simplex rather than an empty list.
             return [new Simplex(k - 1)];
-        }
-        else if (k === SimplexMode.EMPTY) {
+        } else if (k === SimplexMode.EMPTY) {
             return [];
-        }
-        else {
+        } else {
             // TODO: Handle the TETRAHEDRON and general cases.
             throw new Error("Unexpected k-simplex, k = " + simplex.k + " @ Simplex.boundaryMap()");
         }
@@ -160,8 +157,7 @@ export class Simplex {
             divs.push(face2);
             divs.push(face3);
             divs.push(face4);
-        }
-        else if (k === SimplexMode.LINE) {
+        } else if (k === SimplexMode.LINE) {
             const a = vertices[0].attributes;
             const b = vertices[1].attributes;
 
@@ -176,14 +172,11 @@ export class Simplex {
 
             divs.push(line1);
             divs.push(line2);
-        }
-        else if (k === SimplexMode.POINT) {
+        } else if (k === SimplexMode.POINT) {
             divs.push(simplex);
-        }
-        else if (k === SimplexMode.EMPTY) {
+        } else if (k === SimplexMode.EMPTY) {
             // Ignore, don't push is the generalization.
-        }
-        else {
+        } else {
             throw new Error(k + "-simplex is not supported");
         }
 

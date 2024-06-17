@@ -1,4 +1,4 @@
-import { stringFromCoordinates } from '../math/stringFromCoordinates';
+import { stringFromCoordinates } from "../math/stringFromCoordinates";
 
 /**
  * @hidden

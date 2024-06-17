@@ -1,5 +1,5 @@
-import { Attribute } from './Attribute';
-import { computeCount } from './computeCount';
+import { Attribute } from "./Attribute";
+import { computeCount } from "./computeCount";
 
 /**
  * Computes the interleaved attribute values array.

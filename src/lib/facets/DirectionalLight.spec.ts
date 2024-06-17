@@ -1,11 +1,10 @@
-import { Color } from '../core/Color';
-import { DirectionalLight } from './DirectionalLight';
-import { Geometric3 } from '../math/Geometric3';
-import { Vector3 } from '../math/Vector3';
+import { Color } from "../core/Color";
+import { DirectionalLight } from "./DirectionalLight";
+import { Geometric3 } from "../math/Geometric3";
+import { Vector3 } from "../math/Vector3";
 
 describe("DirectionalLight", function () {
     describe("direction", function () {
-
         it("should have a (get) color property", function () {
             const dirLight = new DirectionalLight();
             expect(dirLight.color).toBeDefined();
@@ -45,6 +44,5 @@ describe("DirectionalLight", function () {
             expect(dirLight.direction.y).toBe(dirFixed.y);
             expect(dirLight.direction.z).toBe(dirFixed.z);
         });
-
     });
 });

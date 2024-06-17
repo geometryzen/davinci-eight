@@ -1,11 +1,11 @@
-import { Geometric3 } from '../math/Geometric3';
-import { PerspectiveTransform } from './PerspectiveTransform';
-import { Facet } from '../core/Facet';
-import { FacetVisitor } from '../core/FacetVisitor';
-import { ViewTransform } from './ViewTransform';
-import { Matrix4 } from '../math/Matrix4';
-import { Camera } from './Camera';
-import { Prism } from './Prism';
+import { Geometric3 } from "../math/Geometric3";
+import { PerspectiveTransform } from "./PerspectiveTransform";
+import { Facet } from "../core/Facet";
+import { FacetVisitor } from "../core/FacetVisitor";
+import { ViewTransform } from "./ViewTransform";
+import { Matrix4 } from "../math/Matrix4";
+import { Camera } from "./Camera";
+import { Prism } from "./Prism";
 
 /**
  * <p>
@@ -35,7 +35,7 @@ export class PerspectiveCamera implements Facet, Camera, Prism {
      */
     private P: PerspectiveTransform;
     /**
-     * 
+     *
      */
     private V: ViewTransform;
 
@@ -44,9 +44,9 @@ export class PerspectiveCamera implements Facet, Camera, Prism {
      * @param fov The field of view.
      * @param aspect The aspect is the ratio width / height.
      * @param near The distance of the near plane from the camera.
-     * @param far The distance of the far plane from the camera. 
+     * @param far The distance of the far plane from the camera.
      */
-    constructor(fov = 45 * Math.PI / 180, aspect = 1, near = 0.1, far = 1000) {
+    constructor(fov = (45 * Math.PI) / 180, aspect = 1, near = 0.1, far = 1000) {
         this.P = new PerspectiveTransform(fov, aspect, near, far);
         this.V = new ViewTransform();
     }

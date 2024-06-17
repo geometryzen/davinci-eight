@@ -1,17 +1,17 @@
-import { isDefined } from '../checks/isDefined';
-import { mustBeInteger } from '../checks/mustBeInteger';
-import { mustBeNumber } from '../checks/mustBeNumber';
-import { mustBeObject } from '../checks/mustBeObject';
-import { Primitive } from '../core/Primitive';
-import { vec } from '../math/R3';
-import { Vector3 } from '../math/Vector3';
-import { VectorE3 } from '../math/VectorE3';
-import { ArrowBuilder } from '../shapes/ArrowBuilder';
-import { ArrowHeadBuilder } from '../shapes/ArrowHeadBuilder';
-import { ArrowTailBuilder } from '../shapes/ArrowTailBuilder';
-import { ArrowGeometryOptions } from './ArrowGeometryOptions';
-import { ArrowHeadGeometryOptions } from './ArrowHeadGeometry';
-import { ArrowTailGeometryOptions } from './ArrowTailGeometry';
+import { isDefined } from "../checks/isDefined";
+import { mustBeInteger } from "../checks/mustBeInteger";
+import { mustBeNumber } from "../checks/mustBeNumber";
+import { mustBeObject } from "../checks/mustBeObject";
+import { Primitive } from "../core/Primitive";
+import { vec } from "../math/R3";
+import { Vector3 } from "../math/Vector3";
+import { VectorE3 } from "../math/VectorE3";
+import { ArrowBuilder } from "../shapes/ArrowBuilder";
+import { ArrowHeadBuilder } from "../shapes/ArrowHeadBuilder";
+import { ArrowTailBuilder } from "../shapes/ArrowTailBuilder";
+import { ArrowGeometryOptions } from "./ArrowGeometryOptions";
+import { ArrowHeadGeometryOptions } from "./ArrowHeadGeometry";
+import { ArrowTailGeometryOptions } from "./ArrowTailGeometry";
 
 /**
  * @hidden
@@ -30,11 +30,10 @@ const canonicalCutLine = vec(0, 0, 1);
  * @param options Contains an optional `axis` property
  * @returns the `axis` property (if it is defined), otherwise, the canonical axis, e2.
  */
-const getAxis = function getAxis(options: Pick<ArrowGeometryOptions, 'axis'>): VectorE3 {
+const getAxis = function getAxis(options: Pick<ArrowGeometryOptions, "axis">): VectorE3 {
     if (isDefined(options.axis)) {
         return options.axis;
-    }
-    else {
+    } else {
         return canonicalAxis;
     }
 };
@@ -45,11 +44,10 @@ const getAxis = function getAxis(options: Pick<ArrowGeometryOptions, 'axis'>): V
  * @param options Contains an optional `meridian` property.
  * @returns the `meridian` property (if it is defined), otherwise, the canonical cut line, e3.
  */
-const getCutLine = function getCutLine(options: Pick<ArrowGeometryOptions, 'meridian'>): VectorE3 {
+const getCutLine = function getCutLine(options: Pick<ArrowGeometryOptions, "meridian">): VectorE3 {
     if (isDefined(options.meridian)) {
         return options.meridian;
-    }
-    else {
+    } else {
         return canonicalCutLine;
     }
 };
@@ -58,8 +56,8 @@ const getCutLine = function getCutLine(options: Pick<ArrowGeometryOptions, 'meri
  * @hidden
  * Used by the ArrowGeometry constructor.
  */
-export function arrowPrimitive(options: Pick<ArrowGeometryOptions, 'kind' | 'axis' | 'meridian' | 'radiusCone' | 'stress' | 'thetaSegments' | 'offset'> = { kind: 'ArrowGeometry' }): Primitive {
-    mustBeObject('options', options);
+export function arrowPrimitive(options: Pick<ArrowGeometryOptions, "kind" | "axis" | "meridian" | "radiusCone" | "stress" | "thetaSegments" | "offset"> = { kind: "ArrowGeometry" }): Primitive {
+    mustBeObject("options", options);
 
     const builder = new ArrowBuilder(getAxis(options), getCutLine(options), false);
 
@@ -79,8 +77,8 @@ export function arrowPrimitive(options: Pick<ArrowGeometryOptions, 'kind' | 'axi
 /**
  * @hidden
  */
-export function arrowHeadPrimitive(options: Pick<ArrowHeadGeometryOptions, 'axis' | 'heightCone' | 'meridian' | 'radiusCone' | 'stress' | 'thetaSegments' | 'offset'> = {}): Primitive {
-    mustBeObject('options', options);
+export function arrowHeadPrimitive(options: Pick<ArrowHeadGeometryOptions, "axis" | "heightCone" | "meridian" | "radiusCone" | "stress" | "thetaSegments" | "offset"> = {}): Primitive {
+    mustBeObject("options", options);
 
     const builder = new ArrowHeadBuilder(getAxis(options), getCutLine(options), false);
 
@@ -104,8 +102,8 @@ export function arrowHeadPrimitive(options: Pick<ArrowHeadGeometryOptions, 'axis
 /**
  * @hidden
  */
-export function arrowTailPrimitive(options: Pick<ArrowTailGeometryOptions, 'axis' | 'heightShaft' | 'meridian' | 'radiusShaft' | 'stress' | 'thetaSegments' | 'offset'> = {}): Primitive {
-    mustBeObject('options', options);
+export function arrowTailPrimitive(options: Pick<ArrowTailGeometryOptions, "axis" | "heightShaft" | "meridian" | "radiusShaft" | "stress" | "thetaSegments" | "offset"> = {}): Primitive {
+    mustBeObject("options", options);
 
     const builder = new ArrowTailBuilder(getAxis(options), getCutLine(options), false);
 

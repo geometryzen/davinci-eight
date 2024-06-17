@@ -1,18 +1,18 @@
-import { isDefined } from '../checks/isDefined';
-import { Geometry } from '../core/Geometry';
-import { Material } from '../core/Material';
-import { Mesh } from '../core/Mesh';
-import { SpinorE3 } from '../math/SpinorE3';
-import { VectorE3 } from '../math/VectorE3';
+import { isDefined } from "../checks/isDefined";
+import { Geometry } from "../core/Geometry";
+import { Material } from "../core/Material";
+import { Mesh } from "../core/Mesh";
+import { SpinorE3 } from "../math/SpinorE3";
+import { VectorE3 } from "../math/VectorE3";
 
 /**
  * @hidden
  */
-const ATTITUDE_NAME = 'attitude';
+const ATTITUDE_NAME = "attitude";
 /**
  * @hidden
  */
-const POSITION_NAME = 'position';
+const POSITION_NAME = "position";
 
 /**
  * Deprecated support for 'position' and 'attitude' in options.

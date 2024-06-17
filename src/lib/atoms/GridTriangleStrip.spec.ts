@@ -1,14 +1,12 @@
-import { BeginMode } from '../core/BeginMode';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { Vector2 } from '../math/Vector2';
-import { Vector3 } from '../math/Vector3';
-import { GridTriangleStrip } from './GridTriangleStrip';
+import { BeginMode } from "../core/BeginMode";
+import { GraphicsProgramSymbols } from "../core/GraphicsProgramSymbols";
+import { Vector2 } from "../math/Vector2";
+import { Vector3 } from "../math/Vector3";
+import { GridTriangleStrip } from "./GridTriangleStrip";
 
 describe("GridTriangleStrip", function () {
-
     describe("constructor", function () {
         describe("(0,0)", function () {
-
             const uSegments = 0;
             const vSegments = 0;
             const strip = new GridTriangleStrip(uSegments, vSegments);
@@ -26,11 +24,10 @@ describe("GridTriangleStrip", function () {
             });
             it("should generate the correct VertexArray", function () {
                 const vertex = strip.vertex(0, 0);
-                expect(typeof vertex.attributes).toBe('object');
+                expect(typeof vertex.attributes).toBe("object");
             });
         });
         describe("(1,1)", function () {
-
             const uSegments = 1;
             const vSegments = 1;
             const strip = new GridTriangleStrip(uSegments, vSegments);
@@ -92,7 +89,7 @@ describe("GridTriangleStrip", function () {
 
                 // const arrays = strip.toVertexArrays()
                 const vertex = strip.vertex(0, 0);
-                expect(typeof vertex.attributes).toBe('object');
+                expect(typeof vertex.attributes).toBe("object");
             });
         });
     });

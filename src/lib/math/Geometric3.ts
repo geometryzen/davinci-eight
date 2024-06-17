@@ -1,32 +1,32 @@
-import { mustBeEQ } from '../checks/mustBeEQ';
-import { mustBeInteger } from '../checks/mustBeInteger';
-import { lock, TargetLockedError } from '../core/Lockable';
-import { approx } from './approx';
-import { arraysEQ } from './arraysEQ';
-import { BivectorE3 } from './BivectorE3';
-import { CartesianG3 } from './CartesianG3';
-import { dotVectorE3 as dotVector } from './dotVectorE3';
-import { extG3 } from './extG3';
-import { gauss } from './gauss';
-import { GeometricE3 } from './GeometricE3';
-import { isScalarG3 } from './isScalarG3';
-import { isVectorE3 } from './isVectorE3';
-import { isVectorG3 } from './isVectorG3';
-import { lcoG3 } from './lcoG3';
-import { maskG3 } from './maskG3';
-import { mulE3 } from './mulE3';
-import { randomRange } from './randomRange';
-import { rcoG3 } from './rcoG3';
-import { rotorFromDirectionsE3 as rotorFromDirections } from './rotorFromDirectionsE3';
-import { Scalar } from './Scalar';
-import { scpG3 } from './scpG3';
-import { SpinorE3 } from './SpinorE3';
-import { squaredNormG3 } from './squaredNormG3';
-import { stringFromCoordinates } from './stringFromCoordinates';
-import { VectorE3 } from './VectorE3';
-import { wedgeXY } from './wedgeXY';
-import { wedgeYZ } from './wedgeYZ';
-import { wedgeZX } from './wedgeZX';
+import { mustBeEQ } from "../checks/mustBeEQ";
+import { mustBeInteger } from "../checks/mustBeInteger";
+import { lock, TargetLockedError } from "../core/Lockable";
+import { approx } from "./approx";
+import { arraysEQ } from "./arraysEQ";
+import { BivectorE3 } from "./BivectorE3";
+import { CartesianG3 } from "./CartesianG3";
+import { dotVectorE3 as dotVector } from "./dotVectorE3";
+import { extG3 } from "./extG3";
+import { gauss } from "./gauss";
+import { GeometricE3 } from "./GeometricE3";
+import { isScalarG3 } from "./isScalarG3";
+import { isVectorE3 } from "./isVectorE3";
+import { isVectorG3 } from "./isVectorG3";
+import { lcoG3 } from "./lcoG3";
+import { maskG3 } from "./maskG3";
+import { mulE3 } from "./mulE3";
+import { randomRange } from "./randomRange";
+import { rcoG3 } from "./rcoG3";
+import { rotorFromDirectionsE3 as rotorFromDirections } from "./rotorFromDirectionsE3";
+import { Scalar } from "./Scalar";
+import { scpG3 } from "./scpG3";
+import { SpinorE3 } from "./SpinorE3";
+import { squaredNormG3 } from "./squaredNormG3";
+import { stringFromCoordinates } from "./stringFromCoordinates";
+import { VectorE3 } from "./VectorE3";
+import { wedgeXY } from "./wedgeXY";
+import { wedgeYZ } from "./wedgeYZ";
+import { wedgeZX } from "./wedgeZX";
 
 // Symbolic constants for the coordinate indices into the data array.
 /**
@@ -185,41 +185,38 @@ const cosines: number[] = [];
 export class Geometric3 {
     // Lockable
     public isLocked(): boolean {
-        return typeof (this as any)['lock_'] === 'number';
+        return typeof (this as any)["lock_"] === "number";
     }
 
     public lock(): number {
         if (this.isLocked()) {
             throw new Error("already locked");
-        }
-        else {
-            (this as any)['lock_'] = Math.random();
-            return (this as any)['lock_'];
+        } else {
+            (this as any)["lock_"] = Math.random();
+            return (this as any)["lock_"];
         }
     }
 
     public unlock(token: number): void {
-        if (typeof token !== 'number') {
+        if (typeof token !== "number") {
             throw new Error("token must be a number.");
         }
         if (!this.isLocked()) {
             throw new Error("not locked");
-        }
-        else if ((this as any)['lock_'] === token) {
-            (this as any)['lock_'] = void 0;
-        }
-        else {
+        } else if ((this as any)["lock_"] === token) {
+            (this as any)["lock_"] = void 0;
+        } else {
             throw new Error("unlock denied");
         }
     }
 
     /**
-     * 
+     *
      */
     private coords_: number[];
 
     /**
-     * 
+     *
      */
     private modified_: boolean;
 
@@ -229,7 +226,7 @@ export class Geometric3 {
      * coords [a, x, y, z, xy, yz, zx, b]
      */
     constructor(coords: [number, number, number, number, number, number, number, number] = [0, 0, 0, 0, 0, 0, 0, 0]) {
-        mustBeEQ('coords.length', coords.length, 8);
+        mustBeEQ("coords.length", coords.length, 8);
         this.coords_ = coords;
         this.modified_ = false;
     }
@@ -243,7 +240,7 @@ export class Geometric3 {
     }
     set modified(modified: boolean) {
         if (this.isLocked()) {
-            throw new TargetLockedError('set modified');
+            throw new TargetLockedError("set modified");
         }
         this.modified_ = modified;
     }
@@ -255,7 +252,7 @@ export class Geometric3 {
     /**
      * Consistently set a coordinate value in the most optimized way,
      * by checking for a change from the old value to the new value.
-     * The modified flag is only set to true if the value has changed. 
+     * The modified flag is only set to true if the value has changed.
      * Throws an exception if this multivector is locked.
      */
     private setCoordinate(index: number, newValue: number, name: string) {
@@ -277,7 +274,7 @@ export class Geometric3 {
         return this.coords_[COORD_SCALAR];
     }
     set a(a: number) {
-        this.setCoordinate(COORD_SCALAR, a, 'a');
+        this.setCoordinate(COORD_SCALAR, a, "a");
     }
 
     /**
@@ -287,7 +284,7 @@ export class Geometric3 {
         return this.coords_[COORD_X];
     }
     set x(x: number) {
-        this.setCoordinate(COORD_X, x, 'x');
+        this.setCoordinate(COORD_X, x, "x");
     }
 
     /**
@@ -297,7 +294,7 @@ export class Geometric3 {
         return this.coords_[COORD_Y];
     }
     set y(y: number) {
-        this.setCoordinate(COORD_Y, y, 'y');
+        this.setCoordinate(COORD_Y, y, "y");
     }
 
     /**
@@ -307,7 +304,7 @@ export class Geometric3 {
         return this.coords_[COORD_Z];
     }
     set z(z: number) {
-        this.setCoordinate(COORD_Z, z, 'z');
+        this.setCoordinate(COORD_Z, z, "z");
     }
 
     /**
@@ -317,7 +314,7 @@ export class Geometric3 {
         return this.coords_[COORD_YZ];
     }
     set yz(yz: number) {
-        this.setCoordinate(COORD_YZ, yz, 'yz');
+        this.setCoordinate(COORD_YZ, yz, "yz");
     }
 
     /**
@@ -327,7 +324,7 @@ export class Geometric3 {
         return this.coords_[COORD_ZX];
     }
     set zx(zx: number) {
-        this.setCoordinate(COORD_ZX, zx, 'zx');
+        this.setCoordinate(COORD_ZX, zx, "zx");
     }
 
     /**
@@ -337,7 +334,7 @@ export class Geometric3 {
         return this.coords_[COORD_XY];
     }
     set xy(xy: number) {
-        this.setCoordinate(COORD_XY, xy, 'xy');
+        this.setCoordinate(COORD_XY, xy, "xy");
     }
 
     /**
@@ -347,7 +344,7 @@ export class Geometric3 {
         return this.coords_[COORD_PSEUDO];
     }
     set b(b: number) {
-        this.setCoordinate(COORD_PSEUDO, b, 'b');
+        this.setCoordinate(COORD_PSEUDO, b, "b");
     }
 
     /**
@@ -392,14 +389,13 @@ export class Geometric3 {
      *
      * @param M The multivector to be added to this multivector.
      * @param alpha An optional scale factor that multiplies the multivector argument.
-     * 
+     *
      * @returns this + M * alpha
      */
     add(M: GeometricE3, alpha = 1): Geometric3 {
         if (this.isLocked()) {
             return lock(this.clone().add(M, alpha));
-        }
-        else {
+        } else {
             this.a += M.a * alpha;
             this.x += M.x * alpha;
             this.y += M.y * alpha;
@@ -416,14 +412,13 @@ export class Geometric3 {
      * Adds a bivector value to this multivector.
      *
      * this ⟼ this + B
-     * 
+     *
      * @returns this + B
      */
     addBivector(B: BivectorE3): Geometric3 {
         if (this.isLocked()) {
             return lock(this.clone().addBivector(B));
-        }
-        else {
+        } else {
             this.yz += B.yz;
             this.zx += B.zx;
             this.xy += B.xy;
@@ -442,8 +437,7 @@ export class Geometric3 {
     addPseudo(β: number): Geometric3 {
         if (this.isLocked()) {
             return lock(this.clone().addPseudo(β));
-        }
-        else {
+        } else {
             this.b += β;
             return this;
         }
@@ -458,8 +452,7 @@ export class Geometric3 {
     addScalar(alpha: number): Geometric3 {
         if (this.isLocked()) {
             return lock(this.clone().addScalar(alpha));
-        }
-        else {
+        } else {
             this.a += alpha;
             return this;
         }
@@ -475,8 +468,7 @@ export class Geometric3 {
     addVector(v: VectorE3, alpha = 1): Geometric3 {
         if (this.isLocked()) {
             return this.clone().addVector(v, alpha);
-        }
-        else {
+        } else {
             this.x += v.x * alpha;
             this.y += v.y * alpha;
             this.z += v.z * alpha;
@@ -494,7 +486,7 @@ export class Geometric3 {
      */
     add2(a: GeometricE3, b: GeometricE3): this {
         if (this.isLocked()) {
-            throw new TargetLockedError('add2');
+            throw new TargetLockedError("add2");
         }
         this.a = a.a + b.a;
         this.x = a.x + b.x;
@@ -509,14 +501,13 @@ export class Geometric3 {
 
     /**
      * arg(A) = grade(log(A), 2)
-     * 
+     *
      * @returns The arg of <code>this</code> multivector.
      */
     arg(): Geometric3 {
         if (this.isLocked()) {
             return lock(this.clone().arg());
-        }
-        else {
+        } else {
             return this.log().grade(2);
         }
     }
@@ -527,8 +518,7 @@ export class Geometric3 {
     approx(n: number): Geometric3 {
         if (this.isLocked()) {
             return lock(this.clone().approx(n));
-        }
-        else {
+        } else {
             approx(this.coords_, n);
             return this;
         }
@@ -545,14 +535,13 @@ export class Geometric3 {
      * The Clifford conjugate.
      * The multiplier for the grade x is (-1) raised to the power x * (x + 1) / 2
      * The pattern of grades is +--++--+
-     * 
+     *
      * @returns conj(this)
      */
     conj(): Geometric3 {
         if (this.isLocked()) {
             return lock(this.clone().conj());
-        }
-        else {
+        } else {
             // The grade 0 (scalar) coordinate is unchanged.
             // The grade 1 (vector) coordinates change sign.
             this.x = -this.x;
@@ -574,7 +563,7 @@ export class Geometric3 {
      */
     copyCoordinates(coordinates: number[]): this {
         if (this.isLocked()) {
-            throw new TargetLockedError('copyCoordinates');
+            throw new TargetLockedError("copyCoordinates");
         }
         // Copy using the setters so that the modified flag is updated.
         this.a = coordinates[COORD_SCALAR];
@@ -594,8 +583,7 @@ export class Geometric3 {
     distanceTo(point: VectorE3): number {
         if (point) {
             return Math.sqrt(this.quadranceTo(point));
-        }
-        else {
+        } else {
             throw new Error("point must be a VectorE3");
         }
     }
@@ -609,8 +597,7 @@ export class Geometric3 {
             const dy = this.y - point.y;
             const dz = this.z - point.z;
             return dx * dx + dy * dy + dz * dz;
-        }
-        else {
+        } else {
             throw new Error("point must be a VectorE3");
         }
     }
@@ -623,8 +610,7 @@ export class Geometric3 {
     lco(m: GeometricE3): Geometric3 {
         if (this.isLocked()) {
             return lock(this.clone().lco(m));
-        }
-        else {
+        } else {
             return this.lco2(this, m);
         }
     }
@@ -638,16 +624,16 @@ export class Geometric3 {
      */
     lco2(a: GeometricE3, b: GeometricE3): this {
         if (this.isLocked()) {
-            throw new TargetLockedError('lco2');
+            throw new TargetLockedError("lco2");
         }
         return lcoG3(a, b, this);
     }
 
     /**
      * Right contraction.
-     * 
+     *
      * A >> B = grade(A * B, a - b) = <code>A.rco(B)</code>
-     * 
+     *
      * @returns this >> rhs
      */
     rco(m: GeometricE3): this {
@@ -664,7 +650,7 @@ export class Geometric3 {
      */
     rco2(a: GeometricE3, b: GeometricE3): this {
         if (this.isLocked()) {
-            throw new TargetLockedError('rco2');
+            throw new TargetLockedError("rco2");
         }
         return rcoG3(a, b, this);
     }
@@ -675,7 +661,7 @@ export class Geometric3 {
      */
     copy(M: GeometricE3): this {
         if (this.isLocked()) {
-            throw new TargetLockedError('copy');
+            throw new TargetLockedError("copy");
         }
         this.a = M.a;
         this.x = M.x;
@@ -697,16 +683,16 @@ export class Geometric3 {
      */
     copyScalar(α: number): this {
         if (this.isLocked()) {
-            throw new TargetLockedError('copyScalar');
+            throw new TargetLockedError("copyScalar");
         }
-        this.setCoordinate(COORD_SCALAR, α, 'a');
-        this.setCoordinate(COORD_X, 0, 'x');
-        this.setCoordinate(COORD_Y, 0, 'y');
-        this.setCoordinate(COORD_Z, 0, 'z');
-        this.setCoordinate(COORD_YZ, 0, 'yz');
-        this.setCoordinate(COORD_ZX, 0, 'zx');
-        this.setCoordinate(COORD_XY, 0, 'xy');
-        this.setCoordinate(COORD_PSEUDO, 0, 'b');
+        this.setCoordinate(COORD_SCALAR, α, "a");
+        this.setCoordinate(COORD_X, 0, "x");
+        this.setCoordinate(COORD_Y, 0, "y");
+        this.setCoordinate(COORD_Z, 0, "z");
+        this.setCoordinate(COORD_YZ, 0, "yz");
+        this.setCoordinate(COORD_ZX, 0, "zx");
+        this.setCoordinate(COORD_XY, 0, "xy");
+        this.setCoordinate(COORD_PSEUDO, 0, "b");
         return this;
     }
 
@@ -718,16 +704,16 @@ export class Geometric3 {
      */
     copySpinor(spinor: SpinorE3): this {
         if (this.isLocked()) {
-            throw new TargetLockedError('copySpinor');
+            throw new TargetLockedError("copySpinor");
         }
-        this.setCoordinate(COORD_SCALAR, spinor.a, 'a');
-        this.setCoordinate(COORD_X, 0, 'x');
-        this.setCoordinate(COORD_Y, 0, 'y');
-        this.setCoordinate(COORD_Z, 0, 'z');
-        this.setCoordinate(COORD_YZ, spinor.yz, 'yz');
-        this.setCoordinate(COORD_ZX, spinor.zx, 'zx');
-        this.setCoordinate(COORD_XY, spinor.xy, 'xy');
-        this.setCoordinate(COORD_PSEUDO, 0, 'b');
+        this.setCoordinate(COORD_SCALAR, spinor.a, "a");
+        this.setCoordinate(COORD_X, 0, "x");
+        this.setCoordinate(COORD_Y, 0, "y");
+        this.setCoordinate(COORD_Z, 0, "z");
+        this.setCoordinate(COORD_YZ, spinor.yz, "yz");
+        this.setCoordinate(COORD_ZX, spinor.zx, "zx");
+        this.setCoordinate(COORD_XY, spinor.xy, "xy");
+        this.setCoordinate(COORD_PSEUDO, 0, "b");
         return this;
     }
 
@@ -739,16 +725,16 @@ export class Geometric3 {
      */
     copyVector(vector: VectorE3): this {
         if (this.isLocked()) {
-            throw new TargetLockedError('copyVector');
+            throw new TargetLockedError("copyVector");
         }
-        this.setCoordinate(COORD_SCALAR, 0, 'a');
-        this.setCoordinate(COORD_X, vector.x, 'x');
-        this.setCoordinate(COORD_Y, vector.y, 'y');
-        this.setCoordinate(COORD_Z, vector.z, 'z');
-        this.setCoordinate(COORD_YZ, 0, 'yz');
-        this.setCoordinate(COORD_ZX, 0, 'zx');
-        this.setCoordinate(COORD_XY, 0, 'xy');
-        this.setCoordinate(COORD_PSEUDO, 0, 'b');
+        this.setCoordinate(COORD_SCALAR, 0, "a");
+        this.setCoordinate(COORD_X, vector.x, "x");
+        this.setCoordinate(COORD_Y, vector.y, "y");
+        this.setCoordinate(COORD_Z, vector.z, "z");
+        this.setCoordinate(COORD_YZ, 0, "yz");
+        this.setCoordinate(COORD_ZX, 0, "zx");
+        this.setCoordinate(COORD_XY, 0, "xy");
+        this.setCoordinate(COORD_PSEUDO, 0, "b");
         return this;
     }
 
@@ -760,8 +746,7 @@ export class Geometric3 {
     cross(m: GeometricE3): Geometric3 {
         if (this.isLocked()) {
             return lock(this.clone().cross(m));
-        }
-        else {
+        } else {
             return this.ext(m).dual();
         }
     }
@@ -777,15 +762,12 @@ export class Geometric3 {
     div(m: GeometricE3): Geometric3 {
         if (isScalarG3(m)) {
             return this.divByScalar(m.a);
-        }
-        else if (isVectorG3(m)) {
+        } else if (isVectorG3(m)) {
             return this.divByVector(m);
-        }
-        else {
+        } else {
             if (this.isLocked()) {
                 return lock(this.clone().div(m));
-            }
-            else {
+            } else {
                 const α = m.a;
                 const x = m.x;
                 const y = m.y;
@@ -852,14 +834,13 @@ export class Geometric3 {
 
     /**
      * Division of this multivector by a scalar.
-     * 
+     *
      * @returns this / alpha
      */
     divByScalar(alpha: number): Geometric3 {
         if (this.isLocked()) {
             return lock(this.clone().divByScalar(alpha));
-        }
-        else {
+        } else {
             this.a /= alpha;
             this.x /= alpha;
             this.y /= alpha;
@@ -881,8 +862,7 @@ export class Geometric3 {
     divByVector(v: VectorE3): Geometric3 {
         if (this.isLocked()) {
             return this.clone().divByVector(v);
-        }
-        else {
+        } else {
             const x = v.x;
             const y = v.y;
             const z = v.z;
@@ -896,9 +876,8 @@ export class Geometric3 {
      */
     div2(a: SpinorE3, b: SpinorE3): this {
         if (this.isLocked()) {
-            throw new TargetLockedError('div2');
-        }
-        else {
+            throw new TargetLockedError("div2");
+        } else {
             // FIXME: Generalize
             const a0 = a.a;
             const a1 = a.yz;
@@ -922,8 +901,7 @@ export class Geometric3 {
     dual(): Geometric3 {
         if (this.isLocked()) {
             return lock(this.clone().dual());
-        }
-        else {
+        } else {
             const a = this.b;
             const x = this.yz;
             const y = this.zx;
@@ -954,8 +932,7 @@ export class Geometric3 {
         if (other instanceof Geometric3) {
             const that: Geometric3 = other;
             return arraysEQ(this.coords_, that.coords_);
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -966,8 +943,7 @@ export class Geometric3 {
     exp(): Geometric3 {
         if (this.isLocked()) {
             return lock(this.clone().exp());
-        }
-        else {
+        } else {
             // It's always the case that the scalar commutes with every other
             // grade of the multivector, so we can pull it out the front.
             const expW = Math.exp(this.a);
@@ -1005,8 +981,7 @@ export class Geometric3 {
     inv(): Geometric3 {
         if (this.isLocked()) {
             return lock(this.clone().inv());
-        }
-        else {
+        } else {
             const α = this.a;
             const x = this.x;
             const y = this.y;
@@ -1064,8 +1039,7 @@ export class Geometric3 {
     lerp(target: GeometricE3, α: number): Geometric3 {
         if (this.isLocked()) {
             return lock(this.clone().lerp(target, α));
-        }
-        else {
+        } else {
             this.a += (target.a - this.a) * α;
             this.x += (target.x - this.x) * α;
             this.y += (target.y - this.y) * α;
@@ -1084,7 +1058,7 @@ export class Geometric3 {
      */
     lerp2(a: GeometricE3, b: GeometricE3, α: number): this {
         if (this.isLocked()) {
-            throw new TargetLockedError('lerp2');
+            throw new TargetLockedError("lerp2");
         }
         this.copy(a).lerp(b, α);
         return this;
@@ -1092,14 +1066,13 @@ export class Geometric3 {
 
     /**
      * this ⟼ log(this)
-     * 
+     *
      * @returns log(this)
      */
     log(): Geometric3 {
         if (this.isLocked()) {
             return lock(this.clone().log());
-        }
-        else {
+        } else {
             const α = this.a;
             const x = this.yz;
             const y = this.zx;
@@ -1124,14 +1097,13 @@ export class Geometric3 {
 
     /**
      * this ⟼ this * m
-     * 
+     *
      * @returns this * m
      */
     mul(m: GeometricE3): Geometric3 {
         if (this.isLocked()) {
             return lock(this.clone().mul(m));
-        }
-        else {
+        } else {
             return this.mul2(this, m);
         }
     }
@@ -1173,7 +1145,7 @@ export class Geometric3 {
      */
     mul2(a: GeometricE3, b: GeometricE3): this {
         if (this.isLocked()) {
-            throw new TargetLockedError('mul2');
+            throw new TargetLockedError("mul2");
         }
         const a0 = a.a;
         const a1 = a.x;
@@ -1207,14 +1179,13 @@ export class Geometric3 {
 
     /**
      * this ⟼ -1 * this
-     * 
+     *
      * @returns -1 * this
      */
     neg(): Geometric3 {
         if (this.isLocked()) {
             return lock(this.clone().neg());
-        }
-        else {
+        } else {
             this.a = -this.a;
             this.x = -this.x;
             this.y = -this.y;
@@ -1229,16 +1200,15 @@ export class Geometric3 {
 
     /**
      * norm(A) = |A| = A | ~A, where | is the scalar product and ~ is reversion.
-     * 
+     *
      * this ⟼ magnitude(this) = sqrt(scp(this, rev(this))) = sqrt(this | ~this)
-     * 
+     *
      * @returns norm(this)
      */
     norm(): Geometric3 {
         if (this.isLocked()) {
             return lock(this.clone().norm());
-        }
-        else {
+        } else {
             this.a = this.magnitude();
             this.x = 0;
             this.y = 0;
@@ -1268,8 +1238,7 @@ export class Geometric3 {
     normalize(): Geometric3 {
         if (this.isLocked()) {
             return lock(this.clone().normalize());
-        }
-        else {
+        } else {
             const norm: number = this.magnitude();
             if (norm !== 0) {
                 this.a = this.a / norm;
@@ -1290,7 +1259,7 @@ export class Geometric3 {
      */
     one(): this {
         if (this.isLocked()) {
-            throw new TargetLockedError('one');
+            throw new TargetLockedError("one");
         }
         this.a = 1;
         this.x = 0;
@@ -1305,22 +1274,21 @@ export class Geometric3 {
 
     /**
      * squaredNorm(A) = |A||A| = A | ~A
-     * 
+     *
      * Returns the (squared) norm of this multivector.
-     * 
+     *
      * If this multivector is mutable (unlocked), then it is set to the squared norm of this multivector,
      * and the return value is this multivector.
-     * If thus multivector is immutable (locked), then a new multivector is returned which is also immutable. 
-     * 
+     * If thus multivector is immutable (locked), then a new multivector is returned which is also immutable.
+     *
      * this ⟼ squaredNorm(this) = scp(this, rev(this)) = this | ~this
-     * 
+     *
      * @returns squaredNorm(this)
      */
     public squaredNorm(): Geometric3 {
         if (this.isLocked()) {
             return lock(this.clone().squaredNorm());
-        }
-        else {
+        } else {
             this.a = squaredNormG3(this);
             this.x = 0;
             this.y = 0;
@@ -1358,8 +1326,7 @@ export class Geometric3 {
     reflect(n: VectorE3): Geometric3 {
         if (this.isLocked()) {
             return lock(this.clone().reflect(n));
-        }
-        else {
+        } else {
             const n1 = n.x;
             const n2 = n.y;
             const n3 = n.z;
@@ -1382,14 +1349,14 @@ export class Geometric3 {
             const B1 = cs[COORD_YZ];
             const B2 = cs[COORD_ZX];
             const b = cs[COORD_PSEUDO];
-            this.setCoordinate(COORD_SCALAR, -nn * a, 'a');
-            this.setCoordinate(COORD_X, x1 * t1 - x2 * f3 - x3 * f2, 'x');
-            this.setCoordinate(COORD_Y, x2 * t2 - x3 * f1 - x1 * f3, 'y');
-            this.setCoordinate(COORD_Z, x3 * t3 - x1 * f2 - x2 * f1, 'z');
-            this.setCoordinate(COORD_XY, B3 * t3 - B1 * f2 - B2 * f1, 'xy');
-            this.setCoordinate(COORD_YZ, B1 * t1 - B2 * f3 - B3 * f2, 'yz');
-            this.setCoordinate(COORD_ZX, B2 * t2 - B3 * f1 - B1 * f3, 'zx');
-            this.setCoordinate(COORD_PSEUDO, -nn * b, 'b');
+            this.setCoordinate(COORD_SCALAR, -nn * a, "a");
+            this.setCoordinate(COORD_X, x1 * t1 - x2 * f3 - x3 * f2, "x");
+            this.setCoordinate(COORD_Y, x2 * t2 - x3 * f1 - x1 * f3, "y");
+            this.setCoordinate(COORD_Z, x3 * t3 - x1 * f2 - x2 * f1, "z");
+            this.setCoordinate(COORD_XY, B3 * t3 - B1 * f2 - B2 * f1, "xy");
+            this.setCoordinate(COORD_YZ, B1 * t1 - B2 * f3 - B3 * f2, "yz");
+            this.setCoordinate(COORD_ZX, B2 * t2 - B3 * f1 - B1 * f3, "zx");
+            this.setCoordinate(COORD_PSEUDO, -nn * b, "b");
             return this;
         }
     }
@@ -1400,8 +1367,7 @@ export class Geometric3 {
     rev(): Geometric3 {
         if (this.isLocked()) {
             return lock(this.clone().rev());
-        }
-        else {
+        } else {
             // reverse has a ++-- structure on the grades.
             this.a = +this.a;
             this.x = +this.x;
@@ -1417,14 +1383,13 @@ export class Geometric3 {
 
     /**
      * Rotates this multivector using a rotor, R.
-     * 
+     *
      * @returns R * this * reverse(R) = R * this * ~R
      */
     rotate(R: SpinorE3): Geometric3 {
         if (this.isLocked()) {
             return lock(this.clone().rotate(R));
-        }
-        else {
+        } else {
             // TODO: This only rotates the vector components. The bivector components will change.
             const x = this.x;
             const y = this.y;
@@ -1456,7 +1421,7 @@ export class Geometric3 {
      */
     rotorFromAxisAngle(axis: VectorE3, θ: number): this {
         if (this.isLocked()) {
-            throw new TargetLockedError('rotorFromAxisAngle');
+            throw new TargetLockedError("rotorFromAxisAngle");
         }
         // Compute the dual of the axis to obtain the corresponding bivector.
         const x = axis.x;
@@ -1465,8 +1430,7 @@ export class Geometric3 {
         const squaredNorm = x * x + y * y + z * z;
         if (squaredNorm === 1) {
             return this.rotorFromGeneratorAngle({ yz: x, zx: y, xy: z }, θ);
-        }
-        else {
+        } else {
             const norm = Math.sqrt(squaredNorm);
             const yz = x / norm;
             const zx = y / norm;
@@ -1478,7 +1442,7 @@ export class Geometric3 {
     /**
      * Computes a rotor, R, from two unit vectors, where
      * R = (|b||a| + b * a) / sqrt(2 * |b||a|(|b||a| + b << a))
-     * 
+     *
      * The result is independent of the magnitudes of a and b.
      *
      * @param a The starting vector
@@ -1487,7 +1451,7 @@ export class Geometric3 {
      */
     rotorFromDirections(a: VectorE3, b: VectorE3): this {
         if (this.isLocked()) {
-            throw new TargetLockedError('rotorFromDirections');
+            throw new TargetLockedError("rotorFromDirections");
         }
         const B: BivectorE3 | undefined = void 0;
         return this.rotorFromVectorToVector(a, b, B);
@@ -1512,11 +1476,11 @@ export class Geometric3 {
     }
 
     /**
-     * 
+     *
      */
     rotorFromFrameToFrame(es: VectorE3[], fs: VectorE3[]): this {
         if (this.isLocked()) {
-            throw new TargetLockedError('rotorFromFrameToFrame');
+            throw new TargetLockedError("rotorFromFrameToFrame");
         }
         // There is instability when the rotation angle is near 180 degrees.
         // So we don't use the formula based upon reciprocal frames.
@@ -1538,11 +1502,10 @@ export class Geometric3 {
                 biggestValue = cosines[i];
             }
         }
-        if (typeof firstVector === 'number') {
+        if (typeof firstVector === "number") {
             const secondVector = (firstVector + 1) % 3;
             return this.rotorFromTwoVectors(es[firstVector], fs[firstVector], es[secondVector], fs[secondVector]);
-        }
-        else {
+        } else {
             throw new Error("Unable to compute rotor.");
         }
     }
@@ -1557,7 +1520,7 @@ export class Geometric3 {
      */
     rotorFromGeneratorAngle(B: BivectorE3, θ: number): this {
         if (this.isLocked()) {
-            throw new TargetLockedError('rotorFromGeneratorAngle');
+            throw new TargetLockedError("rotorFromGeneratorAngle");
         }
         const φ = θ / 2;
         const yz = B.yz;
@@ -1581,11 +1544,11 @@ export class Geometric3 {
     /**
      * R = (|b||a| + b * a) / sqrt(2 * |b||a|(|b||a| + b << a))
      *
-     * The result is independent of the magnitudes of a and b. 
+     * The result is independent of the magnitudes of a and b.
      */
     rotorFromVectorToVector(a: VectorE3, b: VectorE3, B: BivectorE3 | undefined): this {
         if (this.isLocked()) {
-            throw new TargetLockedError('rotorFromVectorToVector');
+            throw new TargetLockedError("rotorFromVectorToVector");
         }
         rotorFromDirections(a, b, B, this);
         return this;
@@ -1598,8 +1561,7 @@ export class Geometric3 {
     scp(rhs: GeometricE3): Geometric3 {
         if (this.isLocked()) {
             return lock(this.clone().scp(rhs));
-        }
-        else {
+        } else {
             return this.scp2(this, rhs);
         }
     }
@@ -1609,7 +1571,7 @@ export class Geometric3 {
      */
     scp2(a: GeometricE3, b: GeometricE3): this {
         if (this.isLocked()) {
-            throw new TargetLockedError('scp2');
+            throw new TargetLockedError("scp2");
         }
         return scpG3(a, b, this);
     }
@@ -1620,8 +1582,7 @@ export class Geometric3 {
     scale(alpha: number): Geometric3 {
         if (this.isLocked()) {
             return lock(this.clone().scale(alpha));
-        }
-        else {
+        } else {
             this.a *= alpha;
             this.x *= alpha;
             this.y *= alpha;
@@ -1642,8 +1603,7 @@ export class Geometric3 {
     stress(σ: VectorE3): Geometric3 {
         if (this.isLocked()) {
             return lock(this.clone().stress(σ));
-        }
-        else {
+        } else {
             this.x *= σ.x;
             this.y *= σ.y;
             this.z *= σ.z;
@@ -1655,9 +1615,9 @@ export class Geometric3 {
     /**
      * Sets this multivector to the geometric product of the arguments.
      * This multivector must be mutable (in the unlocked state).
-     * 
+     *
      * this ⟼ a * b
-     * 
+     *
      * @param a The vector on the left of the operator.
      * @param b The vector on the right of the operator.
      *
@@ -1665,7 +1625,7 @@ export class Geometric3 {
      */
     versor(a: VectorE3, b: VectorE3): this {
         if (this.isLocked()) {
-            throw new TargetLockedError('versor');
+            throw new TargetLockedError("versor");
         }
         const ax = a.x;
         const ay = a.y;
@@ -1689,8 +1649,7 @@ export class Geometric3 {
     sub(M: GeometricE3, α = 1): Geometric3 {
         if (this.isLocked()) {
             return lock(this.clone().sub(M, α));
-        }
-        else {
+        } else {
             this.a -= M.a * α;
             this.x -= M.x * α;
             this.y -= M.y * α;
@@ -1715,8 +1674,7 @@ export class Geometric3 {
     subVector(v: VectorE3, α = 1): Geometric3 {
         if (this.isLocked()) {
             return lock(this.clone().subVector(v, α));
-        }
-        else {
+        } else {
             this.x -= v.x * α;
             this.y -= v.y * α;
             this.z -= v.z * α;
@@ -1734,7 +1692,7 @@ export class Geometric3 {
      */
     sub2(a: GeometricE3, b: GeometricE3): this {
         if (this.isLocked()) {
-            throw new TargetLockedError('sub2');
+            throw new TargetLockedError("sub2");
         }
         this.a = a.a - b.a;
         this.x = a.x - b.x;
@@ -1748,7 +1706,7 @@ export class Geometric3 {
     }
 
     /**
-     * 
+     *
      */
     toArray(): number[] {
         return coordinates(this);
@@ -1758,7 +1716,9 @@ export class Geometric3 {
      * Returns a string representing the number in exponential notation.
      */
     toExponential(fractionDigits?: number): string {
-        const coordToString = function (coord: number): string { return coord.toExponential(fractionDigits); };
+        const coordToString = function (coord: number): string {
+            return coord.toExponential(fractionDigits);
+        };
         return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS);
     }
 
@@ -1766,7 +1726,9 @@ export class Geometric3 {
      * Returns a string representing the number in fixed-point notation.
      */
     toFixed(fractionDigits?: number): string {
-        const coordToString = function (coord: number): string { return coord.toFixed(fractionDigits); };
+        const coordToString = function (coord: number): string {
+            return coord.toFixed(fractionDigits);
+        };
         return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS);
     }
 
@@ -1774,7 +1736,9 @@ export class Geometric3 {
      *
      */
     toPrecision(precision?: number): string {
-        const coordToString = function (coord: number): string { return coord.toPrecision(precision); };
+        const coordToString = function (coord: number): string {
+            return coord.toPrecision(precision);
+        };
         return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS);
     }
 
@@ -1782,7 +1746,9 @@ export class Geometric3 {
      * Returns a string representation of this multivector.
      */
     toString(radix?: number): string {
-        const coordToString = function (coord: number): string { return coord.toString(radix); };
+        const coordToString = function (coord: number): string {
+            return coord.toString(radix);
+        };
         return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS);
     }
 
@@ -1797,7 +1763,7 @@ export class Geometric3 {
         if (this.isLocked()) {
             return lock(this.clone().grade(i));
         }
-        mustBeInteger('i', i);
+        mustBeInteger("i", i);
         switch (i) {
             case 0: {
                 this.x = 0;
@@ -1855,8 +1821,7 @@ export class Geometric3 {
     ext(m: GeometricE3): Geometric3 {
         if (this.isLocked()) {
             return lock(this.clone().ext(m));
-        }
-        else {
+        } else {
             return this.ext2(this, m);
         }
     }
@@ -1867,7 +1832,7 @@ export class Geometric3 {
      */
     ext2(a: GeometricE3, b: GeometricE3): this {
         if (this.isLocked()) {
-            throw new TargetLockedError('ext2');
+            throw new TargetLockedError("ext2");
         }
         return extG3(a, b, this);
     }
@@ -1877,7 +1842,7 @@ export class Geometric3 {
      */
     zero(): this {
         if (this.isLocked()) {
-            throw new TargetLockedError('zero');
+            throw new TargetLockedError("zero");
         }
         this.a = 0;
         this.x = 0;
@@ -1899,11 +1864,9 @@ export class Geometric3 {
         const duckR = maskG3(rhs);
         if (duckR) {
             return lock(this.clone().add(duckR));
-        }
-        else if (isVectorE3(rhs)) {
+        } else if (isVectorE3(rhs)) {
             return lock(this.clone().addVector(rhs));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -1916,14 +1879,11 @@ export class Geometric3 {
     __radd__(lhs: number | Geometric3): Geometric3 | undefined {
         if (lhs instanceof Geometric3) {
             return lock(Geometric3.copy(lhs).add(this));
-        }
-        else if (typeof lhs === 'number') {
+        } else if (typeof lhs === "number") {
             return lock(Geometric3.scalar(lhs).add(this));
-        }
-        else if (isVectorE3(lhs)) {
+        } else if (isVectorE3(lhs)) {
             return lock(Geometric3.fromVector(lhs).add(this));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -1937,8 +1897,7 @@ export class Geometric3 {
         const duckR = maskG3(rhs);
         if (duckR) {
             return lock(this.clone().div(duckR));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -1951,11 +1910,9 @@ export class Geometric3 {
     __rdiv__(lhs: number | Geometric3): Geometric3 | undefined {
         if (lhs instanceof Geometric3) {
             return lock(Geometric3.copy(lhs).div(this));
-        }
-        else if (typeof lhs === 'number') {
+        } else if (typeof lhs === "number") {
             return lock(Geometric3.scalar(lhs).div(this));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -1969,8 +1926,7 @@ export class Geometric3 {
         const duckR = maskG3(rhs);
         if (duckR) {
             return lock(this.clone().mul(duckR));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -1983,11 +1939,9 @@ export class Geometric3 {
     __rmul__(lhs: number | Geometric3): Geometric3 | undefined {
         if (lhs instanceof Geometric3) {
             return lock(Geometric3.copy(lhs).mul(this));
-        }
-        else if (typeof lhs === 'number') {
+        } else if (typeof lhs === "number") {
             return lock(Geometric3.copy(this).scale(lhs));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -2001,8 +1955,7 @@ export class Geometric3 {
         const duckR = maskG3(rhs);
         if (duckR) {
             return lock(this.clone().sub(duckR));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -2015,11 +1968,9 @@ export class Geometric3 {
     __rsub__(lhs: number | Geometric3): Geometric3 | undefined {
         if (lhs instanceof Geometric3) {
             return lock(Geometric3.copy(lhs).sub(this));
-        }
-        else if (typeof lhs === 'number') {
+        } else if (typeof lhs === "number") {
             return lock(Geometric3.scalar(lhs).sub(this));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -2032,12 +1983,10 @@ export class Geometric3 {
     __wedge__(rhs: number | Geometric3): Geometric3 | undefined {
         if (rhs instanceof Geometric3) {
             return lock(Geometric3.copy(this).ext(rhs));
-        }
-        else if (typeof rhs === 'number') {
+        } else if (typeof rhs === "number") {
             // The outer product with a scalar is scalar multiplication.
             return lock(Geometric3.copy(this).scale(rhs));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -2050,12 +1999,10 @@ export class Geometric3 {
     __rwedge__(lhs: number | Geometric3): Geometric3 | undefined {
         if (lhs instanceof Geometric3) {
             return lock(Geometric3.copy(lhs).ext(this));
-        }
-        else if (typeof lhs === 'number') {
+        } else if (typeof lhs === "number") {
             // The outer product with a scalar is scalar multiplication, and commutes.
             return lock(Geometric3.copy(this).scale(lhs));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -2068,11 +2015,9 @@ export class Geometric3 {
     __lshift__(rhs: number | Geometric3): Geometric3 | undefined {
         if (rhs instanceof Geometric3) {
             return lock(Geometric3.copy(this).lco(rhs));
-        }
-        else if (typeof rhs === 'number') {
+        } else if (typeof rhs === "number") {
             return lock(Geometric3.copy(this).lco(Geometric3.scalar(rhs)));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -2085,11 +2030,9 @@ export class Geometric3 {
     __rlshift__(lhs: number | Geometric3): Geometric3 | undefined {
         if (lhs instanceof Geometric3) {
             return lock(Geometric3.copy(lhs).lco(this));
-        }
-        else if (typeof lhs === 'number') {
+        } else if (typeof lhs === "number") {
             return lock(Geometric3.scalar(lhs).lco(this));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -2102,11 +2045,9 @@ export class Geometric3 {
     __rshift__(rhs: number | Geometric3): Geometric3 | undefined {
         if (rhs instanceof Geometric3) {
             return lock(Geometric3.copy(this).rco(rhs));
-        }
-        else if (typeof rhs === 'number') {
+        } else if (typeof rhs === "number") {
             return lock(Geometric3.copy(this).rco(Geometric3.scalar(rhs)));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -2119,11 +2060,9 @@ export class Geometric3 {
     __rrshift__(lhs: number | Geometric3): Geometric3 | undefined {
         if (lhs instanceof Geometric3) {
             return lock(Geometric3.copy(lhs).rco(this));
-        }
-        else if (typeof lhs === 'number') {
+        } else if (typeof lhs === "number") {
             return lock(Geometric3.scalar(lhs).rco(this));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -2136,11 +2075,9 @@ export class Geometric3 {
     __vbar__(rhs: number | Geometric3): Geometric3 | undefined {
         if (rhs instanceof Geometric3) {
             return lock(Geometric3.copy(this).scp(rhs));
-        }
-        else if (typeof rhs === 'number') {
+        } else if (typeof rhs === "number") {
             return lock(Geometric3.copy(this).scp(Geometric3.scalar(rhs)));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -2153,11 +2090,9 @@ export class Geometric3 {
     __rvbar__(lhs: number | Geometric3): Geometric3 | undefined {
         if (lhs instanceof Geometric3) {
             return lock(Geometric3.copy(lhs).scp(this));
-        }
-        else if (typeof lhs === 'number') {
+        } else if (typeof lhs === "number") {
             return lock(Geometric3.scalar(lhs).scp(this));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -2211,7 +2146,7 @@ export class Geometric3 {
     public static readonly ONE = new Geometric3(scalar(1));
 
     /**
-     * 
+     *
      */
     public static one(lock = false): Geometric3 {
         return lock ? Geometric3.ONE : Geometric3.scalar(1);
@@ -2225,7 +2160,7 @@ export class Geometric3 {
 
     /**
      * Constructs the basis vector e1.
-     * Locking the vector prevents mutation. 
+     * Locking the vector prevents mutation.
      */
     public static e1(lock = false): Geometric3 {
         return lock ? Geometric3.E1 : Geometric3.vector(1, 0, 0);
@@ -2239,7 +2174,7 @@ export class Geometric3 {
 
     /**
      * Constructs the basis vector e2.
-     * Locking the vector prevents mutation. 
+     * Locking the vector prevents mutation.
      */
     public static e2(lock = false): Geometric3 {
         return lock ? Geometric3.E2 : Geometric3.vector(0, 1, 0);
@@ -2253,7 +2188,7 @@ export class Geometric3 {
 
     /**
      * Constructs the basis vector e3.
-     * Locking the vector prevents mutation. 
+     * Locking the vector prevents mutation.
      */
     public static e3(lock = false): Geometric3 {
         return lock ? Geometric3.E3 : Geometric3.vector(0, 0, 1);
@@ -2403,7 +2338,6 @@ export class Geometric3 {
      * Constructs a mutable bivector as the outer product of two vectors.
      */
     static wedge(a: VectorE3, b: VectorE3): Geometric3 {
-
         const ax = a.x;
         const ay = a.y;
         const az = a.z;
@@ -2419,7 +2353,7 @@ export class Geometric3 {
     }
 
     /**
-     * 
+     *
      */
     public static zero(lock = false): Geometric3 {
         return lock ? Geometric3.ZERO : new Geometric3(zero());

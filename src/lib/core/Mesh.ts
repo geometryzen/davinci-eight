@@ -1,37 +1,37 @@
-import { AbstractMesh } from '../core/AbstractMesh';
-import { canonicalAxis, canonicalMeridian } from '../core/tiltFromOptions';
-import { ColorFacet } from '../facets/ColorFacet';
-import { ModelFacet } from '../facets/ModelFacet';
-import { TextureFacet } from '../facets/TextureFacet';
-import { notSupported } from '../i18n/notSupported';
-import { Geometric3 } from '../math/Geometric3';
-import { Matrix4 } from '../math/Matrix4';
-import { quadVectorE3 } from '../math/quadVectorE3';
-import { R3, vectorCopy } from '../math/R3';
-import { Spinor3 } from '../math/Spinor3';
-import { VectorE3 } from '../math/VectorE3';
-import { Color } from './Color';
-import { ContextManager } from './ContextManager';
-import { Drawable } from './Drawable';
-import { Geometry } from './Geometry';
-import { Material } from './Material';
-import { MeshOptions } from './MeshOptions';
-import { referenceAxis } from './referenceAxis';
-import { referenceMeridian } from './referenceMeridian';
-import { Texture } from './Texture';
+import { AbstractMesh } from "../core/AbstractMesh";
+import { canonicalAxis, canonicalMeridian } from "../core/tiltFromOptions";
+import { ColorFacet } from "../facets/ColorFacet";
+import { ModelFacet } from "../facets/ModelFacet";
+import { TextureFacet } from "../facets/TextureFacet";
+import { notSupported } from "../i18n/notSupported";
+import { Geometric3 } from "../math/Geometric3";
+import { Matrix4 } from "../math/Matrix4";
+import { quadVectorE3 } from "../math/quadVectorE3";
+import { R3, vectorCopy } from "../math/R3";
+import { Spinor3 } from "../math/Spinor3";
+import { VectorE3 } from "../math/VectorE3";
+import { Color } from "./Color";
+import { ContextManager } from "./ContextManager";
+import { Drawable } from "./Drawable";
+import { Geometry } from "./Geometry";
+import { Material } from "./Material";
+import { MeshOptions } from "./MeshOptions";
+import { referenceAxis } from "./referenceAxis";
+import { referenceMeridian } from "./referenceMeridian";
+import { Texture } from "./Texture";
 
 /**
  * @hidden
  */
-const COLOR_FACET_NAME = 'color';
+const COLOR_FACET_NAME = "color";
 /**
  * @hidden
  */
-const TEXTURE_FACET_NAME = 'image';
+const TEXTURE_FACET_NAME = "image";
 /**
  * @hidden
  */
-const MODEL_FACET_NAME = 'model';
+const MODEL_FACET_NAME = "model";
 
 /**
  * The standard pairing of a Geometry and a Material.
@@ -65,16 +65,16 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
     private readonly Kidentity: boolean;
     /**
      * Initializes this Mesh with a ColorFacet ('color'), a TextureFacet ('image'), and a ModelFacet ('model').
-     * 
+     *
      * @param geometry An optional Geometry, which may be supplied later.
      * @param material An optional Material, which may be supplied later.
      * @param contextManager
      * @param options
-     * @param levelUp The zero-based level of this instance in an inheritance hierarchy. 
+     * @param levelUp The zero-based level of this instance in an inheritance hierarchy.
      */
     constructor(geometry: G, material: M, contextManager: ContextManager, options: MeshOptions = {}, levelUp = 0) {
         super(geometry, material, contextManager, levelUp + 1);
-        this.setLoggingName('Mesh');
+        this.setLoggingName("Mesh");
 
         this.setFacet(COLOR_FACET_NAME, new ColorFacet());
 
@@ -94,8 +94,7 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
             this.K.rotation(tilt);
             this.Kinv = Matrix4.one.clone();
             this.Kinv.copy(this.K).inv();
-        }
-        else {
+        } else {
             this.Kidentity = true;
         }
 
@@ -105,7 +104,7 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
     }
 
     /**
-     * @hidden 
+     * @hidden
      */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
@@ -121,8 +120,7 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
         const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME);
         if (facet) {
             return facet.R;
-        }
-        else {
+        } else {
             throw new Error(notSupported(MODEL_FACET_NAME).message);
         }
     }
@@ -130,8 +128,7 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
         const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME);
         if (facet) {
             facet.R.copySpinor(spinor);
-        }
-        else {
+        } else {
             throw new Error(notSupported(MODEL_FACET_NAME).message);
         }
     }
@@ -143,8 +140,7 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
         const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME);
         if (facet) {
             return facet.R;
-        }
-        else {
+        } else {
             throw new Error(notSupported(MODEL_FACET_NAME).message);
         }
     }
@@ -152,8 +148,7 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
         const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME);
         if (facet) {
             facet.R.copySpinor(spinor);
-        }
-        else {
+        } else {
             throw new Error(notSupported(MODEL_FACET_NAME).message);
         }
     }
@@ -165,8 +160,7 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
         const facet = <ColorFacet>this.getFacet(COLOR_FACET_NAME);
         if (facet) {
             return facet.color;
-        }
-        else {
+        } else {
             throw new Error(notSupported(COLOR_FACET_NAME).message);
         }
     }
@@ -174,8 +168,7 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
         const facet = <ColorFacet>this.getFacet(COLOR_FACET_NAME);
         if (facet) {
             facet.color.copy(color);
-        }
-        else {
+        } else {
             throw new Error(notSupported(COLOR_FACET_NAME).message);
         }
     }
@@ -189,8 +182,7 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
             const texture = facet.texture;
             facet.release();
             return texture;
-        }
-        else {
+        } else {
             throw new Error(notSupported(TEXTURE_FACET_NAME).message);
         }
     }
@@ -199,8 +191,7 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
         if (facet) {
             facet.texture = value;
             facet.release();
-        }
-        else {
+        } else {
             throw new Error(notSupported(TEXTURE_FACET_NAME).message);
         }
     }
@@ -212,8 +203,7 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
         const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME);
         if (facet) {
             return facet.X;
-        }
-        else {
+        } else {
             throw new Error(notSupported(MODEL_FACET_NAME).message);
         }
     }
@@ -221,8 +211,7 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
         const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME);
         if (facet) {
             facet.X.copyVector(vector);
-        }
-        else {
+        } else {
             throw new Error(notSupported(MODEL_FACET_NAME).message);
         }
     }
@@ -234,8 +223,7 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
         const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME);
         if (facet) {
             return facet.X;
-        }
-        else {
+        } else {
             throw new Error(notSupported(MODEL_FACET_NAME).message);
         }
     }
@@ -243,8 +231,7 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
         const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME);
         if (facet) {
             facet.X.copyVector(vector);
-        }
-        else {
+        } else {
             throw new Error(notSupported(MODEL_FACET_NAME).message);
         }
     }
@@ -256,31 +243,28 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
         const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME);
         if (facet) {
             return facet.stress;
-        }
-        else {
-            throw new Error(notSupported('stress').message);
+        } else {
+            throw new Error(notSupported("stress").message);
         }
     }
     private set stress(stress: Matrix4) {
         const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME);
         if (facet) {
             facet.stress.copy(stress);
-        }
-        else {
-            throw new Error(notSupported('stress').message);
+        } else {
+            throw new Error(notSupported("stress").message);
         }
     }
 
     /**
-     * @param i The row index (zero-based). 
+     * @param i The row index (zero-based).
      * @param j The column index (zero-based).
      * @returns The ij th element of the stress matrix (possibly Kinv * stress * K).
      */
     private getScale(i: number, j: number): number {
         if (this.Kidentity) {
             return this.stress.getElement(i, j);
-        }
-        else {
+        } else {
             const cMatrix = this.canonicalScale;
             cMatrix.copy(this.Kinv).mul(this.stress).mul(this.K);
             return cMatrix.getElement(i, j);
@@ -327,8 +311,7 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
             if (z !== oldZ) {
                 sMatrix.setElement(2, 2, z);
             }
-        }
-        else {
+        } else {
             const sMatrix = this.stress;
             const cMatrix = this.canonicalScale;
             cMatrix.copy(this.Kinv).mul(sMatrix).mul(this.K);
@@ -368,15 +351,14 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
      * Implementation of the axis (set) property.
      * The result is independent of the magnitude of the `axis` parameter.
      * Derived classes may overide to perform scaling.
-     * 
-     * @param axis 
+     *
+     * @param axis
      */
     protected setAxis(axis: VectorE3): void {
         const squaredNorm = quadVectorE3(axis);
         if (squaredNorm > 0) {
             this.attitude.rotorFromDirections(this.referenceAxis, axis);
-        }
-        else {
+        } else {
             // The axis direction is undefined.
             this.attitude.one();
         }
@@ -420,8 +402,7 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
         const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME);
         if (facet) {
             return facet.modelMatrixUniformName;
-        }
-        else {
+        } else {
             throw new Error(notSupported(MODEL_FACET_NAME).message);
         }
     }
@@ -429,8 +410,7 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
         const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME);
         if (facet) {
             facet.modelMatrixUniformName = name;
-        }
-        else {
+        } else {
             throw new Error(notSupported(MODEL_FACET_NAME).message);
         }
     }
@@ -443,8 +423,7 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
         const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME);
         if (facet) {
             return facet.normalMatrixUniformName;
-        }
-        else {
+        } else {
             throw new Error(notSupported(MODEL_FACET_NAME).message);
         }
     }
@@ -452,8 +431,7 @@ export class Mesh<G extends Geometry, M extends Material> extends Drawable<G, M>
         const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME);
         if (facet) {
             facet.normalMatrixUniformName = name;
-        }
-        else {
+        } else {
             throw new Error(notSupported(MODEL_FACET_NAME).message);
         }
     }

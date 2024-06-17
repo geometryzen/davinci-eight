@@ -1,4 +1,4 @@
-import { makeWebGLShader } from './makeWebGLShader';
+import { makeWebGLShader } from "./makeWebGLShader";
 
 /**
  * @hidden
@@ -27,8 +27,7 @@ export function makeWebGLProgram(ctx: WebGLRenderingContext, vertexShaderSrc: st
     const linked = ctx.getProgramParameter(program, ctx.LINK_STATUS);
     if (linked || ctx.isContextLost()) {
         return program;
-    }
-    else {
+    } else {
         const message: string = ctx.getProgramInfoLog(program);
 
         ctx.detachShader(program, vs);

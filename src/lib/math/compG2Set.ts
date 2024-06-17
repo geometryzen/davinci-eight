@@ -18,7 +18,7 @@ const COORD_XY = 3;
 /**
  * @hidden
  */
-export function compG2Set(m: { a: number; x: number; y: number; b: number; }, index: number, value: number): void {
+export function compG2Set(m: { a: number; x: number; y: number; b: number }, index: number, value: number): void {
     switch (index) {
         case COORD_W:
             m.a = value;

@@ -1,5 +1,5 @@
-import { isUndefined } from '../checks/isUndefined';
-import { mustSatisfy } from '../checks/mustSatisfy';
+import { isUndefined } from "../checks/isUndefined";
+import { mustSatisfy } from "../checks/mustSatisfy";
 
 /**
  * @hidden

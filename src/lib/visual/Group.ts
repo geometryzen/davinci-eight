@@ -1,12 +1,12 @@
-import { ShareableArray } from '../collections/ShareableArray';
-import { Facet } from '../core/Facet';
-import { Renderable } from '../core/Renderable';
-import { ShareableBase } from '../core/ShareableBase';
-import { Geometric3 } from '../math/Geometric3';
-import { Matrix4 } from '../math/Matrix4';
+import { ShareableArray } from "../collections/ShareableArray";
+import { Facet } from "../core/Facet";
+import { Renderable } from "../core/Renderable";
+import { ShareableBase } from "../core/ShareableBase";
+import { Geometric3 } from "../math/Geometric3";
+import { Matrix4 } from "../math/Matrix4";
 
 /**
- * @hidden 
+ * @hidden
  */
 export interface GroupMember extends Renderable {
     X: Geometric3;
@@ -32,7 +32,7 @@ export class Group extends ShareableBase implements GroupMember {
      */
     private att = Geometric3.one(false);
     /**
-     * 
+     *
      */
     public stress = Matrix4.one.clone();
     /**
@@ -41,16 +41,16 @@ export class Group extends ShareableBase implements GroupMember {
     public visible = true;
 
     /**
-     * Constructs 
+     * Constructs
      */
     constructor() {
         super();
-        this.setLoggingName('Group');
+        this.setLoggingName("Group");
         this.members = new ShareableArray<GroupMember>([]);
     }
 
     /**
-     * 
+     *
      */
     protected destructor(levelUp: number): void {
         this.members.release();
@@ -113,8 +113,7 @@ export class Group extends ShareableBase implements GroupMember {
         if (index >= 0) {
             const ms = this.members.splice(index, 1);
             ms.release();
-        }
-        else {
+        } else {
             return void 0;
         }
     }

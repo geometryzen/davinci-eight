@@ -1,16 +1,16 @@
-import { SpinorE3 } from '../math/SpinorE3';
-import { VectorE3 } from '../math/VectorE3';
+import { SpinorE3 } from "../math/SpinorE3";
+import { VectorE3 } from "../math/VectorE3";
 
 /**
  * @hidden
  */
 export interface GeometryOptions {
     /**
-     * 
+     *
      */
     axis?: VectorE3;
     /**
-     * 
+     *
      */
     meridian?: VectorE3;
     /**
@@ -24,7 +24,7 @@ export interface GeometryOptions {
      */
     stress?: VectorE3;
     /**
-     * 
+     *
      */
     tilt?: SpinorE3;
 }

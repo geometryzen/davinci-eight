@@ -1,7 +1,7 @@
-import { Facet } from '../core/Facet';
-import { Geometric3 } from '../math/Geometric3';
-import { Matrix4 } from '../math/Matrix4';
-import { VectorE3 } from '../math/VectorE3';
+import { Facet } from "../core/Facet";
+import { Geometric3 } from "../math/Geometric3";
+import { Matrix4 } from "../math/Matrix4";
+import { VectorE3 } from "../math/VectorE3";
 
 /**
  * <p>
@@ -14,7 +14,6 @@ import { VectorE3 } from '../math/VectorE3';
  * @hidden
  */
 export interface View extends Facet {
-
     /**
      * <p>
      * The point from which the view is constructed, a vector.
@@ -37,12 +36,12 @@ export interface View extends Facet {
     up: Geometric3;
 
     /**
-     * Updates the viewMatrix property based upon the eye, look, and up properties. 
+     * Updates the viewMatrix property based upon the eye, look, and up properties.
      */
     updateViewMatrix(): void;
 
     /**
-     * 
+     *
      */
     viewMatrix: Matrix4;
 

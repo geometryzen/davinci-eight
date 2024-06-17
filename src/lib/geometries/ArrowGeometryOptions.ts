@@ -1,5 +1,5 @@
-import { GeometryKey } from '../core/GeometryKey';
-import { GeometryOptions } from './GeometryOptions';
+import { GeometryKey } from "../core/GeometryKey";
+import { GeometryOptions } from "./GeometryOptions";
 
 /**
  * @hidden

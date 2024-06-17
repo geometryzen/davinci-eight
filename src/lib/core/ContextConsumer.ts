@@ -1,4 +1,4 @@
-import { Shareable } from './Shareable';
+import { Shareable } from "./Shareable";
 
 /**
  * This interface standardizes the concept of an implementation being dependent upon
@@ -7,7 +7,6 @@ import { Shareable } from './Shareable';
  * whereupon a browser may reset its WebGL rendering contexts.
  */
 export interface ContextConsumer extends Shareable {
-
     /**
      * Called to request the consumer to free any WebGL resources acquired and owned.
      * The consumer may assume that its cached context is still valid in order

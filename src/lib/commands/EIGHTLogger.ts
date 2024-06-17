@@ -1,15 +1,14 @@
-import { config } from '../config';
-import { ShareableBase } from '../core/ShareableBase';
+import { config } from "../config";
+import { ShareableBase } from "../core/ShareableBase";
 
 /**
  * Displays details about EIGHT to the console.
  * @hidden
  */
 export class EIGHTLogger extends ShareableBase {
-
     constructor() {
         super();
-        this.setLoggingName('EIGHTLogger');
+        this.setLoggingName("EIGHTLogger");
     }
 
     protected destructor(levelUp: number): void {

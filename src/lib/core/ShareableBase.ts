@@ -1,11 +1,11 @@
-import { isDefined } from '../checks/isDefined';
-import { mustBeEQ } from '../checks/mustBeEQ';
-import { mustBeInteger } from '../checks/mustBeInteger';
-import { mustBeString } from '../checks/mustBeString';
-import { Shareable } from '../core/Shareable';
+import { isDefined } from "../checks/isDefined";
+import { mustBeEQ } from "../checks/mustBeEQ";
+import { mustBeInteger } from "../checks/mustBeInteger";
+import { mustBeString } from "../checks/mustBeString";
+import { Shareable } from "../core/Shareable";
 // import { readOnly } from '../i18n/readOnly';
-import { refChange } from './refChange';
-import { uuid4 } from './uuid4';
+import { refChange } from "./refChange";
+import { uuid4 } from "./uuid4";
 
 /**
  * <p>
@@ -33,7 +33,7 @@ export class ShareableBase implements Shareable {
      *
      */
     constructor() {
-        this._type = 'ShareableBase';
+        this._type = "ShareableBase";
         this._levelUp = 0;
         this._refCount = 1;
         refChange(this._uuid, this._type, +1);
@@ -42,7 +42,7 @@ export class ShareableBase implements Shareable {
     /**
      * @hidden
      * Experimental
-     * 
+     *
      * restore (a zombie) to life.
      */
     protected resurrector(levelUp: number, grumble = false): void {
@@ -69,7 +69,7 @@ export class ShareableBase implements Shareable {
      * @param levelUp A number that should be incremented for each destructor call.
      */
     protected destructor(levelUp: number, grumble = false): void {
-        mustBeInteger('levelUp', levelUp);
+        mustBeInteger("levelUp", levelUp);
         mustBeEQ(`${this._type} constructor-destructor chain mismatch: destructor index ${levelUp}`, levelUp, this._levelUp);
         if (grumble) {
             console.warn("`protected destructor(): void` method should be implemented by `" + this._type + "`.");
@@ -97,7 +97,7 @@ export class ShareableBase implements Shareable {
      * In some cases it may be possible to recycle a zombie.
      */
     public isZombie(): boolean {
-        return typeof this._refCount === 'undefined';
+        return typeof this._refCount === "undefined";
     }
 
     /**
@@ -111,8 +111,7 @@ export class ShareableBase implements Shareable {
         if (this.isZombie()) {
             this.resurrector(0, true);
             return this._refCount;
-        }
-        else {
+        } else {
             this._refCount++;
             refChange(this._uuid, this._type, +1);
             return this._refCount;
@@ -137,11 +136,11 @@ export class ShareableBase implements Shareable {
      * chains are consistent with constructor chains, which is a good practice for cleaning up resources.
      *
      * Notice that this method is intentionally protected to discourage it from being called outside of the constructor.
-     * 
+     *
      * @param name This will usually be set to the name of the class.
      */
     protected setLoggingName(name: string): void {
-        this._type = mustBeString('name', name);
+        this._type = mustBeString("name", name);
         this._levelUp += 1;
         // Update the name used by the reference count tracking.
         refChange(this._uuid, name, +1);

@@ -1,12 +1,12 @@
-import { Glyph } from '../geometries/Glyph';
+import { Glyph } from "../geometries/Glyph";
 
 /**
  * @hidden
  */
 export class FontFace {
-  resolution: number;
-  glyphs: { [char: string]: Glyph };
-  constructor() {
-    // Do nothing.
-  }
+    resolution: number;
+    glyphs: { [char: string]: Glyph };
+    constructor() {
+        // Do nothing.
+    }
 }

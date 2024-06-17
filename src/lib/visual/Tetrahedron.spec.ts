@@ -1,5 +1,5 @@
-import { Engine } from '../core/Engine';
-import { Tetrahedron } from './Tetrahedron';
+import { Engine } from "../core/Engine";
+import { Tetrahedron } from "./Tetrahedron";
 
 describe("Tetrahedron", function () {
     it("new-release", function () {

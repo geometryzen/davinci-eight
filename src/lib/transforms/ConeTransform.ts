@@ -1,11 +1,11 @@
-import { Transform } from '../atoms/Transform';
-import { Vertex } from '../atoms/Vertex';
-import { mustBeBoolean } from '../checks/mustBeBoolean';
-import { mustBeNumber } from '../checks/mustBeNumber';
-import { mustBeString } from '../checks/mustBeString';
-import { Spinor3 } from '../math/Spinor3';
-import { Vector3 } from '../math/Vector3';
-import { VectorE3 } from '../math/VectorE3';
+import { Transform } from "../atoms/Transform";
+import { Vertex } from "../atoms/Vertex";
+import { mustBeBoolean } from "../checks/mustBeBoolean";
+import { mustBeNumber } from "../checks/mustBeNumber";
+import { mustBeString } from "../checks/mustBeString";
+import { Spinor3 } from "../math/Spinor3";
+import { Vector3 } from "../math/Vector3";
+import { VectorE3 } from "../math/VectorE3";
 
 /**
  * @hidden
@@ -20,7 +20,6 @@ function coneNormal(ρ: VectorE3, h: VectorE3, out: Vector3): void {
  * @hidden
  */
 export class ConeTransform implements Transform {
-
     /**
      * The vector from the base of the cone to the apex.
      * The default is e2.
@@ -53,14 +52,14 @@ export class ConeTransform implements Transform {
      * @param aTangent The name to use for the tangent plane attribute.
      */
     constructor(clockwise: boolean, sliceAngle: number, aPosition: string, aTangent: string) {
-        this.clockwise = mustBeBoolean('clockwise', clockwise);
-        this.sliceAngle = mustBeNumber('sliceAngle', sliceAngle);
-        this.aPosition = mustBeString('aPosition', aPosition);
-        this.aTangent = mustBeString('aTangent', aTangent);
+        this.clockwise = mustBeBoolean("clockwise", clockwise);
+        this.sliceAngle = mustBeNumber("sliceAngle", sliceAngle);
+        this.aPosition = mustBeString("aPosition", aPosition);
+        this.aTangent = mustBeString("aTangent", aTangent);
     }
 
     /**
-     * 
+     *
      * @param vertex (output)
      * @param i (input)
      * @param j (input)

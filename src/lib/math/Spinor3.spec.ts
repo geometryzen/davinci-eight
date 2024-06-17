@@ -1,7 +1,7 @@
-import { Geometric3 } from './Geometric3';
-import { ignoreNegativeZero } from './ignoreNegativeZero';
-import { Spinor3 } from './Spinor3';
-import { Vector3 } from './Vector3';
+import { Geometric3 } from "./Geometric3";
+import { ignoreNegativeZero } from "./ignoreNegativeZero";
+import { Spinor3 } from "./Spinor3";
+import { Vector3 } from "./Vector3";
 
 /**
  * @hidden
@@ -204,7 +204,6 @@ describe("Spinor3", function () {
     });
 
     describe("rotate", function () {
-
         const r = Spinor3.spinor(11, 13, 17, 19);
         const m = Spinor3.spinor(2, 3, 5, 7);
         const s = m.clone().rotate(r);
@@ -217,7 +216,6 @@ describe("Spinor3", function () {
             expect(s.modified).toBe(true);
         });
         it("should agree with R * M * rev(R) using G3", function () {
-
             const R = Geometric3.fromSpinor(r);
             const M = Geometric3.fromSpinor(m);
             const S = R.clone().mul(M).mul(R.clone().rev());

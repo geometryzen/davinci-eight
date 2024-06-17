@@ -6,17 +6,17 @@ export enum Usage {
      * Contents of the buffer are likely to not be used often.
      * Contents are written to the buffer, but not read.
      */
-    STREAM_DRAW = 0x88E0,
+    STREAM_DRAW = 0x88e0,
     /**
      * Contents of the buffer are likely to be used often and not change often.
      * Contents are written to the buffer, but not read.
      */
-    STATIC_DRAW = 0x88E4,
+    STATIC_DRAW = 0x88e4,
     /**
      * Contents of the buffer are likely to be used often and change often.
      * Contents are written to the buffer, but not read.
      */
-    DYNAMIC_DRAW = 0x88E8
+    DYNAMIC_DRAW = 0x88e8
 }
 
 /**

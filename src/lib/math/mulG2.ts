@@ -1,13 +1,12 @@
-import { compG2Get as get } from '../math/compG2Get';
-import { compG2Set as set } from '../math/compG2Set';
-import { GeometricE2 } from '../math/GeometricE2';
-import { mulE2 } from '../math/mulE2';
+import { compG2Get as get } from "../math/compG2Get";
+import { compG2Set as set } from "../math/compG2Set";
+import { GeometricE2 } from "../math/GeometricE2";
+import { mulE2 } from "../math/mulE2";
 
 /**
  * @hidden
  */
 export function mulG2<T extends GeometricE2>(a: GeometricE2, b: GeometricE2, out: T): T {
-
     const a0 = get(a, 0);
     const a1 = get(a, 1);
     const a2 = get(a, 2);

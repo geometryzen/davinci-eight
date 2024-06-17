@@ -1,6 +1,6 @@
-import { ContextManager } from '../core/ContextManager';
-import { ShareableBase } from '../core/ShareableBase';
-import { readOnly } from '../i18n/readOnly';
+import { ContextManager } from "../core/ContextManager";
+import { ShareableBase } from "../core/ShareableBase";
+import { readOnly } from "../i18n/readOnly";
 
 /**
  * Displays details about the WegGL version to the console.
@@ -43,6 +43,6 @@ export class ContextAttributesLogger extends ShareableBase {
         return this.getLoggingName();
     }
     set name(unused) {
-        throw new Error(readOnly('name').message);
+        throw new Error(readOnly("name").message);
     }
 }

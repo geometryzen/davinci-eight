@@ -1,4 +1,3 @@
-
 /**
  * @hidden
  */
@@ -13,22 +12,26 @@ export function rcoE2(a0: number, a1: number, a2: number, a3: number, b0: number
     b3 = +b3;
     index = index | 0;
     let x = 0.0;
-    switch (~(~index)) {
-        case 0: {
-            x = +(a0 * b0 + a1 * b1 + a2 * b2 - a3 * b3);
-        }
+    switch (~~index) {
+        case 0:
+            {
+                x = +(a0 * b0 + a1 * b1 + a2 * b2 - a3 * b3);
+            }
             break;
-        case 1: {
-            x = +(- a1 * b0 - a3 * b2);
-        }
+        case 1:
+            {
+                x = +(-a1 * b0 - a3 * b2);
+            }
             break;
-        case 2: {
-            x = +(- a2 * b0 + a3 * b1);
-        }
+        case 2:
+            {
+                x = +(-a2 * b0 + a3 * b1);
+            }
             break;
-        case 3: {
-            x = +(a3 * b0);
-        }
+        case 3:
+            {
+                x = +(a3 * b0);
+            }
             break;
         default: {
             throw new Error("index must be in the range [0..3]");

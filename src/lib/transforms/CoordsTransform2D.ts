@@ -1,8 +1,8 @@
-import { Transform } from '../atoms/Transform';
-import { Vertex } from '../atoms/Vertex';
-import { mustBeBoolean } from '../checks/mustBeBoolean';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { Vector2 } from '../math/Vector2';
+import { Transform } from "../atoms/Transform";
+import { Vertex } from "../atoms/Vertex";
+import { mustBeBoolean } from "../checks/mustBeBoolean";
+import { GraphicsProgramSymbols } from "../core/GraphicsProgramSymbols";
+import { Vector2 } from "../math/Vector2";
 
 /**
  * Applies coordinates to a surface.
@@ -13,9 +13,9 @@ export class CoordsTransform2D implements Transform {
     public flipV: boolean;
     public exchageUV: boolean;
     constructor(flipU: boolean, flipV: boolean, exchangeUV: boolean) {
-        this.flipU = mustBeBoolean('flipU', flipU);
-        this.flipV = mustBeBoolean('flipV', flipV);
-        this.exchageUV = mustBeBoolean('exchangeUV', exchangeUV);
+        this.flipU = mustBeBoolean("flipU", flipU);
+        this.flipV = mustBeBoolean("flipV", flipV);
+        this.exchageUV = mustBeBoolean("exchangeUV", exchangeUV);
     }
 
     /**

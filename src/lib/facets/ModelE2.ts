@@ -1,19 +1,18 @@
-import { Geometric2 } from '../math/Geometric2';
+import { Geometric2 } from "../math/Geometric2";
 
 /**
  * @hidden
  */
 export class ModelE2 {
-
     /**
      * The name of the property that designates the attitude.
      */
-    public static PROP_ATTITUDE = 'R';
+    public static PROP_ATTITUDE = "R";
 
     /**
      * The name of the property that designates the position.
      */
-    public static PROP_POSITION = 'X';
+    public static PROP_POSITION = "X";
 
     private _position = new Geometric2().zero();
 

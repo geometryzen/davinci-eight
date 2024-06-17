@@ -1,9 +1,9 @@
-import { BrowserHTMLElement } from '../base/BrowserHTMLElement';
-import { BrowserWindow } from '../base/BrowserWindow';
-import { mustBeObject } from '../checks/mustBeObject';
-import { ShareableBase } from '../core/ShareableBase';
-import { Vector2 } from '../math/Vector2';
-import { MouseCoordinates } from './MouseCoordinates';
+import { BrowserHTMLElement } from "../base/BrowserHTMLElement";
+import { BrowserWindow } from "../base/BrowserWindow";
+import { mustBeObject } from "../checks/mustBeObject";
+import { ShareableBase } from "../core/ShareableBase";
+import { Vector2 } from "../math/Vector2";
+import { MouseCoordinates } from "./MouseCoordinates";
 
 /**
  * @hidden
@@ -20,7 +20,6 @@ const keys = [65 /*A*/, 83 /*S*/, 68 /*D*/];
  * @hidden
  */
 export class MouseControls extends ShareableBase {
-
     /**
      *
      * @default true
@@ -134,8 +133,8 @@ export class MouseControls extends ShareableBase {
      */
     constructor(wnd: BrowserWindow = window) {
         super();
-        this.setLoggingName('MouseControls');
-        this.wnd = mustBeObject('wnd', wnd);
+        this.setLoggingName("MouseControls");
+        this.wnd = mustBeObject("wnd", wnd);
 
         /**
          *
@@ -153,19 +152,17 @@ export class MouseControls extends ShareableBase {
                 this.updateMouseOnCircle(event);
                 this.moveCurr.copy(this.mouseOnCircle);
                 this.movePrev.copy(this.mouseOnCircle);
-            }
-            else if (this.mode === MODE.ZOOM && !this.noZoom) {
+            } else if (this.mode === MODE.ZOOM && !this.noZoom) {
                 this.updateMouseOnScreen(event);
                 this.zoomStart.copy(this.mouseOnScreen);
                 this.zoomEnd.copy(this.mouseOnScreen);
-            }
-            else if (this.mode === MODE.PAN && !this.noPan) {
+            } else if (this.mode === MODE.PAN && !this.noPan) {
                 this.updateMouseOnScreen(event);
                 this.panStart.copy(this.mouseOnScreen);
                 this.panEnd.copy(this.mouseOnScreen);
             }
-            this.wnd.document.addEventListener('mousemove', this.mousemove as EventListener, false);
-            this.wnd.document.addEventListener('mouseup', this.mouseup as EventListener, false);
+            this.wnd.document.addEventListener("mousemove", this.mousemove as EventListener, false);
+            this.wnd.document.addEventListener("mouseup", this.mouseup as EventListener, false);
         };
 
         /**
@@ -181,12 +178,10 @@ export class MouseControls extends ShareableBase {
                 this.movePrev.copy(this.moveCurr);
                 this.updateMouseOnCircle(event);
                 this.moveCurr.copy(this.mouseOnCircle);
-            }
-            else if (this.mode === MODE.ZOOM && !this.noZoom) {
+            } else if (this.mode === MODE.ZOOM && !this.noZoom) {
                 this.updateMouseOnScreen(event);
                 this.zoomEnd.copy(this.mouseOnScreen);
-            }
-            else if (this.mode === MODE.PAN && !this.noPan) {
+            } else if (this.mode === MODE.PAN && !this.noPan) {
                 this.updateMouseOnScreen(event);
                 this.panEnd.copy(this.mouseOnScreen);
             }
@@ -202,8 +197,8 @@ export class MouseControls extends ShareableBase {
             event.preventDefault();
             event.stopPropagation();
             this.mode = MODE.NONE;
-            this.wnd.document.removeEventListener('mousemove', this.mousemove as EventListener);
-            this.wnd.document.removeEventListener('mouseup', this.mouseup as EventListener);
+            this.wnd.document.removeEventListener("mousemove", this.mousemove as EventListener);
+            this.wnd.document.removeEventListener("mouseup", this.mouseup as EventListener);
         };
 
         /**
@@ -217,10 +212,11 @@ export class MouseControls extends ShareableBase {
             event.stopPropagation();
 
             let delta = 0;
-            if ((event as any)['wheelDelta']) { // WebKit / Opera / Explorer 9
-                delta = (event as any)['wheelDelta'] / 40;
-            }
-            else if (event.detail) { // Firefox
+            if ((event as any)["wheelDelta"]) {
+                // WebKit / Opera / Explorer 9
+                delta = (event as any)["wheelDelta"] / 40;
+            } else if (event.detail) {
+                // Firefox
                 delta = event.detail / 3;
             }
             this.zoomStart.y += delta * 0.01;
@@ -233,22 +229,19 @@ export class MouseControls extends ShareableBase {
             if (!this.enabled) {
                 return;
             }
-            this.wnd.removeEventListener('keydown', this.keydown as EventListener, false);
+            this.wnd.removeEventListener("keydown", this.keydown as EventListener, false);
             this.prevMode = this.mode;
             if (this.mode !== MODE.NONE) {
                 // If we are already in a mode then keydown can't change it.
                 // The key must go down before the mouse causes us to enter a mode.
                 return;
-            }
-            else if (event.keyCode === keys[MODE.ROTATE] && !this.noRotate) {
+            } else if (event.keyCode === keys[MODE.ROTATE] && !this.noRotate) {
                 // Pressing 'A'...
                 this.mode = MODE.ROTATE;
-            }
-            else if (event.keyCode === keys[MODE.ZOOM] && !this.noRotate) {
+            } else if (event.keyCode === keys[MODE.ZOOM] && !this.noRotate) {
                 // Pressing 'S'...
                 this.mode = MODE.ZOOM;
-            }
-            else if (event.keyCode === keys[MODE.PAN] && !this.noRotate) {
+            } else if (event.keyCode === keys[MODE.PAN] && !this.noRotate) {
                 // Pressing 'D'...
                 this.mode = MODE.PAN;
             }
@@ -263,7 +256,7 @@ export class MouseControls extends ShareableBase {
                 return;
             }
             this.mode = this.prevMode;
-            this.wnd.addEventListener('keydown', this.keydown as EventListener, false);
+            this.wnd.addEventListener("keydown", this.keydown as EventListener, false);
         };
     }
 
@@ -294,11 +287,11 @@ export class MouseControls extends ShareableBase {
         }
         this.domElement = domElement;
         this.disableContextMenu();
-        this.domElement.addEventListener('mousedown', this.mousedown as EventListener, false);
-        this.domElement.addEventListener('mousewheel', this.mousewheel as EventListener, false);
-        this.domElement.addEventListener('DOMMouseScroll', this.mousewheel as EventListener, false); // Firefox
-        this.wnd.addEventListener('keydown', this.keydown as EventListener, false);
-        this.wnd.addEventListener('keyup', this.keyup as EventListener, false);
+        this.domElement.addEventListener("mousedown", this.mousedown as EventListener, false);
+        this.domElement.addEventListener("mousewheel", this.mousewheel as EventListener, false);
+        this.domElement.addEventListener("DOMMouseScroll", this.mousewheel as EventListener, false); // Firefox
+        this.wnd.addEventListener("keydown", this.keydown as EventListener, false);
+        this.wnd.addEventListener("keyup", this.keyup as EventListener, false);
 
         this.handleResize();
     }
@@ -309,12 +302,12 @@ export class MouseControls extends ShareableBase {
     public unsubscribe(): void {
         if (this.domElement) {
             this.enableContextMenu();
-            this.domElement.removeEventListener('mousedown', this.mousedown as EventListener, false);
-            this.domElement.removeEventListener('mousewheel', this.mousewheel as EventListener, false);
-            this.domElement.removeEventListener('DOMMouseScroll', this.mousewheel as EventListener, false); // Firefox
+            this.domElement.removeEventListener("mousedown", this.mousedown as EventListener, false);
+            this.domElement.removeEventListener("mousewheel", this.mousewheel as EventListener, false);
+            this.domElement.removeEventListener("DOMMouseScroll", this.mousewheel as EventListener, false); // Firefox
             this.domElement = void 0;
-            this.wnd.removeEventListener('keydown', this.keydown as EventListener, false);
-            this.wnd.removeEventListener('keyup', this.keyup as EventListener, false);
+            this.wnd.removeEventListener("keydown", this.keydown as EventListener, false);
+            this.wnd.removeEventListener("keyup", this.keyup as EventListener, false);
         }
     }
 
@@ -324,7 +317,7 @@ export class MouseControls extends ShareableBase {
                 this.contextmenu = (event: PointerEvent) => {
                     event.preventDefault();
                 };
-                this.domElement.addEventListener('contextmenu', this.contextmenu as EventListener, false);
+                this.domElement.addEventListener("contextmenu", this.contextmenu as EventListener, false);
             }
         }
     }
@@ -332,7 +325,7 @@ export class MouseControls extends ShareableBase {
     public enableContextMenu(): void {
         if (this.domElement) {
             if (this.contextmenu) {
-                this.domElement.removeEventListener('contextmenu', this.contextmenu as EventListener, false);
+                this.domElement.removeEventListener("contextmenu", this.contextmenu as EventListener, false);
                 this.contextmenu = void 0;
             }
         }
@@ -380,13 +373,12 @@ export class MouseControls extends ShareableBase {
      */
     public handleResize(): void {
         // eslint-disable-next-line no-constant-condition
-        if (false/*this.domElement === document*/) {
+        if (false /*this.domElement === document*/) {
             // this.screen.left = 0;
             // this.screen.top = 0;
             // this.screen.width = window.innerWidth;
             // this.screen.height = window.innerHeight;
-        }
-        else {
+        } else {
             const boundingRect = this.domElement.getBoundingClientRect();
             // adjustments come from similar code in the jquery offset() function
             const domElement = this.domElement.ownerDocument.documentElement;

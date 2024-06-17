@@ -1,15 +1,15 @@
-import { Facet } from '../core/Facet';
-import { Geometry } from '../core/Geometry';
-import { Material } from '../core/Material';
-import { Modulo } from '../math/Modulo';
-import { Spinor3 } from '../math/Spinor3';
-import { Vector3 } from '../math/Vector3';
-import { Mesh } from '../core/Mesh';
-import { mustBeNonNullObject } from '../checks/mustBeNonNullObject';
-import { mustBeNumber } from '../checks/mustBeNumber';
-import { Renderable } from '../core/Renderable';
-import { ShareableBase } from '../core/ShareableBase';
-import { TrailConfig } from './TrailConfig';
+import { Facet } from "../core/Facet";
+import { Geometry } from "../core/Geometry";
+import { Material } from "../core/Material";
+import { Modulo } from "../math/Modulo";
+import { Spinor3 } from "../math/Spinor3";
+import { Vector3 } from "../math/Vector3";
+import { Mesh } from "../core/Mesh";
+import { mustBeNonNullObject } from "../checks/mustBeNonNullObject";
+import { mustBeNumber } from "../checks/mustBeNumber";
+import { Renderable } from "../core/Renderable";
+import { ShareableBase } from "../core/ShareableBase";
+import { TrailConfig } from "./TrailConfig";
 
 /**
  * <p>
@@ -40,7 +40,6 @@ import { TrailConfig } from './TrailConfig';
  *     trail.release()
  */
 export class Trail extends ShareableBase implements Renderable {
-
     /**
      * The underlying Mesh.
      */
@@ -75,8 +74,8 @@ export class Trail extends ShareableBase implements Renderable {
      */
     constructor(mesh: Mesh<Geometry, Material>) {
         super();
-        this.setLoggingName('Trail');
-        mustBeNonNullObject('mesh', mesh);
+        this.setLoggingName("Trail");
+        mustBeNonNullObject("mesh", mesh);
         mesh.addRef();
         this.mesh = mesh;
     }
@@ -182,7 +181,7 @@ export class Trail extends ShareableBase implements Renderable {
      * Records the Mesh variables according to the interval property.
      */
     snapshot(alpha = 0): void {
-        mustBeNumber('alpha', alpha);
+        mustBeNumber("alpha", alpha);
         if (!this.config.enabled) {
             return;
         }
@@ -198,8 +197,7 @@ export class Trail extends ShareableBase implements Renderable {
                 // When populating an occupied slot, don't create new objects.
                 this.Xs[index].copy(this.mesh.X);
                 this.Rs[index].copy(this.mesh.R);
-            }
-            else {
+            } else {
                 // When populating an empty slot, allocate a new object and make a copy.
                 this.Xs[index] = Vector3.copy(this.mesh.X);
                 this.Rs[index] = Spinor3.copy(this.mesh.R);

@@ -588,10 +588,7 @@ describe("Geometric3", function () {
             expect(R.b).toBe(0);
         });
         it("[e2, e3, e1] to [e3, e2, -e1]", function () {
-            const R = Geometric3.rotorFromFrameToFrame(
-                [e2, e3, e1],
-                [e3, e2, e1.__neg__()]
-            );
+            const R = Geometric3.rotorFromFrameToFrame([e2, e3, e1], [e3, e2, e1.__neg__()]);
             const f1 = e2.clone().rotate(R);
             expect(f1.x).toBeCloseTo(e3.x, 14);
             expect(f1.y).toBeCloseTo(e3.y, 14);
@@ -615,12 +612,7 @@ describe("Geometric3", function () {
         });
         describe("(2  e1 ^ e2, PI/2)", function () {
             const B = e1.clone().ext(e2).scale(2);
-            const R = Geometric3.scalar(1)
-                .addVector(e1)
-                .addVector(e2)
-                .addVector(e3)
-                .addPseudo(1)
-                .add(B);
+            const R = Geometric3.scalar(1).addVector(e1).addVector(e2).addVector(e3).addPseudo(1).add(B);
             R.rotorFromGeneratorAngle(B, Math.PI / 2);
             R.approx(12);
             it("shoud equal e2 ^ e1", function () {

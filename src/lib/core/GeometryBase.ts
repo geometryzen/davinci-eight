@@ -1,9 +1,9 @@
-import { mustBeDefined } from '../checks/mustBeDefined';
-import { notSupported } from '../i18n/notSupported';
-import { ContextManager } from './ContextManager';
-import { Geometry } from './Geometry';
-import { Material } from './Material';
-import { ShareableContextConsumer } from './ShareableContextConsumer';
+import { mustBeDefined } from "../checks/mustBeDefined";
+import { notSupported } from "../i18n/notSupported";
+import { ContextManager } from "./ContextManager";
+import { Geometry } from "./Geometry";
+import { Material } from "./Material";
+import { ShareableContextConsumer } from "./ShareableContextConsumer";
 
 /**
  * GeometryBase
@@ -11,7 +11,7 @@ import { ShareableContextConsumer } from './ShareableContextConsumer';
  */
 export class GeometryBase extends ShareableContextConsumer implements Geometry {
     /**
-     * 
+     *
      */
     constructor(contextManager: ContextManager, levelUp: number) {
         super(contextManager);
@@ -22,7 +22,7 @@ export class GeometryBase extends ShareableContextConsumer implements Geometry {
     }
 
     /**
-     * @hidden 
+     * @hidden
      */
     protected resurrector(levelUp: number): void {
         super.resurrector(levelUp + 1);
@@ -43,25 +43,25 @@ export class GeometryBase extends ShareableContextConsumer implements Geometry {
     }
 
     /**
-     * 
+     *
      */
     bind(material: Material): this {
-        mustBeDefined('material', material);
+        mustBeDefined("material", material);
         throw new Error(notSupported(`bind(material: Material)`).message);
     }
 
     /**
-     * 
+     *
      */
     unbind(material: Material): this {
-        mustBeDefined('material', material);
+        mustBeDefined("material", material);
         throw new Error(notSupported(`unbind(material: Material)`).message);
     }
 
     /**
-     * 
+     *
      */
     draw(): GeometryBase {
-        throw new Error(notSupported('draw()').message);
+        throw new Error(notSupported("draw()").message);
     }
 }

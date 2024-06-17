@@ -1,10 +1,10 @@
-import { Transform } from '../atoms/Transform';
-import { Vertex } from '../atoms/Vertex';
-import { mustBeArray } from '../checks/mustBeArray';
-import { mustBeObject } from '../checks/mustBeObject';
-import { Spinor3 } from '../math/Spinor3';
-import { Vector3 } from '../math/Vector3';
-import { VectorE3 } from '../math/VectorE3';
+import { Transform } from "../atoms/Transform";
+import { Vertex } from "../atoms/Vertex";
+import { mustBeArray } from "../checks/mustBeArray";
+import { mustBeObject } from "../checks/mustBeObject";
+import { Spinor3 } from "../math/Spinor3";
+import { Vector3 } from "../math/Vector3";
+import { VectorE3 } from "../math/VectorE3";
 
 /**
  * @hidden
@@ -14,8 +14,8 @@ export class Scaling implements Transform {
     private names: string[];
 
     constructor(stress: VectorE3, names: string[]) {
-        this.stress = Vector3.copy(mustBeObject('stress', stress));
-        this.names = mustBeArray('names', names);
+        this.stress = Vector3.copy(mustBeObject("stress", stress));
+        this.names = mustBeArray("names", names);
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -29,17 +29,14 @@ export class Scaling implements Transform {
                     const vector = Vector3.vector(v.getComponent(0), v.getComponent(1), v.getComponent(2));
                     vector.stress(this.stress);
                     vertex.attributes[aName] = vector;
-                }
-                else if (v.length === 4) {
+                } else if (v.length === 4) {
                     const spinor = Spinor3.spinor(v.getComponent(0), v.getComponent(1), v.getComponent(2), v.getComponent(3));
                     spinor.stress(this.stress);
                     vertex.attributes[aName] = spinor;
-                }
-                else {
+                } else {
                     throw new Error(`Expecting ${aName} to be a vector with 3 coordinates or a spinor with 4 coordinates.`);
                 }
-            }
-            else {
+            } else {
                 console.warn(`Expecting ${aName} to be a VectorN.`);
             }
         }

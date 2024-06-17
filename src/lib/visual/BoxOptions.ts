@@ -1,21 +1,21 @@
-import { GeometryMode } from '../geometries/GeometryMode';
-import { SpinorE3 } from '../math/SpinorE3';
-import { VectorE3 } from '../math/VectorE3';
+import { GeometryMode } from "../geometries/GeometryMode";
+import { SpinorE3 } from "../math/SpinorE3";
+import { VectorE3 } from "../math/VectorE3";
 
 /**
  *
  */
 export interface BoxOptions extends Record<string, unknown> {
     /**
-     * 
+     *
      */
     axis?: VectorE3;
     /**
-     * 
+     *
      */
     color?: { r: number; g: number; b: number };
     /**
-     * 
+     *
      */
     colored?: boolean;
     /**
@@ -27,15 +27,15 @@ export interface BoxOptions extends Record<string, unknown> {
      */
     height?: number;
     /**
-     * 
+     *
      */
     meridian?: VectorE3;
     /**
-     * 
+     *
      */
-    mode?: 'mesh' | 'wire' | 'point' | GeometryMode;
+    mode?: "mesh" | "wire" | "point" | GeometryMode;
     /**
-     * 
+     *
      */
     offset?: VectorE3;
     /**
@@ -67,7 +67,7 @@ export interface BoxOptions extends Record<string, unknown> {
      */
     width?: number;
     /**
-     * 
+     *
      */
     textured?: boolean;
     /**
@@ -76,7 +76,7 @@ export interface BoxOptions extends Record<string, unknown> {
      */
     tilt?: SpinorE3;
     /**
-     * 
+     *
      */
     transparent?: boolean;
 }

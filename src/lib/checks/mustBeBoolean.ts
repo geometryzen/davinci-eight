@@ -1,5 +1,5 @@
-import { isBoolean } from '../checks/isBoolean';
-import { mustSatisfy } from '../checks/mustSatisfy';
+import { isBoolean } from "../checks/isBoolean";
+import { mustSatisfy } from "../checks/mustSatisfy";
 
 /**
  * @hidden

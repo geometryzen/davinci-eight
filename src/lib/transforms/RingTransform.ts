@@ -1,10 +1,10 @@
-import { Transform } from '../atoms/Transform';
-import { Vertex } from '../atoms/Vertex';
-import { mustBeNumber } from '../checks/mustBeNumber';
-import { mustBeString } from '../checks/mustBeString';
-import { Spinor3 } from '../math/Spinor3';
-import { Vector3 } from '../math/Vector3';
-import { VectorE3 } from '../math/VectorE3';
+import { Transform } from "../atoms/Transform";
+import { Vertex } from "../atoms/Vertex";
+import { mustBeNumber } from "../checks/mustBeNumber";
+import { mustBeString } from "../checks/mustBeString";
+import { Spinor3 } from "../math/Spinor3";
+import { Vector3 } from "../math/Vector3";
+import { VectorE3 } from "../math/VectorE3";
 
 /**
  * @hidden
@@ -29,13 +29,13 @@ export class RingTransform implements Transform {
      */
     constructor(e: VectorE3, cutLine: VectorE3, clockwise: boolean, a: number, b: number, sliceAngle: number, aPosition: string, aTangent: string) {
         this.e = Vector3.copy(e);
-        this.innerRadius = mustBeNumber('a', a);
-        this.outerRadius = mustBeNumber('b', b);
-        this.sliceAngle = mustBeNumber('sliceAngle', sliceAngle);
+        this.innerRadius = mustBeNumber("a", a);
+        this.outerRadius = mustBeNumber("b", b);
+        this.sliceAngle = mustBeNumber("sliceAngle", sliceAngle);
         this.generator = Spinor3.dual(e, !clockwise);
         this.cutLine = Vector3.copy(cutLine).normalize();
-        this.aPosition = mustBeString('aPosition', aPosition);
-        this.aTangent = mustBeString('aTangent', aTangent);
+        this.aPosition = mustBeString("aPosition", aPosition);
+        this.aTangent = mustBeString("aTangent", aTangent);
     }
 
     exec(vertex: Vertex, i: number, j: number, iLength: number, jLength: number): void {
@@ -47,8 +47,13 @@ export class RingTransform implements Transform {
 
         const b = this.innerRadius;
         const a = this.outerRadius;
-        const rotor = this.generator.clone().scale(-this.sliceAngle * u / 2).exp();
-        const position = Vector3.copy(this.cutLine).rotate(rotor).scale(b + (a - b) * v);
+        const rotor = this.generator
+            .clone()
+            .scale((-this.sliceAngle * u) / 2)
+            .exp();
+        const position = Vector3.copy(this.cutLine)
+            .rotate(rotor)
+            .scale(b + (a - b) * v);
         const tangent = Spinor3.dual(this.e, true);
         vertex.attributes[this.aPosition] = position;
         vertex.attributes[this.aTangent] = tangent;

@@ -1,21 +1,21 @@
-import { isDefined } from '../checks/isDefined';
-import { mustBeBoolean } from '../checks/mustBeBoolean';
-import { mustBeInteger } from '../checks/mustBeInteger';
-import { mustBeNumber } from '../checks/mustBeNumber';
-import { ContextManager } from '../core/ContextManager';
-import { GeometryElements } from '../core/GeometryElements';
-import { Primitive } from '../core/Primitive';
-import { arc3 } from '../geometries/arc3';
-import { SimplexPrimitivesBuilder } from '../geometries/SimplexPrimitivesBuilder';
-import { Geometric3 } from '../math/Geometric3';
-import { vec } from '../math/R3';
-import { Spinor3 } from '../math/Spinor3';
-import { SpinorE3 } from '../math/SpinorE3';
-import { Vector2 } from '../math/Vector2';
-import { Vector3 } from '../math/Vector3';
-import { VectorE3 } from '../math/VectorE3';
-import { CylinderGeometryOptions } from './CylinderGeometryOptions';
-import { GeometryMode } from './GeometryMode';
+import { isDefined } from "../checks/isDefined";
+import { mustBeBoolean } from "../checks/mustBeBoolean";
+import { mustBeInteger } from "../checks/mustBeInteger";
+import { mustBeNumber } from "../checks/mustBeNumber";
+import { ContextManager } from "../core/ContextManager";
+import { GeometryElements } from "../core/GeometryElements";
+import { Primitive } from "../core/Primitive";
+import { arc3 } from "../geometries/arc3";
+import { SimplexPrimitivesBuilder } from "../geometries/SimplexPrimitivesBuilder";
+import { Geometric3 } from "../math/Geometric3";
+import { vec } from "../math/R3";
+import { Spinor3 } from "../math/Spinor3";
+import { SpinorE3 } from "../math/SpinorE3";
+import { Vector2 } from "../math/Vector2";
+import { Vector3 } from "../math/Vector3";
+import { VectorE3 } from "../math/VectorE3";
+import { CylinderGeometryOptions } from "./CylinderGeometryOptions";
+import { GeometryMode } from "./GeometryMode";
 
 /**
  * @hidden
@@ -40,9 +40,24 @@ const canonicalAxis = vec(0, 1, 0);
  * @param uvs
  * @hidden
  */
-function computeWallVertices(height: VectorE3, radius: VectorE3, clockwise: boolean, stress: VectorE3, tilt: SpinorE3, offset: VectorE3, angle: number, generator: SpinorE3, heightSegments: number, thetaSegments: number, points: Vector3[], tangents: Spinor3[], vertices: number[][], uvs: Vector2[][]) {
+function computeWallVertices(
+    height: VectorE3,
+    radius: VectorE3,
+    clockwise: boolean,
+    stress: VectorE3,
+    tilt: SpinorE3,
+    offset: VectorE3,
+    angle: number,
+    generator: SpinorE3,
+    heightSegments: number,
+    thetaSegments: number,
+    points: Vector3[],
+    tangents: Spinor3[],
+    vertices: number[][],
+    uvs: Vector2[][]
+) {
     /**
-     * 
+     *
      */
     const halfHeight = Vector3.copy(height).scale(0.5);
 
@@ -53,7 +68,6 @@ function computeWallVertices(height: VectorE3, radius: VectorE3, clockwise: bool
 
     const iLength = heightSegments + 1;
     for (let i = 0; i < iLength; i++) {
-
         /**
          * The displacement to the current level.
          */
@@ -105,7 +119,6 @@ function computeWallVertices(height: VectorE3, radius: VectorE3, clockwise: bool
         vertices.push(verticesRow);
         uvs.push(uvsRow);
     }
-
 }
 
 /**
@@ -133,7 +146,12 @@ class CylinderSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
     public openCap = false;
     public openWall = false;
 
-    constructor(height: VectorE3, cutLine: VectorE3, clockwise: boolean, private mode: GeometryMode) {
+    constructor(
+        height: VectorE3,
+        cutLine: VectorE3,
+        clockwise: boolean,
+        private mode: GeometryMode
+    ) {
         super();
         this.height = Vector3.copy(height);
         this.cutLine = Vector3.copy(cutLine);
@@ -167,7 +185,7 @@ class CylinderSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
                      * 2-1-3 and 4-3-1 (both counter-clockwise when viewed from outside).
                      *
                      *  2-------3
-                     *  |       | 
+                     *  |       |
                      *  |       |
                      *  |       |
                      *  1-------4
@@ -294,14 +312,12 @@ class CylinderSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
 /**
  * @hidden
  */
-function getAxis(options: CylinderGeometryOptions = { kind: 'CylinderGeometry' }): VectorE3 {
+function getAxis(options: CylinderGeometryOptions = { kind: "CylinderGeometry" }): VectorE3 {
     if (isDefined(options.axis)) {
         return options.axis;
-    }
-    else if (isDefined(options.length)) {
-        return vec(0, mustBeNumber('length', options.length), 0);
-    }
-    else {
+    } else if (isDefined(options.length)) {
+        return vec(0, mustBeNumber("length", options.length), 0);
+    } else {
         return vec(0, 1, 0);
     }
 }
@@ -309,14 +325,12 @@ function getAxis(options: CylinderGeometryOptions = { kind: 'CylinderGeometry' }
 /**
  * @hidden
  */
-function getMeridian(options: CylinderGeometryOptions = { kind: 'CylinderGeometry' }): VectorE3 {
+function getMeridian(options: CylinderGeometryOptions = { kind: "CylinderGeometry" }): VectorE3 {
     if (isDefined(options.meridian)) {
         return options.meridian;
-    }
-    else if (isDefined(options.radius)) {
-        return vec(0, 0, mustBeNumber('radius', options.radius));
-    }
-    else {
+    } else if (isDefined(options.radius)) {
+        return vec(0, 0, mustBeNumber("radius", options.radius));
+    } else {
         return vec(0, 0, 1);
     }
 }
@@ -325,8 +339,7 @@ function getMeridian(options: CylinderGeometryOptions = { kind: 'CylinderGeometr
  * TODO: Support GeometryMode.
  * @hidden
  */
-function cylinderPrimitive(options: CylinderGeometryOptions = { kind: 'CylinderGeometry' }): Primitive {
-
+function cylinderPrimitive(options: CylinderGeometryOptions = { kind: "CylinderGeometry" }): Primitive {
     /**
      * The canonical axis is in the e2 direction.
      */
@@ -339,13 +352,13 @@ function cylinderPrimitive(options: CylinderGeometryOptions = { kind: 'CylinderG
     const builder = new CylinderSimplexPrimitivesBuilder(height, cutLine, false, mode);
 
     if (isDefined(options.openBase)) {
-        builder.openBase = mustBeBoolean('openBase', options.openBase);
+        builder.openBase = mustBeBoolean("openBase", options.openBase);
     }
     if (isDefined(options.openCap)) {
-        builder.openCap = mustBeBoolean('openCap', options.openCap);
+        builder.openCap = mustBeBoolean("openCap", options.openCap);
     }
     if (isDefined(options.openWall)) {
-        builder.openWall = mustBeBoolean('openWall', options.openWall);
+        builder.openWall = mustBeBoolean("openWall", options.openWall);
     }
     if (isDefined(options.heightSegments)) {
         builder.flatSegments = mustBeInteger("heightSegments", options.heightSegments);
@@ -360,8 +373,7 @@ function cylinderPrimitive(options: CylinderGeometryOptions = { kind: 'CylinderG
     const primitives = builder.toPrimitives();
     if (primitives.length === 1) {
         return primitives[0];
-    }
-    else {
+    } else {
         throw new Error("Expecting CylinderSimplexPrimitivesBuilder to return one Primitive.");
     }
 }
@@ -381,27 +393,27 @@ function baseOptions(options: CylinderGeometryOptions): { tilt: SpinorE3 } {
  */
 export class CylinderGeometry extends GeometryElements {
     /**
-     * 
+     *
      */
-    constructor(contextManager: ContextManager, options: CylinderGeometryOptions = { kind: 'CylinderGeometry' }, levelUp = 0) {
+    constructor(contextManager: ContextManager, options: CylinderGeometryOptions = { kind: "CylinderGeometry" }, levelUp = 0) {
         super(contextManager, cylinderPrimitive(options), baseOptions(options), levelUp + 1);
-        this.setLoggingName('CylinderGeometry');
+        this.setLoggingName("CylinderGeometry");
         if (levelUp === 0) {
             this.synchUp();
         }
     }
     /**
-     * 
+     *
      */
     protected resurrector(levelUp: number): void {
         super.resurrector(levelUp + 1);
-        this.setLoggingName('CylinderGeometry');
+        this.setLoggingName("CylinderGeometry");
         if (levelUp === 0) {
             this.synchUp();
         }
     }
     /**
-     * 
+     *
      */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {

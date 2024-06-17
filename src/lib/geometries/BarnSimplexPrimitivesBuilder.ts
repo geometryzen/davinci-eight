@@ -1,10 +1,10 @@
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { computeFaceNormals } from '../geometries/computeFaceNormals';
-import { quadrilateral as quad } from '../geometries/quadrilateral';
-import { Simplex } from '../geometries/Simplex';
-import { SimplexPrimitivesBuilder } from '../geometries/SimplexPrimitivesBuilder';
-import { triangle } from '../geometries/triangle';
-import { Geometric3 } from '../math/Geometric3';
+import { GraphicsProgramSymbols } from "../core/GraphicsProgramSymbols";
+import { computeFaceNormals } from "../geometries/computeFaceNormals";
+import { quadrilateral as quad } from "../geometries/quadrilateral";
+import { Simplex } from "../geometries/Simplex";
+import { SimplexPrimitivesBuilder } from "../geometries/SimplexPrimitivesBuilder";
+import { triangle } from "../geometries/triangle";
+import { Geometric3 } from "../math/Geometric3";
 
 /**
  * @hidden
@@ -28,11 +28,12 @@ export class BarnSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
         return this;
     }
     protected regenerate(): void {
-
         this.setModified(false);
 
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        let points: Geometric3[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(function (index: number) { return void 0; });
+        let points: Geometric3[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(function (index: number) {
+            return void 0;
+        });
 
         // Define the anchor points relative to the origin.
         points[0] = Geometric3.zero(false).sub(this.a).sub(this.b).sub(this.c).divByScalar(2);
@@ -50,7 +51,9 @@ export class BarnSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
 
         // FIXME
         const tilt = Geometric3.scalar(1);
-        points = points.map((point) => { return point.stress(this.stress).rotate(tilt).addVector(this.offset); });
+        points = points.map((point) => {
+            return point.stress(this.stress).rotate(tilt).addVector(this.offset);
+        });
 
         function simplex(indices: number[]): Simplex {
             const simplex = new Simplex(indices.length - 1);
@@ -72,13 +75,33 @@ export class BarnSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
                 break;
             }
             case 1: {
-                const lines = [[0, 1], [1, 6], [6, 5], [5, 0], [1, 2], [6, 7], [5, 9], [0, 4], [4, 3], [3, 2], [9, 8], [8, 7], [9, 4], [8, 3], [7, 2]];
-                this.data = lines.map(function (line) { return simplex(line); });
+                const lines = [
+                    [0, 1],
+                    [1, 6],
+                    [6, 5],
+                    [5, 0],
+                    [1, 2],
+                    [6, 7],
+                    [5, 9],
+                    [0, 4],
+                    [4, 3],
+                    [3, 2],
+                    [9, 8],
+                    [8, 7],
+                    [9, 4],
+                    [8, 3],
+                    [7, 2]
+                ];
+                this.data = lines.map(function (line) {
+                    return simplex(line);
+                });
                 break;
             }
             case 2: {
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                const faces: Simplex[][] = [0, 1, 2, 3, 4, 5, 6, 7, 8].map(function (index: number) { return void 0; });
+                const faces: Simplex[][] = [0, 1, 2, 3, 4, 5, 6, 7, 8].map(function (index: number) {
+                    return void 0;
+                });
                 faces[0] = quad(points[0], points[5], points[9], points[4]);
                 faces[1] = quad(points[3], points[4], points[9], points[8]);
                 faces[2] = quad(points[2], points[3], points[8], points[7]);
@@ -88,7 +111,9 @@ export class BarnSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
                 faces[6] = quad(points[0], points[4], points[2], points[1]);
                 faces[7] = triangle(points[9], points[7], points[8]);
                 faces[8] = triangle(points[2], points[4], points[3]);
-                this.data = faces.reduce(function (a, b) { return a.concat(b); }, []);
+                this.data = faces.reduce(function (a, b) {
+                    return a.concat(b);
+                }, []);
 
                 this.data.forEach(function (simplex) {
                     computeFaceNormals(simplex);

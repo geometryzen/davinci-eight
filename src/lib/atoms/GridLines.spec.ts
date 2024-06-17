@@ -1,9 +1,8 @@
-import { BeginMode } from '../core/BeginMode';
-import { GridLines } from './GridLines';
-import { vertexArraysFromPrimitive } from '../core/vertexArraysFromPrimitive';
+import { BeginMode } from "../core/BeginMode";
+import { GridLines } from "./GridLines";
+import { vertexArraysFromPrimitive } from "../core/vertexArraysFromPrimitive";
 
 describe("GridLines", function () {
-
     // TODO: It would be nice to simply specify:
     // 1) There must be four unique lines
     // 2) Every inner vertex is conected by four lines to its nearest neighbor.
@@ -71,5 +70,4 @@ describe("GridLines", function () {
             expect(vas.indices[7]).toBe(3);
         });
     });
-
 });

@@ -1,7 +1,7 @@
-import { ContextManager } from '../core/ContextManager';
-import { GeometryElements } from '../core/GeometryElements';
-import { ArrowGeometryOptions } from './ArrowGeometryOptions';
-import { arrowPrimitive } from './arrowPrimitive';
+import { ContextManager } from "../core/ContextManager";
+import { GeometryElements } from "../core/GeometryElements";
+import { ArrowGeometryOptions } from "./ArrowGeometryOptions";
+import { arrowPrimitive } from "./arrowPrimitive";
 
 /**
  * <p>
@@ -17,27 +17,27 @@ import { arrowPrimitive } from './arrowPrimitive';
  */
 export class ArrowGeometry extends GeometryElements {
     /**
-     * 
+     *
      */
-    constructor(contextManager: ContextManager, options: ArrowGeometryOptions = { kind: 'ArrowGeometry' }, levelUp = 0) {
+    constructor(contextManager: ContextManager, options: ArrowGeometryOptions = { kind: "ArrowGeometry" }, levelUp = 0) {
         super(contextManager, arrowPrimitive(options), options, levelUp + 1);
-        this.setLoggingName('ArrowGeometry');
+        this.setLoggingName("ArrowGeometry");
         if (levelUp === 0) {
             this.synchUp();
         }
     }
     /**
-     * 
+     *
      */
     protected resurrector(levelUp: number): void {
         super.resurrector(levelUp + 1);
-        this.setLoggingName('ArrowGeometry');
+        this.setLoggingName("ArrowGeometry");
         if (levelUp === 0) {
             this.synchUp();
         }
     }
     /**
-     * 
+     *
      */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {

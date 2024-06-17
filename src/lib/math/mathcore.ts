@@ -3,7 +3,7 @@
  * @hidden
  */
 function isCallableMethod(x: any, name: string) {
-    return (x !== null) && (typeof x === 'object') && (typeof x[name] === 'function');
+    return x !== null && typeof x === "object" && typeof x[name] === "function";
 }
 
 /**
@@ -15,11 +15,9 @@ function makeUnaryUniversalFunction(methodName: string, primitiveFunction: (x: n
     return function <T>(x: T): T {
         if (isCallableMethod(x, methodName)) {
             return (x as any)[methodName]();
-        }
-        else if (typeof x === 'number') {
+        } else if (typeof x === "number") {
             return primitiveFunction(x) as any;
-        }
-        else {
+        } else {
             throw new TypeError(`x must support ${methodName}(x)`);
         }
     };
@@ -49,56 +47,58 @@ function tanhNumber(x: number): number {
 /**
  * @hidden
  */
-export const acos = makeUnaryUniversalFunction('acos', Math.acos);
+export const acos = makeUnaryUniversalFunction("acos", Math.acos);
 /**
  * @hidden
  */
-export const asin = makeUnaryUniversalFunction('asin', Math.asin);
+export const asin = makeUnaryUniversalFunction("asin", Math.asin);
 /**
  * @hidden
  */
-export const atan = makeUnaryUniversalFunction('atan', Math.atan);
+export const atan = makeUnaryUniversalFunction("atan", Math.atan);
 /**
  * @hidden
  */
-export const cos = makeUnaryUniversalFunction('cos', Math.cos);
+export const cos = makeUnaryUniversalFunction("cos", Math.cos);
 /**
  * @hidden
  */
-export const cosh = makeUnaryUniversalFunction('cosh', coshNumber);
+export const cosh = makeUnaryUniversalFunction("cosh", coshNumber);
 /**
  * @hidden
  */
-export const exp = makeUnaryUniversalFunction('exp', Math.exp);
+export const exp = makeUnaryUniversalFunction("exp", Math.exp);
 /**
  * @hidden
  */
-export const log = makeUnaryUniversalFunction('log', Math.log);
+export const log = makeUnaryUniversalFunction("log", Math.log);
 /**
  * @hidden
  */
-export const norm = makeUnaryUniversalFunction('norm', Math.abs);
+export const norm = makeUnaryUniversalFunction("norm", Math.abs);
 /**
  * @hidden
  */
-export const quad = makeUnaryUniversalFunction('quad', function (x: number) { return x * x; });
+export const quad = makeUnaryUniversalFunction("quad", function (x: number) {
+    return x * x;
+});
 /**
  * @hidden
  */
-export const sin = makeUnaryUniversalFunction('sin', Math.sin);
+export const sin = makeUnaryUniversalFunction("sin", Math.sin);
 /**
  * @hidden
  */
-export const sinh = makeUnaryUniversalFunction('sinh', sinhNumber);
+export const sinh = makeUnaryUniversalFunction("sinh", sinhNumber);
 /**
  * @hidden
  */
-export const sqrt = makeUnaryUniversalFunction('sqrt', Math.sqrt);
+export const sqrt = makeUnaryUniversalFunction("sqrt", Math.sqrt);
 /**
  * @hidden
  */
-export const tan = makeUnaryUniversalFunction('tan', Math.tan);
+export const tan = makeUnaryUniversalFunction("tan", Math.tan);
 /**
  * @hidden
  */
-export const tanh = makeUnaryUniversalFunction('tanh', tanhNumber);
+export const tanh = makeUnaryUniversalFunction("tanh", tanhNumber);

@@ -1,23 +1,22 @@
-import { GridTriangleStrip } from '../atoms/GridTriangleStrip';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { Primitive } from '../core/Primitive';
-import { Vector3 } from '../math/Vector3';
-import { Approximation } from '../transforms/Approximation';
-import { CoordsTransform2D } from '../transforms/CoordsTransform2D';
-import { CylinderTransform } from '../transforms/CylinderTransform';
-import { Direction } from '../transforms/Direction';
-import { Duality } from '../transforms/Duality';
-import { Rotation } from '../transforms/Rotation';
-import { Scaling } from '../transforms/Scaling';
-import { Translation } from '../transforms/Translation';
-import { AxialShapeBuilder } from './AxialShapeBuilder';
+import { GridTriangleStrip } from "../atoms/GridTriangleStrip";
+import { GraphicsProgramSymbols } from "../core/GraphicsProgramSymbols";
+import { Primitive } from "../core/Primitive";
+import { Vector3 } from "../math/Vector3";
+import { Approximation } from "../transforms/Approximation";
+import { CoordsTransform2D } from "../transforms/CoordsTransform2D";
+import { CylinderTransform } from "../transforms/CylinderTransform";
+import { Direction } from "../transforms/Direction";
+import { Duality } from "../transforms/Duality";
+import { Rotation } from "../transforms/Rotation";
+import { Scaling } from "../transforms/Scaling";
+import { Translation } from "../transforms/Translation";
+import { AxialShapeBuilder } from "./AxialShapeBuilder";
 
 /**
  * This implementation only builds the walls of the cylinder (by wrapping a grid)
  * @hidden
  */
 export class CylindricalShellBuilder extends AxialShapeBuilder {
-
     public radialSegments = 1;
     public thetaSegments = 32;
     /**

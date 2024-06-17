@@ -1,6 +1,4 @@
 /**
  * @hidden
  */
-export class Lattice2Geometry {
-
-}
+export class Lattice2Geometry {}

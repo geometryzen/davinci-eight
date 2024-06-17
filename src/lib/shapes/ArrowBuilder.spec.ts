@@ -1,6 +1,6 @@
-import { BeginMode } from '../core/BeginMode';
-import { Vector3 } from '../math/Vector3';
-import { ArrowBuilder } from './ArrowBuilder';
+import { BeginMode } from "../core/BeginMode";
+import { Vector3 } from "../math/Vector3";
+import { ArrowBuilder } from "./ArrowBuilder";
 
 describe("ArrowBuilder", function () {
     describe("constructor", function () {
@@ -17,7 +17,7 @@ describe("ArrowBuilder", function () {
             const cutLine = new Vector3([0, 0, 1]);
             const builder = new ArrowBuilder(axis, cutLine, false);
             expect(builder.radiusCone).toBe(0.08);
-            expect(builder.heightCone).toBe(0.20);
+            expect(builder.heightCone).toBe(0.2);
             expect(builder.radiusShaft).toBe(0.01);
             expect(builder.thetaSegments).toBe(16);
         });
@@ -35,13 +35,13 @@ describe("ArrowBuilder", function () {
             expect(attributes).toBeDefined();
             const names = Object.keys(attributes).sort();
             expect(names.length).toBe(2);
-            expect(names[0]).toBe('aNormal');
-            expect(names[1]).toBe('aPosition');
-            const aNormal = attributes['aNormal'];
+            expect(names[0]).toBe("aNormal");
+            expect(names[1]).toBe("aPosition");
+            const aNormal = attributes["aNormal"];
             expect(aNormal).toBeDefined();
             expect(aNormal.size).toBe(3);
             expect(aNormal.values.length).toBe(408);
-            const aPosition = attributes['aPosition'];
+            const aPosition = attributes["aPosition"];
             expect(aPosition).toBeDefined();
             expect(aPosition.size).toBe(3);
             expect(aPosition.values.length).toBe(408);
@@ -59,13 +59,13 @@ describe("ArrowBuilder", function () {
             expect(attributes).toBeDefined();
             const names = Object.keys(attributes).sort();
             expect(names.length).toBe(2);
-            expect(names[0]).toBe('aNormal');
-            expect(names[1]).toBe('aPosition');
-            const aNormal = attributes['aNormal'];
+            expect(names[0]).toBe("aNormal");
+            expect(names[1]).toBe("aPosition");
+            const aNormal = attributes["aNormal"];
             expect(aNormal).toBeDefined();
             expect(aNormal.size).toBe(3);
             expect(aNormal.values.length).toBe(96);
-            const aPosition = attributes['aPosition'];
+            const aPosition = attributes["aPosition"];
             expect(aPosition).toBeDefined();
             expect(aPosition.size).toBe(3);
             expect(aPosition.values.length).toBe(96);

@@ -3,15 +3,15 @@
  */
 export enum GeometryMode {
     /**
-     * 
+     *
      */
     POINT = 0,
     /**
-     * 
+     *
      */
     WIRE = 1,
     /**
-     * 
+     *
      */
     MESH = 2
 }

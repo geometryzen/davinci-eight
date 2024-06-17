@@ -1,16 +1,16 @@
-import { mustBeBoolean } from '../checks/mustBeBoolean';
-import { mustBeInteger } from '../checks/mustBeInteger';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { Primitive } from '../core/Primitive';
-import { GeometryMeta } from '../geometries/GeometryMeta';
-import { PrimitivesBuilder } from '../geometries/PrimitivesBuilder';
-import { Simplex } from '../geometries/Simplex';
-import { SimplexMode } from '../geometries/SimplexMode';
-import { simplicesToGeometryMeta } from '../geometries/simplicesToGeometryMeta';
-import { simplicesToPrimitive } from '../geometries/simplicesToPrimitive';
-import { Vector1 } from '../math/Vector1';
-import { Vector2 } from '../math/Vector2';
-import { Vector3 } from '../math/Vector3';
+import { mustBeBoolean } from "../checks/mustBeBoolean";
+import { mustBeInteger } from "../checks/mustBeInteger";
+import { GraphicsProgramSymbols } from "../core/GraphicsProgramSymbols";
+import { Primitive } from "../core/Primitive";
+import { GeometryMeta } from "../geometries/GeometryMeta";
+import { PrimitivesBuilder } from "../geometries/PrimitivesBuilder";
+import { Simplex } from "../geometries/Simplex";
+import { SimplexMode } from "../geometries/SimplexMode";
+import { simplicesToGeometryMeta } from "../geometries/simplicesToGeometryMeta";
+import { simplicesToPrimitive } from "../geometries/simplicesToPrimitive";
+import { Vector1 } from "../math/Vector1";
+import { Vector2 } from "../math/Vector2";
+import { Vector3 } from "../math/Vector3";
 
 /**
  * @hidden
@@ -36,7 +36,7 @@ export abstract class SimplexPrimitivesBuilder extends PrimitivesBuilder {
         return this._k.x;
     }
     public set k(k: SimplexMode) {
-        this._k.x = mustBeInteger('k', k);
+        this._k.x = mustBeInteger("k", k);
     }
 
     protected regenerate(): void {
@@ -50,7 +50,7 @@ export abstract class SimplexPrimitivesBuilder extends PrimitivesBuilder {
         return this._k.modified;
     }
     public setModified(modified: boolean): SimplexPrimitivesBuilder {
-        mustBeBoolean('modified', modified);
+        mustBeBoolean("modified", modified);
         this._k.modified = modified;
         return this;
     }

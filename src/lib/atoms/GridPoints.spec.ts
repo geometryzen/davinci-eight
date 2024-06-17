@@ -1,6 +1,6 @@
-import { BeginMode } from '../core/BeginMode';
-import { GridPoints } from './GridPoints';
-import { vertexArraysFromPrimitive } from '../core/vertexArraysFromPrimitive';
+import { BeginMode } from "../core/BeginMode";
+import { GridPoints } from "./GridPoints";
+import { vertexArraysFromPrimitive } from "../core/vertexArraysFromPrimitive";
 
 describe("GridPoints", function () {
     //
@@ -91,5 +91,4 @@ describe("GridPoints", function () {
             expect(vas.indices[3]).toBe(3);
         });
     });
-
 });

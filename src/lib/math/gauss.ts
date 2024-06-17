@@ -50,8 +50,7 @@ function makeZeroBelow(A: number[][], i: number, N: number): void {
         for (let column = i; column < N + 1; column++) {
             if (i === column) {
                 A[row][column] = 0;
-            }
-            else {
+            } else {
                 A[row][column] += c * A[i][column];
             }
         }
@@ -72,14 +71,12 @@ function solve(A: number[][], N: number) {
     return x;
 }
 
-
 /**
  * Gaussian elimination
  * Ax = b
  * @hidden
  */
 export function gauss(A: number[][], b: number[]): number[] {
-
     const N = A.length;
 
     for (let i = 0; i < N; i++) {

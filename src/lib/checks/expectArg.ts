@@ -1,5 +1,5 @@
-import { isUndefined } from '../checks/isUndefined';
-import { mustBeNumber } from '../checks/mustBeNumber';
+import { isUndefined } from "../checks/isUndefined";
+import { mustBeNumber } from "../checks/mustBeNumber";
 
 /**
  * @hidden
@@ -28,14 +28,14 @@ export function expectArg<T>(name: string, value: T) {
         },
         toBeBoolean(override?: () => string) {
             const typeOfValue: string = typeof value;
-            if (typeOfValue !== 'boolean') {
+            if (typeOfValue !== "boolean") {
                 throw new Error(message("Expecting argument " + name + ": " + typeOfValue + " to be a boolean.", override));
             }
             return arg;
         },
         toBeDefined() {
             const typeOfValue: string = typeof value;
-            if (typeOfValue === 'undefined') {
+            if (typeOfValue === "undefined") {
                 const message = "Expecting argument " + name + ": " + typeOfValue + " to be defined.";
                 throw new Error(message);
             }
@@ -44,18 +44,17 @@ export function expectArg<T>(name: string, value: T) {
         toBeInClosedInterval(lower: number, upper: number) {
             const something: any = value;
             const x: number = something;
-            mustBeNumber('x', x);
+            mustBeNumber("x", x);
             if (x >= lower && x <= upper) {
                 return arg;
-            }
-            else {
+            } else {
                 const message = "Expecting argument " + name + " => " + value + " to be in the range [" + lower + ", " + upper + "].";
                 throw new Error(message);
             }
         },
         toBeFunction() {
             const typeOfValue: string = typeof value;
-            if (typeOfValue !== 'function') {
+            if (typeOfValue !== "function") {
                 const message = "Expecting argument " + name + ": " + typeOfValue + " to be a function.";
                 throw new Error(message);
             }
@@ -63,21 +62,21 @@ export function expectArg<T>(name: string, value: T) {
         },
         toBeNumber(override?: () => string) {
             const typeOfValue: string = typeof value;
-            if (typeOfValue !== 'number') {
+            if (typeOfValue !== "number") {
                 throw new Error(message("Expecting argument " + name + ": " + typeOfValue + " to be a number.", override));
             }
             return arg;
         },
         toBeObject(override?: () => string) {
             const typeOfValue: string = typeof value;
-            if (typeOfValue !== 'object') {
+            if (typeOfValue !== "object") {
                 throw new Error(message("Expecting argument " + name + ": " + typeOfValue + " to be an object.", override));
             }
             return arg;
         },
         toBeString() {
             const typeOfValue: string = typeof value;
-            if (typeOfValue !== 'string') {
+            if (typeOfValue !== "string") {
                 const message = "Expecting argument " + name + ": " + typeOfValue + " to be a string.";
                 throw new Error(message);
             }
@@ -85,7 +84,7 @@ export function expectArg<T>(name: string, value: T) {
         },
         toBeUndefined() {
             const typeOfValue: string = typeof value;
-            if (typeOfValue !== 'undefined') {
+            if (typeOfValue !== "undefined") {
                 const message = "Expecting argument " + name + ": " + typeOfValue + " to be undefined.";
                 throw new Error(message);
             }
@@ -95,8 +94,7 @@ export function expectArg<T>(name: string, value: T) {
             if (value === null) {
                 const message = "Expecting argument " + name + " to not be null.";
                 throw new Error(message);
-            }
-            else {
+            } else {
                 return arg;
             }
         },

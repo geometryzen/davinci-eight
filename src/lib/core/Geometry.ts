@@ -1,5 +1,5 @@
-import { ContextConsumer } from './ContextConsumer';
-import { Material } from './Material';
+import { ContextConsumer } from "./ContextConsumer";
+import { Material } from "./Material";
 
 /**
  * Encapsulates one or more buffers and a call to drawArrays or drawElements.

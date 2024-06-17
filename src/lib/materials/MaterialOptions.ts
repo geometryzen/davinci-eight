@@ -1,6 +1,6 @@
-import { AttributeSizeType } from '../core/AttributeSizeType';
-import { UniformGlslType } from '../core/UniformGlslType';
-import { GLSLESVersion } from './glslVersion';
+import { AttributeSizeType } from "../core/AttributeSizeType";
+import { UniformGlslType } from "../core/UniformGlslType";
+import { GLSLESVersion } from "./glslVersion";
 
 /**
  * A specification of the attributes and uniforms required in the Material.

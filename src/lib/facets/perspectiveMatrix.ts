@@ -1,6 +1,6 @@
-import { isDefined } from '../checks/isDefined';
-import { Matrix4 } from '../math/Matrix4';
-import { perspectiveArray } from './perspectiveArray';
+import { isDefined } from "../checks/isDefined";
+import { Matrix4 } from "../math/Matrix4";
+import { perspectiveArray } from "./perspectiveArray";
 
 /**
  * @hidden

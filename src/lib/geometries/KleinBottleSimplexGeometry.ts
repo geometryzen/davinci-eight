@@ -1,5 +1,5 @@
-import { GridSimplexBuilder } from '../geometries/GridSimplexBuilder';
-import { Vector3 } from '../math/Vector3';
+import { GridSimplexBuilder } from "../geometries/GridSimplexBuilder";
+import { Vector3 } from "../math/Vector3";
 
 /**
  * @hidden
@@ -24,11 +24,10 @@ function klein(u: number, v: number): Vector3 {
     v = v * 2 * pi;
 
     if (u < pi) {
-        point.x = 3 * cos(u) * (1 + sin(u)) + (2 * (1 - cos(u) / 2)) * cos(u) * cos(v);
+        point.x = 3 * cos(u) * (1 + sin(u)) + 2 * (1 - cos(u) / 2) * cos(u) * cos(v);
         point.z = -8 * sin(u) - 2 * (1 - cos(u) / 2) * sin(u) * cos(v);
-    }
-    else {
-        point.x = 3 * cos(u) * (1 + sin(u)) + (2 * (1 - cos(u) / 2)) * cos(v + pi);
+    } else {
+        point.x = 3 * cos(u) * (1 + sin(u)) + 2 * (1 - cos(u) / 2) * cos(v + pi);
         point.z = -8 * sin(u);
     }
     point.y = -2 * (1 - cos(u) / 2) * sin(v);

@@ -2,8 +2,8 @@
  *
  */
 export interface Scalar {
-  /**
-   * The scalar coordinate as a number.
-   */
-  a: number;
+    /**
+     * The scalar coordinate as a number.
+     */
+    a: number;
 }

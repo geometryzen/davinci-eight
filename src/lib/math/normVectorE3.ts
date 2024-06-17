@@ -1,5 +1,5 @@
 /**
- * @hidden 
+ * @hidden
  * @returns The Euclidean magnitude of the vector.
  */
 export function normVectorE3(vector: { x: number; y: number; z: number }): number {

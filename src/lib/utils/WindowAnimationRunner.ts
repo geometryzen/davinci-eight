@@ -2,7 +2,6 @@
  * @hidden
  */
 export interface WindowAnimationRunner {
-
     /**
      * @method start
      * @return {void}

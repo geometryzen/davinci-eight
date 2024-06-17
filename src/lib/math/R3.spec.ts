@@ -1,4 +1,4 @@
-import { vectorCopy, vectorFromCoords } from './R3';
+import { vectorCopy, vectorFromCoords } from "./R3";
 
 describe("R3", function () {
     const e1 = vectorFromCoords(1, 0, 0);

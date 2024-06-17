@@ -1,4 +1,4 @@
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
+import { GraphicsProgramSymbols } from "../core/GraphicsProgramSymbols";
 
 /**
  * @hidden

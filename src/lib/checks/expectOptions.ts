@@ -1,4 +1,4 @@
-import { mustBeArray } from './mustBeArray';
+import { mustBeArray } from "./mustBeArray";
 /**
  * Determines whether the actual options supplied are expected.
  *
@@ -8,8 +8,8 @@ import { mustBeArray } from './mustBeArray';
  * @hidden
  */
 export function expectOptions(expects: string[], actuals: string[]): void {
-    mustBeArray('expects', expects);
-    mustBeArray('actuals', actuals);
+    mustBeArray("expects", expects);
+    mustBeArray("actuals", actuals);
     const iLength = actuals.length;
     for (let i = 0; i < iLength; i++) {
         const actual = actuals[i];

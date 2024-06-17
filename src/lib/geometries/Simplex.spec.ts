@@ -1,5 +1,5 @@
-import { Simplex } from './Simplex';
-import { SimplexMode } from './SimplexMode';
+import { Simplex } from "./Simplex";
+import { SimplexMode } from "./SimplexMode";
 
 describe("Simplex", function () {
     describe("constructor", function () {

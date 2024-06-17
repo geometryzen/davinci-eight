@@ -2,7 +2,6 @@
  *
  */
 export class TrailConfig {
-
     /**
      *
      */

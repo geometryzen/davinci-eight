@@ -1,4 +1,4 @@
-import { arraysEQ } from './arraysEQ';
+import { arraysEQ } from "./arraysEQ";
 
 describe("arraysEQ", function () {
     it("should require lengths to be equal", function () {
@@ -7,7 +7,7 @@ describe("arraysEQ", function () {
     });
     it("should require elements to be equal", function () {
         expect(arraysEQ([1], [1])).toBe(true);
-        expect(arraysEQ<number | string>([1], ['1'])).toBe(false);
+        expect(arraysEQ<number | string>([1], ["1"])).toBe(false);
     });
     //
     // Combinations of [], null, and undefined.

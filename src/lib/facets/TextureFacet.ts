@@ -1,10 +1,10 @@
-import { exchange } from '../base/exchange';
-import { Facet } from '../core/Facet';
-import { FacetVisitor } from '../core/FacetVisitor';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { ShareableBase } from '../core/ShareableBase';
-import { Texture } from '../core/Texture';
-import { TextureUnit } from '../core/TextureUnit';
+import { exchange } from "../base/exchange";
+import { Facet } from "../core/Facet";
+import { FacetVisitor } from "../core/FacetVisitor";
+import { GraphicsProgramSymbols } from "../core/GraphicsProgramSymbols";
+import { ShareableBase } from "../core/ShareableBase";
+import { Texture } from "../core/Texture";
+import { TextureUnit } from "../core/TextureUnit";
 
 /**
  * A `Facet` implementation
@@ -14,7 +14,7 @@ export class TextureFacet extends ShareableBase implements Facet {
     public unit = TextureUnit.TEXTURE0;
     constructor() {
         super();
-        this.setLoggingName('TextureFacet');
+        this.setLoggingName("TextureFacet");
     }
     protected destructor(levelUp: number): void {
         this._texture = exchange(this._texture, void 0);

@@ -1,28 +1,28 @@
-import { GridTriangleStrip } from '../atoms/GridTriangleStrip';
-import { reduce } from '../atoms/reduce';
-import { isDefined } from '../checks/isDefined';
-import { mustBeBoolean } from '../checks/mustBeBoolean';
-import { mustBeNumber } from '../checks/mustBeNumber';
-import { ContextManager } from '../core/ContextManager';
-import { GeometryElements } from '../core/GeometryElements';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { Primitive } from '../core/Primitive';
-import { computeFaceNormals } from '../geometries/computeFaceNormals';
-import { quadrilateral as quad } from '../geometries/quadrilateral';
-import { Simplex } from '../geometries/Simplex';
-import { SimplexMode } from '../geometries/SimplexMode';
-import { SimplexPrimitivesBuilder } from '../geometries/SimplexPrimitivesBuilder';
-import { Geometric3 } from '../math/Geometric3';
-import { vec, vectorCopy } from '../math/R3';
-import { Spinor3 } from '../math/Spinor3';
-import { SpinorE3 } from '../math/SpinorE3';
-import { Vector1 } from '../math/Vector1';
-import { Vector2 } from '../math/Vector2';
-import { Vector3 } from '../math/Vector3';
-import { VectorE3 } from '../math/VectorE3';
-import { BoxGeometryOptions } from './BoxGeometryOptions';
-import { GeometryMode } from './GeometryMode';
-import { PrimitivesBuilder } from './PrimitivesBuilder';
+import { GridTriangleStrip } from "../atoms/GridTriangleStrip";
+import { reduce } from "../atoms/reduce";
+import { isDefined } from "../checks/isDefined";
+import { mustBeBoolean } from "../checks/mustBeBoolean";
+import { mustBeNumber } from "../checks/mustBeNumber";
+import { ContextManager } from "../core/ContextManager";
+import { GeometryElements } from "../core/GeometryElements";
+import { GraphicsProgramSymbols } from "../core/GraphicsProgramSymbols";
+import { Primitive } from "../core/Primitive";
+import { computeFaceNormals } from "../geometries/computeFaceNormals";
+import { quadrilateral as quad } from "../geometries/quadrilateral";
+import { Simplex } from "../geometries/Simplex";
+import { SimplexMode } from "../geometries/SimplexMode";
+import { SimplexPrimitivesBuilder } from "../geometries/SimplexPrimitivesBuilder";
+import { Geometric3 } from "../math/Geometric3";
+import { vec, vectorCopy } from "../math/R3";
+import { Spinor3 } from "../math/Spinor3";
+import { SpinorE3 } from "../math/SpinorE3";
+import { Vector1 } from "../math/Vector1";
+import { Vector2 } from "../math/Vector2";
+import { Vector3 } from "../math/Vector3";
+import { VectorE3 } from "../math/VectorE3";
+import { BoxGeometryOptions } from "./BoxGeometryOptions";
+import { GeometryMode } from "./GeometryMode";
+import { PrimitivesBuilder } from "./PrimitivesBuilder";
 
 /**
  * @hidden
@@ -100,7 +100,9 @@ class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
         this.setModified(false);
 
         // Define the anchor points relative to the origin.
-        const pos: Vector3[] = [0, 1, 2, 3, 4, 5, 6, 7].map(function () { return void 0; });
+        const pos: Vector3[] = [0, 1, 2, 3, 4, 5, 6, 7].map(function () {
+            return void 0;
+        });
         pos[0] = new Vector3().sub(this._a).sub(this._b).add(this._c).divByScalar(2);
         pos[1] = new Vector3().add(this._a).sub(this._b).add(this._c).divByScalar(2);
         pos[2] = new Vector3().add(this._a).add(this._b).add(this._c).divByScalar(2);
@@ -128,23 +130,44 @@ class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
         switch (this.k) {
             case SimplexMode.POINT: {
                 const points = [[0], [1], [2], [3], [4], [5], [6], [7]];
-                this.data = points.map(function (point) { return simplex(point); });
+                this.data = points.map(function (point) {
+                    return simplex(point);
+                });
                 break;
             }
             case SimplexMode.LINE: {
-                const lines = [[0, 1], [1, 2], [2, 3], [3, 0], [0, 7], [1, 6], [2, 5], [3, 4], [4, 5], [5, 6], [6, 7], [7, 4]];
-                this.data = lines.map(function (line) { return simplex(line); });
+                const lines = [
+                    [0, 1],
+                    [1, 2],
+                    [2, 3],
+                    [3, 0],
+                    [0, 7],
+                    [1, 6],
+                    [2, 5],
+                    [3, 4],
+                    [4, 5],
+                    [5, 6],
+                    [6, 7],
+                    [7, 4]
+                ];
+                this.data = lines.map(function (line) {
+                    return simplex(line);
+                });
                 break;
             }
             case SimplexMode.TRIANGLE: {
-                const faces: Simplex[][] = [0, 1, 2, 3, 4, 5].map(function () { return void 0; });
+                const faces: Simplex[][] = [0, 1, 2, 3, 4, 5].map(function () {
+                    return void 0;
+                });
                 faces[0] = quad(pos[0], pos[1], pos[2], pos[3]);
                 faces[1] = quad(pos[1], pos[6], pos[5], pos[2]);
                 faces[2] = quad(pos[7], pos[0], pos[3], pos[4]);
                 faces[3] = quad(pos[6], pos[7], pos[4], pos[5]);
                 faces[4] = quad(pos[3], pos[2], pos[5], pos[4]);
                 faces[5] = quad(pos[7], pos[6], pos[1], pos[0]);
-                this.data = faces.reduce(function (a, b) { return a.concat(b); }, []);
+                this.data = faces.reduce(function (a, b) {
+                    return a.concat(b);
+                }, []);
 
                 this.data.forEach(function (simplex) {
                     computeFaceNormals(simplex);
@@ -164,7 +187,6 @@ class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
  * @hidden
  */
 function side(tilt: SpinorE3, offset: Vector3, basis: Vector3[], uSegments: number, vSegments: number): GridTriangleStrip {
-
     // The normal will be the same for all vertices in the side, so we compute it once here.
     // Perform the stress ant tilt transformations on the tangent bivector before computing the normal.
     const tangent = Spinor3.wedge(basis[0], basis[1]).rotate(tilt);
@@ -202,7 +224,6 @@ function side(tilt: SpinorE3, offset: Vector3, basis: Vector3[], uSegments: numb
  * @hidden
  */
 class CuboidPrimitivesBuilder extends PrimitivesBuilder {
-
     public iSegments = 1;
     public jSegments = 1;
     public kSegments = 1;
@@ -238,7 +259,7 @@ class CuboidPrimitivesBuilder extends PrimitivesBuilder {
         return this._a.magnitude();
     }
     set width(width: number) {
-        mustBeNumber('width', width);
+        mustBeNumber("width", width);
         this._a.normalize().scale(width);
     }
 
@@ -246,7 +267,7 @@ class CuboidPrimitivesBuilder extends PrimitivesBuilder {
         return this._b.magnitude();
     }
     set height(height: number) {
-        mustBeNumber('height', height);
+        mustBeNumber("height", height);
         this._b.normalize().scale(height);
     }
 
@@ -254,7 +275,7 @@ class CuboidPrimitivesBuilder extends PrimitivesBuilder {
         return this._c.magnitude();
     }
     set depth(depth: number) {
-        mustBeNumber('depth', depth);
+        mustBeNumber("depth", depth);
         this._c.normalize().scale(depth);
     }
 
@@ -287,18 +308,19 @@ class CuboidPrimitivesBuilder extends PrimitivesBuilder {
 
     public toPrimitives(): Primitive[] {
         this.regenerate();
-        return this.sides.map((side) => { return side.toPrimitive(); });
+        return this.sides.map((side) => {
+            return side.toPrimitive();
+        });
     }
 }
 
 /**
  * @hidden
  */
-function boxPrimitive(options: BoxGeometryOptions = { kind: 'BoxGeometry' }): Primitive {
-
-    const width = isDefined(options.width) ? mustBeNumber('width', options.width) : 1;
-    const height = isDefined(options.height) ? mustBeNumber('height', options.height) : 1;
-    const depth = isDefined(options.depth) ? mustBeNumber('depth', options.depth) : 1;
+function boxPrimitive(options: BoxGeometryOptions = { kind: "BoxGeometry" }): Primitive {
+    const width = isDefined(options.width) ? mustBeNumber("width", options.width) : 1;
+    const height = isDefined(options.height) ? mustBeNumber("height", options.height) : 1;
+    const depth = isDefined(options.depth) ? mustBeNumber("depth", options.depth) : 1;
 
     const axis = isDefined(options.axis) ? vectorCopy(options.axis).direction() : vec(0, 1, 0);
     const meridian = (isDefined(options.meridian) ? vectorCopy(options.meridian) : vec(0, 0, 1)).rejectionFrom(axis).direction();
@@ -321,8 +343,7 @@ function boxPrimitive(options: BoxGeometryOptions = { kind: 'BoxGeometry' }): Pr
             const primitives = builder.toPrimitives();
             if (primitives.length === 1) {
                 return primitives[0];
-            }
-            else {
+            } else {
                 throw new Error("Expecting CuboidSimplexPrimitivesBuilder to return one Primitive.");
             }
         }
@@ -341,8 +362,7 @@ function boxPrimitive(options: BoxGeometryOptions = { kind: 'BoxGeometry' }): Pr
             const primitives = builder.toPrimitives();
             if (primitives.length === 1) {
                 return primitives[0];
-            }
-            else {
+            } else {
                 throw new Error("Expecting CuboidSimplexPrimitivesBuilder to return one Primitive.");
             }
         }
@@ -353,22 +373,22 @@ function boxPrimitive(options: BoxGeometryOptions = { kind: 'BoxGeometry' }): Pr
             builder.depth = depth;
 
             if (isDefined(options.openBack)) {
-                builder.openBack = mustBeBoolean('openBack', options.openBack);
+                builder.openBack = mustBeBoolean("openBack", options.openBack);
             }
             if (isDefined(options.openBase)) {
-                builder.openBase = mustBeBoolean('openBase', options.openBase);
+                builder.openBase = mustBeBoolean("openBase", options.openBase);
             }
             if (isDefined(options.openFront)) {
-                builder.openFront = mustBeBoolean('openFront', options.openFront);
+                builder.openFront = mustBeBoolean("openFront", options.openFront);
             }
             if (isDefined(options.openLeft)) {
-                builder.openLeft = mustBeBoolean('openLeft', options.openLeft);
+                builder.openLeft = mustBeBoolean("openLeft", options.openLeft);
             }
             if (isDefined(options.openRight)) {
-                builder.openRight = mustBeBoolean('openRight', options.openRight);
+                builder.openRight = mustBeBoolean("openRight", options.openRight);
             }
             if (isDefined(options.openCap)) {
-                builder.openCap = mustBeBoolean('openCap', options.openCap);
+                builder.openCap = mustBeBoolean("openCap", options.openCap);
             }
             if (options.stress) {
                 builder.stress.copy(options.stress);
@@ -388,27 +408,27 @@ function boxPrimitive(options: BoxGeometryOptions = { kind: 'BoxGeometry' }): Pr
  */
 export class BoxGeometry extends GeometryElements {
     /**
-     * 
+     *
      */
-    constructor(contextManager: ContextManager, options: BoxGeometryOptions = { kind: 'BoxGeometry' }, levelUp = 0) {
+    constructor(contextManager: ContextManager, options: BoxGeometryOptions = { kind: "BoxGeometry" }, levelUp = 0) {
         super(contextManager, boxPrimitive(options), options, levelUp + 1);
-        this.setLoggingName('BoxGeometry');
+        this.setLoggingName("BoxGeometry");
         if (levelUp === 0) {
             this.synchUp();
         }
     }
     /**
-     * 
+     *
      */
     protected resurrector(levelUp: number): void {
         super.resurrector(levelUp + 1);
-        this.setLoggingName('BoxGeometry');
+        this.setLoggingName("BoxGeometry");
         if (levelUp === 0) {
             this.synchUp();
         }
     }
     /**
-     * 
+     *
      */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {

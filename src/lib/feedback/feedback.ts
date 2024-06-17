@@ -1,4 +1,4 @@
-import { LocalizableMessage } from '../i18n/LocalizableMessage';
+import { LocalizableMessage } from "../i18n/LocalizableMessage";
 
 /**
  * @hidden

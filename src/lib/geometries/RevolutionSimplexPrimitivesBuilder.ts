@@ -1,7 +1,7 @@
-import { SimplexPrimitivesBuilder } from '../geometries/SimplexPrimitivesBuilder';
-import { Spinor3 } from '../math/Spinor3';
-import { Vector2 } from '../math/Vector2';
-import { Vector3 } from '../math/Vector3';
+import { SimplexPrimitivesBuilder } from "../geometries/SimplexPrimitivesBuilder";
+import { Spinor3 } from "../math/Spinor3";
+import { Vector2 } from "../math/Vector2";
+import { Vector3 } from "../math/Vector3";
 
 /**
  * @hidden
@@ -10,13 +10,7 @@ export class RevolutionSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder
     constructor() {
         super();
     }
-    protected revolve(
-        points: Vector3[],
-        generator: Spinor3,
-        segments = 12,
-        phiStart = 0,
-        phiLength = 2 * Math.PI,
-        attitude: Spinor3) {
+    protected revolve(points: Vector3[], generator: Spinor3, segments = 12, phiStart = 0, phiLength = 2 * Math.PI, attitude: Spinor3) {
         /**
          * Temporary list of points.
          */
@@ -38,13 +32,11 @@ export class RevolutionSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder
         const R: Spinor3 = Spinor3.one.clone();
 
         for (i = 0, il = halfPlanes; i < il; i++) {
-
             const φ = phiStart + i * phiStep;
 
             R.rotorFromGeneratorAngle(generator, φ);
 
             for (j = 0, jl = points.length; j < jl; j++) {
-
                 const vertex = points[j].clone();
 
                 // The generator tells us how to rotate the points.
@@ -66,9 +58,7 @@ export class RevolutionSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder
         const wrap = np * halfPlanes;
 
         for (i = 0, il = segments; i < il; i++) {
-
             for (j = 0, jl = points.length - 1; j < jl; j++) {
-
                 const base = j + np * i;
                 const a = base % wrap;
                 const b = (base + np) % wrap;

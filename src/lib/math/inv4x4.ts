@@ -3,11 +3,22 @@
  * @hidden
  */
 export function inv4x4(src: Float32Array, dest: Float32Array): void {
-
-    const n11 = src[0x0], n12 = src[0x4], n13 = src[0x8], n14 = src[0xC];
-    const n21 = src[0x1], n22 = src[0x5], n23 = src[0x9], n24 = src[0xD];
-    const n31 = src[0x2], n32 = src[0x6], n33 = src[0xA], n34 = src[0xE];
-    const n41 = src[0x3], n42 = src[0x7], n43 = src[0xB], n44 = src[0xF];
+    const n11 = src[0x0],
+        n12 = src[0x4],
+        n13 = src[0x8],
+        n14 = src[0xc];
+    const n21 = src[0x1],
+        n22 = src[0x5],
+        n23 = src[0x9],
+        n24 = src[0xd];
+    const n31 = src[0x2],
+        n32 = src[0x6],
+        n33 = src[0xa],
+        n34 = src[0xe];
+    const n41 = src[0x3],
+        n42 = src[0x7],
+        n43 = src[0xb],
+        n44 = src[0xf];
 
     // Row 1
     const o11 = n23 * n34 * n42 - n24 * n33 * n42 + n24 * n32 * n43 - n22 * n34 * n43 - n23 * n32 * n44 + n22 * n33 * n44;
@@ -37,8 +48,20 @@ export function inv4x4(src: Float32Array, dest: Float32Array): void {
 
     const α = 1 / det;
 
-    dest[0x0] = o11 * α; dest[0x4] = o12 * α; dest[0x8] = o13 * α; dest[0xC] = o14 * α;
-    dest[0x1] = o21 * α; dest[0x5] = o22 * α; dest[0x9] = o23 * α; dest[0xD] = o24 * α;
-    dest[0x2] = o31 * α; dest[0x6] = o32 * α; dest[0xA] = o33 * α; dest[0xE] = o34 * α;
-    dest[0x3] = o41 * α; dest[0x7] = o42 * α; dest[0xB] = o43 * α; dest[0xF] = o44 * α;
+    dest[0x0] = o11 * α;
+    dest[0x4] = o12 * α;
+    dest[0x8] = o13 * α;
+    dest[0xc] = o14 * α;
+    dest[0x1] = o21 * α;
+    dest[0x5] = o22 * α;
+    dest[0x9] = o23 * α;
+    dest[0xd] = o24 * α;
+    dest[0x2] = o31 * α;
+    dest[0x6] = o32 * α;
+    dest[0xa] = o33 * α;
+    dest[0xe] = o34 * α;
+    dest[0x3] = o41 * α;
+    dest[0x7] = o42 * α;
+    dest[0xb] = o43 * α;
+    dest[0xf] = o44 * α;
 }

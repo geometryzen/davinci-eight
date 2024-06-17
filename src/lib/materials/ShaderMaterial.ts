@@ -1,26 +1,25 @@
-import { isDefined } from '../checks/isDefined';
-import { isNull } from '../checks/isNull';
-import { isString } from '../checks/isString';
-import { mustBeArray } from '../checks/mustBeArray';
-import { mustBeString } from '../checks/mustBeString';
-import { mustBeUndefined } from '../checks/mustBeUndefined';
-import { Attrib } from '../core/Attrib';
-import { BeginMode } from '../core/BeginMode';
-import { ContextManager } from '../core/ContextManager';
-import { DataType } from '../core/DataType';
-import { makeWebGLProgram } from '../core/makeWebGLProgram';
-import { Material } from '../core/Material';
-import { ShareableContextConsumer } from '../core/ShareableContextConsumer';
-import { TextureUnit } from '../core/TextureUnit';
-import { Uniform } from '../core/Uniform';
-import { VertexBuffer } from '../core/VertexBuffer';
-import { readOnly } from '../i18n/readOnly';
+import { isDefined } from "../checks/isDefined";
+import { isNull } from "../checks/isNull";
+import { isString } from "../checks/isString";
+import { mustBeArray } from "../checks/mustBeArray";
+import { mustBeString } from "../checks/mustBeString";
+import { mustBeUndefined } from "../checks/mustBeUndefined";
+import { Attrib } from "../core/Attrib";
+import { BeginMode } from "../core/BeginMode";
+import { ContextManager } from "../core/ContextManager";
+import { DataType } from "../core/DataType";
+import { makeWebGLProgram } from "../core/makeWebGLProgram";
+import { Material } from "../core/Material";
+import { ShareableContextConsumer } from "../core/ShareableContextConsumer";
+import { TextureUnit } from "../core/TextureUnit";
+import { Uniform } from "../core/Uniform";
+import { VertexBuffer } from "../core/VertexBuffer";
+import { readOnly } from "../i18n/readOnly";
 
 /**
  *
  */
 export class ShaderMaterial extends ShareableContextConsumer implements Material {
-
     /**
      *
      */
@@ -56,9 +55,9 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
      * 1. Creates a subscription to WebGL rendering context events but does not synchronize.
      * 2. Constructs vertex and fragment shader sources.
      * 3. Synchronizes with the WebGL rendering context if this is a top-level class (levelUp is zero).
-     * 
+     *
      * The contextManager must be defined.
-     * 
+     *
      * @param vertexShaderSrc The vertex shader source code.
      * @param fragmentShaderSrc The fragment shader source code.
      * @param attribs The attribute ordering.
@@ -67,32 +66,32 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
      */
     constructor(vertexShaderSrc: string, fragmentShaderSrc: string, attribs: string[], contextManager: ContextManager, levelUp = 0) {
         super(contextManager);
-        this.setLoggingName('ShaderMaterial');
+        this.setLoggingName("ShaderMaterial");
         if (isDefined(vertexShaderSrc) && !isNull(vertexShaderSrc)) {
-            this._vertexShaderSrc = mustBeString('vertexShaderSrc', vertexShaderSrc);
+            this._vertexShaderSrc = mustBeString("vertexShaderSrc", vertexShaderSrc);
         }
         if (isDefined(fragmentShaderSrc) && !isNull(fragmentShaderSrc)) {
-            this._fragmentShaderSrc = mustBeString('fragmentShaderSrc', fragmentShaderSrc);
+            this._fragmentShaderSrc = mustBeString("fragmentShaderSrc", fragmentShaderSrc);
         }
-        this._attribs = mustBeArray('attribs', attribs);
+        this._attribs = mustBeArray("attribs", attribs);
         if (levelUp === 0) {
             this.synchUp();
         }
     }
 
     /**
-     * 
+     *
      */
     protected resurrector(levelUp: number): void {
         super.resurrector(levelUp + 1);
-        this.setLoggingName('ShaderMaterial');
+        this.setLoggingName("ShaderMaterial");
         if (levelUp === 0) {
             this.synchUp();
         }
     }
 
     /**
-     * 
+     *
      */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
@@ -174,12 +173,10 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
             if (gl) {
                 if (!gl.isContextLost()) {
                     gl.deleteProgram(this._program);
-                }
-                else {
+                } else {
                     // WebGL has lost the context, effectively cleaning up everything.
                 }
-            }
-            else {
+            } else {
                 console.warn("memory leak: WebGLProgram has not been deleted because WebGL rendering context is not available anymore.");
             }
             this._program = void 0;
@@ -218,35 +215,32 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
      *
      */
     get attributeNames(): string[] {
-        // I wonder if it might be better to use the array and preserve order. 
+        // I wonder if it might be better to use the array and preserve order.
         const attributes = this._attributesByName;
         if (attributes) {
             return Object.keys(attributes);
-        }
-        else {
+        } else {
             return void 0;
         }
     }
     set attributeNames(unused: string[]) {
-        throw new Error(readOnly('attributeNames').message);
+        throw new Error(readOnly("attributeNames").message);
     }
 
     /**
      * Convenience method for dereferencing the name to an attribute location, followed by enabling the attribute.
      */
     enableAttrib(indexOrName: number | string): void {
-        if (typeof indexOrName === 'number') {
+        if (typeof indexOrName === "number") {
             if (this.gl) {
                 this.gl.enableVertexAttribArray(indexOrName);
             }
-        }
-        else if (typeof indexOrName === 'string') {
+        } else if (typeof indexOrName === "string") {
             const attribLoc = this._attributesByName[indexOrName];
             if (attribLoc) {
                 attribLoc.enable();
             }
-        }
-        else {
+        } else {
             throw new TypeError("indexOrName must have type number or string.");
         }
     }
@@ -269,18 +263,16 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
      *
      */
     disableAttrib(indexOrName: number | string): void {
-        if (typeof indexOrName === 'number') {
+        if (typeof indexOrName === "number") {
             if (this.gl) {
                 this.gl.disableVertexAttribArray(indexOrName);
             }
-        }
-        else if (typeof indexOrName === 'string') {
+        } else if (typeof indexOrName === "string") {
             const attribLoc = this._attributesByName[indexOrName];
             if (attribLoc) {
                 attribLoc.disable();
             }
-        }
-        else {
+        } else {
             throw new TypeError("indexOrName must have type number or string.");
         }
     }
@@ -310,14 +302,12 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
     }
 
     getAttrib(indexOrName: number | string): Attrib {
-        if (typeof indexOrName === 'number') {
+        if (typeof indexOrName === "number") {
             // FIXME
             return this._attributesByIndex[indexOrName];
-        }
-        else if (typeof indexOrName === 'string') {
+        } else if (typeof indexOrName === "string") {
             return this._attributesByName[indexOrName];
-        }
-        else {
+        } else {
             throw new TypeError("indexOrName must be a number or a string");
         }
     }
@@ -330,8 +320,7 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
         const attribLoc = this._attributesByName[name];
         if (attribLoc) {
             return attribLoc.index;
-        }
-        else {
+        } else {
             return -1;
         }
     }
@@ -345,8 +334,7 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
         const uniforms = this._uniforms;
         if (uniforms[name]) {
             return uniforms[name];
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -357,7 +345,7 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
      * </p>
      */
     hasUniform(name: string): boolean {
-        mustBeString('name', name);
+        mustBeString("name", name);
         return isDefined(this._uniforms[name]);
     }
 
@@ -482,10 +470,9 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
     uniform(name: string, value: number | number[]): Material {
         const uniformLoc = this._uniforms[name];
         if (uniformLoc) {
-            if (typeof value === 'number') {
+            if (typeof value === "number") {
                 uniformLoc.uniform1f(value);
-            }
-            else if (value) {
+            } else if (value) {
                 switch (value.length) {
                     case 1: {
                         uniformLoc.uniform1f(value[0]);
@@ -516,8 +503,7 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
         const gl = this.gl;
         if (gl) {
             gl.useProgram(this._program);
-        }
-        else {
+        } else {
             console.warn(`${this.getLoggingName()}.use() missing WebGL rendering context.`);
         }
         return this;
@@ -546,7 +532,6 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
         }
         return this;
     }
-
 
     /**
      * @param mode Specifies the type of the primitive being rendered.

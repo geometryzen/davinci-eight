@@ -1,4 +1,4 @@
-import { Vertex } from '../atoms/Vertex';
+import { Vertex } from "../atoms/Vertex";
 
 /**
  *

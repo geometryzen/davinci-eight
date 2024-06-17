@@ -1,8 +1,8 @@
-import { mustBeInteger } from '../checks/mustBeInteger';
-import { BeginMode } from '../core/BeginMode';
-import { GridPrimitive } from './GridPrimitive';
-import { numPostsForFence } from './numPostsForFence';
-import { Vertex } from './Vertex';
+import { mustBeInteger } from "../checks/mustBeInteger";
+import { BeginMode } from "../core/BeginMode";
+import { GridPrimitive } from "./GridPrimitive";
+import { numPostsForFence } from "./numPostsForFence";
+import { Vertex } from "./Vertex";
 
 /**
  * Computes the vertex index from integer coordinates.
@@ -10,8 +10,8 @@ import { Vertex } from './Vertex';
  * @hidden
  */
 function vertexIndex(i: number, j: number, iLength: number, jLength: number): number {
-    mustBeInteger('iLength', iLength);
-    mustBeInteger('jLength', jLength);
+    mustBeInteger("iLength", iLength);
+    mustBeInteger("jLength", jLength);
     return j * iLength + i;
 }
 
@@ -43,7 +43,6 @@ function linesForGrid(uSegments: number, uClosed: boolean, vSegments: number, vC
  * @hidden
  */
 export class GridLines extends GridPrimitive {
-
     /**
      * @param uSegments
      * @param uClosed
@@ -70,8 +69,8 @@ export class GridLines extends GridPrimitive {
      * @param j An integer. 0 <= j < vLength
      */
     vertex(i: number, j: number): Vertex {
-        mustBeInteger('i', i);
-        mustBeInteger('j', j);
+        mustBeInteger("i", i);
+        mustBeInteger("j", j);
         return this.vertices[vertexIndex(i, j, this.uLength, this.vLength)];
     }
 }

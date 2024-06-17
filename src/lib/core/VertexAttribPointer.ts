@@ -1,10 +1,9 @@
-import { DataType } from './DataType';
+import { DataType } from "./DataType";
 
 /**
  * @hidden
  */
 export interface VertexAttribPointer {
-
     /**
      *
      */
@@ -16,7 +15,7 @@ export interface VertexAttribPointer {
     size: number;
 
     /**
-     * 
+     *
      */
     type: DataType;
 

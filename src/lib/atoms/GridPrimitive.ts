@@ -1,12 +1,12 @@
-import { mustBeInteger } from '../checks/mustBeInteger';
-import { BeginMode } from '../core/BeginMode';
-import { notSupported } from '../i18n/notSupported';
-import { readOnly } from '../i18n/readOnly';
-import { numPostsForFence } from './numPostsForFence';
-import { numVerticesForGrid } from './numVerticesForGrid';
-import { Transform } from './Transform';
-import { Vertex } from './Vertex';
-import { VertexPrimitive } from './VertexPrimitive';
+import { mustBeInteger } from "../checks/mustBeInteger";
+import { BeginMode } from "../core/BeginMode";
+import { notSupported } from "../i18n/notSupported";
+import { readOnly } from "../i18n/readOnly";
+import { numPostsForFence } from "./numPostsForFence";
+import { numVerticesForGrid } from "./numVerticesForGrid";
+import { Transform } from "./Transform";
+import { Vertex } from "./Vertex";
+import { VertexPrimitive } from "./VertexPrimitive";
 
 /**
  * Used for creating a VertexPrimitive for a surface.
@@ -16,7 +16,6 @@ import { VertexPrimitive } from './VertexPrimitive';
  * @hidden
  */
 export class GridPrimitive extends VertexPrimitive {
-
     private _uSegments: number;
     private _uClosed = false;
     private _vSegments: number;
@@ -32,8 +31,8 @@ export class GridPrimitive extends VertexPrimitive {
         return this._uSegments;
     }
     set uSegments(uSegments: number) {
-        mustBeInteger('uSegments', uSegments);
-        throw new Error(readOnly('uSegments').message);
+        mustBeInteger("uSegments", uSegments);
+        throw new Error(readOnly("uSegments").message);
     }
 
     /**
@@ -43,16 +42,16 @@ export class GridPrimitive extends VertexPrimitive {
         return numPostsForFence(this._uSegments, this._uClosed);
     }
     set uLength(uLength: number) {
-        mustBeInteger('uLength', uLength);
-        throw new Error(readOnly('uLength').message);
+        mustBeInteger("uLength", uLength);
+        throw new Error(readOnly("uLength").message);
     }
 
     get vSegments(): number {
         return this._vSegments;
     }
     set vSegments(vSegments: number) {
-        mustBeInteger('vSegments', vSegments);
-        throw new Error(readOnly('vSegments').message);
+        mustBeInteger("vSegments", vSegments);
+        throw new Error(readOnly("vSegments").message);
     }
 
     /**
@@ -62,8 +61,8 @@ export class GridPrimitive extends VertexPrimitive {
         return numPostsForFence(this._vSegments, this._vClosed);
     }
     set vLength(vLength: number) {
-        mustBeInteger('vLength', vLength);
-        throw new Error(readOnly('vLength').message);
+        mustBeInteger("vLength", vLength);
+        throw new Error(readOnly("vLength").message);
     }
 
     public vertexTransform(transform: Transform): void {
@@ -80,8 +79,8 @@ export class GridPrimitive extends VertexPrimitive {
      * Derived classes must override.
      */
     vertex(i: number, j: number): Vertex {
-        mustBeInteger('i', i);
-        mustBeInteger('j', j);
-        throw new Error(notSupported('vertex').message);
+        mustBeInteger("i", i);
+        mustBeInteger("j", j);
+        throw new Error(notSupported("vertex").message);
     }
 }

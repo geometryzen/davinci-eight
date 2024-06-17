@@ -2,7 +2,6 @@
  * @hidden
  */
 export function uuid4() {
-
     const maxFromBits = function (bits: number): number {
         return Math.pow(2, bits);
     };
@@ -38,12 +37,12 @@ export function uuid4() {
     };
 
     const randomUI48 = function () {
-        return (0 | Math.random() * (1 << 30)) + (0 | Math.random() * (1 << 48 - 30)) * (1 << 30);
+        return (0 | (Math.random() * (1 << 30))) + (0 | (Math.random() * (1 << (48 - 30)))) * (1 << 30);
     };
 
     const paddedString = function (str: string, length: number, z?: string) {
         str = String(str);
-        z = (!z) ? '0' : z;
+        z = !z ? "0" : z;
         let i = length - str.length;
         for (; i > 0; i >>>= 1, z += z) {
             if (i & 1) {
@@ -54,29 +53,23 @@ export function uuid4() {
     };
 
     const fromParts = function (timeLow: number, timeMid: number, timeHiAndVersion: number, clockSeqHiAndReserved: number, clockSeqLow: number, node: number) {
-        const hex = paddedString(timeLow.toString(16), 8) +
-            '-' +
+        const hex =
+            paddedString(timeLow.toString(16), 8) +
+            "-" +
             paddedString(timeMid.toString(16), 4) +
-            '-' +
+            "-" +
             paddedString(timeHiAndVersion.toString(16), 4) +
-            '-' +
+            "-" +
             paddedString(clockSeqHiAndReserved.toString(16), 2) +
             paddedString(clockSeqLow.toString(16), 2) +
-            '-' +
+            "-" +
             paddedString(node.toString(16), 12);
         return hex;
     };
 
     return {
         generate: function () {
-            return fromParts(
-                randomUI32(),
-                randomUI16(),
-                0x4000 | randomUI12(),
-                0x80 | randomUI06(),
-                randomUI08(),
-                randomUI48()
-            );
+            return fromParts(randomUI32(), randomUI16(), 0x4000 | randomUI12(), 0x80 | randomUI06(), randomUI08(), randomUI48());
         },
 
         // addition by Ka-Jan to check for validity

@@ -1,5 +1,5 @@
-import { vectorFromCoords } from '../math/R3';
-import { view, perspective } from './Diagram3D';
+import { vectorFromCoords } from "../math/R3";
+import { view, perspective } from "./Diagram3D";
 
 const e1 = vectorFromCoords(1, 0, 0);
 const e2 = vectorFromCoords(0, 1, 0);

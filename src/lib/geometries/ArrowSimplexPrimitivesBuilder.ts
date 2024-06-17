@@ -1,7 +1,7 @@
-import { RevolutionSimplexPrimitivesBuilder } from '../geometries/RevolutionSimplexPrimitivesBuilder';
-import { Spinor3 } from '../math/Spinor3';
-import { Vector3 } from '../math/Vector3';
-import { VectorE3 } from '../math/VectorE3';
+import { RevolutionSimplexPrimitivesBuilder } from "../geometries/RevolutionSimplexPrimitivesBuilder";
+import { Spinor3 } from "../math/Spinor3";
+import { Vector3 } from "../math/Vector3";
+import { VectorE3 } from "../math/VectorE3";
 
 /**
  * @hidden
@@ -24,7 +24,7 @@ const permutation = function (direction: VectorE3): number {
     const x = Math.abs(direction.x);
     const y = Math.abs(direction.y);
     const z = Math.abs(direction.z);
-    return bigger(x, z) ? (bigger(x, y) ? 0 : 1) : (bigger(y, z) ? 1 : 2);
+    return bigger(x, z) ? (bigger(x, y) ? 0 : 1) : bigger(y, z) ? 1 : 2;
 };
 
 /**
@@ -57,7 +57,7 @@ function nearest(direction: Vector3): Vector3 {
  * @hidden
  */
 export class ArrowSimplexPrimitivesBuilder extends RevolutionSimplexPrimitivesBuilder {
-    public lengthCone = 0.20;
+    public lengthCone = 0.2;
     public radiusCone = 0.08;
     public radiusShaft = 0.01;
     public vector: Vector3 = Vector3.vector(1, 0, 0);
@@ -79,7 +79,7 @@ export class ArrowSimplexPrimitivesBuilder extends RevolutionSimplexPrimitivesBu
         const halfLength = length / 2;
         const radiusCone = this.radiusCone;
         const radiusShaft = this.radiusShaft;
-        const computeArrow = function (direction: Vector3): { points: Vector3[], generator: Spinor3 } {
+        const computeArrow = function (direction: Vector3): { points: Vector3[]; generator: Spinor3 } {
             const cycle = permutation(direction);
             const sign = orientation(cycle, direction);
             const i = (cycle + 0) % 3;
@@ -89,17 +89,17 @@ export class ArrowSimplexPrimitivesBuilder extends RevolutionSimplexPrimitivesBu
             const b = lengthShaft * sign;
             // data is for an arrow pointing in the e1 direction in the xy-plane.
             const data = [
-                [a, 0, 0],    // head end
+                [a, 0, 0], // head end
                 [b - a, radiusCone, 0],
                 [b - a, radiusShaft, 0],
                 [-a, radiusShaft, 0],
-                [-a, 0, 0]    // tail end
+                [-a, 0, 0] // tail end
             ];
             const points = data.map(function (point: number[]) {
                 return new Vector3([point[i], point[j], point[k]]);
             });
             const generator = Spinor3.dual(nearest(direction), true);
-            return { "points": points, "generator": generator };
+            return { points: points, generator: generator };
         };
         const direction = Vector3.copy(this.vector).normalize();
         const arrow = computeArrow(direction);

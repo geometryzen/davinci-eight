@@ -1,9 +1,9 @@
-import { mustBeString } from '../checks/mustBeString';
-import { Facet } from '../core/Facet';
-import { FacetVisitor } from '../core/FacetVisitor';
-import { readOnly } from '../i18n/readOnly';
-import { Geometric3 } from '../math/Geometric3';
-import { Matrix4 } from '../math/Matrix4';
+import { mustBeString } from "../checks/mustBeString";
+import { Facet } from "../core/Facet";
+import { FacetVisitor } from "../core/FacetVisitor";
+import { readOnly } from "../i18n/readOnly";
+import { Geometric3 } from "../math/Geometric3";
+import { Matrix4 } from "../math/Matrix4";
 
 /**
  * @hidden
@@ -21,7 +21,7 @@ export class ReflectionFacetE3 implements Facet {
      * @param name The name of the uniform variable.
      */
     constructor(name: string) {
-        this.name = mustBeString('name', name);
+        this.name = mustBeString("name", name);
         // The mathematics of the reflection causes a zero vector to be the identity transformation.
         this._normal = Geometric3.zero(false);
         this._normal.modified = true;
@@ -31,7 +31,7 @@ export class ReflectionFacetE3 implements Facet {
         return this._normal;
     }
     set normal(unused) {
-        throw new Error(readOnly('normal').message);
+        throw new Error(readOnly("normal").message);
     }
 
     setUniforms(visitor: FacetVisitor): void {

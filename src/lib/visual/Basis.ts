@@ -1,46 +1,46 @@
-import { BeginMode } from '../core/BeginMode';
-import { Color } from '../core/Color';
-import { ContextManager } from '../core/ContextManager';
-import { Geometry } from '../core/Geometry';
-import { GeometryArrays } from '../core/GeometryArrays';
-import { GraphicsProgramSymbols as GPS } from '../core/GraphicsProgramSymbols';
-import { Material } from '../core/Material';
-import { Mesh } from '../core/Mesh';
-import { Primitive } from '../core/Primitive';
-import { ColorFacet } from '../facets/ColorFacet';
-import { Vector3Facet } from '../facets/Vector3Facet';
-import { ShaderMaterial } from '../materials/ShaderMaterial';
-import { Vector3 } from '../math/Vector3';
-import { BasisOptions } from './BasisOptions';
-import { ds } from './Defaults';
-import { setColorOption } from './setColorOption';
-import { setDeprecatedOptions } from './setDeprecatedOptions';
+import { BeginMode } from "../core/BeginMode";
+import { Color } from "../core/Color";
+import { ContextManager } from "../core/ContextManager";
+import { Geometry } from "../core/Geometry";
+import { GeometryArrays } from "../core/GeometryArrays";
+import { GraphicsProgramSymbols as GPS } from "../core/GraphicsProgramSymbols";
+import { Material } from "../core/Material";
+import { Mesh } from "../core/Mesh";
+import { Primitive } from "../core/Primitive";
+import { ColorFacet } from "../facets/ColorFacet";
+import { Vector3Facet } from "../facets/Vector3Facet";
+import { ShaderMaterial } from "../materials/ShaderMaterial";
+import { Vector3 } from "../math/Vector3";
+import { BasisOptions } from "./BasisOptions";
+import { ds } from "./Defaults";
+import { setColorOption } from "./setColorOption";
+import { setDeprecatedOptions } from "./setDeprecatedOptions";
 
 /**
  * @hidden
  */
-const uPointA = 'uPointA';
+const uPointA = "uPointA";
 /**
  * @hidden
  */
-const uPointB = 'uPointB';
+const uPointB = "uPointB";
 /**
  * @hidden
  */
-const uPointC = 'uPointC';
+const uPointC = "uPointC";
 
 /**
  * @hidden
  */
-const uColorA = 'uColorA';
+const uColorA = "uColorA";
 /**
  * @hidden
  */
-const uColorB = 'uColorB';
+const uColorB = "uColorB";
 /**
  * @hidden
  */
-const uColorC = 'uColorC';
+const uColorC = "uColorC";
 
 /**
  * @hidden
@@ -87,7 +87,7 @@ const vertexShaderSrc = function (): string {
         `  gl_Position = ${GPS.UNIFORM_PROJECTION_MATRIX} * ${GPS.UNIFORM_VIEW_MATRIX} * ${GPS.UNIFORM_MODEL_MATRIX} * vec4(${GPS.ATTRIBUTE_POSITION}, 1.0);`,
         `  ${GPS.VARYING_COLOR} = vec4(${GPS.ATTRIBUTE_COLOR}, 1.0);`,
         "}"
-    ].join('\n');
+    ].join("\n");
     return vs;
 };
 
@@ -95,15 +95,7 @@ const vertexShaderSrc = function (): string {
  * @hidden
  */
 const fragmentShaderSrc = function (): string {
-    const fs: string = [
-        "precision mediump float;",
-        `varying highp vec4 ${GPS.VARYING_COLOR};`,
-        "",
-        "void main(void) {",
-        `  gl_FragColor = ${GPS.VARYING_COLOR};`,
-        "}"
-
-    ].join('\n');
+    const fs: string = ["precision mediump float;", `varying highp vec4 ${GPS.VARYING_COLOR};`, "", "void main(void) {", `  gl_FragColor = ${GPS.VARYING_COLOR};`, "}"].join("\n");
     return fs;
 };
 
@@ -119,8 +111,8 @@ export class Basis extends Mesh<Geometry, Material> {
     private uColorC = new ColorFacet(uColorC);
     /**
      * @param contextManager This will usually be provided by the `Engine`.
-     * @param options 
-     * @param levelUp Leave as zero unless you are extending this class. 
+     * @param options
+     * @param levelUp Leave as zero unless you are extending this class.
      */
     constructor(contextManager: ContextManager, options: BasisOptions = {}, levelUp = 0) {
         super(void 0, void 0, contextManager, { axis: ds.axis, meridian: ds.meridian }, levelUp + 1);

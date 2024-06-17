@@ -1,31 +1,31 @@
-import { isDefined } from '../checks/isDefined';
-import { isNumber } from '../checks/isNumber';
-import { isObject } from '../checks/isObject';
-import { mustBeEQ } from '../checks/mustBeEQ';
-import { mustBeInteger } from '../checks/mustBeInteger';
-import { mustBeNumber } from '../checks/mustBeNumber';
-import { mustBeObject } from '../checks/mustBeObject';
-import { lock, TargetLockedError } from '../core/Lockable';
-import { b2 } from '../geometries/b2';
-import { b3 } from '../geometries/b3';
-import { notImplemented } from '../i18n/notImplemented';
-import { notSupported } from '../i18n/notSupported';
-import { approx } from './approx';
-import { arraysEQ } from './arraysEQ';
-import { dotVectorE2 as dotVector } from './dotVectorE2';
-import { extE2 } from './extE2';
-import { gauss } from './gauss';
-import { GeometricE2 } from './GeometricE2';
-import { lcoE2 } from './lcoE2';
-import { mulE2 } from './mulE2';
-import { Pseudo } from './Pseudo';
-import { rcoE2 } from './rcoE2';
-import { rotorFromDirectionsE2 } from './rotorFromDirectionsE2';
-import { scpE2 } from './scpE2';
-import { SpinorE2 } from './SpinorE2';
-import { stringFromCoordinates } from './stringFromCoordinates';
-import { VectorE2 } from './VectorE2';
-import { wedgeXY } from './wedgeXY';
+import { isDefined } from "../checks/isDefined";
+import { isNumber } from "../checks/isNumber";
+import { isObject } from "../checks/isObject";
+import { mustBeEQ } from "../checks/mustBeEQ";
+import { mustBeInteger } from "../checks/mustBeInteger";
+import { mustBeNumber } from "../checks/mustBeNumber";
+import { mustBeObject } from "../checks/mustBeObject";
+import { lock, TargetLockedError } from "../core/Lockable";
+import { b2 } from "../geometries/b2";
+import { b3 } from "../geometries/b3";
+import { notImplemented } from "../i18n/notImplemented";
+import { notSupported } from "../i18n/notSupported";
+import { approx } from "./approx";
+import { arraysEQ } from "./arraysEQ";
+import { dotVectorE2 as dotVector } from "./dotVectorE2";
+import { extE2 } from "./extE2";
+import { gauss } from "./gauss";
+import { GeometricE2 } from "./GeometricE2";
+import { lcoE2 } from "./lcoE2";
+import { mulE2 } from "./mulE2";
+import { Pseudo } from "./Pseudo";
+import { rcoE2 } from "./rcoE2";
+import { rotorFromDirectionsE2 } from "./rotorFromDirectionsE2";
+import { scpE2 } from "./scpE2";
+import { SpinorE2 } from "./SpinorE2";
+import { stringFromCoordinates } from "./stringFromCoordinates";
+import { VectorE2 } from "./VectorE2";
+import { wedgeXY } from "./wedgeXY";
 
 // symbolic constants for the coordinate indices into the data array.
 /**
@@ -106,7 +106,7 @@ const ARROW_LABELS = ["1", [LEFTWARDS_ARROW, RIGHTWARDS_ARROW], [DOWNWARDS_ARROW
 /**
  * @hidden
  */
-const COMPASS_LABELS = ["1", ['W', 'E'], ['S', 'N'], [CLOCKWISE_OPEN_CIRCLE_ARROW, ANTICLOCKWISE_OPEN_CIRCLE_ARROW]];
+const COMPASS_LABELS = ["1", ["W", "E"], ["S", "N"], [CLOCKWISE_OPEN_CIRCLE_ARROW, ANTICLOCKWISE_OPEN_CIRCLE_ARROW]];
 /**
  * @hidden
  */
@@ -171,23 +171,19 @@ function duckCopy(value: any): Geometric2 {
             if (isNumber(m.a) && isNumber(m.b)) {
                 console.warn("Copying GeometricE2 to Geometric2");
                 return Geometric2.copy(m);
-            }
-            else {
+            } else {
                 console.warn("Copying VectorE2 to Geometric2");
                 return Geometric2.fromVector(m);
             }
-        }
-        else {
+        } else {
             if (isNumber(m.a) && isNumber(m.b)) {
                 console.warn("Copying SpinorE2 to Geometric2");
                 return Geometric2.fromSpinor(m);
-            }
-            else {
+            } else {
                 return void 0;
             }
         }
-    }
-    else {
+    } else {
         return void 0;
     }
 }
@@ -198,41 +194,38 @@ function duckCopy(value: any): Geometric2 {
 export class Geometric2 {
     // Lockable
     public isLocked(): boolean {
-        return typeof (this as any)['lock_'] === 'number';
+        return typeof (this as any)["lock_"] === "number";
     }
 
     public lock(): number {
         if (this.isLocked()) {
             throw new Error("already locked");
-        }
-        else {
-            (this as any)['lock_'] = Math.random();
-            return (this as any)['lock_'];
+        } else {
+            (this as any)["lock_"] = Math.random();
+            return (this as any)["lock_"];
         }
     }
 
     public unlock(token: number): void {
-        if (typeof token !== 'number') {
+        if (typeof token !== "number") {
             throw new Error("token must be a number.");
         }
         if (!this.isLocked()) {
             throw new Error("not locked");
-        }
-        else if ((this as any)['lock_'] === token) {
-            (this as any)['lock_'] = void 0;
-        }
-        else {
+        } else if ((this as any)["lock_"] === token) {
+            (this as any)["lock_"] = void 0;
+        } else {
             throw new Error("unlock denied");
         }
     }
 
     /**
-     * 
+     *
      */
     private coords_: number[];
 
     /**
-     * 
+     *
      */
     private modified_: boolean;
 
@@ -260,7 +253,7 @@ export class Geometric2 {
      * [scalar, x, y, pseudo]
      */
     constructor(coords: [number, number, number, number] = [0, 0, 0, 0], modified = false) {
-        mustBeEQ('coords.length', coords.length, 4);
+        mustBeEQ("coords.length", coords.length, 4);
         this.coords_ = coords;
         this.modified_ = modified;
     }
@@ -274,7 +267,7 @@ export class Geometric2 {
     }
     set modified(modified: boolean) {
         if (this.isLocked()) {
-            throw new TargetLockedError('set modified');
+            throw new TargetLockedError("set modified");
         }
         this.modified_ = modified;
     }
@@ -288,7 +281,7 @@ export class Geometric2 {
     }
     set a(a: number) {
         if (this.isLocked()) {
-            throw new TargetLockedError('set a');
+            throw new TargetLockedError("set a");
         }
         const coords = this.coords_;
         this.modified_ = this.modified_ || coords[COORD_SCALAR] !== a;
@@ -300,7 +293,7 @@ export class Geometric2 {
     }
     set x(x: number) {
         if (this.isLocked()) {
-            throw new TargetLockedError('set x');
+            throw new TargetLockedError("set x");
         }
         const coords = this.coords_;
         this.modified_ = this.modified_ || coords[COORD_X] !== x;
@@ -312,7 +305,7 @@ export class Geometric2 {
     }
     set y(y: number) {
         if (this.isLocked()) {
-            throw new TargetLockedError('set y');
+            throw new TargetLockedError("set y");
         }
         const coords = this.coords_;
         this.modified_ = this.modified_ || coords[COORD_Y] !== y;
@@ -324,7 +317,7 @@ export class Geometric2 {
     }
     set b(b: number) {
         if (this.isLocked()) {
-            throw new TargetLockedError('set b');
+            throw new TargetLockedError("set b");
         }
         const coords = this.coords_;
         this.modified_ = this.modified_ || coords[COORD_PSEUDO] !== b;
@@ -352,8 +345,8 @@ export class Geometric2 {
      * this ⟼ this + M * α
      */
     add(M: GeometricE2, α = 1): this {
-        mustBeObject('M', M);
-        mustBeNumber('α', α);
+        mustBeObject("M", M);
+        mustBeNumber("α", α);
         this.a += M.a * α;
         this.x += M.x * α;
         this.y += M.y * α;
@@ -365,8 +358,8 @@ export class Geometric2 {
      * this ⟼ a + b
      */
     add2(a: GeometricE2, b: GeometricE2): this {
-        mustBeObject('a', a);
-        mustBeObject('b', b);
+        mustBeObject("a", a);
+        mustBeObject("b", b);
         this.a = a.a + b.a;
         this.x = a.x + b.x;
         this.y = a.y + b.y;
@@ -378,7 +371,7 @@ export class Geometric2 {
      * this ⟼ this + Iβ
      */
     addPseudo(β: number): this {
-        mustBeNumber('β', β);
+        mustBeNumber("β", β);
         this.b += β;
         return this;
     }
@@ -387,7 +380,7 @@ export class Geometric2 {
      * this ⟼ this + α
      */
     addScalar(α: number): this {
-        mustBeNumber('α', α);
+        mustBeNumber("α", α);
         this.a += α;
         return this;
     }
@@ -396,8 +389,8 @@ export class Geometric2 {
      * this ⟼ this + v * α
      */
     addVector(v: VectorE2, α = 1): this {
-        mustBeObject('v', v);
-        mustBeNumber('α', α);
+        mustBeObject("v", v);
+        mustBeNumber("α", α);
         this.x += v.x * α;
         this.y += v.y * α;
         return this;
@@ -411,8 +404,7 @@ export class Geometric2 {
     arg(): Geometric2 {
         if (this.isLocked()) {
             return lock(this.clone().arg());
-        }
-        else {
+        } else {
             return this.log().grade(2);
         }
     }
@@ -438,7 +430,7 @@ export class Geometric2 {
      * The Clifford conjugate.
      * The multiplier for the grade x is (-1) raised to the power x * (x + 1) / 2
      * The pattern of grades is +--++--+
-     * 
+     *
      * @returns conj(this)
      */
     conj(): this {
@@ -452,14 +444,14 @@ export class Geometric2 {
      *
      */
     cos(): this {
-        throw new Error(notImplemented('cos').message);
+        throw new Error(notImplemented("cos").message);
     }
 
     /**
      *
      */
     cosh(): this {
-        throw new Error(notImplemented('cosh').message);
+        throw new Error(notImplemented("cosh").message);
     }
 
     /**
@@ -477,7 +469,7 @@ export class Geometric2 {
      * this ⟼ copy(M)
      */
     copy(M: GeometricE2): this {
-        mustBeObject('M', M);
+        mustBeObject("M", M);
         this.a = M.a;
         this.x = M.x;
         this.y = M.y;
@@ -496,7 +488,7 @@ export class Geometric2 {
      * this ⟼ copy(spinor)
      */
     copySpinor(spinor: SpinorE2): this {
-        mustBeObject('spinor', spinor);
+        mustBeObject("spinor", spinor);
         this.a = spinor.a;
         this.x = 0;
         this.y = 0;
@@ -508,7 +500,7 @@ export class Geometric2 {
      * this ⟼ copyVector(vector)
      */
     copyVector(vector: VectorE2): this {
-        mustBeObject('vector', vector);
+        mustBeObject("vector", vector);
         this.a = 0;
         this.x = vector.x;
         this.y = vector.y;
@@ -536,7 +528,7 @@ export class Geometric2 {
      */
     normalize(): this {
         if (this.isLocked()) {
-            throw new TargetLockedError('normalize');
+            throw new TargetLockedError("normalize");
         }
         const norm: number = this.magnitude();
         this.a = this.a / norm;
@@ -579,7 +571,7 @@ export class Geometric2 {
      * this ⟼ this / α
      */
     divByScalar(α: number): this {
-        mustBeNumber('α', α);
+        mustBeNumber("α", α);
         this.a /= α;
         this.x /= α;
         this.y /= α;
@@ -593,8 +585,7 @@ export class Geometric2 {
     dual(): Geometric2 {
         if (this.isLocked()) {
             return lock(this.clone().dual());
-        }
-        else {
+        } else {
             const a = this.b;
             const y = -this.x;
             const x = this.y;
@@ -615,8 +606,7 @@ export class Geometric2 {
         if (other instanceof Geometric2) {
             const that: Geometric2 = other;
             return arraysEQ(this.coords_, that.coords_);
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -699,14 +689,14 @@ export class Geometric2 {
     }
 
     /**
-     * 
+     *
      */
     isOne(): boolean {
         return this.a === 1 && this.x === 0 && this.y === 0 && this.b === 0;
     }
 
     /**
-     * 
+     *
      */
     isZero(): boolean {
         return this.a === 0 && this.x === 0 && this.y === 0 && this.b === 0;
@@ -746,8 +736,8 @@ export class Geometric2 {
      * this ⟼ this + α * (target - this)
      */
     lerp(target: GeometricE2, α: number): this {
-        mustBeObject('target', target);
-        mustBeNumber('α', α);
+        mustBeObject("target", target);
+        mustBeNumber("α", α);
         this.a += (target.a - this.a) * α;
         this.x += (target.x - this.x) * α;
         this.y += (target.y - this.y) * α;
@@ -759,9 +749,9 @@ export class Geometric2 {
      * this ⟼ a + α * (b - a)
      */
     lerp2(a: GeometricE2, b: GeometricE2, α: number): this {
-        mustBeObject('a', a);
-        mustBeObject('b', b);
-        mustBeNumber('α', α);
+        mustBeObject("a", a);
+        mustBeObject("b", b);
+        mustBeNumber("α", α);
         this.copy(a).lerp(b, α);
         return this;
     }
@@ -862,8 +852,8 @@ export class Geometric2 {
      *
      */
     pow(M: GeometricE2): this {
-        mustBeObject('M', M);
-        throw new Error(notImplemented('pow').message);
+        mustBeObject("M", M);
+        throw new Error(notImplemented("pow").message);
     }
 
     /**
@@ -924,12 +914,12 @@ export class Geometric2 {
      * this ⟼ - n * this * n
      */
     reflect(n: VectorE2): this {
-        mustBeObject('n', n);
+        mustBeObject("n", n);
 
         const nx = n.x;
         const ny = n.y;
-        mustBeNumber('n.x', nx);
-        mustBeNumber('n.y', ny);
+        mustBeNumber("n.x", nx);
+        mustBeNumber("n.y", ny);
         const x = this.x;
         const y = this.y;
 
@@ -964,21 +954,21 @@ export class Geometric2 {
      *
      */
     sin(): this {
-        throw new Error(notImplemented('sin').message);
+        throw new Error(notImplemented("sin").message);
     }
 
     /**
      *
      */
     sinh(): this {
-        throw new Error(notImplemented('sinh').message);
+        throw new Error(notImplemented("sinh").message);
     }
 
     /**
      * this ⟼ R * this * rev(R)
      */
     rotate(R: SpinorE2): this {
-        mustBeObject('R', R);
+        mustBeObject("R", R);
 
         const x = this.x;
         const y = this.y;
@@ -1012,8 +1002,8 @@ export class Geometric2 {
      * this ⟼ exp(- B * θ / 2)
      */
     rotorFromGeneratorAngle(B: SpinorE2, θ: number): this {
-        mustBeObject('B', B);
-        mustBeNumber('θ', θ);
+        mustBeObject("B", B);
+        mustBeNumber("θ", θ);
         // We assume that B really is just a bivector
         // by ignoring scalar and vector components.
         // Normally, B will have unit magnitude and B * B => -1.
@@ -1061,7 +1051,7 @@ export class Geometric2 {
      * this ⟼ this * α
      */
     scale(α: number): this {
-        mustBeNumber('α', α);
+        mustBeNumber("α", α);
         this.a *= α;
         this.x *= α;
         this.y *= α;
@@ -1073,8 +1063,8 @@ export class Geometric2 {
      *
      */
     stress(σ: VectorE2): this {
-        mustBeObject('σ', σ);
-        throw new Error(notSupported('stress').message);
+        mustBeObject("σ", σ);
+        throw new Error(notSupported("stress").message);
     }
 
     /**
@@ -1108,7 +1098,7 @@ export class Geometric2 {
     }
 
     /**
-     * @returns the square of the <code>magnitude</code> of <code>this</code>.  
+     * @returns the square of the <code>magnitude</code> of <code>this</code>.
      */
     quaditude(): number {
         const a = this.a;
@@ -1122,8 +1112,8 @@ export class Geometric2 {
      * this ⟼ this - M * α
      */
     sub(M: GeometricE2, α = 1): this {
-        mustBeObject('M', M);
-        mustBeNumber('α', α);
+        mustBeObject("M", M);
+        mustBeNumber("α", α);
         this.a -= M.a * α;
         this.x -= M.x * α;
         this.y -= M.y * α;
@@ -1135,8 +1125,8 @@ export class Geometric2 {
      * this ⟼ a - b
      */
     sub2(a: GeometricE2, b: GeometricE2): this {
-        mustBeObject('a', a);
-        mustBeObject('b', b);
+        mustBeObject("a", a);
+        mustBeObject("b", b);
         this.a = a.a - b.a;
         this.x = a.x - b.x;
         this.y = a.y - b.y;
@@ -1145,7 +1135,7 @@ export class Geometric2 {
     }
 
     /**
-     * 
+     *
      */
     toArray(): number[] {
         return coordinates(this);
@@ -1155,7 +1145,9 @@ export class Geometric2 {
      * Returns a representation of this multivector in exponential notation.
      */
     toExponential(fractionDigits?: number): string {
-        const coordToString = function (coord: number): string { return coord.toExponential(fractionDigits); };
+        const coordToString = function (coord: number): string {
+            return coord.toExponential(fractionDigits);
+        };
         return stringFromCoordinates(coordinates(this), coordToString, Geometric2.BASIS_LABELS);
     }
 
@@ -1163,7 +1155,9 @@ export class Geometric2 {
      * Returns a representation of this multivector in fixed-point notation.
      */
     toFixed(fractionDigits?: number): string {
-        const coordToString = function (coord: number): string { return coord.toFixed(fractionDigits); };
+        const coordToString = function (coord: number): string {
+            return coord.toFixed(fractionDigits);
+        };
         return stringFromCoordinates(coordinates(this), coordToString, Geometric2.BASIS_LABELS);
     }
 
@@ -1171,7 +1165,9 @@ export class Geometric2 {
      * Returns a representation of this multivector in exponential or fixed-point notation.
      */
     toPrecision(precision?: number): string {
-        const coordToString = function (coord: number): string { return coord.toPrecision(precision); };
+        const coordToString = function (coord: number): string {
+            return coord.toPrecision(precision);
+        };
         return stringFromCoordinates(coordinates(this), coordToString, Geometric2.BASIS_LABELS);
     }
 
@@ -1179,7 +1175,9 @@ export class Geometric2 {
      * Returns a representation of this multivector.
      */
     toString(radix?: number): string {
-        const coordToString = function (coord: number): string { return coord.toString(radix); };
+        const coordToString = function (coord: number): string {
+            return coord.toString(radix);
+        };
         return stringFromCoordinates(coordinates(this), coordToString, Geometric2.BASIS_LABELS);
     }
 
@@ -1194,7 +1192,7 @@ export class Geometric2 {
         if (this.isLocked()) {
             return lock(this.clone().grade(i));
         }
-        mustBeInteger('i', i);
+        mustBeInteger("i", i);
         switch (i) {
             case 0: {
                 this.x = 0;
@@ -1225,7 +1223,7 @@ export class Geometric2 {
 
     /**
      * Sets this multivector to the identity element for addition, 0.
-     * 
+     *
      * this ⟼ 0
      */
     zero(): this {
@@ -1243,18 +1241,15 @@ export class Geometric2 {
     __add__(rhs: any): Geometric2 {
         if (rhs instanceof Geometric2) {
             return lock(Geometric2.copy(this).add(rhs));
-        }
-        else if (typeof rhs === 'number') {
+        } else if (typeof rhs === "number") {
             // Addition commutes, but addScalar might be useful.
             return lock(Geometric2.scalar(rhs).add(this));
-        }
-        else {
+        } else {
             const rhsCopy = duckCopy(rhs);
             if (rhsCopy) {
                 // rhs is a copy and addition commutes.
                 return lock(rhsCopy.add(this));
-            }
-            else {
+            } else {
                 return void 0;
             }
         }
@@ -1266,11 +1261,9 @@ export class Geometric2 {
     __div__(rhs: any): Geometric2 {
         if (rhs instanceof Geometric2) {
             return lock(Geometric2.copy(this).div(rhs));
-        }
-        else if (typeof rhs === 'number') {
+        } else if (typeof rhs === "number") {
             return lock(Geometric2.copy(this).divByScalar(rhs));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -1281,11 +1274,9 @@ export class Geometric2 {
     __rdiv__(lhs: any): Geometric2 {
         if (lhs instanceof Geometric2) {
             return lock(Geometric2.copy(lhs).div(this));
-        }
-        else if (typeof lhs === 'number') {
+        } else if (typeof lhs === "number") {
             return lock(Geometric2.scalar(lhs).div(this));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -1296,18 +1287,15 @@ export class Geometric2 {
     __mul__(rhs: any): Geometric2 {
         if (rhs instanceof Geometric2) {
             return lock(Geometric2.copy(this).mul(rhs));
-        }
-        else if (typeof rhs === 'number') {
+        } else if (typeof rhs === "number") {
             return lock(Geometric2.copy(this).scale(rhs));
-        }
-        else {
+        } else {
             const rhsCopy = duckCopy(rhs);
             if (rhsCopy) {
                 // rhsCopy is a copy but multiplication does not commute.
                 // If we had rmul then we could mutate the rhs!
                 return this.__mul__(rhsCopy);
-            }
-            else {
+            } else {
                 return void 0;
             }
         }
@@ -1319,17 +1307,14 @@ export class Geometric2 {
     __rmul__(lhs: any) {
         if (lhs instanceof Geometric2) {
             return lock(Geometric2.copy(lhs).mul(this));
-        }
-        else if (typeof lhs === 'number') {
+        } else if (typeof lhs === "number") {
             return lock(Geometric2.copy(this).scale(lhs));
-        }
-        else {
+        } else {
             const lhsCopy = duckCopy(lhs);
             if (lhsCopy) {
                 // lhs is a copy, so we can mutate it, and use it on the left.
                 return lock(lhsCopy.mul(this));
-            }
-            else {
+            } else {
                 return void 0;
             }
         }
@@ -1341,17 +1326,14 @@ export class Geometric2 {
     __radd__(lhs: any) {
         if (lhs instanceof Geometric2) {
             return lock(Geometric2.copy(lhs).add(this));
-        }
-        else if (typeof lhs === 'number') {
+        } else if (typeof lhs === "number") {
             return lock(Geometric2.scalar(lhs).add(this));
-        }
-        else {
+        } else {
             const lhsCopy = duckCopy(lhs);
             if (lhsCopy) {
                 // lhs is a copy, so we can mutate it.
                 return lock(lhsCopy.add(this));
-            }
-            else {
+            } else {
                 return void 0;
             }
         }
@@ -1363,11 +1345,9 @@ export class Geometric2 {
     __sub__(rhs: any) {
         if (rhs instanceof Geometric2) {
             return lock(Geometric2.copy(this).sub(rhs));
-        }
-        else if (typeof rhs === 'number') {
+        } else if (typeof rhs === "number") {
             return lock(Geometric2.scalar(-rhs).add(this));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -1378,11 +1358,9 @@ export class Geometric2 {
     __rsub__(lhs: any) {
         if (lhs instanceof Geometric2) {
             return lock(Geometric2.copy(lhs).sub(this));
-        }
-        else if (typeof lhs === 'number') {
+        } else if (typeof lhs === "number") {
             return lock(Geometric2.scalar(lhs).sub(this));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -1393,12 +1371,10 @@ export class Geometric2 {
     __wedge__(rhs: any) {
         if (rhs instanceof Geometric2) {
             return lock(Geometric2.copy(this).ext(rhs));
-        }
-        else if (typeof rhs === 'number') {
+        } else if (typeof rhs === "number") {
             // The outer product with a scalar is simply scalar multiplication.
             return lock(Geometric2.copy(this).scale(rhs));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -1409,12 +1385,10 @@ export class Geometric2 {
     __rwedge__(lhs: any) {
         if (lhs instanceof Geometric2) {
             return lock(Geometric2.copy(lhs).ext(this));
-        }
-        else if (typeof lhs === 'number') {
+        } else if (typeof lhs === "number") {
             // The outer product with a scalar is simply scalar multiplication, and commutes.
             return lock(Geometric2.copy(this).scale(lhs));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -1425,11 +1399,9 @@ export class Geometric2 {
     __lshift__(rhs: any) {
         if (rhs instanceof Geometric2) {
             return lock(Geometric2.copy(this).lco(rhs));
-        }
-        else if (typeof rhs === 'number') {
+        } else if (typeof rhs === "number") {
             return lock(Geometric2.copy(this).lco(Geometric2.scalar(rhs)));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -1440,11 +1412,9 @@ export class Geometric2 {
     __rlshift__(lhs: any) {
         if (lhs instanceof Geometric2) {
             return lock(Geometric2.copy(lhs).lco(this));
-        }
-        else if (typeof lhs === 'number') {
+        } else if (typeof lhs === "number") {
             return lock(Geometric2.scalar(lhs).lco(this));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -1455,11 +1425,9 @@ export class Geometric2 {
     __rshift__(rhs: any) {
         if (rhs instanceof Geometric2) {
             return lock(Geometric2.copy(this).rco(rhs));
-        }
-        else if (typeof rhs === 'number') {
+        } else if (typeof rhs === "number") {
             return lock(Geometric2.copy(this).rco(Geometric2.scalar(rhs)));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -1470,11 +1438,9 @@ export class Geometric2 {
     __rrshift__(lhs: any) {
         if (lhs instanceof Geometric2) {
             return lock(Geometric2.copy(lhs).rco(this));
-        }
-        else if (typeof lhs === 'number') {
+        } else if (typeof lhs === "number") {
             return lock(Geometric2.scalar(lhs).rco(this));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -1485,11 +1451,9 @@ export class Geometric2 {
     __vbar__(rhs: any) {
         if (rhs instanceof Geometric2) {
             return lock(Geometric2.copy(this).scp(rhs));
-        }
-        else if (typeof rhs === 'number') {
+        } else if (typeof rhs === "number") {
             return lock(Geometric2.copy(this).scp(Geometric2.scalar(rhs)));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -1500,11 +1464,9 @@ export class Geometric2 {
     __rvbar__(lhs: any) {
         if (lhs instanceof Geometric2) {
             return lock(Geometric2.copy(lhs).scp(this));
-        }
-        else if (typeof lhs === 'number') {
+        } else if (typeof lhs === "number") {
             return lock(Geometric2.scalar(lhs).scp(this));
-        }
-        else {
+        } else {
             return void 0;
         }
     }
@@ -1553,7 +1515,7 @@ export class Geometric2 {
 
     /**
      * Constructs the basis vector e1.
-     * Locking the vector prevents mutation. 
+     * Locking the vector prevents mutation.
      */
     public static e1(lock = false): Geometric2 {
         return lock ? Geometric2.E1 : Geometric2.vector(1, 0);
@@ -1567,7 +1529,7 @@ export class Geometric2 {
 
     /**
      * Constructs the basis vector e2.
-     * Locking the vector prevents mutation. 
+     * Locking the vector prevents mutation.
      */
     public static e2(lock = false): Geometric2 {
         return lock ? Geometric2.E2 : Geometric2.vector(0, 1);
@@ -1597,8 +1559,7 @@ export class Geometric2 {
     static fromVector(v: VectorE2): Geometric2 {
         if (isDefined(v)) {
             return new Geometric2([0, v.x, v.y, 0]);
-        }
-        else {
+        } else {
             // We could also return an undefined value here!
             return void 0;
         }
@@ -1632,7 +1593,7 @@ export class Geometric2 {
     public static readonly ONE = new Geometric2(scalar(1));
 
     /**
-     * 
+     *
      */
     public static one(lock = false): Geometric2 {
         return lock ? Geometric2.ONE : Geometric2.scalar(1);
@@ -1673,7 +1634,7 @@ export class Geometric2 {
     public static readonly ZERO = new Geometric2(scalar(0));
 
     /**
-     * 
+     *
      */
     public static zero(lock = false): Geometric2 {
         return lock ? Geometric2.ZERO : new Geometric2(zero());

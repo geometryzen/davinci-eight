@@ -1,11 +1,11 @@
-import { isUndefined } from '../checks/isUndefined';
-import { FacetVisitor } from '../core/FacetVisitor';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { Geometric3 } from '../math/Geometric3';
-import { Matrix4 } from '../math/Matrix4';
-import { VectorE3 } from '../math/VectorE3';
-import { View } from './View';
-import { viewMatrixFromEyeLookUp } from './viewMatrixFromEyeLookUp';
+import { isUndefined } from "../checks/isUndefined";
+import { FacetVisitor } from "../core/FacetVisitor";
+import { GraphicsProgramSymbols } from "../core/GraphicsProgramSymbols";
+import { Geometric3 } from "../math/Geometric3";
+import { Matrix4 } from "../math/Matrix4";
+import { VectorE3 } from "../math/VectorE3";
+import { View } from "./View";
+import { viewMatrixFromEyeLookUp } from "./viewMatrixFromEyeLookUp";
 
 //
 // In this implementation, the state variables are eye, look, and up.
@@ -26,7 +26,6 @@ import { viewMatrixFromEyeLookUp } from './viewMatrixFromEyeLookUp';
  * @hidden
  */
 export function createView(options: { viewMatrixName?: string } = {}): View {
-
     /**
      * eye is the position vector of the viewing point.
      * Default is e3.

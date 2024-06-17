@@ -1,17 +1,17 @@
-import { BeginMode } from '../core/BeginMode';
-import { Color } from '../core/Color';
-import { ContextManager } from '../core/ContextManager';
-import { DataType } from '../core/DataType';
-import { Geometry } from '../core/Geometry';
-import { GraphicsProgramSymbols as GPS } from '../core/GraphicsProgramSymbols';
-import { Material } from '../core/Material';
-import { Mesh } from '../core/Mesh';
-import { Usage } from '../core/Usage';
-import { VertexBuffer } from '../core/VertexBuffer';
-import { LineMaterial } from '../materials/LineMaterial';
-import { Matrix4 } from '../math/Matrix4';
-import { VectorE3 } from '../math/VectorE3';
-import { setColorOption } from './setColorOption';
+import { BeginMode } from "../core/BeginMode";
+import { Color } from "../core/Color";
+import { ContextManager } from "../core/ContextManager";
+import { DataType } from "../core/DataType";
+import { Geometry } from "../core/Geometry";
+import { GraphicsProgramSymbols as GPS } from "../core/GraphicsProgramSymbols";
+import { Material } from "../core/Material";
+import { Mesh } from "../core/Mesh";
+import { Usage } from "../core/Usage";
+import { VertexBuffer } from "../core/VertexBuffer";
+import { LineMaterial } from "../materials/LineMaterial";
+import { Matrix4 } from "../math/Matrix4";
+import { VectorE3 } from "../math/VectorE3";
+import { setColorOption } from "./setColorOption";
 
 /**
  * @hidden
@@ -90,7 +90,7 @@ export class TrackGeometry implements Geometry {
     }
 
     /**
-     * 
+     *
      */
     addPoint(x: number, y: number, z: number): void {
         if (this.count === this.N) {
@@ -110,7 +110,7 @@ export class TrackGeometry implements Geometry {
     }
 
     /**
-     * 
+     *
      */
     erase(): void {
         this.count = 0;
@@ -125,19 +125,19 @@ export interface TrackOptions {
 }
 
 /**
- * 
+ *
  */
 export class Track extends Mesh<TrackGeometry, LineMaterial> {
     /**
      * @param contextManager This will usually be provided by the `Engine`.
-     * @param options 
-     * @param levelUp Leave as zero unless you are extending this class. 
+     * @param options
+     * @param levelUp Leave as zero unless you are extending this class.
      */
     constructor(contextManager: ContextManager, options: TrackOptions = {}, levelUp = 0) {
         // The TrackGeometry cannot be cached because it is dynamic.
         // The LineMaterial can be cached.
         super(new TrackGeometry(contextManager), new LineMaterial(contextManager), contextManager, {}, levelUp + 1);
-        this.setLoggingName('Track');
+        this.setLoggingName("Track");
         // Adjust geometry reference count resulting from construction.
         const geometry = this.geometry;
         geometry.release();
@@ -165,7 +165,7 @@ export class Track extends Mesh<TrackGeometry, LineMaterial> {
     }
 
     /**
-     * 
+     *
      */
     addPoint(point: VectorE3): void {
         if (point) {
@@ -176,7 +176,7 @@ export class Track extends Mesh<TrackGeometry, LineMaterial> {
     }
 
     /**
-     * 
+     *
      */
     clear(): void {
         const geometry = this.geometry;

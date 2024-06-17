@@ -1,16 +1,16 @@
-import { isDefined } from '../checks/isDefined';
-import { isNull } from '../checks/isNull';
-import { isUndefined } from '../checks/isUndefined';
-import { mustBeNonNullObject } from '../checks/mustBeNonNullObject';
-import { mustBeObject } from '../checks/mustBeObject';
-import { AttributeSizeType } from '../core/AttributeSizeType';
-import { ContextManager } from '../core/ContextManager';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { UniformGlslType } from '../core/UniformGlslType';
-import { GraphicsProgramBuilder } from '../materials/GraphicsProgramBuilder';
-import { glslVersionFromWebGLContextId } from './glslVersionFromWebGLContextId';
-import { PointMaterialOptions } from './PointMaterialOptions';
-import { ShaderMaterial } from './ShaderMaterial';
+import { isDefined } from "../checks/isDefined";
+import { isNull } from "../checks/isNull";
+import { isUndefined } from "../checks/isUndefined";
+import { mustBeNonNullObject } from "../checks/mustBeNonNullObject";
+import { mustBeObject } from "../checks/mustBeObject";
+import { AttributeSizeType } from "../core/AttributeSizeType";
+import { ContextManager } from "../core/ContextManager";
+import { GraphicsProgramSymbols } from "../core/GraphicsProgramSymbols";
+import { UniformGlslType } from "../core/UniformGlslType";
+import { GraphicsProgramBuilder } from "../materials/GraphicsProgramBuilder";
+import { glslVersionFromWebGLContextId } from "./glslVersionFromWebGLContextId";
+import { PointMaterialOptions } from "./PointMaterialOptions";
+import { ShaderMaterial } from "./ShaderMaterial";
 
 /**
  * @hidden
@@ -25,13 +25,13 @@ function defaultOptions(options: PointMaterialOptions): void {
 
     options.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3;
 
-    options.uniforms[GraphicsProgramSymbols.UNIFORM_COLOR] = 'vec3';
-    options.uniforms[GraphicsProgramSymbols.UNIFORM_OPACITY] = 'float';
-    options.uniforms[GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX] = 'mat4';
-    options.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4';
-    options.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4';
+    options.uniforms[GraphicsProgramSymbols.UNIFORM_COLOR] = "vec3";
+    options.uniforms[GraphicsProgramSymbols.UNIFORM_OPACITY] = "float";
+    options.uniforms[GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX] = "mat4";
+    options.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = "mat4";
+    options.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = "mat4";
 
-    options.uniforms[GraphicsProgramSymbols.UNIFORM_POINT_SIZE] = 'float';
+    options.uniforms[GraphicsProgramSymbols.UNIFORM_POINT_SIZE] = "float";
 }
 
 /**
@@ -48,13 +48,12 @@ function shaderPropertiesCount(options: PointMaterialOptions): number {
 /**
  * @hidden
  */
-function builder(contextId: 'webgl2' | 'webgl', options: PointMaterialOptions) {
+function builder(contextId: "webgl2" | "webgl", options: PointMaterialOptions) {
     if (isNull(options) || isUndefined(options)) {
         options = { attributes: {}, uniforms: {} };
         defaultOptions(options);
-    }
-    else {
-        mustBeObject('options', options);
+    } else {
+        mustBeObject("options", options);
         if (shaderPropertiesCount(options) === 0) {
             defaultOptions(options);
         }
@@ -86,36 +85,35 @@ function builder(contextId: 'webgl2' | 'webgl', options: PointMaterialOptions) {
 /**
  * @hidden
  */
-function vertexShaderSrc(contextId: 'webgl2' | 'webgl', options?: PointMaterialOptions): string {
+function vertexShaderSrc(contextId: "webgl2" | "webgl", options?: PointMaterialOptions): string {
     return builder(contextId, options).vertexShaderSrc();
 }
 
 /**
  * @hidden
  */
-function fragmentShaderSrc(contextId: 'webgl2' | 'webgl', options?: PointMaterialOptions): string {
+function fragmentShaderSrc(contextId: "webgl2" | "webgl", options?: PointMaterialOptions): string {
     return builder(contextId, options).fragmentShaderSrc();
 }
 
 /**
  * @hidden
  */
-const LOGGING_NAME_POINT_MATERIAL = 'PointMaterial';
+const LOGGING_NAME_POINT_MATERIAL = "PointMaterial";
 
 /**
  * @hidden
  */
-function getContextId(contextManager: ContextManager): 'webgl2' | 'webgl' {
-    return mustBeNonNullObject('contextManager', contextManager).contextId;
+function getContextId(contextManager: ContextManager): "webgl2" | "webgl" {
+    return mustBeNonNullObject("contextManager", contextManager).contextId;
 }
 
 /**
  * @hidden
  */
 export class PointMaterial extends ShaderMaterial {
-
     /**
-     * 
+     *
      */
     constructor(contextManager: ContextManager, options: PointMaterialOptions, levelUp = 0) {
         super(vertexShaderSrc(getContextId(contextManager), options), fragmentShaderSrc(getContextId(contextManager), options), [], contextManager, levelUp + 1);
@@ -126,7 +124,7 @@ export class PointMaterial extends ShaderMaterial {
     }
 
     /**
-     * 
+     *
      */
     protected resurrector(levelUp: number): void {
         super.resurrector(levelUp + 1);
@@ -137,7 +135,7 @@ export class PointMaterial extends ShaderMaterial {
     }
 
     /**
-     * 
+     *
      */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {

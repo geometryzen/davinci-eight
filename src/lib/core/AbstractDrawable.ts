@@ -1,13 +1,12 @@
-import { Facet } from './Facet';
-import { Geometry } from './Geometry';
-import { Material } from './Material';
-import { Renderable } from './Renderable';
+import { Facet } from "./Facet";
+import { Geometry } from "./Geometry";
+import { Material } from "./Material";
+import { Renderable } from "./Renderable";
 
 /**
  *
  */
 export interface AbstractDrawable<G extends Geometry, M extends Material> extends Renderable {
-
     /**
      *
      */
@@ -75,12 +74,12 @@ export interface AbstractDrawable<G extends Geometry, M extends Material> extend
     render(ambients: Facet[]): AbstractDrawable<G, M>;
 
     /**
-     * 
+     *
      */
     setAmbients(ambients: Facet[]): AbstractDrawable<G, M>;
 
     /**
-     * 
+     *
      */
     setUniforms(): AbstractDrawable<G, M>;
 

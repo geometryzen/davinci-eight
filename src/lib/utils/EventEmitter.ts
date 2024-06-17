@@ -2,7 +2,6 @@
  * @hidden
  */
 export class EventEmitter<T, V> {
-
     private _eventRegistry: { [name: string]: ((eventName: string, key: string, value: V, source: T) => any)[] };
     private owner: T;
 
@@ -28,8 +27,7 @@ export class EventEmitter<T, V> {
         this._eventRegistry = this._eventRegistry || {};
 
         const listeners = this._eventRegistry[eventName];
-        if (!listeners)
-            return;
+        if (!listeners) return;
 
         const index = listeners.indexOf(callback);
         if (index !== -1) {

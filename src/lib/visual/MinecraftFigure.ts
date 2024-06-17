@@ -1,10 +1,10 @@
-import { isBoolean } from '../checks/isBoolean';
-import { isNumber } from '../checks/isNumber';
-import { Engine } from '../core/Engine';
-import { ImageTexture } from '../core/ImageTexture';
-import { vec } from '../math/R3';
-import { Group } from './Group';
-import { MinecraftArmL, MinecraftArmR, MinecraftHead, MinecraftLegL, MinecraftLegR, MinecraftTorso } from './Minecraft';
+import { isBoolean } from "../checks/isBoolean";
+import { isNumber } from "../checks/isNumber";
+import { Engine } from "../core/Engine";
+import { ImageTexture } from "../core/ImageTexture";
+import { vec } from "../math/R3";
+import { Group } from "./Group";
+import { MinecraftArmL, MinecraftArmR, MinecraftHead, MinecraftLegL, MinecraftLegR, MinecraftTorso } from "./Minecraft";
 
 /**
  * @hidden
@@ -50,22 +50,34 @@ export class MinecraftFigure extends Group {
         this.torso.release();
 
         this.armL = new MinecraftArmL(engine, texture, { height, offset: e2.scale(-scale * 4), oldSkinLayout });
-        this.armL.position.zero().addVector(e2, scale * 22).addVector(e1, scale * 6);
+        this.armL.position
+            .zero()
+            .addVector(e2, scale * 22)
+            .addVector(e1, scale * 6);
         this.add(this.armL);
         this.armL.release();
 
         this.armR = new MinecraftArmR(engine, texture, { height, offset: e2.scale(-scale * 4), oldSkinLayout });
-        this.armR.position.zero().addVector(e2, scale * 22).subVector(e1, scale * 6);
+        this.armR.position
+            .zero()
+            .addVector(e2, scale * 22)
+            .subVector(e1, scale * 6);
         this.add(this.armR);
         this.armR.release();
 
         this.legL = new MinecraftLegL(engine, texture, { height, offset: e2.scale(-scale * 4), oldSkinLayout });
-        this.legL.position.zero().addVector(e2, scale * 10).addVector(e1, scale * 2);
+        this.legL.position
+            .zero()
+            .addVector(e2, scale * 10)
+            .addVector(e1, scale * 2);
         this.add(this.legL);
         this.legL.release();
 
         this.legR = new MinecraftLegR(engine, texture, { height, offset: e2.scale(-scale * 4), oldSkinLayout });
-        this.legR.position.zero().addVector(e2, scale * 10).subVector(e1, scale * 2);
+        this.legR.position
+            .zero()
+            .addVector(e2, scale * 10)
+            .subVector(e1, scale * 2);
         this.add(this.legR);
         this.legR.release();
     }

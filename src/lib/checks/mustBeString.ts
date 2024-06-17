@@ -1,5 +1,5 @@
-import { isString } from '../checks/isString';
-import { mustSatisfy } from '../checks/mustSatisfy';
+import { isString } from "../checks/isString";
+import { mustSatisfy } from "../checks/mustSatisfy";
 
 /**
  * @hidden

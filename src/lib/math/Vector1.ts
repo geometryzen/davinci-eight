@@ -1,8 +1,8 @@
-import { Coords } from '../math/Coords';
-import { Matrix1 } from '../math/Matrix1';
-import { SpinorE1 } from '../math/SpinorE1';
-import { VectorE0 } from '../math/VectorE0';
-import { VectorE1 } from '../math/VectorE1';
+import { Coords } from "../math/Coords";
+import { Matrix1 } from "../math/Matrix1";
+import { SpinorE1 } from "../math/SpinorE1";
+import { VectorE0 } from "../math/VectorE0";
+import { VectorE1 } from "../math/VectorE1";
 
 const exp = Math.exp;
 const log = Math.log;
@@ -14,7 +14,6 @@ const COORD_X = 0;
  * @hidden
  */
 export class Vector1 extends Coords {
-
     /**
      * @class Vector1
      * @constructor
@@ -90,7 +89,7 @@ export class Vector1 extends Coords {
      * The Clifford conjugate.
      * The multiplier for the grade x is (-1) raised to the power x * (x + 1) / 2
      * The pattern of grades is +--++--+
-     * 
+     *
      * @returns conj(this)
      */
     conj() {
@@ -174,7 +173,7 @@ export class Vector1 extends Coords {
         return this;
     }
     roundToZero() {
-        this.x = (this.x < 0) ? Math.ceil(this.x) : Math.floor(this.x);
+        this.x = this.x < 0 ? Math.ceil(this.x) : Math.floor(this.x);
         return this;
     }
     scale(scalar: number) {
@@ -323,7 +322,7 @@ export class Vector1 extends Coords {
         return this.one();
     }
 
-    fromAttribute(attribute: { itemSize: number, array: number[] }, index: number, offset = 0) {
+    fromAttribute(attribute: { itemSize: number; array: number[] }, index: number, offset = 0) {
         index = index * attribute.itemSize + offset;
         this.x = attribute.array[index];
         return this;

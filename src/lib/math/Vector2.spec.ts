@@ -1,7 +1,6 @@
-import { Vector2 } from './Vector2';
+import { Vector2 } from "./Vector2";
 
 describe("Vector2", function () {
-
     describe("constructor", function () {
         const coords = [Math.random(), Math.random()];
         const v = new Vector2(coords, false);
@@ -17,7 +16,7 @@ describe("Vector2", function () {
         const coords = [2, 3];
         const v = new Vector2(coords, false);
         it("should match coordinates with basis vectors", function () {
-            expect(v.toString()).toBe('2*e1+3*e2');
+            expect(v.toString()).toBe("2*e1+3*e2");
         });
     });
 
@@ -25,7 +24,7 @@ describe("Vector2", function () {
         const coords = [2, 3];
         const v = new Vector2(coords, false);
         it("should display correct number of decimals", function () {
-            expect(v.toFixed(4)).toBe('2.0000*e1+3.0000*e2');
+            expect(v.toFixed(4)).toBe("2.0000*e1+3.0000*e2");
         });
     });
 
@@ -33,7 +32,7 @@ describe("Vector2", function () {
         const coords = [2, 3];
         const v = new Vector2(coords, false);
         it("should display with scientific notation", function () {
-            expect(v.toExponential()).toBe('2e+0*e1+3e+0*e2');
+            expect(v.toExponential()).toBe("2e+0*e1+3e+0*e2");
         });
     });
 });

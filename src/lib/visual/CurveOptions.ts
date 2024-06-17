@@ -1,11 +1,10 @@
-import { CurveMode } from '../geometries/CurveMode';
-import { VectorE3 } from '../math/VectorE3';
+import { CurveMode } from "../geometries/CurveMode";
+import { VectorE3 } from "../math/VectorE3";
 
 /**
  *
  */
 export interface CurveOptions extends Record<string, unknown> {
-
     /**
      * <p>
      * A parametric function determining the positions of points on the curve.
@@ -29,7 +28,7 @@ export interface CurveOptions extends Record<string, unknown> {
     aOpacity?: (u: number) => number;
 
     /**
-     * 
+     *
      */
     color?: { r: number; g: number; b: number };
 

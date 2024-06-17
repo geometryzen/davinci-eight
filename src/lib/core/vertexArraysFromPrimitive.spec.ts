@@ -1,6 +1,6 @@
-import { vertexArraysFromPrimitive as f } from './vertexArraysFromPrimitive';
-import { Primitive } from './Primitive';
-import { BeginMode } from './BeginMode';
+import { vertexArraysFromPrimitive as f } from "./vertexArraysFromPrimitive";
+import { Primitive } from "./Primitive";
+import { BeginMode } from "./BeginMode";
 
 describe("vertexArraysFromPrimitive", function () {
     describe("()", function () {

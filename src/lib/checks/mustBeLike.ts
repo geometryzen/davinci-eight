@@ -1,4 +1,4 @@
-import { mustHaveOwnProperty } from './mustHaveOwnProperty';
+import { mustHaveOwnProperty } from "./mustHaveOwnProperty";
 
 /**
  * @hidden

@@ -1,10 +1,10 @@
-import { BrowserDocument } from '../base/BrowserDocument';
-import { BrowserHTMLElement } from '../base/BrowserHTMLElement';
-import { BrowserWindow } from '../base/BrowserWindow';
-import { refChange } from '../core/refChange';
-import { PerspectiveCamera } from '../facets/PerspectiveCamera';
-import { Vector3 } from '../math/Vector3';
-import { TrackballControls } from './TrackballControls';
+import { BrowserDocument } from "../base/BrowserDocument";
+import { BrowserHTMLElement } from "../base/BrowserHTMLElement";
+import { BrowserWindow } from "../base/BrowserWindow";
+import { refChange } from "../core/refChange";
+import { PerspectiveCamera } from "../facets/PerspectiveCamera";
+import { Vector3 } from "../math/Vector3";
+import { TrackballControls } from "./TrackballControls";
 
 const zero = Vector3.vector(0, 0, 0);
 const e1 = Vector3.vector(1, 0, 0);
@@ -76,25 +76,25 @@ class MockWindow implements BrowserWindow {
 
 describe("TrackballControls", function () {
     it("new-release", function () {
-        refChange('quiet');
-        refChange('reset');
-        refChange('quiet');
-        refChange('start');
+        refChange("quiet");
+        refChange("reset");
+        refChange("quiet");
+        refChange("start");
         const camera = new PerspectiveCamera();
         const mockWindow = new MockWindow();
         const controls = new TrackballControls(camera, mockWindow as unknown as Window);
         expect(controls.isZombie()).toBeFalsy();
         controls.release();
         expect(controls.isZombie()).toBeTruthy();
-        const outstanding = refChange('stop');
+        const outstanding = refChange("stop");
         expect(outstanding).toBe(0);
-        refChange('dump');
+        refChange("dump");
     });
     it("move(0, 0)", function () {
-        refChange('quiet');
-        refChange('reset');
-        refChange('quiet');
-        refChange('start');
+        refChange("quiet");
+        refChange("reset");
+        refChange("quiet");
+        refChange("start");
 
         const camera = new PerspectiveCamera();
         expect(camera.eye.toString()).toBe(e3.toString());
@@ -113,9 +113,9 @@ describe("TrackballControls", function () {
 
         controls.release();
 
-        const outstanding = refChange('stop');
+        const outstanding = refChange("stop");
         expect(outstanding).toBe(0);
-        refChange('dump');
+        refChange("dump");
     });
 
     describe("move(+0.25, 0)", function () {

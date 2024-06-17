@@ -1,12 +1,12 @@
-import { mustBeFunction } from '../checks/mustBeFunction';
-import { mustBeInteger } from '../checks/mustBeInteger';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { Vector2 } from '../math/Vector2';
-import { Vector3 } from '../math/Vector3';
-import { VectorE3 } from '../math/VectorE3';
-import { Simplex } from './Simplex';
-import { SimplexMode } from './SimplexMode';
-import { SimplexPrimitivesBuilder } from './SimplexPrimitivesBuilder';
+import { mustBeFunction } from "../checks/mustBeFunction";
+import { mustBeInteger } from "../checks/mustBeInteger";
+import { GraphicsProgramSymbols } from "../core/GraphicsProgramSymbols";
+import { Vector2 } from "../math/Vector2";
+import { Vector3 } from "../math/Vector3";
+import { VectorE3 } from "../math/VectorE3";
+import { Simplex } from "./Simplex";
+import { SimplexMode } from "./SimplexMode";
+import { SimplexPrimitivesBuilder } from "./SimplexPrimitivesBuilder";
 
 /**
  * @hidden
@@ -14,9 +14,9 @@ import { SimplexPrimitivesBuilder } from './SimplexPrimitivesBuilder';
 export class GridSimplexBuilder extends SimplexPrimitivesBuilder {
     constructor(parametricFunction: (u: number, v: number) => VectorE3, uSegments: number, vSegments: number) {
         super();
-        mustBeFunction('parametricFunction', parametricFunction);
-        mustBeInteger('uSegments', uSegments);
-        mustBeInteger('vSegments', vSegments);
+        mustBeFunction("parametricFunction", parametricFunction);
+        mustBeInteger("uSegments", uSegments);
+        mustBeInteger("vSegments", vSegments);
         /**
          * Temporary array of points.
          */
@@ -25,11 +25,9 @@ export class GridSimplexBuilder extends SimplexPrimitivesBuilder {
         const sliceCount = uSegments + 1;
 
         for (let i = 0; i <= vSegments; i++) {
-
             const v: number = i / vSegments;
 
             for (let j = 0; j <= uSegments; j++) {
-
                 const u: number = j / uSegments;
 
                 const point: VectorE3 = parametricFunction(u, v);
@@ -48,9 +46,7 @@ export class GridSimplexBuilder extends SimplexPrimitivesBuilder {
         let uvd: Vector2;
 
         for (let i = 0; i < vSegments; i++) {
-
             for (let j = 0; j < uSegments; j++) {
-
                 a = i * sliceCount + j;
                 b = i * sliceCount + j + 1;
                 c = (i + 1) * sliceCount + j + 1;

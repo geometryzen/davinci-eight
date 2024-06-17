@@ -1,8 +1,8 @@
-import { mustBeUndefined } from '../checks/mustBeUndefined';
-import { BufferObjects } from './BufferObjects';
-import { ContextManager } from './ContextManager';
-import { ShareableContextConsumer } from './ShareableContextConsumer';
-import { Usage } from './Usage';
+import { mustBeUndefined } from "../checks/mustBeUndefined";
+import { BufferObjects } from "./BufferObjects";
+import { ContextManager } from "./ContextManager";
+import { ShareableContextConsumer } from "./ShareableContextConsumer";
+import { Usage } from "./Usage";
 
 /**
  * A wrapper around a WebGLBuffer with binding to ARRAY_BUFFER.
@@ -14,29 +14,34 @@ export class VertexBuffer extends ShareableContextConsumer {
     private webGLBuffer: WebGLBuffer;
 
     /**
-     * 
+     *
      */
-    constructor(contextManager: ContextManager, private data: Float32Array, private usage: Usage, levelUp = 0) {
+    constructor(
+        contextManager: ContextManager,
+        private data: Float32Array,
+        private usage: Usage,
+        levelUp = 0
+    ) {
         super(contextManager);
-        this.setLoggingName('VertexBuffer');
+        this.setLoggingName("VertexBuffer");
         if (levelUp === 0) {
             this.synchUp();
         }
     }
 
     /**
-     * 
+     *
      */
     protected resurrector(levelUp: number): void {
         super.resurrector(levelUp + 1);
-        this.setLoggingName('VertexBuffer');
+        this.setLoggingName("VertexBuffer");
         if (levelUp === 0) {
             this.synchUp();
         }
     }
 
     /**
-     * 
+     *
      */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
@@ -62,13 +67,11 @@ export class VertexBuffer extends ShareableContextConsumer {
             const gl = this.gl;
             if (gl) {
                 gl.deleteBuffer(this.webGLBuffer);
-            }
-            else {
+            } else {
                 console.error(`${this.getLoggingName()} must leak WebGLBuffer because WebGLRenderingContext is ` + typeof gl);
             }
             this.webGLBuffer = void 0;
-        }
-        else {
+        } else {
             // It's a duplicate, ignore.
         }
         super.contextFree();
@@ -82,8 +85,7 @@ export class VertexBuffer extends ShareableContextConsumer {
             this.bind();
             this.upload();
             this.unbind();
-        }
-        else {
+        } else {
             // It's a duplicate, ignore the call.
         }
     }

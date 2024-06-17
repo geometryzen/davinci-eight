@@ -1,4 +1,4 @@
-import { BrowserDocument } from './BrowserDocument';
+import { BrowserDocument } from "./BrowserDocument";
 
 /**
  * Intentionally undocumented.
@@ -6,7 +6,7 @@ import { BrowserDocument } from './BrowserDocument';
  * @hidden
  */
 export interface BrowserWindow extends EventTarget {
-  document: BrowserDocument;
-  cancelAnimationFrame(handle: number): void;
-  requestAnimationFrame(callback: FrameRequestCallback): number;
+    document: BrowserDocument;
+    cancelAnimationFrame(handle: number): void;
+    requestAnimationFrame(callback: FrameRequestCallback): number;
 }

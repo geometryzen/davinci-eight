@@ -1,5 +1,5 @@
-import { applyMixins } from '../utils/applyMixins';
-import { LockableMixin } from './Lockable';
+import { applyMixins } from "../utils/applyMixins";
+import { LockableMixin } from "./Lockable";
 
 // See
 // https://www.typescriptlang.org/docs/handbook/mixins.html
@@ -18,7 +18,7 @@ class HAL {
     }
 }
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
-interface HAL extends LockableMixin { }
+interface HAL extends LockableMixin {}
 // applyMixins(HAL, [LockableMixin]);
 
 describe("Lockable", function () {
@@ -26,7 +26,7 @@ describe("Lockable", function () {
         applyMixins(HAL, [LockableMixin]);
         const chameleon = new HAL();
         it("isLocked should ", function () {
-            expect(typeof chameleon.isLocked).toBe('function');
+            expect(typeof chameleon.isLocked).toBe("function");
             expect(chameleon.isLocked()).toBeFalsy();
             chameleon.changeMe();
             chameleon.lock();

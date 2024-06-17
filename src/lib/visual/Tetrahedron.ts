@@ -1,23 +1,23 @@
-import { Color } from '../core/Color';
-import { ContextManager } from '../core/ContextManager';
-import { Geometry } from '../core/Geometry';
-import { Material } from '../core/Material';
-import { Mesh } from '../core/Mesh';
-import { referenceAxis } from '../core/referenceAxis';
-import { referenceMeridian } from '../core/referenceMeridian';
-import { TetrahedronGeometryOptions } from '../geometries//TetrahedronGeometryOptions';
-import { SimplexMode } from '../geometries/SimplexMode';
-import { TetrahedronGeometry } from '../geometries/TetrahedronGeometry';
-import { ds } from './Defaults';
-import { materialFromOptions } from './materialFromOptions';
-import { offsetFromOptions } from './offsetFromOptions';
-import { setAxisAndMeridian } from './setAxisAndMeridian';
-import { setColorOption } from './setColorOption';
-import { setDeprecatedOptions } from './setDeprecatedOptions';
-import { simplexModeFromOptions } from './simplexModeFromOptions';
-import { spinorE3Object } from './spinorE3Object';
-import { TetrahedronOptions } from './TetrahedronOptions';
-import { vectorE3Object } from './vectorE3Object';
+import { Color } from "../core/Color";
+import { ContextManager } from "../core/ContextManager";
+import { Geometry } from "../core/Geometry";
+import { Material } from "../core/Material";
+import { Mesh } from "../core/Mesh";
+import { referenceAxis } from "../core/referenceAxis";
+import { referenceMeridian } from "../core/referenceMeridian";
+import { TetrahedronGeometryOptions } from "../geometries//TetrahedronGeometryOptions";
+import { SimplexMode } from "../geometries/SimplexMode";
+import { TetrahedronGeometry } from "../geometries/TetrahedronGeometry";
+import { ds } from "./Defaults";
+import { materialFromOptions } from "./materialFromOptions";
+import { offsetFromOptions } from "./offsetFromOptions";
+import { setAxisAndMeridian } from "./setAxisAndMeridian";
+import { setColorOption } from "./setColorOption";
+import { setDeprecatedOptions } from "./setDeprecatedOptions";
+import { simplexModeFromOptions } from "./simplexModeFromOptions";
+import { spinorE3Object } from "./spinorE3Object";
+import { TetrahedronOptions } from "./TetrahedronOptions";
+import { vectorE3Object } from "./vectorE3Object";
 
 /**
  * A 3D visual representation of a tetrahedron.
@@ -25,14 +25,14 @@ import { vectorE3Object } from './vectorE3Object';
 export class Tetrahedron extends Mesh<Geometry, Material> {
     /**
      * @param contextManager This will usually be provided by the `Engine`.
-     * @param options 
-     * @param levelUp Leave as zero unless you are extending this class. 
+     * @param options
+     * @param levelUp Leave as zero unless you are extending this class.
      */
     constructor(contextManager: ContextManager, options: TetrahedronOptions = {}, levelUp = 0) {
         super(void 0, void 0, contextManager, { axis: referenceAxis(options, ds.axis).direction(), meridian: referenceMeridian(options, ds.meridian).direction() }, levelUp + 1);
-        this.setLoggingName('Tetrahedron');
+        this.setLoggingName("Tetrahedron");
 
-        const geoOptions: TetrahedronGeometryOptions = { kind: 'TetrahedronGeometry' };
+        const geoOptions: TetrahedronGeometryOptions = { kind: "TetrahedronGeometry" };
 
         geoOptions.offset = offsetFromOptions(options);
         geoOptions.tilt = spinorE3Object(options.tilt);
@@ -57,7 +57,7 @@ export class Tetrahedron extends Mesh<Geometry, Material> {
     }
 
     /**
-     * 
+     *
      */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
@@ -67,7 +67,7 @@ export class Tetrahedron extends Mesh<Geometry, Material> {
     }
 
     /**
-     * 
+     *
      */
     get radius(): number {
         return this.getScaleX();

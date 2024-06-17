@@ -1,27 +1,27 @@
-import { Arrow } from './Arrow';
-import { ArrowOptions } from './ArrowOptions';
-import { ds } from './Defaults';
-import { Engine } from '../core/Engine';
-import { vectorCopy, vectorFromCoords } from '../math/R3';
-import { refChange } from '../core/refChange';
+import { Arrow } from "./Arrow";
+import { ArrowOptions } from "./ArrowOptions";
+import { ds } from "./Defaults";
+import { Engine } from "../core/Engine";
+import { vectorCopy, vectorFromCoords } from "../math/R3";
+import { refChange } from "../core/refChange";
 
 describe("Arrow", function () {
     it("new-release", function () {
-        refChange('quiet');
-        refChange('reset');
-        refChange('quiet');
-        refChange('start');
+        refChange("quiet");
+        refChange("reset");
+        refChange("quiet");
+        refChange("start");
         const engine = new Engine();
         const arrow = new Arrow(engine);
         expect(arrow.isZombie()).toBe(false);
         arrow.release();
         engine.release();
         expect(arrow.isZombie()).toBe(true);
-        refChange('stop');
-        const outstanding = refChange('dump');
+        refChange("stop");
+        const outstanding = refChange("dump");
         expect(outstanding).toBe(0);
-        refChange('quiet');
-        refChange('reset');
+        refChange("quiet");
+        refChange("reset");
     });
     describe("X", function () {
         it("should be initialized to zero", function () {

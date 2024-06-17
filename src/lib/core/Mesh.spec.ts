@@ -1,13 +1,13 @@
-import { Engine } from './Engine';
-import { Mesh } from './Mesh';
-import { refChange } from './refChange';
+import { Engine } from "./Engine";
+import { Mesh } from "./Mesh";
+import { refChange } from "./refChange";
 
 describe("Mesh", function () {
     it("constructor", function () {
-        refChange('quiet');
-        refChange('reset');
-        refChange('quiet');
-        refChange('start');
+        refChange("quiet");
+        refChange("reset");
+        refChange("quiet");
+        refChange("start");
         const engine = new Engine();
         const mesh = new Mesh(void 0, void 0, engine);
 
@@ -31,14 +31,14 @@ describe("Mesh", function () {
 
         mesh.release();
         engine.release();
-        refChange('stop');
-        expect(refChange('dump')).toBe(0);
+        refChange("stop");
+        expect(refChange("dump")).toBe(0);
     });
     it("X should alias position", function () {
-        refChange('quiet');
-        refChange('reset');
-        refChange('quiet');
-        refChange('start');
+        refChange("quiet");
+        refChange("reset");
+        refChange("quiet");
+        refChange("start");
         const engine = new Engine();
         const mesh = new Mesh(void 0, void 0, engine);
 
@@ -56,14 +56,14 @@ describe("Mesh", function () {
 
         mesh.release();
         engine.release();
-        refChange('stop');
-        expect(refChange('dump')).toBe(0);
+        refChange("stop");
+        expect(refChange("dump")).toBe(0);
     });
     it("R should alias attitude", function () {
-        refChange('quiet');
-        refChange('reset');
-        refChange('quiet');
-        refChange('start');
+        refChange("quiet");
+        refChange("reset");
+        refChange("quiet");
+        refChange("start");
         const engine = new Engine();
         const mesh = new Mesh(void 0, void 0, engine);
 
@@ -84,7 +84,7 @@ describe("Mesh", function () {
 
         mesh.release();
         engine.release();
-        refChange('stop');
-        expect(refChange('dump')).toBe(0);
+        refChange("stop");
+        expect(refChange("dump")).toBe(0);
     });
 });

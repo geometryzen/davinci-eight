@@ -1,8 +1,8 @@
-import { Spinor3 } from '../math/Spinor3';
-import { Vector2 } from '../math/Vector2';
-import { Vector3 } from '../math/Vector3';
-import { VectorE3 } from '../math/VectorE3';
-import { ViewControls } from './ViewControls';
+import { Spinor3 } from "../math/Spinor3";
+import { Vector2 } from "../math/Vector2";
+import { Vector3 } from "../math/Vector3";
+import { VectorE3 } from "../math/VectorE3";
+import { ViewControls } from "./ViewControls";
 
 /**
  * <p>
@@ -30,7 +30,6 @@ import { ViewControls } from './ViewControls';
  * You may decide to update directional lighting to synchronize with the camera.
  */
 export class TrackballControls extends ViewControls {
-
     // Working storage for calculations that update the camera.
     private moveDirection = new Vector3();
     private eyeMinusLookDirection = new Vector3();
@@ -45,13 +44,13 @@ export class TrackballControls extends ViewControls {
     private pan = new Vector3();
     private objectUp = new Vector3();
     /**
-     * 
+     *
      * @param view eye, look, and up vectors. The coordinates will be manipulated by this object.
      * @param wnd The browser window. Used to add listeners for mouse and keyboard events.
      */
-    constructor(view: { eye: VectorE3, look: VectorE3, up: VectorE3 }, wnd: Window = window) {
+    constructor(view: { eye: VectorE3; look: VectorE3; up: VectorE3 }, wnd: Window = window) {
         super(view, wnd);
-        this.setLoggingName('TrackballControls');
+        this.setLoggingName("TrackballControls");
     }
 
     /**

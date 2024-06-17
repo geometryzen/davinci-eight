@@ -1,7 +1,7 @@
-import { Attribute } from '../core/Attribute';
-import { AttributeSizeType } from '../core/AttributeSizeType';
-import { BeginMode } from '../core/BeginMode';
-import { Primitive } from '../core/Primitive';
+import { Attribute } from "../core/Attribute";
+import { AttributeSizeType } from "../core/AttributeSizeType";
+import { BeginMode } from "../core/BeginMode";
+import { Primitive } from "../core/Primitive";
 
 /**
  * @hidden
@@ -19,7 +19,9 @@ function copyIndices(src: Primitive, dest: number[], delta: number): void {
  * @hidden
  */
 function max(xs: number[]): number {
-    return xs.reduce(function (a, b) { return a > b ? a : b; });
+    return xs.reduce(function (a, b) {
+        return a > b ? a : b;
+    });
 }
 
 /**

@@ -1,5 +1,5 @@
-import { Spinor3 } from './Spinor3';
-import { Vector3 } from './Vector3';
+import { Spinor3 } from "./Spinor3";
+import { Vector3 } from "./Vector3";
 
 const e1 = Vector3.e1();
 e1.lock();
@@ -24,7 +24,7 @@ describe("Vector3", function () {
     });
     describe("locking", function () {
         it("new Vector3", function () {
-            // Not sure why TypeScript infers the type of data to be number[]. 
+            // Not sure why TypeScript infers the type of data to be number[].
             const data: [number, number, number] = [1, 2, 3];
             const vec = new Vector3(data, false);
             expect(vec.isLocked()).toBe(false);
@@ -37,7 +37,7 @@ describe("Vector3", function () {
     });
     describe("modified", function () {
         it("new Vector3", function () {
-            // Not sure why TypeScript infers the type of data to be number[]. 
+            // Not sure why TypeScript infers the type of data to be number[].
             const data: [number, number, number] = [1, 2, 3];
             const vec = new Vector3(data, false);
             expect(vec.modified).toBe(false);

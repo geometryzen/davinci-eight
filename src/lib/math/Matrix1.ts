@@ -1,8 +1,6 @@
-import { AbstractMatrix } from './AbstractMatrix';
+import { AbstractMatrix } from "./AbstractMatrix";
 
 /**
  * @hidden
  */
-export class Matrix1 extends AbstractMatrix<Matrix1> {
-
-}
+export class Matrix1 extends AbstractMatrix<Matrix1> {}

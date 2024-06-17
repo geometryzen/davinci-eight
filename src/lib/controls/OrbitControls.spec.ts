@@ -1,9 +1,9 @@
-import { BrowserDocument } from '../base/BrowserDocument';
-import { BrowserHTMLElement } from '../base/BrowserHTMLElement';
-import { BrowserWindow } from '../base/BrowserWindow';
-import { refChange } from '../core/refChange';
-import { PerspectiveCamera } from '../facets/PerspectiveCamera';
-import { OrbitControls } from './OrbitControls';
+import { BrowserDocument } from "../base/BrowserDocument";
+import { BrowserHTMLElement } from "../base/BrowserHTMLElement";
+import { BrowserWindow } from "../base/BrowserWindow";
+import { refChange } from "../core/refChange";
+import { PerspectiveCamera } from "../facets/PerspectiveCamera";
+import { OrbitControls } from "./OrbitControls";
 
 /*
 class MockElement implements BrowserHTMLElement {
@@ -76,24 +76,24 @@ class MockWindow implements BrowserWindow {
 
 describe("OrbitControls", function () {
     it("new-release", function () {
-        refChange('quiet');
-        refChange('reset');
-        refChange('quiet');
-        refChange('start');
+        refChange("quiet");
+        refChange("reset");
+        refChange("quiet");
+        refChange("start");
         const mockWindow = new MockWindow();
         const controls = new OrbitControls(void 0, mockWindow);
         expect(controls.isZombie()).toBeFalsy();
         controls.release();
         expect(controls.isZombie()).toBeTruthy();
-        const outstanding = refChange('stop');
+        const outstanding = refChange("stop");
         expect(outstanding).toBe(0);
-        refChange('dump');
+        refChange("dump");
     });
     it("new-release", function () {
-        refChange('quiet');
-        refChange('reset');
-        refChange('quiet');
-        refChange('start');
+        refChange("quiet");
+        refChange("reset");
+        refChange("quiet");
+        refChange("start");
         const mockWindow = new MockWindow();
         const controls = new OrbitControls(void 0, mockWindow);
         const view = new PerspectiveCamera();
@@ -101,8 +101,8 @@ describe("OrbitControls", function () {
         expect(controls.isZombie()).toBeFalsy();
         controls.release();
         expect(controls.isZombie()).toBeTruthy();
-        const outstanding = refChange('stop');
+        const outstanding = refChange("stop");
         expect(outstanding).toBe(0);
-        refChange('dump');
+        refChange("dump");
     });
 });

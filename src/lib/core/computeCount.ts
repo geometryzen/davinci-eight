@@ -1,5 +1,5 @@
-import { mustBeInteger } from '../checks/mustBeInteger';
-import { Attribute } from './Attribute';
+import { mustBeInteger } from "../checks/mustBeInteger";
+import { Attribute } from "./Attribute";
 
 /**
  * Computes the number of elements represented by the attribute values.
@@ -13,7 +13,7 @@ export function computeCount(attribs: { [name: string]: Attribute }, aNames: str
         const aName = aNames[a];
         const attrib: Attribute = attribs[aName];
         const vLength = attrib.values.length;
-        const size = mustBeInteger('size', attrib.size);
+        const size = mustBeInteger("size", attrib.size);
         return vLength / size;
     }
     return 0;

@@ -1,15 +1,15 @@
-import { exchange } from '../base/exchange';
-import { BeginMode } from '../core/BeginMode';
-import { Color } from '../core/Color';
-import { ContextManager } from '../core/ContextManager';
-import { Facet } from '../core/Facet';
-import { GeometryArrays } from '../core/GeometryArrays';
-import { Mesh } from '../core/Mesh';
-import { Primitive } from '../core/Primitive';
-import { refChange } from '../core/refChange';
-import { Renderable } from '../core/Renderable';
-import { ShaderMaterial } from '../materials/ShaderMaterial';
-import { Geometric3 } from '../math/Geometric3';
+import { exchange } from "../base/exchange";
+import { BeginMode } from "../core/BeginMode";
+import { Color } from "../core/Color";
+import { ContextManager } from "../core/ContextManager";
+import { Facet } from "../core/Facet";
+import { GeometryArrays } from "../core/GeometryArrays";
+import { Mesh } from "../core/Mesh";
+import { Primitive } from "../core/Primitive";
+import { refChange } from "../core/refChange";
+import { Renderable } from "../core/Renderable";
+import { ShaderMaterial } from "../materials/ShaderMaterial";
+import { Geometric3 } from "../math/Geometric3";
 
 /**
  * @hidden
@@ -55,19 +55,12 @@ const vertexShaderSrc = [
     "    vColor = vec4(color5, uOpacity);",
     "  }",
     "}"
-].join('\n');
+].join("\n");
 
 /**
  * @hidden
  */
-const fragmentShaderSrc = [
-    "precision mediump float;",
-    "varying highp vec4 vColor;",
-    "",
-    "void main(void) {",
-    "  gl_FragColor = vColor;",
-    "}"
-].join('\n');
+const fragmentShaderSrc = ["precision mediump float;", "varying highp vec4 vColor;", "", "void main(void) {", "  gl_FragColor = vColor;", "}"].join("\n");
 
 /**
  * Coordinates of the cube vertices.
@@ -81,7 +74,7 @@ const vertices = [
     [-0.5, -0.5, -0.5],
     [-0.5, +0.5, -0.5],
     [+0.5, +0.5, -0.5],
-    [+0.5, -0.5, -0.5],
+    [+0.5, -0.5, -0.5]
 ];
 
 /**
@@ -96,11 +89,11 @@ const aFaces: number[] = [];
 /**
  * @hidden
  */
-const ID = 'parallelepiped';
+const ID = "parallelepiped";
 /**
  * @hidden
  */
-const NAME = 'Parallelepiped';
+const NAME = "Parallelepiped";
 
 /**
  * Pushes positions and colors into the the aPositions and aColors arrays.
@@ -138,7 +131,7 @@ export class Parallelepiped implements Renderable {
     public transparent = false;
     public X: Geometric3 = Geometric3.vector(0, 0, 0);
     /**
-     * 
+     *
      */
     public a: Geometric3 = Geometric3.vector(1, 0, 0);
     public b: Geometric3 = Geometric3.vector(0, 1, 0);
@@ -156,7 +149,10 @@ export class Parallelepiped implements Renderable {
     private contextManager: ContextManager;
     private refCount = 0;
     private mesh: Mesh<GeometryArrays, ShaderMaterial>;
-    constructor(contextManager: ContextManager, private levelUp = 0) {
+    constructor(
+        contextManager: ContextManager,
+        private levelUp = 0
+    ) {
         this.contextManager = exchange(this.contextManager, contextManager);
         this.addRef();
         this.colors[0] = Color.gray.clone();
@@ -177,12 +173,10 @@ export class Parallelepiped implements Renderable {
             if (this.contextManager && this.contextManager.gl) {
                 if (this.contextManager.gl.isContextLost()) {
                     this.contextLost();
-                }
-                else {
+                } else {
                     this.contextFree();
                 }
-            }
-            else {
+            } else {
                 // There is no contextProvider so resources should already be clean.
             }
         }
@@ -193,11 +187,11 @@ export class Parallelepiped implements Renderable {
         if (this.mesh) {
             const material = this.mesh.material;
             material.use();
-            material.getUniform('uOpacity').uniform1f(this.opacity);
-            material.getUniform('uPosition').uniform3f(this.X.x, this.X.y, this.X.z);
-            material.getUniform('a').uniform3f(this.a.x, this.a.y, this.a.z);
-            material.getUniform('b').uniform3f(this.b.x, this.b.y, this.b.z);
-            material.getUniform('c').uniform3f(this.c.x, this.c.y, this.c.z);
+            material.getUniform("uOpacity").uniform1f(this.opacity);
+            material.getUniform("uPosition").uniform3f(this.X.x, this.X.y, this.X.z);
+            material.getUniform("a").uniform3f(this.a.x, this.a.y, this.a.z);
+            material.getUniform("b").uniform3f(this.b.x, this.b.y, this.b.z);
+            material.getUniform("c").uniform3f(this.c.x, this.c.y, this.c.z);
             for (let i = 0; i < this.colors.length; i++) {
                 material.getUniform(`color${i}`).uniform3f(this.colors[i].r, this.colors[i].g, this.colors[i].b);
             }

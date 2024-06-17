@@ -1,13 +1,12 @@
-import { GeometricE3 } from '../math/GeometricE3';
-import { compG3Get as get } from '../math/compG3Get';
-import { mulE3 } from '../math/mulE3';
-import { compG3Set as set } from '../math/compG3Set';
+import { GeometricE3 } from "../math/GeometricE3";
+import { compG3Get as get } from "../math/compG3Get";
+import { mulE3 } from "../math/mulE3";
+import { compG3Set as set } from "../math/compG3Set";
 
 /**
  * @hidden
  */
 export function scpG3<T extends GeometricE3>(a: GeometricE3, b: GeometricE3, out: T): T {
-
     const a0 = get(a, 0);
     const a1 = get(a, 1);
     const a2 = get(a, 2);

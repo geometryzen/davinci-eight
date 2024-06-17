@@ -1,23 +1,23 @@
-import { Color } from '../core/Color';
-import { ContextManager } from '../core/ContextManager';
-import { Material } from '../core/Material';
-import { Mesh } from '../core/Mesh';
-import { referenceAxis } from '../core/referenceAxis';
-import { referenceMeridian } from '../core/referenceMeridian';
-import { ArrowHeadGeometry, ArrowHeadGeometryOptions } from '../geometries/ArrowHeadGeometry';
-import { SimplexMode } from '../geometries/SimplexMode';
-import { normVectorE3 } from '../math/normVectorE3';
-import { VectorE3 } from '../math/VectorE3';
-import { ArrowOptions } from './ArrowOptions';
-import { ds } from './Defaults';
-import { materialFromOptions } from './materialFromOptions';
-import { offsetFromOptions } from './offsetFromOptions';
-import { setAxisAndMeridian } from './setAxisAndMeridian';
-import { setColorOption } from './setColorOption';
-import { setDeprecatedOptions } from './setDeprecatedOptions';
-import { simplexModeFromOptions } from './simplexModeFromOptions';
-import { spinorE3Object } from './spinorE3Object';
-import { vectorE3Object } from './vectorE3Object';
+import { Color } from "../core/Color";
+import { ContextManager } from "../core/ContextManager";
+import { Material } from "../core/Material";
+import { Mesh } from "../core/Mesh";
+import { referenceAxis } from "../core/referenceAxis";
+import { referenceMeridian } from "../core/referenceMeridian";
+import { ArrowHeadGeometry, ArrowHeadGeometryOptions } from "../geometries/ArrowHeadGeometry";
+import { SimplexMode } from "../geometries/SimplexMode";
+import { normVectorE3 } from "../math/normVectorE3";
+import { VectorE3 } from "../math/VectorE3";
+import { ArrowOptions } from "./ArrowOptions";
+import { ds } from "./Defaults";
+import { materialFromOptions } from "./materialFromOptions";
+import { offsetFromOptions } from "./offsetFromOptions";
+import { setAxisAndMeridian } from "./setAxisAndMeridian";
+import { setColorOption } from "./setColorOption";
+import { setDeprecatedOptions } from "./setDeprecatedOptions";
+import { simplexModeFromOptions } from "./simplexModeFromOptions";
+import { spinorE3Object } from "./spinorE3Object";
+import { vectorE3Object } from "./vectorE3Object";
 
 /**
  * @hidden
@@ -26,12 +26,12 @@ export class ArrowHead extends Mesh<ArrowHeadGeometry, Material> {
     private readonly $heightCone: number;
     /**
      * @param contextManager This will usually be provided by the `Engine`.
-     * @param options 
-     * @param levelUp Leave as zero unless you are extending this class. 
+     * @param options
+     * @param levelUp Leave as zero unless you are extending this class.
      */
-    constructor(contextManager: ContextManager, options: Partial<Pick<ArrowOptions, 'axis' | 'color' | 'heightCone' | 'mode' | 'offset' | 'radiusCone' | 'textured' | 'thetaSegments' | 'tilt'>> = {}, levelUp = 0) {
+    constructor(contextManager: ContextManager, options: Partial<Pick<ArrowOptions, "axis" | "color" | "heightCone" | "mode" | "offset" | "radiusCone" | "textured" | "thetaSegments" | "tilt">> = {}, levelUp = 0) {
         super(void 0, void 0, contextManager, { axis: referenceAxis(options, ds.axis).direction(), meridian: referenceMeridian(options, ds.meridian).direction() }, levelUp + 1);
-        this.setLoggingName('Arrow');
+        this.setLoggingName("Arrow");
 
         const geoOptions: ArrowHeadGeometryOptions = {};
 
@@ -40,7 +40,7 @@ export class ArrowHead extends Mesh<ArrowHeadGeometry, Material> {
         geoOptions.axis = vectorE3Object(referenceAxis(options, ds.axis).direction());
         geoOptions.meridian = vectorE3Object(referenceMeridian(options, ds.meridian).direction());
 
-        this.$heightCone = heightConeFromOptions(options, 0.20);
+        this.$heightCone = heightConeFromOptions(options, 0.2);
 
         geoOptions.heightCone = this.$heightCone;
         geoOptions.radiusCone = radiusConeFromOptions(options, 0.08);
@@ -96,13 +96,13 @@ export class ArrowHead extends Mesh<ArrowHeadGeometry, Material> {
 
 /**
  * @hidden
- * @param options 
- * @param defaultValue 
- * @returns 
+ * @param options
+ * @param defaultValue
+ * @returns
  */
-function heightConeFromOptions(options: Partial<Pick<ArrowOptions, 'heightCone'>>, defaultValue: number): number {
+function heightConeFromOptions(options: Partial<Pick<ArrowOptions, "heightCone">>, defaultValue: number): number {
     if (options) {
-        if (typeof options.heightCone === 'number') {
+        if (typeof options.heightCone === "number") {
             return options.heightCone;
         } else {
             return defaultValue;
@@ -114,13 +114,13 @@ function heightConeFromOptions(options: Partial<Pick<ArrowOptions, 'heightCone'>
 
 /**
  * @hidden
- * @param options 
- * @param defaultValue 
- * @returns 
+ * @param options
+ * @param defaultValue
+ * @returns
  */
-function radiusConeFromOptions(options: Partial<Pick<ArrowOptions, 'radiusCone'>>, defaultValue: number): number {
+function radiusConeFromOptions(options: Partial<Pick<ArrowOptions, "radiusCone">>, defaultValue: number): number {
     if (options) {
-        if (typeof options.radiusCone === 'number') {
+        if (typeof options.radiusCone === "number") {
             return options.radiusCone;
         } else {
             return defaultValue;
@@ -132,13 +132,13 @@ function radiusConeFromOptions(options: Partial<Pick<ArrowOptions, 'radiusCone'>
 
 /**
  * @hidden
- * @param options 
- * @param defaultValue 
- * @returns 
+ * @param options
+ * @param defaultValue
+ * @returns
  */
-function thetaSegmentsFromOptions(options: Partial<Pick<ArrowOptions, 'thetaSegments'>>, defaultValue: number): number {
+function thetaSegmentsFromOptions(options: Partial<Pick<ArrowOptions, "thetaSegments">>, defaultValue: number): number {
     if (options) {
-        if (typeof options.thetaSegments === 'number') {
+        if (typeof options.thetaSegments === "number") {
             return options.thetaSegments;
         } else {
             return defaultValue;

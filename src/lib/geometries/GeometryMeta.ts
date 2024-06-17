@@ -1,5 +1,5 @@
-import { AttributeSizeType } from '../core/AttributeSizeType';
-import { SimplexMode } from './SimplexMode';
+import { AttributeSizeType } from "../core/AttributeSizeType";
+import { SimplexMode } from "./SimplexMode";
 
 /**
  * @hidden

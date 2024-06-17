@@ -1,12 +1,12 @@
-import { mustBeBoolean } from '../checks/mustBeBoolean';
-import { mustBeDefined } from '../checks/mustBeDefined';
-import { config } from '../config';
-import { AttribMetaInfo } from '../core/AttribMetaInfo';
-import { getAttribVarName } from '../core/getAttribVarName';
-import { getUniformVarName } from '../core/getUniformVarName';
-import { GraphicsProgramSymbols as GPS } from '../core/GraphicsProgramSymbols';
-import { UniformMetaInfo } from '../core/UniformMetaInfo';
-import { GLSLESVersion } from './glslVersion';
+import { mustBeBoolean } from "../checks/mustBeBoolean";
+import { mustBeDefined } from "../checks/mustBeDefined";
+import { config } from "../config";
+import { AttribMetaInfo } from "../core/AttribMetaInfo";
+import { getAttribVarName } from "../core/getAttribVarName";
+import { getUniformVarName } from "../core/getUniformVarName";
+import { GraphicsProgramSymbols as GPS } from "../core/GraphicsProgramSymbols";
+import { UniformMetaInfo } from "../core/UniformMetaInfo";
+import { GLSLESVersion } from "./glslVersion";
 
 /**
  * @hidden
@@ -21,8 +21,7 @@ function getUniformCodeName(uniforms: { [name: string]: UniformMetaInfo }, name:
 function getAttributeModifier(version: GLSLESVersion) {
     if (version === GLSLESVersion.ThreeHundred) {
         return "in";
-    }
-    else {
+    } else {
         return "attribute";
     }
 }
@@ -33,8 +32,7 @@ function getAttributeModifier(version: GLSLESVersion) {
 function getVertexShaderVaryingModifier(version: GLSLESVersion) {
     if (version === GLSLESVersion.ThreeHundred) {
         return "out";
-    }
-    else {
+    } else {
         return "varying";
     }
 }
@@ -42,35 +40,35 @@ function getVertexShaderVaryingModifier(version: GLSLESVersion) {
 /**
  * @hidden
  */
-const SPACE = ' ';
+const SPACE = " ";
 /**
  * @hidden
  */
-const UNIFORM = 'uniform' + SPACE;
+const UNIFORM = "uniform" + SPACE;
 /**
  * @hidden
  */
-const COMMA = ',' + SPACE;
+const COMMA = "," + SPACE;
 /**
  * @hidden
  */
-const SEMICOLON = ';';
+const SEMICOLON = ";";
 /**
  * @hidden
  */
-const LPAREN = '(';
+const LPAREN = "(";
 /**
  * @hidden
  */
-const RPAREN = ')';
+const RPAREN = ")";
 /**
  * @hidden
  */
-const TIMES = SPACE + '*' + SPACE;
+const TIMES = SPACE + "*" + SPACE;
 /**
  * @hidden
  */
-const ASSIGN = SPACE + '=' + SPACE;
+const ASSIGN = SPACE + "=" + SPACE;
 /**
  * @hidden
  */
@@ -81,13 +79,12 @@ const DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME = "directionalLightCosineFactor";
  * @hidden
  */
 export function vertexShaderSrc(attributes: { [name: string]: AttribMetaInfo }, uniforms: { [name: string]: UniformMetaInfo }, vColor: boolean, vCoords: boolean, vLight: boolean, version: GLSLESVersion): string {
-
-    mustBeDefined('attributes', attributes);
-    mustBeDefined('uniforms', uniforms);
+    mustBeDefined("attributes", attributes);
+    mustBeDefined("uniforms", uniforms);
     mustBeBoolean(GPS.VARYING_COLOR, vColor);
     mustBeBoolean(GPS.VARYING_COORDS, vCoords);
     mustBeBoolean(GPS.VARYING_LIGHT, vLight);
-    mustBeDefined('version', version);
+    mustBeDefined("version", version);
 
     const lines: string[] = [];
     if (version === GLSLESVersion.ThreeHundred) {
@@ -107,7 +104,7 @@ export function vertexShaderSrc(attributes: { [name: string]: AttribMetaInfo }, 
         // eslint-disable-next-line no-prototype-builtins
         if (uniforms.hasOwnProperty(uName)) {
             switch (uniforms[uName].glslType) {
-                case 'sampler2D': {
+                case "sampler2D": {
                     break;
                 }
                 default: {
@@ -131,55 +128,54 @@ export function vertexShaderSrc(attributes: { [name: string]: AttribMetaInfo }, 
 
     if (attributes[GPS.ATTRIBUTE_POSITION]) {
         switch (attributes[GPS.ATTRIBUTE_POSITION].glslType) {
-            case 'float': {
+            case "float": {
                 // This case would be unusual; just providing an x-coordinate.
                 // We must provide defaults for the y-, z-, and w-coordinates.
                 glPosition.unshift(RPAREN);
-                glPosition.unshift('1.0');
+                glPosition.unshift("1.0");
                 glPosition.unshift(COMMA);
-                glPosition.unshift('0.0');
+                glPosition.unshift("0.0");
                 glPosition.unshift(COMMA);
-                glPosition.unshift('0.0');
+                glPosition.unshift("0.0");
                 glPosition.unshift(COMMA);
                 glPosition.unshift(getAttribVarName(attributes[GPS.ATTRIBUTE_POSITION], GPS.ATTRIBUTE_POSITION));
                 glPosition.unshift(LPAREN);
-                glPosition.unshift('vec4');
+                glPosition.unshift("vec4");
                 break;
             }
-            case 'vec2': {
+            case "vec2": {
                 // This case happens when the user wants to work in 2D.
                 // We must provide a value for the homogeneous w-coordinate,
                 // as well as the z-coordinate.
                 glPosition.unshift(RPAREN);
-                glPosition.unshift('1.0');
+                glPosition.unshift("1.0");
                 glPosition.unshift(COMMA);
-                glPosition.unshift('0.0');
+                glPosition.unshift("0.0");
                 glPosition.unshift(COMMA);
                 glPosition.unshift(getAttribVarName(attributes[GPS.ATTRIBUTE_POSITION], GPS.ATTRIBUTE_POSITION));
                 glPosition.unshift(LPAREN);
-                glPosition.unshift('vec4');
+                glPosition.unshift("vec4");
                 break;
             }
-            case 'vec3': {
+            case "vec3": {
                 // This is probably the most common case, 3D but only x-, y-, z-coordinates.
                 // We must provide a value for the homogeneous w-coordinate.
                 glPosition.unshift(RPAREN);
-                glPosition.unshift('1.0');
+                glPosition.unshift("1.0");
                 glPosition.unshift(COMMA);
                 glPosition.unshift(getAttribVarName(attributes[GPS.ATTRIBUTE_POSITION], GPS.ATTRIBUTE_POSITION));
                 glPosition.unshift(LPAREN);
-                glPosition.unshift('vec4');
+                glPosition.unshift("vec4");
                 break;
             }
-            case 'vec4': {
+            case "vec4": {
                 // This happens when the use is working in homodeneous coordinates.
                 // We don't need to use the constructor function at all.
                 glPosition.unshift(getAttribVarName(attributes[GPS.ATTRIBUTE_POSITION], GPS.ATTRIBUTE_POSITION));
                 break;
             }
         }
-    }
-    else {
+    } else {
         glPosition.unshift("vec4(0.0, 0.0, 0.0, 1.0)");
     }
 
@@ -206,8 +202,8 @@ export function vertexShaderSrc(attributes: { [name: string]: AttribMetaInfo }, 
     }
     glPosition.unshift(ASSIGN);
     glPosition.unshift("gl_Position");
-    glPosition.unshift('  ');
-    lines.push(glPosition.join(''));
+    glPosition.unshift("  ");
+    lines.push(glPosition.join(""));
 
     if (uniforms[GPS.UNIFORM_POINT_SIZE]) {
         lines.push("  gl_PointSize = " + getUniformCodeName(uniforms, GPS.UNIFORM_POINT_SIZE) + ";");
@@ -217,15 +213,14 @@ export function vertexShaderSrc(attributes: { [name: string]: AttribMetaInfo }, 
         if (attributes[GPS.ATTRIBUTE_COLOR]) {
             const colorAttribVarName = getAttribVarName(attributes[GPS.ATTRIBUTE_COLOR], GPS.ATTRIBUTE_COLOR);
             switch (attributes[GPS.ATTRIBUTE_COLOR].glslType) {
-                case 'vec4': {
+                case "vec4": {
                     lines.push(`  ${GPS.VARYING_COLOR} = ` + colorAttribVarName + SEMICOLON);
                     break;
                 }
-                case 'vec3': {
+                case "vec3": {
                     if (uniforms[GPS.UNIFORM_OPACITY]) {
                         lines.push(`  ${GPS.VARYING_COLOR} = vec4(${colorAttribVarName}, ${getUniformCodeName(uniforms, GPS.UNIFORM_OPACITY)});`);
-                    }
-                    else {
+                    } else {
                         lines.push(`  ${GPS.VARYING_COLOR} = vec4(${colorAttribVarName}, 1.0);`);
                     }
                     break;
@@ -234,19 +229,17 @@ export function vertexShaderSrc(attributes: { [name: string]: AttribMetaInfo }, 
                     throw new Error("Unexpected type for color attribute: " + attributes[GPS.ATTRIBUTE_COLOR].glslType);
                 }
             }
-        }
-        else if (uniforms[GPS.UNIFORM_COLOR]) {
+        } else if (uniforms[GPS.UNIFORM_COLOR]) {
             const colorUniformVarName = getUniformCodeName(uniforms, GPS.UNIFORM_COLOR);
             switch (uniforms[GPS.UNIFORM_COLOR].glslType) {
-                case 'vec4': {
+                case "vec4": {
                     lines.push("  vColor = " + colorUniformVarName + SEMICOLON);
                     break;
                 }
-                case 'vec3': {
+                case "vec3": {
                     if (uniforms[GPS.UNIFORM_OPACITY]) {
                         lines.push(`  ${GPS.VARYING_COLOR} = vec4(${colorUniformVarName}, ${getUniformCodeName(uniforms, GPS.UNIFORM_OPACITY)});`);
-                    }
-                    else {
+                    } else {
                         lines.push(`  ${GPS.VARYING_COLOR} = vec4(${colorUniformVarName}, 1.0);`);
                     }
                     break;
@@ -255,8 +248,7 @@ export function vertexShaderSrc(attributes: { [name: string]: AttribMetaInfo }, 
                     throw new Error("Unexpected type for color uniform: " + uniforms[GPS.UNIFORM_COLOR].glslType);
                 }
             }
-        }
-        else {
+        } else {
             lines.push(`  ${GPS.VARYING_COLOR} = vec4(1.0, 1.0, 1.0, 1.0);`);
         }
     }
@@ -273,16 +265,13 @@ export function vertexShaderSrc(attributes: { [name: string]: AttribMetaInfo }, 
             lines.push("  float " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " = max(-dot(N, L), 0.0);");
             if (uniforms[GPS.UNIFORM_AMBIENT_LIGHT]) {
                 lines.push(`  ${GPS.VARYING_LIGHT} = ` + getUniformCodeName(uniforms, GPS.UNIFORM_AMBIENT_LIGHT) + " + " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " * " + getUniformCodeName(uniforms, GPS.UNIFORM_DIRECTIONAL_LIGHT_COLOR) + ";");
-            }
-            else {
+            } else {
                 lines.push(`  ${GPS.VARYING_LIGHT} = ` + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " * " + getUniformCodeName(uniforms, GPS.UNIFORM_DIRECTIONAL_LIGHT_COLOR) + ";");
             }
-        }
-        else {
+        } else {
             if (uniforms[GPS.UNIFORM_AMBIENT_LIGHT]) {
                 lines.push(`  ${GPS.VARYING_LIGHT} = ` + getUniformCodeName(uniforms, GPS.UNIFORM_AMBIENT_LIGHT) + ";");
-            }
-            else {
+            } else {
                 lines.push(`  ${GPS.VARYING_LIGHT} = vec3(1.0, 1.0, 1.0);`);
             }
         }

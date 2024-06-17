@@ -1,11 +1,10 @@
-import { TextureUnit } from './TextureUnit';
+import { TextureUnit } from "./TextureUnit";
 
 /**
  * A facet visitor implementation is able to accept a value to be assigned to a WebGL uniform in a WebGL program.
  * This interface is normally only implemented by a Material.
  */
 export interface FacetVisitor {
-
     /**
      * Informs the facet visitor of which texture unit is to be used.
      * @param unit The texture unit to be used.

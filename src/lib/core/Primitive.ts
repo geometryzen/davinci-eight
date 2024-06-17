@@ -1,5 +1,5 @@
-import { Attribute } from './Attribute';
-import { BeginMode } from './BeginMode';
+import { Attribute } from "./Attribute";
+import { BeginMode } from "./BeginMode";
 
 /**
  * The data corresponding to a drawArrays or drawElements call to the WebGL API.

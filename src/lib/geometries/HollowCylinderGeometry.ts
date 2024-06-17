@@ -1,11 +1,11 @@
-import { reduce } from '../atoms/reduce';
-import { ContextManager } from '../core/ContextManager';
-import { GeometryElements } from '../core/GeometryElements';
-import { Primitive } from '../core/Primitive';
-import { Vector3 } from '../math/Vector3';
-import { CylindricalShellBuilder } from '../shapes/CylindricalShellBuilder';
-import { RingBuilder } from '../shapes/RingBuilder';
-import { HollowCylinderGeometryOptions } from './HollowCylinderGeometryOptions';
+import { reduce } from "../atoms/reduce";
+import { ContextManager } from "../core/ContextManager";
+import { GeometryElements } from "../core/GeometryElements";
+import { Primitive } from "../core/Primitive";
+import { Vector3 } from "../math/Vector3";
+import { CylindricalShellBuilder } from "../shapes/CylindricalShellBuilder";
+import { RingBuilder } from "../shapes/RingBuilder";
+import { HollowCylinderGeometryOptions } from "./HollowCylinderGeometryOptions";
 
 /**
  * @hidden
@@ -20,12 +20,12 @@ const e3 = Vector3.vector(0, 0, 1);
  * Generates a Primitive from the specified options.
  * @hidden
  */
-function hollowCylinderPrimitive(options: HollowCylinderGeometryOptions = { kind: 'HollowCylinderGeometry' }): Primitive {
-    const axis = (typeof options.axis === 'object') ? Vector3.copy(options.axis) : e2;
-    const meridian = (typeof options.meridian === 'object') ? Vector3.copy(options.meridian).normalize() : e3;
-    const outerRadius = (typeof options.outerRadius === 'number') ? options.outerRadius : 1.0;
-    const innerRadius = (typeof options.innerRadius === 'number') ? options.innerRadius : 0.5;
-    const sliceAngle = (typeof options.sliceAngle === 'number') ? options.sliceAngle : 2 * Math.PI;
+function hollowCylinderPrimitive(options: HollowCylinderGeometryOptions = { kind: "HollowCylinderGeometry" }): Primitive {
+    const axis = typeof options.axis === "object" ? Vector3.copy(options.axis) : e2;
+    const meridian = typeof options.meridian === "object" ? Vector3.copy(options.meridian).normalize() : e3;
+    const outerRadius = typeof options.outerRadius === "number" ? options.outerRadius : 1.0;
+    const innerRadius = typeof options.innerRadius === "number" ? options.innerRadius : 0.5;
+    const sliceAngle = typeof options.sliceAngle === "number" ? options.sliceAngle : 2 * Math.PI;
 
     // Multiple builders each provide a Primitive.
     // A Primitive will typically correspond to one index buffer and several attribute buffers.
@@ -71,27 +71,27 @@ function hollowCylinderPrimitive(options: HollowCylinderGeometryOptions = { kind
  */
 export class HollowCylinderGeometry extends GeometryElements {
     /**
-     * 
+     *
      */
-    constructor(contextManager: ContextManager, options: HollowCylinderGeometryOptions = { kind: 'HollowCylinderGeometry' }, levelUp = 0) {
+    constructor(contextManager: ContextManager, options: HollowCylinderGeometryOptions = { kind: "HollowCylinderGeometry" }, levelUp = 0) {
         super(contextManager, hollowCylinderPrimitive(options), {}, levelUp + 1);
-        this.setLoggingName('HollowCylinderGeometry');
+        this.setLoggingName("HollowCylinderGeometry");
         if (levelUp === 0) {
             this.synchUp();
         }
     }
     /**
-     * 
+     *
      */
     protected resurrector(levelUp: number): void {
         super.resurrector(levelUp + 1);
-        this.setLoggingName('HollowCylinderGeometry');
+        this.setLoggingName("HollowCylinderGeometry");
         if (levelUp === 0) {
             this.synchUp();
         }
     }
     /**
-     * 
+     *
      */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {

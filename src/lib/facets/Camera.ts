@@ -1,4 +1,4 @@
-import { VectorE3 } from '../math/VectorE3';
+import { VectorE3 } from "../math/VectorE3";
 
 /**
  * Defines the conventional (eye, look, up) triple.
@@ -13,7 +13,7 @@ export interface Camera {
      */
     look: VectorE3;
     /**
-     * The direction that is used to orient the camera. 
+     * The direction that is used to orient the camera.
      */
     up: VectorE3;
 }

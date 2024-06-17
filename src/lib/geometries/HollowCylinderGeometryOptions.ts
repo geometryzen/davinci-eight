@@ -1,6 +1,6 @@
-import { GeometryKey } from '../core/GeometryKey';
-import { VectorE3 } from '../math/VectorE3';
-import { GeometryOptions } from './GeometryOptions';
+import { GeometryKey } from "../core/GeometryKey";
+import { VectorE3 } from "../math/VectorE3";
+import { GeometryOptions } from "./GeometryOptions";
 
 /**
  * Options for creating a HollowCylinderGeometry.

@@ -1,7 +1,7 @@
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { cube } from './cube';
-import { simplicesToGeometryMeta } from './simplicesToGeometryMeta';
-import { simplicesToPrimitive } from './simplicesToPrimitive';
+import { GraphicsProgramSymbols } from "../core/GraphicsProgramSymbols";
+import { cube } from "./cube";
+import { simplicesToGeometryMeta } from "./simplicesToGeometryMeta";
+import { simplicesToPrimitive } from "./simplicesToPrimitive";
 
 /**
  * @hidden
@@ -239,19 +239,19 @@ describe("cube", function () {
             expect(positions[0x09]).toBe(+1);
         });
         it("v3 front position.y = -1", function () {
-            expect(positions[0x0A]).toBe(-1);
+            expect(positions[0x0a]).toBe(-1);
         });
         it("v3 front position.z = +1", function () {
-            expect(positions[0x0B]).toBe(+1);
+            expect(positions[0x0b]).toBe(+1);
         });
         it("v3 front normal.x   =  0", function () {
             expect(normals[0x09]).toBe(0);
         });
         it("v3 front normal.x   =  0", function () {
-            expect(normals[0x0A]).toBe(0);
+            expect(normals[0x0a]).toBe(0);
         });
         it("v3 front normal.x   = +1", function () {
-            expect(normals[0x0B]).toBe(+1);
+            expect(normals[0x0b]).toBe(+1);
         });
         it("v3 front coords.u   =  1", function () {
             expect(coords[6]).toBe(1);

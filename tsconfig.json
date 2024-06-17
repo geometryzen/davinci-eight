@@ -3,7 +3,7 @@
         "declaration": true,
         "declarationDir": "types",
         "emitDeclarationOnly": true,
-        "target": "es2022",
+        "target": "esnext",
         "module": "esnext",
         "sourceMap": true,
         "outDir": "build",
@@ -19,14 +19,9 @@
         "removeComments": false,
         "resolveJsonModule": true,
         "skipLibCheck": true,
-        "strictNullChecks": false,
+        "strictNullChecks": false
     },
-    "include": [
-        "src/**/*.ts",
-        "rollup.config.mts"
-    ],
-    "lib": [
-        "es2015",
-        "dom"
-    ]
+    "include": ["./src/**/*.ts", "./rollup.config.mts", "./rollup-plugin-dts.d.ts"],
+    "exclude": ["node_modules"],
+    "lib": ["es2015", "dom"]
 }

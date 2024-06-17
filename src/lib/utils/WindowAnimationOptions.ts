@@ -1,11 +1,11 @@
-import { BrowserWindow } from '../base/BrowserWindow';
+import { BrowserWindow } from "../base/BrowserWindow";
 
 /**
  * @hidden
  */
 export interface WindowAnimationOptions {
-  setUp?: () => void;
-  tearDown?: (animateException: any) => void;
-  terminate?: (time: number) => boolean;
-  window?: BrowserWindow;
+    setUp?: () => void;
+    tearDown?: (animateException: any) => void;
+    terminate?: (time: number) => boolean;
+    window?: BrowserWindow;
 }

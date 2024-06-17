@@ -1,24 +1,24 @@
-import { mustBeInteger } from '../checks/mustBeInteger';
-import { mustBeNumber } from '../checks/mustBeNumber';
-import { mustBeObject } from '../checks/mustBeObject';
-import { lock, TargetLockedError } from '../core/Lockable';
-import { readOnly } from '../i18n/readOnly';
-import { SpinorE3 } from '../math/SpinorE3';
-import { approx } from './approx';
-import { BivectorE3 } from './BivectorE3';
-import { dotVectorCartesianE3 } from './dotVectorCartesianE3';
-import { mulSpinorE3alpha } from './mulSpinorE3alpha';
-import { mulSpinorE3XY } from './mulSpinorE3XY';
-import { mulSpinorE3YZ } from './mulSpinorE3YZ';
-import { mulSpinorE3ZX } from './mulSpinorE3ZX';
-import { quadSpinorE3 as quadSpinor } from './quadSpinorE3';
-import { randomRange } from './randomRange';
-import { rotorFromDirectionsE3 as rotorFromDirections } from './rotorFromDirectionsE3';
-import { toStringCustom } from './toStringCustom';
-import { VectorE3 } from './VectorE3';
-import { wedgeXY } from './wedgeXY';
-import { wedgeYZ } from './wedgeYZ';
-import { wedgeZX } from './wedgeZX';
+import { mustBeInteger } from "../checks/mustBeInteger";
+import { mustBeNumber } from "../checks/mustBeNumber";
+import { mustBeObject } from "../checks/mustBeObject";
+import { lock, TargetLockedError } from "../core/Lockable";
+import { readOnly } from "../i18n/readOnly";
+import { SpinorE3 } from "../math/SpinorE3";
+import { approx } from "./approx";
+import { BivectorE3 } from "./BivectorE3";
+import { dotVectorCartesianE3 } from "./dotVectorCartesianE3";
+import { mulSpinorE3alpha } from "./mulSpinorE3alpha";
+import { mulSpinorE3XY } from "./mulSpinorE3XY";
+import { mulSpinorE3YZ } from "./mulSpinorE3YZ";
+import { mulSpinorE3ZX } from "./mulSpinorE3ZX";
+import { quadSpinorE3 as quadSpinor } from "./quadSpinorE3";
+import { randomRange } from "./randomRange";
+import { rotorFromDirectionsE3 as rotorFromDirections } from "./rotorFromDirectionsE3";
+import { toStringCustom } from "./toStringCustom";
+import { VectorE3 } from "./VectorE3";
+import { wedgeXY } from "./wedgeXY";
+import { wedgeYZ } from "./wedgeYZ";
+import { wedgeZX } from "./wedgeZX";
 
 // Constants for the coordinate indices into the coords array.
 /**
@@ -40,7 +40,7 @@ const COORD_SCALAR = 3;
 /**
  * @hidden
  */
-const BASIS_LABELS = ['e23', 'e31', 'e12', '1'];
+const BASIS_LABELS = ["e23", "e31", "e12", "1"];
 
 /**
  * Coordinates corresponding to basis labels.
@@ -78,41 +78,38 @@ const magicCode = Math.random();
 export class Spinor3 {
     // Lockable
     public isLocked(): boolean {
-        return typeof (this as any)['lock_'] === 'number';
+        return typeof (this as any)["lock_"] === "number";
     }
 
     public lock(): number {
         if (this.isLocked()) {
             throw new Error("already locked");
-        }
-        else {
-            (this as any)['lock_'] = Math.random();
-            return (this as any)['lock_'];
+        } else {
+            (this as any)["lock_"] = Math.random();
+            return (this as any)["lock_"];
         }
     }
 
     public unlock(token: number): void {
-        if (typeof token !== 'number') {
+        if (typeof token !== "number") {
             throw new Error("token must be a number.");
         }
         if (!this.isLocked()) {
             throw new Error("not locked");
-        }
-        else if ((this as any)['lock_'] === token) {
-            (this as any)['lock_'] = void 0;
-        }
-        else {
+        } else if ((this as any)["lock_"] === token) {
+            (this as any)["lock_"] = void 0;
+        } else {
             throw new Error("unlock denied");
         }
     }
 
     /**
-     * 
+     *
      */
     private coords_: number[];
 
     /**
-     * 
+     *
      */
     private modified_: boolean;
 
@@ -136,7 +133,7 @@ export class Spinor3 {
     }
     set modified(modified: boolean) {
         if (this.isLocked()) {
-            throw new TargetLockedError('set modified');
+            throw new TargetLockedError("set modified");
         }
         this.modified_ = modified;
     }
@@ -149,9 +146,9 @@ export class Spinor3 {
     }
     set yz(yz: number) {
         if (this.isLocked()) {
-            throw new TargetLockedError('set yz');
+            throw new TargetLockedError("set yz");
         }
-        mustBeNumber('yz', yz);
+        mustBeNumber("yz", yz);
         const coords = this.coords_;
         this.modified_ = this.modified_ || coords[COORD_YZ] !== yz;
         coords[COORD_YZ] = yz;
@@ -165,9 +162,9 @@ export class Spinor3 {
     }
     set zx(zx: number) {
         if (this.isLocked()) {
-            throw new TargetLockedError('zx');
+            throw new TargetLockedError("zx");
         }
-        mustBeNumber('zx', zx);
+        mustBeNumber("zx", zx);
         const coords = this.coords_;
         this.modified_ = this.modified_ || coords[COORD_ZX] !== zx;
         coords[COORD_ZX] = zx;
@@ -181,9 +178,9 @@ export class Spinor3 {
     }
     set xy(xy: number) {
         if (this.isLocked()) {
-            throw new TargetLockedError('xy');
+            throw new TargetLockedError("xy");
         }
-        mustBeNumber('xy', xy);
+        mustBeNumber("xy", xy);
         const coords = this.coords_;
         this.modified_ = this.modified_ || coords[COORD_XY] !== xy;
         coords[COORD_XY] = xy;
@@ -197,9 +194,9 @@ export class Spinor3 {
     }
     set a(α: number) {
         if (this.isLocked()) {
-            throw new TargetLockedError('a');
+            throw new TargetLockedError("a");
         }
-        mustBeNumber('α', α);
+        mustBeNumber("α", α);
         const coords = this.coords_;
         this.modified_ = this.modified_ || coords[COORD_SCALAR] !== α;
         coords[COORD_SCALAR] = α;
@@ -228,7 +225,7 @@ export class Spinor3 {
         return m;
     }
     set maskG3(unused: number) {
-        throw new Error(readOnly('maskG3').message);
+        throw new Error(readOnly("maskG3").message);
     }
 
     /**
@@ -240,8 +237,8 @@ export class Spinor3 {
      * @returns this + α * spinor
      */
     add(spinor: SpinorE3, α = 1): this {
-        mustBeObject('spinor', spinor);
-        mustBeNumber('α', α);
+        mustBeObject("spinor", spinor);
+        mustBeNumber("α", α);
         this.yz += spinor.yz * α;
         this.zx += spinor.zx * α;
         this.xy += spinor.xy * α;
@@ -271,7 +268,7 @@ export class Spinor3 {
      * @return this + I * β
      */
     addPseudo(β: number): Spinor3 {
-        mustBeNumber('β', β);
+        mustBeNumber("β", β);
         return this;
     }
 
@@ -279,24 +276,23 @@ export class Spinor3 {
      * this ⟼ this + α
      *
      * @param α
-     * @returns this + α 
+     * @returns this + α
      */
     addScalar(α: number): this {
-        mustBeNumber('α', α);
+        mustBeNumber("α", α);
         this.a += α;
         return this;
     }
 
     /**
      * arg(A) = grade(log(A), 2)
-     * 
+     *
      * @returns arg(this)
      */
     arg(): Spinor3 {
         if (this.isLocked()) {
             return lock(this.clone().arg());
-        }
-        else {
+        } else {
             return this.log().grade(2);
         }
     }
@@ -320,7 +316,7 @@ export class Spinor3 {
      * The Clifford conjugate.
      * The multiplier for the grade x is (-1) raised to the power x * (x + 1) / 2
      * The pattern of grades is +--++--+
-     * 
+     *
      * @returns conj(this)
      */
     conj() {
@@ -346,8 +342,7 @@ export class Spinor3 {
             this.xy = source.xy;
             this.a = source.a;
             return this;
-        }
-        else {
+        } else {
             throw new Error("source for copy must be a spinor");
         }
     }
@@ -469,8 +464,7 @@ export class Spinor3 {
         if (other instanceof Spinor3) {
             const that: Spinor3 = other;
             return this.yz === that.yz && this.zx === that.zx && this.xy === that.xy && this.a === that.a;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -637,7 +631,6 @@ export class Spinor3 {
      * @chainable
      */
     mul(rhs: SpinorE3): this {
-
         const α = mulSpinorE3alpha(this, rhs);
         const yz = mulSpinorE3YZ(this, rhs);
         const zx = mulSpinorE3ZX(this, rhs);
@@ -662,7 +655,6 @@ export class Spinor3 {
      * @chainable
      */
     mul2(a: SpinorE3, b: SpinorE3): this {
-
         const α = mulSpinorE3alpha(a, b);
         const yz = mulSpinorE3YZ(a, b);
         const zx = mulSpinorE3ZX(a, b);
@@ -713,7 +705,6 @@ export class Spinor3 {
         this.a = this.a / m;
         return this;
     }
-
 
     /**
      * Sets this spinor to the identity element for multiplication, <b>1</b>.
@@ -787,9 +778,9 @@ export class Spinor3 {
      * @chainable
      */
     rev(): this {
-        this.yz *= - 1;
-        this.zx *= - 1;
-        this.xy *= - 1;
+        this.yz *= -1;
+        this.zx *= -1;
+        this.xy *= -1;
         return this;
     }
 
@@ -896,7 +887,7 @@ export class Spinor3 {
      * @chainable
      */
     scale(α: number): Spinor3 {
-        mustBeNumber('α', α);
+        mustBeNumber("α", α);
         this.yz *= α;
         this.zx *= α;
         this.xy *= α;
@@ -915,8 +906,8 @@ export class Spinor3 {
      * @chainable
      */
     sub(s: SpinorE3, α = 1): this {
-        mustBeObject('s', s);
-        mustBeNumber('α', α);
+        mustBeObject("s", s);
+        mustBeNumber("α", α);
         this.yz -= s.yz * α;
         this.zx -= s.zx * α;
         this.xy -= s.xy * α;
@@ -953,7 +944,6 @@ export class Spinor3 {
      * @param b
      */
     versor(a: VectorE3, b: VectorE3): this {
-
         const ax = a.x;
         const ay = a.y;
         const az = a.z;
@@ -982,7 +972,6 @@ export class Spinor3 {
      * @chainable
      */
     wedge(a: VectorE3, b: VectorE3): Spinor3 {
-
         const ax = a.x;
         const ay = a.y;
         const az = a.z;
@@ -1004,7 +993,7 @@ export class Spinor3 {
      * @chainable
      */
     grade(grade: number): this {
-        mustBeInteger('grade', grade);
+        mustBeInteger("grade", grade);
         switch (grade) {
             case 0: {
                 this.yz = 0;
@@ -1027,7 +1016,7 @@ export class Spinor3 {
     }
 
     /**
-     * 
+     *
      */
     toArray(): number[] {
         return coordinates(this);
@@ -1039,7 +1028,9 @@ export class Spinor3 {
      * @return
      */
     toExponential(fractionDigits?: number): string {
-        const coordToString = function (coord: number): string { return coord.toExponential(fractionDigits); };
+        const coordToString = function (coord: number): string {
+            return coord.toExponential(fractionDigits);
+        };
         return toStringCustom(coordinates(this), coordToString, BASIS_LABELS);
     }
 
@@ -1048,7 +1039,9 @@ export class Spinor3 {
      * @param fractionDigits
      */
     toFixed(fractionDigits?: number): string {
-        const coordToString = function (coord: number): string { return coord.toFixed(fractionDigits); };
+        const coordToString = function (coord: number): string {
+            return coord.toFixed(fractionDigits);
+        };
         return toStringCustom(coordinates(this), coordToString, BASIS_LABELS);
     }
 
@@ -1058,7 +1051,9 @@ export class Spinor3 {
      * @return
      */
     toPrecision(position?: number): string {
-        const coordToString = function (coord: number): string { return coord.toPrecision(position); };
+        const coordToString = function (coord: number): string {
+            return coord.toPrecision(position);
+        };
         return toStringCustom(coordinates(this), coordToString, BASIS_LABELS);
     }
 
@@ -1068,7 +1063,9 @@ export class Spinor3 {
      * @return A non-normative string representation of the target.
      */
     toString(radix?: number): string {
-        const coordToString = function (coord: number): string { return coord.toString(radix); };
+        const coordToString = function (coord: number): string {
+            return coord.toString(radix);
+        };
         return toStringCustom(coordinates(this), coordToString, BASIS_LABELS);
     }
 
@@ -1106,7 +1103,7 @@ export class Spinor3 {
 
     /**
      * Computes dual(V) = v << inv(I).
-     * 
+     *
      * @param v
      * @param changeSign
      */
@@ -1159,7 +1156,7 @@ export class Spinor3 {
     }
 
     /**
-     * Constructs a new Spinor3 from coordinates. 
+     * Constructs a new Spinor3 from coordinates.
      * The returned spinor is not locked.
      * The returned spinor is not modified.
      * @param yz The coordinate corresponding to the e2e3 basis bivector.
@@ -1184,7 +1181,6 @@ export class Spinor3 {
      * @param b
      */
     static wedge(a: VectorE3, b: VectorE3): Spinor3 {
-
         const ax = a.x;
         const ay = a.y;
         const az = a.z;

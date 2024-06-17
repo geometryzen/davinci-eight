@@ -1,15 +1,15 @@
-import { isBoolean } from '../checks/isBoolean';
-import { isNumber } from '../checks/isNumber';
-import { BeginMode } from '../core/BeginMode';
-import { Engine } from '../core/Engine';
-import { Geometry } from '../core/Geometry';
-import { GeometryArrays } from '../core/GeometryArrays';
-import { ImageTexture } from '../core/ImageTexture';
-import { Material } from '../core/Material';
-import { Mesh } from '../core/Mesh';
-import { Primitive } from '../core/Primitive';
-import { ShaderMaterial } from '../materials/ShaderMaterial';
-import { VectorE3 } from '../math/VectorE3';
+import { isBoolean } from "../checks/isBoolean";
+import { isNumber } from "../checks/isNumber";
+import { BeginMode } from "../core/BeginMode";
+import { Engine } from "../core/Engine";
+import { Geometry } from "../core/Geometry";
+import { GeometryArrays } from "../core/GeometryArrays";
+import { ImageTexture } from "../core/ImageTexture";
+import { Material } from "../core/Material";
+import { Mesh } from "../core/Mesh";
+import { Primitive } from "../core/Primitive";
+import { ShaderMaterial } from "../materials/ShaderMaterial";
+import { VectorE3 } from "../math/VectorE3";
 
 /**
  * @hidden
@@ -28,7 +28,6 @@ export enum MinecraftPartKind {
     LeftLegLayer2,
     LeftArmLayer2
 }
-
 
 /**
  * @hidden
@@ -103,8 +102,7 @@ function textureBounds(part: MinecraftPartKind, side: MinecraftSide, version: nu
                 case MinecraftSide.Bottom: {
                     if (oldSkinLayout) {
                         return [16, 0, 24, 8];
-                    }
-                    else {
+                    } else {
                         return [24, 8, 16, 0];
                     }
                 }
@@ -250,8 +248,7 @@ function textureBounds(part: MinecraftPartKind, side: MinecraftSide, version: nu
                         throw new Error(`${side}`);
                     }
                 }
-            }
-            else {
+            } else {
                 switch (side) {
                     case MinecraftSide.Top: {
                         return [8, 16, 4, 20];
@@ -302,8 +299,7 @@ function textureBounds(part: MinecraftPartKind, side: MinecraftSide, version: nu
                         throw new Error(`${side}`);
                     }
                 }
-            }
-            else {
+            } else {
                 switch (side) {
                     case MinecraftSide.Top: {
                         return [48, 16, 44, 20];
@@ -478,11 +474,9 @@ function aCoords(part: MinecraftPartKind, side: MinecraftSide, width: number, he
 function version(width: number, height: number): number {
     if (width === 2 * height) {
         return 0;
-    }
-    else if (width === height) {
+    } else if (width === height) {
         return 1.8;
-    }
-    else {
+    } else {
         // Fallback to zero for greatest compatibility.
         return 0;
     }
@@ -497,27 +491,57 @@ function primitiveFromOptions(texture: ImageTexture, options: MinecraftInternalB
     const dims = dimensions(partKind, options.height);
     const positions = [
         // Front
-        [-0.5, -0.5, +0.5], [+0.5, -0.5, +0.5], [-0.5, +0.5, +0.5],
-        [+0.5, -0.5, +0.5], [+0.5, +0.5, +0.5], [-0.5, +0.5, +0.5],
+        [-0.5, -0.5, +0.5],
+        [+0.5, -0.5, +0.5],
+        [-0.5, +0.5, +0.5],
+        [+0.5, -0.5, +0.5],
+        [+0.5, +0.5, +0.5],
+        [-0.5, +0.5, +0.5],
         // Back
-        [+0.5, -0.5, -0.5], [-0.5, -0.5, -0.5], [+0.5, +0.5, -0.5],
-        [-0.5, -0.5, -0.5], [-0.5, +0.5, -0.5], [+0.5, +0.5, -0.5],
+        [+0.5, -0.5, -0.5],
+        [-0.5, -0.5, -0.5],
+        [+0.5, +0.5, -0.5],
+        [-0.5, -0.5, -0.5],
+        [-0.5, +0.5, -0.5],
+        [+0.5, +0.5, -0.5],
         // Left
-        [+0.5, -0.5, +0.5], [+0.5, -0.5, -0.5], [+0.5, +0.5, +0.5],
-        [+0.5, -0.5, -0.5], [+0.5, +0.5, -0.5], [+0.5, +0.5, +0.5],
+        [+0.5, -0.5, +0.5],
+        [+0.5, -0.5, -0.5],
+        [+0.5, +0.5, +0.5],
+        [+0.5, -0.5, -0.5],
+        [+0.5, +0.5, -0.5],
+        [+0.5, +0.5, +0.5],
         // Right
-        [-0.5, -0.5, -0.5], [-0.5, -0.5, +0.5], [-0.5, +0.5, -0.5],
-        [-0.5, -0.5, +0.5], [-0.5, +0.5, +0.5], [-0.5, +0.5, -0.5],
+        [-0.5, -0.5, -0.5],
+        [-0.5, -0.5, +0.5],
+        [-0.5, +0.5, -0.5],
+        [-0.5, -0.5, +0.5],
+        [-0.5, +0.5, +0.5],
+        [-0.5, +0.5, -0.5],
         // Top
-        [-0.5, +0.5, +0.5], [+0.5, +0.5, +0.5], [-0.5, +0.5, -0.5],
-        [+0.5, +0.5, +0.5], [+0.5, +0.5, -0.5], [-0.5, +0.5, -0.5],
+        [-0.5, +0.5, +0.5],
+        [+0.5, +0.5, +0.5],
+        [-0.5, +0.5, -0.5],
+        [+0.5, +0.5, +0.5],
+        [+0.5, +0.5, -0.5],
+        [-0.5, +0.5, -0.5],
         // Bottom
-        [-0.5, -0.5, -0.5], [+0.5, -0.5, -0.5], [-0.5, -0.5, +0.5],
-        [+0.5, -0.5, -0.5], [+0.5, -0.5, +0.5], [-0.5, -0.5, +0.5]
+        [-0.5, -0.5, -0.5],
+        [+0.5, -0.5, -0.5],
+        [-0.5, -0.5, +0.5],
+        [+0.5, -0.5, -0.5],
+        [+0.5, -0.5, +0.5],
+        [-0.5, -0.5, +0.5]
     ]
-        .map(function (xs) { return [dims[0] * xs[0], dims[1] * xs[1], dims[2] * xs[2]]; })
-        .map(function (xs) { return [xs[0] + offset.x, xs[1] + offset.y, xs[2] + offset.z]; })
-        .reduce(function (a, b) { return a.concat(b); });
+        .map(function (xs) {
+            return [dims[0] * xs[0], dims[1] * xs[1], dims[2] * xs[2]];
+        })
+        .map(function (xs) {
+            return [xs[0] + offset.x, xs[1] + offset.y, xs[2] + offset.z];
+        })
+        .reduce(function (a, b) {
+            return a.concat(b);
+        });
 
     const naturalWidth = texture instanceof ImageTexture ? texture.naturalWidth : 64;
     const naturalHeight = texture instanceof ImageTexture ? texture.naturalHeight : 64;
@@ -532,7 +556,9 @@ function primitiveFromOptions(texture: ImageTexture, options: MinecraftInternalB
         aCoords(partKind, MinecraftSide.Right, width, height, oldSkinLayout),
         aCoords(partKind, MinecraftSide.Top, width, height, oldSkinLayout),
         aCoords(partKind, MinecraftSide.Bottom, width, height, oldSkinLayout)
-    ].reduce(function (a, b) { return a.concat(b); });
+    ].reduce(function (a, b) {
+        return a.concat(b);
+    });
 
     const primitive: Primitive = {
         mode: BeginMode.TRIANGLES,
@@ -555,30 +581,22 @@ function makeGeometry(graphics: Engine, texture: ImageTexture, options: Minecraf
  * @hidden
  */
 const vs = [
-    'attribute vec3 aPosition;',
-    'attribute vec2 aCoords;',
-    'uniform mat4 uModel;',
-    'uniform mat4 uProjection;',
-    'uniform mat4 uView;',
-    'varying highp vec2 vCoords;',
-    'void main(void) {',
-    '  gl_Position = uProjection * uView * uModel * vec4(aPosition, 1.0);',
-    '  vCoords = aCoords;',
-    '}'
-].join('\n');
+    "attribute vec3 aPosition;",
+    "attribute vec2 aCoords;",
+    "uniform mat4 uModel;",
+    "uniform mat4 uProjection;",
+    "uniform mat4 uView;",
+    "varying highp vec2 vCoords;",
+    "void main(void) {",
+    "  gl_Position = uProjection * uView * uModel * vec4(aPosition, 1.0);",
+    "  vCoords = aCoords;",
+    "}"
+].join("\n");
 
 /**
  * @hidden
  */
-const fs = [
-    'precision mediump float;',
-    'varying highp vec2 vCoords;',
-    'uniform sampler2D uImage;',
-    '  void main(void) {',
-    '  gl_FragColor = texture2D(uImage, vec2(vCoords.s, vCoords.t));',
-    '}'
-
-].join('\n');
+const fs = ["precision mediump float;", "varying highp vec2 vCoords;", "uniform sampler2D uImage;", "  void main(void) {", "  gl_FragColor = texture2D(uImage, vec2(vCoords.s, vCoords.t));", "}"].join("\n");
 
 /**
  * @hidden
@@ -593,7 +611,7 @@ const makeMaterial = function makeMaterial(graphics: Engine): Material {
 export class MinecraftBodyPart extends Mesh<Geometry, Material> {
     constructor(engine: Engine, texture: ImageTexture, options: MinecraftInternalBodyPartOptions, levelUp = 0) {
         super(void 0, void 0, engine, {}, levelUp + 1);
-        this.setLoggingName('MinecraftBodyPart');
+        this.setLoggingName("MinecraftBodyPart");
         const geometry = makeGeometry(engine, texture, options);
         this.geometry = geometry;
         geometry.release();
@@ -627,7 +645,7 @@ export class MinecraftHead extends MinecraftBodyPart {
             offset: options.offset,
             oldSkinLayout: isBoolean(options.oldSkinLayout) ? options.oldSkinLayout : false
         });
-        this.setLoggingName('MinecraftHead');
+        this.setLoggingName("MinecraftHead");
     }
     protected destructor(levelUp: number): void {
         super.destructor(levelUp + 1);
@@ -645,7 +663,7 @@ export class MinecraftTorso extends MinecraftBodyPart {
             offset: options.offset,
             oldSkinLayout: isBoolean(options.oldSkinLayout) ? options.oldSkinLayout : false
         });
-        this.setLoggingName('MinecraftTorso');
+        this.setLoggingName("MinecraftTorso");
     }
     protected destructor(levelUp: number): void {
         super.destructor(levelUp + 1);
@@ -663,7 +681,7 @@ export class MinecraftArmL extends MinecraftBodyPart {
             offset: options.offset,
             oldSkinLayout: isBoolean(options.oldSkinLayout) ? options.oldSkinLayout : false
         });
-        this.setLoggingName('MinecraftArmL');
+        this.setLoggingName("MinecraftArmL");
     }
     protected destructor(levelUp: number): void {
         super.destructor(levelUp + 1);
@@ -681,7 +699,7 @@ export class MinecraftArmR extends MinecraftBodyPart {
             offset: options.offset,
             oldSkinLayout: isBoolean(options.oldSkinLayout) ? options.oldSkinLayout : false
         });
-        this.setLoggingName('MinecraftArmR');
+        this.setLoggingName("MinecraftArmR");
     }
     protected destructor(levelUp: number): void {
         super.destructor(levelUp + 1);
@@ -699,7 +717,7 @@ export class MinecraftLegL extends MinecraftBodyPart {
             offset: options.offset,
             oldSkinLayout: isBoolean(options.oldSkinLayout) ? options.oldSkinLayout : false
         });
-        this.setLoggingName('MinecraftLegL');
+        this.setLoggingName("MinecraftLegL");
     }
     protected destructor(levelUp: number): void {
         super.destructor(levelUp + 1);
@@ -717,7 +735,7 @@ export class MinecraftLegR extends MinecraftBodyPart {
             offset: options.offset,
             oldSkinLayout: isBoolean(options.oldSkinLayout) ? options.oldSkinLayout : false
         });
-        this.setLoggingName('MinecraftLegR');
+        this.setLoggingName("MinecraftLegR");
     }
     protected destructor(levelUp: number): void {
         super.destructor(levelUp + 1);

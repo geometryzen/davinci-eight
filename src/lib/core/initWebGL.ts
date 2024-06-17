@@ -1,9 +1,9 @@
-import { isDefined } from '../checks/isDefined';
+import { isDefined } from "../checks/isDefined";
 
 /**
  * @hidden
  */
-function getContextFailed(contextId: 'webgl2' | 'webgl'): string {
+function getContextFailed(contextId: "webgl2" | "webgl"): string {
     return `canvas.getContext('${contextId}') failed. Your browser may not support it.`;
 }
 
@@ -22,28 +22,25 @@ function invalidContextId(contextId: string): string {
  * If the canvas is undefined then an undefined value is returned for the context.
  * @hidden
  */
-export function initWebGL(canvas: HTMLCanvasElement, options: WebGLContextAttributes, contextId: 'webgl2' | 'webgl' | undefined): { context: WebGL2RenderingContext, contextId: 'webgl2' } | { context: WebGLRenderingContext, contextId: 'webgl' } {
-
+export function initWebGL(canvas: HTMLCanvasElement, options: WebGLContextAttributes, contextId: "webgl2" | "webgl" | undefined): { context: WebGL2RenderingContext; contextId: "webgl2" } | { context: WebGLRenderingContext; contextId: "webgl" } {
     // We'll be hyper-functional. An undefined canvas begets an undefined context.
     // Clients must check their context output or canvas input.
     if (isDefined(canvas)) {
         if (contextId) {
             switch (contextId) {
-                case 'webgl2': {
+                case "webgl2": {
                     const context = canvas.getContext(contextId, options);
                     if (context) {
                         return { context, contextId };
-                    }
-                    else {
+                    } else {
                         throw new Error(getContextFailed(contextId));
                     }
                 }
-                case 'webgl': {
+                case "webgl": {
                     const context = canvas.getContext(contextId, options);
                     if (context) {
                         return { context, contextId };
-                    }
-                    else {
+                    } else {
                         throw new Error(getContextFailed(contextId));
                     }
                 }
@@ -52,31 +49,26 @@ export function initWebGL(canvas: HTMLCanvasElement, options: WebGLContextAttrib
                     throw new Error(invalidContextId(contextId));
                 }
             }
-        }
-        else {
+        } else {
             try {
-                const candidateContextId = 'webgl2';
+                const candidateContextId = "webgl2";
                 const context = canvas.getContext(candidateContextId, options);
                 if (context) {
                     return { context, contextId: candidateContextId };
-                }
-                else {
+                } else {
                     throw new Error(getContextFailed(candidateContextId));
                 }
-            }
-            catch (e) {
-                const candidateContextId = 'webgl';
+            } catch (e) {
+                const candidateContextId = "webgl";
                 const context = canvas.getContext(candidateContextId, options);
                 if (context) {
                     return { context, contextId: candidateContextId };
-                }
-                else {
+                } else {
                     throw new Error(getContextFailed(candidateContextId));
                 }
             }
         }
-    }
-    else {
+    } else {
         // An undefined canvas results in an undefined context.
         return void 0;
     }

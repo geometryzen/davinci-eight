@@ -1,5 +1,4 @@
 /**
  * @hidden
  */
-export interface VectorE0 {
-}
+export interface VectorE0 {}

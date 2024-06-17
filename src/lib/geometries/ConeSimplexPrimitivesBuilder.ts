@@ -1,7 +1,7 @@
-import { Vector2 } from '../math/Vector2';
-import { Vector3 } from '../math/Vector3';
-import { VectorE3 } from '../math/VectorE3';
-import { SliceSimplexPrimitivesBuilder } from './SliceSimplexPrimitivesBuilder';
+import { Vector2 } from "../math/Vector2";
+import { Vector3 } from "../math/Vector3";
+import { VectorE3 } from "../math/VectorE3";
+import { SliceSimplexPrimitivesBuilder } from "./SliceSimplexPrimitivesBuilder";
 
 /**
  * @hidden
@@ -13,15 +13,7 @@ export class ConeSimplexPrimitivesBuilder extends SliceSimplexPrimitivesBuilder 
     public openCap: boolean;
     public openBase: boolean;
     public thetaStart: number;
-    constructor(
-        radius = 0.5,
-        height = 1,
-        axis: VectorE3,
-        radiusTop = 0.0,
-        openCap = false,
-        openBase = false,
-        thetaStart = 0) {
-
+    constructor(radius = 0.5, height = 1, axis: VectorE3, radiusTop = 0.0, openCap = false, openBase = false, thetaStart = 0) {
         super();
         this.radiusTop = radiusTop;
         this.radius = radius;
@@ -59,7 +51,7 @@ export class ConeSimplexPrimitivesBuilder extends SliceSimplexPrimitivesBuilder 
                 const u = x / radialSegments;
                 const vertex = new Vector3();
                 vertex.x = radius * Math.sin(u * sliceAngle + thetaStart);
-                vertex.y = - v * height + heightHalf;
+                vertex.y = -v * height + heightHalf;
                 vertex.z = radius * Math.cos(u * sliceAngle + thetaStart);
                 points.push(vertex);
                 verticesRow.push(points.length - 1);
@@ -76,8 +68,7 @@ export class ConeSimplexPrimitivesBuilder extends SliceSimplexPrimitivesBuilder 
             if (radiusTop !== 0) {
                 na = Vector3.copy(points[vertices[0][x]]);
                 nb = Vector3.copy(points[vertices[0][x + 1]]);
-            }
-            else {
+            } else {
                 na = Vector3.copy(points[vertices[1][x]]);
                 nb = Vector3.copy(points[vertices[1][x + 1]]);
             }

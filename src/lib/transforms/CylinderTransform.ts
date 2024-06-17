@@ -1,10 +1,10 @@
-import { Transform } from '../atoms/Transform';
-import { Vertex } from '../atoms/Vertex';
-import { mustBeNumber } from '../checks/mustBeNumber';
-import { mustBeString } from '../checks/mustBeString';
-import { Spinor3 } from '../math/Spinor3';
-import { Vector3 } from '../math/Vector3';
-import { VectorE3 } from '../math/VectorE3';
+import { Transform } from "../atoms/Transform";
+import { Vertex } from "../atoms/Vertex";
+import { mustBeNumber } from "../checks/mustBeNumber";
+import { mustBeString } from "../checks/mustBeString";
+import { Spinor3 } from "../math/Spinor3";
+import { Vector3 } from "../math/Vector3";
+import { VectorE3 } from "../math/VectorE3";
 
 /**
  * @hidden
@@ -35,15 +35,14 @@ export class CylinderTransform implements Transform {
      * @param aPosition The name to use for the position attribute.
      * @param aTangent The name to use for the tangent plane attribute.
      */
-    constructor(
-        height: VectorE3, cutLine: VectorE3, clockwise: boolean, sliceAngle: number, orientation: number, aPosition: string, aTangent: string) {
+    constructor(height: VectorE3, cutLine: VectorE3, clockwise: boolean, sliceAngle: number, orientation: number, aPosition: string, aTangent: string) {
         this.height = Vector3.copy(height);
         this.cutLine = Vector3.copy(cutLine);
         this.generator = Spinor3.dual(this.height.clone().normalize(), !clockwise);
-        this.sliceAngle = mustBeNumber('sliceAngle', sliceAngle);
-        this.orientation = mustBeNumber('orientation', orientation);
-        this.aPosition = mustBeString('aPosition', aPosition);
-        this.aTangent = mustBeString('aTangent', aTangent);
+        this.sliceAngle = mustBeNumber("sliceAngle", sliceAngle);
+        this.orientation = mustBeNumber("orientation", orientation);
+        this.aPosition = mustBeString("aPosition", aPosition);
+        this.aTangent = mustBeString("aTangent", aTangent);
     }
 
     exec(vertex: Vertex, i: number, j: number, iLength: number, jLength: number): void {
@@ -53,7 +52,10 @@ export class CylinderTransform implements Transform {
         const vSegments = jLength - 1;
         const v = j / vSegments;
 
-        const rotor = this.generator.clone().scale(-this.sliceAngle * u / 2).exp();
+        const rotor = this.generator
+            .clone()
+            .scale((-this.sliceAngle * u) / 2)
+            .exp();
 
         /**
          * Point on the wall of the cylinder, initially with no vertical component.

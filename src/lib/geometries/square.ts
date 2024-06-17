@@ -1,9 +1,9 @@
-import { VectorN } from '../atoms/VectorN';
-import { GraphicsProgramSymbols } from '../core/GraphicsProgramSymbols';
-import { quadrilateral } from '../geometries/quadrilateral';
-import { Simplex } from '../geometries/Simplex';
-import { Vector2 } from '../math/Vector2';
-import { Vector3 } from '../math/Vector3';
+import { VectorN } from "../atoms/VectorN";
+import { GraphicsProgramSymbols } from "../core/GraphicsProgramSymbols";
+import { quadrilateral } from "../geometries/quadrilateral";
+import { Simplex } from "../geometries/Simplex";
+import { Vector2 } from "../math/Vector2";
+import { Vector3 } from "../math/Vector3";
 
 // square
 //
@@ -16,7 +16,6 @@ import { Vector3 } from '../math/Vector3';
  * @hidden
  */
 export function square(size = 1): Simplex[] {
-
     const s = size / 2;
 
     const vec0 = new Vector3([+s, +s, 0]);
