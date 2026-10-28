@@ -170,7 +170,6 @@ export class Vector3 {
      * @param vector
      * @param α
      * @return <code>this</code>
-     * @chainable
      */
     add(vector: VectorE3, α = 1): this {
         this.x += vector.x * α;
@@ -207,10 +206,8 @@ export class Vector3 {
      * of the square matrix and column vector don't match.
      * TODO: Used by TubeSimplexGeometry.
      *
-     * @method applyMatrix4
      * @param σ The 4x4 matrix that pre-multiplies this column vector.
      * @return {Vector3} <code>this</code>
-     * @chainable
      */
     applyMatrix4(σ: Matrix4): Vector3 {
         const x = this.x,
@@ -239,9 +236,7 @@ export class Vector3 {
      * <code>this ⟼ - n * this * n</code>
      * </p>
      *
-     * @method reflect
      * @param n
-     * @chainable
      */
     reflect(n: VectorE3): this {
         const ax = this.x;
@@ -284,7 +279,6 @@ export class Vector3 {
     }
 
     /**
-     * @method clone
      * @return {Vector3} <code>copy(this)</code>
      */
     clone(): Vector3 {
@@ -326,9 +320,7 @@ export class Vector3 {
      * <code>this ⟼ this ✕ v</code>
      * </p>
      *
-     * @method cross
      * @param v
-     * @chainable
      */
     cross(v: VectorE3): Vector3 {
         return this.cross2(this, v);
@@ -356,7 +348,6 @@ export class Vector3 {
     }
 
     /**
-     * @method distanceTo
      * @param point
      */
     distanceTo(point: VectorE3): number {
@@ -368,7 +359,6 @@ export class Vector3 {
     }
 
     /**
-     * @method quadranceTo
      * @param point
      */
     quadranceTo(point: VectorE3): number {
@@ -386,7 +376,6 @@ export class Vector3 {
      * <p>
      * <code>this ⟼ this / α</code>
      * </p>
-     * @chainable
      */
     divByScalar(α: number): this {
         if (α !== 0) {
@@ -403,7 +392,6 @@ export class Vector3 {
     }
 
     /**
-     * @method dot
      * @param v
      */
     dot(v: VectorE3): number {
@@ -418,10 +406,8 @@ export class Vector3 {
      * Sets this vector to the dual of the bivector, B.
      * If changeSign is <code>true</code>, the direction of the resulting vector is reversed.
      *
-     * @method dual
      * @param B
      * @param changeSign
-     * @chainable
      */
     dual(B: SpinorE3, changeSign: boolean): Vector3 {
         if (changeSign) {
@@ -462,11 +448,9 @@ export class Vector3 {
     }
 
     /**
-     * @method neg
      * @return {Vector3} <code>this</code>
-     * @chainable
      */
-    neg() {
+    neg(): this {
         this.x = -this.x;
         this.y = -this.y;
         this.z = -this.z;
@@ -478,13 +462,11 @@ export class Vector3 {
      * <code>this ⟼ this + α * (target - this)</code>
      * </p>
      *
-     * @method lerp
      * @param target
      * @param α
      * @return {Vector3} <code>this</code>
-     * @chainable
      */
-    lerp(target: VectorE3, α: number) {
+    lerp(target: VectorE3, α: number): this {
         this.x += (target.x - this.x) * α;
         this.y += (target.y - this.y) * α;
         this.z += (target.z - this.z) * α;
@@ -495,11 +477,9 @@ export class Vector3 {
      * <p>
      * <code>this ⟼ a + α * (b - a)</code>
      * </p>
-     * @method lerp2
      * @param a
      * @param b
      * @param α
-     * @chainable
      */
     lerp2(a: VectorE3, b: VectorE3, α: number): this {
         this.copy(a).lerp(b, α);
@@ -511,9 +491,7 @@ export class Vector3 {
      * <code>this ⟼ this / norm(this)</code>
      * </p>
      *
-     * @method normalize
      * @return {Vector3} <code>this</code>
-     * @chainable
      */
     normalize(): Vector3 {
         const m = this.magnitude();
@@ -539,7 +517,6 @@ export class Vector3 {
     }
 
     /**
-     * @method stress
      * @param σ
      */
     stress(σ: VectorE3): this {
@@ -557,7 +534,6 @@ export class Vector3 {
      * @param x
      * @param y
      * @param z
-     * @chainable
      */
     setXYZ(x: number, y: number, z: number): this {
         this.x = x;
@@ -569,7 +545,6 @@ export class Vector3 {
     /**
      * Returns the (Euclidean) inner product of this vector with itself.
      *
-     * @method squaredNorm
      * @return <code>this ⋅ this</code> or <code>norm(this) * norm(this)</code>
      */
     squaredNorm(): number {
@@ -583,11 +558,9 @@ export class Vector3 {
      * <code>this ⟼ this - v</code>
      * </p>
      *
-     * @method sub
      * @param v
      * @param α
      * @return {Vector3} <code>this</code>
-     * @chainable
      */
     sub(v: VectorE3, α = 1): Vector3 {
         this.x -= v.x * α;
@@ -736,10 +709,7 @@ export class Vector3 {
     }
 
     /**
-     * @method copy
      * @param vector
-     * @static
-     * @chainable
      */
     static copy(vector: VectorE3): Vector3 {
         return new Vector3([vector.x, vector.y, vector.z]);
@@ -773,13 +743,10 @@ export class Vector3 {
     }
 
     /**
-     * @method lerp
      * @param a
      * @param b
      * @param α
      * @return {Vector3} <code>a + α * (b - a)</code>
-     * @static
-     * @chainable
      */
     static lerp(a: VectorE3, b: VectorE3, α: number): Vector3 {
         return Vector3.copy(b).sub(a).scale(α).add(a);
@@ -790,10 +757,7 @@ export class Vector3 {
      * Computes a unit vector with a random direction.
      * </p>
      *
-     * @method random
      * @return {Vector3}
-     * @static
-     * @chainable
      */
     static random(): Vector3 {
         const x = randomRange(-1, 1);

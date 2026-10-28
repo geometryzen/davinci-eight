@@ -63,7 +63,7 @@ export class ModelFacet extends ModelE3 implements Facet {
     }
 
     /**
-     * @readOnly
+     *
      */
     get matrix(): Matrix4 {
         return this._matM;

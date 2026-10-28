@@ -185,12 +185,11 @@ export class Matrix2 extends AbstractMatrix<Matrix2> {
 
     /**
      * Sets all elements of this matrix to the supplied row-major values m11, ..., m22.
-     * @method set
+     *
      * @param m11
      * @param m12
      * @param m21
      * @param m22
-     * @chainable
      */
     set(m11: number, m12: number, m21: number, m22: number): this {
         const te = this.elements;
@@ -203,9 +202,7 @@ export class Matrix2 extends AbstractMatrix<Matrix2> {
     }
 
     /**
-     * @method sub
      * @param rhs
-     * @chainable
      */
     sub(rhs: Matrix2): this {
         const te = this.elements;
@@ -228,7 +225,6 @@ export class Matrix2 extends AbstractMatrix<Matrix2> {
     }
 
     /**
-     * @method toExponential
      * @param fractionDigits
      * @return
      */
@@ -248,7 +244,6 @@ export class Matrix2 extends AbstractMatrix<Matrix2> {
     }
 
     /**
-     * @method toFixed
      * @param fractionDigits
      * @return
      */
@@ -271,7 +266,6 @@ export class Matrix2 extends AbstractMatrix<Matrix2> {
     }
 
     /**
-     * @method toPrecision
      * @param precision
      * @return
      */
@@ -294,7 +288,6 @@ export class Matrix2 extends AbstractMatrix<Matrix2> {
     }
 
     /**
-     * @method toString
      * @param radix
      */
     toString(radix?: number): string {
@@ -313,9 +306,7 @@ export class Matrix2 extends AbstractMatrix<Matrix2> {
     }
 
     /**
-     * @method translation
      * @param d
-     * @chainable
      */
     translation(d: VectorE1): this {
         const x = d.x;

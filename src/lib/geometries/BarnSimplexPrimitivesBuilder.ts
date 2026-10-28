@@ -32,7 +32,8 @@ export class BarnSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
 
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         let points: Geometric3[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(function (index: number) {
-            return void 0;
+            // The initial value is not important because all points will be replaced.
+            return Geometric3.ZERO;
         });
 
         // Define the anchor points relative to the origin.
@@ -100,7 +101,7 @@ export class BarnSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
             case 2: {
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 const faces: Simplex[][] = [0, 1, 2, 3, 4, 5, 6, 7, 8].map(function (index: number) {
-                    return void 0;
+                    return void 0 as Simplex[];
                 });
                 faces[0] = quad(points[0], points[5], points[9], points[4]);
                 faces[1] = quad(points[3], points[4], points[9], points[8]);

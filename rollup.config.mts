@@ -5,7 +5,7 @@ import typescript from '@rollup/plugin-typescript';
 import { RollupOptions } from 'rollup';
 import dts from 'rollup-plugin-dts';
 import peer_deps_external from 'rollup-plugin-peer-deps-external';
-import pkg from './package.json' assert { type: 'json' };
+import pkg from './package.json' with { type: 'json' };
 
 function non_minified_file(path: string): string {
     return path.replace(".min.js", ".js");
@@ -23,9 +23,10 @@ const banner = `/**
 
 const options: RollupOptions[] = [
     {
-        input: 'src/index.ts',
+        input: './src/index.ts',
         output: [
             {
+                banner,
                 file: non_minified_file(pkg.exports['.'].import),
                 format: 'esm',
                 sourcemap: true
@@ -43,7 +44,6 @@ const options: RollupOptions[] = [
                 sourcemap: true
             },
             {
-                banner,
                 file: pkg.exports['.'].system,
                 format: 'system',
                 sourcemap: true,
@@ -58,7 +58,7 @@ const options: RollupOptions[] = [
             {
                 file: pkg.browser,
                 format: 'umd',
-                name: 'EIGHT',
+                name: 'DAVINCI-EIGHT',
                 sourcemap: true
             }
         ],
@@ -70,10 +70,11 @@ const options: RollupOptions[] = [
             typescript({ tsconfig: './tsconfig.json', exclude: ['**/*.spec.ts'], noEmitOnError: true })
         ]
     },
+    // Bundle the generated ESM type definitions.
     {
-        input: 'dist/esm/types/src/index.d.ts',
+        input: './dist/src/index.d.ts',
         output: [{ file: pkg.types, format: "esm" }],
-        plugins: [dts()],
+        plugins: [dts()]
     }
 ];
 

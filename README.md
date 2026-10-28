@@ -1,4 +1,4 @@
-# davinci-eight
+WebGL Computer Graphics with Geometric Algebra Multivectors
 
 [![version](https://img.shields.io/npm/v/davinci-eight.svg)](https://www.npmjs.com/package/davinci-eight) 
 
@@ -52,5 +52,5 @@ In particular, you may see the word `default` frequently. This is because the EI
 Just click through the `default` links to get past them.
 
 ## License
-Copyright (c) 2014-2024 David Holmes
+Copyright (c) 2014-2026 David Holmes
 Licensed under the MIT license.

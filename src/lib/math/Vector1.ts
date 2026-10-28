@@ -16,7 +16,6 @@ const COORD_X = 0;
 export class Vector1 extends Coords {
     /**
      * @class Vector1
-     * @constructor
      * @param data Default is [0].
      * @param modified Default is false.
      */
@@ -61,9 +60,7 @@ export class Vector1 extends Coords {
      * <code>this ⟼ σ * this<sup>T</sup></code>
      * </p>
      *
-     * @method applyMatrix
      * @param σ
-     * @chainable
      */
     applyMatrix(σ: Matrix1): this {
         const x = this.x;
@@ -76,11 +73,9 @@ export class Vector1 extends Coords {
     }
 
     /**
-     * @method approx
      * @param n
-     * @chainable
      */
-    approx(n: number): Vector1 {
+    approx(n: number): this {
         super.approx(n);
         return this;
     }
@@ -197,7 +192,6 @@ export class Vector1 extends Coords {
         return this;
     }
     /**
-     * @method neg
      * @return {Vector1} <code>this</code>
      */
     neg(): this {
@@ -260,10 +254,8 @@ export class Vector1 extends Coords {
 
     /**
      * this ⟼ this + α * (v - this)</code>
-     * @method lerp
      * @param v
      * @param α
-     * @chainable
      */
     lerp(v: VectorE1, α: number): this {
         this.x += (v.x - this.x) * α;
@@ -273,12 +265,10 @@ export class Vector1 extends Coords {
      * <p>
      * <code>this ⟼ a + α * (b - a)</code>
      * </p>
-     * @method lerp2
      * @param a
      * @param b
      * @param α
      * @return {Vector1}
-     * @chainable
      */
     lerp2(a: Vector1, b: Vector1, α: number) {
         this.sub2(b, a).scale(α).add(a);
@@ -313,12 +303,10 @@ export class Vector1 extends Coords {
     }
 
     /**
-     * @method translation
      * @param d
-     * @chainable
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    translation(d: VectorE0): Vector1 {
+    translation(d: VectorE0): this {
         return this.one();
     }
 
@@ -337,9 +325,7 @@ export class Vector1 extends Coords {
 
     /**
      * Sets this vector to the identity element for addition, <b>0</b>.
-     * @method zero
      * @return {Vector1}
-     * @chainable
      */
     zero(): Vector1 {
         this.x = 0;
@@ -347,10 +333,7 @@ export class Vector1 extends Coords {
     }
 
     /**
-     * @method random
      * @return {Vector1}
-     * @static
-     * @chainable
      */
     static random(): Vector1 {
         return new Vector1([Math.random()]);

@@ -88,10 +88,8 @@ export class Vector4 extends Coords {
      * Pre-multiplies the column vector corresponding to this vector by the matrix.
      * The result is applied to this vector.
      *
-     * @method applyMatrix
      * @param σ The 4x4 matrix that pre-multiplies this column vector.
      * @return {Vector4} <code>this</code>
-     * @chainable
      */
     applyMatrix(σ: Matrix4): Vector4 {
         const x = this.x;
@@ -110,9 +108,7 @@ export class Vector4 extends Coords {
     }
 
     /**
-     * @method approx
      * @param n
-     * @chainable
      */
     approx(n: number): Vector4 {
         super.approx(n);

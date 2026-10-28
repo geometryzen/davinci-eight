@@ -147,9 +147,7 @@ export class Vector2 {
      * <code>this ⟼ σ * this<sup>T</sup></code>
      * </p>
      *
-     * @method applyMatrix
      * @param σ
-     * @chainable
      */
     applyMatrix(σ: Matrix2): this {
         const x = this.x;
@@ -164,41 +162,33 @@ export class Vector2 {
     }
 
     /**
-     * @method approx
      * @param n
-     * @chainable
      */
-    approx(n: number): Vector2 {
+    approx(n: number): this {
         approx(this.coords_, n);
         return this;
     }
 
     /**
-     * @method clone
      * @return {Vector2}
-     * @chainable
      */
     clone(): Vector2 {
         return new Vector2([this.x, this.y]);
     }
 
     /**
-     * @method copy
      * @param v
-     * @chainable
      */
-    copy(v: VectorE2): Vector2 {
+    copy(v: VectorE2): this {
         this.x = v.x;
         this.y = v.y;
         return this;
     }
 
     /**
-     * @method cubicBezier
      * @param t
      * @param controlBegin
      * @param endPoint
-     * @chainable
      */
     cubicBezier(t: number, controlBegin: VectorE2, controlEnd: VectorE2, endPoint: VectorE2): Vector2 {
         const x = b3(t, this.x, controlBegin.x, controlEnd.x, endPoint.x);
@@ -216,9 +206,7 @@ export class Vector2 {
     }
 
     /**
-     * @method sub
      * @param v
-     * @chainable
      */
     sub(v: VectorE2): this {
         this.x -= v.x;
@@ -234,12 +222,10 @@ export class Vector2 {
     */
 
     /**
-     * @method sub2
      * @param a
      * @param b
-     * @chainable
      */
-    sub2(a: VectorE2, b: VectorE2): Vector2 {
+    sub2(a: VectorE2, b: VectorE2): this {
         this.x = a.x - b.x;
         this.y = a.y - b.y;
         return this;
@@ -255,9 +241,7 @@ export class Vector2 {
     }
 
     /**
-     * @method divByScalar
      * @param α
-     * @chainable
      */
     divByScalar(α: number): this {
         this.x /= α;
@@ -304,11 +288,9 @@ export class Vector2 {
     }
 
     /**
-     * @method neg
      * @return {Vector2} <code>this</code>
-     * @chainable
      */
-    neg() {
+    neg(): this {
         this.x = -this.x;
         this.y = -this.y;
         return this;
@@ -340,7 +322,6 @@ export class Vector2 {
     }
 
     /**
-     * @method quadraticBezier
      * @param t
      * @param controlPoint
      * @param endPoint
@@ -359,9 +340,7 @@ export class Vector2 {
     }
 
     /**
-     * @method rotate
      * @param spinor
-     * @chainable
      */
     rotate(spinor: SpinorE2): this {
         const x = this.x;
@@ -382,12 +361,10 @@ export class Vector2 {
     /**
      * this ⟼ this + (v - this) * α
      *
-     * @method lerp
      * @param v
      * @param α
-     * @chainable
      */
-    lerp(v: VectorE2, α: number): Vector2 {
+    lerp(v: VectorE2, α: number): this {
         this.x += (v.x - this.x) * α;
         this.y += (v.y - this.y) * α;
         return this;
@@ -398,12 +375,10 @@ export class Vector2 {
      * <code>this ⟼ a + α * (b - a)</code>
      * </p>
      *
-     * @method lerp2
      * @param a
      * @param b
      * @param α
      * @return {Vector2} <code>this</code>
-     * @chainable
      */
     lerp2(a: VectorE2, b: VectorE2, α: number): Vector2 {
         this.copy(a).lerp(b, α);
@@ -415,7 +390,6 @@ export class Vector2 {
     }
 
     /**
-     * @method stress
      * @param σ
      */
     stress(σ: VectorE2): this {
@@ -432,7 +406,6 @@ export class Vector2 {
     }
 
     /**
-     * @method toExponential
      * @param fractionDigits
      */
     toExponential(fractionDigits?: number): string {
@@ -443,7 +416,6 @@ export class Vector2 {
     }
 
     /**
-     * @method toFixed
      * @param fractionDigits
      */
     toFixed(fractionDigits?: number): string {
@@ -454,7 +426,6 @@ export class Vector2 {
     }
 
     /**
-     * @method toPrecision
      * @param precision
      */
     toPrecision(precision?: number): string {
@@ -465,7 +436,6 @@ export class Vector2 {
     }
 
     /**
-     * @method toString
      * @param radix
      */
     toString(radix?: number): string {
@@ -502,23 +472,16 @@ export class Vector2 {
     }
 
     /**
-     * @method copy
-     *
      * @param vector
-     * @static
-     * @chainable
      */
     static copy(vector: VectorE2): Vector2 {
         return Vector2.vector(vector.x, vector.y);
     }
 
     /**
-     * @method lerp
      * @param a
      * @param b
      * @return <code>a + α * (b - a)</code>
-     * @static
-     * @chainable
      */
     static lerp(a: VectorE2, b: VectorE2, α: number): Vector2 {
         return Vector2.copy(b).sub(a).scale(α).add(a);

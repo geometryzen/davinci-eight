@@ -101,7 +101,7 @@ class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
 
         // Define the anchor points relative to the origin.
         const pos: Vector3[] = [0, 1, 2, 3, 4, 5, 6, 7].map(function () {
-            return void 0;
+            return void 0 as Vector3;
         });
         pos[0] = new Vector3().sub(this._a).sub(this._b).add(this._c).divByScalar(2);
         pos[1] = new Vector3().add(this._a).sub(this._b).add(this._c).divByScalar(2);
@@ -157,7 +157,7 @@ class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
             }
             case SimplexMode.TRIANGLE: {
                 const faces: Simplex[][] = [0, 1, 2, 3, 4, 5].map(function () {
-                    return void 0;
+                    return void 0 as Simplex[];
                 });
                 faces[0] = quad(pos[0], pos[1], pos[2], pos[3]);
                 faces[1] = quad(pos[1], pos[6], pos[5], pos[2]);
